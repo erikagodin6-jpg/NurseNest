@@ -5,294 +5,350 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
   "microvascular-angina-rn": {
     title: "Microvascular Angina",
     cellular: { title: "Pathophysiology of Microvascular Angina", content: "Microvascular angina (cardiac syndrome X) results from dysfunction of the coronary microcirculation rather than epicardial coronary artery stenosis. The pathophysiology involves endothelial dysfunction of the coronary arterioles (impaired nitric oxide-mediated vasodilation and enhanced endothelin-1-mediated vasoconstriction), abnormal smooth muscle hyperreactivity, and inflammation with increased myocardial wall stress, causing reduced coronary flow reserve and myocardial ischemia despite angiographically normal coronary arteries. Patients (predominantly women) present with typical anginal chest pain provoked by exertion or emotional stress, with positive stress test findings (ST depression) but normal coronary angiography. Diagnosis is confirmed by invasive coronary reactivity testing demonstrating abnormal coronary flow reserve (less than 2.5), abnormal index of microvascular resistance, or coronary spasm with acetylcholine provocation. The nurse assesses chest pain using standardized pain assessment tools, monitors vital signs during anginal episodes, administers prescribed medications (beta-blockers, calcium channel blockers, ranolazine, ACE inhibitors), educates patients about the cardiac origin of their symptoms (validating that the pain is real despite normal angiogram), promotes cardiac risk factor modification, and monitors for treatment response." },
-    riskFactors: ["Advanced age or extremes of age","Family history of microvascular angina or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Female sex (predominantly affects women, especially postmenopausal)","Hypertension with left ventricular hypertrophy","Diabetes mellitus with microvascular complications","Smoking and tobacco use causing endothelial dysfunction","Hyperlipidemia and metabolic syndrome","Chronic psychological stress and anxiety disorders","Estrogen deficiency (postmenopausal state or premature ovarian insufficiency)"],
+    diagnostics: ["Exercise stress testing with ST-segment depression despite normal coronary angiography","Coronary angiography showing no obstructive epicardial coronary artery disease","Invasive coronary reactivity testing (CRT) with acetylcholine provocation","Coronary flow reserve (CFR) measurement less than 2.5 indicating microvascular dysfunction","Index of microvascular resistance (IMR) measurement","Cardiac MRI with adenosine stress perfusion to detect subendocardial ischemia","Transthoracic echocardiography to assess wall motion abnormalities and diastolic function"],
+    management: ["Beta-blockers (metoprolol, atenolol) as first-line to reduce myocardial oxygen demand","Calcium channel blockers (amlodipine, diltiazem) for vasospastic component","Ranolazine for refractory anginal symptoms unresponsive to first-line agents","ACE inhibitors or ARBs to improve endothelial function and reduce afterload","Statins for endothelial stabilization regardless of cholesterol levels","Cardiac rehabilitation and structured exercise program","Cognitive behavioral therapy and stress management for psychological component"],
+    nursingActions: ["Assess chest pain using standardized tools (PQRST) and document character, duration, and triggers","Monitor vital signs during anginal episodes including continuous ECG monitoring","Administer prescribed antianginal medications and evaluate pain relief response","Educate patient that chest pain is real and cardiac in origin despite normal angiography","Promote cardiac risk factor modification including smoking cessation and diet counseling","Monitor for medication side effects particularly bradycardia and hypotension","Provide emotional support and validate patient concerns about symptom recurrence"],
+    assessmentFindings: ["Substernal chest pain or pressure provoked by exertion, emotional stress, or cold exposure","Pain lasting several minutes to 30 minutes, often longer than typical angina","Dyspnea on exertion and reduced exercise tolerance","ST-segment depression on stress testing","Normal coronary angiography (no significant epicardial stenosis)","Possible diastolic dysfunction on echocardiography","Diaphoresis, nausea, and fatigue during anginal episodes"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Exertional chest discomfort that resolves with rest","Mild dyspnea with moderate activity","Fatigue and reduced exercise tolerance","ST depression on exercise stress test","Anxiety related to recurrent chest pain"],
+      right: ["Prolonged chest pain unrelieved by nitroglycerin (possible ACS must be ruled out)","Hemodynamic instability with hypotension and tachycardia","Severe dyspnea with signs of acute heart failure","New-onset arrhythmia during anginal episode","Syncope or near-syncope with exertion"]
     },
     medications: [{
       name: "Metoprolol",
-      type: "Beta-blocker",
-      action: "Blocks beta-1 adrenergic receptors to reduce heart rate and blood pressure",
-      sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
-      contra: "Severe bradycardia, heart block, decompensated heart failure, cardiogenic shock",
-      pearl: "Do not stop abruptly; taper to prevent rebound hypertension and tachycardia"
+      type: "Beta-1 selective blocker",
+      action: "Reduces heart rate and myocardial oxygen demand by blocking beta-1 adrenergic receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, dizziness, bronchospasm",
+      contra: "Severe bradycardia, second/third-degree heart block, decompensated heart failure, cardiogenic shock",
+      pearl: "First-line for microvascular angina; do not stop abruptly -- taper to prevent rebound tachycardia"
+    },{
+      name: "Ranolazine",
+      type: "Antianginal (late sodium current inhibitor)",
+      action: "Inhibits late inward sodium current reducing intracellular calcium overload and myocardial wall tension",
+      sideEffects: "Dizziness, nausea, constipation, QT prolongation",
+      contra: "Hepatic cirrhosis, concurrent strong CYP3A4 inhibitors, pre-existing QT prolongation",
+      pearl: "Add-on therapy when beta-blockers and CCBs are insufficient; does not affect heart rate or blood pressure"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Microvascular angina (formerly cardiac syndrome X) predominantly affects women; validate that the pain is real despite a normal angiogram","Coronary flow reserve (CFR) less than 2.5 on invasive testing confirms microvascular dysfunction","Ranolazine is uniquely effective in microvascular angina because it targets the late sodium current without affecting hemodynamics","Patients often face diagnostic delays and psychological distress from being told their heart is normal -- advocacy is key","Nitroglycerin may be ineffective or worsen symptoms because it dilates epicardial arteries, not the microcirculation","Prognosis is generally favorable but quality of life is significantly impacted; structured cardiac rehab improves outcomes","Estrogen deficiency is a major contributor -- hormone replacement therapy may be considered in select postmenopausal patients"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with microvascular angina. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient with microvascular angina has a normal coronary angiogram but continues to have exertional chest pain. Which diagnostic test confirms the diagnosis?",
+        options: ["Repeat coronary angiography with stent placement","Coronary reactivity testing with acetylcholine provocation","Chest CT with contrast for pulmonary embolism","Serum troponin levels repeated every 6 hours"],
+        correct: 1,
+        rationale: "Invasive coronary reactivity testing (CRT) with acetylcholine provocation is the gold standard for diagnosing microvascular angina. It demonstrates abnormal coronary flow reserve or microvascular spasm despite patent epicardial arteries."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with microvascular angina?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A nurse is educating a patient newly diagnosed with microvascular angina. Which statement by the patient indicates correct understanding?",
+        options: ["My heart arteries are blocked and I need surgery","My small blood vessels in the heart are not working properly, causing real chest pain","The test showed nothing is wrong so the pain must be in my head","I should avoid all physical activity permanently"],
+        correct: 1,
+        rationale: "Microvascular angina results from dysfunction of the small coronary arterioles, not obstructive epicardial disease. The chest pain is real and cardiac in origin. Patients should understand this to comply with treatment and not dismiss symptoms."
       },
       {
-        question: "The patient asks about their microvascular angina diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which medication is specifically used as add-on therapy for microvascular angina refractory to beta-blockers?",
+        options: ["Nitroglycerin sublingual","Ranolazine","Aspirin","Warfarin"],
+        correct: 1,
+        rationale: "Ranolazine inhibits the late sodium current, reducing intracellular calcium overload and myocardial ischemia. It is uniquely effective in microvascular angina as an add-on when beta-blockers and calcium channel blockers are insufficient."
       },
     ]
   },
   "migraine-diagnostic-criteria-np": {
     title: "Migraine: ICHD Diagnostic Features",
     cellular: { title: "Pathophysiology of Migraine: ICHD Diagnostic Features", content: "The nurse practitioner evaluates and manages Migraine: ICHD Diagnostic Features through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of migraine diagnostic criteria or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Female sex (3:1 female-to-male ratio due to hormonal influences)","Family history of migraine (strong genetic predisposition, 50-70% concordance)","Hormonal fluctuations (menstruation, oral contraceptive use, perimenopause)","Obesity and metabolic syndrome","Sleep disorders (insomnia, sleep apnea, irregular sleep patterns)","Anxiety and mood disorders (bidirectional relationship with migraine)","History of childhood motion sickness or cyclic vomiting syndrome"],
+    diagnostics: ["Apply ICHD-3 criteria: at least 5 attacks lasting 4-72 hours with at least 2 of 4 features (unilateral, pulsating, moderate-severe intensity, aggravated by activity) plus at least 1 associated symptom (nausea/vomiting or photophobia and phonophobia)","Distinguish migraine with aura (fully reversible visual, sensory, or speech symptoms lasting 5-60 minutes preceding headache) from migraine without aura","Brain MRI with and without contrast to exclude secondary causes when red flags present (thunderclap onset, new headache after age 50, neurological deficits, papilledema)","MRA or CTA if vascular malformation or dissection suspected","Headache diary review: frequency, duration, triggers, associated symptoms, medication use patterns","Assess for medication overuse headache (MOH) if acute medications used more than 10-15 days per month","Fundoscopic examination to rule out papilledema and evaluate for increased intracranial pressure"],
+    management: ["Acute treatment with triptans (sumatriptan first-line) given early in attack for optimal efficacy","NSAIDs (ibuprofen, naproxen) or combination analgesics for mild-moderate attacks","Antiemetics (metoclopramide, ondansetron) for associated nausea and to enhance oral medication absorption","Initiate preventive therapy when attacks occur 4 or more days per month or significantly impair function","CGRP monoclonal antibodies (erenumab, fremanezumab, galcanezumab) for episodic and chronic migraine prevention","Neuromodulation devices (sTMS, nVNS, eTNS) as non-pharmacological preventive and acute options","Lifestyle modification counseling: regular sleep, exercise, hydration, trigger avoidance, stress management"],
+    nursingActions: ["Perform comprehensive headache history using ICHD-3 diagnostic criteria framework","Evaluate for red-flag headache features (SNOOP mnemonic) warranting urgent neuroimaging","Assess migraine disability using MIDAS or HIT-6 validated scoring tools","Prescribe and titrate preventive medications with appropriate follow-up intervals","Counsel on proper triptan administration technique and timing for optimal response","Monitor for medication overuse headache and implement detoxification protocols when indicated","Develop individualized migraine action plan including acute treatment stepwise approach"],
+    assessmentFindings: ["Unilateral throbbing or pulsating headache of moderate to severe intensity","Photophobia and phonophobia during attacks requiring dark, quiet environment","Nausea with or without vomiting","Headache aggravated by routine physical activity (walking, climbing stairs)","Visual aura symptoms: scintillating scotoma, zigzag lines, hemianopic field loss lasting 5-60 minutes","Sensory aura: unilateral paresthesias spreading over 5-20 minutes","Allodynia: cutaneous pain sensitivity during prolonged attacks"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Unilateral pulsating headache with gradual onset","Prodromal symptoms: yawning, food cravings, mood changes, neck stiffness","Mild photophobia and phonophobia","Nausea without vomiting","Visual aura with scintillating scotoma"],
+      right: ["Thunderclap headache onset (must rule out subarachnoid hemorrhage)","Persistent neurological deficits beyond 60 minutes (possible stroke vs hemiplegic migraine)","Status migrainosus: debilitating migraine lasting more than 72 hours","Migrainous infarction: aura symptoms with confirmed ischemic lesion on imaging","New-onset seizure during migraine attack"]
     },
     medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
+      name: "Sumatriptan",
+      type: "Triptan (5-HT1B/1D receptor agonist)",
+      action: "Selectively activates serotonin 5-HT1B/1D receptors causing cranial vasoconstriction, inhibiting trigeminal nociceptive transmission, and blocking CGRP release",
+      sideEffects: "Chest tightness/pressure (triptan sensation), paresthesias, flushing, dizziness, injection site reactions",
+      contra: "Ischemic heart disease, uncontrolled hypertension, hemiplegic or basilar migraine, use within 24 hours of another triptan or ergotamine, concurrent MAOIs",
+      pearl: "Administer at onset of headache phase for best efficacy; may repeat after 2 hours if partial response; limit to 9 days per month to prevent MOH"
+    },{
+      name: "Erenumab",
+      type: "CGRP receptor monoclonal antibody",
+      action: "Blocks the calcitonin gene-related peptide (CGRP) receptor, preventing CGRP-mediated trigeminovascular activation and neurogenic inflammation",
+      sideEffects: "Injection site reactions, constipation, muscle spasms, hypertension (rare)",
+      contra: "Serious hypersensitivity to erenumab; caution in patients with cardiovascular risk factors",
+      pearl: "Monthly subcutaneous injection; first FDA-approved CGRP inhibitor for migraine prevention; no hepatotoxicity monitoring required"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["ICHD-3 migraine without aura requires at least 5 lifetime attacks meeting criteria; migraine with aura requires only 2 attacks","The SNOOP red flags for secondary headache: Systemic symptoms, Neurological signs, Onset sudden, Older age (>50), Pattern change","Triptans are most effective when taken early in the headache phase before central sensitization and allodynia develop","Medication overuse headache (MOH) should be suspected when acute medications are used more than 10 days/month (triptans) or 15 days/month (simple analgesics)","CGRP monoclonal antibodies represent a paradigm shift -- first migraine-specific preventive therapy class with favorable side-effect profile","Migraine with brainstem aura (formerly basilar migraine) contraindicates triptans due to theoretical risk of brainstem ischemia","Menstrual migraine occurs in the perimenstrual window (day -2 to +3) and may respond to scheduled NSAID or triptan mini-prophylaxis"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with migraine diagnostic criteria. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with migraine diagnostic criteria?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their migraine diagnostic criteria diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "According to ICHD-3 criteria, how many attacks are required for a diagnosis of migraine without aura?",
+        options: ["At least 2 attacks meeting criteria","At least 3 attacks meeting criteria","At least 5 attacks meeting criteria","At least 10 attacks meeting criteria"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "ICHD-3 requires at least 5 attacks lasting 4-72 hours with at least 2 of 4 headache features (unilateral, pulsating, moderate-severe, aggravated by activity) and at least 1 associated symptom (nausea/vomiting or photo/phonophobia) for migraine without aura diagnosis."
+      },
+      {
+        question: "A patient with known migraine presents with a sudden thunderclap headache reaching maximum intensity in seconds. What is the priority action?",
+        options: ["Administer sumatriptan as this is likely a severe migraine","Order urgent neuroimaging to rule out subarachnoid hemorrhage","Prescribe a CGRP inhibitor for prevention","Recommend rest in a dark room and follow up in 24 hours"],
+        correct: 1,
+        rationale: "Thunderclap headache (maximum intensity within seconds) is a red flag requiring emergent evaluation with CT head followed by lumbar puncture if CT is negative to rule out subarachnoid hemorrhage. Even in a known migraineur, this presentation demands urgent workup."
+      },
+      {
+        question: "Which condition is an absolute contraindication to triptan use in migraine management?",
+        options: ["Migraine with typical visual aura","History of motion sickness","Ischemic heart disease or uncontrolled hypertension","Concurrent use of acetaminophen"],
+        correct: 2,
+        rationale: "Triptans cause vasoconstriction via 5-HT1B receptor activation and are absolutely contraindicated in ischemic heart disease, uncontrolled hypertension, cerebrovascular disease, and hemiplegic/basilar migraine due to risk of vascular events."
       },
     ]
   },
   "migraine-tension-cluster-np": {
     title: "Migraine vs Tension vs Cluster",
     cellular: { title: "Pathophysiology of Migraine vs Tension vs Cluster", content: "The nurse practitioner evaluates and manages Migraine vs Tension vs Cluster through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of migraine tension cluster or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Migraine: female sex (3:1), family history, hormonal changes, obesity, sleep disorders","Tension-type: psychosocial stress, anxiety, depression, poor posture, musculoskeletal dysfunction","Cluster: male sex (6:1), age 20-40, tobacco and alcohol use, family history of cluster headache","Sleep disturbances and shift work (all types)","Medication overuse (analgesic rebound promoting chronic daily headache)","Head or neck trauma history","Comorbid psychiatric conditions (anxiety, depression, PTSD)"],
+    diagnostics: ["Detailed headache history differentiating migraine (unilateral, pulsating, 4-72h, photo/phonophobia, nausea) from tension (bilateral, pressing/tightening, 30min-7d, no nausea) from cluster (strictly unilateral, periorbital, 15-180min, autonomic features)","Brain MRI to exclude secondary causes when atypical features or red flags present","Headache diary documenting attack frequency, duration, location, quality, triggers, and associated symptoms","Assess for trigeminal autonomic cephalalgias: ipsilateral conjunctival injection, lacrimation, nasal congestion, ptosis, miosis in cluster","Palpation of pericranial muscles for tenderness (characteristic of tension-type headache)","Fundoscopic exam and neurological screening to rule out increased ICP, mass lesion, or vascular pathology","ESR/CRP in patients over 50 to exclude giant cell arteritis as secondary headache cause"],
+    management: ["Migraine acute: triptans (sumatriptan), NSAIDs; preventive: beta-blockers, topiramate, CGRP antibodies","Tension acute: acetaminophen or NSAIDs; preventive: amitriptyline (first-line), stress management, physical therapy","Cluster acute: high-flow oxygen (12-15 L/min via non-rebreather for 15 min) and subcutaneous sumatriptan","Cluster preventive: verapamil (first-line), short-course corticosteroids as bridge therapy, lithium for refractory cases","Identify and eliminate modifiable triggers (alcohol during cluster periods, stress, sleep irregularity)","Behavioral interventions: cognitive behavioral therapy, biofeedback, relaxation training (especially tension-type)","Refer to headache specialist for chronic or refractory presentations and consideration of nerve blocks or neuromodulation"],
+    nursingActions: ["Perform structured headache classification interview using ICHD-3 criteria to differentiate primary headache types","Assess trigeminal autonomic features (tearing, nasal congestion, ptosis) to identify cluster headache","Prescribe type-specific acute and preventive pharmacotherapy based on accurate diagnosis","Educate patients on correct oxygen therapy technique for cluster attacks (100% O2 at 12-15 L/min)","Monitor for medication overuse headache in patients using acute treatments more than 10-15 days/month","Counsel on trigger avoidance: alcohol abstinence during cluster periods, stress reduction, sleep hygiene","Order and interpret appropriate labs (verapamil requires baseline ECG; lithium requires renal and thyroid monitoring)"],
+    assessmentFindings: ["Migraine: unilateral throbbing pain, photophobia, phonophobia, nausea/vomiting, aura in 25-30%","Tension-type: bilateral pressing or band-like pain, mild-moderate intensity, no nausea or vomiting","Cluster: excruciating strictly unilateral periorbital or temporal pain with restlessness and agitation","Cluster autonomic signs: ipsilateral conjunctival injection, lacrimation, rhinorrhea, ptosis, miosis, facial sweating","Tension-type: pericranial muscle tenderness on palpation","Migraine: cutaneous allodynia during prolonged attacks","Cluster: circadian pattern with attacks at same time daily, often nocturnal"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Migraine: mild unilateral headache with mild photophobia","Tension: bilateral tightness or pressure without associated symptoms","Cluster: brief periorbital pain with mild tearing on one side","Episodic pattern with identifiable triggers","Mild pericranial tenderness"],
+      right: ["Cluster: excruciating pain with agitation and suicidal ideation (cluster headache called 'suicide headache')","Status migrainosus: migraine lasting more than 72 hours with dehydration","New neurological deficits suggesting secondary headache etiology","Thunderclap headache onset requiring emergent SAH workup","Horner syndrome features persisting between cluster attacks (structural lesion concern)"]
     },
     medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
+      name: "Sumatriptan (subcutaneous)",
+      type: "Triptan (5-HT1B/1D agonist)",
+      action: "Causes cranial vasoconstriction and inhibits trigeminal nociceptive transmission; fastest onset in SC form (10-15 min)",
+      sideEffects: "Injection site reaction, chest tightness, paresthesias, flushing",
+      contra: "Ischemic heart disease, uncontrolled hypertension, hemiplegic migraine, use within 24h of ergots",
+      pearl: "SC sumatriptan 6 mg is the fastest-acting triptan -- preferred for cluster attacks; also effective for migraine"
+    },{
+      name: "Verapamil",
+      type: "Calcium channel blocker (non-dihydropyridine)",
+      action: "Blocks L-type calcium channels reducing vascular smooth muscle tone; mechanism in cluster prevention not fully understood but may modulate hypothalamic circadian pacemaker",
+      sideEffects: "Constipation, bradycardia, hypotension, peripheral edema, heart block at high doses",
+      contra: "Second/third-degree AV block, severe left ventricular dysfunction, sick sinus syndrome without pacemaker",
+      pearl: "First-line cluster headache preventive; doses often higher than cardiac use (240-960 mg/day); requires serial ECGs to monitor PR interval"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Cluster headache is the most painful primary headache disorder -- patients are restless and agitated (unlike migraineurs who prefer stillness in a dark room)","High-flow 100% oxygen at 12-15 L/min for 15 minutes is first-line acute cluster treatment with no contraindications and 78% efficacy","Tension-type headache is the most common primary headache disorder worldwide but least likely to cause clinical consultation","The triad differentiator: migraine = nausea/photo-phonophobia, tension = bilateral pressing without nausea, cluster = unilateral with autonomic features","Cluster headaches follow circadian and circannual rhythms -- attacks cluster in bouts lasting weeks to months, often in spring and fall","Medication overuse headache must be considered in any patient with chronic daily headache using acute analgesics more than 10-15 days/month","Verapamil for cluster prevention requires ECG monitoring at each dose increase due to risk of heart block at the high doses used"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with migraine tension cluster. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with migraine tension cluster?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their migraine tension cluster diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient presents with excruciating right periorbital pain lasting 45 minutes, ipsilateral tearing, nasal congestion, and ptosis. The patient is pacing and agitated. Which headache type is most likely?",
+        options: ["Migraine with aura","Tension-type headache","Cluster headache","Trigeminal neuralgia"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Cluster headache presents with strictly unilateral severe periorbital pain (15-180 minutes), ipsilateral autonomic features (tearing, nasal congestion, ptosis/miosis), and psychomotor agitation. The brief duration and autonomic features differentiate it from migraine."
+      },
+      {
+        question: "What is the first-line acute treatment for a cluster headache attack?",
+        options: ["Oral sumatriptan 100 mg","Acetaminophen 1000 mg","High-flow 100% oxygen at 12-15 L/min via non-rebreather mask","IV morphine 4 mg"],
+        correct: 2,
+        rationale: "High-flow 100% oxygen (12-15 L/min for 15 minutes via non-rebreather) is first-line for acute cluster headache with 78% efficacy, rapid onset, no contraindications, and no side effects. Subcutaneous sumatriptan 6 mg is the alternative first-line treatment."
+      },
+      {
+        question: "Which feature best distinguishes tension-type headache from migraine?",
+        options: ["Tension-type headache is always unilateral","Tension-type headache is bilateral, pressing quality, without nausea or photophobia","Tension-type headache includes visual aura","Tension-type headache causes ipsilateral lacrimation"],
+        correct: 1,
+        rationale: "Tension-type headache is characterized by bilateral, pressing or tightening quality pain of mild-to-moderate intensity. It lacks the nausea/vomiting and photophobia/phonophobia that define migraine, and lacks the autonomic features of cluster headache."
       },
     ]
   },
   "migraine-therapies-np": {
     title: "Migraine Therapies",
     cellular: { title: "Pathophysiology of Migraine Therapies", content: "The nurse practitioner evaluates and manages Migraine Therapies through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of migraine therapies or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Female sex with hormonal fluctuations (menstruation, estrogen withdrawal)","High migraine attack frequency (4 or more headache days per month warranting prevention)","Medication overuse (analgesics >15 days/month or triptans >10 days/month)","Comorbid anxiety, depression, or sleep disorders","Obesity and sedentary lifestyle","Prior inadequate response or intolerance to first-line preventive agents","History of migraine with prolonged aura or hemiplegic migraine (contraindicating triptans)"],
+    diagnostics: ["Migraine disability assessment (MIDAS score) to quantify functional impact and guide treatment intensity","Headache Impact Test (HIT-6) for monitoring treatment response over time","Detailed medication history to identify overuse patterns and prior treatment failures","Assess cardiovascular risk before prescribing triptans or ergotamines (ECG if risk factors present)","Baseline labs before preventive initiation: CBC, CMP for topiramate; TSH, BUN/Cr for lithium; LFTs for valproate","Monitor serum drug levels for valproate (50-100 mcg/mL therapeutic range)","Review headache diary for attack frequency trends and treatment response documentation"],
+    management: ["Acute therapy: stratified approach -- mild attacks: NSAIDs/acetaminophen; moderate-severe: triptans; severe/refractory: DHE, anti-CGRP agents","Triptans: sumatriptan (oral, SC, nasal), rizatriptan, eletriptan -- administer early in attack for best efficacy","Gepants (ubrogepant, rimegepant): oral CGRP receptor antagonists for acute treatment without vasoconstrictive effects","Preventive oral agents: propranolol, topiramate, amitriptyline, valproate -- choose based on comorbidities","CGRP monoclonal antibodies (erenumab, fremanezumab, galcanezumab): monthly or quarterly SC injections for prevention","OnabotulinumtoxinA (Botox): 155 units across 31 injection sites every 12 weeks for chronic migraine (15+ days/month)","Non-pharmacological: cognitive behavioral therapy, biofeedback, acupuncture, aerobic exercise, neuromodulation devices"],
+    nursingActions: ["Stratify acute treatment selection based on attack severity, prior response, and cardiovascular risk profile","Initiate and titrate preventive medications with appropriate monitoring schedules","Educate on triptan administration timing (take at onset of headache phase, not during aura)","Monitor for medication overuse headache and implement structured withdrawal protocols","Administer and teach self-injection technique for CGRP monoclonal antibodies","Assess treatment response using validated tools (MIDAS, HIT-6) at each follow-up visit","Counsel patients on realistic treatment expectations (50% reduction in frequency is considered successful prevention)"],
+    assessmentFindings: ["Headache frequency, severity, and duration patterns from headache diary review","Functional disability level using MIDAS score (grade I-IV)","Current acute medication usage patterns (days per month for each agent)","Response to prior preventive and acute therapies","Presence of medication overuse headache features (daily or near-daily headaches, early morning headaches)","Cardiovascular risk profile relevant to triptan prescribing","Comorbid conditions guiding preventive agent selection (depression favoring amitriptyline, obesity favoring topiramate)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Episodic migraine with identifiable triggers and good acute treatment response","Mild-moderate functional impairment during attacks","Infrequent attacks (less than 4 per month) managed with acute therapy alone","Stable medication use pattern without overuse","Responsive to lifestyle modifications"],
+      right: ["Chronic migraine (15+ headache days/month for 3+ months) refractory to multiple preventives","Status migrainosus requiring IV therapy and possible hospitalization","Medication overuse headache with daily analgesic dependence","Hemiplegic migraine with prolonged motor aura mimicking stroke","Migrainous infarction with permanent neurological deficit confirmed on imaging"]
     },
     medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
+      name: "Sumatriptan",
+      type: "Triptan (5-HT1B/1D agonist)",
+      action: "Causes selective cranial vasoconstriction, inhibits trigeminal nociceptive transmission, and blocks CGRP release at trigeminovascular synapses",
+      sideEffects: "Chest tightness (triptan sensation), paresthesias, flushing, dizziness, transient hypertension",
+      contra: "Ischemic heart disease, Prinzmetal angina, uncontrolled hypertension, hemiplegic/basilar migraine, within 24h of ergots or another triptan, concurrent MAOIs",
+      pearl: "Available oral, SC, and intranasal; SC has fastest onset (10 min); oral should be taken early in headache phase; limit use to 9 days/month to prevent MOH"
+    },{
+      name: "Topiramate",
+      type: "Anticonvulsant (migraine preventive)",
+      action: "Multiple mechanisms: blocks voltage-gated sodium channels, enhances GABA activity, antagonizes glutamate at AMPA/kainate receptors, inhibits carbonic anhydrase",
+      sideEffects: "Paresthesias, cognitive slowing ('dopamax'), word-finding difficulty, weight loss, nephrolithiasis, metabolic acidosis, acute angle-closure glaucoma",
+      contra: "Pregnancy (teratogenic -- orofacial clefts), nephrolithiasis history, metabolic acidosis, concurrent use with other carbonic anhydrase inhibitors",
+      pearl: "Start low (25 mg/day) and titrate slowly; weight loss side effect can be beneficial in obese migraineurs; requires contraception counseling in women of childbearing age"
+    },{
+      name: "Erenumab",
+      type: "CGRP receptor monoclonal antibody",
+      action: "Fully human monoclonal antibody blocking the CGRP receptor, preventing calcitonin gene-related peptide from activating trigeminovascular pain pathways",
+      sideEffects: "Injection site reactions, constipation (can be severe), muscle spasms, hypertension (monitor BP)",
+      contra: "Serious hypersensitivity to erenumab; latex allergy (prefilled syringe cap contains latex)",
+      pearl: "Monthly SC injection; no hepatotoxicity or drug interaction concerns; onset of benefit may be seen as early as 1 month; can be combined with oral preventives"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Triptans are most effective when taken early in headache phase before central sensitization develops -- taking during aura is less effective","A 50% or greater reduction in monthly migraine days is the benchmark for successful preventive therapy","CGRP-targeted therapies (antibodies and gepants) are the first migraine-specific preventive drug class -- they do not require titration and have minimal systemic side effects","Topiramate is teratogenic (FDA pregnancy category X) -- all women of childbearing age require reliable contraception counseling before initiation","Medication overuse headache affects 1-2% of the general population; withdrawal typically causes 1-2 weeks of worsened headaches before improvement","Gepants (ubrogepant, rimegepant) can be used for both acute treatment and prevention -- rimegepant every other day is FDA-approved for prevention","OnabotulinumtoxinA (Botox) is only approved for chronic migraine (15+ days/month), not episodic migraine -- the PREEMPT injection protocol is specific"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with migraine therapies. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient with 8 migraine days per month has tried propranolol and topiramate without adequate response. Which therapy should the NP consider next?",
+        options: ["Increase acetaminophen to daily use","Prescribe a CGRP monoclonal antibody such as erenumab","Start high-dose opioid therapy","Discontinue all preventive treatment"],
+        correct: 1,
+        rationale: "CGRP monoclonal antibodies (erenumab, fremanezumab, galcanezumab) are indicated for patients with episodic or chronic migraine who have failed or are intolerant to at least 2 traditional preventive agents. They have a favorable side-effect profile and require only monthly or quarterly injections."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with migraine therapies?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their migraine therapies diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "An NP is prescribing topiramate for migraine prevention in a 28-year-old woman. Which counseling point is most critical?",
+        options: ["The medication may cause weight gain","Topiramate is safe during pregnancy","Reliable contraception is required because topiramate is teratogenic","The medication should be taken only during migraine attacks"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Topiramate is teratogenic (associated with orofacial clefts) and is FDA pregnancy category X. All women of childbearing age must use reliable contraception while taking topiramate. It also causes weight loss (not gain) and is taken daily for prevention, not acutely."
+      },
+      {
+        question: "A patient is using sumatriptan 14 days per month for frequent migraines. What concern should the NP address?",
+        options: ["Sumatriptan tolerance requiring dose escalation","Medication overuse headache from triptan use exceeding 10 days per month","Sumatriptan-induced hypertensive crisis","Permanent triptan dependency"],
+        correct: 1,
+        rationale: "Triptan use exceeding 10 days per month increases the risk of medication overuse headache (MOH), a secondary headache disorder that perpetuates chronic daily headache. The NP should initiate a preventive medication and develop a structured plan to reduce acute medication frequency."
       },
     ]
   },
   "minimal-change-disease-rn": {
     title: "Minimal Change Disease",
     cellular: { title: "Pathophysiology of Minimal Change Disease", content: "Minimal change disease (MCD) is the most common cause of nephrotic syndrome in children (accounting for 80% of childhood cases), characterized by podocyte foot process effacement visible only on electron microscopy with no abnormalities on light microscopy or immunofluorescence. The pathophysiology is hypothesized to involve T-cell-mediated release of a circulating permeability factor (not yet definitively identified) that damages podocyte foot processes, disrupting the charge-selective filtration barrier of the glomerulus. The loss of negatively charged heparan sulfate proteoglycans and the effacement of podocyte slit diaphragms allows massive leakage of albumin into the urine (nephrotic-range proteinuria). The clinical presentation includes sudden-onset generalized edema (periorbital in children, peripheral in adults), frothy urine, hypoalbuminemia, and hyperlipidemia. The nurse monitors daily weights, measures edema (periorbital on waking, dependent during the day), performs urine dipstick for proteinuria, monitors serum albumin, administers corticosteroid therapy (prednisone -- greater than 90% of children achieve complete remission within 8 weeks), monitors for steroid side effects (hyperglycemia, hypertension, mood changes, growth suppression), monitors for complications of nephrotic syndrome (thromboembolism, infection from immunoglobulin loss, particularly pneumococcal peritonitis in children), and educates families about the relapsing nature of the disease." },
-    riskFactors: ["Advanced age or extremes of age","Family history of minimal change disease or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Pediatric age group (most common cause of nephrotic syndrome in children aged 2-6 years)","Recent upper respiratory infection or atopic conditions (allergies, asthma, eczema)","NSAID use or lithium therapy (secondary MCD causes)","Hodgkin lymphoma and other lymphoproliferative disorders","Allergic reactions including bee stings and food allergens","Male predominance in children (2:1 male-to-female ratio)","Immunization-triggered cases reported (rare association)"],
+    diagnostics: ["Urinalysis showing nephrotic-range proteinuria (3+ to 4+ protein on dipstick, urine protein-to-creatinine ratio >2)","24-hour urine protein collection exceeding 3.5 g/day in adults or 40 mg/m2/hr in children","Serum albumin decreased (typically less than 2.5 g/dL)","Serum cholesterol and triglycerides elevated (hyperlipidemia from hepatic lipoprotein overproduction)","Renal biopsy: normal on light microscopy, negative immunofluorescence, podocyte foot process effacement on electron microscopy","BUN and creatinine usually normal (GFR preserved in MCD)","Complement levels (C3, C4) normal -- differentiates from membranoproliferative or lupus nephritis"],
+    management: ["High-dose prednisone (1-2 mg/kg/day in children, 1 mg/kg/day in adults) for 4-8 weeks as first-line treatment","Taper corticosteroids gradually after achieving remission (defined as trace or negative urine protein for 3 consecutive days)","Sodium restriction (no-added-salt diet, less than 2 g/day) to manage edema","Fluid restriction if severe hyponatremia or anasarca present","Diuretics (furosemide with albumin infusion in severe edema) for symptomatic relief","Cyclophosphamide or calcineurin inhibitors (cyclosporine, tacrolimus) for frequently relapsing or steroid-dependent cases","Thromboembolism prophylaxis if serum albumin less than 2.0 g/dL (increased VTE risk)"],
+    nursingActions: ["Monitor daily weights at same time, same scale, same clothing to track fluid status","Measure and document edema: periorbital (morning), dependent/peripheral (evening), abdominal girth","Perform urine dipstick for protein at least daily during active disease and during relapses","Monitor strict intake and output with attention to urine characteristics (frothy urine = proteinuria)","Administer corticosteroids with food to reduce GI irritation and monitor for steroid side effects","Assess for signs of infection (fever, cough, abdominal pain) as nephrotic patients lose immunoglobulins in urine","Educate family on home urine protein monitoring and when to report relapse signs to provider"],
+    assessmentFindings: ["Sudden-onset generalized edema: periorbital swelling on awakening, dependent edema during the day","Frothy or foamy urine from heavy proteinuria","Weight gain from fluid retention (may be rapid, several kg over days)","Abdominal distension from ascites","Decreased urine output during active nephrotic phase","Skin striae and thinning from edema stretching","Normal blood pressure in most pediatric cases (unlike other glomerulonephritides)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Periorbital puffiness worse in morning that improves during the day","Trace to 2+ proteinuria on dipstick","Mild peripheral edema in lower extremities","Slightly decreased serum albumin (2.5-3.0 g/dL)","Stable weight with mild fluctuations","Child remains active and well-appearing"],
+      right: ["Anasarca (massive generalized edema) with respiratory compromise from pleural effusion","Spontaneous bacterial peritonitis (fever, severe abdominal pain in a child with ascites)","Pulmonary embolism or renal vein thrombosis (sudden flank pain, hematuria, worsening renal function)","Hypovolemic shock from intravascular volume depletion despite peripheral edema","Steroid-resistant disease failing to respond after 8 weeks of adequate corticosteroid therapy","Severe hyponatremia with seizures from dilutional effect"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Prednisone",
+      type: "Systemic corticosteroid",
+      action: "Suppresses T-cell-mediated immune response and reduces the release of the circulating permeability factor responsible for podocyte injury",
+      sideEffects: "Cushingoid features, hyperglycemia, growth suppression in children, mood changes, immunosuppression, osteoporosis, adrenal suppression",
+      contra: "Active untreated infections, live vaccines during therapy, uncontrolled diabetes",
+      pearl: "Greater than 90% of children with MCD achieve complete remission within 8 weeks of prednisone; adults respond more slowly (12-16 weeks); never stop abruptly -- must taper"
+    },{
+      name: "Furosemide",
+      type: "Loop diuretic",
+      action: "Inhibits Na-K-2Cl cotransporter in the thick ascending limb of the loop of Henle, promoting sodium and water excretion",
+      sideEffects: "Hypokalemia, hyponatremia, dehydration, ototoxicity, metabolic alkalosis",
+      contra: "Anuria, severe hypovolemia, uncorrected electrolyte depletion",
+      pearl: "In severe nephrotic edema, furosemide may be given with IV albumin infusion to improve drug delivery and diuretic response; monitor potassium closely"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MCD is the most common cause of nephrotic syndrome in children -- over 90% respond to corticosteroids (steroid-sensitive)","Renal biopsy is NOT required for initial diagnosis in children aged 1-10 with typical nephrotic presentation -- empiric steroid trial is standard","Electron microscopy showing podocyte foot process effacement is the hallmark finding -- light microscopy and immunofluorescence are normal","Patients with nephrotic syndrome lose immunoglobulins (especially IgG) in urine, increasing risk of encapsulated organism infections (Streptococcus pneumoniae)","Spontaneous bacterial peritonitis is a feared complication in children with ascites from MCD -- abdominal pain and fever require urgent evaluation","The relapse rate is high (60-80% in children), but long-term prognosis is excellent with preserved renal function","Serum albumin below 2.0 g/dL significantly increases thromboembolism risk -- prophylactic anticoagulation should be considered"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with minimal change disease. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A 4-year-old child presents with sudden periorbital edema, frothy urine, and serum albumin of 1.8 g/dL. Urinalysis shows 4+ protein. What is the most likely diagnosis?",
+        options: ["Acute glomerulonephritis","Minimal change disease","Urinary tract infection","Diabetes insipidus"],
+        correct: 1,
+        rationale: "Minimal change disease is the most common cause of nephrotic syndrome in children aged 2-6 years. The presentation of sudden-onset edema, heavy proteinuria, and severe hypoalbuminemia (nephrotic syndrome triad) in a young child is classic for MCD."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with minimal change disease?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A child with minimal change disease on prednisone develops fever and severe abdominal pain with ascites. What complication should the nurse suspect?",
+        options: ["Appendicitis","Spontaneous bacterial peritonitis","Steroid-induced gastric ulcer","Renal vein thrombosis"],
+        correct: 1,
+        rationale: "Spontaneous bacterial peritonitis is a serious complication of nephrotic syndrome. The loss of immunoglobulins (especially IgG) in urine creates immunodeficiency, and ascitic fluid provides a medium for bacterial growth. Fever with abdominal pain in a nephrotic child with ascites requires urgent paracentesis."
       },
       {
-        question: "The patient asks about their minimal change disease diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which nursing assessment is most important to perform daily in a child hospitalized with minimal change disease?",
+        options: ["Neurological assessment with Glasgow Coma Scale","Daily weight measurement at the same time on the same scale","Blood glucose monitoring every 4 hours","Capillary refill time assessment"],
+        correct: 1,
+        rationale: "Daily weight is the most reliable indicator of fluid status in nephrotic syndrome. Rapid weight gain indicates fluid retention and worsening edema, while weight loss indicates response to treatment. Consistency in timing, scale, and clothing ensures accuracy."
       },
     ]
   },
   "mixed-acid-base-disorders-rn": {
     title: "Mixed Acid-Base Disorders",
     cellular: { title: "Pathophysiology of Mixed Acid-Base Disorders", content: "Mixed acid-base disorders occur when two or more primary acid-base disturbances coexist simultaneously, requiring systematic analysis beyond simple ABG interpretation. A mixed disorder is suspected when compensation appears excessive or inadequate for the primary disorder, when the pH is normal despite abnormal PaCO2 and HCO3-, or when the clinical context predicts multiple disturbances (e.g., a patient with COPD and sepsis may have both respiratory acidosis from CO2 retention and metabolic acidosis from lactic acid). Winter's formula (expected PaCO2 = 1.5 x HCO3- + 8, range plus or minus 2) predicts the expected respiratory compensation in metabolic acidosis -- if actual PaCO2 is higher than predicted, a concurrent respiratory acidosis is present; if lower, a concurrent respiratory alkalosis exists. The delta-delta calculation (change in anion gap / change in HCO3-) helps identify additional metabolic disorders hidden within an elevated anion gap acidosis. The nurse performs systematic ABG interpretation (pH, primary disorder, compensation assessment, anion gap calculation, delta-delta analysis), correlates findings with clinical context, monitors serial ABGs to track treatment response, reports mixed acid-base disorders promptly, administers prescribed treatments targeting each component of the disorder, and documents the interpretation rationale clearly." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mixed acid base disorders or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Sepsis and systemic infections (metabolic acidosis with concurrent respiratory compensation failure)","COPD or chronic respiratory disease with acute illness superimposed","Diabetic ketoacidosis (DKA) with concurrent vomiting (metabolic acidosis + metabolic alkalosis)","Chronic kidney disease with acute respiratory illness","Salicylate overdose (respiratory alkalosis + metabolic acidosis)","Hepatic cirrhosis with concurrent renal failure","Mechanical ventilation with inappropriate settings causing iatrogenic disturbance"],
+    diagnostics: ["Arterial blood gas (ABG) analysis: pH, PaCO2, HCO3-, PaO2 -- systematic interpretation for primary and secondary disorders","Anion gap calculation: Na - (Cl + HCO3); normal 8-12 mEq/L; elevated suggests MUDPILES etiologies","Winter's formula: expected PaCO2 = 1.5 x HCO3- + 8 (plus or minus 2) -- identifies concurrent respiratory disorder in metabolic acidosis","Delta-delta ratio: (change in AG / change in HCO3-); ratio <1 suggests concurrent non-AG metabolic acidosis; ratio >2 suggests concurrent metabolic alkalosis","Basic metabolic panel: electrolytes, BUN, creatinine, glucose to identify underlying causes","Serum lactate level to identify lactic acidosis component","Serum ketones, salicylate level, toxicology screen when ingestion suspected"],
+    management: ["Treat the underlying cause of each acid-base component (antibiotics for sepsis, insulin for DKA, dialysis for uremia)","Sodium bicarbonate administration only for severe acidemia (pH <7.1) -- not routine for all metabolic acidosis","Adjust mechanical ventilator settings to correct respiratory component without overcorrecting","Correct electrolyte imbalances (potassium shifts with pH changes -- correct K+ before correcting acidosis)","IV fluid resuscitation with isotonic saline for volume depletion contributing to metabolic acidosis","Discontinue offending medications contributing to acid-base disturbance","Serial ABG monitoring every 2-4 hours to track response to interventions"],
+    nursingActions: ["Perform systematic ABG interpretation using stepwise approach: pH, primary disorder, compensation adequacy, anion gap, delta-delta","Draw ABG specimens using proper technique (heparinized syringe, no air bubbles, on ice, to lab within 15 minutes)","Monitor respiratory rate and depth as clinical indicators of acid-base status (Kussmaul breathing = metabolic acidosis)","Report mixed acid-base findings promptly to provider with interpretation rationale","Monitor continuous cardiac rhythm for arrhythmias related to pH and electrolyte changes","Track serial ABG trends and correlate with clinical interventions","Maintain patent IV access for medication administration and fluid resuscitation"],
+    assessmentFindings: ["Kussmaul respirations (deep, rapid breathing) indicating metabolic acidosis with respiratory compensation","Altered level of consciousness ranging from confusion to coma depending on pH severity","Tachycardia and hypotension from acidemia-induced myocardial depression","Nausea, vomiting, and abdominal pain (common in metabolic acidosis)","Warm, flushed skin from acidosis-induced vasodilation","Hyperkalemia symptoms (peaked T waves, muscle weakness) from hydrogen-potassium exchange","Mixed clinical picture that does not fit a single acid-base disorder pattern"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild tachypnea with stable oxygen saturation","Slightly abnormal ABG values with near-normal pH from compensation","Mild confusion or restlessness","Subtle electrolyte imbalances on lab work","Nausea without vomiting","Mild fatigue and malaise"],
+      right: ["Severe acidemia (pH <7.1) or alkalemia (pH >7.6) with hemodynamic instability","Cardiac arrhythmias from severe pH or electrolyte disturbance","Respiratory failure requiring emergent intubation","Seizures from severe alkalosis (decreased ionized calcium)","Cardiovascular collapse from profound acidosis","Hyperkalemia with wide QRS and risk of cardiac arrest"]
     },
     medications: [{
-      name: "Furosemide",
-      type: "Loop diuretic",
-      action: "Inhibits sodium-potassium-chloride cotransporter in the loop of Henle",
-      sideEffects: "Hypokalemia, dehydration, ototoxicity, hyperglycemia, hyperuricemia",
-      contra: "Anuria, severe electrolyte depletion, hepatic coma",
-      pearl: "Monitor potassium levels; administer IV push no faster than 4 mg/min to prevent ototoxicity"
+      name: "Sodium Bicarbonate",
+      type: "Alkalinizing agent",
+      action: "Provides exogenous bicarbonate ions to buffer excess hydrogen ions in severe metabolic acidosis, raising serum pH",
+      sideEffects: "Metabolic alkalosis (overcorrection), hypokalemia (shifts K+ intracellularly), hypernatremia, hyperosmolality, paradoxical CNS acidosis",
+      contra: "Metabolic or respiratory alkalosis, hypocalcemia (worsens symptoms), chloride-responsive metabolic alkalosis",
+      pearl: "Reserved for severe acidemia (pH <7.1); overcorrection is dangerous -- aim for pH of 7.2 not normalization; correct potassium first as bicarbonate drives K+ intracellularly"
+    },{
+      name: "Acetazolamide",
+      type: "Carbonic anhydrase inhibitor",
+      action: "Inhibits carbonic anhydrase in the proximal tubule, promoting bicarbonate excretion and treating metabolic alkalosis",
+      sideEffects: "Metabolic acidosis (with overuse), hypokalemia, paresthesias, drowsiness, nephrolithiasis",
+      contra: "Severe hepatic insufficiency (may precipitate hepatic encephalopathy), hyponatremia, hypokalemia, metabolic acidosis",
+      pearl: "Used to correct metabolic alkalosis in ventilated patients who cannot increase CO2 retention; useful in COPD patients with chronic respiratory acidosis and superimposed metabolic alkalosis"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["A normal pH with abnormal PaCO2 and HCO3- should raise suspicion for a mixed disorder -- the body does not overcompensate","Winter's formula only applies to metabolic acidosis -- if actual PaCO2 differs from predicted, a second respiratory disorder coexists","Delta-delta ratio <1 indicates a concurrent non-anion-gap metabolic acidosis hiding within the elevated AG acidosis","Delta-delta ratio >2 indicates a concurrent metabolic alkalosis (HCO3- has not dropped as much as expected for the AG increase)","MUDPILES mnemonic for elevated anion gap metabolic acidosis: Methanol, Uremia, DKA, Propylene glycol, Isoniazid/Iron, Lactic acidosis, Ethylene glycol, Salicylates","Always correct potassium before aggressively treating acidosis -- bicarbonate administration shifts K+ intracellularly and can cause fatal hypokalemia","Salicylate overdose classically produces a mixed respiratory alkalosis (direct medullary stimulation) and metabolic acidosis (uncoupled oxidative phosphorylation)"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mixed acid base disorders. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with mixed acid base disorders?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their mixed acid base disorders diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient with COPD and pneumonia has ABG results: pH 7.22, PaCO2 68 mmHg, HCO3- 14 mEq/L. What acid-base disturbance is present?",
+        options: ["Simple respiratory acidosis with compensation","Simple metabolic acidosis with compensation","Mixed respiratory acidosis and metabolic acidosis","Respiratory alkalosis"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "The pH is acidotic with both an elevated PaCO2 (respiratory acidosis from COPD/pneumonia) AND a decreased HCO3- (metabolic acidosis, likely lactic from hypoxia/sepsis). In simple respiratory acidosis, the HCO3- would be elevated as compensation, not decreased. This is a mixed disorder."
+      },
+      {
+        question: "A patient with DKA has an anion gap of 28 (normal 12) and HCO3- of 10 (normal 24). The delta-delta ratio is (28-12)/(24-10) = 1.14. What does this indicate?",
+        options: ["Pure anion gap metabolic acidosis without additional disorder","Concurrent non-anion-gap metabolic acidosis","Concurrent metabolic alkalosis","Respiratory alkalosis"],
+        correct: 0,
+        rationale: "A delta-delta ratio between 1 and 2 indicates a pure anion gap metabolic acidosis. The increase in anion gap is proportional to the decrease in bicarbonate, meaning no additional metabolic disorder is hidden. A ratio <1 would suggest concurrent non-AG acidosis, and >2 would suggest concurrent metabolic alkalosis."
+      },
+      {
+        question: "When administering sodium bicarbonate for severe metabolic acidosis (pH 7.05), which nursing action is most important?",
+        options: ["Administer rapidly to normalize pH to 7.40 as quickly as possible","Check serum potassium level and correct hypokalemia before or during bicarbonate administration","Hold bicarbonate until the patient's respiratory rate normalizes","Administer with calcium gluconate simultaneously"],
+        correct: 1,
+        rationale: "Sodium bicarbonate shifts potassium intracellularly, potentially causing dangerous hypokalemia. Potassium must be assessed and corrected before or concurrently with bicarbonate administration. The goal is to raise pH to approximately 7.2, not to normalize it, as overcorrection causes alkalosis."
       },
     ]
   },
   "mobility-aids": {
     title: "Mobility Aids and Ambulation",
     cellular: { title: "Pathophysiology of Mobility Aids and Ambulation", content: "Mobility aids redistribute weight-bearing forces to reduce stress on injured or weakened lower extremities while maintaining safe ambulation. A standard cane reduces contralateral weight-bearing by approximately 25% and is held on the opposite side of the affected leg, with proper height at the greater trochanter with elbow flexed 20-30 degrees. Crutch gait patterns match weight-bearing status: non-weight-bearing uses three-point gait, partial weight-bearing uses four-point or two-point gait. Walkers provide the greatest stability, suitable for patients with bilateral weakness or poor balance. Nursing assessment includes evaluating weight-bearing status, upper body strength, balance, cognitive function, and home environment to select the appropriate device with proper fitting and patient education on safe technique including stair negotiation." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mobility aids or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Advanced age with muscle weakness, impaired balance, or osteoporosis","Recent orthopedic surgery (hip or knee replacement, fracture repair)","Neurological conditions (stroke, Parkinson disease, multiple sclerosis, peripheral neuropathy)","Visual impairment reducing spatial awareness and obstacle detection","Obesity increasing joint stress and reducing exercise tolerance","History of falls or fear of falling leading to activity avoidance","Cognitive impairment affecting ability to learn proper device technique"],
+    diagnostics: ["Assess weight-bearing status as prescribed by orthopedic provider (NWB, TTWB, PWB, WBAT, FWB)","Evaluate upper body and grip strength to determine appropriate device (cane vs crutches vs walker)","Assess balance using Timed Up and Go (TUG) test or Berg Balance Scale","Perform home environment safety assessment for fall hazards (rugs, stairs, narrow doorways)","Evaluate cognitive function to determine ability to learn and retain device use instructions","Assess pain level during ambulation to ensure adequate analgesia for mobility","Review medications for fall-risk agents (sedatives, antihypertensives, opioids)"],
+    management: ["Select mobility aid based on weight-bearing status, balance, upper body strength, and cognitive ability","Fit cane at the level of the greater trochanter with elbow flexed 20-30 degrees; use on opposite side of affected leg","Teach appropriate gait pattern: 3-point gait for NWB, 4-point or 2-point gait for PWB, swing-to/swing-through as indicated","Fit crutches with 2-3 finger widths between axillary pad and axilla to prevent brachial plexus compression","Walker: patient lifts (standard) or rolls (wheeled) walker forward, then steps into it maintaining upright posture","Physical therapy referral for supervised gait training and progressive mobility plan","Stair negotiation instruction: going up -- lead with the strong leg; going down -- lead with the affected leg (up with the good, down with the bad)"],
+    nursingActions: ["Assess patient's current mobility level and compare with weight-bearing orders","Verify proper device fit before each ambulation session","Apply gait belt for safety during initial ambulation and with unsteady patients","Monitor for signs of fatigue, pain, dizziness, or orthostatic hypotension during ambulation","Teach patient to lock wheelchair brakes before transfers and lock walker brakes on wheeled walkers before sitting","Instruct on non-weight-bearing crutch technique: bear weight on hands, not axillae, to prevent nerve compression","Document ambulation distance, assistance level, gait pattern, and patient tolerance"],
+    assessmentFindings: ["Impaired gait with unsteady balance or compensatory movement patterns","Reduced upper extremity strength limiting ability to safely use crutches","Pain with weight-bearing on affected extremity","Decreased range of motion in hip, knee, or ankle affecting ambulation mechanics","Fear of falling causing guarded gait, shortened stride, or refusal to ambulate","Skin irritation or pressure areas from improperly fitted devices","Orthostatic hypotension causing dizziness when transitioning to standing"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild unsteadiness with ambulation that improves with assistive device","Slight pain with weight-bearing manageable with prescribed analgesia","Decreased endurance requiring rest periods during ambulation","Proper use of device with correct gait pattern after instruction","Gradual improvement in ambulation distance and confidence"],
+      right: ["Fall during ambulation with possible injury","Axillary nerve damage from crutch misuse (tingling, weakness in hands and arms)","Severe orthostatic hypotension with syncope during mobilization","Non-healing pressure injury from improperly fitted device","Refusal to ambulate leading to immobility complications (DVT, pneumonia, contractures)"]
     },
     medications: [{
-      name: "Ceftriaxone",
-      type: "Third-generation cephalosporin",
-      action: "Inhibits bacterial cell wall synthesis by binding to penicillin-binding proteins",
-      sideEffects: "Diarrhea, rash, injection site pain, pseudolithiasis (biliary sludge)",
-      contra: "Neonates with hyperbilirubinemia; do not co-infuse with calcium-containing solutions in neonates",
-      pearl: "Broad-spectrum coverage; commonly used empirically for community-acquired pneumonia and meningitis"
+      name: "Acetaminophen",
+      type: "Non-opioid analgesic/antipyretic",
+      action: "Inhibits prostaglandin synthesis centrally to reduce pain perception; enables participation in mobility activities by controlling pain",
+      sideEffects: "Hepatotoxicity at high doses, nausea (rare at therapeutic doses)",
+      contra: "Severe hepatic impairment, active liver disease, chronic alcohol use",
+      pearl: "Schedule around mobility sessions (30-60 minutes before PT) to optimize pain control during ambulation; max 4 g/day in healthy adults"
+    },{
+      name: "Enoxaparin",
+      type: "Low-molecular-weight heparin",
+      action: "Inhibits Factor Xa preventing thrombus formation; used for DVT prophylaxis in patients with impaired mobility post-surgery",
+      sideEffects: "Bleeding, injection site bruising, thrombocytopenia (HIT)",
+      contra: "Active bleeding, HIT history, severe thrombocytopenia",
+      pearl: "Continue DVT prophylaxis until patient achieves adequate independent mobility; inject subcutaneously in abdomen rotating sites; do not rub injection site"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Cane is held on the OPPOSITE side of the affected leg to shift the center of gravity and reduce force on the affected limb by 25%","Never bear weight on the axillary pad of crutches -- weight goes through the hands on the handgrips to prevent brachial plexus nerve damage (crutch palsy)","Stair mnemonic: 'Up with the good, down with the bad' -- the strong leg leads going upstairs, the affected leg leads going downstairs","Walkers provide the most stability and are preferred for bilateral weakness, poor balance, or patients with limited upper body strength","A gait belt should be used during initial ambulation sessions and whenever the patient is unsteady -- the nurse holds the belt from behind","Always verify weight-bearing status with the orthopedic provider before ambulation -- premature weight bearing can disrupt surgical repairs","Falls are the leading cause of injury-related death in adults over 65 -- proper mobility aid selection and training are critical fall prevention strategies"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mobility aids. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient recovering from right hip replacement is learning to use a cane. On which side should the cane be held?",
+        options: ["Right hand (same side as the affected hip)","Left hand (opposite side of the affected hip)","Either hand based on patient preference","Alternating between hands during ambulation"],
+        correct: 1,
+        rationale: "A cane is held on the opposite side of the affected extremity. This allows the cane and the affected leg to move together, shifting the center of gravity toward the cane and reducing the load on the affected hip by approximately 25%."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mobility aids?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient using axillary crutches reports tingling and numbness in both hands. What should the nurse assess first?",
+        options: ["Blood glucose level","Whether the patient is bearing weight on the axillary pads instead of the handgrips","Bilateral hand grip strength for carpal tunnel syndrome","Cervical spine range of motion"],
+        correct: 1,
+        rationale: "Tingling and numbness in the hands while using axillary crutches suggests brachial plexus compression (crutch palsy) from bearing weight on the axillary pads. The patient should bear weight through the hands on the handgrips, with 2-3 finger widths of space between the axillary pad and the axilla."
       },
       {
-        question: "The patient asks about their mobility aids diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A nurse is teaching a patient with a non-weight-bearing left leg to navigate stairs with crutches. Which instruction is correct?",
+        options: ["Lead with the left (affected) leg going up, lead with the right (strong) leg going down","Lead with the right (strong) leg going up, lead with the left (affected) leg and crutches going down","Go up and down leading with crutches first both directions","Avoid stairs entirely until full weight bearing is achieved"],
+        correct: 1,
+        rationale: "The mnemonic 'up with the good, down with the bad' guides stair navigation. Going up: the strong leg steps up first, then crutches and affected leg follow. Going down: crutches and affected leg go first, then the strong leg follows. This maintains stability throughout."
       },
     ]
   },
@@ -312,42 +368,49 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
   "mods-rn": {
     title: "Multiple Organ Dysfunction Syndrome (MODS)",
     cellular: { title: "Pathophysiology of Multiple Organ Dysfunction Syndrome (MODS)", content: "Multiple organ dysfunction syndrome (MODS) represents the progressive failure of two or more organ systems in acutely ill patients, most commonly triggered by sepsis, severe trauma, or major surgery. The pathophysiology involves a dysregulated systemic inflammatory response that causes widespread endothelial dysfunction, microcirculatory failure, and mitochondrial dysfunction across multiple organ systems simultaneously. The initial insult (infection, tissue injury) activates innate immune cells, releasing damage-associated molecular patterns (DAMPs) and pathogen-associated molecular patterns (PAMPs) that perpetuate inflammation through positive feedback loops. This creates a 'second hit' phenomenon where impaired microcirculation, oxygen utilization failure, and immune dysregulation compound the initial injury. Organ failure is quantified using the Sequential Organ Failure Assessment (SOFA) score across six systems: respiratory (PaO2/FiO2 ratio), coagulation (platelet count), hepatic (bilirubin), cardiovascular (MAP and vasopressor requirement), neurological (GCS), and renal (creatinine and urine output). Mortality increases by approximately 15-20% for each additional organ system that fails. The nurse monitors SOFA scores serially, provides organ-system-specific supportive care, administers prescribed vasoactive agents, manages mechanical ventilation with lung-protective strategies, monitors fluid balance, recognizes clinical deterioration trajectories, and communicates prognosis clearly for goals-of-care discussions." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mods or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Sepsis and septic shock (most common precipitant of MODS)","Severe trauma with hemorrhagic shock and massive transfusion","Major surgical procedures with prolonged operative time","Burns covering more than 30% total body surface area","Pancreatitis with necrotizing complications","Advanced age with diminished physiological reserve","Pre-existing chronic organ dysfunction (CKD, COPD, cirrhosis, heart failure)"],
+    diagnostics: ["Sequential Organ Failure Assessment (SOFA) score: track 6 organ systems (respiratory PaO2/FiO2, coagulation platelets, liver bilirubin, cardiovascular MAP/vasopressors, CNS GCS, renal creatinine/urine output)","Arterial blood gas (ABG) with PaO2/FiO2 ratio to assess ARDS component (<300 = ARDS, <200 = moderate, <100 = severe)","Serum lactate level (>2 mmol/L indicates tissue hypoperfusion; serial trending tracks response to resuscitation)","Complete blood count with differential: thrombocytopenia indicates DIC or consumptive coagulopathy","Coagulation studies: PT, INR, fibrinogen, D-dimer to evaluate for DIC","Liver function tests (AST, ALT, bilirubin, albumin) and renal function (BUN, creatinine)","Blood cultures and procalcitonin to identify and monitor infectious source"],
+    management: ["Source control: identify and treat the underlying trigger (surgical drainage, antibiotic therapy, debridement)","Lung-protective ventilation for ARDS: tidal volume 6 mL/kg ideal body weight, plateau pressure <30 cmH2O, PEEP optimization","Goal-directed fluid resuscitation with crystalloids (30 mL/kg bolus for sepsis-induced hypoperfusion) guided by dynamic measures","Vasopressor therapy (norepinephrine first-line) to maintain MAP greater than or equal to 65 mmHg","Renal replacement therapy (CRRT) for acute kidney injury with refractory fluid overload, acidosis, or hyperkalemia","Stress ulcer prophylaxis with proton pump inhibitor in mechanically ventilated patients","Early goals-of-care discussion with family given high mortality (mortality increases 15-20% per additional failing organ)"],
+    nursingActions: ["Calculate and trend SOFA scores every 12-24 hours to track organ dysfunction trajectory","Monitor hemodynamic status continuously: arterial line waveform, CVP, MAP, and vasopressor doses","Perform hourly urine output measurement (report <0.5 mL/kg/hr for 2 or more consecutive hours)","Assess neurological status using GCS every 2-4 hours; report acute decline immediately","Monitor ventilator settings and assess for ARDS progression (worsening PaO2/FiO2 ratio, increasing FiO2/PEEP requirements)","Administer blood products as ordered for DIC (platelets, FFP, cryoprecipitate) and monitor for transfusion reactions","Facilitate family communication and support goals-of-care conversations with interdisciplinary team"],
+    assessmentFindings: ["Hypotension requiring vasopressor support (cardiovascular dysfunction)","Acute respiratory failure with bilateral infiltrates on CXR and refractory hypoxemia (ARDS)","Oliguria or anuria (acute kidney injury; urine output <0.5 mL/kg/hr)","Altered mental status, confusion, or obtundation (neurological dysfunction)","Jaundice with elevated bilirubin and transaminases (hepatic dysfunction)","Thrombocytopenia with bleeding from IV sites and mucosal surfaces (DIC/coagulopathy)","Metabolic acidosis with elevated lactate (tissue hypoperfusion)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Tachycardia with adequate MAP on low-dose vasopressors","Mild increase in FiO2 requirements with stable oxygen saturation","Decreasing urine output trending toward oliguria","Mildly elevated lactate (2-4 mmol/L) that improves with resuscitation","Low-grade fever or mild hypothermia","Mild thrombocytopenia without active bleeding","Slight confusion or agitation (early neurological change)"],
+      right: ["Refractory hypotension requiring multiple vasopressors at escalating doses","Severe ARDS with PaO2/FiO2 <100 despite maximal ventilator support","Anuria with rapidly rising creatinine requiring emergent dialysis","Overt DIC with uncontrolled hemorrhage from multiple sites","Hepatic failure with coagulopathy, encephalopathy, and rising ammonia","Profound lactic acidosis (>4 mmol/L) unresponsive to resuscitation","Cardiac arrest from multisystem failure"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Norepinephrine",
+      type: "Alpha-1 and beta-1 adrenergic agonist (vasopressor)",
+      action: "Potent alpha-1 mediated vasoconstriction increases SVR and MAP; mild beta-1 effect increases cardiac contractility; first-line vasopressor for septic shock and MODS",
+      sideEffects: "Peripheral ischemia (digits, mesenteric), arrhythmias, tissue necrosis with extravasation, reflex bradycardia",
+      contra: "Hypovolemia (must volume-resuscitate first), mesenteric or peripheral vascular thrombosis",
+      pearl: "Administer through central line when possible; if extravasation occurs, infiltrate area with phentolamine; titrate to MAP >=65 mmHg; add vasopressin as second agent if needed"
+    },{
+      name: "Hydrocortisone",
+      type: "Systemic corticosteroid (stress-dose)",
+      action: "Replaces cortisol in relative adrenal insufficiency of critical illness; enhances vascular sensitivity to catecholamines improving vasopressor response",
+      sideEffects: "Hyperglycemia, immunosuppression, myopathy with prolonged use, GI bleeding risk",
+      contra: "Active fungal infection (relative); uncontrolled hyperglycemia",
+      pearl: "Stress-dose steroids (hydrocortisone 50 mg IV q6-8h) indicated when hemodynamic instability persists despite adequate fluid resuscitation and vasopressor therapy"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MODS mortality increases by approximately 15-20% for each additional organ system that fails -- 3 or more failing organs carries greater than 70% mortality","The SOFA score quantifies organ dysfunction across 6 systems; an increase of 2 or more points from baseline identifies sepsis-related organ dysfunction","MODS follows a 'two-hit' model: initial insult primes the inflammatory response, and a second insult triggers disproportionate systemic inflammation","Lung-protective ventilation (6 mL/kg IBW, plateau pressure <30 cmH2O) is the single most impactful intervention for ARDS in MODS","Lactate clearance (>10% decrease in 6 hours) is a reliable marker of adequate resuscitation -- persistently elevated lactate predicts poor outcomes","Early goals-of-care discussions are essential -- families need honest prognostic information to make informed decisions about treatment escalation","DIC in MODS presents with simultaneous clotting and bleeding -- look for oozing from IV sites, petechiae, and prolonged PT/aPTT with low fibrinogen"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mods. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A critically ill patient with sepsis has the following findings: PaO2/FiO2 180, platelets 85,000, bilirubin 3.2, MAP 58 on norepinephrine, GCS 13, creatinine 2.8. How many organ systems show dysfunction?",
+        options: ["3 organ systems","4 organ systems","5 organ systems","6 organ systems"],
+        correct: 3,
+        rationale: "All 6 SOFA organ systems are affected: Respiratory (PaO2/FiO2 <200 = moderate ARDS), Coagulation (platelets <100,000), Hepatic (bilirubin >2), Cardiovascular (requiring vasopressor), Neurological (GCS <15), Renal (creatinine >2). This represents 6-organ dysfunction with very high mortality."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mods?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A nurse is caring for a patient with MODS on mechanical ventilation. The tidal volume is set at 10 mL/kg and plateau pressure is 35 cmH2O. What should the nurse do?",
+        options: ["Continue current settings as they are within normal range","Notify the provider -- tidal volume should be 6 mL/kg and plateau pressure should be less than 30 cmH2O","Increase PEEP to compensate for the high plateau pressure","Suction the patient to reduce airway resistance"],
+        correct: 1,
+        rationale: "Lung-protective ventilation for ARDS requires low tidal volumes (6 mL/kg ideal body weight) and plateau pressures below 30 cmH2O. The current settings of 10 mL/kg and 35 cmH2O can cause ventilator-induced lung injury (volutrauma and barotrauma). The nurse should notify the provider immediately."
       },
       {
-        question: "The patient asks about their mods diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which assessment finding in a patient with MODS is most indicative of worsening disseminated intravascular coagulation (DIC)?",
+        options: ["Elevated blood pressure requiring vasopressor reduction","Oozing from venipuncture sites with declining platelet count and low fibrinogen","Improved urine output after fluid bolus","Clearing of bilateral lung infiltrates on chest X-ray"],
+        correct: 1,
+        rationale: "DIC in MODS presents with simultaneous thrombosis and hemorrhage. Oozing from puncture and IV sites combined with declining platelets and low fibrinogen (consumed by microthrombi) is the hallmark presentation. This requires urgent treatment with blood products and management of the underlying cause."
       },
     ]
   },
@@ -367,42 +430,49 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
   "monitoring-safety-np": {
     title: "Monitoring & Safety: Baseline Labs & Ongoing Requirements",
     cellular: { title: "Pathophysiology of Monitoring & Safety: Baseline Labs & Ongoing Requirements", content: "The nurse practitioner integrates Monitoring & Safety: Baseline Labs & Ongoing Requirements into evidence-based clinical practice, quality improvement, and interprofessional collaboration. The clinician practices within the legislative and regulatory framework of their jurisdiction, understanding scope of practice as defined by the provincial regulatory body, controlled act authorization, prescriptive authority (including controlled substances scheduling), and collaborative practice requirements. Evidence-based practice involves systematic formulation of clinical questions (PICO framework), critical appraisal of research evidence (understanding study designs, levels of evidence, statistical concepts including confidence intervals, p-values, NNT/NNH, sensitivity/specificity, and likelihood ratios), integration of evidence with clinical expertise and patient preferences, and evaluation of practice outcomes. Quality improvement methodologies (Plan-Do-Study-Act cycles, root cause analysis, failure mode and effects analysis) are applied to identify and address practice gaps. The clinician addresses diagnostic error through metacognitive strategies (cognitive debiasing, diagnostic time-outs, consideration of anchoring bias, premature closure, and availability bias), maintains prescribing safety through medication reconciliation, drug interaction checking, and adherence to evidence-based prescribing guidelines, and participates in interprofessional collaborative practice to optimize patient outcomes. Documentation, informed consent processes, and medico-legal considerations are integrated into daily practice." },
-    riskFactors: ["Advanced age or extremes of age","Family history of monitoring safety or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Polypharmacy (5 or more medications increasing drug interaction and adverse effect risk)","Narrow therapeutic index medications (lithium, warfarin, digoxin, aminoglycosides, phenytoin)","Hepatic or renal impairment altering drug metabolism and clearance","Extremes of age (pediatric immature metabolism, geriatric declining organ function)","Pregnancy and lactation altering pharmacokinetics and requiring dose adjustments","Genetic polymorphisms in CYP450 enzymes (poor vs rapid metabolizers)","History of medication non-adherence or adverse drug reactions"],
+    diagnostics: ["Baseline labs before initiating new medications: CBC, CMP (hepatic and renal function panels)","Drug-specific monitoring: lithium levels (0.6-1.2 mEq/L), valproate levels (50-100 mcg/mL), phenytoin levels (10-20 mcg/mL)","Thyroid function tests (TSH, free T4) before and during lithium therapy (every 6 months)","Renal function (BUN, creatinine, GFR) before nephrotoxic agents and at regular intervals","Fasting lipid panel and HbA1c for metabolic monitoring with atypical antipsychotics","ECG for QTc interval monitoring with medications that prolong QT (antipsychotics, certain antibiotics)","Serum drug levels drawn at trough (immediately before next dose) for accurate therapeutic monitoring"],
+    management: ["Establish baseline laboratory values before initiating any medication requiring monitoring","Schedule follow-up lab monitoring at evidence-based intervals (initial 1-2 weeks, then q3-6 months when stable)","Implement medication reconciliation at every visit to identify interactions and duplications","Adjust doses based on renal function using Cockcroft-Gault equation for creatinine clearance","Develop monitoring flowsheets tracking lab values, vital signs, and adverse effects over time","Use clinical decision support tools to screen for drug-drug and drug-food interactions","Coordinate with pharmacist for complex medication regimens and narrow therapeutic index drugs"],
+    nursingActions: ["Order and interpret baseline labs before prescribing medications that require monitoring","Draw drug levels at appropriate times (trough levels before next dose for most medications)","Perform medication reconciliation at every encounter including OTC, herbals, and supplements","Monitor for early signs of toxicity specific to each medication class being prescribed","Educate patients on signs and symptoms requiring urgent provider notification (lithium toxicity, warfarin bleeding)","Document informed consent for high-risk medications including discussion of monitoring requirements","Implement prescribing safety practices: start low and go slow, check interactions, verify allergies"],
+    assessmentFindings: ["Supratherapeutic drug levels indicating toxicity risk (lithium >1.5 mEq/L, digoxin >2 ng/mL)","Subtherapeutic drug levels suggesting non-adherence or rapid metabolism","Declining renal function (rising creatinine, decreasing GFR) requiring dose adjustment","Hepatic enzyme elevation (AST/ALT >3x upper limit of normal) suggesting drug-induced liver injury","QTc prolongation on ECG (>500 ms significantly increases torsades de pointes risk)","Metabolic syndrome findings: weight gain, hyperglycemia, dyslipidemia (antipsychotic monitoring)","Signs of drug-specific toxicity: tremor and polyuria (lithium), gingival hyperplasia (phenytoin), easy bruising (warfarin)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Drug levels within therapeutic range on routine monitoring","Mild elevations in hepatic enzymes (less than 2x upper limit of normal) requiring closer monitoring","Gradual weight gain on metabolic-risk medications","Mild GI side effects manageable with dose timing or food","Borderline renal function changes requiring interval monitoring"],
+      right: ["Lithium toxicity: coarse tremor, ataxia, altered consciousness, seizures (level >2.0 mEq/L)","Serotonin syndrome: hyperthermia, agitation, clonus, hyperreflexia, diaphoresis","QTc >500 ms with syncope or palpitations (risk of torsades de pointes)","Drug-induced agranulocytosis: fever, severe pharyngitis, WBC <1000 (clozapine, carbamazepine)","Warfarin overdose with active hemorrhage (INR >5 with bleeding)","Stevens-Johnson syndrome: mucosal erosions, widespread skin sloughing (lamotrigine, phenytoin, carbamazepine)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Lithium Carbonate",
+      type: "Mood stabilizer (requires extensive monitoring)",
+      action: "Modulates intracellular signaling cascades (inositol monophosphatase, GSK-3) to stabilize mood in bipolar disorder",
+      sideEffects: "Fine tremor, polyuria/polydipsia (nephrogenic DI), hypothyroidism, weight gain, GI upset, cognitive dulling",
+      contra: "Severe renal impairment, significant cardiovascular disease, dehydration, sodium-depleted states, pregnancy (Ebstein anomaly risk)",
+      pearl: "Narrow therapeutic index (0.6-1.2 mEq/L therapeutic, >1.5 toxic); requires baseline and q6-month renal/thyroid labs; NSAIDs, ACE inhibitors, and thiazides increase lithium levels"
+    },{
+      name: "Warfarin",
+      type: "Vitamin K antagonist anticoagulant (requires INR monitoring)",
+      action: "Inhibits vitamin K epoxide reductase, reducing synthesis of clotting factors II, VII, IX, and X",
+      sideEffects: "Bleeding (major and minor), skin necrosis (rare, in protein C deficiency), teratogenic, alopecia",
+      contra: "Active bleeding, pregnancy, hemorrhagic stroke, severe hepatic disease, non-adherent patients",
+      pearl: "Target INR 2-3 for most indications; numerous drug and food interactions (CYP2C9/VKORC1 polymorphisms); vitamin K is the antidote; bridging with heparin needed for initiation"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Therapeutic drug monitoring is essential for narrow therapeutic index medications -- even small dose changes can shift from subtherapeutic to toxic","Lithium monitoring requires baseline and periodic renal function (creatinine, GFR), thyroid function (TSH), and serum lithium levels; lithium is almost entirely renally excreted","Anything that causes sodium loss or dehydration increases lithium levels: diuretics, NSAIDs, ACE inhibitors, diarrhea, vomiting, excessive sweating","QTc monitoring is required for multiple drug classes: antipsychotics (especially haloperidol, ziprasidone), certain antibiotics (fluoroquinolones, macrolides), and methadone","Atypical antipsychotic metabolic monitoring (the 'metabolic panel'): fasting glucose, HbA1c, lipid panel, weight, waist circumference at baseline, 3 months, then annually","Drug levels should be drawn at trough (immediately before the next scheduled dose) unless otherwise specified for accuracy","Start low, go slow is the safest prescribing principle for medications requiring monitoring, especially in elderly patients and those with renal/hepatic impairment"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with monitoring safety. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is initiating lithium therapy for bipolar disorder. Which baseline labs are essential before starting treatment?",
+        options: ["Serum lithium level and drug allergy testing","Renal function (BUN, creatinine), thyroid function (TSH), and ECG","Hepatic function tests and coagulation studies only","No baseline labs are needed; just start and monitor at 6 months"],
+        correct: 1,
+        rationale: "Lithium is almost entirely renally excreted and can cause nephrogenic diabetes insipidus and hypothyroidism. Baseline renal function, thyroid function, and ECG (lithium can cause T-wave changes) are essential before initiation. Lithium levels are checked after steady state (5-7 days)."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with monitoring safety?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient on clozapine presents with fever, severe sore throat, and a WBC count of 800/mm3. What is the most likely drug-related complication?",
+        options: ["Serotonin syndrome","Drug-induced agranulocytosis","Neuroleptic malignant syndrome","Stevens-Johnson syndrome"],
+        correct: 1,
+        rationale: "Clozapine carries a significant risk of agranulocytosis (severe neutropenia). The REMS program requires regular absolute neutrophil count (ANC) monitoring. A WBC of 800 with fever and pharyngitis is a medical emergency requiring immediate discontinuation and reverse isolation."
       },
       {
-        question: "The patient asks about their monitoring safety diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "When should a trough drug level be drawn for a medication requiring therapeutic monitoring?",
+        options: ["Immediately after administration for peak level assessment","30 minutes after administration","Immediately before the next scheduled dose","At any random time during the dosing interval"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Trough levels are drawn immediately before the next scheduled dose to capture the lowest concentration in the dosing cycle. This provides the most accurate assessment of whether the drug level remains in the therapeutic range throughout the dosing interval."
       },
     ]
   },
@@ -423,126 +493,168 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
   "mood-stabilizers-core-np": {
     title: "Mood Stabilizers",
     cellular: { title: "Pathophysiology of Mood Stabilizers", content: "The nurse practitioner evaluates and manages Mood Stabilizers through comprehensive psychiatric assessment, diagnostic formulation, and evidence-based psychopharmacology. Assessment includes structured psychiatric interview (chief complaint, history of present illness including symptom onset, duration, severity, functional impact, and safety assessment), mental status examination (appearance, behavior, speech, mood and affect, thought process and content, perceptions, cognition, insight, and judgment), validated screening instruments (PHQ-9 for depression, GAD-7 for anxiety, AUDIT/DAST for substance use, Columbia Suicide Severity Rating Scale), developmental and social history, medical history review for organic causes of psychiatric symptoms, and medication reconciliation. The clinician applies DSM-5-TR diagnostic criteria while considering differential diagnoses including medical conditions that mimic psychiatric disorders (thyroid dysfunction, autoimmune conditions, neurological disease, substance-related and medication-induced disorders). Pharmacotherapy selection is guided by diagnosis, symptom profile, comorbidities, prior treatment response, adverse effect profile, drug interactions, and patient preference. The clinician initiates and titrates psychotropic medications with appropriate monitoring (metabolic monitoring for antipsychotics, suicidality monitoring for antidepressants in youth, lithium levels and thyroid/renal function for mood stabilizers), integrates psychotherapeutic approaches, coordinates with psychology and social work, implements safety planning for suicidal ideation, and determines criteria for inpatient psychiatric referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mood stabilizers core or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Bipolar I or II disorder requiring long-term mood stabilization","Family history of bipolar disorder or schizoaffective disorder","History of recurrent manic or depressive episodes","Prior suicide attempts or self-harm behavior","Substance use disorder (alcohol, stimulants) comorbidity","Rapid cycling pattern (4 or more mood episodes per year)","Non-adherence to psychiatric medications due to side effects or lack of insight"],
+    diagnostics: ["Serum lithium level (therapeutic range 0.6-1.2 mEq/L for acute mania, 0.6-0.8 mEq/L for maintenance)","BMP with creatinine and BUN to assess renal function before and during lithium therapy","TSH and free T4 at baseline and every 6 months (lithium causes hypothyroidism in 20-30% of patients)","Serum valproic acid level (therapeutic range 50-125 mcg/mL)","CBC with differential for valproate (risk of thrombocytopenia) and carbamazepine (agranulocytosis risk)","Hepatic function panel before and during valproate therapy (risk of hepatotoxicity)","ECG at baseline for lithium (risk of sinus node dysfunction and T-wave flattening)","Pregnancy test before initiating valproate or carbamazepine (teratogenic)"],
+    management: ["Lithium as first-line for acute mania and long-term maintenance in bipolar I disorder","Valproate (divalproex sodium) for acute mania especially mixed episodes and rapid cycling","Lamotrigine for bipolar depression prevention (requires slow titration to prevent Stevens-Johnson syndrome)","Carbamazepine as alternative mood stabilizer for patients intolerant to lithium or valproate","Combination therapy with atypical antipsychotics (quetiapine, olanzapine) for refractory mania","Psychoeducation on medication adherence, relapse warning signs, and lifestyle regularity","Structured psychotherapy (CBT, interpersonal and social rhythm therapy) as adjunct to pharmacotherapy"],
+    nursingActions: ["Monitor serum lithium levels regularly (every 1-2 weeks during initiation, then every 3-6 months at steady state)","Educate patient on maintaining consistent sodium and fluid intake to prevent lithium toxicity","Assess for early signs of lithium toxicity: nausea, vomiting, diarrhea, coarse tremor, drowsiness","Monitor renal function (creatinine, GFR) and thyroid function (TSH) every 6 months on lithium","Obtain baseline and periodic CBC and liver function tests for patients on valproate","Titrate lamotrigine slowly per protocol (25 mg/day for 2 weeks, then gradual increases) to prevent SJS","Implement safety planning and suicide risk assessment at each visit using Columbia Suicide Severity Rating Scale"],
+    assessmentFindings: ["Mood cycling between manic episodes (elevated mood, grandiosity, decreased need for sleep, pressured speech) and depressive episodes","Fine hand tremor (common benign side effect of lithium at therapeutic levels)","Polyuria and polydipsia (lithium-induced nephrogenic diabetes insipidus)","Weight gain associated with lithium and valproate therapy","Cognitive dulling or slowed processing reported by patients on mood stabilizers","Hypothyroid symptoms: fatigue, cold intolerance, weight gain, constipation (lithium-induced)","Euthymic state with stable mood, regular sleep pattern, and functional improvement on effective therapy"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Fine resting tremor of hands (benign at therapeutic lithium levels)","Mild GI symptoms (nausea, loose stools) during lithium initiation","Euthymic mood with stable affect and organized thought process","Mild weight gain (1-5 kg) on mood stabilizer therapy","Polyuria with dilute urine (early nephrogenic DI)"],
+      right: ["Coarse tremor, ataxia, slurred speech, confusion (lithium toxicity -- level >1.5 mEq/L)","Seizures and cardiac arrhythmias (severe lithium toxicity >2.5 mEq/L)","Stevens-Johnson syndrome: mucosal erosions, targetoid skin lesions, fever (lamotrigine)","Acute hepatotoxicity: jaundice, elevated AST/ALT, coagulopathy (valproate)","Agranulocytosis: fever, sore throat, infection signs (carbamazepine)"]
     },
     medications: [{
-      name: "Sertraline",
-      type: "Selective serotonin reuptake inhibitor (SSRI)",
-      action: "Selectively inhibits serotonin reuptake at the presynaptic membrane",
-      sideEffects: "Nausea, insomnia, sexual dysfunction, diarrhea, headache",
-      contra: "Concurrent use with MAOIs; pimozide co-administration",
-      pearl: "Therapeutic effects may take 4-6 weeks; monitor for suicidal ideation especially in adolescents"
+      name: "Lithium carbonate",
+      type: "Mood stabilizer (monovalent cation)",
+      action: "Modulates intracellular signaling cascades including inositol monophosphatase and GSK-3 beta inhibition, stabilizing neuronal membrane excitability",
+      sideEffects: "Fine tremor, polyuria, polydipsia, hypothyroidism, weight gain, GI upset, acne, cognitive dulling",
+      contra: "Severe renal impairment, significant cardiovascular disease, Brugada syndrome, first trimester pregnancy (Ebstein anomaly risk), sodium-depleted states",
+      pearl: "Narrow therapeutic index (0.6-1.2 mEq/L); toxicity potentiated by dehydration, NSAIDs, ACE inhibitors, and thiazide diuretics -- always check drug interactions"
+    },{
+      name: "Divalproex sodium (Valproate)",
+      type: "Mood stabilizer / Anticonvulsant",
+      action: "Enhances GABAergic transmission, blocks voltage-gated sodium channels, and inhibits histone deacetylase affecting gene expression",
+      sideEffects: "Nausea, weight gain, tremor, alopecia, thrombocytopenia, hepatotoxicity, pancreatitis",
+      contra: "Hepatic disease, urea cycle disorders, pregnancy (neural tube defect risk -- FDA category X), mitochondrial disorders (POLG mutations)",
+      pearl: "Preferred over lithium for rapid cycling and mixed episodes; monitor LFTs and CBC; teratogenic -- requires reliable contraception in women of childbearing age"
+    },{
+      name: "Lamotrigine",
+      type: "Mood stabilizer / Anticonvulsant",
+      action: "Inhibits voltage-gated sodium channels and reduces presynaptic glutamate release, stabilizing neuronal membranes",
+      sideEffects: "Headache, dizziness, diplopia, nausea, benign rash (distinguish from SJS)",
+      contra: "History of hypersensitivity to lamotrigine, concurrent valproate without dose adjustment (doubles lamotrigine levels)",
+      pearl: "First-line for bipolar depression prevention; must titrate slowly to prevent SJS (risk highest in first 8 weeks); valproate co-administration requires halving the lamotrigine dose"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Lithium has the strongest evidence for reducing suicide risk in bipolar disorder -- unique among mood stabilizers","The lithium therapeutic window is extremely narrow; educate patients to maintain consistent sodium/fluid intake and avoid NSAIDs and dehydration","Lamotrigine is uniquely effective for preventing bipolar depressive episodes but has minimal antimanic efficacy","Valproate is FDA category X in pregnancy due to neural tube defects; lithium carries Ebstein anomaly risk but is lower risk overall","Hypothyroidism occurs in 20-30% of lithium patients -- monitor TSH every 6 months and supplement with levothyroxine as needed","Always obtain a pregnancy test before starting valproate or carbamazepine in women of childbearing potential","Carbamazepine is a potent CYP3A4 inducer -- it accelerates metabolism of oral contraceptives, warfarin, and many other drugs"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mood stabilizers core. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient on lithium therapy presents with coarse tremor, ataxia, and slurred speech. The serum lithium level is 2.1 mEq/L. What is the priority nursing action?",
+        options: ["Administer the next scheduled lithium dose and recheck level in 12 hours","Hold lithium immediately, initiate IV normal saline, and notify the provider for emergent management","Decrease the lithium dose by 50% and recheck the level in 1 week","Reassure the patient that these are expected side effects of lithium therapy"],
+        correct: 1,
+        rationale: "A lithium level of 2.1 mEq/L with neurological symptoms (coarse tremor, ataxia, slurred speech) indicates moderate-to-severe lithium toxicity. The priority is to hold lithium, hydrate aggressively with IV normal saline to promote renal excretion, and notify the provider. Severe toxicity (>2.5 mEq/L) may require hemodialysis."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mood stabilizers core?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their mood stabilizers core diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which mood stabilizer requires slow dose titration over several weeks to minimize the risk of Stevens-Johnson syndrome?",
+        options: ["Lithium carbonate","Divalproex sodium","Lamotrigine","Carbamazepine"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Lamotrigine requires a slow titration schedule (starting at 25 mg/day, increasing every 2 weeks) to minimize the risk of Stevens-Johnson syndrome (SJS), a potentially fatal dermatologic emergency. The risk is highest during the first 8 weeks and is increased by concurrent valproate use."
+      },
+      {
+        question: "A nurse practitioner is prescribing divalproex sodium for a 28-year-old woman with rapid-cycling bipolar disorder. Which baseline test is most critical before initiating therapy?",
+        options: ["Serum lithium level","Fasting lipid panel","Pregnancy test","Hemoglobin A1C"],
+        correct: 2,
+        rationale: "Divalproex sodium (valproate) is FDA category X in pregnancy due to significant teratogenic risk including neural tube defects (spina bifida) occurring in 1-2% of exposed pregnancies. A pregnancy test is mandatory before initiation, and reliable contraception must be ensured."
       },
     ]
   },
   "mood-stabilizers-moa-np": {
     title: "Mood Stabilizers: MOA & Monitoring",
     cellular: { title: "Pathophysiology of Mood Stabilizers: MOA & Monitoring", content: "The nurse practitioner evaluates and manages Mood Stabilizers: MOA & Monitoring through comprehensive psychiatric assessment, diagnostic formulation, and evidence-based psychopharmacology. Assessment includes structured psychiatric interview (chief complaint, history of present illness including symptom onset, duration, severity, functional impact, and safety assessment), mental status examination (appearance, behavior, speech, mood and affect, thought process and content, perceptions, cognition, insight, and judgment), validated screening instruments (PHQ-9 for depression, GAD-7 for anxiety, AUDIT/DAST for substance use, Columbia Suicide Severity Rating Scale), developmental and social history, medical history review for organic causes of psychiatric symptoms, and medication reconciliation. The clinician applies DSM-5-TR diagnostic criteria while considering differential diagnoses including medical conditions that mimic psychiatric disorders (thyroid dysfunction, autoimmune conditions, neurological disease, substance-related and medication-induced disorders). Pharmacotherapy selection is guided by diagnosis, symptom profile, comorbidities, prior treatment response, adverse effect profile, drug interactions, and patient preference. The clinician initiates and titrates psychotropic medications with appropriate monitoring (metabolic monitoring for antipsychotics, suicidality monitoring for antidepressants in youth, lithium levels and thyroid/renal function for mood stabilizers), integrates psychotherapeutic approaches, coordinates with psychology and social work, implements safety planning for suicidal ideation, and determines criteria for inpatient psychiatric referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mood stabilizers moa or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Bipolar disorder (I or II) with recurrent mood episodes requiring pharmacological stabilization","Genetic predisposition -- first-degree relative with bipolar disorder increases risk 10-fold","Comorbid substance use disorders (alcohol and stimulants destabilize mood cycles)","History of medication non-adherence leading to relapse and hospitalization","Rapid cycling bipolar disorder (4+ episodes per year, more common in women)","Comorbid thyroid dysfunction (lithium-induced hypothyroidism compounds mood instability)","History of antidepressant-induced mania (destabilization without mood stabilizer coverage)"],
+    diagnostics: ["Serum lithium trough level drawn 12 hours post-dose (therapeutic 0.6-1.2 mEq/L acute, 0.6-0.8 mEq/L maintenance)","Serum valproic acid level (therapeutic 50-125 mcg/mL) drawn as trough","Carbamazepine level (therapeutic 4-12 mcg/mL) with awareness of autoinduction over first 3-5 weeks","BMP with creatinine, BUN, and GFR for lithium renal monitoring at baseline and every 6 months","TSH and free T4 at baseline and every 6 months for lithium-induced hypothyroidism","Hepatic function panel (AST, ALT, albumin) at baseline and periodically for valproate hepatotoxicity monitoring","CBC with differential at baseline and periodically for carbamazepine (agranulocytosis) and valproate (thrombocytopenia)","Serum calcium and parathyroid hormone if hypercalcemia suspected on lithium (lithium-induced hyperparathyroidism)"],
+    management: ["Lithium: first-line for classic euphoric mania and suicide risk reduction; MOA involves GSK-3 beta and inositol monophosphatase inhibition","Valproate: enhances GABA transmission and blocks voltage-gated sodium channels; preferred for mixed episodes and rapid cycling","Lamotrigine: blocks voltage-gated sodium channels and inhibits glutamate release; first-line for bipolar depression prevention","Carbamazepine: sodium channel blockade and potentiation of GABA; alternative when lithium and valproate fail","Monitor drug levels, renal function, thyroid function, hepatic function, and CBC per drug-specific protocols","Combine mood stabilizer with atypical antipsychotic (quetiapine, olanzapine) for acute mania refractory to monotherapy","Avoid antidepressant monotherapy in bipolar disorder -- always pair with mood stabilizer to prevent manic switch"],
+    nursingActions: ["Draw lithium trough levels 12 hours after last dose; ensure timing accuracy for reliable interpretation","Educate on maintaining stable sodium and fluid intake -- dehydration and low-sodium diets increase lithium toxicity risk","Review all concurrent medications for interactions: NSAIDs, ACE inhibitors, and thiazide diuretics increase lithium levels","Titrate lamotrigine per slow escalation protocol and instruct patient to report any rash immediately","Monitor weight, fasting glucose, and lipid panel for metabolic effects of valproate and atypical antipsychotic augmentation","Assess for suicidal ideation at every visit using validated tool (C-SSRS); lithium reduces but does not eliminate suicide risk","Provide contraception counseling for women on valproate (category X) or carbamazepine (category D)"],
+    assessmentFindings: ["Stabilized euthymic mood with regular sleep-wake cycle and organized thought process on effective therapy","Fine bilateral hand tremor at therapeutic lithium levels (benign, dose-related)","Polyuria and polydipsia indicating lithium-induced nephrogenic diabetes insipidus","Weight gain of 5-10 kg common with lithium and valproate over first year","Hair thinning or alopecia associated with valproate use","Hypothyroid symptoms (fatigue, cold intolerance, constipation, dry skin) on lithium","GI symptoms (nausea, diarrhea) most common during lithium initiation phase"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Euthymic mood with congruent affect and goal-directed behavior","Fine postural tremor of hands (therapeutic lithium levels)","Mild nausea and loose stools during initial titration phase","Stable serum drug levels within therapeutic range","Mild polyuria without electrolyte disturbance"],
+      right: ["Lithium toxicity triad: coarse tremor, ataxia, altered mental status (level >1.5 mEq/L)","Seizures, cardiac dysrhythmias, and coma at lithium levels >2.5 mEq/L requiring emergent hemodialysis","Stevens-Johnson syndrome on lamotrigine: fever, mucosal erosions, widespread targetoid lesions","Valproate-induced pancreatitis: severe epigastric pain radiating to back, elevated lipase","Carbamazepine-induced agranulocytosis: fever, pharyngitis, ANC <500 requiring immediate discontinuation"]
     },
     medications: [{
-      name: "Sertraline",
-      type: "Selective serotonin reuptake inhibitor (SSRI)",
-      action: "Selectively inhibits serotonin reuptake at the presynaptic membrane",
-      sideEffects: "Nausea, insomnia, sexual dysfunction, diarrhea, headache",
-      contra: "Concurrent use with MAOIs; pimozide co-administration",
-      pearl: "Therapeutic effects may take 4-6 weeks; monitor for suicidal ideation especially in adolescents"
+      name: "Lithium carbonate",
+      type: "Mood stabilizer (monovalent cation)",
+      action: "Inhibits GSK-3 beta and inositol monophosphatase, modulating intracellular second messenger systems to stabilize neuronal excitability and neurotransmitter release",
+      sideEffects: "Fine tremor, polyuria/polydipsia (nephrogenic DI), hypothyroidism, weight gain, GI upset, acne, cognitive dulling, hyperparathyroidism",
+      contra: "Severe renal insufficiency, Brugada syndrome, first trimester pregnancy (Ebstein anomaly), significant dehydration or sodium depletion",
+      pearl: "Only mood stabilizer with proven anti-suicide properties; toxicity risk increases with dehydration, NSAIDs, ACE inhibitors, and thiazides -- always check interactions"
+    },{
+      name: "Divalproex sodium (Valproate)",
+      type: "Anticonvulsant mood stabilizer",
+      action: "Increases GABA levels by inhibiting GABA transaminase, blocks voltage-gated sodium channels, and inhibits histone deacetylase affecting epigenetic regulation",
+      sideEffects: "Weight gain, tremor, nausea, alopecia, thrombocytopenia, elevated ammonia, hepatotoxicity (rare but potentially fatal), pancreatitis, teratogenicity",
+      contra: "Hepatic disease, urea cycle disorders, pregnancy (FDA category X -- neural tube defects in 1-2%), mitochondrial disorders with POLG mutations",
+      pearl: "Preferred for mixed episodes and rapid cycling; check ammonia level if encephalopathy develops even with normal LFTs (valproate hyperammonemia)"
+    },{
+      name: "Carbamazepine",
+      type: "Anticonvulsant mood stabilizer",
+      action: "Blocks voltage-gated sodium channels reducing neuronal repetitive firing; also modulates GABAergic transmission and glutamate release",
+      sideEffects: "Diplopia, dizziness, ataxia, nausea, hyponatremia (SIADH), aplastic anemia, agranulocytosis, SJS/TEN (HLA-B*1502 carriers)",
+      contra: "Bone marrow suppression, concurrent MAOI use, HLA-B*1502 positive (Southeast Asian descent -- screen before prescribing), hepatic porphyria",
+      pearl: "Potent CYP3A4 inducer causing autoinduction -- levels drop after 3-5 weeks requiring dose increase; reduces efficacy of oral contraceptives, warfarin, and many drugs"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Lithium MOA: GSK-3 beta inhibition and inositol depletion hypothesis -- affects multiple second messenger pathways rather than a single neurotransmitter","Lithium is the only mood stabilizer with Level 1 evidence for reducing completed suicide in bipolar disorder","Valproate MOA involves both GABAergic enhancement and sodium channel blockade -- dual mechanism makes it effective for mixed states","Lamotrigine MOA (glutamate inhibition) explains its unique efficacy in bipolar depression without antimanic properties","Carbamazepine undergoes autoinduction of its own metabolism via CYP3A4 -- expect levels to drop 3-5 weeks after initiation requiring dose adjustment","HLA-B*1502 screening is mandatory before prescribing carbamazepine in patients of Southeast Asian descent due to SJS/TEN risk","Valproate hyperammonemia can cause encephalopathy even with normal hepatic enzymes -- check ammonia level when mental status changes occur"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mood stabilizers moa. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with mood stabilizers moa?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their mood stabilizers moa diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A nurse practitioner is explaining lithium's mechanism of action to a psychiatric resident. Which intracellular target best describes lithium's primary therapeutic mechanism?",
+        options: ["Selective serotonin reuptake inhibition at the presynaptic terminal","Dopamine D2 receptor antagonism in the mesolimbic pathway","Inhibition of GSK-3 beta and inositol monophosphatase modulating second messenger signaling","GABA-A receptor potentiation increasing chloride conductance"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Lithium's primary mechanism involves inhibiting glycogen synthase kinase-3 beta (GSK-3 beta) and inositol monophosphatase, which modulates multiple intracellular signaling cascades including the phosphoinositide and Wnt pathways, stabilizing neuronal excitability."
+      },
+      {
+        question: "A patient on carbamazepine for bipolar disorder has a therapeutic level at week 2 but a subtherapeutic level at week 5 despite adherence. What pharmacokinetic phenomenon explains this?",
+        options: ["Carbamazepine accumulation causing receptor downregulation","Autoinduction of CYP3A4 enzymes increasing carbamazepine metabolism","Renal tubular secretion increasing with chronic use","Protein binding displacement reducing free drug levels"],
+        correct: 1,
+        rationale: "Carbamazepine induces its own hepatic metabolism through CYP3A4 autoinduction, which occurs over 3-5 weeks. This causes plasma levels to decline despite stable dosing, typically requiring a 25-50% dose increase to maintain therapeutic levels."
+      },
+      {
+        question: "Which monitoring parameter is unique to valproate among the mood stabilizers and should be checked when a patient develops unexplained confusion?",
+        options: ["Serum creatinine and GFR","Thyroid-stimulating hormone (TSH)","Serum ammonia level","Parathyroid hormone level"],
+        correct: 2,
+        rationale: "Valproate can cause hyperammonemic encephalopathy even with normal hepatic enzymes and therapeutic drug levels. When a patient on valproate develops unexplained confusion or lethargy, serum ammonia should be checked. This is distinct from hepatotoxicity and is treated with L-carnitine supplementation."
       },
     ]
   },
   "motor-sensory-exam-np": {
     title: "Motor and Sensory Examination",
     cellular: { title: "Pathophysiology of Motor and Sensory Examination", content: "The nurse practitioner applies advanced diagnostic reasoning to Motor and Sensory Examination, integrating clinical assessment with evidence-based investigation to establish diagnoses and guide management. The clinician utilizes Bayesian reasoning, adjusting pre-test probability based on history and physical examination findings, then selecting diagnostic tests with understanding of their operating characteristics (sensitivity, specificity, positive and negative likelihood ratios, positive and negative predictive values in the context of disease prevalence). Test interpretation accounts for pre-analytical variables (specimen handling, timing, patient preparation), analytical accuracy (reference ranges, assay interference), and clinical context (false positives and negatives, incidental findings). The clinician applies clinical prediction rules and validated scoring systems to standardize decision-making and reduce diagnostic error. Imaging selection follows evidence-based appropriateness criteria (ACR Appropriateness Criteria, Choosing Wisely recommendations), balancing diagnostic yield against radiation exposure, cost, and potential for incidental findings that may lead to unnecessary further investigation. The clinician integrates point-of-care testing and bedside assessment techniques with laboratory and imaging studies to formulate a comprehensive diagnostic impression, determine appropriate management, and identify criteria for specialist consultation." },
-    riskFactors: ["Advanced age or extremes of age","Family history of motor sensory exam or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Stroke or cerebrovascular disease (most common cause of UMN motor and cortical sensory deficits)","Diabetes mellitus with peripheral neuropathy (most common cause of distal symmetric sensory loss)","Spinal cord injury or compression (myelopathy causing motor and sensory level deficits)","Multiple sclerosis (demyelination causing disseminated motor and sensory findings)","Peripheral nerve entrapment syndromes (carpal tunnel, ulnar neuropathy)","Chronic alcohol use causing peripheral neuropathy and cerebellar ataxia","Vitamin B12 deficiency causing subacute combined degeneration of the spinal cord"],
+    diagnostics: ["Systematic motor examination: inspect for atrophy and fasciculations, assess tone (spasticity vs flaccidity), test strength in all major muscle groups (MRC scale 0-5), check pronator drift","Deep tendon reflexes graded 0-4+ with assessment for pathological reflexes (Babinski sign, Hoffmann sign, clonus)","Sensory examination: light touch, pinprick (pain/temperature via spinothalamic tract), vibration and proprioception (dorsal column-medial lemniscus pathway)","Cortical sensory testing: stereognosis, graphesthesia, two-point discrimination, double simultaneous stimulation","Electrodiagnostic studies: nerve conduction studies (NCS) for peripheral nerve conduction velocity and amplitude; electromyography (EMG) for denervation patterns","MRI brain with diffusion-weighted imaging for stroke localization and demyelinating lesions","MRI spine for cord compression, myelopathy, or radiculopathy evaluation","Serum B12, methylmalonic acid, TSH, HbA1c, RPR for treatable causes of neuropathy"],
+    management: ["Localize the lesion anatomically (UMN vs LMN, central vs peripheral, specific nerve root or dermatome) before ordering studies","Treat underlying etiology: thrombolytics for acute stroke, immunotherapy for MS, decompressive surgery for myelopathy","Neuropathic pain management: gabapentin or pregabalin first-line, duloxetine or TCAs as alternatives","Physical and occupational therapy referral for motor rehabilitation and functional optimization","Orthotic devices (AFO for foot drop, wrist splints for carpal tunnel) and assistive equipment","Vitamin B12 supplementation (IM cyanocobalamin) for subacute combined degeneration","Neurology referral for progressive, unexplained, or multifocal motor-sensory deficits"],
+    nursingActions: ["Perform systematic neurological examination using standardized sequence: mental status, cranial nerves, motor, sensory, reflexes, coordination, gait","Document motor strength using MRC grading scale (0-5) for each muscle group to enable accurate trending","Differentiate UMN pattern (spasticity, hyperreflexia, Babinski positive, no atrophy) from LMN pattern (flaccidity, hyporeflexia, fasciculations, muscle atrophy)","Assess dermatomal sensory patterns to identify specific nerve root or peripheral nerve involvement","Test proprioception and Romberg sign to evaluate dorsal column function and fall risk","Monitor for progression of motor or sensory deficits that may indicate cord compression requiring emergent surgical consultation","Implement fall prevention measures for patients with proprioceptive loss, foot drop, or ataxia"],
+    assessmentFindings: ["UMN signs: spasticity (velocity-dependent increase in tone), hyperreflexia (3-4+), positive Babinski sign, clonus, no muscle atrophy","LMN signs: flaccidity, hyporeflexia or areflexia (0-1+), fasciculations, muscle atrophy, negative Babinski","Dermatomal sensory loss pattern suggesting specific nerve root involvement (e.g., L5 dermatome for lateral leg and dorsal foot)","Stocking-glove distribution sensory loss indicating peripheral polyneuropathy","Loss of vibration and proprioception with preserved pain/temperature suggesting dorsal column lesion","Positive Romberg sign indicating proprioceptive or vestibular dysfunction","Pronator drift indicating subtle upper extremity weakness (contralateral UMN lesion)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild distal sensory loss in stocking distribution (early peripheral neuropathy)","Diminished ankle reflexes bilaterally (common with aging and early neuropathy)","Subtle pronator drift detected on screening examination","Mildly reduced vibration sense at toes with preserved proprioception","Positive Tinel sign at wrist suggesting early carpal tunnel syndrome"],
+      right: ["Acute hemiplegia with facial droop and aphasia (acute stroke requiring emergent intervention)","Rapidly ascending weakness with areflexia (Guillain-Barre syndrome -- monitor respiratory function)","Bilateral leg weakness with sensory level and bladder dysfunction (cord compression -- emergent MRI and surgical consult)","Saddle anesthesia with urinary retention (cauda equina syndrome -- surgical emergency)","Acute onset bilateral foot drop with rapid progression (critical illness polyneuropathy or vasculitic neuropathy)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Gabapentin",
+      type: "Anticonvulsant / Neuropathic pain agent",
+      action: "Binds alpha-2-delta subunit of voltage-gated calcium channels reducing excitatory neurotransmitter release and modulating neuropathic pain signaling",
+      sideEffects: "Sedation, dizziness, peripheral edema, weight gain, ataxia",
+      contra: "Severe renal impairment without dose adjustment; caution with CNS depressants and respiratory depression risk in elderly",
+      pearl: "First-line for diabetic peripheral neuropathy and postherpetic neuralgia; start low (100-300 mg at bedtime) and titrate slowly; renal dosing required"
+    },{
+      name: "Methylprednisolone (IV pulse)",
+      type: "Corticosteroid (anti-inflammatory/immunosuppressant)",
+      action: "Suppresses inflammatory and immune-mediated demyelination by inhibiting NF-kB signaling, reducing cytokine production and blood-brain barrier permeability",
+      sideEffects: "Hyperglycemia, insomnia, GI upset, mood changes, immunosuppression, avascular necrosis with repeated use",
+      contra: "Active systemic infection, uncontrolled diabetes (relative), live vaccines during treatment",
+      pearl: "IV methylprednisolone 1g/day for 3-5 days is standard for MS acute relapses; speeds recovery but does not alter long-term disease progression"
+    },{
+      name: "Alteplase (tPA)",
+      type: "Thrombolytic (tissue plasminogen activator)",
+      action: "Converts plasminogen to plasmin, dissolving fibrin clots to restore cerebral perfusion in acute ischemic stroke",
+      sideEffects: "Intracranial hemorrhage (6%), systemic bleeding, angioedema (with concurrent ACE inhibitor use)",
+      contra: "Hemorrhagic stroke, recent surgery or trauma (within 14 days), active internal bleeding, platelet count <100,000, INR >1.7, BP >185/110",
+      pearl: "Must be administered within 4.5 hours of symptom onset for ischemic stroke; perform NIHSS before and after administration; monitor BP strictly post-infusion"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["UMN vs LMN distinction is the single most important clinical determination: UMN = spasticity, hyperreflexia, Babinski; LMN = flaccidity, hyporeflexia, atrophy, fasciculations","Pronator drift is the most sensitive screening test for subtle upper extremity weakness -- even slight drift or pronation indicates a contralateral UMN lesion","Babinski sign (great toe dorsiflexion with fanning of other toes) is always abnormal in adults and indicates corticospinal tract dysfunction","Stocking-glove sensory loss = peripheral polyneuropathy; dermatomal loss = radiculopathy; sensory level = spinal cord lesion; hemisensory loss = brain lesion","Romberg test differentiates sensory ataxia (positive Romberg, proprioceptive loss) from cerebellar ataxia (unsteady with eyes open AND closed)","Cauda equina syndrome (saddle anesthesia, urinary retention, bilateral leg weakness) is a surgical emergency -- delay in decompression causes permanent deficits","Vibration sense is typically the first sensory modality lost in peripheral polyneuropathy and B12 deficiency"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with motor sensory exam. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient presents with spasticity, hyperreflexia, and a positive Babinski sign in the right lower extremity. These findings localize the lesion to which anatomical structure?",
+        options: ["Right sciatic nerve (lower motor neuron)","Left corticospinal tract (upper motor neuron)","Right dorsal root ganglion","Right neuromuscular junction"],
+        correct: 1,
+        rationale: "Spasticity, hyperreflexia, and a positive Babinski sign are hallmark upper motor neuron (UMN) signs indicating corticospinal tract dysfunction. Because the corticospinal tract decussates at the medullary pyramids, right-sided UMN signs localize to a left-sided brain or spinal cord lesion above the level of decussation."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with motor sensory exam?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with diabetes has decreased sensation to pinprick and vibration in both feet extending to mid-calf, with absent ankle reflexes. Which pattern does this represent?",
+        options: ["Dermatomal distribution suggesting L5-S1 radiculopathy","Stocking-glove distribution consistent with diabetic peripheral polyneuropathy","Hemisensory loss indicating thalamic stroke","Dissociated sensory loss indicating Brown-Sequard syndrome"],
+        correct: 1,
+        rationale: "Symmetric, distal-to-proximal (length-dependent) sensory loss in a stocking-glove distribution with diminished reflexes is the classic pattern of peripheral polyneuropathy. Diabetic neuropathy is the most common cause, affecting the longest nerves first, explaining why feet are affected before hands."
       },
       {
-        question: "The patient asks about their motor sensory exam diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A patient develops acute bilateral lower extremity weakness, urinary retention, and loss of sensation in the perianal region. What is the priority clinical action?",
+        options: ["Schedule outpatient EMG/NCS within 2 weeks","Order emergent MRI of the lumbar spine and consult neurosurgery","Prescribe gabapentin for neuropathic pain and follow up in 1 week","Obtain serum B12 level and methylmalonic acid"],
+        correct: 1,
+        rationale: "This presentation describes cauda equina syndrome (bilateral leg weakness, saddle anesthesia, urinary retention), which is a surgical emergency. Emergent MRI of the lumbar spine is needed to identify the compressive lesion, and neurosurgical decompression within 24-48 hours is critical to prevent permanent neurological damage."
       },
     ]
   },

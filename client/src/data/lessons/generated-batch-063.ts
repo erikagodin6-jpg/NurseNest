@@ -4,168 +4,196 @@ export const generatedBatch063Lessons: Record<string, LessonContent> = {
   "murmur-timing-logic-np": {
     title: "Murmur Timing Logic: Systolic vs Diastolic",
     cellular: { title: "Pathophysiology of Murmur Timing Logic: Systolic vs Diastolic", content: "The nurse practitioner applies advanced cardiovascular pathophysiology to the assessment and management of Murmur Timing Logic: Systolic vs Diastolic. Understanding the underlying hemodynamic, electrophysiological, and structural mechanisms enables evidence-based diagnostic workup and targeted pharmacotherapy. The clinician performs comprehensive cardiovascular assessment including focused history (onset, character, exacerbating and relieving factors, associated symptoms, functional classification), cardiac examination (JVP assessment, precordial auscultation with characterization of heart sounds and murmurs, peripheral vascular assessment), and interprets diagnostic studies (12-lead ECG with recognition of ischemic changes, arrhythmias, and conduction abnormalities; echocardiographic parameters including ejection fraction, wall motion abnormalities, valvular function, and chamber dimensions; relevant laboratory markers). Differential diagnosis requires systematic consideration of cardiac and non-cardiac etiologies with overlapping presentations. The clinician formulates a management plan integrating guideline-directed medical therapy (selecting appropriate agents based on mechanism of action, contraindications, drug interactions, and renal/hepatic function), risk factor modification, patient education on warning signs requiring urgent evaluation, and determination of specialist referral criteria. Treatment monitoring includes regular assessment of therapeutic response, adverse effects, and adjustment of therapy based on clinical outcomes and objective measures." },
-    riskFactors: ["Advanced age or extremes of age","Family history of murmur timing logic or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Rheumatic heart disease (most common cause of mitral stenosis worldwide)","Bicuspid aortic valve (present in 1-2% of population)","Age-related degenerative calcific valve disease","History of infective endocarditis","Connective tissue disorders (Marfan syndrome, Ehlers-Danlos)","Congenital heart defects (VSD, ASD, PDA)"],
+    diagnostics: ["Transthoracic echocardiography (TTE) for valve morphology, gradient, and regurgitant fraction","Transesophageal echocardiography (TEE) for detailed valve assessment when TTE is inadequate","12-lead ECG for chamber enlargement, atrial fibrillation, and ventricular hypertrophy","Chest X-ray for cardiomegaly, pulmonary congestion, and valve calcification","Cardiac catheterization for hemodynamic assessment when non-invasive tests are inconclusive","BNP/NT-proBNP to assess volume overload and heart failure severity"],
+    management: ["Medical management of heart failure symptoms (diuretics, ACE inhibitors, beta-blockers as indicated)","Anticoagulation for atrial fibrillation associated with valvular disease","Surgical valve repair or replacement based on severity and symptom burden","Transcatheter aortic valve replacement (TAVR) for high-risk surgical candidates with aortic stenosis","Infective endocarditis prophylaxis for high-risk patients undergoing dental procedures","Serial echocardiographic surveillance for progressive valvular disease"],
+    nursingActions: ["Auscultate heart sounds systematically at all valve areas using bell and diaphragm","Assess murmur characteristics: timing, location, radiation, grade (I-VI), pitch, and quality","Monitor for signs of hemodynamic compromise (dyspnea, orthopnea, syncope, angina)","Educate patients on endocarditis prophylaxis indications and dental hygiene importance","Coordinate pre-operative workup for patients being evaluated for valve intervention","Monitor anticoagulation therapy (INR 2.5-3.5 for mechanical valves)"],
+    assessmentFindings: ["Systolic murmur: crescendo-decrescendo (aortic stenosis) or holosystolic/pansystolic (mitral regurgitation, VSD)","Diastolic murmur: early decrescendo (aortic regurgitation) or low-pitched rumble with opening snap (mitral stenosis)","Radiation patterns: aortic stenosis radiates to carotids; mitral regurgitation radiates to axilla","Maneuvers altering murmur intensity: Valsalva increases HOCM/MVP, squatting increases most others","Associated findings: widened pulse pressure (aortic regurgitation), pulsus parvus et tardus (aortic stenosis)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Asymptomatic murmur detected on routine exam","Mild exertional dyspnea (NYHA Class I-II)","Soft grade I-II murmur without radiation","Normal S1/S2 with physiologic splitting","Mild cardiomegaly on chest X-ray"],
+      right: ["Severe dyspnea, orthopnea, or paroxysmal nocturnal dyspnea","Syncope or near-syncope with exertion","New-onset atrial fibrillation with rapid ventricular response","Acute pulmonary edema with pink frothy sputum","Signs of acute decompensated heart failure or cardiogenic shock"]
     },
     medications: [{
-      name: "Metoprolol",
-      type: "Beta-blocker",
-      action: "Blocks beta-1 adrenergic receptors to reduce heart rate and blood pressure",
-      sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
-      contra: "Severe bradycardia, heart block, decompensated heart failure, cardiogenic shock",
-      pearl: "Do not stop abruptly; taper to prevent rebound hypertension and tachycardia"
+      name: "Furosemide",
+      type: "Loop diuretic",
+      action: "Inhibits Na-K-2Cl cotransporter in ascending loop of Henle to reduce preload and pulmonary congestion",
+      sideEffects: "Hypokalemia, hyponatremia, ototoxicity, dehydration, hypotension",
+      contra: "Anuria, severe hypovolemia, hepatic coma with electrolyte depletion",
+      pearl: "Monitor potassium closely; patients with aortic stenosis are preload-dependent — aggressive diuresis can cause syncope"
+    },{
+      name: "Warfarin",
+      type: "Vitamin K antagonist anticoagulant",
+      action: "Inhibits vitamin K-dependent clotting factors (II, VII, IX, X) to prevent thromboembolism",
+      sideEffects: "Bleeding, skin necrosis (rare), teratogenic",
+      contra: "Active bleeding, pregnancy, severe hepatic disease, non-adherent patients",
+      pearl: "Target INR 2.5-3.5 for mechanical valves; DOACs are NOT approved for mechanical heart valves"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Systolic murmurs: aortic stenosis (crescendo-decrescendo, radiates to carotids) vs mitral regurgitation (holosystolic, radiates to axilla)","Diastolic murmurs are almost always pathological — always require echocardiographic evaluation","HOCM murmur increases with Valsalva and standing; most other murmurs decrease","Aortic stenosis triad: syncope, angina, and heart failure — once symptoms develop, prognosis worsens rapidly","Grade III/VI or louder murmurs with a thrill are hemodynamically significant","New murmur with fever = rule out endocarditis until proven otherwise"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with murmur timing logic. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP auscultates a harsh crescendo-decrescendo systolic murmur at the right upper sternal border radiating to the carotids. Which valvular disorder is most likely?",
+        options: ["Mitral regurgitation","Aortic stenosis","Mitral valve prolapse","Aortic regurgitation"],
+        correct: 1,
+        rationale: "A crescendo-decrescendo (diamond-shaped) systolic murmur best heard at the right upper sternal border (aortic area) with radiation to the carotids is the classic presentation of aortic stenosis."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with murmur timing logic?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their murmur timing logic diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient's systolic murmur becomes louder during Valsalva maneuver and standing. Which condition does this finding suggest?",
+        options: ["Aortic stenosis","Ventricular septal defect","Hypertrophic obstructive cardiomyopathy (HOCM)","Mitral regurgitation"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "HOCM is one of the few murmurs that increases with maneuvers that decrease preload (Valsalva, standing). Reduced ventricular volume worsens the outflow tract obstruction, increasing murmur intensity."
+      },
+      {
+        question: "Which diastolic murmur finding requires the NP to order urgent echocardiography?",
+        options: ["A soft systolic flow murmur in pregnancy","An innocent Still's murmur in a child","A new low-pitched diastolic rumble at the apex with an opening snap","A grade I/VI systolic murmur at the left sternal border"],
+        correct: 2,
+        rationale: "A low-pitched diastolic rumble at the apex with an opening snap is characteristic of mitral stenosis. Diastolic murmurs are almost always pathological and require echocardiographic evaluation to assess severity and guide management."
       },
     ]
   },
   "muscle-strength-grading": {
     title: "Muscle Strength Grading (0-5)",
     cellular: { title: "Pathophysiology of Muscle Strength Grading (0-5)", content: "Muscle strength assessment uses the Manual Muscle Testing (MMT) scale, graded 0-5: Grade 0 (no visible or palpable contraction), Grade 1 (visible or palpable contraction without movement), Grade 2 (full range of motion with gravity eliminated), Grade 3 (full range of motion against gravity), Grade 4 (full range of motion against gravity with some resistance), and Grade 5 (normal strength against full resistance). Motor function depends on the integrity of the upper motor neuron pathway (motor cortex through corticospinal tract to anterior horn cell) and the lower motor neuron pathway (anterior horn cell through peripheral nerve to neuromuscular junction to muscle). Upper motor neuron lesions produce spastic paralysis with hyperreflexia, positive Babinski sign, and clonus, while lower motor neuron lesions produce flaccid paralysis with hyporeflexia, fasciculations, and muscle atrophy. Systematic bilateral strength testing compares corresponding muscle groups, with asymmetric findings suggesting lateralized pathology." },
-    riskFactors: ["Advanced age or extremes of age","Family history of muscle strength grading or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Stroke or cerebrovascular accident (upper motor neuron damage)","Spinal cord injury (level determines affected muscle groups)","Peripheral neuropathy (diabetes, Guillain-Barré, alcohol-related)","Neuromuscular junction disorders (myasthenia gravis)","Prolonged immobility or disuse atrophy","Muscular dystrophies and inherited myopathies"],
+    diagnostics: ["Manual muscle testing (MMT) using 0-5 grading scale bilaterally","Deep tendon reflex testing (0-4+ scale) to differentiate UMN vs LMN lesions","Sensory examination (dermatome mapping for spinal cord level)","Electromyography (EMG) and nerve conduction studies for peripheral nerve evaluation","CT or MRI of brain/spine to identify structural lesions","Serum CK, aldolase for myopathy; anti-AChR antibodies for myasthenia gravis"],
+    management: ["Physical therapy referral for strengthening and range-of-motion exercises","Occupational therapy for adaptive equipment and functional independence","Splinting or bracing to prevent contractures and support weak extremities","Fall prevention interventions based on identified weakness patterns","Treat underlying cause (thrombolytics for stroke, IVIG for Guillain-Barré)","Serial strength assessments to monitor progression or recovery"],
+    nursingActions: ["Perform bilateral muscle strength testing and document using 0-5 scale","Compare proximal vs distal strength patterns to help localize lesion","Assess for associated findings: tone, reflexes, fasciculations, atrophy","Implement fall precautions for patients with grade 3 or lower strength","Assist with ROM exercises and position changes to prevent complications","Report any acute change in strength (new weakness) immediately to provider"],
+    assessmentFindings: ["Grade 0: no visible or palpable muscle contraction","Grade 1: visible/palpable contraction (flicker) but no joint movement","Grade 2: full ROM with gravity eliminated (can move sideways but not lift)","Grade 3: full ROM against gravity but not against resistance","Grade 4: full ROM against gravity with some resistance (mild weakness)","Grade 5: normal strength against full resistance"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Symmetric mild weakness (grade 4/5) without functional limitation","Distal weakness with preserved proximal strength","Mild muscle atrophy consistent with disuse","Intact reflexes with mild strength deficit","Gradual onset weakness with known chronic condition"],
+      right: ["Sudden unilateral weakness (acute stroke until proven otherwise)","Ascending paralysis (Guillain-Barré — monitor respiratory function)","Grade 0-1 strength with absent reflexes (complete nerve/cord injury)","Respiratory muscle weakness (inability to count to 20 in one breath)","Rapidly progressive bilateral weakness with bulbar involvement"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Baclofen",
+      type: "Skeletal muscle relaxant (GABA-B agonist)",
+      action: "Inhibits spinal motor neuron excitability to reduce spasticity in upper motor neuron lesions",
+      sideEffects: "Drowsiness, dizziness, weakness, nausea, urinary frequency",
+      contra: "Hypersensitivity; use caution in renal impairment and epilepsy",
+      pearl: "Do NOT stop abruptly — can cause seizures, hallucinations, and rebound spasticity; taper over 1-2 weeks"
+    },{
+      name: "Methylprednisolone",
+      type: "Corticosteroid",
+      action: "Reduces inflammation and edema in acute spinal cord injury and inflammatory myopathies",
+      sideEffects: "Hyperglycemia, GI bleeding, immunosuppression, insomnia, mood changes",
+      contra: "Systemic fungal infection, active GI bleeding",
+      pearl: "In acute spinal cord injury, high-dose IV methylprednisolone within 8 hours is controversial but still used at some centers"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Always test strength bilaterally and compare — asymmetry suggests lateralized pathology","UMN lesion = spastic paralysis, hyperreflexia, positive Babinski; LMN = flaccid, hyporeflexia, atrophy","Proximal weakness suggests myopathy; distal weakness suggests neuropathy","Grade 3 is the critical threshold — ability to move against gravity","Acute unilateral weakness = stroke until proven otherwise — activate stroke protocol","Document specific muscle groups tested, not just 'weakness in right arm'"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with muscle strength grading. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse assesses a patient who can move their arm through full range of motion when gravity is eliminated but cannot lift the arm against gravity. What grade is this?",
+        options: ["Grade 1","Grade 2","Grade 3","Grade 4"],
+        correct: 1,
+        rationale: "Grade 2 indicates full range of motion with gravity eliminated. The patient can move the extremity when the effect of gravity is removed (e.g., sliding on a flat surface) but cannot lift it against gravity, which would be grade 3."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with muscle strength grading?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their muscle strength grading diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient has spastic paralysis, hyperreflexia, and a positive Babinski sign in the right leg. Where is the lesion most likely located?",
+        options: ["Right peripheral nerve","Right anterior horn cell","Left cerebral cortex (upper motor neuron)","Right neuromuscular junction"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Spastic paralysis, hyperreflexia, and positive Babinski sign are hallmarks of an upper motor neuron (UMN) lesion. The left cerebral cortex controls the right side of the body. LMN lesions produce flaccid paralysis, hyporeflexia, and muscle atrophy."
+      },
+      {
+        question: "A patient presents with bilateral ascending weakness starting in the feet, areflexia, and intact sensation. The nurse should prioritize monitoring which parameter?",
+        options: ["Blood glucose levels","Respiratory function (FVC, NIF)","Urine output","Pupil reactivity"],
+        correct: 1,
+        rationale: "Ascending bilateral weakness with areflexia suggests Guillain-Barré syndrome. The greatest danger is ascending weakness reaching respiratory muscles. Serial monitoring of forced vital capacity (FVC) and negative inspiratory force (NIF) is critical — intubation is needed if FVC falls below 20 mL/kg or NIF below -20 cmH2O."
       },
     ]
   },
   "musculoskeletal-np": {
     title: "Compartment Syndrome: Fasciotomy",
     cellular: { title: "Pathophysiology of Compartment Syndrome: Fasciotomy", content: "The nurse practitioner applies advanced clinical reasoning to the assessment and management of Compartment Syndrome: Fasciotomy, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of musculoskeletal or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Tibial fractures (most common cause of acute compartment syndrome)","Crush injuries and high-energy trauma","Tight casts, splints, or circumferential dressings","Reperfusion injury after prolonged ischemia (vascular repair, tourniquet use)","Burns (circumferential eschar)","Anticoagulation therapy with hemorrhage into compartment","Surgical positioning with prolonged compression"],
+    diagnostics: ["Intracompartmental pressure measurement (Stryker device): >30 mmHg or within 30 mmHg of diastolic (delta pressure) confirms diagnosis","Serial neurovascular assessments (6 Ps): Pain, Pressure, Paralysis, Paresthesia, Pallor, Pulselessness","Serum CK (creatine kinase) — markedly elevated with muscle necrosis","BMP with potassium (hyperkalemia from rhabdomyolysis)","Myoglobin (serum and urine) — rhabdomyolysis risk for acute kidney injury","Urinalysis for myoglobinuria (tea-colored urine, positive for blood but no RBCs on microscopy)"],
+    management: ["Emergency fasciotomy within 6 hours of symptom onset (surgical decompression of all affected compartments)","Immediately remove any restrictive dressings, casts, or splints — bivalve cast and spread","Elevate extremity to heart level only (NOT above heart — reduces perfusion pressure)","Aggressive IV fluid resuscitation to prevent rhabdomyolysis-induced AKI (target UOP 200-300 mL/hr)","Post-fasciotomy wound management: wounds left open, delayed primary closure or skin grafting at 48-72 hours","Monitor and treat hyperkalemia (cardiac monitoring, calcium gluconate, insulin/dextrose, kayexalate)"],
+    nursingActions: ["Perform neurovascular checks every 1-2 hours on affected extremity (circulation, sensation, movement)","Assess pain out of proportion to injury — hallmark finding; does not respond to narcotics","Remove or bivalve constrictive dressings immediately if compartment syndrome is suspected","Position extremity at heart level — avoid elevation above heart which decreases arterial inflow","Monitor urine output and color (dark/tea-colored = myoglobinuria)","Post-fasciotomy: monitor wound for signs of infection, perform sterile dressing changes"],
+    assessmentFindings: ["Pain out of proportion to injury (earliest and most reliable sign)","Pain with passive stretch of muscles in the affected compartment","Paresthesias (tingling, numbness) in nerve distribution of compartment","Tense, swollen compartment on palpation","Decreased sensation in web space between first and second toes (anterior compartment, lower leg)","Weakness or inability to actively move digits (late finding)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Increasing pain requiring escalating analgesia","Mild swelling and firmness of compartment","Paresthesias with intact motor function","Pain with passive stretch","Compartment pressure 20-30 mmHg"],
+      right: ["Severe pain unresponsive to IV opioids","Paralysis of affected muscles (irreversible damage occurring)","Absent distal pulses (very late sign — do NOT wait for this)","Compartment pressure >30 mmHg or delta pressure <30 mmHg","Tea-colored urine indicating rhabdomyolysis and impending renal failure"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Morphine",
+      type: "Opioid analgesic",
+      action: "Binds mu-opioid receptors in CNS to provide analgesia for severe pain",
+      sideEffects: "Respiratory depression, hypotension, nausea, constipation, sedation",
+      contra: "Respiratory depression, paralytic ileus, severe asthma",
+      pearl: "In compartment syndrome, pain out of proportion that does NOT respond to opioids is the hallmark — escalating opioid requirements should raise suspicion, not just increase the dose"
+    },{
+      name: "Calcium Gluconate",
+      type: "Electrolyte replacement / cardiac membrane stabilizer",
+      action: "Stabilizes cardiac membrane against hyperkalemia-induced arrhythmias from rhabdomyolysis",
+      sideEffects: "Bradycardia with rapid infusion, tissue necrosis with extravasation",
+      contra: "Digoxin toxicity (can worsen), hypercalcemia",
+      pearl: "Does NOT lower potassium — it protects the heart while other treatments (insulin/glucose, kayexalate) work to shift or remove potassium"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Pain out of proportion to injury that worsens with passive stretch is the #1 clinical indicator — do not wait for pulselessness","Fasciotomy must occur within 6 hours to prevent irreversible muscle necrosis and Volkmann contracture","Pulselessness is a LATE finding — the compartment pressure exceeds venous/capillary pressure long before arterial","Bivalve the cast first — this alone can reduce compartment pressure by 65%","Rhabdomyolysis triad: elevated CK, hyperkalemia, myoglobinuria — aggressive IV fluids are critical","Post-fasciotomy wounds are intentionally left open; premature closure causes recurrence"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with musculoskeletal. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with musculoskeletal?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their musculoskeletal diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient with a tibial fracture in a cast reports severe leg pain rated 10/10 that is unrelieved by IV morphine. Pain worsens when the nurse dorsiflexes the patient's toes. What should the NP do FIRST?",
+        options: ["Increase the morphine dose and reassess in 30 minutes","Order an X-ray to check fracture alignment","Bivalve the cast immediately and perform neurovascular assessment","Apply ice and elevate the extremity above the heart"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Pain out of proportion to injury unrelieved by opioids and worsened by passive stretch is the hallmark of compartment syndrome. The first action is to release any constrictive dressing (bivalve the cast) and perform neurovascular assessment. Delaying intervention risks irreversible muscle necrosis."
+      },
+      {
+        question: "An NP measures an intracompartmental pressure of 35 mmHg in a patient with a diastolic blood pressure of 60 mmHg. What is the delta pressure and what action is required?",
+        options: ["Delta pressure is 25 mmHg; emergent fasciotomy is indicated","Delta pressure is 35 mmHg; continue to monitor","Delta pressure is 95 mmHg; no intervention needed","Delta pressure is 25 mmHg; elevate the extremity and recheck in 1 hour"],
+        correct: 0,
+        rationale: "Delta pressure = diastolic BP minus compartment pressure = 60 - 35 = 25 mmHg. A delta pressure <30 mmHg indicates inadequate perfusion and requires emergent fasciotomy. Waiting risks irreversible tissue damage within 6 hours."
+      },
+      {
+        question: "A post-fasciotomy patient has tea-colored urine, serum CK of 25,000 U/L, and potassium of 6.2 mEq/L. Which complication has developed and what is the priority intervention?",
+        options: ["Deep vein thrombosis; start heparin infusion","Rhabdomyolysis with hyperkalemia; IV calcium gluconate and aggressive fluid resuscitation","Urinary tract infection; obtain urine culture and start antibiotics","Fat embolism syndrome; administer high-flow oxygen"],
+        correct: 1,
+        rationale: "Tea-colored urine (myoglobinuria), markedly elevated CK, and hyperkalemia indicate rhabdomyolysis from compartment syndrome. Priority is cardiac protection with IV calcium gluconate for the hyperkalemia and aggressive IV fluid resuscitation (target UOP 200-300 mL/hr) to prevent myoglobin-induced acute kidney injury."
       },
     ]
   },
   "myasthenia-gravis": {
     title: "Myasthenia Gravis",
     cellular: { title: "Pathophysiology of Myasthenia Gravis", content: "Myasthenia gravis (MG) is an autoimmune disorder in which IgG autoantibodies target acetylcholine receptors (AChRs) at the neuromuscular junction (NMJ), causing complement-mediated receptor destruction, accelerated receptor internalization, and functional receptor blockade. The reduction in available AChRs means that normal acetylcholine release fails to generate sufficient end-plate potentials for reliable neuromuscular transmission, causing fluctuating skeletal muscle weakness that characteristically worsens with activity and improves with rest (fatigability). The thymus gland plays a central role in MG pathogenesis — 65% of patients have thymic hyperplasia (containing germinal centers that produce anti-AChR antibodies), and 10-15% have thymoma. Clinical presentation typically begins with ocular symptoms (ptosis, diplopia), progressing to bulbar weakness (dysarthria, dysphagia, nasal speech) and generalized limb weakness — myasthenic crisis (respiratory muscle weakness requiring mechanical ventilation) can be triggered by infection, surgery, or medication changes. Diagnosis includes anti-AChR antibody testing (positive in 85%), edrophonium (Tensilon) test (transient improvement with short-acting acetylcholinesterase inhibitor), and repetitive nerve stimulation (decremental response)." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myasthenia gravis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Female sex (bimodal: women peak age 20-40, men peak age 60-80)","Thymic abnormalities (thymoma in 10-15%, thymic hyperplasia in 65%)","Family history of autoimmune disease","Other autoimmune conditions (thyroid disease, rheumatoid arthritis, SLE)","Emotional or physical stress as exacerbation trigger","Certain medications (aminoglycosides, beta-blockers, magnesium, quinolones)"],
+    diagnostics: ["Anti-acetylcholine receptor (AChR) antibodies (positive in 85% of generalized MG)","Anti-MuSK antibodies (positive in 40% of AChR-negative patients)","Edrophonium (Tensilon) test: transient improvement in weakness confirms diagnosis","Repetitive nerve stimulation (RNS): decremental response >10% is positive","CT or MRI of chest to evaluate for thymoma or thymic hyperplasia","Pulmonary function tests (FVC, NIF) to assess respiratory muscle involvement"],
+    management: ["Pyridostigmine (Mestinon) as first-line symptomatic therapy — precise timing is critical","Immunosuppressive therapy: prednisone, azathioprine, or mycophenolate for disease modification","Thymectomy for thymoma or generalized MG (improves outcomes even without thymoma)","Plasmapheresis or IVIG for acute exacerbations or pre-operative optimization","Avoid medications that worsen MG: aminoglycosides, beta-blockers, magnesium, succinylcholine","Schedule activities and meals during peak medication effectiveness"],
+    nursingActions: ["Administer pyridostigmine exactly on schedule — even 30 minutes late causes symptom breakthrough","Assess respiratory function every 4 hours: rate, depth, oxygen saturation, ability to cough and swallow","Implement aspiration precautions: upright positioning, soft diet, suction at bedside","Schedule meals 45-60 minutes after pyridostigmine when swallowing strength peaks","Monitor for cholinergic crisis (excessive medication): SLUDGE symptoms — keep atropine at bedside","Differentiate myasthenic crisis (under-medicated) from cholinergic crisis (over-medicated)"],
+    assessmentFindings: ["Ptosis (drooping eyelid) that worsens throughout the day","Diplopia (double vision) worsening with sustained upward gaze","Dysarthria that becomes more pronounced during prolonged conversation","Dysphagia worse with prolonged chewing; nasal regurgitation of liquids","Proximal muscle weakness that worsens with activity and improves with rest (fatigability)","Myasthenic snarl: weak facial expression when attempting to smile"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Unilateral or bilateral ptosis worse in evening","Intermittent diplopia","Mild voice fatigue during conversation","Fatigable proximal limb weakness","Stable respiratory function (FVC >20 mL/kg)"],
+      right: ["Severe dysphagia with aspiration risk","Respiratory distress (myasthenic crisis: FVC <15-20 mL/kg)","Inability to hold head up or clear secretions","Cholinergic crisis: SLUDGE symptoms (Salivation, Lacrimation, Urination, Defecation, GI distress, Emesis)","Respiratory failure requiring intubation and mechanical ventilation"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Pyridostigmine (Mestinon)",
+      type: "Acetylcholinesterase inhibitor",
+      action: "Inhibits acetylcholinesterase, increasing acetylcholine at the neuromuscular junction to improve muscle contraction",
+      sideEffects: "Increased secretions, abdominal cramps, diarrhea, bradycardia, muscle fasciculations",
+      contra: "Mechanical bowel or urinary obstruction",
+      pearl: "Must be given precisely on time; overdose causes cholinergic crisis (SLUDGE) — antidote is atropine; schedule meals 45-60 min after dose for optimal swallowing"
+    },{
+      name: "Prednisone",
+      type: "Corticosteroid immunosuppressant",
+      action: "Suppresses autoimmune antibody production against acetylcholine receptors",
+      sideEffects: "Hyperglycemia, weight gain, osteoporosis, immunosuppression, mood changes, cushingoid features",
+      contra: "Active systemic fungal infection, live vaccines",
+      pearl: "May cause initial worsening of MG symptoms in first 1-2 weeks — start low dose and titrate slowly; monitor blood glucose closely"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Myasthenic crisis (under-medication) vs cholinergic crisis (over-medication): both cause weakness — treatment is opposite","Medication timing is CRITICAL: even 30 minutes late causes significant symptom worsening","Schedule meals 45-60 minutes after pyridostigmine when swallowing is strongest","Never give aminoglycosides, beta-blockers, magnesium sulfate, or succinylcholine to MG patients","Ptosis and diplopia worse at end of day is the hallmark fatigable weakness pattern","Atropine is the antidote for cholinergic crisis — keep at bedside"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myasthenia gravis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient with MG develops excessive salivation, diarrhea, abdominal cramps, and worsening weakness 30 minutes after receiving pyridostigmine. What is the priority nursing action?",
+        options: ["Give an additional dose of pyridostigmine","Hold pyridostigmine and administer atropine as ordered","Position the patient supine and elevate the legs","Apply oxygen via nasal cannula at 2 L/min"],
+        correct: 1,
+        rationale: "SLUDGE symptoms (salivation, lacrimation, urination, defecation, GI distress, emesis) with worsening weakness after anticholinesterase medication indicate cholinergic crisis from medication excess. The antidote is atropine. Giving more pyridostigmine would worsen the crisis."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with myasthenia gravis?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "The nurse is scheduling medications and meals for a patient with MG who has dysphagia. When should meals be timed?",
+        options: ["Immediately before pyridostigmine administration","45-60 minutes after pyridostigmine administration","At the same time as pyridostigmine","2 hours before pyridostigmine administration"],
+        correct: 1,
+        rationale: "Pyridostigmine reaches peak effectiveness 30-60 minutes after administration. Scheduling meals during this peak allows the patient to eat and swallow when muscle strength is greatest, reducing aspiration risk."
       },
       {
-        question: "The patient asks about their myasthenia gravis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which medication order should the nurse question for a patient with myasthenia gravis?",
+        options: ["Acetaminophen 650 mg PO for pain","Gentamicin 80 mg IV for infection","Omeprazole 20 mg PO for GI protection","Docusate 100 mg PO for constipation"],
+        correct: 1,
+        rationale: "Aminoglycoside antibiotics (gentamicin, tobramycin) impair neuromuscular transmission and can precipitate myasthenic crisis. The nurse should question this order and advocate for an alternative antibiotic safe for MG patients."
       },
     ]
   },
@@ -220,252 +248,322 @@ export const generatedBatch063Lessons: Record<string, LessonContent> = {
   "myasthenia-gravis-crisis-np": {
     title: "Myasthenia Gravis Crisis: Plasmapheresis & IVIG",
     cellular: { title: "Pathophysiology of Myasthenia Gravis Crisis: Plasmapheresis & IVIG", content: "The nurse practitioner evaluates and manages Myasthenia Gravis Crisis: Plasmapheresis & IVIG through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myasthenia gravis crisis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Infection (most common precipitant of myasthenic crisis, especially respiratory infections)","Medication changes (rapid tapering of immunosuppressants or pyridostigmine dose adjustment)","Contraindicated medications (aminoglycosides, beta-blockers, magnesium sulfate, fluoroquinolones)","Surgery or anesthesia (particularly with neuromuscular blocking agents)","Emotional or physical stress, sleep deprivation","Pregnancy (especially postpartum period)","Inadequate immunosuppressive therapy or non-adherence"],
+    diagnostics: ["Serial forced vital capacity (FVC): intubation threshold <15-20 mL/kg or <1 L","Negative inspiratory force (NIF): intubation indicated if weaker than -20 cmH2O","ABG for respiratory acidosis (rising PaCO2 indicates impending respiratory failure)","Anti-AChR and anti-MuSK antibody titers to guide long-term management","CT chest for thymoma evaluation if not previously performed","Edrophonium test to differentiate myasthenic crisis (improves) from cholinergic crisis (worsens)","CBC, CMP, blood cultures to identify infectious precipitant"],
+    management: ["Plasmapheresis (plasma exchange): removes circulating anti-AChR antibodies — 5 exchanges over 10-14 days","IVIG (intravenous immunoglobulin) 0.4 g/kg/day x 5 days as alternative to plasmapheresis","Intubation and mechanical ventilation when FVC <15-20 mL/kg or NIF weaker than -20 cmH2O","Hold or reduce pyridostigmine during crisis to decrease secretions and simplify management","Treat precipitating cause (antibiotics for infection — avoid aminoglycosides and fluoroquinolones)","Long-term immunosuppression optimization post-crisis: prednisone, azathioprine, mycophenolate, or rituximab","Consider thymectomy after stabilization if thymoma present or refractory generalized MG"],
+    nursingActions: ["Monitor FVC and NIF every 2-4 hours — trend is more important than single values","Maintain intubation equipment and suction at bedside at all times","Assess bulbar function: swallowing, gag reflex, voice quality, ability to handle secretions","Monitor for complications of plasmapheresis: hypotension, hypocalcemia, coagulopathy, line infection","Monitor for IVIG adverse effects: headache, aseptic meningitis, renal dysfunction, thromboembolic events","Differentiate myasthenic crisis from cholinergic crisis before administering any anticholinesterase","Coordinate ICU-level monitoring and multidisciplinary care with neurology"],
+    assessmentFindings: ["Progressive dyspnea with decreasing FVC and weakening NIF","Inability to handle oral secretions, weak cough, nasal voice","Severe dysphagia with high aspiration risk","Worsening ptosis and facial weakness","Inability to lift head off pillow (neck flexor weakness)","Use of accessory muscles, paradoxical breathing pattern","Anxiety and restlessness (early signs of hypoxia and respiratory fatigue)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Increasing dyspnea on exertion with FVC 20-30 mL/kg","Worsening bulbar symptoms (voice fatigue, mild dysphagia)","Increasing pyridostigmine requirements","Single-breath count declining (normal >25)","Mild accessory muscle use"],
+      right: ["FVC <15-20 mL/kg or NIF weaker than -20 cmH2O (intubation criteria)","Inability to swallow secretions or protect airway","Paradoxical abdominal breathing (diaphragmatic failure)","Respiratory arrest","Cholinergic crisis: SLUDGE symptoms with severe weakness (give atropine, NOT more pyridostigmine)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Intravenous Immunoglobulin (IVIG)",
+      type: "Immunomodulator",
+      action: "Modulates immune response by providing pooled IgG that interferes with pathogenic antibody binding and complement activation",
+      sideEffects: "Headache, fever, chills, aseptic meningitis, renal dysfunction, thromboembolic events",
+      contra: "IgA deficiency (risk of anaphylaxis), severe renal impairment, history of thromboembolism",
+      pearl: "Onset of action 2-5 days, peak effect 1-2 weeks; premedicate with acetaminophen and diphenhydramine; monitor renal function and hydration status"
+    },{
+      name: "Pyridostigmine (Mestinon)",
+      type: "Acetylcholinesterase inhibitor",
+      action: "Inhibits acetylcholinesterase to increase ACh availability at the neuromuscular junction",
+      sideEffects: "Increased secretions, bradycardia, abdominal cramps, diarrhea, fasciculations",
+      contra: "Mechanical bowel or urinary obstruction; hold during acute crisis to reduce secretions",
+      pearl: "Often HELD during myasthenic crisis to decrease bronchial secretions; resumed only after respiratory stabilization — excessive dosing causes cholinergic crisis"
+    },{
+      name: "Atropine",
+      type: "Anticholinergic",
+      action: "Blocks muscarinic acetylcholine receptors to counteract cholinergic excess",
+      sideEffects: "Tachycardia, dry mouth, urinary retention, blurred vision, confusion",
+      contra: "Narrow-angle glaucoma, obstructive uropathy, myasthenia gravis (worsens skeletal muscle weakness)",
+      pearl: "Antidote for cholinergic crisis — reverses muscarinic (SLUDGE) symptoms but does NOT improve skeletal muscle weakness"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["20/20/20 rule for intubation: FVC <20 mL/kg, NIF weaker than -20 cmH2O, or 20% decline from baseline","Myasthenic crisis (too little ACh effect) improves with edrophonium; cholinergic crisis (too much) worsens","Plasmapheresis works faster (24-48 hrs) than IVIG (2-5 days) — choose based on clinical urgency and access","Pyridostigmine is often HELD during crisis to reduce secretions complicating airway management","Avoid succinylcholine in MG patients — they are resistant to depolarizing agents but extremely sensitive to non-depolarizing agents","Monitor single-breath count (count to 20 in one breath) as a bedside respiratory assessment — inability suggests impending crisis"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myasthenia gravis crisis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with myasthenia gravis crisis?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their myasthenia gravis crisis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "An NP is managing a patient in myasthenic crisis. The FVC is 18 mL/kg and declining over the past 4 hours. NIF is -18 cmH2O. What is the priority intervention?",
+        options: ["Increase pyridostigmine dose to improve muscle strength","Initiate plasmapheresis and continue monitoring","Prepare for intubation and mechanical ventilation","Start IV corticosteroids and observe for improvement"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "FVC <20 mL/kg and NIF weaker than -20 cmH2O with a declining trend meets intubation criteria. Airway protection is the immediate priority. Plasmapheresis/IVIG addresses the underlying cause but takes time. Increasing pyridostigmine during crisis can worsen secretions."
+      },
+      {
+        question: "An NP must choose between plasmapheresis and IVIG for a patient in myasthenic crisis. Which factor favors plasmapheresis?",
+        options: ["Patient has IgA deficiency","Need for rapid onset of action (24-48 hours)","Patient has poor venous access","Patient has renal insufficiency"],
+        correct: 1,
+        rationale: "Plasmapheresis has a faster onset (24-48 hours) compared to IVIG (2-5 days), making it preferred when rapid response is needed. IgA deficiency is a contraindication to IVIG (risk of anaphylaxis). Both require IV access, but plasmapheresis requires large-bore central venous access."
+      },
+      {
+        question: "During myasthenic crisis management, the NP notes the patient develops excessive salivation, miosis, bradycardia, and diarrhea after a pyridostigmine dose. What is the diagnosis and treatment?",
+        options: ["Worsening myasthenic crisis; increase pyridostigmine","Cholinergic crisis; administer atropine and hold pyridostigmine","Anaphylaxis; administer epinephrine","Autonomic dysreflexia; lower the head of bed"],
+        correct: 1,
+        rationale: "Excessive salivation, miosis, bradycardia, and diarrhea are muscarinic (SLUDGE) symptoms of cholinergic crisis from pyridostigmine excess. Treatment is atropine (blocks muscarinic receptors) and holding pyridostigmine. Giving more pyridostigmine would worsen the crisis and could cause respiratory arrest."
       },
     ]
   },
   "myelodysplastic-syndromes-np": {
     title: "Myelodysplastic Syndromes: Classification & Transformation",
     cellular: { title: "Pathophysiology of Myelodysplastic Syndromes: Classification & Transformation", content: "The nurse practitioner applies advanced clinical reasoning to the assessment and management of Myelodysplastic Syndromes: Classification & Transformation, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myelodysplastic syndromes or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Age >60 years (median age at diagnosis is 70)","Prior chemotherapy or radiation therapy (therapy-related MDS — alkylating agents, topoisomerase II inhibitors)","Benzene and industrial solvent exposure","Tobacco smoking","Prior aplastic anemia or paroxysmal nocturnal hemoglobinuria","Inherited bone marrow failure syndromes (Fanconi anemia, Diamond-Blackfan)","Male sex (slight male predominance)"],
+    diagnostics: ["CBC with differential: cytopenias (anemia most common, also neutropenia and thrombocytopenia)","Peripheral blood smear: macrocytic anemia, hypogranular neutrophils, pseudo-Pelger-Huet anomaly, circulating blasts","Bone marrow biopsy with aspirate: hypercellular marrow with dysplastic changes in ≥1 lineage, ring sideroblasts","Cytogenetics (karyotype and FISH): del(5q), -7/del(7q), trisomy 8 — essential for classification and prognosis","Revised International Prognostic Scoring System (IPSS-R) for risk stratification","Flow cytometry to quantify blast percentage and identify aberrant markers","Serum EPO level, iron studies, B12/folate to exclude other causes of cytopenias","Next-generation sequencing for recurrent mutations (SF3B1, TET2, ASXL1, TP53)"],
+    management: ["Low-risk MDS: erythropoiesis-stimulating agents (EPO/darbepoetin) if EPO level <500; luspatercept for ring sideroblast subtype","Low-risk MDS with del(5q): lenalidomide (achieves transfusion independence in 67%)","Higher-risk MDS: hypomethylating agents — azacitidine or decitabine as first-line therapy","Transfusion support: pRBCs for symptomatic anemia, platelets for bleeding or counts <10,000","Iron chelation therapy (deferasirox) when ferritin >1000 ng/mL from chronic transfusions","Allogeneic hematopoietic stem cell transplant (only curative option — consider for fit patients with higher-risk disease)","Monitor for transformation to AML (occurs in ~30% of MDS patients)"],
+    nursingActions: ["Monitor CBC with differential at regular intervals to track cytopenia trends and blast percentage","Implement neutropenic precautions when ANC <1000: private room, no fresh flowers/fruits, mask visitors","Monitor for bleeding: assess for petechiae, ecchymoses, gingival bleeding, melena, hematuria","Administer blood products as ordered with pre-medication and transfusion reaction monitoring","Educate on infection prevention: hand hygiene, avoiding crowds, reporting fever >100.4°F immediately","Monitor iron overload markers (ferritin, transferrin saturation) in chronically transfused patients","Coordinate IPSS-R risk stratification discussion and treatment planning with hematology/oncology"],
+    assessmentFindings: ["Fatigue and exercise intolerance (from chronic anemia — often Hgb 7-10 g/dL)","Pallor, dyspnea on exertion, tachycardia from anemia","Recurrent or prolonged infections (from neutropenia and dysfunctional neutrophils)","Easy bruising, petechiae, mucosal bleeding (from thrombocytopenia)","Macrocytic red blood cells on peripheral smear (MCV often >100 fL)","Splenomegaly in some patients (from extramedullary hematopoiesis)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild fatigue with stable hemoglobin >10 g/dL","Low-risk IPSS-R score with isolated anemia","Stable platelet count >50,000","ANC >1500 with no active infections","Transfusion-independent status"],
+      right: ["Blast percentage ≥20% (transformation to AML has occurred)","Febrile neutropenia (ANC <500 with fever >100.4°F — medical emergency)","Severe thrombocytopenia (<10,000) with active bleeding","Symptomatic anemia with hemodynamic instability (Hgb <7 g/dL, tachycardia, hypotension)","Rapidly increasing blast count indicating leukemic transformation"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Azacitidine (Vidaza)",
+      type: "Hypomethylating agent (DNA methyltransferase inhibitor)",
+      action: "Incorporates into DNA and inhibits methyltransferase, reactivating silenced tumor suppressor genes and promoting differentiation of dysplastic cells",
+      sideEffects: "Myelosuppression (neutropenia, thrombocytopenia, anemia), nausea, injection site reactions, constipation",
+      contra: "Advanced hepatic tumors, hypersensitivity to azacitidine or mannitol",
+      pearl: "Requires minimum 4-6 cycles before assessing response — do not discontinue early for lack of response; given subcutaneously 75 mg/m² daily x 7 days every 28-day cycle"
+    },{
+      name: "Lenalidomide (Revlimid)",
+      type: "Immunomodulatory agent (IMiD)",
+      action: "Promotes degradation of casein kinase 1 alpha in del(5q) cells, restoring effective erythropoiesis; also modulates immune system",
+      sideEffects: "Neutropenia, thrombocytopenia, DVT/PE, rash, diarrhea, fatigue",
+      contra: "Pregnancy (teratogenic — requires REMS program enrollment), severe renal impairment without dose adjustment",
+      pearl: "Most effective in del(5q) MDS — achieves transfusion independence in 67%; requires enrollment in REMS program due to teratogenicity; VTE prophylaxis recommended"
+    },{
+      name: "Deferasirox (Exjade/Jadenu)",
+      type: "Iron chelator",
+      action: "Binds trivalent iron to form a soluble complex excreted in feces, reducing iron overload from chronic transfusions",
+      sideEffects: "GI disturbances (nausea, diarrhea, abdominal pain), renal toxicity, hepatotoxicity, rash",
+      contra: "CrCl <40 mL/min, high-risk MDS with poor prognosis (limited benefit), severe hepatic impairment",
+      pearl: "Initiate when ferritin >1000 ng/mL from chronic transfusions; monitor renal and hepatic function monthly; Jadenu formulation can be taken with food (better tolerated than Exjade)"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MDS is a 'pre-leukemia' — ~30% transform to AML; blast percentage ≥20% = AML by definition","IPSS-R risk stratification drives treatment: low-risk = supportive care/ESAs; higher-risk = hypomethylating agents or transplant","Del(5q) is the best-prognosis cytogenetic abnormality and responds specifically to lenalidomide","Azacitidine requires at least 4-6 cycles before response assessment — early discontinuation is a common error","Iron overload from chronic transfusions causes cardiac, hepatic, and endocrine damage — chelation when ferritin >1000","Therapy-related MDS (from prior chemo/radiation) carries worse prognosis and more complex cytogenetics than de novo MDS"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myelodysplastic syndromes. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is evaluating a 72-year-old patient with MDS who has received 25 pRBC transfusions. Ferritin is 1,800 ng/mL. What intervention should the NP initiate?",
+        options: ["Increase transfusion frequency to maintain higher hemoglobin","Start deferasirox iron chelation therapy","Begin azacitidine for disease modification","Refer for immediate stem cell transplant"],
+        correct: 1,
+        rationale: "Ferritin >1000 ng/mL from chronic transfusions indicates iron overload requiring chelation therapy. Deferasirox is the oral chelator of choice. Untreated iron overload causes cardiac, hepatic, and endocrine damage. Azacitidine is for higher-risk MDS, and transplant evaluation depends on overall fitness and risk category."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with myelodysplastic syndromes?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with higher-risk MDS has completed 3 cycles of azacitidine with no improvement in cytopenias. The patient asks to stop treatment. What is the NP's best response?",
+        options: ["Agree to discontinue since there has been no response after 3 cycles","Explain that azacitidine requires a minimum of 4-6 cycles before response can be assessed","Switch immediately to lenalidomide as an alternative","Recommend hospice since the treatment has failed"],
+        correct: 1,
+        rationale: "Azacitidine characteristically requires 4-6 cycles (sometimes more) before clinical response is evident. Early discontinuation is a common error that deprives patients of potential benefit. The NP should educate the patient about expected treatment timeline and continue therapy."
       },
       {
-        question: "The patient asks about their myelodysplastic syndromes diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "An NP reviews a bone marrow biopsy showing 22% blasts in a patient previously diagnosed with MDS. What does this finding indicate?",
+        options: ["Stable low-risk MDS","Transformation to acute myeloid leukemia (AML)","Expected finding in higher-risk MDS","Benign reactive change from infection"],
+        correct: 1,
+        rationale: "By WHO criteria, ≥20% blasts in the bone marrow defines acute myeloid leukemia. This patient's MDS has transformed to AML, which occurs in approximately 30% of MDS patients. This requires urgent hematology/oncology consultation for AML-directed therapy."
       },
     ]
   },
   "myelofibrosis-rn": {
     title: "Myelofibrosis",
     cellular: { title: "Pathophysiology of Myelofibrosis", content: "Myelofibrosis is a myeloproliferative neoplasm characterized by clonal hematopoietic stem cell proliferation that triggers reactive bone marrow fibrosis, displacing normal hematopoietic tissue and causing extramedullary hematopoiesis (compensatory blood cell production in the spleen and liver). The most common driver mutations are JAK2 V617F (65%), CALR (25%), and MPL (5%), all of which constitutively activate the JAK-STAT signaling pathway, promoting megakaryocyte proliferation. Abnormal megakaryocytes release fibrogenic cytokines (TGF-beta, PDGF, bFGF) that stimulate reticulin and collagen deposition by marrow fibroblasts, progressively replacing the marrow space. Clinical manifestations include massive splenomegaly (from extramedullary hematopoiesis, often extending below the umbilicus), constitutional symptoms (fatigue, night sweats, weight loss, fever from elevated cytokines), anemia (marrow failure and splenic sequestration), and leukoerythroblastic blood smear (teardrop cells, nucleated red blood cells, immature myeloid forms). The nurse monitors CBC for progressive cytopenias, assesses spleen size (risk of splenic infarction and rupture), monitors for portal hypertension from hepatic extramedullary hematopoiesis, administers JAK inhibitors (ruxolitinib) as prescribed, manages transfusion-dependent anemia, monitors for transformation to acute myeloid leukemia, and supports patients through allogeneic stem cell transplant (the only curative option)." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myelofibrosis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Age over 60 years (median diagnosis age 65-70)","JAK2 V617F mutation (present in ~65% of cases)","CALR mutation (~25%) or MPL mutation (~5%)","Prior myeloproliferative neoplasm (polycythemia vera or essential thrombocythemia)","Exposure to ionizing radiation or petrochemicals","History of chronic inflammatory conditions"],
+    diagnostics: ["CBC with differential showing anemia, leukocytosis or leukopenia, thrombocytosis or thrombocytopenia","Peripheral blood smear revealing teardrop cells (dacrocytes), nucleated RBCs, and leukoerythroblastic picture","Bone marrow biopsy showing reticulin/collagen fibrosis with atypical megakaryocyte clusters","JAK2 V617F, CALR, and MPL mutation testing","LDH elevated (reflects ineffective erythropoiesis and cell turnover)","Serum uric acid and ferritin levels","Abdominal ultrasound or CT to assess splenomegaly and hepatomegaly"],
+    management: ["JAK inhibitor therapy (ruxolitinib) for symptomatic splenomegaly and constitutional symptoms","RBC transfusions for symptomatic anemia (maintain Hgb above 8-10 g/dL)","Hydroxyurea for leukocytosis and thrombocytosis","Allogeneic hematopoietic stem cell transplant (only curative option for eligible patients)","Splenectomy or splenic irradiation for refractory massive splenomegaly","Erythropoiesis-stimulating agents (ESAs) for transfusion-dependent anemia with low EPO levels","Iron chelation therapy for transfusion-related iron overload"],
+    nursingActions: ["Measure abdominal girth and palpate spleen at each assessment to track splenomegaly progression","Monitor CBC and platelet counts before and after transfusions","Administer ruxolitinib with food as prescribed and monitor for dose-related cytopenias","Assess for signs of splenic infarction (acute LUQ pain, left shoulder pain, fever)","Implement bleeding precautions when platelets are below 50,000","Educate patient on infection prevention due to immunocompromised state","Monitor for symptoms of transformation to acute myeloid leukemia (increasing blasts, worsening cytopenias)"],
+    assessmentFindings: ["Massive splenomegaly often extending below the umbilicus causing early satiety and abdominal discomfort","Constitutional symptoms: profound fatigue, drenching night sweats, unintentional weight loss, low-grade fever","Pallor and dyspnea on exertion from progressive anemia","Petechiae, ecchymoses, or mucosal bleeding from thrombocytopenia","Bone pain especially in long bones and ribs","Hepatomegaly from extramedullary hematopoiesis","Cachexia and muscle wasting in advanced disease"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Fatigue and exercise intolerance","Mild splenomegaly on palpation","Early satiety and mild abdominal fullness","Low-grade anemia (Hgb 9-11 g/dL)","Night sweats and unintentional weight loss"],
+      right: ["Massive splenomegaly with acute LUQ pain (splenic infarction or rupture)","Severe anemia requiring emergent transfusion (Hgb < 7 g/dL)","Active hemorrhage from severe thrombocytopenia","Portal hypertension with ascites and variceal bleeding","Blast crisis indicating transformation to acute leukemia","DIC with diffuse bleeding and organ failure"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Ruxolitinib (Jakafi)",
+      type: "JAK1/JAK2 inhibitor",
+      action: "Inhibits Janus kinase 1 and 2 signaling to reduce cytokine-driven proliferation, splenomegaly, and constitutional symptoms",
+      sideEffects: "Thrombocytopenia, anemia, neutropenia, bruising, dizziness, headache, increased risk of infections including herpes zoster",
+      contra: "Severe thrombocytopenia (platelets < 50,000), active serious infections, severe hepatic impairment",
+      pearl: "Do NOT stop abruptly — taper over 1-2 weeks to avoid rebound cytokine storm with acute return of symptoms, splenomegaly, and hemodynamic instability"
+    },{
+      name: "Hydroxyurea",
+      type: "Antimetabolite/myelosuppressive agent",
+      action: "Inhibits ribonucleotide reductase to reduce proliferation of abnormal hematopoietic cells, controlling leukocytosis and thrombocytosis",
+      sideEffects: "Myelosuppression (pancytopenia), mucositis, skin ulcers, nail hyperpigmentation, nausea",
+      contra: "Severe myelosuppression, pregnancy (teratogenic), severe renal impairment",
+      pearl: "Monitor CBC every 2 weeks during dose titration; hold if WBC < 2,500 or platelets < 100,000"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Teardrop cells (dacrocytes) on peripheral smear are the hallmark finding of myelofibrosis and result from RBCs squeezing through fibrotic marrow","Ruxolitinib withdrawal syndrome can mimic sepsis — never discontinue abruptly; taper over 1-2 weeks","Splenomegaly in myelofibrosis can be massive (extending to the pelvis) — monitor abdominal girth and assess for splenic infarction","Allogeneic stem cell transplant is the ONLY curative option but carries significant morbidity; reserved for high-risk patients under 70","The DIPSS (Dynamic International Prognostic Scoring System) uses age, Hgb, WBC, blasts, and constitutional symptoms to guide treatment decisions","Myelofibrosis can transform to AML in 10-20% of patients — monitor for rising blast counts"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myelofibrosis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse is assessing a patient with myelofibrosis who reports sudden severe left upper quadrant pain radiating to the left shoulder. Which complication should the nurse suspect?",
+        options: ["Bowel obstruction","Splenic infarction","Peptic ulcer perforation","Acute pancreatitis"],
+        correct: 1,
+        rationale: "Splenic infarction is a known complication of massive splenomegaly in myelofibrosis. The classic presentation is acute LUQ pain with radiation to the left shoulder (Kehr sign) and fever. The nurse should report this immediately."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with myelofibrosis?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with myelofibrosis on ruxolitinib tells the nurse they stopped the medication 2 days ago because they ran out. What is the priority nursing action?",
+        options: ["Reassure the patient that missing a few doses is not harmful","Notify the provider immediately about abrupt discontinuation","Advise the patient to double the next dose","Document the missed doses and continue routine care"],
+        correct: 1,
+        rationale: "Abrupt discontinuation of ruxolitinib can cause a withdrawal syndrome with rebound cytokine surge, worsening splenomegaly, hemodynamic instability, and potentially sepsis-like symptoms. The provider must be notified immediately to resume or taper the medication."
       },
       {
-        question: "The patient asks about their myelofibrosis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which peripheral blood smear finding is most characteristic of myelofibrosis?",
+        options: ["Sickle cells","Teardrop cells (dacrocytes)","Spherocytes","Target cells"],
+        correct: 1,
+        rationale: "Teardrop cells (dacrocytes) are the hallmark finding on peripheral smear in myelofibrosis. They form as RBCs are distorted while squeezing through the fibrotic bone marrow spaces. A leukoerythroblastic picture with nucleated RBCs and immature myeloid forms is also characteristic."
       },
     ]
   },
   "myocardial-bridging-rn": {
     title: "Myocardial Bridging",
     cellular: { title: "Pathophysiology of Myocardial Bridging", content: "Myocardial bridging occurs when a segment of an epicardial coronary artery (most commonly the left anterior descending artery) takes an intramyocardial course, with a band of myocardial muscle fibers (the 'bridge') overlying the arterial segment. During systolic contraction, the bridge compresses the tunneled arterial segment, causing transient vessel occlusion. While the majority of coronary flow occurs during diastole, hemodynamically significant bridges can impair late diastolic filling, cause endothelial dysfunction within the tunneled segment (promoting atherosclerosis at the proximal edge of the bridge due to altered shear stress), and trigger coronary vasospasm. Myocardial bridging is usually benign and found incidentally, but in some cases causes exertional angina, acute coronary syndrome (particularly during tachycardia which shortens diastolic filling time), ventricular arrhythmias, or sudden cardiac death. The nurse assesses chest pain characteristics, monitors ECG for ischemic changes especially during tachycardia or exercise, administers prescribed beta-blockers (first-line to reduce heart rate and prolong diastole) or calcium channel blockers, avoids nitrates (which can worsen compression by reducing vessel tone), educates patients about exertional symptoms and when to seek emergency care, and monitors for complications during post-cardiac catheterization care." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myocardial bridging or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Congenital anatomic variant (most common in left anterior descending artery)","Hypertrophic cardiomyopathy (associated with deeper, longer bridges)","Left ventricular hypertrophy from any cause","Vigorous exercise or strenuous physical activity (increased heart rate shortens diastole)","Tachycardia from any cause (reduces diastolic filling time)","Male sex (higher incidence of symptomatic bridging)"],
+    diagnostics: ["12-lead ECG during chest pain episodes (may show ST depression or T-wave inversions in anterior leads)","Coronary CT angiography (gold standard for noninvasive detection, visualizes intramyocardial segment)","Cardiac catheterization with angiography showing systolic compression ('milking effect') of the tunneled segment","Intravascular ultrasound (IVUS) to assess degree of compression and atherosclerosis at bridge edges","Stress testing (exercise or dobutamine) to provoke ischemic changes during tachycardia","Troponin levels to rule out acute coronary syndrome in symptomatic presentations"],
+    management: ["Beta-blockers (first-line) to reduce heart rate and prolong diastolic filling time","Calcium channel blockers (verapamil, diltiazem) as second-line for rate control and vasodilation","AVOID nitrates — worsen compression by reducing coronary vessel tone and preload","AVOID inotropes and vasodilators that increase heart rate or reduce coronary perfusion pressure","Surgical myotomy (unroofing procedure) for refractory symptomatic bridging","Coronary artery bypass grafting (CABG) for severe cases unresponsive to medical therapy","Activity modification: avoid intense exertion that causes significant tachycardia"],
+    nursingActions: ["Monitor continuous ECG telemetry for ischemic changes especially during tachycardia","Assess chest pain characteristics using PQRST and note relationship to exertion","Administer beta-blockers as prescribed and monitor heart rate and blood pressure before each dose","Ensure nitrates are NOT administered — prominently note contraindication in medication record","Post-cardiac catheterization: monitor access site for bleeding/hematoma, check distal pulses q15min x 4","Educate patient on avoiding triggers of tachycardia (excessive caffeine, decongestants, strenuous exercise)","Report new-onset chest pain, ECG changes, or hemodynamic instability to provider immediately"],
+    assessmentFindings: ["Exertional chest pain (angina) that resolves with rest and heart rate reduction","Chest pain that worsens with tachycardia or exercise","Normal physical examination between episodes in most patients","Possible systolic murmur heard during compression of the bridged segment","ECG may show transient ST-segment depression during symptomatic episodes","Normal troponin levels in stable disease; may be mildly elevated in acute presentations","Palpitations associated with exercise or emotional stress"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Exertional chest discomfort that resolves with rest","Mild palpitations with strenuous activity","Normal resting ECG","Stable vital signs at rest","Mild exercise intolerance"],
+      right: ["Acute chest pain with ECG changes (ST depression, T-wave inversion)","Ventricular tachycardia or ventricular fibrillation","Syncope during exertion","Troponin elevation indicating myocardial injury","Hemodynamic instability with hypotension and diaphoresis","Sudden cardiac arrest (rare but documented)"]
     },
     medications: [{
       name: "Metoprolol",
-      type: "Beta-blocker",
-      action: "Blocks beta-1 adrenergic receptors to reduce heart rate and blood pressure",
-      sideEffects: "Bradycardia, hypotension, fatigue, dizziness",
-      contra: "Severe bradycardia, heart block, decompensated heart failure, cardiogenic shock",
-      pearl: "Do not stop abruptly; taper to prevent rebound hypertension and tachycardia"
+      type: "Beta-1 selective blocker",
+      action: "Reduces heart rate and myocardial contractility, prolonging diastolic filling time to improve coronary perfusion through the bridged segment",
+      sideEffects: "Bradycardia, hypotension, fatigue, dizziness, bronchospasm, depression",
+      contra: "Severe bradycardia (HR < 50), second/third-degree heart block, decompensated heart failure, severe asthma",
+      pearl: "First-line therapy for myocardial bridging — the key mechanism is prolonging diastole so the compressed artery has more time to fill; do not stop abruptly"
+    },{
+      name: "Verapamil",
+      type: "Non-dihydropyridine calcium channel blocker",
+      action: "Reduces heart rate and causes coronary vasodilation, improving blood flow through the tunneled segment during diastole",
+      sideEffects: "Constipation, bradycardia, hypotension, peripheral edema, dizziness, AV block",
+      contra: "Severe LV dysfunction, second/third-degree AV block, concurrent IV beta-blocker use, sick sinus syndrome without pacemaker",
+      pearl: "Second-line after beta-blockers; do NOT combine with IV beta-blockers due to risk of severe bradycardia and heart block"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Nitrates are CONTRAINDICATED in myocardial bridging — they reduce coronary vessel tone and worsen systolic compression of the tunneled segment","The LAD artery is the most commonly affected vessel (>70% of cases), making anterior wall ischemia the primary concern","Most myocardial bridging is benign and found incidentally; only hemodynamically significant bridges cause symptoms","Tachycardia is the main trigger for symptoms because it shortens diastole, the phase when coronary filling occurs","Atherosclerosis tends to develop PROXIMAL to the bridge due to altered shear stress, not within the tunneled segment","The 'milking effect' seen on angiography (systolic compression of the artery) is the classic diagnostic finding"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myocardial bridging. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient with known myocardial bridging develops chest pain. The nurse notes a new order for sublingual nitroglycerin. What is the appropriate nursing action?",
+        options: ["Administer the nitroglycerin as ordered for chest pain relief","Question the order because nitrates are contraindicated in myocardial bridging","Hold the medication and wait for the next nursing assessment","Administer half the ordered dose as a precaution"],
+        correct: 1,
+        rationale: "Nitrates are contraindicated in myocardial bridging because they reduce coronary vessel tone and worsen the systolic compression of the tunneled arterial segment, potentially worsening ischemia. The nurse should question this order with the provider."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with myocardial bridging?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with myocardial bridging asks why their chest pain only occurs during exercise. Which explanation by the nurse is most accurate?",
+        options: ["Exercise causes coronary artery spasm that blocks blood flow","During exercise, the increased heart rate shortens the time the heart relaxes, reducing blood flow through the compressed artery","Exercise causes the myocardial bridge to permanently compress the artery","Exercise increases blood pressure which collapses the coronary artery"],
+        correct: 1,
+        rationale: "Most coronary blood flow occurs during diastole. When heart rate increases with exercise, diastolic filling time is shortened, reducing blood flow through the tunneled segment that is already compressed during systole. This is why beta-blockers (which slow heart rate) are first-line treatment."
       },
       {
-        question: "The patient asks about their myocardial bridging diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which medication class is first-line therapy for symptomatic myocardial bridging?",
+        options: ["Nitrates","ACE inhibitors","Beta-blockers","Antiplatelet agents"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Beta-blockers are first-line for myocardial bridging because they reduce heart rate and prolong diastole, allowing more time for coronary perfusion through the compressed segment. They also reduce myocardial contractility, decreasing the force of compression on the bridged artery."
       },
     ]
   },
   "myxedema-coma-np": {
     title: "Myxedema Coma: Emergency Thyroid Replacement",
     cellular: { title: "Pathophysiology of Myxedema Coma: Emergency Thyroid Replacement", content: "The nurse practitioner manages Myxedema Coma: Emergency Thyroid Replacement through advanced understanding of hormonal regulatory axes, metabolic pathways, and feedback mechanisms. Assessment includes focused endocrine history (symptoms of hormone excess or deficiency, family history, medication exposure including glucocorticoids and hormonal agents), targeted physical examination (body habitus, skin changes, thyroid palpation, signs of androgen excess or deficiency, visual field assessment for pituitary pathology), and systematic interpretation of hormonal assays and dynamic testing. The clinician applies diagnostic algorithms using baseline hormone levels, stimulation and suppression tests, and imaging to localize endocrine pathology. Management integrates hormonal replacement or suppression therapy with careful dose titration based on clinical response and laboratory monitoring, lifestyle modification (dietary counseling, exercise prescription, weight management), screening for and management of associated complications (cardiovascular risk, bone health, reproductive function), and patient education on disease self-management including sick-day rules for adrenal insufficiency and insulin adjustment for diabetes. The clinician coordinates multidisciplinary care with endocrinology, ophthalmology, cardiology, and other specialties as indicated, and determines referral criteria based on diagnostic complexity and treatment response." },
-    riskFactors: ["Advanced age or extremes of age","Family history of myxedema coma or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Untreated or undertreated hypothyroidism (most common predisposing factor)","Elderly women (highest incidence demographic)","Abrupt discontinuation of thyroid hormone replacement","Precipitating events: infection, cold exposure, surgery, trauma, stroke, MI","Medications that suppress thyroid function (lithium, amiodarone, sedatives, opioids)","Non-adherence to levothyroxine therapy","Concomitant adrenal insufficiency (Schmidt syndrome)"],
+    diagnostics: ["TSH markedly elevated (primary hypothyroidism) or low/normal (central hypothyroidism)","Free T4 and free T3 critically low","Random cortisol level BEFORE administering IV hydrocortisone (rule out concurrent adrenal insufficiency)","BMP: hyponatremia (dilutional from impaired free water excretion), hypoglycemia","ABG: hypercapnia and respiratory acidosis from hypoventilation","CBC: possible normocytic anemia","CK and LDH elevated from rhabdomyolysis/myopathy","Chest X-ray: possible pericardial effusion, pleural effusion, or cardiomegaly","Lipid panel: markedly elevated cholesterol and triglycerides"],
+    management: ["IV levothyroxine (T4) loading dose 200-400 mcg, then 50-100 mcg IV daily (oral absorption unreliable in myxedema coma)","Consider IV liothyronine (T3) 5-20 mcg bolus then 2.5-10 mcg q8h for faster onset in severe cases","IV hydrocortisone 100 mg bolus then 50 mg q8h BEFORE or concurrent with thyroid replacement (prevents adrenal crisis)","Passive rewarming with blankets (avoid active external rewarming which causes vasodilation and cardiovascular collapse)","Mechanical ventilation for respiratory failure with hypercapnia","IV dextrose for hypoglycemia; hypertonic saline only for severe symptomatic hyponatremia","Treat precipitating cause (antibiotics for infection, rewarm for hypothermia)","ICU-level monitoring with continuous telemetry"],
+    nursingActions: ["Administer IV levothyroxine and hydrocortisone as prescribed — verify IV route (oral absorption is impaired)","Monitor core temperature q1-2h using rectal or esophageal probe; apply passive warming blankets only","Continuous cardiac monitoring for bradycardia, QT prolongation, and heart block","Monitor respiratory status closely — prepare for intubation if CO2 retention worsens or GCS declines","Strict I&O monitoring; restrict free water if hyponatremia is present","Monitor blood glucose q1-2h and treat hypoglycemia promptly with IV dextrose","Assess neurological status hourly (GCS) and report any deterioration immediately","Avoid sedatives, opioids, and hypothermia-inducing interventions"],
+    assessmentFindings: ["Altered mental status progressing to stupor and coma (hallmark feature)","Profound hypothermia (temperature often < 95°F/35°C, may be < 90°F/32°C)","Bradycardia with hypotension","Hypoventilation with hypercapnia and respiratory acidosis","Non-pitting edema (myxedema) of face, periorbital area, hands, and feet","Dry, coarse, cool skin with delayed capillary refill","Macroglossia (enlarged tongue) and hoarse voice","Diminished deep tendon reflexes with delayed relaxation phase","Abdominal distension with ileus"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Increasing lethargy and somnolence","Hypothermia (temperature 94-96°F)","Bradycardia (HR 50-60)","Mild hyponatremia (Na 130-134)","Facial puffiness and periorbital edema","Constipation and decreased bowel sounds"],
+      right: ["Coma or unresponsiveness (GCS < 8)","Severe hypothermia (< 90°F/32°C)","Profound bradycardia (HR < 40) or cardiac arrest","Respiratory failure requiring intubation","Severe hyponatremia (Na < 120) with seizures","Cardiovascular collapse with refractory hypotension","Pericardial effusion with tamponade physiology"]
     },
     medications: [{
-      name: "Levothyroxine",
+      name: "Levothyroxine IV (T4)",
       type: "Thyroid hormone replacement",
-      action: "Synthetic T4 that increases basal metabolic rate and oxygen consumption",
-      sideEffects: "Tachycardia, weight loss, insomnia, heat intolerance, tremor",
-      contra: "Untreated adrenal insufficiency, recent myocardial infarction, thyrotoxicosis",
-      pearl: "Take on empty stomach 30-60 minutes before breakfast; separate from calcium and iron by 4 hours"
+      action: "Synthetic T4 converted to active T3 peripherally; restores metabolic rate, thermogenesis, and cardiovascular function",
+      sideEffects: "Tachycardia, arrhythmias, angina, myocardial infarction (from rapid metabolic acceleration in myxedema coma)",
+      contra: "Untreated adrenal insufficiency (MUST give hydrocortisone first or concurrently), active thyrotoxicosis",
+      pearl: "MUST be given IV in myxedema coma — oral absorption is severely impaired due to GI edema and ileus; always administer stress-dose steroids before or with T4 to prevent adrenal crisis"
+    },{
+      name: "Hydrocortisone IV",
+      type: "Glucocorticoid (stress-dose corticosteroid)",
+      action: "Replaces cortisol in potential concurrent adrenal insufficiency; prevents adrenal crisis triggered by thyroid hormone replacement increasing cortisol metabolism",
+      sideEffects: "Hyperglycemia, fluid retention, hypokalemia, immunosuppression, GI bleeding",
+      contra: "Active untreated systemic fungal infection (relative); benefits outweigh risks in myxedema coma",
+      pearl: "Give 100 mg IV bolus BEFORE or WITH the first dose of levothyroxine — thyroid hormone replacement accelerates cortisol clearance and can precipitate fatal adrenal crisis"
+    },{
+      name: "Liothyronine IV (T3)",
+      type: "Active thyroid hormone",
+      action: "Direct active thyroid hormone with rapid onset (hours vs days for T4); does not require peripheral conversion",
+      sideEffects: "Arrhythmias, tachycardia, myocardial ischemia (higher cardiac risk than T4 alone)",
+      contra: "Active cardiac ischemia, uncontrolled arrhythmias, untreated adrenal insufficiency",
+      pearl: "Used in addition to T4 in severe myxedema coma for faster clinical response; higher cardiac risk — use cautiously in elderly and those with cardiac disease"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["ALWAYS give IV hydrocortisone BEFORE or WITH IV levothyroxine — thyroid replacement increases cortisol metabolism and can cause fatal adrenal crisis if adrenal insufficiency coexists","Myxedema coma mortality is 30-60% even with treatment — this is a true endocrine emergency requiring ICU admission","Use passive rewarming ONLY (blankets, warm room) — active external rewarming causes peripheral vasodilation and cardiovascular collapse","Oral levothyroxine is ineffective in myxedema coma due to severe GI edema and ileus; IV route is mandatory","Hyponatremia in myxedema coma is dilutional (impaired free water excretion) — treat with fluid restriction, not aggressive saline unless symptomatic","The classic triad is altered mental status + hypothermia + precipitating event in a patient with hypothyroidism history"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with myxedema coma. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is managing a patient with suspected myxedema coma. Which medication must be administered BEFORE or concurrently with IV levothyroxine?",
+        options: ["IV furosemide","IV hydrocortisone","IV liothyronine","IV vasopressin"],
+        correct: 1,
+        rationale: "IV hydrocortisone must be given before or with levothyroxine because thyroid hormone replacement increases cortisol metabolism. If the patient has coexisting adrenal insufficiency (common in myxedema coma), administering thyroid hormone alone can precipitate a fatal adrenal crisis."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with myxedema coma?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient in myxedema coma has a core temperature of 91°F (32.8°C). Which rewarming strategy should the NP order?",
+        options: ["Active external rewarming with heated blankets and warm IV fluids","Passive rewarming with standard blankets in a warm room","Immersion in a warm water bath","Heated humidified oxygen only"],
+        correct: 1,
+        rationale: "Passive rewarming is the standard approach in myxedema coma. Active external rewarming causes peripheral vasodilation, which can lead to cardiovascular collapse and refractory hypotension in these hemodynamically fragile patients."
       },
       {
-        question: "The patient asks about their myxedema coma diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Why must levothyroxine be given intravenously rather than orally in myxedema coma?",
+        options: ["The oral form is not available in hospitals","IV provides a more consistent dose","GI edema and ileus in myxedema coma severely impair oral drug absorption","IV is less likely to cause cardiac arrhythmias"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "In myxedema coma, generalized myxedematous edema affects the GI tract, and paralytic ileus is common. These factors severely impair oral drug absorption, making IV administration necessary for reliable drug delivery."
       },
     ]
   },
   "nafld-nash-np": {
     title: "NAFLD/NASH: Fibrosis Staging & Pharmacotherapy",
     cellular: { title: "Pathophysiology of NAFLD/NASH: Fibrosis Staging & Pharmacotherapy", content: "The nurse practitioner manages NAFLD/NASH: Fibrosis Staging & Pharmacotherapy through comprehensive geriatric assessment and application of age-specific evidence to clinical decision-making. The clinician evaluates older adults across multiple domains: functional status (ADLs, IADLs using validated scales), cognitive function (Montreal Cognitive Assessment, Mini-Cog), mood (Geriatric Depression Scale), fall risk assessment (Timed Up and Go, gait and balance evaluation), nutritional status (MNA, albumin, BMI), polypharmacy review (Beers Criteria for potentially inappropriate medications, STOPP/START criteria, deprescribing using evidence-based algorithms), and social determinants (living situation, caregiver support, social isolation, financial resources). The clinician differentiates normal age-related changes from pathological processes, manages geriatric syndromes (falls, delirium, incontinence, frailty, polypharmacy, malnutrition, functional decline), and adjusts pharmacotherapy for age-related pharmacokinetic and pharmacodynamic changes (reduced renal clearance, decreased hepatic metabolism, increased drug sensitivity). The clinician applies principles of geriatric prescribing: start low and go slow, consider time-to-benefit versus life expectancy when initiating preventive therapies, prioritize treatments aligned with patient goals and values, and implement structured deprescribing when medications are no longer beneficial. The clinician coordinates comprehensive care planning, advance care planning, and community resource navigation." },
-    riskFactors: ["Advanced age or extremes of age","Family history of nafld nash or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Obesity (present in 80-90% of NAFLD patients; central/visceral adiposity is strongest predictor)","Type 2 diabetes mellitus (present in 30-75% of NASH patients; insulin resistance drives lipotoxicity)","Metabolic syndrome (dyslipidemia, hypertension, insulin resistance, abdominal obesity)","Polycystic ovary syndrome (PCOS) — associated with insulin resistance and hepatic steatosis","Obstructive sleep apnea (intermittent hypoxia promotes hepatic inflammation)","Medications: amiodarone, methotrexate, tamoxifen, corticosteroids, valproic acid","Hispanic ethnicity and PNPLA3 gene variant (I148M polymorphism increases susceptibility)","Hypothyroidism (reduced thyroid hormone impairs hepatic lipid metabolism)"],
+    diagnostics: ["Hepatic panel: ALT typically higher than AST (ALT:AST ratio > 1 in NAFLD; ratio reversal suggests cirrhosis)","FIB-4 index (age, AST, ALT, platelet count) and NAFLD Fibrosis Score for noninvasive fibrosis staging","Transient elastography (FibroScan) to quantify liver stiffness (kPa) and steatosis (CAP score)","Right upper quadrant ultrasound (first-line imaging): hepatic steatosis appears as increased echogenicity","MRI-PDFF (proton density fat fraction) — most accurate noninvasive quantification of hepatic fat","Liver biopsy (gold standard for distinguishing NASH from simple steatosis and staging fibrosis: F0-F4)","Fasting lipid panel, fasting glucose, HbA1c, and fasting insulin to assess metabolic comorbidities","Rule out other liver diseases: hepatitis B/C serologies, ferritin/transferrin saturation, autoimmune markers, ceruloplasmin"],
+    management: ["Weight loss 7-10% of body weight (evidence-based threshold to improve NASH histology and reduce fibrosis)","Lifestyle modification: Mediterranean diet, 150-300 min/week moderate-intensity aerobic exercise","Pioglitazone for biopsy-proven NASH (improves insulin sensitivity and hepatic inflammation)","Vitamin E 800 IU/day for non-diabetic biopsy-proven NASH (reduces oxidative stress)","GLP-1 receptor agonists (semaglutide) — emerging evidence for NASH resolution","Resmetirom (Rezdiffra) — first FDA-approved drug specifically for NASH with fibrosis (thyroid hormone receptor beta agonist)","Aggressive management of metabolic comorbidities: statins for dyslipidemia, metformin for diabetes, antihypertensives","Refer to hepatology for F3-F4 fibrosis, indeterminate diagnosis, or consideration of liver transplant"],
+    nursingActions: ["Calculate and trend FIB-4 score at each visit to monitor fibrosis progression noninvasively","Counsel on structured weight loss plan: realistic goals of 1-2 lbs/week with dietary and exercise modifications","Screen for alcohol use with validated tools (AUDIT-C) to differentiate NAFLD from ALD and reinforce abstinence","Order and monitor hepatic panel every 3-6 months; trend ALT for treatment response","Coordinate diabetes and cardiovascular risk management with endocrinology and cardiology","Assess for signs of cirrhosis progression at each visit (spider angiomata, palmar erythema, ascites)","Educate patients that NAFLD/NASH is a reversible condition with lifestyle changes but can progress to cirrhosis and HCC if untreated","Screen for hepatocellular carcinoma with ultrasound every 6 months in patients with cirrhosis"],
+    assessmentFindings: ["Often asymptomatic (diagnosed incidentally on imaging or elevated liver enzymes)","Fatigue and malaise (most common symptom when present)","Vague right upper quadrant discomfort or fullness","Hepatomegaly on palpation","Acanthosis nigricans (velvety darkening of skin folds indicating insulin resistance)","Elevated BMI with central adiposity","Signs of metabolic syndrome: elevated BP, abnormal lipids, elevated fasting glucose"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mildly elevated ALT (1-3x upper limit of normal)","Hepatic steatosis on ultrasound without inflammation","BMI 25-34 with metabolic risk factors","Low FIB-4 score (< 1.3) indicating minimal fibrosis","Fatigue without other hepatic symptoms"],
+      right: ["AST:ALT ratio reversal (> 1) suggesting progression to cirrhosis","Jaundice, ascites, and peripheral edema (decompensated cirrhosis)","Variceal hemorrhage from portal hypertension","Hepatic encephalopathy (confusion, asterixis)","New hepatic mass on screening ultrasound (HCC risk)","Thrombocytopenia < 150,000 (suggests portal hypertension and advanced fibrosis)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Pioglitazone",
+      type: "Thiazolidinedione (insulin sensitizer)",
+      action: "Activates PPARgamma receptors to improve insulin sensitivity in adipose tissue, skeletal muscle, and liver; reduces hepatic inflammation and steatosis in NASH",
+      sideEffects: "Weight gain, peripheral edema, increased fracture risk (especially postmenopausal women), bladder cancer risk (controversial)",
+      contra: "NYHA Class III/IV heart failure, active bladder cancer, pregnancy",
+      pearl: "Only thiazolidinedione with evidence for NASH histological improvement; can be used in non-diabetic NASH patients; monitor for fluid retention and heart failure symptoms"
+    },{
+      name: "Vitamin E (alpha-tocopherol)",
+      type: "Fat-soluble antioxidant vitamin",
+      action: "Reduces oxidative stress and lipid peroxidation in hepatocytes, decreasing inflammation and hepatocyte ballooning in NASH",
+      sideEffects: "Increased risk of hemorrhagic stroke at high doses, possible increased prostate cancer risk in men, GI upset",
+      contra: "Coagulopathy or concurrent anticoagulant therapy (relative), vitamin K deficiency",
+      pearl: "Dose is 800 IU/day for biopsy-proven NASH in NON-DIABETIC patients only; not recommended for NAFLD without NASH, NASH cirrhosis, or diabetic NASH (use pioglitazone instead)"
+    },{
+      name: "Semaglutide",
+      type: "GLP-1 receptor agonist",
+      action: "Activates GLP-1 receptors to promote insulin secretion, reduce glucagon, slow gastric emptying, and promote weight loss; reduces hepatic steatosis and inflammation",
+      sideEffects: "Nausea, vomiting, diarrhea, injection site reactions, pancreatitis (rare), gallbladder disease",
+      contra: "Personal or family history of medullary thyroid carcinoma, MEN2 syndrome, history of pancreatitis",
+      pearl: "Emerging evidence shows NASH resolution in up to 59% of patients; dual benefit of weight loss and direct hepatic anti-inflammatory effects; dose escalation reduces GI side effects"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["NAFLD is now the most common chronic liver disease worldwide, affecting ~25% of the global population","The critical distinction: NAFLD (simple steatosis) is benign; NASH (steatosis + inflammation + hepatocyte ballooning) can progress to cirrhosis and HCC","FIB-4 < 1.3 rules out advanced fibrosis with high negative predictive value — use as first-line noninvasive screening","Weight loss of 7-10% is the MOST effective intervention and can reverse NASH histologically — lifestyle modification is cornerstone of treatment","Cardiovascular disease (not liver disease) is the leading cause of death in NAFLD patients — aggressively manage CV risk factors","Statins are SAFE in NAFLD/NASH and should be prescribed for dyslipidemia — do not withhold due to elevated liver enzymes","Liver biopsy remains the gold standard for distinguishing NASH from simple steatosis and grading fibrosis stage"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with nafld nash. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with nafld nash?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their nafld nash diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "An NP is managing a non-diabetic patient with biopsy-proven NASH (NAS score 5, fibrosis stage F2). Which pharmacotherapy is most appropriate?",
+        options: ["Metformin 500 mg twice daily","Ursodiol 300 mg twice daily","Vitamin E 800 IU daily","Obeticholic acid 25 mg daily"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Vitamin E 800 IU/day is recommended for non-diabetic adults with biopsy-proven NASH. It reduces oxidative stress and has been shown to improve hepatic histology. Metformin has no proven benefit for NASH histology. Pioglitazone would be preferred in diabetic NASH patients."
+      },
+      {
+        question: "A patient with NAFLD has a FIB-4 score of 0.9. How should the NP interpret this result?",
+        options: ["Advanced fibrosis is likely and liver biopsy is needed","Advanced fibrosis is effectively ruled out; continue monitoring","The patient needs immediate referral to hepatology","This score is indeterminate and FibroScan is needed"],
+        correct: 1,
+        rationale: "FIB-4 < 1.3 has a high negative predictive value (>90%) for ruling out advanced fibrosis (F3-F4). These patients can be monitored with serial noninvasive testing. Scores > 2.67 suggest advanced fibrosis, while 1.3-2.67 is indeterminate and warrants further evaluation with FibroScan or biopsy."
+      },
+      {
+        question: "What is the leading cause of mortality in patients with NAFLD?",
+        options: ["Hepatocellular carcinoma","Liver failure and decompensated cirrhosis","Cardiovascular disease","Renal failure"],
+        correct: 2,
+        rationale: "Cardiovascular disease is the number one cause of death in NAFLD patients, not liver-related complications. NAFLD is closely associated with metabolic syndrome and accelerated atherosclerosis. This underscores the importance of aggressively managing cardiovascular risk factors (statins, antihypertensives, diabetes control) in all NAFLD patients."
       },
     ]
   },
@@ -485,126 +583,168 @@ export const generatedBatch063Lessons: Record<string, LessonContent> = {
   "narrow-broad-spectrum-np": {
     title: "Narrow vs Broad Spectrum Selection",
     cellular: { title: "Pathophysiology of Narrow vs Broad Spectrum Selection", content: "The nurse practitioner applies advanced clinical reasoning to the assessment and management of Narrow vs Broad Spectrum Selection, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of narrow broad spectrum or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Immunocompromised state (HIV, transplant, chemotherapy — higher risk of resistant organisms)","Recent antibiotic use within 90 days (increases risk of resistant flora requiring broader coverage)","Healthcare-associated infections (MRSA, VRE, ESBL-producing organisms, Pseudomonas)","Prior culture showing multidrug-resistant organisms","Indwelling devices (central lines, urinary catheters, endotracheal tubes)","Chronic comorbidities affecting immune function (diabetes, CKD, cirrhosis, malignancy)","Residence in long-term care facility or recent hospitalization","History of C. difficile infection (risk increases with broad-spectrum use)"],
+    diagnostics: ["Blood cultures x 2 sets from separate sites BEFORE initiating antibiotics","Gram stain and culture with sensitivities from infection site (wound, sputum, urine, CSF)","CBC with differential (leukocytosis with left shift suggests bacterial infection)","Procalcitonin level (helps distinguish bacterial from viral infection; guides antibiotic duration)","C-reactive protein and ESR (inflammatory markers to track treatment response)","Lactate level if sepsis is suspected (> 2 mmol/L indicates tissue hypoperfusion)","Urinalysis with culture for suspected UTI","Chest X-ray for respiratory infections; CT imaging for deep-seated or abscess-forming infections"],
+    management: ["Start empiric broad-spectrum antibiotics immediately for severe/life-threatening infections — do NOT delay for culture results","De-escalate to narrow-spectrum antibiotic within 48-72 hours based on culture and sensitivity results (antibiotic stewardship)","Narrow-spectrum first-line for uncomplicated infections with known likely pathogen (e.g., amoxicillin for strep pharyngitis)","Broad-spectrum coverage for polymicrobial, healthcare-associated, or empiric treatment of undifferentiated sepsis","Assess renal and hepatic function for dose adjustment (vancomycin trough levels, aminoglycoside peaks/troughs)","Monitor for superinfection (C. difficile, fungal overgrowth) especially with prolonged broad-spectrum use","Reassess antibiotic choice at 48-72 hours based on clinical response and microbiological data","Duration guided by infection type, clinical response, and evidence-based guidelines; avoid unnecessarily prolonged courses"],
+    nursingActions: ["Obtain ALL cultures BEFORE first antibiotic dose — communicate urgency to lab","Review antibiogram data to guide empiric prescribing choices based on local resistance patterns","Assess for drug allergies with detailed history (type of reaction, severity, cross-reactivity risk)","Monitor therapeutic drug levels (vancomycin trough 15-20 mcg/mL for serious MRSA; aminoglycoside peaks/troughs)","Evaluate clinical response at 48-72 hours: trending fever curve, WBC, procalcitonin, and clinical symptoms","Screen for C. difficile in patients who develop diarrhea during or after antibiotic therapy","Educate patients on completing prescribed course and not sharing or saving antibiotics","Implement antibiotic stewardship principles: right drug, right dose, right duration, right route"],
+    assessmentFindings: ["Signs of active infection: fever, localized erythema/warmth/swelling/tenderness, purulent drainage","Systemic inflammatory response: tachycardia, tachypnea, fever or hypothermia, leukocytosis","Clinical response to current antibiotic regimen (improving vs worsening symptoms)","Drug-related adverse effects: rash, GI upset, IV site reactions, signs of nephrotoxicity or ototoxicity","Evidence of superinfection: new-onset watery diarrhea (C. difficile), oral thrush (candidiasis)","Antibiotic-related allergic reactions ranging from mild rash to anaphylaxis"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Localized infection with mild fever responding to antibiotics","Improving WBC and inflammatory markers","Stable vital signs with good clinical response","Mild GI side effects (nausea, loose stools)","Culture results available allowing de-escalation"],
+      right: ["Worsening sepsis despite antibiotic therapy (rising lactate, hemodynamic instability)","Anaphylaxis to antibiotic (urticaria, angioedema, bronchospasm, hypotension)","C. difficile colitis (profuse watery diarrhea, abdominal pain, toxic megacolon risk)","Multidrug-resistant organism on culture requiring last-resort agents","Acute kidney injury from nephrotoxic antibiotics (rising creatinine)","Stevens-Johnson syndrome or drug reaction with eosinophilia (DRESS syndrome)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Piperacillin-Tazobactam (Zosyn)",
+      type: "Extended-spectrum penicillin + beta-lactamase inhibitor (broad-spectrum)",
+      action: "Piperacillin inhibits bacterial cell wall synthesis; tazobactam inhibits beta-lactamase enzymes that would otherwise destroy piperacillin — covers gram-positives, gram-negatives, and anaerobes",
+      sideEffects: "Diarrhea, nausea, rash, thrombocytopenia, C. difficile infection, hypokalemia",
+      contra: "Penicillin allergy (cross-reactivity risk), severe renal impairment without dose adjustment",
+      pearl: "Workhorse broad-spectrum agent for empiric coverage in healthcare-associated and intra-abdominal infections; requires renal dose adjustment; extended infusion (4 hours) improves pharmacodynamic killing"
+    },{
+      name: "Amoxicillin",
+      type: "Aminopenicillin (narrow-spectrum)",
+      action: "Inhibits bacterial cell wall synthesis by binding penicillin-binding proteins; effective against streptococci, some E. coli, H. influenzae, and Listeria",
+      sideEffects: "Diarrhea, nausea, rash (especially with EBV/mono — maculopapular rash), allergic reactions",
+      contra: "Penicillin allergy, history of amoxicillin-associated cholestatic jaundice",
+      pearl: "First-line narrow-spectrum choice for strep pharyngitis, acute otitis media, and community-acquired sinusitis; exemplifies targeted narrow-spectrum prescribing when pathogen is predictable"
+    },{
+      name: "Vancomycin IV",
+      type: "Glycopeptide antibiotic (narrow-spectrum for gram-positive coverage)",
+      action: "Inhibits cell wall synthesis by binding D-Ala-D-Ala terminus of peptidoglycan precursors; bactericidal against MRSA, MSSA, and most gram-positive organisms",
+      sideEffects: "Red man syndrome (histamine-mediated with rapid infusion), nephrotoxicity, ototoxicity, thrombocytopenia",
+      contra: "Known hypersensitivity; use caution with concurrent nephrotoxic agents (aminoglycosides, NSAIDs)",
+      pearl: "Infuse over at least 60 minutes to prevent red man syndrome; monitor trough levels (AUC/MIC-guided dosing preferred); often paired with a gram-negative agent for empiric broad coverage"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["ALWAYS obtain cultures BEFORE starting antibiotics — but NEVER delay antibiotics for culture results in sepsis (each hour of delay increases mortality 7-8%)","Antibiotic stewardship principle: start broad, narrow early — review cultures at 48-72 hours and de-escalate to the narrowest effective agent","Narrow-spectrum antibiotics target a limited range of organisms (e.g., penicillin for GAS); broad-spectrum cover multiple organism types (e.g., carbapenems)","Procalcitonin < 0.25 ng/mL suggests viral etiology and supports withholding or stopping antibiotics; trending procalcitonin guides duration of therapy","C. difficile risk increases with each additional day of broad-spectrum antibiotic use — fluoroquinolones, clindamycin, and cephalosporins carry highest risk","Know your facility antibiogram — local resistance patterns should guide empiric antibiotic selection, not generic guidelines"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with narrow broad spectrum. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is treating a patient with community-acquired pneumonia and culture results showing Streptococcus pneumoniae sensitive to amoxicillin. The patient is currently on piperacillin-tazobactam. What is the appropriate action?",
+        options: ["Continue piperacillin-tazobactam since the patient is improving","De-escalate to oral amoxicillin based on culture sensitivities","Add vancomycin for additional gram-positive coverage","Switch to a fluoroquinolone for broader coverage"],
+        correct: 1,
+        rationale: "Antibiotic stewardship requires de-escalation from broad-spectrum to narrow-spectrum antibiotics once culture and sensitivity results identify the causative organism. Since S. pneumoniae is sensitive to amoxicillin, switching to this narrower agent reduces risk of resistance, C. difficile, and superinfection."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with narrow broad spectrum?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient develops profuse watery diarrhea on day 5 of broad-spectrum antibiotic therapy. Which complication should the NP suspect first?",
+        options: ["Medication non-adherence","Clostridioides difficile infection","Viral gastroenteritis","Lactose intolerance"],
+        correct: 1,
+        rationale: "C. difficile infection should be suspected in any patient who develops diarrhea during or within 8 weeks after antibiotic therapy. Broad-spectrum antibiotics disrupt normal gut flora, allowing C. difficile overgrowth and toxin production. Stool testing for C. difficile toxin should be ordered immediately."
       },
       {
-        question: "The patient asks about their narrow broad spectrum diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "When should an NP choose empiric broad-spectrum antibiotics over narrow-spectrum therapy?",
+        options: ["For all infections to ensure the pathogen is covered","When the causative organism is known from culture results","For severe, life-threatening infections before culture results are available","Only when narrow-spectrum antibiotics have failed"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Empiric broad-spectrum antibiotics are indicated for severe or life-threatening infections (sepsis, febrile neutropenia, hospital-acquired pneumonia) when the causative organism is unknown and treatment cannot wait for culture results. Once cultures identify the pathogen, therapy should be narrowed."
       },
     ]
   },
   "necrotizing-fasciitis-np": {
     title: "Necrotizing Fasciitis: LRINEC Score & Surgical Mgmt",
     cellular: { title: "Pathophysiology of Necrotizing Fasciitis: LRINEC Score & Surgical Mgmt", content: "The nurse practitioner applies advanced diagnostic reasoning to Necrotizing Fasciitis: LRINEC Score & Surgical Mgmt, integrating clinical assessment with evidence-based investigation to establish diagnoses and guide management. The clinician utilizes Bayesian reasoning, adjusting pre-test probability based on history and physical examination findings, then selecting diagnostic tests with understanding of their operating characteristics (sensitivity, specificity, positive and negative likelihood ratios, positive and negative predictive values in the context of disease prevalence). Test interpretation accounts for pre-analytical variables (specimen handling, timing, patient preparation), analytical accuracy (reference ranges, assay interference), and clinical context (false positives and negatives, incidental findings). The clinician applies clinical prediction rules and validated scoring systems to standardize decision-making and reduce diagnostic error. Imaging selection follows evidence-based appropriateness criteria (ACR Appropriateness Criteria, Choosing Wisely recommendations), balancing diagnostic yield against radiation exposure, cost, and potential for incidental findings that may lead to unnecessary further investigation. The clinician integrates point-of-care testing and bedside assessment techniques with laboratory and imaging studies to formulate a comprehensive diagnostic impression, determine appropriate management, and identify criteria for specialist consultation." },
-    riskFactors: ["Advanced age or extremes of age","Family history of necrotizing fasciitis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Diabetes mellitus (most common comorbidity; impaired immune function and peripheral vascular disease)","Immunosuppression (HIV, chemotherapy, chronic corticosteroid use, organ transplant)","Peripheral vascular disease and chronic venous insufficiency","IV drug use (injection site infections with skin flora and anaerobes)","Recent surgery, trauma, or skin breach (including minor cuts, insect bites, surgical wounds)","Obesity (poor tissue perfusion in adipose tissue)","Chronic liver disease and alcoholism","Chronic kidney disease","Malignancy (particularly hematologic malignancies)"],
+    diagnostics: ["LRINEC Score (Laboratory Risk Indicator for Necrotizing Fasciitis): CRP, WBC, hemoglobin, sodium, creatinine, glucose — score ≥ 6 has high suspicion, ≥ 8 strongly predictive","Blood cultures and wound cultures (aerobic and anaerobic) — obtain before antibiotics but do NOT delay surgery","CT with IV contrast showing fascial thickening, fat stranding, gas tracking along fascial planes (gas in soft tissue is pathognomonic but present in only 25%)","CBC: leukocytosis often > 15,000 with left shift; WBC > 25,000 or < 4,000 suggests severe sepsis","BMP: hyponatremia (Na < 135), elevated creatinine (prerenal from sepsis), hyperglycemia","CRP markedly elevated (typically > 150 mg/L)","Lactate elevated indicating tissue hypoperfusion","Coagulation studies (PT/INR, fibrinogen, D-dimer) to assess for DIC","Surgical exploration with tissue biopsy is the definitive diagnostic tool (dishwater-gray fascia, lack of bleeding, tissue that separates easily along fascial planes)"],
+    management: ["EMERGENT surgical debridement within 12-24 hours of presentation (every hour of delay increases mortality)","Serial surgical debridements every 24-48 hours until all necrotic tissue is removed and wound margins show healthy bleeding tissue","Empiric broad-spectrum IV antibiotics: vancomycin + piperacillin-tazobactam (or carbapenem) + clindamycin","Clindamycin specifically included to inhibit toxin production (suppresses M protein and exotoxin synthesis by GAS)","Aggressive IV fluid resuscitation for sepsis and septic shock management","Vasopressors (norepinephrine first-line) for refractory hypotension","IVIG (intravenous immunoglobulin) considered for streptococcal toxic shock syndrome","ICU admission for hemodynamic monitoring and organ support","Wound VAC (negative pressure wound therapy) after debridement to promote granulation","Reconstructive surgery (skin grafting, flap coverage) after infection is controlled"],
+    nursingActions: ["Mark the advancing border of erythema with a skin marker and document the TIME — reassess hourly to track rate of spread","Prepare patient for emergent surgical debridement — communicate urgency to surgical team","Administer broad-spectrum IV antibiotics as prescribed; ensure clindamycin is included in the regimen","Monitor for septic shock: continuous hemodynamic monitoring, hourly urine output, serial lactate levels","Provide aggressive pain management — pain out of proportion to visible findings is a hallmark and should not be undertreated","Maintain strict wound care with sterile technique for dressing changes; monitor wound for continued necrotic tissue","Coordinate with wound care specialist and nutritionist for protein-calorie optimization to support healing","Provide psychosocial support — patients often require multiple surgeries with significant disfigurement and prolonged hospitalization","Document wound assessment including size, depth, wound bed appearance, drainage character, and odor at each dressing change"],
+    assessmentFindings: ["Pain disproportionate to examination findings (hallmark early sign — severe pain with minimal skin changes)","Rapidly spreading erythema that extends beyond marked borders within hours","Skin changes progressing: erythema → dusky/purple discoloration → hemorrhagic bullae → necrosis","Crepitus on palpation (subcutaneous gas from anaerobic organisms — present in ~25% of cases)","Wooden-hard induration of subcutaneous tissue","Systemic toxicity: high fever, tachycardia, hypotension, altered mental status","Skin anesthesia (loss of sensation over affected area due to nerve destruction)","Dishwater-gray or foul-smelling wound drainage","Rapid clinical deterioration despite antibiotic therapy alone"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Localized pain, erythema, and swelling (may mimic cellulitis early)","Pain that seems excessive relative to visible skin findings","Low-grade fever with mild tachycardia","Localized tenderness with induration","Mildly elevated WBC and CRP"],
+      right: ["Rapidly spreading erythema beyond marked borders (2-3 cm/hour)","Hemorrhagic bullae and skin necrosis with dusky discoloration","Crepitus indicating subcutaneous gas","Septic shock: hypotension, tachycardia > 120, altered mental status","DIC: petechiae, bleeding from IV sites, oozing from wounds","Multiorgan failure (acute kidney injury, ARDS, hepatic dysfunction)","Skin anesthesia indicating fascial nerve destruction"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Piperacillin-Tazobactam (Zosyn)",
+      type: "Extended-spectrum penicillin + beta-lactamase inhibitor",
+      action: "Broad-spectrum coverage of gram-positives, gram-negatives, and anaerobes; inhibits cell wall synthesis while tazobactam protects against beta-lactamase-producing organisms",
+      sideEffects: "Diarrhea, nausea, thrombocytopenia, C. difficile, hypokalemia, rash",
+      contra: "Penicillin allergy, severe renal impairment without dose adjustment",
+      pearl: "Provides broad polymicrobial coverage essential for Type I (polymicrobial) necrotizing fasciitis; combine with vancomycin for MRSA coverage and clindamycin for toxin suppression"
+    },{
+      name: "Clindamycin IV",
+      type: "Lincosamide antibiotic",
+      action: "Inhibits bacterial protein synthesis at the 50S ribosomal subunit; critically suppresses production of bacterial exotoxins and M protein by Group A Streptococcus",
+      sideEffects: "C. difficile colitis (highest risk antibiotic), diarrhea, nausea, rash, hepatotoxicity",
+      contra: "History of C. difficile infection (relative), history of antibiotic-associated colitis",
+      pearl: "Included specifically for TOXIN SUPPRESSION — even if the organism is sensitive to penicillin, clindamycin is added because it inhibits exotoxin production that drives tissue destruction and toxic shock in GAS infections"
+    },{
+      name: "Vancomycin IV",
+      type: "Glycopeptide antibiotic",
+      action: "Inhibits cell wall synthesis by binding D-Ala-D-Ala peptidoglycan precursors; provides MRSA coverage in empiric regimen",
+      sideEffects: "Red man syndrome (infusion-rate related), nephrotoxicity, ototoxicity, thrombocytopenia",
+      contra: "Known hypersensitivity; caution with concurrent nephrotoxic agents",
+      pearl: "Essential component of empiric necrotizing fasciitis regimen for MRSA coverage; infuse over ≥ 60 minutes; monitor AUC/MIC-guided dosing; discontinue if cultures are MRSA-negative"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Pain out of proportion to examination findings is the #1 early clinical clue — if a patient has severe pain but the skin looks relatively normal, think necrotizing fasciitis","Necrotizing fasciitis is a SURGICAL emergency — antibiotics alone cannot treat it; definitive management is aggressive surgical debridement","The LRINEC score ≥ 6 raises suspicion and ≥ 8 is strongly predictive, but a low score does NOT rule it out — clinical suspicion should drive decision-making","Clindamycin is included in the antibiotic regimen specifically to suppress toxin production, NOT just for antimicrobial coverage","CT may show fascial gas tracking, but imaging should NEVER delay surgical exploration when clinical suspicion is high","Mortality is 20-40% overall and approaches 100% without surgical intervention — every hour of surgical delay increases mortality","Mark the leading edge of erythema with a marker and TIME — spreading beyond the marked border is a key diagnostic and monitoring tool"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with necrotizing fasciitis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP evaluates a diabetic patient with a lower extremity wound. The patient reports severe pain rated 9/10, but the wound appears to be a small area of erythema. Which finding most strongly suggests necrotizing fasciitis over cellulitis?",
+        options: ["Localized warmth and redness","Pain disproportionate to visible examination findings","Low-grade fever","Mild leukocytosis"],
+        correct: 1,
+        rationale: "Pain out of proportion to examination findings is the hallmark early sign of necrotizing fasciitis. While cellulitis causes pain commensurate with visible inflammation, necrotizing fasciitis destroys tissue along deep fascial planes before skin changes become apparent, causing severe pain with seemingly minor surface findings."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with necrotizing fasciitis?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their necrotizing fasciitis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Why is clindamycin specifically included in the antibiotic regimen for necrotizing fasciitis caused by Group A Streptococcus?",
+        options: ["It provides the best gram-negative coverage","It penetrates necrotic tissue better than other antibiotics","It suppresses bacterial exotoxin and M protein production that drive tissue destruction","It is the only antibiotic effective against streptococcal species"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Clindamycin is a protein synthesis inhibitor that suppresses production of streptococcal exotoxins (superantigens causing toxic shock) and M protein (anti-phagocytic virulence factor). This toxin suppression effect is independent of its bactericidal activity and is the primary reason it is included alongside cell wall-active antibiotics."
+      },
+      {
+        question: "A patient with suspected necrotizing fasciitis has a LRINEC score of 4. How should the NP proceed?",
+        options: ["A low score rules out necrotizing fasciitis; treat as cellulitis","The score is indeterminate; order CT and continue close monitoring with low threshold for surgical consultation","Discharge the patient with oral antibiotics","Repeat the LRINEC score in 24 hours"],
+        correct: 1,
+        rationale: "A LRINEC score < 6 does NOT rule out necrotizing fasciitis. Clinical suspicion should drive decision-making. The NP should order imaging, continue close monitoring, and maintain a low threshold for surgical consultation. If clinical signs progress (pain out of proportion, spreading erythema, systemic toxicity), emergent surgical exploration is indicated regardless of the score."
       },
     ]
   },
   "necrotizing-fasciitis-rn": {
     title: "Necrotizing Fasciitis",
     cellular: { title: "Pathophysiology of Necrotizing Fasciitis", content: "Necrotizing fasciitis is a rapidly progressive, life-threatening infection of the deep fascia and subcutaneous tissue characterized by widespread fascial necrosis with relative sparing of overlying skin in early stages. Type I (polymicrobial) involves a synergistic mixture of aerobic and anaerobic organisms and typically occurs after surgery or in patients with diabetes and peripheral vascular disease. Type II (monomicrobial) is most commonly caused by Group A Streptococcus (GAS), which produces virulence factors including M protein (resists phagocytosis), streptococcal pyrogenic exotoxins (superantigens causing streptococcal toxic shock syndrome), streptolysin (destroys cell membranes), and hyaluronidase (facilitates tissue spread). The infection spreads rapidly along fascial planes at rates of up to 2-3 cm per hour, causing thrombosis of perforating blood vessels and ischemic necrosis of overlying subcutaneous tissue and skin. The nurse recognizes early warning signs (pain disproportionate to examination findings, rapidly spreading erythema, skin changes including bullae and crepitus, systemic toxicity), marks the leading edge of erythema and times observations to track spread, prepares for emergent surgical debridement (the definitive treatment), administers broad-spectrum IV antibiotics, monitors for septic shock and DIC, assists with serial debridements, and provides wound care support through a potentially prolonged recovery." },
-    riskFactors: ["Advanced age or extremes of age","Family history of necrotizing fasciitis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Diabetes mellitus (most common risk factor — impaired WBC function and peripheral vascular disease)","Immunosuppression (HIV/AIDS, chemotherapy, chronic corticosteroid use, transplant recipients)","IV drug use (injection sites serve as portals of entry for skin flora and anaerobes)","Peripheral vascular disease and chronic venous stasis","Recent surgery, trauma, or any break in skin integrity (even minor cuts or insect bites)","Obesity (poor perfusion of adipose tissue promotes anaerobic bacterial growth)","Chronic alcoholism and liver disease","Chronic kidney disease","Advanced age"],
+    diagnostics: ["CBC with differential: leukocytosis > 15,000 with left shift; WBC > 25,000 indicates severe infection","CRP markedly elevated (typically > 150 mg/L) — component of LRINEC score","BMP: hyponatremia, elevated creatinine, hyperglycemia","Blood cultures x 2 sets and wound cultures (aerobic and anaerobic) obtained before antibiotics","Lactate level (elevated indicates tissue hypoperfusion and sepsis)","CT scan showing fascial edema, fat stranding, or subcutaneous gas tracking along fascial planes","X-ray may reveal subcutaneous emphysema (gas in soft tissues)","Coagulation studies (PT/INR, D-dimer) to assess for DIC","Surgical exploration is the definitive diagnostic procedure — tissue appears dishwater gray and separates easily"],
+    management: ["Emergent surgical debridement (definitive treatment — do NOT delay; antibiotics alone are insufficient)","Serial debridements every 24-48 hours until wound margins show healthy bleeding tissue","IV broad-spectrum antibiotics: vancomycin + piperacillin-tazobactam + clindamycin","Aggressive IV fluid resuscitation for sepsis management","Vasopressor support (norepinephrine first-line) for septic shock","Pain management with IV opioids (pain is often severe and undertreated)","Wound VAC (negative pressure wound therapy) after debridement to promote granulation tissue","Nutritional support: high-protein diet to support wound healing","Skin grafting and reconstructive surgery after infection control is achieved"],
+    nursingActions: ["Mark the leading edge of erythema with a skin marker and document the TIME — reassess hourly to track spread rate","Prepare patient for emergent surgery — obtain consent, start IV access, administer pre-op antibiotics","Administer IV antibiotics as ordered; verify clindamycin is included for toxin suppression","Monitor for sepsis and septic shock: continuous vital signs, hourly urine output, serial lactate levels","Perform sterile wound care and dressing changes; document wound size, depth, drainage, and odor","Implement strict infection control precautions (contact precautions if MRSA suspected)","Provide aggressive pain management — pain disproportionate to findings is expected and should not be undertreated","Monitor for DIC: assess for petechiae, bleeding from IV sites, oozing from wounds, and bruising","Provide emotional support — disfiguring wounds and prolonged hospitalization cause significant psychological distress"],
+    assessmentFindings: ["Pain disproportionate to visible skin changes (hallmark early finding — severe pain with minimal erythema)","Rapidly advancing erythema that spreads beyond marked borders within hours","Progressive skin changes: erythema → dusky/violaceous discoloration → hemorrhagic bullae → frank necrosis","Crepitus on palpation indicating subcutaneous gas (present in ~25% of cases)","Wooden-hard induration of subcutaneous tissue extending beyond visible erythema","High fever with systemic toxicity: tachycardia, hypotension, altered mental status","Skin anesthesia over affected area (nerve destruction within necrotic fascia)","Foul-smelling or dishwater-gray wound drainage","Edema and swelling out of proportion to visible skin involvement"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Localized erythema, warmth, and swelling (may mimic cellulitis)","Pain that seems disproportionate to visible findings","Low-grade fever with mild tachycardia","Tenderness with induration beyond erythema borders","Mildly elevated WBC and CRP"],
+      right: ["Rapidly spreading erythema beyond marked borders (can advance 2-3 cm/hour)","Hemorrhagic bullae and skin necrosis with dusky discoloration","Crepitus on palpation (subcutaneous gas)","Septic shock: hypotension, tachycardia > 120, altered mental status, oliguria","DIC: diffuse bleeding, petechiae, oozing from IV sites","Multiorgan failure (acute kidney injury, ARDS, hepatic dysfunction)","Skin anesthesia indicating fascial nerve destruction"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Piperacillin-Tazobactam (Zosyn)",
+      type: "Extended-spectrum penicillin + beta-lactamase inhibitor",
+      action: "Broad-spectrum coverage against gram-positives, gram-negatives, and anaerobes by inhibiting cell wall synthesis",
+      sideEffects: "Diarrhea, nausea, thrombocytopenia, C. difficile infection, hypokalemia",
+      contra: "Penicillin allergy, severe renal impairment without dose adjustment",
+      pearl: "Key component of empiric necrotizing fasciitis coverage for polymicrobial infections (Type I); combine with vancomycin for MRSA coverage and clindamycin for toxin suppression"
+    },{
+      name: "Clindamycin IV",
+      type: "Lincosamide antibiotic",
+      action: "Inhibits bacterial protein synthesis at the 50S ribosome; suppresses production of streptococcal exotoxins and M protein that drive tissue destruction",
+      sideEffects: "C. difficile colitis, diarrhea, nausea, rash, hepatotoxicity",
+      contra: "History of C. difficile infection (relative), antibiotic-associated colitis",
+      pearl: "Added specifically for TOXIN SUPPRESSION in GAS necrotizing fasciitis — it inhibits exotoxin production even when the organism is susceptible to penicillin; this is why it is always included in the regimen"
+    },{
+      name: "Vancomycin IV",
+      type: "Glycopeptide antibiotic",
+      action: "Inhibits cell wall synthesis; provides empiric MRSA coverage in necrotizing fasciitis regimen",
+      sideEffects: "Red man syndrome (rate-related), nephrotoxicity, ototoxicity, thrombocytopenia",
+      contra: "Known hypersensitivity; caution with concurrent nephrotoxic agents",
+      pearl: "Infuse over ≥ 60 minutes to prevent red man syndrome; provides essential MRSA coverage in empiric therapy; can be discontinued if cultures are MRSA-negative"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Pain out of proportion to visible findings is the most important early sign — if severe pain exists with minimal skin changes, suspect necrotizing fasciitis","Surgical debridement is the definitive treatment — antibiotics alone CANNOT cure necrotizing fasciitis; every hour of surgical delay increases mortality","Mark erythema borders with a skin marker and WRITE THE TIME — spreading beyond the marked line within hours is a key diagnostic indicator","Clindamycin is included to suppress toxin production, not just for antimicrobial coverage — this is a critical exam point","Type I necrotizing fasciitis is polymicrobial (mixed aerobic/anaerobic); Type II is monomicrobial (usually Group A Streptococcus)","Mortality is 20-40% even with aggressive treatment — approaches 100% without surgical intervention"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with necrotizing fasciitis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with necrotizing fasciitis?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their necrotizing fasciitis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A nurse assesses a patient with a lower extremity wound infection. The patient reports 10/10 pain, but the wound shows only mild erythema. What should the nurse suspect?",
+        options: ["Normal postoperative pain","Cellulitis requiring oral antibiotics","Necrotizing fasciitis due to pain out of proportion to findings","Peripheral neuropathy"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Pain disproportionate to visible examination findings is the hallmark early sign of necrotizing fasciitis. The infection destroys tissue along deep fascial planes before skin changes become apparent. This finding warrants immediate notification of the provider and preparation for potential emergent surgical intervention."
+      },
+      {
+        question: "Why does the nurse mark the borders of erythema with a skin marker and note the time in a patient with suspected necrotizing fasciitis?",
+        options: ["To document wound size for insurance purposes","To track the rate of infection spread — necrotizing fasciitis can advance 2-3 cm per hour","To determine the appropriate antibiotic dose","To plan the incision site for the surgeon"],
+        correct: 1,
+        rationale: "Marking erythema borders with the time allows the healthcare team to objectively track the rate of infection spread. Necrotizing fasciitis spreads along fascial planes at rates of 2-3 cm per hour. Erythema that rapidly extends beyond marked borders is a critical indicator that differentiates necrotizing fasciitis from cellulitis and supports the need for emergent surgical debridement."
+      },
+      {
+        question: "A patient with necrotizing fasciitis is prescribed vancomycin, piperacillin-tazobactam, and clindamycin. A new nurse asks why clindamycin is included. What is the best response?",
+        options: ["Clindamycin provides additional gram-negative coverage","Clindamycin is the most effective antibiotic against anaerobes","Clindamycin suppresses bacterial toxin production that drives tissue destruction and toxic shock","Clindamycin is needed because the other antibiotics are not bactericidal"],
+        correct: 2,
+        rationale: "Clindamycin is a protein synthesis inhibitor that suppresses production of streptococcal exotoxins (superantigens) and M protein. These virulence factors drive the rapid tissue destruction and toxic shock seen in GAS necrotizing fasciitis. Clindamycin's toxin suppression effect is independent of its antimicrobial activity and is the specific reason it is included in the regimen."
       },
     ]
   },

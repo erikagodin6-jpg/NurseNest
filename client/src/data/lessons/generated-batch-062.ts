@@ -4,210 +4,259 @@ export const generatedBatch062Lessons: Record<string, LessonContent> = {
   "motor-sensory-pathways-np": {
     title: "Motor vs Sensory Pathways",
     cellular: { title: "Pathophysiology of Motor vs Sensory Pathways", content: "the clinician applies advanced clinical reasoning to the assessment and management of Motor vs Sensory Pathways, integrating comprehensive pathophysiological knowledge with evidence-based diagnostic and therapeutic decision-making at the independent practitioner level. Assessment includes focused history using structured frameworks (OLDCARTS for symptom analysis, comprehensive review of systems), targeted physical examination with provocative maneuvers as indicated, and interpretation of relevant diagnostic studies (laboratory investigations, imaging, and specialized testing). The clinician formulates a differential diagnosis using systematic clinical reasoning, applies validated clinical prediction rules and scoring systems to guide investigation and management, and selects evidence-based pharmacotherapy based on mechanism of action, pharmacokinetic/pharmacodynamic principles, patient-specific factors (age, renal and hepatic function, comorbidities, drug interactions, pregnancy status, allergies), and current clinical practice guidelines. Management integrates pharmacological and non-pharmacological interventions, patient education with health literacy assessment, shared decision-making, and appropriate follow-up monitoring. The clinician identifies red flags requiring urgent investigation or intervention, determines criteria for specialist referral or emergency department transfer, coordinates interprofessional collaborative care, and implements quality improvement strategies to optimize patient outcomes." },
-    riskFactors: ["Advanced age or extremes of age","Family history of motor sensory pathways or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Cerebrovascular disease (stroke, TIA, or cerebral ischemia)","Demyelinating disorders (multiple sclerosis, Guillain-Barré syndrome)","Spinal cord injury or compression (trauma, tumor, disc herniation)","Diabetes mellitus with peripheral neuropathy","Vitamin B12 or folate deficiency","Neurodegenerative diseases (ALS, Parkinson disease)","Chronic alcohol use causing peripheral neuropathy","Autoimmune conditions affecting the nervous system (myasthenia gravis, lupus)"],
+    diagnostics: ["Order and interpret nerve conduction studies (NCS) and electromyography (EMG) to differentiate upper vs lower motor neuron lesions","MRI of brain and spinal cord to identify demyelination, compression, or structural lesions","Order vitamin B12, methylmalonic acid, folate, TSH, HbA1c, and RPR to identify reversible causes","Perform comprehensive neurological examination: motor strength grading (0-5), deep tendon reflexes, sensory modalities (light touch, pinprick, vibration, proprioception)","Lumbar puncture with CSF analysis when demyelinating or infectious etiology suspected","Order CT angiography or MRA for suspected vascular causes of motor/sensory deficits"],
+    management: ["Identify and treat underlying etiology (e.g., B12 supplementation, glycemic control, immunotherapy for MS)","Prescribe gabapentin or pregabalin for neuropathic pain management","Order physical and occupational therapy referrals for motor rehabilitation","Prescribe corticosteroids for acute demyelinating episodes (IV methylprednisolone)","Initiate disease-modifying therapy for confirmed MS (interferons, glatiramer, natalizumab)","Refer to neurology for refractory cases, progressive deficits, or diagnostic uncertainty","Manage spasticity with baclofen or tizanidine as indicated"],
+    nursingActions: ["Perform serial neurological assessments comparing motor strength and sensory function bilaterally","Assess gait, balance, and fall risk using standardized tools; implement fall prevention interventions","Monitor for signs of autonomic dysfunction (orthostatic hypotension, bowel/bladder changes)","Administer disease-modifying therapies and monitor for infusion reactions or injection site reactions","Educate patient on energy conservation techniques and adaptive equipment use","Coordinate multidisciplinary rehabilitation team (PT, OT, speech therapy)","Document detailed neurological exam findings to track progression or improvement"],
+    assessmentFindings: ["Motor deficits: weakness, spasticity (UMN) or flaccidity (LMN), abnormal gait patterns","Sensory deficits: numbness, tingling, paresthesias, loss of proprioception or vibration sense","Reflex changes: hyperreflexia and positive Babinski (UMN) vs hyporeflexia and fasciculations (LMN)","Muscle atrophy or wasting in affected extremities (LMN pattern)","Dermatomal or stocking-glove distribution of sensory loss","Positive Romberg sign indicating posterior column dysfunction"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild paresthesias or intermittent numbness in extremities","Subtle weakness (4/5 strength) in one muscle group","Decreased vibration sense distally","Mild gait unsteadiness without falls","Diminished but present deep tendon reflexes"],
+      right: ["Acute onset hemiplegia or paraplegia suggesting stroke or cord compression","Rapidly ascending paralysis (Guillain-Barré syndrome)","Loss of bowel or bladder function (cauda equina syndrome)","Bilateral Babinski signs with clonus","Respiratory muscle weakness requiring ventilatory support","Sudden loss of all sensory modalities below a spinal level"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Gabapentin (Neurontin)",
+      type: "Anticonvulsant/neuropathic pain agent",
+      action: "Binds to alpha-2-delta subunit of voltage-gated calcium channels, reducing excitatory neurotransmitter release to decrease neuropathic pain signaling",
+      sideEffects: "Sedation, dizziness, peripheral edema, ataxia, weight gain",
+      contra: "Hypersensitivity; use caution in renal impairment (dose adjust by CrCl)",
+      pearl: "Titrate slowly to minimize sedation; must taper gradually to avoid withdrawal seizures; not effective for acute nociceptive pain"
+    },{
+      name: "Methylprednisolone IV (Solu-Medrol)",
+      type: "Corticosteroid",
+      action: "Suppresses inflammatory and immune-mediated demyelination by inhibiting cytokine production and reducing blood-brain barrier permeability",
+      sideEffects: "Hyperglycemia, insomnia, GI upset, immunosuppression, mood changes, fluid retention",
+      contra: "Active systemic fungal infection; caution with diabetes, peptic ulcer disease",
+      pearl: "Standard MS relapse protocol: 1g IV daily for 3-5 days; monitor blood glucose Q6H during infusion; give with PPI for GI protection"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["UMN lesions (brain/spinal cord) cause spasticity, hyperreflexia, and positive Babinski; LMN lesions (peripheral nerve/anterior horn) cause flaccidity, hyporeflexia, and fasciculations","Corticospinal (lateral) tract carries motor signals contralaterally; dorsal columns carry proprioception/vibration ipsilaterally; spinothalamic tract carries pain/temperature contralaterally","Brown-Séquard syndrome (hemisection of cord): ipsilateral motor loss and proprioception loss, contralateral pain/temperature loss below the lesion","Cauda equina syndrome is a surgical emergency: saddle anesthesia, urinary retention, bilateral leg weakness - requires emergent MRI and decompression","Vitamin B12 deficiency causes subacute combined degeneration affecting dorsal columns (proprioception loss) and corticospinal tracts (spastic paraparesis)","Always compare neurological findings bilaterally and document using standardized motor grading (0-5) for reliable trending"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with motor sensory pathways. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with motor sensory pathways?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their motor sensory pathways diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient presents with ipsilateral motor weakness, ipsilateral loss of proprioception, and contralateral loss of pain/temperature sensation below T10. Which condition does this presentation suggest?",
+        options: ["Central cord syndrome","Anterior cord syndrome","Brown-Séquard syndrome","Cauda equina syndrome"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Brown-Séquard syndrome results from hemisection of the spinal cord, producing ipsilateral motor paralysis (corticospinal tract) and proprioception loss (dorsal columns), with contralateral pain/temperature loss (spinothalamic tract) below the lesion level."
+      },
+      {
+        question: "An NP is evaluating a patient with progressive bilateral lower extremity weakness and hyperreflexia. Which diagnostic finding would differentiate an upper motor neuron lesion from a lower motor neuron lesion?",
+        options: ["Fasciculations on EMG","Positive Babinski sign","Decreased deep tendon reflexes","Muscle flaccidity on examination"],
+        correct: 1,
+        rationale: "A positive Babinski sign (upgoing plantar response) is pathognomonic for upper motor neuron dysfunction. Lower motor neuron lesions produce fasciculations, hyporeflexia, and flaccidity rather than hyperreflexia and Babinski."
+      },
+      {
+        question: "A patient with multiple sclerosis presents with an acute exacerbation of optic neuritis and leg weakness. Which first-line treatment should the NP order?",
+        options: ["Oral gabapentin 300 mg TID","IV methylprednisolone 1g daily for 3-5 days","Intramuscular interferon beta-1a weekly","Oral baclofen 10 mg TID"],
+        correct: 1,
+        rationale: "IV methylprednisolone is the first-line treatment for acute MS relapses, reducing inflammation and shortening the duration of the exacerbation. Interferon beta-1a is a disease-modifying agent for long-term management, not acute treatment. Gabapentin and baclofen address symptoms but not the underlying relapse."
       },
     ]
   },
   "moyamoya-disease-rn": {
     title: "Moyamoya Disease",
     cellular: { title: "Pathophysiology of Moyamoya Disease", content: "Moyamoya disease is a progressive cerebrovascular disorder characterized by bilateral stenosis and eventual occlusion of the terminal internal carotid arteries and their proximal branches (anterior and middle cerebral arteries). The stenosis results from fibrocellular intimal thickening (smooth muscle cell proliferation, not atherosclerosis) that gradually narrows the vessel lumen. In response to progressive ischemia, a fragile network of collateral blood vessels develops at the base of the brain, producing the characteristic 'puff of smoke' (moyamoya in Japanese) appearance on cerebral angiography. These collateral vessels are thin-walled and prone to rupture, causing hemorrhagic stroke, while the stenotic main arteries cause ischemic symptoms. Children typically present with ischemic strokes or transient ischemic attacks (hemiparesis, speech difficulty, often triggered by hyperventilation or crying which causes cerebral vasoconstriction from hypocapnia), while adults more commonly present with hemorrhagic stroke. The nurse performs serial neurological assessments, monitors for ischemic and hemorrhagic stroke symptoms, avoids hyperventilation in at-risk patients (prevents hypocapnia-induced vasoconstriction), manages blood pressure carefully (avoid hypotension which worsens ischemia, avoid hypertension which risks hemorrhage), maintains adequate hydration, and provides pre- and post-operative care for revascularization surgery (direct or indirect bypass procedures)." },
-    riskFactors: ["Advanced age or extremes of age","Family history of moyamoya disease or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["East Asian descent (highest prevalence in Japan and Korea)","Female sex (female-to-male ratio approximately 2:1)","Family history of moyamoya disease (10-15% have familial occurrence; RNF213 gene variant)","Age peaks: children 5-10 years and adults 30-50 years","Associated conditions: sickle cell disease, neurofibromatosis type 1, Down syndrome","Prior cranial radiation therapy","Autoimmune conditions (Graves disease, type 1 diabetes)"],
+    diagnostics: ["Cerebral angiography (gold standard): bilateral ICA stenosis with 'puff of smoke' collateral network at skull base","MRI/MRA of brain: identifies ischemic or hemorrhagic changes and vascular stenosis non-invasively","CT angiography: demonstrates arterial stenosis and collateral vessel formation","Cerebral perfusion studies (SPECT, xenon CT, PET): assess cerebral blood flow and reserve","Transcranial Doppler ultrasonography: elevated velocities in stenotic vessels, diminished flow distally","EEG: may show hyperventilation-induced slowing ('re-buildup' phenomenon unique to moyamoya)"],
+    management: ["Surgical revascularization is the definitive treatment: direct bypass (STA-MCA anastomosis) or indirect bypass (EDAS, EMS, or encephaloduroarteriosynangiosis)","Antiplatelet therapy (aspirin) to reduce ischemic stroke risk in non-surgical candidates","Strict blood pressure management: avoid hypotension (worsens ischemia) and severe hypertension (hemorrhage risk)","Aggressive IV hydration to maintain adequate cerebral perfusion","Avoid hyperventilation and crying in children (hypocapnia causes vasoconstriction and ischemia)","Calcium channel blockers may be used to reduce headaches associated with collateral vasculature","Seizure management with antiepileptic drugs if seizures occur"],
+    nursingActions: ["Perform serial neurological assessments (GCS, pupil reactivity, motor/sensory function, speech) at least every 2-4 hours","Monitor blood pressure closely; report hypotension or hypertensive episodes immediately per parameters","Maintain adequate hydration status; monitor I&O and prevent dehydration","Avoid activities that trigger hyperventilation in pediatric patients (minimize crying, blowing instruments, strenuous exercise)","Provide pre- and post-operative care for revascularization surgery: monitor surgical site, assess for new neurological deficits","Implement seizure precautions and fall prevention measures","Educate family on stroke symptoms and when to seek emergency care"],
+    assessmentFindings: ["Transient ischemic attacks (TIAs): transient hemiparesis, speech difficulty, or sensory deficits often triggered by hyperventilation or crying","Ischemic stroke symptoms: sudden onset hemiplegia, aphasia, visual field deficits","Hemorrhagic stroke in adults: sudden severe headache, altered consciousness, focal neurological deficits","Seizures (more common in pediatric patients)","Recurrent headaches (often migraine-like, from dilated collateral vessels)","Involuntary movements (chorea) in children","Cognitive decline or developmental delays with chronic cerebral hypoperfusion"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Intermittent headaches or morning headaches","Transient episodes of limb weakness resolving within minutes","Mild speech difficulty during or after exertion or crying","Stable neurological exam with history of TIA","Involuntary choreiform movements in a child"],
+      right: ["Acute onset hemiplegia or dense hemiparesis (ischemic stroke)","Sudden severe headache with vomiting and altered consciousness (hemorrhagic stroke)","Rapidly declining GCS score","Fixed dilated pupil with contralateral hemiparesis (uncal herniation)","Status epilepticus","Acute aphasia with inability to follow commands"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Aspirin",
+      type: "Antiplatelet agent",
+      action: "Irreversibly inhibits cyclooxygenase-1 (COX-1), preventing thromboxane A2 synthesis and platelet aggregation to reduce ischemic stroke risk",
+      sideEffects: "GI bleeding, bruising, tinnitus, Reye syndrome risk in children with viral illness",
+      contra: "Active bleeding, bleeding disorders, aspirin-sensitive asthma, children with viral illness (Reye syndrome)",
+      pearl: "Low-dose aspirin (1-5 mg/kg/day in children) is commonly used pre- and post-operatively for moyamoya; monitor for signs of bleeding"
+    },{
+      name: "Verapamil",
+      type: "Calcium channel blocker",
+      action: "Inhibits L-type calcium channels in vascular smooth muscle, causing vasodilation and reducing headache frequency associated with collateral vessel dilation",
+      sideEffects: "Hypotension, bradycardia, constipation, dizziness, peripheral edema",
+      contra: "Severe hypotension, heart block (2nd/3rd degree), decompensated heart failure, concurrent IV beta-blocker use",
+      pearl: "Used off-label for moyamoya-related headaches; monitor blood pressure carefully as hypotension can worsen cerebral ischemia"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Moyamoya means 'puff of smoke' in Japanese, describing the angiographic appearance of the fine collateral network at the base of the brain","Children with moyamoya typically present with ischemic symptoms (TIAs, strokes), while adults more commonly present with hemorrhagic stroke from fragile collateral vessel rupture","Hyperventilation and crying are major triggers for TIA in pediatric patients because hypocapnia causes vasoconstriction in already compromised cerebral vessels","Surgical revascularization (direct or indirect bypass) is the only treatment that improves long-term outcomes; medical management alone does not prevent disease progression","Blood pressure must be carefully maintained in a narrow range: hypotension worsens ischemia, hypertension risks hemorrhage from fragile collateral vessels","The 're-buildup' phenomenon on EEG (slow wave reappearance after hyperventilation) is nearly pathognomonic for moyamoya disease"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with moyamoya disease. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse is caring for a 7-year-old with moyamoya disease. The child becomes upset and begins crying vigorously. What should the nurse do first?",
+        options: ["Allow the child to cry it out to develop coping skills","Calm the child immediately and minimize hyperventilation","Administer PRN analgesic for anticipated headache","Place the child in Trendelenburg position"],
+        correct: 1,
+        rationale: "Crying causes hyperventilation, leading to hypocapnia and cerebral vasoconstriction. In moyamoya disease, this can trigger a TIA or ischemic stroke due to already compromised cerebral perfusion. The priority is to calm the child to prevent hyperventilation."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with moyamoya disease?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "Which diagnostic test is the gold standard for confirming moyamoya disease?",
+        options: ["CT scan of the head without contrast","Cerebral angiography","Electroencephalography (EEG)","Lumbar puncture with CSF analysis"],
+        correct: 1,
+        rationale: "Cerebral angiography is the gold standard for moyamoya disease, demonstrating bilateral internal carotid artery stenosis and the characteristic 'puff of smoke' collateral vessel network at the skull base. MRI/MRA can suggest the diagnosis but angiography confirms it."
       },
       {
-        question: "The patient asks about their moyamoya disease diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A post-operative moyamoya patient who underwent STA-MCA bypass develops sudden right-sided weakness and slurred speech. What is the priority nursing action?",
+        options: ["Elevate the head of bed to 90 degrees and apply supplemental oxygen","Perform a rapid neurological assessment and notify the neurosurgeon immediately","Administer the next scheduled dose of aspirin early","Document the finding and reassess in 30 minutes"],
+        correct: 1,
+        rationale: "New neurological deficits after revascularization surgery may indicate bypass graft occlusion, hyperperfusion syndrome, or postoperative stroke. Immediate neurological assessment and urgent notification of the surgical team are essential for timely intervention."
       },
     ]
   },
   "mpgn-rn": {
     title: "Membranoproliferative Glomerulonephritis",
     cellular: { title: "Membranoproliferative Glomerulonephritis", content: "Membranoproliferative glomerulonephritis (MPGN) is a pattern of glomerular injury characterized by mesangial cell proliferation, capillary wall thickening from subendothelial immune deposits, and duplication of the glomerular basement membrane (creating a 'tram-track' appearance on light microscopy). Immune complex-mediated MPGN results from chronic infection (hepatitis B or C, bacterial endocarditis), autoimmune disease (SLE), or monoclonal gammopathies, where circulating immune complexes deposit in the subendothelial space, activating complement and recruiting inflammatory cells. Complement-mediated MPGN (C3 glomerulopathy) involves dysregulation of the alternative complement pathway (from C3 nephritic factor autoantibody or genetic mutations in complement regulatory proteins), causing uncontrolled C3 activation and deposition in the glomerulus. Clinical presentation includes nephritic features (hematuria, hypertension, low complement levels) with nephrotic features (proteinuria, edema). The nurse monitors renal function and urinalysis, monitors complement levels (C3, C4), assesses blood pressure (hypertension accelerates progression), monitors for progression of renal dysfunction, administers prescribed therapy targeting the underlying cause (antivirals for hepatitis, immunosuppression for autoimmune forms, complement inhibitors such as eculizumab for C3 glomerulopathy), and manages nephrotic complications." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mpgn or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Chronic hepatitis B or C infection (most common cause of immune complex-mediated MPGN)","Systemic lupus erythematosus (SLE) or other autoimmune diseases","Monoclonal gammopathies (multiple myeloma, Waldenström macroglobulinemia)","Chronic bacterial infections (infective endocarditis, infected ventriculoatrial shunts)","Genetic mutations in complement regulatory proteins (factor H, factor I, C3)","C3 nephritic factor autoantibody (causes uncontrolled alternative complement activation)","Cryoglobulinemia associated with hepatitis C"],
+    diagnostics: ["Renal biopsy (gold standard): light microscopy shows mesangial proliferation, capillary wall thickening, and 'tram-track' GBM duplication; immunofluorescence shows C3 and immunoglobulin deposits","Serum complement levels: low C3 (both types), low C4 (immune complex-mediated), normal C4 (complement-mediated/C3 glomerulopathy)","Urinalysis: hematuria (often with dysmorphic RBCs and RBC casts), proteinuria (may be nephrotic-range)","24-hour urine protein or spot urine protein-to-creatinine ratio to quantify proteinuria","BUN, serum creatinine, and GFR to assess renal function","Hepatitis B and C serologies, ANA, anti-dsDNA, serum protein electrophoresis (SPEP) to identify underlying cause","C3 nephritic factor assay and complement factor H levels for suspected C3 glomerulopathy"],
+    management: ["Treat underlying cause: direct-acting antivirals for hepatitis C, antibiotics for chronic infections, chemotherapy for monoclonal gammopathies","ACE inhibitors or ARBs for blood pressure control and proteinuria reduction","Immunosuppressive therapy for autoimmune-mediated MPGN (corticosteroids, mycophenolate mofetil, cyclophosphamide)","Eculizumab (complement C5 inhibitor) for refractory C3 glomerulopathy with dysregulated complement","Diuretics for edema management (furosemide)","Sodium and fluid restriction for edema and hypertension control","Statin therapy for hyperlipidemia associated with nephrotic syndrome","Monitor for progression to end-stage renal disease; prepare for dialysis or transplant if needed"],
+    nursingActions: ["Monitor blood pressure every 4 hours; administer antihypertensives as ordered to prevent accelerated renal damage","Assess for edema: daily weights, measure abdominal girth, assess periorbital and peripheral edema","Monitor strict I&O; report urine output less than 0.5 mL/kg/hr","Collect and label urine specimens for urinalysis and 24-hour protein accurately","Administer immunosuppressive therapy as ordered; monitor for infection signs (fever, malaise)","Educate patient on sodium-restricted diet (2g/day) and fluid restrictions if ordered","Monitor lab trends: BUN, creatinine, complement levels, CBC, albumin; report worsening values"],
+    assessmentFindings: ["Peripheral edema (lower extremities, periorbital, especially morning periorbital edema)","Hypertension (often difficult to control)","Tea-colored or cola-colored urine (gross hematuria)","Foamy urine indicating significant proteinuria","Fatigue and malaise from anemia of chronic kidney disease","Decreased urine output as renal function declines","Weight gain from fluid retention"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild peripheral edema (trace to 1+ pitting)","Blood pressure mildly elevated (140-150/90-95 mmHg)","Microscopic hematuria on urinalysis","Proteinuria less than 3.5 g/day","Stable serum creatinine with mildly reduced GFR","Low C3 complement level on routine labs"],
+      right: ["Severe generalized edema with ascites and pleural effusion (nephrotic crisis)","Malignant hypertension (BP >180/120) with headache and visual changes","Rapidly rising creatinine (acute kidney injury superimposed on chronic disease)","Gross hematuria with RBC casts indicating active glomerular inflammation","Oliguria or anuria requiring emergent dialysis","Pulmonary edema with dyspnea and crackles from fluid overload"]
     },
     medications: [{
-      name: "Furosemide",
+      name: "Lisinopril",
+      type: "ACE inhibitor",
+      action: "Inhibits angiotensin-converting enzyme, reducing angiotensin II levels, decreasing glomerular efferent arteriolar pressure to reduce proteinuria and slow renal disease progression",
+      sideEffects: "Hyperkalemia, dry cough, angioedema, hypotension, dizziness, acute kidney injury if bilateral renal artery stenosis",
+      contra: "Pregnancy (teratogenic), bilateral renal artery stenosis, history of angioedema with ACE inhibitors, serum potassium >5.5 mEq/L",
+      pearl: "First-line for proteinuria reduction in glomerular disease; monitor potassium and creatinine within 1-2 weeks of initiation; hold if creatinine rises >30% from baseline"
+    },{
+      name: "Furosemide (Lasix)",
       type: "Loop diuretic",
-      action: "Inhibits sodium-potassium-chloride cotransporter in the loop of Henle",
-      sideEffects: "Hypokalemia, dehydration, ototoxicity, hyperglycemia, hyperuricemia",
-      contra: "Anuria, severe electrolyte depletion, hepatic coma",
-      pearl: "Monitor potassium levels; administer IV push no faster than 4 mg/min to prevent ototoxicity"
+      action: "Inhibits sodium-potassium-chloride cotransporter in the thick ascending loop of Henle, promoting excretion of sodium, chloride, and water to reduce edema",
+      sideEffects: "Hypokalemia, hyponatremia, dehydration, ototoxicity, metabolic alkalosis, hyperuricemia",
+      contra: "Anuria, severe electrolyte depletion, hepatic coma, sulfonamide allergy (cross-reactivity possible)",
+      pearl: "Higher doses often needed in nephrotic syndrome due to albumin binding in tubular lumen; monitor daily weights, potassium, and renal function; IV push max 4 mg/min to prevent ototoxicity"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MPGN is a pattern of injury, not a single disease — always identify the underlying cause (infection, autoimmune, complement dysregulation, or monoclonal gammopathy)","Low C3 with low C4 suggests immune complex-mediated MPGN (classical complement pathway); low C3 with normal C4 suggests C3 glomerulopathy (alternative pathway dysregulation)","The 'tram-track' appearance on light microscopy is the hallmark of MPGN, resulting from GBM splitting around subendothelial deposits","Hepatitis C is the most common infectious cause of MPGN; treatment with direct-acting antivirals can induce remission of the glomerulonephritis","MPGN can present with mixed nephritic-nephrotic features: hematuria and hypertension (nephritic) plus heavy proteinuria and edema (nephrotic)","MPGN recurs in up to 50% of renal transplants, especially C3 glomerulopathy; important for patient education regarding transplant outcomes"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mpgn. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse is reviewing lab results for a patient with MPGN. Which combination of findings is most consistent with immune complex-mediated MPGN?",
+        options: ["Low C3, normal C4, elevated anti-GBM antibodies","Low C3, low C4, positive hepatitis C antibody","Normal C3, normal C4, elevated serum IgA","Low C3, normal C4, positive C3 nephritic factor"],
+        correct: 1,
+        rationale: "Immune complex-mediated MPGN activates the classical complement pathway, consuming both C3 and C4. Hepatitis C is the most common infectious cause. Low C3 with normal C4 suggests alternative pathway activation (C3 glomerulopathy), and anti-GBM antibodies indicate Goodpasture syndrome, not MPGN."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mpgn?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with MPGN has 3+ pitting edema, weight gain of 4 kg over 3 days, and crackles at the lung bases. Which nursing action is the priority?",
+        options: ["Encourage increased oral fluid intake to flush the kidneys","Administer furosemide as ordered and position in high Fowler's","Restrict dietary potassium and administer sodium polystyrene sulfonate","Hold the ACE inhibitor and notify the provider of fluid overload"],
+        correct: 1,
+        rationale: "The patient is in fluid overload with pulmonary edema. The priority is to administer the prescribed diuretic (furosemide) and position upright to reduce preload and improve breathing. Increasing fluids would worsen the condition. The ACE inhibitor may need to be continued unless contraindicated."
       },
       {
-        question: "The patient asks about their mpgn diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which finding on urinalysis is most characteristic of active glomerulonephritis in a patient with MPGN?",
+        options: ["White blood cell casts and positive nitrites","Hyaline casts and trace protein","Red blood cell casts and dysmorphic RBCs","Waxy casts and broad casts"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Red blood cell casts and dysmorphic RBCs on urinalysis are pathognomonic for glomerular origin bleeding and indicate active glomerulonephritis. WBC casts suggest pyelonephritis, hyaline casts are nonspecific, and waxy/broad casts indicate chronic kidney disease."
       },
     ]
   },
   "mrsa-decolonization-np": {
     title: "MRSA Decolonization: Mupirocin",
     cellular: { title: "MRSA Decolonization: Mupirocin", content: "the clinician manages MRSA Decolonization: Mupirocin & CHG Protocols through evidence-based antimicrobial prescribing, infection prevention, and antimicrobial stewardship principles. Assessment includes exposure and travel history, immunization status, immunocompromised state evaluation, focused physical examination for infection source identification, and interpretation of microbiological studies (Gram stain, culture and sensitivity, molecular diagnostics including PCR, serological testing, and inflammatory biomarkers including procalcitonin for bacterial versus viral differentiation). The clinician applies principles of empiric antimicrobial selection based on most likely pathogens, local resistance patterns (antibiogram), infection site and severity, and patient-specific factors (allergies, renal/hepatic function, drug interactions, pregnancy status). The clinician de-escalates therapy based on culture results and clinical response, selects appropriate duration of therapy per current guidelines, monitors for treatment response and adverse effects (including C. difficile risk, nephrotoxicity, hepatotoxicity, drug-specific monitoring such as vancomycin trough levels), and applies infection prevention and control measures. Antimicrobial stewardship competencies include avoiding unnecessary antibiotic prescribing for viral infections, using narrow-spectrum agents when possible, implementing IV-to-oral conversion, and educating patients on appropriate antibiotic use and completion of prescribed courses." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mrsa decolonization or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Recurrent MRSA skin and soft tissue infections (2+ episodes in 12 months)","MRSA colonization confirmed by nasal or wound culture","Household contacts with recurrent MRSA infections","Healthcare workers with persistent MRSA carriage","Pre-surgical patients at high risk for MRSA surgical site infection (cardiac, orthopedic surgery)","ICU patients with MRSA colonization on active surveillance","Hemodialysis patients with MRSA nasal carriage","Athletes in contact sports with recurrent MRSA skin infections"],
+    diagnostics: ["Anterior nares swab culture or PCR for MRSA colonization status (bilateral nares sampling)","Additional screening cultures: axillae, groin, perianal area, throat, and any chronic wound sites","Post-decolonization surveillance cultures at 1 week and 1 month to confirm clearance","Antibiotic sensitivity testing to confirm mupirocin susceptibility (high-level mupirocin resistance [mupA gene] predicts decolonization failure)","Review prior culture history and antibiograms for resistance patterns","CBC with differential and CRP if concurrent active infection suspected"],
+    management: ["Prescribe mupirocin 2% nasal ointment: apply to bilateral anterior nares BID for 5 days using cotton-tipped applicator","Order CHG (chlorhexidine gluconate) 4% body wash: daily bathing for 5 days concurrent with mupirocin nasal protocol","For mupirocin-resistant strains, consider povidone-iodine nasal swabs or retapamulin as alternatives","Decolonize household contacts simultaneously to prevent re-colonization from shared living environment","Prescribe oral antibiotics (TMP-SMX, doxycycline, or rifampin combination) only for recurrent infections despite topical decolonization","Environmental decontamination counseling: wash linens/towels in hot water, replace toothbrush, clean high-touch surfaces","Repeat decolonization protocol if surveillance cultures remain positive; consider infectious disease referral after 2 failures"],
+    nursingActions: ["Demonstrate proper mupirocin application technique: pea-sized amount to each nostril, pinch nostrils together, massage to distribute","Instruct on CHG bathing protocol: apply neck to toes, avoid face and genitalia, allow 5-minute contact time before rinsing, no other soaps or lotions","Assess all body sites for active MRSA infection before initiating decolonization (active infection requires systemic treatment first)","Educate on environmental hygiene: designate personal towels, avoid sharing razors/athletic equipment, launder bed linens weekly in hot water","Coordinate household decolonization: ensure all close contacts receive simultaneous treatment protocol","Monitor for adverse effects: nasal irritation from mupirocin, skin dryness or irritation from CHG","Schedule follow-up surveillance cultures at appropriate intervals to confirm decolonization success"],
+    assessmentFindings: ["Positive MRSA nasal screening culture without signs of active infection (colonization)","History of 2 or more MRSA skin infections within the past year","Recurrent boils, abscesses, or folliculitis despite appropriate incision/drainage and antibiotic therapy","Household members with concurrent MRSA infections suggesting shared transmission","Intact nasal mucosa bilaterally (assess before mupirocin application)","No signs of active systemic infection (afebrile, stable vitals) confirming colonization rather than infection"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Positive MRSA nasal swab without active infection (asymptomatic colonization)","Mild nasal irritation or burning during mupirocin application","Dry skin from CHG bathing protocol","History of a single prior MRSA SSTI now resolved","Intact skin without active lesions"],
+      right: ["New erythematous, fluctuant abscess developing during decolonization protocol (treatment failure/active infection)","Fever, tachycardia, and malignant-appearing cellulitis during decolonization (progression to systemic infection)","Severe allergic reaction to mupirocin or CHG (rash, urticaria, anaphylaxis)","Mupirocin-resistant MRSA on repeat culture requiring alternative decolonization strategy","Signs of MRSA bacteremia: rigors, hemodynamic instability, new heart murmur"]
     },
     medications: [{
-      name: "Omeprazole",
-      type: "Proton pump inhibitor (PPI)",
-      action: "Irreversibly inhibits hydrogen-potassium ATPase pump in gastric parietal cells",
-      sideEffects: "Headache, diarrhea, abdominal pain, risk of C. difficile, hypomagnesemia",
-      contra: "Concomitant use with rilpivirine; caution with long-term use",
-      pearl: "Take 30 minutes before meals; long-term use requires monitoring of magnesium and B12"
+      name: "Mupirocin 2% nasal ointment (Bactroban Nasal)",
+      type: "Topical antibiotic (monoxycarbolic acid)",
+      action: "Inhibits bacterial isoleucyl-tRNA synthetase, blocking protein synthesis; bacteriostatic at low concentrations, bactericidal at high concentrations achieved with topical application",
+      sideEffects: "Nasal burning/stinging, rhinitis, headache, altered taste, rare contact dermatitis",
+      contra: "Hypersensitivity to mupirocin or polyethylene glycol base; not for ophthalmic use",
+      pearl: "Apply pea-sized amount to each anterior nare BID for 5 days; pinch nostrils and massage to distribute; high-level mupirocin resistance (mupA gene) occurs in 5-10% of MRSA isolates — check susceptibility before prescribing"
+    },{
+      name: "Chlorhexidine gluconate 4% (Hibiclens)",
+      type: "Topical antiseptic (biguanide)",
+      action: "Disrupts bacterial cell membranes causing cell lysis; provides persistent antimicrobial activity with residual skin binding lasting up to 24 hours",
+      sideEffects: "Skin dryness, irritation, contact dermatitis, rare anaphylaxis; ototoxic if enters middle ear",
+      contra: "Known CHG allergy; avoid contact with eyes, ears (ototoxic if tympanic membrane not intact), mucous membranes, and open wounds",
+      pearl: "Apply from neck down, avoid face and genital mucosa; allow 5-minute skin contact before rinsing; do not apply moisturizers or other products afterward (reduces residual activity); CHG-impregnated cloths are an alternative for convenience"
+    },{
+      name: "Trimethoprim-Sulfamethoxazole (TMP-SMX / Bactrim)",
+      type: "Sulfonamide/folate antagonist combination",
+      action: "Sequential blockade of bacterial folate synthesis: sulfamethoxazole inhibits dihydropteroate synthase, trimethoprim inhibits dihydrofolate reductase; bactericidal combination effective against most CA-MRSA strains",
+      sideEffects: "Nausea, rash, photosensitivity, hyperkalemia, bone marrow suppression, crystalluria, rare Stevens-Johnson syndrome",
+      contra: "Sulfonamide allergy, severe renal/hepatic impairment, pregnancy at term, G6PD deficiency, folate deficiency anemia",
+      pearl: "Commonly added to decolonization protocol for patients with recurrent MRSA SSTIs; encourage adequate hydration to prevent crystalluria; monitor potassium in patients on ACE inhibitors or ARBs"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Decolonization reduces MRSA SSTI recurrence by approximately 50% and is most effective when household contacts are treated simultaneously","Mupirocin resistance is increasing; always check susceptibility before prescribing — high-level resistance (mupA gene) renders the drug completely ineffective","CHG body washes must have 5-minute contact time and cannot be used with other soaps/lotions that inactivate the antiseptic activity","Decolonization should not be attempted during active MRSA infection; treat the infection first, then decolonize after resolution","Environmental decontamination is critical for preventing re-colonization: focus on personal hygiene items (towels, razors, toothbrushes) and high-touch surfaces","The REDUCE MRSA trial demonstrated that universal CHG bathing in ICUs reduces MRSA clinical cultures by 37% and bloodstream infections by 44%"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mrsa decolonization. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is prescribing a MRSA decolonization protocol for a patient with recurrent skin abscesses. Which component is essential to include in the regimen?",
+        options: ["Oral vancomycin for 14 days","Mupirocin 2% nasal ointment BID for 5 days plus CHG body washes for 5 days","IV daptomycin for 7 days","Topical bacitracin to all body surfaces for 10 days"],
+        correct: 1,
+        rationale: "The standard MRSA decolonization protocol consists of mupirocin 2% nasal ointment applied to bilateral anterior nares BID for 5 days combined with CHG 4% body washes daily for 5 days. Oral vancomycin has poor bioavailability and is not used for decolonization. IV agents treat active infections, not colonization."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mrsa decolonization?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient's repeat nasal culture shows high-level mupirocin-resistant MRSA (mupA positive) after completing the standard decolonization protocol. What should the NP recommend?",
+        options: ["Double the mupirocin dose and extend treatment to 14 days","Switch to an alternative nasal decolonization agent such as povidone-iodine nasal antiseptic","Add oral vancomycin to the mupirocin regimen","Discontinue all decolonization efforts as resistance is permanent"],
+        correct: 1,
+        rationale: "High-level mupirocin resistance (mupA gene) renders mupirocin completely ineffective regardless of dose or duration. Povidone-iodine nasal antiseptic or dilute sodium hypochlorite nasal rinses are evidence-based alternatives for mupirocin-resistant strains. Oral vancomycin is not appropriate for decolonization."
       },
       {
-        question: "The patient asks about their mrsa decolonization diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "When counseling a patient on CHG body washing for MRSA decolonization, which instruction is most important for the NP to include?",
+        options: ["Apply CHG from head to toe including the face and scalp","Allow CHG to remain on the skin for at least 5 minutes before rinsing and avoid applying moisturizers afterward","Mix CHG with regular body wash to enhance antimicrobial efficacy","Apply CHG only to areas with visible skin lesions"],
+        correct: 1,
+        rationale: "CHG requires adequate contact time (at least 5 minutes) for maximal antimicrobial activity. Moisturizers and other topical products can inactivate CHG and reduce its residual antiseptic effect. CHG should be applied neck-to-toes (avoiding face, eyes, ears, and genital mucosa) to all skin surfaces, not just lesion sites."
       },
     ]
   },
   "mrsa-management": {
     title: "MRSA",
     cellular: { title: "Pathophysiology of MRSA", content: "Methicillin-resistant Staphylococcus aureus (MRSA) is a strain of S. aureus that has acquired the mecA gene encoding penicillin-binding protein 2a (PBP2a), which has low affinity for beta-lactam antibiotics, conferring resistance to all penicillins, cephalosporins, and carbapenems. Community-acquired MRSA (CA-MRSA) typically produces Panton-Valentine leukocidin (PVL), a cytotoxin causing skin and soft tissue infections (furuncles, abscesses, cellulitis), while healthcare-associated MRSA (HA-MRSA) is associated with surgical site infections, bloodstream infections, and ventilator-associated pneumonia. Treatment depends on severity: incision and drainage for abscesses, trimethoprim-sulfamethoxazole or doxycycline for mild skin infections, and intravenous vancomycin or daptomycin for serious invasive infections. Infection prevention requires strict contact precautions, environmental decontamination, active surveillance cultures in high-risk units, and decolonization protocols." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mrsa management or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform focused assessment and report findings to supervising nurse","Monitor vital signs and report deviations from baseline","Collect specimens as directed and label accurately","Document assessment findings and communicate changes promptly","Recognize and report signs of deterioration"],
-    management: ["Administer medications as ordered and document administration","Implement comfort measures and basic supportive care","Follow established care protocols and report patient responses","Assist with activities of daily living and mobility as appropriate","Report changes in patient condition to the registered nurse promptly"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Recent hospitalization, surgery, or residence in long-term care facility","Presence of invasive devices (central lines, urinary catheters, endotracheal tubes)","Previous antibiotic use, especially broad-spectrum agents (fluoroquinolones, cephalosporins)","Injection drug use","Close contact with MRSA-colonized or infected individuals (household, sports teams, incarceration)","Chronic skin conditions or wounds (diabetic ulcers, eczema, surgical wounds)","Immunosuppression (HIV/AIDS, diabetes mellitus, chemotherapy, chronic kidney disease)","Healthcare workers with patient care duties"],
+    diagnostics: ["Wound culture and sensitivity (gold standard): collect specimen from wound base after cleaning; confirms MRSA and guides antibiotic selection","Blood cultures (2 sets from separate sites before antibiotics): essential for suspected bacteremia; positive results require prolonged IV therapy","Nasal swab (anterior nares) culture or PCR: screens for MRSA colonization","CBC with differential: leukocytosis with left shift indicates active bacterial infection","CRP and ESR: elevated inflammatory markers; useful for trending treatment response","Procalcitonin: helps differentiate bacterial from viral infection; elevated in MRSA bacteremia"],
+    management: ["Incision and drainage (I&D) is primary treatment for MRSA abscesses; antibiotics alone are often insufficient","Mild SSTI without systemic symptoms: oral TMP-SMX DS or doxycycline for 7-10 days","Moderate-severe SSTI or systemic infection: IV vancomycin (target trough 15-20 mcg/mL) or IV daptomycin","MRSA bacteremia: IV vancomycin or daptomycin for minimum 4-6 weeks with repeat blood cultures every 48-72 hours until clearance","MRSA pneumonia: IV vancomycin or linezolid (linezolid preferred for lung penetration)","Implement contact precautions: gown and gloves on room entry, dedicated equipment, private room","Initiate decolonization protocol when indicated: mupirocin nasal ointment BID x 5 days + CHG body washes"],
+    nursingActions: ["Don gown and gloves before entering room; perform hand hygiene with alcohol-based rub or antimicrobial soap after PPE removal","Assess wound at each dressing change: measure dimensions, document drainage characteristics, mark cellulitis borders with skin marker and timestamp","Monitor vital signs every 4 hours; report temperature >38.3°C or hemodynamic instability immediately","Obtain vancomycin trough levels as ordered (typically before 4th or 5th dose); report sub- or supratherapeutic levels","Infuse vancomycin over at least 60 minutes; monitor for Red Man syndrome (flushing of face, neck, upper torso)","Assess IV access site every shift for phlebitis and infiltration; PICC or central line preferred for prolonged therapy","Educate patient and family on hand hygiene, wound care, and MRSA transmission prevention"],
+    assessmentFindings: ["Skin lesions: painful erythematous nodules or abscesses, often with central necrosis and purulent drainage; may be mistaken for spider bites","Wound infection signs: thick yellow-green purulent drainage, expanding erythema beyond wound margins, warmth, induration","Fever with chills and malaise indicating systemic infection","Cellulitis: diffuse erythema, swelling, warmth, and tenderness of affected area","Signs of bacteremia: high fever with rigors, tachycardia, hypotension, altered mental status","Nasal vestibulitis in colonized patients: crusting, redness in anterior nares"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Small localized abscess with surrounding erythema","Low-grade fever (<38.5°C) with wound redness","Purulent drainage from wound or incision site","Positive nasal swab for MRSA colonization without active infection","Mild cellulitis with localized warmth and tenderness","Mildly elevated WBC with left shift"],
+      right: ["Rapidly spreading cellulitis with crepitus (possible necrotizing fasciitis)","Sepsis criteria: temp >38.3°C or <36°C, HR >90, RR >20, altered mental status","Positive blood cultures with hemodynamic instability (septic shock)","New heart murmur with MRSA bacteremia (possible endocarditis)","Respiratory deterioration with consolidation on CXR (MRSA pneumonia)","Acute kidney injury with rising creatinine during vancomycin therapy"]
     },
     medications: [{
-      name: "Ceftriaxone",
-      type: "Third-generation cephalosporin",
-      action: "Inhibits bacterial cell wall synthesis by binding to penicillin-binding proteins",
-      sideEffects: "Diarrhea, rash, injection site pain, pseudolithiasis (biliary sludge)",
-      contra: "Neonates with hyperbilirubinemia; do not co-infuse with calcium-containing solutions in neonates",
-      pearl: "Broad-spectrum coverage; commonly used empirically for community-acquired pneumonia and meningitis"
+      name: "Vancomycin (Vancocin)",
+      type: "Glycopeptide antibiotic",
+      action: "Inhibits bacterial cell wall synthesis by binding to D-alanyl-D-alanine terminus of peptidoglycan precursors, effective against MRSA because it does not require binding to altered PBP2a",
+      sideEffects: "Nephrotoxicity, ototoxicity, Red Man syndrome (histamine-mediated flushing from rapid infusion), thrombocytopenia, phlebitis",
+      contra: "Known hypersensitivity; use with caution in renal impairment (dose adjustment required); avoid concurrent nephrotoxic agents when possible",
+      pearl: "Infuse over at least 60 minutes to prevent Red Man syndrome; target trough 15-20 mcg/mL for serious infections; monitor creatinine every 48-72 hours; if Red Man syndrome occurs, stop infusion, give diphenhydramine, restart at slower rate"
+    },{
+      name: "Trimethoprim-Sulfamethoxazole (Bactrim/Septra)",
+      type: "Folate synthesis inhibitor combination",
+      action: "Double sequential blockade of bacterial folate synthesis: sulfamethoxazole inhibits dihydropteroate synthase, trimethoprim inhibits dihydrofolate reductase; bactericidal against most CA-MRSA",
+      sideEffects: "Nausea, rash, photosensitivity, hyperkalemia, bone marrow suppression, crystalluria, rare Stevens-Johnson syndrome",
+      contra: "Sulfonamide allergy, severe renal or hepatic impairment, pregnancy at term, G6PD deficiency",
+      pearl: "First-line oral agent for mild CA-MRSA skin infections; encourage hydration to prevent crystalluria; monitor potassium in patients on ACE inhibitors"
+    },{
+      name: "Doxycycline",
+      type: "Tetracycline antibiotic",
+      action: "Inhibits bacterial protein synthesis by binding to 30S ribosomal subunit; bacteriostatic; active against most CA-MRSA strains",
+      sideEffects: "Photosensitivity, GI upset, esophageal ulceration, tooth discoloration in children <8 years",
+      contra: "Pregnancy, children <8 years (tooth discoloration), concurrent use with isotretinoin (pseudotumor cerebri risk)",
+      pearl: "Alternative first-line oral agent for CA-MRSA SSTI; take with full glass of water and remain upright for 30 minutes to prevent esophageal irritation; does not cover MRSA bacteremia"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MRSA colonization ≠ infection: colonization means bacteria are present (usually in nares) without causing disease; colonized patients can still transmit MRSA","Contact precautions include gown and gloves on room entry, hand hygiene, dedicated equipment, and private room — prevents transmission via healthcare worker hands and contaminated surfaces","Red Man syndrome from vancomycin is NOT a true allergy — it is histamine-mediated from rapid infusion; prevent by infusing over ≥60 minutes","CA-MRSA abscesses require I&D as primary treatment; antibiotics alone often fail because the thick abscess wall prevents adequate drug penetration","Mark cellulitis borders with skin marker and timestamp to objectively track whether infection is responding (margins receding) or progressing (margins advancing)","MRSA survives on environmental surfaces for days to weeks; thorough cleaning of high-touch surfaces is essential for preventing transmission"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mrsa management. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse is caring for a patient receiving IV vancomycin who develops diffuse flushing and redness over the face, neck, and upper chest. What should the nurse do first?",
+        options: ["Document an allergic reaction and discontinue vancomycin permanently","Stop the infusion, assess the patient, and notify the provider","Increase the infusion rate to complete the dose quickly","Apply cold compresses and continue the infusion at the same rate"],
+        correct: 1,
+        rationale: "Flushing of the face, neck, and chest during vancomycin infusion is characteristic of Red Man syndrome, a histamine-mediated reaction caused by rapid infusion. The nurse should stop the infusion, assess the patient, and notify the provider. This is not a true allergy; the infusion can typically be restarted at a slower rate after symptoms resolve, often with diphenhydramine pretreatment."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mrsa management?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "Which personal protective equipment should the nurse don before entering the room of a patient with confirmed MRSA wound infection?",
+        options: ["N95 respirator and gloves","Gown and gloves","Surgical mask and eye protection only","Gloves only with hand hygiene after removal"],
+        correct: 1,
+        rationale: "MRSA requires contact precautions, which include gown and gloves on room entry. MRSA is transmitted by direct contact, not airborne route, so an N95 respirator is unnecessary. Gloves alone are insufficient because MRSA can contaminate the nurse's clothing and be transferred to other patients."
       },
       {
-        question: "The patient asks about their mrsa management diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A patient with a large MRSA abscess on the thigh is prescribed oral TMP-SMX only. The abscess is fluctuant and 4 cm in diameter. What should the nurse anticipate as the most important intervention?",
+        options: ["Increasing the antibiotic dose to penetrate the abscess cavity","Incision and drainage (I&D) of the abscess before antibiotic therapy","Application of warm compresses until the abscess resolves spontaneously","Switching from oral to IV antibiotics for better tissue penetration"],
+        correct: 1,
+        rationale: "Incision and drainage is the primary and most important treatment for MRSA abscesses. Antibiotics alone are often insufficient because the thick abscess wall prevents adequate antibiotic penetration into the purulent cavity. I&D should be performed before or concurrent with antibiotic therapy."
       },
     ]
   },
@@ -227,210 +276,259 @@ export const generatedBatch062Lessons: Record<string, LessonContent> = {
   "msk-rn": {
     title: "Compartment Syndrome",
     cellular: { title: "Pathophysiology of Compartment Syndrome", content: "Compartment syndrome is a limb-threatening emergency in which elevated pressure within a closed fascial compartment compromises perfusion to the muscles and nerves within that compartment. The normal resting compartment pressure is 0-8 mmHg; when pressure exceeds 30 mmHg (or is within 30 mmHg of diastolic blood pressure), microvascular perfusion is obstructed, causing tissue ischemia. The ischemic cascade involves muscle cell membrane dysfunction, sodium-potassium ATPase failure, cellular swelling, further pressure elevation, and progressive tissue necrosis. After 6-8 hours of sustained ischemia, irreversible muscle necrosis (rhabdomyolysis) and nerve damage occur. The six P's (Pain -- disproportionate to injury, worsened by passive stretch; Pressure -- compartment feels tense; Paresthesia; Paralysis; Pallor; Pulselessness) describe the progression, but pulselessness is a late finding because compartment syndrome obstructs capillary perfusion while arterial flow may be maintained. The nurse performs serial neurovascular assessments on at-risk patients (tibial and forearm fractures, crush injuries, tight casts, burns), recognizes that increasing analgesic requirements and pain with passive stretch of muscles within the compartment are the earliest and most reliable signs, removes any external compression (bivalve cast, release bandages), elevates the extremity to heart level (not above), and escalates urgently for emergent fasciotomy." },
-    riskFactors: ["Advanced age or extremes of age","Family history of msk or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Tibial shaft fractures (most common cause; anterior compartment of the leg)","Forearm fractures (supracondylar fractures in children)","Crush injuries or prolonged limb compression","Circumferential burns with eschar formation","Tight casts, splints, or circumferential dressings","Reperfusion injury after prolonged ischemia (vascular repair, tourniquet use)","High-energy trauma with significant soft tissue swelling","Anticoagulant therapy or bleeding disorders (hemorrhage into compartment)","Vigorous exercise or overuse in athletes (chronic exertional compartment syndrome)"],
+    diagnostics: ["Compartment pressure measurement using Stryker device or arterial line transducer: normal 0-8 mmHg; >30 mmHg or within 30 mmHg of diastolic BP (delta pressure) confirms diagnosis","Clinical assessment using the 6 P's: Pain (disproportionate, worsened by passive stretch), Pressure (tense compartment), Paresthesia, Paralysis, Pallor, Pulselessness","Serum creatine kinase (CK): markedly elevated with muscle necrosis (rhabdomyolysis)","Basic metabolic panel: hyperkalemia and elevated creatinine from rhabdomyolysis","Urinalysis: myoglobinuria (tea/cola-colored urine, positive for blood on dipstick without RBCs on microscopy)","Serial neurovascular assessments: compare affected vs unaffected extremity"],
+    management: ["Emergent fasciotomy is the definitive treatment when compartment pressure >30 mmHg or delta pressure <30 mmHg; surgical delay >6 hours risks irreversible damage","Immediately remove all external compression: bivalve cast, cut bandages, remove splints down to skin","Elevate extremity to heart level only (not above — elevation above heart decreases arterial perfusion pressure)","Aggressive IV fluid resuscitation for rhabdomyolysis prevention (target urine output 200-300 mL/hr initially)","Alkalinize urine with sodium bicarbonate IV to prevent myoglobin-induced renal tubular injury","Monitor for and treat hyperkalemia (cardiac monitoring, calcium gluconate, insulin/dextrose, kayexalate)","Post-fasciotomy wound care: wounds left open initially, staged closure or skin grafting at 48-72 hours"],
+    nursingActions: ["Perform neurovascular checks every 1-2 hours on at-risk extremities: assess pulses, capillary refill, sensation, motor function, pain level, and compartment firmness","Assess pain characteristics: increasing analgesic requirements and pain with passive stretch of muscles in the affected compartment are the earliest warning signs","Remove or loosen any constrictive devices immediately (bivalve cast, cut circumferential dressings to skin)","Position affected extremity at heart level; do NOT elevate above heart level","Notify surgeon urgently if neurovascular compromise is suspected; do not delay for imaging","Monitor urine color and output hourly; report dark/cola-colored urine immediately (myoglobinuria)","Administer IV fluids as ordered and monitor for fluid overload; maintain strict I&O"],
+    assessmentFindings: ["Pain out of proportion to injury that is not relieved by opioid analgesics","Pain dramatically worsened by passive stretch of muscles within the affected compartment","Compartment feels tense and firm ('wooden') on palpation compared to unaffected side","Paresthesias (tingling, burning, numbness) in the distribution of nerves traversing the compartment","Progressive motor weakness or inability to move digits (late finding)","Pallor of affected extremity with prolonged capillary refill","Pulselessness is a very late finding — presence of pulses does NOT rule out compartment syndrome"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Pain rated 4-6/10 at fracture site, relieved with repositioning and analgesics","Mild swelling at injury site with intact distal pulses","Normal sensation and motor function in affected extremity","Cast or dressing feels snug but neurovascular checks normal","Compartment feels soft and compressible on palpation"],
+      right: ["Severe pain (9-10/10) unrelieved by IV opioids, worsened by passive stretch of toes/fingers","Tense, rock-hard compartment on palpation ('wooden' feel)","Loss of sensation (paresthesias progressing to anesthesia) in affected nerve distribution","Inability to actively move digits (motor paralysis — late finding)","Absent distal pulses (very late finding indicating limb-threatening ischemia)","Dark cola-colored urine indicating rhabdomyolysis and myoglobinuria"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Morphine Sulfate",
+      type: "Opioid analgesic",
+      action: "Binds to mu-opioid receptors in the CNS to alter pain perception and provide analgesia for severe fracture and compartment pain",
+      sideEffects: "Respiratory depression, sedation, constipation, nausea, hypotension, urinary retention",
+      contra: "Severe respiratory depression, paralytic ileus, acute/severe bronchial asthma without monitoring",
+      pearl: "In compartment syndrome, escalating opioid requirements and pain NOT relieved by appropriate doses are a critical warning sign — report immediately rather than simply increasing the dose"
+    },{
+      name: "Mannitol",
+      type: "Osmotic diuretic",
+      action: "Draws fluid from intracellular and interstitial spaces into the vasculature by osmotic force; promotes renal excretion of myoglobin to prevent acute kidney injury in rhabdomyolysis",
+      sideEffects: "Fluid and electrolyte imbalances, pulmonary edema if given too rapidly, dehydration, hypotension",
+      contra: "Anuria, severe dehydration, active intracranial bleeding, severe pulmonary edema/congestion",
+      pearl: "Used adjunctively in rhabdomyolysis to promote myoglobin clearance; administer through an in-line filter; monitor serum osmolality (hold if >320 mOsm/kg)"
+    },{
+      name: "Sodium Bicarbonate (IV)",
+      type: "Alkalinizing agent",
+      action: "Alkalinizes urine to pH >6.5, which increases myoglobin solubility and prevents precipitation in renal tubules, protecting against myoglobin-induced acute kidney injury",
+      sideEffects: "Metabolic alkalosis, hypokalemia, hypernatremia, fluid overload, ionized hypocalcemia",
+      contra: "Metabolic alkalosis, severe pulmonary edema, hypocalcemia",
+      pearl: "Target urine pH >6.5; monitor ABGs and serum potassium closely; often given as continuous infusion (150 mEq in 1L D5W); stop if serum pH >7.50"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Pain out of proportion to injury + pain with passive stretch = earliest and most reliable signs of compartment syndrome — do not wait for the late 'P' findings","Pulselessness is a LATE finding because compartment syndrome obstructs capillary (microvascular) perfusion while arterial flow may still be maintained — presence of pulses does NOT rule out compartment syndrome","Elevate the extremity to heart level ONLY; elevation above the heart reduces arterial perfusion pressure and can worsen ischemia in a compromised compartment","After 6-8 hours of sustained ischemia, irreversible muscle necrosis and nerve damage occur — fasciotomy is a time-critical surgical emergency","If a patient in a cast develops worsening pain, the nurse should bivalve (cut both sides of) the cast and underlying padding immediately — do not wait for a provider order","Rhabdomyolysis from compartment syndrome causes hyperkalemia (potentially fatal cardiac arrhythmias), myoglobinuria (acute kidney injury), and hypocalcemia — monitor these labs serially"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with msk. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A patient with a tibial fracture in a long leg cast reports severe pain rated 9/10 that is not relieved by IV morphine. Pain worsens when the nurse passively dorsiflexes the toes. What should the nurse do first?",
+        options: ["Administer an additional dose of IV morphine and reassess in 30 minutes","Bivalve the cast immediately and perform a complete neurovascular assessment","Apply ice to the cast over the fracture site and elevate the leg above heart level","Document the finding and notify the provider at the next scheduled rounding"],
+        correct: 1,
+        rationale: "Pain out of proportion to injury that worsens with passive stretch is the earliest sign of compartment syndrome. The nurse should immediately remove external compression by bivalving the cast and perform a neurovascular assessment. Delaying intervention risks irreversible muscle and nerve damage. Elevating above heart level could worsen perfusion."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with msk?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "Which assessment finding in a patient at risk for compartment syndrome indicates the need for urgent surgical intervention?",
+        options: ["Mild swelling over the fracture site with intact distal pulses","Compartment pressure of 35 mmHg with a diastolic blood pressure of 60 mmHg","Pain at the fracture site rated 5/10, relieved with repositioning","Slight bruising around the injury site with normal capillary refill"],
+        correct: 1,
+        rationale: "A compartment pressure of 35 mmHg with a diastolic BP of 60 mmHg gives a delta pressure of only 25 mmHg (<30 mmHg threshold), indicating inadequate perfusion and the need for emergent fasciotomy. The other findings represent normal post-injury findings without neurovascular compromise."
       },
       {
-        question: "The patient asks about their msk diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A patient develops dark cola-colored urine 8 hours after a crush injury to the leg. Which laboratory finding should the nurse anticipate?",
+        options: ["Decreased serum creatine kinase (CK)","Elevated serum potassium and creatinine","Decreased blood urea nitrogen (BUN)","Normal urinalysis with clear urine"],
+        correct: 1,
+        rationale: "Dark cola-colored urine after a crush injury indicates myoglobinuria from rhabdomyolysis. Muscle cell destruction releases potassium (causing hyperkalemia), myoglobin (causing renal injury and elevated creatinine), and creatine kinase. Hyperkalemia can cause fatal cardiac arrhythmias and requires immediate treatment."
       },
     ]
   },
   "msk-special-tests-np": {
     title: "Musculoskeletal Special Tests (Lachman",
     cellular: { title: "Musculoskeletal Special Tests (Lachman", content: "the clinician evaluates and manages Musculoskeletal Special Tests (Lachman, McMurray, Phalen) through systematic musculoskeletal assessment and evidence-based management. Assessment includes focused history (pain characteristics using OLDCARTS, mechanism of injury, functional impact, morning stiffness duration, constitutional symptoms suggesting inflammatory or malignant etiology), comprehensive musculoskeletal examination (inspection for deformity/swelling/erythema, palpation for tenderness and warmth, active and passive range of motion, strength testing, provocative maneuvers specific to the joint involved, neurovascular assessment), and interpretation of diagnostic studies (plain radiographs as initial imaging for most musculoskeletal complaints, advanced imaging with MRI for soft tissue evaluation, CT for complex fractures, bone densitometry for osteoporosis screening, laboratory investigations including inflammatory markers, rheumatoid factor, anti-CCP antibodies, uric acid, and HLA-B27 when indicated). The clinician differentiates inflammatory from non-inflammatory joint disease (morning stiffness greater than 30-60 minutes, elevated ESR/CRP, and symmetric polyarticular involvement suggest inflammatory arthritis), applies evidence-based treatment algorithms including NSAIDs with gastroprotective co-prescribing when indicated, disease-modifying antirheumatic drugs for inflammatory arthritis, corticosteroid joint injections, physical therapy referral, and determines appropriate imaging, specialist referral, and red flag identification (fracture, infection, malignancy, cauda equina syndrome)." },
-    riskFactors: ["Advanced age or extremes of age","Family history of msk special tests or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Prior ACL, meniscal, or ligamentous knee injury","Repetitive overuse or occupational stress on joints","Participation in high-impact or pivoting sports (soccer, basketball, skiing)","Age-related degenerative joint changes","Obesity increasing mechanical load on weight-bearing joints","History of carpal tunnel syndrome or repetitive wrist flexion activities","Connective tissue disorders (Ehlers-Danlos, Marfan syndrome)"],
+    diagnostics: ["Lachman test: stabilize femur, translate tibia anteriorly at 20-30 degrees flexion (ACL integrity)","McMurray test: flex knee fully, apply valgus/varus stress with rotation, extend (meniscal tear)","Phalen test: hold wrists in maximal flexion for 60 seconds (carpal tunnel syndrome)","Tinel sign: tap over carpal tunnel at wrist (median nerve compression)","Ottawa Knee/Ankle Rules to determine need for radiography","MRI for definitive evaluation of soft tissue injuries (ligaments, menisci, tendons)","Nerve conduction studies and EMG for suspected carpal tunnel syndrome","Plain radiographs to rule out fracture or degenerative changes"],
+    management: ["ACL tear: refer for orthopedic evaluation; surgical reconstruction vs rehabilitation based on activity level and instability","Meniscal tear: RICE protocol acutely; arthroscopic repair or meniscectomy for mechanical symptoms","Carpal tunnel: wrist splinting in neutral position (especially nocturnal), corticosteroid injection, surgical release if refractory","Prescribe NSAIDs for acute musculoskeletal pain with GI prophylaxis as indicated","Physical therapy referral for joint stabilization, ROM, and strengthening","Corticosteroid joint injection for inflammatory conditions refractory to conservative management","Refer to orthopedic surgery for significant ligamentous instability or failed conservative treatment"],
+    nursingActions: ["Perform and interpret provocative maneuvers (Lachman, McMurray, Phalen, Tinel) with correct technique","Document joint laxity grading (1+ to 3+) and compare bilaterally","Assess neurovascular status distal to injury (pulses, sensation, motor function, capillary refill)","Educate patient on RICE protocol (Rest, Ice, Compression, Elevation) for acute injuries","Counsel on proper splint/brace use, weight-bearing restrictions, and activity modification","Order and interpret imaging and nerve conduction studies based on clinical findings","Coordinate referral to orthopedics, physical therapy, or hand surgery as indicated"],
+    assessmentFindings: ["Joint effusion, warmth, and tenderness to palpation at specific anatomical landmarks","Positive Lachman test: soft endpoint with increased anterior tibial translation (ACL tear)","Positive McMurray test: palpable click or pain with rotation during knee extension (meniscal tear)","Positive Phalen test: paresthesias in median nerve distribution within 60 seconds","Joint line tenderness (medial or lateral) suggesting meniscal involvement","Decreased grip strength and thenar atrophy in chronic carpal tunnel syndrome","Mechanical symptoms: locking, catching, giving way of the knee joint"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Mild joint effusion without significant laxity","Positive provocative test with minimal functional limitation","Intermittent paresthesias in median nerve distribution","Mild joint line tenderness with full ROM preserved","Discomfort with specific movements but stable joint"],
+      right: ["Gross joint instability with 3+ laxity on examination","Locked knee unable to fully extend (bucket-handle meniscal tear)","Acute neurovascular compromise distal to injury","Severe thenar atrophy with constant numbness (advanced carpal tunnel)","Signs of compartment syndrome: pain out of proportion, pain with passive stretch"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Naproxen",
+      type: "NSAID",
+      action: "Inhibits COX-1 and COX-2 enzymes reducing prostaglandin synthesis to decrease pain, inflammation, and fever",
+      sideEffects: "GI bleeding, renal impairment, cardiovascular risk, platelet inhibition",
+      contra: "Active GI bleeding, severe renal disease, aspirin-sensitive asthma, post-CABG",
+      pearl: "Longer half-life allows BID dosing; co-prescribe PPI in patients with GI risk factors"
+    },{
+      name: "Methylprednisolone acetate (Depo-Medrol)",
+      type: "Corticosteroid (intra-articular injection)",
+      action: "Potent anti-inflammatory reducing synovial inflammation, edema, and pain in the injected joint",
+      sideEffects: "Post-injection flare, tendon weakening with repeated use, local skin atrophy, transient hyperglycemia",
+      contra: "Joint infection (septic arthritis), bacteremia, uncontrolled coagulopathy",
+      pearl: "Limit to 3-4 injections per joint per year; avoid weight-bearing for 24-48 hours post-injection"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["A positive Lachman test is more sensitive than anterior drawer for ACL tears because it reduces hamstring guarding at 20-30 degrees flexion","McMurray test: medial meniscus tested with external rotation + valgus stress; lateral meniscus with internal rotation + varus stress","Phalen test reproduction of symptoms within 60 seconds has ~80% sensitivity for carpal tunnel syndrome","Ottawa Knee Rules: radiograph only if age >=55, isolated patellar tenderness, fibular head tenderness, inability to flex 90 degrees, or inability to bear weight 4 steps","Always compare examination findings bilaterally to establish the patient's normal baseline","A locked knee that cannot fully extend suggests a displaced bucket-handle meniscal tear requiring urgent orthopedic referral"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with msk special tests. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP performs the Lachman test and notes a soft endpoint with 8mm of anterior tibial translation. Which structure is most likely injured?",
+        options: ["Posterior cruciate ligament","Anterior cruciate ligament","Medial meniscus","Lateral collateral ligament"],
+        correct: 1,
+        rationale: "The Lachman test specifically evaluates the integrity of the anterior cruciate ligament (ACL). A soft endpoint with increased anterior tibial translation indicates ACL disruption. The test is performed at 20-30 degrees of knee flexion."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with msk special tests?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their msk special tests diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A patient reports worsening nocturnal hand numbness and tingling in the thumb, index, and middle fingers. Which provocative test should the NP perform first?",
+        options: ["McMurray test","Lachman test","Phalen test","Valgus stress test"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "The symptoms describe median nerve compression (carpal tunnel syndrome) with nocturnal paresthesias in the median nerve distribution. The Phalen test (sustained wrist flexion for 60 seconds) is the appropriate provocative maneuver to confirm this diagnosis."
+      },
+      {
+        question: "During McMurray testing, the NP palpates a painful click along the medial joint line during external rotation and valgus stress. What is the most likely diagnosis?",
+        options: ["ACL tear","Lateral meniscus tear","Medial meniscus tear","Patellar tendinitis"],
+        correct: 2,
+        rationale: "A positive McMurray test with a painful click at the medial joint line during external rotation with valgus stress indicates a medial meniscus tear. Lateral meniscus tears are tested with internal rotation and varus stress."
       },
     ]
   },
   "mucormycosis-rn": {
     title: "Mucormycosis",
     cellular: { title: "Pathophysiology of Mucormycosis", content: "Mucormycosis (zygomycosis) is a rapidly progressive, often fatal invasive fungal infection caused by fungi of the order Mucorales (Rhizopus, Mucor, Rhizomucor), which are ubiquitous environmental molds. The organisms have a predilection for patients with diabetic ketoacidosis (DKA), neutropenia, organ transplant immunosuppression, iron overload, and deferoxamine therapy. In DKA, the combination of acidosis (which impairs neutrophil phagocytosis and increases free serum iron by displacing iron from transferrin) and hyperglycemia (which provides a growth substrate) creates an ideal environment for fungal proliferation. The fungal hyphae are characteristically wide, pauciseptate, and branch at right angles, and have a strong tropism for blood vessel invasion (angioinvasion), causing thrombosis, tissue infarction, and rapid tissue destruction. Rhinocerebral mucormycosis is the most common form, beginning in the sinuses and extending through the orbit into the brain. The nurse monitors for facial pain, nasal congestion with black necrotic eschar on the palate or nasal mucosa, proptosis, cranial nerve palsies, and mental status changes, administers IV amphotericin B as prescribed, coordinates urgent surgical debridement, corrects DKA aggressively, monitors renal function during antifungal therapy, and recognizes the extremely high mortality rate requiring aggressive multimodal treatment." },
-    riskFactors: ["Advanced age or extremes of age","Family history of mucormycosis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Diabetic ketoacidosis (DKA) — most significant risk factor","Uncontrolled diabetes mellitus with hyperglycemia","Neutropenia from hematologic malignancy or chemotherapy","Solid organ or stem cell transplant recipients on immunosuppression","Prolonged corticosteroid therapy","Iron overload states and deferoxamine therapy","Severe burns or trauma with wound contamination","IV drug use with contaminated needles"],
+    diagnostics: ["CT or MRI of sinuses and brain to assess extent of rhinocerebral involvement","Tissue biopsy showing broad, pauciseptate, ribbon-like hyphae branching at right angles (definitive diagnosis)","KOH preparation and fungal culture from tissue specimens","CBC with differential showing neutropenia","BMP including glucose, bicarbonate (assess for DKA)","Serum iron and ferritin levels","Blood glucose and hemoglobin A1c monitoring","CT chest for pulmonary mucormycosis evaluation"],
+    management: ["IV amphotericin B lipid formulation as first-line antifungal (high doses)","Urgent surgical debridement of all necrotic tissue — critical for survival","Aggressive correction of DKA with insulin and IV fluids","Reversal of immunosuppression when possible (reduce corticosteroids, hold chemotherapy)","Discontinue deferoxamine if applicable","Posaconazole or isavuconazole as step-down or salvage therapy","Hyperbaric oxygen therapy as adjunctive treatment in select cases","Multidisciplinary coordination: infectious disease, surgery, endocrinology, ophthalmology"],
+    nursingActions: ["Inspect nasal mucosa and hard palate for black necrotic eschar at least every shift","Monitor neurological status frequently (mental status changes indicate cerebral extension)","Assess for proptosis, periorbital swelling, and cranial nerve deficits (CN III, IV, V, VI)","Monitor renal function closely during amphotericin B therapy (BUN, creatinine, potassium, magnesium)","Pre-hydrate with normal saline before amphotericin B infusion to minimize nephrotoxicity","Monitor and maintain strict glycemic control with insulin as prescribed","Coordinate surgical wound care following debridement procedures","Provide emotional support — condition has high mortality and may require disfiguring surgery"],
+    assessmentFindings: ["Facial or periorbital pain and swelling, often unilateral","Black necrotic eschar on nasal turbinates or hard palate (hallmark finding)","Fever unresponsive to broad-spectrum antibiotics","Proptosis (eye protrusion) and vision changes","Cranial nerve palsies (diplopia, facial numbness, ptosis)","Bloody or purulent nasal discharge","Mental status changes indicating CNS involvement","Signs of concurrent DKA (Kussmaul respirations, fruity breath, dehydration)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Unilateral facial pain or headache with nasal congestion","Low-grade fever with sinus tenderness","Periorbital edema without vision changes","Bloody nasal discharge","Facial numbness in V2 distribution"],
+      right: ["Black necrotic eschar on palate or nasal mucosa","Proptosis with loss of vision (orbital apex syndrome)","Altered mental status or obtundation (cerebral invasion)","Cavernous sinus thrombosis signs (bilateral proptosis, ophthalmoplegia)","Septic shock with hemodynamic instability","Carotid artery invasion with massive hemorrhage"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Amphotericin B (liposomal)",
+      type: "Polyene antifungal",
+      action: "Binds ergosterol in fungal cell membranes creating pores that cause cell death; fungicidal against Mucorales species",
+      sideEffects: "Nephrotoxicity, hypokalemia, hypomagnesemia, infusion-related reactions (fever, rigors, chills), anemia",
+      contra: "Known hypersensitivity; use with caution in renal impairment",
+      pearl: "Liposomal formulation preferred over conventional — less nephrotoxic; pre-hydrate with NS and monitor electrolytes daily; doses of 5-10 mg/kg/day used for mucormycosis"
+    },{
+      name: "Posaconazole",
+      type: "Triazole antifungal",
+      action: "Inhibits lanosterol 14-alpha-demethylase disrupting ergosterol synthesis in fungal cell membrane",
+      sideEffects: "Hepatotoxicity, QT prolongation, nausea, headache, hypokalemia",
+      contra: "Co-administration with sirolimus, ergot alkaloids, or CYP3A4 substrates with QT risk",
+      pearl: "Used as step-down therapy after amphotericin B or as salvage; delayed-release tablets have better bioavailability than oral suspension; monitor LFTs"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["DKA is the single greatest risk factor — acidosis impairs neutrophil function AND increases free serum iron, both fueling fungal growth","Black necrotic eschar on the palate or nasal mucosa is the hallmark finding — always inspect the nose and palate in immunocompromised patients with facial pain","Mucormycosis hyphae branch at RIGHT ANGLES (90 degrees) and are pauciseptate — contrast with Aspergillus which branches at 45 degrees and is septate","Surgery is NOT optional — antifungal therapy alone is insufficient; survival requires aggressive surgical debridement","Mortality exceeds 50% overall and approaches 100% in disseminated disease — early recognition and treatment are critical","Amphotericin B is the ONLY first-line antifungal; voriconazole (used for Aspergillus) has NO activity against Mucorales"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with mucormycosis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "A nurse is caring for a patient with DKA who develops unilateral facial pain and bloody nasal discharge. Upon inspection, a black necrotic eschar is noted on the hard palate. What is the priority nursing action?",
+        options: ["Apply a warm compress to the face for comfort","Notify the provider immediately — findings suggest invasive mucormycosis","Administer oral fluconazole as prescribed","Document findings and reassess in 4 hours"],
+        correct: 1,
+        rationale: "Black necrotic eschar on the hard palate in a patient with DKA is the hallmark of rhinocerebral mucormycosis, a rapidly fatal condition requiring emergent IV amphotericin B and surgical debridement. Immediate provider notification is essential."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with mucormycosis?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "Which laboratory value should the nurse monitor most closely when a patient is receiving IV amphotericin B for mucormycosis?",
+        options: ["Serum sodium","Serum potassium and creatinine","Hemoglobin A1c","Prothrombin time"],
+        correct: 1,
+        rationale: "Amphotericin B is nephrotoxic and causes renal potassium and magnesium wasting. The nurse must monitor serum creatinine (renal function) and potassium levels daily, along with magnesium, to detect and manage nephrotoxicity."
       },
       {
-        question: "The patient asks about their mucormycosis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A patient with rhinocerebral mucormycosis suddenly develops proptosis and cannot move the right eye. Which complication does this finding suggest?",
+        options: ["Diabetic retinopathy","Orbital and cavernous sinus extension of fungal invasion","Medication side effect from amphotericin B","Allergic reaction to antifungal therapy"],
+        correct: 1,
+        rationale: "Proptosis with ophthalmoplegia (inability to move the eye) indicates fungal invasion through the orbit toward the cavernous sinus. This represents cerebral extension and is a life-threatening emergency requiring urgent surgical intervention."
       },
     ]
   },
   "multimodal-analgesia-np": {
     title: "Multimodal Analgesia",
     cellular: { title: "Pathophysiology of Multimodal Analgesia", content: "the clinician applies advanced pharmacological principles to the prescribing and management of Multimodal Analgesia. This requires understanding of pharmacokinetics (absorption, distribution, metabolism via cytochrome P450 enzymes, and elimination), pharmacodynamics (receptor interactions, dose-response relationships, therapeutic index), and clinical pharmacology (drug selection based on evidence, patient-specific factors, and risk-benefit analysis). The clinician considers drug interactions (enzyme induction and inhibition, protein binding displacement, additive/synergistic adverse effects), performs dose adjustment for renal impairment (using CKD-EPI eGFR and manufacturer guidelines) and hepatic impairment (Child-Pugh classification), accounts for pharmacogenomic variations (CYP2D6 poor/rapid metabolizers, HLA-B*5701 for abacavir, HLA-B*1502 for carbamazepine in patients of Southeast Asian descent), and manages polypharmacy risks especially in elderly patients (Beers Criteria, STOPP/START criteria). The clinician implements therapeutic drug monitoring when indicated (narrow therapeutic index medications including lithium, digoxin, aminoglycosides, vancomycin, phenytoin, valproic acid), monitors for adverse drug reactions and drug-drug interactions, educates patients on medication purpose, administration, expected effects, and warning signs requiring medical attention, and implements deprescribing strategies when medications are no longer indicated or when risks outweigh benefits." },
-    riskFactors: ["Advanced age or extremes of age","Family history of multimodal analgesia or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Postoperative pain (major surgical procedures)","Chronic pain syndromes (neuropathic, musculoskeletal, cancer-related)","History of opioid use disorder or substance abuse","Elderly patients at higher risk for opioid adverse effects","Renal or hepatic impairment limiting drug metabolism/excretion","Obstructive sleep apnea increasing respiratory depression risk with opioids","Obesity affecting drug distribution and dosing","Concurrent use of CNS depressants (benzodiazepines, muscle relaxants)"],
+    diagnostics: ["Comprehensive pain assessment using validated scales (NRS, VAS, FACES, BPS for nonverbal)","Assess pain characteristics: location, quality, onset, duration, aggravating/alleviating factors","Functional pain assessment: impact on mobility, sleep, ADLs, mood","Review opioid risk assessment tools (ORT, SOAPP-R) before prescribing","Check prescription drug monitoring program (PDMP) database","Baseline renal function (BUN, creatinine, eGFR) and hepatic function (LFTs)","Urine drug screening when clinically indicated","Assess for neuropathic pain components (burning, shooting, allodynia) using DN4 or LANSS tools"],
+    management: ["Prescribe scheduled acetaminophen as foundational non-opioid analgesic (ceiling dose 3-4g/day)","Add scheduled NSAID (ketorolac, ibuprofen, celecoxib) unless contraindicated","Prescribe gabapentinoid (gabapentin or pregabalin) for neuropathic pain component","Use lowest effective opioid dose for shortest duration when non-opioids insufficient","Order regional anesthesia or nerve blocks when appropriate (peripheral nerve blocks, epidural)","Prescribe muscle relaxants (cyclobenzaprine, methocarbamol) for musculoskeletal spasm component","Implement non-pharmacological modalities: ice/heat, positioning, TENS, relaxation techniques","Establish opioid taper plan and transition to non-opioid regimen as pain improves"],
+    nursingActions: ["Develop individualized multimodal pain management plan targeting multiple pain pathways","Prescribe scheduled non-opioid analgesics before adding opioids (opioid-sparing strategy)","Assess pain at regular intervals and 30-60 minutes after intervention to evaluate response","Monitor for cumulative sedation using validated sedation scales (POSS, Ramsay)","Coordinate with anesthesia for regional techniques and pain service consultation","Educate patients on realistic pain expectations (functional goals, not zero pain)","Monitor for opioid adverse effects: respiratory depression, constipation, urinary retention, pruritus","Implement bowel regimen prophylactically when prescribing opioids (stimulant laxative + stool softener)"],
+    assessmentFindings: ["Pain rating using validated numeric or behavioral scales","Functional status: ability to deep breathe, cough, ambulate, participate in physical therapy","Sedation level assessment (alert, drowsy, somnolent, difficult to arouse)","Respiratory rate, depth, and pattern (baseline and post-analgesic administration)","Bowel function: last bowel movement, bowel sounds, abdominal distension","Pupil size (miosis with opioids)","Nausea/vomiting frequency and severity","Sleep quality and mood assessment"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Pain controlled at functional level (able to ambulate, deep breathe, cough)","Mild sedation that resolves with stimulation","Mild nausea managed with antiemetics","Constipation managed with bowel regimen","Pruritus without rash (histamine release from opioids)"],
+      right: ["Respiratory rate <8/min or oxygen saturation <90% (opioid-induced respiratory depression)","Unresponsive to stimulation (over-sedation requiring naloxone)","Severe uncontrolled pain despite multimodal therapy (reassess for surgical complication)","Signs of opioid withdrawal in opioid-dependent patient (tachycardia, diaphoresis, agitation)","Local anesthetic systemic toxicity from nerve block (metallic taste, tinnitus, seizure, cardiac arrest)"]
     },
     medications: [{
-      name: "Morphine",
-      type: "Opioid analgesic",
-      action: "Binds to mu-opioid receptors in the CNS to alter perception of and response to pain",
-      sideEffects: "Respiratory depression, constipation, sedation, nausea, pruritus, urinary retention",
-      contra: "Severe respiratory depression, acute or severe bronchial asthma without monitoring, paralytic ileus",
-      pearl: "Titrate to pain relief while monitoring respiratory rate; keep naloxone available for reversal"
+      name: "Acetaminophen (scheduled)",
+      type: "Non-opioid analgesic",
+      action: "Centrally-acting analgesic and antipyretic; inhibits prostaglandin synthesis in CNS; synergistic with NSAIDs and opioids",
+      sideEffects: "Hepatotoxicity at supratherapeutic doses, rare allergic reactions",
+      contra: "Severe hepatic impairment, active liver disease, chronic alcohol use (reduce max dose to 2g/day)",
+      pearl: "Foundation of multimodal analgesia — scheduled dosing (not PRN) reduces opioid consumption by 20-30%; IV formulation available for NPO patients"
+    },{
+      name: "Ketorolac (Toradol)",
+      type: "NSAID (parenteral)",
+      action: "Potent COX-1/COX-2 inhibitor providing analgesic and anti-inflammatory effects comparable to moderate opioid doses",
+      sideEffects: "GI bleeding, renal impairment, platelet dysfunction, surgical site bleeding",
+      contra: "Active GI bleeding, renal insufficiency (CrCl <30), perioperative CABG, coagulopathy, age >65 (use reduced dose)",
+      pearl: "Limit to 5 days maximum; 15mg IV in elderly, 30mg IV in younger adults; schedule around-the-clock, not PRN"
+    },{
+      name: "Gabapentin",
+      type: "Gabapentinoid/anticonvulsant",
+      action: "Binds alpha-2-delta subunit of voltage-gated calcium channels reducing excitatory neurotransmitter release; targets neuropathic pain",
+      sideEffects: "Sedation, dizziness, peripheral edema, respiratory depression (especially with opioids)",
+      contra: "Severe renal impairment (dose adjust by CrCl); caution combining with opioids and CNS depressants",
+      pearl: "FDA black box: increased respiratory depression risk when combined with opioids; start low, titrate slowly; perioperative single dose reduces opioid needs"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Multimodal analgesia targets multiple pain pathways simultaneously — this provides superior pain control with fewer opioid-related side effects","The WHO analgesic ladder (non-opioid → weak opioid → strong opioid) is foundational but multimodal adds adjuvants at every step","Scheduled acetaminophen + scheduled NSAID reduces postoperative opioid consumption by 30-50%","Always implement a prophylactic bowel regimen when prescribing opioids — do not wait for constipation to develop","Regional anesthesia (nerve blocks, epidurals) is the most effective opioid-sparing strategy for surgical pain","Set functional pain goals with patients (ability to cough, ambulate, sleep) rather than targeting a specific pain number","The combination of gabapentinoids + opioids carries FDA-warned respiratory depression risk — monitor sedation closely"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with multimodal analgesia. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is developing a postoperative pain management plan. Which combination best represents a multimodal analgesia approach?",
+        options: ["Morphine PCA alone titrated to pain relief","Scheduled acetaminophen + scheduled ketorolac + low-dose opioid PRN + ice therapy","High-dose oxycodone every 4 hours around the clock","Meperidine IM every 6 hours as needed for pain"],
+        correct: 1,
+        rationale: "Multimodal analgesia combines agents targeting different pain pathways (acetaminophen centrally, NSAID peripherally, opioid for breakthrough) plus non-pharmacological measures. This approach provides superior analgesia with reduced opioid requirements and fewer side effects."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with multimodal analgesia?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A postoperative patient on multimodal analgesia including gabapentin and hydromorphone PCA has a respiratory rate of 6 breaths/min and is difficult to arouse. What is the NP's priority action?",
+        options: ["Discontinue gabapentin and continue the PCA","Hold the PCA and administer naloxone 0.04-0.4mg IV","Increase supplemental oxygen and continue monitoring","Order an arterial blood gas before intervening"],
+        correct: 1,
+        rationale: "Respiratory rate <8/min with excessive sedation indicates opioid-induced respiratory depression, which is potentiated by gabapentinoids. The priority is to hold the opioid source and administer naloxone for reversal while supporting ventilation."
       },
       {
-        question: "The patient asks about their multimodal analgesia diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "Which patient factor most warrants avoiding ketorolac in a multimodal analgesia regimen?",
+        options: ["History of seasonal allergies","Age 35 with normal renal function","Creatinine clearance of 25 mL/min","Body mass index of 28"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "Ketorolac is contraindicated in patients with significant renal impairment (CrCl <30 mL/min) due to risk of acute kidney injury. NSAIDs inhibit prostaglandin-mediated renal blood flow, which is critical in patients with compromised renal function."
       },
     ]
   },
   "multiple-myeloma-rn": {
     title: "Multiple Myeloma",
     cellular: { title: "Pathophysiology of Multiple Myeloma", content: "Multiple myeloma is a malignant neoplasm of terminally differentiated plasma cells that clonally proliferate in the bone marrow, producing a monoclonal immunoglobulin (M protein) and causing multisystem disease summarized by the CRAB criteria: Calcium elevation (osteoclast-activating factors released by myeloma cells cause osteolytic bone destruction and calcium release), Renal insufficiency (monoclonal light chains precipitate in renal tubules causing cast nephropathy, hypercalcemia, and amyloid deposition), Anemia (marrow replacement and cytokine-mediated suppression of erythropoiesis), and Bone disease (punched-out lytic lesions, pathological fractures, vertebral compression fractures with severe bone pain). The monoclonal immunoglobulin can cause hyperviscosity syndrome (visual changes, neurological symptoms, bleeding) and the suppression of normal immunoglobulin production causes immunoparesis with increased infection susceptibility. The nurse monitors serum calcium, creatinine, CBC, and M protein levels, manages bone pain with multimodal analgesia, implements fall prevention and safe mobilization (pathological fracture risk), administers chemotherapy (bortezomib, lenalidomide, dexamethasone) as prescribed, monitors for tumor lysis syndrome, administers IV bisphosphonates for bone protection, monitors for signs of spinal cord compression (emergency), and manages central venous access for treatment." },
-    riskFactors: ["Advanced age or extremes of age","Family history of multiple myeloma or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Perform comprehensive physical assessment and document findings","Monitor and trend vital signs, lab values, and diagnostic results","Recognize abnormal findings and report promptly to provider","Collect and prepare specimens for laboratory analysis","Interpret basic diagnostic findings within nursing scope"],
-    management: ["Implement ordered treatments and evaluate patient response","Administer medications safely and monitor for therapeutic and adverse effects","Coordinate interdisciplinary care and communicate plan changes","Prioritize interventions based on clinical urgency using clinical judgment","Evaluate outcomes and modify nursing care plan accordingly"],
-    nursingActions: ["Perform comprehensive assessment and interpret findings for changes in condition","Implement evidence-based interventions and evaluate outcomes per established protocols","Initiate protocol-based interventions and coordinate care based on assessment findings","Develop and implement patient education plans regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Age >65 years (median diagnosis age is 70)","Male sex (slightly higher incidence)","African American race (2x higher incidence than Caucasians)","Personal history of monoclonal gammopathy of undetermined significance (MGUS)","Family history of multiple myeloma or lymphoproliferative disorders","Obesity","Exposure to radiation, pesticides, or petroleum products","History of chronic antigenic stimulation or autoimmune conditions"],
+    diagnostics: ["Serum protein electrophoresis (SPEP) showing M-spike (monoclonal protein)","24-hour urine for Bence Jones protein (free light chains)","Serum free light chain assay and kappa/lambda ratio","Bone marrow biopsy showing >10% clonal plasma cells","CBC showing normocytic anemia","BMP showing hypercalcemia and elevated creatinine","Skeletal survey (X-ray) or low-dose whole-body CT showing punched-out lytic lesions","Serum beta-2 microglobulin and albumin for staging (ISS staging system)","Quantitative immunoglobulins showing immunoparesis"],
+    management: ["Chemotherapy regimen: bortezomib + lenalidomide + dexamethasone (VRd) as standard first-line","Autologous stem cell transplant for eligible patients (age <70, adequate organ function)","IV bisphosphonates (zoledronic acid) or denosumab for bone protection","Aggressive IV hydration for hypercalcemia management","Erythropoiesis-stimulating agents or transfusion for symptomatic anemia","Thromboprophylaxis (aspirin or LMWH) with lenalidomide-based regimens","Radiation therapy for painful bone lesions or impending spinal cord compression","Renal dose adjustment of medications; avoid nephrotoxic agents"],
+    nursingActions: ["Monitor serum calcium levels and report signs of hypercalcemia (confusion, constipation, polyuria, cardiac arrhythmias)","Implement fall prevention and safe mobility measures due to pathological fracture risk","Encourage adequate fluid intake (2-3 L/day) to prevent renal complications from light chain precipitation","Monitor for signs of spinal cord compression: new back pain, leg weakness, bowel/bladder dysfunction — medical emergency","Administer chemotherapy per protocol with appropriate PPE and safe handling procedures","Monitor CBC for pancytopenia; implement neutropenic precautions when ANC <1000","Assess for signs of infection — immunoparesis increases susceptibility; fever may be the only sign","Manage bone pain with scheduled analgesics and position changes; avoid NSAIDs if renal impairment present"],
+    assessmentFindings: ["Persistent bone pain especially in the back and ribs (most common presenting symptom)","Fatigue and weakness from anemia","Recurrent infections due to immunoparesis (suppressed normal immunoglobulins)","Signs of hypercalcemia: confusion, lethargy, constipation, nausea, polyuria, polydipsia","Decreased urine output or foamy urine (renal involvement from light chain deposition)","Pathological fractures with minimal trauma","Peripheral neuropathy (tingling, numbness in extremities)","Weight loss and anorexia"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Chronic low back pain managed with analgesics","Mild fatigue with hemoglobin 10-12 g/dL","Mildly elevated calcium (10.5-12 mg/dL)","Recurrent minor infections (URI, sinusitis)","Mild peripheral neuropathy in extremities"],
+      right: ["Acute spinal cord compression (back pain, bilateral leg weakness, urinary retention) — surgical emergency","Severe hypercalcemia >14 mg/dL (cardiac arrhythmias, obtundation, coma)","Acute renal failure from cast nephropathy (oliguria, rising creatinine)","Hyperviscosity syndrome (visual changes, headache, mucosal bleeding, altered mental status)","Pathological fracture of weight-bearing bone","Tumor lysis syndrome after chemotherapy initiation"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Bortezomib (Velcade)",
+      type: "Proteasome inhibitor (antineoplastic)",
+      action: "Inhibits the 26S proteasome disrupting protein degradation pathways, leading to cell cycle arrest and apoptosis of myeloma cells",
+      sideEffects: "Peripheral neuropathy (dose-limiting), thrombocytopenia, GI effects (nausea, diarrhea), orthostatic hypotension, herpes zoster reactivation",
+      contra: "Severe hepatic impairment; hypersensitivity to bortezomib or boron",
+      pearl: "Subcutaneous injection reduces peripheral neuropathy risk vs IV; prophylactic acyclovir required to prevent herpes zoster reactivation"
+    },{
+      name: "Zoledronic acid (Zometa)",
+      type: "IV bisphosphonate",
+      action: "Inhibits osteoclast-mediated bone resorption, reduces skeletal events, and helps manage hypercalcemia",
+      sideEffects: "Nephrotoxicity, osteonecrosis of the jaw (ONJ), flu-like infusion reaction, hypocalcemia",
+      contra: "CrCl <35 mL/min; dental procedures should be completed before initiating therapy",
+      pearl: "Infuse over at least 15 minutes; check creatinine before each dose; advise dental exam before starting — ONJ risk increases with dental procedures during treatment"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["Remember CRAB criteria for myeloma end-organ damage: Calcium elevation, Renal insufficiency, Anemia, Bone lesions","Multiple myeloma causes LYTIC bone lesions — bone scan (which detects osteoBLASTIC activity) will be falsely NEGATIVE; use skeletal survey or CT instead","Spinal cord compression is a medical emergency — new back pain with leg weakness or bowel/bladder changes requires emergent MRI and intervention","Bence Jones proteins are free immunoglobulin light chains in urine — they can precipitate in renal tubules causing cast nephropathy","Hydration is critical — encourage 2-3 L/day fluid intake to prevent renal light chain deposition and manage hypercalcemia","Never give live vaccines to myeloma patients — they are immunocompromised from both disease and treatment"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with multiple myeloma. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
-      },
-      {
-        question: "Which nursing action is most appropriate when managing a patient with multiple myeloma?",
-        options: ["Perform comprehensive assessment and interpret findings for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
-      },
-      {
-        question: "The patient asks about their multiple myeloma diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
+        question: "A nurse is caring for a patient with multiple myeloma who reports sudden onset of severe back pain with bilateral leg weakness and difficulty urinating. What is the priority action?",
+        options: ["Administer prescribed opioid analgesic and reassess in 1 hour","Encourage ambulation to prevent deconditioning","Notify the provider immediately — findings suggest spinal cord compression","Apply a heating pad to the lower back for comfort"],
         correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        rationale: "New back pain with bilateral leg weakness and urinary retention in a myeloma patient strongly suggests spinal cord compression from vertebral collapse or tumor expansion. This is a medical emergency requiring emergent MRI and intervention (radiation, surgery, dexamethasone) to prevent permanent paralysis."
+      },
+      {
+        question: "A patient with multiple myeloma has a serum calcium level of 13.8 mg/dL. Which nursing intervention is most appropriate?",
+        options: ["Restrict fluid intake to 1 liter per day","Initiate aggressive IV normal saline hydration as ordered","Encourage calcium-rich foods to prevent osteoporosis","Hold the bisphosphonate infusion"],
+        correct: 1,
+        rationale: "Hypercalcemia in multiple myeloma results from osteoclast-mediated bone destruction. The priority treatment is aggressive IV normal saline hydration to promote renal calcium excretion, followed by bisphosphonate administration and calcitonin if severe."
+      },
+      {
+        question: "Which diagnostic test would the nurse expect to be ordered first when multiple myeloma is suspected?",
+        options: ["Bone scan (nuclear medicine)","Serum protein electrophoresis (SPEP)","Liver biopsy","Pulmonary function tests"],
+        correct: 1,
+        rationale: "SPEP detects the M-spike (monoclonal protein) produced by malignant plasma cells and is the primary initial screening test for multiple myeloma. A bone scan is NOT useful because myeloma causes lytic (not blastic) lesions."
       },
     ]
   },
@@ -485,84 +583,112 @@ export const generatedBatch062Lessons: Record<string, LessonContent> = {
   "multiple-sclerosis-np": {
     title: "Multiple Sclerosis: DMT & Relapse Management",
     cellular: { title: "Multiple Sclerosis: DMT & Relapse Management", content: "the clinician evaluates and manages Multiple Sclerosis: DMT & Relapse Management through systematic neurological assessment and advanced understanding of central and peripheral nervous system pathophysiology. The clinician performs comprehensive neurological examination including mental status evaluation (level of consciousness, orientation, attention, language, memory), cranial nerve assessment, motor examination (strength grading 0-5, tone, pronator drift, coordination), sensory evaluation (light touch, pain/temperature, proprioception, vibration), deep tendon reflexes (grading 0-4+, pathological reflexes including Babinski), cerebellar testing (finger-to-nose, heel-to-shin, rapid alternating movements, Romberg), and gait assessment. Localization of neurological lesions guides differential diagnosis: upper motor neuron signs (spasticity, hyperreflexia, Babinski positive) versus lower motor neuron signs (flaccidity, hyporeflexia, fasciculations, muscle atrophy). The clinician interprets neuroimaging (CT for acute hemorrhage and mass lesions, MRI for detailed parenchymal assessment, MRA/CTA for vascular pathology), electrodiagnostic studies (EEG for seizure evaluation, EMG/NCS for peripheral nerve and muscle disorders), and relevant laboratory investigations. Management integrates acute stabilization, targeted pharmacotherapy based on pathophysiological mechanism, neuroprotective strategies, rehabilitation coordination, and determination of emergent versus urgent versus routine neurological referral." },
-    riskFactors: ["Advanced age or extremes of age","Family history of multiple sclerosis or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Female sex (2-3x higher incidence than males)","Age 20-40 years at initial presentation","Northern latitude/distance from equator","Vitamin D deficiency","Epstein-Barr virus (EBV) infection history","Family history of MS (first-degree relative increases risk 20-40x)","Smoking (increases risk and accelerates progression)","Caucasian ethnicity","Obesity in adolescence"],
+    diagnostics: ["MRI brain and spinal cord with gadolinium: T2/FLAIR hyperintense white matter lesions disseminated in time and space (McDonald criteria)","Lumbar puncture: oligoclonal bands in CSF (present in >90% of MS), elevated IgG index","Visual evoked potentials (VEP): prolonged P100 latency indicating optic nerve demyelination","Optical coherence tomography (OCT) for retinal nerve fiber layer thinning","Expanded Disability Status Scale (EDSS) for baseline and serial functional assessment","CBC, CMP, TSH, vitamin B12, ANA, anti-aquaporin-4 (to exclude mimics like NMO)","Serial MRI every 6-12 months to monitor for subclinical disease activity","Assess for JC virus antibody status before initiating natalizumab (PML risk stratification)"],
+    management: ["Acute relapse: IV methylprednisolone 1g daily for 3-5 days (shortens relapse, does not prevent future relapses)","Plasmapheresis (PLEX) for steroid-refractory severe relapses","First-line DMTs for RRMS: dimethyl fumarate, fingolimod, or interferon beta based on disease severity","High-efficacy DMTs for aggressive disease: natalizumab, ocrelizumab, alemtuzumab","Ocrelizumab is the only FDA-approved DMT for primary progressive MS (PPMS)","Symptom management: baclofen/tizanidine for spasticity, amantadine for fatigue, oxybutynin for bladder dysfunction","Physical therapy and occupational therapy referral for functional optimization","Avoid heat exposure (Uhthoff phenomenon); counsel on energy conservation techniques"],
+    nursingActions: ["Perform serial neurological examinations comparing to documented baseline EDSS score","Assess for new or worsening neurological symptoms indicating relapse vs pseudo-relapse (infection-triggered)","Rule out infection (UTI, URI) as trigger before treating apparent relapse with steroids","Monitor for DMT-specific adverse effects: hepatotoxicity (fingolimod), PML (natalizumab), infusion reactions (ocrelizumab)","Obtain JC virus antibody testing and MRI surveillance for patients on natalizumab","Monitor first-dose observation for fingolimod (bradycardia, AV block — 6-hour cardiac monitoring)","Assess bladder function: post-void residual volumes, intermittent catheterization teaching if indicated","Counsel on pregnancy planning — most DMTs are teratogenic and require washout period before conception"],
+    assessmentFindings: ["Optic neuritis: unilateral vision loss with retrobulbar eye pain worsened by eye movement","Lhermitte sign: electric shock sensation radiating down spine with neck flexion","Internuclear ophthalmoplegia (INO): impaired adduction with nystagmus of abducting eye","Motor weakness and upper motor neuron signs: spasticity, hyperreflexia, positive Babinski","Sensory changes: numbness, tingling, band-like tightness (MS hug)","Intention tremor and cerebellar ataxia","Bladder dysfunction: urgency, frequency, retention, recurrent UTIs","Cognitive impairment: slowed processing speed, impaired executive function, memory deficits","Fatigue: most common and often most disabling symptom"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["Optic neuritis with recoverable vision loss","Sensory symptoms: numbness, tingling, Lhermitte sign","Mild spasticity and hyperreflexia","Fatigue and heat sensitivity (Uhthoff phenomenon)","Mild cognitive slowing","Bladder urgency managed with anticholinergics"],
+      right: ["Transverse myelitis with paraplegia and sensory level","Severe optic neuritis with permanent vision loss","Bulbar symptoms: dysphagia with aspiration risk","Respiratory failure from high cervical cord lesion","Status epilepticus (rare but possible with cortical lesions)","Rapidly progressive disability suggesting aggressive disease or PML on natalizumab"]
     },
     medications: [{
-      name: "Levetiracetam",
-      type: "Anticonvulsant",
-      action: "Modulates synaptic vesicle protein SV2A to reduce neuronal excitability",
-      sideEffects: "Drowsiness, behavioral changes, dizziness, fatigue",
-      contra: "Known hypersensitivity; dose adjustment needed in renal impairment",
-      pearl: "Fewer drug interactions than older anticonvulsants; monitor for mood changes"
+      name: "Methylprednisolone IV (Solu-Medrol)",
+      type: "Corticosteroid",
+      action: "Reduces CNS inflammation and edema at demyelination sites; shortens acute relapse duration but does not alter long-term disease course",
+      sideEffects: "Hyperglycemia, insomnia, mood lability, GI irritation, immunosuppression, avascular necrosis with repeated use",
+      contra: "Active systemic infection, uncontrolled diabetes, psychotic features",
+      pearl: "1g IV daily for 3-5 days for acute relapses; speeds recovery but does not prevent future relapses; always rule out infection (pseudo-relapse) before initiating"
+    },{
+      name: "Dimethyl fumarate (Tecfidera)",
+      type: "Disease-modifying therapy (immunomodulator)",
+      action: "Activates Nrf2 pathway providing anti-inflammatory and cytoprotective effects; reduces relapse rate by ~50%",
+      sideEffects: "Flushing, GI effects (diarrhea, nausea, abdominal pain), lymphopenia, elevated LFTs",
+      contra: "Lymphocyte count <500/mcL; PML risk with prolonged severe lymphopenia",
+      pearl: "Take with food to reduce flushing; aspirin 30 min before dose helps with flushing; monitor CBC every 6 months for lymphopenia"
+    },{
+      name: "Natalizumab (Tysabri)",
+      type: "Monoclonal antibody (high-efficacy DMT)",
+      action: "Blocks alpha-4 integrin preventing lymphocyte migration across blood-brain barrier into CNS",
+      sideEffects: "Progressive multifocal leukoencephalopathy (PML), infusion reactions, hepatotoxicity, hypersensitivity",
+      contra: "JC virus antibody positive with index >1.5 (high PML risk); concurrent immunosuppression",
+      pearl: "Most effective DMT but PML risk limits use; JC virus antibody testing required every 6 months; REMS program required; consider in JC virus-negative patients with aggressive disease"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["MS diagnosis requires lesions disseminated in TIME and SPACE — the McDonald criteria use MRI to demonstrate this without requiring multiple clinical attacks","Uhthoff phenomenon: heat worsens MS symptoms by slowing already impaired nerve conduction — advise patients to avoid hot baths, saunas, and exercise in heat","Always rule out infection (especially UTI) before treating an apparent relapse — pseudo-relapses from fever/infection mimic true relapses but resolve with infection treatment","JC virus antibody index >1.5 with natalizumab use >2 years = high PML risk — surveillance MRI every 3-6 months is mandatory","Optic neuritis as a first presentation: 50% of patients with optic neuritis will develop MS within 15 years","Fingolimod first-dose monitoring: 6 hours of cardiac monitoring required due to risk of symptomatic bradycardia and AV block (S1P receptor modulation)","Pregnancy planning is essential — most DMTs are teratogenic; recommend washout period and use of glatiramer acetate if DMT needed during pregnancy"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with multiple sclerosis. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is evaluating a patient on natalizumab whose JC virus antibody index has risen to 2.1 after 30 months of therapy. What is the most appropriate action?",
+        options: ["Continue natalizumab with routine annual MRI monitoring","Discontinue natalizumab and transition to an alternative DMT after washout","Add an immunosuppressant to enhance therapeutic effect","Increase the natalizumab infusion frequency to every 2 weeks"],
+        correct: 1,
+        rationale: "A JC virus antibody index >1.5 combined with >2 years of natalizumab therapy places this patient at high risk for progressive multifocal leukoencephalopathy (PML). The NP should discontinue natalizumab and transition to an alternative high-efficacy DMT after appropriate washout."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with multiple sclerosis?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient with relapsing-remitting MS presents with new right leg weakness and numbness. Temperature is 101.4F and urinalysis shows pyuria and bacteriuria. What should the NP do first?",
+        options: ["Order IV methylprednisolone 1g daily for 5 days","Treat the urinary tract infection and reassess neurological symptoms","Order an emergent brain MRI with gadolinium","Start plasmapheresis for steroid-refractory relapse"],
+        correct: 1,
+        rationale: "Infection (especially UTI) is the most common cause of pseudo-relapse in MS. Fever impairs conduction in demyelinated nerves, temporarily worsening symptoms. The infection must be treated first; if symptoms persist after resolution, then a true relapse should be evaluated and treated."
       },
       {
-        question: "The patient asks about their multiple sclerosis diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "Which finding on MRI is most consistent with a diagnosis of multiple sclerosis?",
+        options: ["Single ring-enhancing lesion with surrounding edema","Periventricular T2/FLAIR white matter lesions disseminated in time and space","Bilateral basal ganglia calcifications","Diffuse cortical atrophy without focal lesions"],
+        correct: 1,
+        rationale: "MS is characterized by periventricular, juxtacortical, infratentorial, and spinal cord white matter lesions that are disseminated in both time (different ages of lesions) and space (multiple CNS locations), per the McDonald diagnostic criteria."
       },
     ]
   },
   "multi-system-disease-interaction-np": {
     title: "Multi-System Disease Interaction: DM + CKD +",
     cellular: { title: "Multi-System Disease Interaction: DM + CKD +", content: "the clinician applies advanced pharmacological principles to the prescribing and management of Multi-System Disease Interaction: DM + CKD + HF. This requires understanding of pharmacokinetics (absorption, distribution, metabolism via cytochrome P450 enzymes, and elimination), pharmacodynamics (receptor interactions, dose-response relationships, therapeutic index), and clinical pharmacology (drug selection based on evidence, patient-specific factors, and risk-benefit analysis). The clinician considers drug interactions (enzyme induction and inhibition, protein binding displacement, additive/synergistic adverse effects), performs dose adjustment for renal impairment (using CKD-EPI eGFR and manufacturer guidelines) and hepatic impairment (Child-Pugh classification), accounts for pharmacogenomic variations (CYP2D6 poor/rapid metabolizers, HLA-B*5701 for abacavir, HLA-B*1502 for carbamazepine in patients of Southeast Asian descent), and manages polypharmacy risks especially in elderly patients (Beers Criteria, STOPP/START criteria). The clinician implements therapeutic drug monitoring when indicated (narrow therapeutic index medications including lithium, digoxin, aminoglycosides, vancomycin, phenytoin, valproic acid), monitors for adverse drug reactions and drug-drug interactions, educates patients on medication purpose, administration, expected effects, and warning signs requiring medical attention, and implements deprescribing strategies when medications are no longer indicated or when risks outweigh benefits." },
-    riskFactors: ["Advanced age or extremes of age","Family history of multi system disease interaction or related conditions","Chronic comorbidities (hypertension, diabetes, obesity)","Sedentary lifestyle and poor nutritional status","Tobacco, alcohol, or substance use","Immunocompromised state or prolonged medication use"],
-    diagnostics: ["Order and interpret CBC, BMP, and disease-specific labs","Review imaging studies (X-ray, CT, MRI, ultrasound) as indicated","Perform focused physical examination with advanced assessment techniques","Apply clinical decision rules and scoring tools","Order specialty consultations when findings exceed scope"],
-    management: ["Prescribe first-line pharmacotherapy based on current clinical guidelines","Develop individualized treatment plan with measurable outcomes","Order follow-up diagnostic testing to monitor treatment response","Refer to specialist when condition is refractory or complex","Adjust therapy based on patient response and adverse effects"],
-    nursingActions: ["Order and interpret diagnostic studies for changes in condition","Prescribe pharmacological and non-pharmacological therapies per established protocols","Formulate differential diagnosis and treatment plan based on assessment findings","Counsel patients on disease management and prevention regarding condition management","Document all interventions, assessments, and patient responses accurately","Maintain safe environment and follow infection prevention protocols"],
-    assessmentFindings: ["Changes in vital signs including temperature, pulse, blood pressure, and respirations","Alterations in level of consciousness, orientation, or cognitive function","Pain assessment using validated tools (onset, location, duration, character, severity)","Skin assessment including color, turgor, moisture, integrity, and temperature","Functional status changes including mobility, self-care ability, and nutritional intake"],
+    riskFactors: ["Type 2 diabetes mellitus (leading cause of CKD and major HF risk factor)","Hypertension (accelerates CKD progression and worsens HF)","Obesity and metabolic syndrome","African American or Hispanic ethnicity (higher DM and CKD prevalence)","Age >65 years with multiple comorbidities","Coronary artery disease or prior myocardial infarction","Chronic kidney disease stage 3-5 (cardiorenal syndrome)","Polypharmacy with drug-drug and drug-disease interactions","Poor medication adherence across multiple disease regimens","Smoking (accelerates atherosclerosis, worsens renal and cardiac outcomes)"],
+    diagnostics: ["Hemoglobin A1c (target <7% in most; individualize to <8% with advanced CKD or HF)","eGFR and serum creatinine (CKD staging using CKD-EPI equation)","Urine albumin-to-creatinine ratio (UACR) for diabetic nephropathy screening","BNP or NT-proBNP for HF assessment (note: BNP is elevated at baseline in CKD)","Echocardiogram for ejection fraction classification (HFrEF vs HFpEF)","Comprehensive metabolic panel: electrolytes (K+, Na+, bicarb, phosphorus, calcium)","Fasting lipid panel for cardiovascular risk assessment","CBC for anemia of CKD evaluation","Serum iron, ferritin, TIBC for iron deficiency assessment in CKD anemia","Thyroid function tests (hypothyroidism can worsen HF)"],
+    management: ["SGLT2 inhibitor (empagliflozin, dapagliflozin): cornerstone therapy benefiting ALL three conditions — reduces A1c, slows CKD progression, reduces HF hospitalizations","ACE inhibitor or ARB for renal protection and HF afterload reduction (monitor K+ and creatinine)","Beta-blocker (carvedilol, metoprolol succinate, bisoprolol) for HFrEF — evidence-based only","MRA (spironolactone or eplerenone) for HFrEF — monitor potassium closely with CKD","Loop diuretic (furosemide, bumetanide) for volume management in HF — dose adjust for renal function","GLP-1 receptor agonist (semaglutide, liraglutide) for DM with cardiovascular benefit and weight reduction","Statin therapy for cardiovascular risk reduction in DM","Sodium restriction <2g/day for both HF and CKD; carbohydrate-consistent diet for DM","Avoid metformin when eGFR <30 mL/min; dose reduce between 30-45","Erythropoiesis-stimulating agents for anemia of CKD (Hgb target 10-11.5 g/dL)"],
+    nursingActions: ["Reconcile all medications across DM, CKD, and HF — assess for drug interactions and contraindications","Monitor potassium closely: ACE/ARB + MRA + CKD creates high hyperkalemia risk","Adjust medication doses based on eGFR: renally-dosed medications include metformin, SGLT2i, digoxin, gabapentin","Educate on daily weight monitoring: report weight gain >2 lbs/day or 5 lbs/week (HF decompensation)","Monitor blood glucose patterns: CKD alters insulin clearance causing hypoglycemia risk","Assess volume status: JVD, peripheral edema, lung crackles, orthopnea, daily weights","Coordinate care between endocrinology, nephrology, and cardiology specialists","Counsel on dietary restrictions balancing all three conditions: sodium <2g, potassium monitoring, carbohydrate consistency, protein moderation in CKD","Implement deprescribing review using Beers Criteria and STOPP/START in elderly patients","Monitor for medication non-adherence — pill burden from multiple disease management is a major barrier"],
+    assessmentFindings: ["Lower extremity edema (HF volume overload and CKD fluid retention)","Dyspnea on exertion and orthopnea (HF decompensation)","Elevated blood pressure despite multiple antihypertensives","Elevated A1c with hypoglycemic episodes (CKD prolongs insulin half-life)","Declining eGFR trend over serial measurements","Elevated BNP/NT-proBNP (distinguish HF exacerbation from CKD baseline elevation)","Peripheral neuropathy from diabetic neuropathy","Fatigue and exercise intolerance (anemia of CKD + HF low cardiac output)","Retinopathy on fundoscopic exam (microvascular DM complication)","Hyperkalemia on labs (ACE/ARB + CKD + potassium-sparing agents)"],
     signs: {
-      left: ["Changes in vital sign trends","Altered mental status or confusion","Pain or discomfort reported by patient","Skin changes (pallor, diaphoresis, cyanosis, jaundice)","Abnormal laboratory values"],
-      right: ["Fever or hypothermia","Edema (peripheral, periorbital, or generalized)","Adventitious breath sounds or respiratory distress","Gastrointestinal symptoms (nausea, vomiting, distension)","Changes in urine output or characteristics"]
+      left: ["A1c 7-8% with stable glucose patterns","eGFR 45-60 mL/min with stable trend","NYHA Class I-II HF symptoms (dyspnea with moderate exertion)","Mild peripheral edema controlled with diuretics","Potassium 4.5-5.0 mEq/L (elevated but manageable)","Trace proteinuria on UACR"],
+      right: ["Acute decompensated HF: severe dyspnea, pulmonary edema, hypoxia requiring hospitalization","Hyperkalemia >6.0 mEq/L with ECG changes (peaked T waves, widened QRS) — cardiac arrest risk","Severe hypoglycemia <40 mg/dL with altered mental status (reduced renal insulin clearance)","Acute kidney injury on chronic CKD (rapidly rising creatinine, oliguria)","Cardiorenal syndrome: worsening renal function from HF low output or aggressive diuresis","Diabetic ketoacidosis in patient on SGLT2 inhibitor (euglycemic DKA — normal glucose)"]
     },
     medications: [{
-      name: "Acetaminophen",
-      type: "Analgesic/Antipyretic",
-      action: "Inhibits cyclooxygenase enzymes in the CNS to reduce pain and fever",
-      sideEffects: "Hepatotoxicity at high doses, nausea, rash (rare)",
-      contra: "Severe hepatic impairment, active liver disease, alcohol use disorder",
-      pearl: "Maximum 4g/day in healthy adults, 2g/day with liver disease; found in many combination products - check all sources"
+      name: "Empagliflozin (Jardiance)",
+      type: "SGLT2 inhibitor",
+      action: "Blocks sodium-glucose co-transporter 2 in proximal tubule reducing glucose reabsorption; provides glycemic control, nephroprotection (reduces intraglomerular pressure), and cardioprotection (reduces preload and afterload)",
+      sideEffects: "Genital mycotic infections, UTI, volume depletion, euglycemic DKA, Fournier gangrene (rare)",
+      contra: "eGFR <20 mL/min (for glycemic benefit; may still use for cardio/renal protection per guidelines), type 1 DM, history of DKA",
+      pearl: "Triple benefit drug: reduces A1c, slows CKD progression, AND reduces HF hospitalizations — the ideal agent for DM+CKD+HF; hold before major surgery; warn patients about euglycemic DKA risk"
+    },{
+      name: "Carvedilol (Coreg)",
+      type: "Non-selective beta-blocker with alpha-1 blockade",
+      action: "Blocks beta-1/beta-2 and alpha-1 adrenergic receptors reducing heart rate, myocardial oxygen demand, and afterload; proven mortality benefit in HFrEF",
+      sideEffects: "Bradycardia, hypotension, fatigue, dizziness, bronchospasm, weight gain, masking of hypoglycemia symptoms",
+      contra: "Decompensated HF requiring inotropes, severe bradycardia, 2nd/3rd degree AV block, severe hepatic impairment, reactive airway disease",
+      pearl: "Start low, go slow in HF (3.125mg BID, titrate to 25mg BID); masking of hypoglycemia symptoms is critical in diabetic patients — educate on alternative hypoglycemia signs (diaphoresis is preserved)"
+    },{
+      name: "Lisinopril",
+      type: "ACE inhibitor",
+      action: "Inhibits angiotensin-converting enzyme reducing angiotensin II production; reduces afterload (HF), lowers intraglomerular pressure (renal protection in DM), and reduces aldosterone (decreases fluid retention)",
+      sideEffects: "Hyperkalemia, dry cough, angioedema, acute kidney injury (especially with volume depletion), hypotension",
+      contra: "Bilateral renal artery stenosis, pregnancy (teratogenic), angioedema history, K+ >5.5 mEq/L",
+      pearl: "Expect 20-30% rise in creatinine after initiation — this is acceptable and expected; hold if creatinine rises >30% or K+ >5.5; do NOT combine with ARB (dual RAAS blockade increases AKI and hyperkalemia)"
     }],
-    pearls: ["Always assess for allergies before administering any new medication","Document baseline assessment findings to enable accurate trending","Use the SBAR format for structured clinical communication with the healthcare team","Consider age-specific and population-specific variations in normal findings","Never ignore a sudden change in patient condition, even if vital signs appear stable","Verify two patient identifiers before any medication administration or procedure"],
+    pearls: ["SGLT2 inhibitors are the most important drug class for DM+CKD+HF — they provide simultaneous benefit for all three conditions","An expected 20-30% rise in creatinine after ACE/ARB initiation reflects reduced intraglomerular pressure (protective) — do NOT stop unless rise exceeds 30%","Metformin must be stopped when eGFR falls below 30 mL/min due to lactic acidosis risk; dose-reduce at 30-45 mL/min","Beta-blockers MASK hypoglycemia symptoms (tachycardia, tremor) in diabetic patients — teach patients to recognize diaphoresis and confusion instead","Hyperkalemia risk is additive: CKD + ACE/ARB + MRA + SGLT2i — monitor K+ within 1-2 weeks of any medication change","BNP is chronically elevated in CKD patients even without HF — use the patient's own baseline trend rather than absolute cutoffs","Euglycemic DKA can occur with SGLT2 inhibitors — patients may have DKA with near-normal blood glucose; check ketones if acidotic"],
     quiz: [
       {
-        question: "A nurse is caring for a patient with multi system disease interaction. Which assessment finding requires immediate intervention?",
-        options: ["Sudden change in level of consciousness","Mild discomfort rated 3/10 on pain scale","Stable vital signs within normal limits","Patient requesting information about their condition"],
-        correct: 0,
-        rationale: "A sudden change in level of consciousness may indicate a serious complication such as hemorrhage, hypoxia, or neurological deterioration and requires immediate assessment and intervention."
+        question: "An NP is managing a patient with DM (A1c 8.2%), CKD stage 3b (eGFR 38), and HFrEF (EF 35%). Which medication provides simultaneous benefit for all three conditions?",
+        options: ["Metformin 1000mg BID","Empagliflozin 10mg daily","Glipizide 10mg BID","Hydrochlorothiazide 25mg daily"],
+        correct: 1,
+        rationale: "Empagliflozin (SGLT2 inhibitor) is the cornerstone therapy for patients with concurrent DM, CKD, and HF. It simultaneously lowers A1c, slows CKD progression by reducing intraglomerular pressure, and reduces HF hospitalizations. Metformin requires dose reduction at this eGFR and lacks cardio/renal protective benefits."
       },
       {
-        question: "Which nursing action is most appropriate when managing a patient with multi system disease interaction?",
-        options: ["Order and interpret diagnostic studies for changes in condition","Delay assessment until the next scheduled time","Administer PRN medications without assessment","Transfer care without communicating relevant findings"],
-        correct: 0,
-        rationale: "Ongoing assessment and timely intervention are fundamental to safe patient care. Delaying assessment, administering medications without assessment, or failing to communicate findings can compromise patient safety."
+        question: "A patient on lisinopril, carvedilol, and spironolactone for HFrEF with CKD stage 3 has a potassium level of 5.9 mEq/L. What is the NP's priority action?",
+        options: ["Continue all medications and recheck potassium in 1 month","Hold spironolactone and order stat ECG to assess for cardiac effects","Increase the furosemide dose and continue all other medications","Switch lisinopril to amlodipine and continue spironolactone"],
+        correct: 1,
+        rationale: "Potassium 5.9 mEq/L is dangerously elevated and can cause fatal cardiac arrhythmias. The priority is to hold the potassium-elevating agent (spironolactone — MRA) and obtain a stat ECG to assess for hyperkalemic cardiac changes. The combination of CKD + ACE inhibitor + MRA creates high hyperkalemia risk."
       },
       {
-        question: "The patient asks about their multi system disease interaction diagnosis. What is the best initial nursing response?",
-        options: ["Avoid discussing the diagnosis and redirect the conversation","Provide all available information regardless of patient readiness","Assess the patient's current understanding and address their specific concerns","Tell the patient to wait for the physician to explain everything"],
-        correct: 2,
-        rationale: "Assessing the patient's current understanding allows the nurse to provide targeted, accurate education at the appropriate level, supporting informed decision-making and reducing anxiety."
+        question: "A patient with DM and CKD stage 4 (eGFR 22) on carvedilol presents with blood glucose of 45 mg/dL but denies typical hypoglycemia symptoms (no tremor, no palpitations). What explains this presentation?",
+        options: ["The glucometer reading is likely inaccurate","Beta-blockers mask adrenergic symptoms of hypoglycemia (tachycardia, tremor)","CKD protects against symptomatic hypoglycemia","The patient has developed hypoglycemia unawareness from insulin resistance"],
+        correct: 1,
+        rationale: "Beta-blockers (carvedilol) block the adrenergic response to hypoglycemia, masking classic symptoms like tachycardia, tremor, and palpitations. Additionally, CKD reduces insulin clearance, prolonging insulin's action and increasing hypoglycemia risk. Patients must be taught to recognize non-adrenergic symptoms like diaphoresis and confusion."
       },
     ]
   },
