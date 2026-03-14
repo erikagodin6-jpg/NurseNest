@@ -1037,3 +1037,181 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
 export function getInternalLinksForLesson(lessonId: string): InternalLink[] {
   return internalLinkMap[lessonId] || [];
 }
+
+export type CrossPlatformLinkType = "lesson-to-newgrad" | "lesson-to-career" | "newgrad-to-lesson" | "newgrad-to-career" | "career-to-newgrad" | "career-to-lesson";
+
+export interface CrossPlatformLink {
+  anchor: string;
+  target: string;
+  reason: string;
+  type: CrossPlatformLinkType;
+  platform: "nursenest" | "new-grad" | "allied";
+}
+
+export const crossPlatformLinkMap: Record<string, CrossPlatformLink[]> = {
+  "heart-failure": [
+    { anchor: "Tips for New ICU Nurses", target: "/new-grad/nursing", reason: "ICU specialty transition guide", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "New Grad Clinical Confidence Builder", target: "/new-grad#clinical-confidence", reason: "quick-reference clinical decision tools", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "RRT Exam Prep – Hemodynamics", target: "/careers/rrt", reason: "respiratory therapy cardiac concepts", type: "lesson-to-career", platform: "allied" },
+  ],
+  "sepsis": [
+    { anchor: "First 90 Days on a Med-Surg Unit", target: "/new-grad#first-90-days", reason: "managing sepsis patients as a new grad", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "New Grad Interview Prep – Clinical Scenarios", target: "/new-grad#interview-lab", reason: "sepsis scenario interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Medical Emergencies", target: "/careers/paramedic", reason: "prehospital sepsis recognition", type: "lesson-to-career", platform: "allied" },
+  ],
+  "stroke": [
+    { anchor: "New Grad Neuro Unit Transition Tips", target: "/new-grad/nursing", reason: "stroke care in your first year", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Stroke Assessment", target: "/careers/paramedic", reason: "prehospital stroke scales and transport", type: "lesson-to-career", platform: "allied" },
+  ],
+  "respiratory-assessment": [
+    { anchor: "RRT Certification Exam Prep", target: "/careers/rrt", reason: "respiratory therapy assessment overlap", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Shift Prep", target: "/new-grad#clinical-confidence", reason: "respiratory assessment checklists for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "cardiac-assessment-ecg": [
+    { anchor: "New Grad ICU Readiness", target: "/new-grad/nursing", reason: "ECG interpretation for new ICU nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Cardiac Emergencies", target: "/careers/paramedic", reason: "prehospital ECG interpretation", type: "lesson-to-career", platform: "allied" },
+  ],
+  "iv-therapy": [
+    { anchor: "New Grad Clinical Confidence Builder", target: "/new-grad#clinical-confidence", reason: "IV skills confidence for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "First 90 Days – Skills Checklist", target: "/new-grad#first-90-days", reason: "IV therapy milestones for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "medication-administration-safety": [
+    { anchor: "New Grad Interview Prep – Patient Safety", target: "/new-grad#interview-lab", reason: "medication error interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Pharmacy Tech Exam Prep", target: "/careers/pharmacy-tech", reason: "medication safety crossover", type: "lesson-to-career", platform: "allied" },
+  ],
+  "abg-basics": [
+    { anchor: "RRT Exam Prep – ABG Interpretation", target: "/careers/rrt", reason: "respiratory therapy ABG analysis", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Lab Values", target: "/new-grad#clinical-confidence", reason: "ABG quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "diabetes-lifespan": [
+    { anchor: "New Grad Med-Surg Transition Tips", target: "/new-grad/nursing", reason: "diabetes management for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "MLT Exam Prep – Glucose Testing", target: "/careers/mlt", reason: "lab testing for diabetes markers", type: "lesson-to-career", platform: "allied" },
+  ],
+  "copd-basics-rpn": [
+    { anchor: "RRT Exam Prep – COPD Management", target: "/careers/rrt", reason: "respiratory therapy COPD protocols", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Respiratory", target: "/new-grad#clinical-confidence", reason: "COPD care quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "pneumonia-basics-rpn": [
+    { anchor: "RRT Exam Prep – Airway Management", target: "/careers/rrt", reason: "respiratory care in pneumonia", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad First 90 Days – Infection Control", target: "/new-grad#first-90-days", reason: "infection prevention for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "ards-rn": [
+    { anchor: "RRT Exam Prep – Mechanical Ventilation", target: "/careers/rrt", reason: "ventilator management in ARDS", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad ICU Survival Guide", target: "/new-grad/nursing", reason: "ARDS patient care for new ICU nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "shock-types-recognition-rpn": [
+    { anchor: "Paramedic Exam Prep – Shock Management", target: "/careers/paramedic", reason: "prehospital shock recognition", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Emergency Response", target: "/new-grad#clinical-confidence", reason: "shock assessment for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "blood-transfusion-rn": [
+    { anchor: "MLT Exam Prep – Blood Banking", target: "/careers/mlt", reason: "blood typing and crossmatch", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Procedures", target: "/new-grad#clinical-confidence", reason: "blood transfusion checklist for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "preeclampsia-management": [
+    { anchor: "New Grad L&D Unit Transition", target: "/new-grad/nursing", reason: "preeclampsia management for new OB nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "postpartum-hemorrhage-rn": [
+    { anchor: "New Grad L&D Readiness", target: "/new-grad/nursing", reason: "PPH management for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Obstetric Emergencies", target: "/careers/paramedic", reason: "prehospital postpartum hemorrhage", type: "lesson-to-career", platform: "allied" },
+  ],
+  "delirium-dementia": [
+    { anchor: "New Grad Geriatric Nursing Tips", target: "/new-grad/nursing", reason: "delirium assessment for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "OT Career Guide – Cognitive Rehab", target: "/new-grad/occupational-therapy", reason: "occupational therapy cognitive interventions", type: "lesson-to-career", platform: "new-grad" },
+  ],
+  "cranial-nerve-assessment": [
+    { anchor: "New Grad Neuro Nursing Guide", target: "/new-grad/nursing", reason: "neuro assessment for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "burn-management": [
+    { anchor: "Paramedic Exam Prep – Trauma", target: "/careers/paramedic", reason: "prehospital burn assessment", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Emergency Nursing Tips", target: "/new-grad/nursing", reason: "burn care for new ER nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "anaphylaxis": [
+    { anchor: "Paramedic Exam Prep – Allergic Emergencies", target: "/careers/paramedic", reason: "prehospital anaphylaxis management", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Emergency Meds", target: "/new-grad#clinical-confidence", reason: "epinephrine administration for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+  "bipolar-disorder-rn": [
+    { anchor: "Psychotherapist Career Guide", target: "/new-grad/psychotherapist", reason: "therapeutic approaches for bipolar disorder", type: "lesson-to-career", platform: "new-grad" },
+    { anchor: "Social Worker Career Guide", target: "/new-grad/social-worker", reason: "community resources for bipolar patients", type: "lesson-to-career", platform: "new-grad" },
+  ],
+  "depression-rn": [
+    { anchor: "Psychotherapist Career Guide", target: "/new-grad/psychotherapist", reason: "therapeutic interventions for depression", type: "lesson-to-career", platform: "new-grad" },
+    { anchor: "New Grad Mental Health Nursing Tips", target: "/new-grad/nursing", reason: "depression care for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+  ],
+};
+
+export const newGradCrossPlatformLinks: Record<string, CrossPlatformLink[]> = {
+  "interview-lab": [
+    { anchor: "Heart Failure Nursing Lesson", target: "/lessons/heart-failure", reason: "review cardiac concepts before clinical interviews", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Sepsis Management Lesson", target: "/lessons/sepsis", reason: "common interview scenario topic", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "patient safety interview prep", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Practice NCLEX Questions", target: "/question-bank", reason: "test clinical knowledge for interviews", type: "newgrad-to-lesson", platform: "nursenest" },
+  ],
+  "resume-builder": [
+    { anchor: "IV Therapy Skills Lesson", target: "/lessons/iv-therapy", reason: "brush up on skills to list on your resume", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Cardiac Assessment Lesson", target: "/lessons/cardiac-assessment-ecg", reason: "review assessment skills for resume keywords", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Allied Health Career Directory", target: "/careers", reason: "explore allied health career paths", type: "newgrad-to-career", platform: "allied" },
+  ],
+  "clinical-confidence": [
+    { anchor: "ABG Interpretation Lesson", target: "/lessons/abg-basics", reason: "master ABGs for clinical confidence", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Respiratory Assessment Lesson", target: "/lessons/respiratory-assessment", reason: "sharpen respiratory assessment skills", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Shock Recognition Lesson", target: "/lessons/shock-types-recognition-rpn", reason: "know shock types for rapid response", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "IV Therapy Lesson", target: "/lessons/iv-therapy", reason: "IV skills reference and review", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "NCLEX Practice Questions", target: "/question-bank", reason: "reinforce clinical knowledge with practice", type: "newgrad-to-lesson", platform: "nursenest" },
+  ],
+  "first-90-days": [
+    { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "medication safety during orientation", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Sepsis Recognition Lesson", target: "/lessons/sepsis", reason: "early sepsis detection skills", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Heart Failure Lesson", target: "/lessons/heart-failure", reason: "common med-surg diagnosis review", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Allied Health Career Exploration", target: "/careers", reason: "explore multidisciplinary team roles", type: "newgrad-to-career", platform: "allied" },
+  ],
+  "cover-letter": [
+    { anchor: "Nursing Practice Questions", target: "/question-bank", reason: "demonstrate clinical knowledge in applications", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Allied Health Career Paths", target: "/careers", reason: "explore alternative healthcare career options", type: "newgrad-to-career", platform: "allied" },
+  ],
+};
+
+export const careerCrossPlatformLinks: Record<string, CrossPlatformLink[]> = {
+  "rrt": [
+    { anchor: "ABG Interpretation Nursing Lesson", target: "/lessons/abg-basics", reason: "foundational ABG concepts", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Respiratory Assessment Lesson", target: "/lessons/respiratory-assessment", reason: "clinical respiratory assessment skills", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "ARDS Management Lesson", target: "/lessons/ards-rn", reason: "acute respiratory distress syndrome care", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "COPD Management Lesson", target: "/lessons/copd-basics-rpn", reason: "chronic respiratory disease management", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "New Grad Respiratory Therapy Hub", target: "/new-grad/respiratory-therapy", reason: "career transition resources for new RRTs", type: "career-to-newgrad", platform: "new-grad" },
+  ],
+  "paramedic": [
+    { anchor: "Stroke Assessment Lesson", target: "/lessons/stroke", reason: "stroke recognition and intervention", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Shock Recognition Lesson", target: "/lessons/shock-types-recognition-rpn", reason: "shock assessment and management", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Cardiac Assessment & ECG Lesson", target: "/lessons/cardiac-assessment-ecg", reason: "cardiac monitoring skills", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Anaphylaxis Management Lesson", target: "/lessons/anaphylaxis", reason: "allergic emergency management", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "New Grad Paramedic Hub", target: "/new-grad/paramedic", reason: "career transition resources for new paramedics", type: "career-to-newgrad", platform: "new-grad" },
+  ],
+  "pharmacy-tech": [
+    { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "medication administration rights", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "IV Therapy Lesson", target: "/lessons/iv-therapy", reason: "IV medication preparation and delivery", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Diabetes Management Lesson", target: "/lessons/diabetes-lifespan", reason: "insulin and oral hypoglycemic agents", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "New Grad Career Transition Hub", target: "/new-grad", reason: "career launch resources for new pharmacy techs", type: "career-to-newgrad", platform: "new-grad" },
+  ],
+  "mlt": [
+    { anchor: "ABG Basics Lesson", target: "/lessons/abg-basics", reason: "arterial blood gas analysis", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Blood Transfusion Lesson", target: "/lessons/blood-transfusion-rn", reason: "blood banking and crossmatch concepts", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "DIC Management Lesson", target: "/lessons/dic-management-rn", reason: "coagulation cascade and lab values", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "New Grad MLT Career Hub", target: "/new-grad/mlt", reason: "career transition resources for new MLTs", type: "career-to-newgrad", platform: "new-grad" },
+  ],
+  "imaging": [
+    { anchor: "Respiratory Assessment Lesson", target: "/lessons/respiratory-assessment", reason: "chest X-ray clinical correlation", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "Stroke Lesson – CT/MRI Findings", target: "/lessons/stroke", reason: "neuroimaging in stroke diagnosis", type: "career-to-lesson", platform: "nursenest" },
+    { anchor: "New Grad Imaging Career Hub", target: "/new-grad/diagnostic-imaging", reason: "career transition resources for imaging techs", type: "career-to-newgrad", platform: "new-grad" },
+  ],
+};
+
+export function getCrossPlatformLinksForLesson(lessonId: string): CrossPlatformLink[] {
+  return crossPlatformLinkMap[lessonId] || [];
+}
+
+export function getCrossPlatformLinksForNewGrad(sectionId: string): CrossPlatformLink[] {
+  return newGradCrossPlatformLinks[sectionId] || [];
+}
+
+export function getCrossPlatformLinksForCareer(careerSlug: string): CrossPlatformLink[] {
+  return careerCrossPlatformLinks[careerSlug] || [];
+}

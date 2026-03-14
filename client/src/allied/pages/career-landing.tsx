@@ -3,11 +3,12 @@ import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap, Wrench,
   BarChart3, Target, Clock, CheckCircle2, ChevronRight, Check, X,
-  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe
+  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe, Stethoscope
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
+import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 
 const FEATURES = [
   { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
@@ -214,6 +215,73 @@ export default function CareerLandingPage() {
           </div>
         </div>
       </section>
+
+      {(() => {
+        const crossLinks = getCrossPlatformLinksForCareer(career.slug);
+        if (crossLinks.length === 0) return null;
+        const lessonLinks = crossLinks.filter(l => l.type === "career-to-lesson");
+        const newGradLinks = crossLinks.filter(l => l.type === "career-to-newgrad");
+        return (
+          <section className="py-16 bg-white" data-testid="section-related-resources">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Related Resources</h2>
+                <p className="text-gray-600">Deepen your understanding with clinical lessons and career transition guides from across the NurseNest ecosystem.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {lessonLinks.length > 0 && (
+                  <div className="bg-blue-50/50 rounded-2xl border border-blue-100 p-6" data-testid="cross-links-lessons">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Stethoscope className="w-5 h-5 text-blue-600" />
+                      <h3 className="font-semibold text-gray-900">Clinical Lessons</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {lessonLinks.map((link, i) => (
+                        <Link
+                          key={i}
+                          href={link.target}
+                          className="flex items-center gap-3 p-3 rounded-xl bg-white border border-blue-100 hover:border-blue-300 hover:shadow-sm transition-all group"
+                          data-testid={`link-cross-lesson-${i}`}
+                        >
+                          <BookOpen className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                          <div className="min-w-0">
+                            <span className="text-sm font-medium text-gray-700 group-hover:text-blue-700 block truncate">{link.anchor}</span>
+                            <span className="text-xs text-gray-400">{link.reason}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {newGradLinks.length > 0 && (
+                  <div className="bg-indigo-50/50 rounded-2xl border border-indigo-100 p-6" data-testid="cross-links-newgrad">
+                    <div className="flex items-center gap-2 mb-4">
+                      <GraduationCap className="w-5 h-5 text-indigo-600" />
+                      <h3 className="font-semibold text-gray-900">Career Transition</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {newGradLinks.map((link, i) => (
+                        <Link
+                          key={i}
+                          href={link.target}
+                          className="flex items-center gap-3 p-3 rounded-xl bg-white border border-indigo-100 hover:border-indigo-300 hover:shadow-sm transition-all group"
+                          data-testid={`link-cross-newgrad-${i}`}
+                        >
+                          <GraduationCap className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                          <div className="min-w-0">
+                            <span className="text-sm font-medium text-gray-700 group-hover:text-indigo-700 block truncate">{link.anchor}</span>
+                            <span className="text-xs text-gray-400">{link.reason}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Comparison Table */}
       <section className="py-16 bg-gray-50" data-testid="section-comparison">

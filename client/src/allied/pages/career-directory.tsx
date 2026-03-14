@@ -1,8 +1,9 @@
 import { Link } from "wouter";
 import { CAREER_CONFIGS, getCanonicalRoute } from "@shared/careers";
 import { CAREER_GUIDES } from "@shared/career-guide-data";
-import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity, GraduationCap } from "lucide-react";
+import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity, GraduationCap, Stethoscope } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 
 const CAREER_TO_GUIDE_SLUG: Record<string, string> = Object.values(CAREER_GUIDES).reduce((acc, guide) => {
   acc[guide.careerSlug] = guide.slug;
@@ -44,12 +45,15 @@ export default function CareerDirectoryPage() {
       </div>
 
       <div className="space-y-6">
-        {ALLIED_CAREERS.filter(c => c.enabled).map(career => (
-          <div key={career.slug} className="bg-white rounded-2xl border border-gray-100 hover:border-teal-200 hover:shadow-lg transition-all p-6 sm:p-8" data-testid={`card-career-${career.slug}`}>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ backgroundColor: career.colorAccent }}>
-                  <career.Icon className="w-8 h-8" style={{ color: career.color }} />
+        {ALLIED_CAREERS.filter(c => c.enabled).map(career => {
+          const crossLinks = getCrossPlatformLinksForCareer(career.slug);
+          return (
+            <div key={career.slug} className="bg-white rounded-2xl border border-gray-100 hover:border-teal-200 hover:shadow-lg transition-all p-6 sm:p-8" data-testid={`card-career-${career.slug}`}>
+              <div className="flex flex-col sm:flex-row gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ backgroundColor: career.colorAccent }}>
+                    <career.Icon className="w-8 h-8" style={{ color: career.color }} />
+                  </div>
                 </div>
               </div>
               <div className="flex-1 min-w-0">
@@ -84,10 +88,36 @@ export default function CareerDirectoryPage() {
                     </Link>
                   )}
                 </div>
+                {crossLinks.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-100">
+                    <p className="text-xs font-medium text-gray-500 mb-2">Related Resources</p>
+                    <div className="flex flex-wrap gap-2">
+                      {crossLinks.slice(0, 4).map((link, i) => (
+                        <Link
+                          key={i}
+                          href={link.target}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                            link.platform === "nursenest"
+                              ? "bg-blue-50 text-blue-700 hover:bg-blue-100"
+                              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                          }`}
+                          data-testid={`link-career-cross-${career.slug}-${i}`}
+                        >
+                          {link.platform === "nursenest" ? (
+                            <Stethoscope className="w-3 h-3" />
+                          ) : (
+                            <GraduationCap className="w-3 h-3" />
+                          )}
+                          {link.anchor}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

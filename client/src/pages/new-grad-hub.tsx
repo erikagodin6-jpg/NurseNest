@@ -5,12 +5,13 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { PROFESSION_LIST } from "@/pages/new-grad/profession-data";
+import { getCrossPlatformLinksForNewGrad } from "@/data/internal-links";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap,
   CheckCircle2, ChevronRight, Check, X, HelpCircle,
   Briefcase, ClipboardList, Heart, Shield, Users, Clock,
   AlertTriangle, MessageSquare, Award, Target, Lightbulb,
-  Star, TrendingUp, ChevronDown
+  Star, TrendingUp, ChevronDown, Stethoscope
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -284,6 +285,59 @@ export default function NewGradHub() {
               <span className="text-sm font-semibold text-purple-700">ApplyNest</span>
               <span className="text-xs text-purple-500">Career tools powered by NurseNest</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white" data-testid="section-study-resources">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-study-resources-title">Related Study Resources</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Strengthen your clinical knowledge with these NurseNest lessons and allied health resources tailored to each career module.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { id: "interview-lab", label: "Interview Lab", icon: MessageSquare },
+              { id: "clinical-confidence", label: "Clinical Confidence", icon: Shield },
+              { id: "first-90-days", label: "First 90 Days", icon: Target },
+              { id: "resume-builder", label: "Resume Builder", icon: FileText },
+            ].map(section => {
+              const links = getCrossPlatformLinksForNewGrad(section.id);
+              if (links.length === 0) return null;
+              const SIcon = section.icon;
+              return (
+                <div key={section.id} className="bg-gray-50 rounded-2xl border border-gray-100 p-5" data-testid={`study-resources-${section.id}`}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <SIcon className="w-5 h-5 text-blue-500" />
+                    <h3 className="font-semibold text-gray-900">{section.label}</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {links.slice(0, 4).map((link, i) => (
+                      <Link
+                        key={i}
+                        href={link.target}
+                        className={`flex items-center gap-2.5 p-2.5 rounded-lg border transition-all group ${
+                          link.platform === "nursenest"
+                            ? "bg-white border-gray-100 hover:border-primary/30 hover:bg-primary/5"
+                            : "bg-white border-gray-100 hover:border-teal-300 hover:bg-teal-50"
+                        }`}
+                        data-testid={`link-study-resource-${section.id}-${i}`}
+                      >
+                        {link.platform === "nursenest" ? (
+                          <Stethoscope className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                        ) : (
+                          <BookOpen className="w-3.5 h-3.5 text-teal-500 flex-shrink-0" />
+                        )}
+                        <div className="min-w-0">
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 block truncate">{link.anchor}</span>
+                          <span className="text-xs text-gray-400">{link.platform === "nursenest" ? "NurseNest Lesson" : "Allied Health"}</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

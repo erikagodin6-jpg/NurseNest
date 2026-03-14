@@ -17,7 +17,7 @@ import {
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
   ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, Pencil, X, Plus, Trash2,
-  PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2, ArrowRight
+  PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2, ArrowRight, GraduationCap, BookOpen, ExternalLink
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
 import { getLessonNavigation, getLessonTier } from "@/lib/lesson-navigation";
@@ -30,7 +30,7 @@ import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
 import { buildFaqFromQuizQuestions } from "@/lib/structured-data";
 import { trackMilestone } from "@/components/upgrade-prompt";
-import { getInternalLinksForLesson } from "@/data/internal-links";
+import { getInternalLinksForLesson, getCrossPlatformLinksForLesson } from "@/data/internal-links";
 import { getConditionSlugsForLesson } from "@/data/cross-profession-conditions";
 import { getConditionBySlug } from "@/data/seo-conditions";
 import { LessonQuizEmbed } from "@/components/lesson-quiz-embed";
@@ -3495,22 +3495,59 @@ export default function LessonDetail() {
 
         {(() => {
           const contextualLinks = getInternalLinksForLesson(id || "");
-          return contextualLinks.length > 0 ? (
+          const crossLinks = getCrossPlatformLinksForLesson(id || "");
+          const hasLinks = contextualLinks.length > 0 || crossLinks.length > 0;
+          return hasLinks ? (
             <div className="mt-10 p-6 rounded-2xl bg-white border border-gray-200 shadow-sm" data-testid="section-internal-links">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Topics</h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {contextualLinks.slice(0, 6).map((link, i) => (
-                  <LocaleLink
-                    key={i}
-                    href={link.target}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:border-primary/30 hover:bg-primary/5 transition-all group"
-                    data-testid={`link-internal-${i}`}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                    <span className="text-sm font-medium text-gray-700 group-hover:text-primary capitalize">{link.anchor}</span>
-                  </LocaleLink>
-                ))}
-              </div>
+              {contextualLinks.length > 0 && (
+                <>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Topics</h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {contextualLinks.slice(0, 6).map((link, i) => (
+                      <LocaleLink
+                        key={i}
+                        href={link.target}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                        data-testid={`link-internal-${i}`}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                        <span className="text-sm font-medium text-gray-700 group-hover:text-primary capitalize">{link.anchor}</span>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </>
+              )}
+              {crossLinks.length > 0 && (
+                <div className={contextualLinks.length > 0 ? "mt-6 pt-6 border-t border-gray-100" : ""}>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h3>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {crossLinks.map((link, i) => (
+                      <LocaleLink
+                        key={i}
+                        href={link.target}
+                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all group ${
+                          link.platform === "new-grad"
+                            ? "bg-blue-50/50 border-blue-100 hover:border-blue-300 hover:bg-blue-50"
+                            : "bg-teal-50/50 border-teal-100 hover:border-teal-300 hover:bg-teal-50"
+                        }`}
+                        data-testid={`link-cross-platform-${i}`}
+                      >
+                        {link.platform === "new-grad" ? (
+                          <GraduationCap className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                        ) : (
+                          <BookOpen className="w-4 h-4 text-teal-500 flex-shrink-0" />
+                        )}
+                        <div className="min-w-0">
+                          <span className={`text-sm font-medium block truncate ${
+                            link.platform === "new-grad" ? "text-gray-700 group-hover:text-blue-700" : "text-gray-700 group-hover:text-teal-700"
+                          }`}>{link.anchor}</span>
+                          <span className="text-xs text-gray-400">{link.platform === "new-grad" ? "New Grad Hub" : "Allied Health"}</span>
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : null;
         })()}
