@@ -31,6 +31,7 @@ Key systems and engines include:
 - **Lesson Title Canonicalization System**: Standardizes lesson naming using aliases.
 - **Cross-Platform Analytics Tracking**: Tracks user flow between platform sections (`exam_prep`, `new_grad`, `career_tools`, `allied_health`) and transition events.
 - **New Grad Career Platform**: A multi-profession career hub with resources and lead capture.
+- **Physical Therapy Lesson Content Library**: 191 AI-generated PT lessons across 5 domains (Musculoskeletal Rehabilitation, Joint Mobilization, Gait Training, Sports Injury Rehabilitation, Neurological Rehabilitation) for NPTE/PCE exam prep. Each lesson has structured content blocks and 2-4 flashcards (653 total). Generation script: `server/generate-pt-lessons.ts`.
 - **Premium Study Engine**: Backend APIs for question bookmarks, custom practice sessions, unified adaptive question selection, enhanced streak tracking, and detailed mock exam reports.
 - **Adaptive Practice & Mastery Systems**: Tailored for Pharmacy Tech, Paramedic, and MLT.
 - **Medical Imaging Education System**: Exam prep for CAMRT/ARRT, including lessons, positioning guides, micro-quizzes, and an adaptive exam simulator.
