@@ -327,6 +327,35 @@ export default function Home() {
           </Suspense>
         </LazySection>
 
+        <section className="py-12 bg-gradient-to-r from-blue-50 via-indigo-50/50 to-purple-50/30" data-testid="section-career-journey-cta">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-200 shadow-sm mb-4">
+              <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-xs sm:text-sm font-medium text-blue-700">Study → Pass → Transition → Get Hired</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">See Your Complete Career Path</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-6">Follow the step-by-step journey from exam prep to career launch. Every stage connects to the resources you need.</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl"
+                onClick={() => setLocation("/career-journey")}
+                data-testid="button-career-journey-home"
+              >
+                Explore Your Career Journey
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button
+                variant="outline"
+                className="border-blue-200 text-blue-700 hover:bg-blue-50 px-5 py-2.5 rounded-xl"
+                onClick={() => setLocation("/career-journey/nursing")}
+                data-testid="button-career-journey-nursing"
+              >
+                RN Career Path
+              </Button>
+            </div>
+          </div>
+        </section>
+
         <LazySection minHeight="800px" rootMargin="400px">
           <Suspense fallback={<div className="min-h-[800px]" />}>
             <HomeBottomSections

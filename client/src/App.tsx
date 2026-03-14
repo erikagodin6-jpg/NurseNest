@@ -302,6 +302,8 @@ const AuthorityContentPage = lazy(() => import("@/pages/authority-content-page")
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
+const GenericCareerJourney = lazy(() => import("@/pages/career-journey"));
+const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then(m => ({ default: m.ProfessionCareerJourney })));
 
 function PageTracker() {
   usePageTracker();
@@ -491,6 +493,8 @@ function AppRoutes() {
         <Route path="/rn/questions">{() => <NursingQuestionsIndexPage tier="rn" />}</Route>
         <Route path="/np/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="np" />}</Route>
         <Route path="/np/questions">{() => <NursingQuestionsIndexPage tier="np" />}</Route>
+        <Route path="/career-journey/:slug" component={ProfessionCareerJourney} />
+        <Route path="/career-journey" component={GenericCareerJourney} />
         <Route path="/how-to-become-a-nurse/:track" component={NursingCareerPage} />
         <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>

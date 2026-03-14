@@ -378,6 +378,24 @@ export default function ExamHub() {
           </div>
         </section>
 
+        <section className="mb-12" data-testid="section-hub-journey">
+          <div className="bg-gradient-to-r from-blue-50 via-indigo-50/50 to-purple-50/30 rounded-2xl border border-blue-100 p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Career Journey</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">See the Full Path: Study → Pass → Transition → Get Hired</h3>
+                <p className="text-sm text-gray-600">Follow the complete journey from exam prep through your first job, with linked resources at every step.</p>
+              </div>
+              <LocaleLink href="/career-journey/nursing">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg whitespace-nowrap" data-testid="button-hub-journey-cta">
+                  View Career Path
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </LocaleLink>
+            </div>
+          </div>
+        </section>
+
         <section data-testid="section-hub-related">
           <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">Explore Other Exam Hubs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

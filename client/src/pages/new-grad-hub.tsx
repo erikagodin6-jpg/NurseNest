@@ -208,6 +208,21 @@ export default function NewGradHub() {
         </div>
       </section>
 
+      <section className="py-10 bg-gradient-to-r from-blue-50 via-indigo-50/40 to-purple-50/30" data-testid="section-journey-cta">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+            <div className="flex-1 text-center sm:text-left">
+              <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Complete Career Journey</p>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">See the Full Path: Exam Prep → Pass → Transition → Get Hired</h3>
+              <p className="text-sm text-gray-600">Follow the step-by-step journey from studying for your licensing exam through landing your first healthcare job.</p>
+            </div>
+            <Link href="/career-journey" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors whitespace-nowrap shadow-sm" data-testid="button-newgrad-journey-cta">
+              Explore Career Paths <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
