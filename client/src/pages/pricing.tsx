@@ -166,7 +166,7 @@ export default function PricingPage() {
                   Pass Your Nursing Exam With Confidence
                 </h1>
                 <p className="text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed mb-4" data-testid="text-pricing-subtitle">
-                  40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams built for RPN, RN, and NP licensing exams.
+                  Start with a free 1-day pass, then choose the study plan that fits your timeline.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
                   {user ? (
