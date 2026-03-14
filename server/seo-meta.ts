@@ -176,6 +176,17 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const perioperativePages: Record<string, string> = {
+    "/preoperative-care": "Preoperative Care",
+    "/preoperative-nursing-guide": "Preoperative Nursing Guide",
+    "/perioperative-nurse-career": "Career Guide",
+  };
+  if (perioperativePages[pathname]) {
+    crumbs.push({ name: "Perioperative Nursing", url: `${SITE_BASE}/perioperative-nursing` });
+    crumbs.push({ name: perioperativePages[pathname], url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   if (pathname !== "/") {
     const pageName = staticPages[pathname]?.title?.split(" | ")[0]?.split(" - ")[0] || slugToTitle(pathname.replace(/^\//, ""));
     crumbs.push({ name: pageName, url: `${SITE_BASE}${pathname}` });
@@ -486,6 +497,22 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/healthcare-careers": {
     title: "Healthcare Careers Hub: Explore Career Paths and Certification Requirements | NurseNest",
     description: "Explore healthcare career paths across nursing, paramedic, respiratory therapy, medical laboratory, medical imaging, pharmacy, social work, and occupational therapy. Compare salaries, job outlook, and certification requirements.",
+  },
+  "/perioperative-nursing": {
+    title: "Perioperative Nursing Hub: Surgical Nursing & CNOR Exam Prep | NurseNest",
+    description: "Master perioperative nursing with comprehensive resources on surgical safety, sterile technique, patient preparation, and CNOR exam prep. Lessons, practice questions, flashcards, and mock exams for OR nurses.",
+  },
+  "/preoperative-care": {
+    title: "Preoperative Care Hub: Patient Preparation & Pre-Surgical Nursing | NurseNest",
+    description: "Master preoperative nursing care with comprehensive resources on patient assessment, NPO guidelines, informed consent, medication management, and pre-surgical checklists for CNOR exam prep.",
+  },
+  "/preoperative-nursing-guide": {
+    title: "Preoperative Nursing Guide: Complete Practice Reference for Surgical Preparation | NurseNest",
+    description: "Evidence-based preoperative nursing guide covering patient assessment workflows, risk stratification tools, NPO guidelines, medication management, informed consent, and surgical safety protocols. Essential CNOR exam prep resource.",
+  },
+  "/perioperative-nurse-career": {
+    title: "Perioperative Nurse Career Guide: CNOR Certification, Salary & Job Outlook | NurseNest",
+    description: "Complete perioperative nursing career guide. Learn about CNOR certification requirements, salary ranges ($75K-$95K+), job outlook, education pathways, and career advancement in surgical nursing.",
   },
   "/nclex-rn": {
     title: "NCLEX-RN Exam Prep Hub | Study Guides, Mock Exams & Practice Questions | NurseNest",
@@ -1013,6 +1040,50 @@ export function getPageMeta(pathname: string): PageMeta {
         "learningResourceType": "Simulation",
         "educationalLevel": "Professional",
         "interactivityType": "active",
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/perioperative-nursing") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Perioperative Nursing & CNOR Exam Prep",
+        "description": "Comprehensive perioperative nursing study program covering surgical nursing, patient preparation, infection control, and surgical safety for CNOR certification.",
+        "url": canonical,
+        "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": SITE_BASE },
+        "courseMode": "online",
+        "educationalLevel": "Professional",
+      });
+    } else if (cleanPath === "/preoperative-care") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Preoperative Care: Patient Preparation for Surgery",
+        "description": "Complete guide to preoperative nursing care including patient assessment, informed consent, NPO guidelines, medication management, and pre-surgical checklists.",
+        "url": canonical,
+        "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": SITE_BASE },
+        "courseMode": "online",
+        "educationalLevel": "Professional",
+      });
+    } else if (cleanPath === "/preoperative-nursing-guide") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Preoperative Nursing Guide: Complete Practice Reference",
+        "description": "Evidence-based preoperative nursing guide covering patient assessment, risk stratification, medication management, and surgical preparation protocols.",
+        "url": canonical,
+        "learningResourceType": "StudyGuide",
+        "educationalLevel": "Professional",
+        "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+      });
+    } else if (cleanPath === "/perioperative-nurse-career") {
+      result.jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        "name": "Perioperative Nurse Career Guide & CNOR Certification Path",
+        "description": "Complete career guide for perioperative nurses covering CNOR certification requirements, salary information, job outlook, education pathways, and career advancement.",
+        "url": canonical,
+        "learningResourceType": "CareerGuide",
+        "educationalLevel": "Professional",
         "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
       });
     }

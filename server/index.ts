@@ -513,6 +513,11 @@ app.get("/sitemap.xml", async (_req, res) => {
     console.error("Imaging sitemap error:", e);
   }
 
+  entries.push(sitemapUrl(base, "/perioperative-nursing", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/preoperative-care", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/preoperative-nursing-guide", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/perioperative-nurse-career", "0.7", "monthly", indexableLocales, today));
+
   entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/rex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));

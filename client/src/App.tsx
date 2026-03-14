@@ -309,6 +309,10 @@ const AddictionsAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(
 const OccupationalTherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.OccupationalTherapyAuthorityHub })));
 const CareerGuidePage = lazy(() => import("@/allied/pages/career-guide-page"));
 const AuthorityContentPage = lazy(() => import("@/pages/authority-content-page"));
+const PerioperativeNursingHub = lazy(() => import("@/pages/perioperative-hub-pages"));
+const PreoperativeCareHub = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PreoperativeCareHub })));
+const PreoperativeNursingGuide = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PreoperativeNursingGuide })));
+const PerioperativeNurseCareer = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PerioperativeNurseCareer })));
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
@@ -839,6 +843,11 @@ function AppRoutes() {
         <Route path="/emergency-nursing/pricing" component={PricingPage} />
         <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
         <Route path="/emergency-nursing" component={AlliedHomePage} />
+
+        <Route path="/perioperative-nursing" component={PerioperativeNursingHub} />
+        <Route path="/preoperative-care" component={PreoperativeCareHub} />
+        <Route path="/preoperative-nursing-guide" component={PreoperativeNursingGuide} />
+        <Route path="/perioperative-nurse-career" component={PerioperativeNurseCareer} />
 
         <Route path="/perioperative/question-bank" component={QuestionBank} />
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
