@@ -706,6 +706,726 @@ export async function runFullExpansion(
   return { rpn: rpnSummary, rn: rnSummary, np: npSummary, grandTotal };
 }
 
+const CRITICAL_CARE_SUBSPECIALTIES = [
+  "ICU Nursing",
+  "Cardiac ICU",
+  "Neuro ICU",
+  "Trauma ICU",
+  "PICU",
+  "NICU",
+] as const;
+
+const CRITICAL_CARE_TOPICS: Record<string, string[]> = {
+  "ICU Nursing": [
+    "Mechanical Ventilation", "Hemodynamic Monitoring", "Sedation & Pain Management",
+    "Sepsis & Septic Shock", "ARDS Management", "Central Line Care", "Arterial Line Monitoring",
+    "Vasopressor Therapy", "Fluid Resuscitation", "Electrolyte Management in ICU",
+    "ICU Delirium Prevention", "Prone Positioning", "Rapid Response Assessment",
+    "ICU Nutrition Support", "Ventilator-Associated Pneumonia Prevention",
+    "ICU Skin Integrity", "End-of-Life Care in ICU", "ICU Pharmacology",
+    "Continuous Renal Replacement Therapy", "Blood Product Administration",
+  ],
+  "Cardiac ICU": [
+    "Acute MI Management", "Post-Cardiac Surgery Care", "Cardiogenic Shock",
+    "Arrhythmia Recognition & Management", "Heart Failure Exacerbation",
+    "Cardiac Tamponade", "Temporary Pacemaker Management", "IABP Nursing Care",
+    "Hemodynamic Waveform Interpretation", "Cardiac Medication Drips",
+    "Post-PCI Care", "Valvular Heart Disease", "Aortic Dissection",
+    "Pulmonary Hypertension", "Cardiac Transplant Care",
+    "ECG Interpretation in CICU", "LVAD Management", "Anticoagulation in CICU",
+    "Cardiac Arrest Management", "Therapeutic Hypothermia Post-Arrest",
+  ],
+  "Neuro ICU": [
+    "Traumatic Brain Injury", "Stroke Management", "Intracranial Pressure Monitoring",
+    "Status Epilepticus", "Subarachnoid Hemorrhage", "Cerebral Vasospasm",
+    "External Ventricular Drain Management", "Neuro Assessment & GCS",
+    "Spinal Cord Injury", "Brain Death Determination", "Neuromuscular Blockade",
+    "Osmotic Therapy", "Cerebral Perfusion Pressure", "Meningitis/Encephalitis",
+    "Post-Craniotomy Care", "Guillain-Barré Syndrome", "Myasthenia Gravis Crisis",
+    "Neuro Pharmacology", "Seizure Management in ICU", "Targeted Temperature Management",
+  ],
+  "Trauma ICU": [
+    "Primary & Secondary Survey", "Hemorrhagic Shock Management",
+    "Massive Transfusion Protocol", "Chest Trauma & Chest Tube Management",
+    "Abdominal Trauma Assessment", "Pelvic Fracture Management",
+    "Burn ICU Care", "Compartment Syndrome", "Damage Control Resuscitation",
+    "Traumatic Rhabdomyolysis", "Spleen/Liver Laceration Management",
+    "Crush Injury Syndrome", "Fat Embolism Syndrome", "Trauma Coagulopathy",
+    "Trauma Pain Management", "Open Fracture Management",
+    "Flail Chest & Pulmonary Contusion", "Tension Pneumothorax",
+    "Trauma Pharmacology", "Multi-Organ Dysfunction Syndrome",
+  ],
+  "PICU": [
+    "Pediatric Respiratory Failure", "Pediatric Sepsis",
+    "Pediatric Status Epilepticus", "Congenital Heart Disease Post-Op",
+    "Pediatric Diabetic Ketoacidosis", "Pediatric Trauma",
+    "Pediatric Burns", "Bronchiolitis in PICU", "Croup & Epiglottitis",
+    "Pediatric Medication Dosing", "Pediatric Pain Assessment",
+    "Pediatric Hemodynamic Monitoring", "Pediatric Ventilation",
+    "Pediatric Fluid & Electrolyte Management", "Pediatric Shock",
+    "Pediatric Intracranial Hypertension", "Pediatric Drowning/Submersion",
+    "Pediatric Poisoning/Ingestion", "Pediatric Cardiac Arrest",
+    "Family-Centered Care in PICU",
+  ],
+  "NICU": [
+    "Neonatal Resuscitation", "Preterm Infant Care", "Respiratory Distress Syndrome",
+    "Necrotizing Enterocolitis", "Neonatal Sepsis", "Hyperbilirubinemia",
+    "Intraventricular Hemorrhage", "Patent Ductus Arteriosus",
+    "Retinopathy of Prematurity", "Neonatal Thermoregulation",
+    "Neonatal Pain Assessment & Management", "NICU Pharmacology",
+    "Developmental Care & NIDCAP", "Neonatal Abstinence Syndrome",
+    "Surfactant Administration", "NICU Nutrition & TPN",
+    "Congenital Anomaly Management", "Neonatal Seizures",
+    "High-Frequency Ventilation", "NICU Family Support & Discharge Planning",
+  ],
+};
+
+const CRITICAL_CARE_SCOPE: Record<string, string> = {
+  "ICU Nursing": `You are a senior Critical Care Certified Nurse (CCRN) exam item writer specializing in adult ICU nursing.
+Focus on: mechanical ventilation, hemodynamic monitoring, vasopressor management, sedation protocols, sepsis bundles, ARDS management, central line care, arterial line interpretation, fluid resuscitation, electrolyte emergencies, ICU delirium (CAM-ICU), prone positioning, rapid response, CRRT, and ICU pharmacology.
+Questions test advanced clinical judgment in the adult ICU setting with emphasis on assessment, prioritization, and evidence-based interventions.`,
+
+  "Cardiac ICU": `You are a senior Cardiac ICU (CICU) nursing exam item writer.
+Focus on: acute MI management, post-cardiac surgery nursing, cardiogenic shock, arrhythmia recognition, heart failure exacerbation, cardiac tamponade, IABP/Impella care, hemodynamic waveform interpretation, cardiac drips (dopamine, dobutamine, milrinone, amiodarone), post-PCI care, temporary pacemaker management, LVAD care, anticoagulation management, and therapeutic hypothermia post-cardiac arrest.
+Questions test specialized cardiac critical care reasoning with ECG interpretation and hemodynamic data analysis.`,
+
+  "Neuro ICU": `You are a senior Neuro ICU nursing exam item writer.
+Focus on: traumatic brain injury, stroke management, ICP monitoring, EVD management, status epilepticus, subarachnoid hemorrhage, cerebral vasospasm, neuro assessments (GCS, pupil reactivity, NIH Stroke Scale), spinal cord injury, brain death criteria, osmotic therapy (mannitol, hypertonic saline), cerebral perfusion pressure management, seizure management, Guillain-Barré syndrome, myasthenia gravis crisis, and post-craniotomy care.
+Questions test neuro-critical care reasoning with emphasis on time-sensitive interventions and neurological deterioration recognition.`,
+
+  "Trauma ICU": `You are a senior Trauma ICU nursing exam item writer.
+Focus on: primary/secondary survey, hemorrhagic shock, massive transfusion protocol, chest trauma, abdominal trauma, pelvic fractures, burn ICU care, compartment syndrome, damage control resuscitation, rhabdomyolysis, crush injuries, fat embolism syndrome, trauma coagulopathy, tension pneumothorax, flail chest, pulmonary contusion, and multi-organ dysfunction syndrome.
+Questions test trauma critical care reasoning with emphasis on rapid assessment, hemorrhage control, and complication prevention.`,
+
+  "PICU": `You are a senior Pediatric ICU (PICU) nursing exam item writer.
+Focus on: pediatric respiratory failure, pediatric sepsis (age-specific criteria), status epilepticus in children, congenital heart disease post-op care, pediatric DKA, pediatric trauma, bronchiolitis requiring ICU, croup/epiglottitis, weight-based medication dosing, pediatric pain assessment (FLACC, Wong-Baker), pediatric hemodynamics, pediatric ventilation, fluid/electrolyte management in children, pediatric shock, and family-centered care.
+Questions test pediatric critical care reasoning with age-specific vital sign ranges, weight-based calculations, and developmental considerations.`,
+
+  "NICU": `You are a senior Neonatal ICU (NICU) nursing exam item writer.
+Focus on: neonatal resuscitation (NRP), preterm infant care, respiratory distress syndrome, NEC, neonatal sepsis, hyperbilirubinemia/phototherapy, IVH grading, PDA management, ROP screening, thermoregulation, neonatal pain assessment (NIPS, CRIES), NICU pharmacology, developmental care/NIDCAP, neonatal abstinence syndrome (NAS), surfactant administration, TPN management, congenital anomalies, neonatal seizures, high-frequency ventilation, and NICU discharge planning.
+Questions test neonatal critical care reasoning with emphasis on gestational age considerations, weight-based interventions, and developmental outcomes.`,
+};
+
+const CRITICAL_CARE_IMAGE_KEYWORDS: Record<string, { file: string; alt: string; caption: string; description: string }[]> = {
+  "ventilator": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG & Ventilator Management", description: "Arterial blood gas interpretation for ventilator management" }],
+  "intubation": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ABG Interpretation", description: "Arterial blood gas values guide intubation decisions" }],
+  "ards": [{ file: "ABGreference", alt: "ABG reference chart", caption: "ARDS & ABG", description: "ABG interpretation in ARDS management" }],
+  "sepsis": [{ file: "ABGreference", alt: "ABG reference chart", caption: "Sepsis ABG Changes", description: "Acid-base disturbances in sepsis" }],
+  "cardiac arrest": [{ file: "heartfailure", alt: "Cardiac arrest illustration", caption: "Cardiac Arrest", description: "ACLS algorithms and post-arrest care" }],
+  "cardiogenic shock": [{ file: "heartfailure", alt: "Heart failure illustration", caption: "Cardiogenic Shock", description: "Pump failure, hemodynamic support" }],
+  "acute mi": [{ file: "heartfailure", alt: "MI illustration", caption: "Acute MI", description: "STEMI/NSTEMI management in CICU" }],
+  "arrhythmia": [{ file: "heartfailure", alt: "Arrhythmia illustration", caption: "Cardiac Arrhythmias", description: "ECG recognition and ACLS management" }],
+  "traumatic brain injury": [{ file: "stroke", alt: "TBI illustration", caption: "Traumatic Brain Injury", description: "ICP management, neuro assessment" }],
+  "intracranial pressure": [{ file: "stroke", alt: "ICP illustration", caption: "ICP Monitoring", description: "Intracranial pressure management" }],
+  "hemorrhagic shock": [{ file: "anemia", alt: "Hemorrhagic shock illustration", caption: "Hemorrhagic Shock", description: "Massive hemorrhage, transfusion protocols" }],
+  "chest trauma": [{ file: "pneumonia", alt: "Chest trauma illustration", caption: "Chest Trauma", description: "Pneumothorax, hemothorax, flail chest" }],
+  "burn": [{ file: "burns", alt: "Burns illustration", caption: "Burn ICU Care", description: "Burn classification, Parkland formula, escharotomy" }],
+  "bronchiolitis": [{ file: "asthma", alt: "Bronchiolitis illustration", caption: "Bronchiolitis", description: "RSV bronchiolitis in PICU" }],
+  "neonatal resuscitation": [{ file: "fetalmonitoring", alt: "NRP illustration", caption: "Neonatal Resuscitation", description: "NRP algorithm, APGAR scoring" }],
+  "preterm": [{ file: "fetalmonitoring", alt: "Preterm care illustration", caption: "Preterm Infant Care", description: "Gestational age-specific care" }],
+  "respiratory distress syndrome": [{ file: "ABGreference", alt: "RDS illustration", caption: "Neonatal RDS", description: "Surfactant deficiency in preterm infants" }],
+};
+
+const CRITICAL_CARE_LESSON_MAP: Record<string, { title: string; slug: string }> = {
+  "mechanical ventilation": { title: "Mechanical Ventilation", slug: "mechanical-ventilation" },
+  "hemodynamic monitoring": { title: "Hemodynamic Monitoring", slug: "hemodynamic-monitoring" },
+  "vasopressor": { title: "Vasopressor Therapy", slug: "vasopressor-therapy" },
+  "sepsis": { title: "Sepsis Management", slug: "sepsis-management" },
+  "ards": { title: "ARDS Management", slug: "ards-management" },
+  "sedation": { title: "ICU Sedation", slug: "icu-sedation" },
+  "delirium": { title: "ICU Delirium", slug: "icu-delirium" },
+  "central line": { title: "Central Line Care", slug: "central-line-care" },
+  "arterial line": { title: "Arterial Line Monitoring", slug: "arterial-line" },
+  "crrt": { title: "CRRT & Dialysis", slug: "crrt-dialysis" },
+  "acute mi": { title: "Acute MI Management", slug: "acute-mi" },
+  "cardiogenic shock": { title: "Cardiogenic Shock", slug: "cardiogenic-shock" },
+  "arrhythmia": { title: "Arrhythmia Management", slug: "arrhythmia-management" },
+  "iabp": { title: "IABP Nursing Care", slug: "iabp-care" },
+  "cardiac tamponade": { title: "Cardiac Tamponade", slug: "cardiac-tamponade" },
+  "cardiac surgery": { title: "Post-Cardiac Surgery Care", slug: "post-cardiac-surgery" },
+  "traumatic brain injury": { title: "Traumatic Brain Injury", slug: "traumatic-brain-injury" },
+  "intracranial pressure": { title: "ICP Management", slug: "icp-management" },
+  "status epilepticus": { title: "Status Epilepticus", slug: "status-epilepticus" },
+  "subarachnoid hemorrhage": { title: "SAH Management", slug: "sah-management" },
+  "spinal cord injury": { title: "Spinal Cord Injury", slug: "spinal-cord-injury" },
+  "hemorrhagic shock": { title: "Hemorrhagic Shock", slug: "hemorrhagic-shock" },
+  "massive transfusion": { title: "Massive Transfusion Protocol", slug: "massive-transfusion" },
+  "chest trauma": { title: "Chest Trauma", slug: "chest-trauma" },
+  "compartment syndrome": { title: "Compartment Syndrome", slug: "compartment-syndrome" },
+  "burn": { title: "Burn ICU Care", slug: "burn-care" },
+  "pediatric respiratory": { title: "Pediatric Respiratory Failure", slug: "picu-respiratory" },
+  "pediatric sepsis": { title: "Pediatric Sepsis", slug: "pediatric-sepsis" },
+  "congenital heart": { title: "CHD Post-Op Care", slug: "chd-postop" },
+  "pediatric dka": { title: "Pediatric DKA", slug: "pediatric-dka" },
+  "neonatal resuscitation": { title: "Neonatal Resuscitation", slug: "neonatal-resuscitation" },
+  "respiratory distress syndrome": { title: "Neonatal RDS", slug: "neonatal-rds" },
+  "necrotizing enterocolitis": { title: "NEC Management", slug: "nec-management" },
+  "neonatal sepsis": { title: "Neonatal Sepsis", slug: "neonatal-sepsis" },
+  "hyperbilirubinemia": { title: "Neonatal Jaundice", slug: "neonatal-jaundice" },
+};
+
+interface CriticalCareSummary {
+  subspecialty: string;
+  targetCount: number;
+  totalQuestionsInserted: number;
+  totalFlashcardsCreated: number;
+  totalImagesAttached: number;
+  totalLessonLinksAdded: number;
+  totalDuplicatesRejected: number;
+  topicDistribution: Record<string, number>;
+  difficultyDistribution: Record<string, number>;
+  startedAt: string;
+  completedAt: string;
+  batches: ExpansionProgress[];
+}
+
+function buildCriticalCarePrompt(
+  subspecialty: string,
+  topic: string,
+  count: number,
+  difficulties: string[],
+  existingStems: string[],
+): { system: string; user: string } {
+  const scope = CRITICAL_CARE_SCOPE[subspecialty] || CRITICAL_CARE_SCOPE["ICU Nursing"];
+
+  const diffCounts: Record<string, number> = {};
+  for (const d of difficulties) diffCounts[d] = (diffCounts[d] || 0) + 1;
+
+  const diffBlock = Object.entries(diffCounts)
+    .map(([d, c]) => `- ${d}: ${c} questions`)
+    .join("\n");
+
+  const antiDupe = existingStems.length > 0
+    ? `\nAvoid duplicating these recent stems:\n${existingStems.slice(-15).map((s, i) => `${i + 1}. ${s.substring(0, 80)}...`).join("\n")}`
+    : "";
+
+  const system = `${scope}
+
+CRITICAL RULES:
+1. Output ONLY valid JSON. No markdown, no code fences, no prose.
+2. NEVER copy or reference instructions in any output field.
+3. Every question must have a unique, distinct clinical scenario set in the ${subspecialty} environment.
+4. Do NOT use any emoji characters. Plain text only.
+5. Each question's rationale MUST be 80-150 words and include:
+   - Why the correct answer is right
+   - Why each distractor is wrong
+   - A clinical application note
+   - A nursing intervention note
+6. Include a clinical pearl for each question.
+7. All scenarios must reflect real clinical decision-making appropriate for ${subspecialty}.
+8. Include specific patient data (vital signs, lab values, assessment findings) in each scenario.
+9. Focus on NCLEX-style clinical judgment: assessment, prioritization, safety, interventions.
+
+Topic focus for this batch: ${topic}
+
+You will generate exactly ${count} questions for ${subspecialty} - ${topic}.
+
+Difficulty distribution:
+${diffBlock}
+
+Return JSON: {"items": [...]} with exactly ${count} question objects.
+
+Each question object schema:
+{
+  "stem": "A detailed clinical scenario question set in the ${subspecialty} (min 60 chars)",
+  "scenario": "Extended clinical context with specific patient data",
+  "options": [{"label": "A", "text": "..."}, {"label": "B", "text": "..."}, {"label": "C", "text": "..."}, {"label": "D", "text": "..."}],
+  "correct_answer": "B",
+  "difficulty": "easy" | "moderate" | "hard",
+  "domain": "Critical Care",
+  "topic": "${topic}",
+  "subtopic": "${subspecialty}",
+  "rationale": "Detailed 80-150 word rationale: why correct + why each distractor wrong + clinical application + nursing intervention",
+  "clinical_pearl": "A concise clinical pearl for exam prep",
+  "body_system": "Related body system"
+}
+
+MCQ rules: exactly 4 choices (A-D), exactly 1 correct answer letter.
+${antiDupe}
+
+Return EXACTLY ${count} items. JSON only. No extra text.`;
+
+  const user = `Generate ${count} unique ${subspecialty} nursing exam questions focused on ${topic}. Each must have a distinct clinical scenario with specific patient vital signs, lab values, or assessment data relevant to the ${subspecialty} setting.`;
+
+  return { system, user };
+}
+
+function matchCriticalCareImages(stem: string, rationale: string, topic: string, subspecialty: string): { imageUrl: string; imageAlt: string; imageCaption: string; imageDescription: string }[] {
+  const searchText = `${stem} ${rationale} ${topic} ${subspecialty}`.toLowerCase();
+  const matches: { imageUrl: string; imageAlt: string; imageCaption: string; imageDescription: string }[] = [];
+
+  for (const [keyword, images] of Object.entries(CRITICAL_CARE_IMAGE_KEYWORDS)) {
+    if (searchText.includes(keyword)) {
+      for (const img of images) {
+        if (!matches.find(m => m.imageUrl.includes(img.file))) {
+          matches.push({
+            imageUrl: `/attached_assets/${img.file}`,
+            imageAlt: img.alt,
+            imageCaption: img.caption,
+            imageDescription: img.description,
+          });
+        }
+      }
+    }
+  }
+
+  for (const [keyword, images] of Object.entries(IMAGE_KEYWORD_MAP)) {
+    if (searchText.includes(keyword)) {
+      for (const img of images) {
+        if (!matches.find(m => m.imageUrl.includes(img.file))) {
+          matches.push({
+            imageUrl: `/attached_assets/${img.file}`,
+            imageAlt: img.alt,
+            imageCaption: img.caption,
+            imageDescription: img.description,
+          });
+        }
+      }
+    }
+  }
+
+  return matches.slice(0, 3);
+}
+
+function findCriticalCareLessonLink(stem: string, rationale: string, topic: string, subspecialty: string): { title: string; url: string } | null {
+  const searchText = `${stem} ${rationale} ${topic}`.toLowerCase();
+
+  for (const [keyword, lesson] of Object.entries(CRITICAL_CARE_LESSON_MAP)) {
+    if (searchText.includes(keyword)) {
+      return {
+        title: lesson.title,
+        url: `/lessons/${lesson.slug}-critical-care`,
+      };
+    }
+  }
+
+  for (const [keyword, lesson] of Object.entries(LESSON_TOPIC_MAP)) {
+    if (searchText.includes(keyword)) {
+      return {
+        title: lesson.title,
+        url: `/lessons/${lesson.slug}-critical-care`,
+      };
+    }
+  }
+
+  return null;
+}
+
+export async function runCriticalCareSubspecialty(
+  subspecialty: string,
+  targetCount: number = 500,
+  onProgress?: (p: ExpansionProgress) => void,
+): Promise<CriticalCareSummary> {
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+
+  console.log(`[CriticalCare] Starting ${subspecialty} expansion: ${targetCount} questions, targeting ${hasSeparateProdDb() ? "PRODUCTION" : "DEVELOPMENT"} database`);
+
+  try {
+    const testResult = await dbPool.query("SELECT 1 as connected");
+    console.log(`[CriticalCare] Database connection verified: ${testResult.rows[0]?.connected === 1 ? "OK" : "FAILED"}`);
+  } catch (connErr: any) {
+    console.error(`[CriticalCare] Database connection FAILED:`, connErr.message);
+    throw new Error(`Cannot connect to database: ${connErr.message}`);
+  }
+
+  const openai = getOpenAI();
+  const existingHashes = await getExistingStemHashes(dbPool);
+  const topics = CRITICAL_CARE_TOPICS[subspecialty] || CRITICAL_CARE_TOPICS["ICU Nursing"];
+  const startedAt = new Date().toISOString();
+  const batches: ExpansionProgress[] = [];
+
+  let totalInserted = 0;
+  let totalFlashcards = 0;
+  let totalImages = 0;
+  let totalLessonLinks = 0;
+  let totalDuplicates = 0;
+  let batchNumber = 0;
+  const recentStems: string[] = [];
+
+  const topicCounts: Record<string, number> = {};
+  const difficultyCounts: Record<string, number> = {};
+
+  const perTopic = Math.floor(targetCount / topics.length);
+  const remainder = targetCount % topics.length;
+  const topicPlan: { topic: string; count: number }[] = topics.map((t, i) => ({
+    topic: t,
+    count: perTopic + (i < remainder ? 1 : 0),
+  }));
+
+  for (const { topic, count: topicTarget } of topicPlan) {
+    let topicRemaining = topicTarget;
+
+    while (topicRemaining > 0) {
+      const thisBatchSize = Math.min(BATCH_SIZE, topicRemaining);
+      batchNumber++;
+
+      console.log(`[CriticalCare] Batch ${batchNumber}: ${thisBatchSize} questions for ${subspecialty} - ${topic}`);
+
+      try {
+        await dbPool.query(
+          `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+          [
+            `critical-care-${subspecialty.toLowerCase().replace(/\s+/g, "-")}`,
+            "critical_care_batch_start",
+            JSON.stringify({ subspecialty, batchNumber, topic, batchSize: thisBatchSize, totalInserted }),
+          ]
+        );
+      } catch (logErr: any) {
+        console.error(`[CriticalCare] Event log error:`, logErr.message);
+      }
+
+      const difficulties: string[] = [];
+      for (let i = 0; i < thisBatchSize; i++) {
+        difficulties.push(assignDifficulty(i, thisBatchSize));
+      }
+
+      const { system, user } = buildCriticalCarePrompt(subspecialty, topic, thisBatchSize, difficulties, recentStems);
+
+      let items: any[] = [];
+      for (let attempt = 0; attempt <= 2; attempt++) {
+        try {
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: user },
+            ],
+            temperature: 0.4,
+            max_tokens: Math.min(thisBatchSize * 700 + 500, 16384),
+            response_format: { type: "json_object" },
+          });
+
+          const content = resp.choices[0]?.message?.content || "{}";
+          let cleaned = content.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, "");
+          const firstBrace = cleaned.indexOf("{");
+          const lastBrace = cleaned.lastIndexOf("}");
+          if (firstBrace !== -1 && lastBrace > firstBrace) {
+            cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+          }
+
+          const parsed = JSON.parse(cleaned);
+          items = Array.isArray(parsed.items) ? parsed.items
+            : Array.isArray(parsed.questions) ? parsed.questions
+            : Array.isArray(parsed) ? parsed : [];
+
+          if (items.length > 0) break;
+          console.log(`[CriticalCare] Attempt ${attempt + 1}: 0 items parsed for ${topic}, retrying...`);
+        } catch (err: any) {
+          console.error(`[CriticalCare] Attempt ${attempt + 1} failed for ${topic}:`, err.message);
+        }
+        if (attempt < 2) await new Promise(r => setTimeout(r, 1500));
+      }
+
+      let batchInserted = 0;
+      let batchFlashcards = 0;
+      let batchImages = 0;
+      let batchLessonLinks = 0;
+      let batchDuplicates = 0;
+
+      for (const item of items) {
+        if (!validateQuestion(item)) continue;
+
+        const stemHash = computeStemHash(item.stem);
+        if (existingHashes.has(stemHash)) {
+          batchDuplicates++;
+          continue;
+        }
+
+        const difficulty = item.difficulty || "moderate";
+        const difficultyNum = DIFFICULTY_MAP[difficulty] || 3;
+        const masteryCategory = MASTERY_MAP[difficulty] || "moderate_mastery";
+        const lessonLink = findCriticalCareLessonLink(item.stem, item.rationale, item.topic || topic, subspecialty);
+        const rationaleWithLink = appendLessonLinkToRationale(item.rationale, lessonLink);
+        const images = matchCriticalCareImages(item.stem, item.rationale, item.topic || topic, subspecialty);
+
+        const options = Array.isArray(item.options) ? item.options.map((o: any, i: number) => {
+          if (typeof o === "string") {
+            const match = o.match(/^([A-H])\)\s*(.+)/);
+            if (match) return { label: match[1], text: match[2] };
+            return { label: String.fromCharCode(65 + i), text: o };
+          }
+          return { label: o.label || String.fromCharCode(65 + i), text: o.text || String(o) };
+        }) : [];
+
+        const correctAnswer = typeof item.correct_answer === "string" ? item.correct_answer : "A";
+
+        const client = await dbPool.connect();
+        try {
+          await client.query("BEGIN");
+
+          const tagsArray = ["Critical Care", subspecialty, topic, masteryCategory, `difficulty_${difficulty}`];
+
+          const { rows: inserted } = await client.query(
+            `INSERT INTO exam_questions (
+              id, tier, exam, question_type, status, stem, options, correct_answer,
+              rationale, difficulty, tags, body_system, topic, subtopic, region_scope,
+              stem_hash, career_type, scenario, clinical_pearl, created_at, updated_at
+            ) VALUES (
+              gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7,
+              $8, $9, $10::text[], $11, $12, $13, $14,
+              $15, $16, $17, $18, NOW(), NOW()
+            ) ON CONFLICT DO NOTHING RETURNING id`,
+            [
+              "rn",
+              "CCRN",
+              "multiple_choice",
+              "approved",
+              item.stem,
+              JSON.stringify(options),
+              JSON.stringify([correctAnswer]),
+              rationaleWithLink,
+              difficultyNum,
+              tagsArray,
+              item.body_system || "Critical Care",
+              item.topic || topic,
+              subspecialty,
+              "BOTH",
+              stemHash,
+              "nursing",
+              item.scenario || item.stem,
+              item.clinical_pearl || "",
+            ]
+          );
+
+          if (!inserted || inserted.length === 0) {
+            await client.query("ROLLBACK");
+            batchDuplicates++;
+            client.release();
+            continue;
+          }
+
+          const questionId = inserted[0].id;
+          existingHashes.add(stemHash);
+          batchInserted++;
+          topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+          difficultyCounts[difficulty] = (difficultyCounts[difficulty] || 0) + 1;
+          recentStems.push(item.stem.substring(0, 100));
+          if (recentStems.length > 30) recentStems.splice(0, recentStems.length - 20);
+
+          if (lessonLink) batchLessonLinks++;
+          if (images.length > 0) batchImages++;
+
+          const flashcardFront = item.stem;
+          const flashcardBack = buildFlashcardBack(
+            correctAnswer, options, item.rationale, item.clinical_pearl || "", lessonLink,
+          );
+          const flashcardHash = computeContentHash(item.stem, `critical-care-${subspecialty}`);
+
+          const lessonLinks = lessonLink ? [{ lessonTitle: lessonLink.title, lessonUrl: lessonLink.url, relevanceNote: `Related to ${subspecialty} - ${topic}` }] : [];
+
+          const { rowCount: fcInserted } = await client.query(
+            `INSERT INTO flashcard_bank (
+              id, tier, front, back, content_hash, status, source_type, source_question_id,
+              question_type, options, correct_answer, rationale_correct,
+              clinical_takeaway, exam_pearl, rationale_media, lesson_links,
+              difficulty, body_system, topic, subtopic, region_scope, flashcard_enabled,
+              category, career_type, created_at
+            ) VALUES (
+              gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7,
+              $8, $9, $10, $11, $12, $13, $14, $15,
+              $16, $17, $18, $19, $20, $21, $22, $23, NOW()
+            ) ON CONFLICT (content_hash) DO NOTHING`,
+            [
+              "rn",
+              flashcardFront,
+              flashcardBack,
+              flashcardHash,
+              "approved",
+              "critical_care_expansion",
+              questionId,
+              "multiple_choice",
+              JSON.stringify(options),
+              JSON.stringify([correctAnswer]),
+              item.rationale,
+              item.clinical_pearl || null,
+              item.clinical_pearl || null,
+              JSON.stringify(images),
+              JSON.stringify(lessonLinks),
+              difficultyNum,
+              item.body_system || "Critical Care",
+              item.topic || topic,
+              subspecialty,
+              "BOTH",
+              true,
+              `Critical Care - ${subspecialty}`,
+              "nursing",
+            ]
+          );
+
+          await client.query("COMMIT");
+          if (fcInserted && fcInserted > 0) batchFlashcards++;
+        } catch (err: any) {
+          await client.query("ROLLBACK").catch(() => {});
+          if (err.code === "23505") {
+            batchDuplicates++;
+          } else {
+            console.error(`[CriticalCare] Insert error:`, err.message);
+          }
+        } finally {
+          client.release();
+        }
+      }
+
+      totalInserted += batchInserted;
+      totalFlashcards += batchFlashcards;
+      totalImages += batchImages;
+      totalLessonLinks += batchLessonLinks;
+      totalDuplicates += batchDuplicates;
+      topicRemaining -= batchInserted > 0 ? batchInserted : thisBatchSize;
+
+      const progress: ExpansionProgress = {
+        tier: `critical-care-${subspecialty}`,
+        batchNumber,
+        questionsGenerated: batchInserted,
+        flashcardsCreated: batchFlashcards,
+        imagesAttached: batchImages,
+        lessonLinksAdded: batchLessonLinks,
+        duplicatesRejected: batchDuplicates,
+      };
+      batches.push(progress);
+
+      if (onProgress) onProgress(progress);
+
+      try {
+        await dbPool.query(
+          `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+          [
+            `critical-care-${subspecialty.toLowerCase().replace(/\s+/g, "-")}`,
+            "critical_care_batch_complete",
+            JSON.stringify({
+              ...progress,
+              totalInserted,
+              totalFlashcards,
+              totalImages,
+              totalLessonLinks,
+              totalDuplicates,
+            }),
+          ]
+        );
+      } catch (logErr: any) {
+        console.error(`[CriticalCare] Event log error:`, logErr.message);
+      }
+
+      console.log(`[CriticalCare] Batch ${batchNumber} complete: ${batchInserted} inserted, ${batchFlashcards} flashcards, ${batchImages} images, ${batchLessonLinks} lessons, ${batchDuplicates} duplicates. Total: ${totalInserted}/${targetCount}`);
+
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+
+  const completedAt = new Date().toISOString();
+
+  const summary: CriticalCareSummary = {
+    subspecialty,
+    targetCount,
+    totalQuestionsInserted: totalInserted,
+    totalFlashcardsCreated: totalFlashcards,
+    totalImagesAttached: totalImages,
+    totalLessonLinksAdded: totalLessonLinks,
+    totalDuplicatesRejected: totalDuplicates,
+    topicDistribution: topicCounts,
+    difficultyDistribution: difficultyCounts,
+    startedAt,
+    completedAt,
+    batches,
+  };
+
+  try {
+    await dbPool.query(
+      `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+      [
+        `critical-care-${subspecialty.toLowerCase().replace(/\s+/g, "-")}`,
+        "critical_care_subspecialty_complete",
+        JSON.stringify(summary),
+      ]
+    );
+  } catch (logErr: any) {
+    console.error(`[CriticalCare] Event log error:`, logErr.message);
+  }
+
+  console.log(`[CriticalCare] ${subspecialty} complete: ${totalInserted}/${targetCount} questions, ${totalFlashcards} flashcards`);
+  return summary;
+}
+
+export async function runFullCriticalCareExpansion(
+  onProgress?: (p: ExpansionProgress) => void,
+): Promise<{ subspecialties: Record<string, CriticalCareSummary>; grandTotal: any }> {
+  console.log(`[CriticalCare] Starting full 3,000-question Critical Care expansion across 6 subspecialties`);
+
+  const results: Record<string, CriticalCareSummary> = {};
+
+  for (const subspecialty of CRITICAL_CARE_SUBSPECIALTIES) {
+    results[subspecialty] = await runCriticalCareSubspecialty(subspecialty, 500, onProgress);
+  }
+
+  const grandTotal = {
+    totalQuestions: Object.values(results).reduce((s, r) => s + r.totalQuestionsInserted, 0),
+    totalFlashcards: Object.values(results).reduce((s, r) => s + r.totalFlashcardsCreated, 0),
+    totalImages: Object.values(results).reduce((s, r) => s + r.totalImagesAttached, 0),
+    totalLessonLinks: Object.values(results).reduce((s, r) => s + r.totalLessonLinksAdded, 0),
+    totalDuplicates: Object.values(results).reduce((s, r) => s + r.totalDuplicatesRejected, 0),
+    target: 3000,
+    subspecialtyBreakdown: Object.fromEntries(
+      Object.entries(results).map(([k, v]) => [k, { questions: v.totalQuestionsInserted, flashcards: v.totalFlashcardsCreated }])
+    ),
+  };
+
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  try {
+    await dbPool.query(
+      `INSERT INTO generation_events (id, generation_id, event_type, payload, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+      [
+        "critical-care-full",
+        "critical_care_full_expansion_complete",
+        JSON.stringify({ subspecialties: results, grandTotal }),
+      ]
+    );
+  } catch (logErr: any) {
+    console.error(`[CriticalCare] Event log error:`, logErr.message);
+  }
+
+  console.log(`[CriticalCare] Full expansion complete: ${grandTotal.totalQuestions}/3000 questions, ${grandTotal.totalFlashcards} flashcards`);
+  return { subspecialties: results, grandTotal };
+}
+
+export async function getCriticalCareExpansionStatus(): Promise<any> {
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+
+  const { rows: events } = await dbPool.query(
+    `SELECT event_type, payload, created_at
+     FROM generation_events
+     WHERE generation_id LIKE 'critical-care-%'
+     ORDER BY created_at DESC
+     LIMIT 50`
+  );
+
+  const { rows: questionCounts } = await dbPool.query(
+    `SELECT subtopic as subspecialty, COUNT(*)::int as count
+     FROM exam_questions
+     WHERE exam = 'CCRN' AND status = 'approved' AND career_type = 'nursing'
+     GROUP BY subtopic`
+  );
+
+  const { rows: flashcardCounts } = await dbPool.query(
+    `SELECT subtopic as subspecialty, COUNT(*)::int as count
+     FROM flashcard_bank
+     WHERE source_type = 'critical_care_expansion'
+     GROUP BY subtopic`
+  );
+
+  return {
+    questionsBySubspecialty: Object.fromEntries(questionCounts.map((r: any) => [r.subspecialty, r.count])),
+    flashcardsBySubspecialty: Object.fromEntries(flashcardCounts.map((r: any) => [r.subspecialty, r.count])),
+    totalQuestions: questionCounts.reduce((s: number, r: any) => s + r.count, 0),
+    totalFlashcards: flashcardCounts.reduce((s: number, r: any) => s + r.count, 0),
+    recentEvents: events,
+    validSubspecialties: [...CRITICAL_CARE_SUBSPECIALTIES],
+  };
+}
+
 export async function getExpansionStatus(): Promise<any> {
   const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
 
