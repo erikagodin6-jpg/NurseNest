@@ -9,6 +9,7 @@ import {
   Award, Clock, Shield, TrendingUp, Users, Building2, Stethoscope
 } from "lucide-react";
 import { PROFESSION_AUTHORITY_DATA, type ProfessionAuthorityData } from "@shared/profession-authority-data";
+import { getAuthorityContentPagesByProfession } from "@shared/authority-content-data";
 
 interface ProfessionAuthorityHubProps {
   data: ProfessionAuthorityData;
@@ -441,6 +442,18 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
                 </span>
               </div>
             </Link>
+            {getAuthorityContentPagesByProfession(data.slug).map((acp) => (
+              <Link key={acp.slug} href={acp.canonicalPath} className="group" data-testid={`resource-card-authority-${acp.slug}`}>
+                <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
+                  <Target className="w-7 h-7 mb-3" style={{ color: data.color }} />
+                  <h3 className="font-semibold text-gray-900 mb-1">{acp.heroTitle}</h3>
+                  <p className="text-sm text-gray-500">Comprehensive guide with practice questions, key concepts, and expert rationales.</p>
+                  <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
+                    Read Guide <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

@@ -597,6 +597,46 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Exam Prep | NCLEX-RN, NCLEX-PN, REx-PN & NP | NurseNest",
     description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 4,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons.",
   },
+  "/nursing/top-100-nclex-practice-questions": {
+    title: "Top 100 NCLEX Practice Questions (2025) — Free Study Guide | NurseNest",
+    description: "Practice 100 essential NCLEX-RN and NCLEX-PN questions with detailed rationales. Covers pharmacology, med-surg, prioritization, maternal-newborn, and more. Free study guide.",
+  },
+  "/paramedic/top-100-paramedic-exam-questions": {
+    title: "Top 100 Paramedic Exam Questions (NREMT 2025) — Free Practice | NurseNest",
+    description: "Practice 100 essential NREMT and COPR paramedic exam questions with detailed rationales. Covers cardiac emergencies, trauma, airway management, pharmacology, and more.",
+  },
+  "/respiratory-therapy/ultimate-respiratory-therapy-study-guide": {
+    title: "Ultimate Respiratory Therapy Study Guide (2025) — TMC & CSE Exam | NurseNest",
+    description: "Comprehensive respiratory therapy study guide for NBRC TMC and CSE exam prep. Covers ABG interpretation, mechanical ventilation, PFTs, neonatal care, and 100+ practice questions.",
+  },
+  "/mlt/complete-guide-medical-laboratory-science": {
+    title: "Complete Guide to Medical Lab Science (2025) — CSMLS & ASCP Exam | NurseNest",
+    description: "Comprehensive medical laboratory science study guide for CSMLS and ASCP certification. Covers hematology, microbiology, blood banking, chemistry, and quality control with practice questions.",
+  },
+  "/imaging/definitive-radiography-exam-preparation-guide": {
+    title: "Definitive Radiography Exam Guide (2025) — ARRT & CAMRT Prep | NurseNest",
+    description: "Complete radiography exam preparation guide for ARRT and CAMRT certification. Covers positioning, image production, radiation physics, CT imaging, and safety with practice questions.",
+  },
+  "/social-work/ultimate-aswb-exam-study-guide": {
+    title: "Ultimate ASWB Exam Study Guide (2025) — Social Work Licensing | NurseNest",
+    description: "Comprehensive ASWB exam study guide for Clinical, Masters, and Bachelors licensing. Covers DSM-5, ethics, intervention theories, crisis management, and practice questions.",
+  },
+  "/psychotherapy/complete-psychotherapy-licensing-exam-guide": {
+    title: "Complete Psychotherapy Exam Guide (2025) — CRPO & NCE Prep | NurseNest",
+    description: "Comprehensive psychotherapy licensing exam guide for CRPO registration and NCE certification. Covers CBT, DBT, EMDR, ethics, DSM-5, and clinical assessment with practice questions.",
+  },
+  "/addictions/top-100-addictions-counsellor-exam-questions": {
+    title: "Top 100 Addictions Counsellor Exam Questions (2025) | NurseNest",
+    description: "Practice 100 essential IC&RC and CCAC addictions counselling exam questions. Covers motivational interviewing, withdrawal management, harm reduction, ethics, and treatment planning.",
+  },
+  "/occupational-therapy/ultimate-nbcot-exam-preparation-guide": {
+    title: "Ultimate NBCOT Exam Prep Guide (2025) — OT Certification | NurseNest",
+    description: "Comprehensive NBCOT exam preparation guide for OTR and COTA certification. Covers OT theory, clinical reasoning, pediatric OT, adult rehab, mental health, and practice questions.",
+  },
+  "/pharmacy-tech/top-100-pharmacy-technician-exam-questions": {
+    title: "Top 100 Pharmacy Technician Exam Questions (2025) — PTCB Prep | NurseNest",
+    description: "Practice 100 essential PTCB and ExCPT pharmacy technician exam questions with detailed rationales. Covers pharmacy calculations, pharmacology, law, compounding, and medication safety.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",
