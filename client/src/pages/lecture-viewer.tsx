@@ -28,6 +28,7 @@ import { Video } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { ProtectedImage } from "@/components/protected-image";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { slugToDisplayName } from "@/lib/canonical-display";
 
 export default function LectureViewer() {
   const [, params] = useRoute("/lectures/:slug");
@@ -503,7 +504,7 @@ export default function LectureViewer() {
                     >
                       <BookOpen className="h-4 w-4 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
                       <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
-                        {lessonId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                        {slugToDisplayName(lessonId)}
                       </span>
                       <ChevronRight className="h-4 w-4 ml-auto flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
                     </div>

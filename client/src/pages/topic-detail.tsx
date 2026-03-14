@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { getTopicBySlug, BODY_SYSTEM_ICONS, isConditionTopic } from "@/data/topics";
+import { slugToDisplayName } from "@/lib/canonical-display";
 import type { Topic, TopicResource } from "@/data/topics";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -267,7 +268,7 @@ function TopicDetailContent() {
                         {perspective.lessonSlugs.slice(0, 3).map((lessonSlug) => (
                           <LocaleLink key={lessonSlug} href={`/lessons/${lessonSlug}`}>
                             <span className="inline-flex items-center text-xs px-2 py-1 bg-gray-100 hover:bg-primary/10 hover:text-primary rounded-full transition-colors cursor-pointer" data-testid={`link-perspective-lesson-${lessonSlug}`}>
-                              {lessonSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()).slice(0, 30)}
+                              {slugToDisplayName(lessonSlug).slice(0, 30)}
                               <ExternalLink className="w-3 h-3 ml-1" />
                             </span>
                           </LocaleLink>

@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { getConditionBySlug, getAllConditionSlugs, type ConditionPageData } from "@/data/seo-conditions";
 import { getCrossProfessionByConditionSlug } from "@/data/cross-profession-conditions";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { slugToDisplayName } from "@/lib/canonical-display";
 import {
   ChevronDown,
   ChevronRight,
@@ -425,7 +426,7 @@ export default function ConditionPage() {
                                     data-testid={`link-profession-lesson-${perspective.professionSlug}-${slug}`}
                                   >
                                     <ArrowRight className="w-3 h-3" />
-                                    {slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
+                                    {slugToDisplayName(slug)}
                                   </LocaleLink>
                                 ))}
                               </div>

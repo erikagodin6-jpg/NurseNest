@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, BookOpen, ArrowLeft, ChevronRight } from "lucide-react";
+import { slugToDisplayName } from "@/lib/canonical-display";
 import {
   glossaryTerms,
   getTermBySlug,
@@ -303,9 +304,7 @@ function GlossaryDetail({ slug }: { slug: string }) {
                     data-testid={`link-related-lesson-${lessonId}`}
                   >
                     <BookOpen className="w-3.5 h-3.5" />
-                    {lessonId
-                      .replace(/-/g, " ")
-                      .replace(/\b\w/g, (c) => c.toUpperCase())}
+                    {slugToDisplayName(lessonId)}
                   </LocaleLink>
                 ))}
               </div>

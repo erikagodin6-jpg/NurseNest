@@ -13,6 +13,7 @@ import {
   HelpCircle, ArrowRight, Layers, ImageIcon, GraduationCap
 } from "lucide-react";
 import { ENCYCLOPEDIA_PROFESSIONS } from "@shared/schema";
+import { slugToDisplayName } from "@/lib/canonical-display";
 
 interface EncyclopediaEntryData {
   id: string;
@@ -365,7 +366,7 @@ export default function EncyclopediaEntryPage() {
                     {entry.relatedLessonIds?.map((id, i) => (
                       <Link key={id} href={`/lessons/${id}`} className="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-lg hover:border-green-300 transition-colors" data-testid={`link-related-lesson-${i}`}>
                         <BookOpen className="w-4 h-4 text-green-600 shrink-0" />
-                        <span className="text-sm text-green-800 font-medium truncate">{id.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}</span>
+                        <span className="text-sm text-green-800 font-medium truncate">{slugToDisplayName(id)}</span>
                       </Link>
                     ))}
                     {entry.relatedQuestionIds?.length > 0 && (
