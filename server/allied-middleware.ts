@@ -100,11 +100,15 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
   }
 
   if (ALLIED_CAREER_SLUGS.has(firstSeg)) {
-    if (secondSeg === "questions") {
+    const canonical = getCanonicalRoute(firstSeg);
+
+    if (canonical === `/${firstSeg}`) {
       return next();
     }
 
-    const canonical = getCanonicalRoute(firstSeg);
+    if (secondSeg === "questions") {
+      return next();
+    }
 
     if (segments.length === 1) {
       return res.redirect(301, canonical);
