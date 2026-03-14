@@ -3405,9 +3405,11 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <section className="py-14 bg-white border-b border-violet-50" data-testid="section-how-flashcards-work">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-how-it-works-title">How NurseNest Flashcards Work</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-how-it-works-title">{isTestBank ? "How the Test Bank Works" : "How NurseNest Flashcards Work"}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                  Every card mirrors real nursing exam questions — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.
+                  {isTestBank
+                    ? <>Every question mirrors real exam scenarios — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.</>
+                    : <>Every card mirrors real nursing exam questions — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.</>}
                 </p>
               </div>
               <div className="grid sm:grid-cols-3 gap-6">
@@ -4028,7 +4030,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       <div className="w-2.5 h-2.5 rounded-full bg-amber-300" />
                       <div className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
                     </div>
-                    <span className="text-[10px] text-muted-foreground font-medium ml-2">NurseNest Flashcard Session</span>
+                    <span className="text-[10px] text-muted-foreground font-medium ml-2">{isTestBank ? "NurseNest Test Bank" : "NurseNest Flashcard Session"}</span>
                   </div>
                   <div className="p-6 sm:p-8" data-testid="preview-question-card">
                     <div className="flex items-center gap-2 mb-4">
@@ -4174,7 +4176,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   data-testid="button-cta-start-session"
                 >
                   <Zap className="w-4 h-4" />
-                  Start Flashcard Session
+                  {isTestBank ? "Start Practice Session" : "Start Flashcard Session"}
                 </Button>
                 {!isPaid && (
                   <LocaleLink href="/pricing">

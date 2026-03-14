@@ -68,7 +68,9 @@ const QUICK_STUDY_CARDS: SimpleFlashcard[] = [
 export default function PublicFlashcards() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
-  const [view, setView] = useState<"landing" | "quick-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report">("landing");
+  type PublicFlashcardView = "landing" | "quick-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report";
+  const [view, setView] = useState<PublicFlashcardView>("landing");
+  const setViewCallback = useCallback((v: string) => setView(v as PublicFlashcardView), []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
 
@@ -110,7 +112,7 @@ export default function PublicFlashcards() {
   const [deckStudyStartTime, setDeckStudyStartTime] = useState(0);
   const [deckStudyMissed, setDeckStudyMissed] = useState<string[]>([]);
 
-  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
+  const isPaid = user && effectiveTier !== "free" && (user.subscriptionStatus === "active" || (user.tier === "admin" && effectiveTier !== "free"));
 
   const fetchMyDecks = useCallback(async () => {
     if (!user?.id) return;
@@ -227,8 +229,12 @@ export default function PublicFlashcards() {
     try { await fetch(`/api/decks/${deckId}/report`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user?.id, reason }) }); } catch {}
   }, [user?.id]);
 
-  const aiCheckCard = useCallback(async () => {}, []);
-  const handleCsvImport = useCallback(async () => {}, []);
+  const aiCheckCard = useCallback(async () => {
+    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
+  }, [effectiveTier, setLocation]);
+  const handleCsvImport = useCallback(async () => {
+    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
+  }, [effectiveTier, setLocation]);
 
   const startDeckStudy = useCallback((mode: "learn" | "test") => {
     if (!deckCards.length) return;
@@ -260,8 +266,12 @@ export default function PublicFlashcards() {
     }
   }, [deckStudyIndex, deckStudyQueue]);
 
-  const aiGenerateCards = useCallback(async () => {}, []);
-  const addAiGeneratedCards = useCallback(async () => {}, []);
+  const aiGenerateCards = useCallback(async () => {
+    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
+  }, [effectiveTier, setLocation]);
+  const addAiGeneratedCards = useCallback(async () => {
+    setLocation(`/${effectiveTier || "rpn"}/test-bank`);
+  }, [effectiveTier, setLocation]);
   const removeAiGeneratedCard = useCallback((index: number) => {
     setAiGeneratedCards(prev => prev.filter((_, i) => i !== index));
   }, []);
@@ -299,7 +309,7 @@ export default function PublicFlashcards() {
           <DeckHub
             user={user}
             isPaid={!!isPaid}
-            setView={setView as any}
+            setView={setViewCallback}
             setLocation={setLocation}
             myDecks={myDecks}
             setMyDecks={setMyDecks}
@@ -345,7 +355,7 @@ export default function PublicFlashcards() {
           <DeckView
             user={user}
             isPaid={!!isPaid}
-            setView={setView as any}
+            setView={setViewCallback}
             setLocation={setLocation}
             currentDeck={currentDeck}
             setCurrentDeck={setCurrentDeck}
@@ -372,7 +382,7 @@ export default function PublicFlashcards() {
           <DeckEditor
             user={user}
             isPaid={!!isPaid}
-            setView={setView as any}
+            setView={setViewCallback}
             setLocation={setLocation}
             currentDeck={currentDeck}
             setCurrentDeck={setCurrentDeck}
@@ -425,7 +435,7 @@ export default function PublicFlashcards() {
         <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
           <DeckStudyLearn
             user={user}
-            setView={setView as any}
+            setView={setViewCallback}
             deckStudyQueue={deckStudyQueue}
             deckStudyIndex={deckStudyIndex}
             deckStudyFlipped={deckStudyFlipped}
@@ -447,7 +457,7 @@ export default function PublicFlashcards() {
         <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
           <DeckStudyTest
             user={user}
-            setView={setView as any}
+            setView={setViewCallback}
             deckStudyQueue={deckStudyQueue}
             deckStudyIndex={deckStudyIndex}
             deckStudyFlipped={deckStudyFlipped}
@@ -469,7 +479,7 @@ export default function PublicFlashcards() {
         <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
           <DeckReportCard
             user={user}
-            setView={setView as any}
+            setView={setViewCallback}
             deckStudyCorrect={deckStudyCorrect}
             deckStudyIncorrect={deckStudyIncorrect}
             deckStudyQueue={deckStudyQueue}
