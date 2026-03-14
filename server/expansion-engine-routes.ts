@@ -2,10 +2,39 @@ import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
 import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runMedicalSpecialtySubspecialty, runFullMedicalSpecialtiesExpansion, getMedicalSpecialtiesExpansionStatus } from "./qbank-expansion-engine";
 import { runCommunityNursingSubspecialty, runFullCommunityNursingExpansion, getCommunityNursingExpansionStatus } from "./community-nursing-expansion-engine";
+import { runEmergencyNursingGeneration } from "./emergency-nursing-generator";
 
 const activeExpansions = new Map<string, { status: string; summary?: any; error?: string }>();
 
 export function registerExpansionEngineRoutes(app: Express) {
+  app.post("/api/admin/expansion-engine/start-emergency-nursing", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const key = "emergency-nursing-full";
+      if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
+        return res.status(409).json({ error: "Emergency nursing generation is already running" });
+      }
+
+      activeExpansions.set(key, { status: "running" });
+      res.json({ ok: true, message: "Started Emergency Nursing generation: 1,500 questions (500 per subspecialty)" });
+
+      runEmergencyNursingGeneration((progress) => {
+        console.log(`[Emergency Route] Progress: ${progress.subspecialty} batch ${progress.batchNumber}, ${progress.questionsGenerated} questions`);
+      }).then((result) => {
+        activeExpansions.set(key, { status: "complete", summary: result });
+        console.log(`[Emergency Route] Complete: ${result.grandTotal.totalQuestions}/1500 questions generated`);
+      }).catch((err) => {
+        console.error(`[Emergency Route] Error:`, err);
+        activeExpansions.set(key, { status: "failed", error: err.message });
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+
   app.post("/api/admin/expansion-engine/start", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
