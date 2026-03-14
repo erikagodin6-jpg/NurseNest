@@ -1,4 +1,5 @@
 import type { LessonContent } from "@/data/lessons/types";
+import { PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 function stripTierFromTitle(title: string): string {
   return title
@@ -95,6 +96,11 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
       "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+        "name": PARENT_EDUCATIONAL_ORG.name,
+        "url": PARENT_EDUCATIONAL_ORG.url,
+      },
     },
     "isAccessibleForFree": isFree,
     "inLanguage": "en",
@@ -155,17 +161,22 @@ export function buildArticleStructuredData(lessonId: string, lesson: LessonConte
     "headline": canonicalTitle,
     "description": description,
     "author": {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
     },
     "publisher": {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
       "logo": {
         "@type": "ImageObject",
         "url": "https://www.nursenest.ca/brand-logo.gif",
+      },
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+        "name": PARENT_EDUCATIONAL_ORG.name,
+        "url": PARENT_EDUCATIONAL_ORG.url,
       },
     },
     "datePublished": "2025-01-15",
@@ -176,6 +187,11 @@ export function buildArticleStructuredData(lessonId: string, lesson: LessonConte
     },
     "articleSection": bodySystem,
     "inLanguage": "en",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": PARENT_EDUCATIONAL_ORG.name,
+      "url": PARENT_EDUCATIONAL_ORG.url,
+    },
   };
 }
 
@@ -200,6 +216,11 @@ export function buildCourseStructuredData(lessonId: string, lesson: LessonConten
       "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+        "name": PARENT_EDUCATIONAL_ORG.name,
+        "url": PARENT_EDUCATIONAL_ORG.url,
+      },
     },
     "educationalLevel": tierLabel,
     "educationalCredentialAwarded": examMap[tierLabel] || "Nursing Certification",
@@ -238,10 +259,8 @@ export function buildEducationalOrganizationStructuredData(options?: {
     "name": orgName,
     "url": orgUrl,
     "description": orgDesc,
-    "sameAs": [
-      "https://www.instagram.com/nursenest.ca",
-      "https://www.tiktok.com/@nursenest.ca",
-    ],
+    "sameAs": PARENT_EDUCATIONAL_ORG.sameAs,
+    "department": PARENT_EDUCATIONAL_ORG.department,
   };
 
   if (options?.courses && options.courses.length > 0) {

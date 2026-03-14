@@ -4,6 +4,7 @@ import { CAREER_GUIDES } from "@shared/career-guide-data";
 import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity, GraduationCap, Stethoscope } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
+import { buildJobPostingStructuredData, buildEducationalOrganizationStructuredData } from "@/lib/structured-data";
 
 const CAREER_TO_GUIDE_SLUG: Record<string, string> = Object.values(CAREER_GUIDES).reduce((acc, guide) => {
   acc[guide.careerSlug] = guide.slug;
@@ -38,6 +39,21 @@ export default function CareerDirectoryPage() {
           "url": "https://allied.nursenest.ca/careers",
           "description": "Browse all allied health career paths. Access tailored question banks, mock exams, flashcards, AI tools, and study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certifications."
         }}
+        additionalStructuredData={[
+          buildEducationalOrganizationStructuredData(),
+          ...ALLIED_CAREERS.filter(c => c.enabled).map(career =>
+            buildJobPostingStructuredData({
+              title: `${career.name} - Certification Exam Prep`,
+              description: `Prepare for your ${career.name} certification with practice questions, adaptive mock exams, and study tools. ${career.description}`,
+              salaryMin: 45000,
+              salaryMax: 95000,
+              salaryCurrency: "USD",
+              educationRequirements: career.examNames[0],
+              occupationalCategory: career.name,
+              url: `https://allied.nursenest.ca${getCanonicalRoute(career.slug)}`,
+            })
+          ),
+        ]}
       />
       <div className="text-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-directory-title">Allied Health Career Directory</h1>

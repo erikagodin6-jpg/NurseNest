@@ -11,6 +11,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
+import { buildJobPostingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 const FEATURES = [
   { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
@@ -92,10 +93,18 @@ export default function CareerLandingPage() {
           "name": `${career.name} Certification Prep`,
           "description": `Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, smart study tools, and a personalized study plan.`,
           "provider": {
-            "@type": "Organization",
+            "@type": "EducationalOrganization",
             "name": "NurseNest Allied",
-            "url": "https://allied.nursenest.ca"
-          }
+            "url": "https://allied.nursenest.ca",
+            "parentOrganization": {
+              "@type": "EducationalOrganization",
+              "name": PARENT_EDUCATIONAL_ORG.name,
+              "url": PARENT_EDUCATIONAL_ORG.url,
+            },
+          },
+          "courseMode": "online",
+          "inLanguage": "en",
+          "url": `https://allied.nursenest.ca${careerRoute}`,
         }}
         additionalStructuredData={[
           {
@@ -107,6 +116,16 @@ export default function CareerLandingPage() {
               "acceptedAnswer": { "@type": "Answer", "text": f.a },
             })),
           },
+          buildJobPostingStructuredData({
+            title: `${career.name} - Healthcare Career`,
+            description: `${career.name} career path: ${career.description}. Covers ${career.examNames.join(", ")} certification exams across ${career.domains.length} exam domains.`,
+            salaryMin: 45000,
+            salaryMax: 95000,
+            salaryCurrency: "USD",
+            educationRequirements: career.examNames[0],
+            occupationalCategory: career.name,
+            url: `https://allied.nursenest.ca${careerRoute}`,
+          }),
         ]}
       />
 

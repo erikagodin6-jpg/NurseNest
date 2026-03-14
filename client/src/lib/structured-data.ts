@@ -1,3 +1,36 @@
+export const PARENT_EDUCATIONAL_ORG = {
+  "@type": "EducationalOrganization" as const,
+  "name": "NurseNest",
+  "url": "https://www.nursenest.ca",
+  "description": "Comprehensive nursing and allied health education ecosystem offering exam preparation, career transition resources, and job placement tools.",
+  "sameAs": [
+    "https://www.nursenest.ca",
+    "https://allied.nursenest.ca",
+    "https://www.instagram.com/nursenest.ca",
+    "https://www.tiktok.com/@nursenest.ca",
+  ],
+  "department": [
+    {
+      "@type": "EducationalOrganization",
+      "name": "NurseNest Exam Prep",
+      "url": "https://www.nursenest.ca",
+      "description": "Nursing exam preparation with pathophysiology lessons, practice questions, clinical simulations, and adaptive mock exams for NCLEX, REX-PN, and NP certification.",
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "New Grad Hub",
+      "url": "https://www.nursenest.ca/new-grad",
+      "description": "Career transition platform for new graduate healthcare professionals featuring interview prep, resume building, and first-year survival guides.",
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "ApplyNest",
+      "url": "https://www.nursenest.ca/new-grad",
+      "description": "Job placement and career tools powered by NurseNest — interview lab, resume builder, cover letter generator, and ATS optimization for healthcare professionals.",
+    },
+  ],
+};
+
 export function buildBreadcrumbStructuredData(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -69,6 +102,11 @@ export function buildCourseStructuredData(course: {
       "@type": "EducationalOrganization",
       "name": course.provider || "NurseNest",
       "url": "https://www.nursenest.ca",
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+        "name": PARENT_EDUCATIONAL_ORG.name,
+        "url": PARENT_EDUCATIONAL_ORG.url,
+      },
     },
     "courseMode": "online",
     "isAccessibleForFree": false,
@@ -122,9 +160,10 @@ export function buildJobPostingStructuredData(job: {
     "title": job.title,
     "description": job.description,
     "hiringOrganization": {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "name": "NurseNest",
       "sameAs": "https://www.nursenest.ca",
+      "department": PARENT_EDUCATIONAL_ORG.department,
     },
     "baseSalary": {
       "@type": "MonetaryAmount",
@@ -155,15 +194,10 @@ export function buildEducationalOrganizationStructuredData(org?: {
 }) {
   return {
     "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": org?.name || "NurseNest",
-    "url": org?.url || "https://www.nursenest.ca",
-    "description": org?.description || "Comprehensive nursing and allied health exam preparation platform with practice questions, clinical simulations, and pathophysiology lessons.",
-    "educationalCredentialAwarded": "Nursing Exam Preparation",
-    "sameAs": [
-      "https://www.nursenest.ca",
-      "https://allied.nursenest.ca",
-    ],
+    ...PARENT_EDUCATIONAL_ORG,
+    ...(org?.name ? { "name": org.name } : {}),
+    ...(org?.url ? { "url": org.url } : {}),
+    ...(org?.description ? { "description": org.description } : {}),
   };
 }
 

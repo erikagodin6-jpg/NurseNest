@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { PROFESSION_LIST } from "@/pages/new-grad/profession-data";
 import { getCrossPlatformLinksForNewGrad } from "@/data/internal-links";
 import { SocialProofBar } from "@/components/conversion-funnel";
@@ -112,9 +112,14 @@ const courseStructuredData = {
   "name": "New Grad RN Transition Hub",
   "description": "Master your nursing career transition with interview prep, resume builder, cover letter tools, and first 90 days survival guide. Built for new graduate RNs.",
   "provider": {
-    "@type": "Organization",
+    "@type": "EducationalOrganization",
     "name": "NurseNest",
     "url": "https://www.nursenest.ca",
+    "parentOrganization": {
+      "@type": "EducationalOrganization",
+      "name": PARENT_EDUCATIONAL_ORG.name,
+      "url": PARENT_EDUCATIONAL_ORG.url,
+    },
   },
   "educationalLevel": "New Graduate Nurse",
   "about": "Nursing Career Transition",
@@ -124,6 +129,43 @@ const courseStructuredData = {
     "@type": "CourseInstance",
     "courseMode": "online",
     "courseWorkload": "PT10H",
+  },
+};
+
+const articleStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "New Grad Hub - Career Launch Platform for Healthcare Professionals",
+  "description": "Career transition resources for new graduate healthcare professionals. Nursing, paramedic, respiratory therapy, MLT, diagnostic imaging, and occupational therapy career guides.",
+  "author": {
+    "@type": "EducationalOrganization",
+    "name": "NurseNest",
+    "url": "https://www.nursenest.ca",
+  },
+  "publisher": {
+    "@type": "EducationalOrganization",
+    "name": "NurseNest",
+    "url": "https://www.nursenest.ca",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nursenest.ca/brand-logo.gif",
+    },
+    "parentOrganization": {
+      "@type": "EducationalOrganization",
+      "name": PARENT_EDUCATIONAL_ORG.name,
+      "url": PARENT_EDUCATIONAL_ORG.url,
+    },
+  },
+  "datePublished": "2025-01-15",
+  "dateModified": new Date().toISOString().split("T")[0],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.nursenest.ca/new-grad",
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": PARENT_EDUCATIONAL_ORG.name,
+    "url": PARENT_EDUCATIONAL_ORG.url,
   },
 };
 
@@ -137,7 +179,7 @@ export default function NewGradHub() {
         keywords="new grad healthcare, new graduate nurse, new grad paramedic, new grad respiratory therapist, new grad MLT, new grad imaging, new grad occupational therapy, healthcare career transition, first year healthcare professional"
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
-        additionalStructuredData={[faqStructuredData]}
+        additionalStructuredData={[faqStructuredData, articleStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: "New Grad Hub", url: "https://www.nursenest.ca/new-grad" },
