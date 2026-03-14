@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 const clusterData: Record<string, {
   title: string;
@@ -634,6 +635,12 @@ function HubPage() {
             </LocaleLink>
           </div>
         </div>
+
+        <EndOfContentLeadCapture
+          leadMagnetType="study_guide"
+          professionContext="REX-PN"
+          source="rex_pn_guide"
+        />
       </main>
     </div>
   );

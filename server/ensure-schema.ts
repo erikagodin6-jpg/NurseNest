@@ -410,6 +410,9 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       )
     `);
 
+    await client.query(`ALTER TABLE email_subscribers ADD COLUMN IF NOT EXISTS lead_magnet_type TEXT`);
+    await client.query(`ALTER TABLE email_subscribers ADD COLUMN IF NOT EXISTS profession_context TEXT`);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

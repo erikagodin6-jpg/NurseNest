@@ -1,6 +1,7 @@
 import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen, FileText, Brain, Target, ArrowRight, BarChart3, Calendar } from "lucide-react";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 interface Profession {
   id: string;
@@ -144,6 +145,12 @@ export default function ProfessionHubPage() {
           </div>
         </section>
       )}
+
+      <EndOfContentLeadCapture
+        leadMagnetType="study_guide"
+        professionContext={profession.shortName || profession.name}
+        source={`profession_hub_${profession.slug}`}
+      />
     </div>
   );
 }

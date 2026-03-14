@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   Bell,
 } from "lucide-react";
+import { InlineLeadCapture, StickyLeadBanner } from "@/components/lead-capture";
 
 const CATEGORY_KEYS: Record<string, string> = {
   "clinical-reasoning": "blog.categoryClinicalReasoning",
@@ -395,7 +396,16 @@ export default function BlogPage() {
             </div>
           ) : (
             <div className="space-y-6">
-              {filteredArticles.map((article: any) => (
+              {filteredArticles.length > 3 && (
+                <div className="hidden sm:block">
+                  <InlineLeadCapture
+                    leadMagnetType="practice_questions"
+                    professionContext="nursing"
+                    source="blog_listing"
+                  />
+                </div>
+              )}
+              {filteredArticles.map((article: any, idx: number) => (
                 <LocaleLink key={article.id} href={`/learn/${article.slug}`}>
                   <Card
                     className="border border-primary/10 hover:shadow-lg hover:border-primary/20 transition-all cursor-pointer group overflow-hidden"
@@ -469,6 +479,12 @@ export default function BlogPage() {
 
       <AdminEditButton />
       <Footer />
+
+      <StickyLeadBanner
+        leadMagnetType="study_guide"
+        professionContext="nursing"
+        source="blog_sticky"
+      />
     </div>
   );
 }

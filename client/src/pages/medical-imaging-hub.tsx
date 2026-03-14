@@ -8,6 +8,7 @@ import {
   TrendingUp, MapPin, GraduationCap, Clock, Star, ShoppingBag, Crown, CreditCard,
   Target, Share2, Mail
 } from "lucide-react";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 const COUNTRY_CARDS = [
   {
@@ -323,6 +324,12 @@ export default function MedicalImagingHub() {
           </div>
         </div>
       </section>
+
+      <EndOfContentLeadCapture
+        leadMagnetType="study_guide"
+        professionContext="medical_imaging"
+        source="medical_imaging_hub"
+      />
     </div>
   );
 }

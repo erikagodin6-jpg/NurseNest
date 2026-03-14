@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { BlogInlineLeadCapture } from "@/components/lead-capture";
 import {
   Select,
   SelectContent,
@@ -906,6 +907,8 @@ export default function ContentPage() {
               </div>
             </section>
           )}
+
+          <BlogInlineLeadCapture professionContext={contentItem?.category || "nursing"} />
 
           <div className="mt-12">
             <EducationalIntegrity variant="footer" />

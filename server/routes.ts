@@ -8566,15 +8566,25 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   // --------------------
   const VALID_FREQUENCIES = ["daily", "twice_daily", "3x_daily", "every_other_day", "twice_week", "3x_week", "weekly", "biweekly", "monthly"];
 
+  const VALID_LEAD_MAGNETS = ["study_guide", "practice_questions", "mock_exam"];
+
   app.post("/api/subscribe", async (req, res) => {
     try {
-      const { email, tier, source, frequency } = req.body;
+      const { email, tier, source, frequency, leadMagnetType, professionContext } = req.body;
       if (!email || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email required" });
       }
       const freq = VALID_FREQUENCIES.includes(frequency) ? frequency : "weekly";
+      const validatedLeadMagnet = leadMagnetType && VALID_LEAD_MAGNETS.includes(leadMagnetType) ? leadMagnetType : undefined;
+      const validatedProfession = professionContext && typeof professionContext === "string" ? professionContext.slice(0, 100) : undefined;
       const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
       if (existing) {
+        if ((validatedLeadMagnet || validatedProfession) && (!existing.leadMagnetType || !existing.professionContext)) {
+          await storage.updateEmailSubscriber(existing.email, {
+            ...(validatedLeadMagnet && !existing.leadMagnetType ? { leadMagnetType: validatedLeadMagnet } : {}),
+            ...(validatedProfession && !existing.professionContext ? { professionContext: validatedProfession } : {}),
+          });
+        }
         return res.json({ message: "Already subscribed", subscriber: existing });
       }
       const subscriber = await storage.createEmailSubscriber({
@@ -8583,6 +8593,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         source: source || "homepage",
         verified: false,
         frequency: freq,
+        ...(validatedLeadMagnet ? { leadMagnetType: validatedLeadMagnet } : {}),
+        ...(validatedProfession ? { professionContext: validatedProfession } : {}),
       });
       res.json({ message: "Subscribed successfully", subscriber });
     } catch (e: any) {

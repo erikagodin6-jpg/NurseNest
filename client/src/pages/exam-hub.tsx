@@ -13,6 +13,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 interface HubConfig {
   slug: string;
@@ -403,6 +404,12 @@ export default function ExamHub() {
             ))}
           </div>
         </section>
+
+        <EndOfContentLeadCapture
+          leadMagnetType="mock_exam"
+          professionContext={hub.tier}
+          source={`exam_hub_${hub.examSlug}`}
+        />
       </main>
 
       <Footer />

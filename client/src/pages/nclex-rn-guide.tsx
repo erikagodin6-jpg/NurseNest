@@ -21,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 const clusterData: Record<string, {
   title: string;
@@ -550,6 +551,11 @@ export default function NclexRnGuide() {
             </div>
           </div>
         </section>
+        <EndOfContentLeadCapture
+          leadMagnetType="practice_questions"
+          professionContext="NCLEX-RN"
+          source="nclex_rn_guide"
+        />
       </main>
 
       <Footer />

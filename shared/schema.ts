@@ -288,6 +288,8 @@ export const emailSubscribers = pgTable("email_subscribers", {
   source: text("source").default("qotd"),
   verified: boolean("verified").default(false),
   frequency: text("frequency").default("weekly"),
+  leadMagnetType: text("lead_magnet_type"),
+  professionContext: text("profession_context"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

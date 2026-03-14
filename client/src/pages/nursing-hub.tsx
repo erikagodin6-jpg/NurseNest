@@ -9,6 +9,7 @@ import {
   BarChart3, Target, CheckCircle2, Check, X, ChevronDown,
   HelpCircle, Stethoscope, Layers, Activity, Sparkles, Clock,
 } from "lucide-react";
+import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
 const STATS = [
   { value: "6,000+", label: "Lessons" },
@@ -463,6 +464,12 @@ export default function NursingHub() {
           </div>
         </div>
       </section>
+
+      <EndOfContentLeadCapture
+        leadMagnetType="practice_questions"
+        professionContext="nursing"
+        source="nursing_hub"
+      />
 
       <Footer />
     </div>
