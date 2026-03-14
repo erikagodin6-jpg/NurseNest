@@ -849,7 +849,12 @@ function ProfessionSelectorSection() {
 
             const handleClick = () => {
               if (isAllied) {
-                window.open(`https://allied.nursenest.ca${prof.href}`, "_blank");
+                const isProduction = window.location.hostname.includes("nursenest.ca");
+                if (isProduction) {
+                  window.open(`https://allied.nursenest.ca${prof.href}`, "_blank");
+                } else {
+                  window.location.href = `${prof.href}?mode=allied`;
+                }
               } else {
                 setLocation(prof.href);
               }
