@@ -493,6 +493,33 @@ export default function CareerLandingPage() {
         );
       })()}
 
+      {(() => {
+        const guideMap: Record<string, { slug: string; title: string; desc: string }> = {
+          "respiratory-therapy": { slug: "complete-guide-to-becoming-a-respiratory-therapist", title: "Complete Respiratory Therapist Career Guide", desc: "NBRC/CBRC exam prep, ventilator skills & career path" },
+          "paramedic": { slug: "complete-guide-to-becoming-a-paramedic", title: "Complete Paramedic Career Guide", desc: "NREMT/COPR exam prep, field transition & career path" },
+          "medical-laboratory": { slug: "complete-guide-to-becoming-a-medical-lab-technologist", title: "Complete MLT Career Guide", desc: "CSMLS/ASCP exam prep, lab skills & career path" },
+        };
+        const match = guideMap[career.slug];
+        if (!match) return null;
+        return (
+          <section className="py-10 bg-white" data-testid="section-authority-guide-link">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <Link href={`/guides/${match.slug}`} className="flex items-center gap-4 p-5 rounded-2xl border border-teal-200 bg-teal-50/40 hover:shadow-md hover:border-teal-300 transition-all group" data-testid="link-authority-guide">
+                <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center shrink-0">
+                  <BookOpen className="w-5 h-5 text-teal-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-0.5">Authority Guide</p>
+                  <h3 className="font-semibold text-gray-900 group-hover:text-teal-700 transition-colors">{match.title}</h3>
+                  <p className="text-sm text-gray-500">{match.desc}</p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-teal-400 group-hover:text-teal-600 shrink-0" />
+              </Link>
+            </div>
+          </section>
+        );
+      })()}
+
       {/* Comparison Table */}
       <section className="py-16 bg-gray-50" data-testid="section-comparison">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -313,6 +313,8 @@ const PerioperativeNursingHub = lazy(() => import("@/pages/perioperative-hub-pag
 const PreoperativeCareHub = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PreoperativeCareHub })));
 const PreoperativeNursingGuide = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PreoperativeNursingGuide })));
 const PerioperativeNurseCareer = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PerioperativeNurseCareer })));
+const GuidePage = lazy(() => import("@/pages/guide-page"));
+const GuidesIndex = lazy(() => import("@/pages/guide-page").then(m => ({ default: m.GuidesIndex })));
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
@@ -965,6 +967,10 @@ function AppRoutes() {
         {/* Career AI Tools - Addictions */}
         <Route path="/addictions-counsellor/mi-practice-sim">{() => <CareerAISimulator toolId="mi-practice-sim" />}</Route>
         <Route path="/addictions-counsellor/substance-id-drill">{() => <CareerAISimulator toolId="substance-id-drill" />}</Route>
+
+        {/* Authority Career Guides */}
+        <Route path="/guides/:slug" component={GuidePage} />
+        <Route path="/guides" component={GuidesIndex} />
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />

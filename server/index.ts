@@ -436,6 +436,13 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/new-graduate-support", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/healthcare-careers", "0.9", "weekly", indexableLocales, today));
 
+  entries.push(sitemapUrl(base, "/guides", "0.9", "weekly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/guides/complete-guide-to-becoming-a-registered-nurse", "0.9", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/guides/complete-guide-to-becoming-an-rpn-lvn", "0.9", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/guides/complete-guide-to-becoming-a-respiratory-therapist", "0.9", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/guides/complete-guide-to-becoming-a-paramedic", "0.9", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/guides/complete-guide-to-becoming-a-medical-lab-technologist", "0.9", "monthly", indexableLocales, today));
+
   const enOnly = ["en"];
   entries.push(sitemapUrl(base, "/case-simulations", "0.8", "monthly", enOnly, today));
   entries.push(sitemapUrl(base, "/first-action-simulator", "0.7", "monthly", enOnly, today));

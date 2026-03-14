@@ -396,6 +396,33 @@ export default function ExamHub() {
           </div>
         </section>
 
+        <section className="mb-12" data-testid="section-hub-guides">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-4">In-Depth Career Guides</h2>
+          <p className="text-sm text-gray-600 mb-4">Comprehensive guides covering exam prep, clinical transition, and career placement for healthcare careers.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <LocaleLink href="/guides/complete-guide-to-becoming-a-registered-nurse">
+              <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#BFA6F6]/40 hover:shadow-sm transition-all cursor-pointer group" data-testid="link-guide-rn">
+                <BookOpen className="w-5 h-5 text-[#BFA6F6] shrink-0" />
+                <div className="min-w-0">
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">Complete RN Career Guide</span>
+                  <span className="text-xs text-gray-500">NCLEX-RN prep, clinical transition & career path</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] shrink-0 ml-auto" />
+              </div>
+            </LocaleLink>
+            <LocaleLink href="/guides/complete-guide-to-becoming-an-rpn-lvn">
+              <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#BFA6F6]/40 hover:shadow-sm transition-all cursor-pointer group" data-testid="link-guide-rpn">
+                <BookOpen className="w-5 h-5 text-[#BFA6F6] shrink-0" />
+                <div className="min-w-0">
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">Complete RPN/LVN Career Guide</span>
+                  <span className="text-xs text-gray-500">REx-PN & NCLEX-PN prep, scope of practice & career path</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] shrink-0 ml-auto" />
+              </div>
+            </LocaleLink>
+          </div>
+        </section>
+
         <section data-testid="section-hub-related">
           <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">Explore Other Exam Hubs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -265,6 +265,33 @@ export default function NewGradHub() {
         </div>
       </section>
 
+      <section className="py-10 bg-white" data-testid="section-authority-guides">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Complete Career Guides</h2>
+          <p className="text-sm text-gray-600 mb-5">In-depth guides covering the full journey from exam prep through clinical practice to career placement.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { href: "/guides/complete-guide-to-becoming-a-registered-nurse", title: "RN Career Guide", desc: "NCLEX-RN, clinical transition & career" },
+              { href: "/guides/complete-guide-to-becoming-an-rpn-lvn", title: "RPN/LVN Career Guide", desc: "REx-PN, scope of practice & career" },
+              { href: "/guides/complete-guide-to-becoming-a-paramedic", title: "Paramedic Career Guide", desc: "NREMT/COPR, field transition & career" },
+            ].map((g, i) => (
+              <Link key={i} href={g.href} className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all group" data-testid={`link-authority-guide-${i}`}>
+                <BookOpen className="w-5 h-5 text-blue-500 shrink-0" />
+                <div className="min-w-0">
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 block">{g.title}</span>
+                  <span className="text-xs text-gray-500">{g.desc}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-3 text-center">
+            <Link href="/guides" className="text-sm text-blue-600 hover:text-blue-800 font-medium" data-testid="link-all-guides">
+              View All Career Guides →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
