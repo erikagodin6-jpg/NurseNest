@@ -1,0 +1,174 @@
+Fix the top navigation bar spacing, alignment, and centering issues across the entire NurseNest platform, and harden the navigation so future edits do not keep breaking it.
+
+PROBLEM
+Some menu options in the top navigation bar have inconsistent spacing, misalignment, or bad centering. The nav keeps changing unintentionally during other edits, which is making the header look unpolished and unstable.
+
+GOAL
+Create a stable, reusable, production-quality top navigation system with consistent spacing, alignment, centering, hover behavior, and responsive layout across all pages and tiers.
+
+APPLY TO
+- main NurseNest site
+- RPN
+- RN
+- NP
+- Allied Health
+- New Grad
+- Imaging
+- any shared header/top nav component used across subpages or subdomains
+
+PART 1: AUDIT THE ENTIRE TOP NAV
+
+Search the codebase for:
+- header components
+- top navigation components
+- nav menu wrappers
+- desktop nav
+- mobile nav
+- mega menu / dropdown menu components
+- utility classes affecting spacing, gap, padding, margin, alignment, line-height, flex, grid, justify, items-center, whitespace, and text sizing
+
+Identify:
+- where the top nav is defined
+- whether multiple header/nav components exist
+- whether styles are duplicated across pages
+- whether different pages are overriding shared nav spacing
+
+PART 2: FIX SPACING AND CENTERING
+
+Make all top nav menu items visually consistent.
+
+Fix:
+- uneven horizontal spacing between menu items
+- text that is not vertically centered
+- items with mismatched padding
+- menu labels that sit too high or too low
+- inconsistent gap values
+- icons/flags/profile controls that misalign with the text menu
+- dropdown triggers that are not centered with sibling items
+- nav items wrapping awkwardly
+- different line-heights causing visual drift
+
+Ensure:
+- all desktop nav items use one consistent spacing system
+- all top-level links are vertically centered
+- the nav bar height is consistent
+- menu labels align on the same baseline or optical center
+- padding is intentional and even
+- the whole header looks polished and premium
+
+PART 3: STANDARDIZE THE NAV LAYOUT SYSTEM
+
+Refactor the navigation into a clear reusable structure.
+
+Use a single source of truth for:
+- nav container width
+- nav row height
+- horizontal gap between items
+- link padding
+- typography size and line-height
+- alignment of logo, nav items, and right-side controls
+
+If there are multiple nav variants, consolidate them where possible.
+
+Create reusable class patterns or component wrappers so all top-level nav items inherit the same layout behavior.
+
+PART 4: STOP FUTURE REPLIT AI CHANGES FROM BREAKING IT
+
+Add comments in the shared nav component and any related style file stating:
+- this top navigation layout is intentionally standardized
+- do not change spacing, centering, height, or alignment ad hoc
+- all nav changes must preserve the established spacing system
+- add new nav items through the shared component structure only
+
+Avoid page-specific overrides unless absolutely necessary.
+
+If helpful, extract a shared configuration or constants for:
+- nav item gap
+- nav padding
+- header height
+- max width
+- breakpoint behavior
+
+PART 5: CHECK RESPONSIVE BEHAVIOR
+
+Desktop:
+- nav items should be evenly spaced and centered
+- no weird gaps
+- no crowding
+- no optical imbalance between left and right sections
+
+Tablet:
+- ensure nav does not partially break before mobile breakpoint
+- cleanly collapse or adapt when needed
+
+Mobile:
+- preserve existing mobile menu behavior if it works
+- fix any inherited spacing bugs there too
+- make sure the mobile trigger aligns properly in the header
+
+PART 6: CHECK SPECIAL ELEMENTS IN THE HEADER
+
+Audit alignment for:
+- logo / wordmark
+- tier tabs
+- country selector
+- language selector
+- search bar
+- account/profile button
+- CTA buttons
+- dropdown arrows/icons
+- any badges such as “new” labels
+
+Make sure these sit cleanly in the same visual rhythm as the rest of the nav.
+
+PART 7: REMOVE BAD CSS PATTERNS
+
+Find and remove or normalize:
+- random ml-* / mr-* / px-* / gap-* overrides on individual nav items
+- inconsistent leading/line-height classes
+- nested flex wrappers causing off-center text
+- arbitrary heights that fight against shared alignment
+- page-specific top-nav spacing hacks
+- transforms or relative positioning used to “nudge” items into place
+
+PART 8: VISUAL QUALITY TARGET
+
+The final navigation should feel:
+- balanced
+- clean
+- premium
+- stable
+- consistent
+- modern
+- professionally spaced
+
+It should not feel:
+- crowded
+- uneven
+- jumpy
+- manually patched
+- different from page to page
+
+PART 9: VALIDATION
+
+Before finishing, verify:
+1. all top nav items are evenly spaced
+2. text and triggers are vertically centered
+3. the nav looks the same across major site sections
+4. no menu option is offset compared with neighboring items
+5. desktop and mobile headers still work
+6. no page-specific override is re-breaking the shared nav
+7. the header remains stable when new nav items are added
+
+PART 10: RETURN A SUMMARY
+
+At the end, report:
+- which nav/header components were modified
+- which style classes were standardized
+- what caused the spacing/centering inconsistency
+- what was done to prevent future regressions
+- any remaining edge cases requiring manual design review
+
+IMPORTANT
+Do not apply a one-off visual patch to only one page.
+Fix the shared top navigation architecture so spacing and centering stay correct platform-wide and future Replit AI edits are less likely to break it.

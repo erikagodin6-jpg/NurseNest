@@ -1,0 +1,91 @@
+Debug and fix the NurseNest payment configuration error:
+
+"Payment system is not configured, please contact support"
+
+GOAL
+Find the exact source of this message and make the payment system fully configured for all supported tiers and billing intervals, especially Allied Health and New Grad if recently added.
+
+TASKS
+
+1. Search the entire codebase for the exact text:
+- "Payment system is not configured, please contact support"
+
+Also search for:
+- "payment system is not configured"
+- payment config
+- pricing config
+- stripe pricing
+- checkout session creation
+- missing price id
+- unsupported tier
+- unsupported interval
+
+2. Identify the exact function/route/component returning this error.
+Trace:
+- which frontend button triggers it
+- which API route receives the request
+- which config lookup fails
+- which condition causes the fallback error
+
+3. Audit the full payment configuration system:
+- env vars
+- Stripe client init
+- TEST_PRICE_MAP
+- LIVE_PRICE_MAP
+- stripe-price-map.json
+- tier-to-price mapping
+- interval-to-price mapping
+- frontend tier identifiers
+- backend tier identifiers
+
+4. Verify supported tiers are consistent everywhere.
+Check for mismatches such as:
+- allied vs allied-health vs allied_health
+- newgrad vs new-grad vs new_grad
+- yearly vs annual
+- threeMonth vs quarterly
+- sixMonth vs semiAnnual
+
+5. Ensure all currently sold tiers are fully wired:
+- RPN
+- RN
+- NP
+- Allied Health
+- New Grad
+- any worksheet/store products if they use the same payment flow
+
+6. Ensure all currently displayed billing intervals are mapped:
+- monthly
+- 3 months
+- 6 months
+- 12 months / yearly
+
+7. Add strict config validation with precise logging.
+Before checkout starts, log:
+- environment
+- tier received
+- interval received
+- resolved price ID
+- whether Stripe keys are present
+- whether payment config exists
+
+8. Replace generic fallback behavior with precise error diagnostics in logs, such as:
+- Missing live price ID for tier=allied interval=sixMonth
+- Unsupported tier key received: allied-health
+- STRIPE_SECRET_KEY missing in production
+- LIVE_PRICE_MAP missing newgrad mapping
+
+9. If Allied Health and New Grad were recently added, fully wire them into:
+- pricing page config
+- checkout payload
+- backend validation
+- Stripe price maps
+- entitlement mapping after purchase
+
+10. Preserve current UI, but make checkout fail only for truly missing configuration, not for key-name mismatches.
+
+11. Return a final summary:
+- exact root cause of the error
+- files changed
+- which tier/interval mappings were missing or mismatched
+- whether production payment config is now complete

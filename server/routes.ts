@@ -3211,8 +3211,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         stripe = await getUncachableStripeClient();
       } catch (credErr: any) {
         console.error(`[Checkout:${env}] Stripe client initialization FAILED: ${credErr.message}`);
+        const isTestKeyInProd = credErr.message?.includes('Test secret key') || credErr.message?.includes('Test publishable key');
         return res.status(503).json({
-          error: "Payment system is not configured. Please contact support.",
+          error: isTestKeyInProd
+            ? "Payment system has test keys configured in production. Live Stripe keys (sk_live_ / pk_live_) are required. Please update STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY secrets."
+            : "Payment system is temporarily unavailable. Please try again shortly or contact support.",
           detail: isProduction ? undefined : credErr.message,
         });
       }
