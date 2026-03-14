@@ -33,6 +33,8 @@ const CATEGORY_KEYS: Record<string, string> = {
   "assessment-skills": "blog.categoryAssessmentSkills",
   "medication-safety": "blog.categoryMedicationSafety",
   "nursing-fundamentals": "blog.categoryNursingFundamentals",
+  "nursing-education": "blog.categoryNursingEducation",
+  "allied-health": "blog.categoryAlliedHealth",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -45,6 +47,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   "assessment-skills": "bg-teal-50 text-teal-700 border-teal-200",
   "medication-safety": "bg-rose-50 text-rose-700 border-rose-200",
   "nursing-fundamentals": "bg-slate-50 text-slate-700 border-slate-200",
+  "nursing-education": "bg-emerald-50 text-emerald-700 border-emerald-200",
+  "allied-health": "bg-cyan-50 text-cyan-700 border-cyan-200",
 };
 
 function estimateReadTime(content: any[]): number {

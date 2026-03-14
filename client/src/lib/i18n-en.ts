@@ -691,6 +691,8 @@ const enTranslations: Record<string, string> = {
     "blog.categoryAssessmentSkills": "Assessment Skills",
     "blog.categoryMedicationSafety": "Medication Safety",
     "blog.categoryNursingFundamentals": "Nursing Fundamentals",
+    "blog.categoryNursingEducation": "Nursing Education",
+    "blog.categoryAlliedHealth": "Allied Health",
     "mockExams.pageTitle": "Mock Exam Engine",
     "mockExams.pageSubtitle": "Simulate real nursing exam conditions. Timed, randomized questions with detailed post-exam analysis and performance tracking.",
     "mockExams.examsCompleted": "Exams Completed",
