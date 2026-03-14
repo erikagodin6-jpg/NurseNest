@@ -27,6 +27,7 @@ Key systems and engines include:
 - **Adaptive Learning Engine (v2)**: Tracks granular learning progress, uses weighted priority scoring, a 5-state mastery model, and spaced repetition.
 - **AI Study Coaching & Course Generation System**: Provides personalized study coaching, topic mastery scoring, exam readiness assessment, and dynamic study plan generation.
 - **Programmatic SEO Engines**: Includes a Quiz Engine and a Page Expansion Engine for auto-generating indexable page variants and practice question pages.
+- **NCLEX Question Preview Pages**: Public, SEO-optimized pages at `/questions/:topic-slug` displaying interactive NCLEX-style questions with gated rationale behind a paywall CTA. Auto-generated from published nursing exam questions (one per distinct topic). Backend API at `/api/questions/preview/:slug` and `/api/questions/preview/slugs`. Includes FAQPage structured data, canonical URLs, and sitemap entries.
 - **Multilingual SEO & Translation System**: Manages server-rendered hreflang/canonical tags, locale-aware meta injection, and multilingual sitemap generation.
 - **Lesson Title Canonicalization System**: Standardizes lesson naming using aliases.
 - **Cross-Platform Analytics Tracking**: Tracks user flow between platform sections (`exam_prep`, `new_grad`, `career_tools`, `allied_health`) and transition events.

@@ -651,6 +651,24 @@ app.get("/sitemap.xml", async (_req, res) => {
     console.error("Nursing question topics sitemap error:", e);
   }
 
+  try {
+    const { pool: previewPool } = await import("./storage");
+    const previewTopicResult = await previewPool.query(
+      `SELECT DISTINCT topic FROM exam_questions WHERE status = 'published' AND career_type = 'nursing' AND topic IS NOT NULL AND topic != '' ORDER BY topic`
+    ).catch(() => ({ rows: [] }));
+
+    const previewSeen = new Set<string>();
+    for (const row of previewTopicResult.rows) {
+      const slug = row.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      if (slug && !previewSeen.has(slug)) {
+        previewSeen.add(slug);
+        entries.push(sitemapUrl(base, `/questions/${slug}`, "0.7", "weekly", indexableLocales, today));
+      }
+    }
+  } catch (e) {
+    console.error("Question preview sitemap error:", e);
+  }
+
   const practiceQuestionCombos = [
     { tier: "rpn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },
     { tier: "rn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },

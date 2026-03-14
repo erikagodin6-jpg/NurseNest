@@ -224,6 +224,7 @@ const AdminCrossPlatformAnalytics = lazy(() => import("@/pages/admin-cross-platf
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-page"));
 const NursingQuestionsIndexPage = lazy(() => import("@/pages/nursing-question-seo-page").then(m => ({ default: m.NursingQuestionsIndexPage })));
+const QuestionPreviewPage = lazy(() => import("@/pages/question-preview"));
 const NursingCareerPage = lazy(() => import("@/pages/nursing-career-pages"));
 const InfographicLibrary = lazy(() => import("@/pages/infographic-library"));
 const TrialLanding = lazy(() => import("@/pages/trial-landing"));
@@ -521,6 +522,7 @@ function AppRoutes() {
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
+        <Route path="/questions/:slug" component={QuestionPreviewPage} />
         <Route path="/rpn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rpn" />}</Route>
         <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
         <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
