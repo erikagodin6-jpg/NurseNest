@@ -331,6 +331,7 @@ const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hu
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
 const GenericCareerJourney = lazy(() => import("@/pages/career-journey"));
 const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then(m => ({ default: m.ProfessionCareerJourney })));
+const NclexReadinessScore = lazy(() => import("@/pages/nclex-readiness-score"));
 
 function PageTracker() {
   usePageTracker();
@@ -653,6 +654,7 @@ function AppRoutes() {
         <Route path="/for-institutions" component={ForInstitutions} />
         <Route path="/medical-imaging/study-plan-generator" component={ImagingStudyPlanGenerator} />
         <Route path="/radiography-readiness-quiz" component={RadiographyReadinessQuiz} />
+        <Route path="/nclex-readiness-score" component={NclexReadinessScore} />
         <Route path="/admin/imaging-marketing" component={ImagingMarketingDashboard} />
         <Route path="/admin/demo-weak-areas" component={DemoWeakAreas} />
         <Route path="/admin/demo-study-plan" component={DemoStudyPlanPage} />
