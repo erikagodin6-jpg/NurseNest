@@ -3013,7 +3013,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
               </div>
               <DialogTitle className="text-center text-xl">Free Card Limit Reached</DialogTitle>
               <DialogDescription className="text-center">
-                You've used all {entitlement.limit} free flashcards. Upgrade for unlimited cards, spaced repetition, and exam-mode testing.
+                You've used all {entitlement.limit} free {isTestBank ? "questions" : "flashcards"}. Upgrade for unlimited {isTestBank ? "practice questions" : "cards"}, spaced repetition, and exam-mode testing.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-3 py-4">
@@ -3094,7 +3094,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       data-testid="button-hero-start-studying"
                     >
                       <Zap className="w-4 h-4" />
-                      {isTestBank ? "Start Practice Session" : "Start Flashcard Session"}
+                      {isTestBank ? "Start Test Bank" : "Start Flashcard Session"}
                     </Button>
                     <Button
                       variant="outline"
@@ -3107,7 +3107,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       data-testid="button-hero-explore-topics"
                     >
                       <Search className="w-4 h-4" />
-                      {isTestBank ? "Browse Question Topics" : "Explore Topics"}
+                      {isTestBank ? "Practice Questions" : "Explore Topics"}
                     </Button>
                   </div>
 
@@ -4176,7 +4176,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   data-testid="button-cta-start-session"
                 >
                   <Zap className="w-4 h-4" />
-                  {isTestBank ? "Start Practice Session" : "Start Flashcard Session"}
+                  {isTestBank ? "Start Test Bank" : "Start Flashcard Session"}
                 </Button>
                 {!isPaid && (
                   <LocaleLink href="/pricing">

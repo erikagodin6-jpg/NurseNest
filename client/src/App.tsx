@@ -734,6 +734,10 @@ function AppRoutes() {
         <Route path="/rpn/test-bank" component={TestBank} />
         <Route path="/rn/test-bank" component={TestBank} />
         <Route path="/np/test-bank" component={TestBank} />
+        {/* Legacy tier flashcard routes → redirect to test-bank */}
+        <Route path="/rpn/flashcards">{() => <Redirect to="/rpn/test-bank" />}</Route>
+        <Route path="/rn/flashcards">{() => <Redirect to="/rn/test-bank" />}</Route>
+        <Route path="/np/flashcards">{() => <Redirect to="/np/test-bank" />}</Route>
         <Route path="/upgrade" component={UpgradePage} />
         <Route path="/upgrade/success" component={UpgradePage} />
         <Route path="/reports" component={Reports} />
