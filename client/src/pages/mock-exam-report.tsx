@@ -13,8 +13,11 @@ import { useAuth } from "@/lib/auth";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
   CheckCircle2, XCircle, ChevronDown, ChevronUp, Flag, BookOpen,
-  Share2, Download, Copy, ShieldCheck, Lock
+  Share2, Download, Copy, ShieldCheck, Lock, TrendingUp, TrendingDown, Minus
 } from "lucide-react";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, RadarChart, PolarGrid, PolarAngleAxis, Radar
+} from "recharts";
 
 import { getAuthHeaders } from "@/lib/qbank-api";
 
@@ -654,28 +657,158 @@ export default function MockExamReport() {
           </TabsList>
 
           <TabsContent value="breakdown" className="mt-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <h3 className="text-xl font-bold">Score by Body System</h3>
-              {breakdown.map((sys: any) => (
-                <div key={sys.system} className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-900">{sys.system}</span>
-                    <span className={`font-bold ${
-                      sys.percentage >= 80 ? "text-emerald-600" : sys.percentage >= 60 ? "text-amber-600" : "text-red-500"
-                    }`}>
-                      {sys.correct}/{sys.total} ({sys.percentage}%)
-                    </span>
+
+              {previousExams.length > 0 && (() => {
+                const prevReport = previousExams[0]?.report;
+                const prevBreakdown = prevReport?.systemBreakdown || [];
+                const prevPct = prevReport?.percentage || 0;
+                const delta = report.percentage - prevPct;
+                return (
+                  <Card className="border-none shadow-sm bg-gradient-to-r from-slate-50 to-gray-50" data-testid="card-delta-comparison">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">vs. Previous Attempt</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            {delta > 0 ? (
+                              <span className="flex items-center gap-1 text-emerald-600 font-bold text-lg" data-testid="text-delta-score">
+                                <TrendingUp className="w-5 h-5" /> +{delta}%
+                              </span>
+                            ) : delta < 0 ? (
+                              <span className="flex items-center gap-1 text-red-500 font-bold text-lg" data-testid="text-delta-score">
+                                <TrendingDown className="w-5 h-5" /> {delta}%
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1 text-gray-500 font-bold text-lg" data-testid="text-delta-score">
+                                <Minus className="w-5 h-5" /> No change
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right text-sm text-muted-foreground">
+                          <p>Previous: {prevPct}%</p>
+                          <p>Current: {report.percentage}%</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
+              {breakdown.length > 0 && (
+                <Card className="border-none shadow-sm" data-testid="card-breakdown-chart">
+                  <CardContent className="p-4">
+                    <ResponsiveContainer width="100%" height={Math.max(200, breakdown.length * 40)}>
+                      <BarChart data={breakdown.map((sys: any) => ({
+                        name: (sys.system || "").length > 18 ? (sys.system || "").slice(0, 18) + "…" : sys.system,
+                        score: sys.percentage,
+                        correct: sys.correct,
+                        total: sys.total,
+                      }))} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                        <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                        <YAxis type="category" dataKey="name" width={130} tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value: any, _name: string, props: any) => [
+                            `${props.payload.correct}/${props.payload.total} (${value}%)`,
+                            "Score"
+                          ]}
+                        />
+                        <Bar dataKey="score" radius={[0, 4, 4, 0]}>
+                          {breakdown.map((_: any, index: number) => (
+                            <Cell
+                              key={index}
+                              fill={
+                                breakdown[index].percentage >= 80 ? "#10b981" :
+                                breakdown[index].percentage >= 60 ? "#f59e0b" : "#ef4444"
+                              }
+                            />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              )}
+
+              {breakdown.map((sys: any) => {
+                const prevSys = previousExams[0]?.report?.systemBreakdown?.find((s: any) => s.system === sys.system);
+                const sysDelta = prevSys ? sys.percentage - prevSys.percentage : null;
+                return (
+                  <div key={sys.system} className="space-y-2" data-testid={`breakdown-row-${sys.system}`}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-medium text-gray-900">{sys.system}</span>
+                      <div className="flex items-center gap-2">
+                        {sysDelta !== null && (
+                          <span className={`text-xs font-medium ${sysDelta > 0 ? "text-emerald-600" : sysDelta < 0 ? "text-red-500" : "text-gray-400"}`}>
+                            {sysDelta > 0 ? `+${sysDelta}%` : sysDelta < 0 ? `${sysDelta}%` : "—"}
+                          </span>
+                        )}
+                        <span className={`font-bold ${
+                          sys.percentage >= 80 ? "text-emerald-600" : sys.percentage >= 60 ? "text-amber-600" : "text-red-500"
+                        }`}>
+                          {sys.correct}/{sys.total} ({sys.percentage}%)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all ${
+                          sys.percentage >= 80 ? "bg-emerald-500" : sys.percentage >= 60 ? "bg-amber-500" : "bg-red-500"
+                        }`}
+                        style={{ width: `${sys.percentage}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all ${
-                        sys.percentage >= 80 ? "bg-emerald-500" : sys.percentage >= 60 ? "bg-amber-500" : "bg-red-500"
-                      }`}
-                      style={{ width: `${sys.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
+
+              {breakdown.length >= 3 && (
+                <Card className="border-none shadow-sm" data-testid="card-radar-chart">
+                  <CardContent className="p-4">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Domain Radar</h4>
+                    <ResponsiveContainer width="100%" height={280}>
+                      <RadarChart data={breakdown.slice(0, 8).map((sys: any) => ({
+                        subject: (sys.system || "").length > 12 ? (sys.system || "").slice(0, 12) + "…" : sys.system,
+                        score: sys.percentage,
+                        fullMark: 100
+                      }))}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} />
+                        <Radar name="Score" dataKey="score" stroke="#6366f1" fill="#6366f1" fillOpacity={0.2} />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              )}
+
+              {exam.time_spent && (
+                <Card className="border-none shadow-sm" data-testid="card-time-analysis">
+                  <CardContent className="p-4">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-primary" /> Time Analysis
+                    </h4>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <p className="text-lg font-bold text-gray-900">{formatDuration(exam.time_spent)}</p>
+                        <p className="text-xs text-muted-foreground">Total Time</p>
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-gray-900">
+                          {report.totalQuestions > 0 ? Math.round(exam.time_spent / report.totalQuestions) : 0}s
+                        </p>
+                        <p className="text-xs text-muted-foreground">Avg per Question</p>
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-gray-900">{flaggedIds.length}</p>
+                        <p className="text-xs text-muted-foreground">Flagged Items</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </TabsContent>
 

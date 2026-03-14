@@ -16,7 +16,8 @@ import {
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
-  RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle, BarChart
+  RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle, BarChart,
+  Zap, SlidersHorizontal, Trophy, PartyPopper
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 import { StudyMomentumPanel } from "@/components/study-momentum";
@@ -46,6 +47,10 @@ const WIDGET_ICONS: Record<string, any> = {
   quick_study: PlayCircle,
   review_due: RotateCcw,
   topic_mastery: BarChart,
+  exam_readiness: Gauge,
+  weak_topics: AlertTriangle,
+  bookmarks_preview: Bookmark,
+  performance_overview: BarChart3,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -66,6 +71,10 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   quick_study: QuickStudyWidget,
   review_due: ReviewDueWidget,
   topic_mastery: TopicMasteryWidget,
+  exam_readiness: ExamReadinessWidget,
+  weak_topics: WeakTopicsWidget,
+  bookmarks_preview: BookmarksPreviewWidget,
+  performance_overview: PerformanceOverviewWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -86,6 +95,10 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   quick_study: { label: "dashboard.widget.quickStudy", desc: "dashboard.widget.quickStudyDesc" },
   review_due: { label: "dashboard.widget.reviewDue", desc: "dashboard.widget.reviewDueDesc" },
   topic_mastery: { label: "dashboard.widget.topicMastery", desc: "dashboard.widget.topicMasteryDesc" },
+  exam_readiness: { label: "dashboard.widget.examReadiness", desc: "dashboard.widget.examReadinessDesc" },
+  weak_topics: { label: "dashboard.widget.weakTopics", desc: "dashboard.widget.weakTopicsDesc" },
+  bookmarks_preview: { label: "dashboard.widget.bookmarks", desc: "dashboard.widget.bookmarksDesc" },
+  performance_overview: { label: "dashboard.widget.performanceOverview", desc: "dashboard.widget.performanceOverviewDesc" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -120,6 +133,10 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "quick_study", position: 14, visible: true },
   { widgetType: "review_due", position: 15, visible: true },
   { widgetType: "topic_mastery", position: 16, visible: true },
+  { widgetType: "exam_readiness", position: 17, visible: true },
+  { widgetType: "weak_topics", position: 18, visible: true },
+  { widgetType: "bookmarks_preview", position: 19, visible: true },
+  { widgetType: "performance_overview", position: 20, visible: true },
 ];
 
 export default function DashboardPage() {
@@ -730,6 +747,7 @@ function ExamStatsWidget({ user }: { user: any }) {
 }
 
 function StudyStreakWidget({ user }: { user: any }) {
+  const [streakData, setStreakData] = useState<any>(null);
   const [progress, setProgress] = useState<any[]>([]);
   const { t } = useI18n();
 
@@ -738,7 +756,33 @@ function StudyStreakWidget({ user }: { user: any }) {
       .then((r) => r.json())
       .then(setProgress)
       .catch(() => {});
+    fetch(`/api/exam-readiness/${user.id}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then(setStreakData)
+      .catch(() => {});
   }, [user.id]);
+
+  const streak = streakData?.streak || 0;
+  const longestStreak = streakData?.longestStreak || Math.max(streak, progress.length > 0 ? 7 : 0);
+
+  const milestones = [
+    { threshold: 7, label: "1 Week!", emoji: "🔥" },
+    { threshold: 14, label: "2 Weeks!", emoji: "⭐" },
+    { threshold: 30, label: "1 Month!", emoji: "🏆" },
+    { threshold: 60, label: "2 Months!", emoji: "💎" },
+    { threshold: 100, label: "100 Days!", emoji: "👑" },
+  ];
+  const activeMilestone = milestones.filter((m) => streak >= m.threshold).pop();
+
+  const motivationMessages = [
+    { min: 0, max: 0, msg: "Start studying to begin your streak!" },
+    { min: 1, max: 2, msg: "Great start! Keep the momentum going." },
+    { min: 3, max: 6, msg: "You're building a habit — keep it up!" },
+    { min: 7, max: 13, msg: "One week strong! 💪 You're on fire!" },
+    { min: 14, max: 29, msg: "Two weeks and counting! Incredible discipline." },
+    { min: 30, max: 999, msg: "A whole month! You're unstoppable! 🎯" },
+  ];
+  const motivation = motivationMessages.find((m) => streak >= m.min && streak <= m.max) || motivationMessages[0];
 
   const today = new Date();
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -751,25 +795,51 @@ function StudyStreakWidget({ user }: { user: any }) {
 
   return (
     <div data-testid="widget-content-streak">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-2xl font-bold">{progress.length}</p>
-          <p className="text-xs text-muted-foreground">{t("dashboard.streakTotal")}</p>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <div className={`relative ${streak > 0 ? "animate-pulse" : ""}`}>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center shadow-lg shadow-orange-200">
+              <Flame className="h-6 w-6 text-white" />
+            </div>
+            {streak >= 7 && (
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-400 flex items-center justify-center text-[10px] shadow-sm">
+                {activeMilestone?.emoji || "🔥"}
+              </div>
+            )}
+          </div>
+          <div>
+            <p className="text-2xl font-bold" data-testid="text-streak-count">{streak}</p>
+            <p className="text-xs text-muted-foreground">Day Streak</p>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600">
-          <Flame className="h-4 w-4" />
-          <span className="text-sm font-semibold">{t("dashboard.streakActive")}</span>
+        <div className="text-right">
+          <p className="text-xs text-muted-foreground">Longest</p>
+          <p className="text-sm font-semibold" data-testid="text-longest-streak">{longestStreak} days</p>
         </div>
       </div>
+
+      {activeMilestone && (
+        <div className="mb-3 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100" data-testid="streak-milestone">
+          <p className="text-xs font-medium text-amber-700">
+            {activeMilestone.emoji} {streak} Day Study Streak — {activeMilestone.label}
+          </p>
+        </div>
+      )}
+
+      <p className="text-xs text-muted-foreground mb-3 italic" data-testid="text-motivation">{motivation.msg}</p>
+
       <div className="flex justify-between gap-1" role="group" aria-label={t("dashboard.weeklyActivity")}>
         {days.map((d, i) => {
           const isToday = d.toDateString() === today.toDateString();
+          const dayInStreak = i >= (7 - Math.min(streak, 7));
           return (
             <div key={i} className="flex flex-col items-center gap-1">
               <div
                 className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium transition-colors ${
                   isToday
-                    ? "bg-primary text-primary-foreground shadow-sm"
+                    ? "bg-gradient-to-br from-orange-400 to-red-500 text-white shadow-sm"
+                    : dayInStreak
+                    ? "bg-orange-100 text-orange-700"
                     : "bg-muted text-muted-foreground"
                 }`}
                 aria-label={`${dayLabels[d.getDay()]} ${d.getDate()}${isToday ? ` (${t("dashboard.today")})` : ""}`}
@@ -1393,6 +1463,254 @@ function TopicMasteryWidget({ user }: { user: any }) {
           + {data.length - 8} more topic{data.length - 8 !== 1 ? "s" : ""}
         </p>
       )}
+    </div>
+  );
+}
+
+function ExamReadinessWidget({ user }: { user: any }) {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/exam-readiness/${user.id}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then(setData)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6" data-testid="widget-exam-readiness-loading">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const readiness = data?.readiness || 0;
+  const accuracy = data?.accuracy || 0;
+  const totalAnswered = data?.totalAnswered || 0;
+  const scoreColor = readiness >= 70 ? "#10b981" : readiness >= 50 ? "#f59e0b" : "#ef4444";
+  const statusLabel = readiness >= 70 ? "Ready" : readiness >= 50 ? "Almost There" : "Needs Work";
+  const statusBg = readiness >= 70 ? "bg-green-50 text-green-700" : readiness >= 50 ? "bg-amber-50 text-amber-700" : "bg-red-50 text-red-700";
+
+  const suggestions = [];
+  if (accuracy < 60) suggestions.push("Focus on understanding rationales for incorrect answers");
+  if (totalAnswered < 100) suggestions.push("Complete more practice questions to increase coverage");
+  if (readiness < 50) suggestions.push("Review weak topics with targeted practice sessions");
+  if (suggestions.length === 0) suggestions.push("Keep up the good work! Maintain consistent daily practice");
+
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (readiness / 100) * circumference;
+
+  return (
+    <div data-testid="widget-content-exam-readiness">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="relative flex-shrink-0" style={{ width: 100, height: 100 }}>
+          <svg width={100} height={100} className="transform -rotate-90">
+            <circle cx={50} cy={50} r={radius} fill="none" stroke="#e5e7eb" strokeWidth={8} />
+            <circle
+              cx={50} cy={50} r={radius} fill="none" stroke={scoreColor} strokeWidth={8}
+              strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
+              className="transition-all duration-1000"
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-2xl font-bold" style={{ color: scoreColor }} data-testid="text-readiness-score">{readiness}%</span>
+          </div>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusBg}`} data-testid="badge-readiness-status">
+              {statusLabel}
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {accuracy}% accuracy · {totalAnswered} questions answered
+          </p>
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        {suggestions.slice(0, 2).map((s, i) => (
+          <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Lightbulb className="h-3.5 w-3.5 text-amber-500 mt-0.5 flex-shrink-0" />
+            <span>{s}</span>
+          </div>
+        ))}
+      </div>
+      <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => navigate("/performance-analytics")} data-testid="button-view-analytics">
+        <BarChart3 className="h-4 w-4 mr-1.5" /> View Analytics
+      </Button>
+    </div>
+  );
+}
+
+function WeakTopicsWidget({ user }: { user: any }) {
+  const [weakAreas, setWeakAreas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/weak-areas/${user.id}`)
+      .then((r) => r.ok ? r.json() : [])
+      .then((data) => setWeakAreas(Array.isArray(data) ? data.slice(0, 5) : []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6" data-testid="widget-weak-topics-loading">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (weakAreas.length === 0) {
+    return (
+      <div className="text-center py-4" data-testid="widget-weak-topics-empty">
+        <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
+        <p className="text-sm font-medium text-emerald-700">No weak areas detected</p>
+        <p className="text-xs text-muted-foreground mt-1">Keep practicing to maintain your strengths</p>
+      </div>
+    );
+  }
+
+  const handlePracticeWeak = () => {
+    const topics = weakAreas.map((w) => w.topic || w.bodySystem).join(",");
+    navigate(`/practice?topics=${encodeURIComponent(topics)}`);
+  };
+
+  const barColor = (pct: number) =>
+    pct >= 70 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-400";
+
+  return (
+    <div data-testid="widget-content-weak-topics">
+      <div className="space-y-2.5 mb-4">
+        {weakAreas.map((area, i) => (
+          <div key={i} data-testid={`weak-topic-${i}`}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-medium text-foreground truncate max-w-[160px]">
+                {area.topic || area.bodySystem}
+              </span>
+              <span className={`text-xs font-semibold ${area.accuracy >= 50 ? "text-amber-600" : "text-red-600"}`}>
+                {area.accuracy}%
+              </span>
+            </div>
+            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${barColor(area.accuracy)}`}
+                style={{ width: `${Math.min(100, area.accuracy)}%` }}
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-0.5">{area.total} questions attempted</p>
+          </div>
+        ))}
+      </div>
+      <Button size="sm" className="w-full gap-1.5" onClick={handlePracticeWeak} data-testid="button-practice-weak-topics">
+        <Target className="h-4 w-4" /> Practice Weak Topics
+      </Button>
+    </div>
+  );
+}
+
+function BookmarksPreviewWidget({ user }: { user: any }) {
+  const [count, setCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch("/api/bookmarks/count", { headers: { "x-user-id": user.id } })
+      .then((r) => r.ok ? r.json() : { count: 0 })
+      .then((data) => setCount(data.count || 0))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="text-center py-3" data-testid="widget-content-bookmarks-preview">
+      <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
+        <Bookmark className="h-7 w-7 text-amber-600" />
+      </div>
+      <p className="text-2xl font-bold text-foreground mb-1" data-testid="text-bookmark-count">{count}</p>
+      <p className="text-xs text-muted-foreground mb-4">bookmarked question{count !== 1 ? "s" : ""}</p>
+      <div className="flex gap-2">
+        <Button size="sm" variant="outline" className="flex-1" onClick={() => navigate("/bookmarks")} data-testid="button-view-bookmarks">
+          View All
+        </Button>
+        {count > 0 && (
+          <Button size="sm" className="flex-1 gap-1" onClick={() => navigate("/practice?source=bookmarks")} data-testid="button-review-bookmarks">
+            <PlayCircle className="h-3.5 w-3.5" /> Review
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PerformanceOverviewWidget({ user }: { user: any }) {
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/performance-analytics?period=30d`, { headers: { "x-user-id": user.id } })
+      .then((r) => r.ok ? r.json() : null)
+      .then(setStats)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const totalQuestions = stats?.totalQuestions || 0;
+  const overallAccuracy = stats?.overallAccuracy || 0;
+  const studyTimeHours = stats?.studyTimeHours || 0;
+  const mockExamsCompleted = stats?.mockExamsCompleted || 0;
+
+  return (
+    <div data-testid="widget-content-performance-overview">
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        <div className="p-2.5 rounded-lg bg-blue-50 text-center">
+          <p className="text-lg font-bold text-blue-700" data-testid="perf-total-questions">{totalQuestions}</p>
+          <p className="text-[10px] text-muted-foreground">Questions</p>
+        </div>
+        <div className="p-2.5 rounded-lg bg-green-50 text-center">
+          <p className="text-lg font-bold text-green-700" data-testid="perf-accuracy">{overallAccuracy}%</p>
+          <p className="text-[10px] text-muted-foreground">Accuracy</p>
+        </div>
+        <div className="p-2.5 rounded-lg bg-amber-50 text-center">
+          <p className="text-lg font-bold text-amber-700" data-testid="perf-study-time">{studyTimeHours}h</p>
+          <p className="text-[10px] text-muted-foreground">Study Time</p>
+        </div>
+        <div className="p-2.5 rounded-lg bg-purple-50 text-center">
+          <p className="text-lg font-bold text-purple-700" data-testid="perf-exams">{mockExamsCompleted}</p>
+          <p className="text-[10px] text-muted-foreground">Mock Exams</p>
+        </div>
+      </div>
+      <Button size="sm" variant="outline" className="w-full gap-1.5" onClick={() => navigate("/performance-analytics")} data-testid="button-full-analytics">
+        <BarChart3 className="h-4 w-4" /> Full Analytics Dashboard
+      </Button>
     </div>
   );
 }

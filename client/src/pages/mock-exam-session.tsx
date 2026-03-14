@@ -504,17 +504,36 @@ export default function MockExamSession() {
   return (
     <div className={`min-h-screen bg-gray-50 font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <div className="sticky top-0 z-50 border-b border-black/5" style={{ backgroundColor: "var(--exam-chrome-color)" }} data-testid="exam-top-bar">
+        {showProgressBar && (
+          <div className="w-full h-1 bg-white/20" data-testid="exam-progress-bar-full">
+            <div
+              className="h-full transition-all duration-500 ease-out"
+              style={{ width: `${progressPercent}%`, backgroundColor: "#2E3A59" }}
+            />
+          </div>
+        )}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="text-sm font-semibold text-[#2E3A59]" data-testid="text-exam-progress">
               {progressLabel}
             </span>
             {showProgressBar && (
-              <div className="w-24 sm:w-32 h-1.5 hidden sm:block rounded-full overflow-hidden bg-white/30">
-                <div
-                  className="h-full rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercent}%`, backgroundColor: "#2E3A59" }}
-                />
+              <div className="hidden sm:flex items-center gap-2 text-xs text-[#2E3A59]/70">
+                <span data-testid="text-answered-count">{answeredCount}/{questions.length} answered</span>
+                <span className="w-px h-3 bg-[#2E3A59]/20" />
+                <span data-testid="text-flagged-count" className="flex items-center gap-0.5">
+                  <Flag className="w-3 h-3" /> {flagged.length}
+                </span>
+              </div>
+            )}
+            {blueprintMeta?.timeLimit && (
+              <div className="hidden sm:flex items-center gap-1 text-xs" data-testid="text-time-remaining">
+                <span className={`font-medium ${
+                  timeSpent > blueprintMeta.timeLimit * 60 * 0.9 ? "text-red-600" :
+                  timeSpent > blueprintMeta.timeLimit * 60 * 0.75 ? "text-amber-600" : "text-[#2E3A59]/70"
+                }`}>
+                  {formatTime(Math.max(0, blueprintMeta.timeLimit * 60 - timeSpent))} left
+                </span>
               </div>
             )}
           </div>

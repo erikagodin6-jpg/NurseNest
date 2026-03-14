@@ -288,6 +288,9 @@ const SocialWorkPracticeQuestions = lazy(() => import("@/pages/profession-practi
 const PsychotherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.PsychotherapyPracticeQuestions })));
 const AddictionsPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.AddictionsPracticeQuestions })));
 const OccupationalTherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.OccupationalTherapyPracticeQuestions })));
+const BookmarksPage = lazy(() => import("@/pages/bookmarks"));
+const CustomPracticePage = lazy(() => import("@/pages/custom-practice"));
+const PerformanceAnalyticsPage = lazy(() => import("@/pages/performance-analytics"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
@@ -662,6 +665,9 @@ function AppRoutes() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/feedback" component={FeedbackPage} />
+        <Route path="/bookmarks" component={BookmarksPage} />
+        <Route path="/practice" component={CustomPracticePage} />
+        <Route path="/performance-analytics" component={PerformanceAnalyticsPage} />
         <Route path="/free-practice" component={FreePracticePage} />
         <Route path="/quick-study" component={QuickStudyPage} />
         <Route path="/practice-questions/:tier/:system" component={PracticeQuestionsPage} />
