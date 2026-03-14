@@ -19,13 +19,191 @@ import { Label } from "@/components/ui/label";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
   Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert, Shield, Zap, Gift,
-  Check, Palette
+  Check, Palette, Stethoscope
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { getTierConfig } from "@shared/tier-config";
 import { useToast } from "@/hooks/use-toast";
+import { CAREER_TYPES, CAREER_CONFIGS } from "@shared/careers";
+
+interface MockExamDef {
+  id: string;
+  specialty: string;
+  examNumber: number;
+  title: string;
+  difficultyLevel: string;
+  categoryTags: string[];
+  timeLimit: number;
+  sections: { name: string; questionCount: number }[];
+  totalQuestions: number;
+}
+
+function SpecialtyMockExams() {
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
+  const { toast } = useToast();
+  const [examDefs, setExamDefs] = useState<MockExamDef[]>([]);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+  const [starting, setStarting] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/mock-exam-definitions")
+      .then((r) => r.json())
+      .then((data) => {
+        setExamDefs(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const specialties = [...new Set(examDefs.map((d) => d.specialty))];
+  const nonNursingSpecialties = specialties.filter((s) => s !== "nursing");
+  const allSpecialties = ["nursing", ...nonNursingSpecialties];
+
+  const startSpecialtyExam = async (examDef: MockExamDef) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    setStarting(examDef.id);
+    try {
+      const res = await fetch("/api/mock-exams/start-specialty", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        body: JSON.stringify({ examDefinitionId: examDef.id, specialty: examDef.specialty }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to start exam");
+      }
+      if (data.attemptId) {
+        localStorage.setItem(`specialty-mock-${data.attemptId}`, JSON.stringify({
+          timeLimit: examDef.timeLimit,
+          examTitle: examDef.title,
+          specialty: examDef.specialty,
+          sections: examDef.sections,
+        }));
+        navigate(`/mock-exams/${data.attemptId}`);
+      }
+    } catch (err: any) {
+      toast({
+        title: "Failed to Start Exam",
+        description: err.message || "Please try again.",
+        variant: "destructive",
+      });
+      setStarting(null);
+    }
+  };
+
+  if (loading || examDefs.length === 0) return null;
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="specialty-mock-exams-section">
+      <div className="text-center mb-8 space-y-3">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900" data-testid="text-specialty-exams-title">
+          Specialty Mock Exams
+        </h2>
+        <p className="text-gray-500 max-w-xl mx-auto">
+          Full-length, timed mock exams for all healthcare specialties. 100 questions across 6 clinical sections.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2 justify-center mb-8">
+        {allSpecialties.map((sp) => {
+          const config = CAREER_CONFIGS[sp as keyof typeof CAREER_CONFIGS];
+          if (!config) return null;
+          const isSelected = selectedSpecialty === sp;
+          return (
+            <button
+              key={sp}
+              onClick={() => setSelectedSpecialty(isSelected ? null : sp)}
+              className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-all ${
+                isSelected
+                  ? "border-primary bg-primary/10 text-primary shadow-sm"
+                  : "border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+              }`}
+              data-testid={`button-specialty-${sp}`}
+              style={isSelected ? { borderColor: config.color, backgroundColor: config.colorAccent, color: config.color } : undefined}
+            >
+              {config.shortName}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {(selectedSpecialty ? allSpecialties.filter((s) => s === selectedSpecialty) : allSpecialties).map((sp) => {
+          const config = CAREER_CONFIGS[sp as keyof typeof CAREER_CONFIGS];
+          if (!config) return null;
+          const exams = examDefs.filter((d) => d.specialty === sp);
+          if (exams.length === 0) return null;
+
+          return (
+            <Card key={sp} className="border-none shadow-sm hover:shadow-md transition-shadow overflow-hidden" data-testid={`card-specialty-${sp}`}>
+              <div className="h-2" style={{ backgroundColor: config.color }} />
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: config.colorAccent }}>
+                    <Stethoscope className="w-5 h-5" style={{ color: config.color }} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm" data-testid={`text-specialty-name-${sp}`}>{config.shortName}</h3>
+                    <p className="text-xs text-gray-500">{exams.length} exams available</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  {exams.map((exam) => (
+                    <div key={exam.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="text-sm font-medium text-gray-900" data-testid={`text-exam-title-${exam.id}`}>
+                          Exam {exam.examNumber}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <FileText className="w-3 h-3" /> {exam.totalQuestions}q
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {exam.timeLimit}min
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="rounded-full text-xs"
+                        onClick={() => startSpecialtyExam(exam)}
+                        disabled={starting === exam.id}
+                        data-testid={`button-start-specialty-exam-${exam.id}`}
+                      >
+                        {starting === exam.id ? "Starting..." : user ? "Start" : "Sign in"}
+                        <ArrowRight className="w-3 h-3 ml-1" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-2 border-t border-gray-100">
+                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Sections</p>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {(exams[0]?.sections || []).map((s: any) => (
+                      <Badge key={s.name} variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">
+                        {s.name}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 const EXAM_THEMES = [
   { id: "pastelLilac", name: "Pastel Lilac", color: "#C8B6FF" },
@@ -777,6 +955,7 @@ export default function MockExamsPage() {
           </div>
         </div>
       </main>
+      <SpecialtyMockExams />
       <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mockexams-social-proof">
         <SocialProofBar />
       </div>

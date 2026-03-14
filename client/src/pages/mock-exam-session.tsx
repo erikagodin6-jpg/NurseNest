@@ -269,6 +269,22 @@ export default function MockExamSession() {
     } catch {}
 
     try {
+      const specialtyData = localStorage.getItem(`specialty-mock-${attemptId}`);
+      if (specialtyData && !parsedBp) {
+        const sp = JSON.parse(specialtyData);
+        const sections = sp.sections || [];
+        setBlueprintMeta({
+          examCode: `specialty-${sp.specialty}`,
+          examName: sp.examTitle || "Specialty Mock Exam",
+          passingThreshold: 65,
+          domainPassThreshold: 50,
+          domains: sections.map((s: any) => ({ name: s.name, weight: s.questionCount || 15 })),
+          timeLimit: sp.timeLimit || 150,
+        });
+      }
+    } catch {}
+
+    try {
       const savedCat = localStorage.getItem(`cat-state-${attemptId}`);
       if (savedCat) {
         setCatState(JSON.parse(savedCat));

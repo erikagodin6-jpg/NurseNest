@@ -1878,6 +1878,26 @@ export const insertMockExamPurchaseSchema = createInsertSchema(mockExamPurchases
 export type MockExamPurchase = typeof mockExamPurchases.$inferSelect;
 export type InsertMockExamPurchase = z.infer<typeof insertMockExamPurchaseSchema>;
 
+export const mockExamDefinitions = pgTable("mock_exam_definitions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  specialty: text("specialty").notNull(),
+  examNumber: integer("exam_number").notNull().default(1),
+  title: text("title").notNull(),
+  questionIds: jsonb("question_ids").default(sql`'[]'::jsonb`),
+  difficultyLevel: text("difficulty_level").notNull().default("mixed"),
+  categoryTags: jsonb("category_tags").default(sql`'[]'::jsonb`),
+  answerKey: jsonb("answer_key").default(sql`'{}'::jsonb`),
+  rationaleIds: jsonb("rationale_ids").default(sql`'[]'::jsonb`),
+  timeLimit: integer("time_limit").notNull().default(150),
+  sections: jsonb("sections").default(sql`'[]'::jsonb`),
+  totalQuestions: integer("total_questions").notNull().default(100),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMockExamDefinitionSchema = createInsertSchema(mockExamDefinitions).omit({ id: true, createdAt: true });
+export type MockExamDefinition = typeof mockExamDefinitions.$inferSelect;
+export type InsertMockExamDefinition = z.infer<typeof insertMockExamDefinitionSchema>;
+
 export const institutions = pgTable("institutions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),

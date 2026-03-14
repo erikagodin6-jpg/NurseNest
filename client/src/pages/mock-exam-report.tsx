@@ -12,7 +12,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
-  CheckCircle2, XCircle, ChevronDown, ChevronUp, Flag, BookOpen,
+  CheckCircle2, XCircle, ChevronDown, ChevronUp, ChevronRight, Flag, BookOpen,
   Share2, Download, Copy, ShieldCheck, Lock, TrendingUp, TrendingDown, Minus
 } from "lucide-react";
 import {
@@ -842,6 +842,93 @@ export default function MockExamReport() {
                     </p>
                   </CardContent>
                 </Card>
+              </div>
+            )}
+
+            {exam.crossContent && (
+              <div className="mt-6 space-y-4" data-testid="cross-content-section">
+                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-primary" /> Recommended Study Resources
+                </h3>
+                <p className="text-sm text-gray-500">Based on your weak areas, here are resources to help you improve:</p>
+
+                {exam.crossContent.lessons && exam.crossContent.lessons.length > 0 && (
+                  <Card className="border-none shadow-sm" data-testid="cross-content-lessons">
+                    <CardContent className="p-4">
+                      <p className="text-sm font-semibold text-gray-900 mb-2">Related Lessons</p>
+                      <div className="space-y-2">
+                        {exam.crossContent.lessons.map((l: any) => (
+                          <LocaleLink key={l.id} href={l.slug ? `/lessons/${l.slug}` : "#"}>
+                            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                              <span className="text-sm text-primary hover:underline">{l.title}</span>
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            </div>
+                          </LocaleLink>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {exam.crossContent.flashcards && exam.crossContent.flashcards.length > 0 && (
+                  <Card className="border-none shadow-sm" data-testid="cross-content-flashcards">
+                    <CardContent className="p-4">
+                      <p className="text-sm font-semibold text-gray-900 mb-2">Flashcard Decks</p>
+                      <div className="space-y-2">
+                        {exam.crossContent.flashcards.map((f: any) => (
+                          <LocaleLink key={f.id} href="/flashcards">
+                            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                              <span className="text-sm text-primary hover:underline">{f.topicTag || "Flashcard Deck"}</span>
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            </div>
+                          </LocaleLink>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {exam.crossContent.practiceQuestions && exam.crossContent.practiceQuestions.length > 0 && (
+                  <Card className="border-none shadow-sm" data-testid="cross-content-practice">
+                    <CardContent className="p-4">
+                      <p className="text-sm font-semibold text-gray-900 mb-2">Practice Questions</p>
+                      <div className="space-y-2">
+                        {exam.crossContent.practiceQuestions.map((q: any) => (
+                          <LocaleLink key={q.id} href={`/practice?topic=${encodeURIComponent(q.topic || "")}&system=${encodeURIComponent(q.bodySystem || "")}`}>
+                            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                              <div>
+                                <span className="text-sm text-primary hover:underline">{q.stem ? q.stem.substring(0, 80) + "..." : "Practice Question"}</span>
+                                <span className="text-xs text-gray-400 block mt-0.5">{q.bodySystem} &middot; {q.topic}</span>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            </div>
+                          </LocaleLink>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {exam.crossContent.caseStudies && exam.crossContent.caseStudies.length > 0 && (
+                  <Card className="border-none shadow-sm" data-testid="cross-content-cases">
+                    <CardContent className="p-4">
+                      <p className="text-sm font-semibold text-gray-900 mb-2">Case Studies</p>
+                      <div className="space-y-2">
+                        {exam.crossContent.caseStudies.map((c: any) => (
+                          <LocaleLink key={c.id} href={`/case-studies/${c.id}`}>
+                            <div className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                              <div>
+                                <span className="text-sm text-primary hover:underline">{c.title}</span>
+                                <span className="text-xs text-gray-400 block">{c.bodySystem} &middot; {c.category}</span>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            </div>
+                          </LocaleLink>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
             )}
           </TabsContent>

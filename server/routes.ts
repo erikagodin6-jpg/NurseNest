@@ -8035,6 +8035,110 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     return resolveAuthUser(req);
   }
 
+  app.get("/api/mock-exam-definitions", async (req, res) => {
+    try {
+      const { specialty } = req.query;
+      let query = `SELECT id, specialty, exam_number, title, difficulty_level, category_tags, time_limit, sections, total_questions, created_at FROM mock_exam_definitions`;
+      const params: any[] = [];
+      if (specialty) {
+        query += ` WHERE specialty = $1`;
+        params.push(specialty);
+      }
+      query += ` ORDER BY specialty, exam_number`;
+      const result = await pool.query(query, params);
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/mock-exam-definitions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await pool.query(`SELECT * FROM mock_exam_definitions WHERE id = $1`, [id]);
+      if (result.rows.length === 0) return res.status(404).json({ error: "Exam definition not found" });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/mock-exams/start-specialty", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
+      const { examDefinitionId, specialty } = req.body;
+      if (!examDefinitionId) {
+        return res.status(400).json({ error: "Missing exam definition ID" });
+      }
+
+      const defResult = await pool.query(`SELECT * FROM mock_exam_definitions WHERE id = $1`, [examDefinitionId]);
+      if (defResult.rows.length === 0) {
+        return res.status(404).json({ error: "Exam definition not found" });
+      }
+      const examDef = defResult.rows[0];
+
+      const questionIds = examDef.question_ids || [];
+      if (questionIds.length === 0) {
+        return res.status(400).json({ error: "No questions in this exam definition" });
+      }
+
+      const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+      const qResult = await pool.query(
+        `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, region_scope
+         FROM exam_questions WHERE id IN (${placeholders})`,
+        questionIds
+      );
+
+      const questions = qResult.rows.map((q: any) => ({
+        id: q.id,
+        question: q.stem,
+        options: q.options,
+        correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0,
+        bodySystem: q.body_system || "General",
+        tier: "all",
+        lessonId: "mock-exam",
+        source: "quiz",
+        topic: q.topic,
+        subtopic: q.subtopic,
+        difficulty: q.difficulty,
+        questionType: q.question_type,
+        scenario: q.scenario,
+        clinicalPearl: q.clinical_pearl,
+        examStrategy: q.exam_strategy,
+        memoryHook: q.memory_hook,
+        frameworkUsed: q.framework_used,
+        clinicalTrap: q.clinical_trap,
+        distractorRationales: q.distractor_rationales,
+        regionScope: q.region_scope,
+      }));
+
+      const questionsWithoutRationales = questions.map((q: any) => {
+        const { ...rest } = q;
+        return rest;
+      });
+
+      const result = await pool.query(
+        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, career_type)
+         VALUES ($1, $2, $3, $4, 'in_progress', $5, $6)
+         RETURNING id`,
+        [
+          String(authUser.id),
+          "all",
+          questions.length,
+          JSON.stringify(questions),
+          JSON.stringify({ examMode: "specialty-mock", specialty: examDef.specialty, examTitle: examDef.title, timeLimit: examDef.time_limit, sections: examDef.sections }),
+          examDef.specialty,
+        ],
+      );
+
+      res.json({ attemptId: result.rows[0].id, timeLimit: examDef.time_limit, examTitle: examDef.title });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/mock-exams/start", async (req, res) => {
     try {
       const authUser = await getAuthUser(req);
@@ -8252,11 +8356,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       const result = await pool.query(
-        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report
+        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report, career_type
          FROM mock_exam_attempts
          WHERE user_id = $1
          ORDER BY started_at DESC
-         LIMIT 20`,
+         LIMIT 50`,
         [req.params.userId],
       );
 
@@ -8290,8 +8394,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const examReport = typeof row.report === "string" ? JSON.parse(row.report) : (row.report || {});
       const isReadiness = examReport.examMode === "readiness";
       const isFree = effectiveUserTier === "free";
+      const isSpecialtyMock = examReport.examMode === "specialty-mock";
 
-      if (isFree && isReadiness && row.status === "completed") {
+      if (row.status === "in_progress") {
+        const questions = Array.isArray(row.questions) ? row.questions : [];
+        const strippedQuestions = questions.map((q: any) => {
+          const { rationale, explanation, clinicalPearl, examStrategy, ...rest } = q;
+          return rest;
+        });
+        res.json({ ...row, questions: strippedQuestions });
+      } else if (isFree && isReadiness && row.status === "completed") {
         const questions = Array.isArray(row.questions) ? row.questions : [];
         const fullQuestions = questions.map((q: any, idx: number) => {
           if (idx < 5) return q;
@@ -8300,6 +8412,36 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         });
         const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
         res.json({ ...row, questions: fullQuestions, report: limitedReport, limitedReview: true });
+      } else if (row.status === "completed" && isSpecialtyMock) {
+        const careerType = row.career_type || examReport.specialty || "nursing";
+        try {
+          const [lessonsResult, flashcardsResult, questionsResult, casesResult] = await Promise.all([
+            pool.query(
+              `SELECT id, title, slug, category FROM content_items WHERE status = 'published' AND (career_type = $1 OR career_type IS NULL) LIMIT 10`,
+              [careerType]
+            ),
+            pool.query(
+              `SELECT id, topic_tag, tier FROM flashcard_bank WHERE career_type = $1 AND status = 'published' LIMIT 10`,
+              [careerType]
+            ),
+            pool.query(
+              `SELECT id, stem, body_system, topic FROM exam_questions WHERE career_type = $1 AND status = 'published' AND NOT (tags @> ARRAY['mock-exam']::text[]) LIMIT 10`,
+              [careerType]
+            ),
+            pool.query(
+              `SELECT id, title, body_system, category FROM case_studies WHERE status = 'published' LIMIT 10`
+            ),
+          ]);
+          const crossContent = {
+            lessons: lessonsResult.rows.map((r: any) => ({ id: r.id, title: r.title, slug: r.slug, category: r.category })),
+            flashcards: flashcardsResult.rows.map((r: any) => ({ id: r.id, topicTag: r.topic_tag, tier: r.tier })),
+            practiceQuestions: questionsResult.rows.map((r: any) => ({ id: r.id, stem: r.stem?.substring(0, 80), bodySystem: r.body_system, topic: r.topic })),
+            caseStudies: casesResult.rows.map((r: any) => ({ id: r.id, title: r.title, bodySystem: r.body_system, category: r.category })),
+          };
+          res.json({ ...row, crossContent });
+        } catch {
+          res.json(row);
+        }
       } else {
         res.json(row);
       }
