@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import { useQuery } from "@tanstack/react-query";
-import type { HeroStats } from "@shared/lesson-stats";
+import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
 
 const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
@@ -47,8 +47,16 @@ export default function Home() {
     staleTime: 10 * 60 * 1000,
   });
 
-  const lessonCount = heroStats?.totalLessons ?? 0;
-  const questionCount = heroStats?.questionCount ?? 0;
+  const { data: platformProof } = useQuery<PlatformProof>({
+    queryKey: ["/api/public/platform-proof"],
+    staleTime: 15 * 60 * 1000,
+    retry: 2,
+  });
+
+  const lessonCount = platformProof?.totalLessons ?? heroStats?.totalLessons ?? 0;
+  const questionCount = platformProof?.totalQuestions ?? heroStats?.questionCount ?? 0;
+  const flashcardCount = platformProof?.totalFlashcards ?? 10000;
+  const deckCount = platformProof?.totalDecks ?? 140;
   const storeProductCount = heroStats?.storeProductCount ?? 0;
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
@@ -97,7 +105,7 @@ export default function Home() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
         title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Question Bank, Clinical Simulations & Flashcards`}
-        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
+        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
         keywords={`nursing exam prep, NCLEX practice questions, ${examLabel} exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program`}
         canonicalPath="/"
         structuredData={{
@@ -223,7 +231,7 @@ export default function Home() {
                 </h1>
                 
                 <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-hero-subheading">
-                  {formatCount(questionCount)} practice questions, {formatCount(lessonCount)} clinical lessons, flashcards, mock exams, and adaptive study plans — built for RPN, RN, NP, and allied health students.
+                  {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}{formatCount(lessonCount)} clinical lessons, adaptive CAT exams, and personalized study plans — built for RPN, RN, NP, and allied health students.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">

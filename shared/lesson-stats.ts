@@ -20,3 +20,18 @@ export interface HeroStats {
     freeDb: number;
   };
 }
+
+export interface PlatformProof {
+  totalQuestions: number;
+  totalFlashcards: number;
+  totalDecks: number;
+  totalLessons: number;
+  hasCatExams: boolean;
+  hasClinicalImages: boolean;
+  hasMultiTierSupport: boolean;
+  tiers: string[];
+  rpnQuestions: number;
+  rnQuestions: number;
+  npQuestions: number;
+  lastUpdatedISO: string;
+}

@@ -167,9 +167,9 @@ const generalCopy: MarketingCopy = {
     secondaryCta: "Explore Free Practice",
     secondaryCtaPath: "/free-practice",
     stats: [
-      { label: "Practice Questions", value: "3,900+" },
-      { label: "Body Systems", value: "15+" },
-      { label: "Exam Tracks", value: "3" },
+      { label: "Practice Questions", value: "10,000+" },
+      { label: "Flashcards", value: "10,000+" },
+      { label: "Study Decks", value: "140+" },
       { label: "Pass Rate", value: "94%" },
     ],
   },
@@ -246,10 +246,10 @@ const rpnCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "500+ RPN-scope questions",
+      "3,000+ RPN-scope questions",
       "15+ body systems covered",
       "Built for {pnExamName} prep",
-      "Used by practical nursing students across North America",
+      "10,000+ flashcards included",
     ],
   },
   hero: {
@@ -260,10 +260,10 @@ const rpnCopy: MarketingCopy = {
     secondaryCta: "Explore RPN Lessons",
     secondaryCtaPath: "/lessons",
     stats: [
-      { label: "RPN Questions", value: "500+" },
-      { label: "Body Systems", value: "15+" },
+      { label: "RPN Questions", value: "3,000+" },
+      { label: "Flashcards", value: "10,000+" },
       { label: "Practice Exams", value: "Unlimited" },
-      { label: "Focus Areas", value: "9" },
+      { label: "Study Decks", value: "140+" },
     ],
   },
   problemSection: {
@@ -370,7 +370,7 @@ const rpnCopy: MarketingCopy = {
   pricing: {
     headline: "RPN exam prep built for your success",
     description: "Get full access to the practical nursing question bank, practice exams, flashcards, and readiness analytics.",
-    whatsIncluded: ["500+ RPN-scope questions", "Unlimited RPN practice exams", "Medication safety drills", "Practical nursing flashcards", "Progress tracking by blueprint area", "Weak-topic review"],
+    whatsIncluded: ["3,000+ RPN-scope questions", "Unlimited RPN practice exams", "10,000+ flashcards across 140+ decks", "Medication safety drills", "Progress tracking by blueprint area", "Weak-topic review"],
     reassurance: "Built specifically for practical nursing learners. Cancel anytime.",
   },
   upgrade: {
@@ -410,9 +410,9 @@ const rnCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "700+ RN-scope questions",
+      "4,000+ RN-scope questions",
       "8 exam blueprint domains",
-      "Clinical judgment and prioritization focus",
+      "10,000+ flashcards included",
       "Built for NCLEX-RN readiness",
     ],
   },
@@ -424,10 +424,10 @@ const rnCopy: MarketingCopy = {
     secondaryCta: "Try Clinical Judgment Questions",
     secondaryCtaPath: "/free-practice",
     stats: [
-      { label: "RN Questions", value: "700+" },
-      { label: "Clinical Systems", value: "15+" },
+      { label: "RN Questions", value: "4,000+" },
+      { label: "Flashcards", value: "10,000+" },
       { label: "Practice Exams", value: "Unlimited" },
-      { label: "Exam Domains", value: "8" },
+      { label: "Study Decks", value: "140+" },
     ],
   },
   problemSection: {
@@ -534,7 +534,7 @@ const rnCopy: MarketingCopy = {
   pricing: {
     headline: "RN exam prep that matches your exam's complexity",
     description: "Get full access to the RN question bank, clinical judgment exams, prioritization drills, and readiness analytics.",
-    whatsIncluded: ["700+ RN-scope questions", "Unlimited clinical judgment exams", "Prioritization drills", "Management of care practice", "8-domain readiness analytics", "Detailed performance trends"],
+    whatsIncluded: ["4,000+ RN-scope questions", "Unlimited clinical judgment exams", "10,000+ flashcards across 140+ decks", "Prioritization drills", "8-domain readiness analytics", "Detailed performance trends"],
     reassurance: "Built for RN-level clinical reasoning. Cancel anytime.",
   },
   upgrade: {
@@ -574,9 +574,9 @@ const npCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "300+ NP board-style questions",
+      "3,000+ NP board-style questions",
       "12+ clinical domains",
-      "Diagnostic reasoning and prescribing focus",
+      "10,000+ flashcards included",
       "Built for FNP, AGNP, and NP certification",
     ],
   },
@@ -588,10 +588,10 @@ const npCopy: MarketingCopy = {
     secondaryCta: "Explore Advanced Cases",
     secondaryCtaPath: "/free-practice",
     stats: [
-      { label: "NP Questions", value: "300+" },
-      { label: "Clinical Domains", value: "12+" },
+      { label: "NP Questions", value: "3,000+" },
+      { label: "Flashcards", value: "10,000+" },
       { label: "Board-Style Cases", value: "Unlimited" },
-      { label: "Diagnostic Focus", value: "Advanced" },
+      { label: "Study Decks", value: "140+" },
     ],
   },
   problemSection: {
@@ -698,7 +698,7 @@ const npCopy: MarketingCopy = {
   pricing: {
     headline: "NP board prep at the level your exam demands",
     description: "Get full access to advanced clinical cases, diagnostic reasoning exams, prescribing review, and board-readiness analytics.",
-    whatsIncluded: ["300+ NP-scope questions", "Unlimited board-style exams", "Differential diagnosis drills", "Prescribing and management review", "Advanced performance analytics", "Evidence-informed rationales"],
+    whatsIncluded: ["3,000+ NP-scope questions", "Unlimited board-style exams", "10,000+ flashcards across 140+ decks", "Differential diagnosis drills", "Advanced performance analytics", "Evidence-informed rationales"],
     reassurance: "Built for graduate-level clinical reasoning. Cancel anytime.",
   },
   upgrade: {

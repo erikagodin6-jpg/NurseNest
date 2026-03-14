@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import type { PlatformProof } from "@shared/lesson-stats";
 import {
   ArrowRight,
   Star,
@@ -24,6 +26,13 @@ import {
   Microscope,
   ScanLine,
   ShieldCheck,
+  BarChart3,
+  Shield,
+  Sparkles,
+  Users,
+  Activity,
+  GraduationCap,
+  ImageIcon,
 } from "lucide-react";
 
 function formatCount(n: number | undefined): string {
@@ -35,6 +44,23 @@ function formatCount(n: number | undefined): string {
   }
   const tens = Math.floor(n / 10) * 10;
   return `${tens}+`;
+}
+
+function formatMarketingCount(n: number): string {
+  if (n <= 0) return "---";
+  if (n >= 10000) {
+    const thousands = Math.floor(n / 1000) * 1000;
+    return `${thousands.toLocaleString()}+`;
+  }
+  if (n >= 1000) {
+    const hundreds = Math.floor(n / 100) * 100;
+    return `${hundreds.toLocaleString()}+`;
+  }
+  if (n >= 100) {
+    const tens = Math.floor(n / 10) * 10;
+    return `${tens}+`;
+  }
+  return `${n}+`;
 }
 
 interface ScreenshotSources {
@@ -103,16 +129,42 @@ export function HomeConversionSections({
   lessonCount,
   questionCount,
 }: HomeConversionSectionsProps) {
+  const { data: proof, isLoading: proofLoading } = useQuery<PlatformProof>({
+    queryKey: ["/api/public/platform-proof"],
+    staleTime: 15 * 60 * 1000,
+    retry: 2,
+  });
+
+  const displayQuestions = proof?.totalQuestions || questionCount || 10000;
+  const displayFlashcards = proof?.totalFlashcards || 10000;
+  const displayDecks = proof?.totalDecks || 140;
+  const displayLessons = proof?.totalLessons || lessonCount || 6000;
+
   return (
     <>
-      <CredibilityStatsBar
-        lessonCount={lessonCount}
-        questionCount={questionCount}
+      <DynamicTrustCounters
+        questions={displayQuestions}
+        flashcards={displayFlashcards}
+        decks={displayDecks}
+        lessons={displayLessons}
+        hasCatExams={proof?.hasCatExams ?? true}
+        hasClinicalImages={proof?.hasClinicalImages ?? true}
+        hasMultiTier={proof?.hasMultiTierSupport ?? true}
+        isLoading={proofLoading}
       />
       <HowItWorksSection />
-      <FeatureCardsSection questionCount={questionCount} />
+      <FeatureCardsSection questionCount={displayQuestions} />
+      <ConversionProofBlock
+        questions={displayQuestions}
+        flashcards={displayFlashcards}
+        decks={displayDecks}
+      />
       <ScreenshotCarouselSection />
       <ProfessionSelectorSection />
+      <CompetitivePositioningSection
+        questions={displayQuestions}
+        flashcards={displayFlashcards}
+      />
       <SampleQuestionSection />
       <TestimonialsSection />
       <FinalCTASection />
@@ -120,33 +172,348 @@ export function HomeConversionSections({
   );
 }
 
-function CredibilityStatsBar({
-  lessonCount,
-  questionCount,
-}: {
-  lessonCount: number;
-  questionCount: number;
-}) {
+function TrustCounterSkeleton() {
   return (
-    <section className="py-10 bg-white border-y border-gray-100" data-testid="section-credibility-stats">
+    <div className="text-center p-5 rounded-2xl bg-white/60 border border-gray-100 animate-pulse">
+      <div className="w-10 h-10 rounded-xl bg-gray-200 mx-auto mb-3" />
+      <div className="h-8 w-24 bg-gray-200 rounded mx-auto mb-2" />
+      <div className="h-4 w-20 bg-gray-100 rounded mx-auto" />
+    </div>
+  );
+}
+
+function DynamicTrustCounters({
+  questions,
+  flashcards,
+  decks,
+  lessons,
+  hasCatExams,
+  hasClinicalImages,
+  hasMultiTier,
+  isLoading,
+}: {
+  questions: number;
+  flashcards: number;
+  decks: number;
+  lessons: number;
+  hasCatExams: boolean;
+  hasClinicalImages: boolean;
+  hasMultiTier: boolean;
+  isLoading: boolean;
+}) {
+  const counters = [
+    {
+      icon: Target,
+      value: formatMarketingCount(questions),
+      label: "Practice Questions",
+      gradient: "from-blue-500 to-indigo-600",
+      border: "border-blue-100",
+    },
+    {
+      icon: Layers,
+      value: formatMarketingCount(flashcards),
+      label: "Flashcards",
+      gradient: "from-amber-500 to-orange-600",
+      border: "border-amber-100",
+    },
+    {
+      icon: BookOpen,
+      value: formatMarketingCount(decks),
+      label: "Study Decks",
+      gradient: "from-emerald-500 to-teal-600",
+      border: "border-emerald-100",
+    },
+    {
+      icon: Stethoscope,
+      value: formatMarketingCount(lessons),
+      label: "Clinical Lessons",
+      gradient: "from-rose-500 to-pink-600",
+      border: "border-rose-100",
+    },
+  ];
+
+  const badges = [
+    ...(hasCatExams
+      ? [{ icon: ClipboardCheck, label: "Adaptive CAT Exams", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200" }]
+      : []),
+    ...(hasClinicalImages
+      ? [{ icon: ImageIcon, label: "Clinical Images", color: "text-teal-600", bg: "bg-teal-50", border: "border-teal-200" }]
+      : []),
+    ...(hasMultiTier
+      ? [{ icon: Users, label: "Multi-Tier Support", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200" }]
+      : []),
+  ];
+
+  return (
+    <section
+      className="py-14 bg-gradient-to-b from-white to-gray-50/80 border-t border-gray-100"
+      data-testid="section-trust-counters"
+    >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-3 gap-6 md:gap-12">
-          <div className="text-center" data-testid="stat-credibility-questions">
-            <div className="text-3xl sm:text-4xl font-extrabold text-primary">
-              {questionCount > 0 ? `${questionCount.toLocaleString()}+` : "8,000+"}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <BarChart3 className="w-3.5 h-3.5 text-primary" />
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">Platform Scale</span>
+          </div>
+          <h2
+            className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
+            data-testid="text-trust-counters-heading"
+          >
+            Built for serious exam preparation
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            A growing library of questions, flashcards, lessons, and study tools — all in one place.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => <TrustCounterSkeleton key={i} />)
+            : counters.map((counter) => (
+                <div
+                  key={counter.label}
+                  className={`text-center p-5 rounded-2xl bg-gradient-to-b from-white to-gray-50/50 border ${counter.border} shadow-sm hover:shadow-md transition-shadow`}
+                  data-testid={`trust-counter-${counter.label.toLowerCase().replace(/\s+/g, "-")}`}
+                >
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${counter.gradient} flex items-center justify-center mx-auto mb-3 shadow-sm`}>
+                    <counter.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{counter.value}</div>
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{counter.label}</div>
+                </div>
+              ))}
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {badges.map((badge) => (
+            <div
+              key={badge.label}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${badge.bg} border ${badge.border} text-xs font-medium ${badge.color}`}
+              data-testid={`badge-trust-${badge.label.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              <badge.icon className="w-3.5 h-3.5" />
+              <span>{badge.label}</span>
             </div>
-            <div className="text-sm text-gray-500 font-medium mt-1">Practice Questions</div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ConversionProofBlock({
+  questions,
+  flashcards,
+  decks,
+}: {
+  questions: number;
+  flashcards: number;
+  decks: number;
+}) {
+  const [, setLocation] = useLocation();
+
+  return (
+    <section
+      className="py-16 bg-gradient-to-br from-primary/5 via-violet-50/30 to-white border-t border-primary/10"
+      data-testid="section-conversion-proof"
+    >
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-violet-600" />
+            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Everything You Need</span>
           </div>
-          <div className="text-center" data-testid="stat-credibility-lessons">
-            <div className="text-3xl sm:text-4xl font-extrabold text-primary">
-              {lessonCount > 0 ? `${lessonCount}+` : "2,400+"}
+          <h2
+            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3"
+            data-testid="text-conversion-proof-heading"
+          >
+            Thousands of questions. Thousands of flashcards. One place to study smarter.
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            Stop juggling scattered resources. NurseNest brings {formatMarketingCount(questions)} exam-style questions,
+            {" "}{formatMarketingCount(flashcards)} flashcards across {formatMarketingCount(decks)} decks, adaptive CAT exams,
+            clinical images, and detailed rationales into a single study environment.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto mb-10">
+          {[
+            {
+              icon: Target,
+              title: "Exam-Ready Questions",
+              desc: "Realistic questions across RPN, RN, and NP scopes with step-by-step rationales that teach you how to think — not just what to memorize.",
+              accent: "from-blue-500 to-indigo-600",
+            },
+            {
+              icon: Layers,
+              title: "Flashcards & Decks",
+              desc: "Organized flashcard decks for pharmacology, pathophysiology, clinical concepts, and more — built for spaced repetition and active recall.",
+              accent: "from-amber-500 to-orange-600",
+            },
+            {
+              icon: Brain,
+              title: "Adaptive CAT Exams",
+              desc: "Computer-adaptive testing that mirrors real licensure exams. Questions adjust to your performance in real time.",
+              accent: "from-violet-500 to-purple-600",
+            },
+            {
+              icon: ImageIcon,
+              title: "Clinical Images & Visuals",
+              desc: "Visual learning resources including clinical images, diagrams, and illustrated rationales for hands-on readiness.",
+              accent: "from-teal-500 to-emerald-600",
+            },
+            {
+              icon: BookOpen,
+              title: "Lessons & Rationales",
+              desc: "In-depth clinical lessons organized by body system — each with pre-tests, post-tests, and detailed explanations.",
+              accent: "from-rose-500 to-pink-600",
+            },
+            {
+              icon: GraduationCap,
+              title: "Multi-Tier Coverage",
+              desc: "Purpose-built content for every nursing level — practical nursing, registered nursing, and nurse practitioner certification.",
+              accent: "from-indigo-500 to-blue-600",
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6"
+              data-testid={`card-proof-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.accent} flex items-center justify-center mb-3 shadow-sm`}>
+                <item.icon className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-1.5">{item.title}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
             </div>
-            <div className="text-sm text-gray-500 font-medium mt-1">Clinical Lessons</div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Button
+            size="lg"
+            className="rounded-full px-8 shadow-lg shadow-primary/20"
+            onClick={() => setLocation("/register")}
+            data-testid="button-conversion-proof-cta"
+          >
+            Start Free — Explore the Full Library
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Button>
+          <p className="text-xs text-gray-500 mt-3">No credit card required. Free tier available.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CompetitivePositioningSection({
+  questions,
+  flashcards,
+}: {
+  questions: number;
+  flashcards: number;
+}) {
+  const [, setLocation] = useLocation();
+
+  const comparisons = [
+    {
+      feature: "Question Volume",
+      ours: `${formatMarketingCount(questions)} exam-style questions across all tiers`,
+      typical: "Limited question banks, often under 2,000",
+      icon: Target,
+    },
+    {
+      feature: "Flashcards Included",
+      ours: `${formatMarketingCount(flashcards)} flashcards organized into study decks`,
+      typical: "Flashcards sold separately or not available",
+      icon: Layers,
+    },
+    {
+      feature: "Multi-Tier Support",
+      ours: "Dedicated content for RPN, RN, and NP levels",
+      typical: "One-size-fits-all content for a single exam",
+      icon: Users,
+    },
+    {
+      feature: "Integrated Study Tools",
+      ours: "Questions + flashcards + CAT exams + lessons + study plans",
+      typical: "Only one type of study resource available",
+      icon: Zap,
+    },
+    {
+      feature: "Allied & Imaging Categories",
+      ours: "Expanding into allied health disciplines",
+      typical: "Nursing-only with no expansion path",
+      icon: Activity,
+    },
+    {
+      feature: "Adaptive Analytics",
+      ours: "Real-time readiness tracking with domain-level insights",
+      typical: "Basic score tracking without targeted recommendations",
+      icon: BarChart3,
+    },
+  ];
+
+  return (
+    <section
+      className="py-16 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100"
+      data-testid="section-competitive-positioning"
+    >
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
+            <Shield className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Why NurseNest</span>
           </div>
-          <div className="text-center" data-testid="stat-credibility-flashcards">
-            <div className="text-3xl sm:text-4xl font-extrabold text-primary">50+</div>
-            <div className="text-sm text-gray-500 font-medium mt-1">Flashcard Decks</div>
-          </div>
+          <h2
+            className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3"
+            data-testid="text-competitive-heading"
+          >
+            More content. More tools. One subscription.
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Most study platforms focus on one thing. NurseNest combines questions, flashcards, CAT exams, lessons, and analytics into a single study ecosystem.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto mb-10">
+          {comparisons.map((item) => (
+            <div
+              key={item.feature}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5"
+              data-testid={`card-compare-${item.feature.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                  <item.icon className="w-4 h-4 text-emerald-600" />
+                </div>
+                <h3 className="font-bold text-gray-900 text-sm">{item.feature}</h3>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-700 leading-relaxed">{item.ours}</p>
+                </div>
+                <div className="flex items-start gap-2 opacity-60">
+                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-500 leading-relaxed">{item.typical}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Button
+            size="lg"
+            variant="outline"
+            className="rounded-full px-8 border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300"
+            onClick={() => setLocation("/pricing")}
+            data-testid="button-competitive-cta"
+          >
+            See Plans & Pricing
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
         </div>
       </div>
     </section>
@@ -159,7 +526,7 @@ function HowItWorksSection() {
       step: "1",
       icon: BookOpen,
       title: "Learn",
-      desc: "Study 2,400+ pathophysiology lessons, pharmacology guides, and clinical content organized by body system and exam tier.",
+      desc: "Study thousands of pathophysiology lessons, pharmacology guides, and clinical content organized by body system and exam tier.",
       color: "from-blue-500 to-indigo-600",
     },
     {
@@ -229,7 +596,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
     {
       icon: Layers,
       title: "Flashcards",
-      desc: "50+ pre-built decks with learn mode, test mode, and spaced repetition. Create your own decks or import from CSV. Track mastery across every topic.",
+      desc: "140+ pre-built decks with learn mode, test mode, and spaced repetition. Create your own decks or import from CSV. Track mastery across every topic.",
       color: "bg-amber-100",
       iconColor: "text-amber-600",
       tags: ["Learn Mode", "Test Mode", "Spaced Repetition"],

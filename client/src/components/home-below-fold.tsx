@@ -280,7 +280,7 @@ export function HomeBelowFold({
               { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/question-bank", count: formatCount(questionCount), countLabel: t("home.included.countQuestions"), color: "from-blue-500 to-indigo-600" },
               { icon: ClipboardCheck, title: t("home.included.mockExams.title"), desc: t("home.included.mockExams.desc"), href: "/mock-exams", count: "3", countLabel: t("home.included.countExamTiers"), color: "from-purple-500 to-violet-600" },
               { icon: FileText, title: t("home.included.printable.title"), desc: t("home.included.printable.desc"), href: "/shop", count: formatCount(storeProductCount), countLabel: t("home.included.countPacks"), color: "from-emerald-500 to-teal-600" },
-              { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "50+", countLabel: t("home.included.countDecks"), color: "from-amber-500 to-orange-600" },
+              { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "140+", countLabel: t("home.included.countDecks"), color: "from-amber-500 to-orange-600" },
               { icon: Stethoscope, title: t("home.included.lessons.title"), desc: t("home.included.lessons.desc"), href: "/lessons", count: formatCount(lessonCount), countLabel: t("home.included.countLessons"), color: "from-rose-500 to-pink-600" },
             ].map((item, i) => (
               <Card

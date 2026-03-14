@@ -510,7 +510,78 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     heroStatsCache = null;
+    platformProofCache = null;
     res.json({ ok: true });
+  });
+
+  let platformProofCache: { data: any; timestamp: number } | null = null;
+  const PLATFORM_PROOF_CACHE_TTL = 15 * 60 * 1000;
+
+  app.get("/api/public/platform-proof", async (_req, res) => {
+    try {
+      if (platformProofCache && Date.now() - platformProofCache.timestamp < PLATFORM_PROOF_CACHE_TTL) {
+        return res.json(platformProofCache.data);
+      }
+
+      const { tierCounts } = await import("@shared/tier-counts");
+
+      const [dbLessons, storeData, examQ, flashcardCount, deckCount] = await Promise.all([
+        pool.query(`
+          SELECT
+            COALESCE(SUM(CASE WHEN tier = 'rpn' THEN 1 ELSE 0 END), 0) AS rpn_db,
+            COALESCE(SUM(CASE WHEN tier = 'rn' THEN 1 ELSE 0 END), 0) AS rn_db,
+            COALESCE(SUM(CASE WHEN tier = 'np' THEN 1 ELSE 0 END), 0) AS np_db,
+            COALESCE(SUM(CASE WHEN tier = 'free' OR tier IS NULL THEN 1 ELSE 0 END), 0) AS free_db,
+            COUNT(*) AS total_db
+          FROM content_items WHERE status = 'published'
+        `),
+        pool.query(`
+          SELECT COALESCE(SUM(question_count), 0) AS store_questions FROM digital_products WHERE is_active = true
+        `),
+        pool.query(`
+          SELECT
+            COALESCE(SUM(CASE WHEN tier = 'rpn' THEN 1 ELSE 0 END), 0) AS rpn_eq,
+            COALESCE(SUM(CASE WHEN tier = 'rn' THEN 1 ELSE 0 END), 0) AS rn_eq,
+            COALESCE(SUM(CASE WHEN tier = 'np' THEN 1 ELSE 0 END), 0) AS np_eq,
+            COUNT(*) AS total_eq
+          FROM exam_questions WHERE status = 'published'
+        `),
+        pool.query(`SELECT COUNT(*)::int AS count FROM flashcard_bank`).catch(() => ({ rows: [{ count: 0 }] })),
+        pool.query(`SELECT COUNT(*)::int AS count FROM flashcard_decks`).catch(() => ({ rows: [{ count: 0 }] })),
+      ]);
+
+      const db = dbLessons.rows[0] || {};
+      const store = storeData.rows[0] || {};
+      const eq = examQ.rows[0] || {};
+
+      const totalLessons = (tierCounts.rpn + Number(db.rpn_db)) +
+        (tierCounts.rn + Number(db.rn_db)) +
+        (tierCounts.np + Number(db.np_db)) +
+        (tierCounts.free + Number(db.free_db));
+
+      const totalQuestions = tierCounts.questionCount + Number(store.store_questions) + Number(eq.total_eq);
+
+      const proof = {
+        totalQuestions,
+        totalFlashcards: Number(flashcardCount.rows[0]?.count) || 0,
+        totalDecks: Number(deckCount.rows[0]?.count) || 0,
+        totalLessons,
+        hasCatExams: true,
+        hasClinicalImages: true,
+        hasMultiTierSupport: true,
+        tiers: ["rpn", "rn", "np"],
+        rpnQuestions: Number(eq.rpn_eq),
+        rnQuestions: Number(eq.rn_eq),
+        npQuestions: Number(eq.np_eq),
+        lastUpdatedISO: new Date().toISOString(),
+      };
+
+      platformProofCache = { data: proof, timestamp: Date.now() };
+      res.json(proof);
+    } catch (error: any) {
+      console.error("Platform proof error:", error);
+      res.status(500).json({ error: "Failed to compute platform proof" });
+    }
   });
 
   app.get("/api/admin/diagnostics", async (req, res) => {
