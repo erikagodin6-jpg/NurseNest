@@ -5733,3 +5733,21 @@ export const trialEntitlements = pgTable("trial_entitlements", {
 export const insertTrialEntitlementSchema = createInsertSchema(trialEntitlements).omit({ id: true, createdAt: true });
 export type TrialEntitlement = typeof trialEntitlements.$inferSelect;
 export type InsertTrialEntitlement = z.infer<typeof insertTrialEntitlementSchema>;
+
+export const businessExpenses = pgTable("business_expenses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  category: text("category").notNull(),
+  vendor: text("vendor").notNull(),
+  description: text("description"),
+  amount: doublePrecision("amount").notNull(),
+  currency: text("currency").notNull().default("CAD"),
+  date: text("date").notNull(),
+  recurring: boolean("recurring").default(false),
+  createdBy: text("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertBusinessExpenseSchema = createInsertSchema(businessExpenses).omit({ id: true, createdAt: true, updatedAt: true });
+export type BusinessExpense = typeof businessExpenses.$inferSelect;
+export type InsertBusinessExpense = z.infer<typeof insertBusinessExpenseSchema>;

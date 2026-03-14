@@ -61,3 +61,14 @@ A server-side trial entitlement system enabling one 24-hour free trial per user 
 - **Rate Limiting**: Applied to signup, login, trial activation, and content fetch endpoints.
 - **Audit Logging**: All trial events (initiation, activation, fraud blocks, consumption limits, cancellation) logged to `audit_logs` table with `entity_type='trial_entitlement'`.
 - **Environment Variables**: `TRIAL_DURATION_HOURS` (default 24), `TRIAL_MAX_QUESTIONS` (50), `TRIAL_MAX_FLASHCARDS` (30), `TRIAL_MAX_LESSONS` (5), `TRIAL_MAX_MOCK_EXAMS` (2), `TRIAL_DEVICE_MAX_ATTEMPTS` (3), `TRIAL_IP_MAX_ATTEMPTS` (5), `TRIAL_IP_WINDOW_HOURS` (24).
+
+## Business Health & Subscriber Dashboard
+- **Page**: `/admin/business-health` (`client/src/pages/admin-business-health.tsx`)
+- **Backend**: `server/business-health-routes.ts` (registered in `server/routes.ts`)
+- **Database**: `business_expenses` table for manual expense entries (category, vendor, description, amount, currency, date, recurring)
+- **Schema**: `shared/schema.ts` → `businessExpenses` table with `insertBusinessExpenseSchema`
+- **Financial Summary**: Total invested (CAD), total revenue (CAD), break-even remaining, gross profit/loss, subscription vs one-time revenue, revenue this month, spend tracking (Replit, AI generation from `ai_jobs`, manual expenses by category)
+- **Subscriber Metrics**: Total/active/cancelled subscribers, free vs paid users, conversion rate, by-tier breakdown (reads from production database via `getProdPool()`)
+- **Purchase Metrics**: Total purchases, total sales, by product, by tier, sales by month
+- **Currency Support**: Base in CAD, optional USD display, exchange-rate-aware expense entry
+- **API Endpoints**: `GET/POST /api/admin/business-health/expenses`, `PUT/DELETE /api/admin/business-health/expenses/:id`, `GET /api/admin/business-health/summary`, `GET /api/admin/business-health/subscribers`
