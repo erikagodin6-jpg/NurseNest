@@ -1,0 +1,183 @@
+Implement a premium content protection system for the NurseNest production site that reduces copying, screenshot sharing, scraping, and bulk content extraction while maintaining a clean professional user experience.
+
+This implementation must apply to all premium content types:
+• exam questions
+• rationales
+• flashcards
+• lessons
+• mock exams
+
+The goal is to replicate the protection approach used by large medical exam platforms such as UWorld and Amboss.
+
+The system must work entirely on the production database and must not generate content into the development database.
+
+---
+
+PART 1 — Dynamic User Watermarking
+
+Add a dynamic watermark overlay system to all premium learning content.
+
+The watermark should include subtle identifying information tied to the current logged-in user so that leaked screenshots can be traced.
+
+Watermark content should include:
+• first name or masked email (example: e***@gmail.com)
+• user ID suffix
+• timestamp of the session
+
+Example watermark format:
+"NurseNest | user e***@gmail.com | ID 4821 | 2026-03-13"
+
+Watermark requirements:
+
+• render as a semi-transparent overlay
+• opacity approximately 6–10%
+• repeat diagonally across the page
+• visible in screenshots but subtle to users
+• automatically regenerate per session
+
+Apply watermark overlays to:
+
+• question stems
+• answer rationales
+• lesson images
+• flashcard answer panels
+• mock exam results pages
+
+Watermarks must be generated server-side so they cannot be easily removed with client manipulation.
+
+---
+
+PART 2 — Protected Content Rendering
+
+Prevent easy copying or scraping of educational content by rendering premium text in protected components.
+
+Implement the following protections:
+
+1. Render question text and rationales inside protected components instead of raw HTML text where possible.
+
+2. Disable text selection in protected premium content containers.
+
+3. Disable right-click context menus inside premium content containers.
+
+4. Intercept common copy shortcuts such as:
+   Cmd+C
+   Ctrl+C
+   Cmd+A
+   Ctrl+A
+
+5. Block browser print attempts for protected content using print media CSS rules.
+
+6. Ensure these protections only apply to premium educational content areas and do not break navigation or forms.
+
+7. Add a feature flag so these protections can be easily toggled on or off if needed.
+
+---
+
+PART 3 — Anti-Scraping and Session Protection
+
+Add backend protection to prevent automated scraping or large-scale extraction of questions and flashcards.
+
+Implement the following server-side controls:
+
+1. Rate limit API requests that deliver questions, flashcards, lessons, or rationales.
+
+2. Limit the maximum number of content fetch requests per minute per user.
+
+3. Detect rapid sequential navigation patterns that indicate automated scraping.
+
+4. Block or throttle suspicious sessions.
+
+5. Require valid authenticated session tokens for all premium content API endpoints.
+
+6. Expire tokens if suspicious scraping activity is detected.
+
+7. Log suspicious behavior in a security audit table including:
+   userId
+   IP address
+   timestamp
+   endpoint accessed
+   number of rapid requests
+
+8. Add admin dashboard reporting showing:
+   scraping attempts detected
+   blocked sessions
+   suspicious IPs
+
+---
+
+PART 4 — Trial and Free Account Restrictions
+
+If a user is on a free trial or free account:
+
+• limit the number of questions that can be accessed
+• limit flashcards per day
+• disable download or export functions
+• block print mode
+
+Track usage counters for:
+• questions viewed
+• flashcards opened
+• lessons accessed
+
+Stop content access when limits are reached.
+
+---
+
+PART 5 — Secure Content Delivery
+
+Ensure that all premium content is delivered through authenticated API routes.
+
+Do not embed large content datasets directly in the frontend bundle.
+
+Every request for:
+• questions
+• rationales
+• flashcards
+• lessons
+
+must pass through backend entitlement validation.
+
+---
+
+PART 6 — Admin Security Dashboard
+
+Add a new admin dashboard section called:
+
+"Content Security"
+
+This panel should display:
+
+• number of watermark sessions generated
+• detected scraping attempts
+• blocked IP addresses
+• suspicious user sessions
+• trial abuse attempts
+
+Allow admins to manually flag or suspend abusive accounts.
+
+---
+
+PART 7 — Maintain User Experience
+
+While implementing these protections:
+
+• maintain fast loading speeds
+• keep the UI clean and premium
+• ensure accessibility is not broken
+• do not block keyboard navigation outside protected content areas
+
+Protections should discourage casual copying and scraping but should not degrade the experience for legitimate learners.
+
+---
+
+PART 8 — Deliverables
+
+After implementing the system provide:
+
+• database schema changes
+• new backend security middleware
+• protected content components
+• watermark rendering system
+• admin security dashboard
+• configuration variables for rate limits and thresholds
+• instructions for testing protection features safely on production
