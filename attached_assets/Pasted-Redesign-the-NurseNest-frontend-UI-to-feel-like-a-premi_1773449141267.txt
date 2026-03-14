@@ -1,0 +1,417 @@
+Redesign the NurseNest frontend UI to feel like a premium, high-trust exam preparation platform similar in polish and clarity to leading medical/nursing study tools, while fully preserving the NurseNest soft clinical pastel brand.
+
+This is not a full rebrand. Keep the NurseNest identity feminine, modern, calm, and professional. The result should feel more premium, more credible, and more conversion-focused, with stronger hierarchy, cleaner layouts, better spacing, and more confidence-building design patterns.
+
+Work on the published production site only. Do not point anything to development database. Do not break current auth, subscriptions, question delivery, lesson rendering, flashcards, mock exams, admin, or billing flows.
+
+CORE GOAL
+
+Increase user trust, perceived value, and subscription conversion by making the platform look more like a polished exam platform and less like a generic educational website.
+
+DESIGN DIRECTION
+
+Target feel:
+• premium
+• clean
+• clinically professional
+• modern SaaS
+• calm and focused
+• high trust
+• optimized for nursing learners
+
+Keep:
+• NurseNest pastel/lilac/soft clinical aesthetic
+• rounded corners
+• gentle feminine-modern brand identity
+• soft but not childish design language
+
+Avoid:
+• cartoonish visuals
+• clutter
+• oversized icons everywhere
+• too many colors competing
+• flat amateur card layouts
+• excessive gradients
+• low-contrast tiny text
+• playful app-like gimmicks in study content
+
+--------------------------------------------------
+PART 1 — GLOBAL VISUAL SYSTEM UPGRADE
+--------------------------------------------------
+
+Refine the design system across the site.
+
+1. Typography
+Use a premium academic SaaS typographic hierarchy:
+• primary font should remain DM Sans or closest current equivalent
+• stronger hierarchy between page title, section heading, card heading, body text, labels, and microcopy
+• improve line height and spacing
+• reduce visual heaviness in dense learning areas
+• use lighter font weights where appropriate, especially in educational image labels and supporting UI text
+• ensure buttons and navigation labels are clean and modern, not chunky
+
+Create a clear scale such as:
+• Hero heading
+• Section heading
+• Card title
+• Body text
+• Secondary text
+• Caption/meta text
+
+2. Spacing and layout
+Increase whitespace and visual breathing room throughout:
+• standardize padding on cards
+• improve vertical rhythm between sections
+• align cards and content blocks to a consistent grid
+• reduce crowded feeling on dashboards and lesson pages
+• improve mobile spacing especially on dense screens
+
+3. Color system
+Refine current theme usage:
+• keep pastel clinical palette
+• use one primary accent per theme
+• add more neutral balance with whites, off-whites, and soft greys
+• ensure premium contrast for text and controls
+• use color more intentionally for state and emphasis, not decoration
+
+4. Surfaces and depth
+Upgrade cards and containers:
+• subtle premium shadows
+• softer borders
+• more consistent radius system
+• distinct surface hierarchy between page background, cards, active cards, and overlays
+• avoid flat amateur boxes
+
+--------------------------------------------------
+PART 2 — HIGH-CONVERSION HOMEPAGE / HERO IMPROVEMENTS
+--------------------------------------------------
+
+Redesign the homepage hero and top sections to increase credibility and conversion.
+
+1. Hero section
+Create a premium hero that clearly communicates:
+• who the platform is for
+• what it helps users achieve
+• why it is better than generic study tools
+
+Include:
+• stronger headline hierarchy
+• concise high-value subheading
+• primary CTA
+• secondary CTA
+• trust/supporting copy
+• cleaner image or screenshot showcase area
+
+2. Hero proof section
+Create a polished screenshot showcase or carousel using existing NurseNest screenshots if available.
+
+The screenshot area should:
+• look premium and not cluttered
+• use framed mockups or polished browser/device containers
+• include short benefit-focused captions
+• highlight question bank, flashcards, analytics, mock exams, rationales, progress tracking, and lesson quality
+
+3. Trust-building section
+Add a section near the top of the homepage with trust signals such as:
+• comprehensive question bank
+• realistic exam-style practice
+• rationale-rich learning
+• multiple nursing tiers
+• progress tracking
+• mock exam readiness
+
+Design this with premium feature cards, not cheesy marketing tiles.
+
+4. CTA structure
+Improve homepage CTA flow:
+• primary CTA above the fold
+• another CTA after feature explanation
+• conversion CTA near pricing
+• make CTAs visually strong but elegant
+
+--------------------------------------------------
+PART 3 — DASHBOARD UX SHOULD FEEL LIKE A PREMIUM EXAM PLATFORM
+--------------------------------------------------
+
+Redesign student dashboards so they feel clean, focused, and product-led.
+
+1. Dashboard hierarchy
+Each dashboard should immediately show:
+• current tier
+• progress snapshot
+• quick start options
+• recently used tools
+• recommended next action
+
+2. Replace cluttered cards with structured modules
+Use modules such as:
+• Continue studying
+• Today’s progress
+• Weak areas
+• Recent mock exam
+• Flashcards due
+• Recommended lessons
+
+3. Add strong premium visual hierarchy
+Most important actions should be obvious at a glance.
+
+4. Reduce icon overload
+Keep icons only where they improve scanning:
+• navigation
+• quick action cards
+• analytics summaries
+Remove unnecessary decorative icons in educational content.
+
+--------------------------------------------------
+PART 4 — QUESTION BANK UI SHOULD FEEL MORE LIKE A SERIOUS EXAM TOOL
+--------------------------------------------------
+
+Upgrade all question-related screens.
+
+1. Question page layout
+Improve the layout of:
+• question stem
+• answer options
+• rationale panel
+• progress indicators
+• navigation buttons
+
+Goals:
+• cleaner reading experience
+• less visual noise
+• better spacing
+• stronger focus on question content
+• premium clinical feel
+
+2. Answer option styling
+Make answer options feel more polished:
+• better hover states
+• clearer selected states
+• cleaner correctness feedback
+• theme-aware but not overly colorful
+• more professional borders and spacing
+
+3. Rationale presentation
+Upgrade rationale panels:
+• clearer structure
+• break rationale into digestible sections when available
+• add subtle callout areas for clinical pearls / key takeaway / test-taking tip
+• make rationale feel high-value and premium
+
+4. Progress and control bar
+Improve top or side controls:
+• question count
+• bookmark
+• flag
+• timer if present
+• subject/system info
+• exit or review controls
+
+This should look sleek and intentional, not crowded.
+
+--------------------------------------------------
+PART 5 — FLASHCARDS SHOULD LOOK MORE PREMIUM AND LESS BASIC
+--------------------------------------------------
+
+Upgrade the flashcard experience.
+
+1. Card design
+Flashcards should feel premium:
+• cleaner front/back transitions
+• stronger spacing
+• better visual framing of prompt and answer
+• polished image placement if image exists
+• more elegant button layout
+
+2. Theme integration
+Correct / incorrect / confidence interactions should use theme-consistent colors, not random mismatched colors.
+
+3. Randomization and flow
+If not already present, keep flashcards feeling dynamic:
+• randomized order
+• smooth transitions
+• easy next/back controls
+• visible deck progress
+
+4. Reduce cheap visual signals
+Avoid anything that makes them look like a quiz app for children.
+
+--------------------------------------------------
+PART 6 — LESSON PAGES SHOULD FEEL LIKE PREMIUM STUDY CONTENT
+--------------------------------------------------
+
+Refine lesson pages to look more like premium educational resources.
+
+1. Cleaner lesson header
+Use:
+• concise title
+• optional subtitle or category
+• progress marker if relevant
+• estimated time if relevant
+
+2. Improve readability
+• better line length
+• stronger heading structure
+• cleaner paragraph spacing
+• better image embedding
+• clearer section separation
+
+3. Reduce unnecessary ornamentation
+Lesson pages should feel academic and premium, not app-like.
+
+4. Image integration
+If lesson images exist:
+• place them in elegant framed containers
+• ensure consistent aspect ratio handling
+• maintain DM Sans-compatible visual style
+• avoid awkward cropping
+
+--------------------------------------------------
+PART 7 — PRICING PAGE SHOULD CONVERT BETTER
+--------------------------------------------------
+
+Redesign pricing so subscription tiers feel more premium and easier to compare.
+
+1. Pricing cards
+Make pricing cards feel trustworthy and clear:
+• one month
+• three months
+• six months
+• one year
+for each tier as applicable
+
+2. Improve comparison clarity
+Show:
+• who each plan is for
+• what is included
+• savings on longer terms
+• best value badge where appropriate
+
+3. Build confidence
+Include reassuring microcopy such as:
+• cancel anytime if true
+• secure checkout
+• instant access
+• premium exam-style preparation
+• realistic question bank and rationales
+
+4. Make tier differentiation clearer
+RPN, RN, NP, allied, and specialty products should feel organized and intentional, not confusing.
+
+--------------------------------------------------
+PART 8 — NAVIGATION AND INFORMATION ARCHITECTURE
+--------------------------------------------------
+
+Refine the main navigation and user flow.
+
+1. Main navigation
+Clean up top nav / side nav:
+• reduce clutter
+• use only essential items
+• group related study tools logically
+• keep icons minimal and consistent if used
+
+2. Student flow
+Users should naturally understand where to go next:
+• Questions
+• Flashcards
+• Lessons
+• Mock exams
+• Analytics / progress
+
+3. Admin separation
+Keep admin visually distinct and out of the student experience unless the user is admin.
+
+--------------------------------------------------
+PART 9 — SOCIAL PROOF AND TRUST PATTERNS
+--------------------------------------------------
+
+Add premium trust patterns across marketing pages.
+
+Include sections or modules for:
+• why learners choose NurseNest
+• realistic exam preparation
+• rationale-rich learning
+• progress tracking and targeted review
+• support across different nursing stages
+
+If testimonials are not yet real, create a placeholder structure only and clearly mark it for later replacement. Do not fabricate actual user reviews as if they are real.
+
+--------------------------------------------------
+PART 10 — MOBILE UX CLEANUP
+--------------------------------------------------
+
+Make the site feel premium on mobile as well.
+
+1. Mobile spacing
+Fix crowded screens, oversized sections, and broken card stacking.
+
+2. Mobile CTA placement
+Ensure primary actions remain obvious.
+
+3. Mobile content readability
+Question stems, rationales, and lesson content must remain highly readable on smaller screens.
+
+4. Screenshot-worthiness
+Key pages should look polished enough for homepage marketing screenshots.
+
+--------------------------------------------------
+PART 11 — MICRO-INTERACTIONS AND POLISH
+--------------------------------------------------
+
+Add subtle premium interactions:
+• better hover states
+• smoother transitions
+• polished loading states / skeletons
+• nicer empty states
+• stronger button feedback
+• elegant tab switching
+• subtle motion only where it adds value
+
+Do not overanimate.
+
+--------------------------------------------------
+PART 12 — KEEP WHAT ALREADY WORKS
+--------------------------------------------------
+
+Do not remove existing functionality that already works unless necessary for polish.
+
+Preserve:
+• current subscription logic
+• current content pipelines
+• current auth
+• current question/flashcard/lesson data structures
+• theme system if already working
+• Stripe integration
+• admin workflows
+
+This is primarily a frontend polish, UX hierarchy, conversion, and trust upgrade.
+
+--------------------------------------------------
+PART 13 — PRIORITY PAGES TO IMPROVE FIRST
+--------------------------------------------------
+
+Prioritize these pages/screens first:
+1. homepage hero and proof section
+2. pricing page
+3. dashboard
+4. question page
+5. flashcards page
+6. lesson page
+7. mock exam page
+8. analytics/progress page
+
+--------------------------------------------------
+PART 14 — OUTPUT REQUIRED
+--------------------------------------------------
+
+After implementation, provide:
+
+1. summary of design improvements made
+2. list of files changed
+3. notes on reusable design system improvements created
+4. any new components added
+5. anything that still needs screenshots/content/admin input
+6. confirmation that production flows were preserved
+
+Also ensure the updated design is screenshot-ready for marketing and hero-section use.
