@@ -24,7 +24,43 @@ export const users = pgTable("users", {
   referralUses: integer("referral_uses").default(0),
   referredBy: text("referred_by"),
   referralDiscountUsed: boolean("referral_discount_used").default(false),
+  isLifetime: boolean("is_lifetime").default(false),
+  lifetimePurchasedAt: timestamp("lifetime_purchased_at"),
 });
+
+export const pricingPlans = pgTable("pricing_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tier: text("tier").notNull(),
+  duration: text("duration").notNull(),
+  isLifetime: boolean("is_lifetime").default(false),
+  priceCAD: integer("price_cad").notNull(),
+  priceUSD: integer("price_usd").notNull(),
+  isEnabled: boolean("is_enabled").default(true),
+  isPopular: boolean("is_popular").default(false),
+  isFoundingPrice: boolean("is_founding_price").default(false),
+  featureList: jsonb("feature_list").default(sql`'[]'::jsonb`),
+  displayOrder: integer("display_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPricingPlanSchema = createInsertSchema(pricingPlans).omit({ id: true, createdAt: true, updatedAt: true });
+export type PricingPlan = typeof pricingPlans.$inferSelect;
+export type InsertPricingPlan = z.infer<typeof insertPricingPlanSchema>;
+
+export const freeTrialUsage = pgTable("free_trial_usage", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  questionsUsed: integer("questions_used").default(0),
+  flashcardsUsed: integer("flashcards_used").default(0),
+  catExamsUsed: integer("cat_exams_used").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertFreeTrialUsageSchema = createInsertSchema(freeTrialUsage).omit({ id: true, createdAt: true, updatedAt: true });
+export type FreeTrialUsage = typeof freeTrialUsage.$inferSelect;
+export type InsertFreeTrialUsage = z.infer<typeof insertFreeTrialUsageSchema>;
 
 export const notes = pgTable("notes", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

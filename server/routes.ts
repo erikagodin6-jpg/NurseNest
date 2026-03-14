@@ -2990,6 +2990,118 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   // --------------------
+  // Pricing Plans API
+  // --------------------
+  app.get("/api/pricing/plans", async (_req, res) => {
+    try {
+      const plans = await storage.getAllPricingPlans();
+      res.json(plans);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pricing/plans/:tier", async (req, res) => {
+    try {
+      const plans = await storage.getPricingPlansByTier(req.params.tier);
+      res.json(plans);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/pricing/plans/:id", async (req, res) => {
+    try {
+      const username = (req.query.username as string) || req.body.username;
+      const password = (req.query.password as string) || req.body.password;
+      const adminUser = String(process.env.ADMIN_USERNAME || "");
+      const adminPass = String(process.env.ADMIN_PASSWORD || "");
+      if (!username || !password || username !== adminUser || password !== adminPass) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const { username: _, password: __, ...updates } = req.body;
+      const plan = await storage.updatePricingPlan(req.params.id, updates);
+      res.json(plan);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Free Trial Usage API
+  // --------------------
+  app.get("/api/free-trial/usage", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const usage = await storage.getFreeTrialUsage(userId);
+      const limits = { questions: 50, flashcards: 20, catExams: 1 };
+      if (!usage) {
+        return res.json({
+          questionsUsed: 0, flashcardsUsed: 0, catExamsUsed: 0,
+          limits,
+          remaining: { questions: 50, flashcards: 20, catExams: 1 },
+        });
+      }
+      res.json({
+        questionsUsed: usage.questionsUsed,
+        flashcardsUsed: usage.flashcardsUsed,
+        catExamsUsed: usage.catExamsUsed,
+        limits,
+        remaining: {
+          questions: Math.max(0, 50 - (usage.questionsUsed || 0)),
+          flashcards: Math.max(0, 20 - (usage.flashcardsUsed || 0)),
+          catExams: Math.max(0, 1 - (usage.catExamsUsed || 0)),
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Subscription Analytics API (Admin)
+  // --------------------
+  app.get("/api/admin/subscription-analytics", async (req, res) => {
+    try {
+      const username = req.query.username as string;
+      const password = req.query.password as string;
+      const adminUser = String(process.env.ADMIN_USERNAME || "");
+      const adminPass = String(process.env.ADMIN_PASSWORD || "");
+      if (!username || !password || username !== adminUser || password !== adminPass) {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const { getDevPool } = await import("./db");
+      const dbPool = getDevPool();
+
+      const totalActive = await dbPool.query("SELECT COUNT(*) as count FROM users WHERE subscription_status = 'active'");
+      const totalLifetime = await dbPool.query("SELECT COUNT(*) as count FROM users WHERE is_lifetime = true");
+      const totalFree = await dbPool.query("SELECT COUNT(*) as count FROM users WHERE tier = 'free' OR tier IS NULL");
+      const byTier = await dbPool.query("SELECT tier, COUNT(*)::int as count FROM users WHERE subscription_status = 'active' OR is_lifetime = true GROUP BY tier ORDER BY count DESC");
+      const byStatus = await dbPool.query("SELECT COALESCE(subscription_status, 'none') as status, COUNT(*)::int as count FROM users GROUP BY subscription_status ORDER BY count DESC");
+      const recentSubs = await dbPool.query(`
+        SELECT username, email, tier, is_lifetime as "isLifetime", created_at as "subscribedAt"
+        FROM users
+        WHERE subscription_status = 'active' OR is_lifetime = true
+        ORDER BY created_at DESC
+        LIMIT 20
+      `);
+
+      res.json({
+        totalActive: parseInt(totalActive.rows[0]?.count || "0"),
+        totalLifetime: parseInt(totalLifetime.rows[0]?.count || "0"),
+        totalFree: parseInt(totalFree.rows[0]?.count || "0"),
+        byTier: byTier.rows,
+        byStatus: byStatus.rows,
+        recentSubscribers: recentSubs.rows,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
   // Stripe
   // --------------------
   app.get("/api/stripe/publishable-key", async (_req, res) => {
@@ -3003,7 +3115,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
   app.post("/api/stripe/create-checkout", async (req, res) => {
     try {
-      const { userId, tier, duration, region } = req.body;
+      const { userId, tier, duration, region, planId } = req.body;
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
@@ -3022,25 +3134,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const isCAD = region === "CA";
       const currency = isCAD ? "cad" : "usd";
 
-      const priceTable: Record<string, Record<string, { CAD: number; USD: number }>> = {
-        rpn: {
-          monthly: { CAD: 2999, USD: 2199 },
-          "3-month": { CAD: 7499, USD: 5499 },
-          "6-month": { CAD: 13499, USD: 9999 },
-          yearly: { CAD: 23999, USD: 17999 },
-        },
-        rn: {
-          monthly: { CAD: 3999, USD: 2999 },
-          "3-month": { CAD: 9999, USD: 7499 },
-          "6-month": { CAD: 17999, USD: 13499 },
-          yearly: { CAD: 31999, USD: 23999 },
-        },
-        np: {
-          monthly: { CAD: 4999, USD: 3699 },
-          "3-month": { CAD: 12499, USD: 9499 },
-          "6-month": { CAD: 22499, USD: 16999 },
-          yearly: { CAD: 39999, USD: 29999 },
-        },
+      const fallbackPriceTable: Record<string, Record<string, { CAD: number; USD: number }>> = {
         "lab-values": { monthly: { CAD: 999, USD: 999 } },
         "med-math": { monthly: { CAD: 999, USD: 999 } },
         "practice-tools": { monthly: { CAD: 1499, USD: 1499 } },
@@ -3052,6 +3146,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         rpn: "NurseNest RPN/LVN",
         rn: "NurseNest RN/NCLEX",
         np: "NurseNest NP Advanced",
+        allied: "NurseNest Allied Health",
         "lab-values": "NurseNest Lab Interpretation Unlimited",
         "med-math": "NurseNest Med Math Unlimited",
         "practice-tools": "NurseNest All Practice Tools",
@@ -3060,13 +3155,24 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       };
 
       const selectedDuration = duration || "monthly";
-      const tierPrices = priceTable[tier];
-      if (!tierPrices) return res.status(400).json({ error: "Invalid tier" });
+      let amount: number;
+      let isLifetimePlan = false;
 
-      const durationPrices = tierPrices[selectedDuration] || tierPrices["monthly"];
-      if (!durationPrices) return res.status(400).json({ error: "Invalid duration" });
+      const dbPlans = await storage.getPricingPlansByTier(tier);
+      const dbPlan = planId
+        ? dbPlans.find((p: any) => p.id === planId)
+        : dbPlans.find((p: any) => p.duration === selectedDuration);
 
-      const amount = isCAD ? durationPrices.CAD : durationPrices.USD;
+      if (dbPlan) {
+        amount = isCAD ? dbPlan.priceCad : dbPlan.priceUsd;
+        isLifetimePlan = dbPlan.isLifetime || false;
+      } else {
+        const fallbackTierPrices = fallbackPriceTable[tier];
+        if (!fallbackTierPrices) return res.status(400).json({ error: "Invalid tier" });
+        const durationPrices = fallbackTierPrices[selectedDuration] || fallbackTierPrices["monthly"];
+        if (!durationPrices) return res.status(400).json({ error: "Invalid duration" });
+        amount = isCAD ? durationPrices.CAD : durationPrices.USD;
+      }
 
       const intervalMap: Record<string, { interval: "month" | "year"; interval_count: number }> = {
         monthly: { interval: "month", interval_count: 1 },
@@ -3111,6 +3217,36 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         }
       }
 
+      if (isLifetimePlan || selectedDuration === "lifetime") {
+        const sessionOpts: any = {
+          customer: customerId,
+          payment_method_types: amount >= 100 ? bnplPaymentMethods : ["card"],
+          line_items: [
+            {
+              price_data: {
+                currency,
+                product_data: {
+                  name: `${tierNames[tier] || tier} - Lifetime Access`,
+                  description: `Lifetime one-time purchase of ${tierNames[tier] || tier}. Never expires.`,
+                },
+                unit_amount: amount,
+              },
+              quantity: 1,
+            },
+          ],
+          mode: "payment",
+          allow_promotion_codes: !referralCouponId,
+          success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}&lifetime=true`,
+          cancel_url: `${baseUrl}/pricing`,
+          metadata: { userId: user.id, tier, duration: "lifetime", isLifetime: "true", referredBy: user.referredBy || "" },
+        };
+        if (referralCouponId) {
+          sessionOpts.discounts = [{ coupon: referralCouponId }];
+        }
+        const session = await stripe.checkout.sessions.create(sessionOpts);
+        return res.json({ url: session.url });
+      }
+
       if (selectedDuration === "one-time" || tier === "lab-values" || tier === "med-math" || tier === "practice-tools") {
         const sessionOpts: any = {
           customer: customerId,
@@ -3120,8 +3256,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
               price_data: {
                 currency,
                 product_data: {
-                  name: tierNames[tier],
-                  description: `One-time access to ${tierNames[tier]}`,
+                  name: tierNames[tier] || tier,
+                  description: `One-time access to ${tierNames[tier] || tier}`,
                 },
                 unit_amount: amount,
               },
@@ -3183,11 +3319,17 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const session = await stripe.checkout.sessions.retrieve(sessionId);
 
       if (session.payment_status === "paid") {
-        await storage.updateUserStripeInfo(userId, {
-          stripeSubscriptionId: session.subscription as string,
-          subscriptionStatus: "active",
-          tier,
-        });
+        const isLifetime = session.metadata?.isLifetime === "true";
+        if (isLifetime) {
+          await storage.setUserLifetime(userId);
+          await storage.updateUserTier(userId, tier);
+        } else {
+          await storage.updateUserStripeInfo(userId, {
+            stripeSubscriptionId: session.subscription as string,
+            subscriptionStatus: "active",
+            tier,
+          });
+        }
         const paidUser = await storage.getUser(userId);
         if (paidUser?.referredBy && !paidUser.referralDiscountUsed) {
           try {
@@ -3196,7 +3338,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
             console.error("Failed to mark referral discount used:", e);
           }
         }
-        res.json({ success: true, tier });
+        res.json({ success: true, tier, isLifetime });
       } else {
         res.json({ success: false });
       }

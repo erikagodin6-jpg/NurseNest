@@ -1,6 +1,6 @@
 import { type Region, getPracticalNurseExamName } from "./constants";
 
-export type ExamTier = "free" | "rpn" | "rn" | "np" | "admin";
+export type ExamTier = "free" | "rpn" | "rn" | "np" | "allied" | "admin";
 
 export interface TierDifficultyDistribution {
   easy: number;
@@ -244,6 +244,54 @@ const npTierConfig: TierUiConfig = {
   ],
 };
 
+const alliedTierConfig: TierUiConfig = {
+  tier: "allied" as ExamTier,
+  displayName: "Allied Health",
+  shortLabel: "Allied",
+  examPrepLabel: "Allied Health Exam Prep",
+  readinessLabel: "Allied Health Readiness",
+  questionBankLabel: "Allied Health Question Bank",
+  dashboardTitle: "Your Allied Health Readiness",
+  dashboardSubtitle: "Allied health professional exam preparation",
+  progressLabel: "Allied Health Progress",
+  examNames: {
+    practice: "Allied Health Practice Exam",
+    readiness: "Allied Health Readiness Exam",
+    official: "Allied Health Certification Exam",
+    drill: "Allied Health Practice Drill",
+    review: "Allied Health Review",
+  },
+  tone: "professional, supportive, practical",
+  ctaUpgrade: "Upgrade to Full Allied Health Access",
+  emptyStateMessage: "Start your allied health exam preparation with targeted practice questions.",
+  recommendationLabel: "Strengthen Core Areas",
+  difficultyDistribution: { easy: 15, moderate: 45, hard: 30, very_hard: 10 },
+  blueprintCategories: [
+    { id: "clinical-foundations", label: "Clinical Foundations", weight: 0.20 },
+    { id: "patient-care", label: "Patient Care & Safety", weight: 0.20 },
+    { id: "professional-practice", label: "Professional Practice", weight: 0.15 },
+    { id: "diagnostic-procedures", label: "Diagnostic Procedures", weight: 0.15 },
+    { id: "treatment-modalities", label: "Treatment Modalities", weight: 0.15 },
+    { id: "ethics-communication", label: "Ethics & Communication", weight: 0.15 },
+  ],
+  rationaleStyle: "clear and practical, emphasize evidence-based practice and patient safety",
+  focusAreas: [
+    "Clinical Foundations",
+    "Patient Care Practice",
+    "Professional Standards",
+    "Diagnostic Procedures",
+    "Certification Readiness",
+  ],
+  navItems: [
+    { label: "Dashboard", key: "Dashboard", path: "/dashboard" },
+    { label: "Exams", key: "Exams", path: "/mock-exams" },
+    { label: "Question Bank", key: "QuestionBank", path: "/question-bank" },
+    { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
+    { label: "Progress", key: "Progress", path: "/study-plan" },
+  ],
+};
+
 const adminTierConfig: TierUiConfig = {
   tier: "admin",
   displayName: "Admin",
@@ -284,6 +332,7 @@ const TIER_CONFIGS: Record<ExamTier, TierUiConfig> = {
   rpn: rpnTierConfig,
   rn: rnTierConfig,
   np: npTierConfig,
+  allied: alliedTierConfig,
   admin: adminTierConfig,
 };
 
@@ -314,10 +363,11 @@ export function getTierLabel(tier: string): string {
 
 export function getAllowedContentTiers(userTier: string): string[] {
   switch (userTier) {
-    case "admin": return ["rpn", "rn", "np", "free"];
+    case "admin": return ["rpn", "rn", "np", "allied", "free"];
     case "np": return ["np", "rn"];
     case "rn": return ["rn", "rpn"];
     case "rpn": return ["rpn"];
+    case "allied": return ["allied"];
     case "free": return ["free"];
     default: return ["free"];
   }
@@ -325,10 +375,11 @@ export function getAllowedContentTiers(userTier: string): string[] {
 
 export function getAllowedExamTiers(userTier: string): string[] {
   switch (userTier) {
-    case "admin": return ["rpn", "rn", "np"];
+    case "admin": return ["rpn", "rn", "np", "allied"];
     case "np": return ["np", "rn"];
     case "rn": return ["rn", "rpn"];
     case "rpn": return ["rpn"];
+    case "allied": return ["allied"];
     default: return [];
   }
 }

@@ -52,6 +52,8 @@ import {
   Lock,
   User as UserIcon,
   Sparkles,
+  DollarSign,
+  Crown,
 } from "lucide-react";
 
 import { useQuery as useQueryRQ } from "@tanstack/react-query";
@@ -121,6 +123,7 @@ const tierLabels: Record<string, string> = {
   rpn: "RPN/LVN",
   rn: "RN",
   np: "NP Advanced",
+  allied: "Allied Health",
   admin: "Admin",
 };
 
@@ -129,6 +132,7 @@ const tierColors: Record<string, string> = {
   rpn: "bg-blue-100 text-blue-700",
   rn: "bg-purple-100 text-purple-700",
   np: "bg-amber-100 text-amber-700",
+  allied: "bg-teal-100 text-teal-700",
   admin: "bg-red-100 text-red-700",
 };
 
@@ -182,7 +186,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1581,7 +1585,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1604,6 +1608,8 @@ export default function AdminPage() {
                     {tab === "beta-testers" && "Beta Testers"}
                     {tab === "flashcard-preview" && "Flashcard Preview"}
                     {tab === "content-security" && "Content Security"}
+                    {tab === "pricing" && "Pricing Plans"}
+                    {tab === "sub-analytics" && "Sub Analytics"}
                   </button>
                 ))}
               </div>
@@ -4898,6 +4904,14 @@ export default function AdminPage() {
               {activeTab === "content-security" && (
                 <AdminContentSecurity />
               )}
+
+              {activeTab === "pricing" && (
+                <AdminPricingPanel />
+              )}
+
+              {activeTab === "sub-analytics" && (
+                <SubscriptionAnalyticsPanel />
+              )}
             </>
           ) : null}
         </div>
@@ -5074,6 +5088,445 @@ function FlashcardPreviewConfigPanel({ userId }: { userId: string }) {
       >
         {saving ? "Saving..." : "Save Configuration"}
       </Button>
+    </div>
+  );
+}
+
+function AdminPricingPanel() {
+  const [plans, setPlans] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editingPlan, setEditingPlan] = useState<any | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [filterTier, setFilterTier] = useState<string>("all");
+
+  const getAdminCreds = () => {
+    try {
+      const stored = localStorage.getItem("nursenest-admin");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return { username: parsed.username || "", password: parsed.password || "" };
+      }
+    } catch {}
+    return { username: "", password: "" };
+  };
+
+  const loadPlans = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/pricing/plans");
+      if (res.ok) {
+        const data = await res.json();
+        setPlans(data);
+      }
+    } catch {}
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { loadPlans(); }, [loadPlans]);
+
+  const savePlan = async () => {
+    if (!editingPlan) return;
+    setSaving(true);
+    try {
+      const { username, password } = getAdminCreds();
+      const res = await fetch(`/api/pricing/plans/${editingPlan.id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceCad: editingPlan.priceCad,
+          priceUsd: editingPlan.priceUsd,
+          isEnabled: editingPlan.isEnabled,
+          isPopular: editingPlan.isPopular,
+          isFoundingPrice: editingPlan.isFoundingPrice,
+          featureList: editingPlan.featureList,
+        }),
+      });
+      if (res.ok) {
+        setEditingPlan(null);
+        loadPlans();
+      }
+    } catch {}
+    setSaving(false);
+  };
+
+  const tierColors: Record<string, string> = {
+    rpn: "bg-blue-100 text-blue-700",
+    rn: "bg-purple-100 text-purple-700",
+    np: "bg-amber-100 text-amber-700",
+    allied: "bg-teal-100 text-teal-700",
+  };
+
+  const tierLabels: Record<string, string> = {
+    rpn: "RPN/LVN",
+    rn: "RN/NCLEX",
+    np: "NP Advanced",
+    allied: "Allied Health",
+  };
+
+  const durationLabels: Record<string, string> = {
+    monthly: "Monthly",
+    "3-month": "3 Months",
+    "6-month": "6 Months",
+    yearly: "Yearly",
+    lifetime: "Lifetime",
+  };
+
+  const filtered = filterTier === "all" ? plans : plans.filter((p: any) => p.tier === filterTier);
+
+  if (loading) return <div className="flex items-center justify-center py-20"><RefreshCw className="w-8 h-8 text-primary animate-spin" /></div>;
+
+  return (
+    <div className="space-y-6" data-testid="section-pricing-admin">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold" data-testid="text-pricing-admin-title">Pricing Plan Management</h2>
+        <div className="flex gap-2">
+          <select
+            className="border rounded-lg px-3 py-2 text-sm bg-white"
+            value={filterTier}
+            onChange={(e) => setFilterTier(e.target.value)}
+            data-testid="select-filter-tier"
+          >
+            <option value="all">All Tiers</option>
+            <option value="rpn">RPN/LVN</option>
+            <option value="rn">RN/NCLEX</option>
+            <option value="np">NP Advanced</option>
+            <option value="allied">Allied Health</option>
+          </select>
+          <Button variant="outline" size="sm" onClick={loadPlans} data-testid="button-refresh-plans">
+            <RefreshCw className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid gap-4">
+        {filtered.map((plan: any) => (
+          <Card key={plan.id} className={`border ${!plan.isEnabled ? "opacity-60 bg-gray-50" : ""}`} data-testid={`card-admin-plan-${plan.id}`}>
+            <CardContent className="py-4 px-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Badge className={tierColors[plan.tier] || "bg-gray-100 text-gray-700"} data-testid={`badge-tier-${plan.id}`}>
+                    {tierLabels[plan.tier] || plan.tier}
+                  </Badge>
+                  <span className="font-semibold text-gray-900" data-testid={`text-duration-${plan.id}`}>
+                    {plan.isLifetime && <Crown className="w-4 h-4 inline mr-1 text-amber-500" />}
+                    {durationLabels[plan.duration] || plan.duration}
+                  </span>
+                  {plan.isPopular && <Badge className="bg-primary/10 text-primary text-xs">Popular</Badge>}
+                  {plan.isFoundingPrice && <Badge className="bg-amber-100 text-amber-700 text-xs">Founding</Badge>}
+                  {!plan.isEnabled && <Badge variant="destructive" className="text-xs">Disabled</Badge>}
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-gray-900" data-testid={`text-price-cad-${plan.id}`}>
+                      ${(plan.priceCad / 100).toFixed(2)} CAD
+                    </div>
+                    <div className="text-xs text-gray-500" data-testid={`text-price-usd-${plan.id}`}>
+                      ${(plan.priceUsd / 100).toFixed(2)} USD
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setEditingPlan({ ...plan })}
+                    data-testid={`button-edit-plan-${plan.id}`}
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              {plan.featureList && plan.featureList.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {(plan.featureList as string[]).map((f: string, i: number) => (
+                    <span key={i} className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{f}</span>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {editingPlan && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" data-testid="modal-edit-plan">
+          <Card className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span>Edit {tierLabels[editingPlan.tier]} - {durationLabels[editingPlan.duration]}</span>
+                <Button variant="ghost" size="sm" onClick={() => setEditingPlan(null)} data-testid="button-close-edit">
+                  <X className="w-4 h-4" />
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Price CAD (cents)</label>
+                  <Input
+                    type="number"
+                    value={editingPlan.priceCad}
+                    onChange={(e) => setEditingPlan({ ...editingPlan, priceCad: parseInt(e.target.value) || 0 })}
+                    data-testid="input-price-cad"
+                  />
+                  <span className="text-xs text-gray-400">${(editingPlan.priceCad / 100).toFixed(2)} CAD</span>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Price USD (cents)</label>
+                  <Input
+                    type="number"
+                    value={editingPlan.priceUsd}
+                    onChange={(e) => setEditingPlan({ ...editingPlan, priceUsd: parseInt(e.target.value) || 0 })}
+                    data-testid="input-price-usd"
+                  />
+                  <span className="text-xs text-gray-400">${(editingPlan.priceUsd / 100).toFixed(2)} USD</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingPlan.isEnabled}
+                    onChange={(e) => setEditingPlan({ ...editingPlan, isEnabled: e.target.checked })}
+                    className="w-4 h-4 rounded"
+                    data-testid="checkbox-enabled"
+                  />
+                  <span className="text-sm font-medium">Enabled</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingPlan.isPopular}
+                    onChange={(e) => setEditingPlan({ ...editingPlan, isPopular: e.target.checked })}
+                    className="w-4 h-4 rounded"
+                    data-testid="checkbox-popular"
+                  />
+                  <span className="text-sm font-medium">Popular Badge</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingPlan.isFoundingPrice}
+                    onChange={(e) => setEditingPlan({ ...editingPlan, isFoundingPrice: e.target.checked })}
+                    className="w-4 h-4 rounded"
+                    data-testid="checkbox-founding"
+                  />
+                  <span className="text-sm font-medium">Founding Price</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Features (one per line)</label>
+                <Textarea
+                  value={(editingPlan.featureList || []).join("\n")}
+                  onChange={(e) => setEditingPlan({ ...editingPlan, featureList: e.target.value.split("\n").filter((f: string) => f.trim()) })}
+                  rows={5}
+                  data-testid="textarea-features"
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <Button onClick={savePlan} disabled={saving} className="flex-1" data-testid="button-save-plan">
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Saving..." : "Save Changes"}
+                </Button>
+                <Button variant="outline" onClick={() => setEditingPlan(null)} data-testid="button-cancel-edit">Cancel</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SubscriptionAnalyticsPanel() {
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  const getAdminCreds = () => {
+    try {
+      const stored = localStorage.getItem("nursenest-admin");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return { username: parsed.username || "", password: parsed.password || "" };
+      }
+    } catch {}
+    return { username: "", password: "" };
+  };
+
+  const loadAnalytics = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { username, password } = getAdminCreds();
+      const res = await fetch(`/api/admin/subscription-analytics?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) {
+        setAnalytics(await res.json());
+      }
+    } catch {}
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { loadAnalytics(); }, [loadAnalytics]);
+
+  if (loading) return <div className="flex items-center justify-center py-20"><RefreshCw className="w-8 h-8 text-primary animate-spin" /></div>;
+  if (!analytics) return <div className="text-center py-10 text-gray-500">No analytics data available</div>;
+
+  const tierLabels: Record<string, string> = { rpn: "RPN/LVN", rn: "RN/NCLEX", np: "NP Advanced", allied: "Allied Health", free: "Free" };
+  const tierColors: Record<string, { text: string; bg: string }> = {
+    rpn: { text: "text-blue-600", bg: "bg-blue-50" },
+    rn: { text: "text-purple-600", bg: "bg-purple-50" },
+    np: { text: "text-amber-600", bg: "bg-amber-50" },
+    allied: { text: "text-teal-600", bg: "bg-teal-50" },
+    free: { text: "text-gray-600", bg: "bg-gray-50" },
+  };
+
+  return (
+    <div className="space-y-6" data-testid="section-sub-analytics">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold" data-testid="text-sub-analytics-title">Subscription Analytics</h2>
+        <Button variant="outline" size="sm" onClick={loadAnalytics} data-testid="button-refresh-analytics">
+          <RefreshCw className="w-4 h-4" />
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="section-sub-kpis">
+        <Card>
+          <CardContent className="py-4 px-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                <DollarSign className="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Active Subscribers</div>
+                <div className="text-xl font-bold" data-testid="text-total-active">{analytics.totalActive || 0}</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="py-4 px-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                <Crown className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Lifetime Members</div>
+                <div className="text-xl font-bold" data-testid="text-total-lifetime">{analytics.totalLifetime || 0}</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="py-4 px-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                <Users className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Free Users</div>
+                <div className="text-xl font-bold" data-testid="text-total-free">{analytics.totalFree || 0}</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="py-4 px-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Conversion Rate</div>
+                <div className="text-xl font-bold" data-testid="text-conversion-rate">
+                  {analytics.totalActive && analytics.totalFree ? ((analytics.totalActive / (analytics.totalActive + analytics.totalFree)) * 100).toFixed(1) : "0"}%
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Subscribers by Tier</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3" data-testid="section-tier-breakdown">
+            {(analytics.byTier || []).map((item: any) => {
+              const tc = tierColors[item.tier] || { text: "text-gray-600", bg: "bg-gray-50" };
+              const maxCount = Math.max(...(analytics.byTier || []).map((t: any) => t.count), 1);
+              const barWidth = (item.count / maxCount) * 100;
+              return (
+                <div key={item.tier} className="flex items-center gap-4" data-testid={`row-tier-${item.tier}`}>
+                  <div className="w-24 text-sm font-medium text-gray-700">{tierLabels[item.tier] || item.tier}</div>
+                  <div className="flex-1 h-8 bg-gray-100 rounded-lg overflow-hidden relative">
+                    <div className={`h-full ${tc.bg} rounded-lg transition-all`} style={{ width: `${barWidth}%` }} />
+                    <span className={`absolute inset-0 flex items-center px-3 text-sm font-semibold ${tc.text}`}>
+                      {item.count}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {analytics.byStatus && analytics.byStatus.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Subscribers by Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-testid="section-status-breakdown">
+              {analytics.byStatus.map((item: any) => (
+                <div key={item.status} className="text-center p-3 bg-gray-50 rounded-lg" data-testid={`card-status-${item.status}`}>
+                  <div className="text-xl font-bold text-gray-900">{item.count}</div>
+                  <div className="text-xs text-gray-500 capitalize">{item.status || "unknown"}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {analytics.recentSubscribers && analytics.recentSubscribers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Recent Subscribers</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2" data-testid="section-recent-subscribers">
+              {analytics.recentSubscribers.map((sub: any, idx: number) => (
+                <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0" data-testid={`row-subscriber-${idx}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                      {(sub.username || "?")[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900">{sub.username}</div>
+                      <div className="text-xs text-gray-400">{sub.email || "No email"}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge className={tierColors[sub.tier]?.bg ? `${tierColors[sub.tier].bg} ${tierColors[sub.tier].text}` : "bg-gray-100 text-gray-700"}>
+                      {tierLabels[sub.tier] || sub.tier}
+                    </Badge>
+                    {sub.isLifetime && (
+                      <Badge className="bg-amber-100 text-amber-700">
+                        <Crown className="w-3 h-3 mr-1" /> Lifetime
+                      </Badge>
+                    )}
+                    <span className="text-xs text-gray-400">
+                      {sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString() : ""}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

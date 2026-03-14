@@ -244,6 +244,14 @@ app.post(
           const { handleTrialSubscriptionWebhook } = await import("./trial-subscription");
           await handleTrialSubscriptionWebhook(evt);
         }
+        if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.isLifetime === "true") {
+          const meta = evt.data.object.metadata;
+          if (meta.userId && meta.tier) {
+            await storage.setUserLifetime(meta.userId);
+            await storage.updateUserTier(meta.userId, meta.tier);
+            console.log(`Lifetime purchase completed: user ${meta.userId}, tier ${meta.tier}`);
+          }
+        }
       } catch {}
       return res.status(200).json({ received: true });
     } catch (error: any) {
