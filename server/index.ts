@@ -361,6 +361,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     urlPath.startsWith("/sitemaps/") ||
     urlPath === "/sitemap.xml" ||
     urlPath === "/sitemap_index.xml" ||
+    urlPath === "/sitemap-index.xml" ||
     /\.\w{2,5}($|\?)/.test(urlPath)
   ) {
     return next();
