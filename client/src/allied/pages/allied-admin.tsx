@@ -11,10 +11,11 @@ import {
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { ScenarioAdminPanel } from "@/allied/components/scenario-admin";
+import { ArticleAdminPanel } from "@/allied/components/article-admin";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy"] as const;
 
-type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank" | "scenarios";
+type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank" | "scenarios" | "articles";
 
 interface PipelineStats {
   totalQuestions: number;
@@ -398,6 +399,7 @@ export default function AlliedAdminPage() {
     { id: "store", label: "Store", icon: Archive },
     { id: "qbank", label: "QBank", icon: Shield },
     { id: "scenarios", label: "Scenarios", icon: Target },
+    { id: "articles", label: "Articles", icon: FileText },
   ];
 
   return (
@@ -1354,6 +1356,10 @@ export default function AlliedAdminPage() {
 
       {tab === "scenarios" && (
         <ScenarioAdminPanel />
+      )}
+
+      {tab === "articles" && (
+        <ArticleAdminPanel />
       )}
     </div>
   );

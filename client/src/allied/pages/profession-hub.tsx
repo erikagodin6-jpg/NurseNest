@@ -345,6 +345,45 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         </div>
       </section>
 
+      <section className="py-12 bg-white border-t border-gray-100" data-testid="section-articles">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">Career & Study Articles</h2>
+              <p className="text-gray-600 text-sm">Expert guides covering certification, salary, exam prep, and more.</p>
+            </div>
+            <Link
+              href={`/allied-health/${data.professionSlug}/articles`}
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline"
+              style={{ color: data.color }}
+              data-testid="link-all-articles"
+            >
+              View All Articles <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { label: "How to Become", desc: `Step-by-step career guide for becoming a ${data.shortName}`, type: "how-to-become" },
+              { label: "Salary Guide", desc: `${data.shortName} salary data, factors, and earning potential`, type: "salary-guide" },
+              { label: "Exam Prep Tips", desc: `Strategies and tips for ${data.shortName} certification exams`, type: "exam-prep-tips" },
+            ].map((item) => (
+              <Link
+                key={item.type}
+                href={`/allied-health/${data.professionSlug}/articles`}
+                className="bg-gray-50 rounded-xl p-4 hover:shadow-md hover:border-teal-200 border border-transparent transition-all"
+                data-testid={`link-article-${item.type}`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="w-4 h-4" style={{ color: data.color }} />
+                  <span className="font-semibold text-gray-900 text-sm">{item.label}</span>
+                </div>
+                <p className="text-xs text-gray-500">{item.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-16" style={{ background: `linear-gradient(to bottom, ${data.colorAccent}40, white)` }} data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your {data.shortName} Exam Prep?</h2>
