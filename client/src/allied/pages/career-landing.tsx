@@ -98,6 +98,17 @@ export default function CareerLandingPage() {
             "url": "https://allied.nursenest.ca"
           }
         }}
+        additionalStructuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQ_DATA.map(f => ({
+              "@type": "Question",
+              "name": f.q,
+              "acceptedAnswer": { "@type": "Answer", "text": f.a },
+            })),
+          },
+        ]}
       />
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 overflow-hidden">

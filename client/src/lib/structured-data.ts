@@ -104,6 +104,69 @@ export function buildAggregateRatingStructuredData(rating: {
   };
 }
 
+export function buildJobPostingStructuredData(job: {
+  title: string;
+  description: string;
+  salaryMin: number;
+  salaryMax: number;
+  salaryCurrency?: string;
+  educationRequirements?: string;
+  occupationalCategory?: string;
+  employmentType?: string;
+  jobLocationType?: string;
+  url?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": job.title,
+    "description": job.description,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "sameAs": "https://www.nursenest.ca",
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": job.salaryCurrency || "USD",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": job.salaryMin,
+        "maxValue": job.salaryMax,
+        "unitText": "YEAR",
+      },
+    },
+    "employmentType": job.employmentType || "FULL_TIME",
+    "jobLocationType": job.jobLocationType || "TELECOMMUTE",
+    ...(job.educationRequirements
+      ? { "educationRequirements": { "@type": "EducationalOccupationalCredential", "credentialCategory": job.educationRequirements } }
+      : {}),
+    ...(job.occupationalCategory ? { "occupationalCategory": job.occupationalCategory } : {}),
+    ...(job.url ? { "url": job.url } : {}),
+    "datePosted": new Date().toISOString().split("T")[0],
+    "validThrough": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+  };
+}
+
+export function buildEducationalOrganizationStructuredData(org?: {
+  name?: string;
+  url?: string;
+  description?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": org?.name || "NurseNest",
+    "url": org?.url || "https://www.nursenest.ca",
+    "description": org?.description || "Comprehensive nursing and allied health exam preparation platform with practice questions, clinical simulations, and pathophysiology lessons.",
+    "educationalCredentialAwarded": "Nursing Exam Preparation",
+    "sameAs": [
+      "https://www.nursenest.ca",
+      "https://allied.nursenest.ca",
+    ],
+  };
+}
+
 export function buildReviewStructuredData(reviews: {
   author: string;
   reviewBody: string;

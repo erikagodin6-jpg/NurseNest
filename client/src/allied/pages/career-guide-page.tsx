@@ -414,6 +414,36 @@ export default function CareerGuidePage() {
     "qualifications": guide.licensingRequirements.usa?.exams.join(", ") || guide.licensingRequirements.canada?.exams.join(", "),
   };
 
+  const jobPostingData = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": guide.profession,
+    "description": `Career opportunity as a ${guide.profession}. ${guide.overview}`,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "sameAs": "https://allied.nursenest.ca",
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": "USD",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": parseInt(guide.salary.entryLevel.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+        "maxValue": parseInt(guide.salary.experienced.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+        "unitText": "YEAR",
+      },
+    },
+    "employmentType": "FULL_TIME",
+    "educationRequirements": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": guide.licensingRequirements.usa?.exams[0] || guide.licensingRequirements.canada?.exams[0] || guide.profession,
+    },
+    "url": `https://allied.nursenest.ca/${guide.slug}`,
+    "datePosted": "2025-01-15",
+    "validThrough": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+  };
+
   return (
     <div data-testid={`career-guide-${guide.slug}`}>
       <AlliedSEO
@@ -422,7 +452,7 @@ export default function CareerGuidePage() {
         keywords={`how to become a ${guide.profession.toLowerCase()}, ${guide.profession.toLowerCase()} career, ${guide.profession.toLowerCase()} salary, ${guide.profession.toLowerCase()} education, ${guide.profession.toLowerCase()} certification, ${guide.profession.toLowerCase()} job outlook`}
         canonicalPath={`/${guide.slug}`}
         structuredData={structuredData}
-        additionalStructuredData={[occupationData]}
+        additionalStructuredData={[occupationData, jobPostingData]}
       />
 
       <HeroSection guide={guide} />

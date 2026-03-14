@@ -165,6 +165,43 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
             "url": "https://www.nursenest.ca",
           },
         }}
+        additionalStructuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "NurseNest",
+            "url": "https://www.nursenest.ca",
+            "description": "Comprehensive nursing and allied health exam preparation platform.",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Occupation",
+            "name": data.heroTitle,
+            "description": data.seoDescription,
+            "occupationLocation": [
+              { "@type": "Country", "name": "Canada" },
+              { "@type": "Country", "name": "United States" },
+            ],
+            "estimatedSalary": [
+              {
+                "@type": "MonetaryAmountDistribution",
+                "name": "Canada",
+                "currency": "CAD",
+                "percentile25": parseInt(data.salaryCanada.entry.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+                "median": parseInt(data.salaryCanada.mid.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+                "percentile75": parseInt(data.salaryCanada.senior.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+              },
+              {
+                "@type": "MonetaryAmountDistribution",
+                "name": "United States",
+                "currency": "USD",
+                "percentile25": parseInt(data.salaryUSA.entry.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+                "median": parseInt(data.salaryUSA.mid.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+                "percentile75": parseInt(data.salaryUSA.senior.split(/[-–]/)[0]?.replace(/[^0-9]/g, "") || "0", 10),
+              },
+            ],
+          },
+        ]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: data.heroTitle, url: `https://www.nursenest.ca${data.canonicalPath}` },

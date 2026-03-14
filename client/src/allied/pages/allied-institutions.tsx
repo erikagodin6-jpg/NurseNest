@@ -213,6 +213,17 @@ export default function AlliedInstitutionsPage() {
           "description": "Exam readiness and performance analytics platform for allied health and nursing programs.",
           "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
         }}
+        additionalStructuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQS.map(faq => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": { "@type": "Answer", "text": faq.a },
+            })),
+          },
+        ]}
       />
 
       {/* Hero */}

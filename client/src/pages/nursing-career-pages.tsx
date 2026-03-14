@@ -156,6 +156,13 @@ export default function NursingCareerPage() {
     { label: info.title, href: `/how-to-become-a-nurse/${info.slug}` },
   ];
 
+  const parseSalaryNumber = (s: string): number => parseInt(s.replace(/[^0-9]/g, ""), 10) || 0;
+  const salaryParts = info.salaryRange.split(/\s*[-–]\s*/);
+  const salaryMin = parseSalaryNumber(salaryParts[0] || "0");
+  const salaryMax = parseSalaryNumber(salaryParts[1] || "0");
+
+  const occupationalCategories: Record<string, string> = { rpn: "29-2061", rn: "29-1141", np: "29-1171" };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -163,9 +170,51 @@ export default function NursingCareerPage() {
     description: info.description,
     publisher: { "@type": "Organization", name: "NurseNest" },
     about: [
-      { "@type": "Occupation", name: info.fullTitle, estimatedSalary: { "@type": "MonetaryAmountDistribution", name: "Annual Salary", currency: "USD", median: info.salaryMedian.replace(/[^0-9]/g, "") } },
+      { "@type": "Occupation", name: info.fullTitle, estimatedSalary: { "@type": "MonetaryAmountDistribution", name: "Annual Salary", currency: "USD", median: parseSalaryNumber(info.salaryMedian) } },
     ],
   };
+
+  const jobPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    "title": info.fullTitle,
+    "description": `Career opportunity as a ${info.fullTitle}. ${info.description}`,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "sameAs": "https://www.nursenest.ca",
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": "USD",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": salaryMin,
+        "maxValue": salaryMax,
+        "unitText": "YEAR",
+      },
+    },
+    "employmentType": "FULL_TIME",
+    "jobLocationType": "TELECOMMUTE",
+    "educationRequirements": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": info.examName,
+    },
+    "occupationalCategory": occupationalCategories[info.slug] || "29-1141",
+    "url": `https://www.nursenest.ca/how-to-become-a-nurse/${info.slug}`,
+    "datePosted": "2025-01-15",
+    "validThrough": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+  };
+
+  const educationalOrgSchema = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "NurseNest",
+    "url": "https://www.nursenest.ca",
+    "description": "Comprehensive nursing exam preparation platform for RPN/LVN, RN, and NP students.",
+  };
+
+  const allSchemas = [structuredData, jobPostingSchema, educationalOrgSchema];
 
   return (
     <div data-testid="nursing-career-page">
@@ -174,7 +223,9 @@ export default function NursingCareerPage() {
         <meta name="description" content={`Learn how to become a ${info.fullTitle}. Education requirements, exam info (${info.examName}), salary range (${info.salaryRange}), and step-by-step career guide.`} />
         <meta name="keywords" content={`how to become a ${info.title.toLowerCase()}, ${info.title.toLowerCase()} career, ${info.examName} exam, nursing career guide, ${info.title.toLowerCase()} salary`} />
         <link rel="canonical" href={`https://www.nursenest.ca/how-to-become-a-nurse/${info.slug}`} />
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+        {allSchemas.map((schema, i) => (
+          <script key={i} type="application/ld+json">{JSON.stringify(schema)}</script>
+        ))}
       </Helmet>
 
       <nav className="bg-white border-b border-gray-100 py-3 px-4" data-testid="breadcrumbs">
