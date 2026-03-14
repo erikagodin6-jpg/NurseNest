@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { EducationalIntegrity } from "@/components/educational-integrity";
+import { ContextualRelatedResources } from "@/components/related-resources";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -254,6 +255,13 @@ export default function ClinicalClarityIndex() {
             </Button>
           </LocaleLink>
         </div>
+
+        <ContextualRelatedResources
+          pageType="lesson"
+          category="clinical-reasoning"
+          currentPath="/clinical-clarity"
+          className="border-t border-gray-200 mt-8"
+        />
 
         <EducationalIntegrity variant="footer" className="mt-12" />
       </main>

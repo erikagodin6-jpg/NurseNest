@@ -163,4 +163,194 @@ export const STUDY_CROSS_LINKS: Record<string, RelatedResource[]> = {
     { title: "Mock Exams", href: "/mock-exams", description: "Test your readiness with full-length practice exams.", icon: "qbank" },
     { title: "Medication Mastery", href: "/medication-mastery", description: "Review drug actions relevant to clinical scenarios.", icon: "lesson" },
   ],
+  blog: [
+    { title: "Clinical Lessons", href: "/lessons", description: "Explore structured lessons covering every exam domain.", icon: "lesson" },
+    { title: "Practice Flashcards", href: "/flashcards", description: "Study key concepts with spaced repetition flashcards.", icon: "flashcard" },
+    { title: "Question Bank", href: "/question-bank", description: "Test your understanding with NCLEX-style practice questions.", icon: "qbank" },
+    { title: "Mock Exams", href: "/mock-exams", description: "Simulate the real exam with full-length timed tests.", icon: "qbank" },
+    { title: "Clinical Clarity", href: "/clinical-clarity", description: "Understand the 'why' behind clinical phenomena.", icon: "article" },
+    { title: "Med Math Practice", href: "/med-math", description: "Practice dosage calculations and IV drip rates.", icon: "qbank" },
+  ],
+  examGuide: [
+    { title: "Mock Exams", href: "/mock-exams", description: "Practice with full-length timed exams that mirror the real test.", icon: "qbank" },
+    { title: "Question Bank", href: "/question-bank", description: "Study with thousands of practice questions by topic.", icon: "qbank" },
+    { title: "Clinical Lessons", href: "/lessons", description: "Master core clinical content organized by body system.", icon: "lesson" },
+    { title: "Flashcards", href: "/flashcards", description: "Quick recall practice for pharmacology and clinical facts.", icon: "flashcard" },
+    { title: "Study Plan", href: "/study-plan", description: "Get a personalized daily study plan targeting weak areas.", icon: "lesson" },
+    { title: "Case Simulations", href: "/case-simulations", description: "Practice clinical judgment with branching case scenarios.", icon: "simulator" },
+  ],
+  professionHub: [
+    { title: "Clinical Lessons", href: "/lessons", description: "Structured pathophysiology and clinical nursing lessons.", icon: "lesson" },
+    { title: "Practice Questions", href: "/question-bank", description: "Thousands of practice questions organized by exam domain.", icon: "qbank" },
+    { title: "Flashcards", href: "/flashcards", description: "Spaced repetition cards for key pharmacology and clinical concepts.", icon: "flashcard" },
+    { title: "Mock Exams", href: "/mock-exams", description: "Full-length timed practice tests with performance analytics.", icon: "qbank" },
+    { title: "Clinical Simulations", href: "/case-simulations", description: "Branching patient scenarios for clinical judgment practice.", icon: "simulator" },
+    { title: "Study Plan", href: "/study-plan", description: "Personalized daily study schedules based on your progress.", icon: "lesson" },
+  ],
 };
+
+const TOPIC_RESOURCE_MAP: Record<string, RelatedResource[]> = {
+  pharmacology: [
+    { title: "Medication Mastery", href: "/medication-mastery", description: "Master drug mechanisms, side effects, and nursing considerations.", icon: "lesson" },
+    { title: "Pharmacology Flashcards", href: "/flashcards", description: "Review drug classes with spaced repetition flashcards.", icon: "flashcard" },
+    { title: "Med Math Practice", href: "/med-math", description: "Practice dosage calculations and IV drip rate problems.", icon: "qbank" },
+  ],
+  "lab-interpretation": [
+    { title: "Lab Values Reference", href: "/lab-values", description: "Complete reference for normal ranges and clinical significance.", icon: "lesson" },
+    { title: "Electrolyte & ABG Simulator", href: "/electrolyte-abg-simulator", description: "Practice interpreting ABGs and electrolyte panels.", icon: "simulator" },
+  ],
+  "clinical-reasoning": [
+    { title: "Case Simulations", href: "/case-simulations", description: "Apply clinical reasoning in branching patient scenarios.", icon: "simulator" },
+    { title: "First Action Simulator", href: "/first-action-simulator", description: "Practice prioritization and first-action clinical decisions.", icon: "simulator" },
+    { title: "Clinical Clarity", href: "/clinical-clarity", description: "Understand the pathophysiology behind clinical decisions.", icon: "article" },
+  ],
+  "exam-prep": [
+    { title: "Mock Exams", href: "/mock-exams", description: "Simulate the real exam with full-length timed practice tests.", icon: "qbank" },
+    { title: "Question Bank", href: "/question-bank", description: "Practice with thousands of NCLEX-style questions.", icon: "qbank" },
+    { title: "Study Plan", href: "/study-plan", description: "Get a personalized daily study plan for exam readiness.", icon: "lesson" },
+    { title: "Diagnostic Assessment", href: "/diagnostic-assessment", description: "Identify your strengths and weaknesses with an initial assessment.", icon: "qbank" },
+  ],
+  "patient-safety": [
+    { title: "Safety Hazard Simulator", href: "/safety-hazard-simulator", description: "Identify and mitigate patient safety hazards in clinical settings.", icon: "simulator" },
+    { title: "IV Complications Simulator", href: "/iv-complications-simulator", description: "Recognize and manage IV therapy complications.", icon: "simulator" },
+    { title: "Blood Transfusion Simulator", href: "/blood-transfusion-simulator", description: "Practice safe blood administration procedures.", icon: "simulator" },
+  ],
+  pathophysiology: [
+    { title: "Clinical Lessons", href: "/lessons", description: "In-depth pathophysiology lessons organized by body system.", icon: "lesson" },
+    { title: "Anatomy & Physiology", href: "/anatomy", description: "Review normal anatomy and physiology fundamentals.", icon: "lesson" },
+    { title: "Clinical Clarity", href: "/clinical-clarity", description: "Understand disease processes and clinical correlations.", icon: "article" },
+  ],
+};
+
+const PROFESSION_RESOURCES: Record<string, RelatedResource[]> = {
+  nclex: [
+    { title: "NCLEX-RN Study Guide", href: "/nclex-rn-guide", description: "Comprehensive NCLEX-RN exam preparation guide.", icon: "article" },
+    { title: "NCLEX-RN Practice Questions", href: "/nclex-rn-practice-questions", description: "Thousands of NCLEX-RN style practice questions.", icon: "qbank" },
+  ],
+  "rex-pn": [
+    { title: "REx-PN Study Guide", href: "/rex-pn-guide", description: "Complete REx-PN exam preparation and strategies.", icon: "article" },
+    { title: "REx-PN Practice Questions", href: "/rex-pn-practice-questions", description: "Practice questions for the REx-PN exam.", icon: "qbank" },
+  ],
+  rn: [
+    { title: "NCLEX-RN Guide", href: "/nclex-rn-guide", description: "Everything you need for NCLEX-RN preparation.", icon: "article" },
+    { title: "RN Practice Questions", href: "/nclex-rn-practice-questions", description: "NCLEX-RN style practice questions.", icon: "qbank" },
+    { title: "RN Flashcards", href: "/flashcards", description: "Spaced repetition flashcards for RN students.", icon: "flashcard" },
+  ],
+  rpn: [
+    { title: "REx-PN Guide", href: "/rex-pn-guide", description: "Complete guide for REx-PN exam success.", icon: "article" },
+    { title: "RPN Practice Questions", href: "/rex-pn-practice-questions", description: "Practice questions tailored for RPN students.", icon: "qbank" },
+  ],
+  np: [
+    { title: "NP Exam Guide", href: "/np-exam-guide", description: "Study guide for Nurse Practitioner certification exams.", icon: "article" },
+    { title: "NP Practice Questions", href: "/np-exam-practice-questions", description: "Practice questions for NP exams.", icon: "qbank" },
+  ],
+  nursing: [
+    { title: "NCLEX-RN Guide", href: "/nclex-rn-guide", description: "Comprehensive NCLEX-RN exam preparation.", icon: "article" },
+    { title: "REx-PN Guide", href: "/rex-pn-guide", description: "Complete REx-PN exam preparation guide.", icon: "article" },
+  ],
+  "respiratory-therapy": [
+    { title: "Respiratory Therapy Lessons", href: "/allied/respiratory-therapy/lessons", description: "RRT exam prep lessons and clinical content.", icon: "lesson" },
+    { title: "RRT Practice Questions", href: "/allied/respiratory-therapy/qbank", description: "Practice questions for respiratory therapy exams.", icon: "qbank" },
+  ],
+  "pharmacy-tech": [
+    { title: "Pharmacy Tech Lessons", href: "/allied/pharmacy-tech/lessons", description: "PTCB exam prep lessons and study material.", icon: "lesson" },
+    { title: "Pharmacy Tech Questions", href: "/allied/pharmacy-tech/qbank", description: "Practice questions for pharmacy technician exams.", icon: "qbank" },
+  ],
+  paramedic: [
+    { title: "Paramedic Lessons", href: "/allied/paramedic/lessons", description: "NREMT and paramedic certification prep content.", icon: "lesson" },
+    { title: "Paramedic Practice Questions", href: "/allied/paramedic/qbank", description: "Practice questions for paramedic certification.", icon: "qbank" },
+  ],
+  mlt: [
+    { title: "MLT Lessons", href: "/allied/medical-lab-technologist/lessons", description: "Medical lab technologist exam prep content.", icon: "lesson" },
+    { title: "MLT Practice Questions", href: "/allied/medical-lab-technologist/qbank", description: "CSMLS exam practice questions.", icon: "qbank" },
+  ],
+};
+
+interface ContextualRelatedResourcesProps {
+  pageType: "lesson" | "blog" | "examGuide" | "professionHub" | "flashcards" | "qbank" | "mockExams" | "simulators" | "studyGuide" | "content";
+  category?: string | null;
+  tags?: string[];
+  profession?: string;
+  currentPath?: string;
+  className?: string;
+}
+
+export function ContextualRelatedResources({
+  pageType,
+  category,
+  tags = [],
+  profession,
+  currentPath,
+  className = "",
+}: ContextualRelatedResourcesProps) {
+  const baseKey = pageType === "content" || pageType === "studyGuide" ? "lessons" : pageType;
+  const baseResources = STUDY_CROSS_LINKS[baseKey] || STUDY_CROSS_LINKS.lessons;
+
+  const topicResources: RelatedResource[] = [];
+  const lowerCategory = (category || "").toLowerCase();
+  const lowerTags = tags.map(t => t.toLowerCase());
+  const allTopicKeys = [lowerCategory, ...lowerTags];
+
+  for (const key of Object.keys(TOPIC_RESOURCE_MAP)) {
+    if (allTopicKeys.some(t => t.includes(key) || key.includes(t))) {
+      topicResources.push(...TOPIC_RESOURCE_MAP[key]);
+    }
+  }
+
+  const professionResources: RelatedResource[] = [];
+  if (profession) {
+    const profLower = profession.toLowerCase();
+    for (const [key, resources] of Object.entries(PROFESSION_RESOURCES)) {
+      if (profLower.includes(key) || key.includes(profLower)) {
+        professionResources.push(...resources);
+        break;
+      }
+    }
+    if (professionResources.length === 0) {
+      const crossProfKeys = Object.keys(PROFESSION_RESOURCES).filter(k => k !== profLower);
+      const crossKey = crossProfKeys.find(k => ["nursing", "rn", "rpn"].includes(k));
+      if (crossKey) {
+        professionResources.push(...(PROFESSION_RESOURCES[crossKey] || []).slice(0, 2));
+      }
+    }
+  }
+
+  const seenHrefs = new Set<string>();
+  if (currentPath) seenHrefs.add(currentPath);
+
+  const combined: RelatedResource[] = [];
+
+  for (const r of professionResources) {
+    if (!seenHrefs.has(r.href)) {
+      seenHrefs.add(r.href);
+      combined.push(r);
+    }
+  }
+
+  for (const r of topicResources) {
+    if (!seenHrefs.has(r.href)) {
+      seenHrefs.add(r.href);
+      combined.push(r);
+    }
+  }
+
+  for (const r of baseResources) {
+    if (!seenHrefs.has(r.href)) {
+      seenHrefs.add(r.href);
+      combined.push(r);
+    }
+  }
+
+  const maxItems = 6;
+  const finalResources = combined.slice(0, maxItems);
+
+  if (finalResources.length === 0) return null;
+
+  return (
+    <RelatedResources
+      resources={finalResources}
+      title="Continue Your Learning"
+      className={className}
+    />
+  );
+}

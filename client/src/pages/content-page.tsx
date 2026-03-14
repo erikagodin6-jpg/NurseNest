@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { CiteThisPage } from "@/components/cite-this-page";
+import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
 import {
   ArrowLeft,
   Lightbulb,
@@ -907,6 +908,20 @@ export default function ContentPage() {
               </div>
             </section>
           )}
+
+          <ContextualRelatedResources
+            pageType={isBlogType ? "blog" : "lesson"}
+            category={contentItem!.category}
+            tags={tags}
+            currentPath={`/learn/${slug}`}
+            className="mt-12 pt-8 border-t border-gray-200"
+          />
+
+          <CrossPlatformRelatedContent
+            slug={slug || ""}
+            source="nursing"
+            className="border-t border-gray-200"
+          />
 
           <BlogInlineLeadCapture professionContext={contentItem?.category || "nursing"} />
 

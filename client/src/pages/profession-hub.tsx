@@ -2,6 +2,9 @@ import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen, FileText, Brain, Target, ArrowRight, BarChart3, Calendar } from "lucide-react";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { SEO } from "@/components/seo";
 
 interface Profession {
   id: string;
@@ -59,6 +62,21 @@ export default function ProfessionHubPage() {
 
   return (
     <div data-testid={`profession-hub-${profession.slug}`}>
+      <SEO
+        title={`${profession.hubTitle || profession.name + " Exam Preparation"} | NurseNest`}
+        description={profession.hubDescription || profession.description || `Comprehensive exam prep for ${profession.name}.`}
+        canonicalPath={`/professions/${profession.slug}`}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: profession.name, url: `https://www.nursenest.ca/professions/${profession.slug}` },
+        ]}
+      />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <BreadcrumbNav items={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: profession.name, url: `https://www.nursenest.ca/professions/${profession.slug}` },
+        ]} />
+      </div>
       <section className="relative overflow-hidden py-16 sm:py-20" style={{ background: `linear-gradient(135deg, ${profession.colorAccent} 0%, white 100%)` }}>
         <div className="max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-6" style={{ backgroundColor: profession.color + "20", color: profession.color }}>
@@ -145,6 +163,19 @@ export default function ProfessionHubPage() {
           </div>
         </section>
       )}
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ContextualRelatedResources
+          pageType="professionHub"
+          profession={profession.shortName || profession.name}
+          currentPath={`/professions/${profession.slug}`}
+          className="border-t border-gray-200"
+        />
+        <CrossPlatformRelatedContent
+          slug={profession.slug}
+          source="nursing"
+        />
+      </div>
 
       <EndOfContentLeadCapture
         leadMagnetType="study_guide"

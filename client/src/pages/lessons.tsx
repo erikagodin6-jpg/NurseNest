@@ -22,6 +22,7 @@ import { LessonLibraryHero } from "@/components/lesson-library-hero";
 import { FeaturedTopics } from "@/components/featured-topics";
 import { LessonProgressCard } from "@/components/lesson-progress-card";
 import { LessonLibraryCTA } from "@/components/lesson-library-cta";
+import { ContextualRelatedResources } from "@/components/related-resources";
 import { 
   Heart, 
   Wind, 
@@ -4640,6 +4641,14 @@ export default function Lessons() {
         />
       )}
       <LessonLibraryCTA activeTier={activeTab} />
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ContextualRelatedResources
+          pageType="lesson"
+          currentPath="/lessons"
+          className="border-t border-gray-200"
+        />
+      </div>
 
       <AdminEditButton />
       <Footer />

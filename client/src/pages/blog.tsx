@@ -23,6 +23,7 @@ import {
   Bell,
 } from "lucide-react";
 import { InlineLeadCapture, StickyLeadBanner } from "@/components/lead-capture";
+import { ContextualRelatedResources } from "@/components/related-resources";
 
 const CATEGORY_KEYS: Record<string, string> = {
   "clinical-reasoning": "blog.categoryClinicalReasoning",
@@ -476,6 +477,13 @@ export default function BlogPage() {
           )}
         </div>
       </main>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <ContextualRelatedResources
+          pageType="blog"
+          className="border-t border-gray-200"
+        />
+      </div>
 
       <AdminEditButton />
       <Footer />

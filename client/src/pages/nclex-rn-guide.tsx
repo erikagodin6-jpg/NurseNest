@@ -22,6 +22,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
 
 const clusterData: Record<string, {
   title: string;
@@ -551,6 +552,19 @@ export default function NclexRnGuide() {
             </div>
           </div>
         </section>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ContextualRelatedResources
+            pageType="examGuide"
+            tags={["nclex-rn", "exam-prep"]}
+            profession="rn"
+            currentPath="/nclex-rn-guide"
+            className="border-t border-gray-200"
+          />
+          <CrossPlatformRelatedContent
+            slug="nclex-rn"
+            source="nursing"
+          />
+        </div>
         <EndOfContentLeadCapture
           leadMagnetType="practice_questions"
           professionContext="NCLEX-RN"

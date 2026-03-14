@@ -9,6 +9,7 @@ import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ChevronRight, BookOpen, FileText, HelpCircle, Link as LinkIcon, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
+import { ContextualRelatedResources } from "@/components/related-resources";
 
 type FAQ = { q: string; a: string };
 type TOCItem = { id: string; title: string; level: number };
@@ -278,6 +279,13 @@ export default function SeoPage() {
                   </Button>
                 </div>
               </div>
+
+              <ContextualRelatedResources
+                pageType="studyGuide"
+                tags={["exam-prep"]}
+                currentPath={`/study-guide/${slug}`}
+                className="border-t border-gray-200 mt-8"
+              />
             </div>
           </div>
         </div>

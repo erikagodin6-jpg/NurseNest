@@ -62,6 +62,10 @@ Key systems and engines include:
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
 ## External Dependencies
+- **Database**: PostgreSQL, Drizzle ORM
+- **Payment Processing**: Stripe, PayPal SDK
+- **AI/Content Generation**: OpenAI (for various content generation, adaptive engines, and pipelines)
+- **Social Media**: Meta Graph API (for scheduling), Social Content Automation Engine (multi-platform content generation)
 
 ### Database
 - PostgreSQL
@@ -77,3 +81,9 @@ The platform utilizes PostgreSQL with Drizzle ORM for database management.
 ### Social Media
 - Meta Graph API (for social media scheduling)
 - Social Content Automation Engine (for multi-platform content generation)
+
+## Internal Linking Network
+- **ContextualRelatedResources component** (`client/src/components/related-resources.tsx`): Dynamically generates "Continue Your Learning" links based on page type, category/tags, and profession. Includes `STUDY_CROSS_LINKS`, `TOPIC_RESOURCE_MAP`, and `PROFESSION_RESOURCES` mappings.
+- **CrossPlatformRelatedContent component**: Fetches cross-profession related content via `/api/cross-platform-related` API endpoint.
+- **Integration**: Both components are integrated into content pages, blog, profession hubs, exam guides (NCLEX-RN, REx-PN, NP), study guides, lessons, flashcards, mock exams, clinical clarity, and SEO pages.
+- **Breadcrumbs**: Visual `BreadcrumbNav` component is used across key pages; JSON-LD breadcrumbs are managed by the `SEO` component.

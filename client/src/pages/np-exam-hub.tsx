@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
 
 const clusterData: Record<string, {
   title: string;
@@ -1061,6 +1062,19 @@ function HubPage() {
           </div>
         </div>
 
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ContextualRelatedResources
+            pageType="examGuide"
+            tags={["np-exam", "exam-prep"]}
+            profession="np"
+            currentPath="/np-exam-guide"
+            className="border-t border-gray-200"
+          />
+          <CrossPlatformRelatedContent
+            slug="np-exam"
+            source="nursing"
+          />
+        </div>
         <EndOfContentLeadCapture
           leadMagnetType="mock_exam"
           professionContext="NP"

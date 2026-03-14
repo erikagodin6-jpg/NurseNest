@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { ContextualRelatedResources } from "@/components/related-resources";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   BookOpen, FileText, Brain, Target,
   CheckCircle2, ChevronDown, ChevronRight, ArrowRight,
@@ -669,6 +671,13 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
       />
 
       <main className="min-h-screen bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <BreadcrumbNav items={[
+            { name: "Home", url: "https://www.nursenest.ca/" },
+            { name: "Study Guides", url: "https://www.nursenest.ca/study-guides" },
+            { name: guide.h1, url: `https://www.nursenest.ca/${guide.slug}` },
+          ]} />
+        </div>
         <section className="py-12 md:py-16" style={{ background: `linear-gradient(135deg, ${guide.colorAccent} 0%, white 100%)` }} data-testid="section-hero">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="flex items-center justify-center gap-2 text-sm font-medium mb-4" style={{ color: guide.color }}>
@@ -894,6 +903,15 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
             </div>
           </div>
         </section>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <ContextualRelatedResources
+            pageType="examGuide"
+            tags={["exam-prep"]}
+            currentPath={`/${guide.slug}`}
+            className="border-t border-gray-200"
+          />
+        </div>
       </main>
     </>
   );

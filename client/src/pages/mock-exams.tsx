@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { ContextualRelatedResources } from "@/components/related-resources";
 import { getTierConfig } from "@shared/tier-config";
 import { useToast } from "@/hooks/use-toast";
 
@@ -775,6 +776,13 @@ export default function MockExamsPage() {
           </div>
         </div>
       </main>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ContextualRelatedResources
+          pageType="mockExams"
+          currentPath="/mock-exams"
+          className="border-t border-gray-200"
+        />
+      </div>
       <AdminEditButton pageName="mock-exams" />
       <Footer />
 

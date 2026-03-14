@@ -6,6 +6,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useI18n } from "@/lib/i18n";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { ContextualRelatedResources } from "@/components/related-resources";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6431,6 +6432,13 @@ export default function Flashcards() {
             </Button>
           </div>
         </main>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ContextualRelatedResources
+            pageType="flashcards"
+            currentPath="/flashcards"
+            className="border-t border-gray-200"
+          />
+        </div>
         <Footer />
       </div>
     );
