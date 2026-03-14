@@ -186,6 +186,9 @@ const SpecialtyHubPage = lazy(() => import("@/pages/specialty-hub-page"));
 const SpecialtyHubBySlug = lazy(() => import("@/pages/specialty-hub-page").then(m => ({ default: m.SpecialtyHubBySlug })));
 const SpecialtySeoPage = lazy(() => import("@/pages/specialty-seo-page"));
 const SpecialtySeoBySlug = lazy(() => import("@/pages/specialty-seo-page").then(m => ({ default: m.SpecialtySeoBySlug })));
+const NursingCertificationsHub = lazy(() => import("@/pages/nursing-certifications-hub"));
+const StudyPathwaysHub = lazy(() => import("@/pages/study-pathways-hub"));
+const NursingHubPage = lazy(() => import("@/pages/nursing-hub-page"));
 const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
 const RexPnExamFormat = lazy(() => import("@/pages/rex-pn-exam-format"));
 const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
@@ -564,6 +567,12 @@ function AppRoutes() {
         <Route path="/long-term-care-nursing-guide">{() => <SpecialtySeoBySlug slug="long-term-care-nursing-guide" />}</Route>
         <Route path="/rehabilitation-nursing-guide">{() => <SpecialtySeoBySlug slug="rehabilitation-nursing-guide" />}</Route>
 
+        {/* Nursing Content Hub */}
+        <Route path="/nursing-certifications" component={NursingCertificationsHub} />
+        <Route path="/study-pathways" component={StudyPathwaysHub} />
+        <Route path="/certifications/:slug">{() => <NursingHubPage pageType="certification" />}</Route>
+        <Route path="/specialties/:slug">{() => <NursingHubPage pageType="specialty" />}</Route>
+        <Route path="/study-pathways/:slug">{() => <NursingHubPage pageType="study-pathway" />}</Route>
         <Route path="/pre-nursing" component={PreNursingPage} />
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
         <Route path="/mock-exams/:id" component={MockExamSession} />

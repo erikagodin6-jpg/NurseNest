@@ -551,6 +551,21 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
             <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/nursing-specialties")} data-testid="button-nursing-specialties-mobile">
+                Specialties
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/nursing-certifications")} data-testid="button-nursing-certifications-mobile">
+                Certifications
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/study-pathways")} data-testid="button-study-pathways-mobile">
+                Study Pathways
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/paramedic")} data-testid="button-career-paramedic-mobile">
                 <Ambulance className="w-4 h-4" />
                 Paramedic
@@ -1151,6 +1166,15 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/nursing")} data-testid="menu-career-nursing">
                     <Stethoscope className="w-4 h-4 text-blue-500" />
                     Nursing
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => setLocation("/nursing-specialties")} data-testid="menu-nursing-specialties">
+                    Specialties
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => setLocation("/nursing-certifications")} data-testid="menu-nursing-certifications">
+                    Certifications
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => setLocation("/study-pathways")} data-testid="menu-study-pathways">
+                    Study Pathways
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/paramedic")} data-testid="menu-career-paramedic">
                     <Ambulance className="w-4 h-4 text-red-500" />

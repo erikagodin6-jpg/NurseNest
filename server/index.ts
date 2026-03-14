@@ -419,6 +419,8 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/lectures", "0.7", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/nursing", "0.9", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/nursing-specialties", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/nursing-certifications", "0.8", "monthly", indexableLocales, today));
+  entries.push(sitemapUrl(base, "/study-pathways", "0.8", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", indexableLocales));
   entries.push(sitemapUrl(base, "/about", "0.6", "monthly", indexableLocales));
   entries.push(sitemapUrl(base, "/contact", "0.4", "monthly", indexableLocales));
@@ -524,6 +526,21 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/preoperative-care", "0.8", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/preoperative-nursing-guide", "0.8", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/perioperative-nurse-career", "0.7", "monthly", indexableLocales, today));
+
+  try {
+    const { pool: hubPool } = await import("./storage");
+    const hubPages = await hubPool.query(
+      `SELECT slug, page_type, last_updated FROM seo_pages WHERE is_public = true AND language_code = 'en' AND page_type IN ('certification', 'specialty', 'study-pathway') ORDER BY title`
+    ).catch(() => ({ rows: [] }));
+    const typeToPath: Record<string, string> = { certification: "certifications", specialty: "specialties", "study-pathway": "study-pathways" };
+    for (const page of hubPages.rows) {
+      const prefix = typeToPath[page.page_type] || page.page_type;
+      const lastmod = page.last_updated ? new Date(page.last_updated).toISOString().split("T")[0] : today;
+      entries.push(sitemapUrl(base, `/${prefix}/${page.slug}`, "0.7", "monthly", enOnly, lastmod));
+    }
+  } catch (e) {
+    console.error("Nursing hub sitemap error:", e);
+  }
 
   entries.push(sitemapUrl(base, "/nclex-rn/mock-exam", "0.9", "weekly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/nclex-pn/mock-exam", "0.9", "weekly", indexableLocales, today));
@@ -1138,6 +1155,9 @@ app.use((req, res, next) => {
   const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
 
+  const { registerNursingContentHubRoutes } = await import("./nursing-content-hub");
+  registerNursingContentHubRoutes(app);
+
   const { registerParamedicSeoRoutes } = await import("./paramedic-seo");
   registerParamedicSeoRoutes(app);
 
@@ -1228,6 +1248,7 @@ app.use((req, res, next) => {
       }).catch((e: any) => console.error("[ExamFlashcardMapper] Failed:", e.message));
       await import("./seed-digital-products").then(({ seedDigitalProducts }) => seedDigitalProducts(seedPool)).catch((e: any) => console.error("[DigitalProductSeed] Failed:", e.message));
       await import("./encyclopedia-seed").then(({ seedEncyclopediaEntries }) => seedEncyclopediaEntries()).catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
+      await import("./seed-nursing-content-hub").then(({ seedNursingContentHub }) => seedNursingContentHub(seedPool)).catch((e: any) => console.error("[NursingHubSeed] Failed:", e.message));
 
       try {
         const tierCounts = await seedPool.query(

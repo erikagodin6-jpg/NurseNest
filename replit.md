@@ -46,6 +46,7 @@ Key systems and engines include:
 - **Conversion Funnel System**: Reusable components (`ConversionFunnel`, `InlinePracticePreview`, `MockExamTeaser`) integrated across various content types for user conversion.
 - **Career Journey Funnel Pages**: Guided pathway pages walking users through the student-to-professional pipeline, with generic and profession-specific variants.
 - **Clinical Specialty Hub Pages**: 16 individual specialty hub pages (ICU, Pediatric ICU, NICU, Med-Surg, Orthopedics, Mental Health, Nephrology, Labor & Delivery, Postpartum, Neurology, Palliative Care, Trauma, Public Health, Community Nursing, Long-Term Care, Rehabilitation) with matching SEO landing pages, structured data, and FAQ sections.
+- **Nursing SEO Content Hub**: Three pillar pages (`/nursing-certifications`, `/nursing-specialties`, `/study-pathways`) with 35+ subpages (10 certifications, 15 specialties, 10 study pathways) stored in `seo_pages` table. Generic subpage template (`nursing-hub-page.tsx`) renders content from API with TOC sidebar, FAQ accordion, structured data, breadcrumbs, internal cross-linking, and CTAs. Routes: `/certifications/:slug`, `/specialties/:slug`, `/study-pathways/:slug`. API: `server/nursing-content-hub.ts`, seed: `server/seed-nursing-content-hub.ts`.
 
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
