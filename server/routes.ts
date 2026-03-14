@@ -54,6 +54,7 @@ import {
   MLT_DRILL_TYPES,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
+import { getStripePriceId, loadStripePrices } from "./stripe-pricing";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
@@ -3283,11 +3284,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         return res.json({ url: session.url });
       }
 
-      const subscriptionOpts: any = {
-        customer: customerId,
-        payment_method_types: ["card"],
-        line_items: [
-          {
+      const stripePriceId = getStripePriceId(tier, selectedDuration, currency);
+
+      const lineItem: any = stripePriceId
+        ? { price: stripePriceId, quantity: 1 }
+        : {
             price_data: {
               currency,
               product_data: {
@@ -3298,13 +3299,26 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
               recurring: { interval: recurring.interval, interval_count: recurring.interval_count },
             },
             quantity: 1,
-          },
-        ],
+          };
+
+      if (stripePriceId) {
+        console.log(`Checkout using Stripe Price ID: ${stripePriceId} for ${tier} ${selectedDuration} ${currency}`);
+      } else {
+        console.warn(`No Stripe Price ID for ${tier} ${selectedDuration} ${currency} — using inline price_data`);
+      }
+
+      const subscriptionOpts: any = {
+        customer: customerId,
+        payment_method_types: ["card"],
+        line_items: [lineItem],
         mode: "subscription",
         allow_promotion_codes: !referralCouponId,
         success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
         cancel_url: `${baseUrl}/pricing`,
         metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
+        subscription_data: {
+          metadata: { userId: user.id, tier, duration: selectedDuration },
+        },
       };
       if (referralCouponId) {
         subscriptionOpts.discounts = [{ coupon: referralCouponId }];

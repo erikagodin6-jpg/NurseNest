@@ -34,10 +34,19 @@ Key systems and engines:
 - **Production Database Safety & Environment-Aware Publishing System**: Centralized `EnvironmentAwareContentWriteService` enforcing preflight checks, post-write verification, and full audit logging for all content writes, with explicit environment targeting and confirmation.
 - **Data Management**: PostgreSQL with Drizzle ORM.
 
+## Stripe Subscription Integration
+Subscription checkout uses real Stripe Product/Price IDs instead of inline `price_data`. Key components:
+
+- **Price Map**: `stripe-price-map.json` — synced via `scripts/syncStripePrices.ts`, contains all price IDs by tier/duration/currency. Mode-validated (test vs live) on load.
+- **Pricing Module**: `server/stripe-pricing.ts` — `loadStripePrices()` loads at startup, `getStripePriceId(tier, duration, currency)` returns the Stripe Price ID. Falls back to inline `price_data` if no price ID found.
+- **Checkout**: `POST /api/stripe/create-checkout` in `server/routes.ts` — uses real price IDs for rpn/rn/np subscriptions (monthly, 3-month, 6-month, yearly). Lifetime and one-time purchases still use inline price_data. Sets `subscription_data.metadata` with userId/tier/duration for webhook lifecycle tracking.
+- **Webhook Lifecycle** (`server/index.ts`): Handles `checkout.session.completed` (activate tier + store subscription ID), `customer.subscription.updated` (active/past_due/canceled status), `customer.subscription.deleted` (downgrade to free), `invoice.payment_failed` (mark past_due). Falls back to customer ID lookup when subscription metadata missing.
+- **Products**: 12 Stripe Products (rpn/rn/np × monthly/3-month/6-month/yearly) with USD and CAD recurring prices. Test mode products created with tier/duration metadata.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
-- **Payment Processing**: Stripe, PayPal SDK
+- **Payment Processing**: Stripe (real Price IDs for subscriptions), PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Social Media**: Meta Graph API
 

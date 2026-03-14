@@ -228,6 +228,7 @@ app.post(
       const bodyStr = req.body.toString("utf8");
       try {
         const evt = JSON.parse(bodyStr);
+
         if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.purchaseType === "deck_upgrade") {
           const meta = evt.data.object.metadata;
           const { getDevPool } = await import("./db");
@@ -244,6 +245,7 @@ app.post(
           const { handleTrialSubscriptionWebhook } = await import("./trial-subscription");
           await handleTrialSubscriptionWebhook(evt);
         }
+
         if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.isLifetime === "true") {
           const meta = evt.data.object.metadata;
           if (meta.userId && meta.tier) {
@@ -252,7 +254,83 @@ app.post(
             console.log(`Lifetime purchase completed: user ${meta.userId}, tier ${meta.tier}`);
           }
         }
-      } catch {}
+
+        if (evt.type === "checkout.session.completed") {
+          const session = evt.data?.object;
+          const meta = session?.metadata;
+          if (meta?.userId && meta?.tier && session?.mode === "subscription" && !meta?.isTrial && !meta?.isLifetime) {
+            const subscriptionId = session.subscription;
+            await storage.updateUserTier(meta.userId, meta.tier);
+            if (subscriptionId) {
+              await storage.updateUserStripeInfo(meta.userId, {
+                stripeSubscriptionId: subscriptionId,
+                subscriptionStatus: "active",
+              });
+            }
+            console.log(`Subscription activated: user ${meta.userId}, tier ${meta.tier}, sub ${subscriptionId}`);
+          }
+        }
+
+        if (evt.type === "customer.subscription.updated") {
+          const sub = evt.data?.object;
+          let userId = sub?.metadata?.userId;
+          const tier = sub?.metadata?.tier;
+          if (!userId && sub?.customer) {
+            const { getDevPool } = await import("./db");
+            const dbPool = getDevPool();
+            const r = await dbPool.query(`SELECT id FROM users WHERE stripe_customer_id = $1 LIMIT 1`, [sub.customer]);
+            if (r.rows.length > 0) userId = r.rows[0].id;
+          }
+          if (userId && !sub?.metadata?.isTrial) {
+            const status = sub?.status;
+            if (status === "active" || status === "trialing") {
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "active", ...(tier ? { tier } : {}) });
+              console.log(`Subscription updated (active): user ${userId}`);
+            } else if (status === "past_due") {
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "past_due" });
+              console.log(`Subscription past_due: user ${userId}`);
+            } else if (status === "canceled" || status === "unpaid") {
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", tier: "free" });
+              console.log(`Subscription ${status}: user ${userId} downgraded to free`);
+            }
+          }
+        }
+
+        if (evt.type === "customer.subscription.deleted") {
+          const sub = evt.data?.object;
+          let userId = sub?.metadata?.userId;
+          if (!userId && sub?.customer) {
+            const { getDevPool } = await import("./db");
+            const dbPool = getDevPool();
+            const r = await dbPool.query(`SELECT id FROM users WHERE stripe_customer_id = $1 LIMIT 1`, [sub.customer]);
+            if (r.rows.length > 0) userId = r.rows[0].id;
+          }
+          if (userId && !sub?.metadata?.isTrial) {
+            await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", tier: "free" });
+            console.log(`Subscription deleted: user ${userId} downgraded to free`);
+          }
+        }
+
+        if (evt.type === "invoice.payment_failed") {
+          const invoice = evt.data?.object;
+          const customerId = invoice?.customer;
+          if (customerId) {
+            const { getDevPool } = await import("./db");
+            const dbPool = getDevPool();
+            const result = await dbPool.query(
+              `SELECT id FROM users WHERE stripe_customer_id = $1 LIMIT 1`,
+              [customerId]
+            );
+            if (result.rows.length > 0) {
+              const userId = result.rows[0].id;
+              await storage.updateUserStripeInfo(userId, { subscriptionStatus: "past_due" });
+              console.log(`Invoice payment failed for user ${userId} (customer ${customerId})`);
+            }
+          }
+        }
+      } catch (webhookParseErr: any) {
+        console.error("Webhook event processing error:", webhookParseErr?.message);
+      }
       return res.status(200).json({ received: true });
     } catch (error: any) {
       console.error("Webhook error:", error?.message || error);
@@ -500,6 +578,10 @@ app.use((req, res, next) => {
 
   const { setupQBankRoutes } = await import("./qbank-api");
   setupQBankRoutes(app);
+
+  // Load Stripe price IDs from synced map
+  const { loadStripePrices } = await import("./stripe-pricing");
+  loadStripePrices();
 
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);

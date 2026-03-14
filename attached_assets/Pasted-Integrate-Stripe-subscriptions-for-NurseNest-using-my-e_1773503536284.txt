@@ -1,0 +1,113 @@
+Integrate Stripe subscriptions for NurseNest using my existing Vite + React + Express app.
+
+Important security rules:
+- Do not hardcode any Stripe secret key anywhere in the codebase.
+- Read the Stripe secret key only from environment variables using process.env.STRIPE_SECRET_KEY.
+- Do not expose the secret key to the frontend.
+- Frontend may only use the publishable key if needed.
+- Build this in a production-safe way.
+
+My Stripe product IDs are:
+
+RPN
+- 1 Month: prod_U9CdKNpdOh3XZ1
+- 3 Month: prod_U9Ce0rNDFBofDr
+- 6 Month: prod_U9CeWkWf8Ep8q7
+- 1 Year: prod_U9CfqLzYK5X7bz
+
+RN
+- 1 Month: prod_U9Cg99g3wSfc2g
+- 3 Month: prod_U9Ch6FcT27ns23
+- 6 Month: prod_U9ChXTIqxoXPmx
+- 1 Year: prod_U9CibnLqRoT5S3
+
+NP
+- 1 Month: prod_U9CiUzFg1IMsVv
+- 3 Month: prod_U9CjN7FU5OTA2O
+- 6 Month: prod_U9Cj1HjqMbBjHa
+- 1 Year: prod_U9CjmsQxQSJ1bH
+
+Goals:
+1. Install and configure Stripe server-side.
+2. Create a server script that fetches all Stripe prices for the above product IDs and writes a clean local JSON file called stripe-price-map.json.
+3. The JSON output should include:
+   - tier
+   - duration
+   - productId
+   - productName
+   - priceId
+   - unitAmount
+   - currency
+   - recurring interval
+   - recurring intervalCount
+   - active status
+4. Build a reusable server-side config module that loads the correct price IDs for:
+   - RPN monthly, 3 month, 6 month, yearly
+   - RN monthly, 3 month, 6 month, yearly
+   - NP monthly, 3 month, 6 month, yearly
+5. If a product has no active recurring price yet, log a clear warning.
+6. If prices are missing, do not crash silently. Return actionable errors.
+7. Keep test mode and live mode cleanly separated.
+8. Add support for environment variables:
+   - STRIPE_SECRET_KEY
+   - STRIPE_PUBLISHABLE_KEY
+   - STRIPE_WEBHOOK_SECRET
+9. Add an Express API endpoint to create a Stripe Checkout Session for subscriptions.
+10. The request body for checkout should accept:
+   - tier: RPN | RN | NP
+   - plan: monthly | 3month | 6month | yearly
+   - userId
+   - email
+11. The checkout endpoint should:
+   - look up the correct Stripe price ID from the central config
+   - create a Stripe Checkout Session in subscription mode
+   - include success_url and cancel_url from environment variables or site config
+   - attach metadata for userId, tier, and plan
+12. Add a Stripe webhook endpoint that handles:
+   - checkout.session.completed
+   - invoice.payment_succeeded
+   - customer.subscription.updated
+   - customer.subscription.deleted
+   - invoice.payment_failed
+13. On successful subscription, update my user/subscription records so the correct NurseNest tier is unlocked.
+14. On cancellation or failed payment, downgrade or revoke access appropriately.
+15. Map tiers cleanly to the existing role system:
+   - RPN
+   - RN
+   - NP
+16. Create a helper that prevents duplicate or scattered Stripe ID usage across the app.
+17. Add comments so the flow is easy to maintain.
+
+Frontend requirements:
+18. Update the pricing page so each pricing card calls the checkout endpoint with the correct tier and plan.
+19. Show loading state, disabled button state, and friendly error handling.
+20. Make sure no secret values are ever exposed in client code.
+
+Admin/dev requirements:
+21. Create a script named syncStripePrices that can be run manually to refresh stripe-price-map.json.
+22. Print a readable console summary grouped by tier and duration.
+23. Add a validation check so yearly and annual are normalized to one internal format.
+24. Because my Stripe products are currently separate per term, use product name parsing to infer:
+   - tier
+   - duration
+25. Normalize these product names:
+   - "1 Month Subscription"
+   - "3 Month Subscription"
+   - "6 Month Subscription"
+   - "1 Year Subscription"
+   - "Yearly Subscription"
+26. Prefer recurring prices only. Ignore one-time prices.
+27. If multiple active prices exist for one product, choose the latest active recurring price and warn me.
+
+Deliverables:
+- server Stripe integration
+- checkout route
+- webhook route
+- syncStripePrices script
+- stripe-price-map.json
+- centralized pricing config
+- frontend pricing button integration
+- clear setup notes for Replit Secrets
+
+Use clean TypeScript or JavaScript matching the current project style.
+Do not remove any existing functionality.
