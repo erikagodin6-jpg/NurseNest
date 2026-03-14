@@ -223,6 +223,8 @@ app.post(
         return res.status(500).json({ error: "Webhook processing error" });
       }
 
+      await WebhookHandlers.processWebhook(req.body as Buffer, sig);
+
       const bodyStr = req.body.toString("utf8");
       try {
         const evt = JSON.parse(bodyStr);
@@ -236,8 +238,13 @@ app.post(
           );
           console.log(`Deck ${meta.deckId} upgraded for user ${meta.userId}`);
         }
+
+        const trialEventTypes = ["customer.subscription.updated", "customer.subscription.deleted"];
+        if (trialEventTypes.includes(evt.type) && evt.data?.object?.metadata?.isTrial === "true") {
+          const { handleTrialSubscriptionWebhook } = await import("./trial-subscription");
+          await handleTrialSubscriptionWebhook(evt);
+        }
       } catch {}
-      await WebhookHandlers.processWebhook(req.body as Buffer, sig);
       return res.status(200).json({ received: true });
     } catch (error: any) {
       console.error("Webhook error:", error?.message || error);
@@ -456,6 +463,9 @@ app.use((req, res, next) => {
 
   const { setupTrialRoutes } = await import("./trial");
   setupTrialRoutes(app);
+
+  const { setupTrialSubscriptionRoutes } = await import("./trial-subscription");
+  setupTrialSubscriptionRoutes(app);
 
   const { setupStudyPathRoutes } = await import("./study-path");
   setupStudyPathRoutes(app);

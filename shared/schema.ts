@@ -8,6 +8,7 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   email: text("email"),
+  emailVerifiedAt: timestamp("email_verified_at"),
   tier: text("tier").default("free"),
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
@@ -5659,3 +5660,40 @@ export const watermarkSessions = pgTable("watermark_sessions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   expiresAt: timestamp("expires_at"),
 });
+
+export const emailVerificationCodes = pgTable("email_verification_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  email: text("email").notNull(),
+  code: text("code").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  usedAt: timestamp("used_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEmailVerificationCodeSchema = createInsertSchema(emailVerificationCodes).omit({ id: true, createdAt: true });
+export type EmailVerificationCode = typeof emailVerificationCodes.$inferSelect;
+export type InsertEmailVerificationCode = z.infer<typeof insertEmailVerificationCodeSchema>;
+
+export const trialEntitlements = pgTable("trial_entitlements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  selectedTier: text("selected_tier").notNull(),
+  trialStartedAt: timestamp("trial_started_at").defaultNow().notNull(),
+  trialEndsAt: timestamp("trial_ends_at").notNull(),
+  trialStatus: text("trial_status").notNull().default("active"),
+  verifiedEmailAt: timestamp("verified_email_at"),
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeTrialSubscriptionId: text("stripe_trial_subscription_id"),
+  paymentFingerprint: text("payment_fingerprint"),
+  deviceFingerprintHash: text("device_fingerprint_hash"),
+  signupIp: text("signup_ip"),
+  lastSeenIp: text("last_seen_ip"),
+  abuseFlags: jsonb("abuse_flags").default(sql`'[]'::jsonb`),
+  consumptionCounters: jsonb("consumption_counters").default(sql`'{"questions":0,"flashcards":0,"lessons":0,"mockExams":0}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTrialEntitlementSchema = createInsertSchema(trialEntitlements).omit({ id: true, createdAt: true });
+export type TrialEntitlement = typeof trialEntitlements.$inferSelect;
+export type InsertTrialEntitlement = z.infer<typeof insertTrialEntitlementSchema>;

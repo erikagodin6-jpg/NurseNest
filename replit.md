@@ -40,3 +40,24 @@ Key systems and engines:
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Social Media**: Meta Graph API
+
+## 24-Hour Free Trial Subscription System
+A server-side trial entitlement system enabling one 24-hour free trial per user for a selected subscription tier (rpn/rn/np). Key components:
+
+- **Schema**: `trial_entitlements` table tracks trial state, consumption, fraud flags; `email_verification_codes` table for email verification flow; `emailVerifiedAt` field added to `users` table.
+- **Routes** (in `server/trial-subscription.ts`):
+  - `POST /api/auth/send-verification` – sends 6-digit email verification code
+  - `POST /api/auth/verify-email` – verifies email with code
+  - `POST /api/trial-sub/activate` – initiates trial (creates Stripe customer + SetupIntent)
+  - `POST /api/trial-sub/confirm` – confirms trial after payment method setup (creates Stripe subscription with 1-day trial)
+  - `GET /api/trial-sub/status` – returns trial state and consumption counters
+  - `POST /api/trial-sub/cancel` – cancels active trial
+  - `GET /api/trial-sub/consumption` – returns detailed consumption data
+  - `GET /api/admin/trial-entitlements` – admin list of all trial entitlements
+  - `GET /api/admin/trial-entitlements/analytics` – admin trial analytics
+- **Middleware**: `requireTrialOrPaid()` validates trial or paid subscription on premium content requests; `requireTrialConsumption(contentType)` enforces per-content-type limits.
+- **Fraud Detection**: Blocks duplicate trials by verified email, Stripe payment fingerprint, device fingerprint hash (configurable max attempts), and IP volume (configurable window).
+- **Stripe Webhook**: Handles `customer.subscription.updated` and `customer.subscription.deleted` events for trial subscriptions (metadata `isTrial=true`).
+- **Rate Limiting**: Applied to signup, login, trial activation, and content fetch endpoints.
+- **Audit Logging**: All trial events (initiation, activation, fraud blocks, consumption limits, cancellation) logged to `audit_logs` table with `entity_type='trial_entitlement'`.
+- **Environment Variables**: `TRIAL_DURATION_HOURS` (default 24), `TRIAL_MAX_QUESTIONS` (50), `TRIAL_MAX_FLASHCARDS` (30), `TRIAL_MAX_LESSONS` (5), `TRIAL_MAX_MOCK_EXAMS` (2), `TRIAL_DEVICE_MAX_ATTEMPTS` (3), `TRIAL_IP_MAX_ATTEMPTS` (5), `TRIAL_IP_WINDOW_HOURS` (24).

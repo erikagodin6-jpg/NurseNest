@@ -2838,7 +2838,16 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   // --------------------
   // Auth
   // --------------------
-  app.post("/api/auth/register", async (req, res) => {
+  const signupLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    message: { error: "Too many signup attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    validate: { xForwardedForHeader: true, trustProxy: true },
+  });
+
+  app.post("/api/auth/register", signupLimiter, async (req, res) => {
     try {
       const data = insertUserSchema.parse(req.body);
       const { inviteCode, referralCode: refCode } = req.body;
