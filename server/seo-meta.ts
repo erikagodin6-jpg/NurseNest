@@ -525,6 +525,42 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Radiographic Artifact Recognition - Identify & Prevent | NurseNest",
     description: "Learn to identify, prevent, and correct radiographic image artifacts. Covers motion artifacts, equipment artifacts, processing errors, and patient-related artifacts.",
   },
+  "/how-to-become-a-paramedic": {
+    title: "How to Become a Paramedic: Career Guide for 2026 | NurseNest",
+    description: "Learn the steps to becoming a paramedic, including education requirements, NREMT/COPR certification, salary expectations ($50K-$90K+), and career outlook in Canada and the USA.",
+  },
+  "/how-to-become-a-respiratory-therapist": {
+    title: "How to Become a Respiratory Therapist (RRT): Career Guide for 2026 | NurseNest",
+    description: "Discover respiratory therapist education pathways, NBRC/CBRC certification exams, salary expectations ($62K-$95K+), and a 12-14% job growth outlook.",
+  },
+  "/how-to-become-a-medical-lab-technologist": {
+    title: "How to Become a Medical Lab Technologist (MLT): Career Guide for 2026 | NurseNest",
+    description: "Explore MLT education, CSMLS/ASCP certification, salary expectations ($55K-$90K+), and career outlook for medical laboratory technologists in Canada and the USA.",
+  },
+  "/how-to-become-a-radiologic-technologist": {
+    title: "How to Become a Radiologic Technologist: Career Guide for 2026 | NurseNest",
+    description: "Learn radiologic technologist education requirements, ARRT/CAMRT certification, salary expectations ($60K-$95K+), and career growth for imaging professionals.",
+  },
+  "/how-to-become-a-social-worker": {
+    title: "How to Become a Licensed Clinical Social Worker (LCSW): Career Guide for 2026 | NurseNest",
+    description: "Explore the path to becoming an LCSW, including MSW degree requirements, ASWB exam prep, salary expectations ($55K-$95K+), and 7-9% job growth.",
+  },
+  "/how-to-become-a-psychotherapist": {
+    title: "How to Become a Registered Psychotherapist: Career Guide for 2026 | NurseNest",
+    description: "Learn psychotherapist education, CRPO/NCE registration exams, salary expectations ($50K-$100K+), and the 18-22% job growth outlook for mental health counselors.",
+  },
+  "/how-to-become-an-addictions-counselor": {
+    title: "How to Become an Addictions Counselor: Career Guide for 2026 | NurseNest",
+    description: "Discover addictions counselor certification pathways, IC&RC/CACCF exams, salary expectations ($45K-$80K+), and 18-25% job growth outlook.",
+  },
+  "/how-to-become-an-occupational-therapist": {
+    title: "How to Become an Occupational Therapist (OT): Career Guide for 2026 | NurseNest",
+    description: "Learn OT education requirements, NBCOT/NOTCE certification, salary expectations ($72K-$110K+), and 12-14% job growth for occupational therapists.",
+  },
+  "/how-to-become-a-pharmacy-technician": {
+    title: "How to Become a Pharmacy Technician: Career Guide for 2026 | NurseNest",
+    description: "Explore pharmacy technician education, PTCB/PEBC certification, salary expectations ($37K-$55K+), and career growth in retail, hospital, and specialty pharmacies.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",
@@ -884,6 +920,33 @@ export function getPageMeta(pathname: string): PageMeta {
       canonical,
       noindex,
       breadcrumbs,
+    };
+  }
+
+  const careerGuideMatch = cleanPath.match(/^\/how-to-become-(a|an)-(.+)$/);
+  if (careerGuideMatch) {
+    const profession = slugToTitle(careerGuideMatch[2]);
+    const careerGuideBreadcrumbs = [
+      { name: "Home", url: `${SITE_BASE}/` },
+      { name: "Careers", url: `${SITE_BASE}/careers` },
+      { name: `How to Become ${careerGuideMatch[1] === "an" ? "an" : "a"} ${profession}`, url: `${SITE_BASE}${cleanPath}` },
+    ];
+    const guideJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": staticPages[cleanPath]?.title || `How to Become ${careerGuideMatch[1] === "an" ? "an" : "a"} ${profession}`,
+      "description": staticPages[cleanPath]?.description || `Career guide for becoming ${careerGuideMatch[1] === "an" ? "an" : "a"} ${profession.toLowerCase()}.`,
+      "url": canonical,
+      "author": { "@type": "Organization", "name": "NurseNest" },
+      "publisher": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+    });
+    return {
+      title: staticPages[cleanPath]?.title || `How to Become ${careerGuideMatch[1] === "an" ? "an" : "a"} ${profession} | NurseNest`,
+      description: staticPages[cleanPath]?.description || `Career guide for becoming ${careerGuideMatch[1] === "an" ? "an" : "a"} ${profession.toLowerCase()}.`,
+      canonical,
+      noindex,
+      breadcrumbs: careerGuideBreadcrumbs,
+      jsonLd: guideJsonLd,
     };
   }
 

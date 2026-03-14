@@ -280,6 +280,7 @@ const SocialWorkAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(
 const PsychotherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.PsychotherapyAuthorityHub })));
 const AddictionsAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.AddictionsAuthorityHub })));
 const OccupationalTherapyAuthorityHub = lazy(() => import("@/pages/authority-hubs").then(m => ({ default: m.OccupationalTherapyAuthorityHub })));
+const CareerGuidePage = lazy(() => import("@/allied/pages/career-guide-page"));
 
 function PageTracker() {
   usePageTracker();
@@ -869,6 +870,17 @@ function AppRoutes() {
         {/* Career AI Tools - Addictions */}
         <Route path="/addictions-counsellor/mi-practice-sim">{() => <CareerAISimulator toolId="mi-practice-sim" />}</Route>
         <Route path="/addictions-counsellor/substance-id-drill">{() => <CareerAISimulator toolId="substance-id-drill" />}</Route>
+
+        {/* Career Guide Pages - "How to become a..." */}
+        <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-respiratory-therapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-medical-lab-technologist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-radiologic-technologist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-social-worker" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-psychotherapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-an-addictions-counselor" component={CareerGuidePage} />
+        <Route path="/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
 
         <Route path="/:careerSlug/study-guide/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
         <Route path="/:careerSlug/exam-tips/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>

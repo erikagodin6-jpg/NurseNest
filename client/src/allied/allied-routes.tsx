@@ -87,6 +87,7 @@ const EncyclopediaHubPage = lazy(() => import("./pages/encyclopedia-hub-page"));
 const EncyclopediaTopicPage = lazy(() => import("./pages/encyclopedia-topic-page"));
 const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));
 const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
+const CareerGuidePage = lazy(() => import("./pages/career-guide-page"));
 
 function LoadingFallback() {
   return (
@@ -308,6 +309,17 @@ export function AlliedRoutes() {
         <Route path="/careers/:careerSlug/sims" component={AlliedSims} />
         <Route path="/careers/:careerSlug/tools" component={AlliedTools} />
         <Route path="/careers/:careerSlug" component={CareerLanding} />
+
+        {/* Career Guide Pages - "How to become a..." */}
+        <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-respiratory-therapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-medical-lab-technologist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-radiologic-technologist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-social-worker" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-psychotherapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-an-addictions-counselor" component={CareerGuidePage} />
+        <Route path="/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
 
         <Route path="/admin/encyclopedia" component={EncyclopediaAdmin} />
         <Route path="/paramedic-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="paramedic" />}</Route>

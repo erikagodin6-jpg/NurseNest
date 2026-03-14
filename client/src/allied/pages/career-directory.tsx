@@ -1,7 +1,13 @@
 import { Link } from "wouter";
 import { CAREER_CONFIGS } from "@shared/careers";
-import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity } from "lucide-react";
+import { CAREER_GUIDES } from "@shared/career-guide-data";
+import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity, GraduationCap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
+
+const CAREER_TO_GUIDE_SLUG: Record<string, string> = Object.values(CAREER_GUIDES).reduce((acc, guide) => {
+  acc[guide.careerSlug] = guide.slug;
+  return acc;
+}, {} as Record<string, string>);
 
 const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.rrt, Icon: Wind },
@@ -68,9 +74,16 @@ export default function CareerDirectoryPage() {
                     <span className="px-2 py-0.5 bg-gray-50 text-gray-500 rounded-md text-xs">+{career.domains.length - 5} more</span>
                   )}
                 </div>
-                <Link href={`/careers/${career.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
-                  Start Studying <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="flex flex-wrap gap-3">
+                  <Link href={`/careers/${career.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
+                    Start Studying <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  {CAREER_TO_GUIDE_SLUG[career.slug] && (
+                    <Link href={`/${CAREER_TO_GUIDE_SLUG[career.slug]}`} className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors" data-testid={`button-guide-${career.slug}`}>
+                      <GraduationCap className="w-4 h-4" /> Career Guide
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>
