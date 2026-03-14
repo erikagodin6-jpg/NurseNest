@@ -1,40 +1,10 @@
 import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
-import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runMedicalSpecialtySubspecialty, runFullMedicalSpecialtiesExpansion, getMedicalSpecialtiesExpansionStatus } from "./qbank-expansion-engine";
-import { runCommunityNursingSubspecialty, runFullCommunityNursingExpansion, getCommunityNursingExpansionStatus } from "./community-nursing-expansion-engine";
-import { runEmergencyNursingGeneration } from "./emergency-nursing-generator";
+import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runProceduralSurgicalSubspecialty, runFullProceduralSurgicalExpansion, getProceduralSurgicalExpansionStatus } from "./qbank-expansion-engine";
 
 const activeExpansions = new Map<string, { status: string; summary?: any; error?: string }>();
 
 export function registerExpansionEngineRoutes(app: Express) {
-  app.post("/api/admin/expansion-engine/start-emergency-nursing", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    try {
-      const key = "emergency-nursing-full";
-      if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
-        return res.status(409).json({ error: "Emergency nursing generation is already running" });
-      }
-
-      activeExpansions.set(key, { status: "running" });
-      res.json({ ok: true, message: "Started Emergency Nursing generation: 1,500 questions (500 per subspecialty)" });
-
-      runEmergencyNursingGeneration((progress) => {
-        console.log(`[Emergency Route] Progress: ${progress.subspecialty} batch ${progress.batchNumber}, ${progress.questionsGenerated} questions`);
-      }).then((result) => {
-        activeExpansions.set(key, { status: "complete", summary: result });
-        console.log(`[Emergency Route] Complete: ${result.grandTotal.totalQuestions}/1500 questions generated`);
-      }).catch((err) => {
-        console.error(`[Emergency Route] Error:`, err);
-        activeExpansions.set(key, { status: "failed", error: err.message });
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-
   app.post("/api/admin/expansion-engine/start", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
@@ -224,13 +194,13 @@ export function registerExpansionEngineRoutes(app: Express) {
     }
   });
 
-  app.post("/api/admin/expansion-engine/medical-specialties/start", async (req, res) => {
+  app.post("/api/admin/expansion-engine/procedural-surgical/start", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
     try {
       const { subspecialty, targetCount } = req.body;
-      const validSubspecialties = ["Cardiac Nursing", "Oncology Nursing", "Nephrology/Dialysis Nursing", "Gastroenterology Nursing", "Neurology/Stroke Nursing", "Pulmonary/Respiratory Nursing", "Endocrine Nursing"];
+      const validSubspecialties = ["Perioperative Nursing", "Operating Room Nursing", "PACU Nursing", "Cath Lab Nursing", "Interventional Radiology Nursing", "Endoscopy Nursing"];
 
       if (!subspecialty || !validSubspecialties.includes(subspecialty)) {
         return res.status(400).json({ error: `Invalid subspecialty. Must be one of: ${validSubspecialties.join(", ")}` });
@@ -241,20 +211,20 @@ export function registerExpansionEngineRoutes(app: Express) {
         return res.status(400).json({ error: "targetCount must be between 1 and 5000" });
       }
 
-      const key = `medical-specialties-${subspecialty.toLowerCase().replace(/[\s\/]+/g, "-")}`;
+      const key = `procedural-surgical-${subspecialty.toLowerCase().replace(/\s+/g, "-")}`;
       if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
-        return res.status(409).json({ error: `Medical Specialties expansion for ${subspecialty} is already running` });
+        return res.status(409).json({ error: `Procedural/Surgical expansion for ${subspecialty} is already running` });
       }
 
       activeExpansions.set(key, { status: "running" });
-      res.json({ ok: true, message: `Started Medical Specialties ${subspecialty} expansion for ${count} questions`, key });
+      res.json({ ok: true, message: `Started Procedural/Surgical ${subspecialty} expansion for ${count} questions`, key });
 
-      runMedicalSpecialtySubspecialty(subspecialty, count, (progress) => {
-        console.log(`[MedicalSpecialties Route] Progress: batch ${progress.batchNumber}, ${progress.questionsGenerated} questions`);
+      runProceduralSurgicalSubspecialty(subspecialty, count, (progress) => {
+        console.log(`[ProceduralSurgical Route] Progress: batch ${progress.batchNumber}, ${progress.questionsGenerated} questions`);
       }).then((summary) => {
         activeExpansions.set(key, { status: "complete", summary });
       }).catch((err) => {
-        console.error(`[MedicalSpecialties Route] Error:`, err);
+        console.error(`[ProceduralSurgical Route] Error:`, err);
         activeExpansions.set(key, { status: "failed", error: err.message });
       });
     } catch (e: any) {
@@ -262,127 +232,41 @@ export function registerExpansionEngineRoutes(app: Express) {
     }
   });
 
-  app.post("/api/admin/expansion-engine/medical-specialties/start-full", async (req, res) => {
+  app.post("/api/admin/expansion-engine/procedural-surgical/start-full", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
     try {
-      if (activeExpansions.has("medical-specialties-full") && activeExpansions.get("medical-specialties-full")?.status === "running") {
-        return res.status(409).json({ error: "Full Medical Specialties expansion is already running" });
+      if (activeExpansions.has("procedural-surgical-full") && activeExpansions.get("procedural-surgical-full")?.status === "running") {
+        return res.status(409).json({ error: "Full Procedural/Surgical expansion is already running" });
       }
 
-      activeExpansions.set("medical-specialties-full", { status: "running" });
-      res.json({ ok: true, message: "Started full 3,500-question Medical Specialties expansion across 7 subspecialties (500 each: Cardiac Nursing, Oncology Nursing, Nephrology/Dialysis Nursing, Gastroenterology Nursing, Neurology/Stroke Nursing, Pulmonary/Respiratory Nursing, Endocrine Nursing)" });
+      activeExpansions.set("procedural-surgical-full", { status: "running" });
+      res.json({ ok: true, message: "Started full 3,000-question Procedural/Surgical expansion across 6 subspecialties (500 each: Perioperative Nursing, Operating Room Nursing, PACU Nursing, Cath Lab Nursing, Interventional Radiology Nursing, Endoscopy Nursing)" });
 
-      runFullMedicalSpecialtiesExpansion((progress) => {
-        console.log(`[MedicalSpecialties Full] Progress: batch ${progress.batchNumber} (${progress.tier}), ${progress.questionsGenerated} questions`);
+      runFullProceduralSurgicalExpansion((progress) => {
+        console.log(`[ProceduralSurgical Full] Progress: batch ${progress.batchNumber} (${progress.tier}), ${progress.questionsGenerated} questions`);
       }).then((result) => {
-        activeExpansions.set("medical-specialties-full", { status: "complete", summary: result });
+        activeExpansions.set("procedural-surgical-full", { status: "complete", summary: result });
       }).catch((err) => {
-        console.error(`[MedicalSpecialties Full] Error:`, err);
-        activeExpansions.set("medical-specialties-full", { status: "failed", error: err.message });
+        console.error(`[ProceduralSurgical Full] Error:`, err);
+        activeExpansions.set("procedural-surgical-full", { status: "failed", error: err.message });
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
   });
 
-  app.get("/api/admin/expansion-engine/medical-specialties/status", async (req, res) => {
+  app.get("/api/admin/expansion-engine/procedural-surgical/status", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
     try {
-      const dbStatus = await getMedicalSpecialtiesExpansionStatus();
+      const dbStatus = await getProceduralSurgicalExpansionStatus();
       const runningJobs: Record<string, any> = {};
 
       activeExpansions.forEach((val, key) => {
-        if (key.startsWith("medical-specialties")) {
-          runningJobs[key] = val;
-        }
-      });
-
-      res.json({
-        ...dbStatus,
-        activeJobs: runningJobs,
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/expansion-engine/community-nursing/start", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    try {
-      const { subspecialty, targetCount } = req.body;
-      const validSubspecialties = ["Public Health Nursing", "Community Health Nursing", "Palliative Care Nursing", "Hospice Nursing", "Occupational Health Nursing"];
-
-      if (!subspecialty || !validSubspecialties.includes(subspecialty)) {
-        return res.status(400).json({ error: `Invalid subspecialty. Must be one of: ${validSubspecialties.join(", ")}` });
-      }
-
-      const count = targetCount ? parseInt(targetCount) : 500;
-      if (isNaN(count) || count < 1 || count > 5000) {
-        return res.status(400).json({ error: "targetCount must be between 1 and 5000" });
-      }
-
-      const key = `community-nursing-${subspecialty.toLowerCase().replace(/\s+/g, "-")}`;
-      if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
-        return res.status(409).json({ error: `Community Nursing expansion for ${subspecialty} is already running` });
-      }
-
-      activeExpansions.set(key, { status: "running" });
-      res.json({ ok: true, message: `Started Community Nursing ${subspecialty} expansion for ${count} questions`, key });
-
-      runCommunityNursingSubspecialty(subspecialty, count, (progress) => {
-        console.log(`[CommunityNursing Route] Progress: batch ${progress.batchNumber}, ${progress.questionsGenerated} questions`);
-      }).then((summary) => {
-        activeExpansions.set(key, { status: "complete", summary });
-      }).catch((err) => {
-        console.error(`[CommunityNursing Route] Error:`, err);
-        activeExpansions.set(key, { status: "failed", error: err.message });
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/expansion-engine/community-nursing/start-full", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    try {
-      if (activeExpansions.has("community-nursing-full") && activeExpansions.get("community-nursing-full")?.status === "running") {
-        return res.status(409).json({ error: "Full Community Nursing expansion is already running" });
-      }
-
-      activeExpansions.set("community-nursing-full", { status: "running" });
-      res.json({ ok: true, message: "Started full 2,500-question Community & Other Nursing expansion across 5 subspecialties (500 each: Public Health, Community Health, Palliative Care, Hospice, Occupational Health)" });
-
-      runFullCommunityNursingExpansion((progress) => {
-        console.log(`[CommunityNursing Full] Progress: batch ${progress.batchNumber} (${progress.tier}), ${progress.questionsGenerated} questions`);
-      }).then((result) => {
-        activeExpansions.set("community-nursing-full", { status: "complete", summary: result });
-      }).catch((err) => {
-        console.error(`[CommunityNursing Full] Error:`, err);
-        activeExpansions.set("community-nursing-full", { status: "failed", error: err.message });
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get("/api/admin/expansion-engine/community-nursing/status", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    try {
-      const dbStatus = await getCommunityNursingExpansionStatus();
-      const runningJobs: Record<string, any> = {};
-
-      activeExpansions.forEach((val, key) => {
-        if (key.startsWith("community-nursing")) {
+        if (key.startsWith("procedural-surgical")) {
           runningJobs[key] = val;
         }
       });
