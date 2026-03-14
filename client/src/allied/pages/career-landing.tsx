@@ -1,5 +1,5 @@
 import { Link, useParams } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap, Wrench,
   BarChart3, Target, Clock, CheckCircle2, ChevronRight, Check, X,
@@ -8,14 +8,6 @@ import {
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt,
-  paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech,
-  mlt: CAREER_CONFIGS.mlt,
-  imaging: CAREER_CONFIGS.imaging,
-};
 
 const FEATURES = [
   { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
@@ -66,9 +58,10 @@ const FAQ_DATA = [
 
 export default function CareerLandingPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const { region, setRegion, getRegionConfig, regionLabel } = useRegion();
   const regionConfig = career ? getRegionConfig(career.slug) : null;
+  const careerRoute = career ? getCanonicalRoute(career.slug) : "";
 
   if (!career) {
     return (
@@ -86,7 +79,7 @@ export default function CareerLandingPage() {
         title={`${career.name} Exam Prep - QBank, Mock Exams & Study Tools`}
         description={`Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, smart study tools, and a personalized study plan. Covers all ${career.examNames[0]} exam domains.`}
         keywords={`${career.name} exam prep, ${career.examNames[0]} exam, ${career.name} practice questions, ${career.name} mock exam, ${career.name} study guide, ${career.name} flashcards, ${career.name} certification`}
-        canonicalPath={`/career/${params.careerSlug}`}
+        canonicalPath={careerRoute}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
@@ -172,7 +165,7 @@ export default function CareerLandingPage() {
               <Link href={`/qbank?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-start-qbank">
                 Practice Questions
               </Link>
-              <Link href={`/careers/${career.slug}/mock-exams`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-start-mock">
+              <Link href={`${careerRoute}/mock-exams`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-start-mock">
                 Take a Mock Exam
               </Link>
             </div>
@@ -210,7 +203,7 @@ export default function CareerLandingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
-              <Link key={f.slug} href={f.slug === "qbank" ? `/qbank?career=${career.slug}` : `/careers/${career.slug}/${f.slug}`} className="group" data-testid={`card-feature-${f.slug}`}>
+              <Link key={f.slug} href={f.slug === "qbank" ? `/qbank?career=${career.slug}` : `${careerRoute}/${f.slug}`} className="group" data-testid={`card-feature-${f.slug}`}>
                 <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-teal-200 transition-all h-full">
                   <f.icon className="w-7 h-7 text-teal-500 mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">{f.label}</h3>
@@ -336,7 +329,7 @@ export default function CareerLandingPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Smart Study Tools</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {career.aiTools.map(tool => (
-                <Link key={tool.id} href={`/careers/${career.slug}/tools`} className="group" data-testid={`card-tool-${tool.id}`}>
+                <Link key={tool.id} href={`${careerRoute}/tools`} className="group" data-testid={`card-tool-${tool.id}`}>
                   <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl border border-teal-100 p-5 hover:shadow-md transition-all">
                     <Wrench className="w-6 h-6 text-teal-600 mb-3" />
                     <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">{tool.name}</h3>
@@ -470,7 +463,7 @@ export default function CareerLandingPage() {
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-teal-200 text-sm">
             <Link href={`/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Question Bank →</Link>
-            <Link href={`/careers/${career.slug}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
+            <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
             <Link href="/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
           </div>
         </div>

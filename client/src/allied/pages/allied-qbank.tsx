@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Link, useSearch } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/careers";
 import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
@@ -172,7 +172,7 @@ export default function AlliedQBankPage() {
     />
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-qbank-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Question Bank</span>
       </div>

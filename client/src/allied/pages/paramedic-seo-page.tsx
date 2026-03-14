@@ -154,7 +154,7 @@ export function ParamedicTopicPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/careers/paramedic" },
+    { label: "Paramedic", href: "/paramedic" },
     { label: data.title, href: `/paramedic/topic/${data.slug}` },
   ];
 
@@ -197,7 +197,7 @@ export function ParamedicCategoryPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/careers/paramedic" },
+    { label: "Paramedic", href: "/paramedic" },
     { label: data.title, href: `/paramedic/category/${data.slug}` },
   ];
 
@@ -233,7 +233,7 @@ export function ParamedicGlossaryPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/careers/paramedic" },
+    { label: "Paramedic", href: "/paramedic" },
     { label: "Glossary", href: "/paramedic/glossary" },
     { label: data.term, href: `/paramedic/glossary/${data.slug}` },
   ];
@@ -286,7 +286,7 @@ export function ParamedicComparisonPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/careers/paramedic" },
+    { label: "Paramedic", href: "/paramedic" },
     { label: data.title, href: `/paramedic/compare/${data.slug}` },
   ];
 
@@ -323,7 +323,7 @@ export function ParamedicStudyGuidePage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/careers/paramedic" },
+    { label: "Paramedic", href: "/paramedic" },
     { label: "Study Guides", href: "/paramedic/study-guide" },
     { label: data.title, href: `/paramedic/study-guide/${data.slug}` },
   ];

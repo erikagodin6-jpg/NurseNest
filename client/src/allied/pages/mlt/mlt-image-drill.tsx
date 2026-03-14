@@ -118,7 +118,7 @@ function MltImageDrill() {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="flex items-center gap-3 mb-8">
-            <a href="/careers/mlt" className="p-2 hover:bg-gray-200 rounded-lg" data-testid="link-back">
+            <a href="/mlt" className="p-2 hover:bg-gray-200 rounded-lg" data-testid="link-back">
               <ArrowLeft className="w-5 h-5" />
             </a>
             <div>

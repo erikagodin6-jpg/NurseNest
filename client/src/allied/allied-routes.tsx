@@ -1,5 +1,6 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Redirect } from "wouter";
 import { lazy, Suspense } from "react";
+import { getCanonicalRoute } from "@shared/careers";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
 const AlliedHome = lazy(() => import("./pages/allied-home"));
@@ -97,6 +98,14 @@ const SocialWorkExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-la
 const PsychotherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.PsychotherapyExamPrep })));
 const AddictionsCounsellingExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.AddictionsCounsellingExamPrep })));
 const OccupationalTherapyExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.OccupationalTherapyExamPrep })));
+
+function CareerRedirect({ careerSlug, subPath }: { careerSlug?: string; subPath?: string }) {
+  if (!careerSlug) return null;
+  const canonical = getCanonicalRoute(careerSlug);
+  const target = subPath ? `${canonical}/${subPath}` : canonical;
+  window.location.replace(target);
+  return null;
+}
 
 function LoadingFallback() {
   return (
@@ -206,7 +215,7 @@ export function AlliedRoutes() {
         <Route path="/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
         <Route path="/admin/mlt/images" component={MltImageLibrary} />
         <Route path="/mlt/image-drill" component={MltImageDrill} />
-        <Route path="/careers/mlt/image-drill" component={MltImageDrill} />
+        <Route path="/careers/mlt/image-drill">{() => { window.location.replace("/mlt/image-drill"); return null; }}</Route>
         <Route path="/paramedic/pcp" component={ParamedicPCP} />
         <Route path="/paramedic/acp" component={ParamedicACP} />
         <Route path="/paramedic/nremt" component={ParamedicNREMT} />
@@ -317,15 +326,25 @@ export function AlliedRoutes() {
         <Route path="/occupational-therapist/question-bank" component={OTQuestionBankPage} />
         <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
         <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
-        <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
-        <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
-        <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />
-        <Route path="/careers/:careerSlug/flashcards" component={AlliedFlashcards} />
-        <Route path="/careers/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
-        <Route path="/careers/paramedic/scenarios" component={ParamedicScenariosHub} />
-        <Route path="/careers/:careerSlug/sims" component={AlliedSims} />
-        <Route path="/careers/:careerSlug/tools" component={AlliedTools} />
-        <Route path="/careers/:careerSlug" component={CareerLanding} />
+        <Route path="/:careerSlug/mock-exams" component={AlliedMockExams} />
+        <Route path="/:careerSlug/dashboard" component={AlliedDashboard} />
+        <Route path="/:careerSlug/study-plan" component={AlliedStudyPlan} />
+        <Route path="/:careerSlug/flashcards" component={AlliedFlashcards} />
+        <Route path="/:careerSlug/sims" component={AlliedSims} />
+        <Route path="/:careerSlug/tools" component={AlliedTools} />
+
+        <Route path="/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
+        <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
+        <Route path="/careers/paramedic/scenarios/:slug">{(params) => { window.location.replace(`/paramedic/scenarios/${params.slug}`); return null; }}</Route>
+        <Route path="/careers/paramedic/scenarios">{() => { window.location.replace("/paramedic/scenarios"); return null; }}</Route>
+
+        <Route path="/careers/:careerSlug/mock-exams">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="mock-exams" />}</Route>
+        <Route path="/careers/:careerSlug/dashboard">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="dashboard" />}</Route>
+        <Route path="/careers/:careerSlug/study-plan">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="study-plan" />}</Route>
+        <Route path="/careers/:careerSlug/flashcards">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="flashcards" />}</Route>
+        <Route path="/careers/:careerSlug/sims">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="sims" />}</Route>
+        <Route path="/careers/:careerSlug/tools">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="tools" />}</Route>
+        <Route path="/careers/:careerSlug">{(params) => <CareerRedirect careerSlug={params.careerSlug} />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />

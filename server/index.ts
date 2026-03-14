@@ -133,6 +133,20 @@ app.use((req, res, next) => {
   next();
 });
 
+import { CAREER_SLUG_TO_CANONICAL_ROUTE } from "@shared/careers";
+app.use((req, res, next) => {
+  const match = req.path.match(/^\/careers\/([^/]+)(\/.*)?$/);
+  if (!match) return next();
+  const slug = match[1];
+  const rest = match[2] || "";
+  const canonical = CAREER_SLUG_TO_CANONICAL_ROUTE[slug];
+  if (canonical) {
+    const query = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
+    return res.redirect(301, `${canonical}${rest}${query}`);
+  }
+  next();
+});
+
 app.use(compression());
 app.use(cookieParser());
 

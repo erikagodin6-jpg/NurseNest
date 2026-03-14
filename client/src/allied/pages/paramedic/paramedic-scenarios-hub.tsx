@@ -53,7 +53,7 @@ export default function ParamedicScenariosHub() {
                 description={scenario.description}
                 meta={scenario.difficulty}
                 tags={scenario.tags}
-                href="/careers/paramedic/sims"
+                href="/paramedic/sims"
                 icon={Zap}
                 badge={scenario.difficulty}
               />

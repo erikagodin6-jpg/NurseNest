@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { CAREER_CONFIGS } from "@shared/careers";
+import { CAREER_CONFIGS, getCanonicalRoute } from "@shared/careers";
 import {
   Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen,
   FileText, Brain, Zap, CheckCircle2, TrendingUp, Users, Star, Mail,
@@ -119,7 +119,7 @@ export default function AlliedHomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {ALLIED_CAREERS.filter(c => c.enabled).map(career => (
               <div key={career.slug} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all h-full group" data-testid={`card-career-${career.slug}`}>
-                <Link href={`/careers/${career.slug}`} className="block">
+                <Link href={getCanonicalRoute(career.slug)} className="block">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: career.colorAccent }}>
                     <career.Icon className="w-6 h-6" style={{ color: career.color }} />
                   </div>

@@ -96,8 +96,8 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     ],
     crossLinks: [
       { label: "Paramedic Airway Management", href: "/paramedic", description: "Related airway management and ventilation content for paramedic students" },
-      { label: "Critical Care Nursing (CCRN)", href: "/careers/critical-care", description: "ICU nursing certification covering ventilator management and hemodynamic monitoring" },
-      { label: "Emergency Nursing (CEN)", href: "/careers/emergency-nursing", description: "Emergency department nursing certification with respiratory emergency content" },
+      { label: "Critical Care Nursing (CCRN)", href: "/critical-care", description: "ICU nursing certification covering ventilator management and hemodynamic monitoring" },
+      { label: "Emergency Nursing (CEN)", href: "/emergency-nursing", description: "Emergency department nursing certification with respiratory emergency content" },
     ],
     contentClusterBase: "/rrt",
   },
@@ -152,7 +152,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     crossLinks: [
       { label: "Psychotherapy Exam Prep", href: "/psychotherapy", description: "Related therapeutic modality content for registered psychotherapists" },
       { label: "Addictions Counselling", href: "/addictions", description: "Substance use disorders, motivational interviewing, and co-occurring disorders" },
-      { label: "Mental Health Nursing", href: "/careers/nursing", description: "Psychiatric nursing content with DSM-5 and therapeutic communication" },
+      { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with DSM-5 and therapeutic communication" },
     ],
     contentClusterBase: "/social-work",
   },
@@ -207,7 +207,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     crossLinks: [
       { label: "Social Work Exam Prep", href: "/social-work", description: "Related clinical assessment and intervention content for social workers" },
       { label: "Addictions Counselling", href: "/addictions", description: "Substance use disorders, motivational interviewing, and dual diagnosis" },
-      { label: "Mental Health Nursing", href: "/careers/nursing", description: "Psychiatric nursing content with therapeutic communication and psychopharmacology" },
+      { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with therapeutic communication and psychopharmacology" },
     ],
     contentClusterBase: "/psychotherapy",
   },
@@ -266,7 +266,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     crossLinks: [
       { label: "Social Work Exam Prep", href: "/social-work", description: "Clinical social work with substance abuse assessment and intervention" },
       { label: "Psychotherapy Exam Prep", href: "/psychotherapy", description: "Therapeutic modalities including MI, CBT, and trauma-informed care" },
-      { label: "Mental Health Nursing", href: "/careers/nursing", description: "Psychiatric nursing with substance use disorder content" },
+      { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing with substance use disorder content" },
     ],
     contentClusterBase: "/addictions",
   },
@@ -323,9 +323,9 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the NBCOT exam?", a: "Most students study 8-12 weeks before the NBCOT OTR exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "Physical Therapy Exam Prep", href: "/careers/physical-therapy", description: "Related rehabilitation content for physical therapists" },
+      { label: "Physical Therapy Exam Prep", href: "/physical-therapy", description: "Related rehabilitation content for physical therapists" },
       { label: "Psychotherapy & Mental Health", href: "/psychotherapy", description: "Therapeutic modalities and mental health assessment" },
-      { label: "Pediatric Nursing (CPN)", href: "/careers/pediatric-cert", description: "Pediatric development and family-centered care" },
+      { label: "Pediatric Nursing (CPN)", href: "/pediatric-cert", description: "Pediatric development and family-centered care" },
     ],
     contentClusterBase: "/occupational-therapy",
   },

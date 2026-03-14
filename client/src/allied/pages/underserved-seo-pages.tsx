@@ -57,10 +57,10 @@ const PROFESSION_CONFIG: Record<ProfessionSlug, {
       "Case vignette practice",
       "Detailed rationales",
     ],
-    dashboardPath: "/careers/social-worker/dashboard",
+    dashboardPath: "/social-work/dashboard",
     qbankPath: "/qbank?career=social-worker",
-    flashcardsPath: "/careers/social-worker/flashcards",
-    mockExamsPath: "/careers/social-worker/mock-exams",
+    flashcardsPath: "/social-work/flashcards",
+    mockExamsPath: "/social-work/mock-exams",
   },
   psychotherapist: {
     label: "Registered Psychotherapist / Counselor",
@@ -88,10 +88,10 @@ const PROFESSION_CONFIG: Record<ProfessionSlug, {
       "Canadian & US regulatory content",
       "Therapeutic relationship focus",
     ],
-    dashboardPath: "/careers/psychotherapist/dashboard",
+    dashboardPath: "/psychotherapy/dashboard",
     qbankPath: "/qbank?career=psychotherapist",
-    flashcardsPath: "/careers/psychotherapist/flashcards",
-    mockExamsPath: "/careers/psychotherapist/mock-exams",
+    flashcardsPath: "/psychotherapy/flashcards",
+    mockExamsPath: "/psychotherapy/mock-exams",
   },
   "addictions-counsellor": {
     label: "Addictions Counsellor",
@@ -119,10 +119,10 @@ const PROFESSION_CONFIG: Record<ProfessionSlug, {
       "Relapse prevention models",
       "Ethical scenario practice",
     ],
-    dashboardPath: "/careers/addictions-counsellor/dashboard",
+    dashboardPath: "/addictions/dashboard",
     qbankPath: "/qbank?career=addictions-counsellor",
-    flashcardsPath: "/careers/addictions-counsellor/flashcards",
-    mockExamsPath: "/careers/addictions-counsellor/mock-exams",
+    flashcardsPath: "/addictions/flashcards",
+    mockExamsPath: "/addictions/mock-exams",
   },
   "occupational-therapy": {
     label: "Occupational Therapy",
@@ -150,10 +150,10 @@ const PROFESSION_CONFIG: Record<ProfessionSlug, {
       "Pediatric development coverage",
       "Evidence-based practice focus",
     ],
-    dashboardPath: "/careers/occupational-therapy/dashboard",
+    dashboardPath: "/occupational-therapy/dashboard",
     qbankPath: "/qbank?career=occupational-therapy",
-    flashcardsPath: "/careers/occupational-therapy/flashcards",
-    mockExamsPath: "/careers/occupational-therapy/mock-exams",
+    flashcardsPath: "/occupational-therapy/flashcards",
+    mockExamsPath: "/occupational-therapy/mock-exams",
   },
 };
 
@@ -523,7 +523,7 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
         <p className="text-gray-600">This page doesn't exist yet.</p>
-        <Link href={`/careers/${profession}`} className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back">
+        <Link href={`/${profession}`} className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back">
           Back to {cfg.shortName}
         </Link>
       </div>
@@ -643,7 +643,7 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
               <div className="text-sm font-medium text-gray-800">Flashcards</div>
               <div className="text-xs text-gray-500 mt-1">Spaced repetition cards</div>
             </Link>
-            <Link href={`/careers/${profession}`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-career-hub">
+            <Link href={`/${profession}`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-career-hub">
               <GraduationCap className="w-6 h-6 text-orange-500 mx-auto mb-2" />
               <div className="text-sm font-medium text-gray-800">Career Hub</div>
               <div className="text-xs text-gray-500 mt-1">Career information</div>

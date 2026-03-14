@@ -597,6 +597,44 @@ export const CAREER_CONFIGS: Record<CareerType, CareerConfig> = {
   },
 };
 
+export const CAREER_SLUG_TO_CANONICAL_ROUTE: Record<string, string> = {
+  "rrt": "/rrt",
+  "paramedic": "/paramedic",
+  "pharmacy-tech": "/pharmacy-technician",
+  "mlt": "/mlt",
+  "imaging": "/imaging",
+  "psychotherapist": "/psychotherapy",
+  "social-worker": "/social-work",
+  "addictions-counsellor": "/addictions",
+  "occupational-therapy": "/occupational-therapy",
+  "physical-therapy": "/physical-therapy",
+  "nursing": "/nursing",
+  "critical-care": "/critical-care",
+  "emergency-nursing": "/emergency-nursing",
+  "perioperative": "/perioperative",
+  "oncology-nursing": "/oncology-nursing",
+  "pediatric-cert": "/pediatric-cert",
+};
+
+export function getCanonicalRoute(careerSlug: string): string {
+  return CAREER_SLUG_TO_CANONICAL_ROUTE[careerSlug] || `/careers/${careerSlug}`;
+}
+
+export const CANONICAL_ROUTE_SLUG_TO_CAREER_SLUG: Record<string, string> = Object.entries(
+  CAREER_SLUG_TO_CANONICAL_ROUTE
+).reduce((acc, [careerSlug, route]) => {
+  const routeSlug = route.replace(/^\//, "");
+  if (routeSlug !== careerSlug) {
+    acc[routeSlug] = careerSlug;
+  }
+  return acc;
+}, {} as Record<string, string>);
+
+export function getCareerByRouteSlug(routeSlug: string): CareerConfig | undefined {
+  const careerSlug = CANONICAL_ROUTE_SLUG_TO_CAREER_SLUG[routeSlug] || routeSlug;
+  return getCareerBySlug(careerSlug);
+}
+
 export function getCareerBySlug(slug: string): CareerConfig | undefined {
   return Object.values(CAREER_CONFIGS).find((c) => c.slug === slug);
 }

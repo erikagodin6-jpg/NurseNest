@@ -1,13 +1,8 @@
 import { useParams, Link } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { Wrench, ChevronRight, ArrowRight, Lock, Zap, Calculator, Activity, Microscope, Radio } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
 
 const TOOL_ICONS: Record<string, any> = {
   "abg-engine": Activity, "ventilator-sim": Zap, "trauma-algorithm": Activity, "ecg-drill": Activity,
@@ -25,7 +20,7 @@ const EXTRA_TOOLS: Record<string, { name: string; description: string; id: strin
 
 export default function AlliedToolsPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const { user } = useAuth();
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
 
@@ -41,10 +36,10 @@ export default function AlliedToolsPage() {
         title={`${career.name} AI Study Tools - Interactive Learning`}
         description={`Career-specific AI-powered study tools for ${career.name} exam prep. Interactive calculators, simulators, and practice engines designed for ${career.examNames[0]} certification success.`}
         keywords={`${career.name} study tools, ${career.name} AI tools, ${career.examNames[0]} interactive tools, ${career.name} calculators, ${career.name} simulators`}
-        canonicalPath={`/career/${params.careerSlug}/tools`}
+        canonicalPath={`${getCanonicalRoute(career.slug)}/tools`}
       />
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">AI Tools</span>
       </div>

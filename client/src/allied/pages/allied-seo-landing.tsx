@@ -809,7 +809,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               </div>
             </Link>
             <Link
-              href={`/careers/${page.careerSlug}/mock-exams`}
+              href={`/${page.careerSlug}/mock-exams`}
               className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-teal-300 hover:shadow-sm transition-all"
               data-testid="link-internal-mock-exams"
             >
@@ -831,7 +831,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               </div>
             </Link>
             <Link
-              href={`/careers/${page.careerSlug}/flashcards`}
+              href={`/${page.careerSlug}/flashcards`}
               className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-teal-300 hover:shadow-sm transition-all"
               data-testid="link-internal-flashcards"
             >
@@ -842,7 +842,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               </div>
             </Link>
             <Link
-              href={`/careers/${page.careerSlug}/study-plan`}
+              href={`/${page.careerSlug}/study-plan`}
               className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-teal-300 hover:shadow-sm transition-all"
               data-testid="link-internal-study-plan"
             >

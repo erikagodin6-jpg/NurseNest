@@ -28,10 +28,10 @@ function professionQuestionsPath(profession: string): string {
     "respiratory-therapy": "/rrt/questions",
     mlt: "/mlt/questions",
     imaging: "/imaging/questions",
-    "social-work": "/careers/social-worker",
-    psychotherapy: "/careers/psychotherapist",
-    addictions: "/careers/addictions-counsellor",
-    "occupational-therapy": "/careers/occupational-therapy",
+    "social-work": "/social-work",
+    psychotherapy: "/psychotherapy",
+    addictions: "/addictions",
+    "occupational-therapy": "/occupational-therapy",
   };
   return map[profession] || "/careers";
 }
@@ -220,7 +220,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
             <CTACard
               title="Review Flashcards"
               description="Reinforce key concepts with spaced repetition"
-              href={`/careers/${profession === "respiratory-therapy" ? "rrt" : profession}/flashcards`}
+              href={`/${profession === "respiratory-therapy" ? "rrt" : profession}/flashcards`}
               icon={<Brain className="w-5 h-5" />}
               color="purple"
               testId="cta-flashcards"
@@ -228,7 +228,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
             <CTACard
               title="Start a Mock Exam"
               description={`Full-length ${meta.label} practice exam`}
-              href={`/careers/${profession === "respiratory-therapy" ? "rrt" : profession}/mock-exams`}
+              href={`/${profession === "respiratory-therapy" ? "rrt" : profession}/mock-exams`}
               icon={<Microscope className="w-5 h-5" />}
               color="amber"
               testId="cta-mock-exam"

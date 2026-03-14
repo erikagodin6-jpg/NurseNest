@@ -86,7 +86,7 @@ export default function ParamedicLessonsHub() {
                   key={lesson.slug}
                   title={lesson.title}
                   description={lesson.description}
-                  href={`/careers/paramedic/study-plan`}
+                  href={`/paramedic/study-plan`}
                   icon={BookOpen}
                   tags={[lesson.topic]}
                 />

@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { getCanonicalRoute } from "@shared/careers";
 
 declare global {
   namespace Express {
@@ -20,9 +21,11 @@ const PROFESSION_HUB_SLUGS = new Set([
 const ALLIED_SLUGS = new Set([
   ...ALLIED_CAREER_SLUGS,
   ...PROFESSION_HUB_SLUGS,
+  "pharmacy-technician",
   "critical-care", "emergency-nursing", "perioperative",
   "oncology-nursing", "pediatric-cert", "psychotherapist",
   "social-worker", "addictions-counsellor",
+  "physical-therapy",
 ]);
 
 const NURSING_ONLY_PATHS = [
@@ -101,18 +104,20 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
       return next();
     }
 
+    const canonical = getCanonicalRoute(firstSeg);
+
     if (segments.length === 1) {
-      return res.redirect(301, `/careers/${firstSeg}`);
+      return res.redirect(301, canonical);
     }
 
     if (secondSeg && LEGACY_CAREER_FEATURES.has(secondSeg)) {
       if (LEGACY_FEATURE_TO_CANONICAL[secondSeg]) {
         return res.redirect(301, `/${secondSeg}?career=${firstSeg}`);
       }
-      return res.redirect(301, `/careers/${firstSeg}/${secondSeg}`);
+      return res.redirect(301, `${canonical}/${secondSeg}`);
     }
 
-    return res.redirect(301, `/careers/${firstSeg}`);
+    return res.redirect(301, canonical);
   }
 
   return next();
@@ -150,11 +155,12 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
 }
 
 export function generateAlliedSitemap(baseUrl: string): string {
-  const careers = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "social-worker", "psychotherapist", "addictions-counsellor", "occupational-therapy"];
-
-  const professionHubs = [
-    "rrt", "social-work", "psychotherapy", "addictions", "occupational-therapy",
+  const canonicalCareerRoutes = [
+    "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
+    "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
   ];
+
+  const careerSubPages = ["mock-exams", "dashboard", "flashcards", "study-plan", "sims", "tools"];
 
   const seoLandingPages = [
     "pharmacy-technician-practice-questions",
@@ -195,12 +201,11 @@ export function generateAlliedSitemap(baseUrl: string): string {
   urls.push(`<url><loc>${baseUrl}/diagnostic</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
   urls.push(`<url><loc>${baseUrl}/qbank</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
 
-  for (const career of careers) {
-    urls.push(`<url><loc>${baseUrl}/careers/${career}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
-  }
-
-  for (const hub of professionHubs) {
-    urls.push(`<url><loc>${baseUrl}/${hub}</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  for (const route of canonicalCareerRoutes) {
+    urls.push(`<url><loc>${baseUrl}${route}</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+    for (const sub of careerSubPages) {
+      urls.push(`<url><loc>${baseUrl}${route}/${sub}</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
+    }
   }
 
   for (const page of seoLandingPages) {

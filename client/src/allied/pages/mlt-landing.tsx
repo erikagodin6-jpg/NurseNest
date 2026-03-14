@@ -343,7 +343,7 @@ export default function MltLandingPage() {
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/careers/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">MLT Career Overview →</Link>
+            <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">MLT Career Overview →</Link>
             <Link href="/mlt/canada/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-ca">Free CSMLS Practice Questions →</Link>
             <Link href="/mlt/usa/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-us">Free ASCP Practice Questions →</Link>
           </div>

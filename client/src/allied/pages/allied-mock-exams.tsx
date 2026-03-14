@@ -1,16 +1,11 @@
 import { useState } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { useParams, Link, useLocation } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target, AlertTriangle, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
 
 const EXAM_TYPES = [
   { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam" },
@@ -27,7 +22,7 @@ const EXAM_TYPES = [
 
 export default function AlliedMockExamsPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const { user } = useAuth();
   const [, setLocation] = useLocation();
 
@@ -241,7 +236,7 @@ export default function AlliedMockExamsPage() {
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mock-exams-page">
       {mockExamSeo}
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Mock Exams</span>
       </div>

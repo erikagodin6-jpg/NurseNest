@@ -358,7 +358,7 @@ export default function AlliedInstitutionsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {CAREER_PROGRAMS.map(career => (
-              <Link key={career.slug} href={`/careers/${career.slug}`} className="group" data-testid={`program-card-${career.slug}`}>
+              <Link key={career.slug} href={`/${career.slug}`} className="group" data-testid={`program-card-${career.slug}`}>
                 <div className="bg-white rounded-xl border border-gray-100 p-5 text-center hover:shadow-md hover:border-teal-200 transition-all">
                   <div className="w-10 h-10 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: career.color + "15", color: career.color }}>
                     <BookOpen className="w-5 h-5" />

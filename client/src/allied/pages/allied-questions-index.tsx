@@ -126,7 +126,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
       <section className={`relative bg-gradient-to-br ${profession.heroGradient} py-12 sm:py-16 border-b border-gray-100`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href={`/careers/${professionKey}`} className="hover:text-gray-700">{profession.shortLabel}</Link>
+            <Link href={`/${professionKey}`} className="hover:text-gray-700">{profession.shortLabel}</Link>
             <span>/</span>
             <span className="text-gray-900 font-medium">Practice Questions</span>
           </nav>

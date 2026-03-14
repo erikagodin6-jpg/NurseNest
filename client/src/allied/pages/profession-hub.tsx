@@ -345,7 +345,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href={`/careers/${data.careerSlug}`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-career-overview">
+            <Link href={`/${data.contentClusterBase ? data.contentClusterBase.replace(/^\//, '') : data.careerSlug}`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-career-overview">
               {data.shortName} Career Overview →
             </Link>
             <Link href={`${data.contentClusterBase}/practice-questions`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-practice-questions">

@@ -244,7 +244,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: profession.shortLabel, href: `/careers/${profession.key}` },
+    { label: profession.shortLabel, href: `/${profession.key}` },
     { label: "Practice Questions", href: profession.questionsIndexHref },
     { label: topicTitle, href: `/${profession.key}/questions/${data.topicSlug}` },
   ];

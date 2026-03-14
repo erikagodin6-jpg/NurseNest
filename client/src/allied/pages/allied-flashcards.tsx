@@ -1,15 +1,10 @@
 import { useState, useMemo } from "react";
 import { useParams, Link } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute, type CareerConfig } from "@shared/careers";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye, Layers } from "lucide-react";
 import { pharmacyTechDecks, type FlashcardDeck } from "@/data/pharmacy-tech-flashcards";
 import { mltFlashcardDecks } from "@/data/mlt-flashcards";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
 
 function generateFlashcards(career: CareerConfig) {
   const cards: { id: number; front: string; back: string; domain: string; difficulty: number }[] = [];
@@ -41,7 +36,7 @@ function generateFlashcards(career: CareerConfig) {
 
 export default function AlliedFlashcardsPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const isPharmacyTech = career?.slug === "pharmacy-tech";
   const isMLT = career?.slug === "mlt";
   const hasDeckSelector = isPharmacyTech || isMLT;
@@ -139,7 +134,7 @@ export default function AlliedFlashcardsPage() {
       />
       <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-flashcards-page">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href={`/careers/${career.slug}`} className="hover:text-primary">{career.shortName}</Link>
+          <Link href={getCanonicalRoute(career.slug)} className="hover:text-primary">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-primary font-medium">Flashcards</span>
         </div>
@@ -186,7 +181,7 @@ export default function AlliedFlashcardsPage() {
     />
     <div className="max-w-3xl mx-auto px-4 py-8" data-testid="allied-flashcards-page">
       <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-primary">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-primary">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         {hasDeckSelector && (
           <>

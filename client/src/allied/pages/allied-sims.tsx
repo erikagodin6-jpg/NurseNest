@@ -1,14 +1,9 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute, type CareerConfig } from "@shared/careers";
 import { Zap, ChevronRight, ArrowRight, CheckCircle2, AlertTriangle, Clock, User } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
 
 interface SimStage {
   title: string;
@@ -77,7 +72,7 @@ function getSampleSim(career: CareerConfig): { title: string; intro: string; pat
 
 export default function AlliedSimsPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const { user } = useAuth();
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
 
@@ -132,7 +127,7 @@ export default function AlliedSimsPage() {
         <p className="text-gray-500 mb-8">Stages answered correctly</p>
         <div className="flex gap-3 justify-center">
           <button onClick={() => { setStarted(false); setStageIdx(0); setScore(0); setCompleted(false); setSelectedAnswer(null); setAnswered(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-restart-sim">Try Again</button>
-          <Link href={`/careers/${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-career">Back to {career.shortName}</Link>
+          <Link href={getCanonicalRoute(career.slug)} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-career">Back to {career.shortName}</Link>
         </div>
       </div>
     );
@@ -143,7 +138,7 @@ export default function AlliedSimsPage() {
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="allied-sims-page">
         {seoElement}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+          <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-teal-700 font-medium">Case Simulators</span>
         </div>

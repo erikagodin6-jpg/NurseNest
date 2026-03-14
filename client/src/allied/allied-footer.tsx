@@ -9,11 +9,11 @@ export function AlliedFooter() {
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Careers</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><Link href="/careers/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">Respiratory Therapist</Link></li>
-              <li><Link href="/careers/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">Paramedic</Link></li>
-              <li><Link href="/careers/pharmacy-tech" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
-              <li><Link href="/careers/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
-              <li><Link href="/careers/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
+              <li><Link href="/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">Respiratory Therapist</Link></li>
+              <li><Link href="/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">Paramedic</Link></li>
+              <li><Link href="/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
+              <li><Link href="/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
+              <li><Link href="/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
             </ul>
           </div>
           <div>

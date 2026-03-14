@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { GraduationCap, Calendar, Clock, Target, ChevronRight, CheckCircle2, BookOpen, Brain, FileText, Zap } from "lucide-react";
 
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
-
 export default function AlliedStudyPlanPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
 
   const [examDate, setExamDate] = useState("");
   const [hoursPerWeek, setHoursPerWeek] = useState("10");
@@ -54,7 +49,7 @@ export default function AlliedStudyPlanPage() {
     />
     <div className="max-w-4xl mx-auto px-4 py-8" data-testid="allied-study-plan-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Study Plan</span>
       </div>

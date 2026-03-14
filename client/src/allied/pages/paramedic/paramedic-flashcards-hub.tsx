@@ -54,7 +54,7 @@ export default function ParamedicFlashcardsHub() {
                 description={deck.description}
                 meta={`${deck.cardCount} cards`}
                 tags={deck.tags}
-                href="/careers/paramedic/flashcards"
+                href="/paramedic/flashcards"
                 icon={Brain}
               />
             ))}

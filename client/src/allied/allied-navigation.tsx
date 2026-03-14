@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/careers";
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
   BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe, Briefcase
@@ -38,6 +38,10 @@ function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]
   if (segments[0] === "careers" && segments[1]) {
     return alliedCareers.find(c => c.slug === segments[1]);
   }
+  if (segments[0]) {
+    const canonicalMatch = alliedCareers.find(c => getCanonicalRoute(c.slug) === `/${segments[0]}`);
+    if (canonicalMatch) return canonicalMatch;
+  }
   const searchParams = new URLSearchParams(window.location.search);
   const careerParam = searchParams.get("career");
   if (careerParam) {
@@ -67,13 +71,15 @@ export function AlliedNavigation() {
 
   function getFeatureHref(careerSlug: string, featureSlug: string) {
     if (featureSlug === "qbank") return `/qbank?career=${careerSlug}`;
-    return `/careers/${careerSlug}/${featureSlug}`;
+    const canonical = getCanonicalRoute(careerSlug);
+    return `${canonical}/${featureSlug}`;
   }
 
   function isFeatureActive(featureSlug: string) {
     if (!currentCareer) return false;
     if (featureSlug === "qbank") return location === "/qbank";
-    return location === `/careers/${currentCareer.slug}/${featureSlug}`;
+    const canonical = getCanonicalRoute(currentCareer.slug);
+    return location === `${canonical}/${featureSlug}`;
   }
 
   return (
@@ -125,7 +131,7 @@ export function AlliedNavigation() {
                 {careerDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50" data-testid="dropdown-careers">
                     {alliedCareers.filter(c => c.enabled).map(career => (
-                      <Link key={career.slug} href={`/careers/${career.slug}`} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${currentCareer?.slug === career.slug ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${career.slug}`}>
+                      <Link key={career.slug} href={getCanonicalRoute(career.slug)} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${currentCareer?.slug === career.slug ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${career.slug}`}>
                         {getCareerIcon(career.slug)}
                         <div>
                           <div className="font-medium">{career.shortName}</div>
@@ -206,7 +212,7 @@ export function AlliedNavigation() {
             <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">All Careers</Link>
             {alliedCareers.filter(c => c.enabled).map(career => (
               <div key={career.slug}>
-                <Link href={`/careers/${career.slug}`} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${career.slug}`}>
+                <Link href={getCanonicalRoute(career.slug)} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${career.slug}`}>
                   {getCareerIcon(career.slug)}
                   {career.shortName}
                 </Link>

@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { CAREER_CONFIGS } from "@shared/careers";
+import { CAREER_CONFIGS, getCanonicalRoute } from "@shared/careers";
 import { CAREER_GUIDES } from "@shared/career-guide-data";
 import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users, Hand, Activity, GraduationCap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -75,7 +75,7 @@ export default function CareerDirectoryPage() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href={`/careers/${career.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
+                  <Link href={getCanonicalRoute(career.slug)} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
                     Start Studying <ArrowRight className="w-4 h-4" />
                   </Link>
                   {CAREER_TO_GUIDE_SLUG[career.slug] && (

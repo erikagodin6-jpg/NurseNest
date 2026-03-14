@@ -611,7 +611,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">← MLT Exam Prep Hub</Link>
             <Link href={`/mlt/${cc.otherCountry}/exam-prep`} className="text-sm text-purple-600 hover:underline" data-testid="link-other-country">{cc.otherLabel} ({cc.country === "canada" ? "ASCP" : "CSMLS"}) Exam Prep →</Link>
-            <Link href="/careers/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">MLT Career Overview →</Link>
+            <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">MLT Career Overview →</Link>
           </div>
         </div>
       </section>

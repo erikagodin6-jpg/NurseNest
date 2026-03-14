@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
-import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { useRegion } from "@/allied/use-region";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useAuth } from "@/lib/auth";
@@ -9,11 +9,6 @@ import {
   BookOpen, Award, Globe, Shield, FileText, Brain, ArrowRight,
   CheckCircle2, AlertTriangle, Settings, RefreshCw
 } from "lucide-react";
-
-const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
-  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
-  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
-};
 
 function getDomainColor(accuracy: number): string {
   if (accuracy >= 70) return "#059669";
@@ -30,7 +25,7 @@ function getDomainBadge(accuracy: number): { label: string; bg: string; text: st
 
 export default function AlliedDashboardPage() {
   const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const career = getCareerByRouteSlug(params.careerSlug || "");
   const [examDate, setExamDate] = useState("");
   const { region, setRegion, getRegionConfig, regionLabel } = useRegion();
   const { user } = useAuth();
@@ -88,7 +83,7 @@ export default function AlliedDashboardPage() {
     />
     <div className="max-w-7xl mx-auto px-4 py-8" data-testid="allied-dashboard-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Dashboard</span>
       </div>
@@ -275,7 +270,7 @@ export default function AlliedDashboardPage() {
             <p className="text-sm text-gray-500 mb-4">No active study plan. Create one to stay on track.</p>
           )}
           <Link
-            href={`/careers/${career.slug}/study-plan`}
+            href={`${getCanonicalRoute(career.slug)}/study-plan`}
             className="w-full px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100 text-center block"
             data-testid="button-view-study-plan"
           >
@@ -305,7 +300,7 @@ export default function AlliedDashboardPage() {
             </div>
           </div>
           <Link
-            href={`/careers/${career.slug}/flashcards`}
+            href={`${getCanonicalRoute(career.slug)}/flashcards`}
             className="w-full px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100 text-center block"
             data-testid="button-view-flashcards"
           >

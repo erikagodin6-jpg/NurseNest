@@ -192,7 +192,7 @@ export default function ParamedicScenarioPlayer() {
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Scenario Not Found</h1>
         <p className="text-gray-600 mb-4">{error || "This scenario doesn't exist or hasn't been published yet."}</p>
-        <Link href="/careers/paramedic/scenarios" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-scenarios">
+        <Link href="/paramedic/scenarios" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-scenarios">
           Back to Scenarios
         </Link>
       </div>
@@ -261,13 +261,13 @@ export default function ParamedicScenarioPlayer() {
         title={`${scenario.title} - Paramedic Scenario Simulation`}
         description={`Practice ${scenario.category} clinical decision-making with this realistic EMS scenario simulation.`}
         keywords={`paramedic scenario, EMS simulation, ${scenario.category}, clinical decision making`}
-        canonicalPath={`/careers/paramedic/scenarios/${scenario.slug}`}
+        canonicalPath={`/paramedic/scenarios/${scenario.slug}`}
       />
 
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <Link href="/careers/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
+        <Link href="/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/careers/paramedic/scenarios" className="hover:text-teal-600" data-testid="link-breadcrumb-scenarios">Scenarios</Link>
+        <Link href="/paramedic/scenarios" className="hover:text-teal-600" data-testid="link-breadcrumb-scenarios">Scenarios</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium truncate">{scenario.title}</span>
       </div>
@@ -562,7 +562,7 @@ export default function ParamedicScenarioPlayer() {
               <button onClick={restart} className="flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-restart">
                 <RotateCcw className="w-4 h-4" /> Try Again
               </button>
-              <Link href="/careers/paramedic/scenarios" className="flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-scenarios">
+              <Link href="/paramedic/scenarios" className="flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-scenarios">
                 <ArrowLeft className="w-4 h-4" /> All Scenarios
               </Link>
             </div>

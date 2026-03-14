@@ -1,4 +1,5 @@
 import { Redirect } from "wouter";
+import { getCanonicalRoute } from "@shared/careers";
 
 const CLUSTER_CAREER_MAP: Record<string, string> = {
   rrt: "rrt",
@@ -19,15 +20,16 @@ interface ClusterRedirectProps {
 
 export default function ProfessionClusterRedirect({ profession, clusterType }: ClusterRedirectProps) {
   const careerSlug = CLUSTER_CAREER_MAP[profession] || profession;
+  const canonical = getCanonicalRoute(careerSlug);
 
   const redirectMap: Record<string, string> = {
     lessons: `/qbank?career=${careerSlug}&view=lessons`,
     "practice-questions": `/qbank?career=${careerSlug}`,
-    flashcards: `/careers/${careerSlug}/flashcards`,
-    "mock-exam": `/careers/${careerSlug}/mock-exams`,
-    "study-guide": `/careers/${careerSlug}/study-plan`,
+    flashcards: `${canonical}/flashcards`,
+    "mock-exam": `${canonical}/mock-exams`,
+    "study-guide": `${canonical}/study-plan`,
   };
 
-  const target = redirectMap[clusterType] || `/careers/${careerSlug}`;
+  const target = redirectMap[clusterType] || canonical;
   return <Redirect to={target} />;
 }
