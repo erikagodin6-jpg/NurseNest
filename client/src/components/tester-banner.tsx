@@ -16,11 +16,18 @@ export function TesterBanner() {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-[#BFA6F6]/15 to-[#AEE3E1]/15 border-b border-[#BFA6F6]/20" data-testid="tester-banner">
+      <div
+        className="border-b"
+        style={{
+          background: `linear-gradient(to right, color-mix(in srgb, var(--theme-primary) 15%, transparent), color-mix(in srgb, var(--theme-border) 15%, transparent))`,
+          borderColor: `color-mix(in srgb, var(--theme-primary) 20%, transparent)`,
+        }}
+        data-testid="tester-banner"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm">
-            <TestTube className="w-4 h-4 text-[#BFA6F6] flex-shrink-0" />
-            <span className="text-[#2E3A59] font-medium">
+            <TestTube className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--theme-primary)' }} />
+            <span className="text-foreground font-medium">
               Beta Tester Access
             </span>
             {daysLeft !== null && (
@@ -33,7 +40,7 @@ export function TesterBanner() {
             <Button
               size="sm"
               variant="ghost"
-              className="text-xs text-[#BFA6F6] hover:text-[#BFA6F6]/80 hover:bg-[#BFA6F6]/10 h-7 px-2"
+              className="text-xs h-7 px-2 tester-banner-feedback-btn"
               onClick={() => setFeedbackOpen(true)}
               data-testid="button-tester-feedback"
             >

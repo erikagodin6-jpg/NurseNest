@@ -1237,6 +1237,14 @@ html, body {
   }
 }
 
+.tester-banner-feedback-btn {
+  color: var(--theme-primary);
+}
+.tester-banner-feedback-btn:hover {
+  color: color-mix(in srgb, var(--theme-primary) 80%, transparent);
+  background-color: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-page-enter,
   .animate-content-reveal,
