@@ -524,6 +524,12 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/canada-np", "0.8", "monthly", indexableLocales, today));
   entries.push(sitemapUrl(base, "/us-np", "0.8", "monthly", indexableLocales, today));
 
+  entries.push(sitemapUrl(base, "/topics", "0.8", "weekly", indexableLocales, today));
+  const topicSlugs = Object.keys((await import("../client/src/data/internal-links")).internalLinkMap);
+  for (const slug of topicSlugs) {
+    entries.push(sitemapUrl(base, `/topics/${slug}`, "0.7", "monthly", indexableLocales, today));
+  }
+
   const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
   for (const c of seoConditions) {
     entries.push(sitemapUrl(base, `/conditions/${c}`, "0.8", "monthly", indexableLocales, today));

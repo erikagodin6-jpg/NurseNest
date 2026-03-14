@@ -220,6 +220,8 @@ const InstructorDashboard = lazy(() => import("@/pages/instructor-dashboard"));
 const ExamLandingPage = lazy(() => import("@/pages/exam-landing"));
 const ExamHubPage = lazy(() => import("@/pages/exam-hub"));
 const ConditionPage = lazy(() => import("@/pages/condition-page"));
+const TopicsIndex = lazy(() => import("@/pages/topics"));
+const TopicDetail = lazy(() => import("@/pages/topic-detail"));
 const MedicationPage = lazy(() => import("@/pages/medication-page"));
 const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
 const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
@@ -670,6 +672,8 @@ function AppRoutes() {
         <Route path="/nclex-pn" component={ExamHubPage} />
         <Route path="/canada-np" component={ExamHubPage} />
         <Route path="/us-np" component={ExamHubPage} />
+        <Route path="/topics" component={TopicsIndex} />
+        <Route path="/topics/:slug" component={TopicDetail} />
         <Route path="/conditions/:slug" component={ConditionPage} />
         <Route path="/medications/:slug" component={MedicationPage} />
         <Route path="/lab-values/:slug" component={LabValuePage} />
