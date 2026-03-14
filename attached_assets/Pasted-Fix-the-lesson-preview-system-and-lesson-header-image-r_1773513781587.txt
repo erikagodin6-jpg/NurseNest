@@ -1,0 +1,182 @@
+Fix the lesson preview system and lesson header image rendering across the entire NurseNest platform.
+
+PROBLEMS TO FIX
+
+1. Free/preview users need controlled teaser access instead of full lesson access.
+2. Lesson images are rendering badly:
+   - only part of the image is visible
+   - the bottom is fading out
+   - users cannot properly see the image
+   - image containers appear cropped or overlaid incorrectly
+
+GOAL
+
+Create a polished premium lesson preview experience while ensuring lesson images display clearly, fully, and professionally across all tiers and screen sizes.
+
+APPLY TO
+- RPN
+- RN
+- NP
+- Allied Health
+- Imaging
+- New Grad
+- any other lesson-based tier
+
+PART 1: CONTROLLED LESSON PREVIEW SYSTEM
+
+Implement a true teaser/preview model for free users.
+
+FREE USER PREVIEW RULES
+- free users may see only a small controlled preview of selected lessons
+- preview lessons should show:
+  - lesson title
+  - hero/header image
+  - short introductory section
+  - maybe 1 to 2 small educational sections
+- then the lesson must lock with a premium overlay / upgrade CTA
+- free users must NOT be able to scroll through the entire lesson
+- free users must NOT be able to bypass by direct URL
+- premium lessons must still be fully accessible to entitled users
+
+PREVIEW UX REQUIREMENTS
+- show a polished locked state after the preview portion
+- include upgrade messaging such as:
+  - Unlock the full lesson
+  - Get full access to lessons, flashcards, question banks, and exam tools
+- add a clear CTA button linking to the correct pricing page for that tier
+- preview should feel premium and intentional, not broken
+
+IMPLEMENTATION REQUIREMENTS
+- backend remains source of truth
+- preview truncation should be controlled by the entitlement system
+- do not send full premium lesson bodies to free users
+- if needed, generate a preview-safe version of the lesson body on the server
+- add support for fields like:
+  - isPreviewAllowed
+  - previewContent
+  - previewSections
+  - lockedAfterPreview
+- preserve full content for subscribed users and admins
+
+PART 2: FIX LESSON IMAGE RENDERING
+
+Current issue:
+Lesson images are only partially visible and the bottom fades out, preventing users from seeing the full image.
+
+Fix the lesson hero/header image component and all related CSS/layout logic.
+
+IMAGE FIX REQUIREMENTS
+- remove any unnecessary bottom fade overlay that hides the image
+- remove any gradient, mask, or opacity layer that blocks image visibility unless explicitly needed for text contrast
+- ensure users can actually see the lesson image clearly
+- do not crop the image so aggressively that the main subject is cut off
+- if text overlays the image, make sure it remains readable without obscuring most of the image
+
+LAYOUT REQUIREMENTS
+- use a responsive image container that works on desktop and mobile
+- preserve aspect ratio cleanly
+- prefer showing the full image or as much of it as possible
+- avoid fixed-height containers that cut off important anatomy/medical visuals
+- use object-fit rules intentionally:
+  - if using object-cover, adjust container height and focal positioning so the subject remains visible
+  - if better, switch some lesson headers to object-contain with a polished background treatment
+- ensure no accidental overflow clipping hides critical parts of the image
+- remove CSS masks, pseudo-elements, or overlays fading out the lower portion unless required and visually subtle
+
+IMAGE DISPLAY GOAL
+The lesson image should look like a premium educational banner:
+- clean
+- fully visible
+- medically relevant
+- not awkwardly zoomed
+- not cut in half
+- not faded into invisibility
+
+PART 3: AUDIT ALL LESSON IMAGE COMPONENTS
+
+Search the entire codebase for:
+- lesson hero
+- lesson header image
+- image banner
+- gradient overlays
+- mask-image
+- opacity overlays
+- object-cover
+- overflow-hidden
+- fixed height hero containers
+- pseudo-elements that add fade effects
+- mobile-specific cropping
+
+Audit and fix every lesson rendering path, not just one page.
+
+PART 4: TIER-SPECIFIC PRICING CTA LINKS
+
+When a lesson locks after preview, make sure the CTA goes to the correct pricing page:
+- RPN lesson preview -> RPN pricing
+- RN lesson preview -> RN pricing
+- NP lesson preview -> NP pricing
+- Allied lesson preview -> Allied pricing
+- Imaging/New Grad -> correct mapped pricing or upgrade path
+
+PART 5: PRESERVE BRAND AESTHETIC
+
+Maintain NurseNest visual style:
+- soft, premium, modern clinical feel
+- rounded containers where appropriate
+- clean spacing
+- polished locked overlay
+- no clutter
+- no amateurish dark heavy gradients
+- no harsh visual cutoff on images
+
+PART 6: RESPONSIVE REQUIREMENTS
+
+Verify image rendering on:
+- desktop
+- tablet
+- mobile
+
+Ensure:
+- image subject remains visible
+- title does not overlap awkwardly
+- overlay does not hide image
+- preview lock section appears intentional and elegant
+
+PART 7: BACKEND + FRONTEND SAFETY
+
+Do not make this a frontend-only preview lock.
+Backend must:
+- return only preview-safe lesson content to free users
+- return full lesson content only to entitled users/admins
+
+Frontend must:
+- render preview sections cleanly
+- show lock overlay / subscription CTA after preview boundary
+- not expose hidden full content in the DOM
+
+PART 8: FINAL VALIDATION
+
+Before finishing, verify:
+1. free users cannot read full premium lessons
+2. preview lessons show a proper teaser only
+3. direct URL access does not bypass the paywall
+4. subscribed users can see full lessons
+5. admins can still preview/manage content
+6. lesson images are fully visible and no longer faded at the bottom
+7. mobile rendering looks polished
+8. no tier routing or lesson slugs were broken
+
+PART 9: RETURN A SUMMARY
+
+At the end, report:
+- which files were changed
+- which lesson components were fixed
+- what caused the image cropping/fade issue
+- how preview content is now enforced
+- which routes/components now support preview mode
+- any lessons/images still needing manual adjustment
+
+IMPORTANT
+This is a production-quality UX and paywall task.
+Do not apply a quick patch to one component only.
+Fix the lesson preview architecture and image rendering systemically across the platform.
