@@ -747,13 +747,39 @@ export default function QuestionBank() {
 
           {mode === "study" && (
             <>
-              {accessibleQuestions.length === 0 ? (
-                <Card className="premium-card border-0 shadow-md bg-white">
-                  <CardContent className="p-10 text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                      <BookOpen className="w-6 h-6 text-gray-400" />
+              {loadingQuestions ? (
+                <Card className="premium-card border-0 shadow-md bg-white overflow-hidden">
+                  <CardHeader className="pb-3 px-6 pt-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="skeleton-block h-6 w-16" />
+                      <div className="skeleton-block h-6 w-24" />
                     </div>
-                    <p className="text-gray-500 font-medium" data-testid="text-no-questions">{isTierLocked ? "Subscribe to access these questions." : loadingQuestions ? "Loading questions..." : "No questions match your filters. Try adjusting the filters."}</p>
+                    <div className="skeleton-block h-2 w-full mb-4 rounded-full" />
+                    <div className="space-y-2">
+                      <div className="skeleton-text w-full" />
+                      <div className="skeleton-text w-4/5" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="px-6 pb-6">
+                    <div className="space-y-3">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="skeleton-block h-14 w-full" />
+                      ))}
+                    </div>
+                    <div className="flex gap-3 mt-6">
+                      <div className="skeleton-block h-10 flex-1" />
+                      <div className="skeleton-block h-10 flex-1" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : accessibleQuestions.length === 0 ? (
+                <Card className="premium-card border-0 shadow-md bg-white">
+                  <CardContent className="empty-state">
+                    <div className="w-16 h-16 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-4">
+                      <BookOpen className="w-7 h-7 text-primary/40" />
+                    </div>
+                    <p className="empty-state-title" data-testid="text-no-questions">{isTierLocked ? "Subscribe to access these questions" : "No questions match your filters"}</p>
+                    <p className="empty-state-description">{isTierLocked ? "Upgrade your plan to unlock this question bank and start practicing." : "Try adjusting the filters above to find more questions."}</p>
                   </CardContent>
                 </Card>
               ) : question ? (

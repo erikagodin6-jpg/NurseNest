@@ -1034,3 +1034,226 @@ html, body {
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* ===== Mobile UX & Micro-Interaction Polish ===== */
+
+/* Button press feedback */
+@layer base {
+  button, [role="button"], a[href] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.btn-press {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Card hover lift */
+.card-hover-lift {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .card-hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+.card-hover-lift:active {
+  transform: translateY(0);
+}
+
+/* Smooth page/section transitions */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-page-enter {
+  animation: pageEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes contentReveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-content-reveal {
+  animation: contentReveal 0.3s ease-out;
+}
+
+/* Tab switching animation */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-tab-switch {
+  animation: tabFadeIn 0.25s ease-out;
+}
+
+/* Skeleton loading shimmer - enhanced */
+.skeleton-block {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e8e9ec 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 0.5rem;
+}
+
+.skeleton-text {
+  height: 0.875rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e8e9ec 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e8e9ec 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+[data-theme="dark-clinical"] .skeleton-block,
+[data-theme="dark-clinical"] .skeleton-text,
+[data-theme="dark-clinical"] .skeleton-circle,
+[data-theme="dark-academia"] .skeleton-block,
+[data-theme="dark-academia"] .skeleton-text,
+[data-theme="dark-academia"] .skeleton-circle {
+  background: linear-gradient(90deg, var(--color-card) 25%, var(--theme-border) 37%, var(--color-card) 63%);
+  background-size: 400% 100%;
+}
+
+/* Empty state styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  min-height: 200px;
+}
+
+.empty-state-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1rem;
+  color: var(--theme-primary);
+  opacity: 0.4;
+}
+
+.empty-state-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-softgray);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--color-softgray);
+  opacity: 0.7;
+  max-width: 24rem;
+  line-height: 1.6;
+}
+
+/* Mobile spacing refinements */
+@media (max-width: 640px) {
+  :root {
+    --space-section: clamp(2.5rem, 6vw, 4rem);
+    --space-block: clamp(1.5rem, 3vw, 2rem);
+    --space-element: clamp(0.75rem, 1.5vw, 1rem);
+  }
+
+  .premium-card {
+    border-radius: 1rem;
+  }
+
+  [data-testid="hero-section"] h1 {
+    font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
+  }
+
+  [data-testid="hero-section"] p {
+    font-size: 1rem;
+  }
+}
+
+/* Smooth focus outlines */
+:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+  transition: outline-offset 0.15s ease;
+}
+
+/* Interactive element hover states */
+@media (hover: hover) {
+  .interactive-hover {
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .interactive-hover:hover {
+    background-color: color-mix(in srgb, var(--theme-primary) 4%, transparent);
+    border-color: color-mix(in srgb, var(--theme-primary) 20%, transparent);
+  }
+}
+
+/* Stagger animation for lists */
+@keyframes staggerFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stagger-item {
+  animation: staggerFadeIn 0.3s ease-out both;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.stagger-item:nth-child(2) { animation-delay: 0.1s; }
+.stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.stagger-item:nth-child(4) { animation-delay: 0.2s; }
+.stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.stagger-item:nth-child(6) { animation-delay: 0.3s; }
+
+/* Mobile touch-friendly sizing */
+@media (max-width: 640px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Smooth scroll behavior */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-enter,
+  .animate-content-reveal,
+  .animate-tab-switch,
+  .animate-fade-in-up,
+  .animate-slide-in,
+  .animate-scale-in,
+  .animate-card-reveal,
+  .stagger-item {
+    animation: none !important;
+  }
+
+  .btn-press:active {
+    transform: none;
+  }
+
+  .card-hover-lift:hover {
+    transform: none;
+  }
+}

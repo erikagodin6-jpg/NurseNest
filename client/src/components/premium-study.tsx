@@ -132,7 +132,7 @@ export function AnswerOption({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full text-left px-5 py-4 rounded-xl border transition-all duration-200 flex items-center gap-4 group",
+        "w-full text-left px-4 py-3.5 sm:py-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3 sm:gap-3.5 group active:scale-[0.99] min-h-[48px]",
         containerCls,
         disabled && !isRevealed ? "" : disabled ? "cursor-default" : "cursor-pointer",
         className
@@ -145,7 +145,7 @@ export function AnswerOption({
       )}>
         {isCorrect ? <CheckCircle2 className="h-4 w-4" /> : isWrong ? <XCircle className="h-4 w-4" /> : letter}
       </span>
-      <span className="flex-1 text-[15px] leading-relaxed text-foreground">{text}</span>
+      <span className="flex-1 text-sm sm:text-[15px] leading-relaxed text-foreground">{text}</span>
       {iconEl || statusIcon}
     </button>
   );
@@ -488,13 +488,13 @@ export function FlashcardContainer({
   return (
     <div
       className={cn(
-        "min-h-[400px] cursor-pointer select-none perspective-1000",
+        "min-h-[320px] sm:min-h-[380px] cursor-pointer select-none",
         className
       )}
       onClick={onClick}
     >
       <Card className={cn(
-        "premium-card border-0 shadow-xl min-h-[400px] flex flex-col items-center justify-center p-10 sm:p-12 text-center transition-all duration-500 ease-out",
+        "premium-card border-0 shadow-xl min-h-[320px] sm:min-h-[380px] flex flex-col items-center justify-center p-6 sm:p-10 text-center transition-all duration-300 active:scale-[0.99]",
         flipped
           ? "bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white shadow-2xl shadow-primary/20"
           : "bg-white hover:shadow-2xl"

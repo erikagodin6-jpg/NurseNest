@@ -283,7 +283,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background" data-testid="dashboard-page">
+    <div className="min-h-screen bg-background animate-page-enter" data-testid="dashboard-page">
       <SEO
         title="My Dashboard - Personalized Learning Hub"
         description="Your personalized nursing learning dashboard. Track study progress, review flashcards, access clinical tools, and prepare for NCLEX exams all in one place."
@@ -384,15 +384,19 @@ export default function DashboardPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-busy="true" aria-label="Loading dashboard">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="animate-pulse">
+              <Card key={i} className="overflow-hidden">
                 <CardHeader className="pb-3">
-                  <div className="h-4 w-32 bg-muted rounded" />
+                  <div className="skeleton-text w-32" />
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <div className="h-3 w-full bg-muted rounded" />
-                    <div className="h-3 w-3/4 bg-muted rounded" />
-                    <div className="h-3 w-1/2 bg-muted rounded" />
+                  <div className="space-y-3">
+                    <div className="skeleton-text w-full" />
+                    <div className="skeleton-text w-3/4" />
+                    <div className="skeleton-text w-1/2" />
+                    <div className="flex gap-2 mt-4">
+                      <div className="skeleton-block h-8 w-20" />
+                      <div className="skeleton-block h-8 w-24" />
+                    </div>
                   </div>
                 </CardContent>
               </Card>

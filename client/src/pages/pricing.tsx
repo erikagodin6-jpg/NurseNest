@@ -316,7 +316,7 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 animate-page-enter">
       <SEO title="Pricing - NurseNest" description="Affordable nursing exam prep plans for RPN, RN, NP, and Allied Health students. Start free or upgrade for full access to lessons, flashcards, and simulations." canonicalPath="/pricing" />
       <Navigation />
       <main className="flex-1 px-4" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}>
@@ -358,8 +358,8 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16" data-testid="tier-selection-grid">
-                {(["rpn", "rn", "np", "allied"] as const).map((tierId) => {
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16" data-testid="tier-selection-grid">
+                {(["rpn", "rn", "np", "allied"] as const).map((tierId, tierIdx) => {
                   const info = tierDisplayInfo[tierId];
                   const tierPlansForCard = plans.filter((p) => p.tier === tierId && p.isEnabled);
                   const lowestPlan = tierPlansForCard.find((p) => p.duration === "monthly");
@@ -370,7 +370,7 @@ export default function PricingPage() {
                   return (
                     <Card
                       key={tierId}
-                      className={`relative border transition-all duration-300 hover:-translate-y-1 cursor-pointer ${info.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)] hover:shadow-[var(--shadow-pricing-hover)]"}`}
+                      className={`relative border cursor-pointer card-hover-lift stagger-item ${info.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)]"}`}
                       onClick={() => setSelectedTier(tierId)}
                       data-testid={`card-tier-select-${tierId}`}
                     >

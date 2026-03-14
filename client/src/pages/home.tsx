@@ -14,7 +14,9 @@ import {
   Shield,
   BookOpen,
   CheckCircle2,
+  MapPin,
 } from "lucide-react";
+import { getEnabledCareers } from "@shared/careers";
 
 import { useQuery } from "@tanstack/react-query";
 import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
@@ -60,19 +62,26 @@ export default function Home() {
   const storeProductCount = heroStats?.storeProductCount ?? 0;
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
-  const [region, setRegion] = useState<"US" | "CA">(() => {
+  const [region, setRegionState] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   useEffect(() => {
-    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
+    const handler = () => setRegionState((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     window.addEventListener("regionChange", handler);
     return () => window.removeEventListener("regionChange", handler);
   }, []);
+
+  const setRegion = (newRegion: "US" | "CA") => {
+    setRegionState(newRegion);
+    localStorage.setItem("nursenest-region", newRegion);
+    window.dispatchEvent(new Event("regionChange"));
+  };
 
   const regionConst = getExamConstants(region as ConstRegion);
   const examLabel = regionConst.practicalNurse.examName;
   const rpnLabel = regionConst.practicalNurse.designation;
   const altExam = region === "CA" ? "NCLEX-PN" : "REx-PN";
+  const enabledCareers = getEnabledCareers();
 
   async function handleEmailSubscribe() {
     const trimmed = email.trim().toLowerCase();
@@ -102,7 +111,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 animate-page-enter">
       <SEO
         title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Question Bank, Clinical Simulations & Flashcards`}
         description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
@@ -228,12 +237,56 @@ export default function Home() {
                 
                 <div className="space-y-4">
                   <h1 className="font-bold tracking-tight text-gray-900 leading-[1.08]" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-hero-heading">
-                    Master Your Nursing Exam with Confidence
+                    Exam Prep for Every Health Career
                   </h1>
                   
                   <p className="text-lg lg:text-xl text-gray-500 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
-                    {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards, ` : ""}{formatCount(lessonCount)} clinical lessons, and adaptive mock exams — built for RPN, RN, NP, and allied health students.
+                    {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards, ` : ""}{formatCount(lessonCount)} clinical lessons, and adaptive mock exams — built for {rpnLabel}, RN, NP, and allied health students in {region === "CA" ? "Canada" : "the United States"}.
                   </p>
+                </div>
+                
+                <div className="rounded-2xl border border-gray-200 bg-white shadow-[var(--shadow-card)] overflow-hidden" data-testid="region-toggle-hero">
+                  <div className="flex">
+                    <button
+                      onClick={() => setRegion("US")}
+                      className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-3.5 sm:py-4 text-sm sm:text-base font-semibold transition-all duration-200 relative ${
+                        region === "US"
+                          ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
+                          : "text-gray-400 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
+                      }`}
+                      data-testid="button-region-us"
+                    >
+                      <span className="text-xl" role="img" aria-label="US flag">🇺🇸</span>
+                      <span>United States</span>
+                      {region === "US" && <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />}
+                    </button>
+                    <div className="w-px bg-gray-200" />
+                    <button
+                      onClick={() => setRegion("CA")}
+                      className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-3.5 sm:py-4 text-sm sm:text-base font-semibold transition-all duration-200 relative ${
+                        region === "CA"
+                          ? "bg-red-50 text-red-700 border-b-2 border-red-600"
+                          : "text-gray-400 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
+                      }`}
+                      data-testid="button-region-ca"
+                    >
+                      <span className="text-xl" role="img" aria-label="Canadian flag">🇨🇦</span>
+                      <span>Canada</span>
+                      {region === "CA" && <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0" />}
+                    </button>
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50/80 border-t border-gray-100">
+                    <div className="flex items-start gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        {region === "US" ? (
+                          <>Showing <strong className="text-gray-700">NCLEX-PN, NCLEX-RN, AANP/ANCC</strong> exam content with <strong className="text-gray-700">US measurements</strong> (°F, lbs, in) and <strong className="text-gray-700">LPN/LVN</strong> terminology.</>
+                        ) : (
+                          <>Showing <strong className="text-gray-700">REx-PN, NCLEX-RN, NP Exam</strong> content with <strong className="text-gray-700">Canadian measurements</strong> (°C, kg, cm) and <strong className="text-gray-700">RPN</strong> terminology.</>
+                        )}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -326,22 +379,26 @@ export default function Home() {
               </div>
             </div>
 
-            {region === "CA" && (
-              <div className="mt-12 max-w-2xl mx-auto lg:mx-0" data-testid="banner-canadian-content">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50/80 via-white to-red-50/80 border border-red-200/40 shadow-[var(--shadow-card)] px-6 py-5">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-red-500 rounded-l-2xl" />
-                  <div className="flex items-start gap-4 pl-2">
-                    <span className="text-3xl shrink-0 mt-0.5" role="img" aria-label="Canadian flag">🍁</span>
-                    <div>
-                      <p className="font-bold text-gray-900 text-base">{t("home.canadian.title")}</p>
-                      <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                        {t("home.canadian.desc")}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            <div className="mt-10 sm:mt-12" data-testid="section-careers-supported">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                {region === "CA" ? "Canadian" : "US"} Exam Prep Available For
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {enabledCareers.slice(0, 8).map((career) => (
+                  <span
+                    key={career.id}
+                    className="inline-flex items-center px-3 py-1.5 rounded-full bg-white border border-gray-150 text-xs font-medium text-gray-600 shadow-sm"
+                  >
+                    {career.shortName}
+                  </span>
+                ))}
+                {enabledCareers.length > 8 && (
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/5 border border-primary/15 text-xs font-semibold text-primary">
+                    +{enabledCareers.length - 8} more
+                  </span>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </section>
 
