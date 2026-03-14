@@ -12,6 +12,7 @@ import {
   AlertTriangle, MessageSquare, Award, Target, Lightbulb,
   Star, TrendingUp, ChevronDown
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const PAIN_POINTS = [
   { icon: Brain, title: "Imposter Syndrome", desc: "Feeling like you don't belong and that everyone else knows more than you do." },
@@ -23,11 +24,11 @@ const PAIN_POINTS = [
 ];
 
 const MODULES = [
-  { icon: MessageSquare, title: "Interview Lab", desc: "100+ behavioral and clinical interview questions with STAR framework answers and nurse manager insights.", link: "/new-grad#interview-lab" },
-  { icon: FileText, title: "Resume Builder", desc: "Nursing-specific resume templates that pass ATS systems and highlight clinical rotations effectively.", link: "/new-grad#resume-builder" },
-  { icon: ClipboardList, title: "Cover Letter Generator", desc: "Customizable cover letter frameworks for med-surg, ICU, ER, L&D, peds, and specialty units.", link: "/new-grad#cover-letter" },
-  { icon: Target, title: "First 90 Days Roadmap", desc: "Week-by-week survival guide from orientation through independent practice with milestone checklists.", link: "/new-grad#first-90-days" },
-  { icon: Shield, title: "Clinical Confidence Builder", desc: "Quick-reference clinical decision guides, medication checklists, and shift preparation tools.", link: "/new-grad#clinical-confidence" },
+  { icon: MessageSquare, title: "Interview Lab", desc: "100+ behavioral and clinical interview questions with STAR framework answers and nurse manager insights.", link: "/new-grad#interview-lab", isApplyNest: true },
+  { icon: FileText, title: "Resume Builder", desc: "Nursing-specific resume templates that pass ATS systems and highlight clinical rotations effectively.", link: "/new-grad#resume-builder", isApplyNest: true },
+  { icon: ClipboardList, title: "Cover Letter Generator", desc: "Customizable cover letter frameworks for med-surg, ICU, ER, L&D, peds, and specialty units.", link: "/new-grad#cover-letter", isApplyNest: true },
+  { icon: Target, title: "First 90 Days Roadmap", desc: "Week-by-week survival guide from orientation through independent practice with milestone checklists.", link: "/new-grad#first-90-days", isApplyNest: false },
+  { icon: Shield, title: "Clinical Confidence Builder", desc: "Quick-reference clinical decision guides, medication checklists, and shift preparation tools.", link: "/new-grad#clinical-confidence", isApplyNest: false },
 ];
 
 const INTERVIEW_CATEGORIES = [
@@ -246,7 +247,7 @@ export default function NewGradHub() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50" data-testid="section-platform-provides">
+      <section className="py-16 bg-gray-50" data-testid="section-platform-provides" id="career-tools">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-platform-title">Everything You Need for Your First Year</h2>
@@ -255,16 +256,34 @@ export default function NewGradHub() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {MODULES.map((mod, i) => (
               <Link key={i} href={mod.link} className="group" data-testid={`card-module-${i}`}>
-                <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md hover:border-blue-200 transition-all h-full">
-                  <mod.icon className="w-8 h-8 text-blue-500 mb-3" />
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{mod.title}</h3>
+                <div className={cn(
+                  "rounded-xl border p-6 hover:shadow-md transition-all h-full",
+                  mod.isApplyNest
+                    ? "bg-gradient-to-br from-white to-purple-50/30 border-purple-100 hover:border-purple-300"
+                    : "bg-white border-gray-100 hover:border-blue-200"
+                )}>
+                  {mod.isApplyNest && (
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold mb-3 bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-700" data-testid={`badge-applynest-${i}`}>
+                      <Briefcase className="w-2.5 h-2.5" />
+                      ApplyNest
+                    </div>
+                  )}
+                  <mod.icon className={cn("w-8 h-8 mb-3", mod.isApplyNest ? "text-purple-500" : "text-blue-500")} />
+                  <h3 className={cn("font-semibold text-gray-900 mb-2 transition-colors", mod.isApplyNest ? "group-hover:text-purple-700" : "group-hover:text-blue-700")}>{mod.title}</h3>
                   <p className="text-sm text-gray-500">{mod.desc}</p>
-                  <span className="inline-flex items-center gap-1 text-sm text-blue-600 font-medium mt-3">
+                  <span className={cn("inline-flex items-center gap-1 text-sm font-medium mt-3", mod.isApplyNest ? "text-purple-600" : "text-blue-600")}>
                     Explore <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </Link>
             ))}
+          </div>
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100" data-testid="applynest-brand-banner">
+              <Briefcase className="w-4 h-4 text-purple-600" />
+              <span className="text-sm font-semibold text-purple-700">ApplyNest</span>
+              <span className="text-xs text-purple-500">Career tools powered by NurseNest</span>
+            </div>
           </div>
         </div>
       </section>

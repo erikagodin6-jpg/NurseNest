@@ -47,13 +47,17 @@ export function Footer() {
               <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">About NurseNest</LocaleLink></li>
               <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">For Schools</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">New Grad Career</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">New Grad Support</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">New Grad Hub</LocaleLink></li>
               <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">Nursing</LocaleLink></li>
               <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">Paramedic</LocaleLink></li>
               <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">Respiratory Therapy</LocaleLink></li>
               <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">Medical Lab Tech</LocaleLink></li>
+            </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Healthcare Jobs</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">ApplyNest Career Tools</LocaleLink></li>
             </ul>
           </div>
           <div>
@@ -67,6 +71,12 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealth")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><a href={window.location.hostname.includes("nursenest.ca") ? "https://allied.nursenest.ca" : "/?mode=allied"} className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</a></li>
+            </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Ecosystem</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">Exam Prep</LocaleLink></li>
+              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">New Grad Support</LocaleLink></li>
+              <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">Healthcare Jobs</LocaleLink></li>
             </ul>
           </div>
         </div>

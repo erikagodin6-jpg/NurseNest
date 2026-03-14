@@ -57,7 +57,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase } from "lucide-react";
 import { useCareer } from "@/lib/career-context";
 import { getEnabledCareers, type CareerType } from "@shared/careers";
 
@@ -366,6 +366,31 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           </SheetHeader>
           
           <div className="p-5 flex flex-col gap-1 pb-20">
+            <div className="mb-4">
+              <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 px-3">NurseNest Ecosystem</p>
+              <div className="flex flex-col gap-1 px-1">
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50 gap-2 h-9" onClick={() => setLocation("/lessons")} data-testid="mobile-ecosystem-exam-prep">
+                    <BookOpen className="w-4 h-4 text-blue-600" />
+                    Exam Prep
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 gap-2 h-9" onClick={() => setLocation("/new-grad")} data-testid="mobile-ecosystem-new-grad">
+                    <GraduationCap className="w-4 h-4 text-indigo-600" />
+                    New Grad Support
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-purple-600 hover:bg-purple-50 gap-2 h-9" onClick={() => setLocation("/new-grad#career-tools")} data-testid="mobile-ecosystem-healthcare-jobs">
+                    <Briefcase className="w-4 h-4 text-purple-600" />
+                    Healthcare Jobs (ApplyNest)
+                  </Button>
+                </SheetClose>
+              </div>
+              <div className="h-[1px] bg-gray-100 my-3 mx-3" />
+            </div>
+
             <div className="mb-6">
               <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">{t("nav.practiceTiers")}</p>
               <div className="grid grid-cols-1 gap-2 px-1">
@@ -832,6 +857,27 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           : "bg-white/80 backdrop-blur-lg border-transparent"
       )}
     >
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center justify-center gap-1 sm:gap-6 h-8 text-[11px] sm:text-xs font-medium">
+            <LocaleLink href="/lessons" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep">
+              <BookOpen className="w-3 h-3" />
+              <span>Exam Prep</span>
+            </LocaleLink>
+            <span className="text-white/30 hidden sm:inline">|</span>
+            <LocaleLink href="/new-grad" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-new-grad">
+              <GraduationCap className="w-3 h-3" />
+              <span>New Grad Support</span>
+            </LocaleLink>
+            <span className="text-white/30 hidden sm:inline">|</span>
+            <LocaleLink href="/new-grad#career-tools" className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-healthcare-jobs">
+              <Briefcase className="w-3 h-3" />
+              <span className="hidden sm:inline">Healthcare Jobs</span>
+              <span className="sm:hidden">Jobs</span>
+            </LocaleLink>
+          </div>
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-14 sm:h-16")}>
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-6">

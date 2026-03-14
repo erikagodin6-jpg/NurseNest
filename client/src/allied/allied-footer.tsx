@@ -24,11 +24,21 @@ export function AlliedFooter() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Ecosystem</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-nursing">
-                  NurseNest Nursing <ExternalLink className="w-3 h-3" />
+                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-exam-prep">
+                  Exam Prep (Nursing) <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad" : "/new-grad"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-new-grad-support">
+                  New Grad Support <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad#career-tools" : "/new-grad#career-tools"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-healthcare-jobs">
+                  Healthcare Jobs (ApplyNest) <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
             </ul>
