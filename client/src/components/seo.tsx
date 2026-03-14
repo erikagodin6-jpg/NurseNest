@@ -5,6 +5,12 @@ import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/
 const SITE_DOMAIN = "https://www.nursenest.ca";
 let seoFirstRender = true;
 
+const HREFLANG_MAP: Record<string, string> = {
+  en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
+  zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
+  vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
+};
+
 interface SEOProps {
   title: string;
   description: string;
@@ -100,7 +106,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         for (const locale of indexableLocales) {
           const altLink = document.createElement("link");
           altLink.rel = "alternate";
-          altLink.hreflang = locale;
+          altLink.hreflang = HREFLANG_MAP[locale] || locale;
           altLink.href = `${SITE_DOMAIN}/${locale}${basePath}`;
           document.head.appendChild(altLink);
           hreflangLinks.push(altLink);

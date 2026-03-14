@@ -117,7 +117,7 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "NurseNest",
-          "url": "https://www.nursenest.ca",
+          "url": "https://www.nursenest.ca/en",
           "description": `Comprehensive nursing exam preparation platform with ${formatCount(questionCount)} practice questions, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations. New content added weekly.`,
           "potentialAction": {
             "@type": "SearchAction",
@@ -146,7 +146,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "EducationalOrganization",
             "name": "NurseNest",
-            "url": "https://www.nursenest.ca",
+            "url": "https://www.nursenest.ca/en",
             "description": "Premier nursing education platform for RPN/LVN, RN/NCLEX, and NP students with interactive pathophysiology lessons, pharmacology training, and adaptive flashcards.",
             "educationalCredentialAwarded": "Nursing Exam Preparation",
             "aggregateRating": {
@@ -161,8 +161,8 @@ export default function Home() {
             "@type": "Course",
             "name": "NCLEX-RN Exam Preparation",
             "description": "Comprehensive NCLEX-RN exam preparation with adaptive question banks, clinical simulations, and pharmacology review.",
-            "url": "https://www.nursenest.ca/nclex-rn",
-            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "url": "https://www.nursenest.ca/en/nclex-rn",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca/en" },
             "courseMode": "online",
             "isAccessibleForFree": false,
             "offers": { "@type": "Offer", "price": "39.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
@@ -172,8 +172,8 @@ export default function Home() {
             "@type": "Course",
             "name": "NCLEX-PN / REx-PN Exam Preparation",
             "description": "Dedicated NCLEX-PN and REx-PN exam preparation for practical nursing students with practice questions and clinical reasoning exercises.",
-            "url": "https://www.nursenest.ca/rex-pn",
-            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "url": "https://www.nursenest.ca/en/rex-pn",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca/en" },
             "courseMode": "online",
             "isAccessibleForFree": false,
             "offers": { "@type": "Offer", "price": "29.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }
@@ -183,8 +183,8 @@ export default function Home() {
             "@type": "Course",
             "name": "NP Certification Exam Preparation",
             "description": "Advanced nurse practitioner certification exam preparation covering AANP, ANCC, FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, PNP-BC, NNP-BC, and ENP-C exams.",
-            "url": "https://www.nursenest.ca/np-exam-practice-questions",
-            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+            "url": "https://www.nursenest.ca/en/np-exam-practice-questions",
+            "provider": { "@type": "EducationalOrganization", "name": "NurseNest", "url": "https://www.nursenest.ca/en" },
             "courseMode": "online",
             "isAccessibleForFree": false,
             "offers": { "@type": "Offer", "price": "49.99", "priceCurrency": "CAD", "availability": "https://schema.org/InStock" }

@@ -17,7 +17,7 @@ const enTranslations: Record<string, string> = {
     "nav.admin": "Admin Dashboard",
     "nav.contentEditor": "Content Editor",
     "nav.blogManager": "Blog Manager",
-    "home.hero.title": "Your Complete Nursing Exam Prep Platform",
+    "home.hero.title": "NurseNest: Your Complete Nursing Exam Prep Platform",
     "home.hero.subtitle": "From RPN/LVN foundations to RN licensure and NP certification — NurseNest delivers structured lessons, thousands of practice questions, and realistic exam simulations across every tier of nursing education.",
     "home.hero.cta": "Start Studying Free",
     "home.hero.cta2": "Try Practice Questions",

@@ -1288,7 +1288,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
       "name": "NurseNest",
-      "url": SITE_BASE,
+      "url": `${SITE_BASE}/en`,
       "description": "Premier nursing and allied health education platform offering interactive lessons, practice questions, flashcards, and clinical simulations for RPN/LVN, RN, NP, and allied health students.",
       "educationalCredentialAwarded": "Nursing & Allied Health Exam Preparation",
       "areaServed": [
