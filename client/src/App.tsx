@@ -183,6 +183,7 @@ const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenar
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
+const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
 const NursingSpecialtyDetail = lazy(() => import("@/pages/nursing-specialty-detail"));
 const SpecialtyHubPage = lazy(() => import("@/pages/specialty-hub-page"));
@@ -527,6 +528,7 @@ function AppRoutes() {
         <Route path="/career-journey/:slug" component={ProfessionCareerJourney} />
         <Route path="/career-journey" component={GenericCareerJourney} />
         <Route path="/how-to-become-a-nurse/:track" component={NursingCareerPage} />
+        <Route path="/pass-nclex-first-time" component={NclexLandingPage} />
         <Route path="/rpn">{() => <TrackLandingPage track="rpn" />}</Route>
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>
         <Route path="/np">{() => <TrackLandingPage track="np" />}</Route>
