@@ -91,6 +91,10 @@ const EncyclopediaTopicPage = lazy(() => import("./pages/encyclopedia-topic-page
 const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));
 const ProgrammaticSeoPage = lazy(() => import("@/pages/programmatic-seo-page"));
 const CareerGuidePage = lazy(() => import("./pages/career-guide-page"));
+const AlliedHealthHub = lazy(() => import("./pages/allied-health-hub"));
+const AlliedHealthProfessionPage = lazy(() => import("./pages/allied-health-profession"));
+const AlliedHealthArticlePage = lazy(() => import("./pages/allied-health-article"));
+const AdminAlliedHealthSEO = lazy(() => import("@/pages/admin-allied-health-seo"));
 
 const ParamedicExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.ParamedicExamPrep })));
 const RrtExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.RrtExamPrep })));
@@ -385,6 +389,10 @@ export function AlliedRoutes() {
         <Route path="/how-to-become-a-physical-therapist" component={CareerGuidePage} />
         <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
 
+        <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />
+        <Route path="/allied-health/:professionSlug" component={AlliedHealthProfessionPage} />
+        <Route path="/allied-health" component={AlliedHealthHub} />
+        <Route path="/admin/allied-health-seo" component={AdminAlliedHealthSEO} />
         <Route path="/admin/encyclopedia" component={EncyclopediaAdmin} />
         <Route path="/paramedic-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="paramedic" />}</Route>
         <Route path="/paramedic-encyclopedia">{() => <EncyclopediaHubPage profession="paramedic" />}</Route>

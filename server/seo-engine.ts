@@ -62,6 +62,11 @@ const CAREER_TRACKS = [
   { slug: "ultrasound", label: "Ultrasound Technologist" },
   { slug: "physical-therapy-assistant", label: "Physical Therapy Assistant (PTA)" },
   { slug: "occupational-therapy-assistant", label: "Occupational Therapy Assistant (OTA)" },
+  { slug: "occupational-therapy", label: "Occupational Therapy (OT)" },
+  { slug: "physical-therapy", label: "Physical Therapy (PT)" },
+  { slug: "social-work", label: "Social Work" },
+  { slug: "psychotherapy", label: "Psychotherapy / Counseling" },
+  { slug: "addictions-counselling", label: "Addictions Counselling" },
 ];
 
 const STARTER_CLUSTERS = [
@@ -1430,6 +1435,357 @@ export function setupSeoEngineRoutes(app: Express): void {
       };
 
       res.json({ summary, pages: auditResults });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  const PROFESSION_SLUG_TO_CAREER_TRACK: Record<string, string> = {
+    "respiratory-therapy": "respiratory-therapy",
+    "paramedic": "paramedic",
+    "pharmacy-technician": "pharmacy-tech",
+    "medical-lab-technologist": "medical-lab-technologist",
+    "medical-imaging": "medical-imaging",
+    "occupational-therapy": "occupational-therapy",
+    "physical-therapy": "physical-therapy",
+    "social-work": "social-work",
+    "psychotherapy": "psychotherapy",
+    "addictions-counselling": "addictions-counselling",
+  };
+
+  app.get("/api/allied-health/articles", async (req: Request, res: Response) => {
+    try {
+      const professionSlug = String(req.query.professionSlug || "");
+      const status = String(req.query.status || "published");
+      const limit = Math.min(parseInt(String(req.query.limit || "50")), 100);
+      const careerTrack = PROFESSION_SLUG_TO_CAREER_TRACK[professionSlug];
+
+      if (!careerTrack) {
+        return res.json([]);
+      }
+
+      const r = await pool.query(
+        `SELECT id, cluster_id, type, status, title, slug, target_keyword, search_intent,
+                meta_title, meta_description, word_count, published_at, updated_at, career_track
+         FROM seo_articles
+         WHERE site_context = 'allied' AND career_track = $1 AND status = $2
+         ORDER BY published_at DESC NULLS LAST, created_at DESC
+         LIMIT $3`,
+        [careerTrack, status, limit]
+      );
+
+      res.json(r.rows.map(row => ({
+        id: row.id,
+        clusterId: row.cluster_id,
+        type: row.type,
+        status: row.status,
+        title: row.title,
+        slug: row.slug,
+        targetKeyword: row.target_keyword,
+        searchIntent: row.search_intent,
+        metaTitle: row.meta_title,
+        metaDescription: row.meta_description,
+        wordCount: row.word_count,
+        publishedAt: row.published_at,
+        updatedAt: row.updated_at,
+        careerTrack: row.career_track,
+      })));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/allied-health/article/:professionSlug/:articleSlug", async (req: Request, res: Response) => {
+    try {
+      const { professionSlug, articleSlug } = req.params;
+      const careerTrack = PROFESSION_SLUG_TO_CAREER_TRACK[professionSlug];
+      if (!careerTrack) return res.status(404).json({ error: "Profession not found" });
+
+      const r = await pool.query(
+        `SELECT * FROM seo_articles
+         WHERE site_context = 'allied' AND career_track = $1 AND slug = $2 AND status = 'published'
+         LIMIT 1`,
+        [careerTrack, articleSlug]
+      );
+
+      if (r.rows.length === 0) {
+        const prefixedSlug = `${careerTrack}/${articleSlug}`;
+        const altR = await pool.query(
+          `SELECT * FROM seo_articles
+           WHERE site_context = 'allied' AND career_track = $1 AND slug = $2 AND status = 'published'
+           LIMIT 1`,
+          [careerTrack, prefixedSlug]
+        );
+        if (altR.rows.length === 0) return res.status(404).json({ error: "Article not found" });
+        return res.json(mapArticle(altR.rows[0]));
+      }
+
+      res.json(mapArticle(r.rows[0]));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/allied-health/profession-topics", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const professionSlug = String(req.query.professionSlug || "");
+      const careerTrack = PROFESSION_SLUG_TO_CAREER_TRACK[professionSlug];
+      if (!careerTrack) return res.status(400).json({ error: "Invalid profession slug" });
+
+      const r = await pool.query(
+        `SELECT id, title, slug, status, target_keyword, word_count, published_at, updated_at, career_track
+         FROM seo_articles
+         WHERE site_context = 'allied' AND career_track = $1
+         ORDER BY created_at DESC`,
+        [careerTrack]
+      );
+
+      res.json({
+        careerTrack,
+        articles: r.rows.map(row => ({
+          id: row.id,
+          title: row.title,
+          slug: row.slug,
+          status: row.status,
+          targetKeyword: row.target_keyword,
+          wordCount: row.word_count,
+          publishedAt: row.published_at,
+          updatedAt: row.updated_at,
+          careerTrack: row.career_track,
+        })),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/allied-health/generate-article", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { professionSlug, title, slug: articleSlug, targetKeyword, wordCount: wc } = req.body as any;
+      if (!professionSlug || !title || !articleSlug || !targetKeyword) {
+        return res.status(400).json({ error: "professionSlug, title, slug, targetKeyword required" });
+      }
+      const careerTrack = PROFESSION_SLUG_TO_CAREER_TRACK[professionSlug];
+      if (!careerTrack) return res.status(400).json({ error: "Invalid profession slug" });
+
+      const existing = await pool.query("SELECT id FROM seo_articles WHERE slug = $1", [articleSlug]);
+      if (existing.rows.length > 0) {
+        return res.status(409).json({ error: "Article with this slug already exists", existingId: existing.rows[0].id });
+      }
+
+      let clusterId: string;
+      const clusterSlug = `allied-health-${careerTrack}`;
+      const cr = await pool.query("SELECT id FROM seo_clusters WHERE pillar_slug = $1 AND site_context = 'allied'", [clusterSlug]);
+      if (cr.rows.length > 0) {
+        clusterId = cr.rows[0].id;
+      } else {
+        const newCr = await pool.query(
+          `INSERT INTO seo_clusters (keyword, country_mode, exam_tier, pillar_slug, site_context, career_track, status)
+           VALUES ($1, 'BOTH', 'ALL', $2, 'allied', $3, 'draft') RETURNING id`,
+          [`Allied Health ${careerTrack}`, clusterSlug, careerTrack]
+        );
+        clusterId = newCr.rows[0].id;
+      }
+
+      const targetWordCount = wc || 1500;
+      const artR = await pool.query(
+        `INSERT INTO seo_articles (cluster_id, type, status, title, slug, target_keyword, search_intent, site_context, career_track, gating_level, word_count)
+         VALUES ($1, 'support', 'generating', $2, $3, $4, 'informational', 'allied', $5, 'public', 0)
+         RETURNING id`,
+        [clusterId, title, articleSlug, targetKeyword, careerTrack]
+      );
+      const articleId = artR.rows[0].id;
+
+      const jobR = await pool.query(
+        `INSERT INTO autopilot_jobs (type, target_id, status, created_at)
+         VALUES ('seo_article_generation', $1, 'queued', NOW()) RETURNING id`,
+        [articleId]
+      );
+      const jobId = jobR.rows[0].id;
+
+      (async () => {
+        try {
+          const { generateAlliedHealthPage } = await import("./content-generators");
+          const result = await generateAlliedHealthPage(title, targetKeyword, careerTrack, targetWordCount, jobId);
+          if (result && result.content) {
+            const actualWordCount = result.content.split(/\s+/).length;
+            await pool.query(
+              `UPDATE seo_articles SET content_md = $1, word_count = $2, meta_title = $3, meta_description = $4, status = 'needs_review', updated_at = NOW() WHERE id = $5`,
+              [result.content, actualWordCount, result.metaTitle || title, result.metaDescription || "", articleId]
+            );
+          } else {
+            await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [articleId]);
+          }
+        } catch (err: any) {
+          console.error(`[Allied Health] Generation failed for ${articleId}:`, err.message);
+          await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [articleId]);
+        }
+      })().catch(err => console.error("[Allied Health] Background gen error:", err));
+
+      res.json({ articleId, jobId, status: "generating" });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/allied-health/bulk-generate", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { professionSlug, topics } = req.body as any;
+      if (!professionSlug || !Array.isArray(topics) || topics.length === 0) {
+        return res.status(400).json({ error: "professionSlug and topics array required" });
+      }
+      const careerTrack = PROFESSION_SLUG_TO_CAREER_TRACK[professionSlug];
+      if (!careerTrack) return res.status(400).json({ error: "Invalid profession slug" });
+
+      const clusterSlug = `allied-health-${careerTrack}`;
+      let clusterId: string;
+      const cr = await pool.query("SELECT id FROM seo_clusters WHERE pillar_slug = $1 AND site_context = 'allied'", [clusterSlug]);
+      if (cr.rows.length > 0) {
+        clusterId = cr.rows[0].id;
+      } else {
+        const newCr = await pool.query(
+          `INSERT INTO seo_clusters (keyword, country_mode, exam_tier, pillar_slug, site_context, career_track, status)
+           VALUES ($1, 'BOTH', 'ALL', $2, 'allied', $3, 'draft') RETURNING id`,
+          [`Allied Health ${careerTrack}`, clusterSlug, careerTrack]
+        );
+        clusterId = newCr.rows[0].id;
+      }
+
+      const results: { slug: string; status: string; articleId?: string }[] = [];
+
+      for (const topic of topics) {
+        const { slug: topicSlug, title, targetKeyword } = topic;
+        if (!topicSlug || !title || !targetKeyword) {
+          results.push({ slug: topicSlug || "unknown", status: "skipped" });
+          continue;
+        }
+        const existing = await pool.query("SELECT id FROM seo_articles WHERE slug = $1", [topicSlug]);
+        if (existing.rows.length > 0) {
+          results.push({ slug: topicSlug, status: "skipped", articleId: existing.rows[0].id });
+          continue;
+        }
+
+        const artR = await pool.query(
+          `INSERT INTO seo_articles (cluster_id, type, status, title, slug, target_keyword, search_intent, site_context, career_track, gating_level)
+           VALUES ($1, 'support', 'queued', $2, $3, $4, 'informational', 'allied', $5, 'public')
+           RETURNING id`,
+          [clusterId, title, topicSlug, targetKeyword, careerTrack]
+        );
+        results.push({ slug: topicSlug, status: "queued", articleId: artR.rows[0].id });
+      }
+
+      const queuedArticles = results.filter(r => r.status === "queued" && r.articleId);
+      if (queuedArticles.length > 0) {
+        (async () => {
+          const { generateAlliedHealthPage } = await import("./content-generators");
+          for (const qa of queuedArticles) {
+            try {
+              const artRow = await pool.query("SELECT * FROM seo_articles WHERE id = $1", [qa.articleId]);
+              if (!artRow.rows[0]) continue;
+              const art = artRow.rows[0];
+              await pool.query("UPDATE seo_articles SET status = 'generating', updated_at = NOW() WHERE id = $1", [qa.articleId]);
+
+              const jobR = await pool.query(
+                `INSERT INTO autopilot_jobs (type, target_id, status, created_at) VALUES ('seo_article_generation', $1, 'queued', NOW()) RETURNING id`,
+                [qa.articleId]
+              );
+
+              const result = await generateAlliedHealthPage(art.title, art.target_keyword, careerTrack, 1500, jobR.rows[0].id);
+              if (result && result.content) {
+                const wc = result.content.split(/\s+/).length;
+                await pool.query(
+                  `UPDATE seo_articles SET content_md = $1, word_count = $2, meta_title = $3, meta_description = $4, status = 'needs_review', updated_at = NOW() WHERE id = $5`,
+                  [result.content, wc, result.metaTitle || art.title, result.metaDescription || "", qa.articleId]
+                );
+              } else {
+                await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [qa.articleId]);
+              }
+            } catch (err: any) {
+              console.error(`[Allied Health Bulk] Failed for ${qa.articleId}:`, err.message);
+              await pool.query("UPDATE seo_articles SET status = 'failed', updated_at = NOW() WHERE id = $1", [qa.articleId]);
+            }
+          }
+          console.log(`[Allied Health Bulk] Completed processing ${queuedArticles.length} articles`);
+        })().catch(err => console.error("[Allied Health Bulk] Background error:", err));
+      }
+
+      res.json({
+        professionSlug,
+        careerTrack,
+        total: topics.length,
+        queued: results.filter(r => r.status === "queued").length,
+        skipped: results.filter(r => r.status === "skipped").length,
+        results,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/allied-health/article/:articleId", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const r = await pool.query("SELECT * FROM seo_articles WHERE id = $1", [req.params.articleId]);
+      if (r.rows.length === 0) return res.status(404).json({ error: "Article not found" });
+      res.json(mapArticle(r.rows[0]));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.patch("/api/admin/allied-health/article/:articleId", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { title, contentMd, metaTitle, metaDescription, status, slug } = req.body as any;
+      const fields: string[] = [];
+      const values: any[] = [];
+      let idx = 1;
+
+      if (title !== undefined) { fields.push(`title = $${idx++}`); values.push(title); }
+      if (contentMd !== undefined) {
+        fields.push(`content_md = $${idx++}`); values.push(contentMd);
+        const wc = contentMd.split(/\s+/).length;
+        fields.push(`word_count = $${idx++}`); values.push(wc);
+      }
+      if (metaTitle !== undefined) { fields.push(`meta_title = $${idx++}`); values.push(metaTitle); }
+      if (metaDescription !== undefined) { fields.push(`meta_description = $${idx++}`); values.push(metaDescription); }
+      if (status !== undefined) {
+        fields.push(`status = $${idx++}`); values.push(status);
+        if (status === "published") { fields.push(`published_at = NOW()`); }
+      }
+      if (slug !== undefined) { fields.push(`slug = $${idx++}`); values.push(slug); }
+
+      if (fields.length === 0) return res.status(400).json({ error: "No fields to update" });
+
+      fields.push("updated_at = NOW()");
+      values.push(req.params.articleId);
+
+      const r = await pool.query(
+        `UPDATE seo_articles SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`,
+        values
+      );
+      if (r.rows.length === 0) return res.status(404).json({ error: "Article not found" });
+      res.json(mapArticle(r.rows[0]));
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.delete("/api/admin/allied-health/article/:articleId", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const r = await pool.query("DELETE FROM seo_articles WHERE id = $1 RETURNING id", [req.params.articleId]);
+      if (r.rows.length === 0) return res.status(404).json({ error: "Article not found" });
+      res.json({ success: true, deleted: req.params.articleId });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

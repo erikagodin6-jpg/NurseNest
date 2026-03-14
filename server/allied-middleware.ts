@@ -256,6 +256,16 @@ export function generateAlliedSitemap(baseUrl: string): string {
   }
   urls.push(`<url><loc>${baseUrl}/pharmacy-technician/practice-exam-questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
 
+  urls.push(`<url><loc>${baseUrl}/allied-health</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  const alliedHealthProfessions = [
+    "respiratory-therapy", "paramedic", "pharmacy-technician", "medical-lab-technologist",
+    "medical-imaging", "occupational-therapy", "physical-therapy", "social-work",
+    "psychotherapy", "addictions-counselling",
+  ];
+  for (const prof of alliedHealthProfessions) {
+    urls.push(`<url><loc>${baseUrl}/allied-health/${prof}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join("\n")}
@@ -352,6 +362,31 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
     for (const row of articlesResult.rows) {
       const lm = row.updated_at ? new Date(row.updated_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
       urls.push(`<url><loc>${baseUrl}/allied-health/${row.profession_slug}/${row.slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${lm}</lastmod></url>`);
+    }
+  } catch {}
+
+  try {
+    const { pool: dbPool4 } = require("./storage");
+    const alliedArticles = await dbPool4.query(
+      `SELECT slug, career_track, updated_at FROM seo_articles WHERE site_context = 'allied' AND status = 'published' ORDER BY published_at DESC`
+    ).catch(() => ({ rows: [] as any[] }));
+    const careerTrackToProfSlug: Record<string, string> = {
+      "respiratory-therapy": "respiratory-therapy",
+      "paramedic": "paramedic",
+      "pharmacy-tech": "pharmacy-technician",
+      "medical-lab-technologist": "medical-lab-technologist",
+      "medical-imaging": "medical-imaging",
+      "occupational-therapy": "occupational-therapy",
+      "physical-therapy": "physical-therapy",
+      "social-work": "social-work",
+      "psychotherapy": "psychotherapy",
+      "addictions-counselling": "addictions-counselling",
+    };
+    for (const row of alliedArticles.rows) {
+      const profSlug = careerTrackToProfSlug[row.career_track] || row.career_track;
+      const artSlug = row.slug.includes("/") ? row.slug.split("/").pop() : row.slug;
+      const lm = row.updated_at ? new Date(row.updated_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+      urls.push(`<url><loc>${baseUrl}/allied-health/${profSlug}/${artSlug}</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>${lm}</lastmod></url>`);
     }
   } catch {}
 
