@@ -55,6 +55,15 @@ export function Footer() {
               <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">Respiratory Therapy</LocaleLink></li>
               <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">Medical Lab Tech</LocaleLink></li>
             </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Nursing Specialties</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/nursing-specialties" className="hover:text-primary transition-colors" data-testid="link-footer-specialties">All Specialties</LocaleLink></li>
+              <li><LocaleLink href="/icu" className="hover:text-primary transition-colors" data-testid="link-footer-icu">ICU Nursing</LocaleLink></li>
+              <li><LocaleLink href="/med-surg" className="hover:text-primary transition-colors" data-testid="link-footer-med-surg">Med-Surg</LocaleLink></li>
+              <li><LocaleLink href="/labor-and-delivery" className="hover:text-primary transition-colors" data-testid="link-footer-ld">Labor & Delivery</LocaleLink></li>
+              <li><LocaleLink href="/mental-health" className="hover:text-primary transition-colors" data-testid="link-footer-mental-health">Mental Health</LocaleLink></li>
+              <li><LocaleLink href="/trauma" className="hover:text-primary transition-colors" data-testid="link-footer-trauma">Trauma</LocaleLink></li>
+            </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Healthcare Jobs</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">ApplyNest Career Tools</LocaleLink></li>

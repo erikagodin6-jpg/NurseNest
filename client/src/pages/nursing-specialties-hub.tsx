@@ -4,95 +4,12 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { SPECIALTY_CONFIGS } from "@/data/specialty-hub-data";
 import {
   ArrowRight, Heart, Brain, Baby, Stethoscope, Ribbon, SmilePlus,
   Clock, Users, Scissors, Check, HelpCircle, ChevronRight,
   BookOpen, FileText, Pill, ClipboardList, Activity
 } from "lucide-react";
-
-const SPECIALTIES = [
-  {
-    name: "Critical Care RN",
-    slug: "critical-care",
-    description: "Advanced hemodynamic monitoring, ventilator management, vasoactive drips, and multi-organ failure protocols.",
-    icon: Activity,
-    bgColor: "bg-red-50",
-    iconColor: "text-red-600",
-    borderColor: "border-red-100",
-  },
-  {
-    name: "Emergency RN",
-    slug: "emergency",
-    description: "Triage systems, trauma assessment, rapid stabilization, and emergency pharmacology across all acuity levels.",
-    icon: Stethoscope,
-    bgColor: "bg-orange-50",
-    iconColor: "text-orange-600",
-    borderColor: "border-orange-100",
-  },
-  {
-    name: "Pediatric RN",
-    slug: "pediatric",
-    description: "Growth milestones, pediatric dosing, congenital conditions, and family-centered care from NICU to adolescence.",
-    icon: Baby,
-    bgColor: "bg-sky-50",
-    iconColor: "text-sky-600",
-    borderColor: "border-sky-100",
-  },
-  {
-    name: "Maternal-Newborn RN",
-    slug: "maternal-newborn",
-    description: "Antepartum, intrapartum, postpartum care, fetal monitoring, high-risk pregnancy, and neonatal transition.",
-    icon: Heart,
-    bgColor: "bg-pink-50",
-    iconColor: "text-pink-600",
-    borderColor: "border-pink-100",
-  },
-  {
-    name: "Oncology RN",
-    slug: "oncology",
-    description: "Chemotherapy protocols, tumor staging, oncologic emergencies, symptom management, and survivorship care.",
-    icon: Ribbon,
-    bgColor: "bg-purple-50",
-    iconColor: "text-purple-600",
-    borderColor: "border-purple-100",
-  },
-  {
-    name: "Mental Health RN",
-    slug: "mental-health",
-    description: "Therapeutic communication, crisis intervention, psychopharmacology, and evidence-based psychiatric nursing.",
-    icon: Brain,
-    bgColor: "bg-teal-50",
-    iconColor: "text-teal-600",
-    borderColor: "border-teal-100",
-  },
-  {
-    name: "Gerontology RN",
-    slug: "gerontology",
-    description: "Age-related pathophysiology, polypharmacy, fall prevention, dementia care, and end-of-life support.",
-    icon: Clock,
-    bgColor: "bg-amber-50",
-    iconColor: "text-amber-600",
-    borderColor: "border-amber-100",
-  },
-  {
-    name: "Community Health RN",
-    slug: "community-health",
-    description: "Population health, epidemiology, public health interventions, health promotion, and community assessment.",
-    icon: Users,
-    bgColor: "bg-green-50",
-    iconColor: "text-green-600",
-    borderColor: "border-green-100",
-  },
-  {
-    name: "Perioperative RN",
-    slug: "perioperative",
-    description: "Pre-op assessment, intraoperative safety, sterile technique, anesthesia recovery, and surgical complications.",
-    icon: Scissors,
-    bgColor: "bg-indigo-50",
-    iconColor: "text-indigo-600",
-    borderColor: "border-indigo-100",
-  },
-];
 
 const TRACK_FEATURES = [
   { icon: BookOpen, label: "Specialty-specific pathophysiology lessons" },
@@ -106,7 +23,7 @@ const TRACK_FEATURES = [
 const FAQ_DATA = [
   {
     question: "Can I access multiple specialties at the same time?",
-    answer: "Yes. Your NurseNest subscription gives you unlimited access to every specialty track. Study one or all nine — there are no per-specialty fees or content locks between tracks."
+    answer: "Yes. Your NurseNest subscription gives you unlimited access to every specialty track. Study one or all sixteen — there are no per-specialty fees or content locks between tracks."
   },
   {
     question: "Are these specialty tracks aligned to certification exams?",
@@ -180,7 +97,7 @@ export default function NursingSpecialtiesHub() {
             "name": "NurseNest",
             "url": "https://www.nursenest.ca"
           },
-          "numberOfCredits": 9,
+          "numberOfCredits": 16,
           "educationalLevel": "Advanced",
         }}
         breadcrumbs={[
@@ -223,31 +140,39 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16" data-testid="section-specialty-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">9 Specialty Tracks, One Platform</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">16 Specialty Tracks, One Platform</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Each track is built by specialty nurses and mapped to official certification exam blueprints. Pick your focus or study them all.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SPECIALTIES.map((spec) => (
-              <Link
-                key={spec.slug}
-                href={`/lessons?specialty=${spec.slug}`}
-                className="group"
-                data-testid={`card-specialty-${spec.slug}`}
-              >
-                <div className={`bg-white rounded-xl border ${spec.borderColor} p-6 hover:shadow-md transition-all h-full`}>
-                  <div className={`w-12 h-12 rounded-xl ${spec.bgColor} flex items-center justify-center mb-4`}>
-                    <spec.icon className={`w-6 h-6 ${spec.iconColor}`} />
+            {SPECIALTY_CONFIGS.map((spec) => {
+              const SpecIcon = spec.icon;
+              return (
+                <Link
+                  key={spec.slug}
+                  href={`/${spec.slug}`}
+                  className="group"
+                  data-testid={`card-specialty-${spec.slug}`}
+                >
+                  <div className={`bg-white rounded-xl border ${spec.borderColor} p-6 hover:shadow-md transition-all h-full`}>
+                    <div className={`w-12 h-12 rounded-xl ${spec.bgColor} flex items-center justify-center mb-4`}>
+                      <SpecIcon className={`w-6 h-6 ${spec.iconColor}`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors" data-testid={`text-specialty-name-${spec.slug}`}>
+                      {spec.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-2">{spec.description}</p>
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {spec.certifications.slice(0, 2).map((cert) => (
+                        <span key={cert} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{cert}</span>
+                      ))}
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
+                      Explore <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors" data-testid={`text-specialty-name-${spec.slug}`}>
-                    {spec.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-3">{spec.description}</p>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
-                    Explore <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -327,7 +252,7 @@ export default function NursingSpecialtiesHub() {
             Ready to Go Deep in Your Specialty?
           </h2>
           <p className="text-blue-100 mb-4 text-lg">
-            All 9 specialty tracks are included with your NurseNest subscription. No per-track fees, no content limits.
+            All 16 specialty tracks are included with your NurseNest subscription. No per-track fees, no content limits.
           </p>
           <p className="text-blue-200 mb-8 text-sm">
             Starting at $19/month or included with any RN/NP subscription tier.

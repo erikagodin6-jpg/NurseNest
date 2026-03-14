@@ -44,11 +44,13 @@ Key systems and engines include:
 - **Lead Capture Funnels**: Contextual lead capture forms (`InlineLeadCapture`, `EndOfContentLeadCapture`, `StickyLeadBanner`, `BlogInlineLeadCapture`) for different lead magnet types, capturing profession context.
 - **Conversion Funnel System**: Reusable components (`ConversionFunnel`, `InlinePracticePreview`, `MockExamTeaser`) integrated across various content types for user conversion.
 - **Career Journey Funnel Pages**: Guided pathway pages walking users through the student-to-professional pipeline, with generic and profession-specific variants.
+- **Clinical Specialty Hub Pages**: 16 individual specialty hub pages (ICU, Pediatric ICU, NICU, Med-Surg, Orthopedics, Mental Health, Nephrology, Labor & Delivery, Postpartum, Neurology, Palliative Care, Trauma, Public Health, Community Nursing, Long-Term Care, Rehabilitation) with matching SEO landing pages, structured data, and FAQ sections.
 
 The platform utilizes PostgreSQL with Drizzle ORM for database management.
 
 ## External Dependencies
-- **Database**: PostgreSQL, Drizzle ORM
+- **Database**: PostgreSQL
+- **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: OpenAI
 - **Social Media**: Meta Graph API

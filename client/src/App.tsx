@@ -182,6 +182,10 @@ const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-temp
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
+const SpecialtyHubPage = lazy(() => import("@/pages/specialty-hub-page"));
+const SpecialtyHubBySlug = lazy(() => import("@/pages/specialty-hub-page").then(m => ({ default: m.SpecialtyHubBySlug })));
+const SpecialtySeoPage = lazy(() => import("@/pages/specialty-seo-page"));
+const SpecialtySeoBySlug = lazy(() => import("@/pages/specialty-seo-page").then(m => ({ default: m.SpecialtySeoBySlug })));
 const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
 const RexPnExamFormat = lazy(() => import("@/pages/rex-pn-exam-format"));
 const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
@@ -523,6 +527,43 @@ function AppRoutes() {
         <Route path="/nursing/top-100-nclex-practice-questions" component={AuthorityContentPage} />
         <Route path="/nursing" component={NursingAuthorityHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
+
+        {/* 16 Specialty Hub Pages */}
+        <Route path="/icu">{() => <SpecialtyHubBySlug slug="icu" />}</Route>
+        <Route path="/pediatric-icu">{() => <SpecialtyHubBySlug slug="pediatric-icu" />}</Route>
+        <Route path="/nicu">{() => <SpecialtyHubBySlug slug="nicu" />}</Route>
+        <Route path="/med-surg">{() => <SpecialtyHubBySlug slug="med-surg" />}</Route>
+        <Route path="/orthopedics">{() => <SpecialtyHubBySlug slug="orthopedics" />}</Route>
+        <Route path="/mental-health">{() => <SpecialtyHubBySlug slug="mental-health" />}</Route>
+        <Route path="/nephrology">{() => <SpecialtyHubBySlug slug="nephrology" />}</Route>
+        <Route path="/labor-and-delivery">{() => <SpecialtyHubBySlug slug="labor-and-delivery" />}</Route>
+        <Route path="/postpartum">{() => <SpecialtyHubBySlug slug="postpartum" />}</Route>
+        <Route path="/neurology">{() => <SpecialtyHubBySlug slug="neurology" />}</Route>
+        <Route path="/palliative-care">{() => <SpecialtyHubBySlug slug="palliative-care" />}</Route>
+        <Route path="/trauma">{() => <SpecialtyHubBySlug slug="trauma" />}</Route>
+        <Route path="/public-health">{() => <SpecialtyHubBySlug slug="public-health" />}</Route>
+        <Route path="/community-nursing">{() => <SpecialtyHubBySlug slug="community-nursing" />}</Route>
+        <Route path="/long-term-care">{() => <SpecialtyHubBySlug slug="long-term-care" />}</Route>
+        <Route path="/rehabilitation">{() => <SpecialtyHubBySlug slug="rehabilitation" />}</Route>
+
+        {/* 16 Specialty SEO Landing Pages */}
+        <Route path="/icu-nursing-guide">{() => <SpecialtySeoBySlug slug="icu-nursing-guide" />}</Route>
+        <Route path="/pediatric-icu-nursing-guide">{() => <SpecialtySeoBySlug slug="pediatric-icu-nursing-guide" />}</Route>
+        <Route path="/nicu-nursing-guide">{() => <SpecialtySeoBySlug slug="nicu-nursing-guide" />}</Route>
+        <Route path="/med-surg-nursing-guide">{() => <SpecialtySeoBySlug slug="med-surg-nursing-guide" />}</Route>
+        <Route path="/orthopedic-nursing-guide">{() => <SpecialtySeoBySlug slug="orthopedic-nursing-guide" />}</Route>
+        <Route path="/mental-health-nursing-guide">{() => <SpecialtySeoBySlug slug="mental-health-nursing-guide" />}</Route>
+        <Route path="/nephrology-nursing-guide">{() => <SpecialtySeoBySlug slug="nephrology-nursing-guide" />}</Route>
+        <Route path="/labor-and-delivery-nursing-guide">{() => <SpecialtySeoBySlug slug="labor-and-delivery-nursing-guide" />}</Route>
+        <Route path="/postpartum-nursing-guide">{() => <SpecialtySeoBySlug slug="postpartum-nursing-guide" />}</Route>
+        <Route path="/neurology-nursing-guide">{() => <SpecialtySeoBySlug slug="neurology-nursing-guide" />}</Route>
+        <Route path="/palliative-care-nursing-guide">{() => <SpecialtySeoBySlug slug="palliative-care-nursing-guide" />}</Route>
+        <Route path="/trauma-nursing-guide">{() => <SpecialtySeoBySlug slug="trauma-nursing-guide" />}</Route>
+        <Route path="/public-health-nursing-guide">{() => <SpecialtySeoBySlug slug="public-health-nursing-guide" />}</Route>
+        <Route path="/community-nursing-guide">{() => <SpecialtySeoBySlug slug="community-nursing-guide" />}</Route>
+        <Route path="/long-term-care-nursing-guide">{() => <SpecialtySeoBySlug slug="long-term-care-nursing-guide" />}</Route>
+        <Route path="/rehabilitation-nursing-guide">{() => <SpecialtySeoBySlug slug="rehabilitation-nursing-guide" />}</Route>
+
         <Route path="/pre-nursing" component={PreNursingPage} />
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
         <Route path="/mock-exams/:id" component={MockExamSession} />

@@ -491,6 +491,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 {t("nav.blog")}
               </Button>
             </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/nursing-specialties")} data-testid="button-specialties-mobile">
+                <Stethoscope className="w-4 h-4" />
+                Nursing Specialties
+              </Button>
+            </SheetClose>
 
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-auto py-2" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-mobile">
@@ -1007,6 +1013,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/clinical-clarity")}>
                     <Lightbulb className="w-4 h-4 text-primary/70" />
                     {t("nav.clinicalClarity")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/nursing-specialties")} data-testid="button-specialties-desktop">
+                    <Stethoscope className="w-4 h-4 text-primary/70" />
+                    Nursing Specialties
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
