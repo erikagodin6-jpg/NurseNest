@@ -1,0 +1,137 @@
+Audit and fix the Allied Health site because the RRT link does not work and there are multiple 404 errors across the allied health website.
+
+Goal:
+Find and fix broken routes, broken internal links, slug mismatches, and deployment/path issues across the allied health site so all learner-facing pages resolve correctly and navigation works consistently.
+
+Priority issue:
+- The RRT link on the Allied Health page currently does not work
+- There are many 404 errors across the Allied Health website
+- Fix this comprehensively, not as a one-off patch
+
+Required tasks:
+
+1. Full route audit
+- Inspect all Allied Health learner-facing routes and confirm which pages are intended to exist
+- Build a route map for all allied health pages, including landing pages, specialty pages, exam prep pages, guide pages, pricing pages, blog/category pages, and CTA destinations
+- Confirm the exact intended route for RRT and related respiratory therapy pages
+
+2. Full internal link audit
+Check all internal links on the allied health site, including:
+- top navigation
+- dropdown menus
+- hero buttons
+- cards
+- category tiles
+- “learn more” buttons
+- breadcrumbs
+- footer links
+- CTA sections
+- related content links
+- sitemap-generated links
+- program/tier cards
+- mobile navigation links
+
+3. Fix RRT specifically
+- Find the exact broken RRT link
+- Determine whether the page should resolve to something like /rrt, /respiratory-therapy, /respiratory-therapy-guide, or another canonical route
+- Standardize the final canonical route and update every place that points to the wrong one
+- Ensure the destination page actually exists and renders in production
+
+4. Standardize route naming
+- Normalize allied health route patterns so slugs are consistent across the site
+- Avoid mixed naming such as:
+  - /rrt vs /respiratory-therapy
+  - /mlt vs /medical-lab-tech vs /medical-laboratory-technology
+  - singular vs plural
+  - inconsistent hyphenation
+- Choose one canonical slug per program and update all internal references
+
+5. React/router audit
+- Inspect the allied health router configuration and confirm all intended pages are actually registered
+- Check for missing route declarations
+- Check for nested route issues
+- Check for route order conflicts where broader patterns override specific allied health pages
+- Check for mismatch between Wouter/React routes and server-side fallback handling
+
+6. Deployment/server fallback audit
+- Ensure production routing supports deep links for all allied health pages
+- Confirm direct navigation to allied health URLs does not 404 because of missing server fallback to index.html
+- Fix any publish/deployment rewrite issues causing valid frontend routes to return 404
+
+7. Broken href and Link cleanup
+- Replace outdated hardcoded href values with canonical route helpers where appropriate
+- Avoid duplicated route strings scattered throughout the codebase
+- Centralize allied health path definitions if possible so future slug changes do not break links again
+
+8. Catch all 404 review
+- Review the 404 page/catch-all behavior
+- Make sure valid allied health routes are not being accidentally routed to 404
+- Ensure only truly invalid pages show the 404 page
+
+9. Footer and sitemap audit
+- Verify footer links on the allied health site
+- Verify sitemap entries only include real, valid allied health URLs
+- Remove or correct any sitemap URLs that currently lead to 404 pages
+- Make sure canonical tags and internal linking agree on the final URL structure
+
+10. Breadcrumb audit
+- Check all allied health breadcrumb links
+- Make sure intermediate and destination pages are valid
+- Remove breadcrumb paths that point to retired URLs
+
+11. Card/grid audit
+- Check every allied health homepage card, specialty tile, exam prep card, and guide card
+- Make sure every clickable card has a valid destination
+- Ensure no placeholder or unpublished routes are linked publicly
+
+12. Mobile and desktop audit
+- Verify all allied health navigation works on both desktop and mobile
+- Check hamburger menu and dropdown items separately because mobile often has different link definitions
+
+13. Redirect strategy
+- Where there are old URLs already in use, add clean redirects or alias handling where appropriate so older links do not die
+- Example: if /rrt used to exist but canonical is now /respiratory-therapy, redirect /rrt to the canonical page instead of leaving a 404
+- Do this for other allied health pages where old slugs may still be referenced
+
+14. Program coverage check
+Audit at minimum these allied health sections and their links:
+- RRT / Respiratory Therapy
+- Paramedic
+- MLT / Medical Lab Tech
+- Diagnostic Imaging
+- Occupational Therapy
+- Physical Therapy
+- Any other allied health program links currently exposed in navigation, cards, footer, or sitemap
+
+15. Quality control logging
+- Add a simple internal audit script or route-check utility if helpful that scans allied health route definitions against internal links
+- If feasible, create a reusable list of canonical allied health routes for future validation
+
+16. SEO cleanup
+- Fix canonical URLs for allied health pages
+- Ensure there are no internal links pointing to non-canonical or broken URLs
+- Make sure sitemap and internal links match the live route structure
+- Prevent indexing of obvious 404 pages
+
+17. Production-safe implementation
+- Do not break the main NurseNest nursing site while fixing allied health routing
+- Keep changes scoped cleanly to allied health route/link infrastructure where possible
+- Preserve existing good pages and only repair broken routing/link logic
+
+Verification checklist after fixes:
+- RRT link works from the Allied Health page
+- every top-nav allied health link resolves
+- every footer allied health link resolves
+- every CTA button on allied health landing pages resolves
+- no obvious 404s remain across public allied health pages
+- direct URL entry works for allied health pages in production
+- mobile navigation links work
+- sitemap URLs for allied health resolve properly
+- canonical slugs are consistent
+- old known slugs redirect properly where appropriate
+
+Please implement the fixes directly, then provide a short summary of:
+1. what caused the RRT issue
+2. what categories of 404 errors were found
+3. which route naming standard was chosen
+4. which redirects/aliases were added
