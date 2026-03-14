@@ -155,6 +155,15 @@ export default function ConditionPage() {
       drugClass: { "@type": "DrugClass", name: m.drugClass },
       mechanismOfAction: m.mechanism,
     })),
+    possibleTreatment: condition.medications.map(m => ({
+      "@type": "MedicalTherapy",
+      name: m.name,
+      drug: { "@type": "Drug", name: m.name },
+    })),
+    typicalTest: condition.diagnostics.map(d => ({
+      "@type": "MedicalTest",
+      name: d,
+    })),
   };
 
   const faqSchema = {

@@ -764,6 +764,14 @@ async function getContentSitemapEntries(base: string, today: string, offset: num
     entries.push(sitemapUrl(base, `/lessons/${lesson.slug}`, "0.8", "weekly", enOnly, lastmod));
   }
 
+  const programmaticPages = await dbPool.query(
+    `SELECT slug, updated_at, career_track FROM programmatic_pages WHERE status = 'published' ORDER BY updated_at DESC`
+  ).catch(() => ({ rows: [] }));
+  for (const page of programmaticPages.rows) {
+    const lastmod = page.updated_at ? new Date(page.updated_at).toISOString().split("T")[0] : today;
+    entries.push(sitemapUrl(base, `/${page.slug}`, "0.6", "weekly", enOnly, lastmod));
+  }
+
   return entries.slice(offset, offset + limit);
 }
 

@@ -23,6 +23,10 @@ const CAREER_TRACKS = [
   { slug: "physical-therapy-assistant", label: "Physical Therapy Assistant", exam: "PTA" },
   { slug: "occupational-therapy-assistant", label: "Occupational Therapy Assistant", exam: "OTA" },
   { slug: "nursing", label: "Nursing", exam: "NCLEX" },
+  { slug: "social-work", label: "Social Work", exam: "ASWB/OASW" },
+  { slug: "psychotherapy", label: "Psychotherapy", exam: "CRPO" },
+  { slug: "addictions", label: "Addictions Counselling", exam: "IC&RC/CACCF" },
+  { slug: "occupational-therapy", label: "Occupational Therapy", exam: "NBCOT" },
 ];
 
 function getCareerLabel(slug: string): string {
@@ -293,6 +297,10 @@ async function runFullGeneration(): Promise<{ pagesCreated: number; linksCompute
           WHEN tags @> ARRAY['ultrasound'] THEN 'ultrasound'
           WHEN tags @> ARRAY['pta'] THEN 'physical-therapy-assistant'
           WHEN tags @> ARRAY['ota'] THEN 'occupational-therapy-assistant'
+          WHEN tags @> ARRAY['social-work'] THEN 'social-work'
+          WHEN tags @> ARRAY['psychotherapy'] THEN 'psychotherapy'
+          WHEN tags @> ARRAY['addictions'] THEN 'addictions'
+          WHEN tags @> ARRAY['occupational-therapy'] THEN 'occupational-therapy'
           ELSE 'nursing'
         END, 'nursing'
       ) AS career_track
@@ -311,8 +319,7 @@ async function runFullGeneration(): Promise<{ pagesCreated: number; linksCompute
     const questions = await pool.query(
       `SELECT id, stem, topic, body_system,
         COALESCE(career_type, 'nursing') AS career_track
-       FROM exam_questions WHERE status = 'published'
-       LIMIT 500`
+       FROM exam_questions WHERE status = 'published'`
     );
 
     for (const q of questions.rows) {
@@ -326,6 +333,10 @@ async function runFullGeneration(): Promise<{ pagesCreated: number; linksCompute
           paramedic_ems: "paramedic",
           mlt: "medical-lab-technologist",
           radiology: "medical-imaging",
+          social_work: "social-work",
+          psychotherapy: "psychotherapy",
+          addictions: "addictions",
+          occupational_therapy: "occupational-therapy",
         };
         const career = careerMap[q.career_track] || q.career_track || "nursing";
         const count = await generatePagesForContent(q.id, "question", career, topicSlug, title);
@@ -337,8 +348,7 @@ async function runFullGeneration(): Promise<{ pagesCreated: number; linksCompute
 
     const decks = await pool.query(
       `SELECT id, title, slug, COALESCE(career_type, 'nursing') AS career_track
-       FROM flashcard_decks WHERE visibility = 'public'
-       LIMIT 200`
+       FROM flashcard_decks WHERE visibility = 'public'`
     );
 
     for (const deck of decks.rows) {
@@ -351,6 +361,10 @@ async function runFullGeneration(): Promise<{ pagesCreated: number; linksCompute
           paramedic_ems: "paramedic",
           mlt: "medical-lab-technologist",
           radiology: "medical-imaging",
+          social_work: "social-work",
+          psychotherapy: "psychotherapy",
+          addictions: "addictions",
+          occupational_therapy: "occupational-therapy",
         };
         const career = careerMap[deck.career_track] || deck.career_track || "nursing";
         const count = await generatePagesForContent(deck.id, "flashcard_deck", career, deckSlug, deck.title);

@@ -221,6 +221,35 @@ export function generateAlliedSitemap(baseUrl: string): string {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
+  const careerGuidePages = [
+    "how-to-become-a-paramedic",
+    "how-to-become-a-respiratory-therapist",
+    "how-to-become-a-medical-lab-technologist",
+    "how-to-become-a-radiologic-technologist",
+    "how-to-become-a-social-worker",
+    "how-to-become-a-psychotherapist",
+    "how-to-become-an-addictions-counselor",
+    "how-to-become-an-occupational-therapist",
+    "how-to-become-a-pharmacy-technician",
+  ];
+  for (const page of careerGuidePages) {
+    urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  const examPrepPages = [
+    "paramedic-exam-prep",
+    "rrt-exam-prep",
+    "mlt-exam-prep",
+    "radiography-exam-prep",
+    "social-work-exam-prep",
+    "psychotherapy-exam-prep",
+    "addictions-counselling-exam-prep",
+    "occupational-therapy-exam-prep",
+  ];
+  for (const page of examPrepPages) {
+    urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
   urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   for (const slug of drugClassSlugs) {
     urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes/${slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
@@ -270,6 +299,26 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
     urls.push(`<url><loc>${baseUrl}/paramedic/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
     for (const slug of topicSlugs) {
       urls.push(`<url><loc>${baseUrl}/paramedic/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
+    }
+  } catch {}
+
+  const encyclopediaProfessions = [
+    "paramedic", "respiratory-therapy", "mlt", "imaging",
+    "social-work", "psychotherapy", "addictions", "occupational-therapy",
+  ];
+  for (const prof of encyclopediaProfessions) {
+    const now2 = new Date().toISOString().split("T")[0];
+    urls.push(`<url><loc>${baseUrl}/${prof}-encyclopedia</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>${now2}</lastmod></url>`);
+  }
+
+  try {
+    const { pool: dbPool2 } = require("./storage");
+    const programmaticResult = await dbPool2.query(
+      `SELECT slug, updated_at FROM programmatic_pages WHERE status = 'published' ORDER BY updated_at DESC`
+    ).catch(() => ({ rows: [] as any[] }));
+    for (const row of programmaticResult.rows) {
+      const lm = row.updated_at ? new Date(row.updated_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+      urls.push(`<url><loc>${baseUrl}/${row.slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${lm}</lastmod></url>`);
     }
   } catch {}
 

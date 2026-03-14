@@ -56,11 +56,30 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
     "@type": "EducationalOrganization",
     "name": "NurseNest Allied",
     "url": "https://allied.nursenest.ca",
-    "description": "Allied health professional exam preparation platform",
-    "hasCourse": {
-      "@type": "Course",
-      "name": `${data.name} Certification Prep`,
-      "description": data.seo.description,
+    "description": "Allied health professional exam preparation platform offering courses for respiratory therapy, medical lab technology, social work, psychotherapy, addictions counselling, occupational therapy, and more.",
+    "sameAs": [
+      "https://www.instagram.com/nursenest.ca",
+      "https://www.tiktok.com/@nursenest.ca",
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Allied Health Exam Prep Courses",
+      "itemListElement": [
+        {
+          "@type": "Course",
+          "name": `${data.name} Certification Prep`,
+          "description": data.seo.description,
+          "courseMode": "online",
+          "provider": { "@type": "EducationalOrganization", "name": "NurseNest Allied" },
+        },
+        ...data.studyFeatures.map((f) => ({
+          "@type": "Course",
+          "name": `${data.shortName} – ${f.label}`,
+          "description": f.description,
+          "courseMode": "online",
+          "provider": { "@type": "EducationalOrganization", "name": "NurseNest Allied" },
+        })),
+      ],
     },
   };
 

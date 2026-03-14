@@ -146,6 +146,21 @@ export default function ProgrammaticSeoPage() {
     mainEntityOfPage: { "@type": "WebPage", "@id": `https://www.nursenest.ca/${page.slug}` },
   };
 
+  const courseSchema = (page.pageType === "study-guide" || page.pageType === "exam-tips") ? {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": page.title,
+    "description": page.metaDescription || "",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+    },
+    "courseMode": "online",
+    "inLanguage": "en",
+    "url": `https://www.nursenest.ca/${page.slug}`,
+  } : null;
+
   const pageTypeLabel = page.pageType.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   const careerLabel = page.careerTrack.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
@@ -157,7 +172,7 @@ export default function ProgrammaticSeoPage() {
         description={page.metaDescription || ""}
         canonicalPath={`/${page.slug}`}
         structuredData={articleSchema}
-        additionalStructuredData={faqSchema ? [faqSchema] : undefined}
+        additionalStructuredData={[faqSchema, courseSchema].filter((s): s is Record<string, unknown> => s !== null)}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: careerLabel, url: `https://www.nursenest.ca/${page.careerTrack}` },

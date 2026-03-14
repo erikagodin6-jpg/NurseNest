@@ -147,13 +147,33 @@ export default function Home() {
             "@type": "EducationalOrganization",
             "name": "NurseNest",
             "url": "https://www.nursenest.ca/en",
-            "description": "Premier nursing education platform for RPN/LVN, RN/NCLEX, and NP students with interactive pathophysiology lessons, pharmacology training, and adaptive flashcards.",
-            "educationalCredentialAwarded": "Nursing Exam Preparation",
+            "description": "Premier nursing and allied health education platform for RPN/LVN, RN/NCLEX, NP, RRT, MLT, paramedic, social work, psychotherapy, addictions counselling, and occupational therapy students.",
+            "educationalCredentialAwarded": "Nursing & Allied Health Exam Preparation",
+            "sameAs": [
+              "https://www.instagram.com/nursenest.ca",
+              "https://www.tiktok.com/@nursenest.ca",
+            ],
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "4.8",
               "reviewCount": "1240",
               "bestRating": "5"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "NurseNest Course Catalog",
+              "itemListElement": [
+                { "@type": "Course", "name": "NCLEX-RN Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "REx-PN / NCLEX-PN Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "NP Certification Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "RRT Respiratory Therapy Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "MLT Medical Lab Technologist Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "Paramedic NREMT Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "Social Work ASWB Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "Psychotherapy CRPO Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "Addictions Counselling Exam Prep", "courseMode": "online" },
+                { "@type": "Course", "name": "Occupational Therapy NBCOT Exam Prep", "courseMode": "online" },
+              ],
             }
           },
           {

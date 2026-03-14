@@ -185,17 +185,26 @@ export function buildCourseStructuredData(lessonId: string, lesson: LessonConten
   const bodySystem = getLessonBodySystem(lessonId);
   const canonicalTitle = stripTierFromTitle(lesson.title);
 
+  const examMap: Record<string, string> = {
+    "Nurse Practitioner": "NP Certification",
+    "Registered Nurse (NCLEX)": "NCLEX-RN",
+    "Practical Nurse (RPN/LVN)": "REX-PN / CPNRE",
+  };
+
   return {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": canonicalTitle,
     "description": description,
     "provider": {
-      "@type": "Organization",
+      "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
     },
     "educationalLevel": tierLabel,
+    "educationalCredentialAwarded": examMap[tierLabel] || "Nursing Certification",
+    "numberOfCredits": 1,
+    "coursePrerequisites": `Enrollment in a ${tierLabel} program or equivalent clinical background`,
     "about": bodySystem,
     "inLanguage": "en",
     "url": `https://www.nursenest.ca/lessons/${lessonId}`,
@@ -204,7 +213,53 @@ export function buildCourseStructuredData(lessonId: string, lesson: LessonConten
       "courseMode": "online",
       "courseWorkload": "PT30M",
     },
+    "teaches": [
+      `Pathophysiology of ${canonicalTitle}`,
+      `Clinical assessment and signs`,
+      `Pharmacological management`,
+      `Evidence-based interventions`,
+    ],
   };
+}
+
+export function buildEducationalOrganizationStructuredData(options?: {
+  name?: string;
+  url?: string;
+  description?: string;
+  courses?: { name: string; description: string; url?: string }[];
+}) {
+  const orgName = options?.name || "NurseNest";
+  const orgUrl = options?.url || "https://www.nursenest.ca";
+  const orgDesc = options?.description || "Online nursing and allied health exam preparation platform";
+
+  const data: Record<string, any> = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": orgName,
+    "url": orgUrl,
+    "description": orgDesc,
+    "sameAs": [
+      "https://www.instagram.com/nursenest.ca",
+      "https://www.tiktok.com/@nursenest.ca",
+    ],
+  };
+
+  if (options?.courses && options.courses.length > 0) {
+    data["hasOfferCatalog"] = {
+      "@type": "OfferCatalog",
+      "name": `${orgName} Course Catalog`,
+      "itemListElement": options.courses.map(c => ({
+        "@type": "Course",
+        "name": c.name,
+        "description": c.description,
+        "provider": { "@type": "EducationalOrganization", "name": orgName },
+        "courseMode": "online",
+        ...(c.url ? { "url": c.url } : {}),
+      })),
+    };
+  }
+
+  return data;
 }
 
 export function buildFaqFromQuizQuestions(questions: { question: string; options: string[]; correct: number; rationale: string }[]) {
