@@ -99,6 +99,15 @@ import { rrtLessons } from "./rrt-lessons";
 import { paramedicLessons } from "./paramedic-lessons";
 import { mltLessons } from "./mlt-lessons";
 
+import { imagingLessons } from "./imaging-lessons";
+import { socialWorkerLessons } from "./social-worker-lessons";
+import { psychotherapistLessons } from "./psychotherapist-lessons";
+import { addictionsCounsellorLessons } from "./addictions-counsellor-lessons";
+import { occupationalTherapyLessons } from "./occupational-therapy-lessons";
+import { paramedicLessonsExpanded } from "./paramedic-lessons-expanded";
+import { rrtLessonsExpanded } from "./rrt-lessons-expanded";
+import { mltLessonsExpanded } from "./mlt-lessons-expanded";
+
 import { generatedBatch001Lessons } from "./generated-batch-001";
 import { generatedBatch002Lessons } from "./generated-batch-002";
 import { generatedBatch003Lessons } from "./generated-batch-003";
@@ -253,7 +262,8 @@ function countQuestions(lessons: Record<string, LessonContent>): number {
 }
 
 function isPlaceholder(lesson: LessonContent): boolean {
-  const content = lesson.cellular?.content || "";
+  const cellVal = (lesson as any).cellular;
+  const content = typeof cellVal === "string" ? cellVal : cellVal?.content || "";
   if (content.includes("[WRITE YOUR") || content.includes("[PLACEHOLDER") || content.length < 20) return true;
 
   const genericRiskFactors = [
@@ -467,6 +477,14 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rrtLessons,
   paramedicLessons,
   mltLessons,
+  imagingLessons,
+  socialWorkerLessons,
+  psychotherapistLessons,
+  addictionsCounsellorLessons,
+  occupationalTherapyLessons,
+  paramedicLessonsExpanded,
+  rrtLessonsExpanded,
+  mltLessonsExpanded,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,
