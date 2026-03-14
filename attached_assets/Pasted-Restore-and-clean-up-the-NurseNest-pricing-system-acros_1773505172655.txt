@@ -1,0 +1,90 @@
+Restore and clean up the NurseNest pricing system across the pricing page, checkout flow, and any related pricing config.
+
+Goals:
+1. Re-add the correct subscription pricing for all three tiers:
+   - RPN
+   - RN
+   - NP
+
+2. Remove all paid trial products and trial purchase buttons from the UI and backend:
+   - remove “Buy 1 Day Trial”
+   - remove “Buy 3 Day Trial”
+   - remove any checkout logic tied to those paid trial options
+   - remove any pricing cards, buttons, labels, plan config, and references to those trial purchases
+
+3. Keep the free access model where users already receive a one-day free pass automatically.
+   - Do not charge for the one-day free pass
+   - Do not show it as a paid option
+   - If there is messaging about free access, update it so it clearly says users get a free one-day pass automatically
+
+Pricing to restore exactly:
+
+RPN
+- 1 Month: CAD 24.99
+- 3 Months: CAD 59.99
+- 6 Months: CAD 99.99
+- 1 Year: CAD 149.99
+
+RN
+- 1 Month: CAD 29.99
+- 3 Months: CAD 74.99
+- 6 Months: CAD 119.99
+- 1 Year: CAD 179.99
+
+NP
+- 1 Month: CAD 39.99
+- 3 Months: CAD 99.99
+- 6 Months: CAD 159.99
+- 1 Year: CAD 239.99
+
+Implementation requirements:
+4. Find the central pricing configuration and restore these plans there instead of scattering values across components.
+5. Ensure the pricing page UI renders the correct plans and prices for each tier.
+6. Ensure checkout uses the correct tier and duration mapping.
+7. Remove any references to old/incorrect prices and any deprecated paid trial SKUs.
+8. Normalize duration labels consistently:
+   - 1 Month
+   - 3 Months
+   - 6 Months
+   - 1 Year
+9. Make yearly wording consistent everywhere. Do not mix “Yearly,” “Annual,” and “1 Year” inconsistently.
+10. If Stripe price IDs are already mapped elsewhere, do not delete that integration. Reconnect the visible plan cards to the correct active pricing structure.
+11. Keep the existing role logic for RPN, RN, and NP.
+12. Do not break existing subscription checkout, webhook handling, or tier unlocking.
+13. Update CTA and supporting copy so trial messaging is correct:
+   - remove paid trial language
+   - replace with “Start Free” or “Get Your Free 1-Day Pass”
+14. If there is a free access card or banner, make it clear that users automatically receive a free 1-day pass and can upgrade afterward.
+
+UI requirements:
+15. The pricing page should look clean, premium, and conversion-focused.
+16. Show all four durations per tier.
+17. Make the free pass message visible but not overwhelming.
+18. Remove any duplicate buttons, dead links, or confusing plan labels.
+19. Make sure desktop and mobile pricing cards both display correctly.
+20. Keep visual hierarchy clear so users understand:
+   - free 1-day pass
+   - then paid subscription options by tier
+
+Validation:
+21. Search the entire codebase for:
+   - “1 Day Trial”
+   - “3 Day Trial”
+   - “Buy 1 Day Trial”
+   - “Buy 3 Day Trial”
+   - any related paid trial route, component, modal, pricing object, Stripe mapping, or checkout logic
+   and remove or refactor all of them.
+22. Search for the pricing config and confirm the final rendered prices match exactly.
+23. Output a summary of:
+   - files changed
+   - trial references removed
+   - final prices restored
+   - any Stripe mappings that still need manual review
+
+Important:
+- Do not invent extra plans
+- Do not leave placeholder prices
+- Do not remove the free one-day pass system
+- Do not expose any Stripe secrets
+- Preserve production-safe behavior
+- Keep all existing subscription and webhook infrastructure intact
