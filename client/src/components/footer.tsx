@@ -91,7 +91,14 @@ export function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealth")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><a href={window.location.hostname.includes("nursenest.ca") ? "https://allied.nursenest.ca" : "/?mode=allied"} className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</a></li>
+              <li><LocaleLink href="/allied-health" className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</LocaleLink></li>
+              <li><LocaleLink href="/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">Respiratory Therapist</LocaleLink></li>
+              <li><LocaleLink href="/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">Paramedic</LocaleLink></li>
+              <li><LocaleLink href="/pharmacy-technician" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pharmacy-tech">Pharmacy Technician</LocaleLink></li>
+              <li><LocaleLink href="/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-mlt">Medical Lab Tech</LocaleLink></li>
+              <li><LocaleLink href="/imaging" className="hover:text-primary transition-colors" data-testid="link-footer-allied-imaging">Diagnostic Imaging</LocaleLink></li>
+              <li><LocaleLink href="/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">Occupational Therapy</LocaleLink></li>
+              <li><LocaleLink href="/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.ecosystem")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">

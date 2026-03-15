@@ -848,16 +848,7 @@ function ProfessionSelectorSection() {
             const isAllied = ["paramedic", "rrt", "mlt", "imaging"].includes(prof.id);
 
             const handleClick = () => {
-              if (isAllied) {
-                const isProduction = window.location.hostname.includes("nursenest.ca");
-                if (isProduction) {
-                  window.open(`https://allied.nursenest.ca${prof.href}`, "_blank");
-                } else {
-                  window.location.href = `${prof.href}?mode=allied`;
-                }
-              } else {
-                setLocation(prof.href);
-              }
+              setLocation(prof.href);
             };
 
             return (

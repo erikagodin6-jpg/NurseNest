@@ -135,7 +135,7 @@ export function AlliedRoutes() {
         <Route path="/" component={AlliedHome} />
         <Route path="/lessons" component={AlliedLessons} />
         <Route path="/careers" component={CareerDirectory} />
-        <Route path="/pricing">{() => { window.location.href = "/pricing/allied"; return null; }}</Route>
+        <Route path="/pricing">{() => <Redirect to="/pricing/allied" />}</Route>
         <Route path="/institutions/faq" component={AlliedInstitutionsFAQ} />
         <Route path="/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
         <Route path="/institutions" component={AlliedInstitutions} />
@@ -460,8 +460,8 @@ export function AlliedRoutes() {
           {() => (
             <div className="max-w-2xl mx-auto px-4 py-20 text-center">
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-              <p className="text-gray-600">The page you're looking for doesn't exist on NurseNest Allied.</p>
-              <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-home">Back to Home</a>
+              <p className="text-gray-600">The page you're looking for doesn't exist.</p>
+              <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:brightness-110" data-testid="link-back-home">Back to Home</a>
             </div>
           )}
         </Route>

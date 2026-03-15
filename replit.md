@@ -34,7 +34,7 @@ Key systems include:
 - **Automated Content Growth Engine**: Unified scheduler for automated content generation across all content types, with configurable cadences, content gap analysis, automated quality validation, and an admin approval workflow.
 - **Exam Question Translation System**: Translates exam questions into 14 non-English languages using AI, with graceful English fallback and admin tools for translation management.
 - **Offline Capabilities**: An IndexedDB-based Offline Study System for question packs and flashcards.
-- **Multi-Profession Framework**: Dynamic system for configuring new healthcare professions.
+- **Multi-Profession Framework**: Dynamic system for configuring new healthcare professions. Allied Health pages are unified into the main NurseNest shell (single-app architecture, no hostname-based branching). Allied pages use the main Navigation and Footer with a contextual AlliedSubNav for career-specific pages.
 - **Production Database Safety**: `EnvironmentAwareContentWriteService` enforces preflight checks, post-write verification, and audit logging.
 - **Data Management**: PostgreSQL with Drizzle ORM.
 - **Free 1-Day Pass System**: Automatic 1-day free pass for new accounts, with server-side trial entitlement and fraud detection.

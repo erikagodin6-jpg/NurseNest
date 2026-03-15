@@ -139,11 +139,9 @@ export function HomeBelowFold({
               const handleCareerClick = () => {
                 if (career.id === "nursing") {
                   setLocation("/free-practice");
-                } else if (isAllied) {
-                  const canonical = getCanonicalRoute(career.slug);
-                  window.open(`https://allied.nursenest.ca${canonical}`, "_blank");
                 } else {
-                  setLocation(career.routePrefix || "/");
+                  const canonical = isAllied ? getCanonicalRoute(career.slug) : (career.routePrefix || "/");
+                  setLocation(canonical);
                 }
               };
 

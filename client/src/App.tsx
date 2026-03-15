@@ -11,7 +11,9 @@ import { I18nProvider } from "@/lib/i18n";
 import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE, deLocalizeSlug } from "@/lib/locale-utils";
-import { AlliedApp } from "@/allied/allied-app";
+import { ParamedicRegionProvider } from "@/allied/contexts/paramedic-region-context";
+import { AlliedLayout } from "@/allied/allied-layout";
+import { AlliedRoutes } from "@/allied/allied-routes";
 import { TesterBanner } from "@/components/tester-banner";
 
 function PreviewBanner() {
@@ -1155,7 +1157,7 @@ function AppRoutes() {
         <Route path="/:careerSlug/question-detail/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
         <Route path="/:careerSlug/flashcard-detail/:topicSlug">{(params) => <ProgrammaticSeoPage />}</Route>
 
-        <Route component={NotFound} />
+        <Route>{() => <AlliedLayout><AlliedRoutes /></AlliedLayout>}</Route>
       </Switch>
     </Suspense>
   );
@@ -1197,28 +1199,6 @@ function LocaleRouter() {
   );
 }
 
-function handleDevModeSwitch(): void {
-  const isDev = window.location.hostname.includes("replit") ||
-    window.location.hostname === "localhost" ||
-    window.location.hostname.includes("0.0.0.0") ||
-    window.location.hostname.includes("webcontainer");
-  if (!isDev) return;
-  localStorage.removeItem("nursenest_allied_mode");
-  const params = new URLSearchParams(window.location.search);
-  const mode = params.get("mode");
-  if (mode === "allied") {
-    localStorage.setItem("nursenest_site_mode", "allied");
-    window.location.replace(window.location.pathname);
-    return;
-  }
-  if (mode === "nursing") {
-    localStorage.removeItem("nursenest_site_mode");
-    window.location.replace(window.location.pathname);
-    return;
-  }
-}
-
-handleDevModeSwitch();
 
 (function captureReferralCode() {
   const params = new URLSearchParams(window.location.search);
@@ -1228,36 +1208,7 @@ handleDevModeSwitch();
   }
 })();
 
-function isAlliedHostname(): boolean {
-  const h = window.location.hostname.toLowerCase();
-  if (h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca") return true;
-  const isDev = h.includes("replit") || h === "localhost" || h.includes("0.0.0.0");
-  if (isDev && localStorage.getItem("nursenest_site_mode") === "allied") return true;
-  return false;
-}
-
 function App() {
-  const isAllied = isAlliedHostname();
-
-  if (isAllied) {
-    return (
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
-            <AuthProvider>
-              <CareerProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <AlliedApp />
-                </TooltipProvider>
-              </CareerProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </ErrorBoundary>
-    );
-  }
-
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
@@ -1265,6 +1216,7 @@ function App() {
           <I18nProvider>
             <AuthProvider>
               <CareerProvider>
+              <ParamedicRegionProvider>
               <SiteImagesProvider>
                 <TooltipProvider>
                   <Toaster />
@@ -1280,6 +1232,7 @@ function App() {
                   <ExitIntentModal />
                 </TooltipProvider>
               </SiteImagesProvider>
+              </ParamedicRegionProvider>
               </CareerProvider>
             </AuthProvider>
           </I18nProvider>

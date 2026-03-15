@@ -271,7 +271,7 @@ export default function HealthcareCareersHub() {
         <section className="mb-12" data-testid="section-quick-links">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Career Tools and Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://allied.nursenest.ca/careers" : "/careers"} data-testid="card-career-directory-link">
+            <a href="/careers" data-testid="card-career-directory-link">
               <Card className="h-full hover:shadow-md hover:border-teal-200 transition-all cursor-pointer group" data-testid="card-career-directory">
                 <CardContent className="p-5">
                   <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
