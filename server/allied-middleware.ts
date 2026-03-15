@@ -12,10 +12,12 @@ declare global {
 
 const ALLIED_CAREER_SLUGS = new Set([
   "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging",
+  "occupational-therapy", "physical-therapy",
 ]);
 
 const PROFESSION_HUB_SLUGS = new Set([
-  "rrt", "social-work", "psychotherapy", "addictions", "occupational-therapy",
+  "rrt", "social-work", "psychotherapy", "addictions",
+  "occupational-therapy", "physical-therapy",
 ]);
 
 const ALLIED_SLUGS = new Set([
@@ -25,7 +27,8 @@ const ALLIED_SLUGS = new Set([
   "critical-care", "emergency-nursing", "perioperative",
   "oncology-nursing", "pediatric-cert", "psychotherapist",
   "social-worker", "addictions-counsellor",
-  "physical-therapy",
+  "allied-health",
+  "respiratory-therapy", "medical-lab-tech",
 ]);
 
 const NURSING_ONLY_PATHS = [
@@ -94,7 +97,7 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
   const firstSeg = segments[0];
   const secondSeg = segments[1] || "";
 
-  const CLUSTER_SUBTYPES = new Set(["lessons", "practice-questions", "flashcards", "mock-exam", "study-guide"]);
+  const CLUSTER_SUBTYPES = new Set(["lessons", "practice-questions", "flashcards", "mock-exam", "mock-exams", "study-guide"]);
   if (PROFESSION_HUB_SLUGS.has(firstSeg) && (segments.length === 1 || CLUSTER_SUBTYPES.has(secondSeg))) {
     return next();
   }
@@ -122,6 +125,14 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
     }
 
     return res.redirect(301, canonical);
+  }
+
+  const ALTERNATE_SLUG_REDIRECTS: Record<string, string> = {
+    "respiratory-therapy": "/rrt",
+    "medical-lab-tech": "/mlt",
+  };
+  if (segments.length === 1 && ALTERNATE_SLUG_REDIRECTS[firstSeg]) {
+    return res.redirect(301, ALTERNATE_SLUG_REDIRECTS[firstSeg]);
   }
 
   return next();
@@ -162,6 +173,7 @@ export function generateAlliedSitemap(baseUrl: string): string {
   const canonicalCareerRoutes = [
     "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
     "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
+    "/physical-therapy",
   ];
 
   const careerSubPages = ["mock-exams", "dashboard", "flashcards", "study-plan", "sims", "tools"];
@@ -249,6 +261,7 @@ export function generateAlliedSitemap(baseUrl: string): string {
     "psychotherapy-exam-prep",
     "addictions-counselling-exam-prep",
     "occupational-therapy-exam-prep",
+    "physical-therapy-exam-prep",
   ];
   for (const page of examPrepPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
@@ -319,6 +332,7 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
   const encyclopediaProfessions = [
     "paramedic", "respiratory-therapy", "mlt", "imaging",
     "social-work", "psychotherapy", "addictions", "occupational-therapy",
+    "physical-therapy",
   ];
   for (const prof of encyclopediaProfessions) {
     const now2 = new Date().toISOString().split("T")[0];

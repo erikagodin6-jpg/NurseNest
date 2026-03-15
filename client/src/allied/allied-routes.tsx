@@ -408,6 +408,10 @@ export function AlliedRoutes() {
         <Route path="/health-info-mgmt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="health-info-mgmt" />}</Route>
         <Route path="/health-info-mgmt-encyclopedia">{() => <EncyclopediaHubPage profession="health-info-mgmt" />}</Route>
 
+        <Route path="/respiratory-therapy">{() => { window.location.replace("/rrt"); return null; }}</Route>
+        <Route path="/medical-lab-tech">{() => { window.location.replace("/mlt"); return null; }}</Route>
+        <Route path="/pharmacy-tech">{() => { window.location.replace("/pharmacy-technician"); return null; }}</Route>
+
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />
         <Route path="/allied-health/:professionSlug" component={AlliedHealthProfessionPage} />
         <Route path="/allied-health" component={AlliedHealthHub} />

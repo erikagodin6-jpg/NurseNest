@@ -57,7 +57,7 @@ export default function AlliedHealthProfessionPage() {
     <div data-testid={`profession-hub-page-${profession.slug}`}>
       <AlliedSEO
         title={`${profession.name}: Career Guide, Certification & Exam Prep`}
-        description={`Complete ${profession.name} career guide with education pathways, certification requirements, salary data (${profession.medianSalary}), and exam prep resources for ${profession.examNames.join(", ")}.`}
+        description={`Complete ${profession.name} career guide with education pathways, certification requirements, salary data (${profession.salaryRange}), and exam prep resources for ${profession.examNames.join(", ")}.`}
         keywords={`${profession.name}, ${profession.shortName} career, ${profession.examNames.join(", ")}, ${profession.shortName} exam prep, ${profession.shortName} salary, ${profession.shortName} certification`}
         canonicalPath={`/allied-health/${profession.slug}`}
         structuredData={{
@@ -74,7 +74,7 @@ export default function AlliedHealthProfessionPage() {
           "@type": "FAQPage",
           "mainEntity": [
             { "@type": "Question", "name": `What education do I need to become a ${profession.name.toLowerCase()}?`, "acceptedAnswer": { "@type": "Answer", "text": profession.educationPathways.join(". ") }},
-            { "@type": "Question", "name": `What is the median salary for a ${profession.name.toLowerCase()}?`, "acceptedAnswer": { "@type": "Answer", "text": `The median salary for ${profession.name.toLowerCase()} professionals is ${profession.medianSalary}, with a projected growth rate of ${profession.growthRate}.` }},
+            { "@type": "Question", "name": `What is the salary range for a ${profession.name.toLowerCase()}?`, "acceptedAnswer": { "@type": "Answer", "text": `The salary range for ${profession.name.toLowerCase()} professionals is ${profession.salaryRange}, with a job outlook of ${profession.jobOutlook}.` }},
             { "@type": "Question", "name": `What certification do I need?`, "acceptedAnswer": { "@type": "Answer", "text": profession.certificationOverview }},
           ]
         }]}
@@ -98,13 +98,13 @@ export default function AlliedHealthProfessionPage() {
               </div>
               <p className="text-base text-gray-600 mb-6 max-w-2xl" data-testid="text-profession-overview">{profession.overview}</p>
               <div className="flex flex-wrap gap-3">
-                <Link href={profession.studyResourceCTAs.questionBank} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-question-bank">
+                <Link href={profession.studyResources.questionBanks.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-question-bank">
                   <BookOpen className="w-4 h-4" /> Question Bank
                 </Link>
-                <Link href={profession.studyResourceCTAs.mockExams} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-mock-exams">
+                <Link href={profession.studyResources.mockExams.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-mock-exams">
                   <FileText className="w-4 h-4" /> Mock Exams
                 </Link>
-                <Link href={profession.studyResourceCTAs.flashcards} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-flashcards">
+                <Link href={profession.studyResources.flashcards.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-flashcards">
                   <Layers className="w-4 h-4" /> Flashcards
                 </Link>
               </div>
@@ -113,16 +113,16 @@ export default function AlliedHealthProfessionPage() {
               <h3 className="text-sm font-semibold text-gray-900 mb-3">At a Glance</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Median Salary</span>
-                  <span className="font-semibold text-gray-900">{profession.medianSalary}</span>
+                  <span className="text-gray-500">Salary Range</span>
+                  <span className="font-semibold text-gray-900">{profession.salaryRange}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Growth Rate</span>
-                  <span className="font-semibold text-green-600">{profession.growthRate}</span>
+                  <span className="text-gray-500">Job Outlook</span>
+                  <span className="font-semibold text-green-600">{profession.jobOutlook}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500">Education</span>
-                  <span className="font-semibold text-gray-900 text-right text-xs">{profession.educationRequired}</span>
+                  <span className="font-semibold text-gray-900 text-right text-xs">{profession.educationPathways[0]?.split("—")[0]?.trim() || "Degree required"}</span>
                 </div>
                 <hr className="border-gray-100" />
                 <div>
@@ -214,20 +214,20 @@ export default function AlliedHealthProfessionPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-3">Start Studying Today</h2>
               <p className="text-sm text-gray-600 mb-4">Access career-specific study tools designed for {profession.examNames.join(", ")} exam preparation.</p>
               <div className="space-y-2">
-                <Link href={profession.studyResourceCTAs.questionBank} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-question-bank">
-                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> Question Bank</div>
+                <Link href={profession.studyResources.questionBanks.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-question-bank">
+                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> {profession.studyResources.questionBanks.label}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
-                <Link href={profession.studyResourceCTAs.flashcards} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-flashcards">
-                  <div className="flex items-center gap-2"><Layers className="w-4 h-4 text-teal-500" /> Flashcards</div>
+                <Link href={profession.studyResources.flashcards.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-flashcards">
+                  <div className="flex items-center gap-2"><Layers className="w-4 h-4 text-teal-500" /> {profession.studyResources.flashcards.label}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
-                <Link href={profession.studyResourceCTAs.mockExams} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-mock-exams">
-                  <div className="flex items-center gap-2"><FileText className="w-4 h-4 text-teal-500" /> Mock Exams</div>
+                <Link href={profession.studyResources.mockExams.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-mock-exams">
+                  <div className="flex items-center gap-2"><FileText className="w-4 h-4 text-teal-500" /> {profession.studyResources.mockExams.label}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
-                <Link href={profession.studyResourceCTAs.clinicalCases} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-clinical-cases">
-                  <div className="flex items-center gap-2"><Brain className="w-4 h-4 text-teal-500" /> Clinical Simulations</div>
+                <Link href={profession.studyResources.clinicalCases.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-clinical-cases">
+                  <div className="flex items-center gap-2"><Brain className="w-4 h-4 text-teal-500" /> {profession.studyResources.clinicalCases.label}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
               </div>
@@ -257,14 +257,11 @@ export default function AlliedHealthProfessionPage() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {profession.topicTemplates.slice(0, 6).map(topic => (
-                <div key={topic.slug} className="bg-white rounded-xl border border-gray-100 p-5 opacity-80" data-testid={`card-topic-${topic.slug}`}>
-                  <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">{topic.title}</h3>
-                  <p className="text-sm text-gray-500 mb-3">{topic.targetKeyword}</p>
-                  <span className="text-xs text-gray-400 italic">Coming soon</span>
-                </div>
-              ))}
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-sm">Articles for {profession.shortName} are coming soon. Check back later for in-depth guides and resources.</p>
+              <Link href="/allied-health" className="inline-flex items-center gap-2 mt-4 text-teal-600 text-sm font-medium hover:text-teal-700" data-testid="link-browse-professions">
+                Browse All Professions <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           )}
         </div>

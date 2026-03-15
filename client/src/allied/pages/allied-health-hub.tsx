@@ -123,16 +123,16 @@ export default function AlliedHealthHub() {
                     <p className="text-sm text-gray-600 mb-4 line-clamp-2 flex-1">{profession.description}</p>
                     <div className="grid grid-cols-3 gap-2 mb-4 text-center">
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
-                        <div className="text-sm font-bold text-gray-900">{profession.medianSalary}</div>
-                        <div className="text-[10px] text-gray-500">Median Salary</div>
+                        <div className="text-sm font-bold text-gray-900">{profession.salaryRange}</div>
+                        <div className="text-[10px] text-gray-500">Salary Range</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
-                        <div className="text-sm font-bold text-green-600">{profession.growthRate}</div>
-                        <div className="text-[10px] text-gray-500">Growth Rate</div>
+                        <div className="text-sm font-bold text-green-600">{profession.jobOutlook}</div>
+                        <div className="text-[10px] text-gray-500">Job Outlook</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
-                        <div className="text-sm font-bold text-gray-900">{profession.topicTemplates.length}</div>
-                        <div className="text-[10px] text-gray-500">Articles</div>
+                        <div className="text-sm font-bold text-gray-900">{profession.examNames.length}</div>
+                        <div className="text-[10px] text-gray-500">Exams</div>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-4">

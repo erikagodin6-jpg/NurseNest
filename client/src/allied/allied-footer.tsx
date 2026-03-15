@@ -14,6 +14,9 @@ export function AlliedFooter() {
               <li><Link href="/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
               <li><Link href="/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
               <li><Link href="/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
+              <li><Link href="/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">Occupational Therapy</Link></li>
+              <li><Link href="/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">Physical Therapy</Link></li>
+              <li><Link href="/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">Social Work</Link></li>
             </ul>
           </div>
           <div>
