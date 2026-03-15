@@ -268,6 +268,7 @@ const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-coun
 const MedicalImagingUSAPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingUSA })));
 const AdminMedicalImaging = lazy(() => import("@/pages/admin-medical-imaging"));
 const AdminImageLibrary = lazy(() => import("@/pages/admin-image-library"));
+const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminDatabaseStatus = lazy(() => import("@/pages/admin-database-status"));
 const AdminEnvironmentAudit = lazy(() => import("@/pages/admin-environment-audit"));
 const AdminEnvironmentDiagnostic = lazy(() => import("@/pages/admin-environment-diagnostic"));
@@ -494,6 +495,7 @@ function AppRoutes() {
         <Route path="/admin/ai-jobs" component={AdminAiJobs} />
         <Route path="/admin/business-health" component={AdminBusinessHealth} />
         <Route path="/admin/content-coverage" component={AdminContentCoverage} />
+        <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/qbank/exam" component={QBankExamPage} />
