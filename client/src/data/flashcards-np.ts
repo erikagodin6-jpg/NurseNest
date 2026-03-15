@@ -2611,4 +2611,2557 @@ export const npFlashcards: FlashcardData[] = [
     category: "Neurology NP",
     difficulty: 3
   },
+  // ===== OBESITY PATHOPHYSIOLOGY & MANAGEMENT FLASHCARDS =====
+  {
+    id: "np-obesity-q1",
+    type: "term",
+    question: "What BMI classifications define overweight, class I, class II, and class III obesity?",
+    answer: "Overweight: 25-29.9 kg/m². Class I obesity: 30-34.9. Class II: 35-39.9. Class III (morbid): ≥40. These classifications guide pharmacotherapy and surgical eligibility.",
+    category: "Endocrine NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q2",
+    type: "question",
+    question: "What is the mechanism of leptin resistance in obesity?",
+    options: ["Leptin production decreases", "SOCS3 suppresses hypothalamic leptin signaling despite high leptin levels", "Leptin receptors increase in number", "Leptin converts to adiponectin"],
+    correctIndex: 1,
+    answer: "In obesity, chronic hyperleptinemia causes upregulation of SOCS3 (suppressor of cytokine signaling 3), which blocks JAK-STAT3 signaling downstream of the leptin receptor (ObRb), rendering the hypothalamus resistant to leptin's satiety signal.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q3",
+    type: "term",
+    question: "What is the set-point theory of body weight?",
+    answer: "The hypothalamus defends a genetically-influenced body weight range through adaptive thermogenesis and hormonal adjustments (increased ghrelin, decreased leptin/PYY/GLP-1 after weight loss). This explains why sustained weight loss is difficult without pharmacotherapy.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q4",
+    type: "question",
+    question: "Semaglutide 2.4 mg (Wegovy) achieves what average weight loss in clinical trials?",
+    options: ["3-5%", "8-10%", "15-17%", "25-30%"],
+    correctIndex: 2,
+    answer: "STEP trials demonstrated 15-17% average weight loss with semaglutide 2.4 mg weekly vs 2.4% with placebo. The SELECT trial additionally showed 20% MACE reduction, establishing cardiovascular benefit.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q5",
+    type: "term",
+    question: "What is the boxed warning for all GLP-1 receptor agonists?",
+    answer: "Risk of thyroid C-cell tumors (medullary thyroid carcinoma) based on rodent studies. Contraindicated in patients with personal or family history of MTC or MEN type 2. No confirmed risk in humans to date.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q6",
+    type: "question",
+    question: "What anti-obesity medication is Category X in pregnancy due to topiramate's teratogenic effect?",
+    options: ["Semaglutide", "Orlistat", "Phentermine-topiramate ER (Qsymia)", "Naltrexone-bupropion"],
+    correctIndex: 2,
+    answer: "Topiramate causes cleft palate/lip. Qsymia's REMS program mandates monthly pregnancy testing and effective contraception. If pregnancy occurs, discontinue immediately (taper topiramate).",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q7",
+    type: "term",
+    question: "When should anti-obesity medications be discontinued for non-response?",
+    answer: "Discontinue if <5% weight loss is not achieved after 12-16 weeks at maximum tolerated dose. Non-response indicates the patient will not benefit from continued use. Consider alternative pharmacotherapy or bariatric surgery referral.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q8",
+    type: "question",
+    question: "What is tirzepatide (Zepbound) and how much weight loss does it achieve?",
+    options: ["GLP-1 agonist, 10%", "Dual GIP/GLP-1 agonist, 20-22%", "Lipase inhibitor, 5%", "Norepinephrine reuptake inhibitor, 8%"],
+    correctIndex: 1,
+    answer: "Tirzepatide is a dual GIP (glucose-dependent insulinotropic polypeptide) and GLP-1 receptor agonist. SURMOUNT trials: 20-22% weight loss at maximum dose — the highest of any approved anti-obesity medication.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q9",
+    type: "term",
+    question: "What are the 2022 ASMBS/IFSO updated bariatric surgery thresholds?",
+    answer: "BMI ≥35 regardless of comorbidities, or BMI 30-34.9 with metabolic disease (T2DM, hypertension, dyslipidemia, NAFLD, OSA). This lowers previous thresholds (≥40 or ≥35 with comorbidities).",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q10",
+    type: "question",
+    question: "Why is waist circumference a better predictor of cardiovascular risk than BMI?",
+    options: ["It measures muscle mass", "It reflects visceral adiposity which is more metabolically active than subcutaneous fat", "It correlates with height", "It predicts liver disease only"],
+    correctIndex: 1,
+    answer: "Visceral fat drains into the portal circulation, exposing the liver to FFAs and inflammatory cytokines. Central obesity (>40\" males, >35\" females) identifies cardiometabolic risk even in normal-BMI patients (metabolically obese normal weight).",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q11",
+    type: "term",
+    question: "What hormonal changes after weight loss promote weight regain?",
+    answer: "Increased ghrelin (hunger), decreased leptin (satiety), decreased PYY (satiety), decreased GLP-1 (satiety), and reduced resting metabolic rate (adaptive thermogenesis). These persist for years, supporting chronic pharmacotherapy.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q12",
+    type: "question",
+    question: "What defines metabolic syndrome?",
+    options: ["1 of 5 criteria", "2 of 5 criteria", "3 of 5 criteria", "All 5 criteria"],
+    correctIndex: 2,
+    answer: "≥3 of 5: waist circumference (>40\" M, >35\" F), TG ≥150, HDL <40 M/<50 F, BP ≥130/85, fasting glucose ≥100 mg/dL.",
+    category: "Endocrine NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q13",
+    type: "term",
+    question: "What is acanthosis nigricans and what does it indicate?",
+    answer: "Dark, velvety skin patches in intertriginous areas (neck, axillae, groin). A clinical marker of insulin resistance and hyperinsulinemia — excess insulin activates IGF-1 receptors on keratinocytes. Screen for prediabetes/T2DM.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q14",
+    type: "question",
+    question: "After Roux-en-Y gastric bypass, which nutritional deficiencies require lifelong monitoring?",
+    options: ["None", "Only vitamin C", "Iron, B12, folate, calcium, vitamin D, fat-soluble vitamins (A, E, K)", "Only protein"],
+    correctIndex: 2,
+    answer: "RYGB bypasses the duodenum and proximal jejunum where iron, calcium, and fat-soluble vitamins are absorbed. B12 absorption is impaired from reduced intrinsic factor. Lifelong supplementation and lab monitoring are mandatory.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q15",
+    type: "term",
+    question: "What is the role of adiponectin in metabolic health?",
+    answer: "Adiponectin enhances insulin sensitivity via AMPK activation, promotes fatty acid oxidation, and has anti-inflammatory properties. Paradoxically DECREASED in obesity despite more adipose tissue, contributing to insulin resistance.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q16",
+    type: "question",
+    question: "How much weight is typically regained after discontinuing GLP-1 RA therapy?",
+    options: ["None", "One-third", "Two-thirds within 1 year", "All weight is regained immediately"],
+    correctIndex: 2,
+    answer: "STEP 1 extension data: approximately two-thirds of weight lost is regained within 1 year of semaglutide discontinuation. This supports the chronic disease model of obesity requiring long-term pharmacotherapy.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q17",
+    type: "term",
+    question: "What is HOMA-IR and how is it calculated?",
+    answer: "Homeostatic Model Assessment of Insulin Resistance = fasting glucose (mg/dL) × fasting insulin (μU/mL) / 405. Values >2.5 suggest insulin resistance. Helps identify metabolically unhealthy obesity.",
+    category: "Assessment NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q18",
+    type: "question",
+    question: "Orlistat works by which mechanism?",
+    options: ["Appetite suppression", "Inhibiting pancreatic/gastric lipases preventing ~30% dietary fat absorption", "Increasing metabolic rate", "Blocking carbohydrate absorption"],
+    correctIndex: 1,
+    answer: "Orlistat inhibits lipases, preventing 30% of dietary fat absorption. GI side effects (steatorrhea, oily spotting) worsen with high-fat meals. Supplement fat-soluble vitamins (A, D, E, K).",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  // ===== SMOKING CESSATION FLASHCARDS =====
+  {
+    id: "np-smoking-q1",
+    type: "term",
+    question: "What is the mechanism of nicotine addiction?",
+    answer: "Nicotine binds alpha4beta2 nicotinic acetylcholine receptors on VTA neurons, triggering dopamine release in the nucleus accumbens (reward center). Chronic exposure upregulates receptor density, causing withdrawal during abstinence.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q2",
+    type: "question",
+    question: "Which smoking cessation medication is the most effective single agent?",
+    options: ["Nicotine patch", "Bupropion SR", "Varenicline (Chantix)", "Nicotine gum"],
+    correctIndex: 2,
+    answer: "Varenicline (OR 2.24 vs placebo) is the most effective single-agent cessation therapy. As a partial agonist at alpha4beta2 nAChRs, it provides moderate dopamine release while blocking nicotine's rewarding effect.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q3",
+    type: "term",
+    question: "What did the EAGLES trial demonstrate about varenicline?",
+    answer: "The EAGLES trial (2016) showed NO increased risk of neuropsychiatric adverse events with varenicline compared to NRT, bupropion, or placebo — even in patients with psychiatric disorders. The FDA boxed warning was REMOVED.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q4",
+    type: "question",
+    question: "Which cessation medication has dual FDA approval for depression AND smoking cessation?",
+    options: ["Varenicline", "Nicotine patch", "Bupropion SR", "Nicotine gum"],
+    correctIndex: 2,
+    answer: "Bupropion SR (Zyban/Wellbutrin) has dual indications for depression and smoking cessation via norepinephrine-dopamine reuptake inhibition. Also weight-neutral, beneficial for patients concerned about post-cessation weight gain.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q5",
+    type: "term",
+    question: "What are bupropion's contraindications for smoking cessation?",
+    answer: "Seizure disorder, history of seizures, bulimia/anorexia (seizure risk), concurrent MAOIs (14-day washout), abrupt alcohol or benzodiazepine discontinuation. Do not exceed 300 mg/day.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q6",
+    type: "question",
+    question: "The most predictive item on the Fagerström Test is:",
+    options: ["Cigarettes per day", "Time to first cigarette after waking", "Difficulty refraining in restricted areas", "Smoking when ill"],
+    correctIndex: 1,
+    answer: "Smoking within 5 minutes of waking indicates severe physical dependence requiring aggressive pharmacotherapy. This item reflects the intensity of overnight nicotine withdrawal.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q7",
+    type: "term",
+    question: "What are the 5 A's of smoking cessation counseling?",
+    answer: "Ask about tobacco use, Advise to quit (clear, personalized), Assess willingness, Assist with quit plan and pharmacotherapy, Arrange follow-up. Even 3-minute brief advice increases quit rates by 30%.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q8",
+    type: "question",
+    question: "When should bupropion be started relative to the quit date?",
+    options: ["On the quit date", "1-2 weeks before the quit date", "1 month after quitting", "Only after a relapse"],
+    correctIndex: 1,
+    answer: "Start bupropion 1-2 weeks before the target quit date to achieve steady-state therapeutic levels by the quit date. Start 150 mg daily x3 days, then 150 mg BID.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q9",
+    type: "term",
+    question: "What is cotinine and why is it clinically useful?",
+    answer: "Cotinine is the primary metabolite of nicotine via CYP2A6, with a 16-hour half-life (vs 2 hours for nicotine). Urine cotinine >200 ng/mL indicates active smoking. Used to verify self-reported smoking status.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q10",
+    type: "question",
+    question: "Combination NRT for smoking cessation consists of:",
+    options: ["Two patches at different sites", "Patch (baseline) + short-acting NRT (gum/lozenge) for breakthrough cravings", "Oral tablet + injectable", "E-cigarette + gum"],
+    correctIndex: 1,
+    answer: "Combination NRT: nicotine patch provides continuous baseline replacement + short-acting form (gum, lozenge, inhaler, or nasal spray) addresses breakthrough cravings. Achieves quit rates comparable to varenicline monotherapy.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q11",
+    type: "term",
+    question: "When do nicotine withdrawal symptoms peak?",
+    answer: "Withdrawal symptoms (irritability, anxiety, difficulty concentrating, increased appetite, depressed mood, cravings) peak at 24-72 hours and gradually diminish over 2-4 weeks. Psychological cravings may persist for months.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q12",
+    type: "question",
+    question: "What is the mechanism of action of varenicline?",
+    options: ["Full agonist at nicotinic receptors", "Dopamine reuptake inhibitor", "Partial agonist at alpha4beta2 nAChRs", "Opioid receptor antagonist"],
+    correctIndex: 2,
+    answer: "Partial agonist: provides moderate dopamine release (reduces withdrawal, agonist effect) while blocking nicotine from fully activating the receptor (reduces reward, antagonist effect).",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  // ===== PARKINSON DISEASE FLASHCARDS =====
+  {
+    id: "np-parkinson-q1",
+    type: "term",
+    question: "What are the four cardinal motor features of Parkinson disease?",
+    answer: "Resting tremor (4-6 Hz, pill-rolling), rigidity (cogwheel or lead-pipe), bradykinesia (slowness — most disabling, required for diagnosis), and postural instability (typically later feature).",
+    category: "Neurology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q2",
+    type: "question",
+    question: "What is the gold standard medication for PD motor symptoms?",
+    options: ["Pramipexole", "Amantadine", "Carbidopa-levodopa (Sinemet)", "Benztropine"],
+    correctIndex: 2,
+    answer: "Carbidopa-levodopa is the gold standard — levodopa crosses the BBB and converts to dopamine. Carbidopa prevents peripheral conversion, reducing side effects and increasing CNS bioavailability.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q3",
+    type: "term",
+    question: "Why should high-protein meals be avoided around levodopa dosing?",
+    answer: "Large neutral amino acids compete with levodopa for intestinal absorption and BBB transport via the LAT1 transporter. High-protein meals significantly reduce levodopa bioavailability. Take 30-60 min before meals.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q4",
+    type: "question",
+    question: "Impulse control disorders on dopamine agonists include all EXCEPT:",
+    options: ["Pathological gambling", "Compulsive shopping", "Hypersexuality", "Bradykinesia"],
+    correctIndex: 3,
+    answer: "Impulse control disorders (15-20% prevalence): pathological gambling, compulsive shopping, hypersexuality, binge eating. These are D3-mediated and dose-dependent. Screen at every visit. Management: taper the dopamine agonist.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q5",
+    type: "term",
+    question: "What is wearing-off phenomenon in PD?",
+    answer: "End-of-dose deterioration where motor symptoms return before the next levodopa dose. Caused by progressive dopaminergic neuron loss reducing dopamine storage capacity. Management: add entacapone, increase dosing frequency, or add dopamine agonist.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q6",
+    type: "question",
+    question: "Which antipsychotic is FDA-approved specifically for PD psychosis?",
+    options: ["Haloperidol", "Quetiapine", "Pimavanserin (Nuplazid)", "Risperidone"],
+    correctIndex: 2,
+    answer: "Pimavanserin is a selective 5-HT2A inverse agonist with NO dopamine receptor blocking activity, so it doesn't worsen motor symptoms. Quetiapine (lowest D2 affinity) and clozapine are alternatives.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q7",
+    type: "term",
+    question: "What is the Braak staging hypothesis?",
+    answer: "Alpha-synuclein pathology begins in the olfactory bulb and dorsal motor nucleus of vagus (stages 1-2), ascends to brainstem/midbrain (stages 3-4, motor symptoms), and reaches neocortex (stages 5-6, dementia).",
+    category: "Neurology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-parkinson-q8",
+    type: "question",
+    question: "Drug-induced parkinsonism is most commonly caused by:",
+    options: ["ACE inhibitors", "D2 receptor blocking agents (metoclopramide, haloperidol)", "Statins", "Beta-blockers"],
+    correctIndex: 1,
+    answer: "Drug-induced parkinsonism from D2 blockers (metoclopramide, prochlorperazine, typical antipsychotics) is reversible with medication discontinuation. DaTscan is normal (distinguishing from true PD).",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q9",
+    type: "term",
+    question: "What is the DaTscan and when is it used?",
+    answer: "Dopamine transporter SPECT imaging using 123I-ioflupane. Reduced striatal uptake indicates dopaminergic neuron loss (PD). Normal uptake distinguishes essential tremor and drug-induced parkinsonism from PD.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q10",
+    type: "question",
+    question: "What medication treats levodopa-induced dyskinesias?",
+    options: ["Increase levodopa dose", "Amantadine (NMDA antagonist)", "Benztropine", "Selegiline"],
+    correctIndex: 1,
+    answer: "Amantadine (extended-release, Gocovri) is the only FDA-approved medication for levodopa-induced dyskinesias. It reduces glutamatergic overactivity in the basal ganglia.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q11",
+    type: "term",
+    question: "What is REM sleep behavior disorder and its relationship to PD?",
+    answer: "Loss of normal REM atonia causing patients to act out dreams (kicking, punching, yelling during sleep). Precedes PD motor symptoms by 5-15+ years. Over 80% of RBD patients eventually develop a synucleinopathy (PD, DLB, MSA).",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q12",
+    type: "question",
+    question: "Hoehn and Yahr Stage 3 Parkinson disease is characterized by:",
+    options: ["Unilateral symptoms only", "Bilateral without balance impairment", "Bilateral with postural instability", "Wheelchair-bound"],
+    correctIndex: 2,
+    answer: "Stage 1: unilateral. Stage 2: bilateral, no balance issues. Stage 3: bilateral with postural instability. Stage 4: severe disability, can stand/walk. Stage 5: wheelchair/bedridden.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  // ===== MENINGITIS FLASHCARDS =====
+  {
+    id: "np-meningitis-q1",
+    type: "term",
+    question: "What is the empiric antibiotic regimen for adults with suspected bacterial meningitis?",
+    answer: "Age 18-50: vancomycin + ceftriaxone. Age >50 or immunocompromised: add ampicillin (for Listeria coverage). Neonates: ampicillin + gentamicin (or cefotaxime). Always add dexamethasone before/with first antibiotic dose.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q2",
+    type: "question",
+    question: "When must dexamethasone be given in meningitis?",
+    options: ["After CSF culture results return", "BEFORE or WITH the first antibiotic dose", "24 hours after antibiotics started", "Only if patient doesn't improve"],
+    correctIndex: 1,
+    answer: "Dexamethasone reduces mortality and hearing loss in pneumococcal meningitis ONLY when given before or with first antibiotics. If antibiotics started >1 hour ago, benefit is lost. Dose: 0.15 mg/kg IV q6h x4 days.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q3",
+    type: "term",
+    question: "What are the classic CSF findings in bacterial meningitis?",
+    answer: "Elevated opening pressure (>20 cm H2O), WBC >1000 with neutrophil predominance (>80%), protein elevated (>100 mg/dL), glucose low (<40 or CSF:serum ratio <0.4), Gram stain positive 60-90%.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q4",
+    type: "question",
+    question: "When is CT required before lumbar puncture?",
+    options: ["Always", "Only with altered mental status, focal deficits, papilledema, seizures, or immunocompromised", "Never", "Only in children"],
+    correctIndex: 1,
+    answer: "CT before LP is needed only with herniation risk factors. In a young patient with classic meningismus and no red flags, LP proceeds without CT. But antibiotics must NEVER be delayed for imaging.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q5",
+    type: "term",
+    question: "What is the most common cause of bacterial meningitis in adults?",
+    answer: "Streptococcus pneumoniae (gram-positive diplococci). Followed by N. meningitidis. In neonates: GBS, E. coli, Listeria. In elderly/immunocompromised: S. pneumoniae, Listeria, gram-negatives.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q6",
+    type: "question",
+    question: "Waterhouse-Friderichsen syndrome is:",
+    options: ["Viral encephalitis", "Bilateral adrenal hemorrhage from meningococcal sepsis", "Chronic meningitis", "Fungal infection"],
+    correctIndex: 1,
+    answer: "Bilateral adrenal hemorrhagic necrosis from fulminant meningococcal DIC. Presents with purpura fulminans, hemodynamic collapse, and acute adrenal crisis. Treatment: emergent IV hydrocortisone, fluids, vasopressors.",
+    category: "Infectious Disease NP",
+    difficulty: 3
+  },
+  {
+    id: "np-meningitis-q7",
+    type: "term",
+    question: "What chemoprophylaxis options exist for meningococcal close contacts?",
+    answer: "Ciprofloxacin 500 mg PO x1 dose (adults), rifampin 600 mg PO q12h x2 days, or ceftriaxone 250 mg IM x1 dose (preferred in pregnancy). Give within 24 hours of case identification.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q8",
+    type: "question",
+    question: "The classic triad of bacterial meningitis is present in what percentage of cases?",
+    options: [">90%", "~75%", "~44%", "~10%"],
+    correctIndex: 2,
+    answer: "Fever, neck stiffness, and altered mental status triad is present in only ~44%. But nearly all have ≥2 of 4 features: headache, fever, neck stiffness, altered mental status. Maintain high suspicion.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q9",
+    type: "term",
+    question: "Why is cefotaxime preferred over ceftriaxone in neonates?",
+    answer: "Ceftriaxone displaces bilirubin from albumin, increasing free (unconjugated) bilirubin and kernicterus risk in neonates. Cefotaxime provides equivalent gram-negative coverage without this risk.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q10",
+    type: "question",
+    question: "Enteroviruses account for what percentage of viral meningitis?",
+    options: ["25%", "50%", "~85%", "100%"],
+    correctIndex: 2,
+    answer: "Enteroviruses (coxsackievirus, echovirus) cause ~85% of viral (aseptic) meningitis. Typically self-limited with supportive care. CSF: lymphocytic pleocytosis, normal glucose. Most common in summer/fall.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  // ===== AAA FLASHCARDS =====
+  {
+    id: "np-aaa-q1",
+    type: "term",
+    question: "What is the USPSTF AAA screening recommendation?",
+    answer: "One-time screening abdominal ultrasound for men aged 65-75 who have EVER smoked (Grade B). No routine screening for women or never-smokers. If normal, no repeat screening needed.",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q2",
+    type: "question",
+    question: "At what diameter is an AAA defined?",
+    options: ["≥2.0 cm", "≥2.5 cm", "≥3.0 cm", "≥4.0 cm"],
+    correctIndex: 2,
+    answer: "AAA is defined as abdominal aortic diameter ≥3.0 cm or >50% increase over normal (1.5-2.5 cm). Management is based on size: <5.5 cm surveillance, ≥5.5 cm (men) or ≥5.0 cm (women) consider repair.",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q3",
+    type: "term",
+    question: "What is the strongest modifiable risk factor for AAA?",
+    answer: "Smoking — 90% of AAA patients have smoking history. Smoking cessation is the ONLY intervention proven to slow AAA growth rate. Cessation reduces MMP activity and aortic wall inflammation.",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q4",
+    type: "question",
+    question: "What is the Law of Laplace's relevance to AAA rupture?",
+    options: ["It determines blood viscosity", "Wall tension = (pressure × radius) / (2 × wall thickness) — explains exponentially increasing rupture risk with enlargement", "It predicts clot formation", "It measures cardiac output"],
+    correctIndex: 1,
+    answer: "As the aneurysm enlarges, wall tension increases proportionally to radius while wall thickness decreases, exponentially increasing rupture risk. Annual rupture risk: <4 cm = 0%, 5-5.9 cm = 3-15%, ≥7 cm = 20-40%.",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  {
+    id: "np-aaa-q5",
+    type: "term",
+    question: "What are the AAA surveillance intervals by size?",
+    answer: "3.0-3.9 cm: every 3 years. 4.0-4.9 cm: every 12 months. 5.0-5.4 cm: every 6 months. ≥5.5 cm: surgical evaluation. Rapid expansion (>1 cm/year) or symptoms: surgical evaluation regardless of size.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q6",
+    type: "question",
+    question: "The classic ruptured AAA triad is present in what percentage of cases?",
+    options: ["<50%", "75%", "90%", "100%"],
+    correctIndex: 0,
+    answer: "The triad (sudden abdominal/back pain, hypotension, pulsatile mass) is present in <50% of cases. Maintain high suspicion in any elderly male smoker with sudden abdominal/back pain and hemodynamic instability.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q7",
+    type: "term",
+    question: "What is the mortality rate for ruptured AAA?",
+    answer: "80-90% overall mortality, with 50% dying before reaching the hospital. Elective EVAR: 1-2% mortality, open repair: 4-5%. This is why screening and elective repair are life-saving.",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q8",
+    type: "question",
+    question: "After EVAR, what follow-up is required?",
+    options: ["None", "CT angiography at 1, 6, 12 months then annually for endoleak surveillance", "Annual chest X-ray", "One ultrasound at 5 years"],
+    correctIndex: 1,
+    answer: "EVAR requires lifelong CT angiography surveillance for endoleaks (persistent blood flow into the aneurysm sac). Endoleaks can lead to continued sac pressurization and delayed rupture.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q9",
+    type: "term",
+    question: "What is blue toe syndrome in the context of AAA?",
+    answer: "Atheroemboli from thrombus within the aneurysm sac causing acute painful cyanotic toes with intact pedal pulses. Indicates an unstable thrombus — indication for AAA repair regardless of size.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q10",
+    type: "question",
+    question: "Why is the infrarenal aorta most susceptible to aneurysm formation?",
+    options: ["Thickest wall", "Lower elastin, no vasa vasorum, increased hemodynamic stress from reflected waves", "Most elastic tissue", "Best blood supply"],
+    correctIndex: 1,
+    answer: "The infrarenal aorta has lower elastin, relies on luminal diffusion (no vasa vasorum), and experiences increased wall stress from aortic bifurcation reflected waves. These factors make it vulnerable to MMP-mediated degeneration.",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  // ===== THALASSEMIA FLASHCARDS =====
+  {
+    id: "np-thal-q1",
+    type: "term",
+    question: "What is the Mentzer index and its clinical utility?",
+    answer: "MCV ÷ RBC count. <13 suggests thalassemia trait (many small cells), >13 suggests iron deficiency (fewer cells). A screening tool only — confirm with iron studies and hemoglobin electrophoresis.",
+    category: "Hematology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-thal-q2",
+    type: "question",
+    question: "What hemoglobin electrophoresis finding is diagnostic of beta-thalassemia trait?",
+    options: ["Elevated HbS", "Elevated HbA2 (>3.5%)", "Normal electrophoresis", "Elevated HbH"],
+    correctIndex: 1,
+    answer: "Beta-thalassemia trait shows elevated HbA2 (typically 4-8%). Alpha-thalassemia trait has NORMAL electrophoresis. HbH (β4 tetramers) indicates HbH disease (3 alpha-gene deletions).",
+    category: "Hematology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-thal-q3",
+    type: "term",
+    question: "Why should iron supplementation be avoided in thalassemia trait?",
+    answer: "Thalassemia trait patients have normal/elevated iron stores. Misdiagnosing as iron deficiency and prescribing iron causes iatrogenic iron overload with potential organ damage. Always check iron studies before treating microcytic anemia.",
+    category: "Hematology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-thal-q4",
+    type: "question",
+    question: "What is the leading cause of death in transfusion-dependent thalassemia?",
+    options: ["Infection", "Renal failure", "Cardiac iron overload", "Hepatocellular carcinoma"],
+    correctIndex: 2,
+    answer: "Cardiac iron overload causes dilated cardiomyopathy, arrhythmias, and heart failure. Cardiac MRI T2* <20 ms indicates loading; <10 ms indicates severe loading. Intensive chelation with deferiprone ± deferoxamine is critical.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q5",
+    type: "term",
+    question: "What is hydrops fetalis (Hb Bart's)?",
+    answer: "Four alpha-globin gene deletions (--/--) produce Hb Bart's (γ4 tetramers) with extremely high oxygen affinity — cannot deliver O2 to tissues. Incompatible with life. Common risk in Southeast Asian populations with cis deletions.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q6",
+    type: "question",
+    question: "What is the first-line oral iron chelator for transfusional iron overload?",
+    options: ["Deferoxamine", "Deferasirox (Jadenu)", "Deferiprone", "EDTA"],
+    correctIndex: 1,
+    answer: "Deferasirox (Jadenu) 14-28 mg/kg/day orally. Monitor: monthly creatinine/proteinuria and LFTs, quarterly ferritin, annual audiology/ophthalmology. Target ferritin <1000 ng/mL.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q7",
+    type: "term",
+    question: "What is the target pre-transfusion hemoglobin in transfusion-dependent thalassemia?",
+    answer: "Maintain pre-transfusion Hb 9-10.5 g/dL. This suppresses ineffective erythropoiesis, reduces bone marrow expansion, prevents skeletal changes, and minimizes extramedullary hematopoiesis.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q8",
+    type: "question",
+    question: "What distinguishes the hair-on-end skull X-ray finding?",
+    options: ["It is normal", "Marrow expansion pushing trabeculae perpendicular to skull — pathognomonic for severe thalassemia", "Lytic lesions from metastasis", "Fracture pattern"],
+    correctIndex: 1,
+    answer: "Hair-on-end appearance results from massive compensatory bone marrow expansion widening the diploe and pushing trabeculae perpendicular to the inner skull table. Also causes frontal bossing and chipmunk facies.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q9",
+    type: "term",
+    question: "Why is alpha-thalassemia trait difficult to diagnose?",
+    answer: "Hemoglobin electrophoresis is NORMAL in alpha-thalassemia trait (1-2 gene deletions) because HbA2 is not elevated. Definitive diagnosis requires molecular genetic testing (PCR or MLPA for alpha-globin gene deletions).",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q10",
+    type: "question",
+    question: "What curative treatments exist for beta-thalassemia major?",
+    options: ["Iron chelation only", "Allogeneic HSCT and gene therapy (Zynteglo)", "Chronic transfusion alone", "Splenectomy"],
+    correctIndex: 1,
+    answer: "Allogeneic HSCT (bone marrow transplant) from HLA-matched sibling donor: >90% cure rate in young children. Gene therapy (betibeglogene autotemcel/Zynteglo): inserts functional beta-globin gene into autologous stem cells via lentiviral vector.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q11",
+    type: "term",
+    question: "What role does erythroferrone play in thalassemia iron overload?",
+    answer: "Erythroferrone is secreted by erythroid precursors during ineffective erythropoiesis. It suppresses hepatic hepcidin, the master iron-regulatory hormone, leading to unregulated intestinal iron absorption even without transfusions.",
+    category: "Hematology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-thal-q12",
+    type: "question",
+    question: "Elevated RDW helps distinguish iron deficiency from thalassemia trait because:",
+    options: ["RDW is elevated in both", "RDW is elevated in iron deficiency (anisocytosis) but normal in thalassemia trait (uniform microcytes)", "RDW is only elevated in thalassemia", "RDW is not useful"],
+    correctIndex: 1,
+    answer: "Iron deficiency: variable cell sizes as iron-replete cells mix with iron-deficient microcytes = elevated RDW. Thalassemia trait: uniformly small cells = normal RDW. Helpful but not definitive.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  // ===== RHEUMATOID ARTHRITIS FLASHCARDS =====
+  {
+    id: "np-ra-q1",
+    type: "term",
+    question: "What is the first-line DMARD for rheumatoid arthritis?",
+    answer: "Methotrexate (MTX) 10-15 mg WEEKLY (not daily — daily dosing is fatal). Titrate to 20-25 mg. Always co-prescribe folic acid 1 mg daily. Initiate within 3 months of diagnosis per treat-to-target strategy.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q2",
+    type: "question",
+    question: "Anti-CCP antibodies (ACPA) have what specificity for RA?",
+    options: ["50%", "70%", "80%", "95-99%"],
+    correctIndex: 3,
+    answer: "Anti-CCP: 95-99% specificity (vs RF at ~80%). Predicts erosive disease. Can be detected years before clinical onset. A positive anti-CCP in inflammatory arthritis essentially confirms RA diagnosis.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q3",
+    type: "term",
+    question: "What is pannus in RA?",
+    answer: "Invasive, proliferative synovial tissue (normally 1-2 layers) composed of fibroblast-like synoviocytes, macrophages, T cells, B cells, and plasma cells. Pannus erodes cartilage and bone via MMP production and RANKL-mediated osteoclast activation.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q4",
+    type: "question",
+    question: "Before starting biologic DMARDs, which screenings are mandatory?",
+    options: ["Only CBC", "TB screening (QuantiFERON Gold) and hepatitis B/C", "Only liver function tests", "No screening needed"],
+    correctIndex: 1,
+    answer: "TB screening: TNF inhibitors reactivate latent TB. Hepatitis B/C: rituximab reactivates HBV. Treat LTBI for ≥1 month before biologic initiation. Also baseline CBC, CMP, chest X-ray.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q5",
+    type: "term",
+    question: "What is the treat-to-target (T2T) strategy in RA?",
+    answer: "Measure disease activity (DAS28, CDAI, SDAI) at every visit. If target (remission or low disease activity) not met, escalate therapy every 3-6 months. Do not accept persistent moderate/high disease activity.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q6",
+    type: "question",
+    question: "Why is methotrexate dosing WEEKLY so important?",
+    options: ["Weekly provides better efficacy", "Daily MTX dosing is a known fatal medication error causing pancytopenia, mucositis, and death", "There is no difference", "Weekly reduces cost only"],
+    correctIndex: 1,
+    answer: "Daily MTX dosing causes fatal pancytopenia and severe mucositis. The NP must clearly communicate 'once weekly on the same day' and verify understanding. This is one of the most important medication safety points in RA management.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q7",
+    type: "term",
+    question: "What is atlantoaxial (C1-C2) subluxation in RA?",
+    answer: "Pannus erosion of the transverse ligament at C1-C2 occurs in up to 25% of RA patients. Flexion-extension cervical spine X-rays required before intubation or surgery to assess spinal cord compression risk.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q8",
+    type: "question",
+    question: "MTX-induced pneumonitis presents with:",
+    options: ["Joint swelling", "Dry cough, progressive dyspnea, bilateral ground-glass opacities — HOLD MTX immediately", "Skin rash only", "Weight gain"],
+    correctIndex: 1,
+    answer: "Hypersensitivity reaction (2-8%): acute dry cough, dyspnea, bilateral infiltrates. Stop MTX immediately, rule out PCP, start systemic corticosteroids. Never rechallenge with MTX.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q9",
+    type: "term",
+    question: "Which DMARD is safe to continue during pregnancy?",
+    answer: "Hydroxychloroquine — safe in pregnancy and should be continued to prevent RA flares. MTX (Category X, stop 3 months before), leflunomide (teratogenic), and JAK inhibitors are all contraindicated.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q10",
+    type: "question",
+    question: "Swan-neck deformity in RA involves:",
+    options: ["PIP flexion + DIP hyperextension", "PIP hyperextension + DIP flexion", "MCP subluxation only", "Wrist deviation only"],
+    correctIndex: 1,
+    answer: "Swan-neck: PIP hyperextension + DIP flexion. Boutonnière: PIP flexion + DIP hyperextension. Both are late findings of uncontrolled RA from tendon and capsular destruction by pannus.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q11",
+    type: "term",
+    question: "What is the strongest modifiable risk factor for RA?",
+    answer: "Cigarette smoking increases anti-CCP production 2-fold through citrullination of lung proteins. In HLA-DRB1 shared epitope carriers, smoking synergistically drives the autoimmune cascade. Smoking also worsens RA activity and reduces treatment response.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q12",
+    type: "question",
+    question: "Felty syndrome is:",
+    options: ["RA + hepatomegaly + thrombocytopenia", "RA + splenomegaly + neutropenia", "RA + nephritis", "RA + pericarditis"],
+    correctIndex: 1,
+    answer: "RA + splenomegaly + neutropenia. Occurs in long-standing seropositive RA. Increases infection risk. Rule out LGL leukemia. Treat with aggressive RA management.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  // ===== ANTI-INFECTIVES & STEWARDSHIP FLASHCARDS =====
+  {
+    id: "np-abx-q1",
+    type: "term",
+    question: "What are the three core antibiotic stewardship principles?",
+    answer: "(1) Obtain cultures BEFORE antibiotics, (2) De-escalate within 48-72 hours based on culture results, (3) Use shortest effective duration. These reduce resistance, CDI risk, and adverse drug events.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q2",
+    type: "question",
+    question: "IDSA 2021 recommends which first-line treatment for C. difficile infection?",
+    options: ["Metronidazole PO", "Fidaxomicin 200 mg PO BID x10 days", "IV vancomycin", "Ciprofloxacin"],
+    correctIndex: 1,
+    answer: "Fidaxomicin preferred over oral vancomycin due to lower recurrence rates (13% vs 27%). Its narrow spectrum preserves colonic microbiota, accelerating recovery. Metronidazole no longer recommended for initial episodes.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q3",
+    type: "term",
+    question: "What is Red Man Syndrome from vancomycin?",
+    answer: "Non-immune histamine-mediated reaction from rapid IV infusion causing flushing, erythema, pruritus of upper body. NOT anaphylaxis. Management: slow infusion rate, premedicate with diphenhydramine. Does NOT contraindicate future vancomycin use.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q4",
+    type: "question",
+    question: "ESBL-producing E. coli should be treated with:",
+    options: ["Ceftriaxone", "Carbapenems (meropenem) — drug of choice regardless of in vitro cephalosporin susceptibility", "Ciprofloxacin", "Amoxicillin"],
+    correctIndex: 1,
+    answer: "Despite possible in vitro cephalosporin susceptibility, ESBL producers have high clinical failure rates with cephalosporins (inoculum effect). Carbapenems are the drugs of choice for serious ESBL infections.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q5",
+    type: "term",
+    question: "Why is daptomycin contraindicated for pneumonia?",
+    answer: "Daptomycin is inactivated by pulmonary surfactant and must never be used for pneumonia. For MRSA pneumonia, use vancomycin IV or linezolid. Daptomycin is effective for MRSA bacteremia, endocarditis, and skin infections.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q6",
+    type: "question",
+    question: "Oral vancomycin is used for CDI because:",
+    options: ["It has excellent systemic absorption", "It is NOT absorbed and acts locally in the GI tract at high concentrations", "It penetrates all tissues equally", "It is cheaper than IV"],
+    correctIndex: 1,
+    answer: "Oral vancomycin has negligible systemic absorption — it stays in the GI lumen at high concentrations, ideal for local CDI treatment. IV vancomycin does NOT reach the colonic lumen and is ineffective for CDI.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q7",
+    type: "term",
+    question: "What are the FDA boxed warnings for fluoroquinolones?",
+    answer: "Tendinopathy/rupture (especially Achilles), peripheral neuropathy, CNS effects, aortic dissection/aneurysm, and hypoglycemia. Reserve for infections without safer alternatives. Avoid in elderly and those on corticosteroids.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q8",
+    type: "question",
+    question: "Vancomycin dosing for MRSA has shifted from trough-based to:",
+    options: ["Fixed dosing for all patients", "AUC/MIC-guided dosing (target 400-600) per 2020 ASHP/IDSA guidelines", "Random level monitoring", "No monitoring needed"],
+    correctIndex: 1,
+    answer: "AUC/MIC target 400-600 achieves equivalent efficacy with less nephrotoxicity than traditional trough-based dosing (target 15-20). This is the new standard per 2020 ASHP/IDSA vancomycin guidelines.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q9",
+    type: "term",
+    question: "What is MRSA resistance mechanism?",
+    answer: "mecA gene encodes PBP2a (altered penicillin-binding protein) with low affinity for all beta-lactams except ceftaroline. Confers resistance to all penicillins, cephalosporins, and carbapenems. Treat: vancomycin, daptomycin, linezolid.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q10",
+    type: "question",
+    question: "Procalcitonin-guided therapy: antibiotics can be safely stopped when PCT is:",
+    options: [">2.0 ng/mL", ">0.5 ng/mL", "<0.25 ng/mL or >80% drop from peak", "<0.01 ng/mL"],
+    correctIndex: 2,
+    answer: "PCT <0.25 ng/mL or >80% decline from peak enables safe antibiotic discontinuation without increasing adverse outcomes. Particularly useful in respiratory infections and sepsis. Reduces unnecessary antibiotic exposure.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q11",
+    type: "term",
+    question: "What antibiotics are highest risk for C. difficile infection?",
+    answer: "Fluoroquinolones (highest risk — associated with hypervirulent NAP1/BI/027 strain), clindamycin, and broad-spectrum cephalosporins. These cause greatest disruption of colonic flora, allowing C. difficile spore germination.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q12",
+    type: "question",
+    question: "A patient reports penicillin allergy as 'GI upset.' Can cephalosporins be used?",
+    options: ["No, cross-reactivity is 50%", "Yes — GI upset is a side effect, not an immune-mediated allergy; true cross-reactivity is ~1-2%", "Only with epinephrine standby", "Never use any beta-lactam"],
+    correctIndex: 1,
+    answer: "GI upset is a side effect, NOT IgE-mediated allergy. True penicillin allergy is urticaria/anaphylaxis. Cross-reactivity with cephalosporins is ~1-2%. Penicillin skin testing de-labels ~90% of reported allergies.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  // ===== VACCINES & IMMUNOLOGY FLASHCARDS =====
+  {
+    id: "np-vaccine-q1",
+    type: "term",
+    question: "What vaccines are contraindicated in pregnancy?",
+    answer: "All LIVE vaccines: MMR, varicella, LAIV, yellow fever, BCG. Safe and recommended: inactivated influenza, Tdap (each pregnancy at 27-36 weeks), hepatitis B, COVID-19. Wait 4 weeks after live vaccine before conception.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q2",
+    type: "question",
+    question: "Shingrix differs from old Zostavax in that:",
+    options: ["Shingrix is live", "Shingrix is recombinant (non-live) with >90% efficacy and CAN be given to immunocompromised patients", "Shingrix has lower efficacy", "Shingrix is oral"],
+    correctIndex: 1,
+    answer: "Shingrix: recombinant, >90% efficacy, safe in immunocompromised (non-live). Zostavax was live, <50% effective, contraindicated in immunosuppressed. Shingrix recommended for ALL adults ≥50, 2 doses IM.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q3",
+    type: "term",
+    question: "When should Tdap be given during pregnancy?",
+    answer: "27-36 weeks gestation during EACH pregnancy regardless of prior Tdap. Maximizes transplacental transfer of pertussis antibodies to protect the neonate during the vulnerable period before their DTaP series begins at 2 months.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q4",
+    type: "question",
+    question: "The simplified 2023 ACIP pneumococcal recommendation for vaccine-naive adults ≥65 is:",
+    options: ["PPSV23 alone", "PCV13 then PPSV23", "PCV20 single dose", "No vaccine needed"],
+    correctIndex: 2,
+    answer: "PCV20 (Prevnar 20) single dose replaces the complex PCV13→PPSV23 sequence. Alternative: PCV15 followed by PPSV23 (≥1 year later). Conjugate technology enables immunological memory.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q5",
+    type: "term",
+    question: "What is the ACIP 2022 universal adult hepatitis B vaccine recommendation?",
+    answer: "All unvaccinated adults 19-59: universal recommendation WITHOUT risk-factor screening. Ages ≥60: shared clinical decision. This eliminated the cumbersome risk-factor assessment before recommending HBV vaccine.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q6",
+    type: "question",
+    question: "Live vaccines are contraindicated when prednisone dose is:",
+    options: ["Any dose", "≥10 mg daily for ≥7 days", "≥20 mg daily for ≥14 days", "Only >40 mg daily"],
+    correctIndex: 2,
+    answer: "Immunosuppressive corticosteroid threshold: ≥20 mg prednisone (or equivalent) daily for ≥14 days. Wait ≥1 month after discontinuation before administering live vaccines. Inactivated vaccines can be given but may have reduced immunogenicity.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q7",
+    type: "term",
+    question: "How does vaccine hesitancy best be addressed?",
+    answer: "Presumptive language ('Your child is due for vaccines today' vs 'Would you like vaccines?') significantly increases acceptance. Motivational interviewing: acknowledge concerns, provide evidence-based information, build trust.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q8",
+    type: "question",
+    question: "What confirms hepatitis B vaccine immunity in healthcare workers?",
+    options: ["HBsAg positive", "Anti-HBs ≥10 mIU/mL", "Anti-HBc positive", "HBeAg positive"],
+    correctIndex: 1,
+    answer: "Anti-HBs (hepatitis B surface antibody) ≥10 mIU/mL indicates protective immunity. Check 1-2 months after completing HBV series. Non-responders (<10): second complete series then retest.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q9",
+    type: "term",
+    question: "Why should TST be placed before or simultaneously with live vaccines?",
+    answer: "Live vaccines (especially MMR) can suppress cell-mediated immunity, causing false-negative TST for 4-6 weeks. If live vaccine was given first, wait 4-6 weeks before TST. IGRA (blood test) is not affected.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q10",
+    type: "question",
+    question: "Conjugate vaccines differ from polysaccharide vaccines in that they:",
+    options: ["Have fewer antigens", "Produce T-dependent immune response with immunological memory, mucosal immunity, and effectiveness in children <2 years", "Are less effective", "Cannot be given to adults"],
+    correctIndex: 1,
+    answer: "Conjugation links polysaccharide to carrier protein, converting T-independent to T-dependent response: memory B cells, higher-affinity antibodies, mucosal IgA, and effectiveness in children <2 years.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q11",
+    type: "term",
+    question: "What is the HPV vaccination recommendation for adults?",
+    answer: "Routinely recommended through age 26 for all genders. Ages 27-45: shared clinical decision-making. 2 doses if started before age 15; 3 doses if started at age 15+. Gardasil 9 covers 9 HPV types.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q12",
+    type: "question",
+    question: "An HIV patient with CD4 350 can receive which live vaccine?",
+    options: ["None — all live vaccines contraindicated in HIV", "MMR — live vaccines can be given when CD4 ≥200", "Yellow fever", "BCG"],
+    correctIndex: 1,
+    answer: "HIV patients with CD4 ≥200 can receive most live vaccines (MMR, varicella). CD4 <200 = severe immunodeficiency, live vaccines contraindicated. Always check CD4 count before administering live vaccines to HIV patients.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q13",
+    type: "term",
+    question: "What post-splenectomy vaccines are required?",
+    answer: "PCV20 (or PCV15+PPSV23), MenACWY, MenB, and Hib. Ideally given ≥2 weeks before elective splenectomy. Plus lifelong penicillin VK 250 mg BID prophylaxis and patient education about seeking immediate care for fever.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q14",
+    type: "question",
+    question: "The first-line treatment for vaccine-associated anaphylaxis is:",
+    options: ["Diphenhydramine PO", "IV methylprednisolone", "Epinephrine IM into anterolateral thigh", "Albuterol nebulizer"],
+    correctIndex: 2,
+    answer: "Epinephrine IM (anterolateral thigh) is the FIRST-LINE treatment for anaphylaxis. All vaccination sites must have epinephrine available. Antihistamines and steroids are adjunctive, not first-line.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q15",
+    type: "term",
+    question: "What is immunosenescence?",
+    answer: "Age-related decline in immune function: thymic involution, reduced naive T-cell output, impaired B-cell maturation, chronic low-grade inflammation ('inflammaging'). Explains reduced vaccine effectiveness and increased infection risk in elderly.",
+    category: "Preventive Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-vaccine-q16",
+    type: "question",
+    question: "What measles vaccination coverage level achieves herd immunity?",
+    options: ["50%", "75%", "~95%", "100%"],
+    correctIndex: 2,
+    answer: "Measles requires ~95% coverage due to its extremely high R0 (12-18). When coverage drops below this threshold, outbreaks occur. This is one of the highest herd immunity thresholds of any vaccine-preventable disease.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q17",
+    type: "term",
+    question: "What USPSTF screening recommendations should be integrated at preventive care visits?",
+    answer: "Cervical cancer (Pap/HPV), breast cancer (mammography age 40+), colorectal cancer (age 45-75), lung cancer (LDCT for 50-80 with ≥20 pack-year smoking history), depression (PHQ-9), diabetes (glucose/HbA1c if risk factors).",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  // ===== ADDITIONAL OBESITY FLASHCARDS =====
+  {
+    id: "np-obesity-q19",
+    type: "question",
+    question: "Naltrexone-bupropion ER (Contrave) targets which brain pathways?",
+    options: ["Serotonin in hippocampus", "POMC neurons and mesolimbic reward system", "GABA in cerebellum", "Cholinergic in basal forebrain"],
+    correctIndex: 1,
+    answer: "Bupropion stimulates hypothalamic POMC neurons (appetite regulation). Naltrexone blocks opioid auto-inhibitory feedback on POMC, sustaining appetite suppression. Also modulates mesolimbic reward system, reducing food reward. 5-6% weight loss.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q20",
+    type: "term",
+    question: "What is dumping syndrome after Roux-en-Y gastric bypass?",
+    answer: "Rapid passage of hyperosmolar food into small intestine. Early dumping (15-30 min): nausea, cramping, diarrhea, tachycardia. Late dumping (1-3 hours): reactive hypoglycemia. Prevent: small meals, avoid simple sugars.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q21",
+    type: "question",
+    question: "Phentermine is contraindicated in which conditions?",
+    options: ["Mild hypertension only", "Uncontrolled hypertension, CVD, hyperthyroidism, glaucoma, MAOI use, and history of substance abuse", "Diabetes only", "No contraindications exist"],
+    correctIndex: 1,
+    answer: "Phentermine is a sympathomimetic amine. Contraindications: uncontrolled HTN, cardiovascular disease, hyperthyroidism, angle-closure glaucoma, concurrent or recent MAOIs (14-day washout), and substance abuse history. DEA Schedule IV controlled substance.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q22",
+    type: "term",
+    question: "What is the SELECT trial significance for semaglutide?",
+    answer: "Landmark 2023 CV outcomes trial: semaglutide 2.4 mg reduced MACE by 20% in overweight/obese adults with CVD but WITHOUT diabetes. Established CV benefit for GLP-1 RAs in obesity independent of glycemic effects.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q23",
+    type: "question",
+    question: "What sleep disorder contributes to weight gain by altering appetite hormones?",
+    options: ["Narcolepsy", "Sleep deprivation (<6 hrs) — increases ghrelin, decreases leptin", "REM behavior disorder", "Sleepwalking"],
+    correctIndex: 1,
+    answer: "Sleep deprivation increases ghrelin (hunger) and decreases leptin (satiety), promoting high-calorie food cravings. 7-9 hours of sleep is essential for weight management. Also evaluate for OSA.",
+    category: "Endocrine NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q24",
+    type: "term",
+    question: "What labs should be obtained in initial obesity evaluation?",
+    answer: "Fasting glucose/HbA1c, fasting lipid panel, TSH, CMP (liver function for NAFLD), morning cortisol if Cushing suspected. Women: consider testosterone/DHEA-S for PCOS. All patients: sleep study referral if OSA symptoms.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q25",
+    type: "question",
+    question: "Semaglutide slows gastric emptying. What surgical implication does this have?",
+    options: ["No implications", "Must be held 1-3 weeks before surgery to reduce aspiration risk from retained gastric contents", "Enhances anesthesia", "Reduces bleeding risk"],
+    correctIndex: 1,
+    answer: "GLP-1 RAs significantly delay gastric emptying. ASA recommends holding GLP-1 RAs before elective procedures requiring anesthesia (daily formulations: 1 day; weekly: 1 week) to reduce aspiration risk.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q26",
+    type: "term",
+    question: "What is gallstone risk with GLP-1 receptor agonists?",
+    answer: "GLP-1 RAs reduce gallbladder motility causing bile stasis. Combined with rapid weight loss increasing cholesterol secretion, cholelithiasis/cholecystitis risk increases 2-3x. Counsel patients about RUQ pain symptoms.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q27",
+    type: "question",
+    question: "A 5-10% weight loss achieves which health benefits?",
+    options: ["No measurable benefit", "Significant improvement in HbA1c, blood pressure, triglycerides, HDL, and reduction in sleep apnea severity", "Complete diabetes remission in all patients", "Only cosmetic benefit"],
+    correctIndex: 1,
+    answer: "Even modest 5-10% weight loss produces clinically meaningful improvements: HbA1c reduction 0.6-1.0%, BP reduction 5 mmHg, TG reduction 40 mg/dL, improved OSA, reduced hepatic steatosis, and improved joint symptoms.",
+    category: "Endocrine NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q28",
+    type: "term",
+    question: "What is motivational interviewing's role in obesity management?",
+    answer: "Patient-centered counseling technique using open-ended questions, reflective listening, and affirmation to explore ambivalence about behavior change. More effective than directive counseling. Core elements: Express empathy, develop discrepancy, roll with resistance, support self-efficacy.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q29",
+    type: "question",
+    question: "What chronic disease model concept applies to obesity pharmacotherapy?",
+    options: ["Short-term medication use only", "Obesity is a chronic disease requiring long-term treatment — weight regain occurs upon medication discontinuation, similar to HTN returning after stopping antihypertensives", "One medication course cures obesity", "Only lifestyle changes are needed"],
+    correctIndex: 1,
+    answer: "STEP 1 extension: ~2/3 weight regained within 1 year of semaglutide discontinuation. Obesity involves permanent neurohormonal changes. Long-term pharmacotherapy is the standard, not time-limited treatment.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q30",
+    type: "term",
+    question: "What is NAFLD/MASLD and its relationship to obesity?",
+    answer: "Non-alcoholic/metabolic-associated steatotic liver disease affects 80-90% of obese individuals. Ranges from simple steatosis to NASH (steatohepatitis), fibrosis, cirrhosis, and HCC. Weight loss 7-10% improves histology.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q31",
+    type: "question",
+    question: "Tirzepatide's dual GIP/GLP-1 mechanism provides what advantage?",
+    options: ["No advantage over GLP-1 alone", "GIP enhances beta-cell function and fat metabolism, producing greater weight loss (20-22%) than GLP-1 RA monotherapy", "GIP causes more GI side effects", "GIP blocks insulin secretion"],
+    correctIndex: 1,
+    answer: "GIP + GLP-1 dual agonism provides complementary actions: GIP enhances islet function, promotes adipose tissue lipid storage/metabolism, and potentially improves GI tolerability. SURMOUNT: 20-22% weight loss vs 15-17% for semaglutide.",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q32",
+    type: "term",
+    question: "What is the role of physical activity in obesity management?",
+    answer: "Exercise alone: only 2-3% weight loss. But critical for MAINTENANCE, cardiovascular fitness, insulin sensitivity, and mood. ACSM: 150-300 min/week moderate-intensity aerobic activity. Benefits independent of weight loss.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q33",
+    type: "question",
+    question: "At what BMI can pharmacotherapy be initiated?",
+    options: ["BMI ≥25 regardless of comorbidities", "BMI ≥30 or BMI ≥27 with at least one weight-related comorbidity", "BMI ≥40 only", "BMI ≥35 only"],
+    correctIndex: 1,
+    answer: "FDA: BMI ≥30 (obesity) or BMI ≥27 (overweight) with ≥1 weight-related comorbidity (T2DM, HTN, dyslipidemia, OSA). Lifestyle modification should be ongoing alongside pharmacotherapy.",
+    category: "Endocrine NP",
+    difficulty: 1
+  },
+  {
+    id: "np-obesity-q34",
+    type: "term",
+    question: "What pancreatitis risk exists with GLP-1 RAs?",
+    answer: "Rare but serious. Severe, persistent epigastric pain radiating to the back warrants immediate lipase/amylase and CT abdomen. If confirmed, permanently discontinue the GLP-1 RA. History of pancreatitis is a contraindication.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q35",
+    type: "question",
+    question: "What distinguishes sleeve gastrectomy from RYGB?",
+    options: ["Sleeve involves intestinal rerouting", "Sleeve removes ~80% of stomach with no intestinal bypass; RYGB creates small pouch + intestinal bypass with more malabsorption", "They are identical procedures", "Sleeve has higher complication rates"],
+    correctIndex: 1,
+    answer: "Sleeve: removes ~80% stomach (including ghrelin-producing fundus), no intestinal bypass, fewer nutritional deficiencies, may worsen GERD. RYGB: small pouch + jejunal bypass, 30-35% weight loss, higher B12/iron deficiency risk, better diabetes remission.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL SMOKING CESSATION FLASHCARDS =====
+  {
+    id: "np-smoking-q13",
+    type: "term",
+    question: "What are the 5 R's for smokers not ready to quit?",
+    answer: "Relevance (personalize why quitting matters), Risks (identify negative consequences), Rewards (identify benefits), Roadblocks (identify barriers and solutions), Repetition (repeat at every visit). Used for patients in precontemplation/contemplation stage.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q14",
+    type: "question",
+    question: "How long after quitting does coronary heart disease risk drop by 50%?",
+    options: ["1 month", "1 year", "5 years", "15 years"],
+    correctIndex: 1,
+    answer: "At 1 year: 50% CHD risk reduction. Benefits begin within 20 min (HR normalizes), 12 hours (CO normalizes), 2-4 weeks (circulation improves). At 15 years: CV risk approaches never-smoker.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q15",
+    type: "term",
+    question: "Why are e-cigarettes NOT recommended by USPSTF for cessation?",
+    answer: "Insufficient evidence for efficacy. Not FDA-approved cessation aids. May expose users to harmful chemicals (diacetyl, acrolein, heavy metals). FDA-approved pharmacotherapies (varenicline, NRT, bupropion) have proven efficacy and safety data.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q16",
+    type: "question",
+    question: "Nicotine gum dosing is based on:",
+    options: ["Weight", "4 mg if ≥25 cigarettes/day, 2 mg if <25/day; park-and-chew technique through buccal mucosa", "One size fits all", "Age"],
+    correctIndex: 1,
+    answer: "4 mg for heavy smokers (≥25 cig/day), 2 mg for lighter smokers. Park-and-chew: chew until tingling, then park between cheek and gum. Avoid acidic beverages 15 min before (reduce absorption). Max 20 pieces/day.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q17",
+    type: "term",
+    question: "What follow-up schedule is recommended after a quit date?",
+    answer: "Within 1 week of quit date (critical for early challenges), then monthly for first 3 months (highest relapse risk). Address trigger identification, coping skills, medication adjustment, and relapse prevention.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q18",
+    type: "question",
+    question: "CYP2A6 polymorphisms affect smoking cessation because:",
+    options: ["No effect", "CYP2A6 metabolizes nicotine; slow metabolizers retain nicotine longer, smoke less, and have higher quit rates", "CYP2A6 metabolizes bupropion", "CYP2A6 affects lung cancer only"],
+    correctIndex: 1,
+    answer: "CYP2A6 is the primary nicotine → cotinine enzyme. Slow metabolizers: lower dependence, fewer cigarettes, better quit rates. Ultra-rapid metabolizers: faster clearance, more smoking, may need higher NRT doses. Emerging personalized cessation approach.",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-smoking-q19",
+    type: "term",
+    question: "What is third-hand smoke?",
+    answer: "Residual nicotine and tobacco toxicants (TSNAs, PAHs) deposited on surfaces, clothing, and dust that persist for months after smoking. Absorbed through skin or ingested by crawling infants. Important counseling for households with children.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q20",
+    type: "question",
+    question: "A female smoker >35 on oral contraceptives has what increased risk?",
+    options: ["Hypothyroidism", "VTE and MI — smoking + OCP synergistically increase cardiovascular risk 6-10x", "Weight loss", "Osteoporosis only"],
+    correctIndex: 1,
+    answer: "Smoking + OCP in women ≥35 increases MI risk 6-10x and VTE 2-4x. OCPs are contraindicated in women ≥35 who smoke ≥15 cigarettes/day. Cessation counseling and alternative contraception are essential.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q21",
+    type: "term",
+    question: "What is the nicotine patch dosing schedule?",
+    answer: "21 mg/day x6 weeks → 14 mg/day x2 weeks → 7 mg/day x2 weeks (for ≥10 cig/day). Apply to clean, dry, hairless skin. Rotate sites. Remove before MRI. Common side effect: vivid dreams (remove at bedtime if bothersome).",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q22",
+    type: "question",
+    question: "Varenicline dosing titration schedule is:",
+    options: ["1 mg BID from day 1", "0.5 mg daily x3 days → 0.5 mg BID x4 days → 1 mg BID maintenance", "2 mg daily", "1 mg daily throughout"],
+    correctIndex: 1,
+    answer: "Week 1: 0.5 mg daily x3 days → 0.5 mg BID x4 days. Week 2 onwards: 1 mg BID. Set quit date for day 8-14. Take with food and full glass of water to minimize nausea. Standard treatment: 12 weeks, can extend to 24 weeks.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q23",
+    type: "term",
+    question: "What USPSTF recommendation combines with smoking cessation counseling?",
+    answer: "Annual low-dose CT chest for lung cancer screening in adults 50-80 with ≥20 pack-year smoking history who currently smoke or quit within 15 years. Integrating cessation counseling with screening visits improves quit rates.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL PARKINSON FLASHCARDS =====
+  {
+    id: "np-parkinson-q13",
+    type: "term",
+    question: "What is the gut-brain axis theory in Parkinson disease?",
+    answer: "Alpha-synuclein pathology may originate in the enteric nervous system and spread to the CNS via the vagus nerve (Braak stages 1-2). Supporting evidence: GI symptoms precede motor PD by years, truncal vagotomy reduces PD risk.",
+    category: "Neurology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-parkinson-q14",
+    type: "question",
+    question: "What medication is contraindicated for nausea in PD patients?",
+    options: ["Ondansetron", "Metoclopramide — D2 blocker that worsens parkinsonism", "Trimethobenzamide", "Ginger"],
+    correctIndex: 1,
+    answer: "Metoclopramide blocks D2 receptors in the CNS, directly antagonizing dopaminergic therapy. Also avoid prochlorperazine and haloperidol. Use ondansetron or domperidone (doesn't cross BBB, not available in US) for nausea in PD.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q15",
+    type: "term",
+    question: "What is the role of MAO-B inhibitors in PD?",
+    answer: "Rasagiline and selegiline selectively inhibit MAO-B, preventing dopamine breakdown in the brain. Used as monotherapy for mild PD or adjunct to levodopa. Drug interactions: meperidine, tramadol, SSRIs (serotonin syndrome risk).",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q16",
+    type: "question",
+    question: "Deep brain stimulation targets which structures?",
+    options: ["Cerebellum", "STN or GPi", "Hippocampus", "Frontal cortex"],
+    correctIndex: 1,
+    answer: "Subthalamic nucleus (STN, most common, allows med reduction) or globus pallidus internus (GPi, preferred for dyskinesias). DBS does NOT slow progression — it modulates circuit dysfunction. Best for motor fluctuations/tremor refractory to medication.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q17",
+    type: "term",
+    question: "What non-motor symptoms characterize PD?",
+    answer: "Constipation (earliest, from enteric alpha-synuclein), hyposmia (anosmia), REM sleep behavior disorder, depression/anxiety, orthostatic hypotension, urinary urgency, cognitive impairment (50-80% develop dementia), dysphagia, sialorrhea.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q18",
+    type: "question",
+    question: "Aspiration pneumonia is a leading cause of death in PD because of:",
+    options: ["Immune suppression from medications", "Progressive dysphagia affecting 80%+ of patients causing silent aspiration", "Lung fibrosis from levodopa", "Pulmonary hypertension"],
+    correctIndex: 1,
+    answer: "Oropharyngeal dysphagia from brainstem involvement affects >80% of PD patients. Silent aspiration (without cough reflex) is common. SLP referral, modified barium swallow, diet modifications, and compensatory strategies (chin tuck) reduce aspiration risk.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q19",
+    type: "term",
+    question: "What is dopamine agonist withdrawal syndrome?",
+    answer: "Severe anxiety, panic attacks, dysphoria, depression, irritability, and drug craving when dopamine agonists (pramipexole, ropinirole) are abruptly discontinued. Distinct from motor worsening. Management: gradual dose taper over weeks.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q20",
+    type: "question",
+    question: "MoCA vs MMSE in PD cognitive screening: which is preferred?",
+    options: ["MMSE is superior", "MoCA — more sensitive for PD executive dysfunction and visuospatial deficits", "Both are equally effective", "Neither is useful"],
+    correctIndex: 1,
+    answer: "MoCA tests executive function, visuospatial abilities, and attention — domains preferentially affected in PD cognitive impairment. Score <26 suggests impairment. MMSE misses early PD-related cognitive changes.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q21",
+    type: "term",
+    question: "What exercise types benefit PD patients?",
+    answer: "Tai chi (balance, fall prevention), aerobic exercise (30+ min, 3-5x/week — may be neuroprotective), dance-based exercise (tango, rhythmic movement), LSVT BIG (amplitude training), and boxing programs. PT referral is recommended for all PD patients.",
+    category: "Neurology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q22",
+    type: "question",
+    question: "Freezing of gait in PD is managed with:",
+    options: ["Higher levodopa doses only", "Visual cues (laser lines), rhythmic auditory cues (metronome), and physical therapy", "Surgical intervention only", "No effective treatment exists"],
+    correctIndex: 1,
+    answer: "FOG: sudden inability to initiate/continue walking ('feet glued to floor'). Sensory cues bypass the defective basal ganglia: visual (laser pointer, floor lines), auditory (metronome, music), and tactile strategies. Also optimize dopaminergic medication.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q23",
+    type: "term",
+    question: "What is entacapone's role in PD management?",
+    answer: "COMT inhibitor given 200 mg WITH each levodopa dose. Inhibits peripheral levodopa metabolism, extending half-life and reducing wearing-off. Side effects: diarrhea, brownish-orange urine (harmless), dyskinesias (may need levodopa dose reduction).",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q24",
+    type: "question",
+    question: "The 'levodopa honeymoon' period refers to:",
+    options: ["When levodopa stops working", "First 5-10 years of stable motor benefit before fluctuations and dyskinesias develop", "Initial side effects", "A drug holiday period"],
+    correctIndex: 1,
+    answer: "The first 5-10 years of levodopa therapy provide stable, sustained benefit. As more dopaminergic neurons die, the ability to buffer and release dopamine diminishes. Motor complications (wearing-off, dyskinesias) develop in 40-50% by 5 years.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL MENINGITIS FLASHCARDS =====
+  {
+    id: "np-meningitis-q11",
+    type: "term",
+    question: "What is SIADH in meningitis?",
+    answer: "CNS inflammation triggers inappropriate ADH secretion from the posterior pituitary, causing euvolemic hyponatremia. Management: fluid restriction 1-1.2 L/day, monitor Na q4-6h. Correct slowly (≤8 mEq/24h) to avoid osmotic demyelination.",
+    category: "Neurological NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q12",
+    type: "question",
+    question: "Sensorineural hearing loss after meningitis is from:",
+    options: ["Medication ototoxicity only", "CN VIII inflammation — the most common neurological sequela of bacterial meningitis", "Middle ear effusion", "Noise exposure"],
+    correctIndex: 1,
+    answer: "CN VIII (vestibulocochlear) inflammation from meningitis, especially pneumococcal, causes permanent SNHL. Dexamethasone before antibiotics significantly reduces this risk. All meningitis survivors need audiometric evaluation.",
+    category: "Neurological NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q13",
+    type: "term",
+    question: "What is cryptococcal meningitis treatment?",
+    answer: "Induction: amphotericin B + flucytosine x2 weeks. Consolidation: fluconazole 400 mg/day x8 weeks. Maintenance: fluconazole 200 mg/day until CD4 >100 x3+ months on ART. Serial therapeutic LPs for elevated ICP.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q14",
+    type: "question",
+    question: "Antibiotic timing in suspected meningitis: each hour of delay increases mortality by:",
+    options: ["1%", "3-7%", "10%", "No impact"],
+    correctIndex: 1,
+    answer: "Antibiotics within 60 minutes of presentation. Each hour of delay increases mortality 3-7%. If imaging needed before LP, draw blood cultures and START empiric antibiotics BEFORE sending for CT.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q15",
+    type: "term",
+    question: "What is Kernig sign?",
+    answer: "With patient supine and hip flexed to 90°, extending the knee causes pain or resistance due to meningeal inflammation stretching nerve roots. Low sensitivity (5-30%) but high specificity (>90%).",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q16",
+    type: "question",
+    question: "CSF multiplex PCR panel (BioFire FilmArray) provides:",
+    options: ["Only bacterial ID", "Rapid simultaneous detection of >14 bacterial, viral, and fungal pathogens within 1-2 hours", "Culture sensitivity results", "Only viral ID"],
+    correctIndex: 1,
+    answer: "Detects >14 common meningitis/encephalitis pathogens simultaneously within 1-2 hours. Does NOT replace culture (still needed for sensitivity testing) but dramatically improves diagnostic speed and allows faster targeted therapy.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q17",
+    type: "term",
+    question: "What organisms cause meningitis in immunocompromised patients?",
+    answer: "Standard pathogens PLUS: Listeria monocytogenes, Cryptococcus neoformans, Mycobacterium tuberculosis, Aspergillus, Toxoplasma, CMV. Broader empiric coverage needed — add ampicillin for Listeria, consider antifungals.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q18",
+    type: "question",
+    question: "TB meningitis typically presents with:",
+    options: ["Acute onset over hours", "Subacute onset over weeks with basilar pattern, CN palsies, and hydrocephalus", "Purpuric rash", "Normal CSF"],
+    correctIndex: 1,
+    answer: "TB meningitis is subacute/chronic (weeks): headache, low-grade fever, weight loss, CN palsies (especially CN VI), hydrocephalus. CSF: lymphocytic pleocytosis, very low glucose, high protein. Basilar meningeal enhancement on MRI.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q19",
+    type: "term",
+    question: "What is Mollaret meningitis?",
+    answer: "Recurrent benign lymphocytic meningitis caused by HSV-2 reactivation. Self-limited episodes (2-5 days) with complete recovery. May show Mollaret cells in CSF. Prophylactic valacyclovir may reduce recurrence.",
+    category: "Infectious Disease NP",
+    difficulty: 3
+  },
+  {
+    id: "np-meningitis-q20",
+    type: "question",
+    question: "What is the alternative to ampicillin for Listeria coverage in penicillin-allergic patients?",
+    options: ["Ceftriaxone — covers Listeria", "TMP-SMX (trimethoprim-sulfamethoxazole)", "Azithromycin", "Metronidazole"],
+    correctIndex: 1,
+    answer: "Listeria is intrinsically RESISTANT to all cephalosporins. TMP-SMX is the penicillin allergy alternative. Meropenem is another option. This is a critical prescribing pearl — ceftriaxone will NOT cover Listeria.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL AAA FLASHCARDS =====
+  {
+    id: "np-aaa-q11",
+    type: "term",
+    question: "What medical management is recommended for all AAA patients?",
+    answer: "Smoking cessation (only proven intervention to slow growth), high-intensity statin (AAA = CV risk equivalent), BP control (target <130/80), and regular exercise. Monitor for concurrent coronary and cerebrovascular disease.",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q12",
+    type: "question",
+    question: "What is permissive hypotension in ruptured AAA?",
+    options: ["Maintaining SBP >160", "Allowing SBP 70-90 mmHg to prevent clot disruption while maintaining cerebral perfusion", "Aggressive fluid resuscitation to SBP >120", "No BP management needed"],
+    correctIndex: 1,
+    answer: "Permissive hypotension (SBP 70-90) prevents displacement of the retroperitoneal clot that may be tamponading the rupture, while maintaining cerebral perfusion. Aggressive fluid resuscitation increases bleeding and worsens outcomes.",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  {
+    id: "np-aaa-q13",
+    type: "term",
+    question: "What distinguishes EVAR from open AAA repair?",
+    answer: "EVAR: endovascular stent-graft via femoral artery, 1-2% perioperative mortality, faster recovery, but requires lifelong CT surveillance for endoleaks. Open: laparotomy, 4-5% mortality, more durable (15+ years), no lifelong surveillance needed.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q14",
+    type: "question",
+    question: "What screening is recommended for first-degree relatives of AAA patients?",
+    options: ["No screening recommended", "Siblings should be screened — they have ~18% AAA prevalence", "Only children should be screened", "Only female relatives"],
+    correctIndex: 1,
+    answer: "Siblings of AAA patients have ~18% prevalence (vs 5-10% general male population >65). First-degree relatives, especially brothers and sons, should be screened with abdominal ultrasound at age 65 or earlier if symptomatic.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q15",
+    type: "term",
+    question: "What is an endoleak after EVAR?",
+    answer: "Persistent blood flow into the aneurysm sac after stent-graft placement. Type I: attachment site (high pressure, needs repair). Type II: collateral backflow (most common, usually benign). Type III: graft defect (needs repair).",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q16",
+    type: "question",
+    question: "Abdominal ultrasound is the preferred screening modality for AAA because:",
+    options: ["It is therapeutic", "Non-invasive, no radiation, low cost, highly accurate (sensitivity >95%, specificity ~100%)", "It can treat AAA simultaneously", "CT is contraindicated"],
+    correctIndex: 1,
+    answer: "Ultrasound: >95% sensitivity, ~100% specificity for AAA detection, no radiation, no contrast, low cost, widely available. CT angiography is used for surgical planning and EVAR suitability assessment, not routine screening.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q17",
+    type: "term",
+    question: "What associated vascular screening should AAA patients receive?",
+    answer: "AAA reflects systemic atherosclerosis. Screen for: coronary artery disease (cardiac risk assessment), peripheral arterial disease (ABI), cerebrovascular disease (carotid assessment if indicated), and other aneurysms (iliac, popliteal).",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q18",
+    type: "question",
+    question: "What is the annual rupture risk for a 6.5 cm AAA?",
+    options: ["<1%", "3-5%", "10-20%", "25-40%"],
+    correctIndex: 2,
+    answer: "Annual rupture risk by size: <4 cm ≈ 0%, 4-4.9 cm ≈ 0.5-5%, 5-5.9 cm ≈ 3-15%, 6-6.9 cm ≈ 10-20%, ≥7 cm ≈ 20-40%. This exponential increase supports elective repair at ≥5.5 cm.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL THALASSEMIA FLASHCARDS =====
+  {
+    id: "np-thal-q13",
+    type: "term",
+    question: "What peripheral blood smear findings characterize thalassemia?",
+    answer: "Target cells (excess cell membrane), microcytes, basophilic stippling (ribosomal RNA aggregates), nucleated RBCs (severe forms). In HbH disease: HbH inclusions visible with supravital staining.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q14",
+    type: "question",
+    question: "Which chelator has superior cardiac iron chelation?",
+    options: ["Deferasirox", "Deferiprone — but monitor weekly CBC for agranulocytosis", "Deferoxamine", "EDTA"],
+    correctIndex: 1,
+    answer: "Deferiprone has superior cardiac iron penetration. For cardiac T2* <20 ms, use deferiprone alone or combined with deferoxamine. Major toxicity: agranulocytosis (0.5-2%) — weekly CBC mandatory.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q15",
+    type: "term",
+    question: "What is the difference between cis and trans alpha-thalassemia deletions?",
+    answer: "Cis (--/αα): both deletions on same chromosome 16, common in Southeast Asians. If both parents carry cis: 25% risk of hydrops fetalis. Trans (-α/-α): one deletion per chromosome, common in Africans. Minimal hydrops risk in offspring.",
+    category: "Hematology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-thal-q16",
+    type: "question",
+    question: "What is luspatercept (Reblozyl)?",
+    options: ["Iron chelator", "Erythroid maturation agent that traps TGF-beta ligands to promote effective erythropoiesis, reducing transfusion burden", "Vitamin supplement", "Immune suppressant"],
+    correctIndex: 1,
+    answer: "Luspatercept is an activin receptor ligand trap. It binds TGF-beta superfamily ligands (GDF11, activin A) that block late-stage erythroid differentiation. BELIEVE trial: 21% achieved ≥33% transfusion reduction. SC injection every 3 weeks.",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-thal-q17",
+    type: "term",
+    question: "What endocrinopathies result from iron overload in thalassemia?",
+    answer: "Hypogonadotropic hypogonadism (most common, 60-80%): delayed puberty, amenorrhea, infertility. Also: diabetes (pancreatic beta cells), hypothyroidism, hypoparathyroidism. From iron deposition in pituitary and endocrine organs.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q18",
+    type: "question",
+    question: "What vaccinations are mandatory before splenectomy in thalassemia?",
+    options: ["Only influenza", "PCV20, MenACWY, MenB, and Hib — at least 2 weeks before elective surgery", "No vaccines needed", "Only hepatitis B"],
+    correctIndex: 1,
+    answer: "Pre-splenectomy vaccines target encapsulated organisms: PCV20 (or PCV15+PPSV23), MenACWY, MenB, Hib. Give ≥2 weeks before elective splenectomy. Also: lifelong penicillin VK prophylaxis and fever education.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q19",
+    type: "term",
+    question: "What is alloimmunization prevention in chronic transfusion?",
+    answer: "Extended red cell antigen matching (Rh C/c/E/e, Kell, Duffy, Kidd) and leukoreduction reduce alloimmunization from 30% to <5-10%. Alloantibodies make finding compatible blood increasingly difficult.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q20",
+    type: "question",
+    question: "Hydroxyurea in thalassemia intermedia works by:",
+    options: ["Correcting the gene defect", "Increasing fetal hemoglobin (HbF) production, partially compensating for beta-globin deficiency", "Chelating iron", "Suppressing immune system"],
+    correctIndex: 1,
+    answer: "Hydroxyurea stimulates HbF production (mechanism unclear, possibly stress erythropoiesis). In thalassemia intermedia, HbF (α2γ2) partially compensates for absent beta chains. Not as effective as in sickle cell disease.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q21",
+    type: "term",
+    question: "What is HbH disease?",
+    answer: "Three alpha-globin gene deletions (--/-α). Excess beta chains form β4 tetramers (HbH) with increased O2 affinity and instability, causing moderate hemolytic anemia, splenomegaly, jaundice. Most don't need regular transfusions.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL RA FLASHCARDS =====
+  {
+    id: "np-ra-q13",
+    type: "term",
+    question: "What is the mechanism of adalimumab (Humira)?",
+    answer: "Fully human monoclonal antibody binding both soluble and transmembrane TNF-alpha, preventing TNF receptor interaction. Reduces inflammatory cell infiltration, MMP production, and osteoclast activation in the RA synovium.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q14",
+    type: "question",
+    question: "Triple DMARD therapy for RA consists of:",
+    options: ["Three biologics", "MTX + hydroxychloroquine + sulfasalazine", "MTX + adalimumab + rituximab", "Prednisone + NSAIDs + acetaminophen"],
+    correctIndex: 1,
+    answer: "Triple conventional DMARD therapy is a cost-effective alternative to biologics with comparable efficacy in some studies. Used before escalating to biologic/targeted synthetic DMARDs.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q15",
+    type: "term",
+    question: "What is seronegative vs seropositive RA?",
+    answer: "Seropositive (RF+ and/or anti-CCP+): more aggressive erosions, more extra-articular disease (nodules, vasculitis, ILD), worse prognosis. Seronegative (~20-30%): negative serology, meets clinical criteria, may have milder course.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q16",
+    type: "question",
+    question: "Which joint is characteristically SPARED in RA?",
+    options: ["MCP joints", "PIP joints", "DIP joints", "Wrist"],
+    correctIndex: 2,
+    answer: "RA spares DIPs. DIP involvement suggests OA (Heberden nodes) or psoriatic arthritis. RA preferentially affects MCPs, PIPs, wrists, and MTPs symmetrically.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q17",
+    type: "term",
+    question: "What is the squeeze test in RA assessment?",
+    answer: "Lateral compression of MCP or MTP joints to elicit pain, indicating synovitis even before visible swelling. Positive MTP squeeze is an early sign of RA foot involvement. Simple, rapid bedside screening tool.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q18",
+    type: "question",
+    question: "Morning stiffness in RA is characteristically:",
+    options: ["<15 minutes", ">30 minutes (often >60), improving with activity and worsening with rest", "Constant throughout the day", "Only at night"],
+    correctIndex: 1,
+    answer: "Inflammatory stiffness: >30 min (often >60 min), improves with activity, worsens with rest. OA stiffness: <30 min, worsens with activity, improves with rest. This distinction is a key history-taking point.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q19",
+    type: "term",
+    question: "What is the JAK inhibitor boxed warning?",
+    answer: "JAK inhibitors (tofacitinib, baricitinib, upadacitinib) carry FDA boxed warning for increased risk of serious cardiac events, malignancy, thrombosis, and death compared to TNF inhibitors (ORAL Surveillance trial data).",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q20",
+    type: "question",
+    question: "HLA-DRB1 shared epitope in RA accounts for what percentage of genetic risk?",
+    options: ["5%", "15%", "~40%", "90%"],
+    correctIndex: 2,
+    answer: "HLA-DRB1 shared epitope alleles represent the strongest genetic risk factor, ~40% of genetic susceptibility. They present citrullinated peptides to T cells. Combined with smoking, they synergistically drive anti-CCP production.",
+    category: "Assessment NP",
+    difficulty: 3
+  },
+  {
+    id: "np-ra-q21",
+    type: "term",
+    question: "What is subcutaneous MTX's advantage over oral at doses >15 mg/week?",
+    answer: "Oral MTX bioavailability saturates above 15 mg/week due to saturable intestinal absorption. SC route provides 28% higher drug exposure and linear absorption. Switch oral to SC before escalating to biologics — cost-effective strategy.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q22",
+    type: "question",
+    question: "Rheumatoid nodules are found in what percentage of seropositive RA patients?",
+    options: ["5%", "20-30%", "50%", "80%"],
+    correctIndex: 1,
+    answer: "Rheumatoid nodules: firm, non-tender subcutaneous nodules at pressure points (olecranon, forearms). Found in 20-30% of seropositive patients, indicating more aggressive disease. MTX can paradoxically increase nodule formation.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q23",
+    type: "term",
+    question: "What is rituximab's mechanism and key safety concern?",
+    answer: "Anti-CD20 monoclonal antibody depleting CD20+ B cells via complement-dependent and antibody-dependent cytotoxicity. MANDATORY hepatitis B screening — rituximab causes fatal HBV reactivation. Also screen for TB.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  // ===== ADDITIONAL ANTI-INFECTIVES FLASHCARDS =====
+  {
+    id: "np-abx-q13",
+    type: "term",
+    question: "What is antibiotic 'time out' or reassessment?",
+    answer: "Structured review at 48-72 hours when culture/sensitivity data are available. Options: de-escalate to narrow-spectrum, IV-to-PO switch, dose optimization, or discontinue if infection ruled out. Core stewardship intervention.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q14",
+    type: "question",
+    question: "What are IV-to-PO switch criteria?",
+    options: ["WBC must be completely normal", "Clinically improving, afebrile 24-48h, tolerating oral intake, functional GI tract, oral option with adequate bioavailability", "Only after 7 days of IV therapy", "Never appropriate"],
+    correctIndex: 1,
+    answer: "Switch criteria: clinical improvement, afebrile 24-48h, oral intake tolerated, functional GI tract, and oral antibiotic with good bioavailability. Reduces hospital stay, costs, and IV-related complications (catheter infections).",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q15",
+    type: "term",
+    question: "What is an antibiogram?",
+    answer: "Annual institutional summary of antimicrobial susceptibility patterns for bacterial isolates. Guides empiric antibiotic selection based on local resistance. If local E. coli ciprofloxacin resistance >20%, use alternative empiric agent.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q16",
+    type: "question",
+    question: "Nitrofurantoin is first-line for uncomplicated cystitis because:",
+    options: ["Broadest spectrum available", "Narrow spectrum with low resistance, high urinary concentration, minimal gut flora disruption, and low CDI risk", "It treats all UTI types", "It is the cheapest option"],
+    correctIndex: 1,
+    answer: "Nitrofurantoin 100 mg BID x5 days: narrow spectrum targets urinary pathogens, minimal collateral gut flora damage, low resistance rates, low CDI risk. NOT effective for pyelonephritis (poor renal parenchymal penetration).",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q17",
+    type: "term",
+    question: "What is asymptomatic bacteriuria (ASB) guideline?",
+    answer: "Screen and treat ONLY in pregnancy (pyelonephritis/preterm risk) and before urologic procedures. Do NOT treat ASB in elderly, catheterized, or diabetic patients — treatment does not improve outcomes and promotes resistance.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q18",
+    type: "question",
+    question: "CRE (carbapenem-resistant Enterobacterales) is treated with:",
+    options: ["Standard carbapenems", "Ceftazidime-avibactam or meropenem-vaborbactam for KPC-producing CRE", "First-generation cephalosporins", "Azithromycin"],
+    correctIndex: 1,
+    answer: "Novel beta-lactam/BLI combinations: ceftazidime-avibactam (covers KPC-producing CRE), meropenem-vaborbactam. Cefiderocol for metallo-beta-lactamase producers (NDM). These are critical stewardship agents reserved for confirmed CRE.",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-abx-q19",
+    type: "term",
+    question: "What is the mechanism of VRE resistance?",
+    answer: "vanA/vanB genes modify peptidoglycan target from D-Ala-D-Ala to D-Ala-D-Lac, reducing vancomycin binding 1000-fold. VanA: resistant to both vancomycin and teicoplanin. VanB: resistant to vancomycin only. Treat: linezolid or daptomycin.",
+    category: "Infectious Disease NP",
+    difficulty: 3
+  },
+  {
+    id: "np-abx-q20",
+    type: "question",
+    question: "Linezolid's most important monitoring requirement is:",
+    options: ["Monthly renal function", "Weekly CBC for thrombocytopenia", "Daily blood glucose", "Annual eye exam"],
+    correctIndex: 1,
+    answer: "Linezolid causes dose-dependent thrombocytopenia (risk increases after >14 days). Weekly CBC mandatory. Also: avoid serotonergic drugs (serotonin syndrome risk), peripheral neuropathy with prolonged use, lactic acidosis.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q21",
+    type: "term",
+    question: "What is fecal microbiota transplant (FMT)?",
+    answer: "Restoration of normal colonic microbiota for recurrent CDI (≥3 episodes failing standard therapy). >85% cure rate. FDA-approved microbiome-based products are now available. Restores Bacteroides diversity, outcompeting C. difficile.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q22",
+    type: "question",
+    question: "Delayed prescription (watchful waiting) is appropriate for:",
+    options: ["Septic shock", "Mild acute otitis media in child >2 years — fill only if not improved in 48-72h", "MRSA bacteremia", "Meningitis"],
+    correctIndex: 1,
+    answer: "Provide prescription with instructions to fill only if symptoms worsen in 48-72 hours. Appropriate for: mild AOM in children >2, sinusitis <10 days, viral URI. Reduces unnecessary antibiotic use by ~50%.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q23",
+    type: "term",
+    question: "What is metronidazole's disulfiram-like reaction?",
+    answer: "Metronidazole inhibits acetaldehyde dehydrogenase. With alcohol: severe nausea, vomiting, flushing, headache, abdominal cramps. Avoid ALL alcohol (including mouthwash, cooking wine) during treatment and 72 hours after.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  // ===== ADDITIONAL VACCINE FLASHCARDS =====
+  {
+    id: "np-vaccine-q18",
+    type: "term",
+    question: "What is the MenACWY booster schedule for adolescents?",
+    answer: "First dose at 11-12 years, booster at 16 years (critical for college dormitory risk). If first dose given at ≥16, no booster needed. High-risk patients (asplenia, complement deficiency) need additional doses.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q19",
+    type: "question",
+    question: "Which populations should receive BOTH MenACWY and MenB?",
+    options: ["All healthy adults", "Asplenic patients, complement deficiency, and microbiologists working with N. meningitidis", "Only college freshmen", "Only children under 2"],
+    correctIndex: 1,
+    answer: "MenACWY covers serogroups A, C, W, Y. MenB covers serogroup B. Both needed for: asplenia, complement deficiency, eculizumab use, and microbiologists exposed to N. meningitidis. College freshmen: MenACWY only (routine); MenB by shared decision.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q20",
+    type: "term",
+    question: "What is the mRNA vaccine mechanism?",
+    answer: "mRNA in lipid nanoparticle delivers instructions for cells to produce target antigen (e.g., spike protein). Immune system generates antibodies + T-cell responses. mRNA rapidly degraded by cellular enzymes. Does NOT enter nucleus or alter DNA.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q21",
+    type: "question",
+    question: "Rotavirus vaccine's age restriction exists because:",
+    options: ["No age restriction", "First dose must be before 15 weeks and series completed by 8 months due to increased intussusception risk in older infants", "Only given to adults", "Can start at any age"],
+    correctIndex: 1,
+    answer: "Strict age window: first dose at 6 weeks to 14 weeks 6 days (do NOT start after 15 weeks). Complete series by 8 months 0 days. Risk of intussusception (~1 per 20,000-100,000) is highest in older infants.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q22",
+    type: "term",
+    question: "What is serotype replacement in pneumococcal disease?",
+    answer: "After vaccination reduces targeted serotypes, non-vaccine serotypes emerge to fill the ecological niche. Addressed by expanding conjugate vaccine valency: PCV7→PCV13→PCV15→PCV20 to cover emerging serotypes.",
+    category: "Preventive Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-vaccine-q23",
+    type: "question",
+    question: "A 65-year-old who previously received PCV13 needs what pneumococcal vaccination now?",
+    options: ["Nothing more", "PPSV23 at least 1 year after PCV13 (or consider PCV20 for additional coverage)", "Repeat PCV13", "PCV15"],
+    correctIndex: 1,
+    answer: "Complete the series: PPSV23 at least 1 year after PCV13. Alternatively, PCV20 can be given to provide additional serotype coverage. Current simplified guidance: PCV20 single dose for vaccine-naive patients.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q24",
+    type: "term",
+    question: "What is the DTaP to Tdap switch rationale?",
+    answer: "DTaP (uppercase = full-dose diphtheria/pertussis) for children <7 for primary series. Tdap (lowercase = reduced dose) for ≥7 years for boosters — reduced antigen doses decrease reactogenicity while maintaining adequate boosting.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q25",
+    type: "question",
+    question: "If a live vaccine is inadvertently given during pregnancy, the recommendation is:",
+    options: ["Terminate pregnancy", "Counsel on theoretical risk but do NOT recommend termination — no documented fetal harm from vaccination in registries", "No counseling needed", "Give immune globulin immediately"],
+    correctIndex: 1,
+    answer: "Counsel on theoretical risk but do NOT recommend termination. Vaccine registries (CDC, manufacturers) show no documented cases of congenital rubella syndrome or varicella embryopathy from vaccination. Report to the vaccine pregnancy registry.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q26",
+    type: "term",
+    question: "What are catch-up vaccination priorities for an unvaccinated immigrant adult?",
+    answer: "MMR (2 doses), varicella (2 doses or check titers), Tdap (then Td q10y), hepatitis B (3 doses), HPV (3 doses if ≤26), IPV (if unvaccinated). Check MMR/varicella titers before administering to avoid unnecessary doses.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q27",
+    type: "question",
+    question: "Cell-culture (Flucelvax) and recombinant (Flublok) influenza vaccines are preferred for patients with:",
+    options: ["Mild egg allergy only", "Severe egg allergy — no egg protein in production", "Latex allergy", "All patients"],
+    correctIndex: 1,
+    answer: "Cell-culture and recombinant vaccines contain no egg protein. ACIP 2023: all IIV can be given to egg-allergic patients of any severity in any setting. Egg allergy is no longer a barrier to influenza vaccination.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q28",
+    type: "term",
+    question: "What is the yellow fever vaccine International Certificate requirement?",
+    answer: "Yellow fever vaccine (live attenuated) requires International Certificate of Vaccination or Prophylaxis (ICVP) for travel to endemic areas (sub-Saharan Africa, South America). Certificate valid for life. Contraindicated in immunocompromised and severe egg allergy.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  // ===== FINAL ROUND: ADDITIONAL FLASHCARDS =====
+  {
+    id: "np-obesity-q36",
+    type: "question",
+    question: "What is adaptive thermogenesis?",
+    options: ["Increased metabolism after weight loss", "Disproportionate decrease in resting metabolic rate (15-20% beyond predicted) that persists for years after weight loss", "Normal metabolic response to exercise", "Increased thermogenesis from brown fat"],
+    correctIndex: 1,
+    answer: "Adaptive thermogenesis is a disproportionate metabolic rate reduction exceeding what's predicted by body composition changes alone. Combined with hormonal shifts, it creates a 'metabolic gap' driving weight regain — the biological basis for obesity as a chronic disease.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-obesity-q37",
+    type: "term",
+    question: "What is ghrelin's role in obesity?",
+    answer: "Ghrelin ('hunger hormone') is produced by gastric fundus cells. Stimulates appetite via hypothalamic NPY/AgRP neurons. Rises before meals and after weight loss. Sleeve gastrectomy removes ghrelin-producing tissue, contributing to appetite suppression.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-obesity-q38",
+    type: "question",
+    question: "What is the GLP-1 RA nausea management strategy?",
+    options: ["Take on empty stomach", "Slow dose titration over 16-20 weeks, take with food and water, smaller meals", "Give anti-emetics with every dose", "Skip doses"],
+    correctIndex: 1,
+    answer: "Nausea (~30% incidence) is usually transient. The 16-20 week slow titration minimizes GI effects. Eating smaller meals, avoiding high-fat foods, staying hydrated, and taking with food helps. Nausea typically resolves within 2-3 weeks at each dose level.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q24",
+    type: "term",
+    question: "What is the average post-cessation weight gain?",
+    answer: "Average 4-5 kg in the first year after quitting. Causes: reduced metabolic rate, increased appetite, oral substitution behaviors. Bupropion attenuates weight gain. Exercise and dietary counseling help. Weight gain is far less harmful than continued smoking.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q25",
+    type: "question",
+    question: "Which stage of change describes a patient who says 'I plan to quit next month'?",
+    options: ["Precontemplation", "Contemplation", "Preparation", "Action"],
+    correctIndex: 2,
+    answer: "Preparation: planning to quit within 30 days. Precontemplation: no intent to quit. Contemplation: thinking about quitting in next 6 months. Action: actively quitting. Maintenance: sustained abstinence >6 months.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q26",
+    type: "term",
+    question: "How does brief advice impact quit rates?",
+    answer: "Even 3 minutes of clinician advice to quit ('As your healthcare provider, the single most important thing you can do for your health is quit smoking') increases quit attempts by 30%. Every clinical encounter is an opportunity.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q27",
+    type: "question",
+    question: "Nicotine nasal spray differs from other NRT forms in that:",
+    options: ["Slowest onset", "Fastest onset of action (peak in 10 minutes) — most closely mimics cigarette nicotine delivery", "Longest duration of action", "Least effective"],
+    correctIndex: 1,
+    answer: "Nicotine nasal spray reaches peak levels in ~10 minutes, making it the fastest-acting NRT. This rapid onset most closely simulates cigarette nicotine delivery, making it useful for acute cravings. May cause nasal irritation.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q28",
+    type: "term",
+    question: "What is the quitline (1-800-QUIT-NOW)?",
+    answer: "Free, evidence-based cessation counseling available in all 50 states. Combines with pharmacotherapy for optimal results. Provides proactive callback counseling, printed materials, and referral to local resources. NPs should provide this number at every visit.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q25",
+    type: "question",
+    question: "What is the significance of anosmia/hyposmia in PD?",
+    options: ["Medication side effect", "Premotor symptom from olfactory bulb alpha-synuclein deposition (Braak stage 1) — precedes motor symptoms by years", "Nasal congestion", "Age-related change only"],
+    correctIndex: 1,
+    answer: "Anosmia/hyposmia affects 90%+ of PD patients and often precedes motor symptoms by 5-10 years. It results from alpha-synuclein pathology in the olfactory bulb (Braak stage 1). UPSIT (University of Pennsylvania Smell Identification Test) can detect early loss.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q26",
+    type: "term",
+    question: "What is the role of amantadine in PD?",
+    answer: "NMDA receptor antagonist. Mild anti-parkinsonian effect for early PD. Extended-release (Gocovri) is FDA-approved for levodopa-induced dyskinesias. Also has mild anticholinergic and dopamine-releasing properties. Side effects: livedo reticularis, edema, confusion.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q27",
+    type: "question",
+    question: "Orthostatic hypotension management in PD includes:",
+    options: ["Only pharmacologic intervention", "Non-pharmacologic first (2-3 L fluid, 2-4 g salt, compression stockings, slow position changes), then fludrocortisone or midodrine if needed", "Alpha-blockers", "Dopamine agonist dose increase"],
+    correctIndex: 1,
+    answer: "First: non-pharmacologic (fluid 2-3 L/day, salt 2-4 g/day, compression stockings, elevate HOB 30°, slow position changes, avoid alcohol/heat). Pharmacologic: fludrocortisone 0.1 mg/day or midodrine 5-10 mg TID. Droxidopa (Northera) for neurogenic OH.",
+    category: "Neurological NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q28",
+    type: "term",
+    question: "What is the levodopa challenge test?",
+    answer: "Administering a test dose of levodopa to confirm dopaminergic responsiveness before DBS surgery. Good response predicts good DBS outcome. Poor levodopa response suggests atypical parkinsonism (MSA, PSP, CBD) where DBS is ineffective.",
+    category: "Neurology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-meningitis-q21",
+    type: "question",
+    question: "A negative Gram stain in suspected meningitis means:",
+    options: ["Bacterial meningitis is ruled out", "Does NOT rule out bacterial meningitis — sensitivity is 60-90%; continue empiric antibiotics until cultures finalize at 48-72h", "Switch to antifungals", "Repeat LP immediately"],
+    correctIndex: 1,
+    answer: "Gram stain sensitivity 60-90%, varies by organism. Prior antibiotics reduce sensitivity further. Empiric antibiotics must continue until CSF cultures are finalized (48-72 hours). Multiplex PCR panel can provide faster identification.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q22",
+    type: "term",
+    question: "What is Brudzinski sign?",
+    answer: "Passive neck flexion causes involuntary hip and knee flexion (patient draws knees up). Indicates meningeal irritation. Combined with Kernig sign: low sensitivity (5-30%) but high specificity (>90%) for meningitis.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q23",
+    type: "question",
+    question: "Petechial rash with meningitis is pathognomonic for:",
+    options: ["S. pneumoniae", "N. meningitidis (meningococcal meningitis)", "Listeria", "H. influenzae"],
+    correctIndex: 1,
+    answer: "Petechial/purpuric rash is characteristic of meningococcemia. Results from meningococcal endotoxin causing DIC and vascular damage. Rapidly progressive to purpura fulminans. Emergent antibiotic and ICU care required.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-meningitis-q24",
+    type: "term",
+    question: "What is the most common complication of meningococcal meningitis?",
+    answer: "DIC and purpura fulminans (widespread skin necrosis from microvascular thrombosis). Can progress to Waterhouse-Friderichsen syndrome (bilateral adrenal hemorrhage). Other complications: SIADH, hydrocephalus, hearing loss, seizures.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q19",
+    type: "question",
+    question: "A 68-year-old male never-smoker with no AAA risk factors — should he be screened?",
+    options: ["Yes, all men >65 should be screened", "No — USPSTF recommends screening only men 65-75 who have EVER smoked", "Screen only if hypertensive", "Screen at age 80"],
+    correctIndex: 1,
+    answer: "USPSTF Grade B: one-time screening for men 65-75 who have EVER smoked. For never-smokers, screening is not routinely recommended (Grade C — individualize based on risk factors: family history, male sex, HTN, hyperlipidemia).",
+    category: "Cardiovascular NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q20",
+    type: "term",
+    question: "What is MMP (matrix metalloproteinase) role in AAA?",
+    answer: "MMP-2 and MMP-9 degrade elastin and collagen in the aortic wall, weakening it. Smoking increases MMP activity. Inflammation and oxidative stress activate MMPs. MMP inhibition is a potential therapeutic target (though doxycycline trials showed no benefit).",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  {
+    id: "np-aaa-q21",
+    type: "question",
+    question: "AAA repair threshold for women is:",
+    options: ["Same as men (≥5.5 cm)", "Lower at ≥5.0 cm due to higher rupture risk per diameter", "Higher at ≥6.5 cm", "No guideline exists for women"],
+    correctIndex: 1,
+    answer: "Women have a higher rupture rate per aneurysm diameter (smaller aortic diameter at baseline), so repair is considered at ≥5.0 cm (vs ≥5.5 cm in men). Women are also more likely to have saccular aneurysms, which have higher rupture risk.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-aaa-q22",
+    type: "term",
+    question: "What concurrent aneurysms should be evaluated in AAA patients?",
+    answer: "AAA patients have increased risk for: iliac artery aneurysms (30%), popliteal aneurysms (10-15%), and thoracic aortic aneurysms. CT scan at time of AAA diagnosis should evaluate the entire aorta and iliac vessels.",
+    category: "Cardiovascular NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q22",
+    type: "question",
+    question: "What iron parameter differentiates thalassemia trait from iron deficiency?",
+    options: ["Both have low ferritin", "Thalassemia trait has normal/elevated ferritin and normal TIBC; iron deficiency has low ferritin and elevated TIBC", "Both have elevated ferritin", "Iron studies are identical"],
+    correctIndex: 1,
+    answer: "Iron deficiency: low ferritin (<30), elevated TIBC, low serum iron. Thalassemia trait: normal/elevated ferritin, normal TIBC, normal serum iron. ALWAYS check iron studies before diagnosing microcytic anemia as iron deficiency to avoid iatrogenic iron overload.",
+    category: "Hematology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-thal-q23",
+    type: "term",
+    question: "What is the role of genetic counseling in thalassemia?",
+    answer: "Essential for carrier couples: if both carry beta-thalassemia trait, 25% chance of thalassemia major offspring. If both carry cis alpha-thalassemia deletions, 25% risk of hydrops fetalis. Prenatal diagnosis (CVS, amniocentesis) available.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q24",
+    type: "question",
+    question: "Thalassemia intermedia differs from thalassemia major in that:",
+    options: ["They are identical", "Intermedia patients maintain Hb 7-10 g/dL without regular transfusions due to milder mutations; may need occasional transfusions for infections/surgery", "Intermedia requires more transfusions", "Intermedia has no iron overload risk"],
+    correctIndex: 1,
+    answer: "Thalassemia intermedia: moderate anemia (Hb 7-10), milder mutations allowing some beta-globin production. May not need regular transfusions but can develop iron overload from increased intestinal absorption (erythroferrone/hepcidin pathway). Treatment: hydroxyurea, luspatercept, folic acid.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q25",
+    type: "term",
+    question: "What osteoporosis risk exists in thalassemia?",
+    answer: "Multiple causes: marrow expansion (cortical thinning), hypogonadism (iron deposition), vitamin D deficiency, deferoxamine toxicity, and growth hormone deficiency. DEXA scanning recommended. Management: treat endocrinopathies, calcium/vitamin D, bisphosphonates.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q26",
+    type: "question",
+    question: "Hemoglobin Bart's (γ4) is found in:",
+    options: ["Beta-thalassemia major", "Alpha-thalassemia with 4-gene deletion (hydrops fetalis)", "Iron deficiency", "Sickle cell disease"],
+    correctIndex: 1,
+    answer: "Hb Bart's (γ4 tetramers) form when all four alpha-globin genes are deleted — excess gamma chains self-assemble. Hb Bart's has extremely high O2 affinity, cannot deliver O2 to tissues, and is incompatible with life (hydrops fetalis).",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-thal-q27",
+    type: "term",
+    question: "What is Zynteglo (betibeglogene autotemcel)?",
+    answer: "FDA-approved gene therapy for transfusion-dependent beta-thalassemia. Autologous hematopoietic stem cells are transduced with lentiviral vector carrying functional beta-globin gene (βA-T87Q), then reinfused after myeloablative conditioning. Can achieve transfusion independence.",
+    category: "Hematology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-ra-q24",
+    type: "question",
+    question: "The ACR/EULAR 2010 RA classification criteria require a total score of at least:",
+    options: ["3/10", "4/10", "6/10", "8/10"],
+    correctIndex: 2,
+    answer: "Points: joint involvement (0-5), serology RF/anti-CCP (0-3), acute phase reactants ESR/CRP (0-1), duration ≥6 weeks (0-1). ≥6/10 = definite RA. Enables early classification before erosive damage.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q25",
+    type: "term",
+    question: "What is interstitial lung disease (ILD) in RA?",
+    answer: "Extra-articular manifestation in 10-30% of RA patients. UIP (usual interstitial pneumonia) pattern most common and has worst prognosis. MTX can also cause drug-induced pneumonitis (acute, hypersensitivity). Distinguish by: onset timing relative to MTX initiation.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q26",
+    type: "question",
+    question: "Tocilizumab's unique monitoring consideration is:",
+    options: ["No special monitoring", "CRP/ESR cannot be used to monitor disease activity because tocilizumab normalizes them even when disease is active", "Must monitor weekly CBC", "Requires monthly imaging"],
+    correctIndex: 1,
+    answer: "Tocilizumab blocks IL-6 signaling, which is the primary driver of hepatic CRP and ESR production. These markers normalize regardless of disease activity. Use clinical joint counts (CDAI/SDAI) instead. Also monitor lipids (IL-6 blockade raises LDL).",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-ra-q27",
+    type: "term",
+    question: "What is corticosteroid bridge therapy in RA?",
+    answer: "Low-dose prednisone (10-15 mg daily) for 6-8 weeks while waiting for MTX to reach therapeutic effect (4-8 weeks onset). Taper and discontinue as DMARD effect takes hold. Avoid long-term corticosteroids due to cumulative toxicity.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-ra-q28",
+    type: "question",
+    question: "Abatacept (Orencia) works by:",
+    options: ["TNF blockade", "Selective T-cell co-stimulation blockade — CTLA-4-Ig prevents CD80/86-CD28 interaction", "B-cell depletion", "IL-6 inhibition"],
+    correctIndex: 1,
+    answer: "Abatacept is a CTLA-4-Ig fusion protein that binds CD80/CD86 on APCs, blocking their interaction with CD28 on T cells. This prevents the 'second signal' needed for T-cell activation, reducing the autoimmune cascade.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q29",
+    type: "term",
+    question: "What perioperative management is needed for biologics in RA?",
+    answer: "Hold biologic for ≥1 dosing interval before surgery (adalimumab ≥2 weeks, rituximab ≥6 months). Resume after adequate wound healing (~14 days, no infection). Methotrexate can generally be CONTINUED perioperatively.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q30",
+    type: "question",
+    question: "Long-term corticosteroid screening in RA patients should include:",
+    options: ["Only blood pressure", "DEXA scan, glucose monitoring, eye exams (cataracts/glaucoma), and gradual taper plan to avoid adrenal crisis", "Only weight monitoring", "Annual chest X-ray only"],
+    correctIndex: 1,
+    answer: "Monitor for: osteoporosis (DEXA, consider bisphosphonates), hyperglycemia (steroid diabetes), cataracts/glaucoma (ophthalmology), adrenal suppression (never stop abruptly), weight gain, and increased infection risk.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q24",
+    type: "term",
+    question: "What is bezlotoxumab (Zinplava)?",
+    answer: "Human monoclonal antibody against C. difficile toxin B. Given as single IV infusion WITH antibiotics. Reduces CDI recurrence by 38%. Does NOT treat active infection — always used alongside antibiotic therapy.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q25",
+    type: "question",
+    question: "What is the appropriate duration for uncomplicated CAP per 2019 ATS/IDSA guidelines?",
+    options: ["3 days", "Minimum 5 days with clinical stability criteria met before stopping", "14 days minimum", "21 days"],
+    correctIndex: 1,
+    answer: "Minimum 5 days + clinical stability (afebrile >48h, HR <100, RR <24, SBP >90, SpO2 >90%, tolerating PO, normal mentation). Longer courses don't improve outcomes and increase CDI/resistance risk.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q26",
+    type: "term",
+    question: "What is penicillin allergy de-labeling?",
+    answer: "~90% of patients reporting penicillin allergy are NOT truly allergic. Skin testing + oral challenge can safely de-label, enabling first-line beta-lactam use. Improves stewardship by reducing unnecessary use of broad-spectrum alternatives.",
+    category: "Infectious Disease NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q27",
+    type: "question",
+    question: "Empiric outpatient CAP in a healthy adult is treated with:",
+    options: ["Vancomycin IV", "Amoxicillin 1g TID or doxycycline 100 mg BID", "Meropenem", "Piperacillin-tazobactam"],
+    correctIndex: 1,
+    answer: "ATS/IDSA 2019: healthy outpatient without comorbidities — amoxicillin or doxycycline monotherapy. With comorbidities: amoxicillin-clavulanate + macrolide, or respiratory fluoroquinolone. Reserve broad-spectrum for hospital admission.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q28",
+    type: "term",
+    question: "What is Days of Therapy (DOT)?",
+    answer: "Standard stewardship utilization metric: DOT per 1000 patient-days. Each antibiotic administered counts as one DOT regardless of dose. Allows institutional benchmarking and trend tracking. Different from Length of Therapy (LOT) which counts any antibiotic days.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q29",
+    type: "question",
+    question: "Prospective audit and feedback is the most effective stewardship intervention because:",
+    options: ["It restricts all antibiotics", "Stewardship team reviews prescriptions daily and provides real-time recommendations for de-escalation, optimization, and discontinuation", "It eliminates all resistance", "It automates prescribing"],
+    correctIndex: 1,
+    answer: "PAF involves infectious disease/pharmacy stewardship teams actively reviewing antibiotic orders and providing direct, case-specific recommendations to prescribers. IDSA recommends this as a core strategy. More effective than blanket restriction policies.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q30",
+    type: "term",
+    question: "What is NAP1/BI/027 C. difficile strain?",
+    answer: "Hypervirulent strain producing 16-23x more toxin A, 23x more toxin B, plus binary toxin (CDT). Associated with fluoroquinolone use. Higher rates of severe disease, recurrence, colectomy, and mortality. Drives ICU admission and healthcare outbreaks.",
+    category: "Infectious Disease NP",
+    difficulty: 3
+  },
+  {
+    id: "np-vaccine-q29",
+    type: "question",
+    question: "What is the correct HPV dose schedule for a 12-year-old starting vaccination?",
+    options: ["1 dose only", "2 doses: 0 and 6-12 months (started before age 15, only 2 doses needed)", "3 doses: 0, 1-2, 6 months", "4 doses"],
+    correctIndex: 1,
+    answer: "If started before age 15: 2-dose schedule (0 and 6-12 months). If started at age ≥15: 3-dose schedule (0, 1-2, 6 months). The 2-dose schedule for younger patients is based on superior immune response in this age group.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q30",
+    type: "term",
+    question: "What is LAIV (FluMist) and its contraindications?",
+    answer: "Live attenuated intranasal influenza vaccine. Contraindicated in: immunocompromised, pregnancy, <2 or ≥50 years, aspirin therapy in children (Reye syndrome risk), severe asthma, close contacts of severely immunocompromised.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q31",
+    type: "question",
+    question: "What observation period is recommended after vaccination?",
+    options: ["No observation needed", "15 minutes for most vaccines; 30 minutes if history of anaphylaxis", "60 minutes for all vaccines", "24-hour hospitalization"],
+    correctIndex: 1,
+    answer: "15 minutes post-vaccination for all patients (anaphylaxis typically occurs within minutes). 30 minutes if prior history of anaphylaxis to any cause. All vaccination sites must have epinephrine auto-injectors available.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q32",
+    type: "term",
+    question: "What is the Vaccine Adverse Event Reporting System (VAERS)?",
+    answer: "National passive surveillance system co-managed by CDC and FDA. Healthcare providers are REQUIRED to report specific adverse events after vaccination. Anyone can submit reports. Data used to detect rare adverse events not identified in clinical trials.",
+    category: "Preventive Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-vaccine-q33",
+    type: "question",
+    question: "Which high-dose influenza vaccine is recommended for adults ≥65?",
+    options: ["Standard-dose IIV", "High-dose (Fluzone High-Dose Quadrivalent) or adjuvanted (Fluad Quadrivalent) for enhanced immunogenicity in elderly with immunosenescence", "LAIV nasal spray", "No vaccine needed for elderly"],
+    correctIndex: 1,
+    answer: "ACIP preferentially recommends high-dose, adjuvanted, or recombinant influenza vaccines for adults ≥65 due to immunosenescence reducing standard-dose vaccine effectiveness. High-dose contains 4x the antigen.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q34",
+    type: "term",
+    question: "What is the National Vaccine Injury Compensation Program (VICP)?",
+    answer: "Federal no-fault program compensating individuals injured by covered vaccines. Funded by $0.75 excise tax per vaccine dose. Protects vaccine manufacturers from litigation, ensuring continued vaccine supply. Covers listed injuries within specified timeframes.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-vaccine-q35",
+    type: "question",
+    question: "When can immunocompromised patients receive live vaccines after stopping immunosuppressive therapy?",
+    options: ["Immediately", "Wait at least 1 month after discontinuing immunosuppressive therapy (3 months for some biologics)", "6 months", "1 year"],
+    correctIndex: 1,
+    answer: "General rule: wait ≥1 month after stopping immunosuppressive therapy. Specific biologics require longer: rituximab ≥6 months (B-cell recovery), anti-TNF agents ≥1 month. Corticosteroids ≥20 mg x ≥14 days: wait ≥1 month after discontinuation.",
+    category: "Preventive Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q29",
+    type: "term",
+    question: "What is harm reduction in tobacco use?",
+    answer: "Strategy reducing health consequences without achieving complete abstinence. Includes NRT for reduction, smokeless tobacco substitution, or transitioning to lower-risk products. Complete cessation remains the goal, but harm reduction can be a stepping stone.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-smoking-q30",
+    type: "question",
+    question: "What percentage of quit attempts succeed without pharmacotherapy?",
+    options: ["3-5% — pharmacotherapy doubles to triples quit rates", "25%", "50%", "75%"],
+    correctIndex: 0,
+    answer: "Unassisted quit attempts: only 3-5% succeed. With pharmacotherapy: varenicline 25-30%, combination NRT 25-30%, bupropion 20-25%. Combining pharmacotherapy with behavioral counseling further improves rates.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-smoking-q31",
+    type: "term",
+    question: "What is the relapse prevention strategy for former smokers?",
+    answer: "Identify high-risk triggers (stress, alcohol, social situations, after meals), develop coping strategies, consider extended pharmacotherapy (up to 24 weeks for varenicline), ongoing behavioral support, and positive reinforcement of smoke-free days.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-parkinson-q29",
+    type: "question",
+    question: "What percentage of PD patients develop dementia over the disease course?",
+    options: ["<10%", "20-30%", "50-80%", "100%"],
+    correctIndex: 2,
+    answer: "PD dementia develops in 50-80% of patients over the disease course. Executive dysfunction, visuospatial deficits, and attention impairment predominate (different pattern from Alzheimer's). Rivastigmine is the only cholinesterase inhibitor FDA-approved for PD dementia.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q30",
+    type: "term",
+    question: "What is sialorrhea in PD?",
+    answer: "Drooling from impaired automatic swallowing (not excess saliva production). Management: botulinum toxin injection into salivary glands (most effective), sublingual atropine drops, glycopyrrolate. Contributes to aspiration risk and social embarrassment.",
+    category: "Neurology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-parkinson-q31",
+    type: "question",
+    question: "Dopamine agonists (pramipexole, ropinirole) are associated with which unique adverse effect?",
+    options: ["Hepatotoxicity", "Sudden onset sleep attacks (falling asleep without warning, even while driving)", "Kidney stones", "Hair loss"],
+    correctIndex: 1,
+    answer: "Sudden onset sleep attacks (somnolence/sleep episodes without prodromal drowsiness) are a dangerous dopamine agonist side effect. Patients must be warned about driving risk. Also: impulse control disorders, peripheral edema, hallucinations.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q25",
+    type: "term",
+    question: "What are contraindications to lumbar puncture?",
+    answer: "Coagulopathy (INR >1.5, platelets <50K), local skin infection at LP site, suspicion of spinal epidural abscess. Signs of raised ICP with mass effect (CT first): focal neuro deficits, papilledema, altered consciousness, immunocompromised, seizures.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q26",
+    type: "question",
+    question: "Post-meningitis seizure prophylaxis is recommended for:",
+    options: ["All meningitis patients", "Patients who have had seizures — no routine prophylaxis recommended for all meningitis patients", "Only viral meningitis", "Only fungal meningitis"],
+    correctIndex: 1,
+    answer: "Routine seizure prophylaxis is NOT recommended for all bacterial meningitis patients. Treat seizures if they occur with appropriate anticonvulsants. Risk factors for meningitis-associated seizures: pneumococcal etiology, altered consciousness, focal deficits.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-meningitis-q27",
+    type: "term",
+    question: "What distinguishes viral from bacterial meningitis on CSF analysis?",
+    answer: "Viral: WBC 10-500 lymphocyte predominance, normal glucose (CSF:serum >0.6), mildly elevated protein (50-100). Bacterial: WBC >1000 neutrophil predominance, low glucose (CSF:serum <0.4), markedly elevated protein (>100-500). Opening pressure elevated in both.",
+    category: "Assessment NP",
+    difficulty: 1
+  },
+  {
+    id: "np-aaa-q23",
+    type: "question",
+    question: "Inflammatory AAA differs from atherosclerotic AAA in that:",
+    options: ["They are identical", "Inflammatory AAA has thick periaortic fibrosis (white rind on CT), elevated ESR/CRP, and may cause ureteral obstruction", "Inflammatory AAA never ruptures", "Only inflammatory AAA requires surgery"],
+    correctIndex: 1,
+    answer: "Inflammatory AAA (~5-10% of all AAA): thick periaortic inflammatory rind on CT, elevated inflammatory markers, can obstruct ureters/duodenum. May respond to corticosteroids for periaortic inflammation. Surgical repair more technically challenging.",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  {
+    id: "np-aaa-q24",
+    type: "term",
+    question: "What is the role of beta-blockers in AAA management?",
+    answer: "Despite theoretical benefit of reducing hemodynamic stress (lower HR and dP/dt), the ATAT trial showed NO benefit of propranolol in slowing AAA growth. Beta-blockers are not specifically recommended for AAA but may be used for concurrent cardiovascular indications.",
+    category: "Cardiovascular NP",
+    difficulty: 3
+  },
+  {
+    id: "np-thal-q28",
+    type: "question",
+    question: "What is the role of folic acid supplementation in thalassemia?",
+    options: ["Not needed", "Recommended for all thalassemia patients due to increased folate demand from chronic hemolysis and expanded erythropoiesis", "Contraindicated", "Only during pregnancy"],
+    correctIndex: 1,
+    answer: "Chronic hemolysis and compensatory erythropoiesis increase folate demand. Folic acid 1-5 mg daily prevents megaloblastic changes superimposed on microcytic anemia. Especially important in thalassemia intermedia and non-transfusion-dependent disease.",
+    category: "Hematology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-thal-q29",
+    type: "term",
+    question: "What is the significance of HbF in thalassemia?",
+    answer: "HbF (α2γ2) does not contain beta-globin chains and is therefore unaffected by beta-thalassemia mutations. Higher baseline HbF levels correlate with milder clinical phenotype. HbF induction with hydroxyurea is a therapeutic strategy.",
+    category: "Hematology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-ra-q31",
+    type: "question",
+    question: "Certolizumab (Cimzia) is preferred for which patient population?",
+    options: ["All RA patients equally", "Pregnant/breastfeeding women — PEGylated Fc-free TNF inhibitor with minimal placental transfer", "Only elderly patients", "Only male patients"],
+    correctIndex: 1,
+    answer: "Certolizumab is a PEGylated anti-TNF Fab' fragment lacking the Fc region that mediates active placental transfer. This results in minimal transfer to the fetus, making it the preferred TNF inhibitor for pregnant women with RA requiring biologic therapy.",
+    category: "Pharmacology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-ra-q32",
+    type: "term",
+    question: "What extra-articular manifestations occur in RA?",
+    answer: "Rheumatoid nodules (20-30%), ILD (10-30%), pericarditis/pleuritis, scleritis/episcleritis, vasculitis, Felty syndrome (splenomegaly + neutropenia), atlanto-axial subluxation, carpal tunnel syndrome, anemia of chronic disease.",
+    category: "Assessment NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q31",
+    type: "question",
+    question: "Empiric treatment of bite wounds uses:",
+    options: ["Cephalexin alone", "Amoxicillin-clavulanate — covers Pasteurella (animal), Eikenella (human), streptococci, staphylococci, and anaerobes", "Ciprofloxacin alone", "Metronidazole alone"],
+    correctIndex: 1,
+    answer: "Amoxicillin-clavulanate is first-line for all bite wounds. For penicillin allergy: TMP-SMX + metronidazole or moxifloxacin. Also: tetanus prophylaxis, rabies evaluation (animal bites), wound irrigation, and close follow-up.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q32",
+    type: "term",
+    question: "What is MIC (minimum inhibitory concentration)?",
+    answer: "The lowest antibiotic concentration that inhibits visible bacterial growth in vitro. Determines susceptible (S), intermediate (I), or resistant (R) classification. For vancomycin: AUC/MIC 400-600 guides optimal dosing.",
+    category: "Infectious Disease NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q33",
+    type: "question",
+    question: "Empiric treatment for acute uncomplicated pyelonephritis is:",
+    options: ["Nitrofurantoin", "Ciprofloxacin 500 mg PO BID x7 days (or TMP-SMX if susceptible) — nitrofurantoin does NOT cover pyelonephritis", "Amoxicillin alone", "Doxycycline"],
+    correctIndex: 1,
+    answer: "Outpatient pyelonephritis: ciprofloxacin 500 mg BID x7 days or TMP-SMX 160/800 BID x14 days (if local resistance <20%). Nitrofurantoin does NOT achieve adequate renal tissue levels. Hospitalize if: sepsis, intolerance of PO, obstruction, or pregnancy.",
+    category: "Pharmacology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-abx-q34",
+    type: "term",
+    question: "What is the appropriate treatment for strep pharyngitis?",
+    answer: "Penicillin VK or amoxicillin x10 days (full course prevents rheumatic fever). Alternative: azithromycin 5 days (rising resistance limits reliability). Single IM benzathine penicillin G for adherence-challenged patients.",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
+  {
+    id: "np-abx-q35",
+    type: "question",
+    question: "Lyme disease (erythema migrans) first-line treatment is:",
+    options: ["Vancomycin", "Doxycycline 100 mg BID x10-21 days", "Metronidazole", "Acyclovir"],
+    correctIndex: 1,
+    answer: "Doxycycline first-line for adults. Alternatives: amoxicillin 500 mg TID or cefuroxime 500 mg BID x14-21 days (preferred in pregnancy, children <8). Doxycycline also covers tick-borne co-infections (Anaplasma, Ehrlichia).",
+    category: "Pharmacology NP",
+    difficulty: 1
+  },
 ];

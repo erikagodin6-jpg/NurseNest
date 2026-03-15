@@ -182,8 +182,9 @@ QUESTION_FILES.push({ file: "rn-infectious-disease-testbank", tier: "rn", exam: 
 QUESTION_FILES.push({ file: "rn-infectious-disease-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnInfectiousDiseaseCatQuestions" });
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroQuestions" });
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroCatQuestions" });
+QUESTION_FILES.push({ file: "np-cat-expansion-2", tier: "np", exam: "AANP", exportName: "npCatExpansion2Questions" });
 
-for (let i = 1; i <= 74; i++) {
+for (let i = 1; i <= 81; i++) {
   const pad = String(i).padStart(2, "0");
   QUESTION_FILES.push({
     file: `np-exam-batch-${pad}`,
