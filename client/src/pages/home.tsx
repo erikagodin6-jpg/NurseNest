@@ -84,7 +84,7 @@ function HeroCarousel() {
       onMouseLeave={handleMouseLeave}
       data-testid="hero-carousel"
     >
-      <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white relative aspect-[16/10]" style={{ overflowAnchor: "none", containIntrinsicSize: "auto 600px 375px", contentVisibility: "auto" }}>
+      <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white relative aspect-[16/10]" style={{ overflowAnchor: "none" }}>
         {heroCarouselSlides.map((slide, index) => (
           <img
             key={index}
