@@ -318,12 +318,6 @@ import { npCvContent } from "./np-cv-content";
 import { npRespContent } from "./np-resp-content";
 import { npNeuroContent } from "./np-neuro-content";
 import { npEndoContent } from "./np-endo-content";
-import { npGeneratedBatch1 } from "./np-generated-batch-1";
-import { npGeneratedBatch2 } from "./np-generated-batch-2";
-import { npGeneratedBatch3 } from "./np-generated-batch-3";
-import { npGeneratedBatch4 } from "./np-generated-batch-4";
-import { npGeneratedBatch5 } from "./np-generated-batch-5";
-import { npGeneratedBatch6 } from "./np-generated-batch-6";
 import { rnIncompleteBatch1Lessons } from "./rn-incomplete-batch-1";
 import { rnIncompleteBatch2Lessons } from "./rn-incomplete-batch-2";
 import { rnIncompleteBatch3Lessons } from "./rn-incomplete-batch-3";
@@ -561,7 +555,8 @@ function isPlaceholder(lesson: LessonContent): boolean {
     "Implement guideline-directed escalation protocols if initial therapy fails",
     "Plan appropriate follow-up intervals and outcome measurements",
   ];
-  const batchMgmtCount = mgmt.filter((m: string) =>
+  const batchMgmt = lesson.management || [];
+  const batchMgmtCount = batchMgmt.filter((m: string) =>
     batchGenericMgmt.some(g => m.startsWith(g) || m === g)
   ).length;
   if (batchMgmtCount >= 3) return true;
@@ -897,12 +892,6 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   npRespContent,
   npNeuroContent,
   npEndoContent,
-  npGeneratedBatch1,
-  npGeneratedBatch2,
-  npGeneratedBatch3,
-  npGeneratedBatch4,
-  npGeneratedBatch5,
-  npGeneratedBatch6,
   icuLessonsBatch1,
   icuLessonsBatch2,
   icuLessonsBatch3,
@@ -993,6 +982,36 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnRespiratoryRenalExpansionLessons,
 );
 
+
+let npBatchesLoaded = false;
+let npBatchesLoading: Promise<void> | null = null;
+
+export async function loadNpGeneratedBatches(): Promise<void> {
+  if (npBatchesLoaded) return;
+  if (npBatchesLoading) return npBatchesLoading;
+
+  npBatchesLoading = Promise.all([
+    import("./np-generated-batch-1"),
+    import("./np-generated-batch-2"),
+    import("./np-generated-batch-3"),
+    import("./np-generated-batch-4"),
+    import("./np-generated-batch-5"),
+    import("./np-generated-batch-6"),
+  ]).then(([b1, b2, b3, b4, b5, b6]) => {
+    safeMerge(
+      contentMap,
+      b1.npGeneratedBatch1,
+      b2.npGeneratedBatch2,
+      b3.npGeneratedBatch3,
+      b4.npGeneratedBatch4,
+      b5.npGeneratedBatch5,
+      b6.npGeneratedBatch6,
+    );
+    npBatchesLoaded = true;
+  });
+
+  return npBatchesLoading;
+}
 
 export const lessonCount = Object.keys(contentMap).length;
 export const questionCount = countQuestions(contentMap);

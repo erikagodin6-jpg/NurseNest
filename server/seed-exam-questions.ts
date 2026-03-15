@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { gunzipSync } from "zlib";
 import { fileURLToPath } from "url";
 import type { Pool } from "pg";
 
@@ -39,20 +40,18 @@ export async function seedExamQuestions(pool: Pool): Promise<void> {
     return;
   }
 
-  const candidates = [
-    path.resolve(__dirname_esm, "seed-data/exam-questions.json"),
-    path.resolve(process.cwd(), "dist/seed-data/exam-questions.json"),
-    path.resolve(process.cwd(), "server/seed-data/exam-questions.json"),
+  const basePaths = [
+    path.resolve(__dirname_esm, "seed-data/exam-questions"),
+    path.resolve(process.cwd(), "dist/seed-data/exam-questions"),
+    path.resolve(process.cwd(), "server/seed-data/exam-questions"),
   ];
   let seedPath = "";
-  for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      seedPath = candidate;
-      break;
-    }
+  for (const base of basePaths) {
+    if (fs.existsSync(base + ".json.gz")) { seedPath = base + ".json.gz"; break; }
+    if (fs.existsSync(base + ".json")) { seedPath = base + ".json"; break; }
   }
   if (!seedPath) {
-    console.log("[ExamSeed] No seed file found. Searched:", candidates.join(", "));
+    console.log("[ExamSeed] No seed file found. Searched:", basePaths.map(b => b + ".json{.gz,}").join(", "));
     return;
   }
   console.log("[ExamSeed] Found seed file at:", seedPath);
@@ -60,7 +59,9 @@ export async function seedExamQuestions(pool: Pool): Promise<void> {
   console.log(`[ExamSeed] Target database: ${dbHost}`);
   console.log(`[ExamSeed] Already ${dbCount} questions in DB, checking for new questions...`);
 
-  const raw = fs.readFileSync(seedPath, "utf-8");
+  const raw = seedPath.endsWith(".gz")
+    ? gunzipSync(fs.readFileSync(seedPath)).toString("utf-8")
+    : fs.readFileSync(seedPath, "utf-8");
   const questions: SeedQuestion[] = JSON.parse(raw);
   console.log(`[ExamSeed] Loaded ${questions.length} questions from seed file`);
 

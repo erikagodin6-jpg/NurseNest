@@ -47,7 +47,11 @@ export async function loadTranslationLanguage(lang: string): Promise<void> {
 
   if (!AVAILABLE_TRANSLATION_LANGS.has(lang)) return;
 
-  const promise = fetch(`/translations/${lang}.json`)
+  const promise = fetch(`/api/assets/translations/${lang}.json`)
+    .then((res) => {
+      if (!res.ok) return fetch(`/translations/${lang}.json`);
+      return res;
+    })
     .then((res) => {
       if (!res.ok) throw new Error(`Failed to load translations for ${lang}`);
       return res.json();

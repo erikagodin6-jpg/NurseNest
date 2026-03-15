@@ -214,11 +214,15 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     await handleEntitlementDebug(req, res);
   });
 
-  app.get("/api/assets/:filename", async (req, res) => {
+  app.get("/api/assets/{*assetPath}", async (req, res) => {
     try {
-      const { filename } = req.params;
-      const decodedFilename = decodeURIComponent(filename);
-      const safeFilename = nodePath.basename(decodedFilename);
+      const rawPath = String(req.params["assetPath"] || "");
+      const decodedPath = decodeURIComponent(Array.isArray(rawPath) ? rawPath.join("/") : rawPath);
+      const segments = decodedPath.split("/").filter(Boolean);
+      if (segments.some(s => s === ".." || s === ".")) {
+        return res.status(400).json({ error: "Invalid path" });
+      }
+      const safeFilename = segments.join("/");
 
       const publicSearchPaths = (process.env.PUBLIC_OBJECT_SEARCH_PATHS || "").split(",").map(p => p.trim()).filter(Boolean);
       if (publicSearchPaths.length === 0) {
@@ -718,12 +722,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const pathMod = await import("path");
       const { fileURLToPath } = await import("url");
       const currentDir = typeof __dirname !== "undefined" ? __dirname : pathMod.dirname(fileURLToPath(import.meta.url));
-      const seedCandidates = [
-        pathMod.resolve(currentDir, "seed-data/exam-questions.json"),
-        pathMod.resolve(process.cwd(), "dist/seed-data/exam-questions.json"),
-        pathMod.resolve(process.cwd(), "server/seed-data/exam-questions.json"),
+      const seedBases = [
+        pathMod.resolve(currentDir, "seed-data/exam-questions"),
+        pathMod.resolve(process.cwd(), "dist/seed-data/exam-questions"),
+        pathMod.resolve(process.cwd(), "server/seed-data/exam-questions"),
       ];
-      const seedFileExists = seedCandidates.map(p => ({ path: p, exists: fs.existsSync(p) }));
+      const seedFileExists = seedBases.flatMap(b => [b + ".json.gz", b + ".json"]).map(p => ({ path: p, exists: fs.existsSync(p) }));
 
       let migrationTimestamp: string | null = null;
       try {

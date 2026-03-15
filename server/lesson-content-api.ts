@@ -65,6 +65,9 @@ let metadataCache: LessonMeta[] | null = null;
 export async function loadLessonData(): Promise<Record<string, any>> {
   if (lessonData) return lessonData;
   const mod = await import("../client/src/data/lessons/index");
+  if (typeof mod.loadNpGeneratedBatches === "function") {
+    await mod.loadNpGeneratedBatches();
+  }
   lessonData = mod.contentMap;
   return lessonData!;
 }

@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { gunzipSync } from "zlib";
 import { fileURLToPath } from "url";
 import type { Pool } from "pg";
 
@@ -41,26 +42,26 @@ export async function seedRRTQuestions(pool: Pool): Promise<void> {
     return;
   }
 
-  const candidates = [
-    path.resolve(__dirname_esm, "seed-data/rrt-questions.json"),
-    path.resolve(process.cwd(), "dist/seed-data/rrt-questions.json"),
-    path.resolve(process.cwd(), "server/seed-data/rrt-questions.json"),
+  const basePaths = [
+    path.resolve(__dirname_esm, "seed-data/rrt-questions"),
+    path.resolve(process.cwd(), "dist/seed-data/rrt-questions"),
+    path.resolve(process.cwd(), "server/seed-data/rrt-questions"),
   ];
   let seedPath = "";
-  for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      seedPath = candidate;
-      break;
-    }
+  for (const base of basePaths) {
+    if (fs.existsSync(base + ".json.gz")) { seedPath = base + ".json.gz"; break; }
+    if (fs.existsSync(base + ".json")) { seedPath = base + ".json"; break; }
   }
   if (!seedPath) {
-    console.log("[RRTSeed] No seed file found. Searched:", candidates.join(", "));
+    console.log("[RRTSeed] No seed file found. Searched:", basePaths.map(b => b + ".json{.gz,}").join(", "));
     return;
   }
   console.log("[RRTSeed] Found seed file at:", seedPath);
   console.log(`[RRTSeed] Already ${dbCount} RRT questions in DB, checking for new questions...`);
 
-  const raw = fs.readFileSync(seedPath, "utf-8");
+  const raw = seedPath.endsWith(".gz")
+    ? gunzipSync(fs.readFileSync(seedPath)).toString("utf-8")
+    : fs.readFileSync(seedPath, "utf-8");
   const questions: RRTSeedQuestion[] = JSON.parse(raw);
   console.log(`[RRTSeed] Loaded ${questions.length} RRT questions from seed file`);
 
