@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -15,6 +15,10 @@ import {
   BookOpen,
   CheckCircle2,
   MapPin,
+  Trophy,
+  HelpCircle,
+  Layers,
+  Users,
 } from "lucide-react";
 import { getEnabledCareers } from "@shared/careers";
 
@@ -23,6 +27,98 @@ import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
 
 const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
+
+const heroCarouselSlides = [
+  {
+    srcSet: "/screenshots/screenshottest_1773379293573-480w.webp 480w, /screenshots/screenshottest_1773379293573-768w.webp 768w, /screenshots/screenshottest_1773379293573-1200w.webp 1200w",
+    fallback: "/screenshots/screenshottest_1773379293573-768w.webp",
+    alt: "NurseNest question interface",
+  },
+  {
+    srcSet: "/screenshots/screenshot6_1773379293573-480w.webp 480w, /screenshots/screenshot6_1773379293573-768w.webp 768w, /screenshots/screenshot6_1773379293573-1200w.webp 1200w",
+    fallback: "/screenshots/screenshot6_1773379293573-768w.webp",
+    alt: "NurseNest flashcard deck",
+  },
+  {
+    srcSet: "/screenshots/screenshot5_1773379293573-480w.webp 480w, /screenshots/screenshot5_1773379293573-768w.webp 768w, /screenshots/screenshot5_1773379293573-1200w.webp 1200w",
+    fallback: "/screenshots/screenshot5_1773379293573-768w.webp",
+    alt: "NurseNest mock exam report",
+  },
+  {
+    srcSet: "/screenshots/screenshot2_1773379293573-480w.webp 480w, /screenshots/screenshot2_1773379293573-768w.webp 768w, /screenshots/screenshot2_1773379293573-1200w.webp 1200w",
+    fallback: "/screenshots/screenshot2_1773379293573-768w.webp",
+    alt: "NurseNest progress analytics dashboard",
+  },
+];
+
+function HeroCarousel() {
+  const [current, setCurrent] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % heroCarouselSlides.length);
+    }, 5000);
+  }, []);
+
+  useEffect(() => {
+    if (!isHovered) startTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [isHovered, startTimer]);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+    if (timerRef.current) clearInterval(timerRef.current);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      data-testid="hero-carousel"
+    >
+      <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white relative aspect-[16/10]">
+        {heroCarouselSlides.map((slide, index) => (
+          <img
+            key={index}
+            srcSet={slide.srcSet}
+            sizes="(max-width: 768px) 480px, 600px"
+            src={slide.fallback}
+            alt={slide.alt}
+            width={1200}
+            height={750}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+              index === current ? "opacity-100" : "opacity-0"
+            }`}
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            data-testid={`img-hero-slide-${index}`}
+          />
+        ))}
+      </div>
+      <div className="flex justify-center gap-2 mt-3" data-testid="hero-carousel-dots">
+        {heroCarouselSlides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === current ? "bg-primary w-6" : "bg-gray-300 hover:bg-gray-400"
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+            data-testid={`button-carousel-dot-${index}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function formatCount(n: number | undefined): string {
   if (n === undefined || n === 0) return "---";
@@ -218,7 +314,7 @@ export default function Home() {
       <Navigation />
       
       <main className="flex-grow">
-        <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="hero-section">
+        <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero)', paddingBottom: 'var(--space-hero)' }} data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" />
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" />
@@ -307,6 +403,10 @@ export default function Home() {
                   </Button>
                 </div>
 
+                <p className="text-xs text-gray-400 text-center sm:text-left" data-testid="text-no-credit-card">
+                  {t("home.hero.noCreditCardCentered")}
+                </p>
+
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -321,6 +421,32 @@ export default function Home() {
                     <span>{t("home.hero.cancelAnytime")}</span>
                   </div>
                 </div>
+
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-400" data-testid="hero-trust-indicators">
+                  <div className="flex items-center gap-1.5">
+                    <Trophy className="w-3.5 h-3.5 shrink-0" />
+                    <span>{t("home.hero.trustPassRate")}</span>
+                  </div>
+                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <div className="flex items-center gap-1.5">
+                    <HelpCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span>{t("home.hero.trustQuestions")}</span>
+                  </div>
+                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <div className="flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5 shrink-0" />
+                    <span>{t("home.hero.trustFlashcards")}</span>
+                  </div>
+                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <div className="flex items-center gap-1.5">
+                    <Users className="w-3.5 h-3.5 shrink-0" />
+                    <span>{t("home.hero.trustStudents")}</span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-400 leading-relaxed max-w-lg" data-testid="text-built-for">
+                  {t("home.hero.builtFor")}
+                </p>
 
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
                   <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
@@ -339,21 +465,8 @@ export default function Home() {
               </div>
 
               <div className="relative hidden lg:block">
-                <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white">
-                  <img
-                    srcSet="/screenshots/screenshot2_1773379293573-480w.webp 480w, /screenshots/screenshot2_1773379293573-768w.webp 768w, /screenshots/screenshot2_1773379293573-1200w.webp 1200w"
-                    sizes="(max-width: 768px) 480px, 600px"
-                    src="/screenshots/screenshot2_1773379293573-768w.webp"
-                    alt="NurseNest adaptive performance dashboard"
-                    width={2730}
-                    height={1588}
-                    className="w-full h-auto object-cover"
-                    loading="eager"
-                    fetchPriority="high"
-                    data-testid="img-hero-screenshot"
-                  />
-                </div>
-                <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-5 py-3.5 flex items-center gap-3">
+                <HeroCarousel />
+                <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-5 py-3.5 flex items-center gap-3 z-10">
                   <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center">
                     <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
                   </div>
@@ -362,7 +475,7 @@ export default function Home() {
                     <div className="text-xs text-gray-500">{t("home.hero.firstAttempt")}</div>
                   </div>
                 </div>
-                <div className="absolute -top-3 -right-3 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-4 py-2.5 flex items-center gap-2">
+                <div className="absolute -top-3 -right-3 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-4 py-2.5 flex items-center gap-2 z-10">
                   <div className="flex -space-x-1.5">
                     {["bg-blue-400", "bg-emerald-400", "bg-purple-400"].map((bg, i) => (
                       <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-[9px] font-bold`}>
@@ -371,6 +484,14 @@ export default function Home() {
                     ))}
                   </div>
                   <span className="text-xs font-semibold text-gray-700">{t("home.hero.studentCount")}</span>
+                </div>
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-emerald-50 border border-emerald-100 rounded-full px-4 py-2 flex items-center gap-2 z-10 shadow-sm pointer-events-none" data-testid="badge-students-studying">
+                  <div className="flex -space-x-1">
+                    {["bg-blue-400", "bg-pink-400", "bg-amber-400"].map((bg, i) => (
+                      <div key={i} className={`w-4 h-4 rounded-full ${bg} border-[1.5px] border-white`} />
+                    ))}
+                  </div>
+                  <span className="text-xs font-medium text-emerald-700">{t("home.hero.studentsStudying")}</span>
                 </div>
               </div>
             </div>

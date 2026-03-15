@@ -40,6 +40,7 @@ img:not([loading]) {
   --text-caption: 0.75rem;
 
   --space-section: clamp(4rem, 8vw, 6rem);
+  --space-hero: clamp(5rem, 10vw, 8rem);
   --space-block: clamp(2rem, 4vw, 3rem);
   --space-element: clamp(1rem, 2vw, 1.5rem);
 
@@ -1168,6 +1169,7 @@ html, body {
 @media (max-width: 640px) {
   :root {
     --space-section: clamp(2.5rem, 6vw, 4rem);
+    --space-hero: clamp(2.5rem, 6vw, 4rem);
     --space-block: clamp(1.5rem, 3vw, 2rem);
     --space-element: clamp(0.75rem, 1.5vw, 1rem);
   }

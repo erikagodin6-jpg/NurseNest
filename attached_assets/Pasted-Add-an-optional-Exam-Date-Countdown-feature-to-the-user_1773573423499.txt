@@ -1,0 +1,138 @@
+Add an optional Exam Date Countdown feature to the user analytics dashboard for all Nursing and Allied Health tiers in NurseNest.
+
+Goal:
+Create a personalized, premium dashboard feature that allows users to enter their exam date or target exam date, see a countdown of how many days they have left to study, and optionally hide the feature if they have not booked their exam yet.
+
+Context:
+- Platform: NurseNest
+- Stack: Vite + React + Express
+- Existing feature: user analytics dashboard
+- Audience: Nursing tiers (RPN, RN, NP) and Allied Health tiers
+- This feature should feel supportive, motivating, and premium
+- It must not feel stressful or punishing
+- Users who do not have an exam booked yet should be able to hide the feature
+
+Feature requirements:
+
+1. Add an Exam Countdown Card to the user dashboard for Nursing and Allied Health users
+
+2. The card must support 3 states:
+
+STATE A: No exam date set
+Show:
+- Title: Set Your Exam Date
+- Supporting text: Personalize your study countdown, pacing goals, and readiness tracking
+- Primary button: Add Exam Date
+- Secondary button: Hide for Now
+
+STATE B: Exam date set
+Show:
+- Large countdown text, e.g. 58 days left
+- Exam date displayed clearly
+- Small supportive study guidance based on timeline
+- Buttons:
+  - Edit Date
+  - Hide Countdown
+
+Examples of supportive guidance:
+- You are in your final 8 weeks of prep
+- Aim for 20 questions per day to stay on track
+- Focus on mock exams and weak areas this month
+
+STATE C: Hidden
+- Do not show the card on the dashboard
+- Add a user setting or dashboard customization option so the user can turn the countdown back on later
+
+3. Support both:
+- official exam date
+- target exam date
+
+Allow the user to choose either:
+- I booked my exam
+- This is my target date
+
+4. Data model requirements
+Add fields to the user profile or user preferences model for:
+- examDate
+- examDateType (booked | target)
+- examCountdownHidden (boolean)
+- examCountdownEnabled (boolean if needed)
+
+This should be tier-aware and available only for nursing and allied health dashboard users.
+
+5. UX and design requirements
+- Match current NurseNest dashboard styling
+- Use premium clean card styling
+- Rounded corners, soft shadows, pastel/clinical design language
+- Make countdown visually clear without looking alarming
+- Do not use aggressive red warning styles
+- Keep it motivating and calm
+- Use typography hierarchy that fits the analytics dashboard
+
+6. Smart countdown logic
+Calculate:
+- days remaining until exam date
+- weeks remaining if helpful
+- basic study pacing suggestions if enough data exists
+
+If the user has a question goal, lesson goal, or readiness metrics available, use them to generate supportive pacing guidance.
+Examples:
+- 63 days left
+- To reach your goal, aim for 18 questions/day
+- You have time to complete 4 more mock exams before test day
+
+If data for pacing is not available yet, just show countdown + supportive message.
+
+7. Edge cases
+- If date is today: show Exam Day is here
+- If date has passed: prompt user to update or remove date
+- If no date is set: do not leave empty dead space
+- If hidden: suppress card cleanly
+- If tier is not nursing or allied health: do not show this feature unless future expansion is intended
+
+8. Dashboard settings
+Add a lightweight setting allowing users to:
+- edit exam date
+- remove exam date
+- hide/show countdown card
+
+9. Optional enhancement
+If possible, add a mini progress timeline based on study phase:
+- 90+ days: Foundation phase
+- 30–89 days: Practice and reinforcement
+- 8–29 days: Mock exam and weak-area focus
+- 0–7 days: Final review
+
+Keep this subtle and supportive.
+
+10. Copy tone
+Use reassuring, motivating, student-friendly language.
+Avoid guilt-based language.
+Do not say things like:
+- You are behind
+- Time is running out
+- Only X days left
+
+Use supportive alternatives such as:
+- X days until your exam
+- Stay on track with your study plan
+- Focus on high-yield review and timed practice
+
+11. QA requirements
+Verify:
+- users can add, edit, hide, and restore the countdown
+- countdown updates correctly by date
+- feature appears on nursing and allied health dashboards only
+- mobile and desktop layouts work well
+- no layout shift or broken spacing
+- hidden state persists properly
+- date logic handles past dates correctly
+
+12. Future-ready architecture
+Build this so it can later support:
+- study schedules
+- milestone reminders
+- exam readiness score by target date
+- countdown widgets on progress pages
+
+Please implement this as a polished, production-ready dashboard feature, not a rough prototype.
