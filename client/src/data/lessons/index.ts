@@ -112,6 +112,10 @@ import { alliedHealthFoundations1Lessons } from "./allied-health-foundations-1";
 import { alliedHealthFoundations2Lessons } from "./allied-health-foundations-2";
 import { alliedHealthFoundations3Lessons } from "./allied-health-foundations-3";
 
+import { npFreeBatch1Lessons } from "./np-free-batch-1";
+import { npFreeBatch2Lessons } from "./np-free-batch-2";
+import { npFreeBatch3Lessons } from "./np-free-batch-3";
+
 import { icuLessonsBatch1 } from "./icu-lessons-batch-1";
 import { icuLessonsBatch2 } from "./icu-lessons-batch-2";
 import { icuLessonsBatch3 } from "./icu-lessons-batch-3";
@@ -639,6 +643,9 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnContentBatch002Lessons,
   rnContentBatch003Lessons,
   rnContentBatch004Lessons,
+  npFreeBatch1Lessons,
+  npFreeBatch2Lessons,
+  npFreeBatch3Lessons,
 );
 
 
