@@ -155,14 +155,20 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
       }
     }
   } else {
-    for (const alliedPath of ALLIED_ONLY_PATHS) {
-      if (pathWithoutLocale.startsWith(alliedPath)) {
-        return res.redirect(302, getAlliedHost(req) + req.originalUrl);
+    const alliedTarget = getAlliedHost(req);
+    const currentHost = getNursingHost(req);
+    const isSameHost = alliedTarget === currentHost;
+
+    if (!isSameHost) {
+      for (const alliedPath of ALLIED_ONLY_PATHS) {
+        if (pathWithoutLocale.startsWith(alliedPath)) {
+          return res.redirect(302, alliedTarget + req.originalUrl);
+        }
       }
-    }
-    const firstSeg = pathWithoutLocale.split("/").filter(Boolean)[0];
-    if (firstSeg && ALLIED_SLUGS.has(firstSeg) && !pathWithoutLocale.startsWith("/admin")) {
-      return res.redirect(302, getAlliedHost(req) + req.originalUrl);
+      const firstSeg = pathWithoutLocale.split("/").filter(Boolean)[0];
+      if (firstSeg && ALLIED_SLUGS.has(firstSeg) && !pathWithoutLocale.startsWith("/admin")) {
+        return res.redirect(302, alliedTarget + req.originalUrl);
+      }
     }
   }
 
