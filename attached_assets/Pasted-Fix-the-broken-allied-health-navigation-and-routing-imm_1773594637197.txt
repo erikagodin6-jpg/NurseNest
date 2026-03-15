@@ -1,0 +1,127 @@
+Fix the broken allied health navigation and routing immediately, especially the RRT page. Right now when a user goes to Allied Health and clicks RRT, it opens a different hero page with no clear way to go back, no usable navigation, and effectively traps the user. This is a major UX and routing failure. There are also many similar broken or dead-end links across the allied health section. Audit and fix the entire allied health navigation system, not just the single RRT link.
+Priority
+Treat this as a high-priority production UX bug.
+Users must never land on a dead-end page.
+Every allied health page must have clear navigation, valid routes, and a path back to the main allied health hub and main NurseNest site.
+Main problems to fix
+Fix the RRT link and destination page
+Current problem:
+Clicking RRT from the allied health page sends the user to a different hero page
+That page does not have proper navigation
+User cannot easily go back
+It feels disconnected from the rest of the allied health site
+Required fix:
+Audit the RRT route, page component, and hero template it is using
+Determine whether it is pointing to the wrong page, wrong layout, wrong route group, or wrong template
+Make sure RRT opens the correct allied health program page inside the proper allied health site shell
+Ensure the page includes the normal header, navigation, branding, and footer
+Ensure there is a visible path back to:
+Allied Health home
+main category hub
+other allied professions if appropriate
+Audit all allied health links for similar failures
+There are likely many other links on the allied health site with the same issue.
+Perform a full audit of:
+hero buttons
+top navigation links
+program cards
+subcategory cards
+lesson links
+study/practice/analytics/new grad/store/pricing/FAQ links
+footer links
+CTA buttons
+internal breadcrumbs
+category and profession links such as RRT, pharmacy tech, paramedic, imaging, emergency nursing, etc.
+For each link, verify:
+destination route exists
+correct page loads
+page is using the correct layout/shell
+there is a way to continue navigating
+there is a way to go back
+no 404, blank state, or disconnected page appears
+Standardize allied health page shell/layout
+Some pages appear to be loading outside the intended allied health layout.
+Fix this by ensuring all allied health routes consistently use:
+allied health header
+allied health branding
+correct nav menu
+working footer
+back navigation or breadcrumbs where needed
+correct site context so the user never feels dropped into an orphan page
+If RRT or other pages are using the wrong layout file, wrong route wrapper, or wrong hero template, correct that at the routing/layout level.
+Add proper navigation and escape paths
+Every allied health page must include at least one clear return path.
+Required:
+add a visible “Back to Allied Health” link or breadcrumb on profession/program pages
+ensure header logo links somewhere valid
+ensure top nav works on all allied health pages
+ensure mobile nav also works
+make sure users are never trapped on a standalone hero page
+Fix route mapping and broken hrefs
+Audit for:
+wrong href targets
+links pointing to old nursing routes instead of allied routes
+links pointing to unpublished placeholder pages
+links opening incomplete hero templates instead of final content pages
+incorrect subdomain/path routing
+mismatch between card slug and actual page slug
+hardcoded temporary links from earlier builds
+Likely issues to check:
+RRT card slug not matching actual route
+page mounted under wrong site shell
+route fallback sending users to a generic hero/landing page
+allied cards pointing to incomplete placeholder pages
+missing internal links on generated allied pages
+stale routes after refactor
+Verify profession pages are fully connected
+For each allied health profession page, ensure the user can navigate to:
+lessons
+question bank
+practice tools if available
+pricing if relevant
+FAQ if relevant
+allied health home
+main NurseNest site if intended
+If a page is not ready yet:
+do not send the user to a dead-end page
+either redirect to the allied health hub
+or show a polished “coming soon” page with full site navigation still present
+Fix disconnected hero pages
+If any page currently loads as a standalone hero with no surrounding navigation, do one of the following:
+wrap it in the proper allied layout
+merge it into the correct profession page
+redirect it to the proper live page
+remove the broken route if it should not be public
+No public page should exist in an isolated state with nowhere to click.
+Add validation to prevent future broken links
+Add a QA safeguard to catch this in the future:
+route existence check for allied health cards
+validation that public links resolve to live pages
+check that each linked page uses the correct layout shell
+no page should be published if it lacks core navigation
+no card should be rendered if its target page is missing or incomplete
+User experience requirements
+The allied health section should feel cohesive and polished.
+Required behavior:
+user clicks a profession like RRT
+lands on the correct allied health program page
+sees proper header/navigation immediately
+can move deeper into lessons or tools
+can return to allied health hub easily
+can move to another profession if desired
+Do not allow:
+orphan pages
+isolated hero pages
+broken back paths
+inconsistent site shells
+invalid internal links
+Acceptance criteria
+Before finishing, verify all of the following:
+clicking RRT from allied health opens the correct page
+the RRT page includes proper header, nav, and footer
+there is a visible way back to the allied health main page
+no allied health page traps the user with nowhere to go
+all major allied health cards and nav links resolve correctly
+no broken, blank, or disconnected hero pages remain
+mobile and desktop navigation both work
+any unfinished pages either redirect properly or use a complete coming-soon page with navigation intact

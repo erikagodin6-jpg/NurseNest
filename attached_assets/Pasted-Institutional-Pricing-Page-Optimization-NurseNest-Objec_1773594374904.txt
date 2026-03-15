@@ -1,0 +1,187 @@
+Institutional Pricing Page Optimization – NurseNest
+
+Objective
+Improve the institutional pricing section of the NurseNest website so that it reflects best practices used by successful EdTech SaaS platforms (e.g., UWorld, Kaplan, Archer, ATI). The goal is to make the pricing easier for schools to understand, eliminate seat-range confusion, add enterprise-level credibility, and increase demo/contact conversions without breaking existing styling or page layout.
+
+General Requirements
+
+* Do not break the existing site layout or theme.
+* Maintain the current NurseNest visual style.
+* Keep the three-card layout but improve the logic of the seat ranges and messaging.
+* Add one additional enterprise tier option.
+* Add clear call-to-action buttons for schools.
+* Ensure this section appears professional and credible to institutional buyers.
+* Keep everything responsive for desktop and mobile.
+
+Pricing Structure Improvements
+
+Update the seat tiers to remove the current gap between 100 and 250 seats.
+
+Current structure has a problem because many nursing programs have between 120–200 students.
+
+Implement this seat structure:
+
+Small Program
+Up to 50 seats
+$8 / seat / month
+Example: $400/month for 50 students
+
+Medium Program (Most Popular)
+51–150 seats
+$6 / seat / month
+Example: $900/month for 150 students
+
+Large Program
+151–300 seats
+$4 / seat / month
+Example: $1,200/month for 300 students
+
+Enterprise Program
+300+ seats
+Custom institutional pricing
+Add text: “Contact our team for a custom institutional package.”
+
+Make sure the pricing still visually shows per-seat cost and an example monthly total.
+
+Institutional Credibility Improvements
+
+Add a short descriptive line under the main title:
+
+Institutional Pricing
+Volume pricing designed for nursing schools, colleges, and training programs.
+All plans include full NurseNest platform access.
+
+Add one outcomes-focused statement under the description:
+
+Programs using NurseNest strengthen clinical reasoning, exam readiness, and student performance through adaptive practice and analytics.
+
+Call-to-Action Buttons
+
+Schools rarely self-checkout, so every card must have a button.
+
+Add one button under each pricing card:
+
+Small Program
+Button: Request Demo
+
+Medium Program
+Button: Request Demo
+
+Large Program
+Button: Contact Sales
+
+Enterprise Program
+Button: Contact Institutional Team
+
+All buttons should open a contact or demo request form.
+
+Minimum Institutional Notes
+
+Add a short note under the pricing cards:
+
+Billed annually.
+Minimum 25 seats per institution.
+Academic year pricing available.
+
+Feature Clarifications
+
+Keep the existing feature lists but slightly adjust wording so it sounds more institutional.
+
+Small Program Features
+
+* Full NurseNest platform access
+* Instructor dashboard
+* Student progress tracking
+* Assignment management
+* Enrollment codes
+
+Medium Program Features
+
+* Everything in Small
+* Institution analytics
+* Program benchmarking
+* CSV bulk enrollment
+* Certificate generation
+
+Large Program Features
+
+* Everything in Medium
+* Priority support
+* Custom reporting
+* API access
+* Dedicated account manager
+
+Enterprise Program Features
+
+* Unlimited program support
+* Custom integrations
+* Enterprise analytics
+* LMS integration support
+* Dedicated onboarding
+
+LMS Integration Messaging
+
+Schools expect LMS compatibility.
+
+Add this small line under Large and Enterprise tiers:
+
+Canvas / Blackboard LMS integration available or coming soon.
+
+Design Improvements
+
+Keep the three-column card layout but add the Enterprise card if space allows.
+
+Visual requirements:
+
+* Maintain the “Most Popular” badge on the Medium tier.
+* Keep icons consistent with the NurseNest style.
+* Ensure all text spacing and alignment are balanced.
+* Ensure the pricing numbers remain the most visually prominent element.
+
+Responsiveness
+
+Verify that:
+
+* Pricing cards stack correctly on tablet and mobile.
+* CTA buttons remain visible without scrolling excessively.
+* Seat descriptions and pricing remain readable on small screens.
+
+Conversion Optimization
+
+Add a small trust section under the pricing cards:
+
+Why Nursing Programs Choose NurseNest
+
+* Built specifically for REx-PN, NCLEX-RN, and NP preparation
+* Adaptive question bank with detailed rationales
+* Instructor dashboards for tracking student readiness
+* Analytics to identify knowledge gaps across cohorts
+* Continuous content updates aligned with exam blueprints
+
+Technical Safeguards
+
+Ensure that:
+
+* Pricing values can be easily edited from configuration or CMS.
+* Seat ranges do not overlap.
+* Enterprise tier uses a contact workflow instead of checkout.
+* CTA buttons connect to the correct contact or demo request form.
+* Analytics events track demo requests and institutional interest.
+
+Acceptance Criteria
+
+Before completing implementation verify that:
+
+* Seat tiers now cover all ranges with no gaps.
+* An Enterprise tier exists for 300+ students.
+* CTA buttons exist on every pricing card.
+* Institutional messaging highlights outcomes and exam preparation.
+* Minimum seat and annual billing notes are visible.
+* LMS integration messaging is included.
+* Layout remains consistent with the NurseNest theme.
+* Page works correctly on desktop, tablet, and mobile.
+* No existing navigation or tier routing is broken.
+
+Goal
+
+The final institutional pricing section should look credible to nursing schools, remove confusion about seat ranges, and encourage institutions to request demos or contact NurseNest for access.

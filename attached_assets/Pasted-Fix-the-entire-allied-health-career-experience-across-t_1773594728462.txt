@@ -1,0 +1,255 @@
+Fix the entire allied health career experience across the site. Right now the career pages are functionally broken after the hero page. Topics do not load, flashcard decks do not load, exams do not load, and users get trapped with no usable navigation back to allied health, no way to switch careers, and no clear path back to the main NurseNest site. This is happening on Physical Therapy and appears to be affecting every allied health career. Treat this as a critical architecture, routing, and data-binding issue across the whole allied health section.
+Priority
+Treat this as a P0/P1 production issue.
+Allied health career pages must be fully navigable and must load real content modules.
+Fix the root causes across all allied professions, not just one page.
+Do not leave public pages in a disconnected placeholder state.
+Main problems to fix
+Career pages are broken after the hero page
+Current behavior:
+user lands on an allied health career hero page
+study topics do not load
+flashcard decks do not load
+exams do not load
+page feels disconnected or incomplete
+there is no working navigation to continue through the site
+Required behavior:
+each allied health career page must fully load its linked content sections
+Study Topics must load
+Flashcard Decks must load
+Exams / Practice content must load if available
+if a section is not ready, it should show a polished empty state with navigation intact, not a dead area or broken loader
+Fix this for all allied careers, not only Physical Therapy
+Audit and repair every allied health career page, including but not limited to:
+Physical Therapy
+Respiratory Therapy / RRT
+Pharmacy Tech
+Paramedic
+Imaging
+Emergency Nursing
+any other allied careers currently listed or linked
+For every career page, verify:
+hero page uses correct allied layout
+content modules load
+study links work
+flashcard links work
+exam links work
+analytics links work if offered
+store/pricing links work if shown
+internal navigation is present
+user can move between careers
+user can return to allied health hub
+user can return to the main NurseNest site
+Fix the missing navigation problem across all allied career pages
+Right now there is effectively no way to get back after landing on these pages.
+Every allied health page must include:
+allied health header/navigation
+working footer
+visible “Back to Allied Health” link or breadcrumb
+logo/home link
+top nav that remains usable
+ability to switch careers from within allied health
+visible link back to the main NurseNest site if that is part of the intended experience
+Required navigation paths:
+Allied Health Home
+Main NurseNest Site
+Change Career / Browse Other Careers
+Study
+Practice
+Flashcards
+Exams
+Pricing
+FAQ
+any other active sections already present in the design
+No user should ever be trapped on a hero page or orphan page.
+Audit the routing and layout shell
+This looks like a routing/layout issue plus missing content bindings.
+Audit:
+allied subdomain/path routing
+route definitions for each career page
+route wrappers/layout shells
+header/footer injection
+breadcrumb/back-link rendering
+top nav component on allied pages
+mobile nav behavior
+hardcoded temporary links
+stale slugs after refactors
+generic hero template routes that are not connected to live content pages
+Likely root causes to inspect:
+career cards linking to placeholder hero pages instead of real career pages
+profession routes using the wrong layout wrapper
+content sections pointing to invalid or empty slugs
+content queries using wrong tier/career key
+missing database mappings between career and content modules
+broken API endpoints for allied content
+frontend expecting nursing data shape instead of allied data shape
+unpublished content hidden due to bad filters
+route mismatch between page slug and stored career/program slug
+Fix study topics loading
+On Physical Therapy, study topics do not load. This appears broader than one page.
+Required fix:
+ensure each allied career page loads the correct study topics for that profession
+validate content query by career/program id, slug, or category mapping
+confirm backend returns published topics for the correct allied profession
+confirm frontend renders returned topics correctly
+handle empty states gracefully if no content exists
+do not show broken loaders, blank containers, or 404 topic targets
+If content exists but is miscategorized:
+repair the mapping
+move topics into the correct allied career
+ensure topic cards link to real topic pages
+prevent one career from accidentally loading another career’s topics
+Fix flashcard deck loading
+Flashcard decks do not load on these allied pages.
+Required fix:
+verify deck queries are being sent with the correct allied profession key
+ensure published allied flashcard decks exist and are returned
+confirm deck cards render properly
+confirm deck links open the correct deck page
+if no deck exists, show a clean “coming soon” or “no decks yet” state with working site navigation
+do not leave users with broken sections or spinning loaders
+Fix exam loading
+Exams do not load on these allied pages.
+Required fix:
+verify allied career pages are requesting the correct exam/practice datasets
+confirm any exam modules offered for allied careers are linked to the correct profession
+check whether these are using the nursing exam flow by mistake
+ensure practice exams, quizzes, or CAT modes only appear if actually supported
+if exams are not yet configured for a career, do not render a broken exam launcher
+instead show a polished unavailable state or hide the feature until ready
+Make the allied health experience cohesive
+The allied health area should feel like one connected product, not disconnected hero templates.
+Required UX behavior:
+user lands on Allied Health home
+clicks a career such as Physical Therapy or RRT
+lands on a proper allied career page inside the allied shell
+sees hero + content sections + navigation
+can browse topics, flashcards, exams, analytics, pricing, etc.
+can switch careers easily
+can go back to allied health hub
+can go back to NurseNest main site
+Do not allow:
+standalone hero pages
+orphan pages
+blank module sections
+broken topic cards
+dead-end career pages
+missing back navigation
+inconsistent headers/footers
+incomplete internal links
+Add a career switcher
+Because these are separate professions, users should be able to move between them without backing out awkwardly.
+Add one of the following:
+a “Browse Other Careers” section near the top
+a horizontal allied career switcher
+a dropdown/switcher in the header
+related career cards lower on the page
+Minimum requirement:
+each career page must let the user move to other allied careers
+each career page must let the user go back to Allied Health home
+Fix the main NurseNest return path
+Users also need a clear route back to the main NurseNest site.
+Add:
+a header logo/home link that works
+a visible “Back to NurseNest” or “Main Site” link where appropriate
+working footer link to main site
+ensure this is present on desktop and mobile
+Repair broken or missing data mappings
+Audit the data layer for allied content:
+career/program table
+topic categories
+flashcard deck associations
+exam configuration
+slug mappings
+published status
+route slugs
+content source type
+storefront/program metadata
+Validate that every allied career can resolve:
+career id
+display name
+slug
+hero page
+study topics feed
+flashcard feed
+exam/practice feed
+pricing/store mapping if applicable
+FAQ/support pages if applicable
+If missing or inconsistent:
+repair the mappings
+create fallback defaults
+prevent public rendering when required mappings are absent
+Add robust fallbacks instead of broken sections
+If a module is not ready yet, the page must still feel complete.
+For unavailable sections:
+show a polished placeholder such as:
+“Study topics are being added for this career.”
+“Flashcard decks coming soon.”
+“Practice exams are not yet available for this track.”
+keep all navigation active
+do not show broken spinners, empty grids, or dead cards
+Add validation to prevent publishing broken allied pages
+Add QA safeguards so this does not happen again.
+Before an allied career page can be public, validate:
+route exists
+page uses allied layout shell
+header and footer render
+back navigation exists
+allied hub navigation exists
+main NurseNest link exists
+hero page is connected to real content or intentional placeholders
+topic cards resolve to live pages
+flashcard decks resolve to live pages
+exam links resolve to supported experiences
+no dead-end links remain
+Perform a full allied health link audit
+Check every major allied health link:
+home page career cards
+hero buttons
+study links
+flashcard links
+exam links
+analytics links
+pricing links
+FAQ links
+top nav
+footer links
+breadcrumbs
+“start free” buttons
+“explore” buttons
+“view all” buttons
+For each one:
+confirm target exists
+confirm correct layout loads
+confirm user can continue navigating
+confirm no 404/blank state/orphan page
+fix stale or temporary routes
+Technical implementation expectations
+Please inspect and repair:
+frontend route definitions
+allied layout wrapper usage
+shared header/footer mounting
+content module query hooks
+allied career slug normalization
+API endpoints for allied topics/decks/exams
+content filters by profession/career
+published-content checks
+broken hardcoded hrefs
+client-side loading/error states
+mobile nav drawer behavior
+desktop nav state
+fallback/coming-soon logic
+Acceptance criteria
+Before finishing, verify all of the following for Physical Therapy and every allied career:
+career page loads inside the correct allied layout
+user can go back to Allied Health home
+user can go back to the main NurseNest site
+user can switch to other careers
+study topics load correctly or show a polished fallback
+flashcard decks load correctly or show a polished fallback
+exams/practice load correctly or show a polished fallback
+no page traps the user on a standalone hero page
+no broken, blank, or disconnected sections remain
+mobile and desktop navigation both work
+no major allied links lead to dead ends
+Please do a full allied health routing, shell, navigation, and content-binding audit, then repair the root causes across all careers so allied health feels like a complete, connected, navigable product rather than isolated hero pages.

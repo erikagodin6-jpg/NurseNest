@@ -1,0 +1,258 @@
+Fix the allied health site architecture, navigation, branding, and routing so it behaves like a true allied health product and not a broken copy of the nursing site. The current allied health hero page and career pages are structurally wrong, confusing, and causing broken UX across the site.
+Critical problems visible right now
+The allied health header is wrong
+The allied health page is showing:
+RRT in the main top nav as if it is the site identity
+RPN / RN / NP tier switching in the allied health experience
+Learning / Resources structures that belong to nursing
+“Get Free Nursing Study Tips” on an allied health page
+This is incorrect and makes the allied health site feel broken, mismatched, and unfinished.
+The allied health pages are not connected properly
+Users can land on career pages and get trapped.
+There is no clean way to:
+switch careers
+return to Allied Health home
+return to the main NurseNest site
+move through study, practice, flashcards, and exams in a reliable way
+Many career pages load a hero page only and then fail
+You already know this is happening across pages like:
+RRT
+Physical Therapy
+and likely every allied health career
+Study topics, decks, and exams are failing to load or routing to dead-end states.
+Main objective
+Rebuild the allied health experience so it has:
+the correct allied health shell
+correct navigation
+no nursing-tier controls
+a clear path back to main NurseNest
+working career pages
+working content modules or polished fallback states
+consistent layout across all allied careers
+Part 1: Fix the allied health global header/nav
+The current allied health top navigation is wrong.
+Current issues to remove from allied health pages:
+RPN / RN / NP tier tabs
+nursing-specific Learning / Resources structures
+any nursing-only navigation labels
+any page title or nav state that makes RRT look like the whole site
+“Get Free Nursing Study Tips” copy on allied pages
+Replace with a proper allied-health-specific top nav.
+Required allied health header:
+Top ecosystem strip can remain:
+Exam Prep
+New Grad Support
+Healthcare Careers
+NurseNest
+But the allied health page shell itself should use a clean allied nav such as:
+Allied Health Home
+Careers
+Study
+Practice
+Flashcards
+Exams
+Career Guides
+Pricing
+FAQ
+For Schools
+Also include:
+logo linking back to main NurseNest or allied home, depending on brand structure
+visible “Back to NurseNest” or “Main NurseNest Site” link
+mobile nav that mirrors this correctly
+Do not show nursing tier controls on allied pages unless there is a very specific and intentional reason. In almost all allied health public pages, those tabs should be removed.
+Part 2: Fix site identity and hero behavior
+The allied health hero page should not feel like an RRT subpage pretending to be the main site.
+Correct the page identity so:
+the page title and hero clearly represent Allied Health Careers, not a single career
+clicking a career card such as RRT, PTA, Pharm Tech, etc. leads into that career’s page inside the same allied shell
+the shell remains consistent before and after clicking a profession
+No career page should replace the site shell with a disconnected hero-only page.
+Part 3: Standardize all allied career pages inside one proper layout shell
+Every allied career page must use the same shared allied layout:
+allied header
+allied footer
+breadcrumbs or back links
+career switcher or related-careers section
+back to Allied Health hub
+back to main NurseNest site
+Career pages must never open in a stripped, isolated, or template-only state.
+Required on every allied career page:
+breadcrumb such as Home / Allied Health / Respiratory Therapy
+Back to Allied Health
+Browse Other Careers
+Back to NurseNest
+working footer
+working header
+mobile and desktop nav
+Part 4: Remove nursing-specific copy from allied pages
+Audit and replace nursing language anywhere it appears in allied health.
+Examples that must be fixed:
+“Get Free Nursing Study Tips” should become something like:
+Get Free Allied Health Study Tips
+Weekly exam prep strategies, clinical study support, and certification resources delivered to your inbox.
+any references to NCLEX or nursing-only branding on allied profession pages where not appropriate
+any nursing-only study tools shown on allied pages if those tools are not actually available there
+Keep shared brand language only where it makes sense at the ecosystem level.
+Part 5: Fix broken module loading on allied career pages
+For every allied career page, ensure these modules are correctly wired:
+Study Topics
+Flashcard Decks
+Exams / Practice
+Analytics if offered
+Store / Pricing if shown
+FAQ if shown
+Current issue:
+These sections are either empty, broken, dead-end, or not loading.
+Required fix:
+audit content queries for allied career id / slug / program mapping
+make sure allied pages are not trying to load nursing-tier content schema
+verify correct career keys for:
+RRT
+MLT
+Paramedic
+Rad Tech
+Sonographer
+Echo Tech
+OTA
+PTA
+Pharm Tech
+Surg Tech
+HIM
+repair any slug mismatches, missing associations, broken filters, or bad API calls
+if content exists, render it
+if content does not exist yet, show a polished fallback state rather than blank sections or broken loading
+Fallback example:
+Study topics for this career are being added now.
+Flashcard decks coming soon.
+Practice exams are not yet available for this career.
+Do not show broken loaders, blank containers, or dead cards.
+Part 6: Add a career switcher
+All allied career pages need a way to move between careers.
+Add one or more of the following:
+a horizontal career switcher near the top
+a Browse Other Careers section
+related allied careers cards below the hero
+a careers dropdown in the allied nav
+Minimum requirement:
+From any allied career page, a user must be able to move directly to another allied career without going back awkwardly.
+Part 7: Fix all broken links on allied health pages
+Perform a full audit of all allied health links including:
+career cards
+Explore Career Guide buttons
+study links
+practice links
+flashcard links
+exams links
+pricing links
+FAQ links
+footer links
+“Take Free Diagnostic”
+contact and feedback links
+all “Allied Health” subsection links in footer
+For each link verify:
+route exists
+correct layout loads
+page is not orphaned
+there is a way to continue navigating
+page belongs to allied shell, not a broken template or wrong site section
+no 404, no blank state, no isolated hero page
+If a page is not ready:
+redirect to allied hub
+or show a polished coming soon page within full allied navigation
+never leave a dead end
+Part 8: Fix the footer architecture
+The footer content itself is useful, but it needs to work correctly in the allied context.
+Required improvements:
+ensure all allied guide links go to valid career guide pages
+ensure all allied exam prep links go to valid live pages
+ensure the footer does not route users into nursing-only dead ends
+keep the footer globally connected to allied home and main NurseNest
+make sure the legal and ecosystem links still work
+Part 9: Make the allied health site feel intentional and conversion-ready
+The allied health section currently feels like a copied nursing shell with mismatched labels and broken paths.
+Improve the UX so allied health feels like its own polished product area:
+clear allied identity
+profession-based navigation
+study/practice flow that matches what is actually available
+no incorrect nursing-specific labels
+working return paths everywhere
+polished empty states where content is still being built
+Part 10: Validate the data model and route mapping
+Audit backend/frontend mappings for allied career content:
+career slug
+display name
+hero route
+guide page route
+study topics route
+flashcard route
+exams route
+pricing mapping
+footer mapping
+navigation labels
+Check for likely root causes:
+career cards linking to placeholder pages
+wrong layout wrapper on allied pages
+nursing tier state leaking into allied pages
+wrong shared nav component mounted on allied site
+slug mismatch between displayed career names and actual route keys
+empty datasets causing silent failure
+broken content filters by profession
+temporary hero routes still public
+footer links pointing to unfinished or disconnected pages
+Repair these at the architecture level, not just by hiding things.
+Part 11: Clean up the allied health home page specifically
+The allied health home page should remain the main hub and should not confuse users.
+Keep:
+the career cards
+salary, exam, and outlook summaries
+FAQ
+diagnostic CTA
+footer sections
+But fix:
+wrong header/nav
+wrong newsletter wording
+routing from career cards
+any misleading or incomplete top-level links
+any duplicated or mismatched site identity
+Part 12: Required user-facing navigation paths
+Every allied page must support:
+Allied Health Home
+Browse Careers
+Current Career Guide
+Study
+Flashcards
+Practice / Exams
+Pricing
+FAQ
+Back to NurseNest main site
+No public page should exist without these core navigation paths or a reduced equivalent.
+Part 13: QA and publishing safeguards
+Add validation rules so broken allied pages cannot go live again.
+Before an allied career page or link is public, validate:
+route exists
+page loads in allied shell
+header renders
+footer renders
+back to allied link exists
+back to NurseNest exists
+target modules either load or show polished fallback
+no nursing tier controls appear unless explicitly intended
+no nursing-specific copy appears accidentally on allied pages
+no dead-end links remain
+Acceptance criteria
+Before finishing, verify all of the following:
+allied health pages no longer show RPN / RN / NP tier controls
+allied health pages no longer use nursing-specific “study tips” wording
+clicking a career like RRT or PTA loads a proper career page inside the allied shell
+every allied career page has usable navigation
+users can go back to Allied Health home
+users can switch careers
+users can return to the main NurseNest site
+study topics either load correctly or show a polished fallback
+flashcard decks either load correctly or show a polished fallback
+exams either load correctly or show a polished fallback
+no isolated hero-only pages remain
+no major allied links lead to dead ends
+desktop and mobile nav both work
+footer links are valid and connected
+Please do a full allied health shell, navigation, routing, footer, and content-binding audit, then implement the fixes so allied health becomes a cohesive, navigable, professionally branded part of NurseNest instead of a broken extension of the nursing site.
