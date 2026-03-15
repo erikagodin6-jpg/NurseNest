@@ -596,50 +596,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 {t("footer.nursing")}
               </Button>
             </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/paramedic")} data-testid="button-new-grad-paramedic-mobile">
-                <Ambulance className="w-4 h-4" />
-                {t("footer.paramedic")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/respiratory-therapy")} data-testid="button-new-grad-rrt-mobile">
-                <Wind className="w-4 h-4" />
-                {t("footer.respiratoryTherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/mlt")} data-testid="button-new-grad-mlt-mobile">
-                <Microscope className="w-4 h-4" />
-                {t("footer.medLabTech")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/imaging")} data-testid="button-new-grad-imaging-mobile">
-                <ScanLine className="w-4 h-4" />
-                {t("nav.diagnosticImaging")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/occupational-therapy")} data-testid="button-new-grad-ot-mobile">
-                {t("nav.occupationalTherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/social-work")} data-testid="button-new-grad-sw-mobile">
-                {t("nav.socialWork")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/psychotherapy")} data-testid="button-new-grad-psychotherapy-mobile">
-                {t("nav.psychotherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/addictions-counseling")} data-testid="button-new-grad-addictions-mobile">
-                {t("nav.addictionsCounseling")}
-              </Button>
-            </SheetClose>
 
             <Separator className="my-2 bg-[var(--theme-separator)]" />
 
@@ -676,57 +632,57 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/rrt")} data-testid="button-career-rrt-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/rrt")} data-testid="button-career-rrt-mobile">
                 <Wind className="w-4 h-4" />
                 {t("footer.respiratoryTherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/paramedic")} data-testid="button-career-paramedic-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/paramedic")} data-testid="button-career-paramedic-mobile">
                 <Ambulance className="w-4 h-4" />
                 {t("footer.paramedic")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/pharmacy-technician")} data-testid="button-career-pharmacy-tech-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/pharmacy-technician")} data-testid="button-career-pharmacy-tech-mobile">
                 <Pill className="w-4 h-4" />
                 Pharmacy Technician
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/mlt")} data-testid="button-career-mlt-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/mlt")} data-testid="button-career-mlt-mobile">
                 <Microscope className="w-4 h-4" />
                 {t("footer.medLabTech")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/imaging")} data-testid="button-career-imaging-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/imaging")} data-testid="button-career-imaging-mobile">
                 <ScanLine className="w-4 h-4" />
                 {t("nav.diagnosticImaging")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/occupational-therapy")} data-testid="button-career-ot-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/occupational-therapy")} data-testid="button-career-ot-mobile">
                 {t("nav.occupationalTherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/physical-therapy")} data-testid="button-career-pt-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/physical-therapy")} data-testid="button-career-pt-mobile">
                 Physical Therapy
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/social-work")} data-testid="button-career-social-work-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/social-work")} data-testid="button-career-social-work-mobile">
                 {t("nav.socialWork")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/psychotherapy")} data-testid="button-career-psychotherapy-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/psychotherapy")} data-testid="button-career-psychotherapy-mobile">
                 {t("nav.psychotherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/addictions")} data-testid="button-career-addictions-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/addictions")} data-testid="button-career-addictions-mobile">
                 {t("nav.addictionsCounseling")}
               </Button>
             </SheetClose>
@@ -1293,40 +1249,9 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     {t("nav.certifications")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.allSpecialties")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/nursing")} data-testid="menu-new-grad-nursing">
                     <Stethoscope className="w-4 h-4 text-blue-500" />
                     {t("nav.newGradCareer")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/paramedic")} data-testid="menu-new-grad-paramedic">
-                    <Ambulance className="w-4 h-4 text-red-500" />
-                    {t("nav.paramedicine")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/respiratory-therapy")} data-testid="menu-new-grad-rrt">
-                    <Wind className="w-4 h-4 text-cyan-500" />
-                    {t("nav.respTherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/mlt")} data-testid="menu-new-grad-mlt">
-                    <Microscope className="w-4 h-4 text-purple-500" />
-                    {t("nav.medLabTech")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/imaging")} data-testid="menu-new-grad-imaging">
-                    <ScanLine className="w-4 h-4 text-amber-500" />
-                    {t("nav.diagnosticImaging")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.more")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/occupational-therapy")} data-testid="menu-new-grad-ot">
-                    {t("nav.occupationalTherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/social-work")} data-testid="menu-new-grad-sw">
-                    {t("nav.socialWork")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/psychotherapy")} data-testid="menu-new-grad-psychotherapy">
-                    {t("nav.psychotherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad/addictions-counseling")} data-testid="menu-new-grad-addictions">
-                    {t("nav.addictionsCounseling")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -1359,39 +1284,39 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     <GraduationCap className="w-4 h-4 text-teal-500" />
                     Allied Health Hub
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/rrt")} data-testid="menu-career-rrt">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/rrt")} data-testid="menu-career-rrt">
                     <Wind className="w-4 h-4 text-cyan-500" />
                     {t("nav.respTherapy")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/paramedic")} data-testid="menu-career-paramedic">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/paramedic")} data-testid="menu-career-paramedic">
                     <Ambulance className="w-4 h-4 text-red-500" />
                     {t("nav.paramedicine")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/pharmacy-technician")} data-testid="menu-career-pharmacy-tech">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/pharmacy-technician")} data-testid="menu-career-pharmacy-tech">
                     <Pill className="w-4 h-4 text-green-500" />
                     {t("nav.pharmacyTech")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/mlt")} data-testid="menu-career-mlt">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/mlt")} data-testid="menu-career-mlt">
                     <Microscope className="w-4 h-4 text-purple-500" />
                     {t("nav.medLabTech")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/imaging")} data-testid="menu-career-imaging">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/imaging")} data-testid="menu-career-imaging">
                     <ScanLine className="w-4 h-4 text-amber-500" />
                     {t("nav.diagnosticImaging")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/physical-therapy")} data-testid="menu-career-pt">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/physical-therapy")} data-testid="menu-career-pt">
                     Physical Therapy
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/occupational-therapy")} data-testid="menu-career-ot">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/occupational-therapy")} data-testid="menu-career-ot">
                     {t("nav.occupationalTherapy")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/social-work")} data-testid="menu-career-social-work">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/social-work")} data-testid="menu-career-social-work">
                     {t("nav.socialWork")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/psychotherapy")} data-testid="menu-career-psychotherapy">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/psychotherapy")} data-testid="menu-career-psychotherapy">
                     {t("nav.psychotherapy")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/addictions")} data-testid="menu-career-addictions">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/addictions")} data-testid="menu-career-addictions">
                     {t("nav.addictionsCounseling")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
