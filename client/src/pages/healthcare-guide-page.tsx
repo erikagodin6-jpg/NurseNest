@@ -2,10 +2,11 @@ import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
+import { renderTextWithContextualLinks, createContextualLinkTracker } from "@/lib/contextual-links";
 import {
   getHealthcareGuideBySlug,
   HEALTHCARE_GUIDES,
@@ -40,6 +41,8 @@ import { Badge } from "@/components/ui/badge";
 function TableOfContents({ guide, hasClusterPages }: { guide: HealthcareGuide; hasClusterPages?: boolean }) {
   const sections = [
     { id: "introduction", title: "Introduction" },
+    ...(guide.whatYouWillLearn && guide.whatYouWillLearn.length > 0 ? [{ id: "what-you-will-learn", title: "What You Will Learn" }] : []),
+    ...(guide.spokeGuides && guide.spokeGuides.length > 0 ? [{ id: "topic-guides", title: "In-Depth Topic Guides" }] : []),
     ...(hasClusterPages ? [{ id: "cluster-topics", title: "Deep Dive Topics" }] : []),
     ...(guide.conditions.length > 0 ? [{ id: "conditions", title: "Key Conditions & Clinical Topics" }] : []),
     ...(guide.clinicalSkills.length > 0 ? [{ id: "clinical-skills", title: "Important Clinical Skills" }] : []),
@@ -47,8 +50,8 @@ function TableOfContents({ guide, hasClusterPages }: { guide: HealthcareGuide; h
     ...(guide.medications.length > 0 ? [{ id: "medications", title: "Medications Frequently Used" }] : []),
     ...(guide.subSections?.map(s => ({ id: s.id, title: s.title })) || []),
     ...(guide.scenarios.length > 0 ? [{ id: "scenarios", title: "Clinical Scenarios" }] : []),
-    { id: "practice-questions", title: "Practice Questions" },
-    { id: "flashcard-review", title: "Flashcard Review" },
+    ...(guide.practiceQuestionsLinks && guide.practiceQuestionsLinks.length > 0 ? [{ id: "practice-questions", title: "Practice Questions" }] : []),
+    ...(guide.flashcardLinks && guide.flashcardLinks.length > 0 ? [{ id: "flashcard-review", title: "Flashcard Review" }] : []),
     { id: "career-overview", title: "Career Overview" },
     { id: "faq", title: "Frequently Asked Questions" },
     ...(guide.relatedGuides.length > 0 ? [{ id: "related-guides", title: "Related Nursing Specialties" }] : []),
@@ -155,6 +158,8 @@ export default function HealthcareGuidePage() {
       </div>
     );
   }
+
+  const linkTracker = useMemo(() => createContextualLinkTracker(), [guide.slug]);
 
   const sectionImages = guide.imagePlaceholders.reduce((acc, img) => {
     if (!acc[img.section]) acc[img.section] = [];
@@ -323,25 +328,66 @@ export default function HealthcareGuidePage() {
             )}
 
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
-              <p className="text-gray-700 leading-relaxed text-base font-medium mb-4">{guide.seoIntro}</p>
-              <p className="text-gray-700 leading-relaxed text-base">{guide.introduction}</p>
-              {guide.slug === "icu-nursing-ultimate-guide" && (
-                <p className="text-gray-700 leading-relaxed text-base mt-4">
-                  Dive deeper into specific ICU topics with our comprehensive sub-guides: master{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-ventilator-management" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-ventilator">ventilator management</LocaleLink>,
-                  learn evidence-based{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-sepsis-nursing-interventions" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-sepsis">sepsis nursing interventions</LocaleLink>,
-                  refine your{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-hemodynamic-monitoring" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-hemodynamic">hemodynamic monitoring skills</LocaleLink>,
-                  review essential{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-medications-guide" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-medications">ICU medications and drip titrations</LocaleLink>,
-                  build core{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-nursing-skills" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-skills">ICU nursing skills</LocaleLink>,
-                  and explore{" "}
-                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-nurse-salary" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-salary">ICU nurse salary and career growth</LocaleLink>.
+              {guide.seoIntro && (
+                <p className="text-gray-700 leading-relaxed text-base font-medium mb-4">
+                  {renderTextWithContextualLinks(guide.seoIntro, guide.contextualLinks, linkTracker)}
                 </p>
               )}
+              <p className="text-gray-700 leading-relaxed text-base">
+                {renderTextWithContextualLinks(guide.introduction, guide.contextualLinks, linkTracker)}
+              </p>
             </section>
+
+            {guide.whatYouWillLearn && guide.whatYouWillLearn.length > 0 && (
+            <section id="what-you-will-learn" className="mb-12 scroll-mt-24" data-testid="section-what-you-will-learn">
+              <SectionHeading id="what-you-will-learn-heading" title="What You Will Learn in This Guide" icon={GraduationCap} color={guide.color} />
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <ul className="space-y-3">
+                  {guide.whatYouWillLearn.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`learn-item-${i}`}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
+                        <Target className="w-3.5 h-3.5" style={{ color: guide.color }} />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+            )}
+
+            {guide.spokeGuides && guide.spokeGuides.length > 0 && (
+              <section id="topic-guides" className="mb-12 scroll-mt-24" data-testid="section-spoke-guides">
+                <SectionHeading id="topic-guides-heading" title="In-Depth Topic Guides" icon={BookOpen} color={guide.color} />
+                <p className="text-sm text-gray-600 mb-4">
+                  Explore detailed sub-topic guides that dive deeper into key areas of {guide.title.replace(" Ultimate Guide", "")} practice.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {guide.spokeGuides.map((spoke) => (
+                    <LocaleLink key={spoke.slug} href={`/guides/${spoke.slug}`}>
+                      <Card className="h-full hover:shadow-md hover:border-gray-300 transition-all cursor-pointer group" data-testid={`card-spoke-${spoke.slug}`}>
+                        <CardContent className="p-5">
+                          <div className="flex items-start gap-3">
+                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
+                              <BookOpen className="w-4 h-4" style={{ color: guide.color }} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-700 transition-colors">
+                                {spoke.title}
+                              </h3>
+                              <p className="text-xs text-gray-500 line-clamp-2">{spoke.description}</p>
+                              <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 mt-2">
+                                Read Guide <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </LocaleLink>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {clusterPages.length > 0 && (
               <section id="cluster-topics" className="mb-12 scroll-mt-24" data-testid="section-cluster-topics">
@@ -375,7 +421,7 @@ export default function HealthcareGuidePage() {
                     <Card key={i} className="overflow-hidden" data-testid={`card-condition-${i}`}>
                       <CardContent className="p-5">
                         <h3 className="text-lg font-bold text-gray-900 mb-2">{condition.name}</h3>
-                        <p className="text-sm text-gray-600 mb-3">{condition.description}</p>
+                        <p className="text-sm text-gray-600 mb-3">{renderTextWithContextualLinks(condition.description, guide.contextualLinks, linkTracker)}</p>
                         <ul className="space-y-1.5">
                           {condition.keyPoints.map((point, j) => (
                             <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
@@ -427,7 +473,7 @@ export default function HealthcareGuidePage() {
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: guide.color }} />
                         {proc.name}
                       </h3>
-                      <p className="text-sm text-gray-600">{proc.description}</p>
+                      <p className="text-sm text-gray-600">{renderTextWithContextualLinks(proc.description, guide.contextualLinks, linkTracker)}</p>
                     </div>
                   ))}
                 </div>
@@ -469,7 +515,9 @@ export default function HealthcareGuidePage() {
                     <SectionHeading id={`${sub.id}-heading`} title={sub.title} icon={Star} color={guide.color} />
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       {sub.content.split("\n\n").map((paragraph, i) => (
-                        <p key={i} className="text-sm text-gray-700 leading-relaxed mb-4 last:mb-0">{paragraph}</p>
+                        <p key={i} className="text-sm text-gray-700 leading-relaxed mb-4 last:mb-0">
+                          {renderTextWithContextualLinks(paragraph, guide.contextualLinks, linkTracker)}
+                        </p>
                       ))}
                     </div>
                     {sectionImages[sub.id]?.map((img, i) => (
@@ -515,9 +563,10 @@ export default function HealthcareGuidePage() {
               </section>
             )}
 
+            {guide.practiceQuestionsLinks && guide.practiceQuestionsLinks.length > 0 && (
             <section id="practice-questions" className="mb-12 scroll-mt-24" data-testid="section-practice-questions">
               <SectionHeading id="practice-heading" title="Practice Questions" icon={FileText} color={guide.color} />
-              <p className="text-sm text-gray-600 mb-4">{guide.practiceQuestionsIntro}</p>
+              {guide.practiceQuestionsIntro && <p className="text-sm text-gray-600 mb-4">{guide.practiceQuestionsIntro}</p>}
               <div className="grid sm:grid-cols-2 gap-3">
                 {guide.practiceQuestionsLinks.map((link, i) => (
                   <LocaleLink key={i} href={link.href}>
@@ -537,10 +586,12 @@ export default function HealthcareGuidePage() {
               </div>
               <CtaBanner variant="questions" color={guide.color} guideSlug={guide.slug} />
             </section>
+            )}
 
+            {guide.flashcardLinks && guide.flashcardLinks.length > 0 && (
             <section id="flashcard-review" className="mb-12 scroll-mt-24" data-testid="section-flashcard-review">
               <SectionHeading id="flashcards-heading" title="Flashcard Review" icon={Layers} color={guide.color} />
-              <p className="text-sm text-gray-600 mb-4">{guide.flashcardReviewIntro}</p>
+              {guide.flashcardReviewIntro && <p className="text-sm text-gray-600 mb-4">{guide.flashcardReviewIntro}</p>}
               <div className="grid sm:grid-cols-2 gap-3">
                 {guide.flashcardLinks.map((link, i) => (
                   <LocaleLink key={i} href={link.href}>
@@ -560,12 +611,13 @@ export default function HealthcareGuidePage() {
               </div>
               <CtaBanner variant="flashcards" color={guide.color} guideSlug={guide.slug} />
             </section>
+            )}
 
             <section id="career-overview" className="mb-12 scroll-mt-24" data-testid="section-career-overview">
               <SectionHeading id="career-heading" title="Career Overview" icon={Briefcase} color={guide.color} />
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <div className="p-6">
-                  <p className="text-sm text-gray-700 leading-relaxed mb-6">{guide.careerOverview.description}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed mb-6">{renderTextWithContextualLinks(guide.careerOverview.description, guide.contextualLinks, linkTracker)}</p>
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-6">
                     <div className="bg-gray-50 rounded-lg p-4">

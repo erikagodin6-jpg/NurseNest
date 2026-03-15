@@ -38,6 +38,11 @@ export interface GuideInternalLink {
   type: "questions" | "flashcards" | "lessons" | "specialty" | "profession" | "guide";
 }
 
+export interface GuideContextualLink {
+  term: string;
+  href: string;
+}
+
 export interface SpokeGuideRef {
   slug: string;
   title: string;
@@ -53,19 +58,19 @@ export interface HealthcareGuide {
   category: "nursing-specialty" | "allied-health";
   color: string;
   colorAccent: string;
-  seoIntro: string;
+  seoIntro?: string;
   introduction: string;
-  whatYouWillLearn: string[];
+  whatYouWillLearn?: string[];
   conditions: GuideCondition[];
   clinicalSkills: string[];
   procedures: GuideProcedure[];
   medications: GuideMedication[];
   scenarios: GuideScenario[];
   subSections?: GuideSubSection[];
-  practiceQuestionsIntro: string;
-  practiceQuestionsLinks: GuideInternalLink[];
-  flashcardReviewIntro: string;
-  flashcardLinks: GuideInternalLink[];
+  practiceQuestionsIntro?: string;
+  practiceQuestionsLinks?: GuideInternalLink[];
+  flashcardReviewIntro?: string;
+  flashcardLinks?: GuideInternalLink[];
   careerOverview: {
     description: string;
     salaryRange: string;
@@ -78,6 +83,7 @@ export interface HealthcareGuide {
   imagePlaceholders: { alt: string; caption: string; section: string }[];
   hubGuideSlug?: string;
   spokeGuides?: SpokeGuideRef[];
+  contextualLinks?: GuideContextualLink[];
 }
 
 export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
@@ -187,6 +193,33 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { slug: "icu-nursing-skills-guide", title: "ICU Nursing Skills Guide", description: "Essential critical care skills including rapid assessment, ventilator care, central line management, and CRRT." },
       { slug: "icu-nurse-salary-guide", title: "ICU Nurse Salary & Career Guide", description: "Explore ICU nurse salary ranges, career advancement paths, certifications, and job market outlook." },
     ],
+    contextualLinks: [
+      { term: "ventilator management", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "mechanical ventilation", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "ventilator modes", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "ventilator waveform", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "sepsis protocols", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "sepsis management", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "sepsis recognition", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "Surviving Sepsis Campaign", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "Hour-1 Bundle", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "hemodynamic monitoring", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "arterial line", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "cardiac output", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "PA catheter", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "vasoactive medications", href: "/guides/icu-medications-guide" },
+      { term: "vasoactive drips", href: "/guides/icu-medications-guide" },
+      { term: "sedation protocols", href: "/guides/icu-medications-guide" },
+      { term: "high-alert medications", href: "/guides/icu-medications-guide" },
+      { term: "vasopressor", href: "/guides/icu-medications-guide" },
+      { term: "ICU nursing skills", href: "/guides/icu-nursing-skills-guide" },
+      { term: "rapid assessment", href: "/guides/icu-nursing-skills-guide" },
+      { term: "central line management", href: "/guides/icu-nursing-skills-guide" },
+      { term: "CRRT", href: "/guides/icu-nursing-skills-guide" },
+      { term: "ICU nurse salary", href: "/guides/icu-nurse-salary-guide" },
+      { term: "CCRN certification", href: "/guides/icu-nurse-salary-guide" },
+      { term: "critical care career", href: "/guides/icu-nurse-salary-guide" },
+    ],
     imagePlaceholders: [
       { alt: "Hemodynamic monitoring waveforms showing arterial line, CVP, and PA catheter tracings", caption: "Figure 1: Common hemodynamic waveforms in ICU monitoring", section: "clinicalSkills" },
       { alt: "Ventilator mode comparison chart showing AC/VC, AC/PC, SIMV, PSV, and APRV settings", caption: "Figure 2: Mechanical ventilation modes comparison", section: "ventilator-management" },
@@ -261,6 +294,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is a spontaneous breathing trial?", answer: "An SBT assesses readiness for extubation by reducing ventilator support (T-piece or low PSV) for 30-120 minutes. Success criteria include RSBI <105, stable vitals, no distress, and adequate oxygenation." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "sepsis-nursing-interventions-guide", "hemodynamic-monitoring-nursing-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "sepsis", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "hemodynamic monitoring", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "vasoactive medications", href: "/guides/icu-medications-guide" },
+      { term: "sedation", href: "/guides/icu-medications-guide" },
+      { term: "ICU nursing skills", href: "/guides/icu-nursing-skills-guide" },
+    ],
     imagePlaceholders: [
       { alt: "Ventilator mode comparison chart showing AC/VC, AC/PC, SIMV, PSV, and APRV settings", caption: "Figure 1: Mechanical ventilation modes comparison", section: "clinicalSkills" },
       { alt: "Ventilator waveform examples showing flow, pressure, and volume scalars", caption: "Figure 2: Ventilator waveform interpretation guide", section: "waveform-interpretation" },
@@ -331,6 +373,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "How do nurses monitor sepsis resuscitation adequacy?", answer: "Nurses monitor lactate clearance (target >10% decrease in 2-4 hours), urine output (≥0.5 mL/kg/hr), mental status improvement, capillary refill time, skin mottling resolution, and hemodynamic stability on current vasopressor doses." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "ventilator-management-nursing-guide", "icu-medications-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "ventilator management", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "mechanical ventilation", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "hemodynamic monitoring", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "vasopressor", href: "/guides/icu-medications-guide" },
+      { term: "ICU medications", href: "/guides/icu-medications-guide" },
+    ],
     imagePlaceholders: [
       { alt: "Sepsis Hour-1 Bundle flowchart showing time-critical interventions", caption: "Figure 1: Surviving Sepsis Campaign Hour-1 Bundle", section: "clinicalSkills" },
     ],
@@ -398,6 +449,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is the normal cardiac output?", answer: "Normal cardiac output is 4-8 L/min, and normal cardiac index (adjusted for body surface area) is 2.5-4.0 L/min/m². Values below 2.2 L/min/m² indicate a low output state requiring intervention." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "ventilator-management-nursing-guide", "icu-medications-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "ventilator management", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "sepsis", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "vasopressor", href: "/guides/icu-medications-guide" },
+      { term: "vasoactive drips", href: "/guides/icu-medications-guide" },
+      { term: "ICU nursing skills", href: "/guides/icu-nursing-skills-guide" },
+    ],
     imagePlaceholders: [
       { alt: "Hemodynamic waveform examples showing arterial, CVP, and PA catheter tracings", caption: "Figure 1: Common ICU hemodynamic waveforms", section: "waveform-basics" },
     ],
@@ -470,6 +530,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is propofol infusion syndrome?", answer: "PRIS is a rare but potentially fatal complication of prolonged propofol use (>48 hours at high doses >5 mg/kg/hr). Signs include metabolic acidosis, rhabdomyolysis, hyperkalemia, hepatomegaly, cardiac failure, and lipemia. Monitor triglycerides and CK regularly." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "sepsis-nursing-interventions-guide", "hemodynamic-monitoring-nursing-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "ventilator management", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "sepsis", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "hemodynamic monitoring", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "arterial line", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "ICU nursing skills", href: "/guides/icu-nursing-skills-guide" },
+    ],
     imagePlaceholders: [
       { alt: "ICU medication infusion compatibility chart", caption: "Figure 1: Common ICU medication compatibility reference", section: "clinicalSkills" },
     ],
@@ -540,6 +609,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is CRRT and when is it used?", answer: "Continuous Renal Replacement Therapy is a slow, continuous form of dialysis used for hemodynamically unstable ICU patients with acute kidney injury. It runs 24/7 and requires specialized nursing skills for circuit management, anticoagulation, and fluid balance calculations." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "hemodynamic-monitoring-nursing-guide", "ventilator-management-nursing-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "ventilator management", href: "/guides/ventilator-management-nursing-guide" },
+      { term: "sepsis", href: "/guides/sepsis-nursing-interventions-guide" },
+      { term: "hemodynamic monitoring", href: "/guides/hemodynamic-monitoring-nursing-guide" },
+      { term: "vasoactive medications", href: "/guides/icu-medications-guide" },
+      { term: "ICU medications", href: "/guides/icu-medications-guide" },
+    ],
     imagePlaceholders: [
       { alt: "ABCDE assessment framework for critical care nursing", caption: "Figure 1: Systematic ABCDE Assessment Approach", section: "abcde-assessment" },
     ],
@@ -590,6 +668,14 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "Is CCRN certification worth it financially?", answer: "Yes. CCRN typically adds $3,000-$8,000/year in certification differentials, plus enhanced marketability for higher-paying positions, leadership roles, and travel nursing assignments. Most nurses recover the exam cost within the first year." },
     ],
     relatedGuides: ["icu-nursing-ultimate-guide", "icu-nursing-skills-guide", "icu-medications-guide"],
+    contextualLinks: [
+      { term: "ICU nursing", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "critical care", href: "/guides/icu-nursing-ultimate-guide" },
+      { term: "CCRN", href: "/guides/icu-nursing-skills-guide" },
+      { term: "ICU nursing skills", href: "/guides/icu-nursing-skills-guide" },
+      { term: "vasoactive drips", href: "/guides/icu-medications-guide" },
+      { term: "ICU medications", href: "/guides/icu-medications-guide" },
+    ],
     imagePlaceholders: [],
   },
 
