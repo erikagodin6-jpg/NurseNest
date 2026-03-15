@@ -69,6 +69,7 @@ import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegion
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
 import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
+import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
@@ -206,6 +207,11 @@ async function isAdminUser(req: any): Promise<boolean> {
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+
+  app.get("/api/admin/entitlement-debug", async (req, res) => {
+    await handleEntitlementDebug(req, res);
+  });
+
   app.get("/api/assets/:filename", async (req, res) => {
     try {
       const { filename } = req.params;
@@ -7183,7 +7189,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/study-sessions", async (req, res) => {
+  app.post("/api/study-sessions", requireEntitlement("study_sessions"), async (req: any, res) => {
     try {
       const { userId, deckId, mode } = req.body;
       if (!userId || !deckId) return res.status(400).json({ error: "userId and deckId required" });
@@ -7198,7 +7204,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.put("/api/study-sessions/:id", async (req, res) => {
+  app.put("/api/study-sessions/:id", requireEntitlement("study_sessions"), async (req: any, res) => {
     try {
       const { totalCards, correctCount, incorrectCount, timeSeconds, missedCardIds } = req.body;
       const result = await pool.query(
@@ -7211,7 +7217,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.get("/api/study-sessions", async (req, res) => {
+  app.get("/api/study-sessions", requireEntitlement("study_sessions"), async (req: any, res) => {
     try {
       const userId = req.query.userId as string;
       const deckId = req.query.deckId as string;
@@ -8741,7 +8747,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     return resolveAuthUser(req);
   }
 
-  app.get("/api/mock-exam-definitions", async (req, res) => {
+  app.get("/api/mock-exam-definitions", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const { specialty } = req.query;
       let query = `SELECT id, specialty, exam_number, title, difficulty_level, category_tags, time_limit, sections, total_questions, created_at FROM mock_exam_definitions`;
@@ -8758,7 +8764,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.get("/api/mock-exam-definitions/:id", async (req, res) => {
+  app.get("/api/mock-exam-definitions/:id", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const { id } = req.params;
       const result = await pool.query(`SELECT * FROM mock_exam_definitions WHERE id = $1`, [id]);
@@ -8769,10 +8775,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/start-specialty", async (req, res) => {
+  app.post("/api/mock-exams/start-specialty", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
-      const authUser = await getAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
 
       const { examDefinitionId, specialty } = req.body;
       if (!examDefinitionId) {
@@ -8845,10 +8850,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/start", async (req, res) => {
+  app.post("/api/mock-exams/start", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
-      const authUser = await getAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
 
       const { tier, totalQuestions, questions, examMode } = req.body;
       if (!tier || !questions || !Array.isArray(questions)) {
@@ -10739,7 +10743,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   // ====== STUDY PLAN ENGINE ======
-  app.post("/api/study-plan/generate", async (req, res) => {
+  app.post("/api/study-plan/generate", requireEntitlement("study_plan"), async (req: any, res) => {
     try {
       const { userId, examType, examDate, hoursPerDay = 2, daysPerWeek = 5 } = req.body;
       if (!userId || !examType || !examDate) return res.status(400).json({ error: "userId, examType, examDate required" });
@@ -10861,7 +10865,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.get("/api/study-plan", async (req, res) => {
+  app.get("/api/study-plan", requireEntitlement("study_plan"), async (req: any, res) => {
     try {
       const userId = req.query.userId as string;
       if (!userId) return res.status(400).json({ error: "userId required" });
@@ -10875,7 +10879,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/study-plan/update", async (req, res) => {
+  app.post("/api/study-plan/update", requireEntitlement("study_plan"), async (req: any, res) => {
     try {
       const { scheduleId, completed, completionRate } = req.body;
       if (!scheduleId) return res.status(400).json({ error: "scheduleId required" });
@@ -13187,7 +13191,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   // ====== PUBLIC FLASHCARD BANK API ======
-  app.get("/api/flashcard-bank", async (req, res) => {
+  app.get("/api/flashcard-bank", requireEntitlement("flashcard_bank"), async (req: any, res) => {
     try {
       const tier = req.query.tier as string;
       const category = req.query.category as string;
@@ -15837,7 +15841,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/study-groups", async (req, res) => {
+  app.post("/api/study-groups", requireEntitlement("study_groups"), async (req: any, res) => {
     try {
       const { name, userId } = req.body;
       if (!name || !userId) return res.status(400).json({ error: "name and userId required" });
@@ -15850,7 +15854,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/study-groups/join", async (req, res) => {
+  app.post("/api/study-groups/join", requireEntitlement("study_groups"), async (req: any, res) => {
     try {
       const { inviteCode, userId } = req.body;
       if (!inviteCode || !userId) return res.status(400).json({ error: "inviteCode and userId required" });
@@ -15865,7 +15869,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/study-groups/user/:userId", async (req, res) => {
+  app.get("/api/study-groups/user/:userId", requireEntitlement("study_groups"), async (req: any, res) => {
     try {
       const groups = await storage.getUserStudyGroups(req.params.userId);
       res.json(groups);
@@ -15874,7 +15878,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/study-groups/:id/members", async (req, res) => {
+  app.get("/api/study-groups/:id/members", requireEntitlement("study_groups"), async (req: any, res) => {
     try {
       const members = await storage.getStudyGroupMembers(req.params.id);
       res.json(members);
@@ -15883,7 +15887,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.delete("/api/study-groups/:groupId/members/:userId", async (req, res) => {
+  app.delete("/api/study-groups/:groupId/members/:userId", requireEntitlement("study_groups"), async (req: any, res) => {
     try {
       await storage.removeStudyGroupMember(req.params.groupId, req.params.userId);
       res.json({ ok: true });
@@ -17293,7 +17297,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/flashcard-review", async (req, res) => {
+  app.post("/api/flashcard-review", requireEntitlement("flashcard_review"), async (req: any, res) => {
     try {
       const { userId, cardId, deckId, response } = req.body;
       if (!userId || !cardId || !deckId || !response) {
@@ -17343,7 +17347,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/flashcard-review-due/:userId", async (req, res) => {
+  app.get("/api/flashcard-review-due/:userId", requireEntitlement("flashcard_review"), async (req: any, res) => {
     try {
       const today = new Date().toISOString().split("T")[0];
       const result = await pool.query(
@@ -17371,10 +17375,9 @@ Return ONLY valid JSON with this exact structure:
   const validModes = ["learn", "test", "rapid-review", "weak-areas", "before-exam-cram", "spaced-repetition", "recommended", "weakAreas", "dueForReview", "flagged", "rapidReview", "mixedAdaptive", "preExamBoost"] as const;
   const validTiers = ["free", "rpn", "rn", "np"] as const;
 
-  app.post("/api/adaptive/record-response", async (req, res) => {
+  app.post("/api/adaptive/record-response", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const userId = authUser.id;
       const { cardId, isCorrect, confidence, selectedOption, timeSpent, studyMode, sessionId } = req.body;
       if (!cardId || typeof isCorrect !== "boolean") {
@@ -17397,11 +17400,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/mastery/:userId", async (req, res) => {
+  app.get("/api/adaptive/mastery/:userId", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
-      const userId = authUser.id;
+      const userId = req.authUser.id;
       const profile = await adaptiveEngine.getMasteryProfile(userId);
       res.json(profile);
     } catch (e: any) {
@@ -17410,11 +17411,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/weak-areas/:userId", async (req, res) => {
+  app.get("/api/adaptive/weak-areas/:userId", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
-      const userId = authUser.id;
+      const userId = req.authUser.id;
       const areas = await adaptiveEngine.getWeakAreas(userId);
       res.json(areas);
     } catch (e: any) {
@@ -17423,11 +17422,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/next-cards/:userId", async (req, res) => {
+  app.get("/api/adaptive/next-cards/:userId", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
-      const userId = authUser.id;
+      const userId = req.authUser.id;
       const tierParam = (req.query.tier as string) || "rpn";
       const tier = validTiers.includes(tierParam as any) ? tierParam : "rpn";
       const modeParam = (req.query.mode as string) || "learn";
@@ -17451,11 +17448,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/dashboard/:userId", async (req, res) => {
+  app.get("/api/adaptive/dashboard/:userId", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
-      const userId = authUser.id;
+      const userId = req.authUser.id;
       const dashboard = await adaptiveEngine.getDashboard(userId);
       res.json(dashboard);
     } catch (e: any) {
@@ -17473,10 +17468,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/adaptive/session/start", async (req, res) => {
+  app.post("/api/adaptive/session/start", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const { sessionType, tier } = req.body;
       const sessionId = await adaptiveEngine.createStudySession(authUser.id, sessionType || "recommended", tier);
       res.json({ sessionId });
@@ -17485,10 +17479,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/adaptive/session/complete", async (req, res) => {
+  app.post("/api/adaptive/session/complete", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const { sessionId, accuracy, topics, duration, cardsReviewed, weakCards, masteryChanges } = req.body;
       if (!sessionId) return res.status(400).json({ error: "sessionId required" });
       await adaptiveEngine.completeStudySession(sessionId, {
@@ -17505,10 +17498,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/adaptive/flag-card", async (req, res) => {
+  app.post("/api/adaptive/flag-card", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const { cardId, flagged } = req.body;
       if (!cardId) return res.status(400).json({ error: "cardId required" });
       await adaptiveEngine.flagCard(authUser.id, cardId, flagged !== false);
@@ -17518,10 +17510,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/adaptive/mark-mastered", async (req, res) => {
+  app.post("/api/adaptive/mark-mastered", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const { cardId, mastered } = req.body;
       if (!cardId) return res.status(400).json({ error: "cardId required" });
       await adaptiveEngine.markCardMastered(authUser.id, cardId, mastered !== false);
@@ -17531,10 +17522,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/adaptive/study-again-soon", async (req, res) => {
+  app.post("/api/adaptive/study-again-soon", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const { cardId } = req.body;
       if (!cardId) return res.status(400).json({ error: "cardId required" });
       await adaptiveEngine.requestStudyAgainSoon(authUser.id, cardId);
@@ -17544,10 +17534,9 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/card-stats/:cardId", async (req, res) => {
+  app.get("/api/adaptive/card-stats/:cardId", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const authUser = await resolveAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const authUser = req.authUser;
       const stats = await adaptiveEngine.getCardStats(authUser.id, req.params.cardId);
       res.json(stats || { cardId: req.params.cardId, timesSeen: 0, timesCorrect: 0, timesIncorrect: 0, masteryState: "new", flagged: false, mastered: false });
     } catch (e: any) {

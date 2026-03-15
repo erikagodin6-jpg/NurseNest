@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
+import { requireEntitlement } from "./entitlements";
 import {
   updateAbilityEstimate,
   createInitialAbility,
@@ -399,10 +400,9 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Unified Adaptive Question Selection ───
 
-  app.post("/api/adaptive/next-question", async (req, res) => {
+  app.post("/api/adaptive/next-question", requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
-      const user = await resolveAuthUser(req as any);
-      if (!user) return res.status(401).json({ error: "Authentication required" });
+      const user = req.authUser;
 
       const { professionType, currentAbility, usedQuestionIds, sessionState } = req.body;
 

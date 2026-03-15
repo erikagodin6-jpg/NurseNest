@@ -1,3 +1,21 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * AUTHENTICATION & ADMIN AUTH MODULE
+ * ═══════════════════════════════════════════════════════════════════════════════
+ *
+ * This module handles JWT signing/verification and user resolution from
+ * request headers. It is the authentication layer only.
+ *
+ * For ENTITLEMENT / PREMIUM ACCESS decisions, use server/entitlements.ts:
+ *   - requireEntitlement("feature")  — middleware that checks feature access
+ *   - requireAnyPremium()            — middleware that requires any paid tier
+ *   - checkEntitlement(user, feature) — boolean check
+ *
+ * DO NOT add new inline tier checks or paywall logic here. This module
+ * should only answer "who is this user?" — not "what can they access?".
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 import jwt from "jsonwebtoken";
 import { pool } from "./storage";
 

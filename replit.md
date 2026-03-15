@@ -51,6 +51,14 @@ Key systems include:
 - **Webhook**: Managed webhook via `stripe-replit-sync`, raw body parsing before `express.json()`.
 - **Required Secrets**: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`.
 
+## Entitlement System
+- **Server-side source of truth**: `server/entitlements.ts` — All premium access decisions on the server go through this module. Provides `requireEntitlement(feature)` middleware, `requireAnyPremium()` middleware, `checkEntitlement(user, feature)`, and `getUserEntitlements(user)`.
+- **Client-side source of truth**: `client/src/lib/entitlements.ts` — Frontend access checks (UX-only, not a security boundary).
+- **Admin diagnostic endpoint**: `GET /api/admin/entitlement-debug` — Returns user role, subscription tier, tester/trial status, and full computed entitlements map. Supports `?userId=` to inspect other users.
+- **Test coverage**: `server/__tests__/entitlements.test.ts` — Unit tests for free/paid/admin/tester access scenarios.
+- **Audit summary**: `ENTITLEMENT_AUDIT.md` — Documents hardened routes, remaining risk areas, and out-of-scope systems (imaging monetization).
+- **Note**: Imaging monetization (`server/imaging-monetization-routes.ts`) uses a separate entitlement model and is intentionally not under this system.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

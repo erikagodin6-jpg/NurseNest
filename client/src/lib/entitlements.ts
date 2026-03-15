@@ -1,3 +1,21 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * CLIENT-SIDE ENTITLEMENT SYSTEM — SOURCE OF TRUTH (FRONTEND)
+ * ═══════════════════════════════════════════════════════════════════════════════
+ *
+ * ALL frontend premium access decisions MUST go through this module.
+ *
+ * Use canAccessFeature(userTier, feature) to check whether the current user
+ * can access a given feature. Do NOT write inline tier comparisons elsewhere.
+ *
+ * The server-side counterpart lives in server/entitlements.ts and mirrors
+ * this logic. Both must stay in sync when adding/removing features or tiers.
+ *
+ * WARNING: Frontend gating is a UX convenience only — it is NOT a security
+ * boundary. The server enforces the actual paywall via requireEntitlement().
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 export type Feature =
   | "lessons_free"
   | "anatomy_labeling"

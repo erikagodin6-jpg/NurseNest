@@ -1,0 +1,163 @@
+import { checkEntitlement, getUserEntitlements, isActiveTester } from "../entitlements";
+
+function makeUser(overrides: Record<string, any> = {}) {
+  return {
+    id: "user-1",
+    username: "testuser",
+    tier: "free",
+    tester_access: false,
+    tester_expiry: null,
+    trial_active: false,
+    trial_end: null,
+    ...overrides,
+  };
+}
+
+describe("checkEntitlement", () => {
+  test("free user cannot access premium features", () => {
+    const user = makeUser({ tier: "free" });
+    expect(checkEntitlement(user, "flashcards")).toBe(false);
+    expect(checkEntitlement(user, "qbank")).toBe(false);
+    expect(checkEntitlement(user, "mock_exams")).toBe(false);
+    expect(checkEntitlement(user, "adaptive_engine")).toBe(false);
+    expect(checkEntitlement(user, "study_plan")).toBe(false);
+    expect(checkEntitlement(user, "study_groups")).toBe(false);
+    expect(checkEntitlement(user, "flashcard_bank")).toBe(false);
+    expect(checkEntitlement(user, "flashcard_review")).toBe(false);
+    expect(checkEntitlement(user, "admin_dashboard")).toBe(false);
+  });
+
+  test("free user can access free features", () => {
+    const user = makeUser({ tier: "free" });
+    expect(checkEntitlement(user, "lessons_free")).toBe(true);
+    expect(checkEntitlement(user, "anatomy_labeling")).toBe(true);
+    expect(checkEntitlement(user, "concept_checks")).toBe(true);
+  });
+
+  test("rpn user can access rpn-tier features but not np features", () => {
+    const user = makeUser({ tier: "rpn" });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+    expect(checkEntitlement(user, "mock_exams")).toBe(true);
+    expect(checkEntitlement(user, "adaptive_engine")).toBe(true);
+    expect(checkEntitlement(user, "lessons_rpn")).toBe(true);
+    expect(checkEntitlement(user, "lessons_np")).toBe(false);
+    expect(checkEntitlement(user, "lessons_rn")).toBe(false);
+    expect(checkEntitlement(user, "admin_dashboard")).toBe(false);
+  });
+
+  test("rn user can access rn and rpn features but not np", () => {
+    const user = makeUser({ tier: "rn" });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "lessons_rpn")).toBe(true);
+    expect(checkEntitlement(user, "lessons_rn")).toBe(true);
+    expect(checkEntitlement(user, "lessons_np")).toBe(false);
+  });
+
+  test("admin user can access everything", () => {
+    const user = makeUser({ tier: "admin" });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+    expect(checkEntitlement(user, "lessons_np")).toBe(true);
+    expect(checkEntitlement(user, "admin_dashboard")).toBe(true);
+    expect(checkEntitlement(user, "content_editor")).toBe(true);
+    expect(checkEntitlement(user, "study_plan")).toBe(true);
+    expect(checkEntitlement(user, "study_groups")).toBe(true);
+  });
+
+  test("null user is denied all access", () => {
+    expect(checkEntitlement(null, "flashcards")).toBe(false);
+    expect(checkEntitlement(null, "lessons_free")).toBe(false);
+  });
+});
+
+describe("isActiveTester", () => {
+  test("active tester with no expiry returns true", () => {
+    const user = makeUser({ tester_access: true, tester_expiry: null });
+    expect(isActiveTester(user)).toBe(true);
+  });
+
+  test("active tester with future expiry returns true", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tester_access: true, tester_expiry: future });
+    expect(isActiveTester(user)).toBe(true);
+  });
+
+  test("tester with expired access returns false", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tester_access: true, tester_expiry: past });
+    expect(isActiveTester(user)).toBe(false);
+  });
+
+  test("non-tester returns false", () => {
+    const user = makeUser({ tester_access: false });
+    expect(isActiveTester(user)).toBe(false);
+  });
+});
+
+describe("tester bypass for entitlements", () => {
+  test("active tester can access premium features even on free tier", () => {
+    const user = makeUser({ tier: "free", tester_access: true, tester_expiry: null });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+    expect(checkEntitlement(user, "mock_exams")).toBe(true);
+    expect(checkEntitlement(user, "adaptive_engine")).toBe(true);
+  });
+
+  test("active tester CANNOT access admin-only features", () => {
+    const user = makeUser({ tier: "free", tester_access: true, tester_expiry: null });
+    expect(checkEntitlement(user, "admin_dashboard")).toBe(false);
+    expect(checkEntitlement(user, "content_editor")).toBe(false);
+  });
+
+  test("expired tester on free tier cannot access premium features", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", tester_access: true, tester_expiry: past });
+    expect(checkEntitlement(user, "flashcards")).toBe(false);
+    expect(checkEntitlement(user, "qbank")).toBe(false);
+  });
+
+  test("trial user can access premium features but not admin features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", trial_active: true, trial_end: future });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+    expect(checkEntitlement(user, "admin_dashboard")).toBe(false);
+    expect(checkEntitlement(user, "content_editor")).toBe(false);
+  });
+});
+
+describe("getUserEntitlements", () => {
+  test("returns full map for admin", () => {
+    const user = makeUser({ tier: "admin" });
+    const ents = getUserEntitlements(user);
+    expect(ents.flashcards.allowed).toBe(true);
+    expect(ents.flashcards.reason).toBe("admin");
+    expect(ents.admin_dashboard.allowed).toBe(true);
+  });
+
+  test("returns correct map for free user", () => {
+    const user = makeUser({ tier: "free" });
+    const ents = getUserEntitlements(user);
+    expect(ents.lessons_free.allowed).toBe(true);
+    expect(ents.lessons_free.reason).toBe("free_feature");
+    expect(ents.flashcards.allowed).toBe(false);
+    expect(ents.flashcards.reason).toBe("requires_rpn");
+  });
+
+  test("tester denied admin features with admin_only reason", () => {
+    const user = makeUser({ tier: "free", tester_access: true });
+    const ents = getUserEntitlements(user);
+    expect(ents.admin_dashboard.allowed).toBe(false);
+    expect(ents.admin_dashboard.reason).toBe("admin_only");
+    expect(ents.content_editor.allowed).toBe(false);
+    expect(ents.content_editor.reason).toBe("admin_only");
+  });
+
+  test("tester gets tester_bypass reason", () => {
+    const user = makeUser({ tier: "free", tester_access: true });
+    const ents = getUserEntitlements(user);
+    expect(ents.flashcards.allowed).toBe(true);
+    expect(ents.flashcards.reason).toBe("tester_bypass");
+  });
+});
