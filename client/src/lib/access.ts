@@ -3,6 +3,7 @@ const TIER_LABELS: Record<string, string> = {
   rpn: "RPN/LVN",
   rn: "RN/NCLEX",
   np: "NP Advanced",
+  newgrad: "New Grad Success Toolkit",
   admin: "Admin",
 };
 
@@ -21,9 +22,9 @@ export function getTierLabel(tier: string): string {
 }
 
 export function getAccessibleTiers(userTier: string | null | undefined, testerAccess?: boolean, testerExpiry?: string | null): string[] {
-  if (testerAccess && (!testerExpiry || new Date(testerExpiry) > new Date())) return ["free", "rpn", "rn", "np"];
+  if (testerAccess && (!testerExpiry || new Date(testerExpiry) > new Date())) return ["free", "rpn", "rn", "np", "newgrad"];
   if (!userTier || userTier === "free") return ["free"];
-  if (userTier === "admin") return ["free", "rpn", "rn", "np", "admin"];
+  if (userTier === "admin") return ["free", "rpn", "rn", "np", "newgrad", "admin"];
   return ["free", userTier];
 }
 
@@ -35,7 +36,7 @@ export function getUserTierOnly(userTier: string | null | undefined): string | n
 
 export function getAllowedLessonTiers(userTier: string | null | undefined): string[] {
   if (!userTier || userTier === "free") return ["free", "general"];
-  if (userTier === "admin") return ["free", "general", "rpn", "rn", "np"];
+  if (userTier === "admin") return ["free", "general", "rpn", "rn", "np", "newgrad"];
   return ["free", "general", userTier];
 }
 
@@ -58,7 +59,7 @@ export function filterContentByTier<T extends { tier?: string }>(
 ): T[] {
   const allowed = new Set(
     testerAccess && (!testerExpiry || new Date(testerExpiry) > new Date())
-      ? ["free", "general", "rpn", "rn", "np"]
+      ? ["free", "general", "rpn", "rn", "np", "newgrad"]
       : getAllowedLessonTiers(userTier)
   );
   return items.filter(item => {

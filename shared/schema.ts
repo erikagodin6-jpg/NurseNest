@@ -4985,6 +4985,7 @@ export const newGradGuides = pgTable("new_grad_guides", {
   seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
   faqItems: jsonb("faq_items").default(sql`'[]'::jsonb`),
   relatedGuideIds: text("related_guide_ids").array().default(sql`'{}'::text[]`),
+  isPremium: boolean("is_premium").default(false),
   status: text("status").default("draft"),
   tags: text("tags").array().default(sql`'{}'::text[]`),
   authorName: text("author_name"),
@@ -5774,3 +5775,47 @@ export const adminFinance = pgTable("admin_finance", {
 export const insertAdminFinanceSchema = createInsertSchema(adminFinance).omit({ id: true, createdAt: true, updatedAt: true });
 export type InsertAdminFinance = z.infer<typeof insertAdminFinanceSchema>;
 export type AdminFinance = typeof adminFinance.$inferSelect;
+
+export const newGradTemplates = pgTable("new_grad_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  templateType: text("template_type").notNull(),
+  category: text("category"),
+  description: text("description"),
+  content: jsonb("content").default(sql`'{}'::jsonb`),
+  previewContent: text("preview_content"),
+  isPremium: boolean("is_premium").default(true),
+  status: text("status").default("published"),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertNewGradTemplateSchema = createInsertSchema(newGradTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type NewGradTemplate = typeof newGradTemplates.$inferSelect;
+export type InsertNewGradTemplate = z.infer<typeof insertNewGradTemplateSchema>;
+
+export const newGradInterviewQuestions = pgTable("new_grad_interview_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  category: text("category").notNull(),
+  question: text("question").notNull(),
+  sampleAnswer: text("sample_answer"),
+  tips: text("tips"),
+  difficulty: text("difficulty").default("moderate"),
+  isPremium: boolean("is_premium").default(false),
+  status: text("status").default("published"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNewGradInterviewQuestionSchema = createInsertSchema(newGradInterviewQuestions).omit({
+  id: true,
+  createdAt: true,
+});
+export type NewGradInterviewQuestion = typeof newGradInterviewQuestions.$inferSelect;
+export type InsertNewGradInterviewQuestion = z.infer<typeof insertNewGradInterviewQuestionSchema>;

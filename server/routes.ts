@@ -114,6 +114,7 @@ function canAccessTier(userTier: string | null | undefined, targetTier: string):
   if (!targetTier || targetTier === "free") return true;
   if (!userTier || userTier === "free") return false;
   if (userTier === "admin") return true;
+  if (targetTier === "newgrad") return userTier === "newgrad";
   return userTier === targetTier;
 }
 
@@ -3268,6 +3269,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         rn: "NurseNest RN/NCLEX",
         np: "NurseNest NP Advanced",
         allied: "NurseNest Allied Health",
+        newgrad: "NurseNest New Grad Success Toolkit",
         "lab-values": "NurseNest Lab Interpretation Unlimited",
         "med-math": "NurseNest Med Math Unlimited",
         "practice-tools": "NurseNest All Practice Tools",

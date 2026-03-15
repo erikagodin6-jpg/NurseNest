@@ -188,6 +188,15 @@ const ClinicalSkillsGuideDetail = lazy(() => import("@/pages/clinical-skills-gui
 const UnitGuidePage = lazy(() => import("@/pages/new-grad/unit-guide-page"));
 const CareerDevelopmentPage = lazy(() => import("@/pages/new-grad/career-development-page"));
 const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenario-page"));
+const NewGradHubPage = lazy(() => import("@/pages/newgrad/newgrad-hub"));
+const NewGradGuidesPage = lazy(() => import("@/pages/newgrad/guides-page"));
+const NewGradCareerPage = lazy(() => import("@/pages/newgrad/career-page"));
+const NewGradInterviewPage = lazy(() => import("@/pages/newgrad/interview-page"));
+const NewGradResumePage = lazy(() => import("@/pages/newgrad/resume-page"));
+const NewGradWorkplacePage = lazy(() => import("@/pages/newgrad/workplace-page"));
+const NewGradBurnoutPage = lazy(() => import("@/pages/newgrad/burnout-page"));
+const NewGradSalaryPage = lazy(() => import("@/pages/newgrad/salary-page"));
+const NewGradProfDevPage = lazy(() => import("@/pages/newgrad/professional-development-page"));
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
@@ -515,6 +524,16 @@ function AppRoutes() {
         <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
         <Route path="/new-grad/scenario/:slug" component={ClinicalScenarioPage} />
+
+        <Route path="/newgrad/guides" component={NewGradGuidesPage} />
+        <Route path="/newgrad/career" component={NewGradCareerPage} />
+        <Route path="/newgrad/interview" component={NewGradInterviewPage} />
+        <Route path="/newgrad/resume" component={NewGradResumePage} />
+        <Route path="/newgrad/workplace" component={NewGradWorkplacePage} />
+        <Route path="/newgrad/burnout" component={NewGradBurnoutPage} />
+        <Route path="/newgrad/salary" component={NewGradSalaryPage} />
+        <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
+        <Route path="/newgrad" component={NewGradHubPage} />
         <Route path="/new-grad/:profession">{(params: any) => {
           const prof = params.profession || "";
           if (prof.endsWith("-first-year-guide")) {

@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { pool } from "./storage";
-import { requireAdmin } from "./admin-auth";
+import { requireAdmin, resolveAuthUser } from "./admin-auth";
 import { seedNewGradContent } from "./new-grad-content-seed";
 import { generateNewGradGuide } from "./content-generators";
 
@@ -316,6 +316,142 @@ export function registerNewGradRoutes(app: Express) {
         testimonials: testimonials.rows,
         downloads: downloads.rows,
       });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/interview-questions", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      const userTier = user?.tier || "free";
+      const hasPremiumAccess = userTier === "newgrad" || userTier === "admin";
+
+      const { category } = req.query;
+      let query = `SELECT * FROM new_grad_interview_questions WHERE status = 'published'`;
+      const params: any[] = [];
+      if (!hasPremiumAccess) {
+        query += ` AND is_premium = false`;
+      }
+      if (category) {
+        params.push(category);
+        query += ` AND category = $${params.length}`;
+      }
+      query += ` ORDER BY sort_order ASC, created_at DESC`;
+      const result = await pool.query(query, params);
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/newgrad/interview-questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { category, question, sampleAnswer, tips, difficulty, isPremium, sortOrder } = req.body;
+      const result = await pool.query(
+        `INSERT INTO new_grad_interview_questions (id, category, question, sample_answer, tips, difficulty, is_premium, sort_order, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *`,
+        [category, question, sampleAnswer, tips, difficulty || "moderate", isPremium || false, sortOrder || 0]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/newgrad/interview-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { category, question, sampleAnswer, tips, difficulty, isPremium, status, sortOrder } = req.body;
+      const result = await pool.query(
+        `UPDATE new_grad_interview_questions SET category=$1, question=$2, sample_answer=$3, tips=$4, difficulty=$5, is_premium=$6, status=$7, sort_order=$8
+         WHERE id=$9 RETURNING *`,
+        [category, question, sampleAnswer, tips, difficulty, isPremium, status, sortOrder, req.params.id]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Not found" });
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/newgrad/interview-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await pool.query(`DELETE FROM new_grad_interview_questions WHERE id = $1`, [req.params.id]);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/templates", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      const userTier = user?.tier || "free";
+      const hasPremiumAccess = userTier === "newgrad" || userTier === "admin";
+
+      const { type } = req.query;
+      let query = `SELECT * FROM new_grad_templates WHERE status = 'published'`;
+      const params: any[] = [];
+      if (!hasPremiumAccess) {
+        query += ` AND is_premium = false`;
+      }
+      if (type) {
+        params.push(type);
+        query += ` AND template_type = $${params.length}`;
+      }
+      query += ` ORDER BY created_at DESC`;
+      const result = await pool.query(query, params);
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/newgrad/templates", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, slug, templateType, category, description, content, previewContent, isPremium, tags } = req.body;
+      const result = await pool.query(
+        `INSERT INTO new_grad_templates (id, title, slug, template_type, category, description, content, preview_content, is_premium, tags, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW()) RETURNING *`,
+        [title, slug, templateType, category, description, JSON.stringify(content || {}), previewContent, isPremium !== false, tags || []]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/newgrad/templates/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, slug, templateType, category, description, content, previewContent, isPremium, status, tags } = req.body;
+      const result = await pool.query(
+        `UPDATE new_grad_templates SET title=$1, slug=$2, template_type=$3, category=$4, description=$5, content=$6, preview_content=$7, is_premium=$8, status=$9, tags=$10, updated_at=NOW()
+         WHERE id=$11 RETURNING *`,
+        [title, slug, templateType, category, description, JSON.stringify(content || {}), previewContent, isPremium, status, tags, req.params.id]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Not found" });
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/newgrad/templates/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await pool.query(`DELETE FROM new_grad_templates WHERE id = $1`, [req.params.id]);
+      res.json({ ok: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
