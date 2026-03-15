@@ -1,777 +1,758 @@
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { adminFetch } from "@/lib/admin-fetch";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useState, useEffect, useCallback } from "react";
+import { Navigation } from "@/components/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/auth";
+import { useLocation } from "wouter";
+import { adminFetch } from "@/lib/admin-fetch";
 import {
-  RefreshCw,
-  ArrowLeft,
-  BarChart3,
-  Target,
-  Zap,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  TrendingUp,
-  Database,
-  Layers,
-  Settings,
-  Play,
-  Save,
-  ChevronDown,
-  ChevronUp,
+  BarChart3, Loader2, RefreshCw, Zap, BookOpen, Layers,
+  AlertTriangle, CheckCircle2, XCircle, Target, TrendingUp,
+  FileText, Brain, Settings, ChevronDown, ChevronRight, Play
 } from "lucide-react";
 
-function fmt(n: number): string {
-  return n.toLocaleString();
+interface CoverageTarget {
+  category: string;
+  key: string;
+  target: number;
+  current: number;
+  percentage: number;
+  status: "green" | "yellow" | "red";
+  gap: number;
 }
 
-function pct(current: number, target: number): number {
-  if (target <= 0) return 100;
-  return Math.min(100, Math.round((current / target) * 100));
+interface LessonReport {
+  total: number;
+  complete: number;
+  weak: number;
+  placeholder: number;
+  broken: number;
+  missing: { title: string; slug: string; referencedFrom: string }[];
 }
 
-function ProgressBar({ current, target, label }: { current: number; target: number; label: string }) {
-  const p = pct(current, target);
-  const color = p >= 100 ? "bg-green-500" : p >= 60 ? "bg-yellow-500" : "bg-red-500";
+interface CoverageReport {
+  nursing: {
+    byTier: CoverageTarget[];
+    byBodySystem: CoverageTarget[];
+    bySpecialty: CoverageTarget[];
+  };
+  alliedHealth: {
+    byProfession: CoverageTarget[];
+  };
+  flashcards: {
+    byTopic: CoverageTarget[];
+  };
+  lessons: LessonReport;
+  generationHistory: any[];
+  timestamp: string;
+}
+
+interface Targets {
+  questionsPerTier: number;
+  questionsPerBodySystem: number;
+  questionsPerSpecialty: number;
+  questionsPerProfession: number;
+  flashcardsPerTopic: number;
+}
+
+function StatusBadge({ status }: { status: "green" | "yellow" | "red" }) {
+  const colors = {
+    green: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    yellow: "bg-amber-100 text-amber-800 border-amber-200",
+    red: "bg-red-100 text-red-800 border-red-200",
+  };
+  const icons = {
+    green: <CheckCircle2 className="w-3 h-3" />,
+    yellow: <AlertTriangle className="w-3 h-3" />,
+    red: <XCircle className="w-3 h-3" />,
+  };
+  const labels = { green: "On Target", yellow: "Below Target", red: "Critical Gap" };
   return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-xs text-gray-600">
-        <span>{label}</span>
-        <span>{fmt(current)} / {fmt(target)} ({p}%)</span>
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div className={`${color} h-2 rounded-full transition-all`} style={{ width: `${Math.min(p, 100)}%` }} />
-      </div>
+    <Badge className={`${colors[status]} border text-xs flex items-center gap-1`} data-testid={`badge-status-${status}`}>
+      {icons[status]} {labels[status]}
+    </Badge>
+  );
+}
+
+function ProgressBar({ current, target, status }: { current: number; target: number; status: "green" | "yellow" | "red" }) {
+  const pct = target > 0 ? Math.min((current / target) * 100, 100) : (current > 0 ? 100 : 0);
+  const colors = { green: "bg-emerald-500", yellow: "bg-amber-500", red: "bg-red-500" };
+  return (
+    <div className="w-full bg-gray-100 rounded-full h-2" data-testid="progress-bar">
+      <div className={`h-2 rounded-full transition-all ${colors[status]}`} style={{ width: `${pct}%` }} />
     </div>
   );
 }
 
-export default function AdminContentCoverage() {
-  const queryClient = useQueryClient();
-  const [activeSection, setActiveSection] = useState<"overview" | "targets" | "generate" | "report">("overview");
-  const [showDeficits, setShowDeficits] = useState(true);
-  const [maxBatches, setMaxBatches] = useState(5);
-  const [questionOnly, setQuestionOnly] = useState(false);
-  const [flashcardOnly, setFlashcardOnly] = useState(false);
-  const [topicFilter, setTopicFilter] = useState("");
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["nursing-tiers", "deficits"]));
-
-  const toggleSection = (key: string) => {
-    setExpandedSections(prev => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key); else next.add(key);
-      return next;
-    });
-  };
-
-  const { data: analysis, isLoading: analysisLoading, isError: analysisError, refetch: refetchAnalysis } = useQuery({
-    queryKey: ["content-coverage-analysis"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/content-coverage/analysis");
-      if (!res.ok) throw new Error("Failed to load coverage analysis");
-      return res.json();
-    },
-    retry: 1,
-  });
-
-  const { data: targetsData, isLoading: targetsLoading, refetch: refetchTargets } = useQuery({
-    queryKey: ["content-coverage-targets"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/content-coverage/targets");
-      if (!res.ok) throw new Error("Failed to load targets");
-      return res.json();
-    },
-    retry: 1,
-  });
-
-  const { data: lastReport } = useQuery({
-    queryKey: ["content-coverage-last-report"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/content-coverage/last-report");
-      if (!res.ok) throw new Error("Failed to load report");
-      return res.json();
-    },
-    retry: 1,
-  });
-
-  const [editTargets, setEditTargets] = useState<any>(null);
-
-  const saveTargetsMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const res = await adminFetch("/api/admin/content-coverage/targets", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed to save targets");
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["content-coverage-targets"] });
-      queryClient.invalidateQueries({ queryKey: ["content-coverage-analysis"] });
-      setEditTargets(null);
-    },
-  });
-
-  const generateMutation = useMutation({
-    mutationFn: async (params: any) => {
-      const res = await adminFetch("/api/admin/content-coverage/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params),
-      });
-      if (!res.ok) throw new Error("Generation failed");
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["content-coverage-analysis"] });
-      queryClient.invalidateQueries({ queryKey: ["content-coverage-last-report"] });
-    },
-  });
-
-  const isLoading = analysisLoading || targetsLoading;
-
-  if (isLoading && !analysis) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <RefreshCw className="w-8 h-8 animate-spin text-primary" data-testid="loading-spinner" />
-      </div>
-    );
-  }
-
-  if (analysisError && !analysis) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md w-full">
-          <CardContent className="pt-6 text-center space-y-4">
-            <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
-            <p className="text-lg font-medium" data-testid="text-error-message">Failed to load coverage analysis</p>
-            <p className="text-sm text-gray-500">There was an error fetching the coverage data. Please try again.</p>
-            <Button onClick={() => refetchAnalysis()} data-testid="button-retry-analysis">
-              <RefreshCw className="w-4 h-4 mr-2" /> Retry
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const nursing = analysis?.nursing || {};
-  const allied = analysis?.allied || {};
-  const flashcards = analysis?.flashcards || {};
-  const deficits = analysis?.deficits || [];
-  const summary = analysis?.summary || {};
-  const targets = editTargets || targetsData?.targets || {};
+function CoverageTable({ items, onGenerate, generating, contentType }: {
+  items: CoverageTarget[];
+  onGenerate?: (item: CoverageTarget) => void;
+  generating?: string | null;
+  contentType: string;
+}) {
+  const [expanded, setExpanded] = useState(true);
+  const sortedItems = [...items].sort((a, b) => a.percentage - b.percentage);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
-            <a href="/admin" className="text-gray-500 hover:text-gray-700" data-testid="link-back-admin">
-              <ArrowLeft className="w-5 h-5" />
-            </a>
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">Content Coverage Analyzer</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => refetchAnalysis()} data-testid="button-refresh">
-              <RefreshCw className="w-4 h-4 mr-1" /> Refresh
-            </Button>
-          </div>
-        </div>
+    <div className="space-y-2">
+      <button
+        className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+        onClick={() => setExpanded(!expanded)}
+        data-testid={`button-toggle-${contentType}`}
+      >
+        {expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+        {items.length} items
+        <Badge variant="outline" className="text-xs">
+          {items.filter(i => i.status === "red").length} gaps
+        </Badge>
+      </button>
 
-        <div className="flex bg-white rounded-lg border p-0.5 w-fit">
-          {(["overview", "targets", "generate", "report"] as const).map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveSection(tab)}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors capitalize ${
-                activeSection === tab ? "bg-primary text-white" : "text-gray-600 hover:bg-gray-50"
-              }`}
-              data-testid={`tab-${tab}`}
+      {expanded && (
+        <div className="space-y-2">
+          {sortedItems.map(item => (
+            <div
+              key={`${item.category}-${item.key}`}
+              className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+              data-testid={`row-coverage-${item.key.toLowerCase().replace(/[\s/]+/g, "-")}`}
             >
-              {tab === "overview" && "Coverage Overview"}
-              {tab === "targets" && "Targets"}
-              {tab === "generate" && "Auto-Generate"}
-              {tab === "report" && "Last Report"}
-            </button>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-sm font-medium text-gray-900 truncate">{item.key}</span>
+                  <StatusBadge status={item.status} />
+                </div>
+                <ProgressBar current={item.current} target={item.target} status={item.status} />
+                <div className="flex justify-between mt-1">
+                  <span className="text-xs text-gray-500">{item.current.toLocaleString()} / {item.target.toLocaleString()}</span>
+                  <span className="text-xs text-gray-500">{item.percentage}%</span>
+                </div>
+              </div>
+              {onGenerate && item.gap > 0 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="shrink-0 text-xs h-8"
+                  onClick={() => onGenerate(item)}
+                  disabled={generating === item.key}
+                  data-testid={`button-generate-${item.key.toLowerCase().replace(/[\s/]+/g, "-")}`}
+                >
+                  {generating === item.key ? (
+                    <Loader2 className="w-3 h-3 animate-spin mr-1" />
+                  ) : (
+                    <Zap className="w-3 h-3 mr-1" />
+                  )}
+                  Fill Gap
+                </Button>
+              )}
+            </div>
           ))}
         </div>
-
-        {activeSection === "overview" && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-testid="section-summary-cards">
-              <Card className="border-l-4 border-l-blue-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <Database className="w-4 h-4" />
-                    <span>Nursing Questions</span>
-                  </div>
-                  <p className="text-2xl font-bold text-blue-600" data-testid="text-nursing-total">{fmt(nursing.totalQuestions || 0)}</p>
-                </CardContent>
-              </Card>
-              <Card className="border-l-4 border-l-purple-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <Database className="w-4 h-4" />
-                    <span>Allied Health Questions</span>
-                  </div>
-                  <p className="text-2xl font-bold text-purple-600" data-testid="text-allied-total">{fmt(allied.totalQuestions || 0)}</p>
-                </CardContent>
-              </Card>
-              <Card className="border-l-4 border-l-teal-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <Layers className="w-4 h-4" />
-                    <span>Total Flashcards</span>
-                  </div>
-                  <p className="text-2xl font-bold text-teal-600" data-testid="text-flashcard-total">{fmt((flashcards.nursingTotal || 0) + (flashcards.alliedTotal || 0))}</p>
-                </CardContent>
-              </Card>
-              <Card className={`border-l-4 ${(summary.coveragePercent || 0) >= 80 ? "border-l-green-500" : "border-l-orange-500"}`}>
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <Target className="w-4 h-4" />
-                    <span>Overall Coverage</span>
-                  </div>
-                  <p className={`text-2xl font-bold ${(summary.coveragePercent || 0) >= 80 ? "text-green-600" : "text-orange-600"}`} data-testid="text-coverage-pct">
-                    {summary.coveragePercent || 0}%
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1">{fmt(summary.totalDeficits || 0)} deficit areas</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card>
-              <CardHeader>
-                <button onClick={() => toggleSection("nursing-tiers")} className="flex items-center justify-between w-full">
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" /> Questions by Tier
-                  </CardTitle>
-                  {expandedSections.has("nursing-tiers") ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-              </CardHeader>
-              {expandedSections.has("nursing-tiers") && (
-                <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="section-tier-breakdown">
-                    {Object.entries(nursing.byTier || {}).map(([tier, count]: [string, any]) => (
-                      <div key={tier} className="p-3 bg-gray-50 rounded-lg text-center">
-                        <p className="text-xs text-gray-500 mb-1 uppercase">{tier}</p>
-                        <p className="font-bold text-xl" data-testid={`text-tier-${tier}`}>{fmt(count)}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <button onClick={() => toggleSection("nursing-body")} className="flex items-center justify-between w-full">
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5" /> Nursing - By Body System
-                  </CardTitle>
-                  {expandedSections.has("nursing-body") ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-              </CardHeader>
-              {expandedSections.has("nursing-body") && (
-                <CardContent>
-                  <div className="space-y-3 max-h-96 overflow-y-auto" data-testid="section-body-systems">
-                    {Object.entries(nursing.byBodySystem || {})
-                      .sort(([, a]: any, [, b]: any) => b.deficit - a.deficit)
-                      .map(([system, data]: [string, any]) => (
-                        <ProgressBar key={system} label={system} current={data.count} target={data.target} />
-                      ))}
-                    {Object.keys(nursing.byBodySystem || {}).length === 0 && (
-                      <p className="text-gray-400 text-sm">No body system data available</p>
-                    )}
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <button onClick={() => toggleSection("allied-career")} className="flex items-center justify-between w-full">
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" /> Allied Health - By Career
-                  </CardTitle>
-                  {expandedSections.has("allied-career") ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-              </CardHeader>
-              {expandedSections.has("allied-career") && (
-                <CardContent>
-                  <div className="space-y-3" data-testid="section-allied-careers">
-                    {Object.entries(allied.byCareer || {})
-                      .sort(([, a]: any, [, b]: any) => b.deficit - a.deficit)
-                      .map(([career, data]: [string, any]) => (
-                        <ProgressBar key={career} label={career} current={data.count} target={data.target} />
-                      ))}
-                    {Object.keys(allied.byCareer || {}).length === 0 && (
-                      <p className="text-gray-400 text-sm">No allied health data available</p>
-                    )}
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <button onClick={() => toggleSection("difficulty")} className="flex items-center justify-between w-full">
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" /> Difficulty Distribution (Nursing)
-                  </CardTitle>
-                  {expandedSections.has("difficulty") ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-              </CardHeader>
-              {expandedSections.has("difficulty") && (
-                <CardContent>
-                  <div className="grid grid-cols-5 gap-3" data-testid="section-difficulty">
-                    {[1, 2, 3, 4, 5].map(d => {
-                      const count = nursing.byDifficulty?.[String(d)] || 0;
-                      const total = nursing.totalQuestions || 1;
-                      const p = Math.round((count / total) * 100);
-                      const labels = ["Very Easy", "Easy", "Moderate", "Hard", "Very Hard"];
-                      return (
-                        <div key={d} className="p-3 bg-gray-50 rounded-lg text-center">
-                          <p className="text-xs text-gray-500 mb-1">{labels[d - 1]}</p>
-                          <p className="font-bold text-lg">{fmt(count)}</p>
-                          <p className="text-xs text-gray-400">{p}%</p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-3 p-3 bg-blue-50 rounded-lg text-xs text-blue-700">
-                    Target distribution: 30% Easy (1-2), 50% Moderate (3), 20% Hard (4-5)
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <button onClick={() => toggleSection("deficits")} className="flex items-center justify-between w-full">
-                  <CardTitle className="flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-orange-500" /> Coverage Deficits ({deficits.length})
-                  </CardTitle>
-                  {expandedSections.has("deficits") ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-              </CardHeader>
-              {expandedSections.has("deficits") && (
-                <CardContent>
-                  {deficits.length === 0 ? (
-                    <div className="flex items-center gap-2 text-green-600 p-4">
-                      <CheckCircle2 className="w-5 h-5" />
-                      <span>All coverage targets are met!</span>
-                    </div>
-                  ) : (
-                    <div className="space-y-2 max-h-96 overflow-y-auto" data-testid="list-deficits">
-                      {deficits.slice(0, showDeficits ? 50 : 10).map((d: any, i: number) => (
-                        <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors" data-testid={`deficit-item-${i}`}>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className={`text-xs px-2 py-0.5 rounded-full ${d.type === "question" ? "bg-blue-100 text-blue-700" : "bg-teal-100 text-teal-700"}`}>
-                                {d.type}
-                              </span>
-                              <span className="text-xs text-gray-500">{d.category}</span>
-                            </div>
-                            <p className="font-medium text-sm mt-1 truncate">{d.area}</p>
-                          </div>
-                          <div className="text-right ml-4 flex-shrink-0">
-                            <p className="text-sm font-bold text-red-600">-{fmt(d.deficit)}</p>
-                            <p className="text-xs text-gray-400">{fmt(d.current)}/{fmt(d.target)}</p>
-                          </div>
-                        </div>
-                      ))}
-                      {deficits.length > 10 && !showDeficits && (
-                        <button onClick={() => setShowDeficits(true)} className="text-sm text-primary hover:underline" data-testid="button-show-all-deficits">
-                          Show all {deficits.length} deficits
-                        </button>
-                      )}
-                    </div>
-                  )}
-                  <div className="mt-4 p-3 bg-orange-50 rounded-lg text-sm text-orange-800">
-                    <strong>Summary:</strong> {fmt(summary.totalQuestionsNeeded || 0)} questions and {fmt(summary.totalFlashcardsNeeded || 0)} flashcards needed to reach full coverage.
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-          </div>
-        )}
-
-        {activeSection === "targets" && (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings className="w-5 h-5" /> Coverage Targets
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-3 text-sm text-gray-700">Nursing Targets</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Questions per Body System</label>
-                        <Input
-                          type="number"
-                          value={targets.nursing?.questionsPerBodySystem ?? 300}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            nursing: { ...(targets.nursing || {}), questionsPerBodySystem: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-nursing-body-system-target"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Questions per Specialty</label>
-                        <Input
-                          type="number"
-                          value={targets.nursing?.questionsPerSpecialty ?? 500}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            nursing: { ...(targets.nursing || {}), questionsPerSpecialty: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-nursing-specialty-target"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Questions per Subtopic</label>
-                        <Input
-                          type="number"
-                          value={targets.nursing?.questionsPerSubtopic ?? 100}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            nursing: { ...(targets.nursing || {}), questionsPerSubtopic: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-nursing-subtopic-target"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-3 text-sm text-gray-700">Allied Health Targets</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Questions per Profession</label>
-                        <Input
-                          type="number"
-                          value={targets.allied?.questionsPerProfession ?? 300}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            allied: { ...(targets.allied || {}), questionsPerProfession: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-allied-profession-target"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Questions per Topic</label>
-                        <Input
-                          type="number"
-                          value={targets.allied?.questionsPerTopic ?? 75}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            allied: { ...(targets.allied || {}), questionsPerTopic: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-allied-topic-target"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-3 text-sm text-gray-700">Flashcard Targets</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs text-gray-500 block mb-1">Cards per Topic</label>
-                        <Input
-                          type="number"
-                          value={targets.flashcards?.cardsPerTopic ?? 25}
-                          onChange={e => setEditTargets({
-                            ...targets,
-                            flashcards: { ...(targets.flashcards || {}), cardsPerTopic: parseInt(e.target.value) || 0 }
-                          })}
-                          data-testid="input-flashcard-topic-target"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {editTargets && (
-                    <div className="flex gap-2 pt-2">
-                      <Button
-                        onClick={() => saveTargetsMutation.mutate({ targets: editTargets })}
-                        disabled={saveTargetsMutation.isPending}
-                        data-testid="button-save-targets"
-                      >
-                        <Save className="w-4 h-4 mr-1" />
-                        {saveTargetsMutation.isPending ? "Saving..." : "Save Targets"}
-                      </Button>
-                      <Button variant="outline" onClick={() => setEditTargets(null)} data-testid="button-cancel-targets">
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <XCircle className="w-5 h-5" /> Disabled Topics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-500 mb-3">
-                  Topics listed here are excluded from coverage analysis and auto-generation.
-                  Format: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">category:type:name</code>
-                </p>
-                <div className="space-y-2">
-                  {(targetsData?.disabledTopics || []).length === 0 ? (
-                    <p className="text-sm text-gray-400">No topics disabled</p>
-                  ) : (
-                    (targetsData?.disabledTopics || []).map((t: string, i: number) => (
-                      <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <span className="text-sm font-mono">{t}</span>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {activeSection === "generate" && (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className="w-5 h-5" /> Auto-Generate Content
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-blue-50 rounded-lg text-sm text-blue-800">
-                    This will analyze coverage deficits and automatically generate questions and flashcards
-                    for topics below their target thresholds. Generated content is saved as drafts for review.
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="text-xs text-gray-500 block mb-1">Max Batches</label>
-                      <Input
-                        type="number"
-                        min={1}
-                        max={20}
-                        value={maxBatches}
-                        onChange={e => setMaxBatches(parseInt(e.target.value) || 5)}
-                        data-testid="input-max-batches"
-                      />
-                      <p className="text-xs text-gray-400 mt-1">50 questions or 25 flashcards per batch</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-500 block mb-1">Content Type</label>
-                      <div className="space-y-2 mt-2">
-                        <label className="flex items-center gap-2 text-sm">
-                          <input
-                            type="radio"
-                            checked={!questionOnly && !flashcardOnly}
-                            onChange={() => { setQuestionOnly(false); setFlashcardOnly(false); }}
-                            data-testid="radio-both"
-                          />
-                          Both Questions & Flashcards
-                        </label>
-                        <label className="flex items-center gap-2 text-sm">
-                          <input
-                            type="radio"
-                            checked={questionOnly}
-                            onChange={() => { setQuestionOnly(true); setFlashcardOnly(false); }}
-                            data-testid="radio-questions-only"
-                          />
-                          Questions Only
-                        </label>
-                        <label className="flex items-center gap-2 text-sm">
-                          <input
-                            type="radio"
-                            checked={flashcardOnly}
-                            onChange={() => { setQuestionOnly(false); setFlashcardOnly(true); }}
-                            data-testid="radio-flashcards-only"
-                          />
-                          Flashcards Only
-                        </label>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-500 block mb-1">Topic Filter (optional)</label>
-                      <Input
-                        placeholder="e.g. Cardiovascular, RRT..."
-                        value={topicFilter}
-                        onChange={e => setTopicFilter(e.target.value)}
-                        data-testid="input-topic-filter"
-                      />
-                      <p className="text-xs text-gray-400 mt-1">Comma-separated to limit generation</p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2 pt-2">
-                    <Button
-                      onClick={() => generateMutation.mutate({
-                        maxBatches,
-                        questionOnly,
-                        flashcardOnly,
-                        topics: topicFilter ? topicFilter.split(",").map(t => t.trim()).filter(Boolean) : undefined,
-                      })}
-                      disabled={generateMutation.isPending}
-                      data-testid="button-trigger-generation"
-                    >
-                      <Play className="w-4 h-4 mr-1" />
-                      {generateMutation.isPending ? "Generating..." : "Start Generation"}
-                    </Button>
-                  </div>
-
-                  {generateMutation.isPending && (
-                    <div className="flex items-center gap-3 p-4 bg-yellow-50 rounded-lg">
-                      <RefreshCw className="w-5 h-5 animate-spin text-yellow-600" />
-                      <span className="text-sm text-yellow-800">Generation in progress. This may take several minutes...</span>
-                    </div>
-                  )}
-
-                  {generateMutation.isError && (
-                    <div className="p-4 bg-red-50 rounded-lg text-sm text-red-700" data-testid="error-generation">
-                      Generation failed: {(generateMutation.error as Error)?.message || "Unknown error"}
-                    </div>
-                  )}
-
-                  {generateMutation.data && (
-                    <ReportDisplay report={generateMutation.data} />
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {activeSection === "report" && (
-          <div className="space-y-6">
-            {lastReport ? (
-              <ReportDisplay report={lastReport} />
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <p className="text-gray-400 text-center py-8">No generation reports available yet. Run auto-generation to see results here.</p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
 
-function ReportDisplay({ report }: { report: any }) {
-  if (!report) return null;
-
+function SummaryCard({ icon: Icon, title, value, subtitle, color }: {
+  icon: any; title: string; value: number | string; subtitle: string; color: string;
+}) {
   return (
-    <Card data-testid="section-report">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BarChart3 className="w-5 h-5" />
-          Generation Report
-          <span className={`text-xs px-2 py-0.5 rounded-full ml-2 ${
-            report.status === "completed" ? "bg-green-100 text-green-700" :
-            report.status === "failed" ? "bg-red-100 text-red-700" :
-            "bg-yellow-100 text-yellow-700"
-          }`} data-testid="text-report-status">
-            {report.status}
-          </span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-testid="section-report-stats">
-            <div className="p-3 bg-blue-50 rounded-lg text-center">
-              <p className="text-xs text-gray-500">Questions Generated</p>
-              <p className="text-xl font-bold text-blue-600" data-testid="text-q-generated">{report.questionsGenerated || 0}</p>
-            </div>
-            <div className="p-3 bg-green-50 rounded-lg text-center">
-              <p className="text-xs text-gray-500">Questions Accepted</p>
-              <p className="text-xl font-bold text-green-600" data-testid="text-q-accepted">{report.questionsAccepted || 0}</p>
-            </div>
-            <div className="p-3 bg-teal-50 rounded-lg text-center">
-              <p className="text-xs text-gray-500">Flashcards Generated</p>
-              <p className="text-xl font-bold text-teal-600" data-testid="text-fc-generated">{report.flashcardsGenerated || 0}</p>
-            </div>
-            <div className="p-3 bg-orange-50 rounded-lg text-center">
-              <p className="text-xs text-gray-500">Duplicates Skipped</p>
-              <p className="text-xl font-bold text-orange-600" data-testid="text-duplicates-skipped">{report.duplicatesSkipped || 0}</p>
-            </div>
+    <Card className="border-0 shadow-sm" data-testid={`card-summary-${title.toLowerCase().replace(/\s+/g, "-")}`}>
+      <CardContent className="p-4">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{title}</p>
+            <p className="text-2xl font-bold text-gray-900 mt-1">{typeof value === "number" ? value.toLocaleString() : value}</p>
+            <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
           </div>
-
-          {report.topicsReachedTarget?.length > 0 && (
-            <div className="p-3 bg-green-50 rounded-lg">
-              <p className="text-xs font-medium text-green-700 mb-1">Topics Reached Target ({report.topicsReachedTarget.length})</p>
-              <div className="flex flex-wrap gap-1">
-                {report.topicsReachedTarget.map((t: string, i: number) => (
-                  <span key={i} className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded">{t}</span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {report.topicsBelowTarget?.length > 0 && (
-            <div className="p-3 bg-orange-50 rounded-lg">
-              <p className="text-xs font-medium text-orange-700 mb-1">Topics Still Below Target ({report.topicsBelowTarget.length})</p>
-              <div className="flex flex-wrap gap-1">
-                {report.topicsBelowTarget.map((t: string, i: number) => (
-                  <span key={i} className="text-xs bg-orange-200 text-orange-800 px-2 py-0.5 rounded">{t}</span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {report.batches?.length > 0 && (
-            <div>
-              <p className="text-xs font-medium text-gray-600 mb-2">Batch Details ({report.batches.length})</p>
-              <div className="space-y-1 max-h-64 overflow-y-auto" data-testid="list-batches">
-                {report.batches.map((batch: any, i: number) => (
-                  <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded text-xs">
-                    <div className="flex items-center gap-2 flex-1 min-w-0">
-                      <span className={`px-1.5 py-0.5 rounded ${batch.type.includes("Flashcard") ? "bg-teal-100 text-teal-700" : "bg-blue-100 text-blue-700"}`}>
-                        {batch.type.includes("Flashcard") ? "FC" : "Q"}
-                      </span>
-                      <span className="truncate">{batch.topic}</span>
-                    </div>
-                    <div className="flex gap-3 text-gray-500 flex-shrink-0 ml-2">
-                      <span>Gen: {batch.generated}</span>
-                      <span className="text-green-600">OK: {batch.accepted}</span>
-                      {batch.rejected > 0 && <span className="text-red-600">Rej: {batch.rejected}</span>}
-                      {batch.duplicates > 0 && <span className="text-orange-600">Dup: {batch.duplicates}</span>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {report.error && (
-            <div className="p-3 bg-red-50 rounded-lg text-sm text-red-700">
-              Error: {report.error}
-            </div>
-          )}
-
-          <div className="text-xs text-gray-400 pt-2 border-t">
-            Started: {report.startedAt ? new Date(report.startedAt).toLocaleString() : "N/A"}
-            {report.completedAt && ` | Completed: ${new Date(report.completedAt).toLocaleString()}`}
+          <div className={`w-9 h-9 rounded-lg ${color} flex items-center justify-center`}>
+            <Icon className="w-4.5 h-4.5 text-white" />
           </div>
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+export default function AdminContentCoverage() {
+  const { isAdmin } = useAuth();
+  const [, navigate] = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [report, setReport] = useState<CoverageReport | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [generating, setGenerating] = useState<string | null>(null);
+  const [autoFilling, setAutoFilling] = useState(false);
+  const [showTargets, setShowTargets] = useState(false);
+  const [targets, setTargets] = useState<Targets | null>(null);
+  const [genResults, setGenResults] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"nursing" | "allied" | "flashcards" | "lessons">("nursing");
+
+  useEffect(() => {
+    if (!isAdmin) { navigate("/login"); return; }
+    loadCoverage();
+  }, [isAdmin]);
+
+  const loadCoverage = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await adminFetch("/api/admin/content-coverage");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setReport(await res.json());
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const loadTargets = async () => {
+    try {
+      const res = await adminFetch("/api/admin/content-coverage/targets");
+      if (res.ok) setTargets(await res.json());
+    } catch {}
+  };
+
+  const saveTargets = async () => {
+    if (!targets) return;
+    try {
+      await adminFetch("/api/admin/content-coverage/targets", {
+        method: "PUT",
+        body: targets,
+      });
+      loadCoverage();
+    } catch {}
+  };
+
+  const handleGenerateQuestions = async (item: CoverageTarget) => {
+    setGenerating(item.key);
+    try {
+      const body: any = { count: Math.min(10, item.gap) };
+      if (item.category === "Nursing Tier") body.tier = item.key.toLowerCase();
+      else if (item.category === "Body System") { body.tier = "rn"; body.bodySystem = item.key; }
+      else if (item.category === "Specialty") { body.tier = "rn"; body.topic = item.key; }
+
+      const res = await adminFetch("/api/admin/content-coverage/generate-questions", {
+        method: "POST",
+        body,
+      });
+      const result = await res.json();
+      setGenResults(prev => [{ type: "questions", key: item.key, ...result, time: new Date().toISOString() }, ...prev]);
+      loadCoverage();
+    } catch (err: any) {
+      setGenResults(prev => [{ type: "error", key: item.key, error: err.message, time: new Date().toISOString() }, ...prev]);
+    } finally {
+      setGenerating(null);
+    }
+  };
+
+  const handleGenerateFlashcards = async (item: CoverageTarget) => {
+    setGenerating(item.key);
+    try {
+      const res = await adminFetch("/api/admin/content-coverage/generate-flashcards", {
+        method: "POST",
+        body: { tier: "rpn", topicTag: item.key, count: Math.min(10, item.gap) },
+      });
+      const result = await res.json();
+      setGenResults(prev => [{ type: "flashcards", key: item.key, ...result, time: new Date().toISOString() }, ...prev]);
+      loadCoverage();
+    } catch (err: any) {
+      setGenResults(prev => [{ type: "error", key: item.key, error: err.message, time: new Date().toISOString() }, ...prev]);
+    } finally {
+      setGenerating(null);
+    }
+  };
+
+  const handleGenerateLesson = async (lesson: { title: string; slug: string }) => {
+    setGenerating(lesson.slug);
+    try {
+      const res = await adminFetch("/api/admin/content-coverage/generate-lesson", {
+        method: "POST",
+        body: lesson,
+      });
+      const result = await res.json();
+      setGenResults(prev => [{ type: "lesson", key: lesson.slug, ...result, time: new Date().toISOString() }, ...prev]);
+      loadCoverage();
+    } catch (err: any) {
+      setGenResults(prev => [{ type: "error", key: lesson.slug, error: err.message, time: new Date().toISOString() }, ...prev]);
+    } finally {
+      setGenerating(null);
+    }
+  };
+
+  const handleAutoFill = async () => {
+    setAutoFilling(true);
+    try {
+      const res = await adminFetch("/api/admin/content-coverage/auto-fill", {
+        method: "POST",
+        body: { types: ["questions", "flashcards", "lessons"], maxPerCategory: 10 },
+      });
+      const result = await res.json();
+      setGenResults(prev => [{ type: "auto-fill", ...result, time: new Date().toISOString() }, ...prev]);
+      loadCoverage();
+    } catch (err: any) {
+      setGenResults(prev => [{ type: "error", key: "auto-fill", error: err.message, time: new Date().toISOString() }, ...prev]);
+    } finally {
+      setAutoFilling(false);
+    }
+  };
+
+  if (!isAdmin) return null;
+
+  const totalQuestions = report ? (
+    report.nursing.byTier.reduce((s, t) => s + t.current, 0)
+  ) : 0;
+  const totalFlashcards = report ? (
+    report.flashcards.byTopic.reduce((s, t) => s + t.current, 0)
+  ) : 0;
+  const totalGaps = report ? (
+    report.nursing.byTier.filter(t => t.status === "red").length +
+    report.nursing.byBodySystem.filter(t => t.status === "red").length +
+    report.alliedHealth.byProfession.filter(t => t.status === "red").length +
+    report.flashcards.byTopic.filter(t => t.status === "red").length
+  ) : 0;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Content Coverage Analyzer</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Monitor content gaps and auto-generate to meet targets
+              {report && <span className="ml-2 text-xs text-gray-400">Updated {new Date(report.timestamp).toLocaleTimeString()}</span>}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => { setShowTargets(!showTargets); if (!targets) loadTargets(); }}
+              data-testid="button-settings"
+            >
+              <Settings className="w-4 h-4 mr-1" /> Targets
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={loadCoverage}
+              disabled={loading}
+              data-testid="button-refresh"
+            >
+              <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Refresh
+            </Button>
+            <Button
+              size="sm"
+              className="bg-[#BFA6F6] hover:bg-[#a88de8] text-white"
+              onClick={handleAutoFill}
+              disabled={autoFilling || loading}
+              data-testid="button-auto-fill"
+            >
+              {autoFilling ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Zap className="w-4 h-4 mr-1" />}
+              Auto-Fill Gaps
+            </Button>
+          </div>
+        </div>
+
+        {showTargets && targets && (
+          <Card className="mb-6 border-0 shadow-sm" data-testid="card-target-settings">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-semibold">Coverage Targets</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">Questions/Tier</label>
+                  <Input
+                    type="number"
+                    value={targets.questionsPerTier}
+                    onChange={e => setTargets({ ...targets, questionsPerTier: parseInt(e.target.value) || 0 })}
+                    className="h-8 text-sm"
+                    data-testid="input-target-tier"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">Questions/System</label>
+                  <Input
+                    type="number"
+                    value={targets.questionsPerBodySystem}
+                    onChange={e => setTargets({ ...targets, questionsPerBodySystem: parseInt(e.target.value) || 0 })}
+                    className="h-8 text-sm"
+                    data-testid="input-target-system"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">Questions/Specialty</label>
+                  <Input
+                    type="number"
+                    value={targets.questionsPerSpecialty}
+                    onChange={e => setTargets({ ...targets, questionsPerSpecialty: parseInt(e.target.value) || 0 })}
+                    className="h-8 text-sm"
+                    data-testid="input-target-specialty"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">Questions/Profession</label>
+                  <Input
+                    type="number"
+                    value={targets.questionsPerProfession}
+                    onChange={e => setTargets({ ...targets, questionsPerProfession: parseInt(e.target.value) || 0 })}
+                    className="h-8 text-sm"
+                    data-testid="input-target-profession"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">Flashcards/Topic</label>
+                  <Input
+                    type="number"
+                    value={targets.flashcardsPerTopic}
+                    onChange={e => setTargets({ ...targets, flashcardsPerTopic: parseInt(e.target.value) || 0 })}
+                    className="h-8 text-sm"
+                    data-testid="input-target-flashcards"
+                  />
+                </div>
+              </div>
+              <div className="mt-3 flex justify-end">
+                <Button size="sm" onClick={saveTargets} className="bg-[#BFA6F6] hover:bg-[#a88de8]" data-testid="button-save-targets">
+                  Save Targets
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700" data-testid="text-error">
+            {error}
+          </div>
+        )}
+
+        {loading && !report ? (
+          <div className="flex items-center justify-center py-20" data-testid="loading-spinner">
+            <Loader2 className="w-8 h-8 animate-spin text-[#BFA6F6]" />
+            <span className="ml-3 text-gray-500">Analyzing content coverage...</span>
+          </div>
+        ) : report ? (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <SummaryCard
+                icon={FileText}
+                title="Total Questions"
+                value={totalQuestions}
+                subtitle={`${report.nursing.byTier.filter(t => t.status === "green").length}/${report.nursing.byTier.length} tiers on target`}
+                color="bg-blue-500"
+              />
+              <SummaryCard
+                icon={Layers}
+                title="Flashcards"
+                value={totalFlashcards}
+                subtitle={`${report.flashcards.byTopic.length} topics tracked`}
+                color="bg-purple-500"
+              />
+              <SummaryCard
+                icon={BookOpen}
+                title="Lessons"
+                value={`${report.lessons.complete}/${report.lessons.total}`}
+                subtitle={`${report.lessons.weak + report.lessons.placeholder} need work`}
+                color="bg-emerald-500"
+              />
+              <SummaryCard
+                icon={AlertTriangle}
+                title="Critical Gaps"
+                value={totalGaps}
+                subtitle="Categories below 40% target"
+                color={totalGaps > 0 ? "bg-red-500" : "bg-emerald-500"}
+              />
+            </div>
+
+            <div className="flex gap-1 mb-4 bg-white rounded-lg p-1 shadow-sm border border-gray-100">
+              {(["nursing", "allied", "flashcards", "lessons"] as const).map(tab => (
+                <button
+                  key={tab}
+                  className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                    activeTab === tab ? "bg-[#BFA6F6] text-white" : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                  onClick={() => setActiveTab(tab)}
+                  data-testid={`tab-${tab}`}
+                >
+                  {tab === "nursing" && "Nursing"}
+                  {tab === "allied" && "Allied Health"}
+                  {tab === "flashcards" && "Flashcards"}
+                  {tab === "lessons" && "Lessons"}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === "nursing" && (
+              <div className="space-y-4">
+                <Card className="border-0 shadow-sm">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                      <Target className="w-4 h-4 text-[#BFA6F6]" /> Questions by Tier
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CoverageTable
+                      items={report.nursing.byTier}
+                      onGenerate={handleGenerateQuestions}
+                      generating={generating}
+                      contentType="tier"
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-sm">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                      <Brain className="w-4 h-4 text-[#BFA6F6]" /> Questions by Body System
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CoverageTable
+                      items={report.nursing.byBodySystem}
+                      onGenerate={handleGenerateQuestions}
+                      generating={generating}
+                      contentType="system"
+                    />
+                  </CardContent>
+                </Card>
+
+                {report.nursing.bySpecialty.length > 0 && (
+                  <Card className="border-0 shadow-sm">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-[#BFA6F6]" /> Questions by Specialty/Topic
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CoverageTable
+                        items={report.nursing.bySpecialty}
+                        onGenerate={handleGenerateQuestions}
+                        generating={generating}
+                        contentType="specialty"
+                      />
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            )}
+
+            {activeTab === "allied" && (
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4 text-[#BFA6F6]" /> Allied Health by Profession
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CoverageTable
+                    items={report.alliedHealth.byProfession}
+                    generating={generating}
+                    contentType="profession"
+                  />
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === "flashcards" && (
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-[#BFA6F6]" /> Flashcards by Topic
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {report.flashcards.byTopic.length > 0 ? (
+                    <CoverageTable
+                      items={report.flashcards.byTopic}
+                      onGenerate={handleGenerateFlashcards}
+                      generating={generating}
+                      contentType="flashcard-topic"
+                    />
+                  ) : (
+                    <p className="text-sm text-gray-500 py-4 text-center">No flashcard topics tracked yet</p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === "lessons" && (
+              <div className="space-y-4">
+                <Card className="border-0 shadow-sm">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-[#BFA6F6]" /> Lesson Completion Status
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+                      <div className="p-3 bg-emerald-50 rounded-lg text-center" data-testid="stat-lessons-complete">
+                        <p className="text-2xl font-bold text-emerald-700">{report.lessons.complete}</p>
+                        <p className="text-xs text-emerald-600">Complete</p>
+                      </div>
+                      <div className="p-3 bg-amber-50 rounded-lg text-center" data-testid="stat-lessons-weak">
+                        <p className="text-2xl font-bold text-amber-700">{report.lessons.weak}</p>
+                        <p className="text-xs text-amber-600">Weak</p>
+                      </div>
+                      <div className="p-3 bg-orange-50 rounded-lg text-center" data-testid="stat-lessons-placeholder">
+                        <p className="text-2xl font-bold text-orange-700">{report.lessons.placeholder}</p>
+                        <p className="text-xs text-orange-600">Placeholder</p>
+                      </div>
+                      <div className="p-3 bg-red-50 rounded-lg text-center" data-testid="stat-lessons-broken">
+                        <p className="text-2xl font-bold text-red-700">{report.lessons.broken}</p>
+                        <p className="text-xs text-red-600">Broken</p>
+                      </div>
+                      <div className="p-3 bg-gray-50 rounded-lg text-center" data-testid="stat-lessons-total">
+                        <p className="text-2xl font-bold text-gray-700">{report.lessons.total}</p>
+                        <p className="text-xs text-gray-600">Total</p>
+                      </div>
+                    </div>
+
+                    <div className="w-full bg-gray-100 rounded-full h-3 mb-2">
+                      <div className="flex h-3 rounded-full overflow-hidden">
+                        <div className="bg-emerald-500 transition-all" style={{ width: `${report.lessons.total > 0 ? (report.lessons.complete / report.lessons.total) * 100 : 0}%` }} />
+                        <div className="bg-amber-500 transition-all" style={{ width: `${report.lessons.total > 0 ? (report.lessons.weak / report.lessons.total) * 100 : 0}%` }} />
+                        <div className="bg-orange-500 transition-all" style={{ width: `${report.lessons.total > 0 ? (report.lessons.placeholder / report.lessons.total) * 100 : 0}%` }} />
+                        <div className="bg-red-500 transition-all" style={{ width: `${report.lessons.total > 0 ? (report.lessons.broken / report.lessons.total) * 100 : 0}%` }} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {report.lessons.missing.length > 0 && (
+                  <Card className="border-0 shadow-sm">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-amber-500" /> Missing Lessons ({report.lessons.missing.length})
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {report.lessons.missing.map(lesson => (
+                          <div
+                            key={lesson.slug}
+                            className="flex items-center justify-between p-3 bg-amber-50 rounded-lg"
+                            data-testid={`row-missing-lesson-${lesson.slug}`}
+                          >
+                            <div>
+                              <p className="text-sm font-medium text-gray-900">{lesson.title}</p>
+                              <p className="text-xs text-gray-500">/{lesson.slug} — referenced from {lesson.referencedFrom}</p>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="text-xs h-8"
+                              onClick={() => handleGenerateLesson(lesson)}
+                              disabled={generating === lesson.slug}
+                              data-testid={`button-gen-lesson-${lesson.slug}`}
+                            >
+                              {generating === lesson.slug ? (
+                                <Loader2 className="w-3 h-3 animate-spin mr-1" />
+                              ) : (
+                                <Play className="w-3 h-3 mr-1" />
+                              )}
+                              Generate
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            )}
+
+            {genResults.length > 0 && (
+              <Card className="border-0 shadow-sm mt-4">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-[#BFA6F6]" /> Generation Log
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {genResults.map((r, i) => (
+                      <div key={i} className="text-xs p-2 bg-gray-50 rounded flex items-start gap-2" data-testid={`row-gen-result-${i}`}>
+                        {r.error ? (
+                          <XCircle className="w-3.5 h-3.5 text-red-500 mt-0.5 shrink-0" />
+                        ) : (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
+                        )}
+                        <div>
+                          <span className="font-medium">[{r.type}] {r.key || "auto-fill"}</span>
+                          {r.generated !== undefined && (
+                            <span className="text-gray-500 ml-2">
+                              Generated: {r.generated}, Accepted: {r.accepted}
+                              {r.errors?.length > 0 && `, Errors: ${r.errors.length}`}
+                            </span>
+                          )}
+                          {r.success !== undefined && (
+                            <span className="text-gray-500 ml-2">{r.success ? "Success" : `Failed: ${r.error}`}</span>
+                          )}
+                          {r.questions && (
+                            <span className="text-gray-500 ml-2">
+                              Q: {r.questions.reduce((s: number, q: any) => s + (q.accepted || 0), 0)} accepted
+                            </span>
+                          )}
+                          {r.error && !r.success && <span className="text-red-500 ml-2">{r.error}</span>}
+                        </div>
+                        <span className="text-gray-400 ml-auto shrink-0">{new Date(r.time).toLocaleTimeString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {report.generationHistory.length > 0 && (
+              <Card className="border-0 shadow-sm mt-4">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4 text-[#BFA6F6]" /> Recent Generation History
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Template</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Variant</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Status</th>
+                          <th className="text-right py-2 px-2 text-gray-500 font-medium">Generated</th>
+                          <th className="text-right py-2 px-2 text-gray-500 font-medium">Accepted</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Triggered</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {report.generationHistory.map((h: any) => (
+                          <tr key={h.id} className="border-b border-gray-50 hover:bg-gray-50">
+                            <td className="py-2 px-2">{h.templateKey}</td>
+                            <td className="py-2 px-2">{h.variantKey}</td>
+                            <td className="py-2 px-2">
+                              <Badge variant="outline" className={`text-xs ${
+                                h.status === "completed" ? "bg-emerald-50 text-emerald-700" :
+                                h.status === "failed" ? "bg-red-50 text-red-700" :
+                                "bg-gray-50 text-gray-700"
+                              }`}>{h.status}</Badge>
+                            </td>
+                            <td className="py-2 px-2 text-right">{h.generated || 0}</td>
+                            <td className="py-2 px-2 text-right">{h.accepted || 0}</td>
+                            <td className="py-2 px-2">{h.triggeredBy}</td>
+                            <td className="py-2 px-2 text-gray-500">{h.createdAt ? new Date(h.createdAt).toLocaleDateString() : "-"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        ) : null}
+      </div>
+    </div>
   );
 }
