@@ -30,10 +30,27 @@ export function HeroCTA({ badge, title, titleHighlight, subtitle, primaryCTA, se
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-hero-title">
             {title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-teal-600">{titleHighlight}</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
+          <p className="text-lg sm:text-xl text-gray-600 mb-6 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
             {subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/70 border border-purple-100 backdrop-blur-sm mb-6" data-testid="hero-clarity-block">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+            <div className="space-y-2 text-left">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                <span>Career-specific question banks with detailed rationales</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                <span>Blueprint-weighted mock exams that mirror real test conditions</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                <span>AI-powered study plans and readiness tracking</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link href={primaryCTA.href} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-hero-primary">
               {primaryCTA.label} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -42,6 +59,20 @@ export function HeroCTA({ badge, title, titleHighlight, subtitle, primaryCTA, se
                 {secondaryCTA.label}
               </Link>
             )}
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500" data-testid="hero-trust-badges">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-teal-500" />
+              <span>No credit card required</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-teal-500" />
+              <span>Blueprint-aligned content</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-teal-500" />
+              <span>Cancel anytime</span>
+            </div>
           </div>
         </div>
       </div>

@@ -260,11 +260,23 @@ function HeroSection({
           {r(hero.headline)}
         </h1>
 
-        <p className="text-lg md:text-xl text-[#2E3A59]/65 max-w-3xl mx-auto mb-10 leading-relaxed" data-testid="hero-subheadline">
+        <p className="text-lg md:text-xl text-[#2E3A59]/65 max-w-3xl mx-auto mb-6 leading-relaxed" data-testid="hero-subheadline">
           {r(hero.subheadline)}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+        {hero.futureSelf && (
+          <p className="text-base md:text-lg text-[#2E3A59]/80 font-medium max-w-2xl mx-auto mb-4 italic" data-testid="hero-future-self">
+            {r(hero.futureSelf)}
+          </p>
+        )}
+
+        {hero.lossAversion && (
+          <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-5 py-2 inline-block mb-8" data-testid="hero-loss-aversion">
+            {r(hero.lossAversion)}
+          </p>
+        )}
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
           <Button
             size="lg"
             onClick={() => {
@@ -290,6 +302,31 @@ function HeroSection({
             {hero.secondaryCta}
           </Button>
         </div>
+
+        {hero.trustBadges && hero.trustBadges.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-[#2E3A59]/55 mb-8" data-testid="hero-trust-badges">
+            {hero.trustBadges.map((badge, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <Check className={`w-4 h-4 ${colors.accent} flex-shrink-0`} />
+                <span>{badge}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {hero.clarityBullets && hero.clarityBullets.length > 0 && (
+          <div className="max-w-2xl mx-auto mb-10 p-5 rounded-2xl bg-white/60 border border-[#BFA6F6]/10 backdrop-blur-sm" data-testid="hero-clarity-block">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#2E3A59]/40 mb-3">What you get</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {hero.clarityBullets.map((bullet, i) => (
+                <div key={i} className="flex items-start gap-2 text-sm text-[#2E3A59]/70 text-left">
+                  <Check className={`w-4 h-4 ${colors.accent} flex-shrink-0 mt-0.5`} />
+                  <span>{r(bullet)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {hero.stats && hero.stats.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">

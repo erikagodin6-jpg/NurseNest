@@ -702,12 +702,15 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
               <Icon className="w-3 h-3 mr-1.5" /> Exam Prep Hub
             </Badge>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" data-testid="text-exam-h1">
-              {config.h1}
+              Pass Your {config.h1.replace(" Exam Prep", "")} Exam With Confidence
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6" data-testid="text-exam-desc">
-              {config.description}
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-3" data-testid="text-exam-desc">
+              {config.description} Don't risk failing — start targeted prep with {config.stats[0]?.value || "hundreds of"} practice questions today.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+            <p className="text-sm text-gray-500 italic mb-6 max-w-xl mx-auto" data-testid="text-exam-future-self">
+              Walk into your {config.examNames?.[0] || "certification"} exam knowing exactly what to expect.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
               <Button
                 size="lg"
                 className="h-12 px-8 rounded-full text-white shadow-lg"
@@ -715,7 +718,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
                 onClick={() => setLocation(config.ctaPrimary.href)}
                 data-testid="button-cta-primary"
               >
-                {config.ctaPrimary.label} <ArrowRight className="ml-2 w-4 h-4" />
+                Start Practicing Free <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
                 size="lg"
@@ -726,6 +729,39 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
               >
                 <Stethoscope className="mr-2 w-4 h-4" /> {config.ctaSecondary.label}
               </Button>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="hero-trust-badges">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                <span>Blueprint-aligned content</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                <span>Cancel anytime</span>
+              </div>
+            </div>
+
+            <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/80 border border-gray-200/60 mb-8" data-testid="hero-clarity-block">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+              <div className="space-y-2 text-left">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
+                  <span>Exam-aligned question bank with detailed rationales</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
+                  <span>Blueprint-weighted mock exams that mirror real test conditions</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
+                  <span>AI-powered study plans and readiness tracking</span>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">

@@ -70,14 +70,14 @@ export default function ParamedicLandingPage() {
 
       <HeroCTA
         badge="Paramedic Exam Academy"
-        title="Pass Your Paramedic Exam"
-        titleHighlight="with Confidence"
+        title="Pass Your Paramedic Certification Exam"
+        titleHighlight="With Confidence"
         subtitle={isCanada
-          ? "Adaptive question banks, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for PCP and ACP learners preparing for COPR and provincial certification exams."
-          : "Adaptive question banks, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for EMT, AEMT, and NREMT Paramedic learners who need more than just a question bank."
+          ? "500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for PCP and ACP learners preparing for COPR and provincial certification exams. Don't risk failing your paramedic exam — start building confidence today."
+          : "500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for EMT, AEMT, and NREMT Paramedic learners. Don't risk failing your certification exam — start building confidence today."
         }
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "Explore Study Tools", href: "/allied-health/paramedic/lessons" }}
+        secondaryCTA={{ label: "Try Free Questions", href: "/allied-health/paramedic/questions" }}
       />
 
       <section className="py-6 bg-white border-b border-gray-100" data-testid="section-region-selector">

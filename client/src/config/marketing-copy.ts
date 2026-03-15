@@ -10,6 +10,10 @@ export interface TrackHeroCopy {
   secondaryCta: string;
   secondaryCtaPath: string;
   stats?: Array<{ label: string; value: string }>;
+  lossAversion?: string;
+  futureSelf?: string;
+  clarityBullets?: string[];
+  trustBadges?: string[];
 }
 
 export interface TrackPainPoint {
@@ -160,17 +164,29 @@ export interface MarketingCopy {
 const generalCopy: MarketingCopy = {
   track: "general",
   hero: {
-    headline: "Nursing exam prep, tailored to your track",
-    subheadline: "NurseNest gives nursing learners a more personalized way to study — with track-specific exams, test banks, dashboards, and progress tools designed for your exact level of practice.",
-    primaryCta: "Choose Your Track",
-    primaryCtaPath: "#track-selector",
-    secondaryCta: "Explore Free Practice",
-    secondaryCtaPath: "/free-practice",
+    headline: "Pass Your Nursing Exam With Confidence",
+    subheadline: "10,000+ practice questions, 10,000+ flashcards across 140+ decks, and 8,000+ clinical lessons — all aligned to your exam blueprint. 94% of NurseNest students pass on their first attempt.",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
+    secondaryCta: "Explore Lessons",
+    secondaryCtaPath: "/lessons",
     stats: [
       { label: "Practice Questions", value: "10,000+" },
       { label: "Flashcards", value: "10,000+" },
-      { label: "Study Decks", value: "140+" },
-      { label: "Pass Rate", value: "94%" },
+      { label: "First-Attempt Pass Rate", value: "94%" },
+      { label: "Active Students", value: "12,000+" },
+    ],
+    lossAversion: "Don't risk walking into your exam unprepared — start building confidence today.",
+    futureSelf: "Walk into your exam knowing exactly how to approach every question.",
+    clarityBullets: [
+      "Practice realistic exam questions with detailed rationales",
+      "Learn with structured clinical lessons by body system",
+      "Track your progress with personalized analytics",
+    ],
+    trustBadges: [
+      "No credit card required",
+      "30-day satisfaction guarantee",
+      "Cancel anytime",
     ],
   },
   painPoints: [
@@ -253,17 +269,29 @@ const rpnCopy: MarketingCopy = {
     ],
   },
   hero: {
-    headline: "Practical nursing exam prep built for clarity and confidence",
-    subheadline: "Focused support for practical nursing learners who want clear, high-yield review without feeling overwhelmed. Realistic RPN-style practice designed for predictable care, escalation, and exam readiness.",
-    primaryCta: "Start RPN Practice",
-    primaryCtaPath: "/pricing?track=rpn",
+    headline: "Pass the {pnExamName} With Confidence",
+    subheadline: "3,000+ RPN-scope practice questions, 10,000+ flashcards, and unlimited practice exams — all calibrated for practical nursing. 94% of NurseNest students pass on their first attempt.",
+    primaryCta: "Try 10 Free Questions",
+    primaryCtaPath: "/register",
     secondaryCta: "Explore RPN Lessons",
     secondaryCtaPath: "/lessons",
     stats: [
       { label: "RPN Questions", value: "3,000+" },
       { label: "Flashcards", value: "10,000+" },
-      { label: "Practice Exams", value: "Unlimited" },
-      { label: "Study Decks", value: "140+" },
+      { label: "First-Attempt Pass Rate", value: "94%" },
+      { label: "Active Students", value: "12,000+" },
+    ],
+    lossAversion: "Don't risk failing your licensing exam — start focused prep built for your scope today.",
+    futureSelf: "Walk into your exam knowing exactly how to approach every question.",
+    clarityBullets: [
+      "Practice realistic {pnExamName} questions with step-by-step rationales",
+      "Learn with detailed lessons on medication safety and foundational care",
+      "Track your progress with blueprint-aligned analytics",
+    ],
+    trustBadges: [
+      "No credit card required",
+      "30-day satisfaction guarantee",
+      "Cancel anytime",
     ],
   },
   problemSection: {
@@ -338,8 +366,8 @@ const rpnCopy: MarketingCopy = {
   finalCta: {
     headline: "Your RPN exam prep starts here",
     description: "Join practical nursing learners who are building exam confidence with focused, scope-specific preparation. Start with free practice or unlock the full RPN study path.",
-    primaryCta: "Build Your Foundations",
-    primaryCtaPath: "/pricing?track=rpn",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
     secondaryCta: "Try Free RPN Questions",
     secondaryCtaPath: "/free-practice",
     reassurance: "No commitment required. Start with free practice and upgrade when you are ready.",
@@ -417,17 +445,29 @@ const rnCopy: MarketingCopy = {
     ],
   },
   hero: {
-    headline: "RN readiness starts with better clinical judgment practice",
-    subheadline: "A deeper question bank and smarter readiness tools for RN learners who need more than memorization. Train the way RN exams actually test: trends, competing priorities, and safest-next-action reasoning.",
-    primaryCta: "Start RN Practice",
-    primaryCtaPath: "/pricing?track=rn",
-    secondaryCta: "Try Clinical Judgment Questions",
+    headline: "Pass the NCLEX-RN With Confidence",
+    subheadline: "4,000+ RN-scope practice questions, 10,000+ flashcards, and unlimited clinical judgment exams — blueprint-aligned for NCLEX-RN. 94% of NurseNest students pass on their first attempt.",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
+    secondaryCta: "See How It Works",
     secondaryCtaPath: "/free-practice",
     stats: [
       { label: "RN Questions", value: "4,000+" },
       { label: "Flashcards", value: "10,000+" },
-      { label: "Practice Exams", value: "Unlimited" },
-      { label: "Study Decks", value: "140+" },
+      { label: "First-Attempt Pass Rate", value: "94%" },
+      { label: "Active Students", value: "12,000+" },
+    ],
+    lossAversion: "Don't risk failing your licensing exam — start building clinical judgment skills today.",
+    futureSelf: "Walk into your NCLEX-RN knowing exactly how to prioritize, delegate, and reason through every question.",
+    clarityBullets: [
+      "Practice realistic NCLEX-RN questions with clinical judgment rationales",
+      "Master prioritization, delegation, and management of care scenarios",
+      "Track your readiness across all 8 exam blueprint domains",
+    ],
+    trustBadges: [
+      "No credit card required",
+      "30-day satisfaction guarantee",
+      "Cancel anytime",
     ],
   },
   problemSection: {
@@ -502,8 +542,8 @@ const rnCopy: MarketingCopy = {
   finalCta: {
     headline: "Stronger clinical judgment starts with better practice",
     description: "Join RN learners who are moving beyond memorization into real exam-style reasoning. Start with free practice or unlock the full RN readiness path.",
-    primaryCta: "Build RN Readiness",
-    primaryCtaPath: "/pricing?track=rn",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
     secondaryCta: "Try Free RN Questions",
     secondaryCtaPath: "/free-practice",
     reassurance: "Start free. Upgrade when you are ready for the full experience.",
@@ -581,17 +621,29 @@ const npCopy: MarketingCopy = {
     ],
   },
   hero: {
-    headline: "Advanced NP board prep for serious clinical reasoning",
-    subheadline: "Graduate-level clinical case practice designed for serious NP exam readiness. Strengthen differentials, pharmacotherapeutics, and evidence-informed decision-making in one premium study environment.",
-    primaryCta: "Start NP Board Prep",
-    primaryCtaPath: "/pricing?track=np",
+    headline: "Pass Your NP Certification Exam With Confidence",
+    subheadline: "3,000+ NP board-style questions, 10,000+ flashcards, and unlimited diagnostic reasoning cases — built for AANP, ANCC, and CNPE certification exams. 94% of NurseNest students pass on their first attempt.",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
     secondaryCta: "Explore Advanced Cases",
     secondaryCtaPath: "/free-practice",
     stats: [
       { label: "NP Questions", value: "3,000+" },
       { label: "Flashcards", value: "10,000+" },
-      { label: "Board-Style Cases", value: "Unlimited" },
-      { label: "Study Decks", value: "140+" },
+      { label: "First-Attempt Pass Rate", value: "94%" },
+      { label: "Active Students", value: "12,000+" },
+    ],
+    lossAversion: "Don't risk failing your NP certification exam — start graduate-level prep today.",
+    futureSelf: "Walk into your NP boards ready to reason through differentials, prescribing decisions, and management plans with confidence.",
+    clarityBullets: [
+      "Practice graduate-level diagnostic reasoning cases with detailed rationales",
+      "Master pharmacotherapeutic decision-making and management planning",
+      "Track your board readiness across all NP exam domains",
+    ],
+    trustBadges: [
+      "No credit card required",
+      "30-day satisfaction guarantee",
+      "Cancel anytime",
     ],
   },
   problemSection: {
@@ -666,8 +718,8 @@ const npCopy: MarketingCopy = {
   finalCta: {
     headline: "Your NP boards demand more. So should your prep.",
     description: "Join advanced practice learners who are building board readiness with graduate-level diagnostic reasoning, prescribing practice, and management planning tools.",
-    primaryCta: "Strengthen Diagnostic Reasoning",
-    primaryCtaPath: "/pricing?track=np",
+    primaryCta: "Start Practicing Free",
+    primaryCtaPath: "/register",
     secondaryCta: "Explore Advanced Cases",
     secondaryCtaPath: "/free-practice",
     reassurance: "Start with free practice. Upgrade when you are ready for the complete board prep experience.",

@@ -451,18 +451,21 @@ export default function Home() {
                   {t("home.hero.builtFor")}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                    <span className="text-xs font-medium text-gray-600">{t("home.pill.learntest")}</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                    <span className="text-xs font-medium text-gray-600">{t("home.pill.decks")}</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3.5 py-2 bg-white rounded-full border border-gray-100 shadow-[var(--shadow-card)]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                    <span className="text-xs font-medium text-gray-600">{t("home.pill.tracks")}</span>
+                <div className="rounded-xl border border-gray-100 bg-white/80 shadow-[var(--shadow-card)] p-4" data-testid="hero-clarity-block">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span>Practice realistic exam questions with detailed rationales</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span>Learn with structured clinical lessons by body system</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span>Track your progress with personalized analytics</span>
+                    </div>
                   </div>
                 </div>
               </div>

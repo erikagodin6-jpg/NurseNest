@@ -144,14 +144,38 @@ export default function MltLandingPage() {
               Medical Laboratory Technology
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-mlt-title">
-              MLT / MLS Exam Prep
+              Pass Your MLT / MLS Certification Exam With Confidence
             </h1>
-            <p className="text-lg text-gray-600 mb-6" data-testid="text-mlt-description">
-              Master all 16 laboratory disciplines for your CSMLS (Canada) or ASCP (USA) certification exam.
-              Practice questions with detailed rationales, blueprint-weighted mock exams, and adaptive study tools
-              built for medical laboratory professionals.
+            <p className="text-lg text-gray-600 mb-4" data-testid="text-mlt-description">
+              1,000+ practice questions across all 16 laboratory disciplines, blueprint-weighted mock exams, and adaptive study tools
+              for CSMLS (Canada) and ASCP (USA) certification. Don't risk failing your lab certification exam — start targeted prep today.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            <p className="text-sm text-gray-500 italic mb-6" data-testid="text-mlt-future-self">
+              Walk into your CSMLS or ASCP exam knowing every discipline inside and out.
+            </p>
+            <div className="flex flex-wrap gap-3 mb-6">
+              <Link href="/allied-health/mlt/canada/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-mlt-start-free">
+                Start Practicing Free <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#section-country-select" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors border border-purple-200" data-testid="button-mlt-choose-track">
+                Choose Your Exam Track
+              </Link>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="mlt-trust-badges">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                <span>Blueprint-aligned content</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                <span>Cancel anytime</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-700"><strong>16 laboratory disciplines</strong> with detailed subdiscipline coverage</span>
