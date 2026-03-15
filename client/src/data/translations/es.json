@@ -3,30 +3,30 @@
     "title": "Insuficiencia cardíaca",
     "overview": "La insuficiencia cardíaca es una condición crónica y progresiva en la que el músculo cardíaco es incapaz de bombear suficiente sangre para satisfacer las necesidades del cuerpo en sangre y oxígeno. El corazón intenta compensar mediante la dilatación, la hipertrofia y el aumento de la frecuencia cardíaca, pero estos mecanismos eventualmente fallan.",
     "riskFactors": [
-      "Maladie coronarienne",
-      "Hypertension",
-      "Diabète sucré",
-      "Cardiomyopathie",
-      "Maladie valvulaire",
-      "Obésité",
-      "Tabagisme"
+      "Enfermedad coronaria",
+      "Hipertensión",
+      "Diabetes mellitus",
+      "Miocardiopatía",
+      "Enfermedad valvular",
+      "Obesidad",
+      "Tabaquismo"
     ],
     "clinicalPearls": [
-      "Pesez le patient quotidiennement à la même heure",
-      "Surveillez l'apport et l'élimination avec précision",
-      "Éduquez sur le régime pauvre en sodium",
-      "La digoxine nécessite une surveillance du pouls avant administration",
-      "Élevez la tête du lit à 45 degrés pour l'orthopnée"
+      "Pese al paciente diariamente a la misma hora",
+      "Monitoree el ingreso y la eliminación con precisión",
+      "Eduque sobre la dieta baja en sodio",
+      "La digoxina requiere verificación del pulso antes de la administración",
+      "Eleve la cabecera de la cama a 45 grados para la ortopnea"
     ]
   },
   "hypertension": {
     "title": "Hipertensión",
     "overview": "La hipertensión es una elevación persistente de la presión arterial sistémica. Es un factor de riesgo importante para enfermedades cardiovasculares, accidentes cerebrovasculares y enfermedad renal. La mayoría de los pacientes son asintomáticos, de ahí su apodo de 'asesino silencioso'.",
     "clinicalPearls": [
-      "Enseignez la technique correcte de mesure de la PA",
-      "Les médicaments doivent être pris de manière constante",
-      "Surveillez les effets secondaires des antihypertenseurs",
-      "Encouragez les modifications du mode de vie"
+      "Enseñe la técnica correcta de medición de la PA",
+      "Los medicamentos deben tomarse de manera constante",
+      "Monitoree los efectos secundarios de los antihipertensivos",
+      "Fomente las modificaciones del estilo de vida"
     ]
   },
   "respiratory-assessment": {
@@ -1182,8 +1182,8 @@
     ]
   },
   "peripheral-artery-disease": {
-    "title": "Maladie artérielle périphérique",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie artérielle périphérique, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad arterial periférica",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad arterial periférica, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Smoking",
       "Diabetes mellitus",
@@ -1588,8 +1588,8 @@
     ]
   },
   "buergers-disease-rpn": {
-    "title": "Maladie de Buerger – RPN",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie de Buerger – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad de Buerger – RPN",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad de Buerger – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Tobacco use (essential for diagnosis)",
       "Male sex (historically, though female incidence rising)",
@@ -1676,8 +1676,8 @@
     ]
   },
   "kawasaki-disease-rpn": {
-    "title": "Maladie de Kawasaki – RPN",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie de Kawasaki – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad de Kawasaki – RPN",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad de Kawasaki – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Age <5 years (peak 1-2 years)",
       "Male sex",
@@ -1692,8 +1692,8 @@
     ]
   },
   "cardiomyopathy-basics-rpn": {
-    "title": "Cardiomyopathie – RPN",
-    "overview": "Esta lección cubre los aspectos esenciales de Cardiomyopathie – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Miocardiopatía – RPN",
+    "overview": "Esta lección cubre los aspectos esenciales de la miocardiopatía – RPN, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Family history/genetic mutations (HCM)",
       "Chronic alcohol use (dilated)",
@@ -2025,8 +2025,8 @@
     ]
   },
   "valvular-disease-np": {
-    "title": "Maladie valvulaire – IPA",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie valvulaire – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad valvular – IPA",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad valvular – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Rheumatic heart disease (mitral stenosis)",
       "Bicuspid aortic valve (aortic stenosis)",
@@ -2043,8 +2043,8 @@
     ]
   },
   "pvd-advanced-np": {
-    "title": "Maladie vasculaire périphérique – IPA",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie vasculaire périphérique – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad vascular periférica – IPA",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad vascular periférica – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Smoking (strongest risk factor)",
       "Diabetes mellitus (accelerates disease)",
@@ -2061,8 +2061,8 @@
     ]
   },
   "takotsubo-cardiomyopathy-np": {
-    "title": "Cardiomyopathie de Takotsubo – IPA",
-    "overview": "Esta lección cubre los aspectos esenciales de Cardiomyopathie de Takotsubo – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Miocardiopatía de Takotsubo – IPA",
+    "overview": "Esta lección cubre los aspectos esenciales de la miocardiopatía de Takotsubo – IPA, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Postmenopausal women (90% of cases)",
       "Acute emotional stress (grief, surprise, argument)",
@@ -7592,8 +7592,8 @@
     ]
   },
   "kawasaki-critical": {
-    "title": "Maladie de Kawasaki",
-    "overview": "Esta lección cubre los aspectos esenciales de Maladie de Kawasaki, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
+    "title": "Enfermedad de Kawasaki",
+    "overview": "Esta lección cubre los aspectos esenciales de la enfermedad de Kawasaki, incluyendo la fisiopatología, la evaluación clínica, las intervenciones de enfermería prioritarias y el manejo basado en evidencia. Las enfermeras deben comprender estos conceptos para brindar atención segura y eficaz.",
     "riskFactors": [
       "Age < 5 years (peak incidence 18-24 months)",
       "Male sex (1.5:1)",

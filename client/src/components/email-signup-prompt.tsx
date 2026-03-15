@@ -4,21 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n";
 
 type SubscriptionCategory = "exam_prep" | "new_grad_tips" | "job_alerts" | "general";
 
-const CATEGORY_LABELS: Record<SubscriptionCategory, string> = {
-  exam_prep: "Exam Prep Tips",
-  new_grad_tips: "New Grad Survival Tips",
-  job_alerts: "Healthcare Job Alerts",
-  general: "General Updates",
+const CATEGORY_LABEL_KEYS: Record<SubscriptionCategory, string> = {
+  exam_prep: "emailSignup.categoryExamPrep",
+  new_grad_tips: "emailSignup.categoryNewGrad",
+  job_alerts: "emailSignup.categoryJobAlerts",
+  general: "emailSignup.categoryGeneral",
 };
 
-const CATEGORY_DESCRIPTIONS: Record<SubscriptionCategory, string> = {
-  exam_prep: "NCLEX strategies, practice questions & study resources",
-  new_grad_tips: "Transition tips, clinical confidence & career advice",
-  job_alerts: "New healthcare job openings & career opportunities",
-  general: "Platform news, feature updates & community highlights",
+const CATEGORY_DESCRIPTION_KEYS: Record<SubscriptionCategory, string> = {
+  exam_prep: "emailSignup.categoryExamPrepDesc",
+  new_grad_tips: "emailSignup.categoryNewGradDesc",
+  job_alerts: "emailSignup.categoryJobAlertsDesc",
+  general: "emailSignup.categoryGeneralDesc",
 };
 
 interface EmailSignupPromptProps {
@@ -33,15 +34,19 @@ interface EmailSignupPromptProps {
 }
 
 export function EmailSignupPrompt({
-  title = "Get Free Nursing Study Tips",
-  subtitle = "Weekly NCLEX strategies, clinical pearls, and exam prep resources delivered to your inbox.",
-  buttonText = "Subscribe",
+  title,
+  subtitle,
+  buttonText,
   variant = "card",
   className = "",
   defaultCategories = ["general"],
   showCategoryPicker = false,
   source = "homepage",
 }: EmailSignupPromptProps) {
+  const { t } = useI18n();
+  const resolvedTitle = title || t("emailSignup.title");
+  const resolvedSubtitle = subtitle || t("emailSignup.subtitle");
+  const resolvedButtonText = buttonText || t("emailSignup.button");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [selectedCategories, setSelectedCategories] = useState<SubscriptionCategory[]>(defaultCategories);
@@ -79,7 +84,7 @@ export function EmailSignupPrompt({
 
   const categoryPicker = showCategoryPicker ? (
     <div className="space-y-2 mb-3" data-testid="category-picker">
-      {(Object.keys(CATEGORY_LABELS) as SubscriptionCategory[]).map((cat) => (
+      {(Object.keys(CATEGORY_LABEL_KEYS) as SubscriptionCategory[]).map((cat) => (
         <div key={cat} className="flex items-start gap-2">
           <Checkbox
             id={`cat-${cat}`}
@@ -89,9 +94,9 @@ export function EmailSignupPrompt({
           />
           <div className="grid gap-0.5 leading-none">
             <Label htmlFor={`cat-${cat}`} className="text-sm font-medium cursor-pointer">
-              {CATEGORY_LABELS[cat]}
+              {t(CATEGORY_LABEL_KEYS[cat])}
             </Label>
-            <p className="text-xs text-gray-500">{CATEGORY_DESCRIPTIONS[cat]}</p>
+            <p className="text-xs text-gray-500">{t(CATEGORY_DESCRIPTION_KEYS[cat])}</p>
           </div>
         </div>
       ))}
@@ -102,7 +107,7 @@ export function EmailSignupPrompt({
     return (
       <div className={`flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl ${className}`} data-testid="email-signup-success">
         <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-        <p className="text-sm text-emerald-800 font-medium">You are subscribed. Check your inbox for a welcome email.</p>
+        <p className="text-sm text-emerald-800 font-medium">{t("emailSignup.success")}</p>
       </div>
     );
   }
@@ -116,8 +121,8 @@ export function EmailSignupPrompt({
               <Mail className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 text-sm">{title}</h3>
-              <p className="text-xs text-gray-500">{subtitle}</p>
+              <h3 className="font-semibold text-gray-900 text-sm">{resolvedTitle}</h3>
+              <p className="text-xs text-gray-500">{resolvedSubtitle}</p>
             </div>
           </div>
           {categoryPicker}
@@ -132,11 +137,11 @@ export function EmailSignupPrompt({
               data-testid="input-email-signup"
             />
             <Button type="submit" size="sm" disabled={status === "loading"} className="shrink-0" data-testid="button-email-subscribe">
-              {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : buttonText}
+              {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : resolvedButtonText}
             </Button>
           </form>
         </div>
-        {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-signup-error">Something went wrong. Please try again.</p>}
+        {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-signup-error">{t("emailSignup.error")}</p>}
       </div>
     );
   }
@@ -156,7 +161,7 @@ export function EmailSignupPrompt({
             data-testid="input-email-signup"
           />
           <Button type="submit" disabled={status === "loading"} className="shrink-0" data-testid="button-email-subscribe">
-            {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : buttonText}
+            {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : resolvedButtonText}
           </Button>
         </form>
       </div>
@@ -170,8 +175,8 @@ export function EmailSignupPrompt({
           <Mail className="w-5 h-5 text-primary" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">{title}</h3>
-          <p className="text-sm text-gray-500">{subtitle}</p>
+          <h3 className="font-semibold text-gray-900">{resolvedTitle}</h3>
+          <p className="text-sm text-gray-500">{resolvedSubtitle}</p>
         </div>
       </div>
       {categoryPicker}
@@ -186,11 +191,11 @@ export function EmailSignupPrompt({
           data-testid="input-email-signup"
         />
         <Button type="submit" disabled={status === "loading"} className="shrink-0" data-testid="button-email-subscribe">
-          {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : buttonText}
+          {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : resolvedButtonText}
         </Button>
       </form>
-      {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-signup-error">Something went wrong. Please try again.</p>}
-      <p className="text-xs text-gray-400 mt-2">No spam. Unsubscribe anytime.</p>
+      {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-signup-error">{t("emailSignup.error")}</p>}
+      <p className="text-xs text-gray-400 mt-2">{t("emailSignup.noSpam")}</p>
     </div>
   );
 }

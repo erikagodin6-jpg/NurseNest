@@ -37,7 +37,7 @@ function formatCount(n: number | undefined): string {
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [email, setEmail] = useState("");
   const [emailFrequency, setEmailFrequency] = useState("weekly");
 
