@@ -2,7 +2,7 @@ import { pool } from "./storage";
 import fs from "fs";
 import path from "path";
 
-const SUPPORTED_LOCALES = ["fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"];
+const SUPPORTED_LOCALES = ["fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
 
 const BRAND_ALLOWLIST = new Set([
   "nursenest", "nclex", "nclex-rn", "nclex-pn", "ncsbn", "rex-pn",
@@ -177,7 +177,7 @@ async function scanUiTranslationKeys(indexingThreshold: number): Promise<AuditRe
     console.error("[TranslationAudit] Failed to load en keys:", e);
   }
 
-  const LANG_FILE_CODES = ["fr", "tl", "hi", "es", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+  const LANG_FILE_CODES = ["fr", "tl", "hi", "es", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
   const LANG_TO_LOCALE: Record<string, string> = { tl: "fil" };
 
   for (const langCode of LANG_FILE_CODES) {

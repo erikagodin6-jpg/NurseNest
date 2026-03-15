@@ -6,7 +6,7 @@ import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirec
 
 const SITE_BASE = "https://www.nursenest.ca";
 
-const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"];
+const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
 
 let lessonSeoData: Record<string, any> | null = null;
 function getLessonSeoData(): Record<string, any> {
@@ -1111,7 +1111,7 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
 
 export function getPageMeta(pathname: string): PageMeta {
   let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
-  const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th)(\/.*|$)/);
+  const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : cleanPath;
 
@@ -1569,7 +1569,7 @@ export function getPageMeta(pathname: string): PageMeta {
 }
 
 export async function injectMeta(html: string, pathname: string): Promise<string> {
-  const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th)(\/.*|$)/);
+  const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname);

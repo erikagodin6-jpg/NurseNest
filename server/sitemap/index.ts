@@ -75,7 +75,7 @@ async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promis
   return xml;
 }
 
-const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es", "fil", "zh", "ar", "hi", "ko", "pa", "vi", "ht", "ur", "ja", "fa", "de", "pt"];
+const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es", "fil", "zh", "ar", "hi", "ko", "pa", "vi", "ht", "ur", "ja", "fa", "de", "pt", "th", "tr"];
 
 async function buildMainSitemapIndex(): Promise<string> {
   const base = getSiteBase();
@@ -389,7 +389,7 @@ export function registerSitemapRoutes(app: Express) {
     res.redirect(301, "/sitemap-index.xml");
   });
 
-  const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"];
+  const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
   app.get("/sitemap-:lang.xml", (req: Request, res: Response) => {
     const lang = req.params.lang;
     if (SUPPORTED_LOCALES.includes(lang)) {
