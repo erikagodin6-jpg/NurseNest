@@ -697,11 +697,21 @@ function ScreenshotCarouselSection() {
     goTo((activeIndex - 1 + screenshotItems.length) % screenshotItems.length);
   }, [activeIndex, goTo]);
 
+  const isInitialRender = useRef(true);
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     if (thumbnailStripRef.current) {
       const thumb = thumbnailStripRef.current.children[activeIndex] as HTMLElement;
       if (thumb) {
-        thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        const container = thumbnailStripRef.current;
+        const thumbLeft = thumb.offsetLeft;
+        const thumbWidth = thumb.offsetWidth;
+        const containerWidth = container.offsetWidth;
+        const scrollTarget = thumbLeft - containerWidth / 2 + thumbWidth / 2;
+        container.scrollTo({ left: scrollTarget, behavior: "smooth" });
       }
     }
   }, [activeIndex]);
