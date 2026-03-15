@@ -15,6 +15,7 @@ export const CAREER_TYPES = [
   "addictionsCounsellor",
   "occupationalTherapy",
   "physicalTherapy",
+  "healthInfoMgmt",
 ] as const;
 
 export type CareerType = (typeof CAREER_TYPES)[number];
@@ -595,6 +596,40 @@ export const CAREER_CONFIGS: Record<CareerType, CareerConfig> = {
     ],
     enabled: true,
   },
+  healthInfoMgmt: {
+    id: "healthInfoMgmt",
+    name: "Health Information Management",
+    shortName: "HIM",
+    slug: "health-info-mgmt",
+    description: "Health information management exam preparation covering ICD-10 coding, EHR management, HIPAA compliance, revenue cycle, and clinical documentation improvement for AHIMA RHIT/RHIA certification",
+    icon: "Database",
+    routePrefix: "/health-info-mgmt",
+    tiers: [
+      { id: "free", name: "Free", level: 0 },
+      { id: "him-standard", name: "HIM Standard", level: 1 },
+      { id: "him-premium", name: "HIM Premium", level: 2 },
+    ],
+    examNames: ["AHIMA RHIT", "AHIMA RHIA", "AHIMA CCS", "AAPC CPC"],
+    color: "#3F51B5",
+    colorAccent: "#E8EAF6",
+    aiTools: [
+      { id: "coding-drill", name: "ICD-10/CPT Coding Drill", description: "Practice assigning ICD-10-CM, ICD-10-PCS, and CPT codes to clinical scenarios", route: "/health-info-mgmt/coding-drill" },
+      { id: "hipaa-scenario-sim", name: "HIPAA Scenario Simulator", description: "Navigate privacy and security compliance scenarios", route: "/health-info-mgmt/hipaa-scenario-sim" },
+    ],
+    domains: [
+      "ICD-10-CM/PCS Coding",
+      "CPT/HCPCS Coding",
+      "Health Data Management",
+      "HIPAA Privacy & Security",
+      "Revenue Cycle Management",
+      "Clinical Documentation Improvement",
+      "EHR Systems & Health IT",
+      "Data Analytics & Quality",
+      "Compliance & Legal",
+      "Health Information Exchange",
+    ],
+    enabled: true,
+  },
 };
 
 export const CAREER_SLUG_TO_CANONICAL_ROUTE: Record<string, string> = {
@@ -608,6 +643,7 @@ export const CAREER_SLUG_TO_CANONICAL_ROUTE: Record<string, string> = {
   "addictions-counsellor": "/addictions",
   "occupational-therapy": "/occupational-therapy",
   "physical-therapy": "/physical-therapy",
+  "health-info-mgmt": "/health-info-mgmt",
   "nursing": "/nursing",
   "critical-care": "/critical-care",
   "emergency-nursing": "/emergency-nursing",

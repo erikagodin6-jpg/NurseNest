@@ -328,6 +328,13 @@ export function AlliedRoutes() {
         <Route path="/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
 
+        <Route path="/health-info-mgmt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["health-info-mgmt"]} />}</Route>
+        <Route path="/health-info-mgmt/lessons">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="lessons" />}</Route>
+        <Route path="/health-info-mgmt/practice-questions">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="practice-questions" />}</Route>
+        <Route path="/health-info-mgmt/flashcards">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="flashcards" />}</Route>
+        <Route path="/health-info-mgmt/mock-exam">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="mock-exam" />}</Route>
+        <Route path="/health-info-mgmt/study-guide">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="study-guide" />}</Route>
+
         <Route path="/paramedic-exam-prep" component={ParamedicExamPrepLanding} />
         <Route path="/rrt-exam-prep" component={RrtExamPrepLanding} />
         <Route path="/mlt-exam-prep" component={MltExamPrepLanding} />
@@ -391,6 +398,15 @@ export function AlliedRoutes() {
         <Route path="/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
         <Route path="/how-to-become-a-physical-therapist" component={CareerGuidePage} />
         <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
+        <Route path="/how-to-become-a-health-information-manager" component={CareerGuidePage} />
+
+        <Route path="/health-info-mgmt-exam-prep">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-exam-prep" />}</Route>
+        <Route path="/health-info-mgmt-practice-questions">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-practice-questions" />}</Route>
+        <Route path="/health-info-mgmt-study-guide">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-study-guide" />}</Route>
+        <Route path="/health-info-mgmt-career-guide">{() => <UnderservedSEOPage profession="health-info-mgmt" pageType="career-guide" />}</Route>
+
+        <Route path="/health-info-mgmt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="health-info-mgmt" />}</Route>
+        <Route path="/health-info-mgmt-encyclopedia">{() => <EncyclopediaHubPage profession="health-info-mgmt" />}</Route>
 
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />
         <Route path="/allied-health/:professionSlug" component={AlliedHealthProfessionPage} />

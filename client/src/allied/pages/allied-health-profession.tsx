@@ -4,13 +4,13 @@ import {
   Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity,
   Users, Brain, ShieldCheck, ArrowRight, BookOpen, FileText,
   GraduationCap, ChevronRight, Award, MapPin, Stethoscope,
-  ClipboardList, Layers, Loader2
+  ClipboardList, Layers, Loader2, Database, Monitor, HeartPulse, Scissors
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getAlliedHealthProfession, type AlliedHealthProfession } from "@/allied/data/allied-health-professions";
 
 const ICON_MAP: Record<string, any> = {
-  Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck,
+  Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck, Database, Monitor, HeartPulse, Scissors,
 };
 
 function Breadcrumbs({ profession }: { profession: AlliedHealthProfession }) {

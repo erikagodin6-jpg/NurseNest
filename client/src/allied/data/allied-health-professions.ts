@@ -1,3 +1,9 @@
+export interface TopicTemplate {
+  slug: string;
+  title: string;
+  targetKeyword: string;
+}
+
 export interface AlliedHealthProfession {
   slug: string;
   name: string;
@@ -16,12 +22,22 @@ export interface AlliedHealthProfession {
   examNames: string[];
   salaryRange: string;
   jobOutlook: string;
+  medianSalary: string;
+  growthRate: string;
+  educationRequired: string;
   studyResources: {
     questionBanks: { label: string; link: string };
     flashcards: { label: string; link: string };
     mockExams: { label: string; link: string };
     clinicalCases: { label: string; link: string };
   };
+  studyResourceCTAs: {
+    questionBank: string;
+    mockExams: string;
+    flashcards: string;
+    clinicalCases: string;
+  };
+  topicTemplates: TopicTemplate[];
   seo: {
     title: string;
     description: string;
@@ -82,12 +98,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["NBRC TMC", "NBRC CSE", "CBRC"],
     salaryRange: "$55,000 – $85,000 USD",
     jobOutlook: "14% growth projected through 2032 (much faster than average)",
+    medianSalary: "$62,810",
+    growthRate: "14%",
+    educationRequired: "Associate's degree minimum; Bachelor's preferred",
     studyResources: {
       questionBanks: { label: "RRT Question Bank", link: "/rrt/practice-questions" },
       flashcards: { label: "RRT Flashcards", link: "/rrt/flashcards" },
       mockExams: { label: "RRT Mock Exams", link: "/rrt/mock-exam" },
       clinicalCases: { label: "Clinical Case Studies", link: "/rrt/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/rrt/practice-questions",
+      mockExams: "/rrt/mock-exam",
+      flashcards: "/rrt/flashcards",
+      clinicalCases: "/rrt/study-guide",
+    },
+    topicTemplates: [
+      { slug: "mechanical-ventilation-modes", title: "Mechanical Ventilation Modes Explained", targetKeyword: "mechanical ventilation modes" },
+      { slug: "abg-interpretation-guide", title: "ABG Interpretation: A Complete Guide", targetKeyword: "ABG interpretation" },
+      { slug: "oxygen-therapy-devices", title: "Oxygen Therapy Devices and Delivery Systems", targetKeyword: "oxygen therapy devices" },
+      { slug: "pulmonary-function-testing", title: "Pulmonary Function Testing (PFT) Guide", targetKeyword: "pulmonary function testing" },
+      { slug: "neonatal-respiratory-care", title: "Neonatal Respiratory Care Essentials", targetKeyword: "neonatal respiratory care" },
+      { slug: "airway-management-techniques", title: "Airway Management Techniques for RRTs", targetKeyword: "airway management techniques" },
+    ],
     seo: {
       title: "Respiratory Therapy Career Guide | How to Become an RRT",
       description: "Complete guide to respiratory therapy careers. Learn about education, certification (NBRC TMC/CSE, CBRC), salary, job outlook, and study resources for aspiring respiratory therapists.",
@@ -147,12 +180,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["CSMLS MLT", "ASCP MLS", "ASCP MLT"],
     salaryRange: "$50,000 – $78,000 USD",
     jobOutlook: "7% growth projected through 2032 (faster than average)",
+    medianSalary: "$57,380",
+    growthRate: "7%",
+    educationRequired: "Bachelor's degree (MLS); Associate's degree (MLT)",
     studyResources: {
       questionBanks: { label: "MLT Question Bank", link: "/mlt/questions" },
       flashcards: { label: "MLT Flashcards", link: "/mlt/flashcard-prep" },
       mockExams: { label: "MLT Mock Exams", link: "/mlt/mock-exam" },
       clinicalCases: { label: "Lab Case Studies", link: "/mlt/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/mlt/questions",
+      mockExams: "/mlt/mock-exam",
+      flashcards: "/mlt/flashcard-prep",
+      clinicalCases: "/mlt/study-guide",
+    },
+    topicTemplates: [
+      { slug: "hematology-cbc-interpretation", title: "Complete Blood Count (CBC) Interpretation Guide", targetKeyword: "CBC interpretation" },
+      { slug: "blood-banking-crossmatch", title: "Blood Banking and Crossmatch Procedures", targetKeyword: "blood banking crossmatch" },
+      { slug: "clinical-chemistry-panels", title: "Clinical Chemistry: Metabolic Panels Explained", targetKeyword: "clinical chemistry panels" },
+      { slug: "microbiology-culture-identification", title: "Microbiology Culture and Organism Identification", targetKeyword: "microbiology culture identification" },
+      { slug: "coagulation-studies-guide", title: "Coagulation Studies: PT, PTT, and INR Guide", targetKeyword: "coagulation studies" },
+      { slug: "urinalysis-body-fluids", title: "Urinalysis and Body Fluid Analysis", targetKeyword: "urinalysis body fluids" },
+    ],
     seo: {
       title: "Medical Laboratory Technologist Career Guide | MLT/MLS Certification",
       description: "Complete guide to medical laboratory technologist careers. Learn about education, certification (CSMLS, ASCP), salary, job outlook, and study resources for aspiring MLTs.",
@@ -214,12 +264,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["NREMT Paramedic", "COPR", "PCP/ACP Provincial"],
     salaryRange: "$40,000 – $72,000 USD",
     jobOutlook: "5% growth projected through 2032 (average)",
+    medianSalary: "$49,590",
+    growthRate: "5%",
+    educationRequired: "Certificate or Associate's degree",
     studyResources: {
       questionBanks: { label: "Paramedic Question Bank", link: "/paramedic/questions" },
       flashcards: { label: "Paramedic Flashcards", link: "/paramedic/flashcards" },
       mockExams: { label: "Paramedic Mock Exams", link: "/paramedic/practice-exams" },
       clinicalCases: { label: "Field Scenarios", link: "/paramedic/scenarios" },
     },
+    studyResourceCTAs: {
+      questionBank: "/paramedic/questions",
+      mockExams: "/paramedic/practice-exams",
+      flashcards: "/paramedic/flashcards",
+      clinicalCases: "/paramedic/scenarios",
+    },
+    topicTemplates: [
+      { slug: "cardiac-arrest-management", title: "Cardiac Arrest Management: ACLS Algorithms", targetKeyword: "cardiac arrest management ACLS" },
+      { slug: "trauma-assessment-primary-survey", title: "Trauma Assessment: Primary and Secondary Survey", targetKeyword: "trauma assessment primary survey" },
+      { slug: "pediatric-emergencies-pals", title: "Pediatric Emergencies and PALS Protocols", targetKeyword: "pediatric emergencies PALS" },
+      { slug: "pharmacology-emergency-medications", title: "Emergency Pharmacology: Field Medications Guide", targetKeyword: "emergency pharmacology medications" },
+      { slug: "ecg-rhythm-interpretation", title: "ECG Rhythm Interpretation for Paramedics", targetKeyword: "ECG rhythm interpretation paramedic" },
+      { slug: "airway-management-rsi", title: "Advanced Airway Management and RSI", targetKeyword: "airway management RSI paramedic" },
+    ],
     seo: {
       title: "Paramedic Career Guide | How to Become a Paramedic",
       description: "Complete guide to paramedic careers. Learn about education, certification (NREMT, COPR), salary, job outlook, and study resources for aspiring paramedics.",
@@ -278,12 +345,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["ARRT Radiography", "CAMRT", "State Licensure"],
     salaryRange: "$52,000 – $82,000 USD",
     jobOutlook: "6% growth projected through 2032 (faster than average)",
+    medianSalary: "$65,140",
+    growthRate: "6%",
+    educationRequired: "Associate's degree minimum; Bachelor's preferred",
     studyResources: {
       questionBanks: { label: "Imaging Question Bank", link: "/imaging/questions" },
       flashcards: { label: "Imaging Flashcards", link: "/imaging/flashcards" },
       mockExams: { label: "Imaging Mock Exams", link: "/imaging/practice-exam" },
       clinicalCases: { label: "Positioning Cases", link: "/imaging/positioning" },
     },
+    studyResourceCTAs: {
+      questionBank: "/imaging/questions",
+      mockExams: "/imaging/practice-exam",
+      flashcards: "/imaging/flashcards",
+      clinicalCases: "/imaging/positioning",
+    },
+    topicTemplates: [
+      { slug: "radiographic-positioning-guide", title: "Radiographic Positioning: Complete Guide", targetKeyword: "radiographic positioning" },
+      { slug: "radiation-safety-alara", title: "Radiation Safety and ALARA Principles", targetKeyword: "radiation safety ALARA" },
+      { slug: "ct-imaging-fundamentals", title: "CT Imaging Fundamentals for Rad Techs", targetKeyword: "CT imaging fundamentals" },
+      { slug: "contrast-media-administration", title: "Contrast Media Administration and Reactions", targetKeyword: "contrast media administration" },
+      { slug: "image-quality-factors", title: "Image Quality Factors: kVp, mAs, and Exposure", targetKeyword: "image quality factors" },
+      { slug: "pediatric-imaging-techniques", title: "Pediatric Imaging Techniques and Safety", targetKeyword: "pediatric imaging techniques" },
+    ],
     seo: {
       title: "Radiologic Technologist Career Guide | ARRT Certification",
       description: "Complete guide to radiologic technologist careers. Learn about education, certification (ARRT, CAMRT), salary, job outlook, and study resources for aspiring rad techs.",
@@ -342,12 +426,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["ARDMS RDMS", "ARDMS SPI", "Sonography Canada"],
     salaryRange: "$58,000 – $90,000 USD",
     jobOutlook: "10% growth projected through 2032 (much faster than average)",
+    medianSalary: "$81,350",
+    growthRate: "10%",
+    educationRequired: "Associate's or Bachelor's degree in Diagnostic Medical Sonography",
     studyResources: {
       questionBanks: { label: "Sonography Question Bank", link: "/imaging/questions" },
       flashcards: { label: "Sonography Flashcards", link: "/imaging/flashcards" },
       mockExams: { label: "Sonography Mock Exams", link: "/imaging/practice-exam" },
       clinicalCases: { label: "Ultrasound Cases", link: "/imaging/positioning" },
     },
+    studyResourceCTAs: {
+      questionBank: "/imaging/questions",
+      mockExams: "/imaging/practice-exam",
+      flashcards: "/imaging/flashcards",
+      clinicalCases: "/imaging/positioning",
+    },
+    topicTemplates: [
+      { slug: "abdominal-sonography-guide", title: "Abdominal Sonography: Organ Assessment Guide", targetKeyword: "abdominal sonography" },
+      { slug: "obstetric-ultrasound-protocols", title: "Obstetric Ultrasound Protocols and Measurements", targetKeyword: "obstetric ultrasound" },
+      { slug: "vascular-doppler-techniques", title: "Vascular Doppler Techniques and Interpretation", targetKeyword: "vascular Doppler techniques" },
+      { slug: "ultrasound-physics-spi", title: "Ultrasound Physics for the SPI Exam", targetKeyword: "ultrasound physics SPI" },
+      { slug: "musculoskeletal-sonography", title: "Musculoskeletal Sonography Fundamentals", targetKeyword: "musculoskeletal sonography" },
+      { slug: "small-parts-thyroid-breast", title: "Small Parts Sonography: Thyroid and Breast", targetKeyword: "thyroid breast sonography" },
+    ],
     seo: {
       title: "Diagnostic Medical Sonography Career Guide | ARDMS Certification",
       description: "Complete guide to diagnostic medical sonography careers. Learn about education, certification (ARDMS), salary, job outlook, and study resources for aspiring sonographers.",
@@ -406,12 +507,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["ARDMS RDCS", "CCI RCS", "ARDMS PE"],
     salaryRange: "$60,000 – $95,000 USD",
     jobOutlook: "10% growth projected through 2032 (much faster than average)",
+    medianSalary: "$77,740",
+    growthRate: "10%",
+    educationRequired: "Associate's or Bachelor's degree in Cardiovascular Technology",
     studyResources: {
       questionBanks: { label: "Cardiac Sonography Questions", link: "/imaging/questions" },
       flashcards: { label: "Echo Flashcards", link: "/imaging/flashcards" },
       mockExams: { label: "Echo Mock Exams", link: "/imaging/practice-exam" },
       clinicalCases: { label: "Echo Case Studies", link: "/imaging/positioning" },
     },
+    studyResourceCTAs: {
+      questionBank: "/imaging/questions",
+      mockExams: "/imaging/practice-exam",
+      flashcards: "/imaging/flashcards",
+      clinicalCases: "/imaging/positioning",
+    },
+    topicTemplates: [
+      { slug: "echocardiography-views-guide", title: "Standard Echocardiography Views and Windows", targetKeyword: "echocardiography views" },
+      { slug: "cardiac-hemodynamics-doppler", title: "Cardiac Hemodynamics and Doppler Assessment", targetKeyword: "cardiac hemodynamics Doppler" },
+      { slug: "valvular-heart-disease-echo", title: "Valvular Heart Disease on Echocardiography", targetKeyword: "valvular heart disease echo" },
+      { slug: "ejection-fraction-calculation", title: "Ejection Fraction Calculation Methods", targetKeyword: "ejection fraction calculation" },
+      { slug: "congenital-heart-defects-echo", title: "Congenital Heart Defects on Echocardiography", targetKeyword: "congenital heart defects echo" },
+      { slug: "stress-echocardiography-protocols", title: "Stress Echocardiography Protocols", targetKeyword: "stress echocardiography" },
+    ],
     seo: {
       title: "Cardiac Sonographer Career Guide | RDCS Certification",
       description: "Complete guide to cardiac sonographer careers. Learn about education, certification (ARDMS RDCS, CCI RCS), salary, job outlook, and study resources for aspiring echo techs.",
@@ -470,12 +588,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["NBCOT COTA", "State Licensure"],
     salaryRange: "$48,000 – $68,000 USD",
     jobOutlook: "25% growth projected through 2032 (much faster than average)",
+    medianSalary: "$62,940",
+    growthRate: "25%",
+    educationRequired: "Associate's degree from ACOTE-accredited program",
     studyResources: {
       questionBanks: { label: "OTA Question Bank", link: "/occupational-therapy/questions" },
       flashcards: { label: "OTA Flashcards", link: "/occupational-therapy/flashcards" },
       mockExams: { label: "OTA Mock Exams", link: "/occupational-therapy/mock-exam" },
       clinicalCases: { label: "OT Case Studies", link: "/occupational-therapy/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/occupational-therapy/questions",
+      mockExams: "/occupational-therapy/mock-exam",
+      flashcards: "/occupational-therapy/flashcards",
+      clinicalCases: "/occupational-therapy/study-guide",
+    },
+    topicTemplates: [
+      { slug: "activities-daily-living-adl", title: "Activities of Daily Living (ADL) Assessment Guide", targetKeyword: "activities of daily living ADL" },
+      { slug: "cognitive-rehabilitation-techniques", title: "Cognitive Rehabilitation Techniques in OT", targetKeyword: "cognitive rehabilitation OT" },
+      { slug: "pediatric-developmental-milestones", title: "Pediatric Developmental Milestones for OTAs", targetKeyword: "developmental milestones OT" },
+      { slug: "adaptive-equipment-selection", title: "Adaptive Equipment Selection and Training", targetKeyword: "adaptive equipment OT" },
+      { slug: "splinting-orthotic-fabrication", title: "Splinting and Orthotic Fabrication Guide", targetKeyword: "splinting orthotic fabrication" },
+      { slug: "sensory-processing-interventions", title: "Sensory Processing Interventions in OT", targetKeyword: "sensory processing interventions" },
+    ],
     seo: {
       title: "Occupational Therapy Assistant Career Guide | NBCOT COTA Certification",
       description: "Complete guide to occupational therapy assistant careers. Learn about education, NBCOT COTA certification, salary, job outlook, and study resources for aspiring OTAs.",
@@ -534,12 +669,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["NPTE-PTA", "FSBPT", "Provincial Certification"],
     salaryRange: "$48,000 – $65,000 USD",
     jobOutlook: "26% growth projected through 2032 (much faster than average)",
+    medianSalary: "$61,180",
+    growthRate: "26%",
+    educationRequired: "Associate's degree from CAPTE-accredited program",
     studyResources: {
       questionBanks: { label: "PTA Question Bank", link: "/physical-therapy/questions" },
       flashcards: { label: "PTA Flashcards", link: "/physical-therapy/flashcards" },
       mockExams: { label: "PTA Mock Exams", link: "/physical-therapy/mock-exam" },
       clinicalCases: { label: "PT Case Studies", link: "/physical-therapy/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/physical-therapy/questions",
+      mockExams: "/physical-therapy/mock-exam",
+      flashcards: "/physical-therapy/flashcards",
+      clinicalCases: "/physical-therapy/study-guide",
+    },
+    topicTemplates: [
+      { slug: "therapeutic-exercise-modalities", title: "Therapeutic Exercise and Modalities Guide", targetKeyword: "therapeutic exercise modalities PT" },
+      { slug: "gait-training-assistive-devices", title: "Gait Training and Assistive Device Selection", targetKeyword: "gait training assistive devices" },
+      { slug: "musculoskeletal-special-tests", title: "Musculoskeletal Special Tests for PTAs", targetKeyword: "musculoskeletal special tests" },
+      { slug: "neurological-rehabilitation-pt", title: "Neurological Rehabilitation in Physical Therapy", targetKeyword: "neurological rehabilitation PT" },
+      { slug: "range-of-motion-measurement", title: "Range of Motion Measurement and Documentation", targetKeyword: "range of motion measurement" },
+      { slug: "wound-care-physical-therapy", title: "Wound Care Principles for Physical Therapy", targetKeyword: "wound care physical therapy" },
+    ],
     seo: {
       title: "Physiotherapy Assistant Career Guide | PTA Certification (NPTE-PTA)",
       description: "Complete guide to physiotherapy assistant careers. Learn about education, NPTE-PTA certification, salary, job outlook, and study resources for aspiring PTAs.",
@@ -599,12 +751,29 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["PTCB (PTCE)", "ExCPT", "PEBC Qualifying"],
     salaryRange: "$35,000 – $52,000 USD",
     jobOutlook: "6% growth projected through 2032 (faster than average)",
+    medianSalary: "$38,350",
+    growthRate: "6%",
+    educationRequired: "Certificate or Associate's degree; ASHP-accredited preferred",
     studyResources: {
       questionBanks: { label: "Pharm Tech Question Bank", link: "/pharmacy-technician/practice-questions" },
       flashcards: { label: "Pharm Tech Flashcards", link: "/pharmacy-technician/flashcards" },
       mockExams: { label: "Pharm Tech Mock Exams", link: "/pharmacy-technician/exams" },
       clinicalCases: { label: "Pharmacy Cases", link: "/pharmacy-technician/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/pharmacy-technician/practice-questions",
+      mockExams: "/pharmacy-technician/exams",
+      flashcards: "/pharmacy-technician/flashcards",
+      clinicalCases: "/pharmacy-technician/study-guide",
+    },
+    topicTemplates: [
+      { slug: "dosage-calculations-guide", title: "Pharmacy Dosage Calculations Guide", targetKeyword: "pharmacy dosage calculations" },
+      { slug: "drug-classifications-top-200", title: "Top 200 Drug Classifications for Pharm Techs", targetKeyword: "top 200 drug classifications" },
+      { slug: "sterile-compounding-usp-797", title: "Sterile Compounding and USP 797 Standards", targetKeyword: "sterile compounding USP 797" },
+      { slug: "pharmacy-law-regulations", title: "Pharmacy Law and Regulations Overview", targetKeyword: "pharmacy law regulations" },
+      { slug: "controlled-substances-scheduling", title: "Controlled Substances and DEA Scheduling", targetKeyword: "controlled substances DEA scheduling" },
+      { slug: "insurance-billing-prescription", title: "Insurance Billing and Prescription Processing", targetKeyword: "pharmacy insurance billing" },
+    ],
     seo: {
       title: "Pharmacy Technician Career Guide | PTCB & PEBC Certification",
       description: "Complete guide to pharmacy technician careers. Learn about education, certification (PTCB, ExCPT, PEBC), salary, job outlook, and study resources for aspiring pharm techs.",
@@ -664,18 +833,118 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     examNames: ["NBSTSA CST", "NCCT TS-C"],
     salaryRange: "$45,000 – $65,000 USD",
     jobOutlook: "5% growth projected through 2032 (average)",
+    medianSalary: "$56,350",
+    growthRate: "5%",
+    educationRequired: "Associate's degree or Certificate from CAAHEP-accredited program",
     studyResources: {
       questionBanks: { label: "Surg Tech Question Bank", link: "/perioperative/questions" },
       flashcards: { label: "Surg Tech Flashcards", link: "/perioperative/flashcards" },
       mockExams: { label: "Surg Tech Mock Exams", link: "/perioperative/mock-exam" },
       clinicalCases: { label: "Surgical Cases", link: "/perioperative/study-guide" },
     },
+    studyResourceCTAs: {
+      questionBank: "/perioperative/questions",
+      mockExams: "/perioperative/mock-exam",
+      flashcards: "/perioperative/flashcards",
+      clinicalCases: "/perioperative/study-guide",
+    },
+    topicTemplates: [
+      { slug: "sterile-technique-principles", title: "Sterile Technique Principles for the OR", targetKeyword: "sterile technique operating room" },
+      { slug: "surgical-instruments-identification", title: "Surgical Instruments Identification Guide", targetKeyword: "surgical instruments identification" },
+      { slug: "surgical-counts-procedures", title: "Surgical Counts: Instruments, Sponges, and Sharps", targetKeyword: "surgical counts procedures" },
+      { slug: "surgical-positioning-guide", title: "Surgical Patient Positioning Guide", targetKeyword: "surgical positioning" },
+      { slug: "wound-closure-suturing", title: "Wound Closure and Suturing Techniques", targetKeyword: "wound closure suturing" },
+      { slug: "operating-room-safety", title: "Operating Room Safety and Fire Prevention", targetKeyword: "operating room safety" },
+    ],
     seo: {
       title: "Surgical Technologist Career Guide | CST Certification",
       description: "Complete guide to surgical technologist careers. Learn about education, CST certification (NBSTSA), salary, job outlook, and study resources for aspiring surg techs.",
       keywords: "surgical technologist, surg tech, scrub tech, CST, NBSTSA, operating room technician, surgical technology career, sterile technique",
     },
     relatedProfessions: ["paramedic", "radiologic-technologist", "respiratory-therapy"],
+  },
+  "health-information-management": {
+    slug: "health-information-management",
+    name: "Health Information Management",
+    shortName: "HIM",
+    tagline: "Manage the data that drives healthcare decisions and patient outcomes",
+    description: "Health information management professionals oversee the acquisition, analysis, and protection of health data — ensuring accuracy, accessibility, and security across healthcare organizations.",
+    color: "#3F51B5",
+    colorAccent: "#E8EAF6",
+    icon: "Database",
+    overview: "Health Information Management (HIM) professionals are the stewards of healthcare data. They manage the systems and processes that capture, maintain, analyze, and protect the clinical and administrative information essential to delivering quality healthcare. HIM professionals work at the intersection of healthcare, technology, and business — ensuring that health records are complete, accurate, coded correctly, and compliant with federal and state regulations (HIPAA, HITECH). They play a critical role in revenue cycle management through medical coding (ICD-10-CM/PCS, CPT, HCPCS), clinical documentation improvement (CDI), data analytics, EHR implementation, and health information exchange (HIE). As healthcare continues to digitize, HIM professionals are increasingly vital in areas like data governance, cybersecurity, telehealth compliance, and population health management.",
+    whereTheyWork: [
+      "Hospitals and health systems (HIM departments)",
+      "Physician practices and ambulatory care centers",
+      "Insurance companies and managed care organizations",
+      "Government agencies (CMS, CDC, state health departments)",
+      "Health information technology vendors",
+      "Consulting firms and revenue cycle companies",
+      "Long-term care and rehabilitation facilities",
+      "Remote coding and auditing companies"
+    ],
+    responsibilities: [
+      "Assigning ICD-10-CM, ICD-10-PCS, CPT, and HCPCS codes to diagnoses and procedures",
+      "Managing electronic health record (EHR) systems and data integrity",
+      "Ensuring HIPAA compliance and health information privacy/security",
+      "Performing clinical documentation improvement (CDI) reviews",
+      "Conducting coding audits and quality assurance reviews",
+      "Managing release of information (ROI) requests",
+      "Analyzing health data for quality reporting and decision support",
+      "Overseeing revenue cycle management and reimbursement optimization",
+      "Leading EHR implementation and optimization projects",
+      "Managing cancer registry and trauma registry data"
+    ],
+    patientPopulations: [
+      "All patients across the healthcare continuum (inpatient, outpatient, ambulatory)",
+      "Medicare and Medicaid beneficiaries requiring compliant coding",
+      "Oncology patients requiring cancer registry abstraction",
+      "Surgical patients requiring procedural coding (ICD-10-PCS)",
+      "Emergency department patients with complex documentation",
+      "Behavioral health patients with specialized coding requirements",
+      "Patients involved in legal proceedings requiring record disclosure"
+    ],
+    educationPathways: [
+      "Associate's degree in Health Information Technology (RHIT pathway, 2 years)",
+      "Bachelor's degree in Health Information Management (RHIA pathway, 4 years)",
+      "Master's degree in Health Informatics or HIM (leadership roles)",
+      "CAHIIM-accredited program required for AHIMA credentials",
+      "Coding certificate programs (CCS, CPC) for coding specialization",
+      "Continuing education for credential maintenance (CEs every 2 years)"
+    ],
+    certificationOverview: "The American Health Information Management Association (AHIMA) offers the primary HIM credentials: RHIT (Registered Health Information Technician) for associate-level professionals and RHIA (Registered Health Information Administrator) for bachelor-level professionals. AHIMA also offers specialty credentials including CCS (Certified Coding Specialist) and CDIP (Certified Documentation Improvement Practitioner). The AAPC offers the CPC (Certified Professional Coder) as an alternative coding credential. All credentials require passing national exams and maintaining continuing education.",
+    examNames: ["AHIMA RHIT", "AHIMA RHIA", "AHIMA CCS", "AAPC CPC"],
+    salaryRange: "$45,000 – $85,000 USD / $48,000 – $82,000 CAD",
+    jobOutlook: "17% growth projected through 2032 (much faster than average)",
+    medianSalary: "$62,990",
+    growthRate: "17%",
+    educationRequired: "Associate's degree (RHIT); Bachelor's degree (RHIA)",
+    studyResources: {
+      questionBanks: { label: "HIM Question Bank", link: "/health-info-mgmt/practice-questions" },
+      flashcards: { label: "HIM Flashcards", link: "/health-info-mgmt/flashcards" },
+      mockExams: { label: "HIM Mock Exams", link: "/health-info-mgmt/mock-exam" },
+      clinicalCases: { label: "Coding Case Studies", link: "/health-info-mgmt/study-guide" },
+    },
+    studyResourceCTAs: {
+      questionBank: "/health-info-mgmt/practice-questions",
+      mockExams: "/health-info-mgmt/mock-exam",
+      flashcards: "/health-info-mgmt/flashcards",
+      clinicalCases: "/health-info-mgmt/study-guide",
+    },
+    topicTemplates: [
+      { slug: "icd-10-cm-coding-guidelines", title: "ICD-10-CM Coding Guidelines: Complete Overview", targetKeyword: "ICD-10-CM coding guidelines" },
+      { slug: "cpt-coding-evaluation-management", title: "CPT Coding: Evaluation and Management (E/M) Guide", targetKeyword: "CPT E/M coding" },
+      { slug: "hipaa-privacy-security-rules", title: "HIPAA Privacy and Security Rules for HIM", targetKeyword: "HIPAA privacy security rules" },
+      { slug: "clinical-documentation-improvement", title: "Clinical Documentation Improvement (CDI) Strategies", targetKeyword: "clinical documentation improvement" },
+      { slug: "revenue-cycle-management-guide", title: "Revenue Cycle Management in Healthcare", targetKeyword: "revenue cycle management healthcare" },
+      { slug: "ehr-implementation-optimization", title: "EHR Implementation and Optimization Guide", targetKeyword: "EHR implementation optimization" },
+    ],
+    seo: {
+      title: "Health Information Management Career Guide | RHIT & RHIA Certification",
+      description: "Complete guide to health information management careers. Learn about education, AHIMA certification (RHIT, RHIA, CCS), salary, job outlook, and study resources for aspiring HIM professionals.",
+      keywords: "health information management, HIM, RHIT, RHIA, AHIMA, medical coding, ICD-10, CPT coding, health information technology, EHR, HIPAA, clinical documentation improvement",
+    },
+    relatedProfessions: ["medical-laboratory-technologist", "pharmacy-technician", "respiratory-therapy"],
   },
 };
 

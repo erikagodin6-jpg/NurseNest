@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ScenarioAdminPanel } from "@/allied/components/scenario-admin";
 import { ArticleAdminPanel } from "@/allied/components/article-admin";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
 
 type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank" | "scenarios" | "articles";
 

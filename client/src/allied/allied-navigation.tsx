@@ -4,12 +4,12 @@ import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/ca
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
   BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe, Briefcase,
-  Hand, Activity
+  Hand, Activity, Database
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useRegion } from "@/allied/use-region";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
 
 function getCareerIcon(slug: string) {
   switch (slug) {
@@ -20,6 +20,7 @@ function getCareerIcon(slug: string) {
     case "imaging": return <Radio className="w-4 h-4" />;
     case "occupational-therapy": return <Hand className="w-4 h-4" />;
     case "physical-therapy": return <Activity className="w-4 h-4" />;
+    case "health-info-mgmt": return <Database className="w-4 h-4" />;
     default: return <BookOpen className="w-4 h-4" />;
   }
 }

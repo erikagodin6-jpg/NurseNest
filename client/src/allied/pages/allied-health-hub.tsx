@@ -2,13 +2,14 @@ import { Link } from "wouter";
 import {
   Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity,
   Users, Brain, ShieldCheck, ArrowRight, BookOpen, FileText,
-  GraduationCap, TrendingUp, ChevronRight, Award
+  GraduationCap, TrendingUp, ChevronRight, Award, Database,
+  Monitor, HeartPulse, Scissors
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { ALLIED_HEALTH_PROFESSIONS } from "@/allied/data/allied-health-professions";
 
 const ICON_MAP: Record<string, any> = {
-  Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck,
+  Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck, Database, Monitor, HeartPulse, Scissors,
 };
 
 function Breadcrumbs() {
@@ -69,7 +70,7 @@ export default function AlliedHealthHub() {
               Allied Health <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Career Guides</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6" data-testid="text-hub-subtitle">
-              Explore 9 allied health career paths with comprehensive guides covering education requirements, certification exams, salary data, career outlook, and exam prep resources.
+              Explore 11 allied health career paths with comprehensive guides covering education requirements, certification exams, salary data, career outlook, and exam prep resources.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
@@ -96,7 +97,7 @@ export default function AlliedHealthHub() {
       <section className="py-12 sm:py-16" data-testid="profession-cards-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {ALLIED_HEALTH_PROFESSIONS.map(profession => {
+            {Object.values(ALLIED_HEALTH_PROFESSIONS).map(profession => {
               const IconComponent = ICON_MAP[profession.icon] || BookOpen;
               return (
                 <Link
