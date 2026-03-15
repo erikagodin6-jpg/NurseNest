@@ -1241,6 +1241,29 @@ function LocaleRouter() {
   );
 }
 
+function handleDevModeSwitch(): void {
+  const isDev = window.location.hostname.includes("replit") ||
+    window.location.hostname === "localhost" ||
+    window.location.hostname.includes("0.0.0.0") ||
+    window.location.hostname.includes("webcontainer");
+  if (!isDev) return;
+  localStorage.removeItem("nursenest_allied_mode");
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  const redirect = params.get("redirect");
+  if (mode === "allied") {
+    localStorage.setItem("nursenest_site_mode", "allied");
+    window.location.replace(redirect || window.location.pathname);
+    return;
+  }
+  if (mode === "nursing") {
+    localStorage.removeItem("nursenest_site_mode");
+    window.location.replace(redirect || window.location.pathname);
+    return;
+  }
+}
+
+handleDevModeSwitch();
 
 (function captureReferralCode() {
   const params = new URLSearchParams(window.location.search);
