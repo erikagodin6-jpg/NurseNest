@@ -4697,6 +4697,12 @@ export const studentStudyProfiles = pgTable("student_study_profiles", {
   readinessLevel: text("readiness_level").default("not_ready"),
   passProbability: integer("pass_probability").default(0),
   examPrepModeActive: boolean("exam_prep_mode_active").default(false),
+  examFollowupCompleted: boolean("exam_followup_completed").default(false),
+  examResultStatus: text("exam_result_status"),
+  examWeakAreas: jsonb("exam_weak_areas").default(sql`'[]'::jsonb`),
+  examResultDate: timestamp("exam_result_date"),
+  postExamOfferShown: boolean("post_exam_offer_shown").default(false),
+  newExamDate: timestamp("new_exam_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

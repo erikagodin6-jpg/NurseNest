@@ -384,6 +384,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerNewGradRoutes } = await import("./new-grad-routes");
   registerNewGradRoutes(app);
 
+  const { registerPostExamRoutes } = await import("./post-exam-routes");
+  registerPostExamRoutes(app);
+
   const { registerApplyNestRoutes } = await import("./applynest-routes");
   registerApplyNestRoutes(app);
 

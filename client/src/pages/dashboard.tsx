@@ -22,6 +22,14 @@ import {
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 import { StudyMomentumPanel } from "@/components/study-momentum";
 import { TrialDashboardWidget } from "@/components/trial-dashboard-widget";
+import {
+  PostExamFollowupModal,
+  NewGradTransitionCard,
+  RecoveryPlanCard,
+  ResultsPendingCard,
+  PostponedCountdownCard,
+  usePostExamCheck,
+} from "@/components/post-exam-followup";
 
 type WidgetConfig = {
   widgetType: string;
@@ -52,6 +60,10 @@ const WIDGET_ICONS: Record<string, any> = {
   weak_topics: AlertTriangle,
   bookmarks_preview: Bookmark,
   performance_overview: BarChart3,
+  post_exam_new_grad: PartyPopper,
+  post_exam_recovery: Target,
+  post_exam_pending: Clock,
+  post_exam_postponed: CalendarClock,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -76,6 +88,10 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   weak_topics: WeakTopicsWidget,
   bookmarks_preview: BookmarksPreviewWidget,
   performance_overview: PerformanceOverviewWidget,
+  post_exam_new_grad: PostExamNewGradWidget,
+  post_exam_recovery: PostExamRecoveryWidget,
+  post_exam_pending: PostExamPendingWidget,
+  post_exam_postponed: PostExamPostponedWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -100,6 +116,10 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   weak_topics: { label: "dashboard.widget.weakTopics", desc: "dashboard.widget.weakTopicsDesc" },
   bookmarks_preview: { label: "dashboard.widget.bookmarks", desc: "dashboard.widget.bookmarksDesc" },
   performance_overview: { label: "dashboard.widget.performanceOverview", desc: "dashboard.widget.performanceOverviewDesc" },
+  post_exam_new_grad: { label: "dashboard.widget.newGradTransition", desc: "dashboard.widget.newGradTransitionDesc" },
+  post_exam_recovery: { label: "dashboard.widget.recoveryPlan", desc: "dashboard.widget.recoveryPlanDesc" },
+  post_exam_pending: { label: "dashboard.widget.resultsPending", desc: "dashboard.widget.resultsPendingDesc" },
+  post_exam_postponed: { label: "dashboard.widget.examPostponed", desc: "dashboard.widget.examPostponedDesc" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -150,6 +170,21 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+
+  const {
+    shouldShowModal,
+    postExamStatus,
+    submitResult,
+    setShouldShowModal,
+    reopenModal,
+    refresh: refreshPostExam,
+  } = usePostExamCheck(user?.id);
+
+  useEffect(() => {
+    const handler = () => reopenModal();
+    window.addEventListener("post-exam-reopen-modal", handler);
+    return () => window.removeEventListener("post-exam-reopen-modal", handler);
+  }, [reopenModal]);
 
   useEffect(() => {
     if (!user) {
@@ -263,13 +298,32 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  const visibleWidgets = widgets.filter((w) => w.visible && WIDGET_COMPONENTS[w.widgetType]);
+  const postExamWidgetTypes = ["post_exam_new_grad", "post_exam_recovery", "post_exam_pending", "post_exam_postponed"];
+  const postExamWidgetType = postExamStatus?.hasResult
+    ? postExamStatus.status === "passed" ? "post_exam_new_grad"
+    : postExamStatus.status === "didnt_pass" ? "post_exam_recovery"
+    : postExamStatus.status === "waiting" ? "post_exam_pending"
+    : postExamStatus.status === "postponed" ? "post_exam_postponed"
+    : null
+    : null;
+
+  const baseWidgets = widgets.filter((w) => !postExamWidgetTypes.includes(w.widgetType));
+  const activeWidgets = postExamWidgetType
+    ? [
+        ...baseWidgets.slice(0, 1),
+        { widgetType: postExamWidgetType, position: 0.5, visible: true },
+        ...baseWidgets.slice(1),
+      ]
+    : baseWidgets;
+
+  const visibleWidgets = activeWidgets.filter((w) => w.visible && WIDGET_COMPONENTS[w.widgetType]);
   const availableToAdd = Object.keys(WIDGET_COMPONENTS).filter(
-    (key) => !widgets.find((w) => w.widgetType === key)
+    (key) => !activeWidgets.find((w) => w.widgetType === key) && !postExamWidgetTypes.includes(key)
   );
 
   const WIDGET_SECTIONS: Record<string, { labelKey: string; types: Set<string> }> = {
     hero: { labelKey: "", types: new Set(["welcome"]) },
+    post_exam: { labelKey: "dashboard.sectionPostExam", types: new Set(["post_exam_new_grad", "post_exam_recovery", "post_exam_pending", "post_exam_postponed"]) },
     progress: { labelKey: "dashboard.sectionProgress", types: new Set(["progress", "study_streak", "pass_probability", "exam_readiness", "exam_stats", "performance_overview"]) },
     study: { labelKey: "dashboard.sectionStudyTools", types: new Set(["quick_links", "quick_study", "flashcard_review", "review_due", "recent_lessons", "bookmarks_preview"]) },
     smart: { labelKey: "dashboard.sectionSmartInsights", types: new Set(["recommended", "adaptive_engine", "ai_study_coach", "intelligent_recommendations", "topic_mastery", "weak_topics", "study_workload", "clinical_tools"]) },
@@ -303,6 +357,11 @@ export default function DashboardPage() {
         ]}
       />
       <Navigation />
+      <PostExamFollowupModal
+        isOpen={shouldShowModal}
+        onClose={() => setShouldShowModal(false)}
+        onSubmit={submitResult}
+      />
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl" role="main" aria-label="Learning Dashboard">
         <nav aria-label="Breadcrumb" className="mb-4">
           <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -406,7 +465,7 @@ export default function DashboardPage() {
           <section className="space-y-8" aria-label="Dashboard widgets">
             {(() => {
               const displayWidgets = editing ? widgets : visibleWidgets;
-              const sectionOrder = ["hero", "progress", "study", "smart"];
+              const sectionOrder = ["hero", "post_exam", "progress", "study", "smart"];
               
               if (editing) {
                 return (
@@ -1731,4 +1790,50 @@ function PerformanceOverviewWidget({ user }: { user: any }) {
       </Button>
     </div>
   );
+}
+
+function PostExamNewGradWidget({ user }: { user: any }) {
+  return <NewGradTransitionCard user={user} careerType={user?.careerType} />;
+}
+
+function PostExamRecoveryWidget({ user }: { user: any }) {
+  const [readinessData, setReadinessData] = useState<any>(null);
+  const [weakAreas, setWeakAreas] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    fetch("/api/post-exam/status", { headers: { "x-user-id": user.id } })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (data?.readinessData) setReadinessData(data.readinessData);
+        if (data?.weakAreas && Array.isArray(data.weakAreas)) setWeakAreas(data.weakAreas);
+      })
+      .catch(() => {});
+  }, [user?.id]);
+
+  return <RecoveryPlanCard user={user} readinessData={readinessData} weakAreas={weakAreas} />;
+}
+
+function PostExamPendingWidget({ user }: { user: any }) {
+  const handleUpdateResult = () => {
+    window.dispatchEvent(new CustomEvent("post-exam-reopen-modal"));
+  };
+  return <ResultsPendingCard user={user} onUpdateResult={handleUpdateResult} />;
+}
+
+function PostExamPostponedWidget({ user }: { user: any }) {
+  const [newExamDate, setNewExamDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    fetch("/api/post-exam/status", { headers: { "x-user-id": user.id } })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (data?.newExamDate) setNewExamDate(data.newExamDate);
+        else if (data?.examDate) setNewExamDate(data.examDate);
+      })
+      .catch(() => {});
+  }, [user?.id]);
+
+  return <PostponedCountdownCard user={user} newExamDate={newExamDate} />;
 }
