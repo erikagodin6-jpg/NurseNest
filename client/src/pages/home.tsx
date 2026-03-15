@@ -4,7 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
-import { Footer } from "@/components/footer";
+const Footer = lazy(() => import("@/components/footer").then(m => ({ default: m.Footer })));
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
@@ -27,6 +27,8 @@ import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
 
 const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
+const HomeChoosePath = lazy(() => import("@/components/home-choose-path"));
+const HomeCareerCta = lazy(() => import("@/components/home-career-cta"));
 
 const heroCarouselSlides = [
   {
@@ -94,11 +96,12 @@ function HeroCarousel() {
             alt={slide.alt}
             width={1200}
             height={750}
-            decoding="async"
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+            decoding={index === 0 ? "sync" : "async"}
+            className={`absolute inset-0 w-full h-full object-cover will-change-[opacity] transition-opacity duration-700 ease-in-out ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
-            loading="lazy"
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "low"}
             data-testid={`img-hero-slide-${index}`}
           />
         ))}
@@ -339,7 +342,7 @@ export default function Home() {
                     {t("home.hero.mainTitle")}
                   </h1>
                   
-                  <p className="text-lg lg:text-xl text-gray-500 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
+                  <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
                     {t("home.hero.dynamicSubtitle", { questionCount: formatCount(questionCount), flashcardInfo: flashcardCount > 0 ? t("home.hero.flashcardsInfo", { count: formatCount(flashcardCount) }) : "", lessonCount: formatCount(lessonCount), rpnLabel, regionName: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
                   </p>
                 </div>
@@ -351,7 +354,7 @@ export default function Home() {
                       className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-3.5 sm:py-4 text-sm sm:text-base font-semibold transition-all duration-200 relative ${
                         region === "US"
                           ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
-                          : "text-gray-400 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
+                          : "text-gray-500 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
                       }`}
                       data-testid="button-region-us"
                     >
@@ -365,7 +368,7 @@ export default function Home() {
                       className={`flex-1 flex items-center justify-center gap-2.5 px-4 py-3.5 sm:py-4 text-sm sm:text-base font-semibold transition-all duration-200 relative ${
                         region === "CA"
                           ? "bg-red-50 text-red-700 border-b-2 border-red-600"
-                          : "text-gray-400 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
+                          : "text-gray-500 hover:text-gray-600 hover:bg-gray-50 border-b-2 border-transparent"
                       }`}
                       data-testid="button-region-ca"
                     >
@@ -376,7 +379,7 @@ export default function Home() {
                   </div>
                   <div className="px-4 py-3 bg-gray-50/80 border-t border-gray-100">
                     <div className="flex items-start gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
+                      <MapPin className="w-3.5 h-3.5 text-gray-500 shrink-0 mt-0.5" />
                       <p className="text-xs text-gray-500 leading-relaxed">
                         {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
                       </p>
@@ -406,7 +409,7 @@ export default function Home() {
                   </Button>
                 </div>
 
-                <p className="text-xs text-gray-400 text-center sm:text-left" data-testid="text-no-credit-card">
+                <p className="text-xs text-gray-500 text-center sm:text-left" data-testid="text-no-credit-card">
                   {t("home.hero.noCreditCardCentered")}
                 </p>
 
@@ -425,7 +428,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-400" data-testid="hero-trust-indicators">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-600" data-testid="hero-trust-indicators">
                   <div className="flex items-center gap-1.5">
                     <Trophy className="w-3.5 h-3.5 shrink-0" />
                     <span>{t("home.hero.trustPassRate")}</span>
@@ -447,12 +450,12 @@ export default function Home() {
                   </div>
                 </div>
 
-                <p className="text-xs text-gray-400 leading-relaxed max-w-lg" data-testid="text-built-for">
+                <p className="text-xs text-gray-500 leading-relaxed max-w-lg" data-testid="text-built-for">
                   {t("home.hero.builtFor")}
                 </p>
 
                 <div className="rounded-xl border border-gray-100 bg-white/80 shadow-[var(--shadow-card)] p-4" data-testid="hero-clarity-block">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">What you get</p>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
@@ -503,7 +506,7 @@ export default function Home() {
             </div>
 
             <div className="mt-10 sm:mt-12" data-testid="section-careers-supported">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                 {t("home.hero.examPrepFor", { region: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -525,98 +528,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }} data-testid="section-choose-your-path">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Choose Your Path</h2>
-              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">Find the resources tailored to your journey in healthcare.</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div
-                className="bg-white rounded-2xl border border-gray-150 p-6 sm:p-8 shadow-[var(--shadow-card)] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col"
-                data-testid="card-nursing-students"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                    <BookOpen className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">Nursing Students</h3>
-                </div>
-                <p className="text-sm text-gray-600 mb-6 flex-1">Prepare for REx-PN, NCLEX-RN, and NP certification exams with practice questions, flashcards, and clinical lessons.</p>
-                <Button
-                  onClick={() => setLocation("/exam-prep")}
-                  className="w-full"
-                  data-testid="button-start-nursing-prep"
-                >
-                  Start Nursing Exam Prep
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-
-              <div
-                className="bg-white rounded-2xl border border-gray-150 p-6 sm:p-8 shadow-[var(--shadow-card)] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col"
-                data-testid="card-allied-health"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-green-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">Allied Health Students</h3>
-                </div>
-                <p className="text-sm text-gray-600 mb-6 flex-1">Study for respiratory therapy, paramedic, pharmacy technician, medical lab, and diagnostic imaging certifications.</p>
-                <Button
-                  onClick={() => setLocation("/allied-health")}
-                  className="w-full"
-                  data-testid="button-explore-allied-health"
-                >
-                  Explore Allied Health Prep
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-
-              <div
-                className="bg-white rounded-2xl border border-gray-150 p-6 sm:p-8 shadow-[var(--shadow-card)] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col"
-                data-testid="card-new-grad-nurses"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
-                    <Trophy className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">New Graduate Nurses</h3>
-                </div>
-                <p className="text-sm text-gray-600 mb-6 flex-1">Get clinical survival guides, certification pathways, and career development tools for your first year in practice.</p>
-                <Button
-                  onClick={() => setLocation("/new-grad")}
-                  className="w-full"
-                  data-testid="button-enter-new-grad-hub"
-                >
-                  Enter the New Grad Hub
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" data-testid="metrics-credibility-bar">
-              <div className="text-center p-4" data-testid="metric-practice-questions">
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">40,000+</p>
-                <p className="text-sm text-gray-500 mt-1">Practice Questions</p>
-              </div>
-              <div className="text-center p-4" data-testid="metric-flashcards">
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">13,000+</p>
-                <p className="text-sm text-gray-500 mt-1">Flashcards</p>
-              </div>
-              <div className="text-center p-4" data-testid="metric-clinical-lessons">
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">8,000+</p>
-                <p className="text-sm text-gray-500 mt-1">Clinical Lessons</p>
-              </div>
-              <div className="text-center p-4" data-testid="metric-languages">
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">15</p>
-                <p className="text-sm text-gray-500 mt-1">Languages Supported</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LazySection minHeight="300px" rootMargin="200px">
+          <Suspense fallback={<div className="min-h-[300px]" />}>
+            <HomeChoosePath />
+          </Suspense>
+        </LazySection>
 
         <LazySection minHeight="400px" rootMargin="200px">
           <Suspense fallback={<div className="min-h-[400px]" />}>
@@ -627,36 +543,11 @@ export default function Home() {
           </Suspense>
         </LazySection>
 
-        <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }} data-testid="section-career-journey-cta">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-            <div className="bg-gradient-to-r from-blue-50/60 via-indigo-50/40 to-purple-50/30 rounded-3xl border border-blue-100/60 p-8 sm:p-12 shadow-[var(--shadow-card)]">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-200/60 shadow-[var(--shadow-card)] mb-5">
-                <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
-                <span className="text-xs sm:text-sm font-medium text-blue-700">{t("home.career.journeyBadge")}</span>
-              </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }}>{t("home.career.journeyTitle")}</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-base lg:text-lg">{t("home.career.journeySubtitle")}</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold shadow-[var(--shadow-card)]"
-                  onClick={() => setLocation("/career-journey")}
-                  data-testid="button-career-journey-home"
-                >
-                  {t("home.career.exploreJourney")}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-blue-200 text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-full font-medium"
-                  onClick={() => setLocation("/career-journey/nursing")}
-                  data-testid="button-career-journey-nursing"
-                >
-                  {t("home.career.rnPath")}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LazySection minHeight="200px" rootMargin="200px">
+          <Suspense fallback={<div className="min-h-[200px]" />}>
+            <HomeCareerCta />
+          </Suspense>
+        </LazySection>
 
         <LazySection minHeight="800px" rootMargin="400px">
           <Suspense fallback={<div className="min-h-[800px]" />}>
@@ -715,7 +606,9 @@ export default function Home() {
         </div>
       )}
 
-      <Footer />
+      <Suspense fallback={<div className="min-h-[200px]" />}>
+        <Footer />
+      </Suspense>
       <AdminEditButton />
     </div>
   );
