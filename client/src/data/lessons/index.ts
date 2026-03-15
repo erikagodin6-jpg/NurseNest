@@ -560,7 +560,6 @@ function isPlaceholder(lesson: LessonContent): boolean {
     "Implement guideline-directed escalation protocols if initial therapy fails",
     "Plan appropriate follow-up intervals and outcome measurements",
   ];
-  const mgmt = lesson.management || [];
   const batchMgmtCount = mgmt.filter((m: string) =>
     batchGenericMgmt.some(g => m.startsWith(g) || m === g)
   ).length;
