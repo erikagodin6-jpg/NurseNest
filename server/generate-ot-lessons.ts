@@ -1,4 +1,5 @@
 import pg from "pg";
+import { fileURLToPath } from "url";
 import { getProdPool } from "./db";
 
 const SYSTEM_USER_ID = "system-nursenest";
@@ -624,7 +625,8 @@ export async function generateOTLessonsRange(startIdx: number, endIdx: number): 
   console.log(`[OT Range] Done: lessons=${totalLessons} flashcards=${totalFlashcards} errors=${totalErrors}`);
 }
 
-const isMain = (typeof __filename !== "undefined" ? __filename === process.argv[1] : import.meta.url === `file://${process.argv[1]}`) || process.argv[1]?.endsWith("generate-ot-lessons.ts");
+const __filename_esm = typeof __filename !== "undefined" ? __filename : fileURLToPath(import.meta.url);
+const isMain = __filename_esm === process.argv[1] || process.argv[1]?.endsWith("generate-ot-lessons.ts");
 if (isMain) {
   const startIdx = parseInt(process.argv[2] || "0");
   const endIdx = parseInt(process.argv[3] || String(OT_LESSON_TOPICS.length));
