@@ -1,0 +1,264 @@
+URGENT LONG-TERM ARCHITECTURE FIX FOR ALLIED HEALTH + MAIN NURSENEST
+
+Problem:
+The Allied Health experience currently behaves like a disconnected site/subdomain instead of a seamless part of NurseNest.
+
+Confirmed UX problems:
+- some allied pages route to a different-looking shell
+- some links still go to the allied subdomain unexpectedly
+- there is no clear path back to the main NurseNest site from allied pages
+- navigation consistency is broken across main NurseNest and allied pages
+- users can get trapped in allied pages with limited brand continuity
+- footer and menu links are inconsistent or broken across sections
+
+Goal:
+Refactor the site architecture so Allied Health is fully integrated into the NurseNest ecosystem, with consistent branding, navigation, routing, and cross-linking.
+
+PRIMARY PRODUCT RULE:
+Allied Health must feel like a section of NurseNest, not a disconnected website.
+
+--------------------------------------------------
+SECTION 1 — AUDIT CURRENT ARCHITECTURE
+--------------------------------------------------
+
+1. Audit the current architecture for:
+- main NurseNest domain
+- allied subdomain
+- allied routes on main domain
+- route redirects
+- shared layout components
+- navigation components
+- footer components
+- header components
+- locale routing behavior
+
+2. Document:
+- which allied pages are on main domain
+- which allied pages are on subdomain
+- which pages use shared layout
+- which pages use a different shell
+- which redirects are intentional vs legacy leftovers
+
+3. Identify the root cause of the split experience:
+- legacy subdomain architecture
+- hardcoded links
+- different router config
+- different app shell
+- different layout wrapper
+- partial migration not completed
+
+--------------------------------------------------
+SECTION 2 — CHOOSE ONE CONSISTENT STRUCTURE
+--------------------------------------------------
+
+4. Normalize Allied Health into one architecture.
+
+Preferred structure:
+Keep Allied Health inside the main NurseNest experience with clean section-based routes such as:
+
+/allied-health
+/allied-health/paramedic
+/allied-health/respiratory-therapy
+/allied-health/pharmacy-tech
+/allied-health/mlt
+/allied-health/radiologic-tech
+/allied-health/diagnostic-medical-sonography
+/allied-health/cardiac-sonography
+/allied-health/occupational-therapy-assistant
+/allied-health/physiotherapy-assistant
+/allied-health/health-information-management
+
+5. If the subdomain must remain temporarily, then:
+- make it use the same NurseNest global shell
+- make cross-navigation explicit
+- preserve branding and layout
+- remove all “disconnected site” behavior
+
+6. Preferred end state:
+Users should not need to understand whether they are on a subdomain or not.
+It should feel like one product.
+
+--------------------------------------------------
+SECTION 3 — GLOBAL SHARED SHELL
+--------------------------------------------------
+
+7. Ensure all allied pages use the same shared NurseNest shell:
+- logo
+- header
+- ecosystem nav
+- search
+- footer
+- spacing system
+- responsive design
+- language switcher
+- account/menu behavior
+
+8. The Allied Health section may have its own contextual subnav, but it must still sit inside the main NurseNest shell.
+
+9. If there are legacy templates without shared layout, migrate them into the shared layout wrapper.
+
+--------------------------------------------------
+SECTION 4 — ADD STRONG RETURN PATHS
+--------------------------------------------------
+
+10. Add a persistent return path from every allied page back to main NurseNest.
+
+Required:
+- NurseNest logo links to main homepage
+- ecosystem nav links back to:
+  - Exam Prep
+  - New Grad Support
+  - Healthcare Careers
+- footer includes:
+  - main homepage
+  - pricing
+  - lessons
+  - new grad
+  - FAQ
+
+11. Add breadcrumb structure where appropriate, e.g.:
+NurseNest > Allied Health > Pharmacy Technician
+
+12. Ensure users can get from any allied page back to the main site in one click.
+
+--------------------------------------------------
+SECTION 5 — FIX ROUTING + REDIRECTS
+--------------------------------------------------
+
+13. Remove or repair bad redirects that send users into mismatched shells.
+
+14. Audit all allied-related routes and fix:
+- wrong-domain redirects
+- dead routes
+- old hero-page redirects
+- legacy hardcoded links
+- pages that load without navigation
+
+15. If a current route such as /en/pharmacy-tech redirects unexpectedly to the allied subdomain, either:
+- normalize it into the main architecture
+or
+- make the allied destination fully consistent with main NurseNest shell
+
+16. Do not leave mixed routing behavior where one allied page behaves one way and another behaves differently.
+
+--------------------------------------------------
+SECTION 6 — FOOTER + MENU LINK CLEANUP
+--------------------------------------------------
+
+17. Audit every link in:
+- header
+- dropdowns
+- ecosystem nav
+- allied footer
+- main footer
+- guide links
+- specialty links
+- career links
+
+18. For each link:
+- confirm destination exists
+- confirm destination works on published
+- confirm destination uses correct shell
+- confirm destination belongs to the correct section
+
+19. If destination does not exist yet:
+- do not leave dead links visible
+- either create the page
+- or temporarily hide/remove the link
+
+--------------------------------------------------
+SECTION 7 — LOCALE / LANGUAGE CONSISTENCY
+--------------------------------------------------
+
+20. Preserve locale across main and allied navigation.
+
+Examples:
+- /en/allied-health/pharmacy-tech should link back to /en
+- /fr/allied-health/... should link back to /fr equivalents where available
+
+21. Ensure the language switcher behaves consistently across allied and main pages.
+
+22. Do not break hreflang/canonical structure while normalizing routes.
+
+--------------------------------------------------
+SECTION 8 — SEO + INTERNAL LINKING
+--------------------------------------------------
+
+23. Improve internal linking between:
+- main NurseNest homepage
+- Allied Health hub
+- allied specialty pages
+- pricing
+- new grad
+- exam prep
+
+24. Ensure allied pages are not orphaned.
+
+25. Ensure allied pages contribute to the overall NurseNest crawl structure and do not feel isolated from the rest of the domain ecosystem.
+
+26. Preserve or improve:
+- canonical tags
+- metadata
+- breadcrumb schema
+- sitemap inclusion
+- internal link hierarchy
+
+--------------------------------------------------
+SECTION 9 — USER EXPERIENCE REQUIREMENTS
+--------------------------------------------------
+
+27. Final user experience should feel:
+- unified
+- premium
+- intentional
+- easy to navigate
+- clearly part of NurseNest
+
+28. Users should always understand:
+- where they are
+- how to move to another section
+- how to get back to main NurseNest
+- how allied content relates to the rest of the platform
+
+29. Allied Health may have its own hub page, but it must not function as a trap page.
+
+--------------------------------------------------
+SECTION 10 — TESTING
+--------------------------------------------------
+
+30. Test on the published site, not preview.
+
+Required test pages:
+- allied health hub
+- paramedic
+- respiratory therapy
+- pharmacy technician
+- mlt
+- any other allied specialty pages
+- return to main NurseNest from each page
+- header links
+- footer links
+- mobile menu
+- desktop menu
+- locale switching
+
+31. Confirm:
+- every allied page has a visible path back to main NurseNest
+- no mismatched layouts remain
+- no broken links remain
+- no pages trap the user in the allied area
+- all pages keep consistent branding
+
+--------------------------------------------------
+DELIVERABLES
+--------------------------------------------------
+
+Provide:
+- root cause summary
+- final recommended architecture
+- exact files changed
+- old route behavior vs new route behavior
+- header/footer changes made
+- all new cross-site navigation links added
+- list of redirects removed or normalized
+- confirmation that published allied pages now feel like part of one NurseNest site

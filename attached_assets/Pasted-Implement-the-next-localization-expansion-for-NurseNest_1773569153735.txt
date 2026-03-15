@@ -1,0 +1,131 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add Punjabi as a supported language while maintaining the stability of the multilingual system.
+
+Do not break routing, SEO tags, hreflang implementation, or existing languages.
+
+---
+
+SECTION 1 — LANGUAGE CONFIGURATION
+
+Add a new locale.
+
+language code:
+pa
+
+display name:
+ਪੰਜਾਬੀ
+
+Add Punjabi to the language selector.
+
+---
+
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Punjabi routes follow the same localization structure.
+
+Examples:
+
+/pa
+/pa/pricing
+/pa/lessons
+/pa/practice
+/pa/new-grad
+/pa/allied-health
+/pa/faq
+
+All internal links must respect the active language.
+
+---
+
+SECTION 3 — TRANSLATION PRIORITY
+
+Translate the highest-impact pages first.
+
+Priority pages:
+
+Homepage
+Pricing
+Lessons overview
+Practice / Question bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Blog index
+Navigation and footer
+
+Individual lessons and blog posts may initially fall back to English.
+
+---
+
+SECTION 4 — TRANSLATION QUALITY RULES
+
+Ensure Punjabi translations remain clear and medically accurate.
+
+Rules:
+
+Do not translate the brand name NurseNest
+Preserve medical abbreviations (RN, NP, NCLEX, ICU, NICU)
+Avoid literal machine translation
+Use clear Punjabi suitable for healthcare professionals
+
+---
+
+SECTION 5 — SEO LOCALIZATION
+
+Add Punjabi SEO support.
+
+Each localized page must include:
+
+hreflang tags
+canonical tags
+localized meta titles
+localized meta descriptions
+
+Update hreflang lists to include Punjabi.
+
+---
+
+SECTION 6 — SITEMAP
+
+Create a Punjabi sitemap.
+
+/sitemap-pa.xml
+
+Include Punjabi routes for major pages.
+
+---
+
+SECTION 7 — LANGUAGE DETECTION
+
+If a user's browser language is Punjabi, prefer the Punjabi route.
+
+Example:
+/pa
+
+Allow users to manually switch languages.
+
+---
+
+SECTION 8 — TESTING
+
+Verify on the published site:
+
+Punjabi appears in the language selector
+Punjabi routes load correctly
+Navigation functions normally
+SEO tags generate correctly
+Fallback pages show English content when translations are unavailable
+
+---
+
+DELIVERABLES
+
+Provide:
+
+files changed
+updated localization configuration
+Punjabi routes
+updated sitemap
+confirmation Punjabi works on the published site

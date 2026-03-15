@@ -1,0 +1,131 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add Korean as a supported language while maintaining the stability of the multilingual system.
+
+Do not break routing, SEO tags, hreflang implementation, or existing languages.
+
+---
+
+SECTION 1 — LANGUAGE CONFIGURATION
+
+Add a new locale.
+
+language code:
+ko
+
+display name:
+한국어
+
+Add Korean to the language selector.
+
+---
+
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Korean routes follow the existing localization pattern.
+
+Examples:
+
+/ko
+/ko/pricing
+/ko/lessons
+/ko/practice
+/ko/new-grad
+/ko/allied-health
+/ko/faq
+
+All internal links must respect the active language.
+
+---
+
+SECTION 3 — TRANSLATION PRIORITY
+
+Translate the highest-impact pages first.
+
+Priority pages:
+
+Homepage
+Pricing
+Lessons overview
+Practice / Question bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Blog index
+Navigation and footer
+
+Deep content such as individual lessons and blog posts may initially fall back to English.
+
+---
+
+SECTION 4 — TRANSLATION QUALITY RULES
+
+Ensure Korean translations remain medically accurate and readable.
+
+Rules:
+
+Do not translate the brand name NurseNest
+Preserve medical abbreviations (RN, NP, NCLEX, ICU, NICU)
+Avoid overly literal machine translations
+Use clear Korean appropriate for healthcare professionals
+
+---
+
+SECTION 5 — SEO LOCALIZATION
+
+Add Korean SEO support.
+
+Each localized page must include:
+
+hreflang tags
+canonical tags
+localized meta titles
+localized meta descriptions
+
+Update hreflang lists to include Korean.
+
+---
+
+SECTION 6 — SITEMAP
+
+Create a Korean sitemap.
+
+/sitemap-ko.xml
+
+Include Korean routes for major pages.
+
+---
+
+SECTION 7 — LANGUAGE DETECTION
+
+If a user's browser language is Korean, prefer the Korean route.
+
+Example:
+/ko
+
+Allow manual language switching.
+
+---
+
+SECTION 8 — TESTING
+
+Verify on the published site:
+
+Korean appears in the language selector
+Korean routes load correctly
+Navigation functions normally
+SEO tags generate correctly
+Fallback pages show English content when translations are unavailable
+
+---
+
+DELIVERABLES
+
+Provide:
+
+files changed
+updated localization configuration
+Korean routes
+updated sitemap
+confirmation Korean works on the published site

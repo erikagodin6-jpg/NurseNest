@@ -1,0 +1,91 @@
+URGENT PHARMACY TECH PAGE LINK REPAIR
+
+Problem:
+The Pharmacy Tech page still has many broken or incorrect links. The page is also still routing through the allied subdomain instead of a clean, consistent NurseNest page structure.
+
+Confirmed issue:
+- /en/pharmacy-tech redirects to allied.nursenest.ca/en/pharmacy-tech
+- this suggests the page is still using the wrong routing/domain architecture
+- many visible links on the page do not work or point to missing destinations
+
+Goal:
+Fix all broken links on the Pharmacy Tech page and normalize the page so it lives inside the correct NurseNest architecture with valid internal navigation.
+
+Tasks:
+
+1. Audit every clickable element on the Pharmacy Tech page, including:
+- top nav
+- secondary nav
+- hero CTA buttons
+- lesson cards
+- progress/continue buttons
+- system/category cards
+- footer links
+- specialty links
+- allied health guide links
+- new grad links
+- store/pricing/FAQ links
+
+2. For each link, record:
+- visible label
+- current href
+- expected destination
+- whether it resolves correctly on published
+- whether it incorrectly routes to allied subdomain, wrong hero page, 404, blank page, or missing layout
+
+3. Fix all broken or misrouted links.
+
+4. Normalize Pharmacy Tech routing so it follows the intended architecture and does not send users into the wrong shell unless explicitly intended.
+
+5. Ensure the Pharmacy Tech page uses:
+- correct global navbar
+- correct footer
+- consistent NurseNest branding
+- correct internal route generation
+- no legacy allied routing leftovers
+
+6. Check all footer sections specifically, because many of those are likely orphaned:
+- New Grad Hub
+- Nursing Specialties
+- ICU Nursing Guide
+- NICU Nursing Guide
+- Trauma Nursing Guide
+- Med-Surg Nursing Guide
+- Mental Health Nursing Guide
+- Orthopedic Nursing Guide
+- Nephrology Nursing Guide
+- Palliative Care Guide
+- Paramedic Guide
+- Respiratory Therapy Guide
+- MLT Guide
+- Diagnostic Imaging Guide
+- Occupational Therapy Guide
+- Physical Therapy Guide
+- ApplyNest Career Tools
+- Allied Health Exam Prep
+
+7. If any of those pages do not exist yet:
+- do not leave dead links live
+- either create the proper route/page
+- or temporarily remove/hide the link until the destination exists
+
+8. Verify hero and CTA buttons:
+- Start Free RPN Lessons
+- View Study Plan
+- Continue Learning
+- Start Free Trial
+All must go to valid destinations.
+
+9. Verify all lesson cards and “Start Lesson” buttons open the correct lesson pages.
+
+10. Remove any links that expose unfinished, placeholder, or invalid destinations.
+
+11. Test every link on the published page, not preview.
+
+12. Provide:
+- root cause
+- exact files changed
+- list of broken links found
+- list of corrected links
+- list of links hidden because destination pages do not yet exist
+- confirmation all clickable elements now work on published
