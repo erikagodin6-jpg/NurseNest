@@ -1,5 +1,22 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+export function getAuthHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {};
+  try {
+    const userToken = localStorage.getItem("nursenest-user-token");
+    if (userToken) {
+      headers["Authorization"] = `Bearer ${userToken}`;
+      headers["x-user-token"] = userToken;
+    }
+    const adminToken = localStorage.getItem("nn_admin_access_token");
+    const expiresAt = localStorage.getItem("nn_admin_expires_at");
+    if (adminToken && (!expiresAt || Date.now() <= Number(expiresAt))) {
+      headers["Authorization"] = `Bearer ${adminToken}`;
+    }
+  } catch {}
+  return headers;
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
@@ -12,9 +29,13 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  const authHeaders = getAuthHeaders();
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers: {
+      ...authHeaders,
+      ...(data ? { "Content-Type": "application/json" } : {}),
+    },
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
@@ -31,6 +52,7 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
     const res = await fetch(queryKey.join("/") as string, {
       credentials: "include",
+      headers: getAuthHeaders(),
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {

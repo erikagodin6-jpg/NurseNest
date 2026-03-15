@@ -114,6 +114,11 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
       const r = await pool.query("SELECT * FROM users WHERE id = $1", [decoded.sub]);
       if (r.rows[0]) return r.rows[0];
     }
+    const userDecoded = verifyUserToken(token);
+    if (userDecoded) {
+      const r = await pool.query("SELECT * FROM users WHERE id = $1", [userDecoded.sub]);
+      if (r.rows[0]) return r.rows[0];
+    }
   }
 
   const username = String(req.headers?.["x-username"] || "");

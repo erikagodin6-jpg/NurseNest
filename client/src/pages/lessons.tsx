@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { getAuthHeaders } from "@/lib/queryClient";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -4238,14 +4239,14 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
   };
 
   return (
-    <div className="mt-10">
+    <div className="mb-8">
       <div className="flex items-center gap-3 mb-5">
         <div className="p-2.5 rounded-xl bg-primary/10">
           <Database className="w-6 h-6 text-primary" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Additional Lessons</h2>
-          <p className="text-sm text-gray-500">Supplemental lesson content</p>
+          <h2 className="text-xl font-bold text-gray-900">Database Lessons ({lessons.length})</h2>
+          <p className="text-sm text-gray-500">Full lesson content from the database</p>
         </div>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -4296,7 +4297,7 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
 
 export default function Lessons() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const { t, language } = useI18n();
   const [translationsReady, setTranslationsReady] = useState(isTranslationLoaded(language));
   const userTier = user?.tier || "free";
@@ -4314,7 +4315,7 @@ export default function Lessons() {
     return () => { cancelled = true; };
   }, [language]);
 
-  const isFreeUser = !user || effectiveTier === "free";
+  const isFreeUser = !authLoading && (!user || effectiveTier === "free");
   const defaultTab = showAllTabs ? "rpn" : isFreeUser ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [lessonSearchQuery, setLessonSearchQuery] = useState("");
@@ -4330,16 +4331,17 @@ export default function Lessons() {
   const { toast } = useToast();
 
   const refreshOverrides = () => {
-    fetch("/api/lesson-overrides")
+    fetch("/api/lesson-overrides", { headers: getAuthHeaders() })
       .then((r) => r.ok ? r.json() : {})
       .then(setLessonOverrides)
       .catch(() => {});
   };
 
   useEffect(() => {
+    if (authLoading) return;
     refreshOverrides();
     if (isAdmin) {
-      fetch("/api/lessons/meta")
+      fetch("/api/lessons/meta", { headers: getAuthHeaders() })
         .then((r) => r.ok ? r.json() : [])
         .then((meta: { id: string; isComplete: boolean }[]) => {
           const complete = new Set<string>();
@@ -4350,10 +4352,10 @@ export default function Lessons() {
         })
         .catch(() => {});
     }
-  }, []);
+  }, [authLoading]);
 
   useEffect(() => {
-    fetch("/api/custom-modules?page=lessons")
+    fetch("/api/custom-modules?page=lessons", { headers: getAuthHeaders() })
       .then((r) => r.ok ? r.json() : [])
       .then(setCustomSystems)
       .catch(() => {});
@@ -4376,12 +4378,36 @@ export default function Lessons() {
   };
 
   useEffect(() => {
+    if (authLoading) return;
     const langParam = language && language !== "en" ? `?lang=${encodeURIComponent(language)}` : "";
-    fetch(`/api/content/lessons${langParam}`)
+    fetch(`/api/content/lessons${langParam}`, { headers: getAuthHeaders() })
       .then((r) => r.ok ? r.json() : [])
-      .then((data) => setDbLessons(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const lessons = Array.isArray(data) ? data : [];
+        setDbLessons(lessons);
+        if (isAdmin) {
+          console.log("[LessonDebug] DB lessons loaded:", lessons.length, "| user tier:", effectiveTier, "| auth token present:", !!localStorage.getItem("nursenest-user-token"));
+        }
+      })
       .catch(() => setDbLessons([]));
-  }, [language]);
+  }, [language, authLoading]);
+
+  useEffect(() => {
+    if (!authLoading && isAdmin) {
+      const staticRpnCount = [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnSystems.filter(s => !s.id.includes("pharmacology"))].reduce((acc, s) => acc + (s.diseases?.length || s.lessons?.length || 0), 0);
+      console.log("[LessonDebug] Admin diagnostics:", {
+        detectedTier: userTier,
+        effectiveTier,
+        authTokenPresent: !!localStorage.getItem("nursenest-user-token"),
+        adminTokenPresent: !!localStorage.getItem("nn_admin_access_token"),
+        dbLessonCount: dbLessons.length,
+        staticRpnLessonCount: staticRpnCount,
+        isFreeUser,
+        authLoading,
+        dataSource: dbLessons.length > 0 ? "db+static" : "static-only",
+      });
+    }
+  }, [authLoading, isAdmin, dbLessons.length]);
 
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
@@ -4545,6 +4571,7 @@ export default function Lessons() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
             <LecturesSection tier="rpn" onNavigate={setLocation} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rpn")} />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
@@ -4556,10 +4583,10 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rpn"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rpn")} />
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rn")} />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
@@ -4571,10 +4598,10 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rn"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rn")} />
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
+            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "np")} />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...medMathSystems, ...freeGeneralSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
@@ -4586,7 +4613,6 @@ export default function Lessons() {
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("np"); setShowSystemModal(true); }} />
               )}
             </div>
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "np")} />
           </TabsContent>
           <TabsContent value="pharmacology" className="mt-0">
             <div className="space-y-10">

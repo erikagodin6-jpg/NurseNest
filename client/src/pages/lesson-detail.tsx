@@ -27,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { useAuth } from "@/lib/auth";
+import { getAuthHeaders } from "@/lib/queryClient";
 import { canAccessTier, getTierPricingPath, getTierLabel } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
@@ -1654,7 +1655,7 @@ export default function LessonDetail() {
   const [, setLocation] = useLocation();
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
-  const { user, hasAccess, effectiveTier, previewTier } = useAuth();
+  const { user, hasAccess, effectiveTier, previewTier, isLoading: authLoading } = useAuth();
   const { language, t } = useI18n();
   const isAdmin = user?.tier === "admin" && !previewTier;
   
@@ -1668,7 +1669,7 @@ export default function LessonDetail() {
     const activeTier = previewTier || user?.tier || "free";
     if (user && activeTier !== 'admin' && tierFromId && tierFromId !== activeTier) {
       const targetId = `${activeTier}-${slugFromId}`;
-      fetch(`/api/lessons/content/${targetId}`)
+      fetch(`/api/lessons/content/${targetId}`, { headers: getAuthHeaders() })
         .then((r) => { if (r.ok) setLocation(`/lessons/${targetId}`); })
         .catch(() => {});
     }
@@ -1717,7 +1718,7 @@ export default function LessonDetail() {
     setSeoRelated([]);
     setSeoChecked(false);
     const controller = new AbortController();
-    fetch(`/api/seo-lessons/${id}`, { signal: controller.signal })
+    fetch(`/api/seo-lessons/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
       .then(r => {
         if (!r.ok) throw new Error("Not found");
         return r.json();
@@ -1747,6 +1748,7 @@ export default function LessonDetail() {
 
   useEffect(() => {
     if (!id) { setApiLoading(false); return; }
+    if (authLoading) return;
     setApiLesson(null);
     setApiLessonId(null);
     setIsPreviewOnly(false);
@@ -1756,7 +1758,7 @@ export default function LessonDetail() {
     setApiLoading(true);
     setDbLoading(true);
     const controller = new AbortController();
-    fetch(`/api/lessons/content/${id}`, { signal: controller.signal })
+    fetch(`/api/lessons/content/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
       .then((r) => {
         if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
         return r.json();
@@ -1786,7 +1788,7 @@ export default function LessonDetail() {
         }
       });
     return () => controller.abort();
-  }, [id]);
+  }, [id, authLoading]);
 
   const baseLesson = apiLesson;
 
@@ -1797,7 +1799,7 @@ export default function LessonDetail() {
   useEffect(() => {
     if (!id) return;
     const controller = new AbortController();
-    fetch(`/api/lesson-overrides/${id}`, { signal: controller.signal })
+    fetch(`/api/lesson-overrides/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
       .then((r) => r.json())
       .then((data) => {
         if (data && Object.keys(data).length > 0) {
@@ -1831,7 +1833,7 @@ export default function LessonDetail() {
       queryParts.push(`lang=${encodeURIComponent(language)}`);
     }
     const params = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
-    fetch(`/api/content/slug/${slug}${params}`)
+    fetch(`/api/content/slug/${slug}${params}`, { headers: getAuthHeaders() })
       .then((r) => {
         if (!r.ok) throw new Error("Not found");
         return r.json();
@@ -2670,7 +2672,7 @@ export default function LessonDetail() {
   const isPeds = id?.includes("peds") || id === "epiglottitis" || id === "cp-management" || id === "kawasaki-critical" || id === "all-leukemia";
   const isMeds = id?.includes("safety") || id?.includes("labs") || id?.includes("mi-management");
 
-  if (!userHasAccess && !isPreviewOnly) {
+  if (!authLoading && !userHasAccess && !isPreviewOnly) {
     const tp = tierPricing[lessonTier];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">

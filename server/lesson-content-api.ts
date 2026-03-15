@@ -15,8 +15,15 @@ function getPreviewFromToken(token: string): { mode: string } | null {
 }
 
 async function extractLessonUserTier(req: Request): Promise<string> {
+  const authHeader = String(req.headers?.["authorization"] || "");
+  const hasToken = authHeader.startsWith("Bearer ") || !!req.headers?.["x-user-token"];
   const user = await resolveAuthUser(req as any);
-  if (!user) return "free";
+  if (!user) {
+    if (hasToken) {
+      console.warn("[LessonAPI] Auth token present but user resolution failed — defaulting to free. Path:", req.path);
+    }
+    return "free";
+  }
   if (user.tier === "admin") {
     const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
     const preview = getPreviewFromToken(previewToken);
@@ -203,10 +210,12 @@ export function setupLessonContentRoutes(app: Express): void {
     try {
       const userTier = await extractLessonUserTier(req);
       const allMeta = await buildMetadata();
+      console.log(`[LessonAPI] /api/lessons/meta — userTier: ${userTier}, totalMeta: ${allMeta.length}`);
       if (userTier === "free" || !userTier) {
         const previewSet = allMeta
           .filter(m => m.isComplete)
           .slice(0, FREE_LESSON_PREVIEW_LIMIT);
+        console.log(`[LessonAPI] Free user — returning ${previewSet.length} preview lessons (limit: ${FREE_LESSON_PREVIEW_LIMIT})`);
         res.setHeader("Cache-Control", "private, max-age=60");
         return res.json(previewSet);
       }
