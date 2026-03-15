@@ -1,0 +1,248 @@
+Fix the nursing lesson library content structure and routing across all tiers.
+
+Use the attached screenshots as the source of truth for the bugs.
+
+Current problems visible in the screenshots:
+1. Some lessons are listed twice.
+2. Some lessons are being created in the wrong category/section.
+3. Some lessons with yellow status circles are empty placeholder lessons.
+4. Those empty lessons lead to 404 pages when clicked.
+5. Lesson titles still include tier labels like RPN, RN, or NP even though the user is already inside that tier.
+6. This issue appears across every tier, not just one.
+7. Yesterday’s generated lessons were inserted into the wrong place in the lesson library.
+8. The library should only show lessons that actually exist and route correctly.
+
+Main goal:
+Clean up the lesson library so every lesson appears once, in the correct category, with a valid route, and with clean professional titles that do not redundantly include the current tier name.
+
+==================================================
+PART 1 — REMOVE DUPLICATES
+==================================================
+
+Audit the lesson rendering pipeline and remove duplicate lessons from every tier library.
+
+Check for duplicates caused by:
+- duplicate database records
+- duplicate client-side merges
+- duplicate seeded/generated content
+- multiple arrays being concatenated together
+- fallback content being rendered alongside real content
+- slug collisions causing multiple render paths
+- category assignment logic pushing the same lesson into more than one section
+
+Requirements:
+1. A lesson should appear only once in the visible library for a given tier unless it is intentionally cross-listed.
+2. If cross-listing exists internally, do not render the same card twice in the main browsing UI.
+3. Use a stable de-duplication strategy based on lesson ID or canonical slug, not just title text.
+4. Do not hide duplicates cosmetically only in the UI if the underlying data mapping is still broken. Fix the source logic too.
+
+==================================================
+PART 2 — REMOVE EMPTY / BROKEN LESSONS
+==================================================
+
+The lessons with yellow circles are currently empty and lead to 404 pages. These should not be visible to users.
+
+Requirements:
+1. Identify all lesson cards that have no real published content body, invalid slug, missing route target, or missing lesson page data.
+2. Do not show empty or broken lessons in the lesson library.
+3. If a lesson is in draft, incomplete, or placeholder state, it must stay hidden from production users.
+4. Only render lessons that:
+   - exist in the database
+   - have valid published content
+   - have a working route
+   - resolve to a non-404 page
+5. If yellow status currently means incomplete or empty, treat those as non-displayable in production unless an admin-only preview mode is active.
+6. Add a validation layer before rendering lesson cards so broken content never appears on published tier pages.
+
+Expected result:
+No visible lesson card should ever send a user to a 404 page.
+
+==================================================
+PART 3 — PUT LESSONS IN THE CORRECT CATEGORY / SECTION
+==================================================
+
+Generated lessons created yesterday were inserted into the wrong sections. Fix the categorization logic.
+
+Requirements:
+1. Audit how lessons are assigned to category groups such as:
+   - General
+   - Pathophysiology
+   - Nursing Fundamentals
+   - Delegation & Prioritization
+   - Clinical Scenarios & Prioritization
+   - Med Math & Calculations
+   - Clinical Topics
+   - Cardiovascular
+   - Safety & Ethics
+   - Gerontology
+   - Wound Care & Skin
+   - and all other tier library sections
+2. Ensure every lesson is assigned to the correct section based on its actual topic and metadata.
+3. Fix any generation/import logic that is attaching new lessons to the wrong parent category.
+4. If category mapping depends on title parsing, replace brittle title-based mapping with stronger structured metadata.
+5. Add a canonical category field and subsection field if needed.
+6. Prevent lessons from appearing in unrelated sections.
+7. If a lesson cannot be confidently categorized, place it into a review queue for admin instead of publishing it into the wrong section.
+
+Expected result:
+Lessons should appear in the correct subject area and not be mixed into unrelated cards or columns.
+
+==================================================
+PART 4 — REMOVE REDUNDANT TIER LABELS FROM LESSON TITLES
+==================================================
+
+Because the user is already inside a tier, lesson titles should not include “RPN”, “RN”, or “NP” in the title.
+
+Examples of bad current titles:
+- Hypoparathyroidism Rpn
+- Metabolic Syndrome Rpn
+- Hydrocephalus Rpn
+- Neonatal Abstinence Rpn
+
+Requirements:
+1. Remove trailing or embedded tier labels from visible lesson titles when browsing inside that tier.
+2. Clean capitalization as well:
+   - change “Rpn” to nothing
+   - change “Rn” to nothing
+   - change “Np” to nothing
+3. Preserve tier metadata internally for filtering/access control, but do not show it in the card title.
+4. Do this consistently across all tiers:
+   - RPN
+   - RN
+   - NP
+   - allied health where applicable
+5. Also clean up awkward title formatting:
+   - title casing
+   - duplicate spaces
+   - unnecessary suffixes
+   - malformed abbreviations where inappropriate
+
+Examples of preferred titles:
+- Hypoparathyroidism
+- Metabolic Syndrome
+- Hydrocephalus
+- Neonatal Abstinence Syndrome
+- Carpal Tunnel Syndrome
+- Cranial Nerve Assessment
+
+==================================================
+PART 5 — FIX ROUTING AND CONTENT VALIDATION
+==================================================
+
+Audit lesson routing end to end so no published lesson card points to a broken or missing page.
+
+Requirements:
+1. Verify every displayed lesson card resolves to the correct lesson detail page.
+2. Verify slug generation is consistent and canonical.
+3. Prevent mismatches between:
+   - lesson title
+   - lesson slug
+   - lesson ID
+   - tier
+   - section
+   - page route
+4. Add a pre-publish validation check:
+   - lesson has content
+   - lesson has valid slug
+   - lesson has valid route
+   - lesson belongs to the correct tier
+   - lesson belongs to the correct category
+5. If any of these checks fail, do not publish the lesson to production listings.
+6. If broken lessons already exist in production data, clean them up and unpublish them.
+
+==================================================
+PART 6 — FIX EVERY TIER, NOT JUST RPN
+==================================================
+
+This is a global architecture/content issue, not a one-page bug.
+
+Apply the fix across:
+- RPN
+- RN
+- NP
+- allied health lesson libraries if they use the same system
+
+Check for:
+- duplicate lessons
+- wrong category placement
+- empty lessons
+- 404 lesson routes
+- redundant tier text in titles
+- bad generated content placement
+
+==================================================
+PART 7 — ADMIN / GENERATION SAFETY FIX
+==================================================
+
+The generator or import workflow appears to have created lessons yesterday and placed them incorrectly.
+
+Fix the generation pipeline so future lesson creation is safe.
+
+Requirements:
+1. Audit the lesson generation/import process used yesterday.
+2. Ensure newly generated lessons cannot be auto-published into the wrong section.
+3. Require category validation before production publish.
+4. If confidence is low, send new lessons to admin review first.
+5. Block empty shell lessons from being created in production.
+6. Block creation of visible lesson records without real body content and routeable detail pages.
+7. Prevent duplicate lesson insertion by checking existing canonical slugs or IDs before save.
+8. Add logging for:
+   - created lesson
+   - assigned tier
+   - assigned category
+   - assigned slug
+   - publish status
+   - validation pass/fail
+
+==================================================
+PART 8 — UI DISPLAY RULES
+==================================================
+
+Update the visible lesson cards so production users only see high-quality real lessons.
+
+Visible lesson rules:
+- show only published lessons
+- show only lessons with valid content
+- show only lessons with working detail pages
+- show only lessons in the correct tier
+- show only lessons in the correct section
+- show no duplicates
+- show clean titles without tier suffixes
+
+If a lesson is incomplete:
+- do not show it to production users
+- optionally allow admin-only preview state
+
+Yellow-circle lessons that are incomplete should not appear in public production lists.
+
+==================================================
+PART 9 — DATA CLEANUP TASK
+==================================================
+
+Run a cleanup pass on existing lesson records and fix current bad data.
+
+Please do all of the following:
+1. Find duplicate visible lessons and remove or merge them.
+2. Find lessons assigned to the wrong section and correct them.
+3. Find lessons with missing content and unpublish them.
+4. Find lessons whose routes 404 and fix or unpublish them.
+5. Remove visible tier words from lesson titles.
+6. Normalize slugs and titles where needed.
+7. Rebuild any derived lesson-library indexes or caches after cleanup.
+
+==================================================
+PART 10 — SUCCESS CRITERIA
+==================================================
+
+After the fix:
+1. No lesson appears twice in a tier library.
+2. No empty lesson appears in production.
+3. No lesson card leads to a 404 page.
+4. Lessons appear in the correct section.
+5. Titles no longer include “RPN”, “RN”, or “NP” when already inside that tier.
+6. The lesson library looks organized and professional.
+7. Future generated lessons cannot publish into the wrong place.
+8. The fix works across all tiers, not just one page.
+
+Final instruction:
+Do the full audit, fix the data source and rendering logic, clean up current production content, and make the lesson library reliable before showing any generated lesson publicly.
