@@ -1,0 +1,172 @@
+Fix and optimize the NurseNest mobile header/navigation so it looks polished, aligned, modern, and conversion-focused without breaking the desktop layout.
+
+Project context:
+- Stack: Vite + React
+- Site: NurseNest
+- Current issue: on mobile, the top utility nav items do not line up properly, spacing is inconsistent, and the header consumes too much vertical space.
+- Current mobile header feels crowded and less professional than premium education platforms.
+
+Main goals:
+1. Fix the positioning/alignment problem in the mobile nav
+2. Preserve the desktop layout exactly unless required for consistency
+3. Redesign the mobile header to feel more premium, compact, and conversion-optimized
+4. Reduce header height on mobile so more of the page content is visible above the fold
+5. Keep branding, colors, and core visual identity intact
+
+Problems to solve:
+- Top utility bar items like “Exam Prep”, “New Grad Support”, and “Careers” are not vertically centered or spaced evenly
+- Hamburger, logo, search, and CTA row are not lining up cleanly
+- Header uses too much vertical space on mobile
+- Search area and CTA feel cramped
+- Navigation looks stacked in a way that reduces usability and perceived polish
+
+What I want instead:
+Create a professional mobile header pattern similar to strong modern SaaS / edtech products:
+- Single compact top row
+- Left: hamburger icon
+- Center-left: NurseNest logo
+- Center/right: compact search trigger or reduced-width search field
+- Right: prominent “Start Free” CTA
+- Move the utility links (“Exam Prep”, “New Grad Support”, “Careers”) into the mobile menu drawer instead of keeping them in the always-visible top strip on small screens
+- Keep the utility strip visible on tablet/desktop if already used there
+- Keep desktop navigation behavior intact
+
+Required mobile UX behavior:
+- On mobile widths, hide the separate utility bar from the visible header
+- Include those utility links inside the hamburger menu drawer/panel
+- Keep the header to one main row on mobile
+- Ensure all elements are vertically centered
+- Ensure no text wraps awkwardly
+- Ensure the CTA remains visible and tappable
+- Ensure the search element does not push other elements out of alignment
+- Ensure the logo never looks off-center relative to the row
+
+Implementation requirements:
+1. Audit the current header/nav components and identify:
+   - top utility bar component
+   - main header component
+   - mobile menu/drawer component
+   - search component
+   - CTA button component
+
+2. Refactor mobile layout using flexbox only:
+   - no manual vertical nudging with margins/transforms
+   - no fragile pixel offsets
+   - use align-items: center everywhere appropriate
+
+3. At mobile breakpoints:
+   - hide the visible utility strip
+   - place utility links in the mobile drawer
+   - convert the header into a single compact row
+   - tighten vertical padding
+   - maintain good touch target sizes
+
+4. Preserve desktop:
+   - do not remove current desktop utility links
+   - do not break desktop spacing
+   - do not alter desktop typography unless necessary for consistency
+
+Responsive behavior:
+- Mobile: <= 768px
+- Tablet/Desktop: preserve or improve existing layout without changing the brand feel
+
+Use or adapt these CSS/layout rules where appropriate:
+
+Top utility bar
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+Main header row
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+}
+
+Logo container
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+Search responsiveness
+.search-bar {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+Mobile-specific optimization requirements:
+- Hide visible top utility nav on mobile
+- Rehome utility links into hamburger drawer
+- Keep only:
+  - hamburger
+  - logo
+  - compact search trigger or small responsive search field
+  - Start Free button
+- If space is too tight, replace the full search input with a search icon or tappable search pill that opens the search interface
+- Make sure the Start Free button remains prominent and does not wrap
+- Keep row height visually balanced and premium
+
+Design constraints:
+- Do not change NurseNest branding colors
+- Do not change overall brand typography system
+- Do not make it look generic or overly plain
+- Do not remove the CTA
+- Do not create layout shift
+- Do not make the logo too small to recognize
+- Do not let nav items appear off-center
+- Do not break sticky header behavior if present
+
+Technical cleanup:
+- Remove hardcoded margins/padding causing vertical drift
+- Remove any line-height inconsistencies on nav text/buttons/icons
+- Normalize icon button dimensions and alignment
+- Ensure buttons and links use consistent flex alignment
+- Ensure the logo, search, and CTA share the same vertical centering baseline
+- Ensure no overlap or clipping on iPhone widths
+
+QA requirements:
+Test and verify on:
+- 390px width
+- 393px width
+- 430px width
+- common mobile Safari viewport sizes
+
+Confirm:
+- nav items are visually aligned
+- no wrapping issues
+- no CTA overflow
+- mobile menu includes utility links
+- desktop header remains correct
+- spacing looks intentional and premium
+- more page content is visible above the fold than before
+
+Deliverables:
+1. Implement the responsive header refactor
+2. Clean up CSS/classes causing the misalignment
+3. Update the mobile menu to include:
+   - Exam Prep
+   - New Grad Support
+   - Careers
+4. Ensure the final result feels more like a premium exam-prep platform and less crowded on mobile
+
+Important:
+This is not just a bug fix. It is also a mobile UX polish and conversion optimization task.
+Please make the header feel cleaner, more professional, and more trustworthy while keeping the NurseNest brand identity.
