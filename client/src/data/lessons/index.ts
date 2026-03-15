@@ -322,6 +322,13 @@ import { rnIncompleteBatch6Lessons } from "./rn-incomplete-batch-6";
 import { rnIncompleteBatch7Lessons } from "./rn-incomplete-batch-7";
 import { rnInfectiousDiseaseExpansionLessons } from "./rn-infectious-disease-expansion";
 
+import { npClinicalBatch4Lessons } from "./np-clinical-batch-4";
+import { npClinicalBatch5Lessons } from "./np-clinical-batch-5";
+import { npClinicalBatch6Lessons } from "./np-clinical-batch-6";
+import { npClinicalBatch7Lessons } from "./np-clinical-batch-7";
+import { npClinicalBatch8Lessons } from "./np-clinical-batch-8";
+import { npClinicalBatch9Lessons } from "./np-clinical-batch-9";
+
 import { rnContentBatch001Lessons } from "./rn-content-batch-001";
 import { rnContentBatch002Lessons } from "./rn-content-batch-002";
 import { rnContentBatch003Lessons } from "./rn-content-batch-003";
@@ -443,6 +450,54 @@ function isPlaceholder(lesson: LessonContent): boolean {
   if (content.includes("The nurse practitioner applies advanced clinical reasoning to the assessment and management") &&
       content.includes("integrating comprehensive pathophysiological knowledge with evidence-based diagnostic")) return true;
 
+  const boilerplateRf = [
+    "Age-related risk factors specific to",
+    "Genetic predisposition and family history",
+    "Modifiable lifestyle factors (smoking, obesity, sedentary behavior)",
+    "Medication-related risk (polypharmacy, drug interactions)",
+    "Environmental and occupational exposures",
+    "Nutritional deficiencies or excesses",
+    "Psychosocial factors (chronic stress, socioeconomic status)",
+    "Previous history of related conditions",
+  ];
+  const boilerplateRfCount = rf.filter((r: string) =>
+    boilerplateRf.some(g => r.startsWith(g) || r === g)
+  ).length;
+  if (boilerplateRfCount >= 4) return true;
+
+  const boilerplateDiag = [
+    "Order comprehensive history and physical examination focused on",
+    "Order CBC with differential, CMP, and targeted serology",
+    "Order imaging studies appropriate to clinical presentation",
+    "Calculate risk stratification score using validated clinical tools",
+    "Order specialty-specific diagnostic studies as indicated",
+    "Consider referral for advanced diagnostic procedures if indicated",
+  ];
+  const diag = lesson.diagnostics || [];
+  const boilerplateDiagCount = diag.filter((d: string) =>
+    boilerplateDiag.some(g => d.startsWith(g))
+  ).length;
+  if (boilerplateDiagCount >= 3) return true;
+
+  const boilerplateMgmt = [
+    "Initiate evidence-based first-line pharmacotherapy for",
+    "Implement non-pharmacological interventions as adjunct therapy",
+    "Titrate medications based on clinical response and lab monitoring",
+    "Coordinate multidisciplinary care team involvement",
+    "Develop patient-specific treatment plan with shared decision-making",
+    "Implement guideline-directed escalation protocols if initial therapy fails",
+  ];
+  const mgmt = lesson.management || [];
+  const boilerplateMgmtCount = mgmt.filter((m: string) =>
+    boilerplateMgmt.some(g => m.startsWith(g))
+  ).length;
+  if (boilerplateMgmtCount >= 3) return true;
+
+  for (const med of meds) {
+    if (typeof med.type === "string" && med.type.startsWith("First-Line Agent for")) return true;
+    if (typeof med.type === "string" && med.type.startsWith("Second-Line/Adjunctive Agent for")) return true;
+  }
+
   const genericQuizPatterns = [
     "Which assessment finding requires immediate intervention",
     "Which nursing action is most appropriate when managing a patient with",
@@ -535,6 +590,12 @@ function safeMerge(
 }
 
 export const contentMap: Record<string, LessonContent> = safeMerge({},
+  npClinicalBatch4Lessons,
+  npClinicalBatch5Lessons,
+  npClinicalBatch6Lessons,
+  npClinicalBatch7Lessons,
+  npClinicalBatch8Lessons,
+  npClinicalBatch9Lessons,
   generatedBatch112Lessons,
   cardiovascularLessons,
   respiratoryLessons,
