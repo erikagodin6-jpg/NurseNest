@@ -3,6 +3,7 @@ import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgVonWillebrand, imgSIADH, imgSickleCellCrisis, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgBPH, imgPancreatitis, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgGlaucoma, imgGlomerulonephritis, imgGravesDisease, imgHashimotoThyroiditis, imgForeignBodyAspiration, imgFibromyalgia, imgHemolyticUremicSyndrome, imgNeuroblastoma, imgPyloricStenosis, imgPlacentaPrevia, imgSerotoninSyndrome, imgTonsillectomy, imgMastitis, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgLochia, imgCongenitalHypothyroidism, imgInfantReflexes, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
 import { imgHIV, imgHepatitisNew } from "./flashcards-rpn";
+import { imgBariatricFlashcard, imgBBBFlashcard } from "./flashcards-rpn";
 
 const imgMenopause = getAssetUrl("menopause_1773374978769.png");
 const imgImpetigo = getAssetUrl("impetigo_1773340649073.png");
@@ -702,7 +703,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Per ASMBS/ACS guidelines, bariatric surgery is indicated for BMI ≥40, or BMI ≥35 with obesity-related comorbidities (diabetes, OSA, hypertension, NAFLD). Recent guidelines also consider BMI 30-35 with poorly controlled type 2 diabetes. Roux-en-Y gastric bypass and sleeve gastrectomy achieve superior long-term weight loss and comorbidity resolution compared to medical therapy alone. The STAMPEDE trial showed 60% of diabetic patients achieving A1C <6% after bariatric surgery vs. 5% with medical therapy.",
     category: "Primary Care",
-    difficulty: 2
+    difficulty: 2,
+    image: imgBariatricFlashcard
   },
   {
     id: "np-pc-q13",
@@ -1293,7 +1295,8 @@ export const npFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "ST depression in V1-V4 with tall R waves represents reciprocal changes of a posterior STEMI. A posterior ECG (leads V7-V9) should be obtained, which would show ST elevation. Posterior MI often accompanies inferior STEMI and is frequently missed. It involves the posterior descending artery or left circumflex territory.",
     category: "Cardiology NP",
-    difficulty: 3
+    difficulty: 3,
+    image: imgBBBFlashcard
   },
   {
     id: "np-cardio-q7",

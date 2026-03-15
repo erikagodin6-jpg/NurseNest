@@ -1,4 +1,11 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
+
+const imgDVTExam = getAssetUrl("dvt_1773517432559.png");
+const imgFirstDegreeBlockExam = getAssetUrl("firstdegreeblock_1773517432559.png");
+const imgAVFistulaExam = getAssetUrl("avfistula_1773517432559.png");
+const imgACSExam = getAssetUrl("ACS_1773517432559.jpeg");
+const imgDecelsExam = getAssetUrl("decels_1773517432559.png");
 
 export const rnMedsurgQuestions: ExamQuestion[] = [
   // ===== CARDIOVASCULAR (Questions 1-20) =====
@@ -28,7 +35,8 @@ export const rnMedsurgQuestions: ExamQuestion[] = [
     o: ["Stop the infusion, notify the provider, and recheck aPTT per protocol", "Continue the infusion at the current rate", "Decrease the infusion rate by 50%", "Administer protamine sulfate immediately"],
     a: 0,
     r: "An aPTT of 95 seconds exceeds the therapeutic range and indicates over-anticoagulation, increasing bleeding risk. Per most heparin protocols, the infusion should be stopped, the provider notified, and aPTT rechecked after a specified interval. Continuing risks hemorrhage. Decreasing without stopping may not adequately correct levels. Protamine is the antidote but reserved for active bleeding.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgDVTExam
   },
   {
     q: "A client with heart failure is prescribed spironolactone 25 mg daily in addition to lisinopril and furosemide. Which laboratory finding should prompt the nurse to hold the spironolactone and notify the provider?",
@@ -63,7 +71,8 @@ export const rnMedsurgQuestions: ExamQuestion[] = [
     o: ["First-degree AV block", "Second-degree AV block Type I (Wenckebach)", "Normal sinus rhythm", "Third-degree AV block"],
     a: 0,
     r: "First-degree AV block is characterized by a PR interval greater than 0.20 seconds with a consistent 1:1 P-wave to QRS relationship and regular rhythm. A PR of 0.36 seconds is prolonged. Wenckebach shows progressively lengthening PR intervals. Normal sinus rhythm has a PR of 0.12-0.20 seconds. Third-degree shows no relationship between P waves and QRS complexes.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgFirstDegreeBlockExam
   },
   {
     q: "A client with peripheral arterial disease reports intermittent claudication. Which assessment finding would the nurse expect?",
@@ -578,7 +587,8 @@ export const rnMedsurgQuestions: ExamQuestion[] = [
     o: ["Avoid blood pressure measurements, IV insertions, and blood draws in the left arm", "Apply tight bandages to the fistula site to promote maturation", "Keep the left arm immobilized at all times", "Sleep on the left side to increase blood flow to the fistula"],
     a: 0,
     r: "The AVF arm must be protected to preserve the vascular access. Blood pressure measurements, IV insertions, blood draws, and tight clothing or jewelry on the access arm can damage the fistula or cause thrombosis. The nurse should assess for a thrill (palpable vibration) and bruit (audible sound with stethoscope) each shift to confirm patency. Compression and immobilization can occlude the fistula.",
-    s: "Renal"
+    s: "Renal",
+    image: imgAVFistulaExam
   },
   {
     q: "A client with chronic kidney disease has the following laboratory results: calcium 7.2 mg/dL, phosphorus 6.8 mg/dL, and PTH 890 pg/mL. These findings are consistent with:",
@@ -860,7 +870,8 @@ export const rnMedsurgQuestions: ExamQuestion[] = [
     o: ["Aggressive IV hydration, pain management with opioid analgesics, and supplemental oxygen", "Restrict fluids to prevent pulmonary edema and administer aspirin", "Apply ice packs to the affected areas and encourage deep breathing", "Withhold opioids to prevent addiction and administer acetaminophen only"],
     a: 0,
     r: "Vaso-occlusive crisis management priorities include aggressive IV hydration (to reduce blood viscosity and prevent further sickling), adequate pain management (typically IV opioids as pain is severe), supplemental oxygen (to prevent further deoxygenation and sickling), and monitoring for complications. Fluid restriction worsens sickling. Ice increases vasoconstriction. Withholding opioids for sickle cell pain is inappropriate and harmful.",
-    s: "Hematology"
+    s: "Hematology",
+    image: imgACSExam
   },
   {
     q: "A client is receiving a blood transfusion of packed red blood cells. Twenty minutes into the transfusion, the client develops fever, chills, flank pain, and dark urine. What should the nurse do first?",
@@ -1136,7 +1147,8 @@ export const rnMedsurgQuestions: ExamQuestion[] = [
     o: ["Stop the oxytocin infusion, position the client on her left side, and administer oxygen", "Increase the oxytocin rate to strengthen contractions and expedite delivery", "Prepare for immediate cesarean section", "Administer terbutaline to enhance uterine contractions"],
     a: 0,
     r: "Late decelerations indicate uteroplacental insufficiency (fetal hypoxia), and tachysystole (contractions every 1.5 minutes lasting 90 seconds) leaves insufficient relaxation time for placental perfusion. The nurse must immediately stop oxytocin to reduce uterine activity, position left lateral to optimize uterine blood flow, and administer oxygen. These intrauterine resuscitation measures should be attempted before surgical intervention.",
-    s: "Maternal/Newborn"
+    s: "Maternal/Newborn",
+    image: imgDecelsExam
   },
   {
     q: "A nurse is assessing a newborn at 1 minute of life. The baby has a heart rate of 110, is crying with stimulation, has some flexion of extremities, grimaces with suctioning, and is pink with blue extremities. What is the APGAR score?",

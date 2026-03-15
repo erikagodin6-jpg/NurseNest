@@ -39,6 +39,7 @@ import { ExamCalculator } from "@/components/exam-calculator";
 export interface ExamQuestion {
   question: string;
   options: string[];
+  image?: string;
 }
 
 export interface ExhibitImage {
@@ -670,7 +671,7 @@ export default function ExamConsoleLayout({
                     ))}
                   </div>
                   {(() => {
-                    const img = explanationContext ? getQuestionImage(explanationContext) : undefined;
+                    const img = question.image || (explanationContext ? getQuestionImage(explanationContext) : undefined);
                     return img ? (
                       <div className="mt-3 border-t border-slate-100 pt-3">
                         <img src={img} alt={explanationContext?.topic || explanationContext?.bodySystem || "Clinical reference"} className="rounded-lg border border-slate-200/60 max-w-full w-auto mx-auto" style={{ maxHeight: '200px' }} loading="lazy" data-testid="img-rationale" />

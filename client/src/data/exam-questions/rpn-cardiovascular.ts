@@ -1,4 +1,8 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
+
+const imgDVTExam = getAssetUrl("dvt_1773517432559.png");
+const imgFirstDegreeBlockExam = getAssetUrl("firstdegreeblock_1773517432559.png");
 
 export const rpnCardiovascularQuestions: ExamQuestion[] = [
   // ===== HEART FAILURE (Questions 1-20) =====
@@ -423,7 +427,8 @@ export const rpnCardiovascularQuestions: ExamQuestion[] = [
     o: ["First-degree AV block with symptomatic sinus bradycardia", "Third-degree (complete) heart block", "Second-degree Type II AV block", "Normal sinus rhythm for an older adult"],
     a: 0,
     r: "A regular rhythm with consistent P waves before each QRS and a prolonged PR interval (greater than 0.20 seconds) with a rate of 38 is consistent with first-degree AV block with sinus bradycardia. Third-degree block shows AV dissociation. Type II has dropped QRS complexes. A rate of 38 is not normal even in older adults and is causing symptoms.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgFirstDegreeBlockExam
   },
   {
     q: "A 68-year-old client with atrial fibrillation is scheduled for an elective cardioversion. The nurse reviews the medication list and notes the client has been taking apixaban for 4 weeks. Which assessment is essential before the procedure?",
@@ -501,7 +506,8 @@ export const rpnCardiovascularQuestions: ExamQuestion[] = [
     o: ["Notify the healthcare provider of suspected deep vein thrombosis and keep the client on bed rest", "Massage the affected calf to promote circulation", "Apply a heating pad to the swollen area", "Encourage the client to ambulate vigorously to reduce swelling"],
     a: 0,
     r: "Unilateral calf pain, warmth, and swelling post-surgery are classic signs of DVT. The nurse should immediately notify the provider for diagnostic workup (Doppler ultrasound) and keep the client at rest. Massaging the leg could dislodge a thrombus causing PE. Heat does not treat DVT. Vigorous ambulation risks embolization.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgDVTExam
   },
   {
     q: "A 62-year-old client on enoxaparin for DVT develops extensive bruising on the abdomen and flanks. The nurse also notes a platelet count drop from 210,000 to 88,000/mm3. Which complication should the nurse suspect?",

@@ -2,6 +2,8 @@ import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 const aaaImg = getAssetUrl("abdominalaorticaneurysm_1773374656570.png");
 const imgToxicShockSyndrome = getAssetUrl("toxicshocksyndrome_1773340545537.png");
+const imgAorticRootDilation = getAssetUrl("aorticrootdilation_1773517432559.png");
+const imgDVT = getAssetUrl("dvt_1773517432559.png");
 
 export const cardiovascularLessons: Record<string, LessonContent> = {
   "aaa-rupture": {
@@ -689,6 +691,7 @@ export const cardiovascularLessons: Record<string, LessonContent> = {
   },
   "marfan-syndrome-rpn": {
     title: "Marfan Syndrome",
+    image: imgAorticRootDilation,
     cellular: { title: "Fibrillin-1 Deficiency", content: "Marfan syndrome is an autosomal dominant connective tissue disorder caused by mutations in the FBN1 gene encoding fibrillin-1. Defective fibrillin weakens elastic fibers in the aorta, eyes, and skeleton, leading to aortic root dilation and risk of dissection or rupture." },
     riskFactors: ["Family history (autosomal dominant)", "Spontaneous FBN1 mutation (25% of cases)", "Tall stature with long limbs", "Joint hypermobility", "Known aortic root dilation"],
     diagnostics: ["Expect echocardiogram to monitor aortic root diameter", "Expect slit-lamp eye exam for lens subluxation", "Monitor blood pressure trends", "Expect genetic testing for FBN1 mutation", "Expect skeletal assessment (arm span > height)"],
@@ -775,6 +778,7 @@ export const cardiovascularLessons: Record<string, LessonContent> = {
   },
   "dvt-management": {
     title: "DVT Management",
+    image: imgDVT,
     cellular: { title: "Virchow's Triad and Thrombus Formation", content: "Deep vein thrombosis develops when Virchow's triad converges: venous stasis (immobility), endothelial injury (surgery, trauma), and hypercoagulability (genetic or acquired). The thrombus can propagate and embolize to the pulmonary vasculature, causing potentially fatal pulmonary embolism." },
     riskFactors: ["Immobility or prolonged bed rest", "Recent surgery (especially orthopedic)", "Malignancy", "Oral contraceptive or HRT use", "Obesity", "Pregnancy/postpartum", "Prior DVT history", "Factor V Leiden or other thrombophilia"],
     diagnostics: ["Expect compression ultrasound of affected extremity", "Expect D-dimer level", "Monitor circumference measurements of affected limb", "Expect coagulation studies (PT/INR, aPTT)", "Monitor for signs of pulmonary embolism"],

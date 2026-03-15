@@ -1,10 +1,12 @@
 import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 const imgEsophagealVarices = getAssetUrl("esophagealvarices_1773374861631.png");
+const imgBariatricSurgery = getAssetUrl("bariatricsurgery_1773517432559.png");
 
 export const giAdvancedLessons: Record<string, LessonContent> = {
   "bariatric-surgery": {
     title: "Bariatric Surgery",
+    image: imgBariatricSurgery,
     cellular: {
       title: "Bariatric Surgery - Types, Nutritional",
       content:

@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgACS = getAssetUrl("ACS_1773517432559.jpeg");
 
 export const hematologyLessons: Record<string, LessonContent> = {
   "all-leukemia": {
@@ -33,6 +36,7 @@ export const hematologyLessons: Record<string, LessonContent> = {
   },
   "sickle-cell": {
     title: "Sickle Cell Crisis",
+    image: imgACS,
     cellular: { title: "Hemoglobin S Polymerization", content: "Under stress (hypoxia, dehydration, acidosis), HgbS changes shape into rigid sickled cells. These clump together, occluding small vessels (vaso-occlusion) causing ischemia and severe pain." },
     riskFactors: ["Homozygous HbSS genotype", "African American descent", "Dehydration", "Hypoxia", "Cold exposure", "High altitude", "Infection", "Stress", "Pregnancy"],
     diagnostics: ["Expect CBC with reticulocyte count to be ordered", "Monitor oxygen saturation continuously during crisis", "Expect hemoglobin electrophoresis for diagnosis", "Expect CXR if acute chest syndrome suspected", "Monitor for signs of splenic sequestration (LUQ pain, falling Hgb)", "Expect blood cultures if fever present"],

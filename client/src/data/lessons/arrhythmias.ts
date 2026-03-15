@@ -2,6 +2,8 @@ import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
 const imgLethalDysrhythmias = getAssetUrl("lethaldysrhythmias_1773517523349.png");
+const imgFirstDegreeBlock = getAssetUrl("firstdegreeblock_1773517432559.png");
+const imgBBB = getAssetUrl("BBB_1773517432559.png");
 
 export const arrhythmiaLessons: Record<string, LessonContent> = {
   "normal-sinus-rhythm": {
@@ -276,6 +278,7 @@ export const arrhythmiaLessons: Record<string, LessonContent> = {
 
   "first-degree-av-block": {
     title: "First-Degree AV Block",
+    image: imgFirstDegreeBlock,
     cellular: { title: "AV Nodal Conduction Delay", content: "First-degree AV block is a conduction delay at the AV node or bundle of His. It is a delay, not a dropped beat. Every atrial impulse is conducted to the ventricles, but conduction through the AV node takes longer than normal, resulting in a prolonged PR interval greater than 0.20 seconds. The conduction delay is consistent, meaning the PR interval remains constant from beat to beat. The normal conduction pathway structure is preserved: SA node initiates impulse, atrial depolarization (P wave), AV node delay (PR interval), Bundle of His, right and left bundle branches, Purkinje fibers, ventricular depolarization (QRS complex). Heart blocks occur when conduction is delayed or interrupted anywhere along this pathway." },
     riskFactors: ["Athletes (increased vagal tone)", "Increased vagal tone", "Beta-blocker use", "Calcium channel blocker use", "Digoxin therapy", "Aging and degenerative conduction system changes", "Myocarditis", "Inferior wall MI", "Electrolyte imbalances"],
     diagnostics: ["PR interval greater than 0.20 seconds (more than 5 small boxes)", "PR interval constant from beat to beat", "Every P wave followed by a QRS complex (no dropped beats)", "Rhythm regular", "P waves normal morphology, upright in lead II", "QRS complex narrow (less than 0.12 seconds)", "1:1 P:QRS ratio maintained"],
@@ -343,6 +346,7 @@ export const arrhythmiaLessons: Record<string, LessonContent> = {
 
   "bundle-branch-block": {
     title: "Bundle Branch Block (BBB)",
+    image: imgBBB,
     cellular: { title: "Intraventricular Conduction Delay", content: "Bundle branch block (BBB) is a delay or block in conduction through the right or left bundle branch. Unlike AV blocks which involve delayed or failed conduction between atria and ventricles, bundle branch blocks involve intraventricular conduction delay. When one bundle branch is blocked, the impulse must travel through the unblocked branch first and then depolarize the other ventricle by spreading through the myocardium cell-to-cell, which is slower than normal Purkinje fiber conduction. This delayed ventricular activation produces a wide, abnormal QRS complex (greater than 0.12 seconds). The sinus rhythm is usually preserved with normal P waves and PR intervals — the abnormality is isolated to ventricular conduction." },
     riskFactors: ["RBBB: may be incidental finding in healthy individuals", "RBBB: right heart strain (pulmonary embolism, pulmonary hypertension)", "RBBB: atrial septal defect", "LBBB: hypertension", "LBBB: coronary artery disease", "LBBB: cardiomyopathy (dilated)", "LBBB: aortic valve disease", "LBBB: heart failure", "Both: degenerative conduction system disease", "Both: myocardial infarction", "Both: myocarditis", "Both: cardiac surgery"],
     diagnostics: ["QRS duration greater than 0.12 seconds (wide QRS)", "Wide, abnormal QRS morphology", "Sinus rhythm usually present with normal P waves and PR intervals", "RBBB: RSR' (M-shaped) pattern in V1 with wide S wave in leads I and V6", "LBBB: Broad, notched R waves in lateral leads (I, aVL, V5, V6) with deep S waves in V1-V3", "Differentiate from ventricular rhythms which also have wide QRS", "12-lead ECG is essential for identifying BBB pattern"],

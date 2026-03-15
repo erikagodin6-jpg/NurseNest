@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgDecels = getAssetUrl("decels_1773517432559.png");
 
 const stagesOfLabor: LessonContent = {
   title: "Stages of Labor",
@@ -42,6 +45,7 @@ const stagesOfLabor: LessonContent = {
 
 const fetalHeartRateMonitoring: LessonContent = {
   title: "Electronic Fetal Heart Rate Monitoring",
+  image: imgDecels,
   cellular: {
     title: "Fetal Heart Rate Physiology",
     content: "Electronic fetal monitoring (EFM) assesses fetal well-being during labor by evaluating the fetal heart rate (FHR) pattern in relation to uterine contractions. The fetal heart rate is regulated by the autonomic nervous system: the sympathetic nervous system accelerates the heart rate while the parasympathetic (vagal) system decelerates it. Normal baseline FHR is 110-160 bpm. Variability reflects the interplay between sympathetic and parasympathetic inputs and is the most important indicator of fetal oxygenation. Moderate variability (6-25 bpm fluctuations) indicates an intact fetal autonomic nervous system with adequate cerebral oxygenation. Absent or minimal variability may indicate fetal acidemia, sleep cycle, or medication effects. Accelerations (transient increases ≥15 bpm for ≥15 seconds) are reassuring and indicate fetal well-being. Decelerations are classified by their timing relative to contractions: early (head compression, mirror contractions), late (uteroplacental insufficiency, begin after contraction peak), and variable (cord compression, abrupt onset and offset). Category I tracings are normal, Category II are indeterminate, and Category III are abnormal requiring immediate intervention."

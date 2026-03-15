@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgChurgStrauss = getAssetUrl("churgstrauss_1773517432559.jpeg");
 
 export const npGeneratedBatch6: Record<string, LessonContent> = {
   "np-clinical-documentation-and-health-informatics-np": {
@@ -5250,6 +5253,7 @@ export const npGeneratedBatch6: Record<string, LessonContent> = {
   },
   "eosinophilic-granulomatosis-with-polyangiitis-churg-strauss-np": {
     "title": "Eosinophilic Granulomatosis with Polyangiitis",
+    "image": imgChurgStrauss,
     "cellular": {
       "title": "Eosinophilic Granulomatosis with Polyangiitis",
       "content": "Eosinophilic Granulomatosis with Polyangiitis (Churg-Strauss) involves complex pathophysiological mechanisms affecting multiple organ systems. At the cellular level, inflammatory mediators, oxidative stress, and immune dysregulation contribute to tissue injury and functional impairment that require systematic clinical evaluation and evidence-based management. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. "

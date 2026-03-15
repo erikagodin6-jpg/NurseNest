@@ -236,8 +236,17 @@ const imgHIV = getAssetUrl("HIV_1773374903956.png");
 const imgHydrocephalusNew = getAssetUrl("hydrocephalus_1773374903956.png");
 const imgHyperthyroidismNew = getAssetUrl("hyperthyroidism_1773374903956.png");
 const imgHypospadias = getAssetUrl("hypospadias_1773374903956.png");
+const imgDVTFlashcard = getAssetUrl("dvt_1773517432559.png");
+const imgDecelsFlashcard = getAssetUrl("decels_1773517432559.png");
+const imgAVFistulaFlashcard = getAssetUrl("avfistula_1773517432559.png");
+const imgBariatricFlashcard = getAssetUrl("bariatricsurgery_1773517432559.png");
+const imgBBBFlashcard = getAssetUrl("BBB_1773517432559.png");
+const imgFirstDegreeBlockFlashcard = getAssetUrl("firstdegreeblock_1773517432559.png");
+const imgMarfanFlashcard = getAssetUrl("aorticrootdilation_1773517432559.png");
+const imgCrutchParalysisFlashcard = getAssetUrl("crutchparalysis_1773517432559.png");
+const imgACSFlashcard = getAssetUrl("ACS_1773517432559.jpeg");
 
-export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2, imgWoundHealingPhases, imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHemorrhoidsNew, imgHepatitisNew, imgHerpesZoster, imgHFMNew, imgHyperemesisGravidarumNew, imgHiatalHerniaNew, imgHidradenitis, imgHidradenitisProg, imgHipDysplasiaNew, imgHirschsprung, imgHIV, imgHydrocephalusNew, imgHyperthyroidismNew, imgHypospadias, imgDiverticulitis, imgDKA, imgDysmenorrhea, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEdema, imgEncephalitis, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding };
+export { imgUlcerativeColitis, imgVonWillebrand, imgUrinaryCatheterization, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThalassemia, imgThrombocytopenia, imgThyroidStorm, imgTRALI, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAplasticAnemia, imgAcuteHemolyticReaction, imgAllergicTransfusion, imgAirEmbolism, imgCBI, imgCastCareTraction, imgAlopecia, imgBPH, imgAtopicDermatitis, imgAcromegaly, imgBPPV, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPolycysticKidney, imgPolycythemia, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgErythemaMultiforme, imgFallPrevention, imgFebrileNeutropenia, imgFebrileNonhemolytic, imgFibromyalgia, imgForeignBodyAspiration, imgFractureTypes, imgFungalInfections, imgGalactosemia, imgGlaucoma, imgGlomerulonephritis, imgGout, imgGraftVsHost, imgGravesDisease, imgHashimotoThyroiditis, imgHeadLice, imgHemolyticUremicSyndrome, imgHemophilia, imgNeonatalFeeding, imgNeonatalHypoglycemia, imgNeonatalJaundice, imgNeonatalSepsis, imgNeuroblastoma, imgNewbornDiabeticMother, imgOsteogenesisImperfecta, imgOvarianHyperstimulation, imgPatentDuctusArteriosus, imgPavlikHarness, imgPediatricVitalsChart, imgPediatricDehydration, imgPinworms, imgPKU, imgPlacentalAbruption, imgPlacentaPrevia, imgPostpartumHemorrhage, imgPyloricStenosis, imgReye, imgRhIncompatibility, imgROP, imgSeparationAnxiety, imgSerotoninSyndrome, imgStagesOfLabor, imgSubstanceAbuse, imgThermoregulation, imgTonsillectomy, imgToxicShockSyndrome, imgTrisomy21, imgTurnerSyndrome, imgUmbilicalCordCare, imgUmbilicalCordProlapse, imgVaginalHematoma, imgVaricella, imgVPShunt, imgHyperemesisGravidarum, imgInfantReflexes, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLochia, imgLungCancer, imgMastitis, imgMeasles, imgMeconiumAspiration, imgMeconiumIleus, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgEpisiotomy, imgHepatitisB, imgProstatitis, imgRotavirus, imgRubella, imgScabiesV3, imgScarletFever, imgShortBowelV4, imgSJSV2, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgStroke, imgEsophagealStricture, imgMumps, imgNEC, imgOpioidOverdose, imgNeonatalReflexes, imgOtitisMedia, imgObstructiveUropathy, imgNarcolepsy, imgMultipleSclerosis, imgMyastheniaGravis, imgPancreaticPseudocyst, imgPapilledema, imgWernicke, imgWilmsTumor, imgWoundAssessment, imgWoundInfection, imgWoundVAC, imgVRE, imgParkinsonsNew, imgPediatricSeizuresNew, imgPepticUlcerNew, imgPeripheralNeuropathy, imgPemphigusNew, imgPressureInjuriesNew, imgBPD, imgPCOS, imgPhimosis, imgEndometrialPolyp, imgEsophagealVarices, imgFebrileSeizures, imgFundalHeight, imgGalactorrhea, imgGAS, imgGERD, imgGestationalDiabetesRpn, imgGIBleed, imgGuillainBarre, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTSS, imgTURP, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTumorMarkers, imgTurnerSyndromeV2, imgWoundHealingPhases, imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHemorrhoidsNew, imgHepatitisNew, imgHerpesZoster, imgHFMNew, imgHyperemesisGravidarumNew, imgHiatalHerniaNew, imgHidradenitis, imgHidradenitisProg, imgHipDysplasiaNew, imgHirschsprung, imgHIV, imgHydrocephalusNew, imgHyperthyroidismNew, imgHypospadias, imgDiverticulitis, imgDKA, imgDysmenorrhea, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEdema, imgEncephalitis, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding, imgDVTFlashcard, imgDecelsFlashcard, imgAVFistulaFlashcard, imgBariatricFlashcard, imgBBBFlashcard, imgFirstDegreeBlockFlashcard, imgMarfanFlashcard, imgCrutchParalysisFlashcard, imgACSFlashcard };
 
 export type FlashcardData = {
   id: string;
@@ -1113,7 +1122,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "NEVER take BP, draw blood, or start an IV in the arm with an AV fistula. These can cause damage or clotting. Always assess the fistula for a thrill (palpable vibration) and bruit (audible swishing) which indicate patency.",
     category: "Renal/GU",
     difficulty: 1,
-    image: imgHemodialysis
+    image: imgAVFistulaFlashcard
   },
   {
     id: "rpn-renal-q3",
@@ -1502,7 +1511,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Trait (HbAS): Carrier state, usually asymptomatic, one normal and one sickle gene. Disease (HbSS): Both genes affected, chronic hemolytic anemia, vaso-occlusive crises. Complications: Acute chest syndrome, stroke, splenic sequestration, avascular necrosis. Hydroxyurea reduces crisis frequency.",
     category: "Hematology",
     difficulty: 3,
-    image: imgSickleCellCrisis
+    image: imgACSFlashcard
   },
   {
     id: "rpn-heme-q7",
@@ -1967,7 +1976,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Late decelerations: FHR decreases AFTER the contraction peak and returns after the contraction ends. Indicates uteroplacental insufficiency (decreased oxygen to fetus). Interventions: Left lateral position, IV fluid bolus, oxygen, stop oxytocin, notify provider. Persistent late decels = ominous.",
     category: "Maternity",
     difficulty: 3,
-    image: imgFetalMonitoring
+    image: imgDecelsFlashcard
   },
   {
     id: "rpn-mat-t1",
@@ -2037,7 +2046,7 @@ export const rpnFlashcards: FlashcardData[] = [
     answer: "Variable decelerations: Abrupt drops in FHR that vary in timing, duration, and depth. Caused by umbilical cord compression. Interventions: Change maternal position, amnioinfusion (adds fluid to cushion cord). Early decelerations (mirror contractions) = head compression (benign).",
     category: "Maternity",
     difficulty: 2,
-    image: imgFetalMonitoring
+    image: imgDecelsFlashcard
   },
   {
     id: "rpn-mat-t4",
@@ -3952,7 +3961,7 @@ export const rpnFlashcards: FlashcardData[] = [
     options: ["Absence of bruit", "Cool temperature over the site", "Palpable thrill and audible bruit", "Flat appearance of the vein"],
     correctIndex: 2,
     answer: "A functioning AV fistula has: Thrill (palpable vibration/buzzing) and bruit (audible swishing/humming with stethoscope). Absence of thrill/bruit indicates clotting and must be reported immediately. Assess at least every shift. The fistula takes 2-4 months to mature before use.",
-    image: imgHemodialysis,
+    image: imgAVFistulaFlashcard,
     category: "Renal/GU",
     difficulty: 1
   },
@@ -4216,7 +4225,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Heart Block Types",
     answer: "First degree: Prolonged PR > 0.20s (benign). Second degree Type I (Wenckebach): Progressive PR prolongation then dropped QRS. Second degree Type II: Random dropped QRS (dangerous, may need pacemaker). Third degree (Complete): No relationship between P waves and QRS (always needs pacemaker).",
     category: "Cardiovascular",
-    difficulty: 4
+    difficulty: 4,
+    image: imgFirstDegreeBlockFlashcard
   },
   {
     id: "rpn-cv-q27",
@@ -5622,7 +5632,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Warfarin takes 3-5 days to reach a therapeutic INR (2.0-3.0) because it works by depleting existing clotting factors. Enoxaparin (LMWH) or heparin provides immediate anticoagulation as a 'bridge.' Once INR is therapeutic for 24-48 hours, the bridge anticoagulant is discontinued.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    image: imgDVTFlashcard
   },
   {
     id: "rpn-resp-q26",
@@ -5803,7 +5814,8 @@ export const rpnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Post-surgical immobility increases DVT risk. Unilateral calf tenderness, swelling, warmth, and redness are classic DVT signs. Assess pedal pulses, compare leg circumferences. Do NOT massage. Notify provider immediately. Prevention: Early ambulation, SCDs, anticoagulation as ordered.",
     category: "Cardiovascular",
-    difficulty: 2
+    difficulty: 2,
+    image: imgDVTFlashcard
   },
   {
     id: "rpn-cv-q36",
@@ -5926,7 +5938,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Gastric Bypass (Roux-en-Y) Post-Op Care",
     answer: "Post-bariatric surgery: Small frequent meals (1-2 oz initially), chew thoroughly, avoid sugar/fat (dumping syndrome), no drinking with meals (wait 30 min after), lifelong vitamin/mineral supplements (B12, iron, calcium, folate), protein priority. Complications: Anastomotic leak (tachycardia, fever), stricture, internal hernia.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgBariatricFlashcard
   },
   {
     id: "rpn-gi-q26",

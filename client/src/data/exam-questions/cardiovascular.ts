@@ -1,6 +1,9 @@
 import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
 
+const imgDVTExam = getAssetUrl("dvt_1773517432559.png");
+const imgFirstDegreeBlockExam = getAssetUrl("firstdegreeblock_1773517432559.png");
+
 export const cardiovascularQuestions: ExamQuestion[] = [
   // === MCQ Questions 1-210 ===
   // Topic 1: Heart Failure (HFrEF, HFpEF)
@@ -301,7 +304,8 @@ export const cardiovascularQuestions: ExamQuestion[] = [
     o: ["Notify the healthcare provider immediately and maintain the client on bed rest", "Apply warm compresses and encourage the client to walk to promote circulation", "Massage the affected calf vigorously to relieve the pain", "Administer aspirin orally and elevate the leg"],
     a: 0,
     r: "These symptoms strongly suggest deep vein thrombosis (DVT). The nurse should notify the provider for diagnostic testing (Doppler ultrasound) and treatment (anticoagulation). Bed rest prevents clot dislodgement. Walking could dislodge the clot. Massaging a DVT can cause embolization. Aspirin alone is insufficient treatment for DVT.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgDVTExam
   },
   {
     q: "A 55-year-old client on IV heparin for DVT has the following lab results: aPTT 120 seconds (therapeutic range 60-80 seconds). What is the nurse's priority action?",
@@ -525,7 +529,8 @@ export const cardiovascularQuestions: ExamQuestion[] = [
     o: ["First-degree AV block", "Normal sinus rhythm", "Atrial fibrillation", "Bundle branch block"],
     a: 0,
     r: "A PR interval greater than 0.20 seconds indicates delayed conduction through the AV node, which defines first-degree AV block. Normal PR interval is 0.12-0.20 seconds. NSR would have a normal PR interval. Atrial fibrillation has no measurable PR interval. Bundle branch block widens the QRS complex, not the PR interval.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgFirstDegreeBlockExam
   },
   {
     q: "A nurse is analyzing a client's telemetry strip. The rhythm shows regular P waves at a rate of 80 bpm, but the QRS complexes occur at a rate of 36 bpm with no relationship between P waves and QRS complexes. Which dysrhythmia does this represent?",
@@ -708,7 +713,8 @@ export const cardiovascularQuestions: ExamQuestion[] = [
     o: ["Walk in the aisle periodically, perform ankle exercises while seated, and stay well-hydrated", "Remain seated for the entire flight to minimize fall risk", "Cross your legs at the knee for comfort during the flight", "Take aspirin daily for a week before the flight to thin the blood"],
     a: 0,
     r: "DVT prevention during long flights includes frequent movement (walking, ankle pumps), adequate hydration, and avoiding prolonged immobility. Remaining seated increases DVT risk. Crossing legs compresses veins and impedes blood flow. Aspirin alone is insufficient DVT prophylaxis and self-prescribing medication is not recommended.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: imgDVTExam
   },
   {
     q: "A client with a confirmed pulmonary embolism is started on a heparin drip. The initial aPTT is 28 seconds (control 25-35 seconds). Six hours later, the aPTT is 45 seconds. The therapeutic target is 60-80 seconds. What should the nurse anticipate?",

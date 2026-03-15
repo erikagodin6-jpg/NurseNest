@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgAnthrax = getAssetUrl("anthrax_1773517432559.png");
 
 const smallpox: LessonContent = {
   title: "Smallpox (Variola Virus)",
@@ -79,6 +82,7 @@ const smallpox: LessonContent = {
 
 const anthrax: LessonContent = {
   title: "Anthrax (Bacillus anthracis)",
+  image: imgAnthrax,
   cellular: {
     title: "Microbiology & Toxin-Mediated Pathology",
     content: "Anthrax is caused by Bacillus anthracis, a gram-positive, spore-forming bacterium. Spores are extremely durable in the environment, found naturally in soil, associated with zoonotic origins (animal products like hides and wool), and produce powerful exotoxins. Anthrax is NOT spread person-to-person: transmission occurs via spore entry through skin (most common), inhalation (most dangerous), or gastrointestinal route (rare). Disease severity is largely toxin-mediated, not simply bacterial invasion. Bacillus anthracis produces edema toxin (causing tissue swelling) and lethal toxin (causing cell death and systemic injury), which disrupt immune response, vascular integrity, and cellular survival. Cutaneous anthrax presents as a painless papule progressing to a vesicle and then ulcer with a classic black necrotic center (eschar): the painlessness differentiates it from many other infections. Inhalational anthrax is the most dangerous form: early symptoms resemble viral illness (fever, malaise, non-productive cough), then rapidly progresses to severe respiratory distress, hypoxia, shock, and widened mediastinum on imaging (from hemorrhagic mediastinal lymphadenitis). Gastrointestinal anthrax follows ingestion of contaminated material with GI hemorrhage and necrosis."

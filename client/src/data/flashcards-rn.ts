@@ -2,6 +2,7 @@ import { getAssetUrl } from "@/lib/asset-url";
 import type { FlashcardData } from "./flashcards-rpn";
 import { imgUlcerativeColitis, imgSIADH, imgSickleCellCrisis, imgStomaCare, imgThrombocytopenia, imgUrinaryCatheterization, imgVitiligo, imgUrethralStricture, imgVestibularNeuritis, imgAddisons, imgAcuteHemolyticReaction, imgAtopicDermatitis, imgBPH, imgCastCareTraction, imgAcromegaly, imgNGTube, imgPancreatitis, imgPeritonealDialysis, imgPepticUlcer, imgOsteoporosis, imgCellulitis, imgCKD, imgClubfoot, imgCompartmentSyndrome, imgConjunctivitis, imgContracture, imgCushings, imgDelayedHemolyticReaction, imgDevHipDysplasia, imgDiabetes, imgDiabetesInsipidus, imgDiabeticNephropathy, imgDIC, imgDisuseAtrophy, imgDuchenne, imgEpiglottitis, imgEpistaxis, imgErysipelas, imgFallPrevention, imgHeadLice, imgHemophilia, imgGravesDisease, imgGout, imgPyloricStenosis, imgPlacentaPrevia, imgPostpartumHemorrhage, imgSerotoninSyndrome, imgVaricella, imgRhIncompatibility, imgIntussusception, imgLeadPoisoning, imgLeukemia, imgLungCancer, imgMeasles, imgMeningitisNew, imgMetabolicSyndrome, imgMRSA, imgCongenitalHypothyroidism, imgFetalMonitoring, imgInfantReflexes, imgWoundVAC, imgWoundInfection, imgEsophagealVarices, imgGIBleed, imgSucralfate, imgSyndactyly, imgSyringomyelia, imgTardiveDyskinesia, imgTetanus, imgThalassemiaV2, imgThermoregulationV2, imgThrombocytopeniaV2, imgThyroidStormV2, imgTinnitus, imgTonsillectomyV2, imgTraction, imgTrigeminalNeuralgia, imgTrisomy21V2, imgTSS, imgTumorMarkers, imgTurnerSyndromeV2, imgTURP, imgHepatitisB, imgDKA, imgDysphagia, imgEBV, imgEctopicPregnancy, imgEndocarditisFlashcard, imgEndometriosis, imgEnteralFeeding } from "./flashcards-rpn";
 import { imgHeatStroke, imgHELLPNew, imgHemodialysis, imgHIV, imgHepatitisNew } from "./flashcards-rpn";
+import { imgDecelsFlashcard, imgAVFistulaFlashcard, imgBariatricFlashcard } from "./flashcards-rpn";
 import { imgStroke, imgProstatitis, imgRotavirus, imgRubella, imgScarletFever, imgShortBowelV4, imgSkinAssessment, imgSpinalStenosisV3, imgSprain, imgEsophagealStricture, imgScabiesV3 } from "./flashcards-rpn";
 
 const imgImpetigo = getAssetUrl("impetigo_1773340649073.png");
@@ -698,7 +699,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Left shoulder pain after abdominal surgery can indicate diaphragmatic irritation from an anastomotic leak. Gastric contents leaking into the peritoneum cause peritonitis that irritates the diaphragm, referring pain to the shoulder via the phrenic nerve. Other signs include tachycardia (often the earliest sign), fever, and abdominal pain. An upper GI series with water-soluble contrast can confirm the leak.",
     category: "GI",
-    difficulty: 3
+    difficulty: 3,
+    image: imgBariatricFlashcard
   },
   {
     id: "rn-gi-q12",
@@ -938,7 +940,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Severe bleeding from an AV fistula is a medical emergency because the fistula carries high-flow arterial blood. The priority is applying firm, direct pressure to the bleeding site. Do NOT apply a tourniquet as this can clot and destroy the fistula. Call for help while maintaining pressure. If bleeding does not stop with direct pressure, the client needs emergent surgical evaluation.",
     category: "Renal/GU",
     difficulty: 2,
-    image: imgHemodialysis
+    image: imgAVFistulaFlashcard
   },
   {
     id: "rn-renal-q2",
@@ -1307,7 +1309,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Contractions every 90 seconds lasting 90 seconds represent uterine tachysystole (excessive uterine activity), and late decelerations indicate uteroplacental insufficiency. The nurse must immediately stop the oxytocin to allow the uterus to relax, reposition the client to left lateral (improves uterine blood flow), administer oxygen, and increase IV fluids. Terbutaline may be given to relax the uterus. Notify the provider.",
     category: "Maternity",
     difficulty: 3,
-    image: imgFetalMonitoring
+    image: imgDecelsFlashcard
   },
   {
     id: "rn-mat-q2",
@@ -1329,7 +1331,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Variable decelerations are abrupt drops in fetal heart rate that vary in timing, duration, and depth relative to contractions. They are caused by umbilical cord compression. Nursing interventions include repositioning the client (side to side, hands and knees), amnioinfusion if ordered (instilling saline into the uterus to cushion the cord), and discontinuing oxytocin if running. Early decelerations (head compression) are benign.",
     category: "Maternity",
     difficulty: 2,
-    image: imgFetalMonitoring
+    image: imgDecelsFlashcard
   },
   {
     id: "rn-mat-q4",
@@ -3588,7 +3590,7 @@ export const rnFlashcards: FlashcardData[] = [
     answer: "Assess the AV fistula for a palpable thrill (vibration) and audible bruit (swooshing sound), which indicate patency. NEVER take blood pressure, draw blood, or start an IV in the access arm. Avoid restrictive clothing or positioning. Report absence of thrill/bruit immediately as it may indicate clotting.",
     category: "Renal/GU",
     difficulty: 1,
-    image: imgHemodialysis
+    image: imgAVFistulaFlashcard
   },
   {
     id: "rn-renal-q10",

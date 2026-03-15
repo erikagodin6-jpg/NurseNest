@@ -2,6 +2,7 @@ import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 const imgFibromyalgia = getAssetUrl("fibro_1773374861631.png");
 const imgLumbarSacralStrain = getAssetUrl("lumbarsacralstrain_1773517523349.png");
+const imgCrutchParalysis = getAssetUrl("crutchparalysis_1773517432559.png");
 
 export const orthopedicLessons: Record<string, LessonContent> = {
   "osteoarthritis": {
@@ -1682,6 +1683,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
 
   "crutch-paralysis": {
     title: "Crutch Paralysis",
+    image: imgCrutchParalysis,
     cellular: {
       title: "Brachial Plexus Compression",
       content: "Crutch paralysis occurs when improper crutch use creates sustained compression of the brachial plexus and/or radial nerve in the axilla. The brachial plexus runs through the axilla adjacent to the axillary artery, and the radial nerve courses along the spiral groove of the humerus just distal to the axilla. When a patient bears weight on the axillary pad of the crutch rather than on the hand grips, the hard crutch top compresses these neurovascular structures against the humeral head. The radial nerve is most commonly affected because of its superficial position. Compression causes a neuropraxia - a temporary nerve conduction block where the axon remains intact but myelin is compressed, disrupting saltatory conduction. This produces wrist drop (inability to extend the wrist and fingers), weakness of elbow extension (triceps), decreased grip strength, and numbness on the dorsal hand between the thumb and index finger (radial nerve sensory distribution). If compression is brief, full recovery occurs within days to weeks as remyelination restores conduction. Prolonged compression can progress to axonotmesis or neurotmesis with permanent nerve damage."
