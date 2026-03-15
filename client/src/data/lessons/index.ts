@@ -95,6 +95,13 @@ import { pharmacologyCardioRespLessons } from "./pharmacology-cardio-resp";
 import { pharmacologyInfectiousPsychLessons } from "./pharmacology-infectious-psych";
 import { pharmacologyGiRenalSpecialtyLessons } from "./pharmacology-gi-renal-specialty";
 
+import { rpnPathoCardiovascularLessons } from "./rpn-patho-cardiovascular";
+import { rpnPathoHematologyEndocrineLessons } from "./rpn-patho-hematology-endocrine";
+import { rpnPathoNeurologyLessons } from "./rpn-patho-neurology";
+import { rpnPathoMusculoskeletalLessons } from "./rpn-patho-musculoskeletal";
+import { rpnPathoImmunologyLessons } from "./rpn-patho-immunology";
+import { rpnPathoStressMetabolismLessons } from "./rpn-patho-stress-metabolism";
+
 import { rrtLessons } from "./rrt-lessons";
 import { paramedicLessons } from "./paramedic-lessons";
 import { mltLessons } from "./mlt-lessons";
@@ -796,6 +803,12 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   npFreeBatch1Lessons,
   npFreeBatch2Lessons,
   npFreeBatch3Lessons,
+  rpnPathoCardiovascularLessons,
+  rpnPathoHematologyEndocrineLessons,
+  rpnPathoNeurologyLessons,
+  rpnPathoMusculoskeletalLessons,
+  rpnPathoImmunologyLessons,
+  rpnPathoStressMetabolismLessons,
 );
 
 

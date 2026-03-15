@@ -751,6 +751,7 @@ app.use((req, res, next) => {
       const { pool: seedPool } = await import("./storage");
       await seedExamQuestions(seedPool).catch((e: any) => console.error("[ExamSeed] Failed:", e.message));
       await import("./seed-rrt-questions").then(({ seedRRTQuestions }) => seedRRTQuestions(seedPool)).catch((e: any) => console.error("[RRTSeed] Failed:", e.message));
+      await import("./seed-rpn-patho-questions").then(({ seedRPNPathoQuestions }) => seedRPNPathoQuestions(seedPool)).catch((e: any) => console.error("[RPNPathoSeed] Failed:", e.message));
       await import("./seed-cat-flashcards").then(({ seedCatFlashcards }) => seedCatFlashcards(seedPool)).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
       await import("./exam-flashcard-mapper").then(async ({ mapExamQuestionsToFlashcards }) => {
         const result = await mapExamQuestionsToFlashcards();
