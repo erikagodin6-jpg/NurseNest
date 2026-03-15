@@ -39,6 +39,7 @@ import { Badge } from "@/components/ui/badge";
 function TableOfContents({ guide }: { guide: HealthcareGuide }) {
   const sections = [
     { id: "introduction", title: "Introduction" },
+    { id: "what-you-will-learn", title: "What You Will Learn" },
     ...(guide.spokeGuides && guide.spokeGuides.length > 0 ? [{ id: "topic-guides", title: "In-Depth Topic Guides" }] : []),
     ...(guide.conditions.length > 0 ? [{ id: "conditions", title: "Key Conditions & Clinical Topics" }] : []),
     ...(guide.clinicalSkills.length > 0 ? [{ id: "clinical-skills", title: "Important Clinical Skills" }] : []),
@@ -50,6 +51,7 @@ function TableOfContents({ guide }: { guide: HealthcareGuide }) {
     { id: "flashcard-review", title: "Flashcard Review" },
     { id: "career-overview", title: "Career Overview" },
     { id: "faq", title: "Frequently Asked Questions" },
+    ...(guide.relatedGuides.length > 0 ? [{ id: "related-guides", title: "Related Nursing Specialties" }] : []),
   ];
 
   return (
@@ -302,7 +304,24 @@ export default function HealthcareGuidePage() {
             )}
 
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
+              <p className="text-gray-700 leading-relaxed text-base font-medium mb-4">{guide.seoIntro}</p>
               <p className="text-gray-700 leading-relaxed text-base">{guide.introduction}</p>
+            </section>
+
+            <section id="what-you-will-learn" className="mb-12 scroll-mt-24" data-testid="section-what-you-will-learn">
+              <SectionHeading id="what-you-will-learn-heading" title="What You Will Learn in This Guide" icon={GraduationCap} color={guide.color} />
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <ul className="space-y-3">
+                  {guide.whatYouWillLearn.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`learn-item-${i}`}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
+                        <Target className="w-3.5 h-3.5" style={{ color: guide.color }} />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </section>
 
             {guide.spokeGuides && guide.spokeGuides.length > 0 && (
@@ -615,7 +634,7 @@ export default function HealthcareGuidePage() {
 
             {relatedGuides.length > 0 && (
               <section id="related-guides" className="mb-12 scroll-mt-24" data-testid="section-related-guides">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Related Guides</h2>
+                <SectionHeading id="related-guides-heading" title="Related Nursing Specialties" icon={Stethoscope} color={guide.color} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {relatedGuides.map((rg) => (
                     <LocaleLink key={rg.slug} href={`/guides/${rg.slug}`}>
@@ -636,6 +655,15 @@ export default function HealthcareGuidePage() {
                     </LocaleLink>
                   ))}
                 </div>
+                {guide.category === "nursing-specialty" && (
+                  <div className="mt-6 text-center">
+                    <LocaleLink href="/nursing-specialties">
+                      <span className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors" data-testid="link-all-specialties">
+                        View All Nursing Specialties <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </LocaleLink>
+                  </div>
+                )}
               </section>
             )}
 
@@ -648,7 +676,7 @@ export default function HealthcareGuidePage() {
                   Access practice questions, flashcards, and personalized study tools to excel in your healthcare career.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <LocaleLink href="/preview/med-surg">
+                  <LocaleLink href={`/preview/${GUIDE_TO_PREVIEW_SLUG[guide.slug] || "med-surg"}`}>
                     <Button className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-2.5 font-semibold" data-testid="button-guide-start-questions">
                       Start Practicing Questions <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>

@@ -5,10 +5,11 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { NURSING_SPECIALTIES } from "@/data/nursing-specialties-detail-data";
+import { HEALTHCARE_GUIDES } from "@shared/healthcare-guide-data";
 import {
   ArrowRight, Heart, Brain, Baby, Stethoscope, Ribbon, SmilePlus,
   Clock, Users, Scissors, Check, HelpCircle, ChevronRight,
-  BookOpen, FileText, Pill, ClipboardList, Activity
+  BookOpen, FileText, Pill, ClipboardList, Activity, GraduationCap
 } from "lucide-react";
 
 const TRACK_FEATURES = [
@@ -241,6 +242,31 @@ export default function NursingSpecialtiesHub() {
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50" data-testid="section-in-depth-guides">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-guides-heading">In-Depth Specialty Guides</h2>
+            <p className="text-gray-600">Comprehensive clinical guides covering pathophysiology, skills, exam prep, and career pathways for each nursing specialty.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {HEALTHCARE_GUIDES.filter(g => g.category === "nursing-specialty").map((guide) => (
+              <Link key={guide.slug} href={`/guides/${guide.slug}`} className="group" data-testid={`card-guide-${guide.slug}`}>
+                <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-all h-full">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${guide.color}15` }}>
+                    <GraduationCap className="w-5 h-5" style={{ color: guide.color }} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-700 transition-colors">{guide.title}</h3>
+                  <p className="text-xs text-gray-500 line-clamp-2 mb-2">{guide.metaDescription.split('.')[0]}.</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                    Read Full Guide <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

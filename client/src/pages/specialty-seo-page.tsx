@@ -9,7 +9,7 @@ import { getSpecialtyBySeoSlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "
 import {
   ArrowRight, BookOpen, ChevronRight, Check, ChevronDown,
   ClipboardList, Layers, GraduationCap, FileText, HelpCircle,
-  Star, TrendingUp
+  Star, TrendingUp, Stethoscope
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
@@ -137,8 +137,11 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
               {specialty.name}: Complete Nursing Study Guide
             </h1>
-            <p className="text-lg text-gray-600 mb-6" data-testid="text-page-subtitle">
+            <p className="text-lg text-gray-600 mb-4" data-testid="text-page-subtitle">
               {specialty.longDescription}
+            </p>
+            <p className="text-base text-gray-500 mb-6" data-testid="text-seo-intro">
+              Master {specialty.name.toLowerCase()} with comprehensive pathophysiology lessons, certification-aligned practice questions, clinical scenarios, and flashcards. This guide covers everything from core clinical skills to {specialty.certifications.join("/")} exam preparation and career development.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {specialty.certifications.map((cert) => (
@@ -149,11 +152,11 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
               ))}
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-go-to-specialty">
-                Explore {specialty.name} Track <ArrowRight className="w-4 h-4" />
+              <Link href={`/preview/${specialty.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-go-to-specialty">
+                Try Practice Questions <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-view-pricing">
-                View Pricing
+              <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-view-pricing">
+                Explore {specialty.name} Track
               </Link>
             </div>
           </div>
@@ -186,7 +189,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-gray-50" data-testid="section-what-you-learn">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-learn-heading">What This Guide Covers</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-learn-heading">What You Will Learn in This Guide</h2>
             <p className="text-gray-600">Comprehensive clinical content aligned to {specialty.certifications.join(" & ")} certification exam blueprints.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -256,6 +259,41 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         </div>
       </section>
 
+      {specialty.relatedSpecialties.length > 0 && (
+        <section className="py-16 bg-gray-50" data-testid="section-related-specialties">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Nursing Specialties</h2>
+              <p className="text-gray-600">Explore other nursing specialties that complement {specialty.name.toLowerCase()}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {SPECIALTY_CONFIGS.filter(s => specialty.relatedSpecialties.includes(s.slug)).map((related) => {
+                const RelIcon = related.icon;
+                return (
+                  <Link key={related.slug} href={`/${related.seoSlug}`} className="group" data-testid={`card-related-specialty-${related.slug}`}>
+                    <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-all h-full">
+                      <div className={`w-10 h-10 rounded-lg ${related.bgColor} flex items-center justify-center mb-3`}>
+                        <RelIcon className={`w-5 h-5 ${related.iconColor}`} />
+                      </div>
+                      <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-700 transition-colors">{related.name}</h3>
+                      <p className="text-xs text-gray-500 line-clamp-2 mb-2">{related.description.split('.')[0]}.</p>
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                        View Guide <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="mt-6 text-center">
+              <Link href="/nursing-specialties" className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors" data-testid="link-all-specialties">
+                <Stethoscope className="w-4 h-4" /> View All Nursing Specialties <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
@@ -282,8 +320,8 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
             All specialty tracks included with your subscription. Starting at $19/month.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-pricing">
-              View Pricing <ArrowRight className="w-4 h-4" />
+            <Link href={`/preview/${specialty.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-pricing">
+              Try Practice Questions <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-explore">
               Explore {specialty.name}

@@ -53,7 +53,9 @@ export interface HealthcareGuide {
   category: "nursing-specialty" | "allied-health";
   color: string;
   colorAccent: string;
+  seoIntro: string;
   introduction: string;
+  whatYouWillLearn: string[];
   conditions: GuideCondition[];
   clinicalSkills: string[];
   procedures: GuideProcedure[];
@@ -88,7 +90,17 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#DC2626",
     colorAccent: "#FEE2E2",
+    seoIntro: "This complete ICU nursing guide covers everything critical care nurses need to know — from hemodynamic monitoring and ventilator management to sepsis protocols, vasoactive medication titration, and CCRN certification pathways. Whether you are preparing for your first ICU role or advancing your critical care expertise, this resource provides evidence-based clinical knowledge, practice scenarios, and career guidance for intensive care unit nurses.",
     introduction: "Intensive Care Unit (ICU) nursing is one of the most demanding and rewarding specialties in healthcare. ICU nurses care for critically ill patients who require continuous monitoring, advanced life support, and complex clinical decision-making. This comprehensive guide covers the essential clinical knowledge, skills, procedures, and career pathways you need to succeed in critical care nursing. Whether you are a nursing student exploring specialties, a new graduate preparing for your first ICU role, or an experienced nurse seeking to deepen your critical care expertise, this guide provides the clinical foundation and practical resources to support your journey.",
+    whatYouWillLearn: [
+      "Core ICU nursing responsibilities including hemodynamic monitoring, ventilator management, and vasoactive drip titration",
+      "Common critical care conditions: sepsis, ARDS, acute myocardial infarction, traumatic brain injury, and multiorgan dysfunction",
+      "Essential clinical skills for intensive care including arterial line management, ABG interpretation, and sedation assessment",
+      "ICU medications — vasopressors, sedatives, neuromuscular blockers, and high-alert drug safety protocols",
+      "Clinical scenarios with priority nursing actions for septic shock, ventilator emergencies, and cardiogenic shock",
+      "Career pathways, salary expectations, CCRN certification requirements, and advanced practice opportunities",
+      "Practice questions and flashcards aligned to critical care nursing competencies",
+    ],
     conditions: [
       { name: "Sepsis and Septic Shock", description: "Sepsis is a life-threatening organ dysfunction caused by a dysregulated host response to infection. Early recognition using qSOFA and SOFA scores, prompt antibiotic administration within the first hour, and aggressive fluid resuscitation are cornerstones of management.", keyPoints: ["qSOFA criteria: altered mentation, systolic BP ≤100 mmHg, respiratory rate ≥22", "Hour-1 Bundle: blood cultures, broad-spectrum antibiotics, 30 mL/kg crystalloid for hypotension, lactate measurement", "Vasopressor therapy (norepinephrine first-line) for MAP <65 mmHg after fluid resuscitation", "Serial lactate monitoring to guide resuscitation adequacy"] },
       { name: "Acute Respiratory Distress Syndrome (ARDS)", description: "ARDS is characterized by acute onset of bilateral pulmonary infiltrates, severe hypoxemia (PaO2/FiO2 ≤300), and non-cardiogenic pulmonary edema. Management centers on lung-protective ventilation strategies.", keyPoints: ["Berlin criteria classification: mild (PaO2/FiO2 200-300), moderate (100-200), severe (<100)", "Low tidal volume ventilation: 6 mL/kg ideal body weight", "Plateau pressure goal <30 cmH2O", "Prone positioning for 12-16 hours in severe ARDS (PaO2/FiO2 <150)"] },
@@ -590,7 +602,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#EC4899",
     colorAccent: "#FCE7F3",
+    seoIntro: "This complete NICU nursing guide covers neonatal intensive care nursing from premature infant assessment and respiratory support to thermoregulation, developmental care, NRP certification, and NICU career pathways. Learn the clinical skills, conditions, and medications every neonatal nurse needs to master for safe, evidence-based care of critically ill and premature newborns.",
     introduction: "Neonatal Intensive Care Unit (NICU) nursing is a highly specialized field focused on the care of critically ill and premature newborns. NICU nurses provide life-sustaining care to the most vulnerable patient population, requiring expertise in neonatal physiology, miniaturized medical technology, and family-centered care. This guide covers the essential knowledge, clinical skills, and career pathways for nurses pursuing or advancing in neonatal intensive care.",
+    whatYouWillLearn: [
+      "Core NICU nursing responsibilities including neonatal assessment, thermoregulation, and respiratory support management",
+      "Common neonatal conditions: respiratory distress syndrome, necrotizing enterocolitis, bronchopulmonary dysplasia, and neonatal sepsis",
+      "Essential clinical skills for neonatal care including NRP, developmental care (NIDCAP), and kangaroo care facilitation",
+      "NICU medications — surfactant therapy, caffeine citrate, prostaglandins, and neonatal-specific dosing considerations",
+      "Clinical scenarios with priority nursing actions for neonatal emergencies and deterioration",
+      "Career pathways, RNC-NIC certification requirements, and advancement opportunities in neonatal nursing",
+    ],
     conditions: [
       { name: "Respiratory Distress Syndrome (RDS)", description: "Caused by surfactant deficiency in premature infants, RDS presents with tachypnea, nasal flaring, grunting, and intercostal retractions within hours of birth.", keyPoints: ["Most common in infants <34 weeks gestation", "Surfactant replacement therapy via ETT", "CPAP as first-line respiratory support for mild-moderate RDS", "Antenatal corticosteroids reduce incidence when given before preterm delivery"] },
       { name: "Necrotizing Enterocolitis (NEC)", description: "A devastating gastrointestinal emergency primarily affecting premature infants, characterized by intestinal inflammation and necrosis.", keyPoints: ["Risk factors: prematurity, formula feeding, perinatal asphyxia", "Signs: abdominal distension, bloody stools, feeding intolerance, pneumatosis intestinalis on X-ray", "Management: NPO, gastric decompression, IV antibiotics, TPN", "Breast milk is protective and reduces NEC incidence"] },
@@ -652,7 +673,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "Can I specialize further within NICU nursing?", answer: "Yes. Subspecialty areas include neonatal transport, ECMO specialist, neonatal wound care, lactation support, developmental care specialist, and palliative/bereavement care. The Neonatal Nurse Practitioner (NNP) role is a popular advanced practice option." },
       { question: "What is developmental care in the NICU?", answer: "Developmental care (NIDCAP) is an evidence-based approach that minimizes environmental stress on premature infants through clustered care, noise/light reduction, positioning supports, skin-to-skin contact (kangaroo care), and individualized care plans based on infant behavioral cues." },
     ],
-    relatedGuides: ["icu-nursing-ultimate-guide", "palliative-care-nursing-ultimate-guide"],
+    relatedGuides: ["icu-nursing-ultimate-guide", "palliative-care-nursing-ultimate-guide", "med-surg-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "NICU respiratory support continuum from nasal cannula to HFOV", caption: "Figure 1: Neonatal respiratory support escalation", section: "clinicalSkills" },
       { alt: "Gestational age assessment landmarks for Ballard scoring", caption: "Figure 2: Ballard scoring physical maturity signs", section: "conditions" },
@@ -668,7 +689,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#F97316",
     colorAccent: "#FFEDD5",
+    seoIntro: "This complete trauma nursing guide covers emergency trauma care from primary and secondary survey assessments to hemorrhage control, burn management, TNCC certification, and trauma nursing career pathways. Master the clinical skills, injury patterns, and rapid-response protocols that trauma nurses use to stabilize critically injured patients in emergency departments and trauma centers.",
     introduction: "Trauma nursing is a fast-paced, high-acuity specialty where nurses care for patients with life-threatening injuries from motor vehicle accidents, falls, penetrating trauma, burns, and other mechanisms of injury. Trauma nurses must be expert clinicians capable of rapid assessment, prioritized intervention, and seamless team communication. This guide covers the clinical knowledge, assessment frameworks, procedures, and career pathways essential for trauma nursing excellence.",
+    whatYouWillLearn: [
+      "Primary and secondary trauma survey assessment frameworks (ABCDE approach)",
+      "Common trauma presentations: hemorrhagic shock, traumatic brain injury, thoracic and abdominal trauma, spinal cord injuries, and burns",
+      "Essential trauma nursing skills including massive transfusion protocols, chest tube management, and rapid infusion techniques",
+      "Trauma medications — blood products, TXA, pain management, and RSI medications",
+      "Clinical scenarios with priority nursing actions for multi-system trauma and deterioration",
+      "Career pathways, TNCC and TCRN certification requirements, and trauma center designations",
+    ],
     conditions: [
       { name: "Hemorrhagic Shock", description: "The leading preventable cause of trauma death. Classification (Class I-IV) guides resuscitation strategy based on estimated blood loss and clinical presentation.", keyPoints: ["Class I (<15% blood loss): minimal symptoms", "Class II (15-30%): tachycardia, narrowed pulse pressure", "Class III (30-40%): hypotension, tachycardia >120, altered mental status", "Class IV (>40%): life-threatening, requires massive transfusion protocol"] },
       { name: "Traumatic Brain Injury (TBI)", description: "Ranges from mild concussion to severe with GCS ≤8. Prevention of secondary brain injury through ICP management, CPP optimization, and avoiding hypoxia/hypotension is paramount.", keyPoints: ["GCS assessment: mild (13-15), moderate (9-12), severe (3-8)", "CT head within 30 minutes for GCS <15 or focal neurological deficits", "Maintain SBP >100 mmHg to prevent secondary injury", "Avoid hyperthermia, hyperglycemia, and seizures"] },
@@ -730,7 +760,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is a Level I trauma center?", answer: "A Level I trauma center provides the highest level of surgical care for trauma patients 24/7, including all surgical specialties, research, and trauma prevention programs. Level II-V centers provide progressively fewer resources. Level I centers handle the most complex trauma cases." },
       { question: "Can trauma nurses transition to flight nursing?", answer: "Yes, flight nursing is a natural progression for experienced trauma nurses. Most programs require 3-5 years of emergency/trauma or ICU experience, TNCC, ACLS, PALS, and additional certifications like CFRN (Certified Flight Registered Nurse)." },
     ],
-    relatedGuides: ["icu-nursing-ultimate-guide", "paramedic-career-guide"],
+    relatedGuides: ["icu-nursing-ultimate-guide", "paramedic-career-guide", "med-surg-nursing-ultimate-guide", "orthopedic-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Primary survey ABCDE assessment flowchart for trauma patients", caption: "Figure 1: Trauma Primary Survey Algorithm", section: "clinicalSkills" },
       { alt: "Hemorrhage classification chart showing Classes I-IV with vital sign changes", caption: "Figure 2: Hemorrhagic Shock Classification", section: "conditions" },
@@ -746,7 +776,17 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#059669",
     colorAccent: "#D1FAE5",
+    seoIntro: "This complete med-surg nursing guide covers medical-surgical nursing fundamentals — from post-operative assessment and chronic disease management to fluid and electrolyte balance, wound care, and CMSRN certification pathways. Build the clinical foundation every nurse needs with evidence-based assessment skills, medication administration protocols, and prioritization frameworks for managing multiple patients on a med-surg unit.",
     introduction: "Medical-surgical (med-surg) nursing is the largest nursing specialty and the foundation of clinical nursing practice. Med-surg nurses care for adult patients with a wide range of acute and chronic conditions across multiple body systems. Often considered the best starting point for new graduate nurses, med-surg provides broad clinical experience in assessment, medication administration, wound care, patient education, and coordination of care. This guide covers the essential clinical knowledge, skills, and career pathways for medical-surgical nursing.",
+    whatYouWillLearn: [
+      "Core med-surg nursing responsibilities including post-operative care, chronic disease management, and multi-system patient assessment",
+      "Common medical-surgical conditions: heart failure, COPD, pneumonia, diabetes, DVT/PE, and post-surgical complications",
+      "Essential clinical skills for med-surg including wound care, IV management, patient education, and discharge planning",
+      "Med-surg medications — pain management, anticoagulants, cardiac medications, and insulin protocols",
+      "Clinical scenarios with priority nursing actions for patient deterioration and emergencies",
+      "Career pathways, CMSRN certification, and how med-surg experience supports specialty transitions",
+      "Time management and prioritization frameworks for handling 4-6 patient assignments",
+    ],
     conditions: [
       { name: "Heart Failure", description: "Chronic condition requiring ongoing management of fluid balance, medication adherence, and lifestyle modifications. Nurses play a critical role in patient education and early decompensation recognition.", keyPoints: ["Daily weight monitoring: report gain >2 lbs/day or >5 lbs/week", "Fluid restriction typically 1.5-2L/day; sodium restriction <2g/day", "Medication management: ACE inhibitors/ARBs, beta-blockers, diuretics, aldosterone antagonists", "Teach signs of worsening: increased dyspnea, orthopnea, edema, decreased exercise tolerance"] },
       { name: "Type 2 Diabetes Mellitus", description: "Complex chronic disease requiring comprehensive management including blood glucose monitoring, medication management, dietary counseling, and complication prevention.", keyPoints: ["A1C goal <7% for most adults; individualized targets for elderly", "Hypoglycemia recognition and treatment: Rule of 15", "Foot care education: daily inspection, proper footwear, avoid soaking", "Sick day management rules for insulin and oral medications"] },
@@ -827,7 +867,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#8B5CF6",
     colorAccent: "#EDE9FE",
+    seoIntro: "This complete mental health nursing guide covers psychiatric nursing from therapeutic communication and crisis de-escalation to psychopharmacology, suicide risk assessment, and PMH-BC certification pathways. Learn the clinical skills, treatment approaches, and evidence-based interventions that mental health nurses use across inpatient psychiatric units, outpatient clinics, and community settings.",
     introduction: "Mental health nursing (psychiatric nursing) is a vital specialty focused on the assessment, treatment, and ongoing care of individuals with mental health disorders. Psychiatric nurses work across inpatient, outpatient, community, and forensic settings, using therapeutic communication, psychopharmacology knowledge, and crisis intervention skills to promote recovery and well-being. This guide covers the essential clinical knowledge, skills, and career pathways for mental health nursing practice.",
+    whatYouWillLearn: [
+      "Core psychiatric nursing responsibilities including mental status examination, therapeutic communication, and milieu therapy management",
+      "Common mental health conditions: major depression, bipolar disorder, schizophrenia, anxiety disorders, and substance use disorders",
+      "Essential clinical skills for mental health nursing including crisis intervention, de-escalation techniques, and suicide risk assessment",
+      "Psychiatric medications — antidepressants, antipsychotics, mood stabilizers, anxiolytics, and their nursing considerations",
+      "Clinical scenarios with priority nursing actions for behavioral emergencies and psychiatric crises",
+      "Career pathways, PMH-BC certification requirements, and PMHNP advanced practice opportunities",
+    ],
     conditions: [
       { name: "Major Depressive Disorder", description: "Characterized by persistent depressed mood, anhedonia, and functional impairment lasting at least 2 weeks. Suicide risk assessment is a critical nursing responsibility.", keyPoints: ["DSM-5 criteria: 5+ symptoms over 2 weeks including depressed mood or anhedonia", "PHQ-9 for screening and severity assessment", "Suicide risk assessment: ideation, plan, means, intent, protective factors", "SSRIs are first-line pharmacotherapy; 4-6 week onset of full therapeutic effect"] },
       { name: "Schizophrenia", description: "Chronic psychotic disorder characterized by positive symptoms (hallucinations, delusions), negative symptoms (flat affect, avolition), and cognitive impairment.", keyPoints: ["Positive symptoms often respond to antipsychotic medication", "Negative symptoms (social withdrawal, flat affect) are harder to treat", "Atypical antipsychotics (risperidone, olanzapine, quetiapine) are first-line", "Clozapine for treatment-resistant schizophrenia; requires WBC monitoring"] },
@@ -888,7 +937,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is the PMHNP role?", answer: "Psychiatric Mental Health Nurse Practitioners (PMHNPs) are advanced practice nurses who can diagnose mental health conditions, prescribe psychotropic medications, and provide psychotherapy. It is one of the fastest-growing and highest-demand NP specialties." },
       { question: "How do I manage compassion fatigue in mental health nursing?", answer: "Regular clinical supervision, maintaining clear boundaries, engaging in personal self-care practices, peer support, and using structured debriefing after difficult situations. Many organizations offer employee assistance programs and mental health support for staff." },
     ],
-    relatedGuides: ["palliative-care-nursing-ultimate-guide", "med-surg-nursing-ultimate-guide"],
+    relatedGuides: ["palliative-care-nursing-ultimate-guide", "med-surg-nursing-ultimate-guide", "nephrology-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Therapeutic communication techniques comparison chart", caption: "Figure 1: Therapeutic vs Non-Therapeutic Communication", section: "clinicalSkills" },
       { alt: "Mental status examination components and assessment framework", caption: "Figure 2: Mental Status Exam (MSE) Components", section: "procedures" },
@@ -904,7 +953,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#0891B2",
     colorAccent: "#CFFAFE",
+    seoIntro: "This complete orthopedic nursing guide covers musculoskeletal care from total joint replacement protocols and fracture management to neurovascular assessment, compartment syndrome recognition, and ONC certification pathways. Learn the clinical skills, post-operative care plans, and rehabilitation strategies orthopedic nurses use to restore patient mobility and prevent surgical complications.",
     introduction: "Orthopedic nursing focuses on the care of patients with musculoskeletal conditions including fractures, joint replacements, spinal disorders, sports injuries, and degenerative diseases. Orthopedic nurses provide perioperative care, manage traction and casts, perform neurovascular assessments, and educate patients on rehabilitation and mobility. This guide covers the essential clinical knowledge, procedures, and career pathways in orthopedic nursing.",
+    whatYouWillLearn: [
+      "Core orthopedic nursing responsibilities including neurovascular assessment, post-operative mobility protocols, and traction management",
+      "Common musculoskeletal conditions: fractures, osteoarthritis, osteoporosis, compartment syndrome, and spinal disorders",
+      "Essential clinical skills for orthopedic nursing including the 5 Ps assessment, cast care, and DVT prophylaxis",
+      "Orthopedic medications — pain management, anticoagulants, bisphosphonates, and muscle relaxants",
+      "Clinical scenarios with priority nursing actions for fat embolism, compartment syndrome, and post-surgical complications",
+      "Career pathways, ONC certification requirements, and orthopedic nursing advancement opportunities",
+    ],
     conditions: [
       { name: "Hip Fractures", description: "Common in elderly patients, requiring surgical fixation and comprehensive postoperative care to prevent complications and restore mobility.", keyPoints: ["Types: femoral neck, intertrochanteric, subtrochanteric", "Surgical options: ORIF, hemiarthroplasty, total hip arthroplasty", "DVT prophylaxis critical: mechanical and pharmacological", "Early mobilization within 24 hours when possible to prevent complications"] },
       { name: "Total Joint Replacement", description: "Total knee and total hip arthroplasty are among the most common orthopedic procedures, requiring standardized perioperative pathways.", keyPoints: ["Enhanced recovery protocols reduce length of stay", "Physical therapy begins day of surgery or POD1", "THA precautions: avoid hip flexion >90 degrees, adduction, internal rotation (posterior approach)", "Pain management: multimodal approach (nerve blocks, NSAIDs, acetaminophen, limited opioids)"] },
@@ -963,7 +1021,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "How physically demanding is orthopedic nursing?", answer: "Orthopedic nursing involves significant physical activity: assisting with patient mobilization, transfers, positioning for surgery, and supporting patients during rehabilitation exercises. Proper body mechanics and team lifting techniques are essential." },
       { question: "What is the ONC certification?", answer: "The Orthopaedic Nurse Certified (ONC) credential is awarded by the Orthopaedic Nurses Certification Board. It validates specialized knowledge in musculoskeletal nursing care. Eligibility requires 2 years of orthopedic nursing experience." },
     ],
-    relatedGuides: ["med-surg-nursing-ultimate-guide", "trauma-nursing-ultimate-guide"],
+    relatedGuides: ["med-surg-nursing-ultimate-guide", "trauma-nursing-ultimate-guide", "icu-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Neurovascular assessment 5 P's checklist diagram", caption: "Figure 1: Neurovascular Assessment Framework", section: "clinicalSkills" },
       { alt: "Common fracture types and classifications visual guide", caption: "Figure 2: Fracture Classification Reference", section: "conditions" },
@@ -979,7 +1037,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#7C3AED",
     colorAccent: "#EDE9FE",
+    seoIntro: "This complete nephrology nursing guide covers renal care from chronic kidney disease staging and hemodialysis management to peritoneal dialysis protocols, renal transplant nursing, and CNN certification pathways. Master the fluid and electrolyte management, vascular access assessment, and patient education skills nephrology nurses need to care for patients across the kidney disease continuum.",
     introduction: "Nephrology nursing is a specialized field focused on the care of patients with kidney diseases, from early-stage chronic kidney disease (CKD) through end-stage renal disease (ESRD) requiring dialysis or transplantation. Nephrology nurses manage complex fluid and electrolyte balances, operate dialysis equipment, provide patient education for self-management, and support patients through life-altering treatment decisions. This guide covers the essential clinical knowledge, procedures, and career pathways in nephrology nursing.",
+    whatYouWillLearn: [
+      "Core nephrology nursing responsibilities including dialysis management, fluid balance monitoring, and vascular access care",
+      "Common renal conditions: chronic kidney disease staging, acute kidney injury, glomerulonephritis, and ESRD complications",
+      "Essential clinical skills for nephrology nursing including AV fistula assessment, hemodialysis and peritoneal dialysis procedures",
+      "Nephrology medications — EPO therapy, phosphate binders, vitamin D analogs, and immunosuppressants for transplant patients",
+      "Clinical scenarios with priority nursing actions for dialysis emergencies and electrolyte imbalances",
+      "Career pathways, CNN and CDN certification requirements, and nephrology nursing work settings",
+    ],
     conditions: [
       { name: "Chronic Kidney Disease (CKD)", description: "Progressive, irreversible loss of kidney function classified into 5 stages based on GFR. Management focuses on slowing progression and managing complications.", keyPoints: ["Stage 1: GFR ≥90 (kidney damage with normal GFR)", "Stage 3: GFR 30-59 (moderate decrease)", "Stage 5: GFR <15 (kidney failure, dialysis or transplant needed)", "Key interventions: BP control (<130/80), ACE-I/ARBs, diabetes management, dietary modification"] },
       { name: "Acute Kidney Injury (AKI)", description: "Sudden decline in kidney function characterized by decreased urine output and rising creatinine, often occurring in hospitalized patients.", keyPoints: ["Prerenal (60-70%): hypoperfusion from dehydration, heart failure, hemorrhage", "Intrarenal: acute tubular necrosis from ischemia or nephrotoxins", "Postrenal: urinary tract obstruction", "Oliguria (<400 mL/day) vs non-oliguric AKI"] },
@@ -1036,7 +1103,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "Do I need special training for dialysis nursing?", answer: "Most dialysis centers provide comprehensive training programs lasting 6-12 weeks covering hemodialysis machine operation, water treatment systems, vascular access management, and patient care protocols. Prior med-surg experience is helpful but not always required." },
       { question: "What is the CDN certification?", answer: "The Certified Dialysis Nurse (CDN) credential from the NNCC validates specialized knowledge in dialysis nursing. It requires 2,000 hours of nephrology nursing experience within the past 2 years and passing a certification exam." },
     ],
-    relatedGuides: ["med-surg-nursing-ultimate-guide", "icu-nursing-ultimate-guide"],
+    relatedGuides: ["med-surg-nursing-ultimate-guide", "icu-nursing-ultimate-guide", "palliative-care-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "CKD stages diagram showing GFR ranges and management goals", caption: "Figure 1: Chronic Kidney Disease Staging", section: "conditions" },
       { alt: "Hemodialysis circuit diagram showing blood flow path", caption: "Figure 2: Hemodialysis Circuit Overview", section: "procedures" },
@@ -1052,7 +1119,16 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "nursing-specialty",
     color: "#D97706",
     colorAccent: "#FEF3C7",
+    seoIntro: "This complete palliative care nursing guide covers comfort-focused care from advanced symptom management and pain assessment to advance care planning, end-of-life communication, and CHPN certification pathways. Learn the clinical skills, ethical frameworks, and compassionate care approaches that palliative care nurses use to improve quality of life for patients with serious illness.",
     introduction: "Palliative care nursing is a compassionate specialty focused on improving quality of life for patients with serious, life-limiting illnesses through expert symptom management, psychosocial support, and advance care planning. Distinct from hospice (which requires a terminal prognosis of 6 months or less), palliative care can be provided alongside curative treatment at any stage of illness. This guide covers the essential knowledge, skills, and career pathways for palliative care nursing.",
+    whatYouWillLearn: [
+      "Core palliative care nursing responsibilities including symptom management, advance care planning, and goals-of-care conversations",
+      "Common palliative care conditions: cancer pain syndromes, dyspnea, delirium, nausea, and end-stage organ failure",
+      "Essential clinical skills for palliative nursing including pain assessment scales, comfort care interventions, and family support",
+      "Palliative care medications — opioid management, adjuvant analgesics, antiemetics, and symptom-specific pharmacotherapy",
+      "Clinical scenarios with priority nursing actions for comfort crises and end-of-life transitions",
+      "Career pathways, CHPN certification requirements, and hospice and palliative care nursing settings",
+    ],
     conditions: [
       { name: "Advanced Cancer", description: "The most common diagnosis in palliative care, requiring comprehensive symptom management including pain, nausea, fatigue, dyspnea, and psychological distress.", keyPoints: ["Pain assessment using validated tools appropriate to cognitive status", "WHO analgesic ladder: non-opioid, mild opioid, strong opioid, adjuvant therapy", "Anticipatory prescribing for breakthrough symptoms", "Address total pain: physical, emotional, social, and spiritual dimensions"] },
       { name: "Advanced Heart Failure", description: "NYHA Class III-IV heart failure with declining trajectory, requiring symptom management and goals-of-care discussions about device deactivation, resuscitation preferences, and transition to comfort care.", keyPoints: ["Dyspnea management: low-dose opioids, anxiolytics, positioning, fan therapy", "Volume management balancing comfort with diuresis", "Discussion of ICD deactivation as end of life approaches", "Recognizing dying trajectory in heart failure differs from cancer"] },
@@ -1128,7 +1204,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#EF4444",
     colorAccent: "#FEE2E2",
+    seoIntro: "This complete paramedic career guide covers prehospital emergency care from patient assessment and trauma management to cardiac monitoring, advanced airway techniques, and paramedic certification pathways.",
     introduction: "Paramedics are advanced prehospital care providers who deliver emergency medical services in the field, ambulances, and emergency departments. Working in high-pressure environments with limited resources, paramedics must be expert clinicians capable of rapid assessment, autonomous decision-making, and performing advanced interventions including intubation, IV/IO access, cardiac monitoring, and medication administration. This guide covers the essential clinical knowledge, skills, and career pathways for the paramedic profession.",
+    whatYouWillLearn: [
+      "Core paramedic responsibilities including patient assessment, scene management, and prehospital emergency interventions",
+      "Common prehospital conditions: cardiac arrest, trauma, respiratory emergencies, stroke, and overdose management",
+      "Essential clinical skills for paramedics including advanced airway management, IV/IO access, and cardiac rhythm interpretation",
+      "Emergency medications — epinephrine, amiodarone, naloxone, and prehospital pharmacology protocols",
+      "Career pathways, NRP/AEMCA certification requirements, and advancement opportunities in paramedicine",
+    ],
     conditions: [
       { name: "Cardiac Arrest", description: "The ultimate prehospital emergency requiring high-quality CPR, rapid defibrillation, and ACLS interventions. Survival is directly linked to response time and CPR quality.", keyPoints: ["High-quality CPR: rate 100-120/min, depth 2-2.4 inches, full recoil, minimal interruptions", "Defibrillation within 3-5 minutes of arrest for shockable rhythms (VF/pVT)", "Epinephrine 1 mg IV/IO every 3-5 minutes", "Amiodarone 300 mg IV for refractory VF/pVT, then 150 mg"] },
       { name: "Acute Coronary Syndromes", description: "STEMI recognition in the field is critical for activating cath lab and reducing door-to-balloon time. Prehospital 12-lead ECG transmission saves lives.", keyPoints: ["12-lead ECG acquisition and interpretation in the field", "STEMI activation protocols with hospital notification", "Aspirin 324 mg, nitroglycerin for chest pain (not if hypotensive or RV infarct)", "Morphine for unrelieved pain after nitroglycerin"] },
@@ -1206,7 +1290,15 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#0EA5E9",
     colorAccent: "#E0F2FE",
+    seoIntro: "This complete respiratory therapy career guide covers cardiopulmonary care from ventilator management and ABG interpretation to pulmonary function testing, airway management, and RRT certification pathways.",
     introduction: "Respiratory therapists (RTs) are specialized healthcare professionals who evaluate, treat, and manage patients with cardiopulmonary disorders across the continuum of care. From managing ventilators in the ICU to conducting pulmonary function tests in outpatient settings, RTs are essential members of the healthcare team. This guide covers the clinical knowledge, skills, and career pathways for respiratory therapy professionals.",
+    whatYouWillLearn: [
+      "Core respiratory therapy responsibilities including ventilator management, oxygen therapy, and airway clearance techniques",
+      "Common cardiopulmonary conditions: COPD, asthma, ARDS, pneumonia, and respiratory failure",
+      "Essential clinical skills including ABG interpretation, ventilator waveform analysis, and pulmonary function testing",
+      "Respiratory medications — bronchodilators, corticosteroids, mucolytics, and inhaled therapies",
+      "Career pathways, CRT/RRT certification requirements, and respiratory therapy specialization options",
+    ],
     conditions: [
       { name: "COPD", description: "Chronic obstructive pulmonary disease is the primary chronic condition managed by respiratory therapists, requiring bronchodilator therapy, oxygen management, and patient education.", keyPoints: ["GOLD classification guides treatment escalation", "Bronchodilators: SABA (albuterol), LABA (salmeterol), LAMA (tiotropium)", "Oxygen therapy: target SpO2 88-92% in chronic CO2 retainers", "Pulmonary rehabilitation improves quality of life and exercise tolerance"] },
       { name: "Acute Respiratory Failure", description: "Type I (hypoxemic) and Type II (hypercapnic) respiratory failure require different management strategies.", keyPoints: ["Type I: PaO2 <60 mmHg on room air; treat underlying cause, supplemental O2, CPAP/BiPAP", "Type II: PaCO2 >50 mmHg with acidosis; BiPAP often first-line, may need intubation", "ARDS management: lung-protective ventilation, prone positioning", "NIV failure criteria: worsening ABG, increasing work of breathing, hemodynamic instability"] },
@@ -1282,7 +1374,14 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#14B8A6",
     colorAccent: "#CCFBF1",
+    seoIntro: "This complete medical laboratory technologist guide covers clinical laboratory science from hematology and microbiology to clinical chemistry, blood banking, and MLT certification pathways.",
     introduction: "Medical Laboratory Technologists (MLTs) are essential healthcare professionals who perform and analyze laboratory tests that are critical for disease diagnosis, treatment monitoring, and public health. Working behind the scenes, MLTs generate approximately 70% of the objective data used in clinical decision-making. This guide covers the core laboratory disciplines, analytical skills, and career pathways for the medical laboratory profession.",
+    whatYouWillLearn: [
+      "Core MLT responsibilities including specimen analysis, quality control, and result interpretation",
+      "Major laboratory disciplines: hematology, clinical chemistry, microbiology, blood banking, and urinalysis",
+      "Essential analytical skills including microscopy, instrumentation, and quality assurance protocols",
+      "Career pathways, ASCP certification requirements, and MLT advancement opportunities",
+    ],
     conditions: [
       { name: "Hematological Disorders", description: "MLTs perform CBC analysis, peripheral blood smear review, and coagulation testing critical for diagnosing anemias, leukemias, and bleeding disorders.", keyPoints: ["CBC interpretation: WBC differential, RBC indices (MCV, MCH, MCHC, RDW)", "Peripheral smear morphology: schistocytes, target cells, sickle cells, blast cells", "Coagulation cascade testing: PT/INR, aPTT, fibrinogen, D-dimer", "Flow cytometry for leukemia/lymphoma immunophenotyping"] },
       { name: "Infectious Diseases", description: "Microbiology testing including culture and sensitivity, Gram staining, molecular diagnostics, and antimicrobial susceptibility testing.", keyPoints: ["Gram stain interpretation: morphology, arrangement, Gram reaction", "Culture techniques: aerobic, anaerobic, fungal, AFB", "Antimicrobial susceptibility testing: MIC determination, breakpoint interpretation", "Molecular diagnostics: PCR, NAAT for rapid pathogen identification"] },
@@ -1338,7 +1437,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "Is there a laboratory science workforce shortage?", answer: "Yes, there is a significant and growing shortage of laboratory professionals. The Bureau of Labor Statistics projects strong demand, and many laboratory science programs cannot fill available positions. This creates excellent job security and competitive compensation." },
       { question: "What laboratory specialty areas are available?", answer: "Specialists can focus on clinical chemistry, hematology, microbiology, blood bank/transfusion medicine, molecular diagnostics, cytogenetics, histotechnology, or cytotechnology. Each area offers ASCP specialist certification." },
     ],
-    relatedGuides: ["respiratory-therapy-career-guide", "diagnostic-imaging-technologist-guide"],
+    relatedGuides: ["respiratory-therapy-career-guide", "diagnostic-imaging-technologist-guide", "med-surg-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Order of draw for blood collection tubes with color coding", caption: "Figure 1: Order of Draw Reference", section: "clinicalSkills" },
       { alt: "Levey-Jennings quality control chart with Westgard rule violations", caption: "Figure 2: QC Chart Interpretation", section: "procedures" },
@@ -1354,7 +1453,14 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#6366F1",
     colorAccent: "#E0E7FF",
+    seoIntro: "This complete diagnostic imaging technologist guide covers radiologic technology from X-ray and CT techniques to MRI safety, radiation protection, and ARRT certification pathways.",
     introduction: "Diagnostic imaging technologists (radiologic technologists) produce medical images essential for disease diagnosis and treatment monitoring. Using X-ray, CT, MRI, ultrasound, and other modalities, imaging professionals combine technical expertise with patient care skills to create diagnostic-quality images while minimizing radiation exposure. This guide covers the essential knowledge, skills, and career pathways in diagnostic imaging.",
+    whatYouWillLearn: [
+      "Core imaging technologist responsibilities including patient positioning, image acquisition, and radiation safety",
+      "Major imaging modalities: X-ray, CT, MRI, ultrasound, nuclear medicine, and interventional radiology",
+      "Essential technical skills including exposure factors, image quality optimization, and ALARA principles",
+      "Career pathways, ARRT certification requirements, and imaging specialization options",
+    ],
     conditions: [
       { name: "Fractures and Musculoskeletal Injuries", description: "The most common indication for diagnostic imaging, requiring proper positioning and technique to visualize fracture lines and alignment.", keyPoints: ["Minimum two projections (90 degrees apart) for complete fracture evaluation", "Include joints above and below suspected fracture site", "Comparison views of contralateral side for pediatric patients", "Follow-up imaging for fracture healing assessment"] },
       { name: "Chest Pathology", description: "Chest radiography is the most frequently performed imaging exam, essential for evaluating pneumonia, heart failure, pneumothorax, and other cardiopulmonary conditions.", keyPoints: ["PA upright preferred; AP for bedside/portable studies", "Systematic reading approach: ABCDE (Airway, Bones, Cardiac, Diaphragm, Everything else)", "Identify: consolidation, effusions, cardiomegaly, mediastinal widening, pneumothorax", "Technical quality: rotation, inspiration (10 posterior ribs), exposure factors"] },
@@ -1410,7 +1516,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What imaging modalities can I specialize in?", answer: "Subspecialties include CT, MRI, mammography, interventional radiology, nuclear medicine, sonography, and radiation therapy. Each requires additional education and certification (ARRT post-primary certification)." },
       { question: "What is the ARRT certification?", answer: "The American Registry of Radiologic Technologists (ARRT) is the primary credentialing body. The R.T.(R) credential in radiography is the foundation. Post-primary certifications are available in CT, MRI, mammography, and other modalities." },
     ],
-    relatedGuides: ["medical-laboratory-technologist-guide", "respiratory-therapy-career-guide"],
+    relatedGuides: ["medical-laboratory-technologist-guide", "respiratory-therapy-career-guide", "trauma-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Radiographic positioning reference chart for common examinations", caption: "Figure 1: Common Radiographic Positions", section: "clinicalSkills" },
       { alt: "CT scan slice orientation diagram showing axial, coronal, and sagittal planes", caption: "Figure 2: CT Imaging Planes", section: "procedures" },
@@ -1426,7 +1532,14 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#F59E0B",
     colorAccent: "#FEF3C7",
+    seoIntro: "This complete occupational therapy guide covers OT practice from activity analysis and adaptive equipment to sensory integration, hand therapy, and NBCOT certification pathways.",
     introduction: "Occupational therapy (OT) is a client-centered health profession focused on enabling people to participate in meaningful daily activities (occupations) despite illness, injury, or disability. OTs use therapeutic interventions, adaptive equipment, and environmental modifications to help clients achieve independence in self-care, work, leisure, and social participation. This guide covers the core practice areas, clinical skills, and career pathways in occupational therapy.",
+    whatYouWillLearn: [
+      "Core OT responsibilities including activity analysis, adaptive equipment prescription, and functional goal setting",
+      "Major practice areas: hand therapy, pediatric OT, neurorehabilitation, mental health OT, and ergonomics",
+      "Essential clinical skills including sensory integration, splinting, and environmental modification",
+      "Career pathways, NBCOT certification requirements, and OT specialization options",
+    ],
     conditions: [
       { name: "Stroke Rehabilitation", description: "OTs are central to stroke recovery, addressing upper extremity function, ADL retraining, cognitive rehabilitation, and home modification.", keyPoints: ["Motor recovery stages: Brunnstrom stages guide treatment progression", "Constraint-induced movement therapy for upper extremity rehabilitation", "Cognitive and perceptual assessment: neglect, apraxia, agnosia", "ADL retraining with adaptive equipment and compensatory strategies"] },
       { name: "Hand and Upper Extremity Injuries", description: "Specialized hand therapy addressing fractures, tendon repairs, nerve injuries, and repetitive strain injuries.", keyPoints: ["Custom orthotic/splint fabrication for immobilization or mobilization", "Tendon gliding and nerve gliding exercises", "Edema management: elevation, compression, retrograde massage", "Functional capacity evaluation for return-to-work decisions"] },
@@ -1481,7 +1594,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "What is the NBCOT exam?", answer: "The National Board for Certification in Occupational Therapy exam is required for OTR licensure. It tests clinical reasoning, intervention planning, and professional standards across all OT practice areas." },
       { question: "Can I specialize in OT?", answer: "Yes. Common specializations include hand therapy (CHT certification), pediatrics (BCP), low vision rehabilitation (SCLV), driving rehabilitation, ergonomics, and mental health. Specialty areas often require additional training and certification." },
     ],
-    relatedGuides: ["physical-therapy-guide", "med-surg-nursing-ultimate-guide"],
+    relatedGuides: ["physical-therapy-guide", "med-surg-nursing-ultimate-guide", "mental-health-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "ADL assessment domains and common adaptive equipment", caption: "Figure 1: ADL Assessment Domains", section: "clinicalSkills" },
       { alt: "Common hand splint types and their therapeutic indications", caption: "Figure 2: Orthotic/Splint Selection Guide", section: "procedures" },
@@ -1497,7 +1610,14 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     category: "allied-health",
     color: "#22C55E",
     colorAccent: "#DCFCE7",
+    seoIntro: "This complete physical therapy guide covers PT practice from therapeutic exercise and manual therapy to neurological rehabilitation, cardiopulmonary PT, and NPTE certification pathways.",
     introduction: "Physical therapy is a dynamic healthcare profession focused on optimizing movement, reducing pain, and restoring function across the lifespan. Physical therapists (PTs) are movement specialists who evaluate and treat patients with musculoskeletal, neurological, cardiopulmonary, and integumentary conditions using evidence-based therapeutic exercise, manual therapy, modalities, and patient education. This guide covers the core practice areas, clinical skills, and career pathways in physical therapy.",
+    whatYouWillLearn: [
+      "Core PT responsibilities including movement assessment, therapeutic exercise prescription, and functional outcome measurement",
+      "Major practice areas: orthopedic PT, neurological rehabilitation, cardiopulmonary PT, and sports medicine",
+      "Essential clinical skills including manual therapy, gait training, modalities, and patient education",
+      "Career pathways, NPTE certification requirements, and physical therapy specialization options",
+    ],
     conditions: [
       { name: "Low Back Pain", description: "The most common condition treated by physical therapists, requiring comprehensive assessment to differentiate mechanical, discogenic, and radicular etiologies.", keyPoints: ["Classification: mechanical, radicular, inflammatory, pathological", "McKenzie Method/MDT for directional preference assessment", "Core stabilization and motor control exercises", "Graded activity and return-to-function protocols"] },
       { name: "Total Joint Replacement Rehabilitation", description: "Structured rehabilitation following TKA and THA to restore ROM, strength, and functional mobility.", keyPoints: ["TKA: ROM goals (0-120 degrees), quad activation, gait training", "THA: precautions vary by surgical approach (posterior vs anterior)", "Progressive weight-bearing per surgical protocol", "Home exercise program and functional milestone tracking"] },
@@ -1553,7 +1673,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       { question: "Can I specialize in physical therapy?", answer: "Yes. ABPTS offers specialist certifications in orthopedics (OCS), neurology (NCS), sports (SCS), geriatrics (GCS), cardiovascular/pulmonary (CCS), pediatrics (PCS), clinical electrophysiology (ECS), oncology (OncCS), and wound management (WCS)." },
       { question: "Is physical therapy a good career?", answer: "PT consistently ranks among the best healthcare careers for job satisfaction, growth potential, work-life balance, and compensation. Direct patient care, clinical autonomy, and the ability to help people recover function make it deeply rewarding." },
     ],
-    relatedGuides: ["occupational-therapy-guide", "orthopedic-nursing-ultimate-guide"],
+    relatedGuides: ["occupational-therapy-guide", "orthopedic-nursing-ultimate-guide", "trauma-nursing-ultimate-guide"],
     imagePlaceholders: [
       { alt: "Joint mobilization grading scale (I-V) with clinical applications", caption: "Figure 1: Maitland Joint Mobilization Grades", section: "procedures" },
       { alt: "Gait cycle phases and common deviations chart", caption: "Figure 2: Normal Gait Cycle Analysis", section: "clinicalSkills" },
