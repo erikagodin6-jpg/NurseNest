@@ -188,10 +188,10 @@ export default function CareerLandingPage() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-start-diagnostic">
+              <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-start-diagnostic">
                 Start Free Diagnostic <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={`/qbank?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-start-qbank">
+              <Link href={`/allied-health/qbank?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-start-qbank">
                 Practice Questions
               </Link>
               <Link href={`${careerRoute}/mock-exams`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-start-mock">
@@ -276,7 +276,7 @@ export default function CareerLandingPage() {
             </div>
           </div>
           <div className="text-center">
-            <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-free-preview-cta">
+            <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-free-preview-cta">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
             <p className="text-xs text-gray-400 mt-3">No credit card required</p>
@@ -290,7 +290,7 @@ export default function CareerLandingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
-              <Link key={f.slug} href={f.slug === "qbank" ? `/qbank?career=${career.slug}` : `${careerRoute}/${f.slug}`} className="group" data-testid={`card-feature-${f.slug}`}>
+              <Link key={f.slug} href={f.slug === "qbank" ? `/allied-health/qbank?career=${career.slug}` : `${careerRoute}/${f.slug}`} className="group" data-testid={`card-feature-${f.slug}`}>
                 <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-teal-200 transition-all h-full">
                   <f.icon className="w-7 h-7 text-teal-500 mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">{f.label}</h3>
@@ -739,7 +739,7 @@ export default function CareerLandingPage() {
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Start practicing now — create your free account</h2>
           <p className="text-teal-100 mb-6">Get instant access to practice questions, a diagnostic assessment, and a sample mock exam.</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-mid-cta-diagnostic">
+            <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-mid-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/register" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-400 transition-colors border border-teal-400" data-testid="button-mid-cta-register">
@@ -775,7 +775,7 @@ export default function CareerLandingPage() {
                   <span>Free diagnostic assessment</span>
                 </li>
               </ul>
-              <Link href={`/diagnostic?career=${career.slug}`} className="block w-full text-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors" data-testid="button-pricing-free">
+              <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="block w-full text-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors" data-testid="button-pricing-free">
                 Start Free Diagnostic
               </Link>
             </div>
@@ -906,7 +906,7 @@ export default function CareerLandingPage() {
             Take the free 15-question diagnostic to discover your strengths and weak areas — no credit card required.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-cta-diagnostic">
+            <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-400 transition-colors border border-teal-400" data-testid="button-cta-pricing">
@@ -914,7 +914,7 @@ export default function CareerLandingPage() {
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-teal-200 text-sm">
-            <Link href={`/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Test Bank →</Link>
+            <Link href={`/allied-health/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Test Bank →</Link>
             <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
             <Link href="/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
           </div>
