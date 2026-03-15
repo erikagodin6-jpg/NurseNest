@@ -354,7 +354,7 @@ export default function QuestionPreviewPage() {
                 {data.relatedTopics.map(rt => (
                   <Link
                     key={rt.topicSlug}
-                    href={`/questions/${rt.topicSlug}`}
+                    href={`/preview/${rt.topicSlug}`}
                     className="flex items-center justify-between bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all group"
                     data-testid={`link-related-topic-${rt.topicSlug}`}
                   >

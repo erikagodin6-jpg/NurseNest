@@ -257,20 +257,32 @@ export async function generateMainQuestions(): Promise<string[]> {
     console.error("Sitemap: nursing questions error:", e);
   }
 
+  const previewSeen = new Set<string>();
   try {
     const previewTopicResult = await pool.query(
       `SELECT DISTINCT topic FROM exam_questions WHERE status = 'published' AND career_type = 'nursing' AND topic IS NOT NULL AND topic != '' ORDER BY topic`
     );
-    const previewSeen = new Set<string>();
     for (const row of previewTopicResult.rows) {
       const slug = row.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
       if (slug && !previewSeen.has(slug)) {
         previewSeen.add(slug);
         urls.push(localizedUrl(base, `/questions/${slug}`, "0.7", "weekly", locales, today));
+        urls.push(localizedUrl(base, `/preview/${slug}`, "0.8", "weekly", locales, today));
       }
     }
   } catch (e) {
     console.error("Sitemap: question preview error:", e);
+  }
+
+  const specialtyPreviewSlugs = [
+    "icu", "emergency-nursing", "nicu", "med-surg", "trauma-nursing",
+    "mental-health", "orthopedic", "renal", "palliative-care",
+  ];
+  for (const slug of specialtyPreviewSlugs) {
+    if (!previewSeen.has(slug)) {
+      previewSeen.add(slug);
+      urls.push(localizedUrl(base, `/preview/${slug}`, "0.8", "weekly", locales, today));
+    }
   }
 
   const practiceQuestionCombos = [

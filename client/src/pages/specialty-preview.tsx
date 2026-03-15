@@ -9,9 +9,9 @@ import { useAuth } from "@/lib/auth";
 import {
   CheckCircle2, XCircle, Lock, ArrowRight, BookOpen,
   Stethoscope, FileText, Brain, Shield, Star, Eye,
-  ChevronRight,
+  ChevronRight, Loader2, Layers,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface SampleQuestion {
   id: string;
@@ -667,19 +667,140 @@ function QuestionCard({ question, index, isPreview }: { question: SampleQuestion
   );
 }
 
-export default function SpecialtyPreviewPage() {
-  const params = useParams<{ specialty: string }>();
-  const { user } = useAuth();
-  const specialty = params.specialty || "";
-  const config = SPECIALTY_PREVIEWS[specialty];
+interface ApiPreviewQuestion {
+  id: string;
+  stem: string;
+  options: string[];
+  correctIndex: number;
+  truncatedRationale: string;
+  hasMoreRationale: boolean;
+  difficulty: number;
+  category: string;
+}
 
-  if (!config) {
+interface ApiPreviewData {
+  topicSlug: string;
+  topic: string;
+  bodySystem: string;
+  totalAvailable: number;
+  questions: ApiPreviewQuestion[];
+  relatedTopics: { topicSlug: string; topic: string; questionCount: number }[];
+  relatedLessons: { id: string; title: string }[];
+  relatedFlashcards: { slug: string; title: string }[];
+}
+
+function ApiQuestionCard({ question, index }: { question: ApiPreviewQuestion; index: number }) {
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const answered = selectedOption !== null;
+  const isCorrect = selectedOption === question.correctIndex;
+
+  return (
+    <Card className="overflow-hidden" data-testid={`card-preview-question-${index}`}>
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Badge variant="outline" className="text-xs">{question.category}</Badge>
+          <span className="text-xs text-gray-400">Question {index + 1}</span>
+        </div>
+        <p className="text-sm sm:text-base text-gray-800 font-medium mb-4 leading-relaxed" data-testid={`text-question-${index}`}>
+          {question.stem}
+        </p>
+        <div className="space-y-2 mb-4" data-testid={`options-${index}`}>
+          {question.options.map((opt, i) => {
+            let borderColor = "border-gray-200 hover:border-teal-300 hover:bg-teal-50/50";
+            let bgColor = "bg-white";
+            let cursor = "cursor-pointer";
+
+            if (answered) {
+              cursor = "cursor-default";
+              if (i === question.correctIndex) {
+                borderColor = "border-green-400";
+                bgColor = "bg-green-50";
+              } else if (i === selectedOption && !isCorrect) {
+                borderColor = "border-red-400";
+                bgColor = "bg-red-50";
+              } else {
+                borderColor = "border-gray-100";
+              }
+            }
+
+            return (
+              <button
+                key={i}
+                onClick={() => !answered && setSelectedOption(i)}
+                className={`w-full text-left px-4 py-3 rounded-xl border-2 ${borderColor} ${bgColor} transition-all text-sm flex items-center gap-3 ${cursor}`}
+                disabled={answered}
+                data-testid={`option-${index}-${i}`}
+              >
+                <span className="font-bold text-gray-400 w-5 text-center">{String.fromCharCode(65 + i)}.</span>
+                <span className="flex-1">{opt}</span>
+                {answered && i === question.correctIndex && <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />}
+                {answered && i === selectedOption && !isCorrect && <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {answered && (
+          <div data-testid={`rationale-${index}`}>
+            <div className={`rounded-xl p-4 ${isCorrect ? "bg-green-50 border border-green-200" : "bg-amber-50 border border-amber-200"}`}>
+              <h4 className={`text-xs font-bold mb-1 ${isCorrect ? "text-green-800" : "text-amber-800"}`}>
+                {isCorrect ? "Correct!" : "Incorrect"} — Rationale Preview:
+              </h4>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {question.truncatedRationale}
+              </p>
+              {question.hasMoreRationale && (
+                <div className="mt-2 flex items-center gap-1 text-xs text-gray-400">
+                  <Lock className="w-3 h-3" />
+                  <span>Full rationale available with premium access</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function ApiDrivenPreview({ slug }: { slug: string }) {
+  const { user } = useAuth();
+  const [data, setData] = useState<ApiPreviewData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+    fetch(`/api/questions/preview-multi/${slug}`)
+      .then(r => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
+      })
+      .then(d => setData(d))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !data || data.questions.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">Specialty Not Found</h1>
-          <p className="text-gray-600 mb-6">The specialty preview you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">Topic Not Found</h1>
+          <p className="text-gray-600 mb-6">The preview you're looking for doesn't exist or has no questions available.</p>
           <Link href="/practice-questions">
             <Button data-testid="button-browse-questions">Browse Practice Questions</Button>
           </Link>
@@ -687,6 +808,274 @@ export default function SpecialtyPreviewPage() {
         <Footer />
       </div>
     );
+  }
+
+  const topicTitle = data.topic.charAt(0).toUpperCase() + data.topic.slice(1);
+  const previewCount = data.questions.length;
+  const lockedCount = Math.min(5, Math.max(0, data.totalAvailable - previewCount));
+  const color = "#0D9488";
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What is tested in NCLEX ${topicTitle} questions?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `NCLEX ${topicTitle} questions test your clinical knowledge of ${data.topic} within ${data.bodySystem}. Questions cover assessment, diagnosis, planning, and intervention.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `How many ${topicTitle} practice questions are available?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `NurseNest has ${data.totalAvailable} practice questions on ${topicTitle}, each with detailed clinical rationales.`,
+        },
+      },
+    ],
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50" data-testid={`specialty-preview-${slug}`}>
+      <Navigation />
+      <SEO
+        title={`${topicTitle} Practice Questions — Free Preview | NurseNest`}
+        description={`Practice ${topicTitle} questions with detailed clinical rationales. ${data.totalAvailable} questions available on ${data.bodySystem}. Try ${previewCount} free preview questions.`}
+        canonicalPath={`/preview/${slug}`}
+        keywords={`${topicTitle} practice questions, ${topicTitle} NCLEX, nursing ${slug} questions, ${topicTitle} quiz`}
+        structuredData={faqSchema}
+        breadcrumbs={[
+          { name: "Home", url: "https://www.nursenest.ca" },
+          { name: "Practice Questions", url: "https://www.nursenest.ca/practice-questions" },
+          { name: topicTitle, url: `https://www.nursenest.ca/preview/${slug}` },
+        ]}
+      />
+
+      <nav className="bg-white border-b border-gray-100 py-3 px-4" data-testid="breadcrumbs">
+        <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
+          <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <ChevronRight className="w-3 h-3" />
+          <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-practice">Practice Questions</Link>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{topicTitle}</span>
+        </div>
+      </nav>
+
+      <section className="relative py-12 sm:py-16 overflow-hidden" data-testid="section-hero">
+        <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${color}10, white, ${color}08)` }} />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6">
+          <Badge className="mb-4 text-white" style={{ backgroundColor: color }} data-testid="badge-specialty">
+            <Stethoscope className="w-3 h-3 mr-1" /> {data.bodySystem}
+          </Badge>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-specialty-title">
+            {topicTitle} Practice Questions
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl" data-testid="text-specialty-description">
+            Test your knowledge of {data.topic} with these NCLEX-style practice questions. Select your answer to reveal the clinical rationale.
+          </p>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+              <FileText className="w-4 h-4" style={{ color }} />
+              <span>{data.totalAvailable}+ questions available</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+              <Eye className="w-4 h-4" style={{ color }} />
+              <span>{previewCount} free preview questions below</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+        <div className="flex items-center gap-2 mb-6">
+          <BookOpen className="w-5 h-5" style={{ color }} />
+          <h2 className="text-xl font-bold text-gray-900" data-testid="heading-preview-questions">
+            Preview Questions
+          </h2>
+          <Badge variant="outline" className="ml-auto text-xs">
+            {previewCount} of {data.totalAvailable}+ questions
+          </Badge>
+        </div>
+
+        <div className="space-y-6 mb-10">
+          {data.questions.map((q, i) => (
+            <ApiQuestionCard key={q.id} question={q} index={i} />
+          ))}
+        </div>
+
+        {lockedCount > 0 && (
+          <div className="relative mb-10">
+            <div className="flex items-center gap-2 mb-4">
+              <Lock className="w-5 h-5 text-gray-400" />
+              <h2 className="text-lg font-bold text-gray-500" data-testid="heading-locked-questions">
+                More Questions Available
+              </h2>
+            </div>
+            <div className="space-y-4">
+              {Array.from({ length: lockedCount }).map((_, i) => (
+                <Card key={`locked-${i}`} className="overflow-hidden opacity-75" data-testid={`card-locked-question-${previewCount + i}`}>
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <Lock className="w-4 h-4 text-gray-400" />
+                      <span className="text-sm font-medium text-gray-400">Question {previewCount + i + 1}</span>
+                    </div>
+                    <div className="h-4 bg-gray-100 rounded w-full mb-3" />
+                    <div className="h-4 bg-gray-100 rounded w-3/4 mb-4" />
+                    <div className="space-y-2">
+                      {[1, 2, 3, 4].map(j => (
+                        <div key={j} className="h-10 bg-gray-50 rounded-lg border border-gray-100" />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-white flex items-end justify-center pb-8">
+              <div className="text-center px-4">
+                <Shield className="w-10 h-10 mx-auto mb-3" style={{ color }} />
+                <h3 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-unlock-heading">
+                  Unlock {data.totalAvailable}+ {topicTitle} Questions
+                </h3>
+                <p className="text-sm text-gray-600 mb-5 max-w-md mx-auto">
+                  Get full access to detailed rationales, adaptive difficulty, progress tracking, and personalized study plans.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  {!user ? (
+                    <>
+                      <Link href="/start-free">
+                        <Button className="text-white px-6 py-3 text-base font-semibold shadow-lg" style={{ backgroundColor: color }} size="lg" data-testid="button-start-free">
+                          Start Free <ArrowRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </Link>
+                      <Link href="/login">
+                        <Button variant="outline" className="px-6 py-3" size="lg" data-testid="button-login">
+                          Already have an account? Log in
+                        </Button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/pricing">
+                        <Button className="text-white px-6 py-3 text-base font-semibold shadow-lg" style={{ backgroundColor: color }} size="lg" data-testid="button-upgrade">
+                          Upgrade to Unlock <ArrowRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </Link>
+                      <Link href="/pricing">
+                        <Button variant="outline" className="px-6 py-3" size="lg" data-testid="button-view-plans">
+                          View Plans
+                        </Button>
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {(data.relatedLessons.length > 0 || data.relatedFlashcards.length > 0) && (
+          <section className="mb-10" data-testid="section-related-resources">
+            <h2 className="text-xl font-bold text-gray-900 mb-5">Related Study Resources</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {data.relatedLessons.map(lesson => (
+                <Link
+                  key={lesson.id}
+                  href={`/lessons/${lesson.id}`}
+                  className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all group"
+                  data-testid={`link-lesson-${lesson.id}`}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center flex-shrink-0">
+                    <BookOpen className="w-5 h-5 text-teal-500" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-teal-700 transition-colors truncate">{lesson.title}</h3>
+                    <p className="text-xs text-gray-500">Lesson</p>
+                  </div>
+                </Link>
+              ))}
+              {data.relatedFlashcards.map(deck => (
+                <Link
+                  key={deck.slug}
+                  href={`/flashcards/deck/${deck.slug}`}
+                  className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-blue-200 transition-all group"
+                  data-testid={`link-flashcard-${deck.slug}`}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <Layers className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors truncate">{deck.title}</h3>
+                    <p className="text-xs text-gray-500">Flashcard Deck</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {data.relatedTopics.length > 0 && (
+          <section className="mt-16 mb-10" data-testid="section-related-topics">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <Brain className="w-5 h-5" style={{ color }} />
+              More {data.bodySystem} Topics
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {data.relatedTopics.map(rt => (
+                <Link
+                  key={rt.topicSlug}
+                  href={`/preview/${rt.topicSlug}`}
+                  className="flex items-center justify-between bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all group"
+                  data-testid={`link-related-topic-${rt.topicSlug}`}
+                >
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-teal-700 transition-colors capitalize">{rt.topic}</h3>
+                    <p className="text-xs text-gray-400">{rt.questionCount} questions</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-teal-500 flex-shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="py-12 bg-gradient-to-br from-teal-50 to-blue-50 rounded-2xl border border-gray-100 text-center px-6" data-testid="section-final-cta">
+          <Star className="w-10 h-10 mx-auto mb-3 text-yellow-400" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-final-cta-heading">
+            Master {topicTitle} for Your NCLEX Exam
+          </h2>
+          <p className="text-gray-600 mb-6 max-w-xl mx-auto">
+            Access {data.totalAvailable}+ questions on {data.topic} with complete rationales,
+            adaptive difficulty, and personalized progress tracking.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href={user ? "/pricing" : "/start-free"}>
+              <Button className="text-white px-8 py-3 text-base font-semibold shadow-lg" style={{ backgroundColor: color }} size="lg" data-testid="button-final-cta">
+                {user ? "Upgrade Now" : "Get Started Free"} <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            </Link>
+            <Link href="/pricing" className="text-teal-600 font-medium hover:text-teal-700 text-sm" data-testid="link-view-pricing">
+              View All Plans
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+export default function SpecialtyPreviewPage() {
+  const params = useParams<{ specialty: string }>();
+  const { user } = useAuth();
+  const specialty = params.specialty || "";
+  const config = SPECIALTY_PREVIEWS[specialty];
+
+  if (!config) {
+    return <ApiDrivenPreview slug={specialty} />;
   }
 
   const previewCount = 5;

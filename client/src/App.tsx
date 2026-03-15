@@ -967,7 +967,7 @@ function AppRoutes() {
 
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
         <Route path="/critical-care/question-bank">{() => <Redirect to="/critical-care/test-bank" />}</Route>
-        <Route path="/critical-care/test-bank" component={TestBank} />
+        <Route path="/critical-care/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/critical-care/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/critical-care/flashcards">{() => <Redirect to="/critical-care/test-bank" />}</Route>
         <Route path="/critical-care/mock-exams/:id/report" component={MockExamReport} />
@@ -979,7 +979,7 @@ function AppRoutes() {
         <Route path="/critical-care" component={AlliedHomePage} />
 
         <Route path="/emergency-nursing/question-bank">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
-        <Route path="/emergency-nursing/test-bank" component={TestBank} />
+        <Route path="/emergency-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/emergency-nursing/flashcards">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
         <Route path="/emergency-nursing/mock-exams/:id/report" component={MockExamReport} />
@@ -998,7 +998,7 @@ function AppRoutes() {
         <Route path="/perioperative/lessons/:slug" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/lessons" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/question-bank">{() => <Redirect to="/perioperative/test-bank" />}</Route>
-        <Route path="/perioperative/test-bank" component={TestBank} />
+        <Route path="/perioperative/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/perioperative/flashcards">{() => <Redirect to="/perioperative/test-bank" />}</Route>
         <Route path="/perioperative/mock-exams/:id/report" component={MockExamReport} />
@@ -1010,7 +1010,7 @@ function AppRoutes() {
         <Route path="/perioperative" component={AlliedHomePage} />
 
         <Route path="/oncology-nursing/question-bank">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
-        <Route path="/oncology-nursing/test-bank" component={TestBank} />
+        <Route path="/oncology-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/oncology-nursing/flashcards">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
         <Route path="/oncology-nursing/mock-exams/:id/report" component={MockExamReport} />
@@ -1022,7 +1022,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing" component={AlliedHomePage} />
 
         <Route path="/pediatric-cert/question-bank">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
-        <Route path="/pediatric-cert/test-bank" component={TestBank} />
+        <Route path="/pediatric-cert/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/pediatric-cert/flashcards">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
         <Route path="/pediatric-cert/mock-exams/:id/report" component={MockExamReport} />
