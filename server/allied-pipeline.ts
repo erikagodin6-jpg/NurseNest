@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { getUncachableStripeClient } from "./stripeClient";
+import { getStripePriceId } from "./stripe-pricing";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "addictionsCounsellor"];
 
@@ -704,16 +705,15 @@ export function registerAlliedPipelineRoutes(app: Express) {
   app.post("/api/allied/checkout", async (req, res) => {
     try {
       const { planType, userId } = req.body;
-      if (!planType || !["monthly", "annual"].includes(planType)) {
-        return res.status(400).json({ error: "Invalid planType. Must be 'monthly' or 'annual'." });
+      const validDurations = ["monthly", "3-month", "6-month", "yearly"];
+      if (!planType || !validDurations.includes(planType)) {
+        return res.status(400).json({ error: "Invalid planType. Must be 'monthly', '3-month', '6-month', or 'yearly'." });
       }
       if (!userId) {
         return res.status(400).json({ error: "userId is required" });
       }
 
-      const priceId = planType === "monthly"
-        ? process.env.ALLIED_PRO_MONTHLY_PRICE_ID
-        : process.env.ALLIED_PRO_ANNUAL_PRICE_ID;
+      const priceId = getStripePriceId("allied", planType, "cad");
 
       if (!priceId) {
         return res.json({ url: null, message: "Checkout is not configured yet. Please try again later." });

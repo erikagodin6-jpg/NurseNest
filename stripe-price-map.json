@@ -289,6 +289,54 @@
       "recurringInterval": "month",
       "recurringIntervalCount": 1,
       "active": true
+    },
+    {
+      "tier": "allied",
+      "duration": "monthly",
+      "productId": "prod_PLACEHOLDER_allied_monthly",
+      "productName": "NurseNest Allied Health - 1 Month",
+      "priceId": "price_PLACEHOLDER_allied_monthly_cad",
+      "unitAmount": 1499,
+      "currency": "cad",
+      "recurringInterval": "month",
+      "recurringIntervalCount": 1,
+      "active": true
+    },
+    {
+      "tier": "allied",
+      "duration": "3-month",
+      "productId": "prod_PLACEHOLDER_allied_3month",
+      "productName": "NurseNest Allied Health - 3 Months",
+      "priceId": "price_PLACEHOLDER_allied_3month_cad",
+      "unitAmount": 3499,
+      "currency": "cad",
+      "recurringInterval": "month",
+      "recurringIntervalCount": 3,
+      "active": true
+    },
+    {
+      "tier": "allied",
+      "duration": "6-month",
+      "productId": "prod_PLACEHOLDER_allied_6month",
+      "productName": "NurseNest Allied Health - 6 Months",
+      "priceId": "price_PLACEHOLDER_allied_6month_cad",
+      "unitAmount": 5999,
+      "currency": "cad",
+      "recurringInterval": "month",
+      "recurringIntervalCount": 6,
+      "active": true
+    },
+    {
+      "tier": "allied",
+      "duration": "yearly",
+      "productId": "prod_PLACEHOLDER_allied_yearly",
+      "productName": "NurseNest Allied Health - 1 Year",
+      "priceId": "price_PLACEHOLDER_allied_yearly_cad",
+      "unitAmount": 9999,
+      "currency": "cad",
+      "recurringInterval": "year",
+      "recurringIntervalCount": 1,
+      "active": true
     }
   ]
 }

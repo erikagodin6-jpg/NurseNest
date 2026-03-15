@@ -1,4 +1,4 @@
-export type TierKey = "rpn" | "rn" | "np";
+export type TierKey = "rpn" | "rn" | "np" | "allied";
 export type DurationKey = "monthly" | "3-month" | "6-month" | "yearly";
 
 export interface TierPricing {
@@ -20,6 +20,10 @@ export const pricingConfig: Record<TierKey, { cad: TierPricing; usd: TierPricing
   np: {
     cad: { monthly: 3999, "3-month": 9999, "6-month": 15999, yearly: 23999 },
     usd: { monthly: 2949, "3-month": 7399, "6-month": 11849, yearly: 17749 },
+  },
+  allied: {
+    cad: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
+    usd: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
   },
 };
 
@@ -61,12 +65,19 @@ export const tierMeta: Record<TierKey, {
     tagline: "Advanced clinical reasoning practice designed for nurse practitioner certification.",
     description: "Nurse practitioner board preparation",
   },
+  allied: {
+    nameCA: "Allied Health",
+    nameUS: "Allied Health",
+    tagline: "Comprehensive exam prep for allied health professionals.",
+    description: "Allied health certification preparation",
+  },
 };
 
 export const studyTimelines: Record<TierKey, string> = {
   rpn: "6-8 weeks recommended",
   rn: "8-12 weeks recommended",
   np: "12-16 weeks recommended",
+  allied: "8-12 weeks recommended",
 };
 
 export const socialProofStats = [
@@ -77,10 +88,10 @@ export const socialProofStats = [
 ];
 
 export const featureComparisonRows = [
-  { feature: "Practice questions", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access" },
-  { feature: "Flashcards", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access" },
-  { feature: "Clinical lessons", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access" },
-  { feature: "Adaptive mock exams", free: "No", rpn: "Full access", rn: "Full access", np: "Full access" },
-  { feature: "Performance analytics", free: "No", rpn: "Full access", rn: "Full access", np: "Full access" },
-  { feature: "Exam simulations", free: "No", rpn: "Full access", rn: "Full access", np: "Full access" },
+  { feature: "Practice questions", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
+  { feature: "Flashcards", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
+  { feature: "Clinical lessons", free: "Limited", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
+  { feature: "Adaptive mock exams", free: "No", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
+  { feature: "Performance analytics", free: "No", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
+  { feature: "Exam simulations", free: "No", rpn: "Full access", rn: "Full access", np: "Full access", allied: "Full access" },
 ];

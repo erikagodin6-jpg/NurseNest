@@ -39,6 +39,12 @@ const LIVE_PRICE_MAP: Record<string, Record<string, Record<string, string>>> = {
     "6-month": { usd: "", cad: "" },
     yearly: { usd: "", cad: "" },
   },
+  allied: {
+    monthly: { cad: "" },
+    "3-month": { cad: "" },
+    "6-month": { cad: "" },
+    yearly: { cad: "" },
+  },
 };
 
 let priceIndex: Record<string, string> = {};
@@ -123,6 +129,17 @@ export function loadStripePrices(): void {
     }
   }
 
+  const alliedDurations = ["monthly", "3-month", "6-month", "yearly"];
+  const alliedCurrencies = ["cad"];
+  for (const dur of alliedDurations) {
+    for (const cur of alliedCurrencies) {
+      const key = buildKey("allied", dur, cur);
+      if (!priceIndex[key]) {
+        missing++;
+      }
+    }
+  }
+
   if (missing > 0) {
     console.warn(`Stripe pricing: ${missing} tier/duration/currency combinations missing price IDs — those will use inline price_data fallback`);
   } else {
@@ -154,6 +171,12 @@ export function getMissingPriceIds(): string[] {
           missing.push(`tier=${tier} interval=${dur} currency=${cur}`);
         }
       }
+    }
+  }
+  for (const dur of durations) {
+    const key = buildKey("allied", dur, "cad");
+    if (!priceIndex[key]) {
+      missing.push(`tier=allied interval=${dur} currency=cad`);
     }
   }
   return missing;

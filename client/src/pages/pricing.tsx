@@ -42,12 +42,14 @@ const tierIcons: Record<TierKey, typeof Shield> = {
   rpn: Shield,
   rn: Award,
   np: Trophy,
+  allied: BookOpen,
 };
 
 const tierColors: Record<TierKey, { color: string; bgColor: string }> = {
   rpn: { color: "text-blue-600", bgColor: "bg-blue-50 border-blue-200" },
   rn: { color: "text-purple-600", bgColor: "bg-purple-50 border-purple-200" },
   np: { color: "text-amber-600", bgColor: "bg-amber-50 border-amber-200" },
+  allied: { color: "text-teal-600", bgColor: "bg-teal-50 border-teal-200" },
 };
 
 export default function PricingPage() {
