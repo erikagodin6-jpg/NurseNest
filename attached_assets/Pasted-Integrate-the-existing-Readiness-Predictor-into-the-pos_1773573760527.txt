@@ -1,0 +1,214 @@
+Integrate the existing Readiness Predictor into the post-exam follow-up and transition flow for NurseNest so the user journey feels seamless, personalized, and conversion-focused.
+
+Context:
+- Platform: NurseNest
+- Stack: Vite + React + Express
+- Existing features already available:
+  - Readiness Predictor
+  - Exam Countdown
+  - AI Study Planner
+- New feature to implement:
+  - Post-exam follow-up flow
+  - New Grad transition offer
+  - Weak-area recovery path for users who did not pass
+- Audience:
+  - Nursing tiers
+  - Allied Health tiers
+
+Goal:
+Use the existing readiness predictor data to make the post-exam follow-up smarter, more personalized, and more useful. Do not build a separate predictor. Reuse current readiness data, weak areas, and performance patterns.
+
+PART 1: Trigger Logic
+
+When the user’s exam date has passed:
+- wait 24–48 hours
+- trigger a dashboard modal or card:
+  - "How did your exam go?"
+
+Do not show repeatedly if already completed.
+
+Add fields if not already present:
+- examFollowupCompleted
+- examResultStatus
+- examWeakAreas
+- examResultDate
+- postExamOfferShown
+
+PART 2: Follow-Up Response Options
+
+Offer:
+- I passed
+- I’m waiting for results
+- I didn’t pass
+- I postponed my exam
+
+Allow skip for now.
+
+PART 3: Use Existing Readiness Predictor Data
+
+If readiness predictor data exists, surface it intelligently in the follow-up logic.
+
+For users who did not pass:
+- compare selected weak areas to previously identified weak areas from readiness predictor
+- highlight likely focus categories
+- generate a restart plan using existing weak-area analytics
+- suggest a revised study plan based on past readiness trends and current exam timeline
+
+Example:
+- “Your previous readiness data showed ongoing difficulty in pharmacology and prioritization. We can rebuild your plan around those areas.”
+
+For users who passed:
+- use prior readiness data for encouraging continuity messaging
+- example:
+  - “You built strong readiness in core categories. Congratulations on reaching exam day.”
+
+Do not make claims about pass prediction accuracy unless already validated in platform copy.
+
+PART 4: Passed Path → New Grad Conversion
+
+If user selects “I passed”:
+show a celebratory but professional transition card.
+
+Headline:
+Congratulations — you’re ready for the next step
+
+Subtext:
+Move from exam prep to real-world clinical confidence with NurseNest New Grad support.
+
+Show:
+- new grad clinical survival resources
+- report and charting support
+- prioritization tools
+- interview and resume support
+- first-year nurse transition resources
+
+Offer:
+- one-time transition discount or upgrade offer
+- example: 20% off New Grad resources for 14 days
+
+Buttons:
+- Explore New Grad Support
+- Claim Offer
+- Maybe Later
+
+If user is allied health, tailor the next-step offer appropriately rather than showing nursing-only language.
+
+PART 5: Did Not Pass Path → Recovery Plan
+
+If user selects “I didn’t pass”:
+show supportive messaging only.
+
+Headline:
+We’re here to help you prepare for your next attempt
+
+Subtext:
+Many successful nurses and healthcare professionals need more than one attempt. Let’s rebuild your plan based on your weak areas and readiness trends.
+
+Then:
+- ask what felt hardest
+- prefill suggestions from readiness predictor weak areas if available
+- allow multi-select editing
+
+After selection:
+generate a revised plan using:
+- existing readiness predictor
+- weak categories
+- prior mock performance
+- analytics trends
+- question/lesson/flashcard completion data
+
+Buttons:
+- Build My New Plan
+- Review Weak Areas
+- Update Exam Date
+
+PART 6: Waiting for Results Path
+
+If user selects “I’m waiting for results”:
+show calm holding-state messaging.
+
+Offer:
+- continue light review
+- revisit weak areas from readiness predictor
+- preview next-step resources
+- return later to update result
+
+Buttons:
+- Update Result Later
+- Keep Reviewing
+- Explore Next Steps
+
+PART 7: Postponed Path
+
+If user selects “I postponed my exam”:
+- prompt user to enter a new date
+- reactivate countdown and AI study planner
+- preserve readiness data and prior weak area trends
+
+Buttons:
+- Update Exam Date
+- Resume Study Plan
+
+PART 8: Dashboard Integration
+
+After follow-up completion, replace the countdown card contextually:
+
+If passed:
+- replace with New Grad / Career Transition card
+
+If did not pass:
+- replace with Recovery Study Plan card
+
+If waiting:
+- replace with Results Pending support card
+
+If postponed:
+- restore countdown + AI planner
+
+All replacement cards should use the same premium dashboard design system.
+
+PART 9: Conversion and Lifecycle Requirements
+
+This should feel like one continuous product journey:
+- readiness predictor prepares the learner
+- countdown personalizes urgency
+- study planner guides effort
+- post-exam follow-up captures outcome
+- next-step offers keep the user in the ecosystem
+
+Use this to improve:
+- retention
+- cross-sell into New Grad
+- product insight
+- personalized recovery plans
+
+PART 10: Tone Requirements
+
+Use supportive, calm, encouraging language.
+Avoid:
+- “you were not ready”
+- “you failed because”
+- “time ran out”
+
+Use:
+- next step
+- rebuild your plan
+- focus areas
+- transition support
+- career-ready resources
+
+PART 11: QA Requirements
+
+Verify:
+- existing readiness predictor is reused, not duplicated
+- weak areas populate correctly
+- passed users see next-step offers
+- non-passing users see recovery plan options
+- postponed users can reset date
+- flow works on mobile and desktop
+- modal/card appears only when appropriate
+- results persist properly
+- no repeated prompts after completion unless user reopens manually
+
+Final instruction:
+Do not create a disconnected feature. Integrate the existing Readiness Predictor into the post-exam follow-up system so NurseNest feels like a single intelligent platform from exam prep through career transition.
