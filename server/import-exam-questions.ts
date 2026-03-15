@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 import * as crypto from "crypto";
 import { getDevPool } from "./db";
 
-const __filename = typeof globalThis.__filename !== "undefined" ? globalThis.__filename : fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename_esm = typeof __filename !== "undefined" ? __filename : fileURLToPath(import.meta.url);
+const __dirname_esm = path.dirname(__filename_esm);
 
 const pool = getDevPool();
 
