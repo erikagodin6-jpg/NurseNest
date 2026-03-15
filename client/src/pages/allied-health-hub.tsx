@@ -210,6 +210,19 @@ export default function AlliedHealthHub() {
         </div>
       </section>
 
+      <section className="py-8 bg-white" data-testid="hub-faq-link">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <p className="text-gray-600 mb-2">Have questions about allied health exam preparation?</p>
+          <Link
+            href="/allied-health/faq"
+            className="inline-flex items-center gap-2 text-teal-600 font-semibold hover:text-teal-700 transition-colors"
+            data-testid="link-allied-health-faq"
+          >
+            View Allied Health FAQ <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
       <section className="py-16 bg-white" data-testid="hub-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 rounded-2xl p-8 sm:p-12">

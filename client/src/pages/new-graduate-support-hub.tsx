@@ -251,7 +251,16 @@ export default function NewGraduateSupportHub() {
         </section>
 
         <section className="mb-12" data-testid="section-new-grad-faq">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <LocaleLink
+              href="/new-grad/faq"
+              className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1"
+              data-testid="link-new-grad-full-faq"
+            >
+              View Full FAQ <ArrowRight className="w-3.5 h-3.5" />
+            </LocaleLink>
+          </div>
           <div className="space-y-4">
             {FAQ_DATA.map((faq, idx) => (
               <Card key={idx} className="border-slate-200/60" data-testid={`card-faq-${idx}`}>

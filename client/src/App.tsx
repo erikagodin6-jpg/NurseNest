@@ -86,6 +86,8 @@ const SubscriptionSuccess = lazy(() => import("@/pages/subscription-success"));
 const PricingPage = lazy(() => import("@/pages/pricing"));
 const ReferPage = lazy(() => import("@/pages/refer"));
 const FAQPage = lazy(() => import("@/pages/faq"));
+const AlliedHealthFAQPage = lazy(() => import("@/pages/allied-health-faq"));
+const NewGradFAQPage = lazy(() => import("@/pages/new-grad-faq"));
 const AnatomyPage = lazy(() => import("@/pages/anatomy"));
 const TermsPage = lazy(() => import("@/pages/terms"));
 const PrivacyPage = lazy(() => import("@/pages/privacy"));
@@ -541,6 +543,7 @@ function AppRoutes() {
         <Route path="/newgrad/salary" component={NewGradSalaryPage} />
         <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
         <Route path="/newgrad"><Redirect to="/new-grad" /></Route>
+        <Route path="/new-grad/faq" component={NewGradFAQPage} />
         <Route path="/new-grad/:profession/:guideSlug" component={SeoGuidePage} />
         <Route path="/new-grad/:profession">{(params: any) => {
           const prof = params.profession || "";
@@ -802,6 +805,7 @@ function AppRoutes() {
         <Route path="/trial/upgrade" component={TrialUpgrade} />
         <Route path="/trial" component={TrialLanding} />
         <Route path="/faq" component={FAQPage} />
+        <Route path="/allied-health/faq" component={AlliedHealthFAQPage} />
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/disclaimer" component={DisclaimerPage} />

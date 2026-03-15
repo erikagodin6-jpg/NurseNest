@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { ArrowRight } from "lucide-react";
 
 interface FaqItem {
   id: string;
@@ -103,9 +104,9 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
-        title="Frequently Asked Questions - NurseNest Nursing Education"
-        description="Find answers about NurseNest nursing education platform: subscriptions, content depth, NCLEX preparation, privacy, and clinical learning resources for RPN, RN, and NP students."
-        keywords="NurseNest FAQ, nursing education questions, NCLEX prep FAQ, nursing student help, subscription questions"
+        title="Frequently Asked Questions - NurseNest Healthcare Education"
+        description="Find answers about NurseNest healthcare education platform: subscriptions, content depth, NCLEX preparation, allied health exam prep, new graduate support, and clinical learning resources for nursing students, allied health professionals, and new graduates."
+        keywords="NurseNest FAQ, nursing education questions, NCLEX prep FAQ, allied health exam prep, new graduate support, healthcare student help, subscription questions"
         canonicalPath="/faq"
         structuredData={buildFaqStructuredData(allFaqs)}
         breadcrumbs={[
@@ -170,7 +171,32 @@ export default function FAQPage() {
           </div>
         ))}
 
-        <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-softgray" data-testid="faq-footer-links">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="faq-cross-links">
+          <LocaleLink
+            href="/allied-health/faq"
+            className="flex items-center justify-between p-4 bg-white rounded-xl border border-primary/10 hover:border-primary/30 hover:shadow-sm transition-all group"
+            data-testid="link-faq-to-allied"
+          >
+            <div>
+              <p className="text-sm text-softgray">{t("faq.crossLink.allied")}</p>
+              <p className="font-medium text-primary group-hover:underline">{t("faq.crossLink.alliedLink")}</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary" />
+          </LocaleLink>
+          <LocaleLink
+            href="/new-grad/faq"
+            className="flex items-center justify-between p-4 bg-white rounded-xl border border-primary/10 hover:border-primary/30 hover:shadow-sm transition-all group"
+            data-testid="link-faq-to-newgrad"
+          >
+            <div>
+              <p className="text-sm text-softgray">{t("faq.crossLink.newGrad")}</p>
+              <p className="font-medium text-primary group-hover:underline">{t("faq.crossLink.newGradLink")}</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary" />
+          </LocaleLink>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-primary/10 text-center text-sm text-softgray" data-testid="faq-footer-links">
           <p>
             {t("faq.footerText")}{" "}
             <LocaleLink
