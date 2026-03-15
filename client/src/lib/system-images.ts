@@ -684,14 +684,33 @@ const illustrationPolycythemiaV3 = getAssetUrl("polycythemia_1773375118294.png")
 const illustrationEndometrialPolyp = getAssetUrl("polyp_1773375118294.png");
 const illustrationPressureInjuriesV3 = getAssetUrl("pressureinjuries_1773375118294.png");
 
+const illustrationMastectomy = getAssetUrl("mastectomy_1773517483509.png");
+const illustrationMerkelCellCarcinoma = getAssetUrl("merkelcellcarcinoma_1773517483509.png");
+const illustrationMIV2 = getAssetUrl("MI_1773517483510.png");
+const illustrationMobitz = getAssetUrl("mobitz_1773517483510.jpeg");
+const illustrationMultipleGestation = getAssetUrl("multiplegestation_1773517483510.png");
+const illustrationPADV3 = getAssetUrl("PAD_1773517483510.png");
+const illustrationPolycythemiaV4 = getAssetUrl("polycythemiavera_1773517483510.png");
+const illustrationPrinzmetal = getAssetUrl("prinzmetal_1773517483510.jpeg");
+const illustrationPulmonaryEmbolismV4 = getAssetUrl("pulmonaryembolism_1773517483510.png");
+const illustrationPVC = getAssetUrl("PVC_1773517483510.png");
+const illustrationPulmonaryValveStenosis = getAssetUrl("Pvstenosi_1773517483510.png");
+const illustrationSinusArrest = getAssetUrl("sinusarrest_1773517483510.png");
+const illustrationSubclavianSteal = getAssetUrl("subclaviansteal_1773517483510.png");
+const illustrationSVT = getAssetUrl("SVT_1773517483510.png");
+const illustrationTorsades = getAssetUrl("torsades_1773517483510.png");
+const illustrationVfib = getAssetUrl("vfib_1773517483510.jpeg");
+const illustrationVtach = getAssetUrl("vtach_1773517483510.png");
+const illustrationWenckebach = getAssetUrl("wenckebach_1773517483510.jpeg");
+
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis-signs": illustrationEndocarditisSigns,
-  "peripheral-artery-disease-overview": illustrationPADArtery,
+  "peripheral-artery-disease-overview": illustrationPADV3,
   "pacemaker-care": illustrationPacemaker,
   "dysrhythmias": illustrationCardioversion,
-  "mi-management": illustrationCardiacCycleUpdated,
-  "mi-acute": illustrationCardiacCycleUpdated,
+  "mi-management": illustrationMIV2,
+  "mi-acute": illustrationMIV2,
   "chf-basics": illustrationHeartFailureAnatomy,
   "hf-advanced": illustrationHeartFailureAnatomy,
   "heart-failure": illustrationHeartFailureAnatomy,
@@ -734,12 +753,12 @@ const lessonSpecificImages: Record<string, string> = {
   "neurogenic-shock": illustrationShockTypesV2,
   "anaphylactic-shock": illustrationShockTypesV2,
   "aaa-rupture": illustrationCardiacCycleNew,
-  "pe-dvt": illustrationPulmonaryEmbolismV3,
-  "pe-recognition": illustrationPulmonaryEmbolismV3,
-  "pulmonary-embolism": illustrationPulmonaryEmbolismV3,
-  "pulmonary-embolism-rpn": illustrationPulmonaryEmbolismV3,
-  "pulmonary-embolism-rn": illustrationPulmonaryEmbolismV3,
-  "pulmonary-embolism-np": illustrationPulmonaryEmbolismV3,
+  "pe-dvt": illustrationPulmonaryEmbolismV4,
+  "pe-recognition": illustrationPulmonaryEmbolismV4,
+  "pulmonary-embolism": illustrationPulmonaryEmbolismV4,
+  "pulmonary-embolism-rpn": illustrationPulmonaryEmbolismV4,
+  "pulmonary-embolism-rn": illustrationPulmonaryEmbolismV4,
+  "pulmonary-embolism-np": illustrationPulmonaryEmbolismV4,
   "cardiac-monitoring": illustrationCardioversion,
   "cardiac-rhythm-rn": illustrationCardioversion,
   "cardiac-auscultation-rn": illustrationCardiacAuscultationNew,
@@ -748,10 +767,10 @@ const lessonSpecificImages: Record<string, string> = {
   "hypertension-basics": illustrationHypertensionV2,
   "endocarditis": illustrationEndocarditisV2,
   "infective-endocarditis": illustrationEndocarditisV2,
-  "peripheral-artery-disease": illustrationPADArteryV2,
-  "pad-basics": illustrationPADArteryV2,
-  "pad-management": illustrationPADSymptomsV2,
-  "peripheral-vascular-disease": illustrationPADSymptomsV2,
+  "peripheral-artery-disease": illustrationPADV3,
+  "pad-basics": illustrationPADV3,
+  "pad-management": illustrationPADV3,
+  "peripheral-vascular-disease": illustrationPADV3,
   "aortic-dissection": illustrationCardiacCycleNew,
   "carotid-endarterectomy": illustrationPADSymptoms,
   "pneumonia-basics": illustrationPneumoniaV3,
@@ -1010,8 +1029,8 @@ const lessonSpecificImages: Record<string, string> = {
   "alopecia-areata": illustrationAlopecia,
   "hair-loss": illustrationAlopecia,
   "pemphigus": illustrationPemphigusV3,
-  "polycythemia": illustrationPolycythemiaV3,
-  "polycythemia-vera": illustrationPolycythemiaV3,
+  "polycythemia": illustrationPolycythemiaV4,
+  "polycythemia-vera": illustrationPolycythemiaV4,
   "atopic-dermatitis": illustrationAtopicDermatitis,
   "eczema": illustrationAtopicDermatitis2,
   "otitis-media": illustrationOtitisMedia,
@@ -1377,12 +1396,47 @@ const lessonSpecificImages: Record<string, string> = {
 
   "atrial-fibrillation-rn": illustrationEcgRhythm,
   "atrial-flutter-rn": illustrationEcgRhythm,
-  "svt-recognition": illustrationEcgRhythm,
-  "vtach-management": illustrationEcgRhythm,
-  "vfib-management": illustrationEcgRhythm,
+  "svt-recognition": illustrationSVT,
+  "vtach-management": illustrationVtach,
+  "vfib-management": illustrationVfib,
   "heart-block-complete": illustrationEcgRhythm,
-  "torsades-management": illustrationEcgRhythm,
+  "torsades-management": illustrationTorsades,
   "asystole-pea": illustrationEcgRhythm,
+
+  "pvc-recognition": illustrationPVC,
+
+  "sinus-arrest": illustrationSinusArrest,
+
+  "second-degree-av-block-type-i": illustrationWenckebach,
+  "wenckebach": illustrationWenckebach,
+
+  "second-degree-av-block-type-ii": illustrationMobitz,
+  "mobitz-type-ii": illustrationMobitz,
+
+  "prinzmetal-angina": illustrationPrinzmetal,
+  "variant-angina": illustrationPrinzmetal,
+
+  "subclavian-steal-syndrome": illustrationSubclavianSteal,
+  "subclavian-steal-syndrome-rn": illustrationSubclavianSteal,
+
+  "pulmonary-valve-stenosis": illustrationPulmonaryValveStenosis,
+  "pulmonary-valve-stenosis-rn": illustrationPulmonaryValveStenosis,
+  "pulmonic-stenosis": illustrationPulmonaryValveStenosis,
+
+  "mastectomy": illustrationMastectomy,
+  "mastectomy-rn": illustrationMastectomy,
+  "mastectomy-rpn": illustrationMastectomy,
+  "mastectomy-np": illustrationMastectomy,
+  "post-mastectomy": illustrationMastectomy,
+
+  "merkel-cell-carcinoma": illustrationMerkelCellCarcinoma,
+  "merkel-cell": illustrationMerkelCellCarcinoma,
+
+  "multiple-gestation": illustrationMultipleGestation,
+  "multiple-gestation-rn": illustrationMultipleGestation,
+  "multiple-gestation-rpn": illustrationMultipleGestation,
+  "multiple-gestation-np": illustrationMultipleGestation,
+  "twin-pregnancy": illustrationMultipleGestation,
 
   "liver-cirrhosis": illustrationLiverCirrhosis,
   "cirrhosis-advanced": illustrationCirrhosisPatho,
@@ -1452,8 +1506,14 @@ const lessonSpecificImages: Record<string, string> = {
   "psychiatric-meds": illustrationNeurotransmitters,
   "antidepressant-safety": illustrationNeurotransmitters,
 
-  "mi-pathophysiology": illustrationMIPatho,
-  "acute-coronary-syndrome": illustrationMIPatho,
+  "mi-pathophysiology": illustrationMIV2,
+  "acute-coronary-syndrome": illustrationMIV2,
+  "myocardial-infarction": illustrationMIV2,
+  "myocardial-infarction-rn": illustrationMIV2,
+  "myocardial-infarction-rpn": illustrationMIV2,
+  "myocardial-infarction-np": illustrationMIV2,
+  "stemi": illustrationMIV2,
+  "nstemi": illustrationMIV2,
 
   "copd-basics-rpn": illustrationCOPDPatho,
 
@@ -1862,9 +1922,9 @@ const lessonSpecificImages: Record<string, string> = {
   "acromegaly-np": illustrationPituitaryGlands,
   "hypophysectomy": illustrationPituitaryGlands,
 
-  "polycythemia-rpn": illustrationPolycythemiaV2,
-  "polycythemia-rn": illustrationPolycythemiaV2,
-  "polycythemia-np": illustrationPolycythemiaV2,
+  "polycythemia-rpn": illustrationPolycythemiaV4,
+  "polycythemia-rn": illustrationPolycythemiaV4,
+  "polycythemia-np": illustrationPolycythemiaV4,
 
   "clubfoot": illustrationClubfoot,
   "clubfoot-rpn": illustrationClubfoot,
@@ -2857,7 +2917,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("traction")) return illustrationTractionV2;
   if (lessonId.includes("adrenal-gland")) return illustrationAdrenalGland;
   if (lessonId.includes("pemphigus")) return illustrationPemphigusV2;
-  if (lessonId.includes("polycythem")) return illustrationPolycythemiaV2;
+  if (lessonId.includes("polycythem")) return illustrationPolycythemiaV4;
   if (lessonId.includes("atopic") || lessonId.includes("eczema")) return illustrationAtopicDermatitis;
   if (lessonId.includes("otitis-externa")) return illustrationOtitisExternaV2;
   if (lessonId.includes("otitis") || lessonId.includes("ear-infect")) return illustrationOtitis;
@@ -2927,7 +2987,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("hypertension")) return illustrationHypertensionV2;
   if (lessonId.includes("chest-pain")) return illustrationChestPainDifferential;
   if (lessonId.includes("endocarditis")) return illustrationEndocarditisNew2;
-  if (lessonId.includes("peripheral-arter") || lessonId.includes("pad-")) return illustrationPADArteryV2;
+  if (lessonId.includes("peripheral-arter") || lessonId.includes("pad-")) return illustrationPADV3;
   if (lessonId.includes("rheumatic")) return illustrationRheumaticFeverV2;
   if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShockTypesV2;
   if (lessonId.includes("right-heart-failure") || lessonId.includes("cor-pulmonale")) return illustrationRightHeartFailureV2;
@@ -2940,7 +3000,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("spacer") || lessonId.includes("inhaler")) return illustrationInhaledSpacersV3;
   if (lessonId.includes("peak-flow")) return illustrationPeakFlowV4;
   if (lessonId.includes("oxygen-therapy") || lessonId.includes("oxygen-delivery")) return illustrationOxygenTherapyV5;
-  if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolismV3;
+  if (lessonId.includes("pulmonary-embolism") || lessonId.includes("pe-")) return illustrationPulmonaryEmbolismV4;
   if (lessonId.includes("narcolepsy")) return illustrationNarcolepsyV4;
   if (lessonId.includes("pediatric-seizure")) return illustrationPediatricSeizuresV3;
   if (lessonId.includes("peripheral-neuropathy") || lessonId.includes("diabetic-neuropathy")) return illustrationPeripheralNeuropathyV3;
@@ -3045,13 +3105,18 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("macular-degen") || lessonId === "amd") return illustrationMacularDegeneration;
   if (lessonId.includes("marfan")) return illustrationMarfanSyndrome;
   if (lessonId.includes("masd") || lessonId.includes("moisture-associated")) return illustrationMASD;
+  if (lessonId.includes("mastectomy")) return illustrationMastectomy;
   if (lessonId.includes("mastitis")) return illustrationMastitis;
   if (lessonId.includes("measles") || lessonId.includes("rubeola")) return illustrationMeasles;
   if (lessonId.includes("meconium-ileus")) return illustrationMeconiumIleus;
   if (lessonId.includes("meningitis")) return illustrationMeningitisNew;
   if (lessonId.includes("menopause") || lessonId.includes("perimenopause")) return illustrationMenopause;
   if (lessonId.includes("metabolic-syndrome")) return illustrationMetabolicSyndrome;
+  if (lessonId.includes("merkel-cell") || lessonId.includes("merkel")) return illustrationMerkelCellCarcinoma;
+  if (lessonId.includes("mobitz") || lessonId.includes("second-degree-av-block-type-ii")) return illustrationMobitz;
+  if (lessonId.includes("multiple-gestation") || lessonId.includes("twin-pregnan")) return illustrationMultipleGestation;
   if (lessonId.includes("molar-pregnan") || lessonId.includes("hydatidiform")) return illustrationMolarPregnancy;
+  if (lessonId.includes("myocardial-infarction") || lessonId.includes("stemi") || lessonId.includes("nstemi")) return illustrationMIV2;
   if (lessonId.includes("mrsa") || lessonId.includes("methicillin-resistant")) return illustrationMRSA;
   if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
   if (lessonId.includes("electrolyte")) return illustrationElectrolytes;
@@ -3103,6 +3168,16 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("enteral-feed") || lessonId.includes("tube-feed")) return illustrationEnteralFeeding;
   if (lessonId.includes("episiotomy")) return illustrationEpisiotomy;
   if (lessonId.includes("erysipelas")) return illustrationErysipelas;
+  if (lessonId.includes("prinzmetal") || lessonId.includes("variant-angina")) return illustrationPrinzmetal;
+  if (lessonId.includes("pvc") || lessonId.includes("premature-ventricular")) return illustrationPVC;
+  if (lessonId.includes("pulmonary-valve-stenosis") || lessonId.includes("pulmonic-stenosis")) return illustrationPulmonaryValveStenosis;
+  if (lessonId.includes("sinus-arrest") || lessonId.includes("sinus-pause")) return illustrationSinusArrest;
+  if (lessonId.includes("subclavian-steal")) return illustrationSubclavianSteal;
+  if (lessonId.includes("svt") || lessonId.includes("supraventricular-tachycardia")) return illustrationSVT;
+  if (lessonId.includes("torsades")) return illustrationTorsades;
+  if (lessonId.includes("vfib") || lessonId.includes("ventricular-fibrillation")) return illustrationVfib;
+  if (lessonId.includes("vtach") || lessonId.includes("ventricular-tachycardia")) return illustrationVtach;
+  if (lessonId.includes("wenckebach") || lessonId.includes("second-degree-av-block-type-i")) return illustrationWenckebach;
   if (lessonId.includes("prostatitis")) return illustrationProstatitisV2;
   if (lessonId.includes("rotavirus")) return illustrationRotavirusV2;
   if (lessonId.includes("rubella") || lessonId.includes("german-measles")) return illustrationRubellaV2;
