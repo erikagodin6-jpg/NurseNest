@@ -1,11 +1,26 @@
 import { Link } from "wouter";
 import { GraduationCap, ExternalLink } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
+import { getMainSiteUrl } from "@/lib/locale-utils";
+
+function useLocaleCode(): string | undefined {
+  const { language } = useI18n();
+  return language === "en" ? undefined : language;
+}
 
 export function AlliedFooter() {
+  const locale = useLocaleCode();
+
+  const mainSiteHome = getMainSiteUrl("/", locale);
+  const mainSitePricing = getMainSiteUrl("/pricing", locale);
+  const mainSiteNewGrad = getMainSiteUrl("/new-grad", locale);
+  const mainSiteCareerTools = getMainSiteUrl("/new-grad#career-tools", locale);
+  const mainSiteFaq = getMainSiteUrl("/faq", locale);
+
   return (
     <footer className="bg-white border-t border-teal-100 py-12 mt-auto" data-testid="allied-footer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Careers</h3>
             <ul className="space-y-2 text-sm text-gray-500">
@@ -27,20 +42,40 @@ export function AlliedFooter() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Ecosystem</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Main Site</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-exam-prep">
+                <a href={mainSiteHome} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-main-home">
+                  Homepage <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <a href={mainSitePricing} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-main-pricing">
+                  Pricing <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <a href={mainSiteHome} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-exam-prep">
                   Exam Prep (Nursing) <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
               <li>
-                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad" : "/new-grad"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-new-grad-support">
+                <a href={mainSiteNewGrad} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-new-grad-support">
                   New Grad Support <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
               <li>
-                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad#career-tools" : "/new-grad#career-tools"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-healthcare-jobs">
+                <a href={mainSiteFaq} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-main-faq">
+                  FAQ <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Ecosystem</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <a href={mainSiteCareerTools} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-healthcare-jobs">
                   Healthcare Jobs (ApplyNest) <ExternalLink className="w-3 h-3" />
                 </a>
               </li>

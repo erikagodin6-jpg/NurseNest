@@ -4,11 +4,12 @@ import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/ca
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
   BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe, Briefcase,
-  Hand, Activity, Database
+  Hand, Activity, Database, Home, ArrowLeft
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useRegion } from "@/allied/use-region";
 import { useI18n } from "@/lib/i18n";
+import { getMainSiteUrl } from "@/lib/locale-utils";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
 
@@ -55,6 +56,11 @@ function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]
   return undefined;
 }
 
+function useLocaleCode(): string | undefined {
+  const { language } = useI18n();
+  return language === "en" ? undefined : language;
+}
+
 /*
  * ── AlliedNavigation Spacing System ────────────────────────────────────
  * Ecosystem bar:  h-7 sm:h-8 | text-[10px] sm:text-xs | gap-1 sm:gap-6
@@ -70,6 +76,7 @@ export function AlliedNavigation() {
   const { user, isAdmin } = useAuth();
 
   const { t } = useI18n();
+  const locale = useLocaleCode();
   const { region, setRegion } = useRegion();
   const alliedCareers = ALLIED_CAREERS.map(id => CAREER_CONFIGS[id]);
   const currentCareer = getCurrentCareerFromUrl(location, alliedCareers);
@@ -96,22 +103,26 @@ export function AlliedNavigation() {
     return location === `${canonical}/${featureSlug}`;
   }
 
+  const mainSiteHome = getMainSiteUrl("/", locale);
+  const mainSiteNewGrad = getMainSiteUrl("/new-grad", locale);
+  const mainSiteCareerTools = getMainSiteUrl("/new-grad#career-tools", locale);
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-teal-100 shadow-sm" data-testid="allied-navigation">
       <div className="bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white" data-testid="allied-ecosystem-nav">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-exam-prep">
+            <a href={mainSiteHome} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-exam-prep">
               <BookOpen className="w-3 h-3" />
               <span>{t("nav.ecosystemExamPrep")}</span>
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad" : "/new-grad"} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-new-grad">
+            <a href={mainSiteNewGrad} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-new-grad">
               <GraduationCap className="w-3 h-3" />
               <span>{t("nav.ecosystemNewGrad")}</span>
             </a>
             <span className="text-white/30 hidden sm:inline">|</span>
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad#career-tools" : "/new-grad#career-tools"} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-healthcare-jobs">
+            <a href={mainSiteCareerTools} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-healthcare-jobs">
               <Briefcase className="w-3 h-3" />
               <span className="hidden sm:inline">{t("nav.ecosystemHealthcareCareers")}</span>
               <span className="sm:hidden">{t("nav.ecosystemCareers")}</span>
@@ -122,7 +133,7 @@ export function AlliedNavigation() {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 group" data-testid="link-allied-home">
+            <a href={mainSiteHome} className="flex items-center gap-2 group" data-testid="link-nursenest-home">
               <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-white" />
               </div>
@@ -131,9 +142,18 @@ export function AlliedNavigation() {
                 <span className="text-lg font-bold text-teal-600 ml-1">Allied</span>
                 <span className="block text-[10px] text-gray-400 -mt-1 tracking-wide">Healthcare Exam Academy</span>
               </div>
-            </Link>
+            </a>
 
             <nav className="hidden lg:flex items-center gap-1 ml-6">
+              <a href={mainSiteHome} className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 flex items-center gap-1.5" data-testid="link-back-to-nursenest">
+                <Home className="w-3.5 h-3.5" />
+                NurseNest Home
+              </a>
+
+              <Link href="/" className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${location === "/" ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid="link-allied-home">
+                Allied Home
+              </Link>
+
               <Link href="/careers" className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${location === "/careers" ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid="link-careers">
                 Careers
               </Link>
@@ -217,20 +237,26 @@ export function AlliedNavigation() {
       {mobileOpen && (
         <div className="lg:hidden bg-white border-t border-teal-100 shadow-lg" data-testid="mobile-nav">
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
+            <a href={mainSiteHome} className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg border border-teal-200" onClick={() => setMobileOpen(false)} data-testid="mobile-link-back-to-nursenest">
+              <ArrowLeft className="w-4 h-4" />
+              Back to NurseNest
+            </a>
+            <div className="border-t border-gray-100 my-2" />
             <p className="text-[10px] font-bold text-teal-600 uppercase tracking-widest mb-1 px-4">NurseNest Ecosystem</p>
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-exam-prep">
+            <a href={mainSiteHome} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-exam-prep">
               <BookOpen className="w-4 h-4 text-teal-600" />
               {t("nav.examPrep")}
             </a>
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad" : "/new-grad"} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-new-grad">
+            <a href={mainSiteNewGrad} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-new-grad">
               <GraduationCap className="w-4 h-4 text-cyan-600" />
               {t("nav.ecosystemNewGrad")}
             </a>
-            <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca/new-grad#career-tools" : "/new-grad#career-tools"} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-healthcare-jobs">
+            <a href={mainSiteCareerTools} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-healthcare-jobs">
               <Briefcase className="w-4 h-4 text-blue-600" />
               {t("nav.ecosystemHealthcareCareers")}
             </a>
             <div className="border-t border-gray-100 my-2" />
+            <Link href="/" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-home">Allied Home</Link>
             <Link href="/allied-health" className="block px-4 py-3 text-sm font-medium text-teal-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-health-hub">Allied Health Hub</Link>
             <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">All Careers</Link>
             {alliedCareers.filter(c => c.enabled).map(career => (

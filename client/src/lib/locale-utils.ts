@@ -44,3 +44,25 @@ export function deLocalizeSlug(locale: string, localizedPath: string): string {
 }
 
 export { LOCALIZED_SLUGS };
+
+export function getMainSiteUrl(path: string = "/", locale?: string): string {
+  const isProduction = window.location.hostname.includes("nursenest.ca");
+  const cleanPath = path.startsWith("/") ? path : "/" + path;
+
+  const hashIndex = cleanPath.indexOf("#");
+  const pathBeforeHash = hashIndex >= 0 ? cleanPath.slice(0, hashIndex) : cleanPath;
+  const hashPart = hashIndex >= 0 ? cleanPath.slice(hashIndex) : "";
+
+  if (isProduction) {
+    const localePrefix = locale && locale !== "en" ? `/${locale}` : "";
+    const pathSuffix = pathBeforeHash === "/" ? "" : pathBeforeHash;
+    return `https://www.nursenest.ca${localePrefix}${pathSuffix}${hashPart}`;
+  }
+
+  const localeParam = locale && locale !== "en" ? `&locale=${locale}` : "";
+  if (pathBeforeHash === "/") {
+    return `/?mode=nursing${localeParam}${hashPart}`;
+  }
+  const separator = pathBeforeHash.includes("?") ? "&" : "?";
+  return `${pathBeforeHash}${separator}mode=nursing${localeParam}${hashPart}`;
+}
