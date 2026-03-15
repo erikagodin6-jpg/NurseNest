@@ -28,7 +28,7 @@ const ALLIED_SLUGS = new Set([
   "oncology-nursing", "pediatric-cert", "psychotherapist",
   "social-worker", "addictions-counsellor",
   "allied-health",
-  "respiratory-therapy", "medical-lab-tech",
+  "medical-lab-tech",
 ]);
 
 const NURSING_ONLY_PATHS = [
