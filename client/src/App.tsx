@@ -178,6 +178,8 @@ const ApplyNestJobSearchGuide = lazy(() => import("@/pages/applynest-job-search-
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
+const NewGradCareerHub = lazy(() => import("@/pages/newgrad/newgrad-landing"));
+const NewGradCareerGuidePage = lazy(() => import("@/pages/newgrad/newgrad-guide-page"));
 const NewGradProfessionHub = lazy(() => import("@/pages/new-grad/profession-hub-page"));
 const FirstYearGuidePage = lazy(() => import("@/pages/new-grad/first-year-guide-page"));
 const ClinicalSkillsGuidePage = lazy(() => import("@/pages/new-grad/clinical-skills-guide-page"));
@@ -500,6 +502,15 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
+        <Route path="/newgrad/guides" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/career" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/interview" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/resume" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/workplace" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/burnout" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/salary" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad/professional-development" component={NewGradCareerGuidePage} />
+        <Route path="/newgrad" component={NewGradCareerHub} />
         <Route path="/new-grad/clinical-skills/:skill" component={ClinicalSkillsGuidePage} />
         <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />

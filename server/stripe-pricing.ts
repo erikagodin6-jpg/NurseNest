@@ -45,6 +45,12 @@ const LIVE_PRICE_MAP: Record<string, Record<string, Record<string, string>>> = {
     "6-month": { cad: "" },
     yearly: { cad: "" },
   },
+  newgrad: {
+    monthly: { usd: "", cad: "" },
+    "3-month": { usd: "", cad: "" },
+    "6-month": { usd: "", cad: "" },
+    yearly: { usd: "", cad: "" },
+  },
 };
 
 let priceIndex: Record<string, string> = {};
@@ -114,7 +120,7 @@ export function loadStripePrices(): void {
 
   loaded = true;
 
-  const subscriptionTiers = ["rpn", "rn", "np"];
+  const subscriptionTiers = ["rpn", "rn", "np", "newgrad"];
   const durations = ["monthly", "3-month", "6-month", "yearly"];
   const currencies = ["usd", "cad"];
   let missing = 0;
@@ -159,7 +165,7 @@ export function hasStripePriceId(tier: string, duration: string, currency: strin
 
 export function getMissingPriceIds(): string[] {
   if (!loaded) loadStripePrices();
-  const subscriptionTiers = ["rpn", "rn", "np"];
+  const subscriptionTiers = ["rpn", "rn", "np", "newgrad"];
   const durations = ["monthly", "3-month", "6-month", "yearly"];
   const currencies = ["usd", "cad"];
   const missing: string[] = [];

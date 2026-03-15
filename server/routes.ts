@@ -16659,6 +16659,80 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/admin/newgrad/guides", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const guideSlugs = ["guides", "career", "interview", "resume", "workplace", "burnout", "salary", "professional-development"];
+      const guideTitles: Record<string, string> = {
+        guides: "New Grad Nursing Survival Guides",
+        career: "Nursing Career Pathways",
+        interview: "Nursing Interview Preparation",
+        resume: "Nursing Resume & Application Guide",
+        workplace: "Workplace Navigation & Boundaries",
+        burnout: "Burnout Prevention & Wellness",
+        salary: "Nursing Salary & Negotiation Guide",
+        "professional-development": "Professional Development & Growth",
+      };
+      res.json({
+        guides: guideSlugs.map(slug => ({
+          slug,
+          title: guideTitles[slug] || slug,
+          route: `/newgrad/${slug}`,
+          status: "published",
+        })),
+        totalGuides: guideSlugs.length,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/newgrad/toolkit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      res.json({
+        resumeTemplates: 5,
+        interviewQuestions: 8,
+        salaryDataEntries: 10,
+        careerFrameworks: 3,
+        portfolioSections: 10,
+        premiumFeatures: [
+          "ATS-optimized resume templates (Med-Surg, ICU, ER, Pediatric, Cover Letter)",
+          "Interview question bank with STAR answers and difficulty ratings",
+          "Regional salary comparison data (US and Canada)",
+          "Career planning frameworks (Clinical Ladder, Advanced Practice, Leadership)",
+          "Professional portfolio template with 10 sections",
+        ],
+        tier: "newgrad",
+        pricing: { monthly: "$14.99 USD / $19.99 CAD" },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/newgrad/stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      let subscriberCount = 0;
+      try {
+        const result = await pool.query("SELECT COUNT(*) as cnt FROM users WHERE tier = 'newgrad'");
+        subscriberCount = parseInt(result.rows[0]?.cnt || "0");
+      } catch {}
+      res.json({
+        subscribers: subscriberCount,
+        routes: 9,
+        guideSlugs: ["guides", "career", "interview", "resume", "workplace", "burnout", "salary", "professional-development"],
+        tier: "newgrad",
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/career-ai-chat", async (req, res) => {
     try {
       const { messages, systemPrompt, toolName, careerType, userId } = req.body;

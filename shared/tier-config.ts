@@ -1,6 +1,6 @@
 import { type Region, getPracticalNurseExamName } from "./constants";
 
-export type ExamTier = "free" | "rpn" | "rn" | "np" | "allied" | "admin";
+export type ExamTier = "free" | "rpn" | "rn" | "np" | "allied" | "newgrad" | "admin";
 
 export interface TierDifficultyDistribution {
   easy: number;
@@ -292,6 +292,55 @@ const alliedTierConfig: TierUiConfig = {
   ],
 };
 
+const newgradTierConfig: TierUiConfig = {
+  tier: "newgrad" as ExamTier,
+  displayName: "New Grad",
+  shortLabel: "NewGrad",
+  examPrepLabel: "New Grad Career Hub",
+  readinessLabel: "Career Readiness",
+  questionBankLabel: "Career Resources",
+  dashboardTitle: "Your New Grad Career Hub",
+  dashboardSubtitle: "Career guidance, interview prep, and professional development for new graduate nurses",
+  progressLabel: "Career Progress",
+  examNames: {
+    practice: "Career Skills Assessment",
+    readiness: "Interview Readiness Check",
+    official: "Professional Development Plan",
+    drill: "Quick Career Drill",
+    review: "Career Review",
+  },
+  tone: "supportive, empowering, practical, career-focused",
+  ctaUpgrade: "Unlock New Grad Success Toolkit",
+  emptyStateMessage: "Access career guidance, interview prep, resume tools, and professional development resources designed for new graduate nurses.",
+  recommendationLabel: "Recommended Career Resources",
+  difficultyDistribution: { easy: 30, moderate: 40, hard: 20, very_hard: 10 },
+  blueprintCategories: [
+    { id: "career-planning", label: "Career Planning", weight: 0.20 },
+    { id: "interview-prep", label: "Interview Preparation", weight: 0.20 },
+    { id: "resume-skills", label: "Resume & Applications", weight: 0.15 },
+    { id: "workplace-skills", label: "Workplace Skills", weight: 0.15 },
+    { id: "burnout-prevention", label: "Burnout Prevention", weight: 0.10 },
+    { id: "salary-negotiation", label: "Salary Negotiation", weight: 0.10 },
+    { id: "professional-growth", label: "Professional Growth", weight: 0.10 },
+  ],
+  rationaleStyle: "practical and actionable, focus on real-world career scenarios and evidence-based strategies",
+  focusAreas: [
+    "Career Planning",
+    "Interview Preparation",
+    "Resume Building",
+    "Workplace Navigation",
+    "Professional Development",
+  ],
+  navItems: [
+    { label: "Career Hub", key: "CareerHub", path: "/newgrad" },
+    { label: "Guides", key: "Guides", path: "/newgrad/guides" },
+    { label: "Interview Prep", key: "Interview", path: "/newgrad/interview" },
+    { label: "Resume", key: "Resume", path: "/newgrad/resume" },
+    { label: "Career", key: "Career", path: "/newgrad/career" },
+    { label: "Salary", key: "Salary", path: "/newgrad/salary" },
+  ],
+};
+
 const adminTierConfig: TierUiConfig = {
   tier: "admin",
   displayName: "Admin",
@@ -333,6 +382,7 @@ const TIER_CONFIGS: Record<ExamTier, TierUiConfig> = {
   rn: rnTierConfig,
   np: npTierConfig,
   allied: alliedTierConfig,
+  newgrad: newgradTierConfig,
   admin: adminTierConfig,
 };
 
@@ -363,11 +413,12 @@ export function getTierLabel(tier: string): string {
 
 export function getAllowedContentTiers(userTier: string): string[] {
   switch (userTier) {
-    case "admin": return ["rpn", "rn", "np", "allied", "free"];
+    case "admin": return ["rpn", "rn", "np", "allied", "newgrad", "free"];
     case "np": return ["np", "rn"];
     case "rn": return ["rn", "rpn"];
     case "rpn": return ["rpn"];
     case "allied": return ["allied"];
+    case "newgrad": return ["newgrad"];
     case "free": return ["free"];
     default: return ["free"];
   }

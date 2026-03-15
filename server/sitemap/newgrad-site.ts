@@ -1,9 +1,10 @@
 import {
-  getNewGradBase, todayDate, simpleUrl
+  getNewGradBase, getSiteBase, todayDate, simpleUrl
 } from "./helpers";
 
 export async function generateNewGradPages(): Promise<string[]> {
   const base = getNewGradBase();
+  const siteBase = getSiteBase();
   const now = todayDate();
   const urls: string[] = [];
 
@@ -33,6 +34,21 @@ export async function generateNewGradPages(): Promise<string[]> {
   ];
   for (const slug of seoPages) {
     urls.push(simpleUrl(`${base}/${slug}`, now, "monthly", "0.8"));
+  }
+
+  urls.push(simpleUrl(`${siteBase}/newgrad`, now, "weekly", "1.0"));
+  const careerHubPages = [
+    { path: "/newgrad/guides", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/career", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/interview", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/resume", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/workplace", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/burnout", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/salary", priority: "0.9", freq: "monthly" },
+    { path: "/newgrad/professional-development", priority: "0.8", freq: "monthly" },
+  ];
+  for (const page of careerHubPages) {
+    urls.push(simpleUrl(`${siteBase}${page.path}`, now, page.freq, page.priority));
   }
 
   return urls;

@@ -1,4 +1,4 @@
-export type TierKey = "rpn" | "rn" | "np" | "allied";
+export type TierKey = "rpn" | "rn" | "np" | "allied" | "newgrad";
 export type DurationKey = "monthly" | "3-month" | "6-month" | "yearly";
 
 export interface TierPricing {
@@ -24,6 +24,10 @@ export const pricingConfig: Record<TierKey, { cad: TierPricing; usd: TierPricing
   allied: {
     cad: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
     usd: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
+  },
+  newgrad: {
+    cad: { monthly: 1999, "3-month": 4799, "6-month": 7999, yearly: 11999 },
+    usd: { monthly: 1499, "3-month": 3599, "6-month": 5999, yearly: 8999 },
   },
 };
 
@@ -71,6 +75,12 @@ export const tierMeta: Record<TierKey, {
     tagline: "Comprehensive exam prep for allied health professionals.",
     description: "Allied health certification preparation",
   },
+  newgrad: {
+    nameCA: "New Grad",
+    nameUS: "New Grad",
+    tagline: "Career toolkit for new graduate nurses: interview prep, resume builder, salary guides, and professional development.",
+    description: "New graduate nurse career development",
+  },
 };
 
 export const studyTimelines: Record<TierKey, string> = {
@@ -78,6 +88,7 @@ export const studyTimelines: Record<TierKey, string> = {
   rn: "8-12 weeks recommended",
   np: "12-16 weeks recommended",
   allied: "8-12 weeks recommended",
+  newgrad: "First year of practice",
 };
 
 export const socialProofStats = [

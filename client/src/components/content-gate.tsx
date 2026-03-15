@@ -27,16 +27,27 @@ export function ContentGate({
 
   const tierHierarchy: Record<string, number> = {
     free: 0,
+    newgrad: 1,
     rpn: 1,
     rn: 2,
     np: 3,
     admin: 99,
   };
 
+  const isolatedTiers = new Set(["newgrad", "rpn"]);
+
   const activeTier = effectiveTier || user?.tier || "free";
   const userTierLevel = tierHierarchy[activeTier] || 0;
   const requiredLevel = tierHierarchy[requiredTier] || 1;
-  const hasAccess = userTierLevel >= requiredLevel;
+
+  let hasAccess: boolean;
+  if (activeTier === "admin") {
+    hasAccess = true;
+  } else if (isolatedTiers.has(requiredTier)) {
+    hasAccess = activeTier === requiredTier || userTierLevel > requiredLevel;
+  } else {
+    hasAccess = userTierLevel >= requiredLevel;
+  }
 
   if (visibility === "free" || hasAccess) {
     return <>{children}</>;
