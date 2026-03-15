@@ -525,10 +525,184 @@ const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
   },
 };
 
+const vietnameseMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Ôn thi Điều dưỡng | Câu hỏi NCLEX & Ngân hàng đề thi",
+    description: "Chuẩn bị kỳ thi điều dưỡng với NurseNest. Truy cập hàng ngàn câu hỏi luyện tập NCLEX, mô phỏng lâm sàng, thẻ ghi nhớ và bài học sinh lý bệnh. Dành cho sinh viên RPN, RN và NP tại Canada và Hoa Kỳ.",
+    keywords: "câu hỏi luyện tập NCLEX, ôn thi điều dưỡng, ngân hàng câu hỏi điều dưỡng, thẻ ghi nhớ điều dưỡng, ôn tập NCLEX, mô phỏng lâm sàng, sinh lý bệnh điều dưỡng, kỳ thi điều dưỡng Canada",
+  },
+  "/pricing": {
+    title: "Bảng giá & Các gói | NurseNest – Ôn thi Điều dưỡng",
+    description: "So sánh các gói NurseNest cho ôn thi điều dưỡng. Bao gồm truy cập miễn phí. Gói hàng tháng hợp lý với ngân hàng câu hỏi NCLEX, mô phỏng lâm sàng và thẻ ghi nhớ.",
+    keywords: "bảng giá NurseNest, gói ôn thi NCLEX, giá kỳ thi điều dưỡng, đăng ký ôn tập NCLEX, giá ôn thi điều dưỡng",
+  },
+  "/lessons": {
+    title: "Bài học Lâm sàng – Sinh lý bệnh & Điều dưỡng | NurseNest",
+    description: "Khám phá bài học lâm sàng chuyên sâu về sinh lý bệnh, dược lý và lý luận lâm sàng. Nội dung được sắp xếp theo hệ cơ thể cho RPN, RN và NP.",
+    keywords: "bài học điều dưỡng, sinh lý bệnh điều dưỡng, khóa học lâm sàng, lý luận lâm sàng, dược lý điều dưỡng, ôn tập NCLEX bài học",
+  },
+  "/flashcards": {
+    title: "Thẻ ghi nhớ Điều dưỡng – Dược lý & Ôn tập | NurseNest",
+    description: "Học với thẻ ghi nhớ điều dưỡng đã xác minh lâm sàng. Dược lý, giá trị xét nghiệm và sinh lý bệnh với chế độ Học và Kiểm tra. Tạo bộ thẻ riêng.",
+    keywords: "thẻ ghi nhớ điều dưỡng, flashcard dược lý, ôn tập NCLEX thẻ, thẻ ghi nhớ ôn thi, học điều dưỡng",
+  },
+  "/mock-exams": {
+    title: "Thi thử NCLEX – Mô phỏng có giới hạn thời gian | NurseNest",
+    description: "Mô phỏng điều kiện thi thực với thi thử NCLEX có giới hạn thời gian. Lựa chọn câu hỏi thích ứng, theo dõi hiệu suất và giải thích chi tiết.",
+    keywords: "thi thử NCLEX, mô phỏng kỳ thi điều dưỡng, bài thi luyện tập có giờ, ôn thi điều dưỡng, thi thử NCLEX",
+  },
+  "/test-bank": {
+    title: "Ngân hàng Câu hỏi Điều dưỡng – Câu hỏi Luyện tập NCLEX | NurseNest",
+    description: "Truy cập ngân hàng câu hỏi điều dưỡng toàn diện. Lọc theo hệ cơ thể, cấp độ và chủ đề. Mỗi câu hỏi có giải thích chi tiết cho ôn tập NCLEX.",
+    keywords: "ngân hàng câu hỏi điều dưỡng, câu hỏi luyện tập NCLEX, trắc nghiệm điều dưỡng, ngân hàng đề thi, câu hỏi kỳ thi điều dưỡng",
+  },
+  "/question-bank": {
+    title: "Ngân hàng Câu hỏi Điều dưỡng – Câu hỏi Luyện tập NCLEX | NurseNest",
+    description: "Truy cập ngân hàng câu hỏi điều dưỡng toàn diện. Lọc theo hệ cơ thể, cấp độ và chủ đề. Mỗi câu hỏi có giải thích chi tiết cho ôn tập NCLEX.",
+    keywords: "ngân hàng câu hỏi điều dưỡng, câu hỏi luyện tập NCLEX, trắc nghiệm điều dưỡng, ngân hàng đề thi, câu hỏi kỳ thi điều dưỡng",
+  },
+  "/simulators": {
+    title: "Mô phỏng Lâm sàng – Kịch bản Tương tác | NurseNest",
+    description: "Luyện tập phán đoán lâm sàng với mô phỏng tương tác. Kịch bản bệnh nhân phân nhánh bao gồm nhiễm trùng huyết, nhồi máu cơ tim, DKA và suy giảm bệnh nhân.",
+    keywords: "mô phỏng lâm sàng điều dưỡng, mô phỏng bệnh nhân, phán đoán lâm sàng, kịch bản điều dưỡng, mô phỏng chăm sóc điều dưỡng",
+  },
+  "/free-practice": {
+    title: "Câu hỏi Luyện tập Miễn phí – Ôn tập NCLEX | NurseNest",
+    description: "Bắt đầu ôn thi NCLEX với câu hỏi luyện tập miễn phí. Giải thích chi tiết, lý luận lâm sàng và nội dung phù hợp kỳ thi. Không cần thẻ tín dụng.",
+    keywords: "câu hỏi luyện tập NCLEX miễn phí, ôn tập NCLEX miễn phí, câu hỏi điều dưỡng miễn phí, ôn thi điều dưỡng miễn phí",
+  },
+  "/anatomy": {
+    title: "Giải phẫu & Sinh lý – Ôn tập Miễn phí | NurseNest",
+    description: "Nắm vững giải phẫu và sinh lý với ôn tập miễn phí, tương tác. Tất cả hệ cơ thể với bài tập ghi nhãn và nội dung giáo dục chi tiết.",
+    keywords: "giải phẫu sinh lý điều dưỡng, ôn tập giải phẫu miễn phí, hệ cơ thể, giải phẫu điều dưỡng, ôn tập A&P",
+  },
+  "/pre-nursing": {
+    title: "Tiền Điều dưỡng – Nền tảng & Module Miễn phí | NurseNest",
+    description: "Khám phá các module tiền điều dưỡng miễn phí, tương tác. Sinh học tế bào, sinh lý, thuật ngữ y khoa và cơ bản dược lý để xây dựng nền tảng lâm sàng.",
+    keywords: "tiền điều dưỡng, nền tảng điều dưỡng, sinh học tế bào điều dưỡng, thuật ngữ y khoa, cơ bản dược lý",
+  },
+  "/clinical-clarity": {
+    title: "Rõ ràng Lâm sàng – Câu trả lời Dựa trên Bằng chứng | NurseNest",
+    description: "Nhận câu trả lời rõ ràng, dựa trên bằng chứng cho các câu hỏi lâm sàng thường trả lời sai trong kỳ thi. Nội dung có cơ sở khoa học cho sinh viên điều dưỡng.",
+    keywords: "rõ ràng lâm sàng điều dưỡng, câu trả lời lâm sàng, lý luận lâm sàng, câu hỏi thường gặp kỳ thi điều dưỡng",
+  },
+  "/study-plan": {
+    title: "Kế hoạch Học tập Cá nhân – Ôn thi NCLEX | NurseNest",
+    description: "Tạo kế hoạch học tập cá nhân cho ôn thi NCLEX. Lộ trình có cấu trúc phù hợp với cấp độ và mục tiêu thi của bạn.",
+    keywords: "kế hoạch học tập NCLEX, lập kế hoạch ôn thi điều dưỡng, lộ trình học tập, chương trình ôn tập NCLEX",
+  },
+  "/faq": {
+    title: "Câu hỏi Thường gặp (FAQ) | NurseNest",
+    description: "Tìm câu trả lời cho các câu hỏi về NurseNest. Thông tin về đăng ký, nội dung giáo dục, ôn thi và tính năng nền tảng.",
+    keywords: "FAQ NurseNest, câu hỏi thường gặp, trợ giúp NurseNest, hỗ trợ nền tảng điều dưỡng",
+  },
+  "/contact": {
+    title: "Liên hệ | NurseNest – Hỗ trợ & Câu hỏi",
+    description: "Liên hệ đội ngũ NurseNest cho bất kỳ câu hỏi, ý kiến hoặc yêu cầu hỗ trợ nào. Chúng tôi luôn sẵn sàng giúp bạn trong hành trình ôn thi điều dưỡng.",
+    keywords: "liên hệ NurseNest, hỗ trợ NurseNest, trợ giúp ôn thi điều dưỡng",
+  },
+  "/blog": {
+    title: "Blog Giáo dục Lâm sàng – Bài viết Điều dưỡng | NurseNest",
+    description: "Bài viết giáo dục lâm sàng dựa trên bằng chứng. Lý luận lâm sàng, sinh lý bệnh, dược lý và chiến lược ôn thi. Trích dẫn APA 7.",
+    keywords: "blog điều dưỡng, bài viết lâm sàng, giáo dục điều dưỡng, blog lý luận lâm sàng, bài viết dược lý",
+  },
+  "/med-math": {
+    title: "Tính toán Thuốc – Luyện tập Toán Điều dưỡng | NurseNest",
+    description: "Luyện tập tính liều lượng và toán dược với bài tập tương tác. Giải pháp từng bước và công thức thiết yếu cho kỳ thi điều dưỡng.",
+    keywords: "tính toán thuốc điều dưỡng, toán dược, liều lượng thuốc, tính tốc độ truyền dịch, toán điều dưỡng",
+  },
+  "/lab-values": {
+    title: "Giá trị Xét nghiệm – Phiên giải Điều dưỡng | NurseNest",
+    description: "Nắm vững phiên giải giá trị xét nghiệm. Khoảng bình thường, ý nghĩa lâm sàng của kết quả bất thường và hành động điều dưỡng tương ứng.",
+    keywords: "giá trị xét nghiệm điều dưỡng, phiên giải kết quả xét nghiệm, giá trị bình thường, phân tích máu điều dưỡng",
+  },
+  "/question-of-the-day": {
+    title: "Câu hỏi Hàng ngày – Lý luận Lâm sàng Hàng ngày | NurseNest",
+    description: "Nhận câu hỏi lý luận lâm sàng hàng ngày với giải thích chi tiết. Duy trì thói quen học tập cho ôn thi NCLEX.",
+    keywords: "câu hỏi hàng ngày NCLEX, câu hỏi lâm sàng hàng ngày, ôn tập hàng ngày điều dưỡng, luyện tập hàng ngày NCLEX",
+  },
+  "/compare": {
+    title: "So sánh Các gói – NurseNest vs Các lựa chọn khác | NurseNest",
+    description: "So sánh các gói NurseNest và khám phá tại sao NurseNest cung cấp nhiều tính năng hơn với giá hợp lý hơn UWorld và Archer cho ôn thi NCLEX.",
+    keywords: "so sánh NurseNest, NurseNest vs UWorld, so sánh ôn thi NCLEX, ôn thi NCLEX tốt nhất giá",
+  },
+  "/glossary": {
+    title: "Từ điển Điều dưỡng – Thuật ngữ Y khoa | NurseNest",
+    description: "Tra cứu từ điển thuật ngữ điều dưỡng và y khoa toàn diện. Định nghĩa rõ ràng cho thuật ngữ sử dụng trong chăm sóc điều dưỡng và kỳ thi.",
+    keywords: "từ điển điều dưỡng, thuật ngữ y khoa, định nghĩa điều dưỡng, từ vựng điều dưỡng",
+  },
+  "/practice-questions": {
+    title: "Câu hỏi Luyện tập Miễn phí – Ôn tập Điều dưỡng | NurseNest",
+    description: "Truy cập câu hỏi luyện tập miễn phí cho ôn tập điều dưỡng. Nội dung phù hợp kỳ thi với giải thích chi tiết cho mỗi đáp án.",
+    keywords: "câu hỏi luyện tập miễn phí điều dưỡng, ôn tập NCLEX miễn phí, câu hỏi kỳ thi điều dưỡng miễn phí",
+  },
+  "/nclex-rn-practice-questions": {
+    title: "Câu hỏi Luyện tập NCLEX-RN – Ôn thi | NurseNest",
+    description: "Chuẩn bị NCLEX-RN với câu hỏi luyện tập có mục tiêu. Lý luận lâm sàng, giải thích chi tiết và nội dung phù hợp các lĩnh vực thi.",
+    keywords: "câu hỏi luyện tập NCLEX-RN, ôn thi NCLEX-RN, ôn tập NCLEX-RN, câu hỏi kỳ thi RN",
+  },
+  "/nclex-pn-practice-questions": {
+    title: "Câu hỏi Luyện tập NCLEX-PN – Ôn thi | NurseNest",
+    description: "Chuẩn bị NCLEX-PN với câu hỏi luyện tập phù hợp. Nội dung RPN/LVN với giải thích lâm sàng và theo dõi hiệu suất.",
+    keywords: "câu hỏi luyện tập NCLEX-PN, ôn thi NCLEX-PN, ôn tập RPN, câu hỏi kỳ thi PN",
+  },
+  "/rex-pn-practice-questions": {
+    title: "Câu hỏi Luyện tập REx-PN – Ôn thi Canada | NurseNest",
+    description: "Chuẩn bị REx-PN với câu hỏi luyện tập thiết kế cho điều dưỡng thực hành tại Canada. Nội dung phù hợp tiêu chuẩn Canada.",
+    keywords: "câu hỏi luyện tập REx-PN, ôn thi REx-PN Canada, kỳ thi RPN Canada, ôn tập REx-PN",
+  },
+  "/np-exam-practice-questions": {
+    title: "Câu hỏi Luyện tập Kỳ thi NP – Chứng chỉ Điều dưỡng Chuyên khoa | NurseNest",
+    description: "Chuẩn bị kỳ thi chứng chỉ NP với câu hỏi luyện tập nâng cao. Nội dung AANP và ANCC với giải thích lâm sàng chuyên sâu.",
+    keywords: "câu hỏi luyện tập NP, ôn thi NP, chứng chỉ điều dưỡng chuyên khoa, ôn tập AANP ANCC",
+  },
+  "/diagnostic-assessment": {
+    title: "Đánh giá Chẩn đoán – Kiểm tra Trình độ | NurseNest",
+    description: "Đánh giá trình độ hiện tại với bài đánh giá chẩn đoán. Xác định điểm mạnh và điểm yếu để tối ưu kế hoạch ôn thi NCLEX.",
+    keywords: "đánh giá chẩn đoán điều dưỡng, kiểm tra trình độ NCLEX, chẩn đoán ôn thi, đánh giá kiến thức điều dưỡng",
+  },
+  "/medication-mastery": {
+    title: "Thành thạo Thuốc – Dược lý Điều dưỡng | NurseNest",
+    description: "Thành thạo dược lý điều dưỡng với công cụ ôn tập. Nhóm thuốc, tác dụng phụ, chống chỉ định và tính toán liều lượng.",
+    keywords: "dược lý điều dưỡng, thành thạo thuốc, ôn tập dược lý NCLEX, nhóm thuốc điều dưỡng",
+  },
+  "/lectures": {
+    title: "Bài giảng Video – Bài học Lâm sàng Video | NurseNest",
+    description: "Xem bài giảng video về sinh lý bệnh, dược lý và chăm sóc điều dưỡng. Nội dung giáo dục được sắp xếp theo hệ cơ thể và cấp độ.",
+    keywords: "bài giảng video điều dưỡng, bài học video điều dưỡng, video sinh lý bệnh, khóa học lâm sàng trực tuyến",
+  },
+  "/nclex-rn-guide": {
+    title: "Hướng dẫn NCLEX-RN – Tất cả để Đỗ | NurseNest",
+    description: "Hướng dẫn toàn diện để đỗ NCLEX-RN. Hình thức thi, lĩnh vực nội dung, chiến lược ôn thi và tài liệu học tập được đề xuất.",
+    keywords: "hướng dẫn NCLEX-RN, đỗ NCLEX-RN, hướng dẫn ôn thi NCLEX-RN, chiến lược kỳ thi RN",
+  },
+  "/rex-pn-guide": {
+    title: "Hướng dẫn REx-PN – Ôn thi Canada | NurseNest",
+    description: "Hướng dẫn toàn diện cho REx-PN tại Canada. Hình thức thi, năng lực được đánh giá và chiến lược ôn thi cho điều dưỡng Canada.",
+    keywords: "hướng dẫn REx-PN, ôn thi REx-PN Canada, hướng dẫn kỳ thi RPN, đỗ REx-PN",
+  },
+  "/np-exam-guide": {
+    title: "Hướng dẫn Kỳ thi NP – Chứng chỉ Điều dưỡng Chuyên khoa | NurseNest",
+    description: "Hướng dẫn toàn diện cho kỳ thi chứng chỉ NP. Bao gồm AANP, ANCC và các chuyên ngành FNP, AGPCNP, PMHNP và hơn nữa.",
+    keywords: "hướng dẫn kỳ thi NP, hướng dẫn chứng chỉ điều dưỡng chuyên khoa, ôn thi AANP ANCC, đỗ kỳ thi NP",
+  },
+  "/pathways": {
+    title: "Lộ trình Học tập – Tiến trình Có cấu trúc | NurseNest",
+    description: "Theo dõi lộ trình học tập có cấu trúc để tiến bộ từ cấp nền tảng đến nâng cao. Tiến trình có hướng dẫn cho mỗi chuyên ngành điều dưỡng.",
+    keywords: "lộ trình học tập điều dưỡng, tiến trình có cấu trúc, lộ trình ôn thi NCLEX, chương trình ôn tập điều dưỡng",
+  },
+  "/shop": {
+    title: "Cửa hàng – Tài liệu Học tập & Bộ đề Thi | NurseNest",
+    description: "Khám phá bộ đề thi in được, hướng dẫn học tập và tài liệu ôn tập cho ôn thi điều dưỡng.",
+    keywords: "cửa hàng NurseNest, bộ đề thi điều dưỡng, tài liệu học tập, hướng dẫn ôn tập NCLEX",
+  },
+};
+
 export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {
   fr: frenchMetadata,
   es: spanishMetadata,
   pt: portugueseMetadata,
+  vi: vietnameseMetadata,
 };
 
 export function getLocalizedSEO(locale: string, path: string): LocalizedSEOEntry | null {
