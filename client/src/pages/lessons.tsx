@@ -1762,7 +1762,9 @@ export const rnSystems = [
       { id: "hemorrhagic-stroke-rn", name: "Hemorrhagic Stroke: RN Pathophysiology", status: "Available" },
       { id: "parkinson-disease-rn", name: "Parkinson Disease: RN Pathophysiology", status: "Available" },
       { id: "delirium-vs-dementia-rn", name: "Delirium vs Dementia: RN Differentiation", status: "Available" },
-      { id: "meningitis-patho-rn", name: "Meningitis: RN Pathophysiology", status: "Available" }
+      { id: "meningitis-patho-rn", name: "Meningitis: RN Pathophysiology", status: "Available" },
+      { id: "status-epilepticus-rn", name: "Status Epilepticus: Emergency Management", status: "Available" },
+      { id: "traumatic-brain-injury-rn", name: "Traumatic Brain Injury: Assessment & Management", status: "Available" }
     ]
   },
   {
@@ -2222,7 +2224,16 @@ export const rnSystems = [
       { id: "acute-hemolytic-reaction-rn", name: "Acute Hemolytic Transfusion Reaction", status: "Available" },
       { id: "trali-critical-rn", name: "TRALI (Critical Care)", status: "Available" },
       { id: "massive-hemorrhage-rn", name: "Massive Hemorrhage Protocol", status: "Available" },
-      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia: RN Emergency Response", status: "Available" }
+      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia: RN Emergency Response", status: "Available" },
+      { id: "hypovolemic-shock-rn", name: "Hypovolemic Shock", status: "Available" },
+      { id: "distributive-shock-overview-rn", name: "Distributive Shock Overview", status: "Available" },
+      { id: "sepsis-septic-shock-rn", name: "Sepsis & Septic Shock", status: "Available" },
+      { id: "anaphylactic-shock-rn", name: "Anaphylactic Shock", status: "Available" },
+      { id: "neurogenic-shock-rn", name: "Neurogenic Shock (Critical Care)", status: "Available" },
+      { id: "obstructive-shock-rn", name: "Obstructive Shock (Critical Care)", status: "Available" },
+      { id: "mods-organ-dysfunction-rn", name: "MODS: Multiple Organ Dysfunction Syndrome", status: "Available" },
+      { id: "burns-critical-care-rn", name: "Burns: Critical Care Management", status: "Available" },
+      { id: "hemodynamic-monitoring-basics-rn", name: "Hemodynamic Monitoring Basics", status: "Available" }
     ]
   },
   {

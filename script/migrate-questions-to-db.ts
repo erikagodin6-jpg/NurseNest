@@ -183,6 +183,8 @@ QUESTION_FILES.push({ file: "rn-infectious-disease-cat", tier: "rn", exam: "NCLE
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroQuestions" });
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroCatQuestions" });
 QUESTION_FILES.push({ file: "np-cat-expansion-2", tier: "np", exam: "AANP", exportName: "npCatExpansion2Questions" });
+QUESTION_FILES.push({ file: "rn-shock-critical-testbank", tier: "rn", exam: "NCLEX-RN", exportName: "rnShockCriticalTestbankQuestions" });
+QUESTION_FILES.push({ file: "rn-shock-critical-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnShockCriticalCatQuestions" });
 
 QUESTION_FILES.push({ file: "rn-resp-renal-bank", tier: "rn", exam: "NCLEX-RN", exportName: "rnRespRenalBankQuestions" });
 QUESTION_FILES.push({ file: "rn-resp-renal-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnRespRenalCatQuestions" });
