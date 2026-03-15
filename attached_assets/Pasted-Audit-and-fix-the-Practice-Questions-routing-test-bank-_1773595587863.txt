@@ -1,0 +1,260 @@
+Audit and fix the Practice Questions routing, test bank exposure, and SEO structure for specialty guides such as ICU Nursing.
+
+This is a high priority issue involving both conversion optimization and paywall protection.
+
+CURRENT PROBLEM
+
+When users click "Practice Questions" from a specialty guide such as:
+
+/guides/icu-nursing
+
+they are routed directly to:
+
+/test-bank
+
+The test bank page exposes internal functionality including:
+
+tier selectors (RPN / RN / NP / Allied)
+system filters
+exam filters
+question navigation
+question counts
+test modes
+
+This is incorrect behavior because the test bank is the internal learning environment and should only be visible to authenticated users with the correct subscription.
+
+Allowing guide pages to route directly to the test bank creates the following risks:
+
+users probing locked content
+users switching tiers
+confusion between marketing pages and learning dashboards
+potential paywall bypass vectors
+poor UX funnel design
+
+OBJECTIVE
+
+Implement a proper preview funnel for specialty guides while protecting the test bank behind authentication.
+
+The system should follow this structure.
+
+GUIDE PAGE
+example:
+
+/guides/icu-nursing
+
+↓
+
+PREVIEW PAGE
+example:
+
+/preview/icu
+
+↓
+
+PAYWALL
+
+↓
+
+FULL TEST BANK
+/test-bank
+
+STEP 1
+
+Create specialty preview routes for each guide.
+
+Examples:
+
+/preview/icu
+/preview/emergency-nursing
+/preview/nicu
+/preview/med-surg
+/preview/trauma-nursing
+
+These preview pages should be public.
+
+STEP 2
+
+Preview pages must contain:
+
+title
+short description
+5 to 10 preview questions
+truncated rationales
+locked questions below preview
+clear upgrade call-to-action
+
+Example layout:
+
+ICU Practice Questions
+
+Practice ICU nursing scenarios covering ventilator management, sepsis protocols, and hemodynamic monitoring.
+
+Preview Questions
+
+Question 1
+Question 2
+Question 3
+Question 4
+Question 5
+
+Unlock the full ICU question bank
+
+CTA button
+
+Unlock ICU Question Bank
+
+STEP 3
+
+Guide pages such as ICU must link to the preview page, not the test bank.
+
+Replace all guide page buttons that currently route to:
+
+/test-bank
+
+with:
+
+/preview/{specialty}
+
+Example
+
+Start ICU Practice Questions
+
+should link to
+
+/preview/icu
+
+STEP 4
+
+Restrict access to the test bank.
+
+The following route must require authentication and subscription validation:
+
+/test-bank
+
+If a user tries to access this route without authentication:
+
+redirect to login
+
+If a user is logged in but does not have an active subscription:
+
+redirect to the pricing page
+
+STEP 5
+
+Hide internal test bank controls from public users.
+
+The following UI components must only appear when a user is authenticated and has access:
+
+tier selector
+system filters
+exam filters
+topic filters
+test mode selectors
+
+Public preview pages must not display these controls.
+
+STEP 6
+
+Prevent tier switching on public pages.
+
+Tier switching (RPN, RN, NP, Allied) should only exist inside the authenticated dashboard.
+
+STEP 7
+
+Implement SEO topic clusters for specialty guides.
+
+Each specialty guide must act as the hub of a content cluster.
+
+Example ICU cluster:
+
+/guides/icu-nursing
+/guides/ventilator-management-nursing
+/guides/sepsis-nursing-interventions
+/guides/hemodynamic-monitoring-nursing
+/guides/icu-medications
+/guides/icu-nursing-skills
+/guides/icu-nurse-salary
+
+All cluster pages must internally link back to the ICU Nursing Ultimate Guide.
+
+STEP 8
+
+Add internal linking inside guides.
+
+Example:
+
+ICU nurses frequently manage sepsis protocols, ventilator settings, and hemodynamic monitoring.
+
+These phrases should link to their corresponding cluster pages.
+
+STEP 9
+
+Add structured FAQ sections to specialty guides.
+
+Example ICU questions:
+
+What does an ICU nurse do?
+How do you become an ICU nurse?
+What certifications do ICU nurses need?
+Is ICU nursing hard?
+What is the ICU nurse salary?
+
+STEP 10
+
+Add CTAs to specialty guides above the fold.
+
+Example buttons:
+
+Start ICU Practice Questions
+Explore ICU Lessons
+
+These should route to:
+
+/preview/icu
+/lessons/icu
+
+STEP 11
+
+Verify that no public marketing page routes directly to the internal test bank.
+
+Marketing pages include:
+
+guides
+career pages
+specialty pages
+blog posts
+
+STEP 12
+
+Perform a global audit of all guide pages and replace any direct links to the test bank with preview pages.
+
+STEP 13
+
+Test the entire funnel.
+
+Guide page
+↓
+
+Preview page
+↓
+
+Login or paywall
+↓
+
+Full test bank
+
+Ensure users cannot access the test bank without authentication.
+
+EXPECTED RESULT
+
+Guide pages generate SEO traffic.
+
+Visitors land on specialty guides.
+
+Visitors explore preview questions.
+
+Visitors upgrade to unlock the full question bank.
+
+The internal test bank remains protected behind authentication.
+
+The user experience becomes structured and conversion optimized.
