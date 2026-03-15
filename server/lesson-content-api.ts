@@ -167,6 +167,38 @@ function buildLessonPreview(lesson: any, slug: string, tier: string): any {
 }
 
 export function setupLessonContentRoutes(app: Express): void {
+  app.get("/api/admin/lesson-diagnostics", async (req: Request, res: Response) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin only" });
+      }
+      const allMeta = await buildMetadata();
+      const tierCounts: Record<string, number> = {};
+      const completeCounts: Record<string, number> = {};
+      for (const m of allMeta) {
+        tierCounts[m.tier] = (tierCounts[m.tier] || 0) + 1;
+        if (m.isComplete) completeCounts[m.tier] = (completeCounts[m.tier] || 0) + 1;
+      }
+      let dbLessonCount = 0;
+      try {
+        const { pool } = await import("./storage");
+        const dbResult = await pool.query(`SELECT tier, COUNT(*) as cnt FROM content_items WHERE type = 'lesson' AND status = 'published' GROUP BY tier`);
+        dbLessonCount = dbResult.rows.reduce((sum: number, r: any) => sum + parseInt(r.cnt), 0);
+      } catch {}
+      res.json({
+        totalStaticLessons: allMeta.length,
+        staticByTier: tierCounts,
+        completeByTier: completeCounts,
+        dbLessonCount,
+        deploymentTime: new Date().toISOString(),
+        nodeEnv: process.env.NODE_ENV || "unknown",
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get("/api/lessons/meta", async (req: Request, res: Response) => {
     try {
       const userTier = await extractLessonUserTier(req);
@@ -180,6 +212,7 @@ export function setupLessonContentRoutes(app: Express): void {
       }
       const allowed = getAllowedLessonTiers(userTier);
       const filtered = allMeta.filter(m => allowed.includes(m.tier));
+      console.log(`[LessonAPI] meta: tier=${userTier}, total=${allMeta.length}, filtered=${filtered.length}`);
       res.setHeader("Cache-Control", "private, max-age=60");
       res.json(filtered);
     } catch (err: any) {

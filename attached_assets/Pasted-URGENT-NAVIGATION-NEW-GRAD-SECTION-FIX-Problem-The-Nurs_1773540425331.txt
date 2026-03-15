@@ -1,0 +1,215 @@
+URGENT NAVIGATION + NEW GRAD SECTION FIX
+
+Problem:
+The NurseNest published navigation currently routes multiple menu items incorrectly.
+
+Current issues confirmed:
+- RRT page opens a different-looking page without the normal NurseNest navigation.
+- Pharm Tech also opens a mismatched hero-style page.
+- Nursing Certifications dropdown item routes to the Allied Health hero page.
+- New Grad certification content created today (oncology, NICU, PICU, emergency, etc.) is not accessible.
+- The Careers dropdown text still overflows button edges.
+
+Goal:
+Create a proper New Grad section with its own hero page and restore correct routing for all navigation items while maintaining a consistent site shell and layout.
+
+-------------------------------------
+
+SECTION 1 — INFORMATION ARCHITECTURE
+
+Separate these three sections clearly:
+
+1. Exam Prep
+   /pricing
+   /lessons
+   /practice
+   /analytics
+
+2. New Grad
+   /new-grad
+   /new-grad/certifications
+   /new-grad/certifications/oncology
+   /new-grad/certifications/nicu
+   /new-grad/certifications/picu
+   /new-grad/certifications/emergency
+
+3. Allied Health
+   /allied-health
+   /allied-health/paramedic
+   /allied-health/rrt
+   /allied-health/pharm-tech
+
+Do NOT mix New Grad certifications with Allied Health pages.
+
+-------------------------------------
+
+SECTION 2 — NEW GRAD HERO PAGE
+
+Create a dedicated New Grad landing page.
+
+Route:
+    /new-grad
+
+Design requirements:
+
+Hero Section
+Headline:
+    "Your First Year as a Nurse Starts Here"
+
+Subheading:
+    "Guidance, certifications, and clinical survival strategies for new nurses transitioning into real-world practice."
+
+CTA Buttons:
+    Explore Certifications
+    New Nurse Survival Guides
+
+Background Style:
+    NurseNest pastel clinical style
+    soft gradients
+    subtle hospital imagery or nursing illustrations
+    rounded UI cards
+
+-------------------------------------
+
+SECOND SECTION — Certifications Grid
+
+Title:
+    Nursing Certifications & Specialties
+
+Display cards for certifications such as:
+
+    NICU
+    PICU
+    Emergency Nursing
+    Oncology Nursing
+    Critical Care
+    Perioperative Nursing
+    Pediatric Nursing
+    Cardiac Nursing
+    Mental Health Nursing
+
+Each card includes:
+
+    specialty name
+    short description
+    button:
+        Explore Specialty
+
+Cards should link to pages like:
+
+    /new-grad/certifications/nicu
+    /new-grad/certifications/picu
+    etc.
+
+-------------------------------------
+
+THIRD SECTION — New Nurse Survival
+
+Content blocks such as:
+
+    First-Year Nurse Survival Guide
+    How to Handle Your First Code
+    Charting Tips
+    Shift Organization
+    Time Management for Nurses
+
+-------------------------------------
+
+FOURTH SECTION — Career Growth
+
+Section describing:
+
+    certifications
+    specialization pathways
+    career advancement
+
+-------------------------------------
+
+SECTION 3 — FIX DROPDOWN ROUTING
+
+Audit every dropdown item under Careers / Healthcare Careers.
+
+Ensure correct routes:
+
+Paramedic
+    → /allied-health/paramedic
+
+Respiratory Therapy (RRT)
+    → /allied-health/rrt
+
+Pharmacy Technician
+    → /allied-health/pharm-tech
+
+Nursing Certifications
+    → /new-grad
+
+Do NOT route Nursing Certifications to the Allied Health hero page.
+
+-------------------------------------
+
+SECTION 4 — FIX LAYOUT CONSISTENCY
+
+Ensure all pages use the same global layout:
+
+    global navbar
+    dropdown navigation
+    footer
+    container width
+    responsive breakpoints
+
+RRT and Pharm Tech pages must NOT load a standalone template or different site shell.
+
+-------------------------------------
+
+SECTION 5 — RESTORE ACCESS TO CREATED CONTENT
+
+Identify certification/new grad pages created today and ensure they are accessible.
+
+Examples to confirm exist and render:
+
+    oncology
+    NICU
+    PICU
+    emergency
+
+Ensure these pages are linked from the New Grad hub.
+
+-------------------------------------
+
+SECTION 6 — FIX DROPDOWN TEXT OVERFLOW
+
+Repair the Careers dropdown CSS:
+
+    no text overlapping button edges
+    proper padding
+    allow wrapping for longer labels
+    maintain responsive layout
+
+-------------------------------------
+
+SECTION 7 — TESTING
+
+Verify on the published site:
+
+New Grad
+    /new-grad loads hero page
+
+Certification pages open properly
+
+Allied Health pages open with correct navigation
+
+Dropdown menu text does not overflow
+
+All pages render with the same site header and footer
+
+-------------------------------------
+
+DELIVERABLES
+
+Provide:
+
+    root cause of routing errors
+    files changed
+    list of corrected URLs
+    confirmation certification pages are visible
+    confirmation navigation works on published site
