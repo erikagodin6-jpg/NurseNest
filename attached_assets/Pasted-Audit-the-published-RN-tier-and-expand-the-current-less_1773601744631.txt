@@ -1,0 +1,114 @@
+Audit the published RN tier and expand the current lesson, flashcard, test bank, and CAT content using the uploaded Saunders NCLEX-RN review book and the uploaded pathophysiology/unit documents.
+
+Primary goal
+- Pull high-yield RN exam topics from the uploaded materials and add them into the CURRENT RN categories and existing lesson architecture on the published site.
+- Do not create new categories.
+- Do not rename current categories.
+- Do not move lessons to different systems.
+- Prefer expanding current lesson titles first.
+
+Use the uploaded review materials to identify and add high-value RN topics across:
+- foundations of care
+- fluids and electrolytes
+- acid-base balance
+- safety and infection control
+- pharmacology and IV therapy
+- maternity
+- newborn
+- pediatrics
+- integumentary
+- hematology/oncology
+- endocrine
+- GI
+- respiratory
+- cardiovascular
+- renal and urinary
+- eye/ear
+- neurologic
+- musculoskeletal
+- immune
+- mental health
+- complex care
+
+RN topic priorities from uploaded material
+Use the uploaded pathophysiology notes and review files to enrich current RN categories with topics such as:
+- myocardial infarction
+- heart failure: systolic vs diastolic / reduced vs preserved EF
+- abdominal aortic aneurysm
+- Kawasaki disease
+- stroke / TIA
+- seizures and seizure care
+- meningitis
+- dementia vs delirium
+- Parkinson disease
+- diabetes mellitus
+- DKA
+- hypothyroidism / hyperthyroidism
+- adrenal insufficiency / Cushing syndrome / hyperaldosteronism
+- ALL / AML
+- neutropenia and neutropenic precautions
+- sickle cell disease
+- thalassemia
+- rheumatoid arthritis
+- osteoarthritis
+- osteoporosis
+- rhabdomyolysis
+- osteomyelitis
+- septic arthritis
+- anti-infectives / bacterial structure / resistance
+- vaccines / immunology
+- stress physiology / HPA axis
+- obesity pathophysiology
+- smoking and vaping effects
+- selected men’s health topics if current RN categories already support them
+
+RN lesson depth standard
+Each RN lesson should include:
+- overview
+- RN-level pathophysiology
+- risk factors
+- clinical manifestations
+- assessment findings
+- diagnostics/labs/imaging
+- nursing interventions and priorities
+- complications
+- patient teaching
+- pharmacology overview when relevant
+- exam pearls / NCLEX-style takeaways
+
+Flashcards
+For each added or expanded RN topic, generate:
+- 25 to 35 flashcards per topic
+- include patho, hallmark findings, labs, nursing priorities, meds, complications, and clinical judgment cues
+- place them in the appropriate existing RN flashcard area
+
+Test bank questions
+For each topic, generate:
+- 35 to 50 RN-level practice questions
+- include multiple choice, SATA, priority, clinical judgment, delegation, and scenario-based items
+- include rationales for all answer options except CAT mode if CAT is configured differently
+- publish into the correct RN test bank areas
+
+CAT questions
+For each topic, generate:
+- 15 to 25 adaptive CAT-style questions per topic
+- progress from recognition to application to prioritization
+- include higher RN clinical judgment
+- publish into the current RN adaptive/CAT exam system
+
+Strict rules
+- no new categories
+- no duplicate lesson titles
+- do not overwrite strong existing lessons unless improving them materially
+- no placeholders
+- no unlinked content
+- content must be visible on the published site
+
+QA
+Confirm:
+- new content sits in existing RN categories
+- every lesson opens properly
+- flashcards, test bank items, and CAT items are in correct RN areas
+- no 404s
+- no duplicate content shells
+- no cross-posting RN content into RPN or NP by mistake

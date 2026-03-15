@@ -1,0 +1,112 @@
+Audit the published RPN tier and expand the current lesson, flashcard, test bank, and CAT content using the uploaded NCLEX-PN and nursing review materials.
+
+Primary goal
+- Pull foundational practical nursing topics and exam-style concepts from the uploaded review books/files.
+- Add or expand content only inside the CURRENT published RPN categories and current lesson architecture.
+- Do not create new categories.
+- Do not rename category names.
+- Do not move lessons into different systems.
+- Do not create duplicate titles if an equivalent lesson already exists.
+
+Source priority
+Use the uploaded practical nursing and general nursing review materials to identify high-yield RPN topics, especially:
+- fundamentals
+- safety and infection control
+- fluids and electrolytes
+- acid-base basics
+- medication administration
+- adult health systems
+- endocrine
+- respiratory
+- cardiovascular
+- neurologic
+- renal/urinary
+- GI
+- immune/infectious disease
+- hematology/oncology
+- musculoskeletal
+- maternity basics
+- newborn basics
+- pediatrics basics
+- mental health basics
+
+What to add
+1. Audit current RPN lesson categories and identify missing, thin, or incomplete lessons.
+2. Pull beneficial topics from the uploaded files and map them into the most appropriate CURRENT RPN categories.
+3. Expand existing lessons first before creating any missing lesson entries.
+4. If a topic already exists as a title but is empty or weak, fully complete that lesson rather than making a new one.
+
+RPN lesson depth standard
+Each lesson must be practical nursing level:
+- clear overview
+- simplified but accurate pathophysiology
+- key signs and symptoms
+- focused nursing assessment
+- expected nursing interventions
+- patient teaching
+- complications to watch for
+- exam tips / high-yield memory anchors
+
+RPN topic priorities to build from the uploaded files
+- myocardial infarction
+- heart failure
+- abdominal aortic aneurysm
+- stroke basics
+- seizures / febrile seizures
+- meningitis
+- diabetes mellitus
+- DKA basics
+- hypo/hyperthyroidism
+- adrenal insufficiency
+- Cushing syndrome
+- leukemia basics
+- sickle cell disease
+- thalassemia
+- rheumatoid arthritis
+- osteoarthritis
+- osteoporosis
+- osteomyelitis
+- septic arthritis
+- vaccines and basic immunology
+- bacterial structure and antibiotic resistance
+- obesity and smoking/vaping basics
+- stress physiology basics
+- common pediatric disorders already represented in current categories
+
+Flashcards
+For every added or expanded RPN topic, generate:
+- 20 to 30 flashcards per topic
+- include definition, hallmark symptoms, assessments, interventions, patient teaching, pharmacology pearls, safety risks, and common exam traps
+- place them in the appropriate published RPN flashcard decks or current matching category
+
+Test bank questions
+For every added or expanded RPN topic, generate:
+- 25 to 40 RPN-level exam questions per topic
+- include multiple choice, SATA, prioritization, safety, delegation within RPN scope where appropriate
+- every question must have answer rationale for all answer options except CAT mode if your system excludes full rationale there
+- place in the proper RPN practice question banks already on the published site
+
+CAT questions
+For every added or expanded RPN topic, generate:
+- 10 to 20 adaptive CAT-style questions per topic
+- difficulty should progress from basic recognition to application and prioritization
+- align with practical nursing level, not RN or NP overcomplexity
+- publish into the existing adaptive exam/CAT area for RPN
+
+Strict rules
+- do not add random new categories
+- do not create thin placeholder lessons
+- do not create duplicate lessons with slightly different names
+- do not add content outside the current published site structure
+- do not leave any newly added lesson unlinked
+- ensure all content is visible on the live published site, not just admin drafts
+
+QA
+Confirm:
+- every added topic is mapped to an existing RPN category
+- lesson opens correctly
+- flashcards appear in correct deck/category
+- test bank items appear in correct RPN bank
+- CAT items appear in the correct adaptive engine area
+- no duplicate titles
+- no empty shells
