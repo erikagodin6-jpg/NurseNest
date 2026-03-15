@@ -1,6 +1,7 @@
 import { useRoute, Link } from "wouter";
 import { CAREER_GUIDES, type CareerGuideData } from "@shared/career-guide-data";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import {
   GraduationCap, Briefcase, DollarSign, TrendingUp, MapPin, Clock,
   ChevronRight, BookOpen, FileText, ArrowRight, CheckCircle2, Building2,
@@ -11,11 +12,9 @@ function HeroSection({ guide }: { guide: CareerGuideData }) {
   return (
     <section className="bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 text-white py-16 sm:py-20" data-testid="section-hero">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-2 text-teal-200 text-sm mb-6" data-testid="nav-breadcrumb">
-          <Link href="/careers" className="hover:text-white transition-colors">Careers</Link>
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-white">{guide.profession}</span>
-        </nav>
+        <div className="[&_nav]:text-teal-200 [&_a]:text-teal-200 [&_a:hover]:text-white [&_span]:text-white [&_.text-gray-300]:text-teal-300 [&_.text-gray-400]:text-teal-300 mb-6">
+          <AlliedBreadcrumb items={[{ label: guide.profession }]} />
+        </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" data-testid="text-guide-title">
           {guide.articleTitle}
         </h1>
@@ -387,6 +386,16 @@ export default function CareerGuidePage() {
     );
   }
 
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "NurseNest", "item": "https://www.nursenest.ca/" },
+      { "@type": "ListItem", "position": 2, "name": "Allied Health", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 3, "name": guide.profession, "item": `https://www.nursenest.ca/allied-health/${guide.slug}` },
+    ],
+  };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -452,7 +461,7 @@ export default function CareerGuidePage() {
         keywords={`how to become a ${guide.profession.toLowerCase()}, ${guide.profession.toLowerCase()} career, ${guide.profession.toLowerCase()} salary, ${guide.profession.toLowerCase()} education, ${guide.profession.toLowerCase()} certification, ${guide.profession.toLowerCase()} job outlook`}
         canonicalPath={`/${guide.slug}`}
         structuredData={structuredData}
-        additionalStructuredData={[occupationData, jobPostingData]}
+        additionalStructuredData={[breadcrumbStructuredData, occupationData, jobPostingData]}
       />
 
       <HeroSection guide={guide} />

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { ChevronRight, FileText, ArrowRight, Loader2, BookOpen, Filter } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
-import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
@@ -88,9 +88,8 @@ export default function ArticleListingPage() {
   const articleTypes = [...new Set(articles.map(a => a.articleType))];
 
   const breadcrumbItems = [
-    { name: "Home", url: `${ALLIED_DOMAIN}/` },
-    { name: profession.shortName, url: `${ALLIED_DOMAIN}/${profSlug}` },
-    { name: "Articles", url: `${ALLIED_DOMAIN}/allied-health/${profSlug}/articles` },
+    { label: profession.shortName, href: `/allied-health/${profSlug}` },
+    { label: "Articles" },
   ];
 
   return (
@@ -112,12 +111,12 @@ export default function ArticleListingPage() {
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": breadcrumbItems.map((item, i) => ({
-              "@type": "ListItem",
-              "position": i + 1,
-              "name": item.name,
-              "item": item.url,
-            })),
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "NurseNest", "item": "https://www.nursenest.ca/" },
+              { "@type": "ListItem", "position": 2, "name": "Allied Health", "item": "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", "position": 3, "name": profession.shortName, "item": `https://www.nursenest.ca/allied-health/${profSlug}` },
+              { "@type": "ListItem", "position": 4, "name": "Articles", "item": `https://www.nursenest.ca/allied-health/${profSlug}/articles` },
+            ],
           },
         ]}
       />
@@ -125,7 +124,7 @@ export default function ArticleListingPage() {
       <section className="relative py-12 sm:py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BreadcrumbNav items={breadcrumbItems} />
+          <AlliedBreadcrumb items={breadcrumbItems} />
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4" data-testid="text-listing-title">
             {profession.shortName} Career & Study Articles
           </h1>

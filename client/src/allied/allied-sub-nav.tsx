@@ -88,8 +88,12 @@ export function AlliedSubNav() {
       { slug: "exams", label: "Practice Exams" },
       { slug: "career-guide", label: "Career Guide" },
     ];
+    const segments = location.split("/").filter(Boolean);
+    const featureSlug = segments.length > 2 ? segments[2] : null;
+    const featureLabel = featureSlug ? subPages.find(sp => sp.slug === featureSlug)?.label || null : null;
     const breadcrumbItems = [
       { label: hubData.shortName, href: basePath },
+      ...(featureLabel ? [{ label: featureLabel }] : []),
     ];
     return (
       <div data-testid="allied-sub-nav">
@@ -167,8 +171,16 @@ export function AlliedSubNav() {
     return location === `${canonical}/${featureSlug}`;
   }
 
+  const canonicalBase = getCanonicalRoute(currentCareer.slug);
+  const urlSegments = location.split("/").filter(Boolean);
+  const currentFeatureSlug = urlSegments.length > 2 ? urlSegments[2] : null;
+  const currentFeatureLabel = currentFeatureSlug
+    ? features.find(f => f.slug === currentFeatureSlug)?.label || null
+    : null;
+
   const breadcrumbItems = [
-    { label: currentCareer.shortName, href: getCanonicalRoute(currentCareer.slug) },
+    { label: currentCareer.shortName, href: canonicalBase },
+    ...(currentFeatureLabel ? [{ label: currentFeatureLabel }] : []),
   ];
 
   return (

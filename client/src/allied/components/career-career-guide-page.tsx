@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import {
-  GraduationCap, ChevronRight, ChevronDown, ArrowRight, BookOpen,
+  GraduationCap, ChevronDown, ArrowRight, BookOpen,
   Brain, Target, Award, DollarSign, TrendingUp, Briefcase,
   CheckCircle2, HelpCircle, MapPin, Wrench, FileText
 } from "lucide-react";
@@ -25,7 +25,7 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/" },
+      { "@type": "ListItem", "position": 1, "name": "NurseNest", "item": "https://www.nursenest.ca/" },
       { "@type": "ListItem", "position": 2, "name": "Allied Health", "item": "https://www.nursenest.ca/allied-health" },
       { "@type": "ListItem", "position": 3, "name": hubData.shortName, "item": `https://www.nursenest.ca${basePath}` },
       { "@type": "ListItem", "position": 4, "name": "Career Guide", "item": `https://www.nursenest.ca${basePath}/career-guide` },
@@ -65,15 +65,6 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
       <section className="relative py-12 sm:py-16 overflow-hidden">
         <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${hubData.colorAccent}40, white, ${hubData.colorAccent}20)` }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="guide-breadcrumbs">
-            <Link href="/" className="hover:text-gray-700">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={basePath} className="hover:text-gray-700">{hubData.shortName}</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-medium" style={{ color: hubData.color }}>Career Guide</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-guide-title">
             How to Become a {hubData.name}
           </h1>

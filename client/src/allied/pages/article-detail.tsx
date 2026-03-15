@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { ChevronRight, ArrowRight, Loader2, BookOpen, FileText, Brain, Target, Zap, ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
-import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
@@ -116,10 +116,9 @@ export default function ArticleDetailPage() {
   const internalLinks = safeParseArray(article.internalLinks);
 
   const breadcrumbItems = [
-    { name: "Home", url: `${ALLIED_DOMAIN}/` },
-    { name: profession.shortName, url: `${ALLIED_DOMAIN}${profession.hubPath}` },
-    { name: "Articles", url: `${ALLIED_DOMAIN}/allied-health/${profSlug}/articles` },
-    { name: article.title, url: `${ALLIED_DOMAIN}/allied-health/${profSlug}/${articleSlug}` },
+    { label: profession.shortName, href: profession.hubPath },
+    { label: "Articles", href: `/allied-health/${profSlug}/articles` },
+    { label: article.title },
   ];
 
   const safeParseObject = (val: any, fallback: any): any => {
@@ -147,10 +146,17 @@ export default function ArticleDetailPage() {
     faqItems.map((f: any) => ({ question: f.question, answer: f.answer }))
   ) : null;
 
+  const breadcrumbSchemaItems = [
+    { name: "NurseNest", url: "https://www.nursenest.ca/" },
+    { name: "Allied Health", url: "https://www.nursenest.ca/allied-health" },
+    { name: profession.shortName, url: `https://www.nursenest.ca${profession.hubPath}` },
+    { name: "Articles", url: `https://www.nursenest.ca/allied-health/${profSlug}/articles` },
+    { name: article.title, url: `https://www.nursenest.ca/allied-health/${profSlug}/${articleSlug}` },
+  ];
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbItems.map((item, i) => ({
+    "itemListElement": breadcrumbSchemaItems.map((item, i) => ({
       "@type": "ListItem",
       "position": i + 1,
       "name": item.name,
@@ -175,7 +181,7 @@ export default function ArticleDetailPage() {
       <section className="relative py-10 sm:py-14 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BreadcrumbNav items={breadcrumbItems} />
+          <AlliedBreadcrumb items={breadcrumbItems} />
           {article.publishedAt && (
             <div className="text-xs text-gray-500 mb-3">
               Published {new Date(article.publishedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}

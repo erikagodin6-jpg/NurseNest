@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import {
-  Target, ChevronRight, ChevronDown, Clock, ArrowRight, BookOpen,
+  Target, ChevronDown, Clock, ArrowRight, BookOpen,
   Brain, Zap, HelpCircle, FileText, BarChart3, GraduationCap
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -34,10 +34,10 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/" },
+      { "@type": "ListItem", "position": 1, "name": "NurseNest", "item": "https://www.nursenest.ca/" },
       { "@type": "ListItem", "position": 2, "name": "Allied Health", "item": "https://www.nursenest.ca/allied-health" },
       { "@type": "ListItem", "position": 3, "name": hubData.shortName, "item": `https://www.nursenest.ca${basePath}` },
-      { "@type": "ListItem", "position": 4, "name": "Exams", "item": `https://www.nursenest.ca${basePath}/exams` },
+      { "@type": "ListItem", "position": 4, "name": "Practice Exams", "item": `https://www.nursenest.ca${basePath}/exams` },
     ],
   };
 
@@ -81,15 +81,6 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
       <section className="relative py-12 sm:py-16 overflow-hidden">
         <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${hubData.colorAccent}40, white, ${hubData.colorAccent}20)` }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="exams-breadcrumbs">
-            <Link href="/" className="hover:text-gray-700">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={basePath} className="hover:text-gray-700">{hubData.shortName}</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-medium" style={{ color: hubData.color }}>Exams</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-exams-title">
             {hubData.shortName} Practice Exams
           </h1>
