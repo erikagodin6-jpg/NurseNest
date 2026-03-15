@@ -1,0 +1,88 @@
+Fix the empty lesson cards marked with the orange/yellow circle icon across all tiers.
+
+Goal
+- Any lesson currently showing as empty/incomplete with the orange/yellow circle must be fully populated with real content.
+- Do not create any new lesson titles.
+- Do not rename existing lesson titles unless a title is clearly broken by a bug.
+- Keep every lesson in its current category/slot/position on the page.
+- Apply this across all tiers: RPN, RN, NP, and all equivalent lesson structures anywhere else this pattern exists.
+
+Critical rules
+- Do NOT generate new lesson titles.
+- Do NOT move lessons to different sections.
+- Do NOT create duplicate lessons.
+- Do NOT insert placeholder text, “coming soon,” stub pages, empty shells, lorem ipsum, or thin content.
+- Do NOT change the existing information architecture just to make this easier.
+- The lesson card that exists in a given spot must be the lesson that gets completed for that exact spot.
+- Keep the visible lesson ordering exactly as it is unless a silent backend sort bug is causing mismatch.
+- Do not touch completed lessons that already have proper content except to fix linking if needed.
+
+What to do
+1. Audit every lesson card with the orange/yellow incomplete icon.
+2. For each one, identify the existing lesson title and the exact category slot where it appears.
+3. Build the missing lesson content for that exact title only.
+4. Ensure the lesson opens correctly from that card and displays full lesson content instead of an empty page, blank state, 404, or partial shell.
+5. Make sure the progress/completion icon updates correctly once the lesson has valid content attached.
+6. Repeat this for all tiers, not just the currently visible page.
+
+Content requirements for every previously empty lesson
+Each lesson must include substantial, tier-appropriate educational content matched to the existing title and tier.
+
+Minimum lesson structure
+- Clean title matching the existing lesson title
+- Short overview/introduction
+- Learning objectives
+- Core concept explanation
+- Signs/symptoms or clinical presentation when relevant
+- Assessment findings when relevant
+- Diagnostics/labs/imaging when relevant
+- Nursing implications / interventions / clinical management when relevant
+- Medications or pharmacology points when relevant
+- Safety considerations / red flags / complications
+- Key takeaways / summary
+- 5 to 10 review questions or knowledge checks if that lesson format already supports embedded review
+- Rationales where the lesson system supports them
+
+Tier-specific standards
+- RPN: practical, foundational, safe bedside understanding, straightforward phrasing
+- RN: deeper pathophysiology, prioritization, higher clinical reasoning
+- NP: advanced assessment, diagnostics, differential thinking, management considerations, scope-appropriate advanced depth
+
+Important content rule
+- Content must match the existing lesson title exactly.
+- Do not use generic recycled text that could apply to anything.
+- Do not clone the same lesson body across multiple titles.
+- If the title is topic-specific, the content must be topic-specific.
+- If the title is broad, organize it into meaningful sub-sections.
+
+UI/data requirements
+- Keep the current card title exactly where it is displayed in the grid/list.
+- Keep the lesson attached to that exact category block and tier.
+- Ensure clicking the card routes to the correct lesson slug/id/content entry.
+- Ensure no empty lessons remain with the orange/yellow incomplete marker due to missing body content, missing relations, unpublished state, or broken links.
+- If the issue is data mapping rather than missing content, fix the mapping without changing titles.
+- If the issue is unpublished content, publish the existing lesson after validating it is complete.
+- If the issue is a broken association between card and lesson body, repair the association instead of creating a new lesson.
+
+Cross-tier requirement
+- Do this for all tiers, even if some tiers have different lesson counts or category names.
+- Fill the existing lesson slots for RPN, RN, and NP using the current lesson titles already in those slots.
+- Do not append tier labels into titles if users are already inside that tier.
+
+QA checklist
+- No lesson cards with orange/yellow incomplete icons remain because of empty content
+- No new lesson titles were created
+- No lesson cards changed category position
+- No duplicate lessons were created
+- Every repaired lesson opens correctly
+- Every repaired lesson has meaningful, title-specific content
+- Completed lessons still work
+- Category counts remain accurate
+- Progress bars and completion states reflect actual content presence
+
+Acceptance criteria
+- Every currently empty lesson card now has full content attached
+- The lesson remains in the same spot where the empty card originally appeared
+- No new titles were added
+- The fix works across all tiers
+- The lesson system looks complete, cohesive, and intentional rather than patched together

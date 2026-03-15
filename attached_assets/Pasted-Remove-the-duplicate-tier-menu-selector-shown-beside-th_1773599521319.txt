@@ -1,0 +1,47 @@
+Remove the duplicate tier/menu selector shown beside the NurseNest logo in the main header/navigation.
+
+What to change
+- Delete the small outlined dropdown/button directly beside the logo that is currently showing a duplicated tier/menu control.
+- Keep the normal top navigation intact:
+  - Exam Prep
+  - New Grad Support
+  - Healthcare Careers
+- Keep the main primary navigation intact:
+  - Study
+  - Practice
+  - Analytics
+  - New Grad
+  - Career Guides
+  - Store
+  - Pricing
+  - FAQ
+  - For Schools
+- Keep the lower tier navigation intact only if it is the intended tier selector:
+  - RPN
+  - RN
+  - NP
+
+Rules
+- Do not remove the real/working tier navigation if it is used elsewhere on the page.
+- Only remove the duplicated control beside the logo.
+- Do not change spacing, font sizes, or alignment of the remaining header items except as needed to rebalance layout after removal.
+- After removing it, realign the header so the logo and remaining nav items are evenly spaced and vertically centered.
+- Make sure this duplicate is removed across all breakpoints where it appears, especially desktop/tablet.
+- Audit shared header components so this duplicate does not reappear on other pages or tier pages.
+- Do not touch the tiered menus that already took a long time to get right, except to remove this one duplicate instance.
+- Do not create any new menu variations.
+
+Implementation guidance
+- Check for duplicated header component renders, duplicated dropdown component mounts, or a condition that renders the same selector twice.
+- Search shared layout/header/nav components for the duplicated selector and remove the extra instance at the source.
+- Verify this on:
+  - homepage
+  - nursing pages
+  - allied health pages
+  - new grad pages
+
+Acceptance criteria
+- The circled duplicate menu beside the logo is completely gone.
+- Only one intended tier/menu navigation remains.
+- Header layout looks clean and balanced.
+- No new spacing bugs, wrapping issues, or broken dropdowns are introduced.

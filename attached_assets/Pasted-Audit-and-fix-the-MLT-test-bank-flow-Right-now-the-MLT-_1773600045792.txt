@@ -1,0 +1,88 @@
+Audit and fix the MLT test bank flow. Right now the MLT test bank button leads to a “Something went wrong” page, and this should have been caught in the audit.
+
+Goal
+- Make the MLT test bank button open the correct working test bank page.
+- Fix the real root cause.
+- Audit similar allied health/test bank buttons so this same failure is not happening elsewhere.
+
+Current problem
+- Clicking the MLT test bank button routes to an error page instead of a valid test bank.
+- This is likely a broken route, bad slug, missing content mapping, empty dataset, or a page/render failure.
+
+What to do
+1. Trace the full MLT test bank button flow:
+   - button component
+   - href/onClick handler
+   - route path
+   - slug/ID passed
+   - page loader
+   - API/data fetch
+   - test bank/session initialization
+2. Identify the exact failure point.
+3. Fix the source issue rather than redirecting around it.
+4. Verify the button opens a valid MLT test bank experience end to end.
+
+Things to inspect carefully
+- The MLT card/button link target
+- Whether the MLT test bank route exists
+- Whether the slug/path matches the actual MLT content record
+- Whether MLT is incorrectly pointing to a generic or deleted route
+- Whether the page exists but the content relation is null
+- Whether the content is unpublished
+- Whether the test bank has zero questions and crashes on load
+- Whether tier/access logic is falsely blocking the page
+- Whether the “Something went wrong” page is coming from a frontend error boundary
+- Whether there is a mismatch between allied health program names and stored slugs/IDs
+
+Critical rules
+- Do not create a new random title or route unless absolutely necessary to repair a broken mapping.
+- Do not change the visible MLT program name unless there is a clear typo bug.
+- Do not send users to a placeholder page.
+- Do not hide the error with a generic redirect.
+- Do not break any other allied health pages while fixing MLT.
+
+Required audit
+After fixing MLT, audit all allied health test bank buttons for the same class of issue:
+- MLT
+- pharmacy tech
+- imaging/rad tech
+- sonography
+- echo tech
+- OTA
+- PTA
+- surg tech
+- paramedic
+- any other allied/new grad/test bank CTA using the same component pattern
+
+For each one verify:
+- button points to a valid route
+- route loads successfully
+- linked content exists
+- no “Something went wrong” page
+- no 404
+- no empty test bank load failure
+- no broken slug mismatch
+- no paywall bypass
+- no false access denial
+
+If any similar issue is found
+- Repair the route/content mapping
+- Keep the existing card/title/position intact
+- Do not invent unnecessary new pages
+
+Logging/debug requirements
+Add logs for:
+- clicked button
+- route target
+- slug/id received
+- content record found or missing
+- question count found
+- page load success/failure
+- exact thrown error
+
+Acceptance criteria
+- MLT test bank button opens correctly
+- No “Something went wrong” page for MLT
+- Similar allied health test bank buttons are audited and repaired if needed
+- All affected buttons resolve to the correct working destination
+- No placeholder shells, broken mappings, or silent failures remain

@@ -1,0 +1,133 @@
+Perform a full SEO and indexing audit for the allied.nursenest.ca subdomain to resolve the issue where ~1500 pages are "Discovered – currently not indexed" in Google Search Console.
+
+Goals
+1. Ensure all important pages are crawlable and indexable.
+2. Improve internal linking so Google prioritizes crawling these pages.
+3. Prevent low-value pages from flooding the sitemap.
+4. Strengthen SEO signals so Google crawls the site faster.
+
+STEP 1 — Audit Crawlability
+Check the following for every allied health page:
+
+- robots.txt rules
+- meta robots tags
+- canonical tags
+- noindex directives
+- blocked resources
+- sitemap inclusion
+- HTTP status codes
+
+Ensure all important pages return:
+200 status
+index, follow
+correct canonical URL
+
+STEP 2 — Improve Internal Linking
+Google often refuses to crawl pages that have weak internal linking.
+
+Add contextual internal links to all allied pages from:
+
+• homepage
+• allied hero page
+• career guides
+• blog posts
+• exam prep pages
+• certification pages
+
+Each allied career page should include links to:
+
+Practice questions  
+Mock exams  
+Study guides  
+Flashcards  
+Related careers  
+Certification information
+
+Ensure every page has at least **5-10 internal links** pointing to it.
+
+STEP 3 — Strengthen Page Content
+Google often delays indexing if pages appear thin.
+
+Audit these pages:
+
+/careers/mlt
+/careers/pharmacy-tech
+/imaging
+/diagnostic
+/imaging/radiography-practice-test
+/imaging/sims
+/imaging/tools
+
+Ensure each page contains:
+
+• 1200+ words of unique content
+• career overview
+• certification requirements
+• salary information
+• exam prep details
+• study resources
+• FAQ section
+• internal links
+
+Do NOT leave empty sections.
+
+STEP 4 — Fix Sitemap Prioritization
+Ensure allied sitemap includes:
+
+• only indexable pages
+• correct priority values
+• correct lastmod values
+
+Example priority:
+
+Hero pages: 1.0  
+Career pages: 0.9  
+Exam prep pages: 0.8  
+Tools pages: 0.7  
+Blog posts: 0.6  
+
+Remove low-value or duplicate URLs.
+
+STEP 5 — Improve Crawl Signals
+Add structured data where appropriate:
+
+Career pages → JobTraining schema  
+Course pages → Course schema  
+FAQ sections → FAQ schema  
+Articles → Article schema
+
+STEP 6 — Performance Check
+Ensure pages load quickly:
+
+• lazy load large images
+• compress assets
+• avoid blocking scripts
+
+STEP 7 — Ensure Correct Canonicals
+Each page must point to its own canonical URL.
+
+Avoid duplicate canonical tags across similar pages.
+
+STEP 8 — Rebuild Sitemap
+Regenerate sitemap files:
+
+sitemap-allied.xml
+sitemap-careers.xml
+sitemap-exams.xml
+
+Ensure they are accessible and referenced in robots.txt.
+
+STEP 9 — Validate Navigation Paths
+Ensure every indexed page is reachable within 3 clicks from the homepage.
+
+STEP 10 — Final QA
+Confirm:
+
+No orphan pages  
+No broken links  
+No duplicate URLs  
+No empty content pages  
+No thin career pages  
+
+Goal:
+Make allied.nursenest.ca a high-quality crawlable structure so Google crawls and indexes pages faster.
