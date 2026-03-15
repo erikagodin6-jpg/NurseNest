@@ -411,7 +411,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const MobileNav = () => (
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8" aria-label="Open menu">
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 shrink-0" aria-label="Open menu">
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
@@ -986,7 +986,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           : "bg-white/90 backdrop-blur-xl border-transparent"
       )}
     >
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
+      <div className="hidden md:block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
             <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
@@ -1008,16 +1008,16 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-14 sm:h-16")}>
-          <div className="flex items-center gap-1 sm:gap-2 lg:gap-6">
+        <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-11 sm:h-14 lg:h-16")}>
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-6 min-w-0">
             <MobileNav />
             <LocaleLink href="/">
-              <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
+              <div className="flex items-center cursor-pointer group shrink-0" data-testid="link-home-logo">
                 <div className="hidden sm:block">
                   <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
                 </div>
                 <div className="sm:hidden">
-                  <ThemedLogo width={130} className="group-hover:scale-105 transition-transform duration-300" />
+                  <ThemedLogo width={120} className="group-hover:scale-105 transition-transform duration-300" />
                 </div>
               </div>
             </LocaleLink>
@@ -1352,10 +1352,10 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             </div>
           </div>
 
-          <div className="flex items-center gap-1 lg:gap-2">
-            <div className="sm:hidden">
+          <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
+            <div className="md:hidden">
               <Suspense fallback={<div className="w-8 h-8" />}>
-                <GlobalSearch />
+                <GlobalSearch compact />
               </Suspense>
             </div>
 
@@ -1427,11 +1427,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             {user ? (
               <UserProfileDropdown user={user} logout={logout} setLocation={navTo} />
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
                 <Button variant="ghost" size="sm" className="hidden sm:flex text-softgray hover:text-primary font-medium px-3 h-8" onClick={() => navTo("/login")} data-testid="button-login">
                   {t("nav.login")}
                 </Button>
-                <Button size="sm" className="bg-primary hover:brightness-110 text-white font-bold rounded-full px-4 h-8 shadow-sm shadow-primary/20" onClick={() => navTo("/login")} data-testid="button-signup">
+                <Button size="sm" className="bg-primary hover:brightness-110 text-white font-bold rounded-full px-3 md:px-4 h-8 shadow-sm shadow-primary/20 whitespace-nowrap text-xs md:text-sm" onClick={() => navTo("/login")} data-testid="button-signup">
                   {t("nav.signup")}
                 </Button>
               </div>
@@ -1440,15 +1440,14 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
         </div>
       </div>
       {!compact && (
-        <div className="border-t border-primary/10 bg-primary/5">
+        <div className="hidden md:block border-t border-primary/10 bg-primary/5">
           <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
             <div className="flex items-center justify-between gap-2 h-9">
-              <div className="hidden md:flex items-center gap-0.5">
+              <div className="flex items-center gap-0.5">
                 {designations.map((d) => (
                   <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
                 ))}
               </div>
-              <div className="md:hidden" />
               <div className="flex items-center gap-2">
                 <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
                 <NavDropdown label={t("nav.resources")} items={[
@@ -1456,7 +1455,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   { label: t("footer.faq"), key: "FAQ" },
                   { label: "For Schools", key: "For Schools" },
                 ]} subBar />
-                <div className="hidden md:block w-48 lg:w-56">
+                <div className="w-48 lg:w-56">
                   <Suspense fallback={<div className="w-full h-7" />}>
                     <GlobalSearch />
                   </Suspense>

@@ -28,7 +28,7 @@ const TYPE_LABELS: Record<string, string> = {
   deck: "Flashcard Deck",
 };
 
-export function GlobalSearch() {
+export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [, setLocation] = useLocation();
@@ -225,6 +225,18 @@ export function GlobalSearch() {
   };
 
   if (!open) {
+    if (compact) {
+      return (
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center justify-center w-8 h-8 rounded-full text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors"
+          data-testid="button-global-search-compact"
+          aria-label="Search"
+        >
+          <Search className="w-4 h-4" />
+        </button>
+      );
+    }
     return (
       <button
         onClick={() => setOpen(true)}
