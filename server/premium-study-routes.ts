@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { pool } from "./storage";
-import { resolveAuthUser } from "./admin-auth";
+import { resolveAuthUser, requireAnyPaidTier } from "./admin-auth";
 import { requireEntitlement } from "./entitlements";
 import {
   updateAbilityEstimate,
@@ -105,7 +105,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Question Bookmark API ───
 
-  app.post("/api/bookmarks/:questionId", async (req, res) => {
+  app.post("/api/bookmarks/:questionId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -138,7 +138,7 @@ export function registerPremiumStudyRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/bookmarks/:questionId", async (req, res) => {
+  app.delete("/api/bookmarks/:questionId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -161,7 +161,7 @@ export function registerPremiumStudyRoutes(app: Express) {
     }
   });
 
-  app.get("/api/bookmarks", async (req, res) => {
+  app.get("/api/bookmarks", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -221,7 +221,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Custom Practice Session API ───
 
-  app.post("/api/practice-sessions", async (req, res) => {
+  app.post("/api/practice-sessions", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -300,7 +300,7 @@ export function registerPremiumStudyRoutes(app: Express) {
     }
   });
 
-  app.get("/api/practice-sessions/:id", async (req, res) => {
+  app.get("/api/practice-sessions/:id", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -317,7 +317,7 @@ export function registerPremiumStudyRoutes(app: Express) {
     }
   });
 
-  app.post("/api/practice-sessions/:id/answer", async (req, res) => {
+  app.post("/api/practice-sessions/:id/answer", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -372,7 +372,7 @@ export function registerPremiumStudyRoutes(app: Express) {
     }
   });
 
-  app.post("/api/practice-sessions/:id/complete", async (req, res) => {
+  app.post("/api/practice-sessions/:id/complete", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -603,7 +603,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Enhanced Exam Readiness ───
 
-  app.get("/api/exam-readiness-enhanced/:userId", async (req, res) => {
+  app.get("/api/exam-readiness-enhanced/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -706,7 +706,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Enhanced Weak Areas ───
 
-  app.get("/api/weak-areas-enhanced/:userId", async (req, res) => {
+  app.get("/api/weak-areas-enhanced/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -763,7 +763,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Enhanced Mock Exam Report ───
 
-  app.post("/api/mock-exams/:attemptId/detailed-report", async (req, res) => {
+  app.post("/api/mock-exams/:attemptId/detailed-report", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });

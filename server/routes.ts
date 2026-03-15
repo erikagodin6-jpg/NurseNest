@@ -6357,7 +6357,7 @@ Rules:
     return { isPremium: false, totalFreeCards, limit: userLimit, percentage: Math.round((totalFreeCards / userLimit) * 100) };
   }
 
-  app.get("/api/flashcard-usage/:userId", async (req, res) => {
+  app.get("/api/flashcard-usage/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const entitlement = await getUserCardEntitlement(req.params.userId);
       res.json({
@@ -8937,7 +8937,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.put("/api/mock-exams/:attemptId/progress", async (req, res) => {
+  app.put("/api/mock-exams/:attemptId/progress", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -8960,7 +8960,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/:attemptId/complete", async (req, res) => {
+  app.post("/api/mock-exams/:attemptId/complete", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -9056,7 +9056,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.get("/api/mock-exams/history/:userId", async (req, res) => {
+  app.get("/api/mock-exams/history/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -9080,7 +9080,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.get("/api/mock-exams/:attemptId", async (req, res) => {
+  app.get("/api/mock-exams/:attemptId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -13244,7 +13244,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.get("/api/flashcard-bank/counts", async (req, res) => {
+  app.get("/api/flashcard-bank/counts", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const { rows } = await pool.query(
         `SELECT tier, COUNT(*)::int as count 
@@ -17459,7 +17459,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/adaptive/session-types", async (_req, res) => {
+  app.get("/api/adaptive/session-types", requireAnyPaidTier(), async (_req: any, res) => {
     try {
       const types = await adaptiveEngine.getSessionTypes();
       res.json(types);
@@ -17583,7 +17583,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/quick-study/:userId", async (req, res) => {
+  app.get("/api/quick-study/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const userId = req.params.userId;
       const tier = (req.query.tier as string) || "rpn";
@@ -17660,7 +17660,7 @@ Return ONLY valid JSON with this exact structure:
   // --------------------
   // Adaptive Flashcard Session API
   // --------------------
-  app.get("/api/adaptive-flashcard-session/:userId", async (req, res) => {
+  app.get("/api/adaptive-flashcard-session/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await resolveAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -17901,7 +17901,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/flashcard-session/answer", async (req, res) => {
+  app.post("/api/flashcard-session/answer", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await resolveAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -17990,7 +17990,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/flashcard-session/summary", async (req, res) => {
+  app.post("/api/flashcard-session/summary", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await resolveAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -18953,7 +18953,7 @@ Return ONLY valid JSON with this exact structure:
   });
 
   // ── Question Bank API Routes ──
-  app.get("/api/question-bank/items", async (req, res) => {
+  app.get("/api/question-bank/items", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       const filters: any = {};
@@ -18977,7 +18977,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/items/:id", async (req, res) => {
+  app.get("/api/question-bank/items/:id", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const item = await storage.getQuestionBankItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Question not found" });
@@ -19028,7 +19028,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/exam", async (req, res) => {
+  app.get("/api/question-bank/exam", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -19046,7 +19046,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/study", async (req, res) => {
+  app.get("/api/question-bank/study", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -19174,7 +19174,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.post("/api/question-bank/results", async (req, res) => {
+  app.post("/api/question-bank/results", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -19185,7 +19185,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/results", async (req, res) => {
+  app.get("/api/question-bank/results", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -19196,7 +19196,7 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/analytics", async (req, res) => {
+  app.get("/api/question-bank/analytics", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const analytics = await storage.getQuestionBankAnalytics();
       res.json(analytics);

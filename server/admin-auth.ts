@@ -185,22 +185,78 @@ export function requireAnyPaidTier() {
   return async (req: any, res: any, next: any) => {
     const user = await resolveAuthUser(req);
     if (!user) {
+      logPaywallAudit({
+        userId: "anonymous",
+        role: "anonymous",
+        tier: "none",
+        subscriptionStatus: "none",
+        resourcePath: req.originalUrl || req.url,
+        contentTier: null,
+        granted: false,
+      });
       return res.status(401).json({ error: "Not authenticated" });
     }
 
     const userTier = user.tier || "free";
-    const paidTiers = new Set(["rpn", "rn", "np", "admin"]);
+    const paidTiers = new Set(["rpn", "rn", "np", "allied", "imaging", "newgrad", "admin"]);
 
     if (!paidTiers.has(userTier) && !isActiveTester(user)) {
+      logPaywallAudit({
+        userId: String(user.id),
+        role: user.tier || "free",
+        tier: userTier,
+        subscriptionStatus: user.subscription_status || "none",
+        resourcePath: req.originalUrl || req.url,
+        contentTier: null,
+        granted: false,
+      });
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,
       });
     }
 
+    logPaywallAudit({
+      userId: String(user.id),
+      role: user.tier || "user",
+      tier: userTier,
+      subscriptionStatus: user.subscription_status || "active",
+      resourcePath: req.originalUrl || req.url,
+      contentTier: null,
+      granted: true,
+    });
+
     req.authUser = user;
     next();
   };
+}
+
+export interface PaywallAuditEntry {
+  userId: string;
+  role: string;
+  tier: string;
+  subscriptionStatus: string;
+  resourcePath: string;
+  contentTier: string | null;
+  granted: boolean;
+}
+
+export function logPaywallAudit(entry: PaywallAuditEntry): void {
+  let safePath = entry.resourcePath;
+  try {
+    const qIdx = safePath.indexOf("?");
+    if (qIdx >= 0) safePath = safePath.substring(0, qIdx);
+  } catch {}
+  console.log(`[PaywallAudit] ${JSON.stringify({
+    timestamp: new Date().toISOString(),
+    userId: entry.userId,
+    role: entry.role,
+    subscriptionTier: entry.tier,
+    subscriptionStatus: entry.subscriptionStatus,
+    resourcePath: safePath,
+    contentTier: entry.contentTier,
+    accessGranted: entry.granted,
+  })}`);
 }
 
 export async function requireInternal(req: any, res: any): Promise<boolean> {

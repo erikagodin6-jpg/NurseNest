@@ -1,6 +1,8 @@
 import type { Express, Request, Response } from "express";
 import { adaptLessonContent } from "./region-adapt-content";
-import { resolveAuthUser } from "./admin-auth";
+import { resolveAuthUser, logPaywallAudit } from "./admin-auth";
+
+const FREE_LESSON_PREVIEW_LIMIT = 5;
 
 function getPreviewFromToken(token: string): { mode: string } | null {
   if (!token) return null;
@@ -25,9 +27,11 @@ async function extractLessonUserTier(req: Request): Promise<string> {
 }
 
 function getAllowedLessonTiers(userTier: string): string[] {
-  if (userTier === "admin") return ["free", "general", "rpn", "rn", "np"];
-  if (userTier === "free" || !userTier) return ["free", "general"];
-  return ["free", "general", userTier];
+  if (userTier === "admin") return ["free", "rpn", "rn", "np", "allied", "imaging", "newgrad"];
+  if (userTier === "free" || !userTier) return ["free"];
+  if (userTier === "rn") return ["free", "rn", "rpn"];
+  if (userTier === "np") return ["free", "np", "rn"];
+  return ["free", userTier];
 }
 
 function canUserAccessLesson(userTier: string, lessonTier: string): boolean {
@@ -62,7 +66,8 @@ export function deriveTier(id: string): string {
   if (id.endsWith("-np") || id.endsWith("-advanced-np") || id.endsWith("-management-np")) return "np";
   if (id.endsWith("-rn") || id.endsWith("-basics-rn")) return "rn";
   if (id.endsWith("-rpn") || id.endsWith("-basics-rpn")) return "rpn";
-  return "general";
+  if (id.startsWith("free-") || id.endsWith("-free")) return "free";
+  return "rpn";
 }
 
 function deriveCategory(lesson: any): string {
@@ -119,6 +124,13 @@ export function setupLessonContentRoutes(app: Express): void {
     try {
       const userTier = await extractLessonUserTier(req);
       const allMeta = await buildMetadata();
+      if (userTier === "free" || !userTier) {
+        const previewSet = allMeta
+          .filter(m => m.isComplete)
+          .slice(0, FREE_LESSON_PREVIEW_LIMIT);
+        res.setHeader("Cache-Control", "private, max-age=60");
+        return res.json(previewSet);
+      }
       const allowed = getAllowedLessonTiers(userTier);
       const filtered = allMeta.filter(m => allowed.includes(m.tier));
       res.setHeader("Cache-Control", "private, max-age=60");
@@ -160,15 +172,79 @@ export function setupLessonContentRoutes(app: Express): void {
         return res.status(404).json({ error: "Lesson not found" });
       }
       const lessonTier = deriveTier(slug);
+      const user = await resolveAuthUser(req as any);
       const userTier = await extractLessonUserTier(req);
+      const userId = user ? String(user.id) : "anonymous";
+      const subscriptionStatus = user?.subscription_status || (userTier === "free" ? "none" : "active");
+
+      if (userTier === "free" || !userTier) {
+        const allMeta = await buildMetadata();
+        const previewLessons = allMeta
+          .filter(m => m.isComplete)
+          .slice(0, FREE_LESSON_PREVIEW_LIMIT);
+        const previewIds = new Set(previewLessons.map(m => m.id));
+        if (!previewIds.has(slug)) {
+          logPaywallAudit({
+            userId,
+            role: "free",
+            tier: "free",
+            subscriptionStatus,
+            resourcePath: `/api/lessons/content/${slug}`,
+            contentTier: lessonTier,
+            granted: false,
+          });
+          return res.status(403).json({
+            error: "Access denied",
+            code: "LESSON_TIER_LOCKED",
+            requiredTier: lessonTier,
+            userTier: "free",
+            upgradeRequired: true,
+          });
+        }
+        logPaywallAudit({
+          userId,
+          role: "free",
+          tier: "free",
+          subscriptionStatus,
+          resourcePath: `/api/lessons/content/${slug}`,
+          contentTier: lessonTier,
+          granted: true,
+        });
+        const region = (req as any).region || "US";
+        const adapted = adaptLessonContent(lesson, region);
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return res.json({ id: slug, tier: lessonTier, ...adapted });
+      }
+
       if (!canUserAccessLesson(userTier, lessonTier)) {
+        logPaywallAudit({
+          userId,
+          role: userTier,
+          tier: userTier,
+          subscriptionStatus,
+          resourcePath: `/api/lessons/content/${slug}`,
+          contentTier: lessonTier,
+          granted: false,
+        });
         return res.status(403).json({
           error: "Access denied",
           code: "LESSON_TIER_LOCKED",
           requiredTier: lessonTier,
           userTier,
+          upgradeRequired: true,
         });
       }
+
+      logPaywallAudit({
+        userId,
+        role: userTier,
+        tier: userTier,
+        subscriptionStatus,
+        resourcePath: `/api/lessons/content/${slug}`,
+        contentTier: lessonTier,
+        granted: true,
+      });
+
       const region = (req as any).region || "US";
       const adapted = adaptLessonContent(lesson, region);
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -212,8 +288,13 @@ export function setupLessonContentRoutes(app: Express): void {
         console.warn("[LessonAlias] Search alias error:", aliasErr.message);
       }
 
-      const results = meta
-        .filter((m) => allowed.includes(m.tier))
+      let allowedMeta: LessonMeta[];
+      if (userTier === "free" || !userTier) {
+        allowedMeta = meta.filter(m => m.isComplete).slice(0, FREE_LESSON_PREVIEW_LIMIT);
+      } else {
+        allowedMeta = meta.filter((m) => allowed.includes(m.tier));
+      }
+      const results = allowedMeta
         .filter((m) => {
           const titleLower = m.title.toLowerCase();
           const idLower = m.id.toLowerCase();
