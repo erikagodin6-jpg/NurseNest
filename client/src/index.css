@@ -18,6 +18,7 @@ img {
 
 img:not([loading]) {
   content-visibility: auto;
+  contain-intrinsic-size: auto 300px 200px;
 }
 
 /* Base System */

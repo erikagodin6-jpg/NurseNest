@@ -1,0 +1,287 @@
+Fix the NurseNest top navigation and dropdown UX issues shown in the attached screenshots.
+
+Use the screenshots as the visual source of truth. Do not partially fix one issue while creating another. Audit the full navbar and dropdown implementation together so the result is stable, polished, and consistent across desktop, tablet, mobile, and Safari.
+
+There are 3 linked issues to fix:
+
+==================================================
+ISSUE 1 — Career-track dropdown trigger beside the logo is unreadable
+==================================================
+
+Problem:
+The top-left dropdown trigger beside the NurseNest logo is rendering incorrectly. In the trigger, I can only see the icon and the arrow, but not the actual label text. The button must clearly show:
+- icon
+- visible text label
+- chevron/down arrow
+
+What to fix:
+1. Find the top-left career-track selector/dropdown trigger beside the NurseNest logo.
+2. Ensure the trigger text is always visible and not clipped, hidden, collapsed, or the same color as the background.
+3. Audit and fix any styling issues causing the label to disappear, including:
+   - text color matching background
+   - opacity too low
+   - inherited theme color problems
+   - width too narrow
+   - min-width missing
+   - flexbox alignment problems
+   - overflow hidden
+   - truncate
+   - text-indent
+   - `w-0`
+   - `hidden`
+   - `sr-only`
+   - `display:none`
+   - `visibility:hidden`
+   - `color: transparent`
+   - font-size too small
+   - line-height or vertical alignment issues
+4. Ensure the trigger uses a proper horizontal layout:
+   - `inline-flex`
+   - `align-items: center`
+   - appropriate gap between icon, label, and chevron
+   - enough left/right padding
+   - sensible min-width
+   - `whitespace: nowrap`
+5. Keep the styling polished and premium:
+   - clean rounded border
+   - balanced padding
+   - readable contrast
+   - consistent with the rest of the NurseNest navbar
+6. Preserve functionality, routing, theme responsiveness, and selected-state behavior.
+7. Do not break spacing for the rest of the navbar.
+
+Expected result:
+The dropdown trigger beside the logo should clearly show its full label text, not just the icon and arrow.
+
+==================================================
+ISSUE 2 — Dropdown panels are clipped / positioned too high
+==================================================
+
+Problem:
+The dropdown near the logo / Study area is opening too high, and the top of the menu is cut off. The top border and top spacing are not fully visible. The menu should open fully below the trigger, not clipped by the navbar or viewport.
+
+What to fix:
+1. Find the dropdown content/panel implementation for the career-track selector and any similar navbar dropdowns.
+2. Fix vertical positioning so the menu opens fully below the trigger with a small clean gap.
+3. Make sure the menu is not being clipped by a parent container.
+4. Audit and fix common causes:
+   - parent container has `overflow: hidden` or `overflow: clip`
+   - incorrect `top` value
+   - incorrect `translateY`
+   - negative margin
+   - transform offset
+   - wrong anchor origin
+   - wrong relative parent
+   - sticky header overlap
+   - z-index too low
+   - collision handling issue
+   - no portal being used when needed
+5. If using Radix / shadcn / Popover / DropdownMenu:
+   - verify the menu opens on `side="bottom"`
+   - add or correct `sideOffset`
+   - verify alignment
+   - ensure collision handling keeps the whole panel visible
+   - use a portal if needed so the menu is not clipped by the navbar wrapper
+6. If using absolute positioning:
+   - anchor with `top: 100%`
+   - add a small margin-top
+   - remove negative translateY
+   - ensure the correct positioned parent is used
+7. Ensure the full rounded border, top padding, and top content are visible.
+8. Ensure z-index is high enough to sit above the navbar and hero.
+
+Expected result:
+The full dropdown panel should render directly beneath the trigger with its entire top edge visible. No clipping, no cut-off border, no hidden top content.
+
+==================================================
+ISSUE 3 — Dropdown contents are messy, duplicated, and poorly structured
+==================================================
+
+Problem:
+The dropdown contents are not cleanly organized.
+Issues visible in the screenshots:
+- duplicate items appear
+- category grouping is inconsistent
+- some menus are unnecessarily long
+- allied health and nursing pathways are mixed in a way that hurts usability
+- hover/focus treatment has looked unstable in earlier states
+
+The dropdown should feel intentional, concise, and premium.
+
+What to fix:
+1. Audit the data/configuration source powering these navbar dropdowns.
+2. Remove duplicate entries entirely.
+3. Ensure every menu item appears only once unless there is a deliberate reason.
+4. Verify each item links to the correct route.
+5. Correct the grouping/hierarchy so related content is together.
+6. Clean up section headers and spacing so the dropdown is easy to scan.
+7. If the current menu is too tall, convert it to a cleaner structure instead of just stacking everything in one long column.
+8. Strongly consider a two-column layout for larger dropdowns if that improves usability and reduces height.
+9. Keep icons aligned and consistent.
+10. Preserve current content coverage, but present it in a much cleaner way.
+
+For the career guides / pathway style menus, use a clean grouped hierarchy such as:
+- Nursing
+  - Specialties
+  - Certifications
+  - Study Pathways
+- Allied Health
+  - Allied Health Hub
+  - Respiratory Therapy / RRT
+  - Paramedic / EMT
+  - Pharmacy Technician / Pharm Tech
+  - Medical Lab Tech / MLT
+  - Diagnostic Imaging / Imaging
+  - Occupational Therapy
+  - Physical Therapy
+  - Social Work
+  - Psychotherapy
+  - Addictions Counseling
+
+If the career-track selector near the logo uses abbreviated labels:
+- Nursing
+- RRT
+- Paramedic
+- Pharm Tech
+- MLT
+- Imaging
+- plus relevant certification or specialty paths only if they truly belong there
+
+Do not duplicate entries such as:
+- Respiratory Therapy appearing more than once
+- Occupational Therapy appearing more than once
+- repeated allied items across the same dropdown
+
+Expected result:
+Each dropdown should have a clean information architecture, no duplicate rows, clear grouping, and better scanability.
+
+==================================================
+HOVER / FOCUS / INTERACTION POLISH
+==================================================
+
+Also clean up the interactive states so the menus no longer look like broken form controls.
+
+Fix requirements:
+1. Remove any thick blue form-style focus ring or outlined-box appearance from dropdown rows unless absolutely necessary.
+2. Replace it with a subtle, elegant hover and focus treatment:
+   - soft lavender or light neutral background
+   - no heavy border box
+   - no awkward inset ring
+3. Maintain keyboard accessibility:
+   - focused items should still be clearly perceivable
+   - use a subtle background, shadow, or refined ring rather than a chunky input-style outline
+4. Ensure icons and text are vertically centered.
+5. Ensure row heights and padding are consistent.
+6. Ensure the selected state is clear but not heavy-handed.
+7. Ensure the dropdown feels like a premium navigation menu, not a form field.
+
+==================================================
+HERO PAGE AUTO-SCROLL FIX
+==================================================
+
+Also fix the homepage hero auto-scroll issue.
+
+Problem:
+The homepage is automatically pulling the viewport downward toward the image/analytics area. This is bad UX because users should remain at the top of the hero and be able to read the headline and copy first.
+
+What to fix:
+1. Find the exact cause of the automatic page jump on load.
+2. Remove any logic that scrolls or focuses lower hero content on initial render.
+3. Audit and remove or fix any of the following if they are causing it:
+   - `scrollIntoView()`
+   - `window.scrollTo()`
+   - autofocus on an element below the fold
+   - programmatic focus on a lower element
+   - hash/anchor navigation on load
+   - layout effects tied to refs
+   - animation libraries that shift the viewport
+   - carousel/image logic that steals focus
+   - intersection observer side effects
+   - scroll restoration logic restoring to the wrong place
+   - hydration mismatch causing visual jump
+4. It is fine for lower images/cards to lazy load when the user scrolls down to them.
+5. It is not okay for the page to auto-scroll or auto-focus the lower hero area.
+6. Ensure a fresh homepage visit opens at the top of the hero headline and supporting copy.
+7. Ensure this remains true on desktop, tablet, mobile, and Safari.
+8. If a component mounts twice in development and causes the jump, fix the behavior correctly rather than masking it.
+
+Expected result:
+Users land at the top of the homepage hero and stay there. Lower hero visuals can load passively without moving the viewport.
+
+==================================================
+IMPLEMENTATION CHECKLIST
+==================================================
+
+Perform a full audit of:
+- navbar wrapper
+- sticky header container
+- trigger components
+- dropdown content components
+- menu data/config files
+- route transition logic
+- homepage hero mount logic
+- scroll restoration behavior
+- focus management
+- z-index layers
+- overflow settings
+- transform/translate offsets
+
+Search the codebase for:
+- `overflow-hidden`
+- `overflow: hidden`
+- `overflow: clip`
+- `translate-y`
+- negative margins
+- absolute positioning offsets
+- `scrollIntoView`
+- `scrollTo`
+- `focus()`
+- `autoFocus`
+- hash fragments
+- route transition effects
+- hero image refs
+- portal usage
+- z-index conflicts
+- duplicate menu arrays or merged menu sources
+
+==================================================
+GUARDRAILS
+==================================================
+
+Do not:
+- redesign the whole navbar
+- remove the dropdowns
+- remove the hero image area
+- remove analytics preview cards
+- shrink menus unnaturally
+- break responsiveness
+- break hover or click behavior
+- change unrelated copy unless necessary
+- fix one dropdown by introducing clipping, overlap, or duplication somewhere else
+
+==================================================
+SUCCESS CRITERIA
+==================================================
+
+After implementation, verify all of the following:
+
+Navbar / dropdown:
+1. The career-track trigger beside the logo clearly shows icon, label, and chevron.
+2. No dropdown panel is clipped at the top.
+3. Full rounded corners, top padding, and top border are visible.
+4. No duplicate menu items remain.
+5. Grouping is clean and logical.
+6. Icons align properly with text.
+7. Hover/focus states look elegant and accessible.
+8. Menus open and close correctly on hover, click, keyboard navigation, and outside click.
+9. Dropdowns work in desktop, tablet, mobile nav, Safari, and at different zoom levels.
+10. No navbar items shift awkwardly.
+
+Homepage hero:
+11. Fresh load starts at the top of the hero.
+12. Refresh keeps the page at the top unless there is a deliberate user scroll restoration case.
+13. Navigating back to home does not jump downward.
+14. Lower visuals can lazy load without moving the viewport.
+
+Final task:
+Implement the fixes, test them thoroughly, and leave the navbar and homepage hero more polished, stable, and professional than before.

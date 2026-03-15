@@ -84,7 +84,7 @@ function HeroCarousel() {
       onMouseLeave={handleMouseLeave}
       data-testid="hero-carousel"
     >
-      <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white relative aspect-[16/10]">
+      <div className="rounded-2xl overflow-hidden shadow-[var(--shadow-elevated)] border border-gray-100/80 bg-white relative aspect-[16/10]" style={{ overflowAnchor: "none", containIntrinsicSize: "auto 600px 375px", contentVisibility: "auto" }}>
         {heroCarouselSlides.map((slide, index) => (
           <img
             key={index}
@@ -94,11 +94,11 @@ function HeroCarousel() {
             alt={slide.alt}
             width={1200}
             height={750}
+            decoding="async"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
-            loading={index === 0 ? "eager" : "lazy"}
-            fetchPriority={index === 0 ? "high" : "auto"}
+            loading="lazy"
             data-testid={`img-hero-slide-${index}`}
           />
         ))}
@@ -161,6 +161,9 @@ export default function Home() {
   const [region, setRegionState] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     const handler = () => setRegionState((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     window.addEventListener("regionChange", handler);
@@ -464,7 +467,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="relative hidden lg:block">
+              <div className="relative hidden lg:block" style={{ overflowAnchor: "none" }}>
                 <HeroCarousel />
                 <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-5 py-3.5 flex items-center gap-3 z-10">
                   <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center">
