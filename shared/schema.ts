@@ -5819,3 +5819,47 @@ export const insertNewGradInterviewQuestionSchema = createInsertSchema(newGradIn
 });
 export type NewGradInterviewQuestion = typeof newGradInterviewQuestions.$inferSelect;
 export type InsertNewGradInterviewQuestion = z.infer<typeof insertNewGradInterviewQuestionSchema>;
+
+export const contentWeeklyReports = pgTable("content_weekly_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  weekStart: timestamp("week_start").notNull(),
+  weekEnd: timestamp("week_end").notNull(),
+  lessonsCreated: integer("lessons_created").default(0).notNull(),
+  blogPostsCreated: integer("blog_posts_created").default(0).notNull(),
+  flashcardsCreated: integer("flashcards_created").default(0).notNull(),
+  examQuestionsCreated: integer("exam_questions_created").default(0).notNull(),
+  seoArticlesCreated: integer("seo_articles_created").default(0).notNull(),
+  totalContentCreated: integer("total_content_created").default(0).notNull(),
+  previousWeekTotal: integer("previous_week_total").default(0),
+  weekOverWeekChange: doublePrecision("week_over_week_change").default(0),
+  breakdownJson: jsonb("breakdown_json").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentWeeklyReportSchema = createInsertSchema(contentWeeklyReports).omit({
+  id: true,
+  createdAt: true,
+});
+export type ContentWeeklyReport = typeof contentWeeklyReports.$inferSelect;
+export type InsertContentWeeklyReport = z.infer<typeof insertContentWeeklyReportSchema>;
+
+export const searchPerformanceSnapshots = pgTable("search_performance_snapshots", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  snapshotDate: timestamp("snapshot_date").notNull(),
+  indexedPages: integer("indexed_pages").default(0),
+  totalImpressions: integer("total_impressions").default(0),
+  totalClicks: integer("total_clicks").default(0),
+  averageCtr: doublePrecision("average_ctr").default(0),
+  averagePosition: doublePrecision("average_position").default(0),
+  topKeywordsJson: jsonb("top_keywords_json").default(sql`'[]'::jsonb`),
+  topPagesJson: jsonb("top_pages_json").default(sql`'[]'::jsonb`),
+  dataSource: text("data_source").default("internal"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSearchPerformanceSnapshotSchema = createInsertSchema(searchPerformanceSnapshots).omit({
+  id: true,
+  createdAt: true,
+});
+export type SearchPerformanceSnapshot = typeof searchPerformanceSnapshots.$inferSelect;
+export type InsertSearchPerformanceSnapshot = z.infer<typeof insertSearchPerformanceSnapshotSchema>;

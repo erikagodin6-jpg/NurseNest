@@ -241,6 +241,8 @@ const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing")
 const AdminSocialContent = lazy(() => import("@/pages/admin-social-content"));
 const AdminProfessionAnalytics = lazy(() => import("@/pages/admin-profession-analytics"));
 const AdminSeoProgress = lazy(() => import("@/pages/admin-seo-progress"));
+const AdminWeeklyReports = lazy(() => import("@/pages/admin-weekly-reports"));
+const AdminSearchPerformance = lazy(() => import("@/pages/admin-search-performance"));
 const AdminCrossPlatformAnalytics = lazy(() => import("@/pages/admin-cross-platform-analytics"));
 const OrderOfTheDraw = lazy(() => import("@/pages/order-of-the-draw"));
 const NursingQuestionSeoPage = lazy(() => import("@/pages/nursing-question-seo-page"));
@@ -664,6 +666,7 @@ function AppRoutes() {
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/ai-ops" component={AdminAiOps} />
         <Route path="/admin/content-expansion" component={AdminContentExpansion} />
+        <Route path="/admin/content-coverage" component={AdminContentCoverage} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/allied-health-articles" component={AdminAlliedHealthArticles} />
@@ -671,6 +674,8 @@ function AppRoutes() {
         <Route path="/admin/allied-marketing" component={AdminAlliedMarketing} />
         <Route path="/admin/profession-analytics" component={AdminProfessionAnalytics} />
         <Route path="/admin/seo-progress" component={AdminSeoProgress} />
+        <Route path="/admin/weekly-reports" component={AdminWeeklyReports} />
+        <Route path="/admin/search-performance" component={AdminSearchPerformance} />
         <Route path="/admin/cross-platform" component={AdminCrossPlatformAnalytics} />
         <Route path="/admin/programmatic-seo" component={AdminProgrammaticSeo} />
         <Route path="/admin/seo-lessons" component={AdminSeoLessonsPage} />

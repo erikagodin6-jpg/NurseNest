@@ -158,6 +158,12 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/content-metrics")} data-testid="menu-content-metrics">
               Content Metrics
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/weekly-reports")} data-testid="menu-weekly-reports">
+              Weekly Reports
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/search-performance")} data-testid="menu-search-performance">
+              SEO Performance
+            </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/site-health")} data-testid="menu-site-health">
               Site Health
             </DropdownMenuItem>

@@ -61,6 +61,10 @@ Key systems include:
 - **Audit summary**: `ENTITLEMENT_AUDIT.md` — Documents hardened routes, remaining risk areas, and out-of-scope systems (imaging monetization).
 - **Note**: Imaging monetization (`server/imaging-monetization-routes.ts`) uses a separate entitlement model and is intentionally not under this system.
 
+## Reporting & Search Performance Monitoring
+- **Weekly Content Reports**: Automated weekly content creation reports at `/admin/weekly-reports`. Backend: `server/weekly-report-routes.ts`. Tables: `content_weekly_reports`. Shows new lessons, blog posts, flashcards, exam questions, and SEO articles created per week with week-over-week trends. Includes content velocity chart and historical report generation.
+- **SEO Performance Dashboard**: Search performance monitoring at `/admin/search-performance`. Backend: `server/search-performance-routes.ts`. Tables: `search_performance_snapshots`. Shows indexed pages, impressions, clicks, CTR, and top keywords/pages. Integrates with Google Search Console API when `GOOGLE_SEARCH_CONSOLE_KEY` and `GOOGLE_SEARCH_CONSOLE_SITE_URL` env vars are configured; gracefully falls back to internal analytics otherwise.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

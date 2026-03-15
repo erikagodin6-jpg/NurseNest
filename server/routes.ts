@@ -408,6 +408,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSeoProgressRoutes } = await import("./seo-progress-routes");
   registerSeoProgressRoutes(app);
 
+  const { registerWeeklyReportRoutes } = await import("./weekly-report-routes");
+  registerWeeklyReportRoutes(app);
+
+  const { registerSearchPerformanceRoutes } = await import("./search-performance-routes");
+  registerSearchPerformanceRoutes(app);
+
   const { registerAlliedArticleRoutes } = await import("./allied-article-routes");
   registerAlliedArticleRoutes(app);
 

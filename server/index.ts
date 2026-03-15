@@ -679,6 +679,8 @@ app.use((req, res, next) => {
     // AI schedulers disabled — all AI generation is now admin-triggered via /admin/ai-jobs
     // import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
     // import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
+    import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
+      .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
     import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
       const { getDevPool } = await import("./db");
