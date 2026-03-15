@@ -312,6 +312,10 @@ import { rnContentBatch001Lessons } from "./rn-content-batch-001";
 import { rnContentBatch002Lessons } from "./rn-content-batch-002";
 import { rnContentBatch003Lessons } from "./rn-content-batch-003";
 import { rnContentBatch004Lessons } from "./rn-content-batch-004";
+import { rnContentBatch005Lessons } from "./rn-content-batch-005";
+import { rnContentBatch006Lessons } from "./rn-content-batch-006";
+import { rnContentBatch007Lessons } from "./rn-content-batch-007";
+import { rnContentBatch008Lessons } from "./rn-content-batch-008";
 import { rpnContentBatch001Lessons } from "./rpn-content-batch-001";
 import { rpnContentBatch002Lessons } from "./rpn-content-batch-002";
 import { rpnContentBatch003Lessons } from "./rpn-content-batch-003";
@@ -764,6 +768,10 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnContentBatch002Lessons,
   rnContentBatch003Lessons,
   rnContentBatch004Lessons,
+  rnContentBatch005Lessons,
+  rnContentBatch006Lessons,
+  rnContentBatch007Lessons,
+  rnContentBatch008Lessons,
   rpnContentBatch001Lessons,
   rpnContentBatch002Lessons,
   rpnContentBatch003Lessons,
