@@ -134,6 +134,11 @@ import { icuLessonsBatch5 } from "./icu-lessons-batch-5";
 import { icuLessonsBatch6 } from "./icu-lessons-batch-6";
 import { picuLessonsBatch1 } from "./picu-lessons-batch-1";
 import { picuLessonsBatch2 } from "./picu-lessons-batch-2";
+import { picuLessonsBatch3 } from "./picu-lessons-batch-3";
+import { picuLessonsBatch4 } from "./picu-lessons-batch-4";
+import { icuCriticalCareExpansionLessons } from "./icu-critical-care-expansion";
+import { emergencyHemorrhageExpansionLessons } from "./emergency-hemorrhage-expansion";
+import { rrtCardiacExpansionLessons } from "./rrt-cardiac-expansion";
 
 import { generatedBatch001Lessons } from "./generated-batch-001";
 import { generatedBatch002Lessons } from "./generated-batch-002";
@@ -817,6 +822,11 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   icuLessonsBatch6,
   picuLessonsBatch1,
   picuLessonsBatch2,
+  picuLessonsBatch3,
+  picuLessonsBatch4,
+  icuCriticalCareExpansionLessons,
+  emergencyHemorrhageExpansionLessons,
+  rrtCardiacExpansionLessons,
   alliedHealthFoundations1Lessons,
   alliedHealthFoundations2Lessons,
   alliedHealthFoundations3Lessons,
