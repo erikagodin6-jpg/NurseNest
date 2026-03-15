@@ -11,7 +11,7 @@ import {
   ArrowRight, BookOpen, FileText, MessageSquare, Users, Heart,
   DollarSign, Award, TrendingUp, Star, CheckCircle2, Lock,
   Sparkles, GraduationCap, Briefcase, Shield, Target, ChevronRight,
-  ChevronDown, HelpCircle, Zap
+  ChevronDown, HelpCircle, Zap, AlertTriangle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,6 +27,7 @@ const GUIDE_CARDS = [
   { slug: "burnout", title: "Burnout Prevention", desc: "Wellness strategies, self-care practices, and mental health resources.", icon: Heart, color: "#EF4444" },
   { slug: "salary", title: "Salary & Negotiation", desc: "Regional salary data, benefits analysis, and negotiation strategies.", icon: DollarSign, color: "#059669" },
   { slug: "professional-development", title: "Professional Growth", desc: "Career planning frameworks, certification pathways, and portfolio building.", icon: Award, color: "#2563EB" },
+  { slug: "clinical-references", title: "Clinical References", desc: "High-acuity clinical guides: sepsis, DKA, hemorrhage, ICU monitoring, cardiac emergencies, and more.", icon: AlertTriangle, color: "#DC2626" },
 ];
 
 const PREMIUM_FEATURES = [
@@ -106,7 +107,7 @@ export default function NewGradLanding() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="section-guide-cards">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-guides-heading">
-            Free Career Guidance Across 8 Categories
+            Free Career Guidance Across 9 Categories
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Comprehensive, evidence-based content covering every aspect of your transition from nursing student to confident clinician.

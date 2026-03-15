@@ -196,6 +196,8 @@ const UnitGuidePage = lazy(() => import("@/pages/new-grad/unit-guide-page"));
 const CareerDevelopmentPage = lazy(() => import("@/pages/new-grad/career-development-page"));
 const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenario-page"));
 
+const NewGradClinicalReferencesPage = lazy(() => import("@/pages/newgrad/clinical-references-page"));
+const NewGradClinicalReferenceDetail = lazy(() => import("@/pages/newgrad/clinical-reference-detail"));
 const NewGradGuidesPage = lazy(() => import("@/pages/newgrad/guides-page"));
 const NewGradCareerPage = lazy(() => import("@/pages/newgrad/career-page"));
 const NewGradInterviewPage = lazy(() => import("@/pages/newgrad/interview-page"));
@@ -569,11 +571,15 @@ function AppRoutes() {
         <Route path="/newgrad/certifications" component={NewGradCertificationsHub} />
         <Route path="/new-grad/certifications/:slug">{(params: any) => <Redirect to={`/newgrad/certifications/${params.slug}`} />}</Route>
         <Route path="/new-grad/certifications">{() => <Redirect to="/newgrad/certifications" />}</Route>
+        <Route path="/new-grad/clinical-references/:slug">{(params: any) => <Redirect to={`/newgrad/clinical-references/${params.slug}`} />}</Route>
+        <Route path="/new-grad/clinical-references">{() => <Redirect to="/newgrad/clinical-references" />}</Route>
         <Route path="/new-grad/clinical-skills/:skill" component={ClinicalSkillsGuidePage} />
         <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
         <Route path="/new-grad/scenario/:slug" component={ClinicalScenarioPage} />
 
+        <Route path="/newgrad/clinical-references/:slug" component={NewGradClinicalReferenceDetail} />
+        <Route path="/newgrad/clinical-references" component={NewGradClinicalReferencesPage} />
         <Route path="/newgrad/guides" component={NewGradGuidesPage} />
         <Route path="/newgrad/career" component={NewGradCareerPage} />
         <Route path="/newgrad/interview" component={NewGradInterviewPage} />
