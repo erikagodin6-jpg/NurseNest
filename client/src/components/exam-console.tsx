@@ -523,7 +523,7 @@ export default function ExamConsoleLayout({
         </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-y-auto">
         <div
           className={`flex-1 overflow-y-auto p-4 md:p-6 ${
             rightPanelOpen ? "md:w-[60%]" : "w-full"
@@ -716,7 +716,7 @@ export default function ExamConsoleLayout({
         </div>
 
         {rightPanelOpen && (
-          <div className="hidden md:flex w-[40%] border-l border-gray-200 bg-white flex-col">
+          <div className="hidden md:flex w-[40%] border-l border-gray-200 bg-white flex-col" style={{ scrollbarGutter: "stable" }}>
             <Tabs defaultValue={hasExhibits ? "exhibit" : "notes"} className="flex flex-col h-full">
               <TabsList className="mx-3 mt-3 shrink-0">
                 <TabsTrigger
@@ -745,7 +745,7 @@ export default function ExamConsoleLayout({
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="exhibit" className="flex-1 m-0 overflow-hidden">
+              <TabsContent value="exhibit" className="flex-1 m-0 overflow-y-auto">
                 {hasExhibits ? (
                   <ExhibitViewer images={exhibits!} />
                 ) : (
@@ -758,7 +758,7 @@ export default function ExamConsoleLayout({
                 )}
               </TabsContent>
 
-              <TabsContent value="notes" className="flex-1 m-0 p-3 overflow-hidden">
+              <TabsContent value="notes" className="flex-1 m-0 p-3 overflow-y-auto">
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
@@ -768,7 +768,7 @@ export default function ExamConsoleLayout({
                 />
               </TabsContent>
 
-              <TabsContent value="references" className="flex-1 m-0 overflow-hidden">
+              <TabsContent value="references" className="flex-1 m-0 overflow-y-auto">
                 <div className="flex flex-col items-center justify-center h-full text-gray-400 px-6">
                   <BookOpen className="w-10 h-10 mb-3" />
                   <p className="text-sm text-center">

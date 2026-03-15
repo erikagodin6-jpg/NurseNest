@@ -415,10 +415,10 @@ export function PostAnswerReviewLayout({
   return (
     <div className={cn("animate-fade-in-up", className)}>
       <div className="hidden lg:grid lg:grid-cols-2 lg:gap-3">
-        <div className="space-y-1.5">{questionColumn}</div>
-        <div className="space-y-1.5">{rationaleColumn}</div>
+        <div className="space-y-1.5 overflow-y-auto max-h-[calc(100vh-12rem)]" style={{ scrollbarGutter: "stable" }}>{questionColumn}</div>
+        <div className="space-y-1.5 overflow-y-auto max-h-[calc(100vh-12rem)]" style={{ scrollbarGutter: "stable" }}>{rationaleColumn}</div>
       </div>
-      <div className="lg:hidden space-y-1.5">
+      <div className="lg:hidden space-y-1.5 overflow-y-auto">
         {questionColumn}
         {rationaleColumn}
       </div>
