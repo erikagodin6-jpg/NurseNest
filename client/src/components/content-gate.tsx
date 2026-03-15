@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
+import { getTierPricingPath, getTierLabel } from "@/lib/access";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lock, ChevronDown, Sparkles, ArrowRight, Eye } from "lucide-react";
@@ -73,10 +74,10 @@ export function ContentGate({
           <p className="text-sm text-gray-500 mb-6 text-center max-w-xs leading-relaxed">
             Gain full access to detailed pathophysiology, nursing interventions, and exam pearls.
           </p>
-          <LocaleLink href="/pricing">
+          <LocaleLink href={getTierPricingPath(requiredTier)}>
             <Button size="lg" className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-8 shadow-lg shadow-primary/20" data-testid="button-unlock-preview">
               <Sparkles className="w-4 h-4" />
-              Upgrade for Full Access
+              Upgrade to {getTierLabel(requiredTier)}
             </Button>
           </LocaleLink>
         </div>
@@ -94,13 +95,13 @@ export function ContentGate({
           Premium Content
         </h3>
         <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto leading-relaxed">
-          Access {featureName} with a subscription plan. 
+          Access {featureName} with a {getTierLabel(requiredTier)} subscription. 
           Build deeper clinical reasoning with mechanism-level explanations and interactive practice.
         </p>
-        <LocaleLink href="/pricing">
+        <LocaleLink href={getTierPricingPath(requiredTier)}>
           <Button className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-6" data-testid="button-unlock-premium">
             <Sparkles className="w-4 h-4" />
-            Unlock Access
+            Upgrade to {getTierLabel(requiredTier)}
             <ArrowRight className="w-4 h-4" />
           </Button>
         </LocaleLink>

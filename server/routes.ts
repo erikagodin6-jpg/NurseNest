@@ -5020,7 +5020,23 @@ Rules:
       if (item.tier && item.tier !== "free") {
         const tierToCheck = isInPreview ? requestingUserTier : (isRealAdmin ? "admin" : requestingUserTier);
         if (!canAccessTier(tierToCheck, item.tier)) {
-          return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
+          const previewItem: any = {
+            id: item.id,
+            slug: item.slug,
+            title: item.title,
+            category: item.category,
+            tier: item.tier,
+            status: item.status,
+            summary: item.summary || null,
+            imageUrl: item.imageUrl || item.image_url || null,
+            imageAlt: item.imageAlt || item.image_alt || null,
+            seoTitle: item.seoTitle || item.seo_title || null,
+            seoDescription: item.seoDescription || item.seo_description || null,
+            isPreviewOnly: true,
+            requiredTier: item.tier,
+          };
+          if (item.definition) previewItem.definition = item.definition;
+          return res.json(previewItem);
         }
       }
 
@@ -20110,7 +20126,21 @@ Rules:
         return res.status(404).json({ error: "Lesson not found" });
       }
       const related = await storage.getRelatedLessons(req.params.slug, 3);
-      res.json({ lesson, related });
+      const requestingUserTier = await extractUserTier(req);
+      const lessonTier = (lesson as any).tier || "free";
+      const hasAccess = lessonTier === "free" || canAccessTier(requestingUserTier, lessonTier);
+      const lessonData = { ...lesson, isPublicPreview: !hasAccess };
+      if (!hasAccess) {
+        lessonData.pathophysiology = null;
+        (lessonData as any).signsSymptoms = [];
+        (lessonData as any).diagnostics = [];
+        (lessonData as any).treatment = [];
+        (lessonData as any).nursingInterventions = [];
+        (lessonData as any).complications = [];
+        (lessonData as any).clinicalPearls = [];
+        (lessonData as any).references = [];
+      }
+      res.json({ lesson: lessonData, related });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

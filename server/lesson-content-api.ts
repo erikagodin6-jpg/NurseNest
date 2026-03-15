@@ -119,6 +119,53 @@ async function buildMetadata(): Promise<LessonMeta[]> {
   return metadataCache;
 }
 
+function buildLessonPreview(lesson: any, slug: string, tier: string): any {
+  const preview: any = {
+    id: slug,
+    tier,
+    isPreviewOnly: true,
+    requiredTier: tier,
+    title: lesson.title || slug,
+    image: lesson.image || undefined,
+  };
+
+  if (lesson.cellular) {
+    preview.cellular = {
+      title: lesson.cellular.title || "",
+      content: typeof lesson.cellular.content === "string"
+        ? lesson.cellular.content.slice(0, 600)
+        : "",
+    };
+  }
+
+  if (lesson.summary) {
+    preview.summary = lesson.summary;
+  }
+
+  if (lesson.definition) {
+    preview.definition = lesson.definition;
+  }
+
+  if (lesson.objectives) {
+    preview.objectives = Array.isArray(lesson.objectives) ? lesson.objectives.slice(0, 3) : lesson.objectives;
+  }
+
+  if (lesson.medications && Array.isArray(lesson.medications)) {
+    preview.medications = [];
+  }
+  if (lesson.quiz && Array.isArray(lesson.quiz)) {
+    preview.quiz = [];
+  }
+  if (lesson.preTest) {
+    preview.preTest = [];
+  }
+  if (lesson.postTest) {
+    preview.postTest = [];
+  }
+
+  return preview;
+}
+
 export function setupLessonContentRoutes(app: Express): void {
   app.get("/api/lessons/meta", async (req: Request, res: Response) => {
     try {
@@ -226,13 +273,11 @@ export function setupLessonContentRoutes(app: Express): void {
           contentTier: lessonTier,
           granted: false,
         });
-        return res.status(403).json({
-          error: "Access denied",
-          code: "LESSON_TIER_LOCKED",
-          requiredTier: lessonTier,
-          userTier,
-          upgradeRequired: true,
-        });
+        const region = (req as any).region || "US";
+        const adapted = adaptLessonContent(lesson, region);
+        const previewData = buildLessonPreview(adapted, slug, lessonTier);
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return res.json(previewData);
       }
 
       logPaywallAudit({
@@ -248,7 +293,7 @@ export function setupLessonContentRoutes(app: Express): void {
       const region = (req as any).region || "US";
       const adapted = adaptLessonContent(lesson, region);
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.json({ id: slug, tier: lessonTier, ...adapted });
+      res.json({ id: slug, tier: lessonTier, isPreviewOnly: false, ...adapted });
     } catch (err: any) {
       console.error("[LessonAPI] content error:", err.message);
       res.status(500).json({ error: "Failed to load lesson content" });

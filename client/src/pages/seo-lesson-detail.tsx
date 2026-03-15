@@ -8,12 +8,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
-import { canAccessTier } from "@/lib/access";
+import { canAccessTier, getTierPricingPath, getTierLabel } from "@/lib/access";
 import { PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import {
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   Lock, BookOpen, ChevronRight, Heart, Activity, Search, ClipboardList,
-  ShieldAlert, Loader2, ArrowRight, GraduationCap, ExternalLink,
+  ShieldAlert, Loader2, ArrowRight, GraduationCap, ExternalLink, Sparkles,
 } from "lucide-react";
 import { FixedLessonNav } from "@/components/fixed-lesson-nav";
 
@@ -151,8 +151,8 @@ function SectionList({ items, icon: Icon, iconColor, bgColor, title, testId }: {
 export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; related: any[] }) {
   const { user } = useAuth();
   const displayTitle = stripTierFromTitle(lesson.title);
-  const hasAccess = lesson.tier === "free" || lesson.isPublicPreview || canAccessTier(user?.tier, lesson.tier);
-  const isLocked = !hasAccess;
+  const isLocked = lesson.isPublicPreview === true;
+  const hasAccess = !isLocked;
 
   const seoTitle = lesson.seoTitle || `${displayTitle} - NurseNest Nursing Lesson`;
   const seoDesc = lesson.seoDescription || lesson.summary || `Learn about ${displayTitle}: pathophysiology, signs & symptoms, diagnostics, treatment, and nursing interventions.`;
@@ -203,31 +203,49 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
         </div>
 
         {lesson.imageUrl && (
-          <div className="rounded-2xl overflow-hidden shadow-sm" data-testid="img-lesson-header">
+          <div className="rounded-2xl overflow-hidden shadow-sm bg-gray-50" data-testid="img-lesson-header">
             <img
               src={lesson.imageUrl}
               alt={lesson.imageAlt || `Clinical illustration of ${displayTitle}`}
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain max-h-[500px]"
               loading="lazy"
             />
           </div>
         )}
 
         {isLocked && (
-          <Card className="border-amber-200 bg-amber-50">
-            <CardContent className="p-6 flex items-center gap-4">
-              <Lock className="w-8 h-8 text-amber-600 shrink-0" />
-              <div className="flex-1">
-                <p className="font-semibold text-amber-800">Premium Content</p>
-                <p className="text-sm text-amber-700">This lesson requires a {lesson.tier?.toUpperCase()} subscription. Upgrade to access full content.</p>
-              </div>
-              <LocaleLink href="/pricing">
-                <Button className="bg-amber-600 hover:bg-amber-700 text-white" data-testid="button-upgrade">
-                  Upgrade
-                </Button>
-              </LocaleLink>
-            </CardContent>
-          </Card>
+          <>
+            {lesson.definition && (
+              <section className="space-y-4" data-testid="section-definition-preview">
+                <div className="flex items-center gap-3">
+                  <BookOpen className="w-6 h-6 text-blue-600" />
+                  <h2 className="text-xl font-bold text-gray-900">Definition</h2>
+                </div>
+                <Card className="border-none shadow-sm bg-blue-50/60">
+                  <CardContent className="p-6">
+                    <p className="text-gray-700 leading-relaxed">{lesson.definition}</p>
+                  </CardContent>
+                </Card>
+              </section>
+            )}
+            <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-white shadow-lg">
+              <CardContent className="p-8 text-center space-y-4">
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Lock className="w-7 h-7 text-primary/70" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900">Unlock Full Lesson</h3>
+                <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+                  Access the complete {displayTitle} lesson including pathophysiology, signs & symptoms, diagnostics, treatment, and nursing interventions with a {getTierLabel(lesson.tier)} subscription.
+                </p>
+                <LocaleLink href={getTierPricingPath(lesson.tier)}>
+                  <Button className="bg-primary hover:brightness-110 text-white rounded-full px-8 gap-2 shadow-lg shadow-primary/20" data-testid="button-upgrade">
+                    <Sparkles className="w-4 h-4" />
+                    Upgrade to {getTierLabel(lesson.tier)}
+                  </Button>
+                </LocaleLink>
+              </CardContent>
+            </Card>
+          </>
         )}
 
         {!isLocked && (

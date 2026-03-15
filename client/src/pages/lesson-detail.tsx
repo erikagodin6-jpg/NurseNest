@@ -27,7 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { useAuth } from "@/lib/auth";
-import { canAccessTier } from "@/lib/access";
+import { canAccessTier, getTierPricingPath, getTierLabel } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
 import { buildFaqFromQuizQuestions } from "@/lib/structured-data";
@@ -1683,6 +1683,14 @@ export default function LessonDetail() {
   const [preTestDone, setPreTestDone] = useState(false);
   const [postTestDone, setPostTestDone] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [isPreviewOnly, setIsPreviewOnly] = useState(false);
+  const [previewRequiredTier, setPreviewRequiredTier] = useState<string>("rpn");
+
+  useEffect(() => {
+    if (isPreviewOnly && activeTab !== "content") {
+      setActiveTab("content");
+    }
+  }, [isPreviewOnly, activeTab]);
   const [noteContent, setNoteContent] = useState("");
   const [noteSaving, setNoteSaving] = useState(false);
   const saveTimeoutRef = useRef<NodeJS.Timeout>(undefined);
@@ -1740,6 +1748,7 @@ export default function LessonDetail() {
     if (!id) { setApiLoading(false); return; }
     setApiLesson(null);
     setApiLessonId(null);
+    setIsPreviewOnly(false);
     setOverrides(null);
     setDbContent(null);
     setNoteContent("");
@@ -1748,7 +1757,6 @@ export default function LessonDetail() {
     const controller = new AbortController();
     fetch(`/api/lessons/content/${id}`, { signal: controller.signal })
       .then((r) => {
-        if (r.status === 403) { setApiLesson(null); setApiLoading(false); return; }
         if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
         return r.json();
       })
@@ -1760,7 +1768,11 @@ export default function LessonDetail() {
             setLocation(`/lessons/${returnedId}`);
             return;
           }
-          const { id: _id, ...lesson } = data;
+          if (data.isPreviewOnly) {
+            setIsPreviewOnly(true);
+            setPreviewRequiredTier(data.requiredTier || data.tier || "rpn");
+          }
+          const { id: _id, isPreviewOnly: _ip, requiredTier: _rt, ...lesson } = data;
           setApiLesson(lesson as LessonContent);
           setApiLessonId(returnedId || id);
         }
@@ -2620,7 +2632,7 @@ export default function LessonDetail() {
   const ed = isEditing && editData ? editData : null;
 
   const lessonTier = getLessonTier(id || "");
-  const userHasAccess = canAccessTier(user?.tier, lessonTier, user?.testerAccess, user?.testerExpiry);
+  const userHasAccess = isPreviewOnly === false || canAccessTier(user?.tier, lessonTier, user?.testerAccess, user?.testerExpiry);
 
   const handleNoteChange = (value: string) => {
     setNoteContent(value);
@@ -2657,7 +2669,7 @@ export default function LessonDetail() {
   const isPeds = id?.includes("peds") || id === "epiglottitis" || id === "cp-management" || id === "kawasaki-critical" || id === "all-leukemia";
   const isMeds = id?.includes("safety") || id?.includes("labs") || id?.includes("mi-management");
 
-  if (!userHasAccess) {
+  if (!userHasAccess && !isPreviewOnly) {
     const tp = tierPricing[lessonTier];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
@@ -2862,12 +2874,12 @@ export default function LessonDetail() {
           const caption = getImageCaption(lessonId);
           return lessonImg ? (
             <figure className="mb-6" data-testid={`figure-lesson-${lessonId}`}>
-              <div className="relative w-full h-72 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-md">
+              <div className="relative w-full rounded-2xl overflow-hidden shadow-md bg-gray-50">
                 <ProtectedImage
                   src={lessonImg}
                   alt={getImageAltText(lessonId, lessonContent.title)}
                   title={getImageTitle(lessonId, lessonContent.title)}
-                  className="w-full h-full object-contain"
+                  className="w-full h-auto max-h-[500px] object-contain"
                   loading="lazy"
                   data-testid={`img-lesson-${lessonId}`}
                 />
@@ -2918,6 +2930,7 @@ export default function LessonDetail() {
               })()}
             </div>
 
+            {!isPreviewOnly && (
             <div className="flex md:flex-col items-center md:items-stretch gap-2 md:pt-1 w-full md:w-[220px]" data-testid="lesson-actions">
               <Button
                 variant={showNotes ? "default" : "outline"}
@@ -2941,8 +2954,10 @@ export default function LessonDetail() {
                 </Button>
               )}
             </div>
+            )}
           </div>
 
+          {!isPreviewOnly && (
           <Card className="bg-primary/5 border-none">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between gap-4">
               <div className="space-y-0.5 min-w-0">
@@ -2955,7 +2970,9 @@ export default function LessonDetail() {
               </div>
             </CardContent>
           </Card>
+          )}
 
+          {!isPreviewOnly && (
           <div className="flex items-center justify-end gap-4 text-xs text-gray-500" data-testid="test-visibility-toggles">
             <label className="flex items-center gap-1.5 cursor-pointer select-none">
               <input
@@ -2988,10 +3005,11 @@ export default function LessonDetail() {
               Show Post-Test
             </label>
           </div>
+          )}
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full" data-testid="tabs-lesson">
-            <TabsList className={`grid w-full h-12 ${hidePreTest && hidePostTest ? "grid-cols-1" : hidePreTest || hidePostTest ? "grid-cols-2" : "grid-cols-3"}`}>
-              {!hidePreTest && (
+            <TabsList className={`grid w-full h-12 ${(hidePreTest || isPreviewOnly) && (hidePostTest || isPreviewOnly) ? "grid-cols-1" : (hidePreTest || isPreviewOnly) || (hidePostTest || isPreviewOnly) ? "grid-cols-2" : "grid-cols-3"}`}>
+              {!hidePreTest && !isPreviewOnly && (
                 <TabsTrigger value="pretest" className="gap-2 text-sm" data-testid="tab-pretest">
                   <BarChart3 className="w-4 h-4" />
                   Pre-Test
@@ -2999,9 +3017,9 @@ export default function LessonDetail() {
               )}
               <TabsTrigger value="content" className="gap-2 text-sm" data-testid="tab-content">
                 <Stethoscope className="w-4 h-4" />
-                Clinical Content
+                {isPreviewOnly ? "Preview" : "Clinical Content"}
               </TabsTrigger>
-              {!hidePostTest && (
+              {!hidePostTest && !isPreviewOnly && (
                 <TabsTrigger value="posttest" className="gap-2 text-sm" data-testid="tab-posttest">
                   <TrendingUp className="w-4 h-4" />
                   Post-Test
@@ -3091,6 +3109,29 @@ export default function LessonDetail() {
                   )}
                 </section>
 
+                {isPreviewOnly && (
+                  <div className="relative" data-testid="container-preview-lock">
+                    <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-white shadow-lg">
+                      <CardContent className="p-8 text-center space-y-4">
+                        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                          <Lock className="w-7 h-7 text-primary/70" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900">Unlock Full Lesson</h3>
+                        <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+                          You're viewing a preview of this lesson. Upgrade to {getTierLabel(previewRequiredTier)} to access the complete content including diagnostics, management, nursing actions, medications, and exam readiness.
+                        </p>
+                        <LocaleLink href={getTierPricingPath(previewRequiredTier)}>
+                          <Button size="lg" className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-8 shadow-lg shadow-primary/20" data-testid="button-preview-upgrade">
+                            <Sparkles className="w-4 h-4" />
+                            Upgrade to {getTierLabel(previewRequiredTier)}
+                          </Button>
+                        </LocaleLink>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {!isPreviewOnly && <>
                 {(ed || (lessonContent.riskFactors && lessonContent.riskFactors.length > 0)) ? (
                   <section id="risk-factors" data-testid="section-risk-factors" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
@@ -3468,6 +3509,7 @@ export default function LessonDetail() {
                     </div>
                   </div>
                 </section>
+                </>}
               </div>
               </ProtectedContent>
             </TabsContent>

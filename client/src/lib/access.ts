@@ -39,6 +39,17 @@ export function getAllowedLessonTiers(userTier: string | null | undefined): stri
   return ["free", "general", userTier];
 }
 
+export function getTierPricingPath(tier: string | null | undefined): string {
+  if (!tier || tier === "free") return "/pricing";
+  const tierPaths: Record<string, string> = {
+    rpn: "/pricing?tier=rpn",
+    rn: "/pricing?tier=rn",
+    np: "/pricing?tier=np",
+    allied: "/pricing?tier=allied",
+  };
+  return tierPaths[tier] || "/pricing";
+}
+
 export function filterContentByTier<T extends { tier?: string }>(
   items: T[],
   userTier: string | null | undefined,
