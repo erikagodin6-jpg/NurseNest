@@ -1,0 +1,208 @@
+Fix the broken “Explore Certifications” CTA and audit all New Grad certification routing so users are not redirected to the wrong page. Right now when a user is on the New Grad Certifications page and clicks “Explore Certifications,” it sends them to the main exam-prep homepage instead of the intended New Grad certifications content flow. This is a routing, navigation, and CTA integrity bug and needs a full audit.
+
+PRIORITY
+
+Treat this as a high-priority UX and conversion bug.
+
+Current problem:
+- User is on the New Grad Certifications page
+- They click “Explore Certifications”
+- They are sent to the main exam prep homepage instead of deeper certification content
+- This breaks user intent, feels sloppy, and interrupts the New Grad journey
+
+OBJECTIVE
+
+Make sure the New Grad Certifications page keeps users inside the New Grad certification experience.
+
+The “Explore Certifications” button should never redirect users to the unrelated main hero/home page unless that is explicitly intended, which it is not here.
+
+Fix the root cause and audit all similar CTA and internal-link issues in the New Grad section.
+
+NON-NEGOTIABLE RULES
+
+- Do not break the existing nursing tier menus that already work.
+- Do not redirect New Grad certification CTAs to the main exam-prep homepage unless explicitly designed as a fallback.
+- Do not leave any New Grad CTA pointing to a generic catch-all page when a section-specific destination exists.
+- Do not patch only one button if the same problem exists elsewhere.
+- Do not change the content theme of the New Grad page; fix the route and flow.
+- Do not leave users in a mixed navigation state between New Grad and main exam-prep pages.
+
+BUG TO FIX
+
+Source page:
+New Grad Hub > Certifications
+
+Current CTA:
+“Explore Certifications”
+
+Current incorrect result:
+- lands on the main page with:
+  “Pass Your Nursing or Allied Health Exam With Confidence”
+- shows the general exam-prep site shell and main homepage hero
+- breaks the New Grad certifications journey
+
+Expected result:
+The “Explore Certifications” CTA should take the user to one of the following, depending on current architecture:
+- a proper New Grad certifications index page
+- an anchor/jump link further down the same certifications page
+- a filtered certifications listing inside New Grad
+- a structured certification category grid
+- or the first intended certification resource section within New Grad
+
+It should not route to the main homepage.
+
+REQUIRED INVESTIGATION
+
+1. Audit the Explore Certifications button itself
+Inspect:
+- href / to value
+- route helper
+- button component props
+- page-level override
+- CTA config source
+- any CMS or JSON config supplying this link
+- whether the button is accidentally using a default homepage fallback
+
+Check if it currently points to:
+- "/"
+- main marketing page
+- generic exam-prep landing page
+- wrong slug
+- missing route that falls back to home
+- stale redirect from previous implementation
+
+2. Determine intended destination
+Based on the New Grad Certifications page structure, the button should likely do one of these:
+- scroll to the certification cards/list lower on the same page
+- route to a dedicated New Grad certifications overview page
+- route to certification-specific subpages
+- open a filtered certification hub such as ACLS / BLS / PALS / TNCC / NRP / CEN / CCRN content
+
+Choose the correct destination based on the actual information architecture already being built for New Grad.
+
+Preferred behavior:
+If the page already contains certification sections below the hero, make the button scroll to that section.
+If there is a dedicated certifications index route, send it there.
+If individual certification pages already exist, send users into the certification catalog page first.
+
+3. Audit all CTAs on the New Grad Certifications page
+Check both:
+- “Explore Certifications”
+- “New Grad Hub”
+
+Ensure they both route correctly and intentionally.
+
+Also inspect:
+- breadcrumbs
+- section links
+- certification cards
+- footer links
+- any “start” / “explore” / “learn more” buttons on this page
+
+Make sure none of them redirect to unrelated generic pages.
+
+4. Audit all New Grad pages for similar CTA misrouting
+This bug may not be isolated.
+
+Inspect all major New Grad pages including:
+- New Grad home
+- certifications page
+- interview / resume / transition pages
+- specialty / onboarding pages
+- any career-resources pages under New Grad
+
+Check for buttons such as:
+- Explore
+- Start
+- Learn More
+- View All
+- Browse Certifications
+- Get Started
+- Back to Hub
+
+For each CTA verify:
+- destination is correct
+- user remains in the New Grad flow where appropriate
+- no generic homepage fallback occurs
+- no broken redirects or catch-all route behavior occurs
+
+5. Audit routing and fallback logic
+This looks like it may be caused by one of the following:
+- button href hardcoded to home
+- missing target route causing redirect to homepage
+- route mismatch between slug and actual page
+- layout wrapper using wrong route helper
+- button component defaulting to root when link is undefined
+- CMS field empty so component falls back to homepage
+- client-side router failing and sending user to the marketing root
+- page generated from template but CTA config not updated
+
+Check these specifically.
+
+6. Fix New Grad section integrity
+Users in New Grad should stay in a coherent New Grad experience.
+
+Required behavior:
+- New Grad pages should use New Grad navigation
+- New Grad CTAs should link to New Grad destinations unless intentionally cross-linking
+- a CTA named “Explore Certifications” on a New Grad Certifications page should not open the general NurseNest homepage
+
+If a cross-link to exam prep is desired anywhere, label it clearly, for example:
+- Explore Exam Prep
+- Visit Main Exam Prep Hub
+
+But do not misuse “Explore Certifications” for that purpose.
+
+7. Add safer CTA logic
+Prevent this problem from happening again.
+
+Implement validation such that:
+- primary CTA buttons cannot silently default to homepage when their route is missing
+- if a route is undefined, log the issue and use a clearly intentional fallback
+- section-specific CTAs should prefer section-local destinations
+- broken CTA configs should be surfaced in QA/admin, not shipped live
+
+8. Fix user-facing behavior
+After the fix:
+- clicking “Explore Certifications” should keep the user in the certification experience
+- user should either scroll down to certification content or land on the proper New Grad certification listing page
+- the resulting page must still have correct New Grad nav, breadcrumbs, and context
+- no jarring jump to the unrelated main homepage should happen
+
+9. Improve conversion flow
+Make sure the CTA supports the actual funnel.
+
+Recommended flow:
+New Grad Certifications Hero
+→ Explore Certifications
+→ certification grid/list or certification-specific landing area
+→ user selects ACLS / BLS / PALS / TNCC / NRP / CEN / CCRN
+→ then enters study guides, flashcards, or practice content
+
+Do not short-circuit this by returning users to the main homepage.
+
+10. QA checklist
+Before finishing, verify:
+- the “Explore Certifications” CTA no longer opens the main homepage
+- the CTA goes to the intended New Grad certifications destination
+- the “New Grad Hub” button works correctly
+- breadcrumbs remain correct
+- no New Grad CTA silently falls back to home
+- New Grad pages maintain a stable New Grad navigation state
+- desktop and mobile both behave correctly
+- no broken redirects remain in the New Grad certifications flow
+
+ACCEPTANCE CRITERIA
+
+Before marking complete, verify all of the following:
+
+- clicking “Explore Certifications” from New Grad Certifications no longer brings users to the generic homepage
+- the CTA routes to the correct New Grad certifications content or scroll target
+- New Grad nav remains intact after click
+- users can continue into certification-specific content cleanly
+- similar CTA misrouting issues across New Grad have been audited and fixed
+- no primary CTA on New Grad pages points to an unrelated generic page unless explicitly labeled
+
+FINAL REQUIREMENT
+
+Do a focused audit of all New Grad certification CTAs and routing behavior, repair the root cause, and ensure the New Grad certification journey is self-contained, intentional, and conversion-friendly instead of dumping users back onto the main site homepage.
