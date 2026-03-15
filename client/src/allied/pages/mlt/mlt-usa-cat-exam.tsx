@@ -74,7 +74,16 @@ export default function MltUsaCatExam() {
       setLoading(false);
       startTimeRef.current = Date.now();
     } catch (e: any) {
-      setError(e.message);
+      const msg = e.message || "Failed to start exam";
+      if (msg.includes("Unable to create") || msg.includes("SCHEMA_DRIFT") || msg.includes("database") || msg.includes("500")) {
+        setError("Unable to start exam session — please retry in a moment. If the issue persists, contact support.");
+      } else if (msg.includes("No questions") || msg.includes("question bank")) {
+        setError("No questions available for this exam configuration. Please try again later.");
+      } else if (msg.includes("Authentication") || msg.includes("401")) {
+        setError("Please log in to start the exam.");
+      } else {
+        setError("Something went wrong — please try again.");
+      }
       setLoading(false);
     }
   }
@@ -158,9 +167,14 @@ export default function MltUsaCatExam() {
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
         <h2 className="text-xl font-bold text-gray-900 mb-2">Exam Error</h2>
         <p className="text-gray-600 mb-4">{error}</p>
-        <button onClick={() => setLocation("/mlt/exams")} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="button-back-to-hub">
-          Back to Exam Hub
-        </button>
+        <div className="flex gap-3 justify-center">
+          <button onClick={() => { setError(""); setLoading(true); startExam(); }} className="px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-retry-exam">
+            Retry
+          </button>
+          <button onClick={() => setLocation("/mlt/exams")} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="button-back-to-hub">
+            Back to Exam Hub
+          </button>
+        </div>
       </div>
     );
   }

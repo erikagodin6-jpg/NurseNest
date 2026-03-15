@@ -238,6 +238,7 @@ export default function MockExamsPage() {
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
   const [strictMode, setStrictMode] = useState(false);
   const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [examMode, setExamMode] = useState<"official" | "practice">("official");
   const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
@@ -324,6 +325,7 @@ export default function MockExamsPage() {
       return;
     }
     setStarting(true);
+    setStartError(null);
     try {
       let questions;
       let blueprintMeta: any = null;
@@ -375,7 +377,10 @@ export default function MockExamsPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Failed to start exam session");
+        const err: any = new Error(data.error || "Failed to start exam session");
+        err.code = data.code;
+        err.status = res.status;
+        throw err;
       }
       if (data.attemptId) {
         if (examMode === "official" || strictMode) {
@@ -394,7 +399,8 @@ export default function MockExamsPage() {
     } catch (err: any) {
       console.error("[MockExam] startExam failed:", err);
       const message = err?.message || "Failed to start exam";
-      if (message.includes("Upgrade required") || message.includes("403")) {
+      const code = err?.code || "";
+      if (code === "MOCK_PAYWALL" || code === "TIER_MISMATCH" || message.includes("Upgrade required") || message.includes("403")) {
         toast({
           title: "Subscription Required",
           description: "This exam feature requires a paid subscription. Please upgrade your plan to access the question bank.",
@@ -412,10 +418,18 @@ export default function MockExamsPage() {
           description: "Please log in to start an exam.",
           variant: "destructive",
         });
+      } else if (code === "SCHEMA_DRIFT" || err?.status === 500 || message.includes("Unable to create") || message.includes("database")) {
+        setStartError("Unable to create exam session — please retry in a moment. If it persists, contact support.");
+        toast({
+          title: "Unable to Start Exam",
+          description: "Unable to create exam session — please retry in a moment.",
+          variant: "destructive",
+        });
       } else {
+        setStartError("Something went wrong — please try again.");
         toast({
           title: "Exam Start Failed",
-          description: "Failed to start exam — please try again. If the problem persists, contact support.",
+          description: "Something went wrong — please try again.",
           variant: "destructive",
         });
       }
@@ -1023,6 +1037,19 @@ export default function MockExamsPage() {
                   {starting ? "Preparing..." : "Begin Exam"}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
+                {startError && (
+                  <div className="flex flex-col items-center gap-2 mt-3">
+                    <p className="text-sm text-red-600" data-testid="text-start-error">{startError}</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => { setStartError(null); startExam(); }}
+                      data-testid="button-retry-exam"
+                    >
+                      Retry
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

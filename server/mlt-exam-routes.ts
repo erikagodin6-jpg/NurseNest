@@ -209,7 +209,16 @@ export function registerMltExamRoutes(app: Express) {
       });
     } catch (e: any) {
       console.error("MLT exam start error:", e);
-      res.status(500).json({ error: e.message });
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      if (isColumnError) {
+        console.error("[MLT Exam] Schema drift detected:", e.message);
+        res.status(500).json({
+          error: "Unable to create exam session due to a database configuration issue. Please retry shortly.",
+          code: "SCHEMA_DRIFT",
+        });
+      } else {
+        res.status(500).json({ error: "Unable to start exam session. Please try again." });
+      }
     }
   });
 

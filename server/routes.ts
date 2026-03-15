@@ -8924,7 +8924,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       res.json({ attemptId: result.rows[0].id, timeLimit: examDef.time_limit, examTitle: examDef.title });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      if (isColumnError) {
+        console.error("[MockExam] Schema drift on start-specialty:", e.message);
+        res.status(500).json({
+          error: "Unable to create exam session due to a database configuration issue. Please retry shortly.",
+          code: "SCHEMA_DRIFT",
+        });
+      } else {
+        console.error("[MockExam] start-specialty error:", e.message);
+        res.status(500).json({ error: "Unable to create exam session. Please try again." });
+      }
     }
   });
 
@@ -9024,7 +9034,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      if (isColumnError) {
+        console.error("[MockExam] Schema drift detected on INSERT:", e.message);
+        res.status(500).json({
+          error: "Unable to create exam session due to a database configuration issue. Please retry shortly.",
+          code: "SCHEMA_DRIFT",
+        });
+      } else {
+        console.error("[MockExam] startExam error:", e.message);
+        res.status(500).json({ error: "Unable to create exam session. Please try again." });
+      }
     }
   });
 
@@ -9190,7 +9210,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       res.json(result.rows);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      if (isColumnError) {
+        console.error("[MockExam] Schema drift on history query:", e.message);
+        res.status(500).json({
+          error: "Unable to load exam history due to a database configuration issue. Please retry shortly.",
+          code: "SCHEMA_DRIFT",
+        });
+      } else {
+        console.error("[MockExam] history error:", e.message);
+        res.status(500).json({ error: "Unable to load exam history. Please try again." });
+      }
     }
   });
 

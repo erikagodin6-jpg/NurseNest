@@ -640,6 +640,9 @@ app.use((req, res, next) => {
   const { seedPricingPlans } = await import("./seed-pricing-plans");
   await seedPricingPlans();
 
+  const { validateSchemaAtStartup } = await import("./schema-validation");
+  await validateSchemaAtStartup();
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
