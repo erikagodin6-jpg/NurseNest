@@ -1,6 +1,6 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
@@ -52,26 +52,76 @@ const tierColors: Record<TierKey, { color: string; bgColor: string }> = {
   allied: { color: "text-teal-600", bgColor: "bg-teal-50 border-teal-200" },
 };
 
+const tierSEO: Record<TierKey, { title: string; description: string }> = {
+  rpn: {
+    title: "RPN Exam Prep Pricing | NurseNest",
+    description: "Affordable RPN/LVN exam prep plans. 1 Month, 3 Months, 6 Months, and 12 Months options with 40,000+ practice questions, flashcards, and adaptive mock exams.",
+  },
+  rn: {
+    title: "RN NCLEX Exam Prep Pricing | NurseNest",
+    description: "RN/NCLEX exam prep pricing plans. Choose from 1 Month, 3 Months, 6 Months, or 12 Months. Full access to practice questions, clinical lessons, and exam simulations.",
+  },
+  np: {
+    title: "NP Exam Prep Pricing | NurseNest",
+    description: "Nurse Practitioner exam prep pricing. Advanced clinical reasoning practice with 1 Month, 3 Months, 6 Months, and 12 Months plans.",
+  },
+  allied: {
+    title: "Allied Health Exam Prep Pricing | NurseNest",
+    description: "Allied health certification exam prep pricing. Study for RRT, Paramedic, Pharmacy Tech, MLT and more. 1 Month, 3 Months, 6 Months, and 12 Months plans.",
+  },
+};
+
+const ALL_TIERS: TierKey[] = ["rpn", "rn", "np", "allied"];
+
+function isTrialPlan(plan: PricingPlan): boolean {
+  const d = plan.duration.toLowerCase();
+  return d.includes("trial") || d.includes("day");
+}
+
 export default function PricingPage() {
   const [, navigate] = useLocation();
+  const [, tierParam] = useRoute("/pricing/:tier");
   const { user } = useAuth();
   const { toast } = useToast();
   const { t } = useI18n();
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+
+  const urlTier = tierParam?.tier as TierKey | undefined;
+  const validUrlTier = urlTier && ALL_TIERS.includes(urlTier) ? urlTier : null;
+
+  const [selectedTier, setSelectedTier] = useState<string | null>(validUrlTier);
   const [plans, setPlans] = useState<PricingPlan[]>([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
+  const [plansError, setPlansError] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [paypalAvailable, setPaypalAvailable] = useState(false);
   const [paypalPlan, setPaypalPlan] = useState<string | null>(null);
 
   useEffect(() => {
+    if (validUrlTier) {
+      setSelectedTier(validUrlTier);
+    }
+  }, [validUrlTier]);
+
+  useEffect(() => {
     fetch("/api/pricing/plans")
       .then((r) => r.json())
-      .then((data) => { setPlans(Array.isArray(data) ? data : []); setLoadingPlans(false); })
-      .catch(() => setLoadingPlans(false));
+      .then((data) => {
+        const allPlans = Array.isArray(data) ? data : [];
+        const filtered = allPlans.filter((p: PricingPlan) => !isTrialPlan(p));
+        if (filtered.length === 0) {
+          console.warn("[Pricing] No plans loaded from API or all plans were filtered out");
+        }
+        setPlans(filtered);
+        setLoadingPlans(false);
+      })
+      .catch((err) => {
+        console.error("[Pricing] Failed to load plans:", err);
+        setPlansError(true);
+        setLoadingPlans(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -90,6 +140,16 @@ export default function PricingPage() {
   }, []);
 
   const isCAD = region === "CA";
+
+  function handleTierSelect(tierId: TierKey) {
+    setSelectedTier(tierId);
+    navigate(`/pricing/${tierId}`);
+  }
+
+  function handleBackToTiers() {
+    setSelectedTier(null);
+    navigate("/pricing");
+  }
 
   async function handleSubscribe(plan: PricingPlan) {
     if (!user) {
@@ -131,6 +191,16 @@ export default function PricingPage() {
   const tierPlans = plans.filter((p) => p.tier === selectedTier && p.isEnabled);
   const monthlyPlan = tierPlans.find((p) => p.duration === "monthly");
 
+  if (selectedTier && !loadingPlans) {
+    if (tierPlans.length === 0 && !plansError) {
+      console.warn(`[Pricing] No plans found for tier "${selectedTier}". Available tiers in data:`, [...new Set(plans.map(p => p.tier))]);
+    }
+    tierPlans.forEach((plan) => {
+      if (!plan.id) console.warn(`[Pricing] Plan missing id:`, plan);
+      if (!plan.priceCad && !plan.priceUsd) console.warn(`[Pricing] Plan has no price:`, plan);
+    });
+  }
+
   function getMonthlyEquiv(plan: PricingPlan) {
     const price = isCAD ? plan.priceCad : plan.priceUsd;
     const months = durationMonths[plan.duration as DurationKey];
@@ -148,12 +218,20 @@ export default function PricingPage() {
     return Math.round(((totalMonthly - planPrice) / totalMonthly) * 100);
   }
 
+  const seoTitle = selectedTier && tierSEO[selectedTier as TierKey]
+    ? tierSEO[selectedTier as TierKey].title
+    : "Pricing - NurseNest";
+  const seoDescription = selectedTier && tierSEO[selectedTier as TierKey]
+    ? tierSEO[selectedTier as TierKey].description
+    : "Affordable nursing exam prep plans for RPN, RN, NP, and Allied Health students. 40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams. Start free or upgrade for full access.";
+  const seoCanonical = selectedTier ? `/pricing/${selectedTier}` : "/pricing";
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 animate-page-enter">
       <SEO
-        title="Pricing - NurseNest"
-        description="Affordable nursing exam prep plans for RPN, RN, and NP students. 40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams. Start free or upgrade for full access."
-        canonicalPath="/pricing"
+        title={seoTitle}
+        description={seoDescription}
+        canonicalPath={seoCanonical}
       />
       <Navigation />
       <main className="flex-1 px-4" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }}>
@@ -247,8 +325,8 @@ export default function PricingPage() {
               </div>
 
               {/* Tier Selection Grid */}
-              <div id="pricing-tiers" className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-12" data-testid="tier-selection-grid">
-                {(["rpn", "rn", "np"] as const).map((tierId) => {
+              <div id="pricing-tiers" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto mb-12" data-testid="tier-selection-grid">
+                {ALL_TIERS.map((tierId) => {
                   const meta = tierMeta[tierId];
                   const colors = tierColors[tierId];
                   const Icon = tierIcons[tierId];
@@ -261,7 +339,7 @@ export default function PricingPage() {
                     <Card
                       key={tierId}
                       className={`relative border cursor-pointer card-hover-lift stagger-item ${colors.bgColor} ${isPopularTier ? "ring-2 ring-primary/80 shadow-[var(--shadow-elevated)] scale-[1.02]" : "shadow-[var(--shadow-pricing)]"}`}
-                      onClick={() => setSelectedTier(tierId)}
+                      onClick={() => handleTierSelect(tierId)}
                       data-testid={`card-tier-select-${tierId}`}
                     >
                       {isPopularTier && (
@@ -444,58 +522,21 @@ export default function PricingPage() {
                       </div>
                       <h3 className="font-bold text-lg text-gray-900" data-testid="text-study-timeline-title">How long should you study?</h3>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4" data-testid="study-timelines">
-                      {(["rpn", "rn", "np"] as const).map((tier) => {
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" data-testid="study-timelines">
+                      {ALL_TIERS.map((tier) => {
                         const Icon = tierIcons[tier];
                         const colors = tierColors[tier];
                         return (
-                          <div key={tier} className={`p-4 rounded-xl border ${colors.bgColor}`} data-testid={`timeline-${tier}`}>
-                            <div className="flex items-center gap-2 mb-2">
-                              <Icon className={`w-4 h-4 ${colors.color}`} />
-                              <span className="font-semibold text-sm text-gray-800 uppercase">{tierMeta[tier].nameCA}</span>
+                          <div key={tier} className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                            <Icon className={`w-5 h-5 ${colors.color}`} />
+                            <div>
+                              <div className="text-sm font-semibold">{tierMeta[tier].nameCA}</div>
+                              <div className="text-xs text-gray-500">{studyTimelines[tier]}</div>
                             </div>
-                            <p className="text-sm text-gray-600">{studyTimelines[tier]}</p>
                           </div>
                         );
                       })}
                     </div>
-                    <p className="text-sm text-gray-500 text-center">
-                      Choose the plan that matches your study timeline. Students typically prepare for 8-12 weeks before their exam.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Payment Options */}
-              <div className="mb-16 max-w-3xl mx-auto">
-                <Card className="border border-gray-100/80 shadow-[var(--shadow-card)]">
-                  <CardContent className="py-8 px-8">
-                    <div className="flex items-center gap-3 mb-5">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <CreditCard className="w-5 h-5 text-primary" />
-                      </div>
-                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-bnpl-title">Flexible Payment Options</h3>
-                    </div>
-                    <p className="text-sm text-gray-500 mb-5 leading-relaxed">Pay your way. In addition to credit and debit cards, we accept multiple buy-now-pay-later options at checkout so you can start studying immediately.</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="bnpl-options-grid">
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-gray-50/80 border border-gray-100">
-                        <span className="text-xs font-bold text-gray-700 mb-1">Credit / Debit</span>
-                        <span className="text-[10px] text-gray-400">Visa, Mastercard, Amex</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#FFB3C7]/8 border border-[#FFB3C7]/15">
-                        <span className="text-xs font-bold text-[#E5678F] mb-1">Klarna</span>
-                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#B2FCE4]/8 border border-[#B2FCE4]/20">
-                        <span className="text-xs font-bold text-[#00C2A8] mb-1">Afterpay</span>
-                        <span className="text-[10px] text-gray-400">Pay in 4 installments</span>
-                      </div>
-                      <div className="flex flex-col items-center p-4 rounded-xl bg-[#4A4AFF]/5 border border-[#4A4AFF]/10">
-                        <span className="text-xs font-bold text-[#4A4AFF] mb-1">Affirm</span>
-                        <span className="text-[10px] text-gray-400">Pay over time (US only)</span>
-                      </div>
-                    </div>
-                    <p className="text-[10px] text-gray-400 mt-4 text-center">Buy now, pay later options are available at checkout for eligible purchases. Subject to approval by the payment provider.</p>
                   </CardContent>
                 </Card>
               </div>
@@ -532,7 +573,7 @@ export default function PricingPage() {
                 <Button
                   variant="ghost"
                   className="text-gray-600 hover:text-gray-900 mb-4"
-                  onClick={() => setSelectedTier(null)}
+                  onClick={handleBackToTiers}
                   data-testid="button-back-to-tiers"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
@@ -551,6 +592,21 @@ export default function PricingPage() {
                 </div>
               </div>
 
+              {/* Tier tabs */}
+              <div className="flex justify-center gap-2 mb-8 flex-wrap" data-testid="tier-tabs">
+                {ALL_TIERS.map((tierId) => (
+                  <Button
+                    key={tierId}
+                    variant={selectedTier === tierId ? "default" : "outline"}
+                    className={`rounded-full px-5 text-sm font-semibold ${selectedTier === tierId ? "bg-primary text-white" : ""}`}
+                    onClick={() => handleTierSelect(tierId)}
+                    data-testid={`tab-tier-${tierId}`}
+                  >
+                    {tierMeta[tierId].nameCA}
+                  </Button>
+                ))}
+              </div>
+
               <div className="flex flex-wrap justify-center gap-4 mb-6">
                 <div className="inline-flex items-center gap-2 bg-emerald-50/80 border border-emerald-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]" data-testid="badge-guarantee-plans">
                   <Shield className="w-4 h-4 text-emerald-600" />
@@ -562,13 +618,30 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              {/* Subtle urgency message */}
               <p className="text-center text-sm text-gray-400 mb-8" data-testid="text-study-urgency">
                 Most students choose the 6-month plan to prepare comfortably before their exam.
               </p>
 
               {loadingPlans ? (
                 <div className="text-center py-12 text-gray-500">Loading plans...</div>
+              ) : plansError || tierPlans.length === 0 ? (
+                <div className="text-center py-12 px-4" data-testid="text-plans-unavailable">
+                  <div className="max-w-md mx-auto bg-amber-50 border border-amber-200 rounded-2xl p-8">
+                    <Shield className="w-10 h-10 text-amber-500 mx-auto mb-3" />
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">Plans Temporarily Unavailable</h3>
+                    <p className="text-sm text-gray-600">
+                      Pricing plans are temporarily unavailable. Please refresh or contact support.
+                    </p>
+                    <Button
+                      className="mt-4 rounded-full"
+                      variant="outline"
+                      onClick={() => window.location.reload()}
+                      data-testid="button-refresh-plans"
+                    >
+                      Refresh Page
+                    </Button>
+                  </div>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16" data-testid="plans-grid">
                   {tierPlans.map((plan) => {

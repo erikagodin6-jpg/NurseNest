@@ -3071,7 +3071,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.get("/api/pricing/plans", async (_req, res) => {
     try {
       const plans = await storage.getAllPricingPlans();
-      res.json(plans);
+      const filtered = plans.filter((p: any) => {
+        const d = (p.duration || "").toLowerCase();
+        return !d.includes("trial") && !d.includes("day");
+      });
+      res.json(filtered);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -3080,7 +3084,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.get("/api/pricing/plans/:tier", async (req, res) => {
     try {
       const plans = await storage.getPricingPlansByTier(req.params.tier);
-      res.json(plans);
+      const filtered = plans.filter((p: any) => {
+        const d = (p.duration || "").toLowerCase();
+        return !d.includes("trial") && !d.includes("day");
+      });
+      res.json(filtered);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

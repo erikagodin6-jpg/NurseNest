@@ -40,10 +40,10 @@ const LIVE_PRICE_MAP: Record<string, Record<string, Record<string, string>>> = {
     yearly: { usd: "", cad: "" },
   },
   allied: {
-    monthly: { cad: "" },
-    "3-month": { cad: "" },
-    "6-month": { cad: "" },
-    yearly: { cad: "" },
+    monthly: { usd: "", cad: "" },
+    "3-month": { usd: "", cad: "" },
+    "6-month": { usd: "", cad: "" },
+    yearly: { usd: "", cad: "" },
   },
   newgrad: {
     monthly: { usd: "", cad: "" },
@@ -120,7 +120,7 @@ export function loadStripePrices(): void {
 
   loaded = true;
 
-  const subscriptionTiers = ["rpn", "rn", "np", "newgrad"];
+  const subscriptionTiers = ["rpn", "rn", "np", "allied", "newgrad"];
   const durations = ["monthly", "3-month", "6-month", "yearly"];
   const currencies = ["usd", "cad"];
   let missing = 0;
@@ -131,17 +131,6 @@ export function loadStripePrices(): void {
         if (!priceIndex[key]) {
           missing++;
         }
-      }
-    }
-  }
-
-  const alliedDurations = ["monthly", "3-month", "6-month", "yearly"];
-  const alliedCurrencies = ["cad"];
-  for (const dur of alliedDurations) {
-    for (const cur of alliedCurrencies) {
-      const key = buildKey("allied", dur, cur);
-      if (!priceIndex[key]) {
-        missing++;
       }
     }
   }
@@ -165,7 +154,7 @@ export function hasStripePriceId(tier: string, duration: string, currency: strin
 
 export function getMissingPriceIds(): string[] {
   if (!loaded) loadStripePrices();
-  const subscriptionTiers = ["rpn", "rn", "np", "newgrad"];
+  const subscriptionTiers = ["rpn", "rn", "np", "allied", "newgrad"];
   const durations = ["monthly", "3-month", "6-month", "yearly"];
   const currencies = ["usd", "cad"];
   const missing: string[] = [];
@@ -177,12 +166,6 @@ export function getMissingPriceIds(): string[] {
           missing.push(`tier=${tier} interval=${dur} currency=${cur}`);
         }
       }
-    }
-  }
-  for (const dur of durations) {
-    const key = buildKey("allied", dur, "cad");
-    if (!priceIndex[key]) {
-      missing.push(`tier=allied interval=${dur} currency=cad`);
     }
   }
   return missing;

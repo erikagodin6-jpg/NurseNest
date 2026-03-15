@@ -755,6 +755,7 @@ function AppRoutes() {
         <Route path="/login" component={LoginPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
+        <Route path="/pricing/:tier" component={PricingPage} />
         <Route path="/pricing" component={PricingPage} />
         <Route path="/refer" component={ReferPage} />
         <Route path="/signup">{() => <Redirect to={`/login${window.location.search}`} />}</Route>

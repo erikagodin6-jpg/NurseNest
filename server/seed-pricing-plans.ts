@@ -6,7 +6,7 @@ import {
   type DurationKey,
 } from "../shared/pricing-config";
 
-const TIERS: TierKey[] = ["rpn", "rn", "np"];
+const TIERS: TierKey[] = ["rpn", "rn", "np", "allied"];
 const DURATIONS: DurationKey[] = ["monthly", "3-month", "6-month", "yearly"];
 
 export async function seedPricingPlans(): Promise<void> {

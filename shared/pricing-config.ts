@@ -14,16 +14,16 @@ export const pricingConfig: Record<TierKey, { cad: TierPricing; usd: TierPricing
     usd: { monthly: 1849, "3-month": 4449, "6-month": 7399, yearly: 11099 },
   },
   rn: {
-    cad: { monthly: 2999, "3-month": 7499, "6-month": 11999, yearly: 17999 },
+    cad: { monthly: 2999, "3-month": 6999, "6-month": 10999, yearly: 15999 },
     usd: { monthly: 2199, "3-month": 5549, "6-month": 8899, yearly: 13299 },
   },
   np: {
-    cad: { monthly: 3999, "3-month": 9999, "6-month": 15999, yearly: 23999 },
+    cad: { monthly: 3499, "3-month": 7999, "6-month": 11999, yearly: 16999 },
     usd: { monthly: 2949, "3-month": 7399, "6-month": 11849, yearly: 17749 },
   },
   allied: {
-    cad: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
-    usd: { monthly: 1499, "3-month": 3499, "6-month": 5999, yearly: 9999 },
+    cad: { monthly: 2499, "3-month": 5999, "6-month": 9999, yearly: 14999 },
+    usd: { monthly: 1849, "3-month": 4449, "6-month": 7399, yearly: 11099 },
   },
   newgrad: {
     cad: { monthly: 1999, "3-month": 4799, "6-month": 7999, yearly: 11999 },
@@ -72,8 +72,8 @@ export const tierMeta: Record<TierKey, {
   allied: {
     nameCA: "Allied Health",
     nameUS: "Allied Health",
-    tagline: "Comprehensive exam prep for allied health professionals.",
-    description: "Allied health certification preparation",
+    tagline: "Comprehensive exam prep for RRT, Paramedic, Pharmacy Tech, MLT, and more.",
+    description: "Allied health certification exam preparation",
   },
   newgrad: {
     nameCA: "New Grad",

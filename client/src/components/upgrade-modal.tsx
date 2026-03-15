@@ -23,6 +23,7 @@ interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   trigger: string;
+  tier?: string;
 }
 
 const TRIGGER_COPY: Record<string, { heading: string; subheading: string }> = {
@@ -69,9 +70,11 @@ function logUpgradeEvent(eventType: string, trigger: string) {
   }
 }
 
-export function UpgradeModal({ isOpen, onClose, trigger }: UpgradeModalProps) {
+export function UpgradeModal({ isOpen, onClose, trigger, tier }: UpgradeModalProps) {
   const [, navigate] = useLocation();
   const copy = TRIGGER_COPY[trigger] || DEFAULT_COPY;
+
+  const pricingPath = tier ? `/pricing/${tier}` : "/pricing";
 
   useEffect(() => {
     if (isOpen) {
@@ -87,8 +90,8 @@ export function UpgradeModal({ isOpen, onClose, trigger }: UpgradeModalProps) {
   const handleCtaClick = useCallback(() => {
     logUpgradeEvent("upgrade_clicked", trigger);
     onClose();
-    navigate("/pricing");
-  }, [onClose, trigger, navigate]);
+    navigate(pricingPath);
+  }, [onClose, trigger, navigate, pricingPath]);
 
   const handleViewPricing = useCallback(() => {
     logUpgradeEvent("upgrade_clicked", trigger);

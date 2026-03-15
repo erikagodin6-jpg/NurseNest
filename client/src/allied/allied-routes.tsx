@@ -133,7 +133,7 @@ export function AlliedRoutes() {
       <Switch>
         <Route path="/" component={AlliedHome} />
         <Route path="/careers" component={CareerDirectory} />
-        <Route path="/pricing" component={AlliedPricing} />
+        <Route path="/pricing">{() => { window.location.href = "/pricing/allied"; return null; }}</Route>
         <Route path="/institutions/faq" component={AlliedInstitutionsFAQ} />
         <Route path="/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
         <Route path="/institutions" component={AlliedInstitutions} />
