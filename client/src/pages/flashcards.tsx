@@ -6533,7 +6533,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         keywords={isTestBank
           ? "nursing test bank, exam practice questions, NCLEX questions, nursing exam prep, clinical scenarios, practice questions"
           : "nursing flashcards, NCLEX flashcards, nursing quiz, pathophysiology study cards, nursing exam practice, clinical nursing questions, pharmacology flashcards"}
-        canonicalPath={isTestBank ? window.location.pathname.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)/, "") : "/flashcards"}
+        canonicalPath={isTestBank ? window.location.pathname.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th)/, "") : "/flashcards"}
         ogType="website"
         structuredData={{
           "@context": "https://schema.org",

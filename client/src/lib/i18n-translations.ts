@@ -16,6 +16,7 @@ const LANG_LOADERS: Record<string, () => Promise<{ default: Record<string, strin
   ja: () => import("./i18n-ja"),
   fa: () => import("./i18n-fa"),
   de: () => import("./i18n-de"),
+  th: () => import("./i18n-th"),
 };
 
 const loadedTranslations: Partial<Record<LanguageCode, Record<string, string>>> = {};

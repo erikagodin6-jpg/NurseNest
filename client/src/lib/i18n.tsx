@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
 
-export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de";
+export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "th";
 
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "\ud83c\uddec\ud83c\udde7" },
@@ -21,6 +21,7 @@ export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; 
   { code: "ja", name: "Japanese", nativeName: "\u65e5\u672c\u8a9e", flag: "\ud83c\uddef\ud83c\uddf5" },
   { code: "fa", name: "Farsi", nativeName: "\u0641\u0627\u0631\u0633\u06cc", flag: "\ud83c\uddee\ud83c\uddf7" },
   { code: "de", name: "German", nativeName: "Deutsch", flag: "\ud83c\udde9\ud83c\uddea" },
+  { code: "th", name: "Thai", nativeName: "\u0e44\u0e17\u0e22", flag: "\ud83c\uddf9\ud83c\udded" },
 ];
 
 const translations: Partial<Record<LanguageCode, Record<string, string>>> & { en: Record<string, string> } = {

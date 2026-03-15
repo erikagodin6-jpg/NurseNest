@@ -37,6 +37,17 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/perguntas-frequentes",
     "/blog": "/blog",
   },
+  th: {
+    "/pricing": "/rakha",
+    "/flashcards": "/bat-kham-sap",
+    "/lessons": "/bot-rian",
+    "/mock-exams": "/khaw-sop-chamlong",
+    "/glossary": "/sap-banyat",
+    "/about": "/kiao-kap-rao",
+    "/contact": "/tidtaw",
+    "/faq": "/kham-tham-thi-phop-boi",
+    "/blog": "/blog",
+  },
 };
 
 function applySlugMapping(path: string, locale: string): string {

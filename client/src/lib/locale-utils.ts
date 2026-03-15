@@ -5,7 +5,7 @@ import {
 } from "@shared/localized-slugs";
 
 export const SUPPORTED_LOCALES = [
-  "en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de"
+  "en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"
 ] as const;
 
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];

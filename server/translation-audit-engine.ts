@@ -2,7 +2,7 @@ import { pool } from "./storage";
 import fs from "fs";
 import path from "path";
 
-const SUPPORTED_LOCALES = ["fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+const SUPPORTED_LOCALES = ["fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"];
 
 const BRAND_ALLOWLIST = new Set([
   "nursenest", "nclex", "nclex-rn", "nclex-pn", "ncsbn", "rex-pn",

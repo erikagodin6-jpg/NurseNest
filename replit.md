@@ -26,7 +26,7 @@ Key systems include:
 - **Exam & Practice Engines**: Mock exam engine with CAT Exam and Practice Exam modes, offering post-completion review and full session persistence.
 - **AI-Powered Generation & Safety**: Admin-triggered AI content generation with budget caps, concurrency controls, duplicate protection, and a kill switch. A `ContentQualityGate` enforces 10 quality rules.
 - **AI Provider Router & Cost Control Engine**: Centralized AI request routing through pluggable providers with cost tracking, rate limiting, and health checks.
-- **SEO & Marketing Infrastructure**: Programmatic SEO Engines, NCLEX Question Preview Pages, Multilingual SEO & Translation System (FR/ES), Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and various content hubs. Includes server-side locale detection and comprehensive SEO audit tools.
+- **SEO & Marketing Infrastructure**: Programmatic SEO Engines, NCLEX Question Preview Pages, Multilingual SEO & Translation System (FR/ES/DE/TH + 12 others), Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and various content hubs. Includes server-side locale detection and comprehensive SEO audit tools.
 - **Public Marketing & Conversion Proof System**: Dynamic trust counters and conversion-focused proof blocks displaying live platform statistics.
 - **Analytics & Admin**: Content Analytics Engine and Admin Dashboard for real-time production data and ROI.
 - **SEO Performance & Growth Dashboard**: Admin page for tracking search engine visibility, content growth, indexed pages, and search performance.

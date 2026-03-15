@@ -389,7 +389,7 @@ export function registerSitemapRoutes(app: Express) {
     res.redirect(301, "/sitemap-index.xml");
   });
 
-  const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de"];
+  const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th"];
   app.get("/sitemap-:lang.xml", (req: Request, res: Response) => {
     const lang = req.params.lang;
     if (SUPPORTED_LOCALES.includes(lang)) {

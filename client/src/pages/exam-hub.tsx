@@ -181,7 +181,7 @@ function getExamData(examSlug: string): SeoExamPageConfig | undefined {
 export default function ExamHub() {
   const { t } = useI18n();
   const [location] = useLocation();
-  const slug = location.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)\//, "/").replace(/^\//, "").replace(/\/$/, "");
+  const slug = location.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th)\//, "/").replace(/^\//, "").replace(/\/$/, "");
   const hub = getHubConfig(slug);
   const examData = hub ? getExamData(hub.examSlug) : undefined;
 

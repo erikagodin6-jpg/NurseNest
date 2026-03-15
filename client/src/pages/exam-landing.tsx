@@ -122,7 +122,7 @@ const FEATURE_ICONS = [Zap, Clock, Layers, BarChart3, Target, Shield];
 
 export default function ExamLandingPage() {
   const [location] = useLocation();
-  const pathSlug = location.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)\//, "/").replace(/^\//, "").replace(/\//g, "-").replace(/-$/, "");
+  const pathSlug = location.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th)\//, "/").replace(/^\//, "").replace(/\//g, "-").replace(/-$/, "");
   const examData = SEO_EXAM_PAGES.find(p => p.slug === pathSlug);
 
   if (!examData) {

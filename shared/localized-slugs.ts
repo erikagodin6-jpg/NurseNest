@@ -223,6 +223,22 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "topics": "topicos",
     "guides": "guias",
   },
+  th: {
+    "pricing": "rakha",
+    "lessons": "bot-rian",
+    "flashcards": "bat-kham-sap",
+    "question-bank": "khlang-kham-tham",
+    "about": "kiao-kap-rao",
+    "contact": "tidtaw",
+    "faq": "kham-tham-thi-phop-boi",
+    "blog": "blog",
+    "glossary": "sap-banyat",
+    "shop": "ran-kha",
+    "nursing": "phayaban",
+    "exam-prep": "triam-sop",
+    "topics": "hua-khaw",
+    "guides": "khumu",
+  },
 };
 
 const _reverseCache: Record<string, Record<string, string>> = {};
