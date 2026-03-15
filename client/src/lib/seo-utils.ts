@@ -26,15 +26,22 @@ export function generateLessonKeywords(lessonId: string, lesson: LessonContent):
   const parts: string[] = [stripTierFromTitle(lesson.title), "nursing pathophysiology"];
 
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) {
-    parts.push("nurse practitioner", "NP exam", "advanced practice");
+    parts.push("nurse practitioner", "NP board exam", "advanced practice nursing", "differential diagnosis", "clinical reasoning");
   } else if (lessonId.includes("-rn") || lessonId.includes("nclex-")) {
-    parts.push("NCLEX prep", "RN exam", "registered nurse");
+    parts.push("NCLEX-RN prep", "RN exam", "registered nurse", "clinical judgment", "prioritization");
+  } else if (lessonId.includes("allied-") || lessonId.includes("-mlt") || lessonId.includes("-rrt") || lessonId.includes("paramedic")) {
+    parts.push("allied health exam", "certification prep", "healthcare professional");
   } else {
-    parts.push("REX-PN prep", "RPN exam", "practical nurse", "LVN");
+    parts.push("REX-PN prep", "RPN exam", "practical nurse", "LVN", "CPNRE");
   }
 
   lesson.medications.slice(0, 4).forEach((m) => parts.push(m.name));
-  parts.push("clinical signs", "nursing interventions", "pharmacology");
+  parts.push("clinical signs", "nursing interventions", "pharmacology", "patient safety");
+
+  const bodySystem = getLessonBodySystem(lessonId);
+  if (bodySystem !== "Clinical Nursing") {
+    parts.push(bodySystem.toLowerCase() + " nursing");
+  }
 
   return parts.join(", ");
 }

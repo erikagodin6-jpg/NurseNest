@@ -3051,14 +3051,14 @@ export default function LessonDetail() {
                 {[
                   { id: "pathophysiology", label: "Pathophysiology" },
                   { id: "risk-factors", label: "Risk Factors" },
-                  { id: "diagnostics", label: "Diagnostics" },
-                  { id: "management", label: "Management" },
-                  { id: "nursing-actions", label: "Nursing Actions" },
+                  { id: "diagnostics", label: "Diagnostics & Labs" },
+                  { id: "management", label: "Management & Treatment" },
+                  { id: "nursing-actions", label: "Nursing Interventions" },
                   { id: "assessment-findings", label: "Assessment Findings" },
                   { id: "lifespan", label: "Lifespan" },
-                  { id: "clinical-findings", label: "Clinical Findings" },
-                  { id: "pharmacology", label: "Pharmacology" },
-                  { id: "exam-readiness", label: "Exam Readiness" },
+                  { id: "clinical-findings", label: "Signs & Red Flags" },
+                  { id: "pharmacology", label: "Pharmacology & Safety" },
+                  { id: "exam-readiness", label: "Exam & Clinical Pearls" },
                 ].map(item => (
                   <a key={item.id} href={`#${item.id}`} className="block text-xs text-gray-500 hover:text-primary py-1 px-2 rounded hover:bg-primary/5 transition-colors truncate">
                     {item.label}
@@ -3174,10 +3174,10 @@ export default function LessonDetail() {
                   <section id="diagnostics" data-testid="section-diagnostics" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
-                      <h2>Diagnostics</h2>
+                      <h2>Diagnostic Studies &amp; Lab Findings</h2>
                       <SectionAIButton section="diagnostics" label="Diagnostics" />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
+                    <p className="text-sm text-gray-500 mt-1">Confirmatory diagnostic tests, lab values, and expected results</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
                       <CardContent className="p-8">
                         {ed ? (
@@ -3209,10 +3209,10 @@ export default function LessonDetail() {
                   <section id="management" data-testid="section-management" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
-                      <h2>Management</h2>
+                      <h2>Clinical Management &amp; Treatment</h2>
                       <SectionAIButton section="management" label="Management" />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
+                    <p className="text-sm text-gray-500 mt-1">Evidence-based interventions, treatment protocols, and clinical monitoring</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
                       <CardContent className="p-8">
                         {ed ? (
@@ -3246,10 +3246,10 @@ export default function LessonDetail() {
                   <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
-                      <h2>Nursing Actions and Scope Considerations</h2>
+                      <h2>Nursing Interventions &amp; Scope of Practice</h2>
                       <SectionAIButton section="nursingActions" label="Nursing Actions" />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
+                    <p className="text-sm text-gray-500 mt-1">Priority nursing assessments, clinical interventions, delegation, and escalation triggers</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
                       <CardContent className="p-8">
                         {ed ? (
@@ -3281,10 +3281,10 @@ export default function LessonDetail() {
                   <section id="assessment-findings" data-testid="section-assessment-findings" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-teal-600 w-8 h-8" />
-                      <h2>Assessment Findings</h2>
+                      <h2>Clinical Assessment Findings</h2>
                       <SectionAIButton section="assessmentFindings" label="Assessment Findings" />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, laboratory values, and subjective/objective findings</p>
                     <Card className="border-none shadow-sm bg-teal-50/60">
                       <CardContent className="p-8">
                         {ed ? (
@@ -3344,10 +3344,10 @@ export default function LessonDetail() {
                 <section id="clinical-findings" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <AlertCircle className="text-orange-500 w-8 h-8" />
-                    <h2>Clinical Findings and Red Flags</h2>
+                    <h2>Signs, Symptoms &amp; Clinical Red Flags</h2>
                     <SectionAIButton section="signs" label="Signs & Symptoms" />
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
+                  <p className="text-sm text-gray-500 mt-1">Key clinical presentations, warning signs, and escalation criteria</p>
                   <div className="grid md:grid-cols-2 gap-8">
                     <Card className="border-none shadow-md bg-white">
                       <CardContent className="p-8 space-y-4">
@@ -3410,9 +3410,9 @@ export default function LessonDetail() {
                 <section id="pharmacology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <Pill className="text-primary w-8 h-8" />
-                    <h2>Pharmacology and Safety</h2>
+                    <h2>Pharmacology, Medications &amp; Safety</h2>
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
+                  <p className="text-sm text-gray-500 mt-1">Key medications, drug classes, mechanisms of action, adverse effects, and nursing safety considerations</p>
                   <SectionAIButton section="medications" label="Medications" />
                   <div className="space-y-4">
                     {(ed || lessonContent).medications.map((med, i) => (
@@ -3485,7 +3485,7 @@ export default function LessonDetail() {
                 <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
                   <div className="flex items-center gap-3 text-2xl font-bold">
                     <FileText className="text-primary w-8 h-8" />
-                    <h2>Exam Readiness</h2>
+                    <h2>Exam Readiness &amp; Clinical Pearls</h2>
                   </div>
                   <SectionAIButton section="pearls" label="Exam Pearls" />
                   <div className="grid md:grid-cols-2 gap-8">
