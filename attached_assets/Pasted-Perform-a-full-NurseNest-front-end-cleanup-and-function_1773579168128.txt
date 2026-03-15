@@ -1,0 +1,332 @@
+Perform a full NurseNest front-end cleanup and functionality audit with the goal of simplifying the user experience, removing confusion, fixing broken behavior, and making the site feel polished, stable, and intentional.
+
+Priority:
+Do not add random new features unless they directly improve clarity, usability, navigation, conversion, or stability. The goal right now is cleanup, consistency, and making sure everything works properly.
+
+Critical guardrail:
+Do NOT modify the tiered menus (RPN / RN / NP and any related tier selectors or tier-specific dropdown structures). Those are already set up the way I want them and should be left untouched unless a change is absolutely required to fix a severe production-breaking bug. Assume tiered menus are out of scope for this cleanup pass.
+
+Main objective:
+Audit the live site experience and clean up anything that is cluttered, duplicated, broken, misleading, poorly grouped, visually inconsistent, or routing incorrectly, while preserving the existing tiered menu system.
+
+==================================================
+PART 1 — GLOBAL SITE CLEANUP GOAL
+==================================================
+
+Treat this as a quality-control and architecture cleanup pass.
+
+Focus on:
+- navigation clarity outside of the tiered menus
+- wording cohesion
+- broken links
+- duplicate items
+- 404 routes
+- dropdown behavior outside the tiered menus
+- lesson library integrity
+- FAQ consistency
+- homepage clarity
+- visual consistency
+- mobile responsiveness
+- Safari behavior
+- production-safe rendering
+
+Do not make the site more complicated.
+Make it cleaner, clearer, and more trustworthy.
+
+==================================================
+PART 2 — NAVIGATION CLEANUP
+==================================================
+
+Audit the top navigation and dropdown system across the site, but leave the tiered menus untouched.
+
+Out of scope:
+- Do not alter the RPN / RN / NP tier menus
+- Do not change tier selector ordering, labels, structure, or logic
+- Do not rework tier-specific dropdown architecture unless absolutely necessary for a severe bug
+
+Problems already identified outside the tiered menus:
+- some dropdown labels were hidden or clipped
+- some dropdowns opened too high and got cut off
+- some dropdowns had duplicate items
+- some menu items were grouped under the wrong parent
+- some tools appeared in more than one menu
+- dropdown architecture became confusing
+
+Clean this up only for the global navigation outside the tiered menus.
+
+Requirements:
+1. Every global nav item should live in the correct menu.
+2. Remove duplicate menu entries across global dropdowns.
+3. Ensure all global dropdown panels open fully below the trigger and are never clipped.
+4. Ensure the trigger beside the logo shows icon + label + chevron clearly.
+5. Ensure hover/focus states look clean and professional, not like broken form controls.
+6. Ensure menus are logically grouped and easy to predict.
+7. Preserve responsive behavior and good keyboard accessibility.
+8. Ensure menu items route correctly.
+9. Do not modify the tiered menus.
+
+Recommended clean structure for the global navigation only:
+- Exam Prep
+  - Test Bank
+  - Flashcards
+  - Lessons
+  - Exams
+  - Simulators
+- Study Tools
+  - Lectures
+  - Clinical Clarity
+  - Clinical Skill Lab
+  - Anatomy
+  - Pre-Nursing
+- Analytics
+  - My Dashboard
+  - Performance Reports
+  - Study Progress
+- New Grad
+  - New Grad Hub
+  - Certifications
+  - Career Guides
+- Healthcare Careers
+  - Nursing Specialties
+  - Allied Health Hub
+  - Respiratory Therapy
+  - Paramedic / EMT
+  - Pharmacy Technician
+  - Medical Lab Tech
+  - Diagnostic Imaging
+- Resources
+  - Blog
+  - FAQ
+  - Pricing
+  - For Schools
+
+If exact labels need slight adjustment to match current routing, keep the structure but preserve clarity.
+
+==================================================
+PART 3 — HOMEPAGE CLEANUP
+==================================================
+
+Audit the homepage for clarity and conversion.
+
+Already identified:
+- the page was auto-scrolling down toward hero images/analytics
+- the homepage needs to guide users more clearly
+- too much reliance on navigation to find the correct path
+
+Requirements:
+1. Fix any auto-scroll or viewport-jump behavior on homepage load.
+2. Ensure a fresh visit stays at the top of the hero.
+3. Add or refine a “Choose Your Path” section directly below the hero so users can immediately choose:
+   - Nursing Students
+   - Allied Health Students
+   - New Graduate Nurses
+4. Ensure this section is visually clean, conversion-focused, and routes correctly.
+5. Add a compact credibility/proof bar below it if appropriate using current platform counts.
+6. Remove or reduce homepage clutter if sections are repetitive, confusing, or low-value.
+7. Keep the page cohesive with the NurseNest brand.
+
+==================================================
+PART 4 — FAQ + SITE WORDING COHESION
+==================================================
+
+Audit wording across:
+- homepage
+- FAQ
+- pricing
+- exam prep pages
+- allied health pages
+- new grad pages
+- hero sections
+- metadata
+- navigation descriptions
+
+Problem already identified:
+The FAQ and some wording imply NurseNest is only for nursing students, but the platform also supports allied health and new grads.
+
+Requirements:
+1. Make messaging cohesive across the whole site.
+2. Update wording so it truthfully reflects the platform audience:
+   - nursing students
+   - allied health learners
+   - new graduates
+3. Keep language concise, professional, and consistent.
+4. Create or confirm separate FAQ pathways for:
+   - Main platform FAQ
+   - Allied Health FAQ
+   - New Grad FAQ
+5. Ensure the main FAQ explains the overall platform, not just nursing.
+6. Ensure no page incorrectly says the platform is only for nursing students unless that page truly is tier-specific.
+
+==================================================
+PART 5 — LESSON LIBRARY CLEANUP
+==================================================
+
+Audit all lesson libraries across RPN, RN, NP, and related learning sections.
+
+Problems already identified:
+- duplicate lessons were visible
+- some lessons were inserted into the wrong category
+- some empty lessons were visible
+- some visible lessons led to 404 pages
+- titles redundantly included tier labels like RPN/RN/NP
+- generated lessons were published into the wrong place
+
+Requirements:
+1. Remove duplicate visible lesson cards.
+2. Hide or unpublish empty or broken lessons.
+3. Ensure no visible lesson card routes to a 404 page.
+4. Ensure lessons are placed in the correct category/section.
+5. Remove visible tier suffixes like RPN, RN, or NP from lesson titles when already inside that tier.
+6. Normalize titles and improve readability.
+7. Prevent future generated lessons from being published into the wrong section.
+8. Add production-safe validation so incomplete lesson shells never display publicly.
+9. Rebuild or refresh any indexes/caches if needed after cleanup.
+
+Important:
+Cleaning up lesson content and lesson cards is allowed.
+Changing the tiered navigation menus themselves is not.
+
+==================================================
+PART 6 — BROKEN LINKS / 404 / ROUTING AUDIT
+==================================================
+
+Perform a broad routing and link integrity audit.
+
+Requirements:
+1. Find and fix broken internal links.
+2. Find and fix visible routes that lead to 404 pages.
+3. Ensure global dropdown links, CTA buttons, lesson cards, FAQ links, and homepage cards all resolve correctly.
+4. Normalize slug generation where inconsistent.
+5. Remove dead links from production navigation.
+6. If a destination page is not ready, do not expose it publicly.
+
+==================================================
+PART 7 — VISUAL / UX CONSISTENCY
+==================================================
+
+Audit UI consistency sitewide.
+
+Check for:
+- inconsistent spacing
+- awkward alignment
+- clipped text
+- uneven dropdown widths
+- inconsistent icon alignment
+- odd hover states
+- duplicated labels
+- broken card spacing
+- inconsistent capitalization
+- awkward tier naming in titles
+- crowded global menu groupings
+
+Requirements:
+1. Standardize spacing and alignment where obviously inconsistent.
+2. Make dropdowns and cards feel deliberate and polished.
+3. Preserve the current NurseNest visual identity.
+4. Do not introduce unnecessary redesign.
+5. Keep the site lightweight and readable.
+6. Do not redesign or restructure the tiered menus.
+
+==================================================
+PART 8 — MOBILE + SAFARI QA
+==================================================
+
+Because some of these issues appear visually sensitive, run QA for:
+- desktop
+- tablet
+- mobile
+- Safari specifically
+
+Requirements:
+1. Ensure global dropdowns render correctly on Safari.
+2. Ensure navigation remains usable on smaller screens.
+3. Ensure touch targets are appropriate on mobile.
+4. Ensure no clipped panels, overlapping content, or layout jumps.
+5. Ensure sticky header behavior remains clean.
+6. Ensure the tiered menus are not altered during this pass.
+
+==================================================
+PART 9 — SEO / CONTENT CLEANUP WITHOUT SPAM
+==================================================
+
+Do a cleanup-oriented SEO pass, not a spammy one.
+
+Requirements:
+1. Ensure page titles and meta descriptions reflect the actual page audience.
+2. Ensure FAQ wording aligns with the full platform offering.
+3. Ensure no misleading copy remains.
+4. Strengthen internal linking where helpful, but do not clutter pages.
+5. Remove duplicated or low-value wording if it hurts clarity.
+6. Preserve honest, specific messaging.
+
+==================================================
+PART 10 — IMPLEMENTATION SAFETY
+==================================================
+
+Do not solve problems with superficial hacks only.
+
+Requirements:
+1. Fix underlying data/configuration issues where possible.
+2. Do not just hide broken items in the UI if their source logic is still broken.
+3. Add validation checks to prevent broken content from reaching production.
+4. Keep admin-only or draft content out of public production lists.
+5. Avoid making one fix that causes regressions elsewhere.
+6. Do not touch the tiered menu architecture unless absolutely required for a severe production-breaking issue.
+
+==================================================
+PART 11 — FINAL QA CHECKLIST
+==================================================
+
+Before finishing, verify all of the following:
+
+Navigation:
+- no duplicate global menu items
+- no clipped global dropdowns
+- no invisible trigger labels
+- no wrongly grouped global items
+- all global nav links work
+- tiered menus remain unchanged
+
+Homepage:
+- no auto-scroll on load
+- clear role-based pathing
+- no confusing duplicate sections
+
+FAQ and wording:
+- cohesive messaging
+- main FAQ is broad enough
+- allied health and new grad messaging is represented properly
+
+Lessons:
+- no duplicate visible lessons
+- no empty visible lessons
+- no 404 lesson links
+- correct category placement
+- no redundant tier names in visible titles
+
+General:
+- no obvious broken links
+- no misleading exposed routes
+- no visual regressions
+- works well on desktop, tablet, mobile, and Safari
+- tiered menus preserved
+
+==================================================
+FINAL INSTRUCTION
+==================================================
+
+Treat this as a professional polish and stabilization pass for NurseNest.
+
+The site should feel:
+- cleaner
+- simpler
+- more cohesive
+- more trustworthy
+- easier to navigate
+- less cluttered
+- fully working
+
+Implement the fixes carefully, test them thoroughly, and prioritize clarity and correctness over adding more complexity.
+
+Most important constraint:
+Leave the tiered menus alone.
