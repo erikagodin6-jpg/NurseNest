@@ -179,6 +179,7 @@ export function AlliedRoutes() {
         <Route path="/admin/allied-content/pharmacy-technician/study-plans" component={PharmtechAdmin} />
         <Route path="/pharmacy-technician/study-plan/:planId" component={PharmtechStudyPlan} />
         <Route path="/pharmacy-technician/study-plan" component={PharmtechStudyPlan} />
+        <Route path="/pharmacy-technician/mock-exams">{() => { window.location.replace("/pharmacy-technician/exams"); return null; }}</Route>
         <Route path="/pharmacy-technician" component={PharmtechHub} />
         <Route path="/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
         <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />
@@ -420,6 +421,7 @@ export function AlliedRoutes() {
 
         <Route path="/respiratory-therapy">{() => { window.location.replace("/rrt"); return null; }}</Route>
         <Route path="/medical-lab-tech">{() => { window.location.replace("/mlt"); return null; }}</Route>
+        <Route path="/account">{() => <AlliedDashboard />}</Route>
         <Route path="/pharmacy-tech">{() => { window.location.replace("/pharmacy-technician"); return null; }}</Route>
 
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />

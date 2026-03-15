@@ -90,7 +90,17 @@ export function AlliedNavigation() {
     { slug: "tools", label: t("nav.allied.aiTools") },
   ];
 
+  const CAREER_FEATURE_OVERRIDES: Record<string, Record<string, string | null>> = {
+    "pharmacy-tech": {
+      "mock-exams": "/pharmacy-technician/exams",
+      "sims": null,
+      "tools": null,
+    },
+  };
+
   function getFeatureHref(careerSlug: string, featureSlug: string) {
+    const override = CAREER_FEATURE_OVERRIDES[careerSlug]?.[featureSlug];
+    if (override !== undefined) return override;
     if (featureSlug === "qbank") return `/qbank?career=${careerSlug}`;
     const canonical = getCanonicalRoute(careerSlug);
     return `${canonical}/${featureSlug}`;
@@ -99,8 +109,9 @@ export function AlliedNavigation() {
   function isFeatureActive(featureSlug: string) {
     if (!currentCareer) return false;
     if (featureSlug === "qbank") return location === "/qbank";
-    const canonical = getCanonicalRoute(currentCareer.slug);
-    return location === `${canonical}/${featureSlug}`;
+    const href = getFeatureHref(currentCareer.slug, featureSlug);
+    if (href === null) return false;
+    return location === href || location === href.split("?")[0];
   }
 
   const mainSiteHome = getMainSiteUrl("/", locale);
@@ -185,12 +196,16 @@ export function AlliedNavigation() {
                 )}
               </div>
 
-              {currentCareer && features.map(f => (
-                <Link key={f.slug} href={getFeatureHref(currentCareer.slug, f.slug)} className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 ${isFeatureActive(f.slug) ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid={`link-${f.slug}`}>
-                  {getFeatureIcon(f.slug)}
-                  {f.label}
-                </Link>
-              ))}
+              {currentCareer && features.map(f => {
+                const href = getFeatureHref(currentCareer.slug, f.slug);
+                if (href === null) return null;
+                return (
+                  <Link key={f.slug} href={href} className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 ${isFeatureActive(f.slug) ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid={`link-${f.slug}`}>
+                    {getFeatureIcon(f.slug)}
+                    {f.label}
+                  </Link>
+                );
+              })}
 
               <Link href="/pricing" className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${location === "/pricing" ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid="link-pricing">
                 Pricing
