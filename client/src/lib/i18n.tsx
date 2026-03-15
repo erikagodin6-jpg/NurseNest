@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { getLocaleFromPath, isValidLocale, buildLocalePath, type SupportedLocale } from "./locale-utils";
+import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 
 export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa";
 
@@ -97,9 +97,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
 
     const newLocale = languageToLocale(lang);
-    const { pathWithoutLocale } = getLocaleFromPath(window.location.pathname);
-    const newPath = buildLocalePath(newLocale, pathWithoutLocale);
-    if (window.location.pathname !== newPath) {
+    const currentPath = window.location.pathname;
+    const { locale: currentLocale, pathWithoutLocale } = getLocaleFromPath(currentPath);
+    const englishPath = deLocalizeSlug(currentLocale, pathWithoutLocale);
+    const newPath = buildLocalePath(newLocale, englishPath);
+    if (currentPath !== newPath) {
       window.location.assign(newPath);
     }
   };

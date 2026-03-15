@@ -1,4 +1,5 @@
 import { Switch, Route, Router, Redirect, useLocation } from "wouter";
+import { useBrowserLocation, navigate as wouterNavigate } from "wouter/use-browser-location";
 import { useEffect, lazy, Suspense, Component, type ReactNode, type ErrorInfo } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -9,7 +10,7 @@ import { AuthProvider, useAuth } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
 import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
-import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
+import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE, deLocalizeSlug } from "@/lib/locale-utils";
 import { AlliedApp } from "@/allied/allied-app";
 import { TesterBanner } from "@/components/tester-banner";
 
@@ -1134,15 +1135,33 @@ function AppRoutes() {
   );
 }
 
+function useDelocalizedLocation(locale: string): [string, typeof wouterNavigate] {
+  const [path] = useBrowserLocation();
+  const { pathWithoutLocale } = getLocaleFromPath(path);
+  const englishPath = deLocalizeSlug(locale, pathWithoutLocale);
+  const effectivePath = `/${locale}${englishPath === "/" ? "" : englishPath}`;
+  return [effectivePath, wouterNavigate];
+}
+
 function LocaleRouter() {
   const [location] = useLocation();
-  const { locale, pathWithoutLocale } = getLocaleFromPath(location);
+  const { locale } = getLocaleFromPath(location);
   const segments = location.split("/").filter(Boolean);
   const firstSegment = segments[0] || "";
 
   if (!firstSegment || !isValidLocale(firstSegment)) {
     const redirectTarget = `/${DEFAULT_LOCALE}${location === "/" ? "" : location}`;
     return <Redirect to={redirectTarget} />;
+  }
+
+  const needsDelocalization = locale === "fr" || locale === "es";
+
+  if (needsDelocalization) {
+    return (
+      <Router base={`/${locale}`} hook={() => useDelocalizedLocation(locale)}>
+        <AppRoutes />
+      </Router>
+    );
   }
 
   return (

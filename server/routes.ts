@@ -20502,6 +20502,20 @@ Rules:
     }
   });
 
+  const { getAllLocalizedSlugs } = await import("../shared/localized-slugs");
+  const localizedSlugs = getAllLocalizedSlugs();
+  for (const { locale, english, localized } of localizedSlugs) {
+    app.get(`/${locale}/${english}`, (req, res) => {
+      const rest = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+      res.redirect(301, `/${locale}/${localized}${rest}`);
+    });
+    app.get(`/${locale}/${english}/{*rest}`, (req, res) => {
+      const subPath = (req.params as any).rest || "";
+      const qs = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+      res.redirect(301, `/${locale}/${localized}/${subPath}${qs}`);
+    });
+  }
+
   return httpServer;
 }
 

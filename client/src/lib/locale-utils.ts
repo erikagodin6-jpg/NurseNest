@@ -1,3 +1,9 @@
+import {
+  localizeSlug as _localizeSlug,
+  deLocalizeSlug as _deLocalizeSlug,
+  LOCALIZED_SLUGS,
+} from "@shared/localized-slugs";
+
 export const SUPPORTED_LOCALES = [
   "en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"
 ] as const;
@@ -22,8 +28,19 @@ export function getLocaleFromPath(path: string): { locale: SupportedLocale; path
 
 export function buildLocalePath(locale: SupportedLocale | string, path: string): string {
   const cleanPath = path.startsWith("/") ? path : "/" + path;
+  const localizedPath = localizeSlug(locale, cleanPath);
   if (locale === DEFAULT_LOCALE) {
-    return `/${locale}${cleanPath === "/" ? "" : cleanPath}`;
+    return `/${locale}${localizedPath === "/" ? "" : localizedPath}`;
   }
-  return `/${locale}${cleanPath === "/" ? "" : cleanPath}`;
+  return `/${locale}${localizedPath === "/" ? "" : localizedPath}`;
 }
+
+export function localizeSlug(locale: string, englishPath: string): string {
+  return _localizeSlug(locale, englishPath);
+}
+
+export function deLocalizeSlug(locale: string, localizedPath: string): string {
+  return _deLocalizeSlug(locale, localizedPath);
+}
+
+export { LOCALIZED_SLUGS };
