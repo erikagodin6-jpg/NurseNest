@@ -1,0 +1,131 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add Thai as a supported language while preserving the stability of the multilingual framework.
+
+Do not break routing, SEO metadata, hreflang configuration, or existing translations.
+
+---
+
+SECTION 1 — LANGUAGE CONFIGURATION
+
+Add a new locale.
+
+language code:
+th
+
+display name:
+ไทย
+
+Add Thai to the language selector.
+
+---
+
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Thai routes follow the existing localization pattern.
+
+Examples:
+
+/th
+/th/pricing
+/th/lessons
+/th/practice
+/th/new-grad
+/th/allied-health
+/th/faq
+
+All internal links must respect the active language.
+
+---
+
+SECTION 3 — TRANSLATION PRIORITY
+
+Translate the highest-impact pages first.
+
+Priority pages:
+
+Homepage
+Pricing
+Lessons overview
+Practice / Question bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Blog index
+Navigation and footer
+
+Individual lessons may initially fall back to English.
+
+---
+
+SECTION 4 — TRANSLATION QUALITY RULES
+
+Ensure Thai translations remain medically accurate and readable.
+
+Rules:
+
+Do not translate the brand name NurseNest
+Preserve medical abbreviations (RN, NP, NCLEX, ICU, NICU)
+Avoid literal machine translations
+Use clear Thai understandable for healthcare professionals
+
+---
+
+SECTION 5 — SEO LOCALIZATION
+
+Add Thai SEO support.
+
+Each localized page must include:
+
+hreflang tags
+canonical tags
+localized meta titles
+localized meta descriptions
+
+Update hreflang lists to include Thai.
+
+---
+
+SECTION 6 — SITEMAP
+
+Create a localized sitemap.
+
+/sitemap-th.xml
+
+Include Thai routes for major pages.
+
+---
+
+SECTION 7 — LANGUAGE DETECTION
+
+If a user's browser language is Thai, prefer the Thai route.
+
+Example:
+/th
+
+Allow users to manually change language.
+
+---
+
+SECTION 8 — TESTING
+
+Verify on the published site:
+
+Thai appears in the language selector
+Thai routes load correctly
+Navigation functions normally
+SEO tags generate correctly
+Fallback pages show English when translations are unavailable
+
+---
+
+DELIVERABLES
+
+Provide:
+
+files changed
+updated localization configuration
+Thai routes
+updated sitemap
+confirmation Thai works on the published site

@@ -1,0 +1,131 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add Turkish as a supported language while maintaining the stability of the existing multilingual framework.
+
+This must not break current routing, SEO tags, hreflang implementation, or language switching behavior.
+
+---
+
+SECTION 1 — LANGUAGE CONFIGURATION
+
+Add a new locale.
+
+language code:
+tr
+
+display name:
+Türkçe
+
+Add Turkish to the language selector.
+
+---
+
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Turkish routes follow the same structure used for other localized pages.
+
+Examples:
+
+/tr
+/tr/pricing
+/tr/lessons
+/tr/practice
+/tr/new-grad
+/tr/allied-health
+/tr/faq
+
+Internal links must respect the active language.
+
+---
+
+SECTION 3 — TRANSLATION PRIORITY
+
+Translate the highest-conversion pages first.
+
+Priority pages:
+
+Homepage
+Pricing
+Lessons overview
+Practice / Question bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Blog index
+Navigation and footer
+
+Individual lessons and blog posts may initially fall back to English.
+
+---
+
+SECTION 4 — TRANSLATION QUALITY RULES
+
+Ensure translations remain medically accurate and clear.
+
+Rules:
+
+Do not translate the brand name NurseNest
+Preserve nursing abbreviations (RN, RPN, NP, NCLEX, NICU, ICU)
+Avoid literal machine translation
+Maintain clear professional Turkish suitable for healthcare professionals
+
+---
+
+SECTION 5 — SEO LOCALIZATION
+
+Add Turkish SEO support.
+
+Each localized page must include:
+
+hreflang tags
+canonical tags
+localized meta titles
+localized meta descriptions
+
+Update hreflang lists to include Turkish.
+
+---
+
+SECTION 6 — SITEMAP
+
+Create a Turkish sitemap.
+
+/sitemap-tr.xml
+
+Include all major Turkish routes.
+
+---
+
+SECTION 7 — LANGUAGE DETECTION
+
+If a user's browser language is Turkish, prefer the Turkish route.
+
+Example:
+/tr
+
+Allow users to manually switch languages.
+
+---
+
+SECTION 8 — TESTING
+
+Verify on the published site:
+
+Turkish appears in the language selector
+Turkish routes load correctly
+Navigation functions normally
+SEO tags generate correctly
+Fallback pages show English content if translations are missing
+
+---
+
+DELIVERABLES
+
+Provide:
+
+files changed
+updated localization configuration
+Turkish routes
+updated sitemap
+confirmation Turkish works on the published site
