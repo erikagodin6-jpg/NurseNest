@@ -61,13 +61,6 @@ export default defineConfig({
             return "vendor";
           }
 
-          if (id.includes("/data/translations/")) {
-            const match = id.match(/translations\/(\w[\w-]*)\.json/);
-            if (match) {
-              return `translations-${match[1]}`;
-            }
-          }
-
           if (id.match(/\/lib\/i18n-[a-z]{2}(-[a-z]{2,})?\.ts/)) {
             const match = id.match(/i18n-([a-z]{2}(?:-[a-z]{2,})?)\.ts/);
             if (match) {
