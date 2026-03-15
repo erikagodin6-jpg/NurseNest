@@ -7,13 +7,15 @@ import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 import { pharmacyTechDecks, type FlashcardDeck } from "@/data/pharmacy-tech-flashcards";
 import { mltFlashcardDecks } from "@/data/mlt-flashcards";
 import { alliedHealthFlashcardDecks } from "@/data/allied-health-flashcards";
+import { rrtFlashcardDecks } from "@/data/rrt-flashcards";
 
 export default function AlliedFlashcardsPage() {
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const isPharmacyTech = career?.slug === "pharmacy-tech";
   const isMLT = career?.slug === "mlt";
-  const isAlliedHealth = !isPharmacyTech && !isMLT;
+  const isRRT = career?.slug === "rrt";
+  const isAlliedHealth = !isPharmacyTech && !isMLT && !isRRT;
   const hasDeckSelector = true;
   const [currentIdx, setCurrentIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -22,7 +24,7 @@ export default function AlliedFlashcardsPage() {
   const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null);
   const [showDeckSelector, setShowDeckSelector] = useState(hasDeckSelector);
 
-  const activeDeckList: any[] = isMLT ? mltFlashcardDecks : isPharmacyTech ? pharmacyTechDecks : alliedHealthFlashcardDecks;
+  const activeDeckList: any[] = isRRT ? rrtFlashcardDecks : isMLT ? mltFlashcardDecks : isPharmacyTech ? pharmacyTechDecks : alliedHealthFlashcardDecks;
 
   const cards = useMemo(() => {
     if (!career) return [];
@@ -40,12 +42,19 @@ export default function AlliedFlashcardsPage() {
       }
       return mltFlashcardDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.discipline })));
     }
+    if (isRRT) {
+      if (selectedDeckId) {
+        const deck = rrtFlashcardDecks.find(d => d.id === selectedDeckId);
+        return deck ? deck.cards.map(c => ({ ...c, domain: deck.category })) : [];
+      }
+      return rrtFlashcardDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.category })));
+    }
     if (selectedDeckId) {
       const deck = alliedHealthFlashcardDecks.find(d => d.id === selectedDeckId);
       return deck ? deck.cards.map(c => ({ ...c, domain: deck.category })) : [];
     }
     return alliedHealthFlashcardDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.category })));
-  }, [career?.id, selectedDeckId, isPharmacyTech, isMLT, isAlliedHealth]);
+  }, [career?.id, selectedDeckId, isPharmacyTech, isMLT, isRRT, isAlliedHealth]);
 
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
@@ -122,12 +131,16 @@ export default function AlliedFlashcardsPage() {
   if (hasDeckSelector && showDeckSelector) {
     const totalCards = activeDeckList.reduce((sum: number, d: any) => sum + d.cards.length, 0);
     const deckCount = activeDeckList.length;
-    const seoDesc = isMLT
+    const seoDesc = isRRT
+      ? `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering ABG interpretation, mechanical ventilation, respiratory pharmacology, airway management, and more.`
+      : isMLT
       ? `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering Hematology, Chemistry, Microbiology, Blood Banking, and more.`
       : isPharmacyTech
       ? `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering Top 200 Drugs, dosage calculations, pharmacy law, compounding, and more.`
       : `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering medical terminology, anatomy, lab values, clinical concepts, medications, and professional responsibilities.`;
-    const seoKeywords = isMLT
+    const seoKeywords = isRRT
+      ? `${career.name} flashcards, RRT flashcards, TMC exam flashcards, ABG interpretation flashcards, mechanical ventilation flashcards, respiratory therapy study cards`
+      : isMLT
       ? `${career.name} flashcards, CSMLS flashcards, ASCP MLT flashcards, hematology flashcards, clinical chemistry flashcards`
       : isPharmacyTech
       ? `${career.name} flashcards, PTCB flashcards, pharmacy tech study cards, top 200 drugs flashcards, pharmacy math flashcards`
