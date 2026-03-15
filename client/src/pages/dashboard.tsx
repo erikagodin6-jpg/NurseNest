@@ -20,7 +20,6 @@ import {
   Zap, SlidersHorizontal, Trophy, PartyPopper
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
-import { StudyMomentumPanel } from "@/components/study-momentum";
 import { TrialDashboardWidget } from "@/components/trial-dashboard-widget";
 import {
   PostExamFollowupModal,
@@ -30,6 +29,7 @@ import {
   PostponedCountdownCard,
   usePostExamCheck,
 } from "@/components/post-exam-followup";
+import { CommandCenter } from "@/components/command-center";
 
 type WidgetConfig = {
   widgetType: string;
@@ -137,27 +137,21 @@ const PREMIUM_WIDGET_MESSAGE_KEYS: Record<string, string> = {
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
-  { widgetType: "welcome", position: 0, visible: true },
-  { widgetType: "progress", position: 1, visible: true },
-  { widgetType: "recommended", position: 2, visible: true },
-  { widgetType: "pass_probability", position: 3, visible: true },
-  { widgetType: "adaptive_engine", position: 4, visible: true },
-  { widgetType: "recent_lessons", position: 5, visible: true },
-  { widgetType: "quick_links", position: 6, visible: true },
-  { widgetType: "exam_stats", position: 7, visible: true },
-  { widgetType: "study_streak", position: 8, visible: true },
-  { widgetType: "flashcard_review", position: 9, visible: true },
-  { widgetType: "clinical_tools", position: 10, visible: true },
-  { widgetType: "ai_study_coach", position: 11, visible: true },
-  { widgetType: "intelligent_recommendations", position: 12, visible: true },
-  { widgetType: "study_workload", position: 13, visible: true },
-  { widgetType: "quick_study", position: 14, visible: true },
-  { widgetType: "review_due", position: 15, visible: true },
-  { widgetType: "topic_mastery", position: 16, visible: true },
-  { widgetType: "exam_readiness", position: 17, visible: true },
-  { widgetType: "weak_topics", position: 18, visible: true },
-  { widgetType: "bookmarks_preview", position: 19, visible: true },
-  { widgetType: "performance_overview", position: 20, visible: true },
+  { widgetType: "progress", position: 0, visible: true },
+  { widgetType: "recommended", position: 1, visible: true },
+  { widgetType: "adaptive_engine", position: 2, visible: true },
+  { widgetType: "recent_lessons", position: 3, visible: true },
+  { widgetType: "quick_links", position: 4, visible: true },
+  { widgetType: "exam_stats", position: 5, visible: true },
+  { widgetType: "flashcard_review", position: 6, visible: true },
+  { widgetType: "clinical_tools", position: 7, visible: true },
+  { widgetType: "ai_study_coach", position: 8, visible: true },
+  { widgetType: "intelligent_recommendations", position: 9, visible: true },
+  { widgetType: "quick_study", position: 10, visible: true },
+  { widgetType: "review_due", position: 11, visible: true },
+  { widgetType: "topic_mastery", position: 12, visible: true },
+  { widgetType: "bookmarks_preview", position: 13, visible: true },
+  { widgetType: "performance_overview", position: 14, visible: true },
 ];
 
 export default function DashboardPage() {
@@ -322,11 +316,10 @@ export default function DashboardPage() {
   );
 
   const WIDGET_SECTIONS: Record<string, { labelKey: string; types: Set<string> }> = {
-    hero: { labelKey: "", types: new Set(["welcome"]) },
     post_exam: { labelKey: "dashboard.sectionPostExam", types: new Set(["post_exam_new_grad", "post_exam_recovery", "post_exam_pending", "post_exam_postponed"]) },
-    progress: { labelKey: "dashboard.sectionProgress", types: new Set(["progress", "study_streak", "pass_probability", "exam_readiness", "exam_stats", "performance_overview"]) },
+    progress: { labelKey: "dashboard.sectionProgress", types: new Set(["progress", "exam_stats", "performance_overview"]) },
     study: { labelKey: "dashboard.sectionStudyTools", types: new Set(["quick_links", "quick_study", "flashcard_review", "review_due", "recent_lessons", "bookmarks_preview"]) },
-    smart: { labelKey: "dashboard.sectionSmartInsights", types: new Set(["recommended", "adaptive_engine", "ai_study_coach", "intelligent_recommendations", "topic_mastery", "weak_topics", "study_workload", "clinical_tools"]) },
+    smart: { labelKey: "dashboard.sectionSmartInsights", types: new Set(["recommended", "adaptive_engine", "ai_study_coach", "intelligent_recommendations", "topic_mastery", "clinical_tools"]) },
   };
 
   function getWidgetSection(widgetType: string): string {
@@ -372,7 +365,7 @@ export default function DashboardPage() {
         </nav>
 
         <div className="mb-6">
-          <StudyMomentumPanel />
+          <CommandCenter />
         </div>
 
         <TrialDashboardWidget />
@@ -465,7 +458,7 @@ export default function DashboardPage() {
           <section className="space-y-8" aria-label="Dashboard widgets">
             {(() => {
               const displayWidgets = editing ? widgets : visibleWidgets;
-              const sectionOrder = ["hero", "post_exam", "progress", "study", "smart"];
+              const sectionOrder = ["post_exam", "progress", "study", "smart"];
               
               if (editing) {
                 return (
@@ -476,7 +469,7 @@ export default function DashboardPage() {
                       if (!WidgetComponent || !keys) return null;
                       const Icon = WIDGET_ICONS[widget.widgetType];
                       const widgetLabel = t(keys.label);
-                      const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
+                      const isFullWidth = widget.widgetType === "recommended";
                       return (
                         <article key={widget.widgetType} className={`relative cursor-move ${!widget.visible ? "opacity-50" : ""} ${isFullWidth ? "md:col-span-2" : ""}`} aria-label={`${widgetLabel} widget`} draggable onDragStart={() => handleDragStart(index)} onDragOver={(e) => handleDragOver(e, index)} onDragEnd={handleDragEnd} data-testid={`widget-${widget.widgetType}`}>
                           <Card className="h-full transition-all duration-200 premium-card ring-2 ring-primary/20 hover:ring-primary/40">
@@ -536,7 +529,7 @@ export default function DashboardPage() {
                         if (!WidgetComponent || !keys) return null;
                         const Icon = WIDGET_ICONS[widget.widgetType];
                         const widgetLabel = t(keys.label);
-                        const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
+                        const isFullWidth = widget.widgetType === "recommended";
                         return (
                           <article key={widget.widgetType} className={`relative ${isFullWidth ? "md:col-span-2" : ""}`} aria-label={`${widgetLabel} widget`} data-testid={`widget-${widget.widgetType}`}>
                             <Card className="h-full transition-all duration-200 premium-card border-gray-200/60 hover:shadow-lg hover:shadow-gray-100/50">

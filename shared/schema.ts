@@ -5938,6 +5938,11 @@ export const examPlannerSettings = pgTable("exam_planner_settings", {
   careerType: text("career_type").default("nursing"),
   generatedPlan: jsonb("generated_plan"),
   plannerLastUpdated: timestamp("planner_last_updated"),
+  examResultStatus: text("exam_result_status"),
+  examFollowupCompleted: boolean("exam_followup_completed").default(false),
+  examPostponed: boolean("exam_postponed").default(false),
+  careerStage: text("career_stage").default("student"),
+  newGradResourcesActivated: boolean("new_grad_resources_activated").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
