@@ -4,7 +4,7 @@ import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/ca
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
   BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe, Briefcase,
-  Hand, Activity, Database, Home, ArrowLeft
+  Hand, Activity, Database, Home, ArrowLeft, Scan, Heart
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useRegion } from "@/allied/use-region";
@@ -12,6 +12,12 @@ import { useI18n } from "@/lib/i18n";
 import { getMainSiteUrl } from "@/lib/locale-utils";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
+
+const IMAGING_SUB_CAREERS = [
+  { slug: "radiologic-technologist", shortName: "Rad Tech", examName: "ARRT Radiography" },
+  { slug: "diagnostic-sonography", shortName: "Sonographer", examName: "ARDMS RDMS" },
+  { slug: "cardiac-sonographer", shortName: "Echo Tech", examName: "ARDMS RDCS" },
+] as const;
 
 function getCareerIcon(slug: string) {
   switch (slug) {
@@ -23,6 +29,9 @@ function getCareerIcon(slug: string) {
     case "occupational-therapy": return <Hand className="w-4 h-4" />;
     case "physical-therapy": return <Activity className="w-4 h-4" />;
     case "health-info-mgmt": return <Database className="w-4 h-4" />;
+    case "radiologic-technologist": return <Scan className="w-4 h-4" />;
+    case "diagnostic-sonography": return <Radio className="w-4 h-4" />;
+    case "cardiac-sonographer": return <Heart className="w-4 h-4" />;
     default: return <BookOpen className="w-4 h-4" />;
   }
 }
@@ -37,6 +46,15 @@ function getFeatureIcon(feature: string) {
     case "tools": return <Wrench className="w-4 h-4" />;
     default: return <BarChart3 className="w-4 h-4" />;
   }
+}
+
+function getImagingCareerLabel(location: string): string | null {
+  const segments = location.split("/").filter(Boolean);
+  if (segments[0] === "allied-health" && segments[1]) {
+    const match = IMAGING_SUB_CAREERS.find(c => c.slug === segments[1]);
+    if (match) return match.shortName;
+  }
+  return null;
 }
 
 function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]): CareerConfig | undefined {
@@ -80,6 +98,7 @@ export function AlliedNavigation() {
   const { region, setRegion } = useRegion();
   const alliedCareers = ALLIED_CAREERS.map(id => CAREER_CONFIGS[id]);
   const currentCareer = getCurrentCareerFromUrl(location, alliedCareers);
+  const imagingCareerLabel = getImagingCareerLabel(location);
 
   const features = [
     { slug: "qbank", label: t("nav.allied.testBank") },
@@ -171,7 +190,7 @@ export function AlliedNavigation() {
 
               <div className="relative" onMouseEnter={() => setCareerDropdownOpen(true)} onMouseLeave={() => setCareerDropdownOpen(false)}>
                 <button className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 flex items-center gap-1 max-w-[160px] whitespace-nowrap" data-testid="button-career-dropdown">
-                  <span className="truncate">{currentCareer ? currentCareer.shortName : "Study"}</span>
+                  <span className="truncate">{imagingCareerLabel || (currentCareer ? currentCareer.shortName : "Study")}</span>
                   <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" />
                 </button>
                 {careerDropdownOpen && (
@@ -189,6 +208,19 @@ export function AlliedNavigation() {
                         <div className="min-w-0">
                           <div className="font-medium truncate">{career.shortName}</div>
                           <div className="text-xs text-gray-400 truncate">{career.examNames[0]}</div>
+                        </div>
+                      </Link>
+                    ))}
+                    <div className="border-t border-gray-100 my-1" />
+                    <div className="px-4 py-1">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Imaging Careers</span>
+                    </div>
+                    {IMAGING_SUB_CAREERS.map(ic => (
+                      <Link key={ic.slug} href={`/allied-health/${ic.slug}`} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${location.startsWith(`/allied-health/${ic.slug}`) ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${ic.slug}`}>
+                        <span className="flex-shrink-0">{getCareerIcon(ic.slug)}</span>
+                        <div className="min-w-0">
+                          <div className="font-medium truncate">{ic.shortName}</div>
+                          <div className="text-xs text-gray-400 truncate">{ic.examName}</div>
                         </div>
                       </Link>
                     ))}
@@ -281,6 +313,13 @@ export function AlliedNavigation() {
                   {career.shortName}
                 </Link>
               </div>
+            ))}
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">Imaging Careers</p>
+            {IMAGING_SUB_CAREERS.map(ic => (
+              <Link key={ic.slug} href={`/allied-health/${ic.slug}`} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${ic.slug}`}>
+                {getCareerIcon(ic.slug)}
+                {ic.shortName}
+              </Link>
             ))}
             <div className="border-t border-gray-100 my-2" />
             <button

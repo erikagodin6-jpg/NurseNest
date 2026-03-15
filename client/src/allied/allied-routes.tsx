@@ -83,6 +83,11 @@ const ImagingPhysicsListing = lazy(() => import("./pages/imaging-physics-listing
 const ImagingPhysicsTopic = lazy(() => import("./pages/imaging-physics-topic"));
 const ImagingFlashcardsPage = lazy(() => import("./pages/imaging-flashcards"));
 const ImagingSeoLanding = lazy(() => import("./pages/imaging-seo-landing"));
+const CareerStudyIndexPage = lazy(() => import("./components/career-study-index-page"));
+const CareerFlashcardsIndexPage = lazy(() => import("./components/career-flashcards-index-page"));
+const CareerExamsPage = lazy(() => import("./components/career-exams-page"));
+const CareerCareerGuidePage = lazy(() => import("./components/career-career-guide-page"));
+import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
 import { MltSEOPage } from "./pages/mlt-seo-pages";
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
@@ -378,6 +383,33 @@ export function AlliedRoutes() {
         <Route path="/allied-health/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
         <Route path="/allied-health/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
         <Route path="/allied-health/mlt" component={MltLanding} />
+        <Route path="/allied-health/radiologic-technologist/study">{() => {
+          const d = IMAGING_CAREER_DATA["radiologic-technologist"];
+          return <CareerStudyIndexPage hubData={PROFESSION_HUB_DATA["radiologic-technologist"]} studyTopics={d.studyTopics} featuredTopics={d.featuredTopics} mostTestedConcepts={d.mostTestedConcepts} studyTips={d.studyTips} />;
+        }}</Route>
+        <Route path="/allied-health/radiologic-technologist/flashcards">{() => <CareerFlashcardsIndexPage hubData={PROFESSION_HUB_DATA["radiologic-technologist"]} flashcardDecks={IMAGING_CAREER_DATA["radiologic-technologist"].flashcardDecks} />}</Route>
+        <Route path="/allied-health/radiologic-technologist/exams">{() => <CareerExamsPage hubData={PROFESSION_HUB_DATA["radiologic-technologist"]} examEntries={IMAGING_CAREER_DATA["radiologic-technologist"].examEntries} />}</Route>
+        <Route path="/allied-health/radiologic-technologist/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["radiologic-technologist"]} careerGuide={IMAGING_CAREER_DATA["radiologic-technologist"].careerGuide} />}</Route>
+        <Route path="/allied-health/radiologic-technologist">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["radiologic-technologist"]} />}</Route>
+
+        <Route path="/allied-health/diagnostic-sonography/study">{() => {
+          const d = IMAGING_CAREER_DATA["diagnostic-sonography"];
+          return <CareerStudyIndexPage hubData={PROFESSION_HUB_DATA["diagnostic-sonography"]} studyTopics={d.studyTopics} featuredTopics={d.featuredTopics} mostTestedConcepts={d.mostTestedConcepts} studyTips={d.studyTips} />;
+        }}</Route>
+        <Route path="/allied-health/diagnostic-sonography/flashcards">{() => <CareerFlashcardsIndexPage hubData={PROFESSION_HUB_DATA["diagnostic-sonography"]} flashcardDecks={IMAGING_CAREER_DATA["diagnostic-sonography"].flashcardDecks} />}</Route>
+        <Route path="/allied-health/diagnostic-sonography/exams">{() => <CareerExamsPage hubData={PROFESSION_HUB_DATA["diagnostic-sonography"]} examEntries={IMAGING_CAREER_DATA["diagnostic-sonography"].examEntries} />}</Route>
+        <Route path="/allied-health/diagnostic-sonography/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["diagnostic-sonography"]} careerGuide={IMAGING_CAREER_DATA["diagnostic-sonography"].careerGuide} />}</Route>
+        <Route path="/allied-health/diagnostic-sonography">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["diagnostic-sonography"]} />}</Route>
+
+        <Route path="/allied-health/cardiac-sonographer/study">{() => {
+          const d = IMAGING_CAREER_DATA["cardiac-sonographer"];
+          return <CareerStudyIndexPage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} studyTopics={d.studyTopics} featuredTopics={d.featuredTopics} mostTestedConcepts={d.mostTestedConcepts} studyTips={d.studyTips} />;
+        }}</Route>
+        <Route path="/allied-health/cardiac-sonographer/flashcards">{() => <CareerFlashcardsIndexPage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} flashcardDecks={IMAGING_CAREER_DATA["cardiac-sonographer"].flashcardDecks} />}</Route>
+        <Route path="/allied-health/cardiac-sonographer/exams">{() => <CareerExamsPage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} examEntries={IMAGING_CAREER_DATA["cardiac-sonographer"].examEntries} />}</Route>
+        <Route path="/allied-health/cardiac-sonographer/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} careerGuide={IMAGING_CAREER_DATA["cardiac-sonographer"].careerGuide} />}</Route>
+        <Route path="/allied-health/cardiac-sonographer">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["cardiac-sonographer"]} />}</Route>
+
         <Route path="/allied-health/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
         <Route path="/allied-health/imaging">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["imaging"]} />}</Route>
         <Route path="/allied-health/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>

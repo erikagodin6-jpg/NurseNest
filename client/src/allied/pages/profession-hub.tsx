@@ -277,26 +277,47 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
             <p className="text-gray-600">Organized study materials to help you prepare systematically for your certification exam.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { label: "Lessons", href: `${data.contentClusterBase}/lessons`, icon: BookOpen, desc: "In-depth lessons covering all exam domains" },
-              { label: "Practice Questions", href: `${data.contentClusterBase}/practice-questions`, icon: Target, desc: "Exam-authentic questions with detailed rationales" },
-              { label: "Flashcards", href: `${data.contentClusterBase}/flashcards`, icon: Brain, desc: "Spaced repetition cards for key concepts" },
-              { label: "Mock Exam", href: `${data.contentClusterBase}/mock-exam`, icon: FileText, desc: "Full-length blueprint-weighted practice exams" },
-              { label: "Study Guide", href: `${data.contentClusterBase}/study-guide`, icon: GraduationCap, desc: "Comprehensive study guide and planning tools" },
-            ].map(item => (
-              <Link key={item.label} href={item.href} className="group" data-testid={`link-cluster-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
-                <div className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all">
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: data.colorAccent }}>
-                    <item.icon className="w-5 h-5" style={{ color: data.color }} />
+            {data.studyResourceLinks ? (
+              data.studyResourceLinks.map((item, idx) => {
+                const icons = [BookOpen, Brain, Target, GraduationCap, FileText];
+                const Icon = icons[idx % icons.length];
+                return (
+                  <Link key={item.label} href={item.href} className="group" data-testid={`link-cluster-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                    <div className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all">
+                      <div className="p-2 rounded-lg" style={{ backgroundColor: data.colorAccent }}>
+                        <Icon className="w-5 h-5" style={{ color: data.color }} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 text-sm">{item.label}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-0.5 transition-transform mt-1" />
+                    </div>
+                  </Link>
+                );
+              })
+            ) : (
+              [
+                { label: "Lessons", href: `${data.contentClusterBase}/lessons`, icon: BookOpen, desc: "In-depth lessons covering all exam domains" },
+                { label: "Practice Questions", href: `${data.contentClusterBase}/practice-questions`, icon: Target, desc: "Exam-authentic questions with detailed rationales" },
+                { label: "Flashcards", href: `${data.contentClusterBase}/flashcards`, icon: Brain, desc: "Spaced repetition cards for key concepts" },
+                { label: "Mock Exam", href: `${data.contentClusterBase}/mock-exam`, icon: FileText, desc: "Full-length blueprint-weighted practice exams" },
+                { label: "Study Guide", href: `${data.contentClusterBase}/study-guide`, icon: GraduationCap, desc: "Comprehensive study guide and planning tools" },
+              ].map(item => (
+                <Link key={item.label} href={item.href} className="group" data-testid={`link-cluster-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                  <div className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:shadow-md hover:border-gray-200 transition-all">
+                    <div className="p-2 rounded-lg" style={{ backgroundColor: data.colorAccent }}>
+                      <item.icon className="w-5 h-5" style={{ color: data.color }} />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900 text-sm">{item.label}</h3>
+                      <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-0.5 transition-transform mt-1" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900 text-sm">{item.label}</h3>
-                    <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-0.5 transition-transform mt-1" />
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -403,15 +424,25 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href={`/${data.contentClusterBase ? data.contentClusterBase.replace(/^\//, '') : data.careerSlug}`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-career-overview">
-              {data.shortName} Career Overview →
-            </Link>
-            <Link href={`${data.contentClusterBase}/practice-questions`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-practice-questions">
-              {data.shortName} Practice Questions →
-            </Link>
-            <Link href={`${data.contentClusterBase}/study-guide`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-study-guide">
-              {data.shortName} Study Guide →
-            </Link>
+            {data.studyResourceLinks ? (
+              data.studyResourceLinks.slice(0, 3).map(item => (
+                <Link key={item.label} href={item.href} className="text-sm hover:underline" style={{ color: data.color }} data-testid={`link-resource-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                  {data.shortName} {item.label} →
+                </Link>
+              ))
+            ) : (
+              <>
+                <Link href={`/${data.contentClusterBase ? data.contentClusterBase.replace(/^\//, '') : data.careerSlug}`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-career-overview">
+                  {data.shortName} Career Overview →
+                </Link>
+                <Link href={`${data.contentClusterBase}/practice-questions`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-practice-questions">
+                  {data.shortName} Practice Questions →
+                </Link>
+                <Link href={`${data.contentClusterBase}/study-guide`} className="text-sm hover:underline" style={{ color: data.color }} data-testid="link-study-guide">
+                  {data.shortName} Study Guide →
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
