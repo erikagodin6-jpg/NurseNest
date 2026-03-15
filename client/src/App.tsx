@@ -190,7 +190,7 @@ const ClinicalSkillsGuideDetail = lazy(() => import("@/pages/clinical-skills-gui
 const UnitGuidePage = lazy(() => import("@/pages/new-grad/unit-guide-page"));
 const CareerDevelopmentPage = lazy(() => import("@/pages/new-grad/career-development-page"));
 const ClinicalScenarioPage = lazy(() => import("@/pages/new-grad/clinical-scenario-page"));
-const NewGradHubPage = lazy(() => import("@/pages/newgrad/newgrad-hub"));
+
 const NewGradGuidesPage = lazy(() => import("@/pages/newgrad/guides-page"));
 const NewGradCareerPage = lazy(() => import("@/pages/newgrad/career-page"));
 const NewGradInterviewPage = lazy(() => import("@/pages/newgrad/interview-page"));
@@ -531,7 +531,7 @@ function AppRoutes() {
         <Route path="/newgrad/burnout" component={NewGradBurnoutPage} />
         <Route path="/newgrad/salary" component={NewGradSalaryPage} />
         <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
-        <Route path="/newgrad" component={NewGradHubPage} />
+        <Route path="/newgrad"><Redirect to="/new-grad" /></Route>
         <Route path="/new-grad/:profession/:guideSlug" component={SeoGuidePage} />
         <Route path="/new-grad/:profession">{(params: any) => {
           const prof = params.profession || "";

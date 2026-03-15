@@ -625,7 +625,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => navTo("/nursing-certifications")} data-testid="button-nursing-certifications-mobile">
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => navTo("/new-grad")} data-testid="button-nursing-certifications-mobile">
                 {t("nav.certifications")}
               </Button>
             </SheetClose>
@@ -1276,7 +1276,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-specialties")} data-testid="menu-nursing-specialties">
                     Specialties
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-certifications")} data-testid="menu-nursing-certifications">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/new-grad")} data-testid="menu-nursing-certifications">
                     Certifications
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/study-pathways")} data-testid="menu-study-pathways">
