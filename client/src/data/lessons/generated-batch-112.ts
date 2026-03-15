@@ -916,5 +916,805 @@ export const generatedBatch112Lessons: Record<string, LessonContent> = {
         rationale: "Serum lactate is NOT a component of the SOFA score. The six SOFA components are: respiratory (PaO2/FiO2 ratio), coagulation (platelet count), hepatic (bilirubin), cardiovascular (MAP and vasopressor dose), CNS (Glasgow Coma Scale), and renal (creatinine or urine output). Lactate is used in the Sepsis-3 definition of septic shock (lactate > 2 mmol/L with vasopressor requirement) but is separate from the SOFA scoring system."
       }
     ]
+  },
+  "heart-sounds-2-rpn": {
+    title: "Heart Sounds",
+    cellular: {
+      title: "Heart Sounds: Pathophysiology and Clinical Foundations",
+      content: "Heart sounds are produced by the closure of cardiac valves and turbulent blood flow. S1 (lub) occurs with mitral and tricuspid valve closure at the onset of systole, while S2 (dub) occurs with aortic and pulmonic valve closure at the onset of diastole. S3 is a low-pitched sound heard in early diastole, often associated with heart failure in adults due to rapid ventricular filling against a non-compliant ventricle. S4 occurs in late diastole and is associated with a stiff, hypertrophied ventricle, commonly heard in hypertension and aortic stenosis.\n\nCardiovascular complications can rapidly progress to hemodynamic instability and organ failure. The RPN/LVN must monitor vital signs frequently, recognize early signs of decompensation such as changes in heart rate, blood pressure, and peripheral perfusion, and escalate concerns promptly. Electrocardiographic changes may provide early warning of cardiac compromise before clinical symptoms become apparent.\n\nWithin the RPN/LVN scope of practice, nursing care for heart sounds includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Hypertension and uncontrolled blood pressure elevating cardiac workload",
+      "Coronary artery disease and history of previous cardiac events",
+      "Diabetes mellitus contributing to accelerated atherosclerosis",
+      "Dyslipidemia with elevated LDL and reduced HDL cholesterol",
+      "Obesity (BMI >30) increasing cardiovascular strain and metabolic demands"
+    ],
+    diagnostics: [
+      "12-lead ECG and continuous cardiac monitoring for rhythm and ST-segment changes",
+      "Troponin I/T levels (serial measurements at 0, 3, and 6 hours)",
+      "Echocardiography assessing chamber size, wall motion, and valve function",
+      "BNP/NT-proBNP levels for heart failure evaluation"
+    ],
+    management: [
+      "Hemodynamic monitoring and optimization of cardiac output",
+      "Pharmacological management with cardioprotective medications as ordered",
+      "Activity restriction and progressive mobilization based on cardiac status",
+      "Dietary modifications including sodium and fluid restrictions as indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to heart sounds with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Altered heart rate or rhythm detected on auscultation or cardiac monitoring",
+      "Blood pressure changes including hypertension, hypotension, or orthostatic changes",
+      "Peripheral edema, jugular venous distension, or signs of fluid overload",
+      "Chest pain or discomfort with associated diaphoresis or dyspnea"
+    ],
+    signs: {
+      left: [
+        "Tachycardia or bradycardia with irregular pulse",
+        "Hypotension or hypertension with orthostatic changes",
+        "Peripheral edema and jugular venous distension",
+        "Chest pain, dyspnea on exertion, and fatigue"
+      ],
+      right: [
+        "Elevated troponin or BNP/NT-proBNP levels",
+        "ECG changes (ST elevation/depression, arrhythmias)",
+        "Abnormal echocardiographic findings",
+        "Elevated creatinine kinase (CK-MB)"
+      ]
+    },
+    medications: [{
+      name: "Metoprolol",
+      type: "Beta-1 selective adrenergic blocker",
+      action: "Reduces heart rate, blood pressure, and myocardial oxygen demand by blocking beta-1 receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm in susceptible patients",
+      contra: "Severe bradycardia, heart block greater than first degree, cardiogenic shock, decompensated HF",
+      pearl: "Hold if HR <60 or SBP <100; do not abruptly discontinue — taper gradually to avoid rebound tachycardia"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "The RPN/LVN is monitoring a patient with heart sounds. Which finding should be reported to the registered nurse immediately?",
+        options: ["Stable vital signs within normal range","Sudden onset of chest pain with diaphoresis","Patient requesting a meal tray","Scheduled medication due in 30 minutes"],
+        correct: 1,
+        rationale: "Sudden onset of chest pain with diaphoresis suggests acute cardiac compromise and requires immediate escalation. This finding indicates potential myocardial ischemia or other cardiac emergency requiring urgent evaluation and intervention."
+      },
+      {
+        question: "When caring for a patient with heart sounds, which nursing intervention is within the RPN/LVN scope of practice?",
+        options: ["Independent medication dose adjustment","Monitoring vital signs and documenting findings","Interpreting ECG rhythms independently","Ordering diagnostic tests"],
+        correct: 1,
+        rationale: "Monitoring vital signs and documenting findings is within the RPN/LVN scope. Medication dose adjustments, independent ECG interpretation, and ordering diagnostic tests are outside the practical nurse's scope and require delegation from an RN or physician."
+      }
+    ]
+  },
+  "hyperkalemia-vs-hypokalemia-ecg-changes-and-rpn": {
+    title: "Hyperkalemia vs Hypokalemia - ECG Changes & Cellular Physiology",
+    cellular: {
+      title: "Hyperkalemia vs Hypokalemia - ECG Changes & Cellular Physiology: Pathophysiology and Clinical Foundations",
+      content: "Potassium is the primary intracellular cation critical for maintaining cardiac electrical stability. Normal serum potassium ranges from 3.5-5.0 mEq/L. Hyperkalemia (>5.0 mEq/L) causes decreased resting membrane potential, leading to initial increased excitability followed by decreased conduction velocity. ECG changes progress from peaked T waves to widened QRS to sine wave pattern and cardiac arrest. Hypokalemia (<3.5 mEq/L) hyperpolarizes the cell membrane, causing flattened T waves, U wave appearance, ST depression, and increased risk of torsades de pointes.\n\nCardiovascular complications can rapidly progress to hemodynamic instability and organ failure. The RPN/LVN must monitor vital signs frequently, recognize early signs of decompensation such as changes in heart rate, blood pressure, and peripheral perfusion, and escalate concerns promptly. Electrocardiographic changes may provide early warning of cardiac compromise before clinical symptoms become apparent.\n\nWithin the RPN/LVN scope of practice, nursing care for hyperkalemia vs hypokalemia - ecg changes & cellular physiology includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Hypertension and uncontrolled blood pressure elevating cardiac workload",
+      "Coronary artery disease and history of previous cardiac events",
+      "Diabetes mellitus contributing to accelerated atherosclerosis",
+      "Dyslipidemia with elevated LDL and reduced HDL cholesterol",
+      "Obesity (BMI >30) increasing cardiovascular strain and metabolic demands"
+    ],
+    diagnostics: [
+      "12-lead ECG and continuous cardiac monitoring for rhythm and ST-segment changes",
+      "Troponin I/T levels (serial measurements at 0, 3, and 6 hours)",
+      "Echocardiography assessing chamber size, wall motion, and valve function",
+      "BNP/NT-proBNP levels for heart failure evaluation"
+    ],
+    management: [
+      "Hemodynamic monitoring and optimization of cardiac output",
+      "Pharmacological management with cardioprotective medications as ordered",
+      "Activity restriction and progressive mobilization based on cardiac status",
+      "Dietary modifications including sodium and fluid restrictions as indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to hyperkalemia vs hypokalemia - ecg changes & cellular physiology with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Altered heart rate or rhythm detected on auscultation or cardiac monitoring",
+      "Blood pressure changes including hypertension, hypotension, or orthostatic changes",
+      "Peripheral edema, jugular venous distension, or signs of fluid overload",
+      "Chest pain or discomfort with associated diaphoresis or dyspnea"
+    ],
+    signs: {
+      left: [
+        "Tachycardia or bradycardia with irregular pulse",
+        "Hypotension or hypertension with orthostatic changes",
+        "Peripheral edema and jugular venous distension",
+        "Chest pain, dyspnea on exertion, and fatigue"
+      ],
+      right: [
+        "Elevated troponin or BNP/NT-proBNP levels",
+        "ECG changes (ST elevation/depression, arrhythmias)",
+        "Abnormal echocardiographic findings",
+        "Elevated creatinine kinase (CK-MB)"
+      ]
+    },
+    medications: [{
+      name: "Metoprolol",
+      type: "Beta-1 selective adrenergic blocker",
+      action: "Reduces heart rate, blood pressure, and myocardial oxygen demand by blocking beta-1 receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm in susceptible patients",
+      contra: "Severe bradycardia, heart block greater than first degree, cardiogenic shock, decompensated HF",
+      pearl: "Hold if HR <60 or SBP <100; do not abruptly discontinue — taper gradually to avoid rebound tachycardia"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "The RPN/LVN is monitoring a patient with hyperkalemia vs hypokalemia - ecg changes & cellular physiology. Which finding should be reported to the registered nurse immediately?",
+        options: ["Stable vital signs within normal range","Sudden onset of chest pain with diaphoresis","Patient requesting a meal tray","Scheduled medication due in 30 minutes"],
+        correct: 1,
+        rationale: "Sudden onset of chest pain with diaphoresis suggests acute cardiac compromise and requires immediate escalation. This finding indicates potential myocardial ischemia or other cardiac emergency requiring urgent evaluation and intervention."
+      },
+      {
+        question: "When caring for a patient with hyperkalemia vs hypokalemia - ecg changes & cellular physiology, which nursing intervention is within the RPN/LVN scope of practice?",
+        options: ["Independent medication dose adjustment","Monitoring vital signs and documenting findings","Interpreting ECG rhythms independently","Ordering diagnostic tests"],
+        correct: 1,
+        rationale: "Monitoring vital signs and documenting findings is within the RPN/LVN scope. Medication dose adjustments, independent ECG interpretation, and ordering diagnostic tests are outside the practical nurse's scope and require delegation from an RN or physician."
+      }
+    ]
+  },
+  "cardiovascular-system-basics-rpn-rpn": {
+    title: "Cardiovascular System Basics (RPN)",
+    cellular: {
+      title: "Cardiovascular System Basics: Pathophysiology and Clinical Foundations",
+      content: "The cardiovascular system consists of the heart, blood vessels, and blood, functioning as a closed-loop transport system. The heart is a four-chambered muscular pump divided into right and left sides. The right side receives deoxygenated blood from systemic circulation and pumps it to the lungs via the pulmonary artery. The left side receives oxygenated blood from the lungs and pumps it to systemic circulation via the aorta. Cardiac output (CO = HR × SV) is determined by heart rate, preload, afterload, and contractility. The coronary arteries supply the myocardium with oxygenated blood, with the left anterior descending artery being the most commonly occluded vessel in myocardial infarction.\n\nCardiovascular complications can rapidly progress to hemodynamic instability and organ failure. The RPN/LVN must monitor vital signs frequently, recognize early signs of decompensation such as changes in heart rate, blood pressure, and peripheral perfusion, and escalate concerns promptly. Electrocardiographic changes may provide early warning of cardiac compromise before clinical symptoms become apparent.\n\nWithin the RPN/LVN scope of practice, nursing care for cardiovascular system basics includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Hypertension and uncontrolled blood pressure elevating cardiac workload",
+      "Coronary artery disease and history of previous cardiac events",
+      "Diabetes mellitus contributing to accelerated atherosclerosis",
+      "Dyslipidemia with elevated LDL and reduced HDL cholesterol",
+      "Obesity (BMI >30) increasing cardiovascular strain and metabolic demands"
+    ],
+    diagnostics: [
+      "12-lead ECG and continuous cardiac monitoring for rhythm and ST-segment changes",
+      "Troponin I/T levels (serial measurements at 0, 3, and 6 hours)",
+      "Echocardiography assessing chamber size, wall motion, and valve function",
+      "BNP/NT-proBNP levels for heart failure evaluation"
+    ],
+    management: [
+      "Hemodynamic monitoring and optimization of cardiac output",
+      "Pharmacological management with cardioprotective medications as ordered",
+      "Activity restriction and progressive mobilization based on cardiac status",
+      "Dietary modifications including sodium and fluid restrictions as indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to cardiovascular system basics with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Altered heart rate or rhythm detected on auscultation or cardiac monitoring",
+      "Blood pressure changes including hypertension, hypotension, or orthostatic changes",
+      "Peripheral edema, jugular venous distension, or signs of fluid overload",
+      "Chest pain or discomfort with associated diaphoresis or dyspnea"
+    ],
+    signs: {
+      left: [
+        "Tachycardia or bradycardia with irregular pulse",
+        "Hypotension or hypertension with orthostatic changes",
+        "Peripheral edema and jugular venous distension",
+        "Chest pain, dyspnea on exertion, and fatigue"
+      ],
+      right: [
+        "Elevated troponin or BNP/NT-proBNP levels",
+        "ECG changes (ST elevation/depression, arrhythmias)",
+        "Abnormal echocardiographic findings",
+        "Elevated creatinine kinase (CK-MB)"
+      ]
+    },
+    medications: [{
+      name: "Metoprolol",
+      type: "Beta-1 selective adrenergic blocker",
+      action: "Reduces heart rate, blood pressure, and myocardial oxygen demand by blocking beta-1 receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm in susceptible patients",
+      contra: "Severe bradycardia, heart block greater than first degree, cardiogenic shock, decompensated HF",
+      pearl: "Hold if HR <60 or SBP <100; do not abruptly discontinue — taper gradually to avoid rebound tachycardia"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "The RPN/LVN is monitoring a patient with cardiovascular system basics. Which finding should be reported to the registered nurse immediately?",
+        options: ["Stable vital signs within normal range","Sudden onset of chest pain with diaphoresis","Patient requesting a meal tray","Scheduled medication due in 30 minutes"],
+        correct: 1,
+        rationale: "Sudden onset of chest pain with diaphoresis suggests acute cardiac compromise and requires immediate escalation. This finding indicates potential myocardial ischemia or other cardiac emergency requiring urgent evaluation and intervention."
+      },
+      {
+        question: "When caring for a patient with cardiovascular system basics, which nursing intervention is within the RPN/LVN scope of practice?",
+        options: ["Independent medication dose adjustment","Monitoring vital signs and documenting findings","Interpreting ECG rhythms independently","Ordering diagnostic tests"],
+        correct: 1,
+        rationale: "Monitoring vital signs and documenting findings is within the RPN/LVN scope. Medication dose adjustments, independent ECG interpretation, and ordering diagnostic tests are outside the practical nurse's scope and require delegation from an RN or physician."
+      }
+    ]
+  },
+  "hypovolemic-shock-basics-for-practical-nurses-rpn": {
+    title: "Hypovolemic Shock Basics for Practical Nurses",
+    cellular: {
+      title: "Hypovolemic Shock Basics: Pathophysiology and Clinical Foundations",
+      content: "Hypovolemic shock results from a significant reduction in intravascular volume (typically >15-20% blood volume loss), leading to inadequate tissue perfusion and cellular hypoxia. The body compensates through sympathetic nervous system activation, causing tachycardia, peripheral vasoconstriction, and increased contractility. As compensation fails, cellular metabolism shifts from aerobic to anaerobic, producing lactic acid. Stage progression includes compensated (tachycardia, normal BP), progressive (hypotension, oliguria, altered mentation), and irreversible (multiorgan failure) stages. Common causes include hemorrhage, severe dehydration, burns, and third-spacing of fluids.\n\nClinical significance for the RPN/LVN includes early recognition of abnormal findings through systematic assessment, understanding normal versus abnormal parameters, and knowing when to escalate concerns to the registered nurse or physician. The practical nurse plays a vital role in ongoing monitoring, data collection, and implementing delegated care activities. Timely recognition of changes in patient condition directly impacts outcomes and patient safety.\n\nWithin the RPN/LVN scope of practice, nursing care for hypovolemic shock basics includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Hypertension and uncontrolled blood pressure elevating cardiac workload",
+      "Coronary artery disease and history of previous cardiac events",
+      "Diabetes mellitus contributing to accelerated atherosclerosis",
+      "Dyslipidemia with elevated LDL and reduced HDL cholesterol",
+      "Obesity (BMI >30) increasing cardiovascular strain and metabolic demands"
+    ],
+    diagnostics: [
+      "12-lead ECG and continuous cardiac monitoring for rhythm and ST-segment changes",
+      "Troponin I/T levels (serial measurements at 0, 3, and 6 hours)",
+      "Echocardiography assessing chamber size, wall motion, and valve function",
+      "BNP/NT-proBNP levels for heart failure evaluation"
+    ],
+    management: [
+      "Hemodynamic monitoring and optimization of cardiac output",
+      "Pharmacological management with cardioprotective medications as ordered",
+      "Activity restriction and progressive mobilization based on cardiac status",
+      "Dietary modifications including sodium and fluid restrictions as indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to hypovolemic shock basics with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Altered heart rate or rhythm detected on auscultation or cardiac monitoring",
+      "Blood pressure changes including hypertension, hypotension, or orthostatic changes",
+      "Peripheral edema, jugular venous distension, or signs of fluid overload",
+      "Chest pain or discomfort with associated diaphoresis or dyspnea"
+    ],
+    signs: {
+      left: [
+        "Tachycardia or bradycardia with irregular pulse",
+        "Hypotension or hypertension with orthostatic changes",
+        "Peripheral edema and jugular venous distension",
+        "Chest pain, dyspnea on exertion, and fatigue"
+      ],
+      right: [
+        "Elevated troponin or BNP/NT-proBNP levels",
+        "ECG changes (ST elevation/depression, arrhythmias)",
+        "Abnormal echocardiographic findings",
+        "Elevated creatinine kinase (CK-MB)"
+      ]
+    },
+    medications: [{
+      name: "Metoprolol",
+      type: "Beta-1 selective adrenergic blocker",
+      action: "Reduces heart rate, blood pressure, and myocardial oxygen demand by blocking beta-1 receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm in susceptible patients",
+      contra: "Severe bradycardia, heart block greater than first degree, cardiogenic shock, decompensated HF",
+      pearl: "Hold if HR <60 or SBP <100; do not abruptly discontinue — taper gradually to avoid rebound tachycardia"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "The RPN/LVN is monitoring a patient with hypovolemic shock basics. Which finding should be reported to the registered nurse immediately?",
+        options: ["Stable vital signs within normal range","Sudden onset of chest pain with diaphoresis","Patient requesting a meal tray","Scheduled medication due in 30 minutes"],
+        correct: 1,
+        rationale: "Sudden onset of chest pain with diaphoresis suggests acute cardiac compromise and requires immediate escalation. This finding indicates potential myocardial ischemia or other cardiac emergency requiring urgent evaluation and intervention."
+      },
+      {
+        question: "When caring for a patient with hypovolemic shock basics, which nursing intervention is within the RPN/LVN scope of practice?",
+        options: ["Independent medication dose adjustment","Monitoring vital signs and documenting findings","Interpreting ECG rhythms independently","Ordering diagnostic tests"],
+        correct: 1,
+        rationale: "Monitoring vital signs and documenting findings is within the RPN/LVN scope. Medication dose adjustments, independent ECG interpretation, and ordering diagnostic tests are outside the practical nurse's scope and require delegation from an RN or physician."
+      }
+    ]
+  },
+  "marfan-syndrome-2-rpn": {
+    title: "Marfan Syndrome",
+    cellular: {
+      title: "Marfan Syndrome: Pathophysiology and Clinical Foundations",
+      content: "Marfan syndrome is an autosomal dominant connective tissue disorder caused by mutations in the FBN1 gene encoding fibrillin-1, a glycoprotein essential for elastic fiber formation. Defective fibrillin-1 leads to weakened connective tissue throughout the body, particularly affecting the cardiovascular system (aortic root dilation, mitral valve prolapse), skeletal system (tall stature, arachnodactyly, pectus deformities), and ocular system (lens subluxation). The most life-threatening complication is aortic root aneurysm and dissection due to cystic medial necrosis of the aortic wall. Regular echocardiographic monitoring is essential for early detection of aortic dilation.\n\nCardiovascular complications can rapidly progress to hemodynamic instability and organ failure. The RPN/LVN must monitor vital signs frequently, recognize early signs of decompensation such as changes in heart rate, blood pressure, and peripheral perfusion, and escalate concerns promptly. Electrocardiographic changes may provide early warning of cardiac compromise before clinical symptoms become apparent.\n\nWithin the RPN/LVN scope of practice, nursing care for marfan syndrome includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Hypertension and uncontrolled blood pressure elevating cardiac workload",
+      "Coronary artery disease and history of previous cardiac events",
+      "Diabetes mellitus contributing to accelerated atherosclerosis",
+      "Dyslipidemia with elevated LDL and reduced HDL cholesterol",
+      "Obesity (BMI >30) increasing cardiovascular strain and metabolic demands"
+    ],
+    diagnostics: [
+      "12-lead ECG and continuous cardiac monitoring for rhythm and ST-segment changes",
+      "Troponin I/T levels (serial measurements at 0, 3, and 6 hours)",
+      "Echocardiography assessing chamber size, wall motion, and valve function",
+      "BNP/NT-proBNP levels for heart failure evaluation"
+    ],
+    management: [
+      "Hemodynamic monitoring and optimization of cardiac output",
+      "Pharmacological management with cardioprotective medications as ordered",
+      "Activity restriction and progressive mobilization based on cardiac status",
+      "Dietary modifications including sodium and fluid restrictions as indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to marfan syndrome with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Altered heart rate or rhythm detected on auscultation or cardiac monitoring",
+      "Blood pressure changes including hypertension, hypotension, or orthostatic changes",
+      "Peripheral edema, jugular venous distension, or signs of fluid overload",
+      "Chest pain or discomfort with associated diaphoresis or dyspnea"
+    ],
+    signs: {
+      left: [
+        "Tachycardia or bradycardia with irregular pulse",
+        "Hypotension or hypertension with orthostatic changes",
+        "Peripheral edema and jugular venous distension",
+        "Chest pain, dyspnea on exertion, and fatigue"
+      ],
+      right: [
+        "Elevated troponin or BNP/NT-proBNP levels",
+        "ECG changes (ST elevation/depression, arrhythmias)",
+        "Abnormal echocardiographic findings",
+        "Elevated creatinine kinase (CK-MB)"
+      ]
+    },
+    medications: [{
+      name: "Metoprolol",
+      type: "Beta-1 selective adrenergic blocker",
+      action: "Reduces heart rate, blood pressure, and myocardial oxygen demand by blocking beta-1 receptors",
+      sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm in susceptible patients",
+      contra: "Severe bradycardia, heart block greater than first degree, cardiogenic shock, decompensated HF",
+      pearl: "Hold if HR <60 or SBP <100; do not abruptly discontinue — taper gradually to avoid rebound tachycardia"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "The RPN/LVN is monitoring a patient with marfan syndrome. Which finding should be reported to the registered nurse immediately?",
+        options: ["Stable vital signs within normal range","Sudden onset of chest pain with diaphoresis","Patient requesting a meal tray","Scheduled medication due in 30 minutes"],
+        correct: 1,
+        rationale: "Sudden onset of chest pain with diaphoresis suggests acute cardiac compromise and requires immediate escalation. This finding indicates potential myocardial ischemia or other cardiac emergency requiring urgent evaluation and intervention."
+      },
+      {
+        question: "When caring for a patient with marfan syndrome, which nursing intervention is within the RPN/LVN scope of practice?",
+        options: ["Independent medication dose adjustment","Monitoring vital signs and documenting findings","Interpreting ECG rhythms independently","Ordering diagnostic tests"],
+        correct: 1,
+        rationale: "Monitoring vital signs and documenting findings is within the RPN/LVN scope. Medication dose adjustments, independent ECG interpretation, and ordering diagnostic tests are outside the practical nurse's scope and require delegation from an RN or physician."
+      }
+    ]
+  },
+  "bronchopulmonary-dysplasia-rpnlvn-rpn": {
+    title: "Bronchopulmonary Dysplasia (RPN/LVN)",
+    cellular: {
+      title: "Bronchopulmonary Dysplasia: Pathophysiology and Clinical Foundations",
+      content: "Bronchopulmonary Dysplasia involves pathological changes at the cellular and tissue level that produce characteristic clinical manifestations. The underlying pathophysiology includes disruption of normal physiological processes, leading to altered cellular function, inflammatory responses, and potential tissue damage. Understanding these mechanisms is essential for the RPN/LVN to recognize early signs of deterioration, implement timely nursing interventions, and communicate findings effectively to the healthcare team. The condition may progress through predictable stages, each with distinct clinical features that guide assessment priorities and nursing care planning.\n\nRespiratory compromise can deteriorate rapidly, making timely assessment and intervention critical. The RPN/LVN monitors respiratory rate, depth, pattern, oxygen saturation, and breath sounds. Early recognition of respiratory distress signs—accessory muscle use, nasal flaring, intercostal retractions, and declining SpO2—enables prompt escalation and intervention to prevent respiratory failure.\n\nWithin the RPN/LVN scope of practice, nursing care for bronchopulmonary dysplasia includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Current or former tobacco smoking causing airway damage and inflammation",
+      "Occupational exposure to respiratory irritants, dust, or chemical fumes",
+      "History of chronic respiratory conditions such as asthma or COPD",
+      "Immunosuppression from disease or medication increasing infection susceptibility",
+      "Advanced age with decreased respiratory reserve and mucociliary clearance"
+    ],
+    diagnostics: [
+      "Chest X-ray (PA and lateral) for pulmonary infiltrates and effusions",
+      "Arterial blood gas (ABG) analysis for oxygenation and acid-base status",
+      "Pulse oximetry for continuous SpO2 monitoring",
+      "Pulmonary function tests (PFTs) including FEV1 and FVC measurements"
+    ],
+    management: [
+      "Oxygen therapy titrated to maintain target SpO2 (typically 92-96%)",
+      "Bronchodilator therapy and airway clearance techniques as prescribed",
+      "Positioning (high Fowler's or tripod) to optimize respiratory mechanics",
+      "Infection control measures and antimicrobial therapy when indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to bronchopulmonary dysplasia with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Abnormal breath sounds including crackles, wheezes, rhonchi, or diminished sounds",
+      "Altered respiratory rate, depth, or pattern with accessory muscle use",
+      "Decreased oxygen saturation (SpO2) below target range",
+      "Cough characteristics including frequency, productivity, and sputum description"
+    ],
+    signs: {
+      left: [
+        "Dyspnea, tachypnea, and use of accessory muscles",
+        "Cyanosis or decreased SpO2 (<92%)",
+        "Abnormal breath sounds on auscultation",
+        "Productive or nonproductive cough"
+      ],
+      right: [
+        "Abnormal chest X-ray findings (infiltrates, effusion)",
+        "ABG showing hypoxemia or hypercarbia",
+        "Elevated WBC count suggesting infection",
+        "Abnormal pulmonary function test results"
+      ]
+    },
+    medications: [{
+      name: "Albuterol (Salbutamol)",
+      type: "Short-acting beta-2 agonist bronchodilator",
+      action: "Relaxes bronchial smooth muscle via beta-2 receptor stimulation, relieving bronchospasm",
+      sideEffects: "Tachycardia, tremor, hypokalemia, nervousness, palpitations",
+      contra: "Known hypersensitivity; use caution in patients with cardiac arrhythmias or hypokalemia",
+      pearl: "Shake MDI well before use; wait 1 minute between puffs; rinse mouth after corticosteroid inhalers to prevent thrush"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "A patient with bronchopulmonary dysplasia develops increased respiratory distress. What should the RPN/LVN do first?",
+        options: ["Administer a bronchodilator independently","Assess SpO2 and respiratory rate, then notify the RN","Transfer the patient to ICU","Increase the oxygen flow rate to maximum"],
+        correct: 1,
+        rationale: "The RPN/LVN should first assess the patient's current status (SpO2, respiratory rate, breath sounds) and then notify the registered nurse with objective findings. Administering medications independently or making transfer decisions are outside the RPN/LVN scope."
+      },
+      {
+        question: "Which assessment finding in a patient with bronchopulmonary dysplasia indicates effective treatment?",
+        options: ["Respiratory rate decreasing from 28 to 16 breaths/minute","Increasing use of accessory muscles","SpO2 declining from 96% to 89%","New onset of cyanosis around the lips"],
+        correct: 0,
+        rationale: "A respiratory rate normalizing from 28 to 16 indicates improved respiratory function and effective treatment. Increased accessory muscle use, declining SpO2, and cyanosis all indicate worsening respiratory status requiring escalation."
+      }
+    ]
+  },
+  "chest-tube-basics-rpnlvn-rpn": {
+    title: "Chest Tube Basics (RPN/LVN)",
+    cellular: {
+      title: "Chest Tube Basics: Pathophysiology and Clinical Foundations",
+      content: "Chest Tube Basics encompasses the fundamental anatomical, physiological, and pathological principles essential for practical nursing assessment and care delivery. Understanding the underlying mechanisms of disease within this system enables the RPN/LVN to recognize early clinical changes, anticipate complications, and implement appropriate nursing interventions within their scope of practice. The cellular and tissue-level changes that occur in pathological states directly influence the signs and symptoms that nurses observe at the bedside, making foundational knowledge critical for safe patient care.\n\nRespiratory compromise can deteriorate rapidly, making timely assessment and intervention critical. The RPN/LVN monitors respiratory rate, depth, pattern, oxygen saturation, and breath sounds. Early recognition of respiratory distress signs—accessory muscle use, nasal flaring, intercostal retractions, and declining SpO2—enables prompt escalation and intervention to prevent respiratory failure.\n\nWithin the RPN/LVN scope of practice, nursing care for chest tube basics includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Current or former tobacco smoking causing airway damage and inflammation",
+      "Occupational exposure to respiratory irritants, dust, or chemical fumes",
+      "History of chronic respiratory conditions such as asthma or COPD",
+      "Immunosuppression from disease or medication increasing infection susceptibility",
+      "Advanced age with decreased respiratory reserve and mucociliary clearance"
+    ],
+    diagnostics: [
+      "Chest X-ray (PA and lateral) for pulmonary infiltrates and effusions",
+      "Arterial blood gas (ABG) analysis for oxygenation and acid-base status",
+      "Pulse oximetry for continuous SpO2 monitoring",
+      "Pulmonary function tests (PFTs) including FEV1 and FVC measurements"
+    ],
+    management: [
+      "Oxygen therapy titrated to maintain target SpO2 (typically 92-96%)",
+      "Bronchodilator therapy and airway clearance techniques as prescribed",
+      "Positioning (high Fowler's or tripod) to optimize respiratory mechanics",
+      "Infection control measures and antimicrobial therapy when indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to chest tube basics with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Abnormal breath sounds including crackles, wheezes, rhonchi, or diminished sounds",
+      "Altered respiratory rate, depth, or pattern with accessory muscle use",
+      "Decreased oxygen saturation (SpO2) below target range",
+      "Cough characteristics including frequency, productivity, and sputum description"
+    ],
+    signs: {
+      left: [
+        "Dyspnea, tachypnea, and use of accessory muscles",
+        "Cyanosis or decreased SpO2 (<92%)",
+        "Abnormal breath sounds on auscultation",
+        "Productive or nonproductive cough"
+      ],
+      right: [
+        "Abnormal chest X-ray findings (infiltrates, effusion)",
+        "ABG showing hypoxemia or hypercarbia",
+        "Elevated WBC count suggesting infection",
+        "Abnormal pulmonary function test results"
+      ]
+    },
+    medications: [{
+      name: "Albuterol (Salbutamol)",
+      type: "Short-acting beta-2 agonist bronchodilator",
+      action: "Relaxes bronchial smooth muscle via beta-2 receptor stimulation, relieving bronchospasm",
+      sideEffects: "Tachycardia, tremor, hypokalemia, nervousness, palpitations",
+      contra: "Known hypersensitivity; use caution in patients with cardiac arrhythmias or hypokalemia",
+      pearl: "Shake MDI well before use; wait 1 minute between puffs; rinse mouth after corticosteroid inhalers to prevent thrush"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "A patient with chest tube basics develops increased respiratory distress. What should the RPN/LVN do first?",
+        options: ["Administer a bronchodilator independently","Assess SpO2 and respiratory rate, then notify the RN","Transfer the patient to ICU","Increase the oxygen flow rate to maximum"],
+        correct: 1,
+        rationale: "The RPN/LVN should first assess the patient's current status (SpO2, respiratory rate, breath sounds) and then notify the registered nurse with objective findings. Administering medications independently or making transfer decisions are outside the RPN/LVN scope."
+      },
+      {
+        question: "Which assessment finding in a patient with chest tube basics indicates effective treatment?",
+        options: ["Respiratory rate decreasing from 28 to 16 breaths/minute","Increasing use of accessory muscles","SpO2 declining from 96% to 89%","New onset of cyanosis around the lips"],
+        correct: 0,
+        rationale: "A respiratory rate normalizing from 28 to 16 indicates improved respiratory function and effective treatment. Increased accessory muscle use, declining SpO2, and cyanosis all indicate worsening respiratory status requiring escalation."
+      }
+    ]
+  },
+  "tracheostomy-care-rpnlvn-rpn": {
+    title: "Tracheostomy Care (RPN/LVN)",
+    cellular: {
+      title: "Tracheostomy Care: Pathophysiology and Clinical Foundations",
+      content: "Tracheostomy Care involves pathological changes at the cellular and tissue level that produce characteristic clinical manifestations. The underlying pathophysiology includes disruption of normal physiological processes, leading to altered cellular function, inflammatory responses, and potential tissue damage. Understanding these mechanisms is essential for the RPN/LVN to recognize early signs of deterioration, implement timely nursing interventions, and communicate findings effectively to the healthcare team. The condition may progress through predictable stages, each with distinct clinical features that guide assessment priorities and nursing care planning.\n\nRespiratory compromise can deteriorate rapidly, making timely assessment and intervention critical. The RPN/LVN monitors respiratory rate, depth, pattern, oxygen saturation, and breath sounds. Early recognition of respiratory distress signs—accessory muscle use, nasal flaring, intercostal retractions, and declining SpO2—enables prompt escalation and intervention to prevent respiratory failure.\n\nWithin the RPN/LVN scope of practice, nursing care for tracheostomy care includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Current or former tobacco smoking causing airway damage and inflammation",
+      "Occupational exposure to respiratory irritants, dust, or chemical fumes",
+      "History of chronic respiratory conditions such as asthma or COPD",
+      "Immunosuppression from disease or medication increasing infection susceptibility",
+      "Advanced age with decreased respiratory reserve and mucociliary clearance"
+    ],
+    diagnostics: [
+      "Chest X-ray (PA and lateral) for pulmonary infiltrates and effusions",
+      "Arterial blood gas (ABG) analysis for oxygenation and acid-base status",
+      "Pulse oximetry for continuous SpO2 monitoring",
+      "Pulmonary function tests (PFTs) including FEV1 and FVC measurements"
+    ],
+    management: [
+      "Oxygen therapy titrated to maintain target SpO2 (typically 92-96%)",
+      "Bronchodilator therapy and airway clearance techniques as prescribed",
+      "Positioning (high Fowler's or tripod) to optimize respiratory mechanics",
+      "Infection control measures and antimicrobial therapy when indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to tracheostomy care with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Abnormal breath sounds including crackles, wheezes, rhonchi, or diminished sounds",
+      "Altered respiratory rate, depth, or pattern with accessory muscle use",
+      "Decreased oxygen saturation (SpO2) below target range",
+      "Cough characteristics including frequency, productivity, and sputum description"
+    ],
+    signs: {
+      left: [
+        "Dyspnea, tachypnea, and use of accessory muscles",
+        "Cyanosis or decreased SpO2 (<92%)",
+        "Abnormal breath sounds on auscultation",
+        "Productive or nonproductive cough"
+      ],
+      right: [
+        "Abnormal chest X-ray findings (infiltrates, effusion)",
+        "ABG showing hypoxemia or hypercarbia",
+        "Elevated WBC count suggesting infection",
+        "Abnormal pulmonary function test results"
+      ]
+    },
+    medications: [{
+      name: "Albuterol (Salbutamol)",
+      type: "Short-acting beta-2 agonist bronchodilator",
+      action: "Relaxes bronchial smooth muscle via beta-2 receptor stimulation, relieving bronchospasm",
+      sideEffects: "Tachycardia, tremor, hypokalemia, nervousness, palpitations",
+      contra: "Known hypersensitivity; use caution in patients with cardiac arrhythmias or hypokalemia",
+      pearl: "Shake MDI well before use; wait 1 minute between puffs; rinse mouth after corticosteroid inhalers to prevent thrush"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "A patient with tracheostomy care develops increased respiratory distress. What should the RPN/LVN do first?",
+        options: ["Administer a bronchodilator independently","Assess SpO2 and respiratory rate, then notify the RN","Transfer the patient to ICU","Increase the oxygen flow rate to maximum"],
+        correct: 1,
+        rationale: "The RPN/LVN should first assess the patient's current status (SpO2, respiratory rate, breath sounds) and then notify the registered nurse with objective findings. Administering medications independently or making transfer decisions are outside the RPN/LVN scope."
+      },
+      {
+        question: "Which assessment finding in a patient with tracheostomy care indicates effective treatment?",
+        options: ["Respiratory rate decreasing from 28 to 16 breaths/minute","Increasing use of accessory muscles","SpO2 declining from 96% to 89%","New onset of cyanosis around the lips"],
+        correct: 0,
+        rationale: "A respiratory rate normalizing from 28 to 16 indicates improved respiratory function and effective treatment. Increased accessory muscle use, declining SpO2, and cyanosis all indicate worsening respiratory status requiring escalation."
+      }
+    ]
+  },
+  "airway-suctioning-for-practical-nurses-rpn": {
+    title: "Airway Suctioning for Practical Nurses",
+    cellular: {
+      title: "Airway Suctioning: Pathophysiology and Clinical Foundations",
+      content: "Airway Suctioning involves pathological changes at the cellular and tissue level that produce characteristic clinical manifestations. The underlying pathophysiology includes disruption of normal physiological processes, leading to altered cellular function, inflammatory responses, and potential tissue damage. Understanding these mechanisms is essential for the RPN/LVN to recognize early signs of deterioration, implement timely nursing interventions, and communicate findings effectively to the healthcare team. The condition may progress through predictable stages, each with distinct clinical features that guide assessment priorities and nursing care planning.\n\nRespiratory compromise can deteriorate rapidly, making timely assessment and intervention critical. The RPN/LVN monitors respiratory rate, depth, pattern, oxygen saturation, and breath sounds. Early recognition of respiratory distress signs—accessory muscle use, nasal flaring, intercostal retractions, and declining SpO2—enables prompt escalation and intervention to prevent respiratory failure.\n\nWithin the RPN/LVN scope of practice, nursing care for airway suctioning includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Current or former tobacco smoking causing airway damage and inflammation",
+      "Occupational exposure to respiratory irritants, dust, or chemical fumes",
+      "History of chronic respiratory conditions such as asthma or COPD",
+      "Immunosuppression from disease or medication increasing infection susceptibility",
+      "Advanced age with decreased respiratory reserve and mucociliary clearance"
+    ],
+    diagnostics: [
+      "Chest X-ray (PA and lateral) for pulmonary infiltrates and effusions",
+      "Arterial blood gas (ABG) analysis for oxygenation and acid-base status",
+      "Pulse oximetry for continuous SpO2 monitoring",
+      "Pulmonary function tests (PFTs) including FEV1 and FVC measurements"
+    ],
+    management: [
+      "Oxygen therapy titrated to maintain target SpO2 (typically 92-96%)",
+      "Bronchodilator therapy and airway clearance techniques as prescribed",
+      "Positioning (high Fowler's or tripod) to optimize respiratory mechanics",
+      "Infection control measures and antimicrobial therapy when indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to airway suctioning with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Abnormal breath sounds including crackles, wheezes, rhonchi, or diminished sounds",
+      "Altered respiratory rate, depth, or pattern with accessory muscle use",
+      "Decreased oxygen saturation (SpO2) below target range",
+      "Cough characteristics including frequency, productivity, and sputum description"
+    ],
+    signs: {
+      left: [
+        "Dyspnea, tachypnea, and use of accessory muscles",
+        "Cyanosis or decreased SpO2 (<92%)",
+        "Abnormal breath sounds on auscultation",
+        "Productive or nonproductive cough"
+      ],
+      right: [
+        "Abnormal chest X-ray findings (infiltrates, effusion)",
+        "ABG showing hypoxemia or hypercarbia",
+        "Elevated WBC count suggesting infection",
+        "Abnormal pulmonary function test results"
+      ]
+    },
+    medications: [{
+      name: "Albuterol (Salbutamol)",
+      type: "Short-acting beta-2 agonist bronchodilator",
+      action: "Relaxes bronchial smooth muscle via beta-2 receptor stimulation, relieving bronchospasm",
+      sideEffects: "Tachycardia, tremor, hypokalemia, nervousness, palpitations",
+      contra: "Known hypersensitivity; use caution in patients with cardiac arrhythmias or hypokalemia",
+      pearl: "Shake MDI well before use; wait 1 minute between puffs; rinse mouth after corticosteroid inhalers to prevent thrush"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "A patient with airway suctioning develops increased respiratory distress. What should the RPN/LVN do first?",
+        options: ["Administer a bronchodilator independently","Assess SpO2 and respiratory rate, then notify the RN","Transfer the patient to ICU","Increase the oxygen flow rate to maximum"],
+        correct: 1,
+        rationale: "The RPN/LVN should first assess the patient's current status (SpO2, respiratory rate, breath sounds) and then notify the registered nurse with objective findings. Administering medications independently or making transfer decisions are outside the RPN/LVN scope."
+      },
+      {
+        question: "Which assessment finding in a patient with airway suctioning indicates effective treatment?",
+        options: ["Respiratory rate decreasing from 28 to 16 breaths/minute","Increasing use of accessory muscles","SpO2 declining from 96% to 89%","New onset of cyanosis around the lips"],
+        correct: 0,
+        rationale: "A respiratory rate normalizing from 28 to 16 indicates improved respiratory function and effective treatment. Increased accessory muscle use, declining SpO2, and cyanosis all indicate worsening respiratory status requiring escalation."
+      }
+    ]
+  },
+  "lung-cancer-basics-rpnlvn-rpn": {
+    title: "Lung Cancer Basics (RPN/LVN)",
+    cellular: {
+      title: "Lung Cancer Basics: Pathophysiology and Clinical Foundations",
+      content: "Lung Cancer Basics encompasses the fundamental anatomical, physiological, and pathological principles essential for practical nursing assessment and care delivery. Understanding the underlying mechanisms of disease within this system enables the RPN/LVN to recognize early clinical changes, anticipate complications, and implement appropriate nursing interventions within their scope of practice. The cellular and tissue-level changes that occur in pathological states directly influence the signs and symptoms that nurses observe at the bedside, making foundational knowledge critical for safe patient care.\n\nRespiratory compromise can deteriorate rapidly, making timely assessment and intervention critical. The RPN/LVN monitors respiratory rate, depth, pattern, oxygen saturation, and breath sounds. Early recognition of respiratory distress signs—accessory muscle use, nasal flaring, intercostal retractions, and declining SpO2—enables prompt escalation and intervention to prevent respiratory failure.\n\nWithin the RPN/LVN scope of practice, nursing care for lung cancer basics includes systematic assessment, implementation of established care protocols, accurate documentation, and timely communication with the interprofessional team. The practical nurse contributes to patient safety through ongoing monitoring, patient education reinforcement, and adherence to evidence-based practice standards. Understanding the underlying pathophysiology enables the practical nurse to anticipate potential complications and respond appropriately within their scope."
+    },
+    riskFactors: [
+      "Current or former tobacco smoking causing airway damage and inflammation",
+      "Occupational exposure to respiratory irritants, dust, or chemical fumes",
+      "History of chronic respiratory conditions such as asthma or COPD",
+      "Immunosuppression from disease or medication increasing infection susceptibility",
+      "Advanced age with decreased respiratory reserve and mucociliary clearance"
+    ],
+    diagnostics: [
+      "Chest X-ray (PA and lateral) for pulmonary infiltrates and effusions",
+      "Arterial blood gas (ABG) analysis for oxygenation and acid-base status",
+      "Pulse oximetry for continuous SpO2 monitoring",
+      "Pulmonary function tests (PFTs) including FEV1 and FVC measurements"
+    ],
+    management: [
+      "Oxygen therapy titrated to maintain target SpO2 (typically 92-96%)",
+      "Bronchodilator therapy and airway clearance techniques as prescribed",
+      "Positioning (high Fowler's or tripod) to optimize respiratory mechanics",
+      "Infection control measures and antimicrobial therapy when indicated"
+    ],
+    nursingActions: [
+      "Perform systematic assessment specific to lung cancer basics with accurate documentation of all findings",
+      "Monitor vital signs and condition-specific parameters at prescribed intervals, reporting changes to the registered nurse or physician",
+      "Implement prescribed interventions within RPN/LVN scope of practice and evaluate patient response",
+      "Provide patient and family education reinforcement regarding condition management, medications, and when to seek medical attention",
+      "Maintain accurate intake and output records and document all nursing interventions and patient responses"
+    ],
+    assessmentFindings: [
+      "Abnormal breath sounds including crackles, wheezes, rhonchi, or diminished sounds",
+      "Altered respiratory rate, depth, or pattern with accessory muscle use",
+      "Decreased oxygen saturation (SpO2) below target range",
+      "Cough characteristics including frequency, productivity, and sputum description"
+    ],
+    signs: {
+      left: [
+        "Dyspnea, tachypnea, and use of accessory muscles",
+        "Cyanosis or decreased SpO2 (<92%)",
+        "Abnormal breath sounds on auscultation",
+        "Productive or nonproductive cough"
+      ],
+      right: [
+        "Abnormal chest X-ray findings (infiltrates, effusion)",
+        "ABG showing hypoxemia or hypercarbia",
+        "Elevated WBC count suggesting infection",
+        "Abnormal pulmonary function test results"
+      ]
+    },
+    medications: [{
+      name: "Albuterol (Salbutamol)",
+      type: "Short-acting beta-2 agonist bronchodilator",
+      action: "Relaxes bronchial smooth muscle via beta-2 receptor stimulation, relieving bronchospasm",
+      sideEffects: "Tachycardia, tremor, hypokalemia, nervousness, palpitations",
+      contra: "Known hypersensitivity; use caution in patients with cardiac arrhythmias or hypokalemia",
+      pearl: "Shake MDI well before use; wait 1 minute between puffs; rinse mouth after corticosteroid inhalers to prevent thrush"
+    }],
+    pearls: [
+      "Early recognition and timely reporting of changes in patient condition are fundamental RPN/LVN responsibilities that directly impact patient outcomes",
+      "Accurate documentation of assessment findings, interventions, and patient responses provides essential continuity of care information",
+      "Patient and family education should be reinforced at every opportunity using teach-back method to verify understanding"
+    ],
+    quiz: [
+      {
+        question: "A patient with lung cancer basics develops increased respiratory distress. What should the RPN/LVN do first?",
+        options: ["Administer a bronchodilator independently","Assess SpO2 and respiratory rate, then notify the RN","Transfer the patient to ICU","Increase the oxygen flow rate to maximum"],
+        correct: 1,
+        rationale: "The RPN/LVN should first assess the patient's current status (SpO2, respiratory rate, breath sounds) and then notify the registered nurse with objective findings. Administering medications independently or making transfer decisions are outside the RPN/LVN scope."
+      },
+      {
+        question: "Which assessment finding in a patient with lung cancer basics indicates effective treatment?",
+        options: ["Respiratory rate decreasing from 28 to 16 breaths/minute","Increasing use of accessory muscles","SpO2 declining from 96% to 89%","New onset of cyanosis around the lips"],
+        correct: 0,
+        rationale: "A respiratory rate normalizing from 28 to 16 indicates improved respiratory function and effective treatment. Increased accessory muscle use, declining SpO2, and cyanosis all indicate worsening respiratory status requiring escalation."
+      }
+    ]
   }
 };

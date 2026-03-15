@@ -237,6 +237,38 @@ import { generatedBatch109Lessons } from "./generated-batch-109";
 import { generatedBatch110Lessons } from "./generated-batch-110";
 import { generatedBatch111Lessons } from "./generated-batch-111";
 import { generatedBatch112Lessons } from "./generated-batch-112";
+import { generatedBatch113Lessons } from "./generated-batch-113";
+import { generatedBatch114Lessons } from "./generated-batch-114";
+import { generatedBatch115Lessons } from "./generated-batch-115";
+import { generatedBatch116Lessons } from "./generated-batch-116";
+import { generatedBatch117Lessons } from "./generated-batch-117";
+import { generatedBatch118Lessons } from "./generated-batch-118";
+import { generatedBatch119Lessons } from "./generated-batch-119";
+import { generatedBatch120Lessons } from "./generated-batch-120";
+import { generatedBatch121Lessons } from "./generated-batch-121";
+import { generatedBatch122Lessons } from "./generated-batch-122";
+import { generatedBatch123Lessons } from "./generated-batch-123";
+import { generatedBatch124Lessons } from "./generated-batch-124";
+import { generatedBatch125Lessons } from "./generated-batch-125";
+import { generatedBatch126Lessons } from "./generated-batch-126";
+import { generatedBatch127Lessons } from "./generated-batch-127";
+import { generatedBatch128Lessons } from "./generated-batch-128";
+import { generatedBatch129Lessons } from "./generated-batch-129";
+import { generatedBatch130Lessons } from "./generated-batch-130";
+import { generatedBatch131Lessons } from "./generated-batch-131";
+import { generatedBatch132Lessons } from "./generated-batch-132";
+import { generatedBatch133Lessons } from "./generated-batch-133";
+import { generatedBatch134Lessons } from "./generated-batch-134";
+import { generatedBatch135Lessons } from "./generated-batch-135";
+import { generatedBatch136Lessons } from "./generated-batch-136";
+import { generatedBatch137Lessons } from "./generated-batch-137";
+import { generatedBatch138Lessons } from "./generated-batch-138";
+import { generatedBatch139Lessons } from "./generated-batch-139";
+import { generatedBatch140Lessons } from "./generated-batch-140";
+import { generatedBatch141Lessons } from "./generated-batch-141";
+import { generatedBatch142Lessons } from "./generated-batch-142";
+import { generatedBatch143Lessons } from "./generated-batch-143";
+import { generatedBatch144Lessons } from "./generated-batch-144";
 
 import { clinicalConditionsBatchALessons } from "./clinical-conditions-batch-a";
 import { clinicalConditionsBatchBLessons } from "./clinical-conditions-batch-b";
@@ -368,11 +400,21 @@ function safeMerge(
   target: Record<string, LessonContent>,
   ...sources: Record<string, LessonContent>[]
 ): Record<string, LessonContent> {
+  const supplementFields: (keyof LessonContent)[] = [
+    'riskFactors', 'diagnostics', 'management', 'nursingActions', 'assessmentFindings'
+  ];
   for (const source of sources) {
     for (const [id, lesson] of Object.entries(source)) {
       if (isPlaceholder(lesson)) continue;
       const existing = target[id];
       if (existing && !isPlaceholder(existing)) {
+        for (const field of supplementFields) {
+          const existingVal = existing[field];
+          const newVal = lesson[field];
+          if ((!existingVal || (Array.isArray(existingVal) && existingVal.length === 0)) && newVal && (Array.isArray(newVal) ? newVal.length > 0 : true)) {
+            (existing as any)[field] = newVal;
+          }
+        }
         continue;
       }
       target[id] = lesson;
@@ -620,6 +662,38 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   generatedBatch109Lessons,
   generatedBatch110Lessons,
   generatedBatch111Lessons,
+  generatedBatch113Lessons,
+  generatedBatch114Lessons,
+  generatedBatch115Lessons,
+  generatedBatch116Lessons,
+  generatedBatch117Lessons,
+  generatedBatch118Lessons,
+  generatedBatch119Lessons,
+  generatedBatch120Lessons,
+  generatedBatch121Lessons,
+  generatedBatch122Lessons,
+  generatedBatch123Lessons,
+  generatedBatch124Lessons,
+  generatedBatch125Lessons,
+  generatedBatch126Lessons,
+  generatedBatch127Lessons,
+  generatedBatch128Lessons,
+  generatedBatch129Lessons,
+  generatedBatch130Lessons,
+  generatedBatch131Lessons,
+  generatedBatch132Lessons,
+  generatedBatch133Lessons,
+  generatedBatch134Lessons,
+  generatedBatch135Lessons,
+  generatedBatch136Lessons,
+  generatedBatch137Lessons,
+  generatedBatch138Lessons,
+  generatedBatch139Lessons,
+  generatedBatch140Lessons,
+  generatedBatch141Lessons,
+  generatedBatch142Lessons,
+  generatedBatch143Lessons,
+  generatedBatch144Lessons,
   rnExpandedLessons,
   npExpandedLessons,
   npGeneratedBatch1,
