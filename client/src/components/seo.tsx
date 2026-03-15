@@ -1,12 +1,19 @@
 import { useEffect, useRef } from "react";
 import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
 import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
+import { getLocalizedSEO } from "@/data/seo-metadata";
 
 const SITE_DOMAIN = "https://www.nursenest.ca";
 let seoFirstRender = true;
 
 const HREFLANG_MAP: Record<string, string> = {
   en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
+  zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
+  vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
+};
+
+const LOCALE_LANGUAGE_MAP: Record<string, string> = {
+  en: "en-CA", fr: "fr-CA", es: "es", fil: "fil", hi: "hi",
   zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
   vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
 };
@@ -26,7 +33,23 @@ interface SEOProps {
 
 export function SEO({ title, description, keywords, canonicalPath, ogType = "website", noindex, structuredData, additionalStructuredData, breadcrumbs, noBreadcrumbs }: SEOProps) {
   useEffect(() => {
-    const fullTitle = title.includes("NurseNest") ? title : `${title} | NurseNest`;
+    const currentPath = window.location.pathname;
+    const { locale: activeLocale, pathWithoutLocale } = getLocaleFromPath(currentPath);
+
+    let effectiveTitle = title;
+    let effectiveDescription = description;
+    let effectiveKeywords = keywords;
+
+    if (activeLocale === "fr" || activeLocale === "es") {
+      const localizedEntry = getLocalizedSEO(activeLocale, pathWithoutLocale);
+      if (localizedEntry) {
+        effectiveTitle = localizedEntry.title;
+        effectiveDescription = localizedEntry.description;
+        effectiveKeywords = localizedEntry.keywords;
+      }
+    }
+
+    const fullTitle = effectiveTitle.includes("NurseNest") ? effectiveTitle : `${effectiveTitle} | NurseNest`;
     document.title = fullTitle;
 
     const setMeta = (name: string, content: string, isProperty = false) => {
@@ -54,25 +77,24 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       }
     }
 
-    setMeta("description", description);
-    if (keywords) setMeta("keywords", keywords);
+    setMeta("description", effectiveDescription);
+    if (effectiveKeywords) setMeta("keywords", effectiveKeywords);
     setMeta("og:title", fullTitle, true);
-    setMeta("og:description", description, true);
+    setMeta("og:description", effectiveDescription, true);
     setMeta("og:type", ogType, true);
     setMeta("og:image", "https://www.nursenest.ca/opengraph.jpg", true);
+    setMeta("og:locale", LOCALE_LANGUAGE_MAP[activeLocale] || "en-CA", true);
     setMeta("twitter:title", fullTitle);
-    setMeta("twitter:description", description);
+    setMeta("twitter:description", effectiveDescription);
     setMeta("twitter:card", "summary_large_image");
     setMeta("twitter:image", "https://www.nursenest.ca/opengraph.jpg");
 
     const hreflangLinks: HTMLLinkElement[] = [];
 
     if (canonicalPath) {
-      const { pathWithoutLocale } = getLocaleFromPath(canonicalPath);
-      const basePath = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
+      const { pathWithoutLocale: canonicalBase } = getLocaleFromPath(canonicalPath);
+      const basePath = canonicalBase === "/" ? "" : canonicalBase;
 
-      const currentPath = window.location.pathname;
-      const { locale: activeLocale } = getLocaleFromPath(currentPath);
       const localePrefix = activeLocale && activeLocale !== "en" ? `/${activeLocale}` : "/en";
       const canonicalUrl = basePath
         ? `${SITE_DOMAIN}${localePrefix}${basePath}`
@@ -123,7 +145,10 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
 
     const scriptIds: string[] = [];
 
+    const inLanguage = LOCALE_LANGUAGE_MAP[activeLocale] || "en-CA";
+
     if (structuredData) {
+      const enrichedData = { ...structuredData, inLanguage };
       let script = document.getElementById("structured-data") as HTMLScriptElement;
       if (!script) {
         script = document.createElement("script");
@@ -131,7 +156,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         script.type = "application/ld+json";
         document.head.appendChild(script);
       }
-      script.textContent = JSON.stringify(structuredData);
+      script.textContent = JSON.stringify(enrichedData);
       scriptIds.push("structured-data");
     }
 
@@ -141,6 +166,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       );
       filtered.forEach((data, i) => {
         const id = `structured-data-${i}`;
+        const enrichedData = { ...data, inLanguage };
         let script = document.getElementById(id) as HTMLScriptElement;
         if (!script) {
           script = document.createElement("script");
@@ -148,19 +174,18 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
           script.type = "application/ld+json";
           document.head.appendChild(script);
         }
-        script.textContent = JSON.stringify(data);
+        script.textContent = JSON.stringify(enrichedData);
         scriptIds.push(id);
       });
     }
 
     if (!noindex && !noBreadcrumbs) {
-      const currentPath = window.location.pathname;
       const items = breadcrumbs && breadcrumbs.length > 0
         ? breadcrumbs
-        : buildBreadcrumbs(currentPath, { title });
+        : buildBreadcrumbs(currentPath, { title: effectiveTitle });
 
       if (items.length >= 2) {
-        const jsonLd = buildBreadcrumbJsonLd(items);
+        const jsonLd = { ...buildBreadcrumbJsonLd(items), inLanguage };
         const existing = document.getElementById("breadcrumb-jsonld");
         if (existing) existing.remove();
 
