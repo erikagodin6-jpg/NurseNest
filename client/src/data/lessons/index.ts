@@ -384,6 +384,14 @@ import { rpnContentBatch034Lessons } from "./rpn-content-batch-034";
 import { rpnContentBatch035Lessons } from "./rpn-content-batch-035";
 import { rpnContentBatch036Lessons } from "./rpn-content-batch-036";
 
+import { npToxicologyContentLessons } from "./np-toxicology-content";
+import { npRareGeneticContentLessons } from "./np-rare-genetic-content";
+import { npCriticalCareContentLessons } from "./np-critical-care-content";
+import { npRheumatologyContentLessons } from "./np-rheumatology-content";
+import { npAssessmentContentALessons } from "./np-assessment-content-a";
+import { npAssessmentContentBLessons } from "./np-assessment-content-b";
+import { npAssessmentContentCLessons } from "./np-assessment-content-c";
+
 export type { LessonContent } from "./types";
 
 function countQuestions(lessons: Record<string, LessonContent>): number {
@@ -973,6 +981,13 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   npPathoExpansionLessons,
   rnInfectiousDiseaseExpansionLessons,
   rnPathoCardioNeuroLessons,
+  npToxicologyContentLessons,
+  npRareGeneticContentLessons,
+  npCriticalCareContentLessons,
+  npRheumatologyContentLessons,
+  npAssessmentContentALessons,
+  npAssessmentContentBLessons,
+  npAssessmentContentCLessons,
 );
 
 
