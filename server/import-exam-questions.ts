@@ -431,7 +431,7 @@ async function importQuestions() {
   console.log("Starting question import...");
 
   const filePath = path.resolve(
-    __dirname,
+    __dirname_esm,
     "../attached_assets/Pasted-RN-Questions-1-A-nurse-is-reviewing-laboratory-values-f_1773241055916.txt"
   );
   const content = fs.readFileSync(filePath, "utf-8").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
