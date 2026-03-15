@@ -132,7 +132,7 @@ export default function ParamedicLandingPage() {
             <p className="text-gray-600 max-w-xl mx-auto">Six integrated study tools, one platform, zero guesswork.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={BookOpen} title="Adaptive Question Bank" description="500+ paramedic-specific questions with 600+ word clinical rationales. Covers trauma, medical, cardiac, pediatric, OB, and pharmacology." />
+            <FeatureCard icon={BookOpen} title="Adaptive Test Bank" description="500+ paramedic-specific questions with 600+ word clinical rationales. Covers trauma, medical, cardiac, pediatric, OB, and pharmacology." />
             <FeatureCard icon={FileText} title="Blueprint-Weighted Mocks" description={isCanada ? "Timed mock exams weighted to COPR or provincial blueprints. Get a readiness score and domain-level breakdown." : "Timed mock exams weighted to the NREMT blueprint. Get a readiness score and domain-level breakdown."} />
             <FeatureCard icon={Brain} title="Spaced Repetition Flashcards" description="Master drug dosages, protocols, and assessment mnemonics with flashcards that adapt to your recall accuracy." />
             <FeatureCard icon={Zap} title="Clinical Scenarios" description="Unfolding dispatch-to-disposition scenarios with branching decisions and detailed clinical debriefs." />

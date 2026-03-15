@@ -188,12 +188,12 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
                 </span>
               </div>
             </Link>
-            <Link href="/question-bank" className="group" data-testid="card-resource-qbank">
+            <Link href="/test-bank" className="group" data-testid="card-resource-qbank">
               <div className={`bg-white rounded-xl border ${specialty.borderColor} p-6 hover:shadow-md transition-all h-full`}>
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Question Bank</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Test Bank</h3>
                 <p className="text-sm text-gray-500 mb-3">Practice questions aligned to {specialty.certifications.join(", ")} certification exam blueprints.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
                   Practice Now <ArrowRight className="w-3.5 h-3.5" />

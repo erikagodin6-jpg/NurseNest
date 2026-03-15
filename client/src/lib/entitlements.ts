@@ -214,7 +214,7 @@ export const FEATURE_LABELS: Record<Feature, string> = {
   case_simulations: "Case Simulations",
   medication_mastery: "Medication Mastery",
   clinical_skills_simulator: "Clinical Skills Simulator",
-  qbank: "Question Bank",
+  qbank: "Test Bank",
   cat_exams: "CAT Exams",
   reports: "Performance Reports",
   admin_dashboard: "Admin Dashboard",

@@ -854,7 +854,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
 
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-center">NurseNest Allied vs Generic Question Banks</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-center">NurseNest Allied vs Generic Test Banks</h2>
           <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">See why students choose NurseNest Allied for serious exam preparation.</p>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse" data-testid="comparison-table">
@@ -1007,7 +1007,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <BookOpen className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Question Bank</p>
+                <p className="font-medium text-gray-900 text-sm">Test Bank</p>
                 <p className="text-xs text-gray-500">Practice with rationales</p>
               </div>
             </Link>

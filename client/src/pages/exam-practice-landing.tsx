@@ -38,7 +38,7 @@ const EXAM_DATA: Record<ExamType, {
     keywords: "NCLEX-RN practice questions, NCLEX-RN question bank, RN exam prep, NCLEX-RN review, Next Generation NCLEX questions, clinical judgment NCLEX",
     intro: "The NCLEX-RN uses the Next Generation format with clinical judgment measurement items including case studies, drag-and-drop, and extended multiple response questions. NurseNest provides system-based question banks aligned to the current NCLEX-RN test plan, covering all eight client needs categories with detailed rationales for every answer option.",
     features: [
-      { icon: Target, title: "NCLEX-RN Question Bank", desc: "Thousands of RN-level practice questions organized by body system and client needs category.", href: "/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "NCLEX-RN Test Bank", desc: "Thousands of RN-level practice questions organized by body system and client needs category.", href: "/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Timed Mock Exams", desc: "Simulate the CAT-adaptive NCLEX-RN exam with timed, randomized question sets.", href: "/mock-exams", cta: "Start Mock Exam" },
       { icon: FileText, title: "Printable Exam Packs", desc: "250-question PDF exam packs with answer keys. Print and practice offline.", href: "/shop", cta: "View Exam Packs" },
       { icon: BookOpen, title: "Flashcard Decks", desc: "High-yield pharmacology, lab values, and pathophysiology flashcards for rapid review.", href: "/flashcards", cta: "Study Flashcards" },
@@ -61,7 +61,7 @@ const EXAM_DATA: Record<ExamType, {
     keywords: "NCLEX-PN practice questions, NCLEX-PN question bank, LPN exam prep, PN review, practical nursing exam",
     intro: "The NCLEX-PN tests practical/vocational nursing competencies at the PN scope of practice. NurseNest provides PN-level question banks covering all client needs categories within the PN scope, including medication administration, basic care and comfort, safety, and coordinated care under RN supervision.",
     features: [
-      { icon: Target, title: "NCLEX-PN Question Bank", desc: "Practice questions at the PN scope covering fundamentals, med-surg, pharmacology, and maternal-child.", href: "/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "NCLEX-PN Test Bank", desc: "Practice questions at the PN scope covering fundamentals, med-surg, pharmacology, and maternal-child.", href: "/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Timed Mock Exams", desc: "Take practice exams that simulate the CAT format used in the NCLEX-PN.", href: "/mock-exams", cta: "Start Mock Exam" },
       { icon: FileText, title: "Printable Study Packs", desc: "Downloadable PDF question packs with answer keys for offline study.", href: "/shop", cta: "View Study Packs" },
       { icon: BookOpen, title: "Flashcard Decks", desc: "Quick-review flashcards covering PN-level pharmacology and nursing fundamentals.", href: "/flashcards", cta: "Study Flashcards" },
@@ -82,7 +82,7 @@ const EXAM_DATA: Record<ExamType, {
     keywords: "REx-PN practice questions, RPN exam prep, Canadian nursing exam, REx-PN question bank, practical nurse exam Canada, NCSBN REx-PN",
     intro: "The REx-PN (Regulatory Exam - Practical Nurse) is Canada's licensure exam for practical nurses, administered by the NCSBN. NurseNest is the first platform to deliver REx-PN prep with Canadian lab values (SI units: mmol/L, umol/L), Canadian medication names, and content aligned to Canadian provincial scope-of-practice regulations.",
     features: [
-      { icon: Target, title: "REx-PN Question Bank", desc: "Canadian-focused practice questions with SI units, Canadian drug names, and provincial scope references.", href: "/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "REx-PN Test Bank", desc: "Canadian-focused practice questions with SI units, Canadian drug names, and provincial scope references.", href: "/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Timed Mock Exams", desc: "Simulated REx-PN exams with adaptive question selection and time pressure.", href: "/mock-exams", cta: "Start Mock Exam" },
       { icon: FileText, title: "Printable Exam Packs", desc: "250-question PDF bundles aligned to the REx-PN competency framework.", href: "/shop", cta: "View Exam Packs" },
       { icon: BookOpen, title: "Flashcard Decks", desc: "Pharmacology and pathophysiology flashcards using Canadian standards and SI units.", href: "/flashcards", cta: "Study Flashcards" },
@@ -104,7 +104,7 @@ const EXAM_DATA: Record<ExamType, {
     keywords: "NP exam practice questions, AANP exam prep, ANCC certification review, FNP-BC practice questions, nurse practitioner exam, NP question bank",
     intro: "NurseNest provides NP-level practice questions covering advanced assessment, differential diagnosis, pharmacological management, and clinical decision-making. Questions are aligned to AANP and ANCC certification exam blueprints for FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, and other NP specialties.",
     features: [
-      { icon: Target, title: "NP Question Bank", desc: "Advanced practice-level questions covering diagnosis, management, and prescribing at the NP scope.", href: "/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "NP Test Bank", desc: "Advanced practice-level questions covering diagnosis, management, and prescribing at the NP scope.", href: "/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Timed Mock Exams", desc: "Full-length NP certification practice exams with performance analytics.", href: "/mock-exams", cta: "Start Mock Exam" },
       { icon: FileText, title: "NP Study Packs", desc: "Comprehensive exam prep PDFs covering clinical management and pharmacology.", href: "/shop", cta: "View Study Packs" },
       { icon: Layers, title: "Clinical Lessons", desc: "179+ NP-scope pathophysiology lessons covering all major body systems.", href: "/lessons", cta: "Browse Lessons" },
@@ -151,13 +151,13 @@ function QuestionBankStats({ tier }: { tier: string }) {
   const systemEntries = Object.entries(stats.systems).sort((a, b) => b[1] - a[1]);
 
   return (
-    <div data-testid="section-question-bank-stats">
+    <div data-testid="section-test-bank-stats">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
           <Target className="w-5 h-5 text-primary" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Question Bank</h3>
+          <h3 className="font-semibold text-gray-900">Test Bank</h3>
           <p className="text-sm text-gray-500">{stats.total.toLocaleString()} practice questions available</p>
         </div>
       </div>
@@ -169,8 +169,8 @@ function QuestionBankStats({ tier }: { tier: string }) {
           </div>
         ))}
       </div>
-      <LocaleLink href="/question-bank">
-        <Button size="sm" variant="outline" data-testid="button-view-question-bank">
+      <LocaleLink href="/test-bank">
+        <Button size="sm" variant="outline" data-testid="button-view-test-bank">
           Browse All Questions <ArrowRight className="ml-1 w-3 h-3" />
         </Button>
       </LocaleLink>

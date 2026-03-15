@@ -265,12 +265,12 @@ export default function QuestionOfTheDay() {
                   </LocaleLink>
                 </Card>
 
-                <Card className="text-center p-6" data-testid="card-cta-question-bank">
+                <Card className="text-center p-6" data-testid="card-cta-test-bank">
                   <BookOpen className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <h3 className="font-bold mb-2">Question Bank</h3>
+                  <h3 className="font-bold mb-2">Test Bank</h3>
                   <p className="text-sm text-muted-foreground mb-4">Practice from thousands of questions with instant rationale feedback.</p>
-                  <LocaleLink href="/question-bank">
-                    <Button variant="outline" size="sm" data-testid="link-question-bank">
+                  <LocaleLink href="/test-bank">
+                    <Button variant="outline" size="sm" data-testid="link-test-bank">
                       Start Practicing <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
                   </LocaleLink>

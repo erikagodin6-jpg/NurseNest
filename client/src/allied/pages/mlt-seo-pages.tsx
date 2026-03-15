@@ -48,7 +48,7 @@ const PAGE_CONTENT: Record<string, { title: string; metaDesc: string; h1: string
     sections: [
       { heading: "CSMLS Blueprint-Aligned Questions", content: "Every question in our bank is mapped to the official CSMLS MLT Certification Examination blueprint. Questions are weighted according to the exam's domain distribution — Clinical Chemistry and Hematology receive the highest weighting, followed by Microbiology, Immunohematology, and supporting disciplines. This ensures your practice mirrors the actual exam experience." },
       { heading: "SI Unit Lab Values Throughout", content: "All laboratory values in our Canadian track use SI units (mmol/L, µmol/L, g/L) as required by CSMLS. No converting between unit systems — what you practice is what you'll see on exam day. Includes critical value ranges, reference intervals, and pathological significance for each analyte." },
-      { heading: "Discipline-Specific Question Banks", content: "Deep question coverage across all 16 MLT disciplines: Clinical Chemistry, Hematology, Hemostasis/Coagulation, Immunohematology, Microbiology, Urinalysis & Body Fluids, Immunology/Serology, Molecular Diagnostics, Histotechnology, Cytotechnology, Mycology, Parasitology, Virology, Phlebotomy, Laboratory Operations, and Point-of-Care Testing." },
+      { heading: "Discipline-Specific Test Banks", content: "Deep question coverage across all 16 MLT disciplines: Clinical Chemistry, Hematology, Hemostasis/Coagulation, Immunohematology, Microbiology, Urinalysis & Body Fluids, Immunology/Serology, Molecular Diagnostics, Histotechnology, Cytotechnology, Mycology, Parasitology, Virology, Phlebotomy, Laboratory Operations, and Point-of-Care Testing." },
       { heading: "Image-Based Questions", content: "The CSMLS exam includes image-based questions requiring identification of cell morphology, Gram stain results, crystal types, and colony characteristics. Our question bank includes high-quality laboratory images with annotation tools to build your visual identification skills." },
     ],
     faqs: [
@@ -298,7 +298,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
             </Link>
             <Link href="/qbank?career=mlt" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-qbank">
               <Target className="w-6 h-6 text-green-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Question Bank</div>
+              <div className="text-sm font-medium text-gray-800">Test Bank</div>
               <div className="text-xs text-gray-500 mt-1">Practice questions</div>
             </Link>
             <Link href="/mlt/image-drill" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-image-drill">

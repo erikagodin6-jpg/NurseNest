@@ -47,7 +47,7 @@ function buildNursingJourney(): JourneyConfig {
         color: "blue",
         links: [
           { label: "Browse NCLEX-RN Lessons", href: "/lessons?tier=rn" },
-          { label: "RN Question Bank", href: "/question-bank?exam=nclex-rn" },
+          { label: "RN Test Bank", href: "/test-bank?exam=nclex-rn" },
           { label: "Pharmacology Flashcards", href: "/flashcards" },
           { label: "Clinical Simulations", href: "/case-simulations" },
         ],
@@ -123,7 +123,7 @@ function buildRpnJourney(): JourneyConfig {
         color: "blue",
         links: [
           { label: "RPN Lessons", href: "/lessons?tier=rpn" },
-          { label: "Practice Questions", href: "/question-bank?exam=rex-pn" },
+          { label: "Practice Questions", href: "/test-bank?exam=rex-pn" },
           { label: "Flashcards", href: "/flashcards" },
           { label: "Med Math Practice", href: "/med-math" },
         ],
@@ -320,7 +320,7 @@ export const GENERIC_JOURNEY: JourneyConfig = {
       color: "blue",
       links: [
         { label: "Browse All Lessons", href: "/lessons" },
-        { label: "Question Bank", href: "/question-bank" },
+        { label: "Test Bank", href: "/test-bank" },
         { label: "Flashcards", href: "/flashcards" },
         { label: "Clinical Simulations", href: "/case-simulations" },
       ],

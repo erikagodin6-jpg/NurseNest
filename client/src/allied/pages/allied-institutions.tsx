@@ -236,7 +236,7 @@ export default function AlliedInstitutionsPage() {
             For Program Directors, Faculty, and Academic Coordinators
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight" data-testid="text-hero-title">
-            Your Students Deserve Better Than<br className="hidden sm:block" /> Generic Question Banks
+            Your Students Deserve Better Than<br className="hidden sm:block" /> Generic Test Banks
           </h1>
           <p className="text-lg sm:text-xl text-teal-100 mb-4 max-w-3xl mx-auto leading-relaxed">
             NurseNest gives allied health programs what no other platform does: blueprint-weighted exams that match the real test, faculty analytics that identify struggling students before they fail, and the only platform with built-in US and Canadian exam track switching.

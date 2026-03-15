@@ -113,7 +113,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 animate-page-enter">
       <SEO
-        title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Question Bank, Clinical Simulations & Flashcards`}
+        title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Test Bank, Clinical Simulations & Flashcards`}
         description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
         keywords={`nursing exam prep, NCLEX practice questions, ${examLabel} exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program`}
         canonicalPath="/"

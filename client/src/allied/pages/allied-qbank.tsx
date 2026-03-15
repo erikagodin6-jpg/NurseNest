@@ -71,7 +71,7 @@ export default function AlliedQBankPage() {
     return (
       <>
         <AlliedSEO
-          title="Allied Health Question Bank"
+          title="Allied Health Test Bank"
           description="Browse allied health question banks for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certification exam prep. Practice with detailed rationales and adaptive difficulty."
           canonicalPath="/qbank"
         />
@@ -167,7 +167,7 @@ export default function AlliedQBankPage() {
   return (
     <>
     <AlliedSEO
-      title={`${career.name} Question Bank - Practice Questions with Rationales`}
+      title={`${career.name} Test Bank - Practice Questions with Rationales`}
       description={`Practice ${career.name} certification questions with 600+ word rationales. Adaptive difficulty, domain-level tracking, and weak-area targeting for ${career.examNames[0]} exam prep.`}
       keywords={`${career.name} practice questions, ${career.name} question bank, ${career.examNames[0]} questions, ${career.name} exam prep, healthcare certification questions`}
       canonicalPath={`/qbank?career=${career.slug}`}
@@ -176,12 +176,12 @@ export default function AlliedQBankPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Question Bank</span>
+        <span className="text-teal-700 font-medium">Test Bank</span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-qbank-title">{career.shortName} Question Bank</h1>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-qbank-title">{career.shortName} Test Bank</h1>
           <p className="text-gray-500 text-sm mt-1">{questions.length} questions available {!isPro && `(${FREE_LIMIT} free)`}</p>
         </div>
         <div className="flex gap-2 flex-wrap">

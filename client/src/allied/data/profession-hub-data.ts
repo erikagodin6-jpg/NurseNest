@@ -79,7 +79,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Infection Control & Equipment",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ respiratory therapy questions with 600+ word clinical rationales covering all NBRC domains." },
+      { label: "Adaptive Test Bank", description: "500+ respiratory therapy questions with 600+ word clinical rationales covering all NBRC domains." },
       { label: "ABG Interpretation Engine", description: "Practice unlimited ABG analysis with instant AI feedback on acid-base disorders and compensation." },
       { label: "Ventilator Mode Simulator", description: "Interactive ventilator settings, waveform analysis, and troubleshooting scenarios." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length TMC simulations with adaptive difficulty and domain-level scoring." },
@@ -134,7 +134,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Crisis Intervention",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ ASWB-aligned questions with detailed clinical rationales covering all exam content areas." },
+      { label: "Adaptive Test Bank", description: "500+ ASWB-aligned questions with detailed clinical rationales covering all exam content areas." },
       { label: "DSM-5 Diagnosis Simulator", description: "Practice differential diagnosis using DSM-5 criteria with realistic case vignettes." },
       { label: "Intervention Matching Engine", description: "Match evidence-based interventions (CBT, DBT, MI, EMDR) to client presentations." },
       { label: "Ethics Scenario Drills", description: "Navigate complex ethical dilemmas in social work practice with NASW Code of Ethics alignment." },
@@ -189,7 +189,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Crisis Intervention",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ exam-aligned questions covering therapeutic modalities, psychopathology, ethics, and clinical practice." },
+      { label: "Adaptive Test Bank", description: "500+ exam-aligned questions covering therapeutic modalities, psychopathology, ethics, and clinical practice." },
       { label: "Therapeutic Modality Simulator", description: "Practice applying CBT, DBT, EMDR, motivational interviewing, and other modalities to case vignettes." },
       { label: "Ethics Scenario Drills", description: "Navigate ethical dilemmas in psychotherapy practice — dual relationships, confidentiality, informed consent, and duty to report." },
       { label: "DSM-5 Case Studies", description: "Practice diagnostic formulation with realistic client presentations and differential diagnosis." },
@@ -248,7 +248,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Crisis Intervention",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ exam-aligned questions with detailed rationales covering all addiction counseling domains." },
+      { label: "Adaptive Test Bank", description: "500+ exam-aligned questions with detailed rationales covering all addiction counseling domains." },
       { label: "Motivational Interviewing Simulator", description: "Practice MI techniques with AI-generated client responses — OARS, rolling with resistance, developing discrepancy." },
       { label: "Substance Identification Drill", description: "Identify substances, mechanisms of action, intoxication/withdrawal patterns, and pharmacological treatments." },
       { label: "Co-occurring Disorders Cases", description: "Practice integrated assessment and treatment planning for clients with dual diagnosis (mental health + substance use)." },
@@ -307,7 +307,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Evidence-Based Practice",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ NBCOT-aligned questions with detailed clinical rationales covering all OT practice domains." },
+      { label: "Adaptive Test Bank", description: "500+ NBCOT-aligned questions with detailed clinical rationales covering all OT practice domains." },
       { label: "Case Analysis Simulator", description: "Practice clinical reasoning with OT-specific patient vignettes across pediatric, adult, and geriatric populations." },
       { label: "SMART Goal Writer", description: "Practice writing measurable, occupation-focused treatment goals for OT interventions." },
       { label: "Activity Analysis Tool", description: "Break down activities into component skills and grade interventions for therapeutic benefit." },
@@ -366,7 +366,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Evidence-Based Practice",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ NPTE-aligned questions with detailed clinical rationales covering all PT system domains." },
+      { label: "Adaptive Test Bank", description: "500+ NPTE-aligned questions with detailed clinical rationales covering all PT system domains." },
       { label: "Differential Diagnosis Trainer", description: "Practice differential diagnosis with realistic patient presentations across musculoskeletal and neurological conditions." },
       { label: "Gait Analysis Simulator", description: "Analyze gait patterns, identify deviations, and correlate findings with clinical diagnoses." },
       { label: "Manual Therapy Reference", description: "Interactive guide to joint mobilization grades, soft tissue techniques, and therapeutic interventions." },
@@ -425,7 +425,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Cross-Sectional Anatomy",
     ],
     studyFeatures: [
-      { label: "Adaptive Question Bank", description: "500+ ARRT-aligned questions with detailed rationales covering all radiography content areas." },
+      { label: "Adaptive Test Bank", description: "500+ ARRT-aligned questions with detailed rationales covering all radiography content areas." },
       { label: "Positioning Simulator", description: "Interactive positioning guides with anatomy overlays, central ray angles, and common errors for every projection." },
       { label: "Radiation Physics Drills", description: "Practice exposure factor calculations, inverse square law problems, and radiation protection scenarios." },
       { label: "Image Evaluation Trainer", description: "Analyze radiographic images for positioning accuracy, exposure quality, and artifact identification." },

@@ -14,7 +14,7 @@ import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
 import { buildJobPostingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 const FEATURES = [
-  { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
+  { slug: "qbank", label: "Test Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
   { slug: "mock-exams", label: "Mock Exams", desc: "Blueprint-weighted timed practice exams with adaptive CAT-style simulation", icon: FileText },
   { slug: "flashcards", label: "Flashcards", desc: "Spaced repetition for key concepts across all exam domains", icon: Brain },
   { slug: "study-plan", label: "Study Planner", desc: "Personalized daily study schedule targeting your weak areas first", icon: GraduationCap },
@@ -524,7 +524,7 @@ export default function CareerLandingPage() {
       <section className="py-16 bg-gray-50" data-testid="section-comparison">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">NurseNest Allied vs. Generic Question Banks</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">NurseNest Allied vs. Generic Test Banks</h2>
             <p className="text-gray-600">See why students switch to NurseNest Allied for serious exam prep</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
@@ -865,7 +865,7 @@ export default function CareerLandingPage() {
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-teal-200 text-sm">
-            <Link href={`/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Question Bank →</Link>
+            <Link href={`/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Test Bank →</Link>
             <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
             <Link href="/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
           </div>

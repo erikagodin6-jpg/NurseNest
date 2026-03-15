@@ -790,7 +790,8 @@ function AppRoutes() {
         <Route path="/refund-policy" component={RefundPolicyPage} />
         <Route path="/email-preferences" component={EmailPreferencesPage} />
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
-        <Route path="/question-bank" component={QuestionBank} />
+        <Route path="/test-bank" component={QuestionBank} />
+        <Route path="/question-bank">{() => <Redirect to="/test-bank" />}</Route>
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/feedback" component={FeedbackPage} />
@@ -854,7 +855,7 @@ function AppRoutes() {
         <Route path="/emergency-nursing-encyclopedia">{() => <EncyclopediaHub />}</Route>
 
         {/* Career-namespaced routes: /rrt/*, /paramedic/*, /pharmacy-tech/*, /mlt/*, /imaging/* */}
-        <Route path="/rrt/question-bank" component={QuestionBank} />
+        <Route path="/rrt/question-bank">{() => <Redirect to="/rrt/test-bank" />}</Route>
         <Route path="/rrt/test-bank" component={TestBank} />
         <Route path="/rrt/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/rrt/flashcards">{() => <Redirect to="/rrt/test-bank" />}</Route>
@@ -868,7 +869,7 @@ function AppRoutes() {
         <Route path="/respiratory-therapy" component={RespiratoryTherapyAuthorityHub} />
         <Route path="/rrt" component={AlliedHomePage} />
 
-        <Route path="/paramedic/question-bank" component={QuestionBank} />
+        <Route path="/paramedic/question-bank">{() => <Redirect to="/paramedic/test-bank" />}</Route>
         <Route path="/paramedic/test-bank" component={TestBank} />
         <Route path="/paramedic/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/paramedic/flashcards">{() => <Redirect to="/paramedic/test-bank" />}</Route>
@@ -881,7 +882,7 @@ function AppRoutes() {
         <Route path="/paramedic/top-100-paramedic-exam-questions" component={AuthorityContentPage} />
         <Route path="/paramedic" component={ParamedicAuthorityHub} />
 
-        <Route path="/pharmacy-tech/question-bank" component={QuestionBank} />
+        <Route path="/pharmacy-tech/question-bank">{() => <Redirect to="/pharmacy-tech/test-bank" />}</Route>
         <Route path="/pharmacy-tech/test-bank" component={TestBank} />
         <Route path="/pharmacy-tech/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/pharmacy-tech/flashcards">{() => <Redirect to="/pharmacy-tech/test-bank" />}</Route>
@@ -926,7 +927,7 @@ function AppRoutes() {
         <Route path="/mlt/mock-exam">{() => <MltSEOPage country="both" pageType="mock-exam" />}</Route>
         <Route path="/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
 
-        <Route path="/mlt/question-bank" component={QuestionBank} />
+        <Route path="/mlt/question-bank">{() => <Redirect to="/mlt/test-bank" />}</Route>
         <Route path="/mlt/test-bank" component={TestBank} />
         <Route path="/mlt/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/mlt/flashcards">{() => <Redirect to="/mlt/test-bank" />}</Route>
@@ -939,7 +940,7 @@ function AppRoutes() {
         <Route path="/mlt/complete-guide-medical-laboratory-science" component={AuthorityContentPage} />
         <Route path="/mlt" component={MltAuthorityHub} />
 
-        <Route path="/imaging/question-bank" component={QuestionBank} />
+        <Route path="/imaging/question-bank">{() => <Redirect to="/imaging/test-bank" />}</Route>
         <Route path="/imaging/test-bank" component={TestBank} />
         <Route path="/imaging/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/imaging/flashcards">{() => <Redirect to="/imaging/test-bank" />}</Route>
@@ -953,7 +954,7 @@ function AppRoutes() {
         <Route path="/imaging" component={ImagingAuthorityHub} />
 
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
-        <Route path="/critical-care/question-bank" component={QuestionBank} />
+        <Route path="/critical-care/question-bank">{() => <Redirect to="/critical-care/test-bank" />}</Route>
         <Route path="/critical-care/test-bank" component={TestBank} />
         <Route path="/critical-care/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/critical-care/flashcards">{() => <Redirect to="/critical-care/test-bank" />}</Route>
@@ -965,7 +966,7 @@ function AppRoutes() {
         <Route path="/critical-care/dashboard" component={DashboardPage} />
         <Route path="/critical-care" component={AlliedHomePage} />
 
-        <Route path="/emergency-nursing/question-bank" component={QuestionBank} />
+        <Route path="/emergency-nursing/question-bank">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
         <Route path="/emergency-nursing/test-bank" component={TestBank} />
         <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/emergency-nursing/flashcards">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
@@ -984,7 +985,7 @@ function AppRoutes() {
 
         <Route path="/perioperative/lessons/:slug" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/lessons" component={PerioperativeLessonsPage} />
-        <Route path="/perioperative/question-bank" component={QuestionBank} />
+        <Route path="/perioperative/question-bank">{() => <Redirect to="/perioperative/test-bank" />}</Route>
         <Route path="/perioperative/test-bank" component={TestBank} />
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/perioperative/flashcards">{() => <Redirect to="/perioperative/test-bank" />}</Route>
@@ -996,7 +997,7 @@ function AppRoutes() {
         <Route path="/perioperative/dashboard" component={DashboardPage} />
         <Route path="/perioperative" component={AlliedHomePage} />
 
-        <Route path="/oncology-nursing/question-bank" component={QuestionBank} />
+        <Route path="/oncology-nursing/question-bank">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
         <Route path="/oncology-nursing/test-bank" component={TestBank} />
         <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/oncology-nursing/flashcards">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
@@ -1008,7 +1009,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
         <Route path="/oncology-nursing" component={AlliedHomePage} />
 
-        <Route path="/pediatric-cert/question-bank" component={QuestionBank} />
+        <Route path="/pediatric-cert/question-bank">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
         <Route path="/pediatric-cert/test-bank" component={TestBank} />
         <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/pediatric-cert/flashcards">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
@@ -1021,7 +1022,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert" component={AlliedHomePage} />
 
         {/* Phase 4: Mental Health & Behavioral Health */}
-        <Route path="/psychotherapist/question-bank" component={QuestionBank} />
+        <Route path="/psychotherapist/question-bank">{() => <Redirect to="/psychotherapist/test-bank" />}</Route>
         <Route path="/psychotherapist/test-bank" component={TestBank} />
         <Route path="/psychotherapist/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/psychotherapist/flashcards">{() => <Redirect to="/psychotherapist/test-bank" />}</Route>
@@ -1037,7 +1038,7 @@ function AppRoutes() {
 
         <Route path="/social-worker/lessons/:slug" component={SocialWorkerLessonsPage} />
         <Route path="/social-worker/lessons" component={SocialWorkerLessonsPage} />
-        <Route path="/social-worker/question-bank" component={QuestionBank} />
+        <Route path="/social-worker/question-bank">{() => <Redirect to="/social-worker/test-bank" />}</Route>
         <Route path="/social-worker/test-bank" component={TestBank} />
         <Route path="/social-worker/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/social-worker/flashcards">{() => <Redirect to="/social-worker/test-bank" />}</Route>
@@ -1049,7 +1050,7 @@ function AppRoutes() {
         <Route path="/social-worker/dashboard" component={DashboardPage} />
         <Route path="/social-worker" component={AlliedHomePage} />
 
-        <Route path="/addictions-counsellor/question-bank" component={QuestionBank} />
+        <Route path="/addictions-counsellor/question-bank">{() => <Redirect to="/addictions-counsellor/test-bank" />}</Route>
         <Route path="/addictions-counsellor/test-bank" component={TestBank} />
         <Route path="/addictions-counsellor/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/addictions-counsellor/flashcards">{() => <Redirect to="/addictions-counsellor/test-bank" />}</Route>

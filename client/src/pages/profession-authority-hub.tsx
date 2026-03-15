@@ -426,7 +426,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
             <Link href={data.ctaSecondary.href} className="group" data-testid="resource-card-questions">
               <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
                 <Brain className="w-7 h-7 mb-3" style={{ color: data.color }} />
-                <h3 className="font-semibold text-gray-900 mb-1">Question Bank</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">Test Bank</h3>
                 <p className="text-sm text-gray-500">Practice questions with detailed rationales covering every exam domain.</p>
                 <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
                   Browse Questions <ArrowRight className="w-4 h-4" />

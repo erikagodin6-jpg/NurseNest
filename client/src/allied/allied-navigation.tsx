@@ -73,7 +73,7 @@ export function AlliedNavigation() {
   const currentCareer = getCurrentCareerFromUrl(location, alliedCareers);
 
   const features = [
-    { slug: "qbank", label: "Question Bank" },
+    { slug: "qbank", label: "Test Bank" },
     { slug: "mock-exams", label: "Mock Exams" },
     { slug: "flashcards", label: "Flashcards" },
     { slug: "study-plan", label: "Study Plan" },

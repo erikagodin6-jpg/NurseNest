@@ -16,7 +16,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.studyTools")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-lessons">{t("footer.clinicalLessons")}</LocaleLink></li>
-              <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">{t("footer.questionBank")}</LocaleLink></li>
+              <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">{t("nav.flashcards")}</LocaleLink></li>
               <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">{t("footer.anatomyExplorer")}</LocaleLink></li>
               <li><LocaleLink href="/pre-nursing" className="hover:text-primary transition-colors" data-testid="link-footer-pre-nursing">{t("footer.preNursing")}</LocaleLink></li>
               <li><LocaleLink href="/med-math" className="hover:text-primary transition-colors" data-testid="link-footer-med-math">{t("footer.medMath")}</LocaleLink></li>
@@ -28,7 +28,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.examPrep")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/mock-exams" className="hover:text-primary transition-colors" data-testid="link-footer-mock-exams">{t("footer.mockExams")}</LocaleLink></li>
-              <li><LocaleLink href="/question-bank" className="hover:text-primary transition-colors" data-testid="link-footer-question-bank">{t("footer.questionBank")}</LocaleLink></li>
+              <li><LocaleLink href="/test-bank" className="hover:text-primary transition-colors" data-testid="link-footer-test-bank">{t("footer.testBank")}</LocaleLink></li>
               <li><LocaleLink href="/question-of-the-day" className="hover:text-primary transition-colors" data-testid="link-footer-qotd">{t("footer.questionOfTheDay")}</LocaleLink></li>
               <li><LocaleLink href="/lab-values" className="hover:text-primary transition-colors" data-testid="link-footer-lab-values">{t("footer.labValues")}</LocaleLink></li>
               <li><LocaleLink href="/case-simulations" className="hover:text-primary transition-colors" data-testid="link-footer-case-sims">{t("footer.caseSimulations")}</LocaleLink></li>

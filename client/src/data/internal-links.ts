@@ -1144,7 +1144,7 @@ export const newGradCrossPlatformLinks: Record<string, CrossPlatformLink[]> = {
     { anchor: "Heart Failure Nursing Lesson", target: "/lessons/heart-failure", reason: "review cardiac concepts before clinical interviews", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Sepsis Management Lesson", target: "/lessons/sepsis", reason: "common interview scenario topic", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "patient safety interview prep", type: "newgrad-to-lesson", platform: "nursenest" },
-    { anchor: "Practice NCLEX Questions", target: "/question-bank", reason: "test clinical knowledge for interviews", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Practice NCLEX Questions", target: "/test-bank", reason: "test clinical knowledge for interviews", type: "newgrad-to-lesson", platform: "nursenest" },
   ],
   "resume-builder": [
     { anchor: "IV Therapy Skills Lesson", target: "/lessons/iv-therapy", reason: "brush up on skills to list on your resume", type: "newgrad-to-lesson", platform: "nursenest" },
@@ -1156,7 +1156,7 @@ export const newGradCrossPlatformLinks: Record<string, CrossPlatformLink[]> = {
     { anchor: "Respiratory Assessment Lesson", target: "/lessons/respiratory-assessment", reason: "sharpen respiratory assessment skills", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Shock Recognition Lesson", target: "/lessons/shock-types-recognition-rpn", reason: "know shock types for rapid response", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "IV Therapy Lesson", target: "/lessons/iv-therapy", reason: "IV skills reference and review", type: "newgrad-to-lesson", platform: "nursenest" },
-    { anchor: "NCLEX Practice Questions", target: "/question-bank", reason: "reinforce clinical knowledge with practice", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "NCLEX Practice Questions", target: "/test-bank", reason: "reinforce clinical knowledge with practice", type: "newgrad-to-lesson", platform: "nursenest" },
   ],
   "first-90-days": [
     { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "medication safety during orientation", type: "newgrad-to-lesson", platform: "nursenest" },
@@ -1165,7 +1165,7 @@ export const newGradCrossPlatformLinks: Record<string, CrossPlatformLink[]> = {
     { anchor: "Allied Health Career Exploration", target: "/careers", reason: "explore multidisciplinary team roles", type: "newgrad-to-career", platform: "allied" },
   ],
   "cover-letter": [
-    { anchor: "Nursing Practice Questions", target: "/question-bank", reason: "demonstrate clinical knowledge in applications", type: "newgrad-to-lesson", platform: "nursenest" },
+    { anchor: "Nursing Practice Questions", target: "/test-bank", reason: "demonstrate clinical knowledge in applications", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Allied Health Career Paths", target: "/careers", reason: "explore alternative healthcare career options", type: "newgrad-to-career", platform: "allied" },
   ],
 };

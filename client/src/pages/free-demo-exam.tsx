@@ -579,7 +579,7 @@ function ReportPage({
           {[
             { title: "Full Readiness Analysis", desc: "Comprehensive probability-based pass prediction with confidence intervals and trend analysis across all NCLEX domains.", icon: BarChart3 },
             { title: "Detailed Study Plan", desc: "AI-generated personalized study schedule targeting your weak areas with spaced repetition and priority ranking.", icon: BookOpen },
-            { title: "Full Question Bank Access", desc: "Thousands of NCLEX-RN, NCLEX-PN, and NP exam questions with detailed rationales, clinical pearls, and exam strategies.", icon: Brain },
+            { title: "Full Test Bank Access", desc: "Thousands of NCLEX-RN, NCLEX-PN, and NP exam questions with detailed rationales, clinical pearls, and exam strategies.", icon: Brain },
           ].map((item, i) => (
             <div key={i} className="relative" data-testid={`locked-preview-${i}`}>
               <Card className="border-gray-100 shadow-sm overflow-hidden" style={{ borderRadius: "16px" }}>

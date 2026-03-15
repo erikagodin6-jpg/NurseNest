@@ -98,7 +98,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Can I use NurseNest for COPR exam prep in Canada?", a: "Yes. NurseNest covers both NREMT and COPR exam content. Canadian students get access to Canadian-specific regulatory content, SI unit lab values, and scenario-based practice questions aligned with the COPR competency framework." },
     ],
     resourceLinks: [
-      { label: "Paramedic Practice Questions", href: "/paramedic/question-bank", icon: "questions" },
+      { label: "Paramedic Practice Questions", href: "/paramedic/test-bank", icon: "questions" },
       { label: "Paramedic Flashcards", href: "/paramedic/flashcards", icon: "flashcards" },
       { label: "Paramedic Mock Exams", href: "/paramedic/mock-exams", icon: "mock" },
       { label: "Paramedic Study Plan", href: "/paramedic/study-plan", icon: "plan" },
@@ -164,7 +164,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Does NurseNest cover the CBRC exam for Canada?", a: "Yes. Our platform covers both the NBRC (US) and CBRC (Canadian) respiratory therapy exams. Canadian students access CBRC-aligned content, CSRT standards, and SI unit clinical values." },
     ],
     resourceLinks: [
-      { label: "RRT Practice Questions", href: "/rrt/question-bank", icon: "questions" },
+      { label: "RRT Practice Questions", href: "/rrt/test-bank", icon: "questions" },
       { label: "RRT Flashcards", href: "/rrt/flashcards", icon: "flashcards" },
       { label: "RRT Mock Exams", href: "/rrt/mock-exams", icon: "mock" },
       { label: "RRT Study Plan", href: "/rrt/study-plan", icon: "plan" },
@@ -232,7 +232,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Can I get dual CSMLS and ASCP certification?", a: "Yes. Many MLTs pursue both certifications to maximize career flexibility. Our platform covers both exam formats with automatic unit system switching and dual regulatory content." },
     ],
     resourceLinks: [
-      { label: "MLT Practice Questions", href: "/mlt/question-bank", icon: "questions" },
+      { label: "MLT Practice Questions", href: "/mlt/test-bank", icon: "questions" },
       { label: "MLT Flashcards", href: "/mlt/flashcards", icon: "flashcards" },
       { label: "MLT Mock Exams", href: "/mlt/mock-exams", icon: "mock" },
       { label: "MLT Study Plan", href: "/mlt/study-plan", icon: "plan" },
@@ -300,7 +300,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Does NurseNest cover CT and MRI exam prep?", a: "Our current focus is the primary radiography certification (ARRT R.T.(R) and CAMRT). Advanced modality certification prep (CT, MRI, mammography) is on our development roadmap." },
     ],
     resourceLinks: [
-      { label: "Imaging Practice Questions", href: "/imaging/question-bank", icon: "questions" },
+      { label: "Imaging Practice Questions", href: "/imaging/test-bank", icon: "questions" },
       { label: "Imaging Flashcards", href: "/imaging/flashcards", icon: "flashcards" },
       { label: "Imaging Mock Exams", href: "/imaging/mock-exams", icon: "mock" },
       { label: "Imaging Study Plan", href: "/imaging/study-plan", icon: "plan" },
@@ -367,7 +367,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Does the exam cover multicultural competence?", a: "Yes, extensively. Cultural competence and diversity are woven throughout all four domains. Questions test your ability to work with diverse populations, understand cultural influences on behavior and help-seeking, and apply anti-oppressive practice principles." },
     ],
     resourceLinks: [
-      { label: "Social Work Practice Questions", href: "/social-worker/question-bank", icon: "questions" },
+      { label: "Social Work Practice Questions", href: "/social-worker/test-bank", icon: "questions" },
       { label: "Social Work Flashcards", href: "/social-worker/flashcards", icon: "flashcards" },
       { label: "Social Work Mock Exams", href: "/social-worker/mock-exams", icon: "mock" },
       { label: "Social Work Study Plan", href: "/social-worker/study-plan", icon: "plan" },
@@ -434,7 +434,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "What's the difference between CRPO and NCE?", a: "The CRPO exam is Ontario-specific, testing competence within the Ontario regulatory framework for Registered Psychotherapists. The NCE is a US national exam for Licensed Professional Counselors. While clinical content overlaps significantly, regulatory and legal content differs." },
     ],
     resourceLinks: [
-      { label: "Psychotherapy Practice Questions", href: "/psychotherapist/question-bank", icon: "questions" },
+      { label: "Psychotherapy Practice Questions", href: "/psychotherapist/test-bank", icon: "questions" },
       { label: "Psychotherapy Flashcards", href: "/psychotherapist/flashcards", icon: "flashcards" },
       { label: "Psychotherapy Mock Exams", href: "/psychotherapist/mock-exams", icon: "mock" },
       { label: "Psychotherapy Study Plan", href: "/psychotherapist/study-plan", icon: "plan" },
@@ -502,7 +502,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
       { q: "Does NurseNest cover the CCAC exam for Canada?", a: "Yes. Our platform covers both IC&RC (US) and CCAC (Canadian) addictions counsellor certification exams with appropriate regulatory content, harm reduction frameworks, and clinical practice standards for each jurisdiction." },
     ],
     resourceLinks: [
-      { label: "Addictions Practice Questions", href: "/addictions-counsellor/question-bank", icon: "questions" },
+      { label: "Addictions Practice Questions", href: "/addictions-counsellor/test-bank", icon: "questions" },
       { label: "Addictions Flashcards", href: "/addictions-counsellor/flashcards", icon: "flashcards" },
       { label: "Addictions Mock Exams", href: "/addictions-counsellor/mock-exams", icon: "mock" },
       { label: "Addictions Study Plan", href: "/addictions-counsellor/study-plan", icon: "plan" },

@@ -88,7 +88,7 @@ function CtaBanner({ variant, color }: { variant: "questions" | "flashcards" | "
       title: "Ready to Test Your Knowledge?",
       description: "Practice with exam-style questions and detailed clinical rationales.",
       buttonText: "Start Practice Questions",
-      href: "/question-bank",
+      href: "/test-bank",
     },
     flashcards: {
       title: "Review Key Concepts",
@@ -553,7 +553,7 @@ export default function HealthcareGuidePage() {
                   Access practice questions, flashcards, and personalized study tools to excel in your healthcare career.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <LocaleLink href="/question-bank">
+                  <LocaleLink href="/test-bank">
                     <Button className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-2.5 font-semibold" data-testid="button-guide-start-questions">
                       Start Practicing Questions <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -725,7 +725,7 @@ export function HealthcareGuidesIndex() {
               Access practice questions, flashcards, and study tools for all healthcare specialties and professions.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <LocaleLink href="/question-bank">
+              <LocaleLink href="/test-bank">
                 <Button className="bg-white text-blue-700 hover:bg-blue-50 px-6 py-2.5 font-semibold" data-testid="button-explore-questions">
                   Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>

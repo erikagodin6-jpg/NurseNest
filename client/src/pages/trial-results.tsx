@@ -409,7 +409,7 @@ export default function TrialResults() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <LocaleLink href="/pricing">
               <Button size="lg" className="min-w-[200px]" data-testid="button-unlock-qbank">
-                Unlock Full Question Bank
+                Unlock Full Test Bank
               </Button>
             </LocaleLink>
             <LocaleLink href="/pricing">

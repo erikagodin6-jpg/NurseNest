@@ -160,20 +160,63 @@ export default function AlliedPricingPage() {
         })}
       </div>
 
-      <div className="max-w-2xl mx-auto mb-16">
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500">
-          <span className="flex items-center gap-1.5" data-testid="text-cad-notice">
-            <CreditCard className="w-4 h-4" /> Prices shown in CAD
-          </span>
-          <span className="flex items-center gap-1.5" data-testid="text-instant-access">
-            <Sparkles className="w-4 h-4" /> Instant access after payment
-          </span>
-          <span className="flex items-center gap-1.5" data-testid="text-no-contracts">
-            <Clock className="w-4 h-4" /> No contracts, Cancel anytime
-          </span>
-          <span className="flex items-center gap-1.5" data-testid="text-guarantee">
-            <Shield className="w-4 h-4" /> 30-Day Pass Guarantee
-          </span>
+      <div className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">NurseNest Allied vs Generic Test Banks</h2>
+        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-100 px-6 py-3">
+            <div className="text-sm font-semibold text-gray-700">Feature</div>
+            <div className="text-sm font-semibold text-teal-700 text-center">NurseNest Allied</div>
+            <div className="text-sm font-semibold text-gray-500 text-center">Generic Banks</div>
+          </div>
+          {COMPARISON.map((row, i) => (
+            <div key={row.feature} className={`grid grid-cols-3 px-6 py-3 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}`} data-testid={`comparison-row-${i}`}>
+              <div className="text-sm text-gray-700">{row.feature}</div>
+              <div className="flex justify-center">
+                <CheckCircle2 className="w-5 h-5 text-teal-500" />
+              </div>
+              <div className="flex justify-center">
+                {row.generic ? <CheckCircle2 className="w-5 h-5 text-gray-300" /> : <XCircle className="w-5 h-5 text-gray-300" />}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-16">
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Why Professionals Choose NurseNest Allied</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {[
+            { icon: BookOpen, label: "600+ Word Rationales", desc: "Every question includes step-by-step clinical reasoning" },
+            { icon: Target, label: "Adaptive CAT Engine", desc: "Simulates real exam difficulty adjustment" },
+            { icon: TrendingUp, label: "Readiness Predictor", desc: "Know exactly when you're exam-ready" },
+            { icon: Brain, label: "AI Study Tools", desc: "Career-specific simulators and planners" },
+          ].map(item => (
+            <div key={item.label} className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-5 border border-teal-100 text-center" data-testid={`value-prop-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+              <item.icon className="w-7 h-7 text-teal-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{item.label}</h3>
+              <p className="text-xs text-gray-600">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-gray-50 rounded-2xl p-8 max-w-3xl mx-auto">
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          {[
+            { q: "Can I switch between careers?", a: "Yes, one subscription gives you full access to all allied health careers. Study for multiple certifications simultaneously." },
+            { q: "What makes your rationales different?", a: "Every question includes a minimum 600-word rationale with step-by-step reasoning, distractor analysis, exam trap explanations, clinical pearls, and safety reinforcement. No other platform provides this depth." },
+            { q: "How does the adaptive exam work?", a: "Our CAT-style engine starts at medium difficulty and adjusts based on your performance, similar to real certification exams. It tracks blueprint coverage and avoids repeating recent questions." },
+            { q: "Is there a money-back guarantee?", a: "We offer a 7-day satisfaction guarantee. If you're not happy, contact us for a full refund." },
+            { q: "Are these real exam questions?", a: "All questions are original, exam-authentic items aligned to published exam blueprints. We do not reproduce copyrighted exam content." },
+            { q: "How often is content updated?", a: "New questions, case sims, and flashcards are added weekly. Blueprint weightings are updated as exam specifications change. We're targeting 4,000+ questions per career." },
+          ].map(faq => (
+            <div key={faq.q} className="bg-white rounded-xl p-4 border border-gray-100" data-testid={`faq-${faq.q.slice(0, 20).replace(/\s+/g, "-").toLowerCase()}`}>
+              <h3 className="font-medium text-gray-900 mb-1">{faq.q}</h3>
+              <p className="text-sm text-gray-600">{faq.a}</p>
+            </div>
+          ))}
+
         </div>
       </div>
     </div>

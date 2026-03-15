@@ -263,7 +263,7 @@ function slugToTitle(slug: string): string {
 
 const staticPages: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "NurseNest - NCLEX & NCLEX-PN / REx-PN Exam Prep | Nursing Question Bank, Simulations & Flashcards",
+    title: "NurseNest - NCLEX & NCLEX-PN / REx-PN Exam Prep | Nursing Test Bank, Simulations & Flashcards",
     description: "Prepare for NCLEX, NCLEX-PN, and REx-PN with NurseNest. 1,200+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 200+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.",
   },
   "/lessons": {
@@ -462,8 +462,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Question of the Day - Free NCLEX Practice | NurseNest",
     description: "Answer a new nursing practice question every day. Free NCLEX, NCLEX-PN, and REx-PN exam prep with detailed rationales. Subscribe for daily email delivery.",
   },
-  "/question-bank": {
-    title: "Question Bank - 1,200+ Nursing Practice Questions | NurseNest",
+  "/test-bank": {
+    title: "Test Bank - 1,200+ Nursing Practice Questions | NurseNest",
     description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX, NCLEX-PN, and REx-PN prep. New questions added weekly.",
   },
   "/nclex-rn/mock-exam": {
@@ -976,11 +976,11 @@ export function getPageMeta(pathname: string): PageMeta {
           ],
         },
       });
-    } else if (cleanPath === "/question-bank") {
+    } else if (cleanPath === "/test-bank") {
       result.jsonLd = JSON.stringify({
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        "name": "Nursing Practice Question Bank",
+        "name": "Nursing Practice Test Bank",
         "description": "1,200+ nursing practice questions organized by body system and tier with instant rationale display.",
         "url": canonical,
         "learningResourceType": "Quiz",
@@ -1446,7 +1446,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
   }
 
   const EDUCATIONAL_ORG_LANDING_PAGES = new Set([
-    "/", "/lessons", "/flashcards", "/question-bank", "/mock-exams",
+    "/", "/lessons", "/flashcards", "/test-bank", "/mock-exams",
     "/pricing", "/about", "/pre-nursing", "/free-practice",
     "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
     "/medical-imaging", "/new-grad",

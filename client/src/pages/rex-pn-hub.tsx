@@ -65,7 +65,7 @@ const questionFormats = [
 
 const toolkitCards = [
   {
-    title: "Question Bank",
+    title: "Test Bank",
     description: "Practice with hundreds of REx-PN-aligned questions organized by domain. Detailed rationales explain why each answer is correct or incorrect.",
     icon: BookOpen,
     href: "/free-practice",

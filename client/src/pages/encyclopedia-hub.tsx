@@ -267,7 +267,7 @@ export default function EncyclopediaHubPage() {
               Practice with questions, flashcards, and mock exams aligned to your certification.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href={`/${profession}/question-bank`}>
+              <Link href={`/${profession}/test-bank`}>
                 <Button data-testid="button-cta-questions">Practice Questions</Button>
               </Link>
               <Link href={`/${profession}/flashcards`}>

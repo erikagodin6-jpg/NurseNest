@@ -122,7 +122,7 @@ export default function QBankPreviewPage() {
       <div className="container mx-auto px-4 py-6 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-preview-title">Question Bank</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-preview-title">Test Bank</h1>
             <p className="text-gray-500 dark:text-gray-400 text-sm">Browse and explore available questions</p>
           </div>
           <div className="flex gap-2">

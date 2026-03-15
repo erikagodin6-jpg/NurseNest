@@ -277,7 +277,7 @@ export function HomeBelowFold({
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
             {[
-              { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/question-bank", count: formatCount(questionCount), countLabel: t("home.included.countQuestions"), color: "from-blue-500 to-indigo-600" },
+              { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/test-bank", count: formatCount(questionCount), countLabel: t("home.included.countQuestions"), color: "from-blue-500 to-indigo-600" },
               { icon: ClipboardCheck, title: t("home.included.mockExams.title"), desc: t("home.included.mockExams.desc"), href: "/mock-exams", count: "3", countLabel: t("home.included.countExamTiers"), color: "from-purple-500 to-violet-600" },
               { icon: FileText, title: t("home.included.printable.title"), desc: t("home.included.printable.desc"), href: "/shop", count: formatCount(storeProductCount), countLabel: t("home.included.countPacks"), color: "from-emerald-500 to-teal-600" },
               { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "140+", countLabel: t("home.included.countDecks"), color: "from-amber-500 to-orange-600" },

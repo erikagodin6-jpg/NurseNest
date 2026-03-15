@@ -38,7 +38,7 @@ const PROFESSIONS: ProfessionSection[] = [
       { title: "NCLEX-PN Study Hub", href: "/nclex-pn", type: "Hub" },
       { title: "REx-PN Study Hub", href: "/rex-pn", type: "Hub" },
       { title: "NP Exam Hub", href: "/canada-np", type: "Hub" },
-      { title: "Question Bank", href: "/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/mock-exams", type: "Practice" },
       { title: "Lessons & Study Guides", href: "/lessons", type: "Learn" },
       { title: "Flashcard Decks", href: "/flashcards", type: "Review" },
@@ -58,7 +58,7 @@ const PROFESSIONS: ProfessionSection[] = [
     examNames: ["AEMCA", "NREMT", "PCP", "ACP"],
     resources: [
       { title: "Paramedic Hub", href: "/paramedic", type: "Hub" },
-      { title: "Question Bank", href: "/paramedic/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/paramedic/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/paramedic/mock-exams", type: "Practice" },
       { title: "Flashcards", href: "/paramedic/flashcards", type: "Review" },
       { title: "Practice Questions", href: "/paramedic-practice-questions", type: "Practice" },
@@ -74,7 +74,7 @@ const PROFESSIONS: ProfessionSection[] = [
     examNames: ["CSMLS", "ASCP MLS/MLT", "AMT"],
     resources: [
       { title: "MLT Hub", href: "/mlt", type: "Hub" },
-      { title: "Question Bank", href: "/mlt/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/mlt/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/mlt/mock-exams", type: "Practice" },
       { title: "Flashcards", href: "/mlt/flashcards", type: "Review" },
       { title: "Practice Questions", href: "/mlt-practice-questions", type: "Practice" },
@@ -90,7 +90,7 @@ const PROFESSIONS: ProfessionSection[] = [
     examNames: ["CBRC RRT", "NBRC TMC", "NBRC CSE"],
     resources: [
       { title: "RRT Hub", href: "/respiratory-therapy", type: "Hub" },
-      { title: "Question Bank", href: "/rrt/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/rrt/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/rrt/mock-exams", type: "Practice" },
       { title: "Flashcards", href: "/rrt/flashcards", type: "Review" },
       { title: "Practice Questions", href: "/rrt-practice-questions", type: "Practice" },
@@ -106,7 +106,7 @@ const PROFESSIONS: ProfessionSection[] = [
     examNames: ["CAMRT", "ARRT"],
     resources: [
       { title: "Imaging Hub", href: "/medical-imaging", type: "Hub" },
-      { title: "Question Bank", href: "/imaging/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/imaging/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/imaging/mock-exams", type: "Practice" },
       { title: "Flashcards", href: "/imaging/flashcards", type: "Review" },
       { title: "Positioning Guide", href: "/radiography-positioning-guide", type: "Reference" },
@@ -148,7 +148,7 @@ const PROFESSIONS: ProfessionSection[] = [
     examNames: ["PEBC", "PTCB", "ExCPT"],
     resources: [
       { title: "Pharmacy Tech Hub", href: "/pharmacy-tech", type: "Hub" },
-      { title: "Question Bank", href: "/pharmacy-tech/question-bank", type: "Practice" },
+      { title: "Test Bank", href: "/pharmacy-tech/test-bank", type: "Practice" },
       { title: "Mock Exams", href: "/pharmacy-tech/mock-exams", type: "Practice" },
       { title: "Flashcards", href: "/pharmacy-tech/flashcards", type: "Review" },
     ],

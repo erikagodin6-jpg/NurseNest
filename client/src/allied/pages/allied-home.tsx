@@ -60,7 +60,7 @@ export default function AlliedHomePage() {
     <div data-testid="allied-home-page">
       <AlliedSEO
         title="Allied Health Exam Prep - QBanks, Mock Exams & AI Study Tools"
-        description="Prepare for your allied health certification with career-specific question banks, adaptive mock exams, flashcards, AI study tools, and personalized study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
+        description="Prepare for your allied health certification with career-specific test banks, adaptive mock exams, flashcards, AI study tools, and personalized study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
         keywords="allied health exam prep, RRT exam, paramedic exam, pharmacy tech exam, MLT exam, medical imaging exam, healthcare certification, NBRC, NREMT, PTCB, CSMLS, CAMRT, question bank, mock exam, study tools"
         canonicalPath="/"
         structuredData={{
@@ -82,7 +82,7 @@ export default function AlliedHomePage() {
               Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Healthcare Exam</span> with Confidence
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
-              Adaptive question banks, blueprint-weighted mock exams, AI study tools, and readiness tracking for RRT, Paramedic, Pharmacy Tech, MLT, and Diagnostic Imaging certifications.
+              Adaptive test banks, blueprint-weighted mock exams, AI study tools, and readiness tracking for RRT, Paramedic, Pharmacy Tech, MLT, and Diagnostic Imaging certifications.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
@@ -114,7 +114,7 @@ export default function AlliedHomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Career Path</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Each career vertical comes with exam-specific question banks, mock exams, and AI-powered study tools.</p>
+            <p className="text-gray-600 max-w-xl mx-auto">Each career vertical comes with exam-specific test banks, mock exams, and AI-powered study tools.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {ALLIED_CAREERS.filter(c => c.enabled).map(career => (
@@ -136,7 +136,7 @@ export default function AlliedHomePage() {
                     Free Diagnostic <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <Link href={`/qbank?career=${career.slug}`} className="text-teal-600 text-sm font-medium hover:text-teal-700 transition-colors" data-testid={`link-qbank-${career.slug}`}>
-                    Question Bank
+                    Test Bank
                   </Link>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function AlliedHomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: BookOpen, title: "Adaptive Question Bank", desc: "Thousands of exam-authentic questions with detailed rationales, filtered by topic, difficulty, and question type." },
+              { icon: BookOpen, title: "Adaptive Test Bank", desc: "Thousands of exam-authentic questions with detailed rationales, filtered by topic, difficulty, and question type." },
               { icon: FileText, title: "Blueprint-Weighted Mocks", desc: "Timed mock exams weighted to your exam's blueprint. Get a readiness score and topic-level analytics." },
               { icon: Brain, title: "AI Study Planner", desc: "Enter your exam date and available hours. Get a personalized daily study plan that recalibrates weekly." },
               { icon: Zap, title: "Case Simulators", desc: "Unfolding clinical scenarios with decision nodes and detailed debriefs for deep learning." },
@@ -183,7 +183,7 @@ export default function AlliedHomePage() {
                   Equip Your Students with Exam-Ready Tools
                 </h2>
                 <p className="text-gray-300 mb-6 max-w-lg">
-                  Institutional licensing gives your program cohort-wide access to question banks, mock exams, readiness tracking, and faculty analytics. Volume pricing available for programs of all sizes.
+                  Institutional licensing gives your program cohort-wide access to test banks, mock exams, readiness tracking, and faculty analytics. Volume pricing available for programs of all sizes.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="/institutions" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 transition-colors" data-testid="button-institutional-learn">

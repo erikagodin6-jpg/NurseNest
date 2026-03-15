@@ -194,7 +194,7 @@ export default function NursingCertificationsHub() {
             Practice questions, flashcards, and study tools aligned to every major nursing certification exam.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/question-bank" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-emerald-700 rounded-xl font-bold hover:bg-emerald-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
+            <Link href="/test-bank" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-emerald-700 rounded-xl font-bold hover:bg-emerald-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
               Practice Questions <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-400 transition-colors border border-emerald-400" data-testid="button-cta-pricing">

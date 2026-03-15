@@ -436,7 +436,7 @@ function FreeQuestionsContent({ cc }: { cc: CountryConfig }) {
           </div>
         </div>
         <div className="bg-purple-50 rounded-xl p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Unlock Full Question Bank</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Unlock Full Test Bank</h3>
           <p className="text-sm text-gray-600 mb-6 max-w-lg mx-auto">
             Get access to thousands of {cc.examBoard}-aligned questions with adaptive difficulty, detailed analytics, and exam simulation mode.
           </p>

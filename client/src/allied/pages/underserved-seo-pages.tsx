@@ -417,7 +417,7 @@ function getPageContent(profession: ProfessionSlug, pageType: PageType): PageCon
         sections: [
           { heading: "NBCOT OTR & NOTCE Coverage", content: "Our platform covers both major OT certification exams. NBCOT OTR content follows the official exam blueprint covering evaluation, intervention planning, implementation, and professional standards. NOTCE (National Occupational Therapy Certification Examination) content addresses Canadian practice standards, including provincial regulatory requirements and Canadian healthcare system contexts. Switch between exam tracks based on your certification goal." },
           { heading: "Clinical Case Analysis", content: "OT certification exams rely heavily on clinical reasoning scenarios. Our platform presents detailed client cases spanning pediatric development, adult rehabilitation, geriatric care, mental health, and workplace ergonomics. Each case requires you to evaluate the client, identify appropriate assessments, develop intervention plans, select evidence-based activities, and determine functional outcomes. Practice the clinical reasoning process that mirrors real OT practice." },
-          { heading: "Domain-Specific Question Banks", content: "Deep coverage across all OT practice domains: Evaluation & Assessment (standardized tests, clinical observations, occupational profiles), Intervention Planning & Implementation (activity analysis, grading/adapting, therapeutic use of self), Professional Practice (ethics, documentation, evidence-based practice), and specialized areas including pediatrics, psychosocial OT, hand therapy, assistive technology, and cognitive rehabilitation." },
+          { heading: "Domain-Specific Test Banks", content: "Deep coverage across all OT practice domains: Evaluation & Assessment (standardized tests, clinical observations, occupational profiles), Intervention Planning & Implementation (activity analysis, grading/adapting, therapeutic use of self), Professional Practice (ethics, documentation, evidence-based practice), and specialized areas including pediatrics, psychosocial OT, hand therapy, assistive technology, and cognitive rehabilitation." },
           { heading: "SMART Goal Writing Practice", content: "Documentation and goal writing are critical OT competencies tested on certification exams. Practice writing measurable, client-centered SMART goals for diverse practice settings. Learn to connect evaluation findings to specific, time-bound intervention goals that reflect meaningful occupational outcomes rather than component skill improvements." },
         ],
         faqs: [
@@ -630,7 +630,7 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href={cfg.qbankPath} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-qbank">
               <Target className="w-6 h-6 mx-auto mb-2" style={{ color: cfg.color }} />
-              <div className="text-sm font-medium text-gray-800">Question Bank</div>
+              <div className="text-sm font-medium text-gray-800">Test Bank</div>
               <div className="text-xs text-gray-500 mt-1">Practice questions</div>
             </Link>
             <Link href={cfg.mockExamsPath} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-mock-exams">

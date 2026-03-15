@@ -47,7 +47,7 @@ const HUB_CONFIGS: HubConfig[] = [
     ],
     links: [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a full-length CAT-adaptive mock exam that mirrors the real NCLEX-RN testing experience.", href: "/nclex-rn/mock-exam", badge: "Popular" },
-      { icon: BookOpen, title: "Practice Questions", description: "Browse thousands of NCLEX-RN practice questions organized by body system and client needs category.", href: "/question-bank?exam=nclex-rn" },
+      { icon: BookOpen, title: "Practice Questions", description: "Browse thousands of NCLEX-RN practice questions organized by body system and client needs category.", href: "/test-bank?exam=nclex-rn" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review in-depth clinical lessons covering pathophysiology, pharmacology, and nursing interventions.", href: "/lessons?tier=rn" },
       { icon: Pill, title: "Pharmacology Review", description: "Study high-yield medications including drug classes, mechanisms of action, side effects, and nursing considerations.", href: "/medications" },
       { icon: FlaskConical, title: "Lab Values Reference", description: "Review normal ranges, clinical significance, and nursing interventions for critical lab values.", href: "/lab-values" },
@@ -75,7 +75,7 @@ const HUB_CONFIGS: HubConfig[] = [
     ],
     links: [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a full-length CAT-adaptive mock exam designed for the NCLEX-PN format and scope.", href: "/nclex-pn/mock-exam", badge: "Popular" },
-      { icon: BookOpen, title: "Practice Questions", description: "Practice with questions written within the LPN/LVN scope of practice, covering data collection and foundational care.", href: "/question-bank?exam=nclex-pn" },
+      { icon: BookOpen, title: "Practice Questions", description: "Practice with questions written within the LPN/LVN scope of practice, covering data collection and foundational care.", href: "/test-bank?exam=nclex-pn" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review clinical lessons focused on practical nursing competencies and client care.", href: "/lessons?tier=rpn" },
       { icon: Pill, title: "Pharmacology Review", description: "Study medications commonly encountered in practical nursing practice with nursing considerations.", href: "/medications" },
       { icon: FlaskConical, title: "Lab Values Reference", description: "Review normal ranges and clinical significance of common laboratory values.", href: "/lab-values" },
@@ -101,7 +101,7 @@ const HUB_CONFIGS: HubConfig[] = [
     ],
     links: [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a full-length CAT-adaptive mock exam aligned to the REx-PN competency framework.", href: "/rex-pn/mock-exam", badge: "Popular" },
-      { icon: BookOpen, title: "Practice Questions", description: "Practice with Canadian-context questions mapped to the five REx-PN competency domains.", href: "/question-bank?exam=rex-pn" },
+      { icon: BookOpen, title: "Practice Questions", description: "Practice with Canadian-context questions mapped to the five REx-PN competency domains.", href: "/test-bank?exam=rex-pn" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review clinical lessons using Canadian healthcare terminology, metric units, and scope of practice.", href: "/lessons?tier=rpn" },
       { icon: Pill, title: "Pharmacology Review", description: "Study medications approved by Health Canada with Canadian prescribing and nursing considerations.", href: "/medications" },
       { icon: FlaskConical, title: "Lab Values Reference", description: "Review lab values in SI units with Canadian normal ranges and clinical significance.", href: "/lab-values" },
@@ -128,7 +128,7 @@ const HUB_CONFIGS: HubConfig[] = [
     ],
     links: [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a 180-question linear-scaled mock exam mirroring the CNPLE format and scoring.", href: "/canada-np/mock-exam", badge: "Popular" },
-      { icon: BookOpen, title: "Practice Questions", description: "Practice with NP-level questions covering differential diagnosis, prescribing, and clinical management.", href: "/question-bank?exam=np" },
+      { icon: BookOpen, title: "Practice Questions", description: "Practice with NP-level questions covering differential diagnosis, prescribing, and clinical management.", href: "/test-bank?exam=np" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review advanced clinical lessons on health assessment, diagnosis, and therapeutics at the NP scope.", href: "/lessons?tier=np" },
       { icon: Pill, title: "Pharmacology and Prescribing", description: "Study advanced pharmacology including prescribing guidelines, drug interactions, and Health Canada formulary.", href: "/medications" },
       { icon: FlaskConical, title: "Lab and Diagnostic Interpretation", description: "Review diagnostic test interpretation including imaging, ECG, and advanced laboratory analysis.", href: "/lab-values" },
@@ -156,7 +156,7 @@ const HUB_CONFIGS: HubConfig[] = [
     ],
     links: [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a 150-question fixed-length mock exam aligned to AANP and ANCC exam blueprints.", href: "/us-np/mock-exam", badge: "Popular" },
-      { icon: BookOpen, title: "Practice Questions", description: "Practice with NP-level questions covering advanced assessment, diagnosis, and management.", href: "/question-bank?exam=np" },
+      { icon: BookOpen, title: "Practice Questions", description: "Practice with NP-level questions covering advanced assessment, diagnosis, and management.", href: "/test-bank?exam=np" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review advanced clinical lessons on primary care, acute care, and specialty NP topics.", href: "/lessons?tier=np" },
       { icon: Pill, title: "Pharmacology and Prescribing", description: "Study advanced pharmacology including FDA-approved medications, prescribing authority, and drug interactions.", href: "/medications" },
       { icon: FlaskConical, title: "Lab and Diagnostic Interpretation", description: "Review diagnostic test ordering and interpretation for NP-level clinical decision-making.", href: "/lab-values" },

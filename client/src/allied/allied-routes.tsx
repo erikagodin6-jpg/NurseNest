@@ -364,7 +364,8 @@ export function AlliedRoutes() {
         <Route path="/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
         <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
         <Route path="/physical-therapy-career-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="career-guide" />}</Route>
-        <Route path="/occupational-therapist/question-bank" component={OTQuestionBankPage} />
+        <Route path="/occupational-therapist/test-bank" component={OTQuestionBankPage} />
+        <Route path="/occupational-therapist/question-bank">{() => <Redirect to="/occupational-therapist/test-bank" />}</Route>
         <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
         <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
         <Route path="/:careerSlug/mock-exams" component={AlliedMockExams} />

@@ -11,7 +11,7 @@ const valueProps = [
   {
     id: "qbank",
     icon: BookOpen,
-    title: "Unlimited Question Bank",
+    title: "Unlimited Test Bank",
     description: "Access 2,000+ questions with full rationales covering every exam blueprint domain. Practice until you feel confident.",
   },
   {

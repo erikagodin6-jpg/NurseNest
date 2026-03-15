@@ -102,7 +102,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "14%",
     educationRequired: "Associate's degree minimum; Bachelor's preferred",
     studyResources: {
-      questionBanks: { label: "RRT Question Bank", link: "/rrt/practice-questions" },
+      questionBanks: { label: "RRT Test Bank", link: "/rrt/practice-questions" },
       flashcards: { label: "RRT Flashcards", link: "/rrt/flashcards" },
       mockExams: { label: "RRT Mock Exams", link: "/rrt/mock-exam" },
       clinicalCases: { label: "Clinical Case Studies", link: "/rrt/study-guide" },
@@ -184,7 +184,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "7%",
     educationRequired: "Bachelor's degree (MLS); Associate's degree (MLT)",
     studyResources: {
-      questionBanks: { label: "MLT Question Bank", link: "/mlt/questions" },
+      questionBanks: { label: "MLT Test Bank", link: "/mlt/questions" },
       flashcards: { label: "MLT Flashcards", link: "/mlt/flashcard-prep" },
       mockExams: { label: "MLT Mock Exams", link: "/mlt/mock-exam" },
       clinicalCases: { label: "Lab Case Studies", link: "/mlt/study-guide" },
@@ -268,7 +268,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "5%",
     educationRequired: "Certificate or Associate's degree",
     studyResources: {
-      questionBanks: { label: "Paramedic Question Bank", link: "/paramedic/questions" },
+      questionBanks: { label: "Paramedic Test Bank", link: "/paramedic/questions" },
       flashcards: { label: "Paramedic Flashcards", link: "/paramedic/flashcards" },
       mockExams: { label: "Paramedic Mock Exams", link: "/paramedic/practice-exams" },
       clinicalCases: { label: "Field Scenarios", link: "/paramedic/scenarios" },
@@ -349,7 +349,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "6%",
     educationRequired: "Associate's degree minimum; Bachelor's preferred",
     studyResources: {
-      questionBanks: { label: "Imaging Question Bank", link: "/imaging/questions" },
+      questionBanks: { label: "Imaging Test Bank", link: "/imaging/questions" },
       flashcards: { label: "Imaging Flashcards", link: "/imaging/flashcards" },
       mockExams: { label: "Imaging Mock Exams", link: "/imaging/practice-exam" },
       clinicalCases: { label: "Positioning Cases", link: "/imaging/positioning" },
@@ -430,7 +430,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "10%",
     educationRequired: "Associate's or Bachelor's degree in Diagnostic Medical Sonography",
     studyResources: {
-      questionBanks: { label: "Sonography Question Bank", link: "/imaging/questions" },
+      questionBanks: { label: "Sonography Test Bank", link: "/imaging/questions" },
       flashcards: { label: "Sonography Flashcards", link: "/imaging/flashcards" },
       mockExams: { label: "Sonography Mock Exams", link: "/imaging/practice-exam" },
       clinicalCases: { label: "Ultrasound Cases", link: "/imaging/positioning" },
@@ -592,7 +592,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "25%",
     educationRequired: "Associate's degree from ACOTE-accredited program",
     studyResources: {
-      questionBanks: { label: "OTA Question Bank", link: "/occupational-therapy/questions" },
+      questionBanks: { label: "OTA Test Bank", link: "/occupational-therapy/questions" },
       flashcards: { label: "OTA Flashcards", link: "/occupational-therapy/flashcards" },
       mockExams: { label: "OTA Mock Exams", link: "/occupational-therapy/mock-exam" },
       clinicalCases: { label: "OT Case Studies", link: "/occupational-therapy/study-guide" },
@@ -673,7 +673,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "26%",
     educationRequired: "Associate's degree from CAPTE-accredited program",
     studyResources: {
-      questionBanks: { label: "PTA Question Bank", link: "/physical-therapy/questions" },
+      questionBanks: { label: "PTA Test Bank", link: "/physical-therapy/questions" },
       flashcards: { label: "PTA Flashcards", link: "/physical-therapy/flashcards" },
       mockExams: { label: "PTA Mock Exams", link: "/physical-therapy/mock-exam" },
       clinicalCases: { label: "PT Case Studies", link: "/physical-therapy/study-guide" },
@@ -755,7 +755,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "6%",
     educationRequired: "Certificate or Associate's degree; ASHP-accredited preferred",
     studyResources: {
-      questionBanks: { label: "Pharm Tech Question Bank", link: "/pharmacy-technician/practice-questions" },
+      questionBanks: { label: "Pharm Tech Test Bank", link: "/pharmacy-technician/practice-questions" },
       flashcards: { label: "Pharm Tech Flashcards", link: "/pharmacy-technician/flashcards" },
       mockExams: { label: "Pharm Tech Mock Exams", link: "/pharmacy-technician/exams" },
       clinicalCases: { label: "Pharmacy Cases", link: "/pharmacy-technician/study-guide" },
@@ -837,7 +837,7 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     growthRate: "5%",
     educationRequired: "Associate's degree or Certificate from CAAHEP-accredited program",
     studyResources: {
-      questionBanks: { label: "Surg Tech Question Bank", link: "/perioperative/questions" },
+      questionBanks: { label: "Surg Tech Test Bank", link: "/perioperative/questions" },
       flashcards: { label: "Surg Tech Flashcards", link: "/perioperative/flashcards" },
       mockExams: { label: "Surg Tech Mock Exams", link: "/perioperative/mock-exam" },
       clinicalCases: { label: "Surgical Cases", link: "/perioperative/study-guide" },

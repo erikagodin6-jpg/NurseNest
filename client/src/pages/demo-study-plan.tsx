@@ -113,7 +113,7 @@ const RECOMMENDED_RESOURCES = [
   { title: "Pharmacology: Antihypertensives Deck", type: "Flashcard Deck", icon: Brain, color: "bg-[#f3efff] text-[#9d82dd]", action: "Open Recommended Deck" },
   { title: "Renal System: Complete Review", type: "Lesson Module", icon: BookOpen, color: "bg-[#e8f4fc] text-[#4da3d4]", action: "Review Linked Lesson" },
   { title: "Sepsis: Early Recognition Signs", type: "Clinical Lesson", icon: Stethoscope, color: "bg-[#fdeef0] text-[#e86b7a]", action: "Review Linked Lesson" },
-  { title: "NCLEX Pharmacology Question Set", type: "Question Bank", icon: ClipboardList, color: "bg-[#e0f8f0] text-[#3bba8e]", action: "Start Practice Set" },
+  { title: "NCLEX Pharmacology Question Set", type: "Test Bank", icon: ClipboardList, color: "bg-[#e0f8f0] text-[#3bba8e]", action: "Start Practice Set" },
   { title: "Fluid & Electrolyte Imbalances", type: "Flashcard Deck", icon: Brain, color: "bg-[#fff3e6] text-[#e8943a]", action: "Open Recommended Deck" },
 ];
 

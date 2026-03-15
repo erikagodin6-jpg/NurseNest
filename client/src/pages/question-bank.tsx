@@ -311,13 +311,13 @@ export default function QuestionBank() {
   const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const qbTierConfig = getTierConfig(effectiveTier);
   const qbTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
-    ? qbTierConfig.questionBankLabel
-    : "Question Bank";
+    ? qbTierConfig.testBankLabel
+    : "Test Bank";
 
   if (mode === "exam" && examSession?.submitted && examReport) {
     return (
       <>
-        <SEO title={`${qbTitle} - Exam Results`} description="View your practice exam results." canonicalPath="/question-bank" />
+        <SEO title={`${qbTitle} - Exam Results`} description="View your practice exam results." canonicalPath="/test-bank" />
         <Navigation />
         <main className="min-h-screen bg-warmwhite">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -414,7 +414,7 @@ export default function QuestionBank() {
               <Button onClick={() => { exitExam(); startExamSession(); }} className="rounded-xl bg-primary hover:bg-primary/90 text-white shadow-sm gap-2 px-6" data-testid="button-retake-exam">
                 <RotateCcw className="h-4 w-4" /> Retake Exam
               </Button>
-              <Button variant="outline" onClick={exitExam} className="rounded-xl border-gray-200 px-6" data-testid="button-back-to-study">Back to Question Bank</Button>
+              <Button variant="outline" onClick={exitExam} className="rounded-xl border-gray-200 px-6" data-testid="button-back-to-study">Back to Test Bank</Button>
             </div>
           </div>
         </main>
@@ -432,7 +432,7 @@ export default function QuestionBank() {
 
     return (
       <>
-        <SEO title={`${qbTitle} - Practice Exam`} description="Timed practice exam with randomized questions." canonicalPath="/question-bank" />
+        <SEO title={`${qbTitle} - Practice Exam`} description="Timed practice exam with randomized questions." canonicalPath="/test-bank" />
         <div className="min-h-screen bg-warmwhite font-sans text-gray-900">
           <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/60 shadow-sm" data-testid="exam-mode-top-bar">
             <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -514,8 +514,8 @@ export default function QuestionBank() {
       <SEO
         title={`${qbTitle} - Practice Questions`}
         description="Practice thousands of nursing questions with instant rationale. Filter by tier (RPN, RN, NP) and body system. Prepare for NCLEX and Canadian nursing exams."
-        canonicalPath="/question-bank"
-        keywords="nursing question bank, practice questions, NCLEX prep, nursing exam questions, RPN questions, RN questions, NP questions"
+        canonicalPath="/test-bank"
+        keywords="nursing test bank, practice questions, NCLEX prep, nursing exam questions, RPN questions, RN questions, NP questions"
       />
 
       <Navigation />

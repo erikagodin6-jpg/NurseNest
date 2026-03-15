@@ -178,7 +178,7 @@ export default function AlliedHealthArticlePage() {
             <p className="text-gray-600 mb-5">Access {profession.shortName}-specific study tools to prepare for your certification exam.</p>
             <div className="flex flex-wrap gap-3">
               <Link href={profession.studyResourceCTAs.questionBank} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-article-qbank">
-                <BookOpen className="w-4 h-4" /> Question Bank
+                <BookOpen className="w-4 h-4" /> Test Bank
               </Link>
               <Link href={profession.studyResourceCTAs.flashcards} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-article-flashcards">
                 <Layers className="w-4 h-4" /> Flashcards

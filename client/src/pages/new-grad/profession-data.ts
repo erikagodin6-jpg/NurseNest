@@ -97,7 +97,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Ask Questions Without Shame", desc: "Your first year is your learning year. It's better to ask a 'stupid' question than to make a preventable error. Seek out experienced nurses as mentors." },
     ],
     resources: [
-      { title: "NCLEX Prep Question Bank", desc: "2,400+ practice questions with detailed rationales", href: "/question-bank" },
+      { title: "NCLEX Prep Test Bank", desc: "2,400+ practice questions with detailed rationales", href: "/test-bank" },
       { title: "Clinical Flashcards", desc: "Spaced repetition flashcards for pharmacology and pathophysiology", href: "/flashcards" },
       { title: "Mock Exams", desc: "Adaptive CAT-style practice exams simulating real test conditions", href: "/mock-exams" },
       { title: "Clinical Simulators", desc: "Interactive clinical decision-making scenarios", href: "/case-simulations" },
@@ -158,7 +158,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Build a Debrief Habit", desc: "After every significant call, debrief with your partner. Discuss what went well, what could improve, and how you felt. This builds resilience and clinical growth." },
     ],
     resources: [
-      { title: "Paramedic Question Bank", desc: "NREMT and PCP/ACP practice questions with rationales", href: "/allied/paramedic" },
+      { title: "Paramedic Test Bank", desc: "NREMT and PCP/ACP practice questions with rationales", href: "/allied/paramedic" },
       { title: "Clinical Scenarios", desc: "Interactive pre-hospital case scenarios", href: "/allied/paramedic/scenarios" },
       { title: "ECG Library", desc: "Rhythm recognition practice and interpretation guides", href: "/allied/paramedic/ecg-library" },
       { title: "Pharmacology Flashcards", desc: "Emergency medication dosing and protocols", href: "/allied/paramedic/flashcards" },
@@ -219,7 +219,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Document Your Clinical Reasoning", desc: "Don't just chart what you did — chart why. When you change ventilator settings or recommend a therapy change, document the clinical rationale. This protects you and improves care continuity." },
     ],
     resources: [
-      { title: "RT Exam Question Bank", desc: "RRT and CRT practice questions with detailed rationales", href: "/allied/respiratory-therapy" },
+      { title: "RT Exam Test Bank", desc: "RRT and CRT practice questions with detailed rationales", href: "/allied/respiratory-therapy" },
       { title: "ABG Interpretation Guide", desc: "Step-by-step arterial blood gas analysis tutorials", href: "/allied/respiratory-therapy/lessons" },
       { title: "Ventilator Management", desc: "Mechanical ventilation modes, settings, and troubleshooting", href: "/allied/respiratory-therapy/flashcards" },
       { title: "Pulmonary Diagnostics", desc: "PFT interpretation and diagnostic procedure guides", href: "/allied/respiratory-therapy" },
@@ -280,7 +280,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Document Everything", desc: "Record instrument issues, QC corrections, specimen rejections, and unusual findings. Good documentation protects you during audits and helps identify systemic issues." },
     ],
     resources: [
-      { title: "MLT Exam Question Bank", desc: "ASCP and CSMLS practice questions with rationales", href: "/allied/mlt" },
+      { title: "MLT Exam Test Bank", desc: "ASCP and CSMLS practice questions with rationales", href: "/allied/mlt" },
       { title: "Laboratory Flashcards", desc: "Hematology, chemistry, and microbiology review cards", href: "/allied/mlt/flashcards" },
       { title: "Mock Exams", desc: "Timed certification practice exams", href: "/allied/mlt/mock-exams" },
       { title: "Lab Image Library", desc: "Microscopy, morphology, and Gram stain identification", href: "/allied/mlt/image-library" },
@@ -341,7 +341,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Review Your Images Critically", desc: "Before dismissing the patient, critically evaluate every image for positioning, technique, and anatomy. Catching issues immediately prevents callbacks and patient inconvenience." },
     ],
     resources: [
-      { title: "Imaging Exam Question Bank", desc: "ARRT and CAMRT practice questions with rationales", href: "/allied/imaging" },
+      { title: "Imaging Exam Test Bank", desc: "ARRT and CAMRT practice questions with rationales", href: "/allied/imaging" },
       { title: "Physics Review", desc: "Radiation physics and imaging science fundamentals", href: "/allied/imaging/physics" },
       { title: "Positioning Flashcards", desc: "Anatomy and positioning reference cards", href: "/allied/imaging/flashcards" },
       { title: "Mock Exams", desc: "Timed certification practice exams", href: "/allied/imaging/mock-exams" },
@@ -402,7 +402,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Network with Other New Grads", desc: "Join your state OT association, attend conferences, and connect with OT communities online. Peer support during your first year prevents isolation and provides clinical resources." },
     ],
     resources: [
-      { title: "NBCOT Exam Question Bank", desc: "OTR certification practice questions with rationales", href: "/allied/occupational-therapy" },
+      { title: "NBCOT Exam Test Bank", desc: "OTR certification practice questions with rationales", href: "/allied/occupational-therapy" },
       { title: "OT Flashcards", desc: "Assessment tools, frames of reference, and intervention review", href: "/allied/occupational-therapy/flashcards" },
       { title: "Mock Exams", desc: "Timed NBCOT-style practice exams", href: "/allied/occupational-therapy/mock-exams" },
       { title: "Clinical Reasoning Scenarios", desc: "Case-based clinical decision-making practice", href: "/allied/occupational-therapy" },
@@ -463,7 +463,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Learn the Systems You Work Within", desc: "Understand insurance billing, Medicaid/Medicare requirements, agency policies, and mandated reporting laws in your jurisdiction. System literacy makes you effective and protects your clients." },
     ],
     resources: [
-      { title: "ASWB Exam Question Bank", desc: "Licensing exam practice questions with detailed rationales", href: "/allied/social-work" },
+      { title: "ASWB Exam Test Bank", desc: "Licensing exam practice questions with detailed rationales", href: "/allied/social-work" },
       { title: "Clinical Assessment Tools", desc: "DSM-5 diagnostic frameworks and screening instruments", href: "/allied/social-work/flashcards" },
       { title: "Mock Exams", desc: "Timed ASWB-style practice exams", href: "/allied/social-work/mock-exams" },
       { title: "Ethics Case Studies", desc: "Navigate complex ethical scenarios in social work practice", href: "/allied/social-work" },
@@ -524,7 +524,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Document Your Clinical Reasoning", desc: "Treatment notes should reflect your therapeutic rationale, not just session content. Document why you chose specific interventions, how they align with the treatment plan, and what clinical reasoning guided your decisions." },
     ],
     resources: [
-      { title: "Registration Exam Question Bank", desc: "CRPO and EPPP practice questions with rationales", href: "/allied/psychotherapy" },
+      { title: "Registration Exam Test Bank", desc: "CRPO and EPPP practice questions with rationales", href: "/allied/psychotherapy" },
       { title: "Therapeutic Modality Guides", desc: "CBT, DBT, EMDR, and psychodynamic approach summaries", href: "/allied/psychotherapy/flashcards" },
       { title: "Mock Exams", desc: "Timed registration exam practice tests", href: "/allied/psychotherapy/mock-exams" },
       { title: "Ethics Case Studies", desc: "Navigate complex ethical scenarios in psychotherapy", href: "/allied/psychotherapy" },
@@ -585,7 +585,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Practice Your Own Recovery & Self-Care", desc: "Whether or not you are personally in recovery, working in addictions is emotionally demanding. Maintain your own wellness practices, seek supervision regularly, and recognize signs of secondary traumatic stress early." },
     ],
     resources: [
-      { title: "Certification Exam Question Bank", desc: "IC&RC and NAADAC practice questions with rationales", href: "/allied/addictions-counseling" },
+      { title: "Certification Exam Test Bank", desc: "IC&RC and NAADAC practice questions with rationales", href: "/allied/addictions-counseling" },
       { title: "MI Skills Practice", desc: "Motivational interviewing techniques and practice scenarios", href: "/allied/addictions-counseling/flashcards" },
       { title: "Mock Exams", desc: "Timed certification practice exams", href: "/allied/addictions-counseling/mock-exams" },
       { title: "Screening Tool Library", desc: "AUDIT, DAST, CAGE, and ASI administration guides", href: "/allied/addictions-counseling" },

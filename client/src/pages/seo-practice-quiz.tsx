@@ -242,7 +242,7 @@ export default function SeoPracticeQuiz() {
                     <LocaleLink href="/pricing">
                       <Button data-testid="button-unlock-full">
                         <Star className="w-4 h-4 mr-2" />
-                        Unlock Full Question Bank
+                        Unlock Full Test Bank
                       </Button>
                     </LocaleLink>
                     <LocaleLink href="/trial">
@@ -367,10 +367,10 @@ export default function SeoPracticeQuiz() {
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Try Again
                   </Button>
-                  <LocaleLink href="/question-bank">
+                  <LocaleLink href="/test-bank">
                     <Button data-testid="button-full-bank">
                       <BookOpen className="w-4 h-4 mr-2" />
-                      Full Question Bank
+                      Full Test Bank
                     </Button>
                   </LocaleLink>
                 </div>
@@ -383,7 +383,7 @@ export default function SeoPracticeQuiz() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-2 justify-center">
                       <LocaleLink href="/pricing">
-                        <Button size="sm" data-testid="button-unlock-upgrade">Unlock Full Question Bank</Button>
+                        <Button size="sm" data-testid="button-unlock-upgrade">Unlock Full Test Bank</Button>
                       </LocaleLink>
                       <LocaleLink href="/mock-exams">
                         <Button size="sm" variant="outline" data-testid="button-try-adaptive">Try Adaptive Exam</Button>

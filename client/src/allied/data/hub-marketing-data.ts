@@ -144,7 +144,7 @@ export const HUB_MARKETING: Record<string, HubMarketingData> = {
     ],
     faq: [
       { question: "What exams does NurseNest Allied cover for respiratory therapy?", answer: "NurseNest Allied covers the NBRC Therapist Multiple-Choice (TMC) exam and the Clinical Simulation Exam (CSE). Our questions are mapped to the official NBRC exam blueprint, and our mock exams simulate both the TMC format and the branching-logic CSE format. We also cover the CBRC exam for Canadian respiratory therapists." },
-      { question: "How are the respiratory therapy questions different from generic question banks?", answer: "Every question includes a 600+ word rationale that explains the clinical reasoning — not just which answer is correct. Questions cover ABG interpretation, ventilator management, pharmacology, and patient assessment in the depth you need for the TMC and CSE." },
+      { question: "How are the respiratory therapy questions different from generic test banks?", answer: "Every question includes a 600+ word rationale that explains the clinical reasoning — not just which answer is correct. Questions cover ABG interpretation, ventilator management, pharmacology, and patient assessment in the depth you need for the TMC and CSE." },
       { question: "Does the platform cover ventilator management?", answer: "Yes. We have an interactive Ventilator Mode Simulator that lets you practice adjusting settings and interpreting waveforms. The question bank also includes hundreds of ventilator management scenarios across AC, SIMV, PSV, APRV, and HFOV modes." },
       { question: "Is the content aligned with the NBRC exam blueprint?", answer: "Yes. Our question bank and mock exams are mapped to the current NBRC TMC and CSE exam blueprints. Each practice session shows your performance by exam domain so you can target weak areas." },
       { question: "Can I practice ABG interpretation?", answer: "Absolutely. Our ABG Interpretation Engine provides unlimited ABG scenarios with step-by-step feedback on acid-base classification, compensation analysis, and clinical decision-making. It's one of the most popular tools on the platform." },
@@ -203,7 +203,7 @@ export const HUB_MARKETING: Record<string, HubMarketingData> = {
       { title: "Focus on Patient Assessment", description: "Patient assessment is the foundation of every NREMT question. Master the primary and secondary survey until the sequence is automatic." },
       { title: "Know Your Cardiac Rhythms", description: "ECG interpretation is heavily tested. Be able to identify all lethal rhythms, STEMI patterns, and common dysrhythmias at a glance." },
       { title: "Master Pharmacology Dosages", description: "Know drug names, doses, routes, indications, and contraindications cold. Use flashcards with spaced repetition for high-yield medications." },
-      { title: "Practice CAT-Style Questions", description: "The NREMT uses computer-adaptive testing. Practice with adaptive question banks that adjust difficulty based on your performance." },
+      { title: "Practice CAT-Style Questions", description: "The NREMT uses computer-adaptive testing. Practice with adaptive test banks that adjust difficulty based on your performance." },
       { title: "Don't Neglect Operations and Ethics", description: "Questions on scene safety, triage protocols, documentation, and ethical decision-making appear on every exam. Don't skip these domains." },
     ],
     instructors: [

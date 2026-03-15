@@ -461,7 +461,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <Brain className="w-4 h-4" /> Recommended Question Banks
+              <Brain className="w-4 h-4" /> Recommended Test Banks
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -510,7 +510,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
             <div className="flex items-start gap-3">
               <Crown className="w-8 h-8 text-primary shrink-0" />
               <div>
-                <h3 className="font-semibold text-sm mb-1">Unlock Targeted Question Banks</h3>
+                <h3 className="font-semibold text-sm mb-1">Unlock Targeted Test Banks</h3>
                 <p className="text-xs text-gray-600 mb-3">
                   Get targeted practice for your weakest areas. Premium members can take multiple diagnostics,
                   get updated study plans every 2 weeks, and access advanced analytics.

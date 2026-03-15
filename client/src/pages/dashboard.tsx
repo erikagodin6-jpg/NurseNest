@@ -520,31 +520,31 @@ function WelcomeWidget({ user }: { user: any }) {
 
   const tierQuickActions: Record<string, Array<{ label: string; path: string; icon: any; variant?: "default" | "outline" }>> = {
     free: [
-      { label: "Try Free Practice", path: "/question-bank", icon: FlaskConical, variant: "default" },
+      { label: "Try Free Practice", path: "/test-bank", icon: FlaskConical, variant: "default" },
       { label: "Browse Lessons", path: "/lessons", icon: BookOpen, variant: "outline" },
       { label: "View Plans", path: "/pricing", icon: Award, variant: "outline" },
     ],
     rpn: [
       { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
-      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Test Bank", path: "/test-bank", icon: FlaskConical, variant: "outline" },
       { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
       { label: "Lessons", path: "/lessons", icon: BookOpen, variant: "outline" },
     ],
     rn: [
       { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
-      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Test Bank", path: "/test-bank", icon: FlaskConical, variant: "outline" },
       { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
       { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
     ],
     np: [
       { label: config.examNames.practice, path: "/mock-exams", icon: ClipboardList, variant: "default" },
-      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Test Bank", path: "/test-bank", icon: FlaskConical, variant: "outline" },
       { label: "Flashcards", path: "/flashcard-study", icon: Brain, variant: "outline" },
       { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
     ],
     admin: [
       { label: "Mock Exams", path: "/mock-exams", icon: ClipboardList, variant: "default" },
-      { label: "Question Bank", path: "/question-bank", icon: FlaskConical, variant: "outline" },
+      { label: "Test Bank", path: "/test-bank", icon: FlaskConical, variant: "outline" },
       { label: "Admin Panel", path: "/admin", icon: Activity, variant: "outline" },
       { label: "Question of the Day", path: "/question-of-the-day", icon: Target, variant: "outline" },
     ],
@@ -706,7 +706,7 @@ function QuickLinksWidget({ user }: { user: any }) {
     { label: t("dashboard.quickMedMath"), icon: FlaskConical, path: "/med-math", desc: t("dashboard.quickMedMathDesc") },
     { label: t("dashboard.quickLabValues"), icon: Activity, path: "/lab-values", desc: t("dashboard.quickLabValuesDesc") },
     { label: t("dashboard.quickClinicalClarity"), icon: Stethoscope, path: "/clinical-clarity", desc: t("dashboard.quickClinicalClarityDesc") },
-    { label: t("dashboard.quickQuestionBank"), icon: ClipboardList, path: "/question-bank", desc: t("dashboard.quickQuestionBankDesc") },
+    { label: t("dashboard.quickTestBank"), icon: ClipboardList, path: "/test-bank", desc: t("dashboard.quickTestBankDesc") },
     { label: t("dashboard.quickPharmacology"), icon: Pill, path: "/flashcards", desc: t("dashboard.quickPharmacologyDesc") },
     { label: t("dashboard.quickBlog"), icon: FileText, path: "/blog", desc: t("dashboard.quickBlogDesc") },
   ];

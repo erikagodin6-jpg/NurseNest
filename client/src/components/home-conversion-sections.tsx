@@ -423,7 +423,7 @@ function CompetitivePositioningSection({
     {
       feature: "Question Volume",
       ours: `${formatMarketingCount(questions)} exam-style questions across all tiers`,
-      typical: "Limited question banks, often under 2,000",
+      typical: "Limited test banks, often under 2,000",
       icon: Target,
     },
     {
@@ -597,7 +597,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       color: "bg-blue-100",
       iconColor: "text-blue-600",
       tags: ["Multiple Choice", "SATA", "NGN", "Rationales"],
-      href: "/question-bank",
+      href: "/test-bank",
     },
     {
       icon: Layers,

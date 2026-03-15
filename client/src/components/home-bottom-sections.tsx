@@ -517,11 +517,11 @@ export function HomeBottomSections({
                 </div>
               </div>
 
-              {/* Question Bank */}
+              {/* Test Bank */}
               <div
                 className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
-                onClick={() => setLocation("/question-bank")}
-                data-testid="card-feature-question-bank"
+                onClick={() => setLocation("/test-bank")}
+                data-testid="card-feature-test-bank"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-100/50 to-transparent rounded-bl-full" />
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">

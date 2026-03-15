@@ -68,7 +68,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["NREMT (National Registry of Emergency Medical Technicians)", "Provincial Paramedic Regulatory Bodies (Canada)"],
     examFormat: "The NREMT uses computer adaptive testing (CAT) with 70-120 questions. Canadian PCP exams are typically 150-200 multiple-choice questions with clinical scenario-based items.",
     features: [
-      { icon: Target, title: "Paramedic Question Bank", desc: "500+ exam-aligned questions covering trauma, medical emergencies, cardiology, pharmacology, and operations.", href: "/paramedic/questions", cta: "Browse Questions" },
+      { icon: Target, title: "Paramedic Test Bank", desc: "500+ exam-aligned questions covering trauma, medical emergencies, cardiology, pharmacology, and operations.", href: "/paramedic/questions", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length NREMT-style adaptive exams and PCP/ACP blueprint-weighted practice tests.", href: "/paramedic/practice-exams", cta: "Start Mock Exam" },
       { icon: Activity, title: "ECG Interpretation Drills", desc: "Practice 12-lead ECG rhythm identification with clinical correlation and treatment protocols.", href: "/paramedic/ecg-library", cta: "Practice ECGs" },
       { icon: BookOpen, title: "Flashcard Decks", desc: "Spaced repetition flashcards covering pharmacology, protocols, anatomy, and assessment findings.", href: "/paramedic/flashcards", cta: "Study Flashcards" },
@@ -125,7 +125,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["NBRC (National Board for Respiratory Care)", "CBRC (Canadian Board for Respiratory Care)"],
     examFormat: "The TMC is a 160-question multiple-choice exam (100 scored + 60 pretest) with a 3-hour time limit. The CSE consists of branching clinical simulation scenarios testing patient management decisions.",
     features: [
-      { icon: Target, title: "RRT Question Bank", desc: "500+ respiratory therapy questions covering all NBRC domains with 600+ word clinical rationales.", href: "/rrt/questions", cta: "Browse Questions" },
+      { icon: Target, title: "RRT Test Bank", desc: "500+ respiratory therapy questions covering all NBRC domains with 600+ word clinical rationales.", href: "/rrt/questions", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length TMC simulations with adaptive difficulty and domain-level scoring analytics.", href: "/rrt/mock-exams", cta: "Start Mock Exam" },
       { icon: Activity, title: "ABG Interpretation Engine", desc: "Practice unlimited ABG analysis with instant feedback on acid-base disorders and compensation.", href: "/rrt/abg-engine", cta: "Practice ABGs" },
       { icon: BookOpen, title: "Flashcard Decks", desc: "Spaced repetition flashcards for ventilator settings, drug dosages, and pulmonary function values.", href: "/rrt/flashcards", cta: "Study Flashcards" },
@@ -182,7 +182,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["CSMLS (Canadian Society for Medical Laboratory Science)", "ASCP (American Society for Clinical Pathology)"],
     examFormat: "CSMLS: 200 questions in a 250-minute session. ASCP BOC: Content-weighted multiple-choice exam. Both include image-based questions requiring specimen and result identification.",
     features: [
-      { icon: Target, title: "MLT Question Bank", desc: "1,000+ exam-aligned questions across all 16 MLT disciplines with 600+ word rationales.", href: "/mlt/exam-prep", cta: "Browse Questions" },
+      { icon: Target, title: "MLT Test Bank", desc: "1,000+ exam-aligned questions across all 16 MLT disciplines with 600+ word rationales.", href: "/mlt/exam-prep", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length CSMLS and ASCP BOC simulations with blueprint-weighted question distribution.", href: "/mlt/mock-exam", cta: "Start Mock Exam" },
       { icon: Microscope, title: "Image-Based Drills", desc: "Practice cell morphology, Gram stain, crystal, and colony identification with lab images.", href: "/mlt/image-drill", cta: "Start Image Drill" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for reference ranges, staining characteristics, and organism ID.", href: "/mlt/flashcard-prep", cta: "Study Flashcards" },
@@ -239,7 +239,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["CAMRT (Canadian Association of Medical Radiation Technologists)", "ARRT (American Registry of Radiologic Technologists)"],
     examFormat: "The ARRT exam consists of 200 questions with a 3.5-hour time limit covering radiation protection, equipment operation, image production, procedures, and patient care. The CAMRT exam follows a similar format aligned with Canadian practice standards.",
     features: [
-      { icon: Target, title: "Radiography Question Bank", desc: "Practice questions covering patient positioning, image evaluation, physics, and radiation safety.", href: "/medical-imaging", cta: "Browse Questions" },
+      { icon: Target, title: "Radiography Test Bank", desc: "Practice questions covering patient positioning, image evaluation, physics, and radiation safety.", href: "/medical-imaging", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length CAMRT/ARRT practice exams with adaptive difficulty and domain scoring.", href: "/medical-imaging/canada/exam-simulator", cta: "Start Mock Exam" },
       { icon: BookOpen, title: "Positioning Guides", desc: "Visual positioning guides with anatomy, tube angles, SID, and image evaluation criteria.", href: "/medical-imaging/canada/positioning", cta: "View Positioning" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards covering anatomy, positioning, exposure factors, and physics.", href: "/medical-imaging/canada/flashcards", cta: "Study Flashcards" },
@@ -296,7 +296,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["ASWB (Association of Social Work Boards)", "State Social Work Licensing Boards", "Provincial Social Work Regulatory Bodies (Canada)"],
     examFormat: "Each ASWB exam consists of 170 multiple-choice questions (150 scored + 20 pretest) with a 4-hour time limit. Questions are scenario-based, testing application of social work knowledge to clinical situations.",
     features: [
-      { icon: Target, title: "ASWB Question Bank", desc: "500+ exam-aligned questions with case vignettes covering assessment, intervention, ethics, and diagnosis.", href: "/social-worker/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "ASWB Test Bank", desc: "500+ exam-aligned questions with case vignettes covering assessment, intervention, ethics, and diagnosis.", href: "/social-worker/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length ASWB simulations with domain-level scoring and performance analytics.", href: "/social-worker/mock-exams", cta: "Start Mock Exam" },
       { icon: Brain, title: "DSM-5 Diagnosis Simulator", desc: "Practice differential diagnosis with realistic client presentations and diagnostic criteria.", href: "/social-work/practice-questions", cta: "Practice Diagnosis" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for DSM-5 criteria, ethical principles, and treatment modalities.", href: "/social-worker/flashcards", cta: "Study Flashcards" },
@@ -329,7 +329,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
       { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to evaluate your readiness across all ASWB content areas, plus access sample questions with full rationales." },
       { q: "How long should I study for the ASWB exam?", a: "Most candidates study 8-12 weeks, dedicating 10-15 hours per week. Our personalized study planner creates an optimized schedule based on your diagnostic results and exam date." },
     ],
-    ctaPrimary: { label: "Start Free Practice", href: "/social-worker/question-bank" },
+    ctaPrimary: { label: "Start Free Practice", href: "/social-worker/test-bank" },
     ctaSecondary: { label: "Take Mock Exam", href: "/social-worker/mock-exams" },
     relatedProfessions: [
       { label: "Psychotherapy Exam Prep", href: "/psychotherapy-exam-prep" },
@@ -353,7 +353,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["CRPO (College of Registered Psychotherapists of Ontario)", "NBCC (National Board for Certified Counselors)", "CCPA (Canadian Counselling and Psychotherapy Association)"],
     examFormat: "The CRPO exam uses a competency-based multiple-choice format. The NCE consists of 200 questions (160 scored) covering 8 content areas with a 3-hour 45-minute time limit.",
     features: [
-      { icon: Target, title: "Psychotherapy Question Bank", desc: "400+ exam-aligned questions covering therapeutic modalities, psychopathology, ethics, and clinical practice.", href: "/psychotherapist/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "Psychotherapy Test Bank", desc: "400+ exam-aligned questions covering therapeutic modalities, psychopathology, ethics, and clinical practice.", href: "/psychotherapist/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length CRPO, NCE, and CMHCE simulations with domain-level analytics.", href: "/psychotherapist/mock-exams", cta: "Start Mock Exam" },
       { icon: Brain, title: "Modality Simulator", desc: "Practice applying CBT, DBT, EMDR, MI, and other modalities to clinical case vignettes.", href: "/psychotherapy/practice-questions", cta: "Practice Modalities" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for therapeutic techniques, ethical principles, and DSM-5 criteria.", href: "/psychotherapist/flashcards", cta: "Study Flashcards" },
@@ -386,7 +386,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
       { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to evaluate your readiness, plus access sample questions with full clinical rationales." },
       { q: "How long should I study?", a: "Most candidates study 8-12 weeks. Our study planner creates an adaptive schedule based on your diagnostic results, target exam, and available study time." },
     ],
-    ctaPrimary: { label: "Start Free Practice", href: "/psychotherapist/question-bank" },
+    ctaPrimary: { label: "Start Free Practice", href: "/psychotherapist/test-bank" },
     ctaSecondary: { label: "Take Mock Exam", href: "/psychotherapist/mock-exams" },
     relatedProfessions: [
       { label: "Social Work Exam Prep", href: "/social-work-exam-prep" },
@@ -410,7 +410,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["IC&RC (International Certification & Reciprocity Consortium)", "OASAS/CASAC (New York)", "CACCF/CCAC (Canada)"],
     examFormat: "The IC&RC ADC exam consists of 150 multiple-choice questions with a 3-hour time limit, covering 8 performance domains from screening and assessment through counseling, case management, and professional ethics.",
     features: [
-      { icon: Target, title: "Addictions Question Bank", desc: "500+ exam-aligned questions covering all 8 IC&RC performance domains with clinical rationales.", href: "/addictions-counsellor/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "Addictions Test Bank", desc: "500+ exam-aligned questions covering all 8 IC&RC performance domains with clinical rationales.", href: "/addictions-counsellor/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length IC&RC ADC simulations with domain-level scoring and performance analytics.", href: "/addictions-counsellor/mock-exams", cta: "Start Mock Exam" },
       { icon: Shield, title: "MI Practice Simulator", desc: "Practice OARS techniques, rolling with resistance, and developing discrepancy with AI clients.", href: "/addictions/practice-questions", cta: "Practice MI" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for substance pharmacology, screening tools, and relapse prevention.", href: "/addictions-counsellor/flashcards", cta: "Study Flashcards" },
@@ -443,7 +443,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
       { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to identify your strengths and gaps across all addiction counseling domains, plus access sample questions with full rationales." },
       { q: "How long should I study for the IC&RC ADC exam?", a: "Most students study 6-10 weeks. Our study planner creates an adaptive schedule based on your diagnostic results and exam date." },
     ],
-    ctaPrimary: { label: "Start Free Practice", href: "/addictions-counsellor/question-bank" },
+    ctaPrimary: { label: "Start Free Practice", href: "/addictions-counsellor/test-bank" },
     ctaSecondary: { label: "Take Mock Exam", href: "/addictions-counsellor/mock-exams" },
     relatedProfessions: [
       { label: "Social Work Exam Prep", href: "/social-work-exam-prep" },
@@ -467,7 +467,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["NBCOT (National Board for Certification in Occupational Therapy)", "CAOT (Canadian Association of Occupational Therapists)", "State/Provincial OT Regulatory Boards"],
     examFormat: "The NBCOT OTR exam consists of 200 questions (170 scored + 30 pretest) including multiple-choice and clinical simulation items, with a 4-hour time limit. The NOTCE follows a similar format aligned with Canadian practice standards.",
     features: [
-      { icon: Target, title: "OT Question Bank", desc: "500+ NBCOT-aligned questions with case vignettes across all OT practice domains.", href: "/occupational-therapist/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "OT Test Bank", desc: "500+ NBCOT-aligned questions with case vignettes across all OT practice domains.", href: "/occupational-therapist/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length NBCOT OTR simulations with clinical simulation items and domain scoring.", href: "/occupational-therapist/mock-exams", cta: "Start Mock Exam" },
       { icon: Hand, title: "Case Analysis Simulator", desc: "Practice clinical reasoning with OT-specific vignettes across pediatric, adult, and geriatric settings.", href: "/occupational-therapy/practice-questions", cta: "Practice Cases" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for assessment tools, frames of reference, and developmental milestones.", href: "/occupational-therapy/flashcards", cta: "Study Flashcards" },
@@ -500,7 +500,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
       { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to identify strengths and gaps across all OT content areas, plus access sample questions with full clinical rationales." },
       { q: "How long should I study for the NBCOT exam?", a: "Most students study 8-12 weeks. Our study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
-    ctaPrimary: { label: "Start Free Practice", href: "/occupational-therapist/question-bank" },
+    ctaPrimary: { label: "Start Free Practice", href: "/occupational-therapist/test-bank" },
     ctaSecondary: { label: "Take Mock Exam", href: "/occupational-therapist/mock-exams" },
     relatedProfessions: [
       { label: "Physical Therapy Exam Prep", href: "/physical-therapy-exam-prep" },
@@ -524,7 +524,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["FSBPT (Federation of State Boards of Physical Therapy)", "CAPR (Canadian Alliance of Physiotherapy Regulators)", "State/Provincial PT Regulatory Boards"],
     examFormat: "The NPTE-PT exam consists of 250 questions (200 scored + 50 pretest) in a 5-hour time limit. The PCE consists of a written component and a clinical component aligned with Canadian physiotherapy competency standards.",
     features: [
-      { icon: Target, title: "PT Question Bank", desc: "500+ NPTE-aligned questions with clinical case vignettes across all body systems.", href: "/physical-therapy-practice-questions", cta: "Browse Questions" },
+      { icon: Target, title: "PT Test Bank", desc: "500+ NPTE-aligned questions with clinical case vignettes across all body systems.", href: "/physical-therapy-practice-questions", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "Full-length NPTE simulations with domain scoring and performance analytics.", href: "/physical-therapy-exam-prep", cta: "Start Mock Exam" },
       { icon: Activity, title: "Clinical Case Simulations", desc: "Practice clinical reasoning with orthopedic, neurological, and cardiopulmonary patient cases.", href: "/physical-therapy-practice-questions", cta: "Practice Cases" },
       { icon: Layers, title: "Flashcard Decks", desc: "Spaced repetition flashcards for special tests, manual therapy, and pharmacology.", href: "/physical-therapy-study-guide", cta: "Study Flashcards" },
@@ -581,7 +581,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
     certifyingBodies: ["NCSBN (National Council of State Boards of Nursing)", "AANP (American Association of Nurse Practitioners)", "ANCC (American Nurses Credentialing Center)"],
     examFormat: "The NCLEX uses computerized adaptive testing (CAT). NCLEX-RN: 75-145 questions. NCLEX-PN: 85-150 questions. NP exams: 150-175 fixed-length questions.",
     features: [
-      { icon: Target, title: "Nursing Question Bank", desc: "4,000+ practice questions organized by body system and tier (RPN, RN, NP) with detailed rationales.", href: "/question-bank", cta: "Browse Questions" },
+      { icon: Target, title: "Nursing Test Bank", desc: "4,000+ practice questions organized by body system and tier (RPN, RN, NP) with detailed rationales.", href: "/test-bank", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Mock Exam Simulator", desc: "CAT-adaptive mock exams simulating NCLEX-RN, NCLEX-PN, REx-PN, and NP certification.", href: "/mock-exams", cta: "Start Mock Exam" },
       { icon: BookOpen, title: "200+ Clinical Lessons", desc: "In-depth pathophysiology and nursing intervention lessons organized by body system.", href: "/lessons", cta: "Browse Lessons" },
       { icon: Layers, title: "Flashcard Decks", desc: "High-yield pharmacology, lab values, and pathophysiology flashcards with spaced repetition.", href: "/flashcards", cta: "Study Flashcards" },

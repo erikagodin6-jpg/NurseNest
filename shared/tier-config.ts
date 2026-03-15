@@ -28,7 +28,7 @@ export interface TierUiConfig {
   shortLabel: string;
   examPrepLabel: string;
   readinessLabel: string;
-  questionBankLabel: string;
+  testBankLabel: string;
   dashboardTitle: string;
   dashboardSubtitle: string;
   progressLabel: string;
@@ -56,7 +56,7 @@ const freeTierConfig: TierUiConfig = {
   shortLabel: "Free",
   examPrepLabel: "Free Practice",
   readinessLabel: "Quick Quiz",
-  questionBankLabel: "Preview Questions",
+  testBankLabel: "Preview Questions",
   dashboardTitle: "Welcome to NurseNest",
   dashboardSubtitle: "Explore free practice questions and sample lessons",
   progressLabel: "Preview Progress",
@@ -82,9 +82,9 @@ const freeTierConfig: TierUiConfig = {
   focusAreas: ["Preview Topics", "Quick Wins", "Sample Content"],
   navItems: [
     { label: "Home", key: "Home", path: "/" },
-    { label: "Free Practice", key: "FreePractice", path: "/question-bank" },
-    { label: "Sample Exams", key: "SampleExams", path: "/mock-exams" },
     { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Free Practice", key: "FreePractice", path: "/test-bank" },
+    { label: "Sample Exams", key: "SampleExams", path: "/mock-exams" },
     { label: "Pricing", key: "Pricing", path: "/pricing" },
   ],
 };
@@ -95,7 +95,7 @@ const rpnTierConfig: TierUiConfig = {
   shortLabel: "RPN",
   examPrepLabel: "RPN Exam Prep",
   readinessLabel: "RPN Readiness",
-  questionBankLabel: "RPN Question Bank",
+  testBankLabel: "RPN Test Bank",
   dashboardTitle: "Your RPN Readiness",
   dashboardSubtitle: "Practical nursing progress and safe care practice",
   progressLabel: "Practical Nursing Progress",
@@ -132,9 +132,10 @@ const rpnTierConfig: TierUiConfig = {
   ],
   navItems: [
     { label: "Dashboard", key: "Dashboard", path: "/dashboard" },
-    { label: "RPN Exams", key: "Exams", path: "/mock-exams" },
-    { label: "Question Bank", key: "QuestionBank", path: "/question-bank" },
     { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Test Bank", key: "TestBank", path: "/test-bank" },
+    { label: "Exams", key: "Exams", path: "/mock-exams" },
+    { label: "Mock Exams", key: "MockExams", path: "/mock-exams" },
     { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
     { label: "Progress", key: "Progress", path: "/study-plan" },
   ],
@@ -146,7 +147,7 @@ const rnTierConfig: TierUiConfig = {
   shortLabel: "RN",
   examPrepLabel: "RN Exam Prep",
   readinessLabel: "RN Readiness",
-  questionBankLabel: "RN Question Bank",
+  testBankLabel: "RN Test Bank",
   dashboardTitle: "Your RN Readiness",
   dashboardSubtitle: "Clinical judgment trends and prioritization performance",
   progressLabel: "Clinical Judgment Progress",
@@ -182,9 +183,10 @@ const rnTierConfig: TierUiConfig = {
   ],
   navItems: [
     { label: "Dashboard", key: "Dashboard", path: "/dashboard" },
-    { label: "RN Exams", key: "Exams", path: "/mock-exams" },
-    { label: "Question Bank", key: "QuestionBank", path: "/question-bank" },
     { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Test Bank", key: "TestBank", path: "/test-bank" },
+    { label: "Exams", key: "Exams", path: "/mock-exams" },
+    { label: "Mock Exams", key: "MockExams", path: "/mock-exams" },
     { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
     { label: "Clinical Judgment", key: "ClinicalJudgment", path: "/case-simulations" },
     { label: "Progress", key: "Progress", path: "/study-plan" },
@@ -197,7 +199,7 @@ const npTierConfig: TierUiConfig = {
   shortLabel: "NP",
   examPrepLabel: "NP Board Prep",
   readinessLabel: "NP Board Readiness",
-  questionBankLabel: "NP Question Bank",
+  testBankLabel: "NP Test Bank",
   dashboardTitle: "Your NP Board Readiness",
   dashboardSubtitle: "Diagnostic reasoning and prescribing confidence",
   progressLabel: "Board Readiness Progress",
@@ -234,12 +236,13 @@ const npTierConfig: TierUiConfig = {
   ],
   navItems: [
     { label: "Dashboard", key: "Dashboard", path: "/dashboard" },
-    { label: "NP Exams", key: "Exams", path: "/mock-exams" },
-    { label: "Question Bank", key: "QuestionBank", path: "/question-bank" },
     { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Test Bank", key: "TestBank", path: "/test-bank" },
+    { label: "Exams", key: "Exams", path: "/mock-exams" },
+    { label: "Mock Exams", key: "MockExams", path: "/mock-exams" },
+    { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
     { label: "Advanced Cases", key: "AdvancedCases", path: "/case-simulations" },
     { label: "Diagnostic Reasoning", key: "DiagnosticReasoning", path: "/simulators/clinical-skills" },
-    { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
     { label: "Progress", key: "Progress", path: "/study-plan" },
   ],
 };
@@ -250,7 +253,7 @@ const alliedTierConfig: TierUiConfig = {
   shortLabel: "Allied",
   examPrepLabel: "Allied Health Exam Prep",
   readinessLabel: "Allied Health Readiness",
-  questionBankLabel: "Allied Health Question Bank",
+  testBankLabel: "Allied Health Test Bank",
   dashboardTitle: "Your Allied Health Readiness",
   dashboardSubtitle: "Allied health professional exam preparation",
   progressLabel: "Allied Health Progress",
@@ -284,9 +287,10 @@ const alliedTierConfig: TierUiConfig = {
   ],
   navItems: [
     { label: "Dashboard", key: "Dashboard", path: "/dashboard" },
-    { label: "Exams", key: "Exams", path: "/mock-exams" },
-    { label: "Question Bank", key: "QuestionBank", path: "/question-bank" },
     { label: "Lessons", key: "Lessons", path: "/lessons" },
+    { label: "Test Bank", key: "TestBank", path: "/test-bank" },
+    { label: "Exams", key: "Exams", path: "/mock-exams" },
+    { label: "Mock Exams", key: "MockExams", path: "/mock-exams" },
     { label: "Flashcards", key: "Flashcards", path: "/flashcard-study" },
     { label: "Progress", key: "Progress", path: "/study-plan" },
   ],
@@ -298,7 +302,7 @@ const adminTierConfig: TierUiConfig = {
   shortLabel: "Admin",
   examPrepLabel: "All Exam Tiers",
   readinessLabel: "Platform Overview",
-  questionBankLabel: "Full Question Bank",
+  testBankLabel: "Full Question Bank",
   dashboardTitle: "Admin Dashboard",
   dashboardSubtitle: "Platform operations and content management",
   progressLabel: "Platform Metrics",

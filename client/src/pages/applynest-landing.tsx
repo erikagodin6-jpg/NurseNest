@@ -205,11 +205,11 @@ export default function ApplyNestLanding() {
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
             </Link>
-            <Link href="/question-bank">
-              <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer" data-testid="link-question-bank">
+            <Link href="/test-bank">
+              <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer" data-testid="link-test-bank">
                 <FileText className="w-8 h-8 text-green-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Question Bank</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">Test Bank</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">1,200+ practice questions organized by body system, profession, and difficulty level.</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />

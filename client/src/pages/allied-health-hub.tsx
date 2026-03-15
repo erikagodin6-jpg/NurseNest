@@ -196,7 +196,7 @@ export default function AlliedHealthHub() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: BookOpen, title: "Exam-Aligned Question Banks", desc: "Thousands of questions mapped to official exam blueprints with detailed rationales that teach you the clinical reasoning behind every answer." },
+              { icon: BookOpen, title: "Exam-Aligned Test Banks", desc: "Thousands of questions mapped to official exam blueprints with detailed rationales that teach you the clinical reasoning behind every answer." },
               { icon: Award, title: "Multiple Certification Tracks", desc: "Content tailored for US and Canadian certification exams including ARRT, ARDMS, NBRC, NREMT, PTCB, NBCOT, ASCP, and more." },
               { icon: TrendingUp, title: "Adaptive Learning Engine", desc: "Our CAT-style practice engine adjusts question difficulty based on your performance, targeting your weak areas for maximum study efficiency." },
             ].map((feature) => (

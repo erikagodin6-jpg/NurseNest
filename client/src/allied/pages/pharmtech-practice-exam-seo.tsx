@@ -474,7 +474,7 @@ export default function PharmtechPracticeExamSeo() {
               <Link href="/pharmacy-technician/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-practice-questions">
                 <BookOpen className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Question Bank</p>
+                  <p className="font-medium text-gray-900 text-sm">Test Bank</p>
                   <p className="text-xs text-gray-500">500+ questions with rationales</p>
                 </div>
               </Link>

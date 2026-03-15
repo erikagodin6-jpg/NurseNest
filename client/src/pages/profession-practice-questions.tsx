@@ -381,10 +381,10 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Try Again
                   </Button>
-                  <LocaleLink href={`${page.routePrefix}/question-bank`}>
+                  <LocaleLink href={`${page.routePrefix}/test-bank`}>
                     <Button data-testid="button-full-bank">
                       <BookOpen className="w-4 h-4 mr-2" />
-                      Full Question Bank
+                      Full Test Bank
                     </Button>
                   </LocaleLink>
                 </div>
@@ -444,9 +444,9 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                   View Study Plans
                 </Button>
               </LocaleLink>
-              <LocaleLink href={`${page.routePrefix}/question-bank`}>
+              <LocaleLink href={`${page.routePrefix}/test-bank`}>
                 <Button size="lg" variant="outline" data-testid="button-cta-qbank">
-                  Browse Question Bank
+                  Browse Test Bank
                 </Button>
               </LocaleLink>
             </div>

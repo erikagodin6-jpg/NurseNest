@@ -44,7 +44,7 @@ const tierData: Record<string, {
     },
     features: [
       { icon: BookOpen, title: "Comprehensive Lesson Library", description: "Structured lessons covering fundamentals, pharmacology, safety, infection control, and all core RPN competencies with clinical pearls." },
-      { icon: Brain, title: "Adaptive Question Bank", description: "Thousands of practice questions mirroring the {examName} format with detailed rationales and domain-based performance tracking." },
+      { icon: Brain, title: "Adaptive Test Bank", description: "Thousands of practice questions mirroring the {examName} format with detailed rationales and domain-based performance tracking." },
       { icon: FileText, title: "Flashcard System", description: "Create, study, and master key concepts with up to 300 flashcards per deck. Build from notes or create manually." },
       { icon: BarChart3, title: "Mock Exams with Analytics", description: "Full-length timed practice exams with score breakdowns, domain analysis, and pass probability estimation." },
       { icon: Target, title: "Personalized Study Plan", description: "AI-powered onboarding assessment builds a week-by-week study path tailored to your strengths and weaknesses." },
@@ -75,7 +75,7 @@ const tierData: Record<string, {
     },
     features: [
       { icon: BookOpen, title: "Complete RN Lesson Library", description: "In-depth lessons spanning all NCLEX-RN domains: complex care, leadership, delegation, advanced pharmacology, and critical thinking frameworks." },
-      { icon: Brain, title: "Advanced Question Bank", description: "Higher-order thinking questions, select-all-that-apply, priority and delegation questions with step-by-step rationales." },
+      { icon: Brain, title: "Advanced Test Bank", description: "Higher-order thinking questions, select-all-that-apply, priority and delegation questions with step-by-step rationales." },
       { icon: FileText, title: "Enhanced Flashcard System", description: "Up to 300 cards per deck with note-based generation. Master pharmacology, lab values, and clinical concepts." },
       { icon: BarChart3, title: "Comprehensive Mock Exams", description: "CAT-style adaptive exams that simulate the real NCLEX-RN experience with detailed performance analytics." },
       { icon: Target, title: "Personalized Study Plan", description: "Onboarding assessment identifies your weak areas and generates a customized study schedule with daily tasks." },
@@ -106,7 +106,7 @@ const tierData: Record<string, {
     },
     features: [
       { icon: BookOpen, title: "NP-Level Lesson Library", description: "Advanced pathophysiology, diagnostic reasoning, guideline-based management, and prescribing safety across all body systems." },
-      { icon: Brain, title: "NP Certification Question Bank", description: "Questions formatted for AANP and ANCC exams: clinical vignettes, differential diagnosis, treatment selection, and prescribing scenarios." },
+      { icon: Brain, title: "NP Certification Test Bank", description: "Questions formatted for AANP and ANCC exams: clinical vignettes, differential diagnosis, treatment selection, and prescribing scenarios." },
       { icon: Microscope, title: "Labs & Diagnostics Deep Dive", description: "Comprehensive lab interpretation, imaging orders, screening guidelines, and diagnostic decision-making modules." },
       { icon: Pill, title: "Advanced Pharmacology", description: "Four dedicated pharmacology modules covering cardiovascular/respiratory/endocrine, infectious/psychiatric, GI/renal/specialty, and NP prescribing safety." },
       { icon: Target, title: "Personalized Study Plan", description: "Tailored onboarding identifies your clinical knowledge gaps and builds a structured path through NP-specific domains." },

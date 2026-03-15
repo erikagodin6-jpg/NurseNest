@@ -121,7 +121,7 @@ export default function PerioperativeNursingHub() {
             <div className="flex flex-wrap gap-3">
               <Link href="/perioperative/question-bank">
                 <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-800 font-semibold rounded-lg hover:bg-teal-50 transition-colors" data-testid="link-question-bank">
-                  <FileText className="w-5 h-5" /> Question Bank <ArrowRight className="w-4 h-4" />
+                  <FileText className="w-5 h-5" /> Test Bank <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/perioperative/flashcards">
@@ -249,7 +249,7 @@ export default function PerioperativeNursingHub() {
         <div className="max-w-6xl mx-auto px-4 py-16">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6" data-testid="text-study-resources">Study Resources</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <InternalLinkCard href="/perioperative/question-bank" title="CNOR Question Bank" desc="Practice questions aligned to the CNOR exam blueprint with detailed rationales." icon={FileText} />
+            <InternalLinkCard href="/perioperative/question-bank" title="CNOR Test Bank" desc="Practice questions aligned to the CNOR exam blueprint with detailed rationales." icon={FileText} />
             <InternalLinkCard href="/perioperative/flashcards" title="Perioperative Flashcards" desc="Spaced repetition flashcards covering sterile technique, instruments, and surgical safety." icon={Brain} />
             <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Timed practice exams simulating CNOR test conditions with performance analytics." icon={Target} />
             <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Comprehensive guide to preoperative assessment, NPO guidelines, and patient preparation." icon={ClipboardCheck} />
@@ -658,7 +658,7 @@ export function PreoperativeNursingGuide() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           <InternalLinkCard href="/perioperative-nursing" title="Perioperative Nursing Hub" desc="Overview of all three surgical phases with safety protocols." icon={Scissors} />
           <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Practical preoperative assessment workflow and checklists." icon={ClipboardCheck} />
-          <InternalLinkCard href="/perioperative/question-bank" title="Question Bank" desc="CNOR-aligned questions on preoperative nursing." icon={FileText} />
+          <InternalLinkCard href="/perioperative/question-bank" title="Test Bank" desc="CNOR-aligned questions on preoperative nursing." icon={FileText} />
           <InternalLinkCard href="/perioperative/flashcards" title="Flashcards" desc="Review preoperative concepts with spaced repetition." icon={Brain} />
           <InternalLinkCard href="/perioperative-nurse-career" title="Career Guide" desc="CNOR certification path and perioperative career options." icon={Award} />
           <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Timed exams covering preoperative nursing content." icon={Target} />
@@ -879,7 +879,7 @@ export function PerioperativeNurseCareer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           <InternalLinkCard href="/perioperative-nursing" title="Perioperative Nursing Hub" desc="Comprehensive surgical nursing resource center." icon={Scissors} />
           <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Master preoperative assessment and patient preparation." icon={ClipboardCheck} />
-          <InternalLinkCard href="/perioperative/question-bank" title="CNOR Question Bank" desc="Practice questions aligned to the CNOR exam blueprint." icon={FileText} />
+          <InternalLinkCard href="/perioperative/question-bank" title="CNOR Test Bank" desc="Practice questions aligned to the CNOR exam blueprint." icon={FileText} />
           <InternalLinkCard href="/perioperative/flashcards" title="Flashcards" desc="Spaced repetition review of perioperative nursing concepts." icon={Brain} />
           <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Full-length practice exams under CNOR test conditions." icon={Target} />
           <InternalLinkCard href="/preoperative-nursing-guide" title="Preoperative Nursing Guide" desc="Evidence-based reference for surgical patient preparation." icon={BookOpen} />

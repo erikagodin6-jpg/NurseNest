@@ -218,7 +218,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
               <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center mx-auto mb-4">
                 <ClipboardList className="w-7 h-7 text-green-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Question Bank</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Test Bank</h3>
               <p className="text-sm text-gray-500">Practice questions written at the {specialty.certifications[0]} certification exam level with full rationales.</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-flashcards">

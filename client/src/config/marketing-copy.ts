@@ -161,7 +161,7 @@ const generalCopy: MarketingCopy = {
   track: "general",
   hero: {
     headline: "Nursing exam prep, tailored to your track",
-    subheadline: "NurseNest gives nursing learners a more personalized way to study — with track-specific exams, question banks, dashboards, and progress tools designed for your exact level of practice.",
+    subheadline: "NurseNest gives nursing learners a more personalized way to study — with track-specific exams, test banks, dashboards, and progress tools designed for your exact level of practice.",
     primaryCta: "Choose Your Track",
     primaryCtaPath: "#track-selector",
     secondaryCta: "Explore Free Practice",
@@ -182,7 +182,7 @@ const generalCopy: MarketingCopy = {
     headline: "One platform. Three purpose-built study paths.",
     description: "NurseNest organizes everything — exams, questions, flashcards, dashboards — around the nursing level you are actually preparing for.",
     features: [
-      { title: "Track-Specific Question Banks", description: "Questions written and calibrated for your exact exam scope and reasoning level.", icon: "FlaskConical" },
+      { title: "Track-Specific Test Banks", description: "Questions written and calibrated for your exact exam scope and reasoning level.", icon: "FlaskConical" },
       { title: "Role-Matched Exams", description: "Practice exams that mirror the complexity, format, and clinical depth of your licensure exam.", icon: "ClipboardCheck" },
       { title: "Personalized Dashboards", description: "See your readiness, weak areas, and progress through the lens of your specific exam blueprint.", icon: "BarChart3" },
       { title: "Adaptive Study Tools", description: "Flashcards, study plans, and review sets that adapt to your performance and focus areas.", icon: "Brain" },
@@ -193,7 +193,7 @@ const generalCopy: MarketingCopy = {
     bullets: [
       "One platform, tailored prep for practical nursing, RN readiness, and NP board-style learning",
       "Choose your track and start with the right tools",
-      "Track-specific exams, question banks, and progress analytics",
+      "Track-specific exams, test banks, and progress analytics",
     ],
   },
   testimonials: [],
@@ -270,7 +270,7 @@ const rpnCopy: MarketingCopy = {
     headline: "Studying for practical nursing should not feel this scattered",
     description: "Most nursing prep platforms are built for RN learners. When you are studying for the RPN, the mismatch creates real problems.",
     cards: [
-      { title: "Resources built for the wrong level", description: "Most question banks are calibrated for RN-level complexity. Practicing at the wrong depth leads to confusion instead of progress." },
+      { title: "Resources built for the wrong level", description: "Most test banks are calibrated for RN-level complexity. Practicing at the wrong depth leads to confusion instead of progress." },
       { title: "Generic content wastes your time", description: "When study material mixes RPN, RN, and NP content together, you spend more time filtering than learning." },
       { title: "Studying feels overwhelming", description: "Without a clear, organized path that matches your scope, it is easy to feel lost in material that does not match what your exam tests." },
       { title: "Hard to know if you are ready", description: "Without analytics calibrated to your exam blueprint, you cannot tell whether you are actually prepared or just going through the motions." },
@@ -285,7 +285,7 @@ const rpnCopy: MarketingCopy = {
     headline: "RPN exam prep designed for foundations, safe care, and confidence",
     description: "Everything in NurseNest RPN Prep is built around the practical nursing scope — from question difficulty to body system emphasis to how rationales explain the reasoning.",
     features: [
-      { title: "RPN-Native Question Bank", description: "Questions written for practical nursing scope: foundational care, medication safety, common conditions, and escalation.", icon: "FlaskConical" },
+      { title: "RPN-Native Test Bank", description: "Questions written for practical nursing scope: foundational care, medication safety, common conditions, and escalation.", icon: "FlaskConical" },
       { title: "Safe Care and Medication Safety Review", description: "Focused practice on the nursing actions and medication decisions that matter most on the RPN exam.", icon: "Shield" },
       { title: "Practical Nursing Dashboards", description: "Track your readiness across RPN blueprint categories with progress that matches your exam structure.", icon: "BarChart3" },
       { title: "Confidence-Building Practice", description: "Graduated difficulty and supportive rationales that build your clinical reasoning step by step.", icon: "Target" },
@@ -436,13 +436,13 @@ const rnCopy: MarketingCopy = {
     cards: [
       { title: "Passive studying is not translating", description: "You have read the notes, watched the videos, and highlighted the textbook. But when it comes to exam-style questions, the answers still feel uncertain." },
       { title: "Prioritization is harder than expected", description: "Knowing the content is not the same as knowing which patient to see first. RN exams test your ability to make decisions under competing demands." },
-      { title: "Generic question banks miss the point", description: "If the questions do not challenge your clinical judgment, delegation reasoning, and safest-next-action thinking, they are preparing you for the wrong exam." },
+      { title: "Generic test banks miss the point", description: "If the questions do not challenge your clinical judgment, delegation reasoning, and safest-next-action thinking, they are preparing you for the wrong exam." },
       { title: "No clear way to measure readiness", description: "Studying without domain-level analytics means guessing at whether you are actually ready or just familiar with the material." },
     ],
   },
   painPoints: [
     { title: "Too much passive studying", description: "Reading notes and watching videos does not build the clinical judgment skills that RN exams actually test." },
-    { title: "Not enough realistic prioritization practice", description: "Many question banks use simple recall questions. RN exams require you to weigh competing priorities and make complex decisions." },
+    { title: "Not enough realistic prioritization practice", description: "Many test banks use simple recall questions. RN exams require you to weigh competing priorities and make complex decisions." },
     { title: "Question banks often lack true exam-style reasoning", description: "If the questions do not challenge your ability to prioritize, delegate, and think critically, they are not preparing you for the real exam." },
   ],
   solution: {
@@ -544,7 +544,7 @@ const rnCopy: MarketingCopy = {
     cta: "Unlock RN Prep",
   },
   checkout: {
-    summary: "You are unlocking full access to NurseNest RN Prep, including clinical judgment exams, prioritization practice, question banks, flashcards, and readiness analytics.",
+    summary: "You are unlocking full access to NurseNest RN Prep, including clinical judgment exams, prioritization practice, test banks, flashcards, and readiness analytics.",
     reassurance: "Your subscription is calibrated for RN-level exam preparation.",
   },
   trackCard: {
@@ -598,10 +598,10 @@ const npCopy: MarketingCopy = {
     headline: "Generic nursing prep was never designed for advanced practice",
     description: "NP board exams demand graduate-level reasoning — differential diagnosis, prescribing decisions, and management planning. Most study platforms fall short.",
     cards: [
-      { title: "Entry-level resources feel too basic", description: "Most nursing prep platforms are designed for RN or RPN scope. Advanced practice learners need case complexity and clinical depth that basic question banks cannot provide." },
+      { title: "Entry-level resources feel too basic", description: "Most nursing prep platforms are designed for RN or RPN scope. Advanced practice learners need case complexity and clinical depth that basic test banks cannot provide." },
       { title: "Recall questions do not build diagnostic reasoning", description: "NP boards test your ability to narrow differentials, select appropriate workups, and make prescribing decisions — skills that require deeper practice than recall." },
       { title: "Management planning is hard to practice", description: "Creating treatment plans, weighing pharmacotherapeutic options, and making evidence-informed management decisions requires structured, case-based practice." },
-      { title: "Scattered resources waste graduate-level time", description: "Juggling textbooks, generic question banks, and unstructured notes is an inefficient use of the limited study time available to graduate learners." },
+      { title: "Scattered resources waste graduate-level time", description: "Juggling textbooks, generic test banks, and unstructured notes is an inefficient use of the limited study time available to graduate learners." },
     ],
   },
   painPoints: [
