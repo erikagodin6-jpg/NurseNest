@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Search, X, BookOpen, Stethoscope, Pill, FileText, ArrowRight, Layers, Newspaper } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n";
 
 type SearchResult = {
   id: string;
@@ -29,6 +30,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [, setLocation] = useLocation();
@@ -244,7 +246,7 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
         data-testid="button-global-search"
       >
         <Search className="w-3 h-3 shrink-0" />
-        <span className="truncate">Search everything...</span>
+        <span className="truncate">{t("nav.searchEverything")}</span>
       </button>
     );
   }
@@ -263,7 +265,7 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
             <Input
               ref={inputRef}
               type="text"
-              placeholder="Search lessons, blog posts, flashcard decks..."
+              placeholder={t("nav.searchEverything")}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyNav}
@@ -282,8 +284,8 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
             {query.length >= 2 && results.length === 0 && (
               <div className="px-6 py-8 text-center text-gray-400">
                 <Search className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                <p className="text-sm">No results found for "{query}"</p>
-                <p className="text-xs mt-1">Try a different spelling or keyword</p>
+                <p className="text-sm">{t("search.noResults")} "{query}"</p>
+                <p className="text-xs mt-1">{t("search.tryDifferent")}</p>
               </div>
             )}
 
@@ -328,8 +330,8 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
 
             {query.length < 2 && (
               <div className="px-6 py-8 text-center text-gray-400">
-                <p className="text-sm">Type at least 2 characters to search</p>
-                <p className="text-xs mt-1">Search across lessons, blog articles, flashcard decks, and clinical topics</p>
+                <p className="text-sm">{t("search.minChars")}</p>
+                <p className="text-xs mt-1">{t("search.searchAcross")}</p>
               </div>
             )}
           </div>
