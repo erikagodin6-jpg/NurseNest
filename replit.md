@@ -1,7 +1,7 @@
 # NurseNest - Complete Nursing Learning Platform
 
 ## Overview
-NurseNest is an adaptive learning platform for nursing and allied health students across 17 career verticals. It provides comprehensive learning resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform utilizes AI for content generation to develop clinical reasoning, nursing knowledge, and critical thinking, with the goal of improving patient care outcomes through a region-aware and adaptive learning environment. NurseNest aims to be a market-leading, complete learning solution.
+NurseNest is an adaptive learning platform designed for nursing and allied health students across 17 career verticals. Its primary purpose is to provide comprehensive learning resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform leverages AI for content generation to develop clinical reasoning, nursing knowledge, and critical thinking, ultimately aiming to improve patient care outcomes. NurseNest strives to be a market-leading, region-aware, and adaptive learning solution.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -15,62 +15,37 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 - Copy protection: content cannot be easily copied/screenshotted.
 
 ## System Architecture
-The platform features a modern React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) and an Express 5 backend on Node.js (TypeScript). Vite is used for tooling, and TanStack React Query manages server state via a RESTful API. The UI/UX includes 20 themes, DM Sans typography, premium visuals, and interactive components. A Canva-style digital product builder with AI-powered content generation is integrated.
+The platform is built with a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) and an Express 5 backend on Node.js (TypeScript). Vite is used for tooling, and TanStack React Query manages server state via a RESTful API. The UI/UX features 20 themes, DM Sans typography, premium visuals, and interactive components. A Canva-style digital product builder with AI-powered content generation is integrated.
 
-Core technical implementations include a database-driven subscription model with regional pricing (CAD/USD), tier-based plans (rpn, rn, np, allied), lifetime one-time purchases via Stripe, and free trial usage caps. The pricing architecture uses a `pricing_plans` DB table with 20 seeded plans. Interactive learning modules, a mock exam engine with stratified random sampling, and an admin dashboard are central features. AI integrations power blog automation, an Adaptive CAT Engine, Pass Probability Projection, and a Next Best Action Engine. Exam blueprints are database-driven, and content is organized by body system, supporting NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is managed by user tier.
+Core features include a database-driven subscription model with regional pricing (CAD/USD), tier-based plans (rpn, rn, np, allied), lifetime one-time purchases via Stripe, and free trial usage caps. Interactive learning modules, a mock exam engine with stratified random sampling, and an admin dashboard are central. AI integrations power blog automation, an Adaptive CAT Engine, Pass Probability Projection, and a Next Best Action Engine. Exam blueprints are database-driven, and content is organized by body system, supporting NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is managed by user tier.
 
 Key systems include:
-- **Flashcards & Test Bank**: Public Flashcards page (`/flashcards`) with Quizlet-style topic browsing and quick study mode. Tier-specific Test Bank pages (`/rpn/test-bank`, `/rn/test-bank`, `/np/test-bank`, `/{profession}/test-bank`) wrap the Flashcards component with `isTestBank=true` prop for exam-style practice. Legacy `/{profession}/flashcards` routes 302-redirect to test-bank equivalents.
+- **Flashcards & Test Bank**: Public flashcards and tier-specific test banks for exam-style practice.
 - **Learning Content Systems**: Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, Allied Health Encyclopedia, SEO Lesson Engine, and specialized lesson libraries.
-- **Adaptive Learning & Coaching**: Adaptive Learning Engine (v2) for granular progress tracking and spaced repetition. An AI Study Coaching & Course Generation System provides personalized study plans.
-- **Exam & Practice Engines**: Mock exam engine with separated CAT Exam (adaptive 85–150 questions with blueprint-aware stopping rules, domain coverage tracking, pass/fail result) and Practice Exam (customizable builder with question count, topics, strict mode) modes. Post-completion review mode shows rationale, clinical pearls, and exam strategies with correct/incorrect indicators and flagged-only filtering. Full session persistence (catState, timerState) to server for resume support. Premium Study Engine for custom practice sessions, and adaptive practice/mastery systems for various allied health professions.
-- **AI-Powered Generation & Safety**: AI content generation is manual and admin-triggered via the AI Jobs system, with extensive budget caps, concurrency controls, duplicate protection, and a kill switch. A `ContentQualityGate` service enforces 10 quality rules for all AI-generated content.
-- **AI Provider Router & Cost Control Engine**: Centralized AI request routing through pluggable providers (OpenAI, Ollama, vLLM, LM Studio, Anthropic) with built-in cost tracking, rate limiting, and health checks.
-- **SEO & Marketing Infrastructure**: Programmatic SEO Engines, NCLEX Question Preview Pages, Multilingual SEO & Translation System with localized FR/ES metadata registry (`client/src/data/seo-metadata.ts`), Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine (auto-related content across lessons/blog/flashcards/exam-prep via `/api/related-content`), Sitemap Validation Endpoint (`/api/admin/sitemap-validate`), and various content hubs (e.g., Allied Health Content Hub). The SEO component auto-detects locale from URL and applies localized titles, descriptions, keywords, og:locale, and inLanguage to all structured data for FR/ES pages. Translation bundles are lazy-loaded per language via dynamic `import()` (14 language files: `i18n-fr.ts`, `i18n-es.ts`, etc.) to reduce initial JS bundle size. Missing translation keys are tracked via `trackMissingKey()` for admin visibility. Canonical tags are always self-referencing per locale. Pages for non-indexable locales (below translation threshold) get `noindex` automatically. Server-side Accept-Language detection redirects first-visit users to their browser locale (production only). Admin endpoints: `/api/admin/hreflang-audit` validates hreflang completeness, `/api/admin/seo-health-report` provides comprehensive SEO health data.
-- **Public Marketing & Conversion Proof System**: Dynamic trust counters and conversion-focused proof blocks display live platform statistics.
-- **Analytics & Admin**: Content Analytics Engine and Admin Dashboard provide real-time production data and ROI insights.
-- **SEO Performance & Growth Dashboard**: Admin page at `/admin/seo-performance` tracks search engine visibility and content growth. Features Content Growth Report (weekly blog/lesson/flashcard/exam question trends), Indexed Pages Tracker (sitemap URL counts by section), Search Performance Panel (internal metrics with optional Google Search Console integration), Content Coverage Map (heatmap by body system/topic/profession with gap identification), and Weekly Summary view. Backend routes in `server/seo-performance-routes.ts`.
-- **Content Coverage Analyzer**: Admin dashboard at `/admin/content-coverage` analyzes question/flashcard coverage across nursing tiers, body systems, allied careers/topics, and flashcard topics. Compares against configurable targets (stored in `system_settings`), identifies zero-count gaps using expected taxonomies, and supports AI auto-generation of missing content with Jaccard duplicate detection, validation, and difficulty distribution (30/50/20 easy/moderate/hard). Generated content saves as draft/pending for review.
-- **Automated Content Growth Engine**: Unified scheduler for automated content generation across all content types (blog posts, flashcards, lessons, exam questions, specialty guides). Features configurable daily/weekly cadence per content type, SEO blog post generator (1200+ word articles), content gap analyzer (identifies underrepresented body systems and untargeted keywords), automated quality validation (heading structure, readability, word count, metadata, internal links), and admin approval workflow. All generated content lands in draft/needs_review status. Respects existing AI safety controls (kill switch, spend caps, circuit breakers). Admin panel at Content Growth tab.
+- **Adaptive Learning & Coaching**: An Adaptive Learning Engine for progress tracking and spaced repetition, and an AI Study Coaching & Course Generation System for personalized study plans.
+- **Exam & Practice Engines**: Mock exam engine with CAT Exam and Practice Exam modes, offering post-completion review and full session persistence.
+- **AI-Powered Generation & Safety**: Admin-triggered AI content generation with budget caps, concurrency controls, duplicate protection, and a kill switch. A `ContentQualityGate` enforces 10 quality rules.
+- **AI Provider Router & Cost Control Engine**: Centralized AI request routing through pluggable providers with cost tracking, rate limiting, and health checks.
+- **SEO & Marketing Infrastructure**: Programmatic SEO Engines, NCLEX Question Preview Pages, Multilingual SEO & Translation System (FR/ES), Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and various content hubs. Includes server-side locale detection and comprehensive SEO audit tools.
+- **Public Marketing & Conversion Proof System**: Dynamic trust counters and conversion-focused proof blocks displaying live platform statistics.
+- **Analytics & Admin**: Content Analytics Engine and Admin Dashboard for real-time production data and ROI.
+- **SEO Performance & Growth Dashboard**: Admin page for tracking search engine visibility, content growth, indexed pages, and search performance.
+- **Content Coverage Analyzer**: Admin dashboard for analyzing content coverage, identifying gaps, and facilitating AI auto-generation of missing content with quality controls.
+- **Automated Content Growth Engine**: Unified scheduler for automated content generation across all content types, with configurable cadences, content gap analysis, automated quality validation, and an admin approval workflow.
+- **Exam Question Translation System**: Translates exam questions into 14 non-English languages using AI, with graceful English fallback and admin tools for translation management.
 - **Offline Capabilities**: An IndexedDB-based Offline Study System for question packs and flashcards.
-- **Multi-Profession Framework**: Dynamic system for configuring new healthcare professions with a Universal Question Bank Importer.
+- **Multi-Profession Framework**: Dynamic system for configuring new healthcare professions.
 - **Production Database Safety**: `EnvironmentAwareContentWriteService` enforces preflight checks, post-write verification, and audit logging.
 - **Data Management**: PostgreSQL with Drizzle ORM.
-- **Free 1-Day Pass System**: Every new account automatically receives a free 1-day pass. No paid trials. Server-side trial entitlement with fraud detection and audit logging. `FreePassUpgradePrompt` component for upgrade prompts when limits are reached.
-- **Central Pricing Config**: `shared/pricing-config.ts` contains tier metadata, duration labels, social proof stats, feature comparison data, and study timeline guidance. Pricing values are authoritative from DB via `/api/pricing/plans`.
-- **Pricing Page Architecture**: Modern SaaS-style layout with hero section, social proof metrics, tier selection grid (RPN/RN/NP), feature comparison table, study timeline guidance, trust signals. 6-month plan highlighted as "Most Popular". CTA buttons use "Unlock Full Access" for paid plans and "Start Free" for free tier.
-- **Business Health & Subscriber Dashboard**: Admin page for financial summaries (revenue, expenses, break-even), subscriber metrics (total, active, conversion rates), and purchase metrics. Uses a `business_expenses` table for manual entries and integrates AI generation costs.
-- **Site Health & Integrity System**: Admin dashboard (`/admin/site-health`) with broken link crawler, missing content detection, SEO metadata auditor, sitemap integrity checker, internal link suggestions, and auto-repair capabilities. Backend routes in `server/site-health-routes.ts`, frontend in `client/src/pages/admin-site-health.tsx`. Color-coded health indicators (green/yellow/red) with categorized issue lists.
-
-## Asset Storage
-- **Object Storage**: All images (PNG/JPG/WebP/SVG) and media (MP4) are stored in Replit Object Storage bucket `replit-objstore-482be09b-b392-43d4-9116-a0189fbcd2e6` under the `public/` prefix.
-- **Asset URLs**: Use `getAssetUrl(filename)` from `client/src/lib/asset-url.ts` which returns `/api/assets/{filename}`. The Express route at `GET /api/assets/:filename` streams files from object storage with immutable caching headers.
-- **Upload Script**: `scripts/upload-from-list.ts` uploads referenced assets to object storage. `scripts/upload-assets.ts` uploads all assets from source directories.
-- **Migration**: ES module `import` statements for images were replaced with `getAssetUrl()` calls. String paths like `/attached_assets/...` and `/videos/...` were also migrated.
-
-## Stripe Integration
-- **Credential Resolution**: `server/stripeClient.ts` resolves Stripe keys via: (1) Replit connector API (environment-aware: development/production), then (2) env vars (`STRIPE_SECRET_KEY` + `STRIPE_PUBLISHABLE_KEY`). Production validates keys are live (sk_live_/pk_live_).
-- **Price Maps**: `stripe-price-map.json` (test mode, 24 prices), `stripe-price-map-live.json` (live mode, created when live prices are synced). Falls back to inline `price_data` if no matching map exists.
-- **Checkout Flow**: `/api/stripe/create-checkout` in `server/routes.ts`. Uses `getUncachableStripeClient()` for all Stripe API calls. Supports subscription (monthly/3-month/6-month/yearly), lifetime one-time, and add-on purchases.
-- **Webhook**: Managed webhook via `stripe-replit-sync`, raw body parsing before `express.json()`.
-- **Required Secrets**: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`.
-
-## Entitlement System
-- **Server-side source of truth**: `server/entitlements.ts` — All premium access decisions on the server go through this module. Provides `requireEntitlement(feature)` middleware, `requireAnyPremium()` middleware, `checkEntitlement(user, feature)`, and `getUserEntitlements(user)`.
-- **Client-side source of truth**: `client/src/lib/entitlements.ts` — Frontend access checks (UX-only, not a security boundary).
-- **Admin diagnostic endpoint**: `GET /api/admin/entitlement-debug` — Returns user role, subscription tier, tester/trial status, and full computed entitlements map. Supports `?userId=` to inspect other users.
-- **Test coverage**: `server/__tests__/entitlements.test.ts` — Unit tests for free/paid/admin/tester access scenarios.
-- **Audit summary**: `ENTITLEMENT_AUDIT.md` — Documents hardened routes, remaining risk areas, and out-of-scope systems (imaging monetization).
-- **Note**: Imaging monetization (`server/imaging-monetization-routes.ts`) uses a separate entitlement model and is intentionally not under this system.
-
-## Reporting & Search Performance Monitoring
-- **Weekly Content Reports**: Automated weekly content creation reports at `/admin/weekly-reports`. Backend: `server/weekly-report-routes.ts`. Tables: `content_weekly_reports`. Shows new lessons, blog posts, flashcards, exam questions, and SEO articles created per week with week-over-week trends. Includes content velocity chart and historical report generation.
-- **SEO Performance Dashboard**: Search performance monitoring at `/admin/search-performance`. Backend: `server/search-performance-routes.ts`. Tables: `search_performance_snapshots`. Shows indexed pages, impressions, clicks, CTR, and top keywords/pages. Integrates with Google Search Console API when `GOOGLE_SEARCH_CONSOLE_KEY` and `GOOGLE_SEARCH_CONSOLE_SITE_URL` env vars are configured; gracefully falls back to internal analytics otherwise.
+- **Free 1-Day Pass System**: Automatic 1-day free pass for new accounts, with server-side trial entitlement and fraud detection.
+- **Central Pricing Config**: `shared/pricing-config.ts` contains tier metadata, duration labels, social proof, feature comparison, and study timeline guidance.
+- **Pricing Page Architecture**: Modern SaaS-style layout with hero section, social proof, tier selection, feature comparison, and trust signals.
+- **Business Health & Subscriber Dashboard**: Admin page for financial summaries, subscriber metrics, and purchase metrics.
+- **Site Health & Integrity System**: Admin dashboard with broken link crawler, missing content detection, SEO metadata auditor, and auto-repair capabilities.
 
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
-- **Payment Processing**: Stripe (for subscriptions and one-time purchases), PayPal SDK
+- **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
-- **Social Media**: Meta Graph API
-- **Object Storage**: Replit Object Storage (Google Cloud Storage via sidecar)
+- **Object Storage**: Replit Object Storage (Google Cloud Storage)

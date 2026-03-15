@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import type { PooledQuestion } from "@/lib/question-pool";
 import {
   initCAT, selectNextItem, updateAbility, shouldStop,
@@ -219,6 +220,7 @@ export default function MockExamSession() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { language } = useI18n();
 
   const [questions, setQuestions] = useState<PooledQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
@@ -243,6 +245,7 @@ export default function MockExamSession() {
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewFilter, setReviewFilter] = useState<"all" | "incorrect" | "flagged">("all");
   const [fullQuestions, setFullQuestions] = useState<PooledQuestion[]>([]);
+  const [translationMap, setTranslationMap] = useState<Record<string, Record<string, string>>>({});
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
   const [accentColor] = useState(() => getExamAccentColor());
@@ -358,6 +361,52 @@ export default function MockExamSession() {
         setLoading(false);
       });
   }, [attemptId]);
+
+  const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
+
+  useEffect(() => {
+    if (language === "en" || loading || questions.length === 0) {
+      setTranslationMap({});
+      return;
+    }
+    const questionIds = questions.map(q => q.id);
+    fetch("/api/exam-questions/translated-batch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ questionIds, lang: language }),
+    })
+      .then(r => {
+        if (!r.ok) throw new Error("Translation fetch failed");
+        return r.json();
+      })
+      .then(data => {
+        if (data.translations) setTranslationMap(data.translations);
+      })
+      .catch(() => { setTranslationMap({}); });
+  }, [language, loading, questionIdSignature]);
+
+  const getTranslatedQuestion = useCallback((q: PooledQuestion): PooledQuestion => {
+    if (language === "en" || !translationMap[q.id]) return q;
+    const t = translationMap[q.id];
+    const translated = { ...q };
+    if (t.stem) translated.question = t.stem;
+    if (t.options) {
+      try {
+        const parsedOptions = JSON.parse(t.options);
+        if (Array.isArray(parsedOptions)) {
+          translated.options = parsedOptions.map((o: any) =>
+            typeof o === "object" ? (o.text || String(o)) : String(o)
+          );
+        }
+      } catch {}
+    }
+    if (t.rationale) (translated as any).rationale = t.rationale;
+    if (t.scenario) (translated as any).scenario = t.scenario;
+    if (t.clinicalPearl) (translated as any).clinicalPearl = t.clinicalPearl;
+    if (t.examStrategy) (translated as any).examStrategy = t.examStrategy;
+    if (t.memoryHook) (translated as any).memoryHook = t.memoryHook;
+    return translated;
+  }, [language, translationMap]);
 
   useEffect(() => {
     if (!strictMode || loading) return;
@@ -584,7 +633,7 @@ export default function MockExamSession() {
   if (reviewMode) {
     const rawQuestions = fullQuestions.length > 0 ? fullQuestions : questions;
     const answeredIds = new Set(Object.keys(answers));
-    const reviewQuestions = rawQuestions.filter(q => answeredIds.has(q.id));
+    const reviewQuestions = rawQuestions.filter(q => answeredIds.has(q.id)).map(q => getTranslatedQuestion(q));
     const filteredIndices = reviewQuestions.map((_, i) => i).filter(i => {
       const q = reviewQuestions[i];
       if (reviewFilter === "incorrect") return answers[q.id] !== q.correct;
@@ -923,7 +972,8 @@ export default function MockExamSession() {
     );
   }
 
-  const question = questions[currentQ];
+  const rawQuestion = questions[currentQ];
+  const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : undefined;
   const answeredCount = Object.keys(answers).length;
   const unansweredCount = questions.length - answeredCount;
   const progressPercent = (answeredCount / questions.length) * 100;

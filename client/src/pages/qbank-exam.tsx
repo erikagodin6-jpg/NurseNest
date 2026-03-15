@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { ProtectedContent } from "@/components/protected-content";
 import { useLocation } from "wouter";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
@@ -76,8 +77,10 @@ function formatTime(seconds: number): string {
 
 export default function QBankExamPage() {
   const { user } = useAuth();
+  const { language } = useI18n();
   const [, setLocation] = useLocation();
   const [phase, setPhase] = useState<"setup" | "exam" | "results">("setup");
+  const [translationMap, setTranslationMap] = useState<Record<string, Record<string, string>>>({});
   const [questions, setQuestions] = useState<Question[]>([]);
   const [shuffledOptions, setShuffledOptions] = useState<Map<string, { key: string; text: string }[]>>(new Map());
   const [answers, setAnswers] = useState<Map<string, UserAnswer>>(new Map());
@@ -131,6 +134,54 @@ export default function QBankExamPage() {
     }
     setLoading(false);
   };
+
+  const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
+
+  useEffect(() => {
+    if (language === "en" || questions.length === 0) {
+      setTranslationMap({});
+      return;
+    }
+    const questionIds = questions.map(q => q.id);
+    fetch("/api/exam-questions/translated-batch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ questionIds, lang: language }),
+    })
+      .then(r => {
+        if (!r.ok) throw new Error("Translation fetch failed");
+        return r.json();
+      })
+      .then(data => {
+        if (data.translations) setTranslationMap(data.translations);
+      })
+      .catch(() => { setTranslationMap({}); });
+  }, [language, questionIdSignature]);
+
+  const getTranslatedQ = useCallback((q: Question): Question => {
+    if (language === "en" || !translationMap[q.id]) return q;
+    const t = translationMap[q.id];
+    const translated = { ...q };
+    if (t.stem) translated.question = t.stem;
+    if (t.rationale) translated.rationale = t.rationale;
+    if (t.options) {
+      try {
+        const parsedOptions = JSON.parse(t.options);
+        if (Array.isArray(parsedOptions)) {
+          const optTexts = parsedOptions.map((o: any) =>
+            typeof o === "object" ? (o.text || String(o)) : String(o)
+          );
+          if (optTexts.length >= 4) {
+            translated.optionA = optTexts[0];
+            translated.optionB = optTexts[1];
+            translated.optionC = optTexts[2];
+            translated.optionD = optTexts[3];
+          }
+        }
+      } catch {}
+    }
+    return translated;
+  }, [language, translationMap]);
 
   const selectAnswer = (questionId: string, key: string) => {
     setAnswers((prev) => {
@@ -205,7 +256,8 @@ export default function QBankExamPage() {
     );
   }
 
-  const currentQ = questions[currentIdx];
+  const rawCurrentQ = questions[currentIdx];
+  const currentQ = rawCurrentQ ? getTranslatedQ(rawCurrentQ) : undefined;
   const currentAnswer = currentQ ? answers.get(currentQ.id) : undefined;
   const answeredCount = Array.from(answers.values()).filter((a) => a.selected !== null).length;
   const correctCount = Array.from(answers.values()).filter((a) => a.correct).length;
@@ -296,16 +348,20 @@ export default function QBankExamPage() {
                 </div>
                 <p className="text-xl font-semibold mb-6 text-gray-900 leading-[1.6]" data-testid="text-current-question">{currentQ.question}</p>
                 <div className="space-y-2.5">
-                  {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => (
-                    <AnswerOption
-                      key={opt.key}
-                      index={idx}
-                      text={opt.text}
-                      isSelected={currentAnswer?.selected === opt.key}
-                      onClick={() => selectAnswer(currentQ.id, opt.key)}
-                      data-testid={`button-option-${opt.key}`}
-                    />
-                  ))}
+                  {(shuffledOptions.get(currentQ.id) || []).map((opt, idx) => {
+                    const optTextMap: Record<string, string> = { A: currentQ.optionA, B: currentQ.optionB, C: currentQ.optionC, D: currentQ.optionD };
+                    const displayText = optTextMap[opt.key] || opt.text;
+                    return (
+                      <AnswerOption
+                        key={opt.key}
+                        index={idx}
+                        text={displayText}
+                        isSelected={currentAnswer?.selected === opt.key}
+                        onClick={() => selectAnswer(currentQ.id, opt.key)}
+                        data-testid={`button-option-${opt.key}`}
+                      />
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
@@ -387,6 +443,7 @@ export default function QBankExamPage() {
 
             <div className="space-y-4">
               {questions.map((q, i) => {
+                const tq = getTranslatedQ(q);
                 const a = answers.get(q.id);
                 return (
                   <div key={q.id} className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid={`card-result-${i}`}>
@@ -395,15 +452,15 @@ export default function QBankExamPage() {
                         <div className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 ${a?.correct ? "bg-emerald-500" : "bg-red-400"}`}>
                           {a?.correct ? <CheckCircle2 className="h-4 w-4 text-white" /> : <XCircle className="h-4 w-4 text-white" />}
                         </div>
-                        <p className="font-semibold text-sm text-slate-900 leading-relaxed">{q.question}</p>
+                        <p className="font-semibold text-sm text-slate-900 leading-relaxed">{tq.question}</p>
                       </div>
 
                       <div className="space-y-1.5 mb-4 ml-10">
                         {[
-                          { key: "A", text: q.optionA },
-                          { key: "B", text: q.optionB },
-                          { key: "C", text: q.optionC },
-                          { key: "D", text: q.optionD },
+                          { key: "A", text: tq.optionA },
+                          { key: "B", text: tq.optionB },
+                          { key: "C", text: tq.optionC },
+                          { key: "D", text: tq.optionD },
                         ].map((opt) => {
                           const isCorrect = opt.key === q.correctAnswer;
                           const isWrongPick = opt.key === a?.selected && !a?.correct;
@@ -428,7 +485,7 @@ export default function QBankExamPage() {
                           <BookOpen className="w-3.5 h-3.5 text-violet-500" />
                           <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rationale</span>
                         </div>
-                        <p className="text-sm text-slate-700 leading-relaxed">{q.rationale}</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{tq.rationale}</p>
                       </ProtectedContent>
                     </div>
                   </div>
