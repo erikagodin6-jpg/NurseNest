@@ -4,31 +4,29 @@ export { getCareerQuestionPool } from "./career-question-pool";
 import type { CareerQuestion } from "./rrt-questions";
 import type { CareerType } from "@shared/careers";
 
-const questionModules: Record<string, () => Promise<{ default?: CareerQuestion[]; [key: string]: any }>> = {
-  rrt: () => import("./rrt-questions"),
-  paramedic: () => import("./paramedic-questions"),
-  pharmacyTech: () => import("./pharmacy-tech-questions"),
-  mlt: () => import("./mlt-questions"),
-  imaging: () => import("./imaging-questions"),
-  criticalCare: () => import("./critical-care-questions"),
-  emergencyNursing: () => import("./emergency-nursing-questions"),
-  perioperative: () => import("./perioperative-questions"),
-  oncologyNursing: () => import("./oncology-nursing-questions"),
-  pediatricCert: () => import("./pediatric-cert-questions"),
-  psychotherapist: () => import("./psychotherapist-questions"),
-  socialWorker: () => import("./social-worker-questions"),
-  addictionsCounsellor: () => import("./addictions-counsellor-questions"),
+const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
+  rrt: () => import("./rrt-questions").then(m => m.rrtQuestions),
+  paramedic: () => import("./paramedic-questions").then(m => m.paramedicQuestions),
+  pharmacyTech: () => import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
+  mlt: () => import("./mlt-questions").then(m => m.mltQuestions),
+  imaging: () => import("./imaging-questions").then(m => m.imagingQuestions),
+  criticalCare: () => import("./critical-care-questions").then(m => m.criticalCareQuestions),
+  emergencyNursing: () => import("./emergency-nursing-questions").then(m => m.emergencyNursingQuestions),
+  perioperative: () => import("./perioperative-questions").then(m => m.perioperativeQuestions),
+  oncologyNursing: () => import("./oncology-nursing-questions").then(m => m.oncologyNursingQuestions),
+  pediatricCert: () => import("./pediatric-cert-questions").then(m => m.pediatricCertQuestions),
+  psychotherapist: () => import("./psychotherapist-questions").then(m => m.psychotherapistQuestions),
+  socialWorker: () => import("./social-worker-questions").then(m => m.socialWorkerQuestions),
+  addictionsCounsellor: () => import("./addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
 };
 
 export async function loadCareerQuestions(careerType: CareerType): Promise<CareerQuestion[]> {
-  const loader = questionModules[careerType];
+  const loader = questionLoaders[careerType];
   if (!loader) return [];
   try {
-    const mod = await loader();
-    const exportKey = Object.keys(mod).find(k => Array.isArray(mod[k]));
-    if (!exportKey) return [];
-    return mod[exportKey] as CareerQuestion[];
-  } catch {
+    return await loader();
+  } catch (err) {
+    console.error(`[CareerQuestions] Failed to load questions for ${careerType}:`, err);
     return [];
   }
 }
