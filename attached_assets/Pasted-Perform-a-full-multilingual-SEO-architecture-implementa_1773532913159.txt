@@ -1,0 +1,326 @@
+Perform a full multilingual SEO architecture implementation for the NurseNest production website.
+
+The goal is to properly support SEO and indexing in three languages:
+
+1. English (primary)
+2. French (second priority)
+3. Spanish (third priority)
+
+This is not only a translation task. It is a full SEO and indexing architecture for multilingual search.
+
+The system must allow Google to properly index each language version of every page and deliver the correct language to users in different search markets.
+
+The implementation must be production-safe and must not break existing functionality, authentication, payments, dashboards, or content generation.
+
+--------------------------------------------------
+
+PHASE 1 — SITE AUDIT
+
+Scan the entire codebase and identify:
+
+• all routes
+• all pages
+• all SEO metadata
+• all page titles
+• all meta descriptions
+• any existing i18n implementation
+• any existing language switching
+• all sitemap generators
+• internal linking structure
+• canonical tags
+• structured data
+• OpenGraph metadata
+
+Then produce a route map of every public page.
+
+--------------------------------------------------
+
+PHASE 2 — MULTILINGUAL ROUTING STRUCTURE
+
+Implement language-specific route architecture.
+
+Base structure must be:
+
+/               → English
+/fr/            → French
+/es/            → Spanish
+
+Examples:
+
+/pricing
+/fr/tarifs
+/es/precios
+
+/flashcards
+/fr/cartes-memoire
+/es/tarjetas
+
+/lessons
+/fr/lecons
+/es/lecciones
+
+/question-bank
+/fr/banque-questions
+/es/banco-preguntas
+
+Ensure the following:
+
+• English remains default root
+• French pages live under /fr/
+• Spanish pages live under /es/
+• language switching preserves current page context
+
+Example:
+
+/pricing → /fr/tarifs → /es/precios
+
+--------------------------------------------------
+
+PHASE 3 — HREFLANG IMPLEMENTATION
+
+Add proper hreflang tags to every page.
+
+Example implementation:
+
+<link rel="alternate" hreflang="en" href="https://www.nursenest.ca/pricing" />
+<link rel="alternate" hreflang="fr" href="https://www.nursenest.ca/fr/tarifs" />
+<link rel="alternate" hreflang="es" href="https://www.nursenest.ca/es/precios" />
+<link rel="alternate" hreflang="x-default" href="https://www.nursenest.ca/pricing" />
+
+Rules:
+
+• every page must reference all language versions
+• include x-default
+• never create circular or missing references
+• ensure canonical tags are correct
+
+--------------------------------------------------
+
+PHASE 4 — MULTILINGUAL META TAGS
+
+Create language-specific SEO metadata.
+
+Each page must generate localized:
+
+• title
+• meta description
+• og:title
+• og:description
+• twitter:title
+• twitter:description
+
+Example:
+
+English
+Title: NCLEX Practice Questions | NurseNest
+
+French
+Title: Questions NCLEX – Banque de Questions Infirmières | NurseNest
+
+Spanish
+Title: Preguntas NCLEX – Banco de Preguntas de Enfermería | NurseNest
+
+Meta descriptions must be translated naturally and optimized for search.
+
+--------------------------------------------------
+
+PHASE 5 — KEYWORD LOCALIZATION
+
+Implement keyword localization so SEO phrases match real search behavior.
+
+Examples:
+
+English
+NCLEX practice questions
+nursing flashcards
+nursing exam prep
+
+French
+questions pratique NCLEX
+cartes mémoire infirmière
+préparation examen infirmier
+
+Spanish
+preguntas NCLEX
+tarjetas enfermería
+preparación examen enfermería
+
+These keywords should appear in:
+
+• titles
+• meta descriptions
+• headings
+• schema markup
+• alt text where appropriate
+
+--------------------------------------------------
+
+PHASE 6 — MULTILINGUAL SITEMAPS
+
+Generate language-specific sitemaps.
+
+Create:
+
+/sitemap.xml
+/sitemap-en.xml
+/sitemap-fr.xml
+/sitemap-es.xml
+
+Each sitemap must contain only URLs from that language.
+
+Example French sitemap entries:
+
+/fr/
+/fr/tarifs
+/fr/cartes-memoire
+/fr/lecons
+/fr/banque-questions
+
+Ensure sitemap is registered properly.
+
+--------------------------------------------------
+
+PHASE 7 — INTERNAL LINKING LOCALIZATION
+
+Ensure pages link only to pages within the same language.
+
+Correct:
+
+/fr/tarifs → /fr/cartes-memoire
+
+Incorrect:
+
+/fr/tarifs → /flashcards
+
+Implement helper functions so components automatically generate language-correct links.
+
+--------------------------------------------------
+
+PHASE 8 — STRUCTURED DATA LOCALIZATION
+
+Update schema markup so each page declares language.
+
+Example:
+
+"@context": "https://schema.org",
+"inLanguage": "fr"
+
+and
+
+"inLanguage": "es"
+
+Apply to:
+
+• articles
+• lessons
+• course content
+• educational resources
+• blog posts
+
+--------------------------------------------------
+
+PHASE 9 — LANGUAGE SWITCHER SYSTEM
+
+Improve the language selector.
+
+Requirements:
+
+• switch languages without losing current page
+• persist language preference
+• auto-detect browser language
+• fallback to English if language unavailable
+
+--------------------------------------------------
+
+PHASE 10 — CONTENT FALLBACK LOGIC
+
+If translated content does not exist:
+
+1. attempt language version
+2. fallback to English
+3. never break page rendering
+
+--------------------------------------------------
+
+PHASE 11 — SEO SAFETY CHECKS
+
+Ensure the following:
+
+• no duplicate indexing
+• canonical tags correct
+• no mixed language pages
+• no broken hreflang links
+• no orphan pages
+• no index conflicts
+
+--------------------------------------------------
+
+PHASE 12 — PERFORMANCE
+
+Ensure the multilingual system does not slow down page loads.
+
+Requirements:
+
+• translation bundles lazy loaded
+• minimal hydration issues
+• no flash of untranslated text
+
+--------------------------------------------------
+
+PHASE 13 — GOOGLE SEARCH CONSOLE COMPATIBILITY
+
+Ensure system supports:
+
+• proper indexing
+• language targeting
+• sitemap discovery
+• hreflang validation
+
+--------------------------------------------------
+
+PHASE 14 — ADMIN REPORT
+
+After implementation generate a report including:
+
+• total pages translated
+• hreflang coverage
+• sitemap coverage
+• missing translations
+• SEO improvements implemented
+• any remaining risks
+
+--------------------------------------------------
+
+CONSTRAINTS
+
+Do not modify:
+
+• Stripe payment logic
+• subscription system
+• auth system
+• question generator
+• lesson generator
+• database schema unless required for language support
+
+Maintain full compatibility with:
+
+• Vite
+• React
+• Express backend
+• Wouter routing
+
+--------------------------------------------------
+
+FINAL GOAL
+
+NurseNest should rank in:
+
+English search
+French search
+Spanish search
+
+and Google must correctly serve the language version to the user.
+
+Implementation must be production ready.
+
+Execute the audit, implement the system, validate indexing structure, and provide a final summary.
