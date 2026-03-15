@@ -1,0 +1,105 @@
+Replit is defaulting to the existing route inventory instead of the content you created today.
+So the problem is not “there is no emergency content.”
+The problem is more likely one of these:
+the content was generated but never attached to front-end routes
+the pages exist in the database/CMS but not in the nursing-specialties registry
+the slugs were created under different names than the UI expects
+Replit is trying to “closest match” to old pages instead of creating the missing specialty pages properly
+You should not let it remap:
+NICU → Pediatric ICU
+Emergency → Trauma
+Critical Care → ICU
+unless that was your explicit product decision.
+If you created dedicated emergency nursing content today, then it needs a dedicated Emergency Nursing page. Same for NICU, PICU, oncology, perioperative, and any other certification/specialty track you built.
+Send Replit this instead:
+Do NOT collapse newly created certification/specialty content into “closest match” legacy pages.
+
+Problem:
+You are reporting that there is no dedicated NICU or Emergency specialty page in the current nursing-specialties data, and you are attempting to substitute:
+- ICU Nursing for Critical Care
+- Pediatric ICU Nursing for PICU/NICU
+- Trauma Nursing for Emergency
+This is not acceptable if dedicated content was created today for those specialties.
+
+Correct requirement:
+If dedicated specialty/certification content was created today, the site architecture must be updated to surface that content through dedicated routes and dedicated specialty pages, not remap it to approximate older pages.
+
+What to do:
+
+1. Audit all certification/new grad specialty content created today
+Identify whether dedicated content now exists for:
+- NICU
+- PICU
+- Emergency Nursing
+- Oncology Nursing
+- Perioperative Nursing
+- Critical Care
+- any other specialties created today
+
+2. Determine where that content currently lives
+Check whether it exists in:
+- database tables
+- CMS/content collections
+- lesson registry
+- specialty config
+- slug map
+- route definitions
+- card/grid data
+- internal navigation config
+
+3. If the content exists but no page is registered:
+Create the missing dedicated specialty pages and routes.
+
+Required approach:
+- do not substitute legacy “closest match” pages
+- do not hide created content behind unrelated slugs
+- do not silently merge NICU into PICU unless explicitly directed
+- do not merge Emergency into Trauma unless explicitly directed
+
+4. Create/restore dedicated routes for the actual specialties created today, such as:
+- /new-grad/certifications/nicu
+- /new-grad/certifications/picu
+- /new-grad/certifications/emergency-nursing
+- /new-grad/certifications/oncology-nursing
+- /new-grad/certifications/perioperative-nursing
+- /new-grad/certifications/critical-care-nursing
+
+Use the project’s existing naming conventions if needed, but keep them dedicated and distinct.
+
+5. Update the New Grad hero/certifications grid
+The grid must reflect the real available content, not “closest match” substitutions.
+Each card should link to the dedicated specialty page that matches the created content.
+
+6. If content was generated but not connected:
+Wire it into:
+- specialty registry
+- route map
+- page loader
+- cards/index page
+- internal links
+- SEO metadata
+
+7. If content truly does NOT exist for a specialty:
+Only then report it as missing.
+But do not assume it is missing just because it is absent from the old nursing-specialties config.
+
+8. Deliverables required:
+- list of all specialty/certification content created today
+- which items already had routes
+- which items existed in content but were missing front-end routes
+- exact new routes created
+- exact files/configs updated
+- confirmation that the published site now exposes the content properly
+
+Important:
+The system must adapt to the created content, not force the created content into outdated legacy page mappings.
+What they are saying is basically:
+“the old config doesn’t know about the new pages.”
+That is a registry problem, not proof the content does not exist.
+I would push them on these exact questions:
+“Did the content get created in the database/CMS?”
+“What table or content source contains the emergency nursing content made today?”
+“Which slug was assigned to it?”
+“Why is it not registered in the specialty route map?”
+“Show me the exact files that define the nursing-specialties data and page registry.”
+The key instruction is: stop matching to nearest old page and instead expose the actual new content with real routes.
