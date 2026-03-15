@@ -320,6 +320,7 @@ import { rnIncompleteBatch4Lessons } from "./rn-incomplete-batch-4";
 import { rnIncompleteBatch5Lessons } from "./rn-incomplete-batch-5";
 import { rnIncompleteBatch6Lessons } from "./rn-incomplete-batch-6";
 import { rnIncompleteBatch7Lessons } from "./rn-incomplete-batch-7";
+import { rnInfectiousDiseaseExpansionLessons } from "./rn-infectious-disease-expansion";
 
 import { rnContentBatch001Lessons } from "./rn-content-batch-001";
 import { rnContentBatch002Lessons } from "./rn-content-batch-002";
@@ -891,6 +892,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnIncompleteBatch6Lessons,
   rnIncompleteBatch7Lessons,
   npPathoExpansionLessons,
+  rnInfectiousDiseaseExpansionLessons,
 );
 
 

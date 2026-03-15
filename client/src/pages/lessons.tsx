@@ -2162,7 +2162,9 @@ export const rnSystems = [
       { id: "syphilis-management-rn", name: "Syphilis", status: "Available" },
       { id: "bacterial-meningitis-rn", name: "Bacterial Meningitis", status: "Available" },
       { id: "prostate-cancer-rn", name: "Prostate Cancer", status: "Available" },
-      { id: "oral-candidiasis-rn-clinical-decision-making-rn", name: "Oral Candidiasis - RN Clinical Decision-Making", status: "Available" }
+      { id: "oral-candidiasis-rn-clinical-decision-making-rn", name: "Oral Candidiasis - RN Clinical Decision-Making", status: "Available" },
+      { id: "bacterial-cell-structure-rn", name: "Bacterial Cell Structure", status: "Available" },
+      { id: "vaccine-mechanisms-rn", name: "Vaccine Mechanisms", status: "Available" }
     ]
   },
   {
