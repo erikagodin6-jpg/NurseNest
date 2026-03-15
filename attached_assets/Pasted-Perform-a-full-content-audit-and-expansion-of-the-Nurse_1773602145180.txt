@@ -1,0 +1,328 @@
+Perform a full content audit and expansion of the NurseNest platform using the uploaded educational materials and existing site structure.
+
+IMPORTANT ARCHITECTURE RULES
+
+1. Do NOT create new top-level categories or navigation items.
+2. Do NOT rename current categories.
+3. Do NOT change the navigation menus that already exist.
+4. Do NOT move content between tiers.
+5. Expand or fill existing lessons first before creating new ones.
+6. Do NOT duplicate lessons with slightly different titles.
+7. All generated content must appear on the LIVE published site.
+8. Do NOT create empty lesson shells.
+9. Do NOT leave any broken routes or 404 pages.
+10. All links, buttons, and test banks must work on the published site.
+
+---
+
+SITE TIERS TO AUDIT
+
+Audit and expand the following tiers independently:
+
+• RPN
+• RN
+• NP
+• Allied Health
+• New Grad Support (only where applicable)
+
+Each tier must stay within its own scope.
+
+---
+
+CONTENT SOURCES TO USE
+
+Extract topics and competency areas from the uploaded materials including:
+
+• Saunders NCLEX Review
+• NCLEX PN review
+• McCance & Huether Pathophysiology
+• Family Nurse Practitioner Certification Review
+• Pediatric Cardiac Intensive Care Handbook
+• CCU Handbook
+• Massive Hemorrhage Protocol
+• Respiratory Therapy TMC / RRT materials
+• Pathophysiology lecture/unit documents
+
+Use these materials to identify:
+
+• core disease topics
+• system physiology
+• exam blueprint topics
+• clinical scenarios
+• pharmacology concepts
+• diagnostic interpretation
+• monitoring and management principles
+
+Do NOT copy text or questions verbatim from the books.
+Generate original content modeled on the competencies.
+
+---
+
+STEP 1 — AUDIT CURRENT LESSONS
+
+Scan the entire site and identify:
+
+• empty lessons
+• lessons with placeholder text
+• lessons missing flashcards
+• lessons missing test bank questions
+• lessons missing CAT questions
+• lessons that are too short or incomplete
+
+For each empty lesson:
+Populate it with complete content rather than creating a new title.
+
+---
+
+STEP 2 — MAP TOPICS TO EXISTING CATEGORIES
+
+Extract topics from the uploaded materials and map them into the current system categories already present on the site such as:
+
+• cardiovascular
+• respiratory
+• endocrine
+• neurologic
+• renal
+• GI
+• hematologic
+• immune/infectious
+• musculoskeletal
+• integument
+• pediatrics
+• maternity
+• mental health
+• pharmacology
+• critical care
+• emergency care
+• diagnostic interpretation
+• professional practice
+
+Only place topics into categories that already exist in that tier.
+
+---
+
+STEP 3 — BUILD LESSON CONTENT
+
+For each new or expanded lesson include:
+
+• overview
+• pathophysiology
+• risk factors
+• clinical manifestations
+• assessment findings
+• diagnostics
+• nursing/clinical interventions
+• complications
+• patient teaching
+• exam pearls
+
+Depth by tier:
+
+RPN
+simple pathophysiology
+practical nursing interventions
+safety priorities
+
+RN
+moderate depth pathophysiology
+clinical reasoning
+diagnostics and nursing priorities
+
+NP
+advanced pathophysiology
+differential diagnosis
+diagnostic interpretation
+evidence-based management
+pharmacology and prescribing
+
+Allied Health
+profession-specific physiology
+device operation
+diagnostic interpretation
+technical procedures
+
+---
+
+STEP 4 — FLASHCARDS
+
+For every lesson create flashcards.
+
+RPN
+20–30 flashcards
+
+RN
+25–35 flashcards
+
+NP
+30–40 flashcards
+
+Allied Health
+20–30 flashcards
+
+Flashcards should cover:
+
+• definitions
+• key signs and symptoms
+• diagnostics
+• interventions
+• medications
+• complications
+• exam traps
+
+Publish flashcards into the correct tier decks.
+
+---
+
+STEP 5 — TEST BANK QUESTIONS
+
+Generate original exam questions based on lesson topics.
+
+RPN
+25–40 questions per topic
+
+RN
+35–50 questions per topic
+
+NP
+40–60 questions per topic
+
+Allied
+30–50 questions per topic
+
+Question styles
+
+• multiple choice
+• SATA
+• prioritization
+• delegation
+• scenario-based clinical reasoning
+
+Each question must include rationales for every answer choice.
+
+Place questions in the correct tier test banks.
+
+---
+
+STEP 6 — CAT / ADAPTIVE QUESTIONS
+
+Generate CAT style questions if the tier supports adaptive testing.
+
+RPN
+10–20 per topic
+
+RN
+15–25 per topic
+
+NP
+20–30 per topic
+
+Allied
+Only generate if CAT exists for that program.
+
+Difficulty must progress from:
+
+recognition
+→ application
+→ prioritization
+→ clinical decision-making
+
+---
+
+STEP 7 — ALLIED HEALTH PROGRAM EXPANSION
+
+Use respiratory therapy and monitoring materials to strengthen allied health programs such as:
+
+• respiratory therapy
+• radiography
+• sonography
+• echo technology
+• paramedic
+• pharmacy technician
+• surgical technology
+• OTA/PTA
+
+Add lessons only where they logically fit existing program structures.
+
+Example topics:
+
+Respiratory therapy
+• ABG interpretation
+• mechanical ventilation
+• oxygen devices
+• pulmonary pharmacology
+
+Radiography
+• radiation physics
+• imaging positioning
+• contrast safety
+
+Sonography/Echo
+• cardiac anatomy
+• Doppler principles
+• congenital heart lesions
+
+Paramedic
+• shock
+• trauma
+• airway management
+
+Pharmacy tech
+• medication classes
+• pharmacokinetics
+• pharmacy calculations
+
+---
+
+STEP 8 — NEW GRAD SUPPORT
+
+Where applicable expand New Grad resources using critical care and clinical practice materials including:
+
+• sepsis
+• DKA
+• hemorrhage protocols
+• ICU monitoring
+• cardiac emergencies
+• medication calculations
+• clinical handoff practices
+
+---
+
+STEP 9 — QUALITY CONTROL
+
+Before publishing confirm:
+
+• no duplicate lessons
+• no empty lessons
+• no broken navigation
+• no 404 pages
+• test banks load properly
+• exams start correctly
+• flashcards appear in decks
+• CAT questions load in adaptive system
+
+---
+
+STEP 10 — SEO IMPROVEMENTS
+
+Where lessons are expanded add:
+
+• internal linking
+• structured headings
+• clinical keywords
+• exam blueprint terms
+
+Do NOT change the current navigation.
+
+---
+
+FINAL RESULT
+
+After completion the platform should contain:
+
+• fully populated lessons across all tiers
+• flashcards for every topic
+• thousands of practice questions
+• working CAT exams
+• no empty lesson pages
+• no broken routes
+• fully functional test banks
