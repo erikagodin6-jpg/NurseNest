@@ -449,6 +449,54 @@ function isPlaceholder(lesson: LessonContent): boolean {
     if (genericQuizCount >= 2 && quiz.length <= 3) return true;
   }
 
+  const batchGenericRiskFactors = [
+    "Age-related risk factors specific to",
+    "Genetic predisposition and family history",
+    "Modifiable lifestyle factors (smoking, obesity, sedentary behavior)",
+    "Medication-related risk (polypharmacy, drug interactions)",
+    "Psychosocial factors (chronic stress, socioeconomic status)",
+    "Previous history of related conditions",
+  ];
+  const batchRfCount = rf.filter((r: string) =>
+    batchGenericRiskFactors.some(g => r.startsWith(g) || r === g)
+  ).length;
+  if (batchRfCount >= 4) return true;
+
+  const batchGenericNursing = [
+    "Perform systematic assessment using standardized tools for",
+    "Implement evidence-based nursing interventions for symptom management",
+    "Assess pain and implement multimodal pain management strategies",
+    "Coordinate care transitions and discharge planning",
+  ];
+  const batchNaCount = na.filter((a: string) =>
+    batchGenericNursing.some(g => a.startsWith(g) || a === g)
+  ).length;
+  if (batchNaCount >= 3) return true;
+
+  const batchGenericMgmt = [
+    "Initiate evidence-based first-line pharmacotherapy for",
+    "Implement non-pharmacological interventions as adjunct therapy",
+    "Implement guideline-directed escalation protocols if initial therapy fails",
+    "Plan appropriate follow-up intervals and outcome measurements",
+  ];
+  const mgmt = lesson.management || [];
+  const batchMgmtCount = mgmt.filter((m: string) =>
+    batchGenericMgmt.some(g => m.startsWith(g) || m === g)
+  ).length;
+  if (batchMgmtCount >= 3) return true;
+
+  const hasBoilerplateMedName = meds.some((med: any) =>
+    med.name.startsWith("First-Line Agent for ") || med.name.startsWith("Adjunct Therapy for ")
+  );
+  if (hasBoilerplateMedName && (batchRfCount >= 2 || batchNaCount >= 2 || batchMgmtCount >= 2)) {
+    return true;
+  }
+
+  if (quiz.length === 1 && quiz[0].question.includes("A 58-year-old patient presents with symptoms consistent with")) {
+    const opts = quiz[0].options || [];
+    if (opts.some((o: string) => o === "Prescribe empiric treatment without further evaluation")) return true;
+  }
+
   return false;
 }
 
