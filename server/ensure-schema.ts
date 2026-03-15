@@ -561,16 +561,17 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
       )
     `);
 
+    await client.query(`SAVEPOINT before_constraint`);
     try {
       await client.query(`ALTER TABLE content_access_counters ADD CONSTRAINT content_access_counters_user_type_date_unique UNIQUE (user_id, content_type, access_date)`);
+      await client.query(`RELEASE SAVEPOINT before_constraint`);
     } catch (e: any) {
-      // constraint already exists
+      await client.query(`ROLLBACK TO SAVEPOINT before_constraint`);
     }
     await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_user ON security_audit_logs (user_id)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_event ON security_audit_logs (event_type)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_security_audit_logs_created ON security_audit_logs (created_at)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_content_access_user_date ON content_access_counters (user_id, access_date)`);
-    await client.query(`CREATE INDEX IF NOT EXISTS idx_watermark_sessions_user ON watermark_sessions (user_id)`);
 
     await client.query(`
       CREATE TABLE IF NOT EXISTS watermark_sessions (
@@ -584,6 +585,24 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
         expires_at timestamp
       )
     `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_watermark_sessions_user ON watermark_sessions (user_id)`);
+
+    await client.query(`ALTER TABLE watermark_sessions ADD COLUMN IF NOT EXISTS masked_email text`);
+    await client.query(`ALTER TABLE watermark_sessions ADD COLUMN IF NOT EXISTS user_id_suffix text`);
+    await client.query(`ALTER TABLE watermark_sessions ADD COLUMN IF NOT EXISTS ip_address text`);
+    await client.query(`ALTER TABLE watermark_sessions ADD COLUMN IF NOT EXISTS user_agent text`);
+    await client.query(`ALTER TABLE watermark_sessions ADD COLUMN IF NOT EXISTS expires_at timestamp`);
+
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS exam_type text DEFAULT 'practice'`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS cat_state jsonb`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS blueprint_coverage_state jsonb`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS review_unlocked boolean DEFAULT false`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS timer_state jsonb`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS stopping_rule_status text`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS blueprint_code text`);
+    await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS blueprint_meta jsonb`);
+
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS preferred_theme text`);
 
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
