@@ -1,551 +1,710 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminFetch } from "@/lib/admin-fetch";
-import { useLocation } from "wouter";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
-  ArrowLeft,
-  RefreshCw,
-  CheckCircle,
-  AlertTriangle,
-  XCircle,
-  Shield,
-  Globe,
-  Search,
-  FileText,
-  Link2,
-  Map,
-  Eye,
-  DollarSign,
-  BarChart3,
-  Filter,
-  ChevronDown,
-  ChevronUp,
-  Layers,
-  Activity,
+  RefreshCw, Shield, AlertTriangle, CheckCircle, XCircle,
+  Link2, FileX, Image, BookOpen, HelpCircle, Search,
+  ArrowLeft, Wrench, ExternalLink, Globe, Map, LinkIcon,
+  Activity, BarChart3, ChevronDown, ChevronUp,
 } from "lucide-react";
 
-type Severity = "critical" | "warning" | "info";
-type IssueType = "broken-link" | "route-mismatch" | "sitemap-error" | "seo-gap" | "missing-page" | "content-guard" | "missing-content";
+type TabId = "overview" | "broken-links" | "missing-content" | "seo-audit" | "sitemap" | "internal-links";
 
-interface HealthIssue {
-  id: string;
-  type: IssueType;
-  severity: Severity;
-  title: string;
-  detail: string;
-  source: string;
-  path?: string;
-}
-
-interface ScanResult {
-  scannedAt: string;
-  summary: {
-    totalIssues: number;
-    critical: number;
-    warnings: number;
-    info: number;
-    byType: Record<string, number>;
-  };
-  issues: HealthIssue[];
-  contentCoverage: {
-    lessonsByTier: { tier: string; total: number; published: number; draft: number; empty: number }[];
-    examQuestionsByTier: { tier: string; count: number }[];
-    examCategoryBreakdown: { category: string; count: number }[];
-    flashcardTopicCount: number;
-    flashcardByTopic: { topic: string; count: number }[];
-    totalContentItems: number;
-    totalLessons: number;
-    totalPublished: number;
-    totalDraft: number;
-    sitemapUrlCount: number;
-  };
-  contentGuardFlags: { path: string; reason: string }[];
-  financialSummary: {
-    totalRevenueCAD: number;
-    totalExpensesCAD: number;
-    profitLossCAD: number;
-    breakEvenRemainingCAD: number;
-    aiSpendUSD: number;
-  } | null;
-  scanErrors?: string[];
-}
-
-const SEVERITY_CONFIG: Record<Severity, { icon: typeof CheckCircle; color: string; bg: string; border: string; label: string }> = {
-  critical: { icon: XCircle, color: "text-red-600", bg: "bg-red-50", border: "border-red-200", label: "Critical" },
-  warning: { icon: AlertTriangle, color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200", label: "Warning" },
-  info: { icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200", label: "Info" },
+const SEVERITY_CONFIG = {
+  critical: { color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400", icon: XCircle, label: "Critical" },
+  warning: { color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400", icon: AlertTriangle, label: "Warning" },
+  info: { color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400", icon: HelpCircle, label: "Info" },
 };
 
-const TYPE_LABELS: Record<IssueType, { label: string; icon: typeof Link2 }> = {
-  "broken-link": { label: "Broken Links", icon: Link2 },
-  "route-mismatch": { label: "Route Mismatches", icon: Globe },
-  "sitemap-error": { label: "Sitemap Errors", icon: Map },
-  "seo-gap": { label: "SEO Gaps", icon: Search },
-  "missing-page": { label: "Missing Pages", icon: FileText },
-  "missing-content": { label: "Missing Content", icon: FileText },
-  "content-guard": { label: "Content Guard", icon: Eye },
+const CATEGORY_LABELS: Record<string, string> = {
+  broken_link: "Broken Links",
+  missing_page: "Missing Pages",
+  missing_image: "Missing Images",
+  missing_flashcards: "Missing Flashcards",
+  missing_questions: "Missing Questions",
+  seo_metadata: "SEO Metadata",
+  sitemap: "Sitemap",
+  internal_link: "Internal Links",
 };
 
-const TIER_LABELS: Record<string, string> = {
-  free: "Free",
-  rpn: "RPN",
-  rn: "RN",
-  np: "NP",
-  admin: "Admin",
-  allied: "Allied",
+const CATEGORY_ICONS: Record<string, any> = {
+  broken_link: Link2,
+  missing_page: FileX,
+  missing_image: Image,
+  missing_flashcards: BookOpen,
+  missing_questions: HelpCircle,
+  seo_metadata: Globe,
+  sitemap: Map,
+  internal_link: LinkIcon,
 };
 
-function fmt(n: number): string {
-  return n.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-export default function AdminSiteHealth() {
-  const [, setLocation] = useLocation();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [severityFilter, setSeverityFilter] = useState<Severity | "all">("all");
-  const [typeFilter, setTypeFilter] = useState<IssueType | "all">("all");
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    summary: true,
-    issues: true,
-    coverage: true,
-    guard: false,
-    financial: false,
-  });
-
-  const { data, isLoading, error, refetch, isFetching } = useQuery<ScanResult>({
-    queryKey: ["site-health-scan"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/site-health/scan");
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error((err as any).error || "Scan failed");
-      }
-      return res.json();
-    },
-    retry: 1,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const toggleSection = (key: string) => {
-    setExpandedSections(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const filteredIssues = (data?.issues || []).filter(issue => {
-    if (severityFilter !== "all" && issue.severity !== severityFilter) return false;
-    if (typeFilter !== "all" && issue.type !== typeFilter) return false;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      return issue.title.toLowerCase().includes(q) || issue.detail.toLowerCase().includes(q) || (issue.path || "").toLowerCase().includes(q);
-    }
-    return true;
-  });
-
-  const overallStatus = !data ? "unknown" : data.summary.critical > 0 ? "critical" : data.summary.warnings > 0 ? "warning" : "healthy";
-  const statusConfig = {
-    unknown: { color: "text-gray-500", bg: "bg-gray-100", label: "Not Scanned" },
-    healthy: { color: "text-emerald-600", bg: "bg-emerald-100", label: "Healthy" },
-    warning: { color: "text-amber-600", bg: "bg-amber-100", label: "Warnings Found" },
-    critical: { color: "text-red-600", bg: "bg-red-100", label: "Issues Found" },
-  };
+function StatusBadge({ status }: { status: string }) {
+  const config = status === "healthy"
+    ? { bg: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400", icon: CheckCircle, label: "Healthy" }
+    : status === "warning"
+    ? { bg: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400", icon: AlertTriangle, label: "Warning" }
+    : { bg: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400", icon: XCircle, label: "Critical" };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6" data-testid="page-site-health">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={() => setLocation("/admin")} data-testid="button-back-admin">
-              <ArrowLeft className="w-4 h-4 mr-1" />
-              Admin
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Site Health Dashboard</h1>
-              <p className="text-sm text-gray-500">Broken links, SEO gaps, content integrity & financial overview</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {data && (
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${statusConfig[overallStatus].bg} ${statusConfig[overallStatus].color}`} data-testid="badge-overall-status">
-                {overallStatus === "healthy" && <CheckCircle className="w-4 h-4" />}
-                {overallStatus === "warning" && <AlertTriangle className="w-4 h-4" />}
-                {overallStatus === "critical" && <XCircle className="w-4 h-4" />}
-                {statusConfig[overallStatus].label}
-              </span>
-            )}
-            <Button size="sm" onClick={() => refetch()} disabled={isFetching} data-testid="button-run-scan">
-              <RefreshCw className={`w-4 h-4 mr-1 ${isFetching ? "animate-spin" : ""}`} />
-              {isFetching ? "Scanning..." : "Run Scan"}
-            </Button>
-          </div>
-        </div>
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${config.bg}`} data-testid="badge-health-status">
+      <config.icon className="w-4 h-4" />
+      {config.label}
+    </span>
+  );
+}
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm" data-testid="banner-error">
-            {(error as Error).message}
-          </div>
-        )}
+function SeverityBadge({ severity }: { severity: string }) {
+  const config = SEVERITY_CONFIG[severity as keyof typeof SEVERITY_CONFIG] || SEVERITY_CONFIG.info;
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
+      <config.icon className="w-3 h-3" />
+      {config.label}
+    </span>
+  );
+}
 
-        {isLoading && !data && (
-          <div className="flex items-center justify-center py-20">
-            <RefreshCw className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        )}
+function IssuesList({ issues, searchTerm, onRepair }: { issues: any[]; searchTerm: string; onRepair: (id: string, action: string) => void }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
-        {data?.scanErrors && data.scanErrors.length > 0 && (
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-lg text-sm" data-testid="banner-scan-warnings">
-            <div className="flex items-center gap-2 font-medium mb-1">
-              <AlertTriangle className="w-4 h-4" />
-              Partial scan — some checks encountered errors:
-            </div>
-            <ul className="list-disc ml-6 space-y-0.5">
-              {data.scanErrors.map((err, i) => <li key={i}>{err}</li>)}
-            </ul>
-          </div>
-        )}
+  const filtered = issues.filter(issue => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      issue.title?.toLowerCase().includes(term) ||
+      issue.description?.toLowerCase().includes(term) ||
+      issue.url?.toLowerCase().includes(term) ||
+      issue.category?.toLowerCase().includes(term)
+    );
+  });
 
-        {data && (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4" data-testid="section-summary-cards">
-              <Card className="border-l-4 border-l-red-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <XCircle className="w-4 h-4 text-red-500" />
-                    <span>Critical</span>
-                  </div>
-                  <p className="text-3xl font-bold text-red-600" data-testid="text-critical-count">{data.summary.critical}</p>
-                </CardContent>
-              </Card>
-              <Card className="border-l-4 border-l-amber-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <AlertTriangle className="w-4 h-4 text-amber-500" />
-                    <span>Warnings</span>
-                  </div>
-                  <p className="text-3xl font-bold text-amber-600" data-testid="text-warning-count">{data.summary.warnings}</p>
-                </CardContent>
-              </Card>
-              <Card className="border-l-4 border-l-blue-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <CheckCircle className="w-4 h-4 text-blue-500" />
-                    <span>Info</span>
-                  </div>
-                  <p className="text-3xl font-bold text-blue-600" data-testid="text-info-count">{data.summary.info}</p>
-                </CardContent>
-              </Card>
-              <Card className="border-l-4 border-l-emerald-500">
-                <CardContent className="pt-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                    <Shield className="w-4 h-4 text-emerald-500" />
-                    <span>Total Issues</span>
-                  </div>
-                  <p className="text-3xl font-bold text-gray-900" data-testid="text-total-issues">{data.summary.totalIssues}</p>
-                </CardContent>
-              </Card>
+  if (filtered.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground" data-testid="text-no-issues">
+        <CheckCircle className="w-12 h-12 mx-auto mb-2 text-green-500" />
+        <p className="font-medium">No issues found</p>
+        <p className="text-sm">Everything looks good!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-2" data-testid="list-issues">
+      {filtered.slice(0, 100).map((issue) => {
+        const CategoryIcon = CATEGORY_ICONS[issue.category] || AlertTriangle;
+        const isExpanded = expandedId === issue.id;
+
+        return (
+          <div
+            key={issue.id}
+            className="border rounded-lg p-3 hover:bg-accent/50 transition-colors"
+            data-testid={`issue-item-${issue.id}`}
+          >
+            <div className="flex items-start gap-3 cursor-pointer" onClick={() => setExpandedId(isExpanded ? null : issue.id)}>
+              <CategoryIcon className="w-5 h-5 mt-0.5 text-muted-foreground flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-medium text-sm" data-testid={`text-issue-title-${issue.id}`}>{issue.title}</span>
+                  <SeverityBadge severity={issue.severity} />
+                  {issue.autoFixable && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                      <Wrench className="w-3 h-3" /> Auto-fixable
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate">{issue.description}</p>
+              </div>
+              {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" data-testid="section-type-breakdown">
-              {Object.entries(TYPE_LABELS).map(([type, cfg]) => {
-                const count = data.summary.byType[type === "broken-link" ? "brokenLinks" : type === "route-mismatch" ? "routeMismatches" : type === "sitemap-error" ? "sitemapErrors" : type === "seo-gap" ? "seoGaps" : type === "missing-page" ? "missingPages" : type === "missing-content" ? "missingContent" : "contentGuard"] || 0;
-                const Icon = cfg.icon;
-                return (
-                  <button
-                    key={type}
-                    onClick={() => setTypeFilter(typeFilter === type ? "all" : type as IssueType)}
-                    className={`p-3 rounded-lg border text-left transition-all ${typeFilter === type ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-gray-200 bg-white hover:border-gray-300"}`}
-                    data-testid={`filter-type-${type}`}
+            {isExpanded && (
+              <div className="mt-3 ml-8 space-y-2 text-sm">
+                {issue.url && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-muted-foreground">URL:</span>
+                    <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{issue.url}</code>
+                  </div>
+                )}
+                {issue.sourceUrl && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-muted-foreground">Source:</span>
+                    <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{issue.sourceUrl}</code>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground">Detected:</span>
+                  <span>{new Date(issue.detectedAt).toLocaleString()}</span>
+                </div>
+                {issue.autoFixable && issue.fixAction && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="mt-1"
+                    onClick={(e) => { e.stopPropagation(); onRepair(issue.id, issue.fixAction); }}
+                    data-testid={`button-repair-${issue.id}`}
                   >
-                    <Icon className="w-4 h-4 text-gray-400 mb-1" />
-                    <p className="text-lg font-bold text-gray-900">{count}</p>
-                    <p className="text-[10px] text-gray-500 truncate">{cfg.label}</p>
-                  </button>
+                    <Wrench className="w-3 h-3 mr-1" /> Auto-Repair
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      {filtered.length > 100 && (
+        <p className="text-center text-sm text-muted-foreground py-2">
+          Showing first 100 of {filtered.length} issues
+        </p>
+      )}
+    </div>
+  );
+}
+
+function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any; isLoading: boolean; onRepairAll: () => void; isRepairing: boolean }) {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12" data-testid="loading-overview">
+        <RefreshCw className="w-6 h-6 animate-spin mr-2" />
+        <span>Scanning site health...</span>
+      </div>
+    );
+  }
+
+  if (!data) return null;
+
+  const { overallStatus, summary, categoryCounts, contentStats } = data;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <StatusBadge status={overallStatus} />
+          <span className="text-sm text-muted-foreground">
+            Last scan: {new Date(data.generatedAt).toLocaleString()}
+          </span>
+        </div>
+        {summary.autoFixable > 0 && (
+          <Button
+            onClick={onRepairAll}
+            disabled={isRepairing}
+            variant="outline"
+            size="sm"
+            data-testid="button-repair-all"
+          >
+            {isRepairing ? <RefreshCw className="w-4 h-4 animate-spin mr-1" /> : <Wrench className="w-4 h-4 mr-1" />}
+            Auto-Repair All ({summary.autoFixable})
+          </Button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card data-testid="card-total-issues">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <Activity className="w-8 h-8 text-blue-500" />
+              <div>
+                <p className="text-2xl font-bold" data-testid="text-total-issues">{summary.totalIssues}</p>
+                <p className="text-xs text-muted-foreground">Total Issues</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-critical-issues">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <XCircle className="w-8 h-8 text-red-500" />
+              <div>
+                <p className="text-2xl font-bold text-red-600" data-testid="text-critical-count">{summary.critical}</p>
+                <p className="text-xs text-muted-foreground">Critical</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-warning-issues">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-8 h-8 text-yellow-500" />
+              <div>
+                <p className="text-2xl font-bold text-yellow-600" data-testid="text-warning-count">{summary.warnings}</p>
+                <p className="text-xs text-muted-foreground">Warnings</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-info-issues">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <HelpCircle className="w-8 h-8 text-blue-500" />
+              <div>
+                <p className="text-2xl font-bold text-blue-600" data-testid="text-info-count">{summary.info}</p>
+                <p className="text-xs text-muted-foreground">Info</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-published-lessons">{contentStats.publishedLessons}</p>
+            <p className="text-xs text-muted-foreground">Published Lessons</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-published-questions">{contentStats.publishedQuestions}</p>
+            <p className="text-xs text-muted-foreground">Published Questions</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-flashcard-decks">{contentStats.publishedFlashcardDecks}</p>
+            <p className="text-xs text-muted-foreground">Flashcard Decks</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-blog-posts">{contentStats.publishedBlogPosts}</p>
+            <p className="text-xs text-muted-foreground">Blog Posts</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-sitemap-urls">{contentStats.totalSitemapUrls.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground">Sitemap URLs</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {Object.keys(categoryCounts).length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Issues by Category</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {Object.entries(categoryCounts).map(([category, count]) => {
+                const Icon = CATEGORY_ICONS[category] || AlertTriangle;
+                return (
+                  <div key={category} className="flex items-center gap-2 p-2 border rounded-lg" data-testid={`category-count-${category}`}>
+                    <Icon className="w-4 h-4 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium text-sm">{count as number}</p>
+                      <p className="text-xs text-muted-foreground">{CATEGORY_LABELS[category] || category}</p>
+                    </div>
+                  </div>
                 );
               })}
             </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
 
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleSection("issues")}>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Activity className="w-5 h-5" />
-                    Issue Details ({filteredIssues.length})
-                  </CardTitle>
-                  {expandedSections.issues ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </div>
-                {expandedSections.issues && (
-                  <div className="flex flex-wrap items-center gap-2 mt-3">
-                    <Input
-                      placeholder="Search issues..."
-                      value={searchQuery}
-                      onChange={e => setSearchQuery(e.target.value)}
-                      className="w-56 h-8 text-xs"
-                      data-testid="input-search-issues"
-                    />
-                    <select
-                      value={severityFilter}
-                      onChange={e => setSeverityFilter(e.target.value as any)}
-                      className="h-8 text-xs border rounded-md px-2"
-                      data-testid="select-severity-filter"
-                    >
-                      <option value="all">All Severities</option>
-                      <option value="critical">Critical</option>
-                      <option value="warning">Warning</option>
-                      <option value="info">Info</option>
-                    </select>
-                    <select
-                      value={typeFilter}
-                      onChange={e => setTypeFilter(e.target.value as any)}
-                      className="h-8 text-xs border rounded-md px-2"
-                      data-testid="select-type-filter"
-                    >
-                      <option value="all">All Types</option>
-                      {Object.entries(TYPE_LABELS).map(([t, cfg]) => (
-                        <option key={t} value={t}>{cfg.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-              </CardHeader>
-              {expandedSections.issues && (
-                <CardContent>
-                  {filteredIssues.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400" data-testid="text-no-issues">
-                      {data.summary.totalIssues === 0 ? (
-                        <div className="flex flex-col items-center gap-2">
-                          <CheckCircle className="w-8 h-8 text-emerald-500" />
-                          <span className="text-emerald-600 font-medium">All checks passed! No issues found.</span>
-                        </div>
-                      ) : (
-                        "No issues match current filters"
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-2 max-h-[500px] overflow-y-auto">
-                      {filteredIssues.map(issue => {
-                        const cfg = SEVERITY_CONFIG[issue.severity];
-                        const Icon = cfg.icon;
-                        return (
-                          <div
-                            key={issue.id}
-                            className={`flex items-start gap-3 p-3 rounded-lg border ${cfg.bg} ${cfg.border}`}
-                            data-testid={`issue-row-${issue.id}`}
-                          >
-                            <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${cfg.color}`} />
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-sm font-medium text-gray-900">{issue.title}</span>
-                                <Badge variant="outline" className="text-[9px]">{TYPE_LABELS[issue.type]?.label || issue.type}</Badge>
-                                <Badge variant={issue.severity === "critical" ? "destructive" : "secondary"} className="text-[9px]">{cfg.label}</Badge>
-                              </div>
-                              <p className="text-xs text-gray-600 mt-0.5">{issue.detail}</p>
-                              {issue.path && (
-                                <p className="text-[10px] text-gray-400 mt-0.5 font-mono">{issue.path}</p>
-                              )}
-                              <p className="text-[10px] text-gray-400 mt-0.5">Source: {issue.source}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </CardContent>
-              )}
-            </Card>
+function SeoAuditTab() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["site-health-seo"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/site-health/seo-audit");
+      if (!res.ok) throw new Error("Failed to load SEO audit");
+      return res.json();
+    },
+  });
 
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleSection("coverage")}>
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Layers className="w-5 h-5" />
-                    Content Coverage Report
-                  </CardTitle>
-                  {expandedSections.coverage ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </div>
-              </CardHeader>
-              {expandedSections.coverage && (
-                <CardContent>
-                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
-                    <div className="p-3 bg-blue-50 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-blue-700" data-testid="text-total-content">{data.contentCoverage.totalContentItems}</p>
-                      <p className="text-xs text-gray-500">Content Items</p>
-                    </div>
-                    <div className="p-3 bg-cyan-50 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-cyan-700" data-testid="text-total-lessons">{data.contentCoverage.totalLessons}</p>
-                      <p className="text-xs text-gray-500">Lessons (table)</p>
-                    </div>
-                    <div className="p-3 bg-emerald-50 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-emerald-700" data-testid="text-published-content">{data.contentCoverage.totalPublished}</p>
-                      <p className="text-xs text-gray-500">Published</p>
-                    </div>
-                    <div className="p-3 bg-amber-50 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-amber-700" data-testid="text-draft-content">{data.contentCoverage.totalDraft}</p>
-                      <p className="text-xs text-gray-500">Draft</p>
-                    </div>
-                    <div className="p-3 bg-purple-50 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-purple-700" data-testid="text-sitemap-urls">{data.contentCoverage.sitemapUrlCount}</p>
-                      <p className="text-xs text-gray-500">Sitemap URLs</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Lessons by Tier</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                      {data.contentCoverage.lessonsByTier.map(tier => {
-                        const pct = tier.total > 0 ? Math.round((tier.published / tier.total) * 100) : 0;
-                        return (
-                          <div key={tier.tier} className="p-3 bg-gray-50 rounded-lg" data-testid={`coverage-tier-${tier.tier}`}>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-semibold">{TIER_LABELS[tier.tier] || tier.tier}</span>
-                              <Badge variant="secondary" className="text-[10px]">{pct}%</Badge>
-                            </div>
-                            <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
-                              <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
-                            </div>
-                            <div className="grid grid-cols-3 gap-1 text-[10px] text-gray-500">
-                              <span>Total: {tier.total}</span>
-                              <span className="text-emerald-600">Published: {tier.published}</span>
-                              <span className="text-amber-600">Draft: {tier.draft}</span>
-                            </div>
-                            {tier.empty > 0 && (
-                              <span className="text-[10px] text-red-500">Empty: {tier.empty}</span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-700 mb-3">Test Bank Coverage</h3>
-                      <div className="space-y-2">
-                        {data.contentCoverage.examQuestionsByTier.length === 0 ? (
-                          <p className="text-xs text-gray-400">No exam questions found</p>
-                        ) : (
-                          data.contentCoverage.examQuestionsByTier.map(eq => (
-                            <div key={eq.tier} className="flex items-center justify-between p-2 bg-gray-50 rounded" data-testid={`exam-coverage-${eq.tier}`}>
-                              <span className="text-sm font-medium">{TIER_LABELS[eq.tier] || eq.tier}</span>
-                              <span className="text-sm font-bold">{eq.count} questions</span>
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-700 mb-3">Flashcard Coverage</h3>
-                      <div className="p-3 bg-gray-50 rounded-lg text-center mb-2">
-                        <p className="text-2xl font-bold text-indigo-700" data-testid="text-flashcard-topics">{data.contentCoverage.flashcardTopicCount}</p>
-                        <p className="text-xs text-gray-500">Unique Topics Covered</p>
-                      </div>
-                      {data.contentCoverage.flashcardByTopic?.length > 0 && (
-                        <div className="space-y-1 max-h-40 overflow-y-auto">
-                          {data.contentCoverage.flashcardByTopic
-                            .sort((a, b) => a.count - b.count)
-                            .slice(0, 10)
-                            .map(ft => (
-                              <div key={ft.topic} className="flex items-center justify-between p-1 text-xs">
-                                <span className="text-gray-600 truncate max-w-[60%]">{ft.topic}</span>
-                                <span className={`font-medium ${ft.count < 3 ? "text-red-500" : "text-gray-700"}`}>{ft.count} cards</span>
-                              </div>
-                            ))}
-                          {data.contentCoverage.flashcardByTopic.length > 10 && (
-                            <p className="text-[10px] text-gray-400 text-center">
-                              Showing lowest 10 of {data.contentCoverage.flashcardByTopic.length} topics
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-
-            {data.contentGuardFlags.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleSection("guard")}>
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <Eye className="w-5 h-5" />
-                      Content Guard Flags ({data.contentGuardFlags.length})
-                    </CardTitle>
-                    {expandedSections.guard ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </div>
-                </CardHeader>
-                {expandedSections.guard && (
-                  <CardContent>
-                    <p className="text-xs text-gray-500 mb-3">
-                      These navigation links point to pages without content. They should be hidden or the content should be generated.
-                    </p>
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                      {data.contentGuardFlags.map((flag, i) => (
-                        <div key={i} className="flex items-center gap-3 p-2 bg-amber-50 rounded-lg border border-amber-200" data-testid={`guard-flag-${i}`}>
-                          <Eye className="w-4 h-4 text-amber-600 shrink-0" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-gray-800 font-mono truncate">{flag.path}</p>
-                            <p className="text-xs text-gray-500">{flag.reason}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                )}
-              </Card>
-            )}
-
-            {data.financialSummary && (
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleSection("financial")}>
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <DollarSign className="w-5 h-5" />
-                      Revenue & Expense Overview
-                    </CardTitle>
-                    {expandedSections.financial ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </div>
-                </CardHeader>
-                {expandedSections.financial && (
-                  <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                      <div className="p-3 bg-green-50 rounded-lg text-center">
-                        <p className="text-xs text-gray-500 mb-1">Total Revenue</p>
-                        <p className="text-xl font-bold text-green-700" data-testid="text-health-revenue">${fmt(data.financialSummary.totalRevenueCAD)} CAD</p>
-                      </div>
-                      <div className="p-3 bg-red-50 rounded-lg text-center">
-                        <p className="text-xs text-gray-500 mb-1">Total Expenses</p>
-                        <p className="text-xl font-bold text-red-700" data-testid="text-health-expenses">${fmt(data.financialSummary.totalExpensesCAD)} CAD</p>
-                      </div>
-                      <div className={`p-3 rounded-lg text-center ${data.financialSummary.profitLossCAD >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-                        <p className="text-xs text-gray-500 mb-1">Profit/Loss</p>
-                        <p className={`text-xl font-bold ${data.financialSummary.profitLossCAD >= 0 ? "text-green-700" : "text-red-700"}`} data-testid="text-health-profit">
-                          {data.financialSummary.profitLossCAD >= 0 ? "+" : ""}${fmt(data.financialSummary.profitLossCAD)} CAD
-                        </p>
-                      </div>
-                      <div className={`p-3 rounded-lg text-center ${data.financialSummary.breakEvenRemainingCAD > 0 ? "bg-amber-50" : "bg-green-50"}`}>
-                        <p className="text-xs text-gray-500 mb-1">Break-Even Remaining</p>
-                        <p className={`text-xl font-bold ${data.financialSummary.breakEvenRemainingCAD > 0 ? "text-amber-700" : "text-green-700"}`} data-testid="text-health-breakeven">
-                          ${fmt(data.financialSummary.breakEvenRemainingCAD)} CAD
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                      <p className="text-xs text-gray-500">AI Generation Spend: <span className="font-bold text-gray-700">${fmt(data.financialSummary.aiSpendUSD)} USD</span></p>
-                    </div>
-                  </CardContent>
-                )}
-              </Card>
-            )}
-
-            <div className="text-center text-xs text-gray-400 pb-4" data-testid="text-scan-timestamp">
-              Last scanned: {new Date(data.scannedAt).toLocaleString()}
-            </div>
-          </>
-        )}
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <RefreshCw className="w-6 h-6 animate-spin mr-2" />
+        <span>Running SEO audit...</span>
       </div>
+    );
+  }
+
+  if (!data) return null;
+
+  const scoreColor = data.score >= 90 ? "text-green-600" : data.score >= 70 ? "text-yellow-600" : "text-red-600";
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className={`text-3xl font-bold ${scoreColor}`} data-testid="text-seo-score">{data.score}%</p>
+            <p className="text-xs text-muted-foreground">SEO Health Score</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold" data-testid="text-seo-total">{data.totalPages}</p>
+            <p className="text-xs text-muted-foreground">Pages Audited</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold text-green-600" data-testid="text-seo-ok">{data.pagesOk}</p>
+            <p className="text-xs text-muted-foreground">Pages OK</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4 text-center">
+            <p className="text-xl font-bold text-red-600" data-testid="text-seo-issues">{data.pagesWithIssues}</p>
+            <p className="text-xs text-muted-foreground">Pages with Issues</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {data.audit && data.audit.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Page Audit Details</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm" data-testid="table-seo-audit">
+                <thead>
+                  <tr className="border-b text-left">
+                    <th className="py-2 px-2">Page</th>
+                    <th className="py-2 px-2 text-center">Title</th>
+                    <th className="py-2 px-2 text-center">Description</th>
+                    <th className="py-2 px-2 text-center">Canonical</th>
+                    <th className="py-2 px-2 text-center">OG</th>
+                    <th className="py-2 px-2">Issues</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.audit.filter((a: any) => a.issues.length > 0).slice(0, 50).map((entry: any, idx: number) => (
+                    <tr key={idx} className="border-b hover:bg-accent/50">
+                      <td className="py-2 px-2 max-w-[200px] truncate">
+                        <code className="text-xs">{entry.path}</code>
+                      </td>
+                      <td className="py-2 px-2 text-center">
+                        {entry.hasTitle ? <CheckCircle className="w-4 h-4 text-green-500 mx-auto" /> : <XCircle className="w-4 h-4 text-red-500 mx-auto" />}
+                      </td>
+                      <td className="py-2 px-2 text-center">
+                        {entry.hasDescription ? <CheckCircle className="w-4 h-4 text-green-500 mx-auto" /> : <XCircle className="w-4 h-4 text-red-500 mx-auto" />}
+                      </td>
+                      <td className="py-2 px-2 text-center">
+                        {entry.hasCanonical ? <CheckCircle className="w-4 h-4 text-green-500 mx-auto" /> : <XCircle className="w-4 h-4 text-red-500 mx-auto" />}
+                      </td>
+                      <td className="py-2 px-2 text-center">
+                        {entry.hasOgTitle ? <CheckCircle className="w-4 h-4 text-green-500 mx-auto" /> : <XCircle className="w-4 h-4 text-red-500 mx-auto" />}
+                      </td>
+                      <td className="py-2 px-2">
+                        <div className="space-y-0.5">
+                          {entry.issues.map((issue: string, i: number) => (
+                            <p key={i} className="text-xs text-red-600">{issue}</p>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function InternalLinksTab() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["site-health-internal-links"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/site-health/internal-links");
+      if (!res.ok) throw new Error("Failed to load internal link suggestions");
+      return res.json();
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <RefreshCw className="w-6 h-6 animate-spin mr-2" />
+        <span>Analyzing internal links...</span>
+      </div>
+    );
+  }
+
+  if (!data || !data.suggestions?.length) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <LinkIcon className="w-12 h-12 mx-auto mb-2" />
+        <p className="font-medium">No suggestions</p>
+        <p className="text-sm">Internal linking structure looks complete</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Found {data.totalSuggestions} cross-link opportunities between lessons, flashcards, blog posts, and question topics.
+      </p>
+      <div className="space-y-2" data-testid="list-internal-links">
+        {data.suggestions.slice(0, 50).map((s: any, idx: number) => (
+          <div key={idx} className="border rounded-lg p-3 hover:bg-accent/50" data-testid={`link-suggestion-${idx}`}>
+            <div className="flex items-start gap-3">
+              <LinkIcon className="w-5 h-5 mt-0.5 text-blue-500 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap text-sm">
+                  <span className="font-medium">{s.sourceTitle}</span>
+                  <span className="text-muted-foreground">→</span>
+                  <span className="font-medium">{s.targetTitle}</span>
+                </div>
+                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                  <span className="px-1.5 py-0.5 bg-muted rounded">{s.sourceType}</span>
+                  <span>→</span>
+                  <span className="px-1.5 py-0.5 bg-muted rounded">{s.targetType}</span>
+                  <span className="ml-2">{s.reason}</span>
+                  <span className="ml-auto font-medium">Score: {s.score}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function AdminSiteHealth() {
+  const queryClient = useQueryClient();
+  const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { data: overviewData, isLoading: overviewLoading, refetch: refetchOverview } = useQuery({
+    queryKey: ["site-health-overview"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/site-health/overview");
+      if (!res.ok) throw new Error("Failed to load site health");
+      return res.json();
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const repairMutation = useMutation({
+    mutationFn: async ({ issueId, fixAction }: { issueId: string; fixAction: string }) => {
+      const res = await adminFetch("/api/admin/site-health/auto-repair", {
+        method: "POST",
+        body: { issueId, fixAction },
+      });
+      if (!res.ok) throw new Error("Repair failed");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["site-health-overview"] });
+    },
+  });
+
+  const repairAllMutation = useMutation({
+    mutationFn: async () => {
+      const res = await adminFetch("/api/admin/site-health/auto-repair-all", { method: "POST" });
+      if (!res.ok) throw new Error("Bulk repair failed");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["site-health-overview"] });
+    },
+  });
+
+  const tabs: { id: TabId; label: string; icon: any }[] = [
+    { id: "overview", label: "Overview", icon: Activity },
+    { id: "broken-links", label: "Broken Links", icon: Link2 },
+    { id: "missing-content", label: "Missing Content", icon: FileX },
+    { id: "seo-audit", label: "SEO Audit", icon: Globe },
+    { id: "sitemap", label: "Sitemap", icon: Map },
+    { id: "internal-links", label: "Internal Links", icon: LinkIcon },
+  ];
+
+  const filteredIssues = (category?: string) => {
+    if (!overviewData?.issues) return [];
+    if (category) return overviewData.issues.filter((i: any) => i.category === category);
+    return overviewData.issues;
+  };
+
+  const handleRepair = (issueId: string, fixAction: string) => {
+    repairMutation.mutate({ issueId, fixAction });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-6 max-w-7xl" data-testid="page-admin-site-health">
+      <div className="flex items-center gap-3 mb-6">
+        <Button variant="ghost" size="sm" onClick={() => window.history.back()} data-testid="button-back">
+          <ArrowLeft className="w-4 h-4" />
+        </Button>
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold flex items-center gap-2" data-testid="text-page-title">
+            <Shield className="w-7 h-7 text-blue-600" />
+            Site Health & Integrity
+          </h1>
+          <p className="text-sm text-muted-foreground">Monitor broken links, content gaps, SEO metadata, and sitemap integrity</p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => refetchOverview()}
+          disabled={overviewLoading}
+          data-testid="button-refresh"
+        >
+          <RefreshCw className={`w-4 h-4 mr-1 ${overviewLoading ? "animate-spin" : ""}`} />
+          Scan
+        </Button>
+      </div>
+
+      <div className="flex gap-1 mb-6 overflow-x-auto border-b pb-1">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-t-lg whitespace-nowrap transition-colors ${
+              activeTab === tab.id
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-accent"
+            }`}
+            data-testid={`tab-${tab.id}`}
+          >
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
+            {overviewData?.categoryCounts && tab.id !== "overview" && tab.id !== "internal-links" && (
+              (() => {
+                const catMap: Record<string, string[]> = {
+                  "broken-links": ["broken_link"],
+                  "missing-content": ["missing_page", "missing_flashcards", "missing_questions", "missing_image"],
+                  "seo-audit": ["seo_metadata"],
+                  "sitemap": ["sitemap"],
+                };
+                const cats = catMap[tab.id] || [];
+                const count = cats.reduce((acc, cat) => acc + (overviewData.categoryCounts[cat] || 0), 0);
+                return count > 0 ? (
+                  <span className="ml-1 px-1.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-xs font-medium">
+                    {count}
+                  </span>
+                ) : null;
+              })()
+            )}
+          </button>
+        ))}
+      </div>
+
+      {activeTab !== "overview" && activeTab !== "seo-audit" && activeTab !== "internal-links" && (
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search issues..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-9"
+              data-testid="input-search"
+            />
+          </div>
+        </div>
+      )}
+
+      {activeTab === "overview" && (
+        <OverviewTab
+          data={overviewData}
+          isLoading={overviewLoading}
+          onRepairAll={() => repairAllMutation.mutate()}
+          isRepairing={repairAllMutation.isPending}
+        />
+      )}
+
+      {activeTab === "broken-links" && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Link2 className="w-5 h-5" /> Broken Links
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {overviewLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <RefreshCw className="w-6 h-6 animate-spin" />
+              </div>
+            ) : (
+              <IssuesList
+                issues={filteredIssues("broken_link")}
+                searchTerm={searchTerm}
+                onRepair={handleRepair}
+              />
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {activeTab === "missing-content" && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <FileX className="w-5 h-5" /> Missing Content
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {overviewLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <RefreshCw className="w-6 h-6 animate-spin" />
+              </div>
+            ) : (
+              <IssuesList
+                issues={[
+                  ...filteredIssues("missing_page"),
+                  ...filteredIssues("missing_flashcards"),
+                  ...filteredIssues("missing_questions"),
+                  ...filteredIssues("missing_image"),
+                ]}
+                searchTerm={searchTerm}
+                onRepair={handleRepair}
+              />
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {activeTab === "seo-audit" && <SeoAuditTab />}
+
+      {activeTab === "sitemap" && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Map className="w-5 h-5" /> Sitemap Integrity
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {overviewLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <RefreshCw className="w-6 h-6 animate-spin" />
+              </div>
+            ) : (
+              <IssuesList
+                issues={filteredIssues("sitemap")}
+                searchTerm={searchTerm}
+                onRepair={handleRepair}
+              />
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {activeTab === "internal-links" && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <LinkIcon className="w-5 h-5" /> Internal Link Suggestions
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <InternalLinksTab />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

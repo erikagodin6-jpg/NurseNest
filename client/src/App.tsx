@@ -93,6 +93,7 @@ const AdminPage = lazy(() => import("@/pages/admin"));
 const AdminAiJobs = lazy(() => import("@/pages/admin-ai-jobs"));
 const AdminBusinessHealth = lazy(() => import("@/pages/admin-business-health"));
 const AdminContentCoverage = lazy(() => import("@/pages/admin-content-coverage"));
+const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));

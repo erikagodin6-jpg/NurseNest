@@ -38,6 +38,7 @@ Key systems include:
 - **Central Pricing Config**: `shared/pricing-config.ts` contains tier metadata, duration labels, social proof stats, feature comparison data, and study timeline guidance. Pricing values are authoritative from DB via `/api/pricing/plans`.
 - **Pricing Page Architecture**: Modern SaaS-style layout with hero section, social proof metrics, tier selection grid (RPN/RN/NP), feature comparison table, study timeline guidance, trust signals. 6-month plan highlighted as "Most Popular". CTA buttons use "Unlock Full Access" for paid plans and "Start Free" for free tier.
 - **Business Health & Subscriber Dashboard**: Admin page for financial summaries (revenue, expenses, break-even), subscriber metrics (total, active, conversion rates), and purchase metrics. Uses a `business_expenses` table for manual entries and integrates AI generation costs.
+- **Site Health & Integrity System**: Admin dashboard (`/admin/site-health`) with broken link crawler, missing content detection, SEO metadata auditor, sitemap integrity checker, internal link suggestions, and auto-repair capabilities. Backend routes in `server/site-health-routes.ts`, frontend in `client/src/pages/admin-site-health.tsx`. Color-coded health indicators (green/yellow/red) with categorized issue lists.
 
 ## Asset Storage
 - **Object Storage**: All images (PNG/JPG/WebP/SVG) and media (MP4) are stored in Replit Object Storage bucket `replit-objstore-482be09b-b392-43d4-9116-a0189fbcd2e6` under the `public/` prefix.
