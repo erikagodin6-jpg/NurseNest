@@ -263,6 +263,11 @@ import { npGeneratedBatch4 } from "./np-generated-batch-4";
 import { npGeneratedBatch5 } from "./np-generated-batch-5";
 import { npGeneratedBatch6 } from "./np-generated-batch-6";
 
+import { rnContentBatch001Lessons } from "./rn-content-batch-001";
+import { rnContentBatch002Lessons } from "./rn-content-batch-002";
+import { rnContentBatch003Lessons } from "./rn-content-batch-003";
+import { rnContentBatch004Lessons } from "./rn-content-batch-004";
+
 export type { LessonContent } from "./types";
 
 function countQuestions(lessons: Record<string, LessonContent>): number {
@@ -630,6 +635,10 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   alliedHealthFoundations1Lessons,
   alliedHealthFoundations2Lessons,
   alliedHealthFoundations3Lessons,
+  rnContentBatch001Lessons,
+  rnContentBatch002Lessons,
+  rnContentBatch003Lessons,
+  rnContentBatch004Lessons,
 );
 
 
