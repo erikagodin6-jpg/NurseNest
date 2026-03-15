@@ -82,6 +82,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
+import { npPathoFlashcards } from "@/data/flashcards-np-patho";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
 
@@ -1765,7 +1766,13 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         ...c,
         source: "static" as const,
       }));
-    return [...baseCards.filter(c => c.type === "question"), ...icuMapped];
+    const npPathoMapped: Flashcard[] = npPathoFlashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    return [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped];
   }, []);
 
   const [myDecks, setMyDecks] = useState<any[]>([]);

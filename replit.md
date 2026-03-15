@@ -55,6 +55,11 @@ Key systems include:
 - **Lesson data files** (343 files, 318K lines): Located in `client/src/data/lessons/` but NOT imported by any client code — only consumed server-side via `server/lesson-content-api.ts` dynamic import. Vite does not process them.
 - **Vite manualChunks**: vendor-icons (lucide-react), vendor-charts (recharts/d3), vendor-radix, vendor-motion.
 
+## NP Advanced Pathophysiology Expansion
+- **New Lessons**: `client/src/data/lessons/np-patho-expansion.ts` — NP-level leukemia and sickle cell disease lessons, registered in `index.ts` via `safeMerge`.
+- **New Flashcards**: `client/src/data/flashcards-np-patho.ts` — 215 advanced clinical flashcards covering Diabetes, Adrenal, Thyroid, HPA Axis, Stroke, Seizures, Headaches, Delirium/Dementia, HF, Cardiogenic Shock, ACS, Leukemia, Sickle Cell, Men's Health (ED, Testosterone, BPH, Prostatitis). Registered in `flashcards.tsx` allCards useMemo.
+- **Exam Question Batches**: `np-exam-batch-63.ts` through `np-exam-batch-72.ts` — 317 exam questions + CAT questions across Endocrine, Neurology, Cardiology, Hematology, Men's Health, and Stress Physiology domains. Migration script updated (`i <= 72`).
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

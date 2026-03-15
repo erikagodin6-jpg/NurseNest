@@ -179,7 +179,7 @@ QUESTION_FILES.push({ file: "np-expansion-e", tier: "np", exam: "AANP", exportNa
 QUESTION_FILES.push({ file: "rpn-expansion-i", tier: "rpn", exam: "REX-PN", exportName: "rpnExpansionIQuestions" });
 QUESTION_FILES.push({ file: "pn-us-batch-02", tier: "rpn", exam: "NCLEX-PN", exportName: "pnUsBatch02Questions" });
 
-for (let i = 1; i <= 62; i++) {
+for (let i = 1; i <= 72; i++) {
   const pad = String(i).padStart(2, "0");
   QUESTION_FILES.push({
     file: `np-exam-batch-${pad}`,
