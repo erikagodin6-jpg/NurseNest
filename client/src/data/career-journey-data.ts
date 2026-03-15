@@ -320,7 +320,7 @@ export const GENERIC_JOURNEY: JourneyConfig = {
       color: "blue",
       links: [
         { label: "Browse All Lessons", href: "/lessons" },
-        { label: "Test Bank", href: "/test-bank" },
+        { label: "Test Bank", href: "/preview/med-surg" },
         { label: "Flashcards", href: "/flashcards" },
         { label: "Clinical Simulations", href: "/case-simulations" },
       ],

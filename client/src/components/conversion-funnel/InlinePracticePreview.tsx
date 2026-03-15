@@ -121,7 +121,7 @@ export function InlinePracticePreview({
                 </Button>
               </LocaleLink>
             )}
-            <LocaleLink href="/practice-questions">
+            <LocaleLink href="/preview/med-surg">
               <Button variant="outline" className="rounded-xl gap-2" data-testid="button-practice-qbank">
                 Go to Practice Questions <ArrowRight className="w-4 h-4" />
               </Button>

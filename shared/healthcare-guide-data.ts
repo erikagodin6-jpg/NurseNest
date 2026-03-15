@@ -292,7 +292,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Challenge yourself with trauma nursing practice questions covering primary survey prioritization, hemorrhage management, injury-specific interventions, and team coordination scenarios.",
     practiceQuestionsLinks: [
-      { label: "Emergency & Trauma Practice Questions", href: "/preview/emergency-nursing", type: "questions" },
+      { label: "Emergency & Trauma Practice Questions", href: "/preview/trauma-nursing", type: "questions" },
       { label: "NCLEX-RN Safety & Infection Control", href: "/study-guide/nclex-rn-safety-infection-control", type: "questions" },
     ],
     flashcardReviewIntro: "Review trauma assessment frameworks, hemorrhage classifications, and emergency medication dosages with targeted flashcards.",
@@ -451,7 +451,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Test your mental health nursing knowledge with practice questions covering therapeutic communication, psychopharmacology, crisis intervention, and psychiatric assessment.",
     practiceQuestionsLinks: [
-      { label: "Mental Health Nursing Practice Questions", href: "/preview/mental-health", type: "questions" },
+      { label: "Mental Health Nursing Practice Questions", href: "/preview/med-surg", type: "questions" },
       { label: "NCLEX-RN Mental Health Review", href: "/study-guide/nclex-rn-mental-health", type: "questions" },
     ],
     flashcardReviewIntro: "Review psychiatric medication classifications, therapeutic communication techniques, and mental status exam components with targeted flashcards.",
@@ -527,7 +527,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Test your orthopedic nursing knowledge with practice questions covering fracture management, postoperative care, neurovascular assessment, and complication recognition.",
     practiceQuestionsLinks: [
-      { label: "Orthopedic Nursing Practice Questions", href: "/preview/orthopedic", type: "questions" },
+      { label: "Orthopedic Nursing Practice Questions", href: "/preview/med-surg", type: "questions" },
       { label: "NCLEX-RN Med-Surg Review", href: "/study-guide/nclex-rn-med-surg", type: "questions" },
     ],
     flashcardReviewIntro: "Review orthopedic concepts including fracture classifications, neurovascular assessment parameters, and post-surgical care protocols with flashcards.",
@@ -600,7 +600,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Strengthen your nephrology nursing knowledge with practice questions covering CKD management, dialysis procedures, electrolyte imbalances, and transplant care.",
     practiceQuestionsLinks: [
-      { label: "Renal Nursing Practice Questions", href: "/preview/renal", type: "questions" },
+      { label: "Renal Nursing Practice Questions", href: "/preview/med-surg", type: "questions" },
       { label: "NCLEX-RN Renal Review", href: "/study-guide/nclex-rn-med-surg", type: "questions" },
     ],
     flashcardReviewIntro: "Master nephrology concepts with flashcards covering CKD stages, dialysis parameters, renal medications, and electrolyte management.",
@@ -675,7 +675,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Deepen your palliative care knowledge with practice questions on symptom management, opioid dosing, ethical dilemmas, and family communication scenarios.",
     practiceQuestionsLinks: [
-      { label: "Palliative Care Practice Questions", href: "/preview/palliative-care", type: "questions" },
+      { label: "Palliative Care Practice Questions", href: "/preview/med-surg", type: "questions" },
       { label: "Pharmacology Review", href: "/study-guide/nclex-rn-pharmacology-review", type: "questions" },
     ],
     flashcardReviewIntro: "Review opioid equianalgesic conversions, symptom management protocols, and advance care planning concepts with flashcards.",

@@ -93,13 +93,14 @@ function ImagePlaceholder({ alt, caption }: { alt: string; caption: string }) {
   );
 }
 
-function CtaBanner({ variant, color, previewSlug }: { variant: "questions" | "flashcards" | "signup"; color: string; previewSlug?: string }) {
+function CtaBanner({ variant, color, guideSlug }: { variant: "questions" | "flashcards" | "signup"; color: string; guideSlug?: string }) {
+  const previewSlug = guideSlug ? (GUIDE_TO_PREVIEW_SLUG[guideSlug] || "med-surg") : "med-surg";
   const configs = {
     questions: {
       title: "Ready to Test Your Knowledge?",
       description: "Practice with exam-style questions and detailed clinical rationales.",
       buttonText: "Start Practice Questions",
-      href: previewSlug ? `/preview/${previewSlug}` : "/practice-questions",
+      href: `/preview/${previewSlug}`,
     },
     flashcards: {
       title: "Review Key Concepts",
@@ -289,7 +290,7 @@ export default function HealthcareGuidePage() {
               ))}
             </section>
 
-            <CtaBanner variant="questions" color={guide.color} previewSlug={GUIDE_TO_PREVIEW_SLUG[guide.slug]} />
+            <CtaBanner variant="questions" color={guide.color} guideSlug={guide.slug} />
 
             <section id="clinical-skills" className="mb-12 scroll-mt-24" data-testid="section-clinical-skills">
               <SectionHeading id="skills-heading" title="Important Clinical Skills" icon={Activity} color={guide.color} />
@@ -369,7 +370,7 @@ export default function HealthcareGuidePage() {
               </>
             )}
 
-            <CtaBanner variant="signup" color={guide.color} />
+            <CtaBanner variant="signup" color={guide.color} guideSlug={guide.slug} />
 
             <section id="scenarios" className="mb-12 scroll-mt-24" data-testid="section-scenarios">
               <SectionHeading id="scenarios-heading" title="Clinical Scenarios" icon={Brain} color={guide.color} />
@@ -422,7 +423,7 @@ export default function HealthcareGuidePage() {
                   </LocaleLink>
                 ))}
               </div>
-              <CtaBanner variant="questions" color={guide.color} previewSlug={GUIDE_TO_PREVIEW_SLUG[guide.slug]} />
+              <CtaBanner variant="questions" color={guide.color} guideSlug={guide.slug} />
             </section>
 
             <section id="flashcard-review" className="mb-12 scroll-mt-24" data-testid="section-flashcard-review">
@@ -445,7 +446,7 @@ export default function HealthcareGuidePage() {
                   </LocaleLink>
                 ))}
               </div>
-              <CtaBanner variant="flashcards" color={guide.color} />
+              <CtaBanner variant="flashcards" color={guide.color} guideSlug={guide.slug} />
             </section>
 
             <section id="career-overview" className="mb-12 scroll-mt-24" data-testid="section-career-overview">
@@ -564,7 +565,7 @@ export default function HealthcareGuidePage() {
                   Access practice questions, flashcards, and personalized study tools to excel in your healthcare career.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <LocaleLink href="/test-bank">
+                  <LocaleLink href="/preview/med-surg">
                     <Button className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-2.5 font-semibold" data-testid="button-guide-start-questions">
                       Start Practicing Questions <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -736,7 +737,7 @@ export function HealthcareGuidesIndex() {
               Access practice questions, flashcards, and study tools for all healthcare specialties and professions.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <LocaleLink href="/test-bank">
+              <LocaleLink href="/preview/med-surg">
                 <Button className="bg-white text-blue-700 hover:bg-blue-50 px-6 py-2.5 font-semibold" data-testid="button-explore-questions">
                   Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>

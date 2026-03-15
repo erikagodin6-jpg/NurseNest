@@ -316,7 +316,7 @@ export default function NursingHub() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href="/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-unlock-questions">
+            <Link href="/preview/med-surg" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-unlock-questions">
               Unlock 2,400+ More <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

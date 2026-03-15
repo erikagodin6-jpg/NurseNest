@@ -76,9 +76,22 @@ function formatTime(seconds: number): string {
 const DIFFICULTY_LABELS: Record<number, string> = { 1: "Easy", 2: "Easy", 3: "Moderate", 4: "Hard", 5: "Expert" };
 
 export default function QuestionBank() {
-  const { user, effectiveTier } = useAuth();
+  const { user, effectiveTier, isLoading: authLoading, isTester } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      setLocation("/login?redirect=/test-bank");
+      return;
+    }
+    const hasPaidAccess = effectiveTier && effectiveTier !== "free";
+    if (!hasPaidAccess && !isTester) {
+      setLocation("/pricing");
+      return;
+    }
+  }, [user, effectiveTier, authLoading, isTester, setLocation]);
   const allowedQBankTiers = getAllowedExamTiers(effectiveTier || "free");
   const defaultTierFilter = allowedQBankTiers.length === 1 ? allowedQBankTiers[0] : (allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : "all");
   const [tierFilter, setTierFilter] = useState<string>(defaultTierFilter);
@@ -299,6 +312,18 @@ export default function QuestionBank() {
   const qbTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
     ? qbTierConfig.testBankLabel
     : "Test Bank";
+
+  const hasPaidAccess = user && effectiveTier && effectiveTier !== "free";
+  if (authLoading || !user || (!hasPaidAccess && !isTester)) {
+    return (
+      <>
+        <Navigation />
+        <main className="min-h-screen bg-warmwhite flex items-center justify-center">
+          <div className="text-center text-gray-500">Loading...</div>
+        </main>
+      </>
+    );
+  }
 
   if (mode === "exam" && examSession?.submitted && examReport) {
     return (

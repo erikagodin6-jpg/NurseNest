@@ -164,7 +164,7 @@ interface PracticeQuestionCTAProps {
 
 export function PracticeQuestionCTA({
   profession = "nursing",
-  href = "/practice-questions",
+  href = "/preview/med-surg",
   variant = "inline",
   className = "",
 }: PracticeQuestionCTAProps) {

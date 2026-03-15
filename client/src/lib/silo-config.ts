@@ -68,7 +68,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       },
     ],
     internalLinks: [
-      { label: "NCLEX-RN Test Bank", href: "/test-bank" },
+      { label: "NCLEX-RN Test Bank", href: "/preview/med-surg" },
       { label: "Timed Mock Exams", href: "/mock-exams" },
       { label: "Question of the Day", href: "/question-of-the-day" },
       { label: "Clinical Lessons", href: "/lessons" },
@@ -134,7 +134,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       },
     ],
     internalLinks: [
-      { label: "NCLEX-PN Test Bank", href: "/test-bank" },
+      { label: "NCLEX-PN Test Bank", href: "/preview/med-surg" },
       { label: "Timed Mock Exams", href: "/mock-exams" },
       { label: "Question of the Day", href: "/question-of-the-day" },
       { label: "Clinical Lessons", href: "/lessons" },
@@ -195,7 +195,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       },
     ],
     internalLinks: [
-      { label: "REx-PN Test Bank", href: "/test-bank" },
+      { label: "REx-PN Test Bank", href: "/preview/med-surg" },
       { label: "Timed Mock Exams", href: "/mock-exams" },
       { label: "Question of the Day", href: "/question-of-the-day" },
       { label: "Clinical Lessons", href: "/lessons" },
@@ -268,7 +268,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       },
     ],
     internalLinks: [
-      { label: "NP Test Bank", href: "/test-bank" },
+      { label: "NP Test Bank", href: "/preview/med-surg" },
       { label: "Timed Mock Exams", href: "/mock-exams" },
       { label: "Question of the Day", href: "/question-of-the-day" },
       { label: "NP Clinical Lessons", href: "/lessons" },

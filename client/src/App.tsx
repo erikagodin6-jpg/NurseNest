@@ -103,6 +103,7 @@ const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
 const QBankPreviewPage = lazy(() => import("@/pages/qbank-preview"));
+const SpecialtyPreviewPage = lazy(() => import("@/pages/specialty-preview"));
 const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const MltStudentDashboard = lazy(() => import("@/allied/pages/mlt-student-dashboard"));
@@ -547,6 +548,7 @@ function AppRoutes() {
         <Route path="/qbank/exam" component={QBankExamPage} />
         <Route path="/qbank/study" component={QBankStudyPage} />
         <Route path="/qbank/browse" component={QBankPreviewPage} />
+        <Route path="/preview/:specialty" component={SpecialtyPreviewPage} />
         <Route path="/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/content-editor" component={ContentEditorPage} />

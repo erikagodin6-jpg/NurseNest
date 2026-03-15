@@ -111,7 +111,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
               <span>{cert.questionCount} practice questions</span>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href="/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-practice-questions">
+              <Link href="/preview/med-surg" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-practice-questions">
                 Practice {cert.name} Questions <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-all-certifications">
@@ -160,7 +160,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
             <p className="text-gray-600">Everything included to prepare for your {cert.name} certification.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <Link href="/practice-questions" className="group" data-testid="card-resource-qbank">
+            <Link href="/preview/med-surg" className="group" data-testid="card-resource-qbank">
               <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
                 <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
@@ -251,7 +251,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
             Practice questions, flashcards, and study tools aligned to the {cert.name} exam.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/practice-questions" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-practice">
+            <Link href="/preview/med-surg" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-practice">
               Practice {cert.name} Questions <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-all-certs">

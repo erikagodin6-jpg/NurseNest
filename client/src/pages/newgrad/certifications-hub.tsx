@@ -386,7 +386,7 @@ export default function NewGradCertificationsHub() {
               <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">New Grad Survival Guides</h3>
               <p className="text-sm text-violet-700/70">First-year roadmap, shift organization, charting tips, and more.</p>
             </Link>
-            <Link href="/practice-questions" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-test-bank">
+            <Link href="/preview/med-surg" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-test-bank">
               <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">Practice Questions</h3>
               <p className="text-sm text-blue-700/70">Thousands of practice questions with detailed rationales for certification prep.</p>
             </Link>
@@ -418,7 +418,7 @@ export default function NewGradCertificationsHub() {
             Practice questions, flashcards, and study tools for every certification you need in your first year.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/practice-questions" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
+            <Link href="/preview/med-surg" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
               Practice Questions <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-pricing">
