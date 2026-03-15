@@ -6,29 +6,18 @@ const LANGUAGES = [
   "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id",
 ];
 
-async function compileI18n() {
+export async function compileI18n() {
   const outDir = path.resolve(process.cwd(), "client/public/i18n");
   mkdirSync(outDir, { recursive: true });
-
   for (const lang of LANGUAGES) {
-    const modulePath = `../client/src/lib/i18n-${lang}`;
-    try {
-      const mod = await import(modulePath);
-      const key = Object.keys(mod).find(k => typeof mod[k] === "object" && !Array.isArray(mod[k]));
-      if (!key) {
-        console.warn(`[i18n] No translation object found in i18n-${lang}.ts`);
-        continue;
-      }
-      const data = mod[key];
-      const outPath = path.join(outDir, `${lang}.json`);
-      writeFileSync(outPath, JSON.stringify(data));
-      const size = JSON.stringify(data).length;
-      console.log(`[i18n] ${lang}: ${Object.keys(data).length} keys, ${(size / 1024).toFixed(1)}KB → ${outPath}`);
-    } catch (err: any) {
-      console.error(`[i18n] Failed to compile ${lang}:`, err.message);
-    }
+    const mod = await import(`../client/src/lib/i18n-${lang}`);
+    const key = Object.keys(mod).find((k: string) => typeof mod[k] === "object" && !Array.isArray(mod[k]));
+    if (!key) continue;
+    writeFileSync(path.join(outDir, `${lang}.json`), JSON.stringify(mod[key]));
   }
-  console.log("[i18n] Done compiling all UI translations to JSON");
+  console.log(`compiled ${LANGUAGES.length} i18n files to JSON`);
 }
 
-compileI18n().catch(console.error);
+if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith("compile-i18n.ts")) {
+  compileI18n().catch(console.error);
+}

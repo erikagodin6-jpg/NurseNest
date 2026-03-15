@@ -15,11 +15,15 @@ export async function loadLanguage(lang: LanguageCode): Promise<Record<string, s
 
   try {
     const res = await fetch(`/i18n/${langKey}.json`);
-    if (!res.ok) return {};
+    if (!res.ok) {
+      console.warn(`[i18n] Failed to load /i18n/${langKey}.json (${res.status}). Run: npx tsx script/compile-i18n.ts`);
+      return {};
+    }
     const data = await res.json();
     loadedTranslations[lang] = data;
     return data;
-  } catch {
+  } catch (err) {
+    console.warn(`[i18n] Error loading /i18n/${langKey}.json:`, err);
     return {};
   }
 }

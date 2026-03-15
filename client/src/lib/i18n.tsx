@@ -54,9 +54,19 @@ function trackMissingKey(lang: LanguageCode, key: string) {
 
 let enLoaded = false;
 const enReady = fetch("/i18n/en.json")
-  .then((r) => r.json())
+  .then((r) => {
+    if (!r.ok) {
+      console.error(`[i18n] Failed to load /i18n/en.json (${r.status}). Run: npx tsx script/compile-i18n.ts`);
+      throw new Error("Missing i18n/en.json");
+    }
+    return r.json();
+  })
   .then((data: Record<string, string>) => {
     Object.assign(translations.en, data);
+    enLoaded = true;
+  })
+  .catch((err) => {
+    console.error("[i18n] English translations failed to load:", err);
     enLoaded = true;
   });
 
