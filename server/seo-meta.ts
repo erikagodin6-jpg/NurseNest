@@ -5,6 +5,7 @@ import { seoTitleMap } from "./seo-title-map";
 import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
 
 const SITE_BASE = "https://www.nursenest.ca";
+const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
 
 const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
 
@@ -51,6 +52,15 @@ const NOINDEX_PATHS = new Set([
   "/invite",
   "/reset-password",
   "/verify-email",
+  "/allied-health/rrt/dashboard",
+  "/allied-health/paramedic/dashboard",
+  "/allied-health/pharmacy-technician/dashboard",
+  "/allied-health/mlt/dashboard",
+  "/allied-health/imaging/dashboard",
+  "/allied-health/social-work/dashboard",
+  "/allied-health/psychotherapy/dashboard",
+  "/allied-health/addictions/dashboard",
+  "/allied-health/occupational-therapy/dashboard",
 ]);
 
 function isNoindexPath(path: string): boolean {
@@ -65,6 +75,8 @@ function isNoindexPath(path: string): boolean {
   if (path.startsWith("/account")) return true;
   if (path.startsWith("/checkout")) return true;
   if (path.startsWith("/subscription")) return true;
+  if (/^\/allied-health\/[^/]+\/dashboard/.test(path)) return true;
+  if (path.startsWith("/allied-health/diagnostic")) return true;
   return false;
 }
 
@@ -1208,7 +1220,7 @@ function getLocalizedStaticPage(path: string, locale: string): { title: string; 
   return staticPages[path];
 }
 
-export function getPageMeta(pathname: string): PageMeta {
+export function getPageMeta(pathname: string, options?: { isAllied?: boolean }): PageMeta {
   let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
 const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
@@ -1219,8 +1231,9 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   const isNoindexRoute = isNoindexPath(strippedPath);
   const noindex = isNoindexRoute || !localeIsIndexable;
 
+  const canonicalBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
   const selfCanonicalPath = strippedPath === "/" ? localePrefix : `${localePrefix}${strippedPath}`;
-  const canonical = `${SITE_BASE}${selfCanonicalPath}`;
+  const canonical = `${canonicalBase}${selfCanonicalPath}`;
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
@@ -1718,11 +1731,11 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   };
 }
 
-export async function injectMeta(html: string, pathname: string): Promise<string> {
+export async function injectMeta(html: string, pathname: string, options?: { isAllied?: boolean }): Promise<string> {
 const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
-  const meta = getPageMeta(pathname);
+  const meta = getPageMeta(pathname, options);
 
   html = html.replace(
     /<html\s+lang="[^"]*"/,
@@ -1928,14 +1941,15 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   const indexableLocales = getIndexableLocales();
   const isNoindexRoute = isNoindexPath(strippedPath);
   const hreflangTags: string[] = [];
+  const hreflangBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
 
   if (!isNoindexRoute) {
     for (const locale of indexableLocales) {
       const hreflang = getHreflangCode(locale);
-      const localeUrl = `${SITE_BASE}/${locale}${strippedPath === "/" ? "" : strippedPath}`;
+      const localeUrl = `${hreflangBase}/${locale}${strippedPath === "/" ? "" : strippedPath}`;
       hreflangTags.push(`<link rel="alternate" hreflang="${hreflang}" href="${localeUrl}" />`);
     }
-    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}/en${strippedPath === "/" ? "" : strippedPath}" />`);
+    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${hreflangBase}/en${strippedPath === "/" ? "" : strippedPath}" />`);
   }
 
   if (hreflangTags.length > 0) {

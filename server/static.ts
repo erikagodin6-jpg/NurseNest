@@ -40,7 +40,7 @@ export function serveStatic(app: Express) {
   app.use("/{*path}", async (req, res) => {
     try {
       const html = cachedIndexHtml || fs.readFileSync(indexHtmlPath, "utf-8");
-      const injected = await injectMeta(html, req.path);
+      const injected = await injectMeta(html, req.path, { isAllied: !!(req as any).isAllied });
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.status(200).send(injected);

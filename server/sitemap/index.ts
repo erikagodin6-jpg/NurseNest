@@ -12,7 +12,11 @@ import {
   generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
   generateSeoContentPages
 } from "./main-site";
-import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
+import {
+  generateAlliedPages, generateAlliedDatabaseContent,
+  generateAlliedCareers, generateAlliedExams, generateAlliedTools,
+  generateAlliedTopics, generateAlliedSeoLanding
+} from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
 import { generateLanguageSitemap } from "./language-sitemaps";
 import { sitemapHealthCheck, sitemapValidate } from "./health";
@@ -71,6 +75,14 @@ const mainSitemapDefs: SitemapDef[] = [
   { name: "allied-health", generator: generateAlliedCombined },
 ];
 
+const alliedSitemapDefs: SitemapDef[] = [
+  { name: "allied-careers", generator: generateAlliedCareers },
+  { name: "allied-exams", generator: generateAlliedExams },
+  { name: "allied-tools", generator: generateAlliedTools },
+  { name: "allied-topics", generator: generateAlliedTopics },
+  { name: "allied-seo-landing", generator: generateAlliedSeoLanding },
+];
+
 async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promise<string> {
   const cacheKey = `child-${def.name}-${chunkIndex}`;
   const cached = getCached(cacheKey);
@@ -117,7 +129,19 @@ async function buildAlliedSitemapIndex(): Promise<string> {
   const today = todayDate();
 
   const entries: string[] = [];
-  entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-allied-health.xml`, today));
+  for (const def of alliedSitemapDefs) {
+    try {
+      const urls = await def.generator();
+      const chunkCount = Math.max(1, Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT));
+      for (let i = 0; i < chunkCount; i++) {
+        const suffix = chunkCount > 1 ? `-${i + 1}` : "";
+        entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-${def.name}${suffix}.xml`, today));
+      }
+    } catch (e) {
+      console.error(`Allied sitemap index: error counting ${def.name}:`, e);
+      entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-${def.name}.xml`, today));
+    }
+  }
 
   return wrapSitemapIndex(entries);
 }
@@ -158,7 +182,7 @@ export function registerSitemapRoutes(app: Express) {
         ].join("\n"),
       );
     } else if ((req as any).isAllied) {
-      const base = getSiteBase();
+      const alliedBase = "https://allied.nursenest.ca";
       res.type("text/plain").send(
         [
           "User-agent: *",
@@ -166,10 +190,34 @@ export function registerSitemapRoutes(app: Express) {
           "",
           "Disallow: /admin",
           "Disallow: /api/",
+          "Disallow: /login",
+          "Disallow: /register",
+          "Disallow: /profile",
+          "Disallow: /dashboard",
           "Disallow: /account",
           "Disallow: /checkout",
+          "Disallow: /trial/",
+          "Disallow: /subscription/",
+          "Disallow: /upgrade",
+          "Disallow: /feedback",
+          "Disallow: /diagnostic-assessment",
+          "Disallow: /settings",
+          "Disallow: /notes",
+          "Disallow: /invite",
+          "Disallow: /reset-password",
+          "Disallow: /verify-email",
+          "Disallow: /reports",
+          "Disallow: /mock-exams/*/report",
+          "Disallow: /*?sort=",
+          "Disallow: /*?filter=",
+          "Disallow: /*?q=",
+          "Disallow: /*?search=",
+          "Disallow: /*?page=",
+          "Disallow: /*?tab=",
           "",
-          `Sitemap: ${base}/sitemap-index.xml`,
+          "Crawl-delay: 1",
+          "",
+          `Sitemap: ${alliedBase}/sitemap-index.xml`,
           "",
         ].join("\n"),
       );
@@ -263,6 +311,44 @@ export function registerSitemapRoutes(app: Express) {
   }
 
   for (const def of mainSitemapDefs) {
+    app.get(`/sitemaps/sitemap-${def.name}.xml`, async (_req: Request, res: Response) => {
+      try {
+        const cacheKey = `child-${def.name}-0`;
+        const cached = getCached(cacheKey);
+        if (cached) return sendXml(res, cached, true);
+        const xml = await generateChildSitemap(def, 0);
+        sendXml(res, xml, false);
+      } catch (e: any) {
+        console.error(`Sitemap ${def.name} error:`, e);
+        sendXml(res, wrapUrlset([]), false);
+      }
+    });
+
+    app.get(`/sitemaps/sitemap-${def.name}-:page.xml`, async (req: Request, res: Response) => {
+      const pageNum = parseInt(req.params.page);
+      if (isNaN(pageNum) || pageNum < 1) return res.status(404).send("Not found");
+      const chunkIndex = pageNum - 1;
+      try {
+        const urls = await def.generator();
+        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
+        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
+
+        const cacheKey = `child-${def.name}-${chunkIndex}`;
+        const cached = getCached(cacheKey);
+        if (cached) return sendXml(res, cached, true);
+
+        const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
+        const xml = wrapUrlset(chunks[chunkIndex] || []);
+        setCache(cacheKey, xml);
+        sendXml(res, xml, false);
+      } catch (e: any) {
+        console.error(`Sitemap ${def.name}-${pageNum} error:`, e);
+        res.status(500).send("Error generating sitemap");
+      }
+    });
+  }
+
+  for (const def of alliedSitemapDefs) {
     app.get(`/sitemaps/sitemap-${def.name}.xml`, async (_req: Request, res: Response) => {
       try {
         const cacheKey = `child-${def.name}-0`;

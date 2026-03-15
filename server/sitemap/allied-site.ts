@@ -5,50 +5,22 @@ import {
 
 const ALLIED_PREFIX = "/allied-health";
 
-export async function generateAlliedPages(): Promise<string[]> {
+const STATIC_CONTENT_DATE = "2025-01-15";
+
+export async function generateAlliedCareers(): Promise<string[]> {
   const base = getSiteBase();
-  const now = todayDate();
   const locales = getIndexableLocales();
   const urls: string[] = [];
 
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}`, "0.9", "weekly", locales, now));
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pricing`, "0.8", "monthly", locales, now));
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/careers`, "0.8", "monthly", locales, now));
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/diagnostic`, "0.8", "weekly", locales, now));
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/qbank`, "0.8", "weekly", locales, now));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/careers`, "0.9", "monthly", locales, STATIC_CONTENT_DATE));
 
   const canonicalCareerRoutes = [
     "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
     "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
   ];
-  const careerSubPages = ["mock-exams", "dashboard", "flashcards", "study-plan", "sims", "tools"];
 
   for (const route of canonicalCareerRoutes) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}${route}`, "0.8", "weekly", locales, now));
-    for (const sub of careerSubPages) {
-      urls.push(localizedUrl(base, `${ALLIED_PREFIX}${route}/${sub}`, "0.6", "weekly", locales, now));
-    }
-  }
-
-  const seoLandingPages = [
-    "pharmacy-technician-practice-questions", "pharmacy-technician-mock-exam", "pharmacy-technician-study-guide",
-    "rrt-practice-questions", "rrt-mock-exam", "rrt-study-guide",
-    "social-worker-exam-prep", "social-worker-career-guide", "social-worker-study-guide", "social-worker-practice-questions",
-    "psychotherapist-exam-prep", "psychotherapist-career-guide", "psychotherapist-study-guide", "psychotherapist-practice-questions",
-    "addictions-counsellor-exam-prep", "addictions-counsellor-career-guide", "addictions-counsellor-study-guide", "addictions-counsellor-practice-questions",
-    "occupational-therapy-exam-prep", "occupational-therapy-career-guide", "occupational-therapy-study-guide", "occupational-therapy-practice-questions",
-  ];
-  for (const page of seoLandingPages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, now));
-  }
-
-  const otNamespacedPages = [
-    "occupational-therapist/question-bank",
-    "occupational-therapist/mock-exams",
-    "occupational-therapist/study-plan",
-  ];
-  for (const page of otNamespacedPages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, now));
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}${route}`, "0.9", "weekly", locales, STATIC_CONTENT_DATE));
   }
 
   const careerGuidePages = [
@@ -59,46 +31,97 @@ export async function generateAlliedPages(): Promise<string[]> {
     "how-to-become-a-pharmacy-technician",
   ];
   for (const page of careerGuidePages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, now));
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.9", "monthly", locales, STATIC_CONTENT_DATE));
   }
 
-  const examPrepPages = [
+  return urls;
+}
+
+export async function generateAlliedExams(): Promise<string[]> {
+  const base = getSiteBase();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/qbank`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+
+  const canonicalCareerRoutes = [
+    "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
+    "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
+  ];
+  const examSubPages = ["mock-exams", "flashcards", "study-plan"];
+  for (const route of canonicalCareerRoutes) {
+    for (const sub of examSubPages) {
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}${route}/${sub}`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+    }
+  }
+
+  const allExamPrepPages = new Set([
     "paramedic-exam-prep", "rrt-exam-prep", "mlt-exam-prep", "radiography-exam-prep",
     "social-work-exam-prep", "psychotherapy-exam-prep", "addictions-counselling-exam-prep", "occupational-therapy-exam-prep",
-  ];
-  for (const page of examPrepPages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, now));
+    "respiratory-therapy-exam-prep", "medical-lab-tech-exam-prep",
+    "diagnostic-imaging-exam-prep", "physical-therapy-exam-prep",
+  ]);
+  for (const page of allExamPrepPages) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.8", "monthly", locales, STATIC_CONTENT_DATE));
   }
 
-  const programLandingPages = [
-    "respiratory-therapy-exam-prep", "paramedic-exam-prep", "medical-lab-tech-exam-prep",
-    "diagnostic-imaging-exam-prep", "occupational-therapy-exam-prep", "physical-therapy-exam-prep",
+  return urls;
+}
+
+export async function generateAlliedTools(): Promise<string[]> {
+  const base = getSiteBase();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  const canonicalCareerRoutes = [
+    "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
+    "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
   ];
-  for (const page of programLandingPages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.8", "monthly", locales, now));
+  const toolSubPages = ["sims", "tools"];
+  for (const route of canonicalCareerRoutes) {
+    for (const sub of toolSubPages) {
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}${route}/${sub}`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+    }
   }
+
+  const otNamespacedPages = [
+    "occupational-therapist/question-bank",
+    "occupational-therapist/mock-exams",
+    "occupational-therapist/study-plan",
+  ];
+  for (const page of otNamespacedPages) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/drug-classes`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+  const drugClassSlugs = ["ace-inhibitors", "beta-blockers", "statins", "antibiotics", "antidiabetic-drugs", "antidepressants", "antihistamines"];
+  for (const slug of drugClassSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/drug-classes/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/practice-exam-questions`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+
+  return urls;
+}
+
+export async function generateAlliedTopics(): Promise<string[]> {
+  const base = getSiteBase();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
 
   const topicHubPages = [
     "respiratory-therapy-topics-hub", "paramedic-topics-hub",
   ];
   for (const page of topicHubPages) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "weekly", locales, now));
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
   }
 
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/drug-classes`, "0.7", "weekly", locales, now));
-  const drugClassSlugs = ["ace-inhibitors", "beta-blockers", "statins", "antibiotics", "antidiabetic-drugs", "antidepressants", "antihistamines"];
-  for (const slug of drugClassSlugs) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/drug-classes/${slug}`, "0.6", "monthly", locales, now));
+  const encyclopediaProfessions = [
+    "paramedic", "respiratory-therapy", "mlt", "imaging",
+    "social-work", "psychotherapy", "addictions", "occupational-therapy",
+  ];
+  for (const prof of encyclopediaProfessions) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${prof}-encyclopedia`, "0.5", "weekly", locales, STATIC_CONTENT_DATE));
   }
-  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/practice-exam-questions`, "0.7", "weekly", locales, now));
-
-  return urls;
-}
-
-export async function generateAlliedDatabaseContent(): Promise<string[]> {
-  const base = getSiteBase();
-  const locales = getIndexableLocales();
-  const urls: string[] = [];
 
   const paramedicTables: Record<string, string> = {
     paramedic_topic_pages: `${ALLIED_PREFIX}/paramedic/topic`,
@@ -126,28 +149,18 @@ export async function generateAlliedDatabaseContent(): Promise<string[]> {
       const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
       topicSlugs.add(slug);
     }
-    const now = todayDate();
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/paramedic/questions`, "0.7", "weekly", locales, now));
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/paramedic/questions`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
     for (const slug of topicSlugs) {
-      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/paramedic/questions/${slug}`, "0.5", "weekly", locales, now));
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/paramedic/questions/${slug}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
     }
   } catch {}
-
-  const encyclopediaProfessions = [
-    "paramedic", "respiratory-therapy", "mlt", "imaging",
-    "social-work", "psychotherapy", "addictions", "occupational-therapy",
-  ];
-  const now = todayDate();
-  for (const prof of encyclopediaProfessions) {
-    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${prof}-encyclopedia`, "0.6", "weekly", locales, now));
-  }
 
   try {
     const programmaticResult = await pool.query(
       `SELECT slug, updated_at FROM programmatic_pages WHERE status = 'published' ORDER BY updated_at DESC`
     );
     for (const row of programmaticResult.rows) {
-      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${row.slug}`, "0.5", "weekly", locales, toLastmod(row.updated_at)));
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${row.slug}`, "0.6", "weekly", locales, toLastmod(row.updated_at)));
     }
   } catch {}
 
@@ -165,12 +178,47 @@ export async function generateAlliedDatabaseContent(): Promise<string[]> {
         const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
         slugSet.add(slug);
       }
-      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions`, "0.7", "weekly", locales, now));
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
       for (const slug of slugSet) {
-        urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions/${slug}`, "0.5", "weekly", locales, now));
+        urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions/${slug}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
       }
     } catch {}
   }
 
   return urls;
+}
+
+export async function generateAlliedSeoLanding(): Promise<string[]> {
+  const base = getSiteBase();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}`, "1.0", "weekly", locales, STATIC_CONTENT_DATE));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pricing`, "0.8", "monthly", locales, STATIC_CONTENT_DATE));
+
+  const seoLandingPages = [
+    "pharmacy-technician-practice-questions", "pharmacy-technician-mock-exam", "pharmacy-technician-study-guide",
+    "rrt-practice-questions", "rrt-mock-exam", "rrt-study-guide",
+    "social-worker-exam-prep", "social-worker-career-guide", "social-worker-study-guide", "social-worker-practice-questions",
+    "psychotherapist-exam-prep", "psychotherapist-career-guide", "psychotherapist-study-guide", "psychotherapist-practice-questions",
+    "addictions-counsellor-exam-prep", "addictions-counsellor-career-guide", "addictions-counsellor-study-guide", "addictions-counsellor-practice-questions",
+    "occupational-therapy-exam-prep", "occupational-therapy-career-guide", "occupational-therapy-study-guide", "occupational-therapy-practice-questions",
+  ];
+  for (const page of seoLandingPages) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  return urls;
+}
+
+export async function generateAlliedPages(): Promise<string[]> {
+  const careers = await generateAlliedCareers().catch(() => []);
+  const exams = await generateAlliedExams().catch(() => []);
+  const tools = await generateAlliedTools().catch(() => []);
+  const seoLanding = await generateAlliedSeoLanding().catch(() => []);
+  return [...careers, ...exams, ...tools, ...seoLanding];
+}
+
+export async function generateAlliedDatabaseContent(): Promise<string[]> {
+  return generateAlliedTopics();
 }
