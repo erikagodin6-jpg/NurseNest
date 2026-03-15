@@ -19,6 +19,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUserTier(userId: string, tier: string): Promise<void>;
+  updateUserTheme(userId: string, theme: string): Promise<void>;
   updateUserStripeInfo(userId: string, info: { stripeCustomerId?: string; stripeSubscriptionId?: string; subscriptionStatus?: string; tier?: string }): Promise<User>;
   getNote(userId: string, lessonId: string): Promise<Note | undefined>;
   getNotesByUser(userId: string): Promise<Note[]>;
@@ -338,6 +339,10 @@ export class DatabaseStorage implements IStorage {
 
   async updateUserTier(userId: string, tier: string): Promise<void> {
     await db.update(users).set({ tier, subscriptionStatus: "active" }).where(eq(users.id, userId));
+  }
+
+  async updateUserTheme(userId: string, theme: string): Promise<void> {
+    await db.update(users).set({ preferredTheme: theme }).where(eq(users.id, userId));
   }
 
   async updateUserStripeInfo(userId: string, info: { stripeCustomerId?: string; stripeSubscriptionId?: string; subscriptionStatus?: string; tier?: string }): Promise<User> {

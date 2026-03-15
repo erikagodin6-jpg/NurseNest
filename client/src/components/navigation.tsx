@@ -237,6 +237,21 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     window.dispatchEvent(new Event("regionChange"));
   };
 
+  const handleThemeChange = (themeName: string) => {
+    setTheme(themeName);
+    if (user?.id) {
+      const userToken = localStorage.getItem("nursenest-user-token");
+      fetch(`/api/user/${user.id}/theme`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(userToken ? { Authorization: `Bearer ${userToken}` } : {}),
+        },
+        body: JSON.stringify({ theme: themeName }),
+      }).catch(() => {});
+    }
+  };
+
   const handleLanguageChange = (langCode: typeof language) => {
     setLanguage(langCode);
   };
@@ -261,6 +276,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (user?.preferredTheme && user.preferredTheme !== theme) {
+      setTheme(user.preferredTheme);
+    }
+  }, [user?.preferredTheme]);
 
   const handlePaidContent = (label: string, itemLabel?: string) => {
     if (itemLabel === "Lessons") {
@@ -386,26 +407,30 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const designations = getExamConstants(region as ConstRegion).designations;
 
   const themes = [
-    { name: "lavender", color: "#9d82dd", label: "Lavender" },
-    { name: "mint", color: "#5ed3ae", label: "Mint" },
-    { name: "blush", color: "#f4909f", label: "Blush" },
-    { name: "slate", color: "#64748b", label: "Slate" },
-    { name: "midnight", color: "#1e293b", label: "Midnight" },
-    { name: "ocean", color: "#0ea5e9", label: "Ocean" },
-    { name: "forest", color: "#10b981", label: "Forest" },
-    { name: "clinical-light", color: "#3b82f6", label: "Clinical" },
-    { name: "pastel-blush", color: "#ec8899", label: "Pastel Blush" },
-    { name: "pastel-lavender", color: "#a78bda", label: "Pastel Lavender" },
-    { name: "pastel-mint", color: "#4fd1a5", label: "Pastel Mint" },
-    { name: "neutral-sand", color: "#a08060", label: "Sand" },
-    { name: "neutral-slate", color: "#708090", label: "Cool Slate" },
-    { name: "dark-clinical", color: "#06b6d4", label: "Dark Clinical" },
-    { name: "dark-academia", color: "#8b7355", label: "Dark Academia" },
-    { name: "rose-gold", color: "#b76e79", label: "Rose Gold" },
-    { name: "coral", color: "#ff6b6b", label: "Coral" },
-    { name: "indigo", color: "#6366f1", label: "Indigo" },
-    { name: "teal", color: "#14b8a6", label: "Teal" },
-    { name: "berry", color: "#a855f7", label: "Berry" },
+    { name: "lavender", color: "#9d82dd", label: "Lavender", group: "light" as const },
+    { name: "mint", color: "#5ed3ae", label: "Mint", group: "light" as const },
+    { name: "blush", color: "#f4909f", label: "Blush", group: "light" as const },
+    { name: "slate", color: "#64748b", label: "Slate", group: "light" as const },
+    { name: "midnight", color: "#1e293b", label: "Midnight", group: "light" as const },
+    { name: "ocean", color: "#0ea5e9", label: "Ocean", group: "light" as const },
+    { name: "forest", color: "#10b981", label: "Forest", group: "light" as const },
+    { name: "clinical-light", color: "#3b82f6", label: "Clinical", group: "light" as const },
+    { name: "pastel-blush", color: "#ec8899", label: "Pastel Blush", group: "light" as const },
+    { name: "pastel-lavender", color: "#a78bda", label: "Pastel Lavender", group: "light" as const },
+    { name: "pastel-mint", color: "#4fd1a5", label: "Pastel Mint", group: "light" as const },
+    { name: "pastel-lilac", color: "#b48ed2", label: "Pastel Lilac", group: "light" as const },
+    { name: "lavender-dream", color: "#8e7cc3", label: "Lavender Dream", group: "light" as const },
+    { name: "soft-sage", color: "#7da87d", label: "Soft Sage", group: "light" as const },
+    { name: "neutral-sand", color: "#a08060", label: "Sand", group: "light" as const },
+    { name: "neutral-slate", color: "#708090", label: "Cool Slate", group: "light" as const },
+    { name: "rose-gold", color: "#b76e79", label: "Rose Gold", group: "light" as const },
+    { name: "coral", color: "#ff6b6b", label: "Coral", group: "light" as const },
+    { name: "indigo", color: "#6366f1", label: "Indigo", group: "light" as const },
+    { name: "teal", color: "#14b8a6", label: "Teal", group: "light" as const },
+    { name: "berry", color: "#a855f7", label: "Berry", group: "light" as const },
+    { name: "dark-mode", color: "#818cf8", label: "Dark Mode", group: "dark" as const },
+    { name: "dark-clinical", color: "#06b6d4", label: "Dark Clinical", group: "dark" as const },
+    { name: "dark-academia", color: "#8b7355", label: "Dark Academia", group: "dark" as const },
   ];
 
   const MobileNav = () => (
@@ -415,9 +440,9 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-80 bg-white p-0 overflow-y-auto">
+      <SheetContent side="left" className="w-80 bg-[var(--theme-card-bg)] p-0 overflow-y-auto">
         <div className="flex flex-col h-full">
-          <SheetHeader className="p-5 border-b sticky top-0 bg-white z-10">
+          <SheetHeader className="p-5 border-b border-[var(--theme-separator)] sticky top-0 bg-[var(--theme-card-bg)] z-10">
             <SheetTitle className="text-left flex items-center justify-between">
               <ThemedLogo width={160} />
               <SheetClose asChild>
@@ -433,25 +458,25 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 px-3">{t("nav.ecosystem")}</p>
               <div className="flex flex-col gap-1 px-1">
                 <SheetClose asChild>
-                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50 gap-2 h-9" onClick={() => navTo("/exam-prep")} data-testid="mobile-ecosystem-exam-prep">
-                    <BookOpen className="w-4 h-4 text-blue-600" />
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/exam-prep")} data-testid="mobile-ecosystem-exam-prep">
+                    <BookOpen className="w-4 h-4 text-primary" />
                     {t("nav.examPrep")}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 gap-2 h-9" onClick={() => navTo("/new-graduate-support")} data-testid="mobile-ecosystem-new-grad">
-                    <GraduationCap className="w-4 h-4 text-indigo-600" />
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/new-graduate-support")} data-testid="mobile-ecosystem-new-grad">
+                    <GraduationCap className="w-4 h-4 text-primary" />
                     {t("nav.newGradSupport")}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-purple-600 hover:bg-purple-50 gap-2 h-9" onClick={() => navTo("/healthcare-careers")} data-testid="mobile-ecosystem-healthcare-jobs">
-                    <Briefcase className="w-4 h-4 text-purple-600" />
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/healthcare-careers")} data-testid="mobile-ecosystem-healthcare-jobs">
+                    <Briefcase className="w-4 h-4 text-primary" />
                     {t("nav.healthcareCareers")}
                   </Button>
                 </SheetClose>
               </div>
-              <Separator className="my-3 mx-3 bg-gray-100" />
+              <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
             </div>
 
             <div className="mb-6">
@@ -550,7 +575,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.newGradCareer")}</p>
             <SheetClose asChild>
@@ -616,7 +641,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.careerGuides")}</p>
             <SheetClose asChild>
@@ -641,7 +666,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Allied Health</p>
             <SheetClose asChild>
@@ -706,7 +731,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.interactiveTools")}</p>
             <SheetClose asChild>
@@ -806,7 +831,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.resources")}</p>
             <SheetClose asChild>
@@ -830,7 +855,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.language")}</p>
             <div className="flex flex-wrap gap-1.5 px-3 mb-2">
@@ -853,7 +878,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               ))}
             </div>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.regionTheme")}</p>
             <div className="flex items-center gap-1 px-3 mb-2 bg-gray-100 rounded-full p-0.5 w-fit">
@@ -876,23 +901,37 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 CA
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2 px-3 mb-1">
+            <div className="grid grid-cols-3 gap-1.5 px-3 mb-1">
               {themes.map((t) => (
                 <button
                   key={t.name}
-                  onClick={() => setTheme(t.name)}
-                  title={t.label}
+                  onClick={() => handleThemeChange(t.name)}
                   data-testid={`button-theme-${t.name}-mobile`}
                   className={cn(
-                    "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
-                    theme === t.name ? "border-primary ring-2 ring-primary/30 scale-110" : "border-gray-200"
+                    "flex items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-all",
+                    theme === t.name
+                      ? "bg-primary/10 ring-1 ring-primary/30"
+                      : "hover:bg-[var(--theme-menu-hover-bg)]"
                   )}
-                  style={{ backgroundColor: t.color }}
-                />
+                >
+                  <span
+                    className={cn(
+                      "w-4 h-4 rounded-full shrink-0 border transition-transform",
+                      theme === t.name ? "border-primary scale-110 ring-1 ring-primary/40" : "border-[var(--theme-separator)]"
+                    )}
+                    style={{ backgroundColor: t.color }}
+                  />
+                  <span className={cn(
+                    "text-[10px] font-medium truncate",
+                    theme === t.name ? "text-primary" : "text-[var(--theme-menu-text)]"
+                  )}>
+                    {t.label}
+                  </span>
+                </button>
               ))}
             </div>
 
-            <Separator className="my-2 bg-gray-100" />
+            <Separator className="my-2 bg-[var(--theme-separator)]" />
 
             {user ? (
               <>
@@ -1442,20 +1481,34 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </Button>
                 </div>
                 <DropdownMenuSeparator />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
-                <div className="grid grid-cols-5 gap-2 px-2 py-1 mb-2">
+                <p className="text-[10px] font-bold text-[var(--theme-muted-text)] uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
+                <div className="grid grid-cols-2 gap-1 px-1 py-1 mb-2 max-h-[40vh] overflow-y-auto">
                   {themes.map((t) => (
                     <button
                       key={t.name}
-                      onClick={() => setTheme(t.name)}
-                      title={t.label}
+                      onClick={() => handleThemeChange(t.name)}
                       data-testid={`button-theme-${t.name}`}
                       className={cn(
-                        "w-6 h-6 rounded-full border shadow-sm transition-transform hover:scale-125",
-                        theme === t.name ? "ring-2 ring-primary ring-offset-1 scale-110" : "border-gray-200"
+                        "flex items-center gap-2 rounded-md px-2 py-1.5 text-left transition-all",
+                        theme === t.name
+                          ? "bg-primary/10 ring-1 ring-primary/30"
+                          : "hover:bg-[var(--theme-menu-hover-bg)]"
                       )}
-                      style={{ backgroundColor: t.color }}
-                    />
+                    >
+                      <span
+                        className={cn(
+                          "w-4 h-4 rounded-full shrink-0 border shadow-sm",
+                          theme === t.name ? "border-primary ring-1 ring-primary/40 scale-110" : "border-[var(--theme-separator)]"
+                        )}
+                        style={{ backgroundColor: t.color }}
+                      />
+                      <span className={cn(
+                        "text-[11px] font-medium truncate",
+                        theme === t.name ? "text-primary" : "text-[var(--theme-menu-text)]"
+                      )}>
+                        {t.label}
+                      </span>
+                    </button>
                   ))}
                 </div>
                 <DropdownMenuSeparator />

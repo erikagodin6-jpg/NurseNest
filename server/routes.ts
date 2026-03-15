@@ -3049,6 +3049,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         region: user.region,
         testerAccess: user.testerAccess,
         testerExpiry: user.testerExpiry,
+        preferredTheme: user.preferredTheme,
       };
       if (user.tier === "admin") {
         const tokenData = signAdminToken(user.id, user.username);
@@ -3084,7 +3085,34 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         region: user.region,
         testerAccess: user.testerAccess,
         testerExpiry: user.testerExpiry,
+        preferredTheme: user.preferredTheme,
       });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/user/:userId/theme", requireAuthenticated(), async (req, res) => {
+    try {
+      const authUser = (req as any).authUser;
+      if (String(authUser.id) !== String(req.params.userId) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Not authorized" });
+      }
+      const { theme } = req.body;
+      if (!theme || typeof theme !== "string") {
+        return res.status(400).json({ error: "Theme is required" });
+      }
+      const validThemes = [
+        "lavender", "rose", "sky", "mint", "peach", "coral", "teal", "amber",
+        "indigo", "emerald", "plum", "ocean", "sunset", "forest", "ruby",
+        "slate", "mauve", "gold", "dark-clinical", "dark-academia",
+        "pastel-lilac", "lavender-dream", "soft-sage", "dark-mode",
+      ];
+      if (!validThemes.includes(theme)) {
+        return res.status(400).json({ error: "Invalid theme" });
+      }
+      await storage.updateUserTheme(req.params.userId, theme);
+      res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

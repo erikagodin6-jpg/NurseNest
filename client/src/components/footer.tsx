@@ -6,15 +6,15 @@ import { EmailSignupPrompt } from "@/components/email-signup-prompt";
 export function Footer() {
   const { t } = useI18n();
   return (
-    <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
+    <footer className="bg-[var(--theme-card-bg)] border-t border-[var(--theme-nav-border)] py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <EmailSignupPrompt variant="banner" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.studyTools")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.studyTools")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-lessons">{t("footer.clinicalLessons")}</LocaleLink></li>
               <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">{t("nav.flashcards")}</LocaleLink></li>
               <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">{t("footer.anatomyExplorer")}</LocaleLink></li>
@@ -25,8 +25,8 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.examPrep")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.examPrep")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/mock-exams" className="hover:text-primary transition-colors" data-testid="link-footer-mock-exams">{t("footer.mockExams")}</LocaleLink></li>
               <li><LocaleLink href="/test-bank" className="hover:text-primary transition-colors" data-testid="link-footer-test-bank">{t("footer.testBank")}</LocaleLink></li>
               <li><LocaleLink href="/question-of-the-day" className="hover:text-primary transition-colors" data-testid="link-footer-qotd">{t("footer.questionOfTheDay")}</LocaleLink></li>
@@ -36,8 +36,8 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.resources")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.resources")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/shop" className="hover:text-primary transition-colors" data-testid="link-footer-store">{t("nav.store")}</LocaleLink></li>
               <li><LocaleLink href="/blog" className="hover:text-primary transition-colors" data-testid="link-footer-blog">{t("nav.blog")}</LocaleLink></li>
               <li><LocaleLink href="/faq" className="hover:text-primary transition-colors" data-testid="link-footer-faq">{t("footer.faq")}</LocaleLink></li>
@@ -47,16 +47,16 @@ export function Footer() {
               <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">{t("footer.about")}</LocaleLink></li>
               <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">{t("footer.forSchools")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.newGradSupportSection")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.newGradSupportSection")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">{t("footer.newGradHub")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">{t("footer.nursing")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">{t("footer.paramedic")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">{t("footer.respiratoryTherapy")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">{t("footer.medLabTech")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.nursingSpecialties")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.nursingSpecialties")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/nursing-specialties" className="hover:text-primary transition-colors" data-testid="link-footer-specialties">{t("footer.allSpecialties")}</LocaleLink></li>
               <li><LocaleLink href="/guides/icu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-icu-guide">{t("footer.icuGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/nicu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nicu-guide">{t("footer.nicuGuide")}</LocaleLink></li>
@@ -67,8 +67,8 @@ export function Footer() {
               <li><LocaleLink href="/guides/nephrology-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nephro-guide">{t("footer.nephroGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/palliative-care-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-palliative-guide">{t("footer.palliativeGuide")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealthGuides")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.alliedHealthGuides")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/guides/paramedic-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-paramedic-guide">{t("footer.paramedicGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/respiratory-therapy-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-rrt-guide">{t("footer.rrtGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/medical-laboratory-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mlt-guide">{t("footer.mltGuide")}</LocaleLink></li>
@@ -76,21 +76,21 @@ export function Footer() {
               <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">{t("footer.otGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">{t("footer.ptGuide")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">{t("footer.applyNest")}</LocaleLink></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("footer.legal")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.legal")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/terms" className="hover:text-primary transition-colors" data-testid="link-footer-terms">{t("footer.terms")}</LocaleLink></li>
               <li><LocaleLink href="/privacy" className="hover:text-primary transition-colors" data-testid="link-footer-privacy">{t("footer.privacy")}</LocaleLink></li>
               <li><LocaleLink href="/disclaimer" className="hover:text-primary transition-colors" data-testid="link-footer-disclaimer">{t("footer.disclaimer")}</LocaleLink></li>
               <li><LocaleLink href="/refund-policy" className="hover:text-primary transition-colors" data-testid="link-footer-refund">{t("footer.refundPolicy")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealth")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.alliedHealth")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/allied-health" className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</LocaleLink></li>
               <li><LocaleLink href="/allied-health/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">Respiratory Therapist</LocaleLink></li>
               <li><LocaleLink href="/allied-health/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">Paramedic</LocaleLink></li>
@@ -102,23 +102,23 @@ export function Footer() {
               <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">Allied Careers</LocaleLink></li>
               <li><LocaleLink href="/allied-health/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.ecosystem")}</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.ecosystem")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">{t("footer.ecosystemExamPrep")}</LocaleLink></li>
               <li><LocaleLink href="/new-graduate-support" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">{t("footer.ecosystemNewGrad")}</LocaleLink></li>
               <li><LocaleLink href="/healthcare-careers" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">{t("footer.ecosystemCareers")}</LocaleLink></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-[var(--theme-separator)] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <ThemedLogo width={160} />
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-[var(--theme-muted-text)]">
             &copy; {new Date().getFullYear()} NurseNest. {t("footer.rights")}
           </div>
         </div>
-        <div className="mt-4 text-center text-xs text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        <div className="mt-4 text-center text-xs text-[var(--theme-muted-text)] opacity-70 max-w-3xl mx-auto leading-relaxed">
           {t("footer.legalDisclaimer")}
         </div>
       </div>

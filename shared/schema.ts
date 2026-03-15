@@ -26,6 +26,7 @@ export const users = pgTable("users", {
   referralDiscountUsed: boolean("referral_discount_used").default(false),
   isLifetime: boolean("is_lifetime").default(false),
   lifetimePurchasedAt: timestamp("lifetime_purchased_at"),
+  preferredTheme: text("preferred_theme"),
 });
 
 export const pricingPlans = pgTable("pricing_plans", {

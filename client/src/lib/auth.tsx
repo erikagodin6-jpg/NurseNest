@@ -9,6 +9,7 @@ type User = {
   region?: string;
   testerAccess?: boolean;
   testerExpiry?: string | null;
+  preferredTheme?: string | null;
 };
 
 type AuthContextType = {
@@ -148,6 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       region: data.region,
       testerAccess: data.testerAccess,
       testerExpiry: data.testerExpiry,
+      preferredTheme: data.preferredTheme,
     };
     setUser(userData);
     localStorage.setItem("nursenest-user", JSON.stringify(userData));
