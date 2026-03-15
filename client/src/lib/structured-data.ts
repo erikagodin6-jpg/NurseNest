@@ -5,7 +5,7 @@ export const PARENT_EDUCATIONAL_ORG = {
   "description": "Comprehensive nursing and allied health education ecosystem offering exam preparation, career transition resources, and job placement tools.",
   "sameAs": [
     "https://www.nursenest.ca",
-    "https://allied.nursenest.ca",
+    "https://www.nursenest.ca/allied-health",
     "https://www.instagram.com/nursenest.ca",
     "https://www.tiktok.com/@nursenest.ca",
   ],

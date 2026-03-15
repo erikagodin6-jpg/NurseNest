@@ -47,6 +47,12 @@ interface SitemapDef {
   generator: () => Promise<string[]>;
 }
 
+async function generateAlliedCombined(): Promise<string[]> {
+  const staticUrls = await generateAlliedPages().catch(() => []);
+  const dbUrls = await generateAlliedDatabaseContent().catch(() => []);
+  return [...staticUrls, ...dbUrls];
+}
+
 const mainSitemapDefs: SitemapDef[] = [
   { name: "pages", generator: generateMainPages },
   { name: "lessons", generator: generateMainLessons },
@@ -60,6 +66,7 @@ const mainSitemapDefs: SitemapDef[] = [
   { name: "seo-content", generator: generateMainSeoContent },
   { name: "topics", generator: generateMainTopics },
   { name: "programmatic", generator: generateMainProgrammatic },
+  { name: "allied-health", generator: generateAlliedCombined },
 ];
 
 async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promise<string> {
@@ -104,19 +111,11 @@ async function buildMainSitemapIndex(): Promise<string> {
 }
 
 async function buildAlliedSitemapIndex(): Promise<string> {
-  const base = getAlliedBase();
+  const base = getSiteBase();
   const today = todayDate();
 
-  const staticUrls = await generateAlliedPages().catch(() => []);
-  const dbUrls = await generateAlliedDatabaseContent().catch(() => []);
-  const allUrls = [...staticUrls, ...dbUrls];
-  const chunkCount = Math.max(1, Math.ceil(allUrls.length / SITEMAP_SPLIT_LIMIT));
-
   const entries: string[] = [];
-  for (let i = 0; i < chunkCount; i++) {
-    const suffix = chunkCount > 1 ? `-${i + 1}` : "";
-    entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-allied-content${suffix}.xml`, today));
-  }
+  entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-allied-health.xml`, today));
 
   return wrapSitemapIndex(entries);
 }
@@ -157,7 +156,7 @@ export function registerSitemapRoutes(app: Express) {
         ].join("\n"),
       );
     } else if ((req as any).isAllied) {
-      const alliedBase = getAlliedBase();
+      const base = getSiteBase();
       res.type("text/plain").send(
         [
           "User-agent: *",
@@ -168,7 +167,7 @@ export function registerSitemapRoutes(app: Express) {
           "Disallow: /account",
           "Disallow: /checkout",
           "",
-          `Sitemap: ${alliedBase}/sitemap-index.xml`,
+          `Sitemap: ${base}/sitemap-index.xml`,
           "",
         ].join("\n"),
       );
@@ -299,40 +298,12 @@ export function registerSitemapRoutes(app: Express) {
     });
   }
 
-  app.get("/sitemaps/sitemap-allied-content.xml", async (_req: Request, res: Response) => {
-    try {
-      const cacheKey = "allied-content-0";
-      const cached = getCached(cacheKey);
-      if (cached) return sendXml(res, cached, true);
-
-      const staticUrls = await generateAlliedPages();
-      const dbUrls = await generateAlliedDatabaseContent();
-      const allUrls = [...staticUrls, ...dbUrls];
-      const chunks = splitIntoChunks(allUrls, SITEMAP_SPLIT_LIMIT);
-      const xml = wrapUrlset(chunks[0] || []);
-      setCache(cacheKey, xml);
-      sendXml(res, xml, false);
-    } catch (e: any) {
-      console.error("Allied sitemap error:", e);
-      sendXml(res, wrapUrlset([]), false);
-    }
+  app.get("/sitemaps/sitemap-allied-content.xml", (_req: Request, res: Response) => {
+    res.redirect(301, "/sitemaps/sitemap-allied-health.xml");
   });
 
-  app.get("/sitemaps/sitemap-allied-content-:page.xml", async (req: Request, res: Response) => {
-    const pageNum = parseInt(req.params.page);
-    if (isNaN(pageNum) || pageNum < 1) return res.status(404).send("Not found");
-    const chunkIndex = pageNum - 1;
-    try {
-      const staticUrls = await generateAlliedPages();
-      const dbUrls = await generateAlliedDatabaseContent();
-      const allUrls = [...staticUrls, ...dbUrls];
-      const chunks = splitIntoChunks(allUrls, SITEMAP_SPLIT_LIMIT);
-      if (chunkIndex >= chunks.length) return res.status(404).send("Not found");
-      const xml = wrapUrlset(chunks[chunkIndex] || []);
-      sendXml(res, xml, false);
-    } catch (e: any) {
-      res.status(500).send("Error generating sitemap");
-    }
+  app.get("/sitemaps/sitemap-allied-content-:page.xml", (_req: Request, res: Response) => {
+    res.redirect(301, "/sitemaps/sitemap-allied-health.xml");
   });
 
   app.get("/sitemaps/sitemap-newgrad-content.xml", async (_req: Request, res: Response) => {

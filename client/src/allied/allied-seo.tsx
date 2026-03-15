@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const ALLIED_DOMAIN = "https://allied.nursenest.ca";
+const ALLIED_DOMAIN = "https://www.nursenest.ca";
 
 interface AlliedSEOProps {
   title: string;

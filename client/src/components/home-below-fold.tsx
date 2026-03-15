@@ -140,7 +140,7 @@ export function HomeBelowFold({
                 if (career.id === "nursing") {
                   setLocation("/free-practice");
                 } else {
-                  const canonical = isAllied ? getCanonicalRoute(career.slug) : (career.routePrefix || "/");
+                  const canonical = isAllied ? `/allied-health${getCanonicalRoute(career.slug)}` : (career.routePrefix || "/");
                   setLocation(canonical);
                 }
               };

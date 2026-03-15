@@ -115,6 +115,44 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const alliedHealthMatch = pathname.match(/^\/allied-health\/(.+)$/);
+  if (alliedHealthMatch) {
+    crumbs.push({ name: "Allied Health", url: `${SITE_BASE}/allied-health` });
+    const subPath = alliedHealthMatch[1];
+    const alliedProfessionLabels: Record<string, string> = {
+      "rrt": "Respiratory Therapy",
+      "paramedic": "Paramedic",
+      "pharmacy-technician": "Pharmacy Technician",
+      "mlt": "Medical Lab Technology",
+      "imaging": "Diagnostic Imaging",
+      "social-work": "Social Work",
+      "psychotherapy": "Psychotherapy",
+      "addictions": "Addictions Counselling",
+      "occupational-therapy": "Occupational Therapy",
+    };
+    const professionMatch = subPath.match(/^([^/]+)/);
+    if (professionMatch && alliedProfessionLabels[professionMatch[1]]) {
+      const profKey = professionMatch[1];
+      crumbs.push({ name: alliedProfessionLabels[profKey], url: `${SITE_BASE}/allied-health/${profKey}` });
+      const remainder = subPath.slice(profKey.length + 1);
+      if (remainder) {
+        crumbs.push({ name: slugToTitle(remainder.split("/").pop() || ""), url: `${SITE_BASE}${pathname}` });
+      }
+    } else if (subPath === "careers") {
+      crumbs.push({ name: "Career Directory", url: `${SITE_BASE}${pathname}` });
+    } else if (subPath === "pricing") {
+      crumbs.push({ name: "Pricing", url: `${SITE_BASE}${pathname}` });
+    } else {
+      crumbs.push({ name: slugToTitle(subPath.split("/").pop() || subPath), url: `${SITE_BASE}${pathname}` });
+    }
+    return crumbs;
+  }
+
+  if (pathname === "/allied-health") {
+    crumbs.push({ name: "Allied Health", url: `${SITE_BASE}/allied-health` });
+    return crumbs;
+  }
+
   const careerMatch = pathname.match(/^\/career-development\/(.+)$/);
   if (careerMatch) {
     crumbs.push({ name: "Career Development", url: `${SITE_BASE}/new-grad` });
@@ -1537,6 +1575,56 @@ export function getPageMeta(pathname: string): PageMeta {
     };
   }
 
+  const alliedHealthProfessionMatch = cleanPath.match(/^\/allied-health\/(rrt|paramedic|pharmacy-technician|mlt|imaging|social-work|psychotherapy|addictions|occupational-therapy)(\/(.+))?$/);
+  if (alliedHealthProfessionMatch) {
+    const profKey = alliedHealthProfessionMatch[1];
+    const subPage = alliedHealthProfessionMatch[3] || "";
+    const professionNames: Record<string, string> = {
+      "rrt": "Respiratory Therapy",
+      "paramedic": "Paramedic",
+      "pharmacy-technician": "Pharmacy Technician",
+      "mlt": "Medical Lab Technology",
+      "imaging": "Diagnostic Imaging",
+      "social-work": "Social Work",
+      "psychotherapy": "Psychotherapy",
+      "addictions": "Addictions Counselling",
+      "occupational-therapy": "Occupational Therapy",
+    };
+    const profName = professionNames[profKey] || slugToTitle(profKey);
+    const subPageTitle = subPage ? ` — ${slugToTitle(subPage.split("/").pop() || subPage)}` : "";
+    const alliedJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LearningResource",
+      "name": `${profName}${subPageTitle} Exam Prep`,
+      "description": `${profName} exam preparation and career resources${subPageTitle ? ` — ${slugToTitle(subPage.split("/").pop() || "")}` : ""}.`,
+      "url": canonical,
+      "learningResourceType": "StudyGuide",
+      "educationalLevel": "Professional",
+      "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
+    });
+    return {
+      title: `${profName}${subPageTitle} | Allied Health Exam Prep | NurseNest`,
+      description: `${profName} exam prep and career resources${subPageTitle}. Practice questions, study guides, flashcards, and mock exams for certification preparation.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+      jsonLd: alliedJsonLd,
+    };
+  }
+
+  const alliedGenericMatch = cleanPath.match(/^\/allied-health\/(.+)$/);
+  if (alliedGenericMatch) {
+    const subPath = alliedGenericMatch[1];
+    const readable = slugToTitle(subPath.split("/").pop() || subPath);
+    return {
+      title: `${readable} | Allied Health | NurseNest`,
+      description: `${readable} — allied health exam preparation resources on NurseNest. Study tools and career support for healthcare professionals.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
   const newGradMatch = cleanPath.match(/^\/new-grad(\/.*)?$/);
   if (newGradMatch) {
     const subPath = newGradMatch[1] || "";
@@ -1661,6 +1749,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
     "/medical-imaging", "/new-grad",
     "/exam-prep", "/new-graduate-support", "/healthcare-careers",
+    "/allied-health",
   ]);
 
   if (EDUCATIONAL_ORG_LANDING_PAGES.has(strippedPath)) {

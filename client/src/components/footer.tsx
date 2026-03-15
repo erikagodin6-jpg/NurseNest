@@ -92,13 +92,15 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealth")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/allied-health" className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</LocaleLink></li>
-              <li><LocaleLink href="/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">Respiratory Therapist</LocaleLink></li>
-              <li><LocaleLink href="/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">Paramedic</LocaleLink></li>
-              <li><LocaleLink href="/pharmacy-technician" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pharmacy-tech">Pharmacy Technician</LocaleLink></li>
-              <li><LocaleLink href="/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-mlt">Medical Lab Tech</LocaleLink></li>
-              <li><LocaleLink href="/imaging" className="hover:text-primary transition-colors" data-testid="link-footer-allied-imaging">Diagnostic Imaging</LocaleLink></li>
-              <li><LocaleLink href="/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">Occupational Therapy</LocaleLink></li>
-              <li><LocaleLink href="/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">Respiratory Therapist</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">Paramedic</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/pharmacy-technician" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pharmacy-tech">Pharmacy Technician</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-mlt">Medical Lab Tech</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/imaging" className="hover:text-primary transition-colors" data-testid="link-footer-allied-imaging">Diagnostic Imaging</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">Occupational Therapy</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">Allied Careers</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.ecosystem")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">

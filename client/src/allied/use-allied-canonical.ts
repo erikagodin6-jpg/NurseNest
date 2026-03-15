@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const ALLIED_BASE = "https://allied.nursenest.ca";
+const ALLIED_BASE = "https://www.nursenest.ca";
 
 export function useAlliedCanonical(path: string, queryParams?: Record<string, string>) {
   useEffect(() => {

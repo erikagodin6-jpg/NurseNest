@@ -848,7 +848,11 @@ function ProfessionSelectorSection() {
             const isAllied = ["paramedic", "rrt", "mlt", "imaging"].includes(prof.id);
 
             const handleClick = () => {
-              setLocation(prof.href);
+              if (isAllied) {
+                setLocation(`/allied-health${prof.href}`);
+              } else {
+                setLocation(prof.href);
+              }
             };
 
             return (
