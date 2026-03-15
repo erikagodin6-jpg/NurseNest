@@ -83,6 +83,12 @@ import { rnFlashcards } from "@/data/flashcards-rn";
 import { npFlashcards } from "@/data/flashcards-np";
 import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
 import { npPathoFlashcards } from "@/data/flashcards-np-patho";
+import { npFlashcardsEnrichment1 } from "@/data/flashcards-np-enrichment-1";
+import { npFlashcardsEnrichment2 } from "@/data/flashcards-np-enrichment-2";
+import { npFlashcardsEnrichment3 } from "@/data/flashcards-np-enrichment-3";
+import { npFlashcardsEnrichment4 } from "@/data/flashcards-np-enrichment-4";
+import { npFlashcardsEnrichment5 } from "@/data/flashcards-np-enrichment-5";
+import { npFlashcardsEnrichment6 } from "@/data/flashcards-np-enrichment-6";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
 
@@ -1772,7 +1778,32 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         ...c,
         source: "static" as const,
       }));
-    return [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped];
+    const npCoreMapped: Flashcard[] = npFlashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    const npEnrichmentAll: Flashcard[] = [
+      ...npFlashcardsEnrichment1,
+      ...npFlashcardsEnrichment2,
+      ...npFlashcardsEnrichment3,
+      ...npFlashcardsEnrichment4,
+      ...npFlashcardsEnrichment5,
+      ...npFlashcardsEnrichment6,
+    ]
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    const combined = [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped, ...npCoreMapped, ...npEnrichmentAll];
+    const seen = new Set<string>();
+    return combined.filter(c => {
+      if (seen.has(c.id)) return false;
+      seen.add(c.id);
+      return true;
+    });
   }, []);
 
   const [myDecks, setMyDecks] = useState<any[]>([]);

@@ -183,7 +183,7 @@ QUESTION_FILES.push({ file: "rn-infectious-disease-cat", tier: "rn", exam: "NCLE
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroQuestions" });
 QUESTION_FILES.push({ file: "rn-patho-cardio-neuro-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroCatQuestions" });
 
-for (let i = 1; i <= 72; i++) {
+for (let i = 1; i <= 74; i++) {
   const pad = String(i).padStart(2, "0");
   QUESTION_FILES.push({
     file: `np-exam-batch-${pad}`,
@@ -192,6 +192,8 @@ for (let i = 1; i <= 72; i++) {
     exportName: `npExamBatch${pad}Questions`,
   });
 }
+
+QUESTION_FILES.push({ file: "np-cat-adaptive-01", tier: "np", exam: "AANP", exportName: "npCatAdaptiveBatch01Questions" });
 
 async function main() {
   console.log("Starting question migration...");
