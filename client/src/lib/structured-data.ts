@@ -187,6 +187,58 @@ export function buildJobPostingStructuredData(job: {
   };
 }
 
+export function buildJobTrainingStructuredData(training: {
+  name: string;
+  description: string;
+  url: string;
+  provider?: string;
+  occupationalCategory?: string;
+  educationRequirements?: string;
+  salaryRange?: { min: number; max: number; currency?: string };
+  timeToComplete?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "EducationalOccupationalProgram",
+    "name": training.name,
+    "description": training.description,
+    "url": training.url,
+    "programType": "Professional certification preparation",
+    "educationalProgramMode": "online",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": training.provider || "NurseNest Allied",
+      "url": "https://www.nursenest.ca/allied-health",
+      "parentOrganization": {
+        "@type": "EducationalOrganization",
+        "name": PARENT_EDUCATIONAL_ORG.name,
+        "url": PARENT_EDUCATIONAL_ORG.url,
+      },
+    },
+    ...(training.occupationalCategory
+      ? {
+          "occupationalCategory": training.occupationalCategory,
+          "occupationalCredentialAwarded": {
+            "@type": "EducationalOccupationalCredential",
+            "credentialCategory": training.educationRequirements || training.occupationalCategory,
+          },
+        }
+      : {}),
+    ...(training.salaryRange
+      ? {
+          "salaryUponCompletion": {
+            "@type": "MonetaryAmountDistribution",
+            "currency": training.salaryRange.currency || "USD",
+            "median": Math.round((training.salaryRange.min + training.salaryRange.max) / 2),
+          },
+        }
+      : {}),
+    ...(training.timeToComplete
+      ? { "timeToComplete": training.timeToComplete }
+      : {}),
+  };
+}
+
 export function buildEducationalOrganizationStructuredData(org?: {
   name?: string;
   url?: string;

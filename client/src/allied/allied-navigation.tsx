@@ -232,6 +232,18 @@ export function AlliedNavigation() {
                         </div>
                       </Link>
                     ))}
+                    <div className="border-t border-gray-100 my-1" />
+                    <div className="px-4 py-1">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Quick Links</span>
+                    </div>
+                    <Link href="/allied-health/qbank?career=rrt" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-teal-50 transition-colors" data-testid="link-quick-qbank">
+                      <BookOpen className="w-3.5 h-3.5 text-teal-500" />
+                      <span className="truncate">Question Banks</span>
+                    </Link>
+                    <Link href="/allied-health" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-teal-50 transition-colors" data-testid="link-quick-career-guides">
+                      <GraduationCap className="w-3.5 h-3.5 text-teal-500" />
+                      <span className="truncate">Career Guides</span>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -334,6 +346,16 @@ export function AlliedNavigation() {
                 {ic.shortName}
               </Link>
             ))}
+            <div className="border-t border-gray-100 my-2" />
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">Study Tools</p>
+            <Link href="/allied-health/qbank?career=rrt" className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-qbank">
+              <BookOpen className="w-4 h-4 text-teal-600" />
+              Question Banks
+            </Link>
+            <Link href="/allied-health" className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-career-guides">
+              <GraduationCap className="w-4 h-4 text-teal-600" />
+              Career Guides
+            </Link>
             <div className="border-t border-gray-100 my-2" />
             <button
               onClick={() => { setRegion(region === "US" ? "CA" : "US"); }}

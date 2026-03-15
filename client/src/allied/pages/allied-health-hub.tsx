@@ -151,6 +151,32 @@ export default function AlliedHealthHub() {
         </div>
       </section>
 
+      <section className="py-12 bg-white" data-testid="study-resources-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Exam Prep Study Resources</h2>
+            <p className="text-gray-600">Quick access to popular study tools across all allied health professions.</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[
+              { label: "RRT Question Bank", href: "/allied-health/qbank?career=rrt", icon: BookOpen },
+              { label: "Paramedic Mock Exams", href: "/allied-health/paramedic/mock-exams", icon: FileText },
+              { label: "Pharm Tech Flashcards", href: "/allied-health/pharmacy-technician/flashcards", icon: Brain },
+              { label: "MLT Practice Questions", href: "/allied-health/mlt/canada/practice-questions", icon: BookOpen },
+              { label: "OT Exam Prep", href: "/allied-health/occupational-therapy/practice-questions", icon: GraduationCap },
+              { label: "PT Exam Prep", href: "/allied-health/physical-therapy/practice-questions", icon: GraduationCap },
+              { label: "Medical Imaging Prep", href: "/allied-health/imaging", icon: Award },
+              { label: "All Career Paths", href: "/careers", icon: TrendingUp },
+            ].map(resource => (
+              <Link key={resource.label} href={resource.href} className="group flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-teal-200 hover:bg-teal-50/40 transition-all" data-testid={`link-resource-${resource.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                <resource.icon className="w-5 h-5 text-teal-500 flex-shrink-0" />
+                <span className="text-sm font-medium text-gray-700 group-hover:text-teal-700">{resource.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-gray-50" data-testid="allied-health-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>

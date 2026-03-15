@@ -12,7 +12,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
-import { buildJobPostingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
+import { buildJobPostingStructuredData, buildJobTrainingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 const FEATURES = [
   { slug: "qbank", label: "Test Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
@@ -126,6 +126,14 @@ export default function CareerLandingPage() {
             educationRequirements: career.examNames[0],
             occupationalCategory: career.name,
             url: `https://www.nursenest.ca/allied-health${careerRoute}`,
+          }),
+          buildJobTrainingStructuredData({
+            name: `${career.name} Certification Prep`,
+            description: `Comprehensive ${career.name} exam preparation covering ${career.examNames.join(", ")} with practice questions, mock exams, flashcards, and study tools.`,
+            url: `https://www.nursenest.ca/allied-health${careerRoute}`,
+            occupationalCategory: career.name,
+            educationRequirements: career.examNames?.[0] ?? career.name,
+            timeToComplete: "P12W",
           }),
         ]}
       />

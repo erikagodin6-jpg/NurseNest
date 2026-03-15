@@ -314,6 +314,28 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
           <FAQSection faqs={content.faqs} />
         </section>
 
+        <section className="py-12" data-testid="related-allied-careers">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Related Allied Health Careers</h2>
+          <p className="text-gray-500 text-center mb-8">Explore other healthcare career paths with dedicated exam prep resources.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { name: "Respiratory Therapist", shortName: "RRT", href: "/allied-health/rrt", desc: "Ventilator management, ABG analysis & NBRC/CBRC certification" },
+              { name: "Pharmacy Technician", shortName: "Pharm Tech", href: "/allied-health/pharmacy-technician", desc: "Pharmacology, compounding & PTCB/ExCPT certification" },
+              { name: "Paramedic", shortName: "Paramedic", href: "/allied-health/paramedic", desc: "Emergency medical services & NREMT/COPR certification" },
+              { name: "Medical Imaging", shortName: "Imaging", href: "/allied-health/imaging", desc: "Radiography, sonography & ARRT/ARDMS certification" },
+            ].map(career => (
+              <Link key={career.shortName} href={career.href} className="group bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-purple-200 transition-all" data-testid={`link-related-${career.shortName.toLowerCase().replace(/\s+/g, "-")}`}>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors">{career.shortName}</h3>
+                <p className="text-xs text-gray-500 mb-2">{career.name}</p>
+                <p className="text-sm text-gray-600 leading-relaxed">{career.desc}</p>
+                <span className="text-purple-600 text-xs font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Explore <ArrowRight className="w-3 h-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         <section className="py-12 text-center" data-testid="seo-bottom-cta">
           <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl border border-purple-100 p-10">
             <Award className="w-12 h-12 text-purple-500 mx-auto mb-4" />

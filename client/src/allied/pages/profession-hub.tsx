@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { type ProfessionHubData } from "@/allied/data/profession-hub-data";
+import { buildJobTrainingStructuredData } from "@/lib/structured-data";
 
 const FEATURE_ICONS = [BookOpen, Brain, Zap, FileText, GraduationCap, Target];
 
@@ -91,7 +92,14 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         keywords={data.seo.keywords}
         canonicalPath={data.seo.canonicalPath}
         structuredData={courseStructuredData}
-        additionalStructuredData={[faqStructuredData, breadcrumbStructuredData, orgStructuredData]}
+        additionalStructuredData={[faqStructuredData, breadcrumbStructuredData, orgStructuredData, buildJobTrainingStructuredData({
+          name: `${data.name} Certification Prep`,
+          description: data.seo.description,
+          url: `https://www.nursenest.ca${data.seo.canonicalPath}`,
+          occupationalCategory: data.name,
+          educationRequirements: data.examInfo?.examNames?.[0] ?? data.name,
+          timeToComplete: "P12W",
+        })]}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden">

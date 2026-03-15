@@ -206,6 +206,35 @@ export default function AlliedHomePage() {
         </div>
       </section>
 
+      <section className="py-16 bg-white" data-testid="allied-study-tools">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Popular Study Resources</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">Jump directly into the study tools used by thousands of allied health students.</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { label: "RRT Test Bank", href: "/allied-health/qbank?career=rrt", icon: BookOpen },
+              { label: "Paramedic Mock Exams", href: "/allied-health/paramedic/mock-exams", icon: FileText },
+              { label: "Pharm Tech Flashcards", href: "/allied-health/pharmacy-technician/flashcards", icon: Brain },
+              { label: "MLT Practice Questions", href: "/allied-health/mlt/canada/practice-questions", icon: BookOpen },
+              { label: "OT Study Guide", href: "/allied-health/occupational-therapy/study-guide", icon: FileText },
+              { label: "PT Mock Exam", href: "/allied-health/physical-therapy/mock-exam", icon: FileText },
+            ].map(tool => (
+              <Link key={tool.label} href={tool.href} className="group flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-teal-200 hover:bg-teal-50/50 transition-all text-center" data-testid={`link-study-tool-${tool.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                <tool.icon className="w-5 h-5 text-teal-500 group-hover:text-teal-600" />
+                <span className="text-xs font-medium text-gray-700 group-hover:text-teal-700">{tool.label}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/allied-health" className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700" data-testid="link-all-career-guides">
+              View all career guides <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 bg-white" data-testid="allied-institutional-cta">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 rounded-2xl overflow-hidden p-8 sm:p-12">

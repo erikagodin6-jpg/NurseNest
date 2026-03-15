@@ -2,6 +2,14 @@ import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { buildJobTrainingStructuredData } from "@/lib/structured-data";
+
+const RELATED_CAREERS = [
+  { name: "Medical Laboratory Technologist", shortName: "MLT", href: "/allied-health/mlt", desc: "Lab diagnostics, hematology, clinical chemistry & microbiology certification", icon: "Microscope" },
+  { name: "Respiratory Therapist", shortName: "RRT", href: "/allied-health/rrt", desc: "Ventilator management, ABG analysis & airway management certification", icon: "Wind" },
+  { name: "Paramedic", shortName: "Paramedic", href: "/allied-health/paramedic", desc: "Emergency medical services, trauma assessment & NREMT/COPR certification", icon: "Ambulance" },
+  { name: "Health Information Management", shortName: "HIM", href: "/allied-health/health-info-mgmt", desc: "Health records, coding, data analytics & CHIM/RHIA certification", icon: "Database" },
+];
 
 const TOPIC_CARDS = [
   { title: "Pharmacology & Drug Classifications", slug: "drug-classes", desc: "Top 200 drugs, brand/generic names, drug classes, mechanisms of action, and therapeutic uses", icon: Pill, href: "/allied-health/pharmacy-technician/drug-classes" },
@@ -60,6 +68,14 @@ export default function PharmtechHubPage() {
               { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
             ],
           },
+          buildJobTrainingStructuredData({
+            name: "Pharmacy Technician Certification Prep",
+            description: "Comprehensive PTCB and ExCPT exam preparation with practice questions, flashcards, study guides, and mock exams.",
+            url: "https://www.nursenest.ca/allied-health/pharmacy-technician",
+            occupationalCategory: "Pharmacy Technician",
+            educationRequirements: "PTCB CPhT",
+            timeToComplete: "P8W",
+          }),
         ]}
       />
 
@@ -238,6 +254,23 @@ export default function PharmtechHubPage() {
                   </div>
                 )}
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="related-careers-section">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Related Allied Health Careers</h2>
+          <p className="text-gray-500 mb-8 text-center">Explore other healthcare career paths with dedicated exam prep resources.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {RELATED_CAREERS.map(career => (
+              <Link key={career.shortName} href={career.href} className="group bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-green-200 transition-all" data-testid={`link-related-${career.shortName.toLowerCase()}`}>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-green-700 transition-colors">{career.shortName}</h3>
+                <p className="text-xs text-gray-500 mb-2">{career.name}</p>
+                <p className="text-sm text-gray-600 leading-relaxed">{career.desc}</p>
+                <span className="text-green-600 text-xs font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Explore <ArrowRight className="w-3 h-3" />
+                </span>
+              </Link>
             ))}
           </div>
         </section>
