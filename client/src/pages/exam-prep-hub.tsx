@@ -12,6 +12,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 
 interface ProfessionSection {
   name: string;
@@ -363,6 +364,15 @@ export default function ExamPrepHub() {
             ))}
           </div>
         </section>
+
+        <AutoRelatedContent
+          slug="exam-prep"
+          contentType="exam-prep"
+          title="Exam Preparation"
+          category="exam-prep"
+          className="pt-8 border-t border-gray-200"
+          sectionTitle="Related Study Resources"
+        />
 
         <section data-testid="section-exam-prep-cta">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 sm:p-10 text-center">

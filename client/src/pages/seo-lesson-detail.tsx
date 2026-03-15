@@ -16,6 +16,7 @@ import {
   ShieldAlert, Loader2, ArrowRight, GraduationCap, ExternalLink, Sparkles,
 } from "lucide-react";
 import { FixedLessonNav } from "@/components/fixed-lesson-nav";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 
 function stripTierFromTitle(title: string): string {
   return title
@@ -390,6 +391,16 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
             </div>
           </section>
         )}
+
+        <AutoRelatedContent
+          slug={lesson.slug}
+          contentType="lesson"
+          title={lesson.title}
+          bodySystem={lesson.category || undefined}
+          category={lesson.category || undefined}
+          className="pt-6 border-t border-gray-200"
+          sectionTitle="Related Lessons, Articles & Practice"
+        />
 
         <section className="space-y-3 pt-4" data-testid="section-internal-links">
           <div className="flex flex-wrap gap-3">

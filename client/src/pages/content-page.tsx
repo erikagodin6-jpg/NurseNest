@@ -22,6 +22,7 @@ import {
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { CiteThisPage } from "@/components/cite-this-page";
 import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 import {
   ArrowLeft,
   Lightbulb,
@@ -908,6 +909,17 @@ export default function ContentPage() {
               </div>
             </section>
           )}
+
+          <AutoRelatedContent
+            slug={slug || ""}
+            contentType={isBlogType ? "blog" : "lesson"}
+            title={contentItem!.title}
+            bodySystem={contentItem!.bodySystem || undefined}
+            category={contentItem!.category || undefined}
+            tags={tags}
+            className="mt-12 pt-8 border-t border-gray-200"
+            sectionTitle="Explore Related Content"
+          />
 
           <ContextualRelatedResources
             pageType={isBlogType ? "blog" : "lesson"}

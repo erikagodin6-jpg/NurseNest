@@ -12,6 +12,131 @@ import {
 import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
 
+interface ValidationResult {
+  totalUrls: number;
+  checked: number;
+  passed: number;
+  failed: number;
+  errors: { url: string; status: number; error?: string }[];
+  duration: number;
+}
+
+export async function sitemapValidate(req: Request, res: Response) {
+  const startTime = Date.now();
+  const requestedLimit = parseInt(String(req.query.limit || "0"));
+  const maxCheck = requestedLimit > 0 ? requestedLimit : Infinity;
+  const domain = String(req.query.domain || "main");
+
+  try {
+    let allXmlUrls: string[] = [];
+
+    if (domain === "main" || domain === "all") {
+      const generators = [
+        generateMainPages, generateMainLessons, generateMainQuestions,
+        generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
+        generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
+        generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
+      ];
+      for (const gen of generators) {
+        try {
+          const urls = await gen();
+          allXmlUrls.push(...urls);
+        } catch (e) {
+          console.error(`Sitemap validate: generator ${gen.name} error:`, e);
+        }
+      }
+    }
+
+    if (domain === "allied" || domain === "all") {
+      try {
+        const staticUrls = await generateAlliedPages();
+        const dbUrls = await generateAlliedDatabaseContent();
+        allXmlUrls.push(...staticUrls, ...dbUrls);
+      } catch (e) {
+        console.error("Sitemap validate: allied pages error:", e);
+      }
+    }
+
+    if (domain === "newgrad" || domain === "all") {
+      try {
+        const urls = await generateNewGradPages();
+        allXmlUrls.push(...urls);
+      } catch (e) {
+        console.error("Sitemap validate: newgrad pages error:", e);
+      }
+    }
+
+    const extractedUrls: string[] = [];
+    for (const xmlEntry of allXmlUrls) {
+      const locMatches = xmlEntry.match(/<loc>([^<]+)<\/loc>/g);
+      if (locMatches) {
+        for (const m of locMatches) {
+          const url = m.replace(/<\/?loc>/g, "");
+          if (!extractedUrls.includes(url)) {
+            extractedUrls.push(url);
+          }
+        }
+      }
+    }
+
+    const totalUrls = extractedUrls.length;
+    const urlsToCheck = maxCheck === Infinity
+      ? extractedUrls
+      : extractedUrls.slice(0, maxCheck);
+
+    const errors: { url: string; status: number; error?: string }[] = [];
+    let passed = 0;
+
+    for (const url of urlsToCheck) {
+      try {
+        const urlObj = new URL(url);
+        const internalPath = urlObj.pathname + urlObj.search;
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+
+        try {
+          const response = await fetch(`http://localhost:${process.env.PORT || 3000}${internalPath}`, {
+            method: "HEAD",
+            signal: controller.signal,
+            headers: { "Host": urlObj.hostname },
+            redirect: "follow",
+          });
+          clearTimeout(timeout);
+
+          if (response.ok || response.status === 301 || response.status === 302) {
+            passed++;
+          } else {
+            errors.push({ url, status: response.status });
+          }
+        } catch (fetchErr: any) {
+          clearTimeout(timeout);
+          if (fetchErr.name === "AbortError") {
+            errors.push({ url, status: 0, error: "timeout" });
+          } else {
+            errors.push({ url, status: 0, error: fetchErr.message });
+          }
+        }
+      } catch (e: any) {
+        errors.push({ url, status: 0, error: e.message });
+      }
+    }
+
+    const result: ValidationResult = {
+      totalUrls,
+      checked: urlsToCheck.length,
+      passed,
+      failed: errors.length,
+      errors: errors.slice(0, 50),
+      duration: Date.now() - startTime,
+    };
+
+    res.json(result);
+  } catch (e: any) {
+    res.status(500).json({ error: e.message, duration: Date.now() - startTime });
+  }
+}
+
 interface HealthReport {
   status: "ok" | "warning" | "error";
   generatedAt: string;

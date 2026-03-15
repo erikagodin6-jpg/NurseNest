@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, ArrowRight, BookOpen, FileText, Layers, Brain, Clock, Calendar, Loader2 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getAlliedHealthProfession } from "@/allied/data/allied-health-professions";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 import { useMemo } from "react";
 import DOMPurify from "dompurify";
 
@@ -189,6 +190,16 @@ export default function AlliedHealthArticlePage() {
             </div>
           </div>
         )}
+
+        <AutoRelatedContent
+          slug={articleSlug}
+          contentType="allied-article"
+          title={article.title}
+          profession={profession?.shortName || professionSlug}
+          category={profession?.name || undefined}
+          className="mt-12 pt-8 border-t border-gray-200"
+          sectionTitle="Related Resources"
+        />
 
         {related.length > 0 && (
           <div className="mt-12" data-testid="related-articles">

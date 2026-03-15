@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Copy, Check, ArrowLeft, Layers, Share2, Globe, Lock, Crown } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 
 export default function DeckPage() {
   const params = useParams<{ slug: string }>();
@@ -270,6 +271,16 @@ export default function DeckPage() {
               </div>
             )}
           </div>
+        )}
+
+        {deck && (
+          <AutoRelatedContent
+            slug={params.slug || ""}
+            contentType="flashcard-deck"
+            title={deck.title || ""}
+            className="mt-8 pt-8 border-t border-gray-200"
+            sectionTitle="Related Lessons & Practice"
+          />
         )}
 
         <div className="bg-primary/5 rounded-2xl p-6 sm:p-8 text-center">

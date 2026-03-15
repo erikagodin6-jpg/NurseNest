@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { ChecklistGate, FlashcardCTA, PracticeQuestionCTA } from "@/components/marketing-cta";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 import {
   ChevronRight, ChevronDown, HelpCircle, BookOpen, ArrowRight,
   Clock, User, Calendar, List,
@@ -259,6 +260,16 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                   variant="banner"
                 />
               </div>
+
+              <AutoRelatedContent
+                slug={guide.slug}
+                contentType="new-grad-guide"
+                title={guide.title}
+                profession={guide.profession}
+                category={guide.type}
+                className="mb-12 pt-8 border-t border-gray-200"
+                sectionTitle="Related Lessons & Study Resources"
+              />
 
               {guide.relatedLinks.length > 0 && (
                 <section className="mb-12" data-testid="section-related">

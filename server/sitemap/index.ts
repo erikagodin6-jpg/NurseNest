@@ -12,7 +12,7 @@ import {
 } from "./main-site";
 import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
-import { sitemapHealthCheck } from "./health";
+import { sitemapHealthCheck, sitemapValidate } from "./health";
 
 interface CacheEntry {
   xml: string;
@@ -386,6 +386,16 @@ export function registerSitemapRoutes(app: Express) {
   });
 
   app.get("/api/admin/sitemap-health", sitemapHealthCheck);
+  app.get("/api/admin/sitemap-validate", async (req, res) => {
+    try {
+      const { requireAdmin } = await import("../admin-auth");
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      sitemapValidate(req, res);
+    } catch (e: any) {
+      res.status(401).json({ error: "Admin authentication required" });
+    }
+  });
 }
 
 export { getSiteBase } from "./helpers";

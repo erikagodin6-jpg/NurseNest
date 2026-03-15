@@ -47,6 +47,7 @@ import { RespiratorySoundsLibrary } from "@/components/respiratory-sounds-librar
 import { useI18n } from "@/lib/i18n";
 import { ConversionFunnel, SocialProofBar } from "@/components/conversion-funnel";
 import { FixedLessonNav } from "@/components/fixed-lesson-nav";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 
 function getCredentials() {
   try {
@@ -3669,6 +3670,17 @@ export default function LessonDetail() {
             </div>
           ) : null;
         })()}
+
+        <AutoRelatedContent
+          slug={id || ""}
+          contentType="lesson"
+          title={lessonContent?.title || id || ""}
+          bodySystem={getLessonBodySystem(id || "")}
+          category={dbContent?.category || lessonContent?.category || undefined}
+          tags={dbContent?.tags as string[] || undefined}
+          className="mt-10 pt-8 border-t border-gray-200"
+          sectionTitle="Related Lessons, Articles & Practice"
+        />
 
         <div className="mt-10" data-testid="lesson-conversion-funnel">
           <ConversionFunnel

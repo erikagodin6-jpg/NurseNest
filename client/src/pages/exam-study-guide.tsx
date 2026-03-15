@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { ContextualRelatedResources } from "@/components/related-resources";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   BookOpen, FileText, Brain, Target,
@@ -905,6 +906,16 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
         </section>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <AutoRelatedContent
+            slug={guide.slug}
+            contentType="exam-prep"
+            title={guide.title}
+            category="exam-prep"
+            tags={["exam-prep", guide.professionSlug]}
+            className="border-t border-gray-200"
+            sectionTitle="Related Study Resources"
+          />
+
           <ContextualRelatedResources
             pageType="examGuide"
             tags={["exam-prep"]}
