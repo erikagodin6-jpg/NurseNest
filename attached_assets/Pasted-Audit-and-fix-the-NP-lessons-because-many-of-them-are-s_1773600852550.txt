@@ -1,0 +1,103 @@
+Audit and fix the NP lessons because many of them are still empty/incomplete.
+
+Goal
+- Fully populate the existing NP lesson slots that are showing as empty.
+- Do not add any new lesson titles.
+- Do not move lessons to different categories.
+- Do not create duplicates.
+- Keep each lesson in the exact spot where it already appears.
+
+Problem
+- The NP tier still has many lesson cards that open to empty, thin, broken, or incomplete lesson pages.
+- Some may show incomplete markers, blank bodies, missing content sections, or broken lesson-to-content mappings.
+- This needs a full NP-specific audit and repair.
+
+Critical rules
+- Do NOT create new NP lesson titles.
+- Do NOT rename existing NP lesson titles unless there is an obvious typo/bug.
+- Do NOT shift lessons into different systems/categories.
+- Do NOT create placeholder text, lorem ipsum, “coming soon,” or thin filler content.
+- Do NOT duplicate the same lesson body across multiple titles.
+- Do NOT break the completed NP lessons that already work.
+- Keep the current NP lesson information architecture intact.
+
+What to do
+1. Audit every NP lesson card in every category/system.
+2. Identify all lessons that are:
+   - empty
+   - incomplete
+   - blank on open
+   - broken route/mapping
+   - unpublished
+   - missing body sections
+   - showing title only with no real educational content
+3. For each affected NP lesson, complete the content for that exact existing title.
+4. If the issue is mapping, restore the correct lesson-content association instead of creating a new lesson.
+5. If the issue is unpublished state, publish the completed existing lesson.
+6. If the issue is route/slug mismatch, repair the route without changing the visible title.
+
+Required NP lesson content standard
+Every repaired NP lesson must include substantial NP-level content appropriate to the exact title.
+
+Minimum structure
+- Existing lesson title preserved
+- concise overview
+- learning objectives
+- advanced pathophysiology explanation
+- focused and differential assessment considerations
+- clinical manifestations
+- diagnostics/labs/imaging where relevant
+- differential diagnosis where relevant
+- evidence-based management and treatment considerations
+- pharmacology and prescribing-relevant points where appropriate
+- complications/red flags
+- patient education and follow-up where relevant
+- key takeaways
+- review questions or knowledge checks if the lesson format supports them
+
+NP depth standard
+- more advanced than RN
+- include higher-level diagnostic reasoning
+- include differential thinking where relevant
+- include management depth and advanced clinical judgment
+- maintain exam-prep relevance
+- content must be specific to the title, not generic
+
+Important content rule
+- Each NP lesson must match its exact current title.
+- No recycled generic lesson bodies.
+- No broad filler that could fit any topic.
+- If the title is specific, the lesson must be specific.
+- If the title is broad, organize it into meaningful NP-level sub-sections.
+
+UI/data requirements
+- Keep the lesson card in the same category and display position.
+- Keep category counts accurate.
+- Ensure clicking the NP lesson opens the correct completed lesson.
+- Remove empty/incomplete NP lessons caused by:
+  - missing content
+  - broken mapping
+  - unpublished records
+  - broken slugs/routes
+  - null content relations
+
+Audit scope
+- Audit all NP lesson systems/categories, not just the visible page.
+- Fix every currently empty or incomplete NP lesson slot.
+- Also check “Show more” hidden lesson areas and any paginated/expanded lesson groups.
+
+QA checklist
+- No empty NP lessons remain
+- No new titles were created
+- No titles were moved to new categories
+- No duplicate lessons were created
+- Every repaired NP lesson opens correctly
+- Every repaired NP lesson contains meaningful NP-level content
+- Existing completed NP lessons still function
+- Progress/completion states reflect actual content presence
+
+Acceptance criteria
+- NP lesson pages no longer contain empty or incomplete lesson slots
+- Existing NP lesson titles remain intact
+- Each repaired NP lesson stays in its original place
+- The NP tier looks complete, cohesive, and intentional
