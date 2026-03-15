@@ -3,30 +3,30 @@
     "title": "Pagpalya ng Puso",
     "overview": "Ang heart failure ay isang malalang at progresibong kondisyon kung saan ang muscle ng puso ay hindi kayang mag-pump ng sapat na dugo upang matugunan ang mga pangangailangan ng katawan sa dugo at oxygen. Sinusubukan ng puso na magbayad sa pamamagitan ng pagpapalaki, hypertrophy, at pagpapabilis ng tibok, ngunit sa huli ay nabibigo ang mga mekanismong ito.",
     "riskFactors": [
-      "Maladie coronarienne",
+      "Coronary artery disease",
       "Hypertension",
-      "Diabète sucré",
-      "Cardiomyopathie",
-      "Maladie valvulaire",
-      "Obésité",
-      "Tabagisme"
+      "Diabetes mellitus",
+      "Cardiomyopathy",
+      "Valvular heart disease",
+      "Obesity",
+      "Paninigarilyo"
     ],
     "clinicalPearls": [
-      "Pesez le patient quotidiennement à la même heure",
-      "Surveillez l'apport et l'élimination avec précision",
-      "Éduquez sur le régime pauvre en sodium",
-      "La digoxine nécessite une surveillance du pouls avant administration",
-      "Élevez la tête du lit à 45 degrés pour l'orthopnée"
+      "Timbangin ang pasyente araw-araw sa parehong oras",
+      "Subaybayan ang intake at output nang tumpak",
+      "Ituro ang diyetang mababa sa sodium",
+      "Ang digoxin ay nangangailangan ng pagsubaybay ng pulso bago ibigay",
+      "Itaas ang ulunan ng kama sa 45 degrees para sa orthopnea"
     ]
   },
   "hypertension": {
     "title": "Altapresyon",
     "overview": "Ang hypertension ay isang patuloy na pagtaas ng systemic arterial blood pressure. Ito ay isang pangunahing risk factor para sa cardiovascular disease, stroke, at kidney disease. Karamihan sa mga pasyente ay walang sintomas, kaya tinatawag itong 'silent killer'.",
     "clinicalPearls": [
-      "Enseignez la technique correcte de mesure de la PA",
-      "Les médicaments doivent être pris de manière constante",
-      "Surveillez les effets secondaires des antihypertenseurs",
-      "Encouragez les modifications du mode de vie"
+      "Ituro ang tamang pamamaraan ng pagsukat ng blood pressure",
+      "Ang mga gamot ay dapat inumin nang tuloy-tuloy at regular",
+      "Subaybayan ang mga side effects ng mga antihypertensive",
+      "Hikayatin ang mga pagbabago sa pamumuhay"
     ]
   },
   "respiratory-assessment": {
@@ -1064,8 +1064,8 @@
     ]
   },
   "aaa-rupture": {
-    "title": "Rupture d'anévrisme de l'aorte abdominale",
-    "overview": "Ang Rupture d'anévrisme de l'aorte abdominale ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Abdominal Aortic Aneurysm Rupture",
+    "overview": "Ang Abdominal Aortic Aneurysm Rupture ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age > 65 years",
       "Male sex (6:1 male-to-female ratio)",
@@ -1083,8 +1083,8 @@
     ]
   },
   "mi-management": {
-    "title": "Prise en charge de l'infarctus du myocarde",
-    "overview": "Ang Prise en charge de l'infarctus du myocarde ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Myocardial Infarction Management",
+    "overview": "Ang Myocardial Infarction Management ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Smoking",
       "Hypertension",
@@ -1103,8 +1103,8 @@
     ]
   },
   "hf-advanced": {
-    "title": "Insuffisance cardiaque avancée",
-    "overview": "Ang Insuffisance cardiaque avancée ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Advanced Heart Failure",
+    "overview": "Ang Advanced Heart Failure ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Coronary artery disease (most common cause)",
       "Hypertension",
@@ -1143,8 +1143,8 @@
     ]
   },
   "pe-recognition": {
-    "title": "Reconnaissance de l'embolie pulmonaire",
-    "overview": "Ang Reconnaissance de l'embolie pulmonaire ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Pagkilala sa Pulmonary Embolism",
+    "overview": "Ang Pagkilala sa Pulmonary Embolism ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Recent surgery (especially orthopedic)",
       "Prolonged immobility",
@@ -1182,8 +1182,8 @@
     ]
   },
   "peripheral-artery-disease": {
-    "title": "Maladie artérielle périphérique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie artérielle périphérique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Peripheral Arterial Disease",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Peripheral Arterial Disease, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Smoking",
       "Diabetes mellitus",
@@ -1221,8 +1221,8 @@
     ]
   },
   "carotid-endarterectomy": {
-    "title": "Endartériectomie carotidienne",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Endartériectomie carotidienne, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Carotid Endarterectomy",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Carotid Endarterectomy, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Carotid artery stenosis > 70%",
       "History of TIA or stroke",
@@ -1240,8 +1240,8 @@
     ]
   },
   "cardiovascular-rpn": {
-    "title": "Cardiovasculaire – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovasculaire – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiovascular – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovascular – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Hypertension",
       "Hyperlipidemia",
@@ -1261,8 +1261,8 @@
     ]
   },
   "cardiovascular-rn": {
-    "title": "Cardiovasculaire – IA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovasculaire – IA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiovascular – RN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovascular – RN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Coronary artery disease",
       "Valvular heart disease",
@@ -1282,8 +1282,8 @@
     ]
   },
   "cardiovascular-np": {
-    "title": "Cardiovasculaire – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovasculaire – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiovascular – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiovascular – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Modifiable: hypertension, dyslipidemia, diabetes, obesity, smoking, sedentary lifestyle, excessive alcohol",
       "Non-modifiable: age, sex, family history, genetic predisposition",
@@ -1299,8 +1299,8 @@
     ]
   },
   "chf-basics": {
-    "title": "Bases de l'insuffisance cardiaque congestive",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Bases de l'insuffisance cardiaque congestive, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Congestive Heart Failure Basics",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Congestive Heart Failure Basics, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Coronary artery disease (most common cause)",
       "Hypertension",
@@ -1320,8 +1320,8 @@
     ]
   },
   "mi-acute": {
-    "title": "Infarctus aigu du myocarde",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Infarctus aigu du myocarde, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Myocardial Infarction",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Myocardial Infarction, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Coronary artery disease",
       "Smoking",
@@ -1341,8 +1341,8 @@
     ]
   },
   "hypertension-management": {
-    "title": "Prise en charge de l'hypertension",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Prise en charge de l'hypertension, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hypertension Management",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypertension Management, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history",
       "African American descent",
@@ -1422,8 +1422,8 @@
     ]
   },
   "cardiogenic-shock": {
-    "title": "Choc cardiogénique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Choc cardiogénique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiogenic Shock",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiogenic Shock, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Large anterior wall STEMI",
       "Acute decompensated heart failure",
@@ -1482,8 +1482,8 @@
     ]
   },
   "cardiac-assessment-ecg": {
-    "title": "Évaluation cardiaque et ECG",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation cardiaque et ECG, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiac Assessment and ECG",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiac Assessment and ECG, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Electrolyte imbalances (potassium, calcium, magnesium)",
       "Coronary artery disease",
@@ -1500,8 +1500,8 @@
     ]
   },
   "cardiac-cycle-hemodynamics": {
-    "title": "Cycle cardiaque et hémodynamique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cycle cardiaque et hémodynamique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiac Cycle and Hemodynamics",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiac Cycle and Hemodynamics, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Heart failure (impaired contractility)",
       "Hypertension (increased afterload)",
@@ -1517,8 +1517,8 @@
     ]
   },
   "conduction-system": {
-    "title": "Système de conduction cardiaque",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Système de conduction cardiaque, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiac Conduction System",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiac Conduction System, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Electrolyte imbalances (hypo/hyperkalemia)",
       "Myocardial ischemia or infarction",
@@ -1553,8 +1553,8 @@
     ]
   },
   "cardioversion-defib": {
-    "title": "Cardioversion et défibrillation",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardioversion et défibrillation, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardioversion and Defibrillation",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardioversion and Defibrillation, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Atrial fibrillation or flutter (for cardioversion)",
       "Ventricular fibrillation or pulseless VT (for defibrillation)",
@@ -1570,8 +1570,8 @@
     ]
   },
   "raynauds-phenomenon-rpn": {
-    "title": "Phénomène de Raynaud – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Phénomène de Raynaud – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Raynaud's Phenomenon – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Raynaud's Phenomenon – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Female sex (predominant)",
       "Cold climate exposure",
@@ -1588,8 +1588,8 @@
     ]
   },
   "buergers-disease-rpn": {
-    "title": "Maladie de Buerger – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie de Buerger – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Buerger's Disease – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Buerger's Disease – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Tobacco use (essential for diagnosis)",
       "Male sex (historically, though female incidence rising)",
@@ -1605,8 +1605,8 @@
     ]
   },
   "venous-insufficiency-rpn": {
-    "title": "Insuffisance veineuse – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insuffisance veineuse – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Venous Insufficiency – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Venous Insufficiency – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "History of DVT",
       "Obesity",
@@ -1676,8 +1676,8 @@
     ]
   },
   "kawasaki-disease-rpn": {
-    "title": "Maladie de Kawasaki – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie de Kawasaki – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Kawasaki Disease – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Kawasaki Disease – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age <5 years (peak 1-2 years)",
       "Male sex",
@@ -1692,8 +1692,8 @@
     ]
   },
   "cardiomyopathy-basics-rpn": {
-    "title": "Cardiomyopathie – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiomyopathie – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiomyopathy – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiomyopathy – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history/genetic mutations (HCM)",
       "Chronic alcohol use (dilated)",
@@ -1710,8 +1710,8 @@
     ]
   },
   "shock-types-recognition-rpn": {
-    "title": "Types de choc – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Types de choc – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Types of Shock – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Types of Shock – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Hemorrhage or dehydration (hypovolemic)",
       "Myocardial infarction (cardiogenic)",
@@ -1745,8 +1745,8 @@
     ]
   },
   "dic-basics": {
-    "title": "Coagulation intravasculaire disséminée",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Coagulation intravasculaire disséminée, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Disseminated Intravascular Coagulation",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Disseminated Intravascular Coagulation, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Sepsis (most common cause)",
       "Obstetric complications (placental abruption, amniotic fluid embolism)",
@@ -1762,8 +1762,8 @@
     ]
   },
   "marfan-syndrome-rpn": {
-    "title": "Syndrome de Marfan – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome de Marfan – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Marfan Syndrome – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Marfan Syndrome – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history (autosomal dominant)",
       "Spontaneous FBN1 mutation (25% of cases)",
@@ -1796,8 +1796,8 @@
     ]
   },
   "toxic-shock-syndrome-rpn": {
-    "title": "Syndrome du choc toxique – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome du choc toxique – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Toxic Shock Syndrome – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Toxic Shock Syndrome – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Tampon use (prolonged, super-absorbent)",
       "Nasal packing",
@@ -1813,8 +1813,8 @@
     ]
   },
   "focused-cardiac-assessment": {
-    "title": "Évaluation cardiaque ciblée",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation cardiaque ciblée, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Focused Cardiac Assessment",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Focused Cardiac Assessment, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Cardiovascular disease risk factors",
       "History of valvular disease",
@@ -1866,8 +1866,8 @@
     ]
   },
   "neurogenic-shock": {
-    "title": "Choc neurogénique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Choc neurogénique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neurogenic Shock",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neurogenic Shock, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Spinal cord injury (above T6)",
       "Spinal anesthesia",
@@ -1882,8 +1882,8 @@
     ]
   },
   "obstructive-shock": {
-    "title": "Choc obstructif",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Choc obstructif, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Obstructive Shock",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Obstructive Shock, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Chest trauma (tamponade, tension pneumothorax)",
       "Pericardial effusion",
@@ -1898,8 +1898,8 @@
     ]
   },
   "hemodynamic-assessment-rn": {
-    "title": "Évaluation hémodynamique – IA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation hémodynamique – IA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hemodynamic Assessment – RN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hemodynamic Assessment – RN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Critical illness requiring vasoactive medications",
       "Cardiogenic shock",
@@ -1932,8 +1932,8 @@
     ]
   },
   "hf-advanced-np": {
-    "title": "Insuffisance cardiaque avancée – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insuffisance cardiaque avancée – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Advanced Heart Failure – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Advanced Heart Failure – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prior MI with reduced EF",
       "Chronic uncontrolled hypertension",
@@ -1988,8 +1988,8 @@
     ]
   },
   "cardiac-arrest-acls-np": {
-    "title": "Arrêt cardiaque SVCA – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Arrêt cardiaque SVCA – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "ACLS Cardiac Arrest – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng ACLS Cardiac Arrest – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Coronary artery disease and prior MI",
       "Heart failure with reduced EF",
@@ -2025,8 +2025,8 @@
     ]
   },
   "valvular-disease-np": {
-    "title": "Maladie valvulaire – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie valvulaire – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Valvular Heart Disease – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Valvular Heart Disease – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Rheumatic heart disease (mitral stenosis)",
       "Bicuspid aortic valve (aortic stenosis)",
@@ -2043,8 +2043,8 @@
     ]
   },
   "pvd-advanced-np": {
-    "title": "Maladie vasculaire périphérique – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie vasculaire périphérique – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Peripheral Vascular Disease – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Peripheral Vascular Disease – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Smoking (strongest risk factor)",
       "Diabetes mellitus (accelerates disease)",
@@ -2061,8 +2061,8 @@
     ]
   },
   "takotsubo-cardiomyopathy-np": {
-    "title": "Cardiomyopathie de Takotsubo – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiomyopathie de Takotsubo – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Takotsubo Cardiomyopathy – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Takotsubo Cardiomyopathy – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Postmenopausal women (90% of cases)",
       "Acute emotional stress (grief, surprise, argument)",
@@ -2077,8 +2077,8 @@
     ]
   },
   "infective-endocarditis-advanced-np": {
-    "title": "Endocardite infectieuse avancée – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Endocardite infectieuse avancée – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Advanced Infective Endocarditis – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Advanced Infective Endocarditis – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prosthetic heart valves",
       "IV drug use (right-sided IE)",
@@ -2112,8 +2112,8 @@
     ]
   },
   "constrictive-pericarditis-np": {
-    "title": "Péricardite constrictive – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Péricardite constrictive – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Constrictive Pericarditis – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Constrictive Pericarditis – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prior cardiac surgery",
       "Prior radiation therapy",
@@ -2130,8 +2130,8 @@
     ]
   },
   "cardiac-tamponade-mgmt-np": {
-    "title": "Tamponnade cardiaque – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Tamponnade cardiaque – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiac Tamponade – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiac Tamponade – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Pericarditis (viral, uremic, malignant)",
       "Chest trauma (penetrating or blunt)",
@@ -2183,8 +2183,8 @@
     ]
   },
   "pulmonary-hypertension-np": {
-    "title": "Hypertension pulmonaire – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypertension pulmonaire – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Pulmonary Hypertension – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Pulmonary Hypertension – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Idiopathic PAH (young women)",
       "Connective tissue disease (scleroderma)",
@@ -2202,8 +2202,8 @@
     ]
   },
   "cerebral-venous-sinus-thrombosis-np": {
-    "title": "Thrombose veineuse cérébrale – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thrombose veineuse cérébrale – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cerebral Venous Sinus Thrombosis – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cerebral Venous Sinus Thrombosis – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Oral contraceptive use",
       "Pregnancy and postpartum period",
@@ -2221,8 +2221,8 @@
     ]
   },
   "portal-hypertension-np": {
-    "title": "Hypertension portale – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypertension portale – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Portal Hypertension – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Portal Hypertension – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Cirrhosis (most common cause: alcohol, HCV, NASH)",
       "Portal vein thrombosis",
@@ -2239,8 +2239,8 @@
     ]
   },
   "advanced-cardiac-auscultation-np": {
-    "title": "Auscultation cardiaque avancée – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Auscultation cardiaque avancée – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Advanced Cardiac Auscultation – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Advanced Cardiac Auscultation – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "clinicalPearls": [
       "Valsalva and standing INCREASE HCM murmur (decreased preload worsens obstruction)",
       "Squatting DECREASES HCM murmur (increased preload and afterload reduce obstruction)",
@@ -2248,8 +2248,8 @@
     ]
   },
   "hemodynamic-monitoring-np": {
-    "title": "Surveillance hémodynamique – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Surveillance hémodynamique – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hemodynamic Monitoring – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hemodynamic Monitoring – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "clinicalPearls": [
       "Hemodynamic profiles: Cardiogenic = high wedge + low CO + high SVR; Septic = low-normal wedge + high CO + low SVR",
       "SvO2 <60% = tissues are extracting more oxygen than normal (inadequate delivery or increased demand)",
@@ -2257,8 +2257,8 @@
     ]
   },
   "cardiac-output-np": {
-    "title": "Débit cardiaque – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Débit cardiaque – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cardiac Output – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiac Output – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "clinicalPearls": [
       "CO = HR x SV; normal CO 4-8 L/min; normal CI 2.5-4.0 L/min/m2",
       "Always assess fluid responsiveness before giving volume (passive leg raise, pulse pressure variation)",
@@ -2266,8 +2266,8 @@
     ]
   },
   "vascular-assessment-np": {
-    "title": "Évaluation vasculaire – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation vasculaire – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Vascular Assessment – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Vascular Assessment – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "clinicalPearls": [
       "PAD is a cardiovascular risk equivalent - treat with same intensity as known CAD",
       "ABI interpretation: >1.3 = non-compressible; 0.9-1.3 = normal; 0.5-0.89 = claudication; <0.5 = critical ischemia",
@@ -2308,8 +2308,8 @@
     ]
   },
   "marfan-syndrome-np": {
-    "title": "Syndrome de Marfan – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome de Marfan – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Marfan Syndrome – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Marfan Syndrome – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Confirmed FBN1 mutation",
       "Aortic root z-score >3",
@@ -2360,8 +2360,8 @@
     ]
   },
   "hypertensive-emergency-np": {
-    "title": "Urgence hypertensive – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Urgence hypertensive – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hypertensive Emergency – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypertensive Emergency – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Medication non-adherence - most common precipitant of hypertensive emergency",
       "Chronic kidney disease - impaired sodium excretion and RAAS dysregulation",
@@ -2396,8 +2396,8 @@
     ]
   },
   "brugada-syndrome-np": {
-    "title": "Syndrome de Brugada – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome de Brugada – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Brugada Syndrome – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Brugada Syndrome – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "SCN5A mutation carriers (autosomal dominant with variable penetrance, 20-30% of cases)",
       "Male sex - 8:1 male predominance due to higher testosterone-mediated Ito density in male epicardium",
@@ -2414,8 +2414,8 @@
     ]
   },
   "long-qt-syndrome-np": {
-    "title": "Syndrome du QT long – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome du QT long – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Long QT Syndrome – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Long QT Syndrome – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Congenital LQTS gene mutations - LQT1 (KCNQ1, 40-55%), LQT2 (KCNH2/hERG, 30-45%), LQT3 (SCN5A, 5-10%)",
       "QTc-prolonging medications - antiarrhythmics (sotalol, dofetilide, amiodarone), antibiotics (fluoroquinolones, azithromycin, TMP-SMX), antipsychotics (haloperidol, ziprasidone), antiemetics (ondansetron, droperidol)",
@@ -2432,8 +2432,8 @@
     ]
   },
   "tetralogy-of-fallot": {
-    "title": "Tétralogie de Fallot",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Tétralogie de Fallot, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Tetralogy of Fallot",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Tetralogy of Fallot, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Chromosomal abnormalities (Trisomy 21, DiGeorge syndrome/22q11.2 deletion)",
       "Maternal diabetes mellitus",
@@ -3238,8 +3238,8 @@
     ]
   },
   "siadh-di": {
-    "title": "SIADH et diabète insipide",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng SIADH et diabète insipide, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "SIADH and Diabetes Insipidus",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng SIADH and Diabetes Insipidus, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "SIADH: CNS disorders, lung cancer (SCLC), medications (SSRIs, carbamazepine), post-surgical state",
       "DI: Head trauma, pituitary surgery, brain tumors, lithium therapy",
@@ -3253,8 +3253,8 @@
     ]
   },
   "hypothyroidism-basics": {
-    "title": "Hypothyroïdie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypothyroïdie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hypothyroidism",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hypothyroidism, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Female sex",
       "Age > 60 years",
@@ -3272,8 +3272,8 @@
     ]
   },
   "adrenal-insufficiency": {
-    "title": "Insuffisance surrénalienne",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insuffisance surrénalienne, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Adrenal Insufficiency",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Adrenal Insufficiency, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Autoimmune adrenal destruction (Addison's)",
       "Abrupt corticosteroid withdrawal",
@@ -3291,8 +3291,8 @@
     ]
   },
   "thyroidectomy": {
-    "title": "Thyroïdectomie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thyroïdectomie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Thyroidectomy",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thyroidectomy, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Thyroid cancer",
       "Graves' disease (refractory to medical management)",
@@ -3330,8 +3330,8 @@
     ]
   },
   "acromegaly-basics-rpn": {
-    "title": "Acromégalie – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acromégalie – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acromegaly – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acromegaly – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "GH-secreting pituitary adenoma (>95% of cases)",
       "MEN-1 syndrome (multiple endocrine neoplasia type 1)",
@@ -3794,8 +3794,8 @@
     ]
   },
   "gi-bleed": {
-    "title": "Hémorragie gastro-intestinale",
-    "overview": "Ang Hémorragie gastro-intestinale ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Gastrointestinal Hemorrhage",
+    "overview": "Ang Gastrointestinal Hemorrhage ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "NSAID use",
       "H. pylori infection",
@@ -3832,8 +3832,8 @@
     ]
   },
   "ibs-basics": {
-    "title": "Syndrome de l'intestin irritable",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome de l'intestin irritable, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Irritable Bowel Syndrome",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Irritable Bowel Syndrome, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Female sex",
       "Age < 50 years",
@@ -3871,8 +3871,8 @@
     ]
   },
   "ulcerative-colitis": {
-    "title": "Colite ulcéreuse",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Colite ulcéreuse, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Ulcerative Colitis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Ulcerative Colitis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history of inflammatory bowel disease",
       "Ashkenazi Jewish descent",
@@ -3891,8 +3891,8 @@
     ]
   },
   "cholecystectomy": {
-    "title": "Cholécystectomie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholécystectomie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cholecystectomy",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholecystectomy, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Female sex (4 F's: Fat, Forty, Fertile, Female)",
       "Obesity",
@@ -3910,8 +3910,8 @@
     ]
   },
   "cholecystectomy-rpn": {
-    "title": "Cholécystectomie – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholécystectomie – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cholecystectomy – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholecystectomy – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Female sex",
       "Obesity",
@@ -3930,8 +3930,8 @@
     ]
   },
   "cholecystectomy-np": {
-    "title": "Cholécystectomie – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholécystectomie – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cholecystectomy – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cholecystectomy – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Acute cholecystitis with severe inflammation (difficult cholecystectomy)",
       "Anatomic variants of biliary tree (short cystic duct, aberrant right hepatic duct)",
@@ -3968,8 +3968,8 @@
     ]
   },
   "dumping-syndrome": {
-    "title": "Syndrome de chasse",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Syndrome de chasse, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Dumping Syndrome",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Dumping Syndrome, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Gastric bypass surgery",
       "Gastrectomy (partial or total)",
@@ -4678,8 +4678,8 @@
     ]
   },
   "all-leukemia": {
-    "title": "Leucémie lymphoblastique aiguë",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Leucémie lymphoblastique aiguë, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Lymphoblastic Leukemia",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Lymphoblastic Leukemia, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age 2-5 years (peak incidence)",
       "Down syndrome (20x increased risk)",
@@ -4695,8 +4695,8 @@
     ]
   },
   "aml-leukemia": {
-    "title": "Leucémie myéloïde aiguë",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Leucémie myéloïde aiguë, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Myeloid Leukemia",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Myeloid Leukemia, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age > 60 years",
       "Prior chemotherapy/radiation",
@@ -4713,8 +4713,8 @@
     ]
   },
   "sickle-cell": {
-    "title": "Drépanocytose",
-    "overview": "Ang Drépanocytose ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Sickle Cell Disease",
+    "overview": "Ang Sickle Cell Disease ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Homozygous HbSS genotype",
       "African American descent",
@@ -4751,8 +4751,8 @@
     ]
   },
   "thalassemia": {
-    "title": "Thalassémie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thalassémie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Thalassemia",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thalassemia, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Mediterranean descent (beta-thalassemia)",
       "Southeast Asian descent (alpha-thalassemia)",
@@ -4787,8 +4787,8 @@
     ]
   },
   "acute-blood-loss": {
-    "title": "Perte sanguine aiguë",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Perte sanguine aiguë, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Blood Loss",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Blood Loss, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Trauma (penetrating or blunt)",
       "Gastrointestinal bleeding (ulcers, varices)",
@@ -4805,8 +4805,8 @@
     ]
   },
   "macrocytic-anemias": {
-    "title": "Anémies macrocytaires",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Anémies macrocytaires, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Macrocytic Anemias",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Macrocytic Anemias, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "B12: Vegan diet (no animal products), Pernicious Anemia, Metformin use, Gastric bypass/Bariatric surgery, Crohn's disease (terminal ileum), PPI use",
       "Folate: Alcoholism, Pregnancy (increased demand), Poor intake (no green leafy veg), Methotrexate use, Malabsorption (Celiac disease)"
@@ -4839,8 +4839,8 @@
     ]
   },
   "hemolytic-transfusion-rpn": {
-    "title": "Réaction hémolytique transfusionnelle – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Réaction hémolytique transfusionnelle – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hemolytic Transfusion Reaction – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hemolytic Transfusion Reaction – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Clerical or identification errors (most common cause)",
       "Failure to follow two-person verification protocol",
@@ -4859,8 +4859,8 @@
     ]
   },
   "anaphylactic-transfusion-rpn": {
-    "title": "Réaction anaphylactique transfusionnelle – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Réaction anaphylactique transfusionnelle – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Anaphylactic Transfusion Reaction – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Anaphylactic Transfusion Reaction – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Known IgA deficiency with anti-IgA antibodies",
       "History of prior anaphylactic transfusion reaction",
@@ -4879,8 +4879,8 @@
     ]
   },
   "febrile-transfusion-rpn": {
-    "title": "Réaction fébrile transfusionnelle – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Réaction fébrile transfusionnelle – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Febrile Transfusion Reaction – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Febrile Transfusion Reaction – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "History of previous febrile transfusion reactions",
       "Multiple prior transfusions (alloimmunization to HLA antigens)",
@@ -5075,8 +5075,8 @@
     ]
   },
   "fetal-monitoring-advanced": {
-    "title": "Surveillance fœtale avancée",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Surveillance fœtale avancée, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Advanced Fetal Monitoring",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Advanced Fetal Monitoring, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "High-risk pregnancy (preeclampsia, diabetes)",
       "Post-term pregnancy (> 42 weeks)",
@@ -5094,8 +5094,8 @@
     ]
   },
   "prenatal-basics": {
-    "title": "Soins prénataux",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Soins prénataux, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Prenatal Care",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Prenatal Care, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Advanced maternal age (> 35)",
       "Chronic hypertension",
@@ -5184,8 +5184,8 @@
     ]
   },
   "postpartum-hemorrhage": {
-    "title": "Hémorragie du post-partum",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hémorragie du post-partum, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Postpartum Hemorrhage",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Postpartum Hemorrhage, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Uterine atony (most common cause)",
       "Prolonged labor",
@@ -5204,8 +5204,8 @@
     ]
   },
   "gestational-diabetes": {
-    "title": "Diabète gestationnel",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Diabète gestationnel, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Gestational Diabetes",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Gestational Diabetes, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "BMI > 30",
       "Age > 25 years",
@@ -5244,8 +5244,8 @@
     ]
   },
   "postpartum-depression-care": {
-    "title": "Dépression post-partum",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Dépression post-partum, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Postpartum Depression",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Postpartum Depression, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "History of depression or anxiety",
       "Previous postpartum depression",
@@ -5775,8 +5775,8 @@
     ]
   },
   "newborn-assessment": {
-    "title": "Évaluation du nouveau-né",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation du nouveau-né, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Newborn Assessment",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Newborn Assessment, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Premature birth",
       "Low birth weight (< 2500g)",
@@ -5794,8 +5794,8 @@
     ]
   },
   "neonatal-thermoreg": {
-    "title": "Thermorégulation néonatale",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Thermorégulation néonatale, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neonatal Thermoregulation",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neonatal Thermoregulation, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Premature birth (large body surface area to mass ratio)",
       "Low birth weight",
@@ -5813,8 +5813,8 @@
     ]
   },
   "neonatal-feeding": {
-    "title": "Alimentation néonatale",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Alimentation néonatale, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neonatal Feeding",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neonatal Feeding, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity (< 34 weeks)",
       "Cleft lip/palate",
@@ -5832,8 +5832,8 @@
     ]
   },
   "neonatal-jaundice-basics": {
-    "title": "Ictère néonatal",
-    "overview": "Ang Ictère néonatal ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Neonatal Jaundice",
+    "overview": "Ang Neonatal Jaundice ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "ABO/Rh incompatibility",
       "Prematurity",
@@ -5851,8 +5851,8 @@
     ]
   },
   "neonatal-respiratory-distress": {
-    "title": "Détresse respiratoire néonatale",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Détresse respiratoire néonatale, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neonatal Respiratory Distress",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neonatal Respiratory Distress, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity (< 37 weeks)",
       "Cesarean delivery without labor",
@@ -5871,8 +5871,8 @@
     ]
   },
   "neonatal-sepsis": {
-    "title": "Sepsis néonatal",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Sepsis néonatal, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neonatal Sepsis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neonatal Sepsis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Premature rupture of membranes (> 18 hours)",
       "Maternal GBS colonization",
@@ -5891,8 +5891,8 @@
     ]
   },
   "hyperbilirubinemia": {
-    "title": "Hyperbilirubinémie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hyperbilirubinémie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hyperbilirubinemia",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hyperbilirubinemia, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity",
       "ABO/Rh incompatibility",
@@ -5911,8 +5911,8 @@
     ]
   },
   "nec-necrotizing": {
-    "title": "Entérocolite nécrosante",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Entérocolite nécrosante, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Necrotizing Enterocolitis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Necrotizing Enterocolitis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity (primary risk factor)",
       "Formula feeding (vs breast milk)",
@@ -5931,8 +5931,8 @@
     ]
   },
   "necrotizing-enterocolitis-basics-rpn": {
-    "title": "Entérocolite nécrosante – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Entérocolite nécrosante – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Necrotizing Enterocolitis – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Necrotizing Enterocolitis – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity (greatest risk factor)",
       "Very low birth weight (< 1500g)",
@@ -5949,8 +5949,8 @@
     ]
   },
   "meconium-aspiration-basics-rpn": {
-    "title": "Aspiration méconiale – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Aspiration méconiale – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Meconium Aspiration – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Meconium Aspiration – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Post-term pregnancy (> 42 weeks)",
       "Fetal distress during labor",
@@ -5968,8 +5968,8 @@
     ]
   },
   "meconium-ileus-rpn": {
-    "title": "Iléus méconial – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Iléus méconial – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Meconium Ileus – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Meconium Ileus – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Cystic fibrosis (strongest association)",
       "Family history of cystic fibrosis",
@@ -5984,8 +5984,8 @@
     ]
   },
   "meconium-ileus": {
-    "title": "Iléus méconial",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Iléus méconial, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Meconium Ileus",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Meconium Ileus, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Cystic fibrosis (present in 80-90% of cases)",
       "Family history of cystic fibrosis",
@@ -6004,8 +6004,8 @@
     ]
   },
   "meconium-ileus-np": {
-    "title": "Iléus méconial – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Iléus méconial – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Meconium Ileus – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Meconium Ileus – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Homozygous or compound heterozygous CFTR mutations (especially Class I-III)",
       "F508del mutation (most common CF mutation)",
@@ -6063,8 +6063,8 @@
     ]
   },
   "cp-management": {
-    "title": "Paralysie cérébrale",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Paralysie cérébrale, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Cerebral Palsy",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cerebral Palsy, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Premature birth",
       "Low birth weight",
@@ -6082,8 +6082,8 @@
     ]
   },
   "increased-icp": {
-    "title": "Pression intracrânienne élevée",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Pression intracrânienne élevée, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Elevated Intracranial Pressure",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Elevated Intracranial Pressure, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Traumatic brain injury",
       "Brain tumor",
@@ -6101,8 +6101,8 @@
     ]
   },
   "stroke-advanced": {
-    "title": "AVC avancé",
-    "overview": "Ang AVC avancé ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Advanced Stroke",
+    "overview": "Ang Advanced Stroke ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Atrial fibrillation (highest risk for embolic stroke)",
       "Carotid artery stenosis > 70%",
@@ -6120,8 +6120,8 @@
     ]
   },
   "seizure-safety": {
-    "title": "Sécurité en cas de convulsion",
-    "overview": "Ang Sécurité en cas de convulsion ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Seizure Safety",
+    "overview": "Ang Seizure Safety ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Epilepsy diagnosis",
       "Medication non-compliance",
@@ -6139,8 +6139,8 @@
     ]
   },
   "neuritis-neuropathy": {
-    "title": "Névrite et neuropathie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Névrite et neuropathie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Neuritis and Neuropathy",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Neuritis and Neuropathy, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Diabetes mellitus (most common cause)",
       "Alcohol abuse",
@@ -6160,8 +6160,8 @@
     ]
   },
   "febrile-seizure": {
-    "title": "Convulsion fébrile",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Convulsion fébrile, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Febrile Seizure",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Febrile Seizure, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age 6 months to 5 years (peak incidence 12-18 months)",
       "Family history of febrile seizures (genetic predisposition)",
@@ -6200,8 +6200,8 @@
     ]
   },
   "multiple-sclerosis": {
-    "title": "Sclérose en plaques",
-    "overview": "Ang Sclérose en plaques ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Multiple Sclerosis",
+    "overview": "Ang Multiple Sclerosis ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age 20-40 (peak onset)",
       "Female sex (2-3x higher risk)",
@@ -6220,8 +6220,8 @@
     ]
   },
   "delirium-vs-dementia": {
-    "title": "Délire vs démence",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Délire vs démence, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Delirium vs Dementia",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Delirium vs Dementia, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Advanced age (strongest risk factor for both)",
       "Pre-existing dementia (strongest risk factor for delirium)",
@@ -7592,8 +7592,8 @@
     ]
   },
   "kawasaki-critical": {
-    "title": "Maladie de Kawasaki",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Maladie de Kawasaki, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Kawasaki Disease",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Kawasaki Disease, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age < 5 years (peak incidence 18-24 months)",
       "Male sex (1.5:1)",
@@ -7608,8 +7608,8 @@
     ]
   },
   "congenital-heart": {
-    "title": "Cardiopathie congénitale",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cardiopathie congénitale, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Congenital Heart Disease",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Congenital Heart Disease, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Maternal rubella infection",
       "Maternal diabetes",
@@ -7626,8 +7626,8 @@
     ]
   },
   "pyloric-intussusception": {
-    "title": "Sténose du pylore et intussusception",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Sténose du pylore et intussusception, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Pyloric Stenosis and Intussusception",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Pyloric Stenosis and Intussusception, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Pyloric stenosis: male sex (4:1), firstborn, family history",
       "Age 2-8 weeks (pyloric stenosis)",
@@ -7643,8 +7643,8 @@
     ]
   },
   "adhd-basics": {
-    "title": "Trouble déficitaire de l'attention",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Trouble déficitaire de l'attention, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Attention Deficit Disorder",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Attention Deficit Disorder, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history of ADHD",
       "Male sex (more commonly diagnosed)",
@@ -7661,8 +7661,8 @@
     ]
   },
   "separation-anxiety": {
-    "title": "Anxiété de séparation",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Anxiété de séparation, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Separation Anxiety",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Separation Anxiety, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history of anxiety disorders",
       "Overprotective parenting style",
@@ -7680,8 +7680,8 @@
     ]
   },
   "separation-anxiety-rn": {
-    "title": "Anxiété de séparation – IA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Anxiété de séparation – IA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Separation Anxiety – RN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Separation Anxiety – RN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Insecure-ambivalent attachment pattern",
       "Family history of anxiety disorders or panic disorder",
@@ -7701,8 +7701,8 @@
     ]
   },
   "separation-anxiety-np": {
-    "title": "Anxiété de séparation – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Anxiété de séparation – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Separation Anxiety – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Separation Anxiety – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "5-HTTLPR short allele carrier status (serotonin transporter polymorphism)",
       "Glucocorticoid receptor polymorphisms (BclI, N363S) affecting HPA axis regulation",
@@ -7760,8 +7760,8 @@
     ]
   },
   "dehydration-peds": {
-    "title": "Déshydratation pédiatrique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Déshydratation pédiatrique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Pediatric Dehydration",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Pediatric Dehydration, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Gastroenteritis (vomiting and diarrhea)",
       "Fever",
@@ -7779,8 +7779,8 @@
     ]
   },
   "foreign-body-aspiration": {
-    "title": "Aspiration de corps étranger",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Aspiration de corps étranger, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Foreign Body Aspiration",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Foreign Body Aspiration, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age < 3 years (most common)",
       "Small objects (coins, buttons, beads, small toys)",
@@ -7797,8 +7797,8 @@
     ]
   },
   "androgen-insensitivity-rpn": {
-    "title": "Insensibilité aux androgènes – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insensibilité aux androgènes – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Androgen Insensitivity – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Androgen Insensitivity – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Family history of AIS (X-linked recessive inheritance pattern)",
       "Maternal carrier status (mother carries the gene mutation on X chromosome)",
@@ -7815,8 +7815,8 @@
     ]
   },
   "androgen-insensitivity": {
-    "title": "Insensibilité aux androgènes",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insensibilité aux androgènes, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Androgen Insensitivity",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Androgen Insensitivity, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "X-linked recessive inheritance (AR gene mutation on Xq11-12)",
       "Maternal carrier status (50% of 46,XY offspring will be affected)",
@@ -7833,8 +7833,8 @@
     ]
   },
   "androgen-insensitivity-np": {
-    "title": "Insensibilité aux androgènes – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insensibilité aux androgènes – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Androgen Insensitivity – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Androgen Insensitivity – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "AR gene mutations on Xq11-12 (over 1,000 documented mutations)",
       "X-linked recessive inheritance: carrier mothers have 50% chance of affected 46,XY offspring",
@@ -7853,8 +7853,8 @@
     ]
   },
   "herbals-safety": {
-    "title": "Sécurité des produits naturels",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Sécurité des produits naturels, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Natural Product Safety",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Natural Product Safety, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Polypharmacy",
       "Elderly patients",
@@ -7872,8 +7872,8 @@
     ]
   },
   "electrolyte-safety": {
-    "title": "Sécurité des électrolytes",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Sécurité des électrolytes, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Electrolyte Safety",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Electrolyte Safety, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal failure",
       "Diuretic therapy",
@@ -7910,8 +7910,8 @@
     ]
   },
   "anticoagulant-safety": {
-    "title": "Sécurité des anticoagulants",
-    "overview": "Ang Sécurité des anticoagulants ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Anticoagulant Safety",
+    "overview": "Ang Anticoagulant Safety ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment",
       "Hepatic disease",
@@ -7930,8 +7930,8 @@
     ]
   },
   "insulin-safety": {
-    "title": "Sécurité de l'insuline",
-    "overview": "Ang Sécurité de l'insuline ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Insulin Safety",
+    "overview": "Ang Insulin Safety ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment (delayed insulin clearance)",
       "Irregular meal patterns",
@@ -7949,8 +7949,8 @@
     ]
   },
   "lithium-toxicity": {
-    "title": "Toxicité du lithium",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Toxicité du lithium, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Lithium Toxicity",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Lithium Toxicity, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Dehydration",
       "Renal impairment",
@@ -7988,8 +7988,8 @@
     ]
   },
   "methotrexate-safety-rpn": {
-    "title": "Méthotrexate – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Méthotrexate – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Methotrexate – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Methotrexate – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment (delayed drug clearance)",
       "Hepatic disease",
@@ -8009,8 +8009,8 @@
     ]
   },
   "methotrexate-safety": {
-    "title": "Sécurité du méthotrexate",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Sécurité du méthotrexate, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Methotrexate Safety",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Methotrexate Safety, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment (methotrexate is primarily renally excreted - toxicity risk increases dramatically)",
       "Hepatic disease or heavy alcohol use (additive hepatotoxicity)",
@@ -8030,8 +8030,8 @@
     ]
   },
   "methotrexate-safety-np": {
-    "title": "Méthotrexate – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Méthotrexate – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Methotrexate – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Methotrexate – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "MTHFR C677T homozygosity (TT genotype - increased toxicity risk)",
       "RFC1/SLC19A1 G80A polymorphism (altered cellular uptake)",
@@ -8072,8 +8072,8 @@
     ]
   },
   "levetiracetam-rpn": {
-    "title": "Lévetiracétam – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Lévetiracétam – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Levetiracetam – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Levetiracetam – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment (requires dose adjustment - renally eliminated)",
       "History of depression or psychiatric disorders",
@@ -8093,8 +8093,8 @@
     ]
   },
   "short-acting-insulin-rpn": {
-    "title": "Insuline à action rapide – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Insuline à action rapide – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Rapid-Acting Insulin – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Rapid-Acting Insulin – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Renal impairment (delayed insulin clearance increases hypoglycemia risk)",
       "Irregular meal patterns or skipped meals",
@@ -8157,8 +8157,8 @@
     ]
   },
   "vitals-assessment": {
-    "title": "Évaluation des signes vitaux",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Évaluation des signes vitaux, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Vital Signs Assessment",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Vital Signs Assessment, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Critically ill patients",
       "Post-surgical status",
@@ -8197,8 +8197,8 @@
     ]
   },
   "catheterization": {
-    "title": "Cathétérisme urinaire",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Cathétérisme urinaire, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Urinary Catheterization",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Urinary Catheterization, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prolonged catheterization (> 48 hours)",
       "Female sex (shorter urethra)",
@@ -8237,8 +8237,8 @@
     ]
   },
   "iv-therapy": {
-    "title": "Thérapie intraveineuse",
-    "overview": "Ang Thérapie intraveineuse ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Intravenous Therapy",
+    "overview": "Ang Intravenous Therapy ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prolonged peripheral IV (> 72-96 hours)",
       "Immunocompromised state",
@@ -8298,8 +8298,8 @@
     ]
   },
   "trach-care": {
-    "title": "Soins de trachéotomie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Soins de trachéotomie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Tracheotomy Care",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Tracheotomy Care, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prolonged mechanical ventilation (> 14 days)",
       "Upper airway obstruction",
@@ -8319,8 +8319,8 @@
     ]
   },
   "osteoporosis-basics": {
-    "title": "Ostéoporose",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Ostéoporose, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Osteoporosis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Osteoporosis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Postmenopausal women",
       "Advanced age",
@@ -8376,8 +8376,8 @@
     ]
   },
   "meds-to-infants": {
-    "title": "Médicaments chez le nourrisson",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Médicaments chez le nourrisson, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Infant Medications",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Infant Medications, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prematurity (immature organ function)",
       "Low birth weight",
@@ -8396,8 +8396,8 @@
     ]
   },
   "cleansing-enemas": {
-    "title": "Lavements évacuateurs",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Lavements évacuateurs, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Evacuant Enemas",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Evacuant Enemas, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Chronic constipation",
       "Fecal impaction",
@@ -8456,8 +8456,8 @@
     ]
   },
   "hemodialysis-care": {
-    "title": "Soins d'hémodialyse",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Soins d'hémodialyse, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Hemodialysis Care",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Hemodialysis Care, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "End-stage renal disease (eGFR < 15)",
       "Diabetes mellitus (leading cause of ESRD)",
@@ -8499,8 +8499,8 @@
     ]
   },
   "aki-management": {
-    "title": "Insuffisance rénale aiguë",
-    "overview": "Ang Insuffisance rénale aiguë ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Acute Kidney Injury",
+    "overview": "Ang Acute Kidney Injury ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Hypovolemia/dehydration",
       "Nephrotoxic medications (NSAIDs, aminoglycosides, contrast dye)",
@@ -8519,8 +8519,8 @@
     ]
   },
   "ckd-management": {
-    "title": "Insuffisance rénale chronique",
-    "overview": "Ang Insuffisance rénale chronique ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
+    "title": "Chronic Kidney Disease",
+    "overview": "Ang Chronic Kidney Disease ay isang mahalagang klinikal na paksa sa nursing. Sinasaklaw ng araling ito ang pathophysiology, clinical assessment, nursing interventions, at evidence-based management para sa ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Diabetes mellitus (leading cause)",
       "Hypertension (second leading cause)",
@@ -8539,8 +8539,8 @@
     ]
   },
   "av-fistula": {
-    "title": "Fistule artérioveineuse",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Fistule artérioveineuse, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Arteriovenous Fistula",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Arteriovenous Fistula, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "End-stage renal disease requiring hemodialysis",
       "Diabetes mellitus",
@@ -8578,8 +8578,8 @@
     ]
   },
   "glomerulonephritis-basics-rpn": {
-    "title": "Glomérulonéphrite – RPN",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Glomérulonéphrite – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Glomerulonephritis – RPN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Glomerulonephritis – RPN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Recent group A streptococcal pharyngitis (1-2 weeks prior) or skin infection/impetigo (3-6 weeks prior)",
       "Age 5-12 years (peak incidence in school-age children)",
@@ -8595,8 +8595,8 @@
     ]
   },
   "acute-glomerulonephritis": {
-    "title": "Glomérulonéphrite aiguë",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Glomérulonéphrite aiguë, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Glomerulonephritis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Glomerulonephritis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Recent GAS pharyngitis (M protein serotypes 1, 2, 4, 12) or impetigo (M protein serotypes 49, 55, 57)",
       "Age 5-12 years with peak incidence at ages 6-7",
@@ -8613,8 +8613,8 @@
     ]
   },
   "acute-glomerulonephritis-np": {
-    "title": "Glomérulonéphrite aiguë – IPA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Glomérulonéphrite aiguë – IPA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Acute Glomerulonephritis – NP",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Acute Glomerulonephritis – NP, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Infection with nephritogenic GAS strains expressing M protein types 1, 2, 4, 12 (pharyngitis-associated) or types 49, 55, 57 (impetigo-associated)",
       "Host genetic susceptibility: HLA-DRw4 association and polymorphisms in complement regulatory genes (factor H, factor I, membrane cofactor protein)",
@@ -11017,8 +11017,8 @@
     ]
   },
   "epiglottitis-peds": {
-    "title": "Épiglottite pédiatrique",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Épiglottite pédiatrique, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Pediatric Epiglottitis",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Pediatric Epiglottitis, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Age 2-6 years (H. influenzae type B)",
       "Unvaccinated against Hib",
@@ -11073,8 +11073,8 @@
     ]
   },
   "osa-management": {
-    "title": "Apnée obstructive du sommeil",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Apnée obstructive du sommeil, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Obstructive Sleep Apnea",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Obstructive Sleep Apnea, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Obesity (BMI > 30)",
       "Large neck circumference (>17in men, >16in women)",
@@ -11195,8 +11195,8 @@
     ]
   },
   "abg-basics": {
-    "title": "Gaz du sang artériel",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Gaz du sang artériel, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Arterial Blood Gas",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Arterial Blood Gas, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Respiratory failure (acute or chronic)",
       "Metabolic disorders (DKA, renal failure)",
@@ -11214,8 +11214,8 @@
     ]
   },
   "abg-interpretation-rn": {
-    "title": "Interprétation des GDS – IA",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Interprétation des GDS – IA, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "ABG Interpretation – RN",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng ABG Interpretation – RN, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Chronic respiratory disease with baseline CO2 retention",
       "Acute respiratory failure",
@@ -11271,8 +11271,8 @@
     ]
   },
   "tracheostomy-care": {
-    "title": "Soins de trachéostomie",
-    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Soins de trachéostomie, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
+    "title": "Tracheostomy Care",
+    "overview": "Sinasaklaw ng araling ito ang mahahalagang aspeto ng Tracheostomy Care, kabilang ang pathophysiology, clinical assessment, prayoridad na nursing interventions, at evidence-based management. Kailangang maunawaan ng mga nars ang mga konseptong ito upang magbigay ng ligtas at epektibong pangangalaga.",
     "riskFactors": [
       "Prolonged mechanical ventilation",
       "Upper airway obstruction",
