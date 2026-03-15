@@ -232,6 +232,7 @@ import { generatedBatch108Lessons } from "./generated-batch-108";
 import { generatedBatch109Lessons } from "./generated-batch-109";
 import { generatedBatch110Lessons } from "./generated-batch-110";
 import { generatedBatch111Lessons } from "./generated-batch-111";
+import { generatedBatch112Lessons } from "./generated-batch-112";
 
 import { clinicalConditionsBatchALessons } from "./clinical-conditions-batch-a";
 import { clinicalConditionsBatchBLessons } from "./clinical-conditions-batch-b";
@@ -372,6 +373,7 @@ function safeMerge(
 }
 
 export const contentMap: Record<string, LessonContent> = safeMerge({},
+  generatedBatch112Lessons,
   cardiovascularLessons,
   respiratoryLessons,
   neurologicalLessons,
