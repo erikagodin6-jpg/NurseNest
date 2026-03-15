@@ -4,14 +4,14 @@ import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/ca
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
   BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe, Briefcase,
-  Hand, Activity, Database, Home, ArrowLeft, Scan, Heart
+  Hand, Activity, Database, Home, ArrowLeft, Scan, Heart, Scissors
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useRegion } from "@/allied/use-region";
 import { useI18n } from "@/lib/i18n";
 import { getMainSiteUrl } from "@/lib/locale-utils";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt", "occupationalTherapyAssistant", "physiotherapyAssistant", "surgicalTechnologist"] as const;
 
 const IMAGING_SUB_CAREERS = [
   { slug: "radiologic-technologist", shortName: "Rad Tech", examName: "ARRT Radiography" },
@@ -32,6 +32,9 @@ function getCareerIcon(slug: string) {
     case "radiologic-technologist": return <Scan className="w-4 h-4" />;
     case "diagnostic-sonography": return <Radio className="w-4 h-4" />;
     case "cardiac-sonographer": return <Heart className="w-4 h-4" />;
+    case "occupational-therapy-assistant": return <Hand className="w-4 h-4" />;
+    case "physiotherapy-assistant": return <Activity className="w-4 h-4" />;
+    case "surgical-technologist": return <Scissors className="w-4 h-4" />;
     default: return <BookOpen className="w-4 h-4" />;
   }
 }
@@ -108,6 +111,11 @@ export function AlliedNavigation() {
     { slug: "sims", label: t("nav.allied.caseSims") },
     { slug: "tools", label: t("nav.allied.aiTools") },
   ];
+
+  const ECOSYSTEM_CAREER_SLUGS = new Set([
+    "occupational-therapy-assistant", "physiotherapy-assistant",
+    "surgical-technologist", "health-info-mgmt",
+  ]);
 
   const CAREER_FEATURE_OVERRIDES: Record<string, Record<string, string | null>> = {
     "pharmacy-tech": {
@@ -228,7 +236,12 @@ export function AlliedNavigation() {
                 )}
               </div>
 
-              {currentCareer && features.map(f => {
+              {currentCareer && (ECOSYSTEM_CAREER_SLUGS.has(currentCareer.slug) ? [
+                { slug: "study", label: "Study Topics" },
+                { slug: "flashcards", label: "Flashcards" },
+                { slug: "exams", label: "Practice Exams" },
+                { slug: "career-guide", label: "Career Guide" },
+              ] : features).map(f => {
                 const href = getFeatureHref(currentCareer.slug, f.slug);
                 if (href === null) return null;
                 return (

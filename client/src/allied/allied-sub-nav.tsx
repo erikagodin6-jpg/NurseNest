@@ -2,13 +2,13 @@ import { Link, useLocation } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/careers";
 import {
   Wind, Ambulance, Pill, Microscope, Radio, BookOpen, Brain, FileText,
-  Zap, GraduationCap, Wrench, Hand, Activity, Database, Target, Scan, Heart
+  Zap, GraduationCap, Wrench, Hand, Activity, Database, Target, Scan, Heart, Scissors
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt", "occupationalTherapyAssistant", "physiotherapyAssistant", "surgicalTechnologist"] as const;
 
 const IMAGING_CAREER_SLUGS = ["radiologic-technologist", "diagnostic-sonography", "cardiac-sonographer"] as const;
 
@@ -25,6 +25,9 @@ function getCareerIcon(slug: string) {
     case "radiologic-technologist": return <Scan className="w-4 h-4" />;
     case "diagnostic-sonography": return <Radio className="w-4 h-4" />;
     case "cardiac-sonographer": return <Heart className="w-4 h-4" />;
+    case "occupational-therapy-assistant": return <Hand className="w-4 h-4" />;
+    case "physiotherapy-assistant": return <Activity className="w-4 h-4" />;
+    case "surgical-technologist": return <Scissors className="w-4 h-4" />;
     default: return <BookOpen className="w-4 h-4" />;
   }
 }
@@ -130,7 +133,19 @@ export function AlliedSubNav() {
 
   if (!currentCareer) return null;
 
-  const features = [
+  const ECOSYSTEM_CAREER_SLUGS = new Set([
+    "occupational-therapy-assistant", "physiotherapy-assistant",
+    "surgical-technologist", "health-info-mgmt",
+  ]);
+
+  const isEcosystemCareer = ECOSYSTEM_CAREER_SLUGS.has(currentCareer.slug);
+
+  const features = isEcosystemCareer ? [
+    { slug: "study", label: "Study Topics" },
+    { slug: "flashcards", label: "Flashcards" },
+    { slug: "exams", label: "Practice Exams" },
+    { slug: "career-guide", label: "Career Guide" },
+  ] : [
     { slug: "qbank", label: t("nav.allied.testBank") },
     { slug: "mock-exams", label: t("nav.allied.mockExams") },
     { slug: "flashcards", label: "Flashcards" },
