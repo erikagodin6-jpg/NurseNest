@@ -98,9 +98,9 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50/30" style={{ background: `linear-gradient(135deg, ${data.colorAccent}40, white, ${data.colorAccent}20)` }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="hub-breadcrumbs">
-            <Link href="/" className="hover:text-gray-700">Home</Link>
+            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/careers" className="hover:text-gray-700">Careers</Link>
+            <Link href="/allied-health/careers" className="hover:text-gray-700">Careers</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="font-medium" style={{ color: data.color }}>{data.shortName}</span>
           </div>

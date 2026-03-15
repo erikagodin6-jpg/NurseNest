@@ -95,11 +95,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "Is there a free trial?", a: "Yes! Take our free 15-question diagnostic to assess your readiness across all respiratory therapy domains. You also get 5 free practice questions with full rationales to experience the depth of our content." },
     ],
     crossLinks: [
-      { label: "Paramedic Airway Management", href: "/paramedic", description: "Related airway management and ventilation content for paramedic students" },
+      { label: "Paramedic Airway Management", href: "/allied-health/paramedic", description: "Related airway management and ventilation content for paramedic students" },
       { label: "Critical Care Nursing (CCRN)", href: "/critical-care", description: "ICU nursing certification covering ventilator management and hemodynamic monitoring" },
       { label: "Emergency Nursing (CEN)", href: "/emergency-nursing", description: "Emergency department nursing certification with respiratory emergency content" },
     ],
-    contentClusterBase: "/rrt",
+    contentClusterBase: "/allied-health/rrt",
   },
 
   "social-work": {
@@ -150,11 +150,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the ASWB exam?", a: "Most students study 8-12 weeks before their ASWB exam. Our personalized study planner creates an optimized schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "Psychotherapy Exam Prep", href: "/psychotherapy", description: "Related therapeutic modality content for registered psychotherapists" },
-      { label: "Addictions Counselling", href: "/addictions", description: "Substance use disorders, motivational interviewing, and co-occurring disorders" },
+      { label: "Psychotherapy Exam Prep", href: "/allied-health/psychotherapy", description: "Related therapeutic modality content for registered psychotherapists" },
+      { label: "Addictions Counselling", href: "/allied-health/addictions", description: "Substance use disorders, motivational interviewing, and co-occurring disorders" },
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with DSM-5 and therapeutic communication" },
     ],
-    contentClusterBase: "/social-work",
+    contentClusterBase: "/allied-health/social-work",
   },
 
   psychotherapy: {
@@ -205,11 +205,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the CRPO exam?", a: "Most students study 8-12 weeks. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study hours." },
     ],
     crossLinks: [
-      { label: "Social Work Exam Prep", href: "/social-work", description: "Related clinical assessment and intervention content for social workers" },
-      { label: "Addictions Counselling", href: "/addictions", description: "Substance use disorders, motivational interviewing, and dual diagnosis" },
+      { label: "Social Work Exam Prep", href: "/allied-health/social-work", description: "Related clinical assessment and intervention content for social workers" },
+      { label: "Addictions Counselling", href: "/allied-health/addictions", description: "Substance use disorders, motivational interviewing, and dual diagnosis" },
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with therapeutic communication and psychopharmacology" },
     ],
-    contentClusterBase: "/psychotherapy",
+    contentClusterBase: "/allied-health/psychotherapy",
   },
 
   addictions: {
@@ -264,11 +264,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the IC&RC ADC exam?", a: "Most students study 6-10 weeks before their certification exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results and exam date." },
     ],
     crossLinks: [
-      { label: "Social Work Exam Prep", href: "/social-work", description: "Clinical social work with substance abuse assessment and intervention" },
-      { label: "Psychotherapy Exam Prep", href: "/psychotherapy", description: "Therapeutic modalities including MI, CBT, and trauma-informed care" },
+      { label: "Social Work Exam Prep", href: "/allied-health/social-work", description: "Clinical social work with substance abuse assessment and intervention" },
+      { label: "Psychotherapy Exam Prep", href: "/allied-health/psychotherapy", description: "Therapeutic modalities including MI, CBT, and trauma-informed care" },
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing with substance use disorder content" },
     ],
-    contentClusterBase: "/addictions",
+    contentClusterBase: "/allied-health/addictions",
   },
 
   "occupational-therapy": {
@@ -323,11 +323,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the NBCOT exam?", a: "Most students study 8-12 weeks before the NBCOT OTR exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "Physical Therapy Exam Prep", href: "/physical-therapy", description: "Related rehabilitation content for physical therapists" },
-      { label: "Psychotherapy & Mental Health", href: "/psychotherapy", description: "Therapeutic modalities and mental health assessment" },
+      { label: "Physical Therapy Exam Prep", href: "/allied-health/physical-therapy", description: "Related rehabilitation content for physical therapists" },
+      { label: "Psychotherapy & Mental Health", href: "/allied-health/psychotherapy", description: "Therapeutic modalities and mental health assessment" },
       { label: "Pediatric Nursing (CPN)", href: "/pediatric-cert", description: "Pediatric development and family-centered care" },
     ],
-    contentClusterBase: "/occupational-therapy",
+    contentClusterBase: "/allied-health/occupational-therapy",
   },
 
   "physical-therapy": {
@@ -382,11 +382,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the NPTE?", a: "Most students study 8-12 weeks before the NPTE. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "Occupational Therapy Exam Prep", href: "/occupational-therapy", description: "Related rehabilitation content for occupational therapists" },
-      { label: "Paramedic Exam Prep", href: "/paramedic", description: "Emergency patient assessment and musculoskeletal trauma" },
+      { label: "Occupational Therapy Exam Prep", href: "/allied-health/occupational-therapy", description: "Related rehabilitation content for occupational therapists" },
+      { label: "Paramedic Exam Prep", href: "/allied-health/paramedic", description: "Emergency patient assessment and musculoskeletal trauma" },
       { label: "Sports Medicine Nursing", href: "/nursing", description: "Nursing certification with orthopedic and sports injury content" },
     ],
-    contentClusterBase: "/physical-therapy",
+    contentClusterBase: "/allied-health/physical-therapy",
   },
 
   imaging: {
@@ -441,11 +441,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the ARRT exam?", a: "Most students study 6-10 weeks before the ARRT Radiography exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "RRT Exam Prep", href: "/rrt", description: "Respiratory therapy with chest radiograph interpretation content" },
-      { label: "Paramedic Exam Prep", href: "/paramedic", description: "Emergency imaging assessment and trauma radiography" },
-      { label: "MLT Exam Prep", href: "/mlt", description: "Medical laboratory technology with related diagnostic testing" },
+      { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy with chest radiograph interpretation content" },
+      { label: "Paramedic Exam Prep", href: "/allied-health/paramedic", description: "Emergency imaging assessment and trauma radiography" },
+      { label: "MLT Exam Prep", href: "/allied-health/mlt", description: "Medical laboratory technology with related diagnostic testing" },
     ],
-    contentClusterBase: "/imaging",
+    contentClusterBase: "/allied-health/imaging",
   },
 
   "health-info-mgmt": {
@@ -500,10 +500,10 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the RHIT/RHIA exam?", a: "Most students study 8-12 weeks before their certification exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
     ],
     crossLinks: [
-      { label: "MLT Exam Prep", href: "/mlt", description: "Medical laboratory technology with diagnostic coding and laboratory information systems" },
-      { label: "Pharmacy Tech Exam Prep", href: "/pharmacy-technician", description: "Pharmacy technology with prescription processing and billing concepts" },
-      { label: "RRT Exam Prep", href: "/rrt", description: "Respiratory therapy with clinical documentation and coding applications" },
+      { label: "MLT Exam Prep", href: "/allied-health/mlt", description: "Medical laboratory technology with diagnostic coding and laboratory information systems" },
+      { label: "Pharmacy Tech Exam Prep", href: "/allied-health/pharmacy-technician", description: "Pharmacy technology with prescription processing and billing concepts" },
+      { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy with clinical documentation and coding applications" },
     ],
-    contentClusterBase: "/health-info-mgmt",
+    contentClusterBase: "/allied-health/health-info-mgmt",
   },
 };

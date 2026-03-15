@@ -41,12 +41,12 @@ function getFeatureIcon(feature: string) {
 
 function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]): CareerConfig | undefined {
   const segments = location.split("/").filter(Boolean);
+  if (segments[0] === "allied-health" && segments[1]) {
+    const canonicalMatch = alliedCareers.find(c => getCanonicalRoute(c.slug) === `/allied-health/${segments[1]}`);
+    if (canonicalMatch) return canonicalMatch;
+  }
   if (segments[0] === "careers" && segments[1]) {
     return alliedCareers.find(c => c.slug === segments[1]);
-  }
-  if (segments[0]) {
-    const canonicalMatch = alliedCareers.find(c => getCanonicalRoute(c.slug) === `/${segments[0]}`);
-    if (canonicalMatch) return canonicalMatch;
   }
   const searchParams = new URLSearchParams(window.location.search);
   const careerParam = searchParams.get("career");
@@ -92,7 +92,7 @@ export function AlliedNavigation() {
 
   const CAREER_FEATURE_OVERRIDES: Record<string, Record<string, string | null>> = {
     "pharmacy-tech": {
-      "mock-exams": "/pharmacy-technician/exams",
+      "mock-exams": "/allied-health/pharmacy-technician/exams",
       "sims": null,
       "tools": null,
     },
@@ -101,14 +101,14 @@ export function AlliedNavigation() {
   function getFeatureHref(careerSlug: string, featureSlug: string) {
     const override = CAREER_FEATURE_OVERRIDES[careerSlug]?.[featureSlug];
     if (override !== undefined) return override;
-    if (featureSlug === "qbank") return `/qbank?career=${careerSlug}`;
+    if (featureSlug === "qbank") return `/allied-health/qbank?career=${careerSlug}`;
     const canonical = getCanonicalRoute(careerSlug);
     return `${canonical}/${featureSlug}`;
   }
 
   function isFeatureActive(featureSlug: string) {
     if (!currentCareer) return false;
-    if (featureSlug === "qbank") return location === "/qbank";
+    if (featureSlug === "qbank") return location === "/allied-health/qbank";
     const href = getFeatureHref(currentCareer.slug, featureSlug);
     if (href === null) return false;
     return location === href || location === href.split("?")[0];

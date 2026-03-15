@@ -66,14 +66,14 @@ export function AlliedSubNav() {
   ];
 
   function getFeatureHref(careerSlug: string, featureSlug: string) {
-    if (featureSlug === "qbank") return `/qbank?career=${careerSlug}`;
+    if (featureSlug === "qbank") return `/allied-health/qbank?career=${careerSlug}`;
     const canonical = getCanonicalRoute(careerSlug);
     return `${canonical}/${featureSlug}`;
   }
 
   function isFeatureActive(featureSlug: string) {
     if (!currentCareer) return false;
-    if (featureSlug === "qbank") return location === "/qbank";
+    if (featureSlug === "qbank") return location === "/allied-health/qbank";
     const canonical = getCanonicalRoute(currentCareer.slug);
     return location === `${canonical}/${featureSlug}`;
   }

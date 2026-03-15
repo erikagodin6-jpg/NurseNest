@@ -7,6 +7,8 @@ const CLUSTER_CAREER_MAP: Record<string, string> = {
   psychotherapy: "psychotherapist",
   addictions: "addictions-counsellor",
   "occupational-therapy": "occupational-therapy",
+  "physical-therapy": "physical-therapy",
+  "health-info-mgmt": "health-info-mgmt",
   paramedic: "paramedic",
   mlt: "mlt",
   imaging: "imaging",
@@ -23,8 +25,8 @@ export default function ProfessionClusterRedirect({ profession, clusterType }: C
   const canonical = getCanonicalRoute(careerSlug);
 
   const redirectMap: Record<string, string> = {
-    lessons: `/qbank?career=${careerSlug}&view=lessons`,
-    "practice-questions": `/qbank?career=${careerSlug}`,
+    lessons: `/allied-health/qbank?career=${careerSlug}&view=lessons`,
+    "practice-questions": `/allied-health/qbank?career=${careerSlug}`,
     flashcards: `${canonical}/flashcards`,
     "mock-exam": `${canonical}/mock-exams`,
     "study-guide": `${canonical}/study-plan`,

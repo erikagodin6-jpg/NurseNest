@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useLocation } from "wouter";
-import { Navigation } from "@/components/navigation";
+import { AlliedNavigation } from "./allied-navigation";
 import { Footer } from "@/components/footer";
 import { AlliedSubNav } from "./allied-sub-nav";
 
@@ -11,7 +11,7 @@ export function AlliedLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col" data-testid="allied-layout">
-      <Navigation />
+      <AlliedNavigation />
       {isCareerPage && <AlliedSubNav />}
       <main className="flex-1">
         {children}

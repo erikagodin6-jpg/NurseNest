@@ -297,44 +297,44 @@ export function AlliedRoutes() {
 
         <Route path="/allied-health/rrt/lessons">{() => <ProfessionClusterRedirect profession="rrt" clusterType="lessons" />}</Route>
         <Route path="/allied-health/rrt/practice-questions">{() => <ProfessionClusterRedirect profession="rrt" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/rrt/flashcards">{() => <ProfessionClusterRedirect profession="rrt" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/rrt/mock-exam">{() => <ProfessionClusterRedirect profession="rrt" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/rrt/study-guide">{() => <ProfessionClusterRedirect profession="rrt" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/social-work/lessons">{() => <ProfessionClusterRedirect profession="social-work" clusterType="lessons" />}</Route>
         <Route path="/allied-health/social-work/practice-questions">{() => <ProfessionClusterRedirect profession="social-work" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/social-work/flashcards">{() => <ProfessionClusterRedirect profession="social-work" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/social-work/mock-exam">{() => <ProfessionClusterRedirect profession="social-work" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/social-work/study-guide">{() => <ProfessionClusterRedirect profession="social-work" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/psychotherapy/lessons">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="lessons" />}</Route>
         <Route path="/allied-health/psychotherapy/practice-questions">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/psychotherapy/flashcards">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/psychotherapy/mock-exam">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/psychotherapy/study-guide">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/addictions/lessons">{() => <ProfessionClusterRedirect profession="addictions" clusterType="lessons" />}</Route>
         <Route path="/allied-health/addictions/practice-questions">{() => <ProfessionClusterRedirect profession="addictions" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/addictions/flashcards">{() => <ProfessionClusterRedirect profession="addictions" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/addictions/mock-exam">{() => <ProfessionClusterRedirect profession="addictions" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/addictions/study-guide">{() => <ProfessionClusterRedirect profession="addictions" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/occupational-therapy/lessons">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="lessons" />}</Route>
         <Route path="/allied-health/occupational-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/occupational-therapy/flashcards">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/physical-therapy/lessons">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="lessons" />}</Route>
         <Route path="/allied-health/physical-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/physical-therapy/flashcards">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
 
         <Route path="/allied-health/health-info-mgmt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["health-info-mgmt"]} />}</Route>
         <Route path="/allied-health/health-info-mgmt/lessons">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="lessons" />}</Route>
         <Route path="/allied-health/health-info-mgmt/practice-questions">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="practice-questions" />}</Route>
-        <Route path="/allied-health/health-info-mgmt/flashcards">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="flashcards" />}</Route>
+        
         <Route path="/allied-health/health-info-mgmt/mock-exam">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/health-info-mgmt/study-guide">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="study-guide" />}</Route>
 

@@ -67,7 +67,7 @@ export default function PhysicalTherapyHubPage() {
         <section className="relative overflow-hidden bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 py-16 sm:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-teal-600" data-testid="link-breadcrumb-home">Allied</Link>
+              <Link href="/allied-health" className="hover:text-teal-600" data-testid="link-breadcrumb-home">Allied Health</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className="text-teal-700 font-medium">Physical Therapy</span>
             </div>
@@ -84,10 +84,10 @@ export default function PhysicalTherapyHubPage() {
                 Master every domain of the NPTE and PCE exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/physical-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 shadow-lg shadow-teal-200 transition-all" data-testid="button-start-learning">
+                <Link href="/allied-health/physical-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 shadow-lg shadow-teal-200 transition-all" data-testid="button-start-learning">
                   <GraduationCap className="w-4 h-4" /> Start Learning Free
                 </Link>
-                <Link href="/physical-therapy/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold border border-teal-200 hover:bg-teal-50 transition-all" data-testid="button-practice-questions">
+                <Link href="/allied-health/physical-therapy/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold border border-teal-200 hover:bg-teal-50 transition-all" data-testid="button-practice-questions">
                   <BookOpen className="w-4 h-4" /> Practice Questions
                 </Link>
               </div>
@@ -115,7 +115,7 @@ export default function PhysicalTherapyHubPage() {
           <p className="text-gray-500 mb-8">Explore all the domains covered on the NPTE and PCE certification exams.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOPIC_CARDS.map(topic => (
-              <Link key={topic.slug} href="/physical-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
+              <Link key={topic.slug} href="/allied-health/physical-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
                 <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
                   <topic.icon className="w-5 h-5 text-teal-600" />
                 </div>
@@ -129,7 +129,7 @@ export default function PhysicalTherapyHubPage() {
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Link href="/physical-therapy/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-flashcards">
+              <Link href="/allied-health/physical-therapy/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-teal-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
                 <p className="text-sm text-gray-500 mb-4">Master key PT concepts with spaced-repetition flashcards organized by system.</p>
@@ -137,7 +137,7 @@ export default function PhysicalTherapyHubPage() {
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/physical-therapy/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-exams">
+              <Link href="/allied-health/physical-therapy/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-teal-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Exams</h3>
                 <p className="text-sm text-gray-500 mb-4">Take timed practice exams that simulate real NPTE testing conditions with score reports.</p>
@@ -145,7 +145,7 @@ export default function PhysicalTherapyHubPage() {
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/physical-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-study-guide">
+              <Link href="/allied-health/physical-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-teal-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
                 <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every physical therapy exam topic in detail.</p>
@@ -153,7 +153,7 @@ export default function PhysicalTherapyHubPage() {
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/physical-therapy/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-lessons">
+              <Link href="/allied-health/physical-therapy/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-lessons">
                 <BookOpen className="w-8 h-8 text-teal-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Lessons</h3>
                 <p className="text-sm text-gray-500 mb-4">Expert-written lessons covering musculoskeletal, neurological, and cardiopulmonary PT.</p>
@@ -194,7 +194,7 @@ export default function PhysicalTherapyHubPage() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Studying?</h2>
             <p className="text-teal-100 mb-8">Join physical therapy students using NurseNest Allied to pass their NPTE and PCE certification exams.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/physical-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-all" data-testid="button-cta-start">
+              <Link href="/allied-health/physical-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free
               </Link>
               <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl text-sm font-semibold hover:bg-teal-800 border border-teal-500 transition-all" data-testid="button-cta-pricing">

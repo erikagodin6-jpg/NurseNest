@@ -67,7 +67,7 @@ export default function OccupationalTherapyHubPage() {
         <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 py-16 sm:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-purple-600" data-testid="link-breadcrumb-home">Allied</Link>
+              <Link href="/allied-health" className="hover:text-purple-600" data-testid="link-breadcrumb-home">Allied Health</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className="text-purple-700 font-medium">Occupational Therapy</span>
             </div>
@@ -84,10 +84,10 @@ export default function OccupationalTherapyHubPage() {
                 Master every domain of the NBCOT OTR and NOTCE exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/occupational-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-sm font-semibold hover:bg-purple-700 shadow-lg shadow-purple-200 transition-all" data-testid="button-start-learning">
+                <Link href="/allied-health/occupational-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-sm font-semibold hover:bg-purple-700 shadow-lg shadow-purple-200 transition-all" data-testid="button-start-learning">
                   <GraduationCap className="w-4 h-4" /> Start Learning Free
                 </Link>
-                <Link href="/occupational-therapy/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl text-sm font-semibold border border-purple-200 hover:bg-purple-50 transition-all" data-testid="button-practice-questions">
+                <Link href="/allied-health/occupational-therapy/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl text-sm font-semibold border border-purple-200 hover:bg-purple-50 transition-all" data-testid="button-practice-questions">
                   <BookOpen className="w-4 h-4" /> Practice Questions
                 </Link>
               </div>
@@ -115,7 +115,7 @@ export default function OccupationalTherapyHubPage() {
           <p className="text-gray-500 mb-8">Explore all the domains covered on the NBCOT OTR and NOTCE certification exams.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOPIC_CARDS.map(topic => (
-              <Link key={topic.slug} href="/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-purple-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
+              <Link key={topic.slug} href="/allied-health/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-purple-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
                   <topic.icon className="w-5 h-5 text-purple-600" />
                 </div>
@@ -129,7 +129,7 @@ export default function OccupationalTherapyHubPage() {
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Link href="/occupational-therapy/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-flashcards">
+              <Link href="/allied-health/occupational-therapy/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-purple-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
                 <p className="text-sm text-gray-500 mb-4">Master key OT concepts with spaced-repetition flashcards organized by domain.</p>
@@ -137,7 +137,7 @@ export default function OccupationalTherapyHubPage() {
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/occupational-therapy/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-exams">
+              <Link href="/allied-health/occupational-therapy/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-purple-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Exams</h3>
                 <p className="text-sm text-gray-500 mb-4">Take timed practice exams that simulate real NBCOT testing conditions with score reports.</p>
@@ -145,7 +145,7 @@ export default function OccupationalTherapyHubPage() {
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-study-guide">
+              <Link href="/allied-health/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-purple-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
                 <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every occupational therapy exam topic in detail.</p>
@@ -153,7 +153,7 @@ export default function OccupationalTherapyHubPage() {
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/occupational-therapy/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-lessons">
+              <Link href="/allied-health/occupational-therapy/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-lessons">
                 <BookOpen className="w-8 h-8 text-purple-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Lessons</h3>
                 <p className="text-sm text-gray-500 mb-4">Expert-written lessons covering evaluation, intervention, pediatrics, and professional practice.</p>
@@ -194,7 +194,7 @@ export default function OccupationalTherapyHubPage() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Studying?</h2>
             <p className="text-purple-100 mb-8">Join occupational therapy students using NurseNest Allied to pass their NBCOT OTR and NOTCE certification exams.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/occupational-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl text-sm font-semibold hover:bg-purple-50 transition-all" data-testid="button-cta-start">
+              <Link href="/allied-health/occupational-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl text-sm font-semibold hover:bg-purple-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free
               </Link>
               <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-700 text-white rounded-xl text-sm font-semibold hover:bg-purple-800 border border-purple-500 transition-all" data-testid="button-cta-pricing">
