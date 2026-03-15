@@ -39,6 +39,44 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    target: "es2020",
+    sourcemap: false,
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("lucide-react")) {
+              return "vendor-icons";
+            }
+            if (id.includes("recharts") || id.includes("d3-")) {
+              return "vendor-charts";
+            }
+            if (id.includes("@radix-ui")) {
+              return "vendor-radix";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-motion";
+            }
+            return "vendor";
+          }
+
+          if (id.includes("/data/translations/")) {
+            const match = id.match(/translations\/(\w[\w-]*)\.json/);
+            if (match) {
+              return `translations-${match[1]}`;
+            }
+          }
+
+          if (id.match(/\/lib\/i18n-[a-z]{2}(-[a-z]{2,})?\.ts/)) {
+            const match = id.match(/i18n-([a-z]{2}(?:-[a-z]{2,})?)\.ts/);
+            if (match) {
+              return `i18n-${match[1]}`;
+            }
+          }
+        },
+      },
+    },
   },
   server: {
     host: "0.0.0.0",

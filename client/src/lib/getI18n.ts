@@ -33,24 +33,10 @@ type TranslationStore = Record<string, Record<string, LessonTranslationOverrides
 let translationStore: TranslationStore = {};
 let storeLoaded = false;
 
-const translationModules: Record<string, () => Promise<{ default: Record<string, LessonTranslationOverrides> }>> = {
-  fr: () => import("@/data/translations/fr.json"),
-  es: () => import("@/data/translations/es.json"),
-  zh: () => import("@/data/translations/zh.json"),
-  ar: () => import("@/data/translations/ar.json"),
-  hi: () => import("@/data/translations/hi.json"),
-  pt: () => import("@/data/translations/pt.json"),
-  tl: () => import("@/data/translations/tl.json"),
-  ko: () => import("@/data/translations/ko.json"),
-  ja: () => import("@/data/translations/ja.json"),
-  de: () => import("@/data/translations/de.json"),
-  vi: () => import("@/data/translations/vi.json"),
-  pa: () => import("@/data/translations/pa.json"),
-  ur: () => import("@/data/translations/ur.json"),
-  fa: () => import("@/data/translations/fa.json"),
-  ht: () => import("@/data/translations/ht.json"),
-  id: () => import("@/data/translations/id.json"),
-};
+const AVAILABLE_TRANSLATION_LANGS = new Set([
+  "fr", "es", "zh", "ar", "hi", "pt", "tl", "ko",
+  "ja", "de", "vi", "pa", "ur", "fa", "ht", "id", "th", "zh-tw",
+]);
 
 const loadedLanguages = new Set<string>();
 const loadingPromises = new Map<string, Promise<void>>();
@@ -59,12 +45,15 @@ export async function loadTranslationLanguage(lang: string): Promise<void> {
   if (lang === "en" || loadedLanguages.has(lang)) return;
   if (loadingPromises.has(lang)) return loadingPromises.get(lang);
 
-  const loader = translationModules[lang];
-  if (!loader) return;
+  if (!AVAILABLE_TRANSLATION_LANGS.has(lang)) return;
 
-  const promise = loader()
-    .then((mod) => {
-      translationStore[lang] = mod.default;
+  const promise = fetch(`/translations/${lang}.json`)
+    .then((res) => {
+      if (!res.ok) throw new Error(`Failed to load translations for ${lang}`);
+      return res.json();
+    })
+    .then((data) => {
+      translationStore[lang] = data;
       loadedLanguages.add(lang);
       storeLoaded = true;
     })
