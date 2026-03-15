@@ -381,7 +381,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Try Again
                   </Button>
-                  <LocaleLink href={`${page.routePrefix}/test-bank`}>
+                  <LocaleLink href={`/allied-health${page.routePrefix}/test-bank`}>
                     <Button data-testid="button-full-bank">
                       <BookOpen className="w-4 h-4 mr-2" />
                       Full Test Bank
@@ -398,7 +398,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                     <LocaleLink href={`${page.routePrefix}/pricing`}>
                       <Button size="sm" data-testid="button-upgrade-full">Unlock Full Access</Button>
                     </LocaleLink>
-                    <LocaleLink href={`${page.routePrefix}/mock-exams`}>
+                    <LocaleLink href={`/allied-health${page.routePrefix}/mock-exams`}>
                       <Button size="sm" variant="outline" data-testid="button-try-mock">Try Mock Exams</Button>
                     </LocaleLink>
                   </div>
@@ -444,7 +444,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                   View Study Plans
                 </Button>
               </LocaleLink>
-              <LocaleLink href={`${page.routePrefix}/test-bank`}>
+              <LocaleLink href={`/allied-health${page.routePrefix}/test-bank`}>
                 <Button size="lg" variant="outline" data-testid="button-cta-qbank">
                   Browse Test Bank
                 </Button>

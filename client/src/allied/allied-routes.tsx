@@ -111,6 +111,33 @@ const ArticleDetailPage = lazy(() => import("./pages/article-detail"));
 const AlliedHealthFAQPage = lazy(() => import("@/pages/allied-health-faq"));
 const SeoLandingBySlug = lazy(() => import("@/pages/seo-landing-page").then(m => ({ default: m.SeoLandingBySlug })));
 const TestBankPage = lazy(() => import("@/pages/test-bank"));
+
+const QBANK_SLUG_MAP: Record<string, string> = {
+  rrt: "rrt",
+  "respiratory-therapy": "rrt",
+  paramedic: "paramedic",
+  "pharmacy-tech": "pharmacy-tech",
+  "pharmacy-technician": "pharmacy-tech",
+  mlt: "mlt",
+  "medical-lab-technologist": "mlt",
+  imaging: "imaging",
+  "medical-imaging": "imaging",
+  ultrasound: "imaging",
+  "occupational-therapy": "occupational-therapy",
+  "occupational-therapy-assistant": "occupational-therapy",
+  "occupational-therapist": "occupational-therapy",
+  "physical-therapy": "physical-therapy",
+  "physical-therapy-assistant": "physical-therapy",
+  "physiotherapy-assistant": "physical-therapy",
+};
+
+function TestBankRedirect({ careerSlug }: { careerSlug: string }) {
+  const qbankCareer = QBANK_SLUG_MAP[careerSlug];
+  if (qbankCareer) {
+    return <Redirect to={`/allied-health/qbank?career=${qbankCareer}`} />;
+  }
+  return <TestBankPage />;
+}
 const DeckPage = lazy(() => import("@/pages/deck-page"));
 const MockExamReportPage = lazy(() => import("@/pages/mock-exam-report"));
 const MockExamSessionPage = lazy(() => import("@/pages/mock-exam-session"));
@@ -515,8 +542,8 @@ export function AlliedRoutes() {
         <Route path="/allied-health/occupational-therapist/question-bank">{() => <Redirect to="/allied-health/occupational-therapist/test-bank" />}</Route>
         <Route path="/allied-health/occupational-therapist/mock-exams" component={OTMockExamsPage} />
         <Route path="/allied-health/occupational-therapist/study-plan" component={OTStudyPlanPage} />
-        <Route path="/allied-health/:careerSlug/question-bank">{(params) => <Redirect to={`/allied-health/${params.careerSlug}/test-bank`} />}</Route>
-        <Route path="/allied-health/:careerSlug/test-bank" component={TestBankPage} />
+        <Route path="/allied-health/:careerSlug/question-bank">{(params) => <TestBankRedirect careerSlug={params.careerSlug} />}</Route>
+        <Route path="/allied-health/:careerSlug/test-bank">{(params) => <TestBankRedirect careerSlug={params.careerSlug} />}</Route>
         <Route path="/allied-health/:careerSlug/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/allied-health/:careerSlug/mock-exams/:id/report" component={MockExamReportPage} />
         <Route path="/allied-health/:careerSlug/mock-exams/:id" component={MockExamSessionPage} />
@@ -571,6 +598,8 @@ export function AlliedRoutes() {
 
         <Route path="/allied-health/respiratory-therapy">{() => { window.location.replace("/allied-health/rrt"); return null; }}</Route>
         <Route path="/allied-health/medical-lab-tech">{() => { window.location.replace("/allied-health/mlt"); return null; }}</Route>
+        <Route path="/allied-health/pharmacy-tech/test-bank">{() => <Redirect to="/allied-health/pharmacy-technician/test-bank" />}</Route>
+        <Route path="/allied-health/pharmacy-tech/mock-exams">{() => <Redirect to="/allied-health/pharmacy-technician/mock-exams" />}</Route>
         <Route path="/allied-health/pharmacy-tech">{() => { window.location.replace("/allied-health/pharmacy-technician"); return null; }}</Route>
         <Route path="/account">{() => <AlliedDashboard />}</Route>
 

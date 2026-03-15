@@ -991,7 +991,7 @@ const RELATED_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: "OT Practice Questions", href: "/allied-health/occupational-therapy-practice-questions" },
     { label: "OT Study Guide", href: "/allied-health/occupational-therapy-study-guide" },
     { label: "OT Exam Prep Hub", href: "/allied-health/occupational-therapy-exam-prep" },
-    { label: "OT Question Bank", href: "/occupational-therapist/test-bank" },
+    { label: "OT Question Bank", href: "/allied-health/occupational-therapist/test-bank" },
     { label: "PT Certification Guide", href: "/allied-health/physical-therapy-certification-guide" },
     { label: "PT Practice Questions", href: "/allied-health/physical-therapy-practice-questions" },
   ],

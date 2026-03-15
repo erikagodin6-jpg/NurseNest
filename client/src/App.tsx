@@ -1128,6 +1128,12 @@ function AppRoutes() {
         <Route path="/respiratory-therapy">{() => <Redirect to="/allied-health/respiratory-therapy" />}</Route>
         <Route path="/health-info-mgmt/:rest*">{(params) => <Redirect to={`/allied-health/health-info-mgmt${params.rest ? `/${params.rest}` : ""}`} />}</Route>
         <Route path="/health-info-mgmt">{() => <Redirect to="/allied-health/health-info-mgmt" />}</Route>
+        <Route path="/ultrasound/:rest*">{(params) => <Redirect to={`/allied-health/imaging${params.rest ? `/${params.rest}` : ""}`} />}</Route>
+        <Route path="/ultrasound">{() => <Redirect to="/allied-health/imaging" />}</Route>
+        <Route path="/physical-therapy-assistant/:rest*">{(params) => <Redirect to={`/allied-health/physiotherapy-assistant${params.rest ? `/${params.rest}` : ""}`} />}</Route>
+        <Route path="/physical-therapy-assistant">{() => <Redirect to="/allied-health/physiotherapy-assistant" />}</Route>
+        <Route path="/occupational-therapy-assistant/:rest*">{(params) => <Redirect to={`/allied-health/occupational-therapy-assistant${params.rest ? `/${params.rest}` : ""}`} />}</Route>
+        <Route path="/occupational-therapy-assistant">{() => <Redirect to="/allied-health/occupational-therapy-assistant" />}</Route>
 
         <Route>{() => <AlliedLayout><AlliedRoutes /></AlliedLayout>}</Route>
       </Switch>

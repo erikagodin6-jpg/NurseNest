@@ -15,14 +15,14 @@ const ICON_MAP: Record<string, any> = {
 };
 
 const PROFESSION_CTA_CONFIG: Record<string, { primaryCta: string; primaryHref: string; secondaryCta: string; secondaryHref: string }> = {
-  "pharmacy-tech": { primaryCta: "Start Pharmacy Tech Practice", primaryHref: "/pharmacy-tech/test-bank", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/pharmacy-tech/mock-exams" },
-  "respiratory-therapy": { primaryCta: "Start RRT Practice", primaryHref: "/rrt/test-bank", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/rrt/mock-exams" },
-  "paramedic": { primaryCta: "Start Paramedic Practice", primaryHref: "/paramedic/test-bank", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/paramedic/mock-exams" },
-  "medical-lab-technologist": { primaryCta: "Start MLT Practice", primaryHref: "/mlt/test-bank", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/mlt/exams" },
-  "medical-imaging": { primaryCta: "Start Imaging Practice", primaryHref: "/radiography-practice-questions", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/medical-imaging" },
-  "ultrasound": { primaryCta: "Start Ultrasound Practice", primaryHref: "/ultrasound/test-bank", secondaryCta: "Explore Study Resources", secondaryHref: "/ultrasound" },
-  "physical-therapy-assistant": { primaryCta: "Start PTA Practice", primaryHref: "/physical-therapy-assistant/test-bank", secondaryCta: "Explore Study Resources", secondaryHref: "/physical-therapy-assistant" },
-  "occupational-therapy-assistant": { primaryCta: "Start OTA Practice", primaryHref: "/occupational-therapy-assistant/test-bank", secondaryCta: "Explore Study Resources", secondaryHref: "/occupational-therapy-assistant" },
+  "pharmacy-tech": { primaryCta: "Start Pharmacy Tech Practice", primaryHref: "/allied-health/qbank?career=pharmacy-tech", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/allied-health/pharmacy-technician/mock-exams" },
+  "respiratory-therapy": { primaryCta: "Start RRT Practice", primaryHref: "/allied-health/qbank?career=rrt", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/allied-health/rrt/mock-exams" },
+  "paramedic": { primaryCta: "Start Paramedic Practice", primaryHref: "/allied-health/qbank?career=paramedic", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/allied-health/paramedic/mock-exams" },
+  "medical-lab-technologist": { primaryCta: "Start MLT Practice", primaryHref: "/allied-health/qbank?career=mlt", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/allied-health/mlt/mock-exams" },
+  "medical-imaging": { primaryCta: "Start Imaging Practice", primaryHref: "/allied-health/qbank?career=imaging", secondaryCta: "Try a Free Mock Exam", secondaryHref: "/allied-health/imaging/mock-exams" },
+  "ultrasound": { primaryCta: "Start Ultrasound Practice", primaryHref: "/allied-health/qbank?career=imaging", secondaryCta: "Explore Study Resources", secondaryHref: "/allied-health/imaging" },
+  "physical-therapy-assistant": { primaryCta: "Start PTA Practice", primaryHref: "/allied-health/qbank?career=physical-therapy", secondaryCta: "Explore Study Resources", secondaryHref: "/allied-health/physiotherapy-assistant" },
+  "occupational-therapy-assistant": { primaryCta: "Start OTA Practice", primaryHref: "/allied-health/qbank?career=occupational-therapy", secondaryCta: "Explore Study Resources", secondaryHref: "/allied-health/occupational-therapy-assistant" },
 };
 
 interface AlliedConversionCtaProps {

@@ -113,7 +113,7 @@ function LessonDetail({ slug }: { slug: string }) {
         <Link href="/social-worker/lessons" className="flex items-center gap-2 text-cyan-600 hover:underline" data-testid="link-all-lessons">
           <ArrowLeft className="w-4 h-4" /> All Lessons
         </Link>
-        <Link href="/social-worker/test-bank" className="flex items-center gap-2 text-cyan-600 hover:underline" data-testid="link-practice-questions">
+        <Link href="/allied-health/social-worker/test-bank" className="flex items-center gap-2 text-cyan-600 hover:underline" data-testid="link-practice-questions">
           Practice Questions <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

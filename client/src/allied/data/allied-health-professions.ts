@@ -104,12 +104,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "RRT Test Bank", link: "/allied-health/rrt/practice-questions" },
       flashcards: { label: "RRT Flashcards", link: "/allied-health/rrt/flashcards" },
-      mockExams: { label: "RRT Mock Exams", link: "/allied-health/rrt/mock-exam" },
+      mockExams: { label: "RRT Mock Exams", link: "/allied-health/rrt/mock-exams" },
       clinicalCases: { label: "Clinical Case Studies", link: "/allied-health/rrt/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/rrt/practice-questions",
-      mockExams: "/allied-health/rrt/mock-exam",
+      mockExams: "/allied-health/rrt/mock-exams",
       flashcards: "/allied-health/rrt/flashcards",
       clinicalCases: "/allied-health/rrt/study-guide",
     },
@@ -186,12 +186,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "MLT Test Bank", link: "/allied-health/mlt/questions" },
       flashcards: { label: "MLT Flashcards", link: "/allied-health/mlt/flashcard-prep" },
-      mockExams: { label: "MLT Mock Exams", link: "/allied-health/mlt/mock-exam" },
+      mockExams: { label: "MLT Mock Exams", link: "/allied-health/mlt/mock-exams" },
       clinicalCases: { label: "Lab Case Studies", link: "/allied-health/mlt/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/mlt/questions",
-      mockExams: "/allied-health/mlt/mock-exam",
+      mockExams: "/allied-health/mlt/mock-exams",
       flashcards: "/allied-health/mlt/flashcard-prep",
       clinicalCases: "/allied-health/mlt/study-guide",
     },
@@ -594,12 +594,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "OTA Test Bank", link: "/allied-health/occupational-therapy/questions" },
       flashcards: { label: "OTA Flashcards", link: "/allied-health/occupational-therapy/flashcards" },
-      mockExams: { label: "OTA Mock Exams", link: "/allied-health/occupational-therapy/mock-exam" },
+      mockExams: { label: "OTA Mock Exams", link: "/allied-health/occupational-therapy/mock-exams" },
       clinicalCases: { label: "OT Case Studies", link: "/allied-health/occupational-therapy/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/occupational-therapy/questions",
-      mockExams: "/allied-health/occupational-therapy/mock-exam",
+      mockExams: "/allied-health/occupational-therapy/mock-exams",
       flashcards: "/allied-health/occupational-therapy/flashcards",
       clinicalCases: "/allied-health/occupational-therapy/study-guide",
     },
@@ -675,12 +675,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "PTA Test Bank", link: "/allied-health/physical-therapy/questions" },
       flashcards: { label: "PTA Flashcards", link: "/allied-health/physical-therapy/flashcards" },
-      mockExams: { label: "PTA Mock Exams", link: "/allied-health/physical-therapy/mock-exam" },
+      mockExams: { label: "PTA Mock Exams", link: "/allied-health/physical-therapy/mock-exams" },
       clinicalCases: { label: "PT Case Studies", link: "/allied-health/physical-therapy/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/physical-therapy/questions",
-      mockExams: "/allied-health/physical-therapy/mock-exam",
+      mockExams: "/allied-health/physical-therapy/mock-exams",
       flashcards: "/allied-health/physical-therapy/flashcards",
       clinicalCases: "/allied-health/physical-therapy/study-guide",
     },
@@ -839,12 +839,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "Surg Tech Test Bank", link: "/allied-health/perioperative/questions" },
       flashcards: { label: "Surg Tech Flashcards", link: "/allied-health/perioperative/flashcards" },
-      mockExams: { label: "Surg Tech Mock Exams", link: "/allied-health/perioperative/mock-exam" },
+      mockExams: { label: "Surg Tech Mock Exams", link: "/allied-health/perioperative/mock-exams" },
       clinicalCases: { label: "Surgical Cases", link: "/allied-health/perioperative/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/perioperative/questions",
-      mockExams: "/allied-health/perioperative/mock-exam",
+      mockExams: "/allied-health/perioperative/mock-exams",
       flashcards: "/allied-health/perioperative/flashcards",
       clinicalCases: "/allied-health/perioperative/study-guide",
     },
@@ -922,12 +922,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     studyResources: {
       questionBanks: { label: "HIM Question Bank", link: "/allied-health/health-info-mgmt/practice-questions" },
       flashcards: { label: "HIM Flashcards", link: "/allied-health/health-info-mgmt/flashcards" },
-      mockExams: { label: "HIM Mock Exams", link: "/allied-health/health-info-mgmt/mock-exam" },
+      mockExams: { label: "HIM Mock Exams", link: "/allied-health/health-info-mgmt/mock-exams" },
       clinicalCases: { label: "Coding Case Studies", link: "/allied-health/health-info-mgmt/study-guide" },
     },
     studyResourceCTAs: {
       questionBank: "/allied-health/health-info-mgmt/practice-questions",
-      mockExams: "/allied-health/health-info-mgmt/mock-exam",
+      mockExams: "/allied-health/health-info-mgmt/mock-exams",
       flashcards: "/allied-health/health-info-mgmt/flashcards",
       clinicalCases: "/allied-health/health-info-mgmt/study-guide",
     },

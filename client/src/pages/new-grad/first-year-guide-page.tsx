@@ -361,10 +361,10 @@ const RELATED_GUIDES: Record<string, { slug: string; label: string }[]> = {
 
 const EXAM_PREP_LINKS: Record<string, { label: string; href: string }> = {
   nursing: { label: "NCLEX / REX-PN Exam Prep", href: "/mock-exams" },
-  paramedic: { label: "NREMT / PCP Exam Prep", href: "/paramedic/mock-exams" },
-  "respiratory-therapy": { label: "RRT / NBRC Exam Prep", href: "/respiratory-therapy/mock-exams" },
-  mlt: { label: "ASCP / CSMLS Exam Prep", href: "/mlt/mock-exams" },
-  imaging: { label: "ARRT / CAMRT Exam Prep", href: "/imaging/mock-exams" },
+  paramedic: { label: "NREMT / PCP Exam Prep", href: "/allied-health/paramedic/mock-exams" },
+  "respiratory-therapy": { label: "RRT / NBRC Exam Prep", href: "/allied-health/rrt/mock-exams" },
+  mlt: { label: "ASCP / CSMLS Exam Prep", href: "/allied-health/mlt/mock-exams" },
+  imaging: { label: "ARRT / CAMRT Exam Prep", href: "/allied-health/imaging/mock-exams" },
   "occupational-therapy": { label: "NBCOT Exam Prep", href: "/occupational-therapy/study-plan" },
   "social-work": { label: "ASWB Exam Prep", href: "/social-work/study-plan" },
   psychotherapy: { label: "Registration Exam Prep", href: "/psychotherapy/study-plan" },
