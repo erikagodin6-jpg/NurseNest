@@ -199,6 +199,7 @@ const NewGradBurnoutPage = lazy(() => import("@/pages/newgrad/burnout-page"));
 const NewGradSalaryPage = lazy(() => import("@/pages/newgrad/salary-page"));
 const NewGradProfDevPage = lazy(() => import("@/pages/newgrad/professional-development-page"));
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
+const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
@@ -530,6 +531,7 @@ function AppRoutes() {
         <Route path="/newgrad/salary" component={NewGradSalaryPage} />
         <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
         <Route path="/newgrad" component={NewGradHubPage} />
+        <Route path="/new-grad/:profession/:guideSlug" component={SeoGuidePage} />
         <Route path="/new-grad/:profession">{(params: any) => {
           const prof = params.profession || "";
           if (prof.endsWith("-first-year-guide")) {
