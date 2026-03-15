@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -314,6 +314,10 @@ export interface IStorage {
   getLessonCount(filters?: { category?: string; tier?: string; status?: string }): Promise<number>;
   bulkCreateLessons(lessons: any[]): Promise<any[]>;
   getAllPublishedLessonSlugs(): Promise<string[]>;
+
+  createProblemReport(data: InsertProblemReport): Promise<ProblemReport>;
+  getProblemReports(filters?: { problemType?: string; siteSection?: string; status?: string; tier?: string; startDate?: string; endDate?: string }): Promise<ProblemReport[]>;
+  updateProblemReport(id: string, updates: { status?: string; adminNotes?: string }): Promise<ProblemReport>;
 }
 
 import { getDevPool } from "./db";
@@ -2198,6 +2202,43 @@ export class DatabaseStorage implements IStorage {
 
   async setUserLifetime(userId: string): Promise<void> {
     await pool.query("UPDATE users SET is_lifetime = true, lifetime_purchased_at = NOW(), subscription_status = 'active' WHERE id = $1", [userId]);
+  }
+
+  async createProblemReport(data: InsertProblemReport): Promise<ProblemReport> {
+    const r = await pool.query(
+      `INSERT INTO problem_reports (page_url, page_title, site_section, content_id, user_id, problem_type, description, email, severity, contact_permission, device_type, browser_info, locale, tier)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+       RETURNING *`,
+      [data.pageUrl, data.pageTitle ?? null, data.siteSection ?? null, data.contentId ?? null, data.userId ?? null, data.problemType, data.description, data.email ?? null, data.severity ?? "medium", data.contactPermission ?? false, data.deviceType ?? null, data.browserInfo ?? null, data.locale ?? null, data.tier ?? null]
+    );
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async getProblemReports(filters?: { problemType?: string; siteSection?: string; status?: string; tier?: string; startDate?: string; endDate?: string }): Promise<ProblemReport[]> {
+    const conditions: string[] = [];
+    const params: any[] = [];
+    let idx = 1;
+    if (filters?.problemType) { conditions.push(`problem_type = $${idx++}`); params.push(filters.problemType); }
+    if (filters?.siteSection) { conditions.push(`site_section = $${idx++}`); params.push(filters.siteSection); }
+    if (filters?.status) { conditions.push(`status = $${idx++}`); params.push(filters.status); }
+    if (filters?.tier) { conditions.push(`tier = $${idx++}`); params.push(filters.tier); }
+    if (filters?.startDate) { conditions.push(`created_at >= $${idx++}`); params.push(new Date(filters.startDate)); }
+    if (filters?.endDate) { conditions.push(`created_at <= $${idx++}`); params.push(new Date(filters.endDate)); }
+    const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const r = await pool.query(`SELECT * FROM problem_reports ${where} ORDER BY created_at DESC`, params);
+    return r.rows.map(snakeToCamel);
+  }
+
+  async updateProblemReport(id: string, updates: { status?: string; adminNotes?: string }): Promise<ProblemReport> {
+    const sets: string[] = ["updated_at = NOW()"];
+    const params: any[] = [];
+    let idx = 1;
+    if (updates.status !== undefined) { sets.push(`status = $${idx++}`); params.push(updates.status); }
+    if (updates.adminNotes !== undefined) { sets.push(`admin_notes = $${idx++}`); params.push(updates.adminNotes); }
+    params.push(id);
+    const r = await pool.query(`UPDATE problem_reports SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, params);
+    if (r.rows.length === 0) throw new Error("Problem report not found");
+    return snakeToCamel(r.rows[0]);
   }
 }
 

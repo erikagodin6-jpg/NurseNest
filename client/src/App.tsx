@@ -68,6 +68,7 @@ const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { ExitIntentModal } from "@/components/exit-intent-modal";
+import { ReportProblemButton } from "@/components/report-problem-button";
 import { MobileBottomNav } from "@/components/mobile-study-shell";
 import AnalyticsTracker from "@/components/analytics-tracker";
 import { usePageTracker } from "@/hooks/use-page-tracker";
@@ -95,6 +96,7 @@ const DisclaimerPage = lazy(() => import("@/pages/disclaimer"));
 const RefundPolicyPage = lazy(() => import("@/pages/refund-policy"));
 const StartFreePage = lazy(() => import("@/pages/start-free"));
 const AdminPage = lazy(() => import("@/pages/admin"));
+const AdminProblemReportsPage = lazy(() => import("@/pages/admin-problem-reports"));
 const AdminAiJobs = lazy(() => import("@/pages/admin-ai-jobs"));
 const AdminBusinessHealth = lazy(() => import("@/pages/admin-business-health"));
 const AdminContentCoverage = lazy(() => import("@/pages/admin-content-coverage"));
@@ -546,6 +548,8 @@ function AppRoutes() {
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/ai-jobs" component={AdminAiJobs} />
         <Route path="/admin/business-health" component={AdminBusinessHealth} />
+        <Route path="/admin/problem-reports" component={AdminProblemReportsPage} />
+        <Route path="/:locale/admin/problem-reports" component={AdminProblemReportsPage} />
         <Route path="/admin/content-coverage" component={AdminContentCoverage} />
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
@@ -1237,6 +1241,7 @@ function App() {
                   <UpgradePrompt />
                   <PWAInstallPrompt />
                   <ExitIntentModal />
+                  <ReportProblemButton />
                 </TooltipProvider>
               </SiteImagesProvider>
               </ParamedicRegionProvider>

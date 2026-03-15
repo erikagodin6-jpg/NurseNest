@@ -52,6 +52,7 @@ import {
   MLT_IMAGE_TYPES,
   MLT_DISCIPLINES,
   MLT_DRILL_TYPES,
+  insertProblemReportSchema,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey, validateStripeConnection, getCredentialInfo } from "./stripeClient";
 import { getStripePriceId, loadStripePrices } from "./stripe-pricing";
@@ -20847,6 +20848,70 @@ Rules:
       res.redirect(301, `/${locale}/${localized}/${subPath}${qs}`);
     });
   }
+
+  const problemReportLimiter = rateLimit({ windowMs: 60 * 1000, max: 5, message: { error: "Too many reports. Please try again later." } });
+  app.post("/api/problem-reports", problemReportLimiter, async (req, res) => {
+    try {
+      const parsed = insertProblemReportSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid report data", details: parsed.error.issues });
+      }
+      const validTypes = ["broken_link", "empty_lesson", "wrong_answer", "typo", "layout", "exam_wont_start", "flashcards_broken", "payment", "translation", "other"];
+      if (!validTypes.includes(parsed.data.problemType)) {
+        return res.status(400).json({ error: "Invalid problem type" });
+      }
+      const validSeverities = ["low", "medium", "high"];
+      if (parsed.data.severity && !validSeverities.includes(parsed.data.severity)) {
+        return res.status(400).json({ error: "Invalid severity" });
+      }
+      if (parsed.data.description.length > 2000) {
+        return res.status(400).json({ error: "Description too long (max 2000 chars)" });
+      }
+      const authUser = await resolveAuthUser(req);
+      const reportData = { ...parsed.data, userId: authUser?.id || null, tier: authUser?.tier || null };
+      const report = await storage.createProblemReport(reportData);
+      res.status(201).json(report);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/problem-reports", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const filters: any = {};
+      if (req.query.problemType) filters.problemType = String(req.query.problemType);
+      if (req.query.siteSection) filters.siteSection = String(req.query.siteSection);
+      if (req.query.status) filters.status = String(req.query.status);
+      if (req.query.tier) filters.tier = String(req.query.tier);
+      if (req.query.startDate) filters.startDate = String(req.query.startDate);
+      if (req.query.endDate) filters.endDate = String(req.query.endDate);
+      const reports = await storage.getProblemReports(filters);
+      res.json(reports);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/problem-reports/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status, adminNotes } = req.body;
+      const validStatuses = ["new", "in_review", "fixed", "dismissed"];
+      if (status && !validStatuses.includes(status)) {
+        return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(", ")}` });
+      }
+      const report = await storage.updateProblemReport(req.params.id, { status, adminNotes });
+      res.json(report);
+    } catch (e: any) {
+      if (e.message === "Problem report not found") {
+        return res.status(404).json({ error: e.message });
+      }
+      res.status(500).json({ error: e.message });
+    }
+  });
 
   return httpServer;
 }

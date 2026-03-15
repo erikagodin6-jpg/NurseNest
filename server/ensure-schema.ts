@@ -604,6 +604,30 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
 
     await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS preferred_theme text`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS problem_reports (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        page_url TEXT NOT NULL,
+        page_title TEXT,
+        site_section TEXT,
+        content_id TEXT,
+        user_id VARCHAR,
+        problem_type TEXT NOT NULL,
+        description TEXT NOT NULL,
+        email TEXT,
+        severity TEXT DEFAULT 'medium',
+        contact_permission BOOLEAN DEFAULT false,
+        device_type TEXT,
+        browser_info TEXT,
+        locale TEXT,
+        tier TEXT,
+        status TEXT NOT NULL DEFAULT 'new',
+        admin_notes TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

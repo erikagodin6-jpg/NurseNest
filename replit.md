@@ -61,6 +61,13 @@ Key systems include:
 - **New Flashcards**: `client/src/data/flashcards-np-patho.ts` — 215 advanced clinical flashcards covering Diabetes, Adrenal, Thyroid, HPA Axis, Stroke, Seizures, Headaches, Delirium/Dementia, HF, Cardiogenic Shock, ACS, Leukemia, Sickle Cell, Men's Health (ED, Testosterone, BPH, Prostatitis). Registered in `flashcards.tsx` allCards useMemo.
 - **Exam Question Batches**: `np-exam-batch-63.ts` through `np-exam-batch-72.ts` — 317 exam questions + CAT questions across Endocrine, Neurology, Cardiology, Hematology, Men's Health, and Stress Physiology domains. Migration script updated (`i <= 72`).
 
+## Global Report a Problem System
+- **Floating Button**: `client/src/components/report-problem-button.tsx` — fixed-position button visible on all pages (hidden on admin/login/register). Opens modal with problem type dropdown, description, email, severity, and contact permission fields. Auto-captures page URL, title, section, content ID, device/browser info, locale. Fires analytics events on open and submit. Intelligently pre-selects problem type based on page context.
+- **Admin Dashboard**: `client/src/pages/admin-problem-reports.tsx` at `/admin/problem-reports` — filterable table of all reports with status cards, filtering by problem type/status/section, detail panel with status updates and admin notes.
+- **Schema**: `problem_reports` table in `shared/schema.ts` with full metadata columns.
+- **API**: `POST /api/problem-reports` (public, rate-limited), `GET /api/admin/problem-reports` (admin), `PATCH /api/admin/problem-reports/:id` (admin).
+- **Storage**: `createProblemReport`, `getProblemReports`, `updateProblemReport` in `server/storage.ts`.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

@@ -5954,3 +5954,35 @@ export const insertExamPlannerSettingsSchema = createInsertSchema(examPlannerSet
 });
 export type ExamPlannerSettings = typeof examPlannerSettings.$inferSelect;
 export type InsertExamPlannerSettings = z.infer<typeof insertExamPlannerSettingsSchema>;
+
+export const problemReports = pgTable("problem_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageUrl: text("page_url").notNull(),
+  pageTitle: text("page_title"),
+  siteSection: text("site_section"),
+  contentId: text("content_id"),
+  userId: varchar("user_id"),
+  problemType: text("problem_type").notNull(),
+  description: text("description").notNull(),
+  email: text("email"),
+  severity: text("severity").default("medium"),
+  contactPermission: boolean("contact_permission").default(false),
+  deviceType: text("device_type"),
+  browserInfo: text("browser_info"),
+  locale: text("locale"),
+  tier: text("tier"),
+  status: text("status").default("new").notNull(),
+  adminNotes: text("admin_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertProblemReportSchema = createInsertSchema(problemReports).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  status: true,
+  adminNotes: true,
+});
+export type ProblemReport = typeof problemReports.$inferSelect;
+export type InsertProblemReport = z.infer<typeof insertProblemReportSchema>;
