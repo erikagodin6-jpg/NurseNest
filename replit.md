@@ -42,6 +42,7 @@ Key systems include:
 - **Pricing Page Architecture**: Modern SaaS-style layout with hero section, social proof, tier selection, feature comparison, and trust signals.
 - **Business Health & Subscriber Dashboard**: Admin page for financial summaries, subscriber metrics, and purchase metrics.
 - **Site Health & Integrity System**: Admin dashboard with broken link crawler, missing content detection, SEO metadata auditor, and auto-repair capabilities.
+- **New Grad Certifications Hub**: Dedicated `/newgrad/certifications` hub for hospital certifications (ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN) with individual detail pages at `/newgrad/certifications/:slug`. Old routes `/new-grad/certifications/*` redirect to new paths.
 
 ## External Dependencies
 - **Database**: PostgreSQL

@@ -59,7 +59,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
 import { useCareer } from "@/lib/career-context";
@@ -557,6 +557,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad")} data-testid="button-new-grad-hub-mobile">
                 <GraduationCap className="w-4 h-4" />
                 {t("footer.newGradHub")}
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/newgrad/certifications")} data-testid="button-new-grad-certifications-mobile">
+                <Award className="w-4 h-4 text-emerald-500" />
+                {t("nav.certifications")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -1242,6 +1248,10 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/new-grad")} data-testid="menu-new-grad-hub">
                     <GraduationCap className="w-4 h-4 text-primary/70" />
                     {t("nav.newGradHub")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/newgrad/certifications")} data-testid="menu-new-grad-certifications">
+                    <Award className="w-4 h-4 text-emerald-500" />
+                    {t("nav.certifications")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.allSpecialties")}</p>

@@ -204,6 +204,8 @@ const NewGradProfDevPage = lazy(() => import("@/pages/newgrad/professional-devel
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
 const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certification-page"));
+const NewGradCertificationsHub = lazy(() => import("@/pages/newgrad/certifications-hub"));
+const NewGradCertificationDetail = lazy(() => import("@/pages/newgrad/certification-detail"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
@@ -521,7 +523,10 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
-        <Route path="/new-grad/certifications/:slug" component={NewGradCertificationPage} />
+        <Route path="/newgrad/certifications/:slug" component={NewGradCertificationDetail} />
+        <Route path="/newgrad/certifications" component={NewGradCertificationsHub} />
+        <Route path="/new-grad/certifications/:slug">{(params: any) => <Redirect to={`/newgrad/certifications/${params.slug}`} />}</Route>
+        <Route path="/new-grad/certifications">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/new-grad/clinical-skills/:skill" component={ClinicalSkillsGuidePage} />
         <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
@@ -638,6 +643,7 @@ function AppRoutes() {
 
         {/* Nursing Content Hub */}
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
+        <Route path="/nursing-certifications-hub">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/study-pathways" component={StudyPathwaysHub} />
         <Route path="/certifications/:slug">{() => <NursingHubPage pageType="certification" />}</Route>
         <Route path="/specialties/:slug">{() => <NursingHubPage pageType="specialty" />}</Route>

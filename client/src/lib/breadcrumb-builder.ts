@@ -11,6 +11,7 @@ const MEDICAL_ACRONYMS = new Set([
   "GI", "CNS", "PNS", "MS", "ALS", "ACLS", "BLS", "OSCE",
   "NBRC", "NREMT", "PTCB", "CSMLS",
   "CAMRT", "RRT", "MLT", "ADHD", "OCD", "PTSD", "DIC", "TB", "RSV",
+  "PALS", "TNCC", "NRP", "CEN", "CCRN",
   "ARDS", "ERCP", "EGD", "FAQ", "AI", "QBank", "SEO",
 ]);
 
@@ -100,6 +101,8 @@ const STATIC_ROUTES: Record<string, string> = {
   "/np-exam-practice-questions": "NP Exam Practice Questions",
   "/practice-questions": "Free Practice Questions",
   "/glossary": "Glossary",
+  "/newgrad/certifications": "Certifications",
+  "/new-grad": "New Grad Hub",
 };
 
 const PARENT_ROUTES: Record<string, string> = {
@@ -118,6 +121,7 @@ const PARENT_ROUTES: Record<string, string> = {
   "/compare/": "/compare",
   "/practice-questions/": "/practice-questions",
   "/glossary/": "/glossary",
+  "/newgrad/certifications/": "/newgrad/certifications",
 };
 
 const SIMULATOR_PATHS = [
