@@ -116,7 +116,7 @@ export function FAQAccordion({ items }: { items: { question: string; answer: str
 export function TopicSummaryCard({ topic }: { topic: { title: string; slug: string; metaDescription?: string; difficulty?: string } }) {
   return (
     <a
-      href={`/paramedic/topic/${topic.slug}`}
+      href={`/allied-health/paramedic/topic/${topic.slug}`}
       className="block bg-white border border-gray-200 rounded-xl p-4 hover:border-teal-300 hover:shadow-sm transition-all"
       data-testid={`topic-card-${topic.slug}`}
     >
@@ -231,7 +231,7 @@ export function ComparisonHighlights({ itemA, itemB, points }: {
 export function GlossaryBadge({ term, slug }: { term: string; slug: string }) {
   return (
     <a
-      href={`/paramedic/glossary/${slug}`}
+      href={`/allied-health/paramedic/glossary/${slug}`}
       className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full hover:bg-blue-100 transition-colors"
       data-testid={`glossary-badge-${slug}`}
     >
@@ -317,7 +317,7 @@ export function PracticeQuestionsLink() {
             Test your knowledge with 500+ paramedic practice questions organized by clinical topic. Each question includes detailed rationales.
           </p>
           <a
-            href="/paramedic/questions"
+            href="/allied-health/paramedic/questions"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors"
             data-testid="link-practice-questions"
           >

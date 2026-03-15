@@ -80,7 +80,7 @@ export default function MltExamHistory() {
           <BarChart3 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 mb-4">No exam sessions yet. Start your first exam!</p>
           <button
-            onClick={() => setLocation("/mlt/exams")}
+            onClick={() => setLocation("/allied-health/mlt/exams")}
             className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700"
             data-testid="button-start-first-exam"
           >
@@ -93,8 +93,8 @@ export default function MltExamHistory() {
             <button
               key={s.id}
               onClick={() => {
-                if (s.status === "completed") setLocation(`/mlt/exam/results/${s.id}`);
-                else setLocation(`/mlt/exam/${s.mode}?resume=${s.id}`);
+                if (s.status === "completed") setLocation(`/allied-health/mlt/exam/results/${s.id}`);
+                else setLocation(`/allied-health/mlt/exam/${s.mode}?resume=${s.id}`);
               }}
               className="w-full text-left bg-white rounded-2xl border p-5 hover:shadow-md transition-all"
               data-testid={`card-session-${s.id}`}

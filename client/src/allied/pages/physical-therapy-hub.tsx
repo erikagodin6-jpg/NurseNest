@@ -34,7 +34,7 @@ export default function PhysicalTherapyHubPage() {
         title="Physical Therapy Exam Prep - NPTE & PCE Study Resources"
         description="Prepare for the NPTE and PCE physical therapy licensing exams with practice questions, differential diagnosis training, flashcard decks, full-length practice exams, and a comprehensive study guide. Free to start."
         keywords="physical therapy exam prep, NPTE exam, PCE exam, PT practice questions, physical therapy certification, PT study guide, PT flashcards, physiotherapy licensing, FSBPT exam"
-        canonicalPath="/physical-therapy"
+        canonicalPath="/allied-health/physical-therapy"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",

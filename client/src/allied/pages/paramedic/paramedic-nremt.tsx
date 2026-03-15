@@ -35,7 +35,7 @@ export default function ParamedicNREMTPage() {
         title="NREMT Paramedic Practice Questions — Cognitive Exam Prep | NurseNest"
         description="Prepare for the NREMT paramedic cognitive exam with 500+ CAT-style practice questions, blueprint-weighted mock exams, and 600+ word clinical rationales. Covers all five NREMT content areas."
         keywords="nremt paramedic practice questions, NREMT paramedic exam prep, national registry paramedic, NREMT practice test, paramedic cognitive exam, NREMT study guide, CAT paramedic exam"
-        canonicalPath="/paramedic/nremt"
+        canonicalPath="/allied-health/paramedic/nremt"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",

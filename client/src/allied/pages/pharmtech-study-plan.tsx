@@ -148,7 +148,7 @@ export default function PharmtechStudyPlanPage() {
 
       if (res.ok) {
         const data = await res.json();
-        setLocation(`/pharmacy-technician/study-plan/${data.id}`);
+        setLocation(`/allied-health/pharmacy-technician/study-plan/${data.id}`);
       }
     } catch (e) {
       console.error(e);
@@ -264,13 +264,13 @@ export default function PharmtechStudyPlanPage() {
           title="My Study Plan - Pharmacy Technician Exam Prep"
           description="Track your personalized pharmacy technician study plan with daily tasks, progress tracking, and exam countdown."
           keywords="pharmacy technician study plan, PTCB study schedule, pharmacy tech exam prep plan"
-          canonicalPath={`/pharmacy-technician/study-plan/${plan.id}`}
+          canonicalPath={`/allied-health/pharmacy-technician/study-plan/${plan.id}`}
         />
         <div className="max-w-4xl mx-auto px-4 py-8" data-testid="pharmtech-study-plan-detail">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
+            <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/pharmacy-technician/study-plan" className="hover:text-green-600">Study Plan</Link>
+            <Link href="/allied-health/pharmacy-technician/study-plan" className="hover:text-green-600">Study Plan</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-green-700 font-medium">My Plan</span>
           </div>
@@ -445,11 +445,11 @@ export default function PharmtechStudyPlanPage() {
         title="Study Plan Generator - Pharmacy Technician Exam Prep"
         description="Create a personalized pharmacy technician study plan for the PTCB or ExCPT exam. Choose from quick-start presets or customize your schedule based on exam date, pace, and weak areas."
         keywords="pharmacy technician study plan, PTCB study schedule, pharmacy tech exam prep plan, ExCPT study guide, pharmacy tech study planner"
-        canonicalPath="/pharmacy-technician/study-plan"
+        canonicalPath="/allied-health/pharmacy-technician/study-plan"
       />
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="pharmtech-study-plan-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Study Plan</span>
         </div>

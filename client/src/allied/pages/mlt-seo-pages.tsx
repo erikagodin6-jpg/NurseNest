@@ -185,7 +185,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
         <p className="text-gray-600">This MLT page doesn't exist yet.</p>
-        <Link href="/mlt" className="inline-block mt-4 px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="link-mlt-home">
+        <Link href="/allied-health/mlt" className="inline-block mt-4 px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="link-mlt-home">
           Back to MLT Hub
         </Link>
       </div>
@@ -225,7 +225,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
         title={content.title}
         description={content.metaDesc}
         keywords={`MLT exam prep, ${countryConfig.examBoard} study, medical laboratory technologist, ${countryConfig.examName}, ${pageType.replace("-", " ")}`}
-        canonicalPath={country === "both" ? (pageType === "flashcards" ? "/mlt/flashcard-prep" : `/mlt/${pageType}`) : `/mlt/${country}/${pageType}`}
+        canonicalPath={country === "both" ? (pageType === "flashcards" ? "/allied-health/mlt/flashcard-prep" : `/allied-health/mlt/${pageType}`) : `/allied-health/mlt/${country}/${pageType}`}
         structuredData={courseSchema}
         additionalStructuredData={[faqSchema]}
       />
@@ -291,7 +291,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
               <div className="text-sm font-medium text-gray-800">Student Dashboard</div>
               <div className="text-xs text-gray-500 mt-1">Track your progress</div>
             </Link>
-            <Link href="/mlt/blog" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-blog">
+            <Link href="/allied-health/mlt/blog" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-blog">
               <BookOpen className="w-6 h-6 text-blue-500 mx-auto mb-2" />
               <div className="text-sm font-medium text-gray-800">MLT Blog</div>
               <div className="text-xs text-gray-500 mt-1">Study articles & tips</div>
@@ -301,7 +301,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
               <div className="text-sm font-medium text-gray-800">Test Bank</div>
               <div className="text-xs text-gray-500 mt-1">Practice questions</div>
             </Link>
-            <Link href="/mlt/image-drill" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-image-drill">
+            <Link href="/allied-health/mlt/image-drill" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-image-drill">
               <Microscope className="w-6 h-6 text-orange-500 mx-auto mb-2" />
               <div className="text-sm font-medium text-gray-800">Image Drills</div>
               <div className="text-xs text-gray-500 mt-1">Visual identification</div>

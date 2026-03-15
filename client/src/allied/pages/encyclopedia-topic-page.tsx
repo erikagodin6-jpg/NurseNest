@@ -12,7 +12,7 @@ import {
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_META: Record<string, { label: string; hubPath: string; color: string; accent: string }> = {
-  paramedic: { label: "Paramedic", hubPath: "/paramedic-encyclopedia", color: "teal", accent: "from-red-50 via-white to-teal-50" },
+  paramedic: { label: "Paramedic", hubPath: "/allied-health/paramedic-encyclopedia", color: "teal", accent: "from-red-50 via-white to-teal-50" },
   "respiratory-therapy": { label: "Respiratory Therapy", hubPath: "/respiratory-therapy-encyclopedia", color: "blue", accent: "from-blue-50 via-white to-teal-50" },
   mlt: { label: "Medical Laboratory", hubPath: "/mlt-encyclopedia", color: "purple", accent: "from-purple-50 via-white to-teal-50" },
   imaging: { label: "Diagnostic Imaging", hubPath: "/imaging-encyclopedia", color: "orange", accent: "from-orange-50 via-white to-teal-50" },
@@ -24,21 +24,21 @@ const PROFESSION_META: Record<string, { label: string; hubPath: string; color: s
 
 function professionQuestionsPath(profession: string): string {
   const map: Record<string, string> = {
-    paramedic: "/paramedic/questions",
-    "respiratory-therapy": "/rrt/questions",
-    mlt: "/mlt/questions",
-    imaging: "/imaging/questions",
-    "social-work": "/social-work",
-    psychotherapy: "/psychotherapy",
-    addictions: "/addictions",
-    "occupational-therapy": "/occupational-therapy",
+    paramedic: "/allied-health/paramedic/questions",
+    "respiratory-therapy": "/allied-health/rrt/questions",
+    mlt: "/allied-health/mlt/questions",
+    imaging: "/allied-health/imaging/questions",
+    "social-work": "/allied-health/social-work",
+    psychotherapy: "/allied-health/psychotherapy",
+    addictions: "/allied-health/addictions",
+    "occupational-therapy": "/allied-health/occupational-therapy",
   };
   return map[profession] || "/careers";
 }
 
 export default function EncyclopediaTopicPage({ profession: propProfession }: { profession?: string }) {
   const profession = propProfession || "paramedic";
-  const hubPath = PROFESSION_META[profession]?.hubPath || "/paramedic-encyclopedia";
+  const hubPath = PROFESSION_META[profession]?.hubPath || "/allied-health/paramedic-encyclopedia";
   const [, routeParams] = useRoute(`${hubPath}/:slug`);
   const fallbackParams = useParams<{ slug: string }>();
   const slug = routeParams?.slug || fallbackParams.slug;

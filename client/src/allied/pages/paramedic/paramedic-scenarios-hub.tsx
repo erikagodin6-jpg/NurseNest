@@ -21,7 +21,7 @@ export default function ParamedicScenariosHub() {
         title="Paramedic Clinical Scenarios — Dispatch-to-Disposition Simulations | NurseNest"
         description="Practice with unfolding paramedic clinical scenarios covering trauma, cardiac, medical, pediatric, and OB emergencies. Branching decisions with detailed clinical debriefs."
         keywords="paramedic scenarios, EMS clinical scenarios, paramedic simulation, paramedic case studies, prehospital scenarios, dispatch to disposition"
-        canonicalPath="/paramedic/scenarios"
+        canonicalPath="/allied-health/paramedic/scenarios"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
@@ -35,7 +35,7 @@ export default function ParamedicScenariosHub() {
         title="Clinical Scenarios"
         subtitle="Unfolding dispatch-to-disposition scenarios that test your clinical decision-making under realistic conditions. Each scenario includes branching decision points and detailed clinical debriefs."
         breadcrumbs={[
-          { label: "Paramedic", href: "/paramedic" },
+          { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Scenarios" },
         ]}
       />
@@ -53,7 +53,7 @@ export default function ParamedicScenariosHub() {
                 description={scenario.description}
                 meta={scenario.difficulty}
                 tags={scenario.tags}
-                href="/paramedic/sims"
+                href="/allied-health/paramedic/sims"
                 icon={Zap}
                 badge={scenario.difficulty}
               />

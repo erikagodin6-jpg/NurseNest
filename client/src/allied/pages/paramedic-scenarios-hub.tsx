@@ -73,11 +73,11 @@ export default function ParamedicScenariosHub() {
         title="Paramedic EMS Scenario Simulations"
         description="Practice realistic EMS scenario simulations for paramedic learners. Walk through dispatch-to-debrief clinical encounters with decision point tracking and feedback."
         keywords="paramedic scenarios, EMS simulation, paramedic exam practice, clinical decision making, NREMT practice"
-        canonicalPath="/paramedic/scenarios"
+        canonicalPath="/allied-health/paramedic/scenarios"
       />
 
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
+        <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">EMS Scenarios</span>
       </div>
@@ -146,7 +146,7 @@ export default function ParamedicScenariosHub() {
         <div className="space-y-4">
           <p className="text-sm text-gray-500">{total} scenario{total !== 1 ? "s" : ""} available</p>
           {scenarios.map((sc) => (
-            <Link key={sc.id} href={`/paramedic/scenarios/${sc.slug}`}>
+            <Link key={sc.id} href={`/allied-health/paramedic/scenarios/${sc.slug}`}>
               <div className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-teal-200 hover:shadow-md transition-all cursor-pointer" data-testid={`scenario-card-${sc.id}`}>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center flex-shrink-0">

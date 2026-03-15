@@ -100,7 +100,7 @@ export default function ParamedicExamSimulator() {
       }
 
       if (data.status === "completed") {
-        navigate(`/paramedic/exam-results/${data.id}`);
+        navigate(`/allied-health/paramedic/exam-results/${data.id}`);
       }
     } catch (e: any) {
       setError(e.message || "Failed to load session");
@@ -260,7 +260,7 @@ export default function ParamedicExamSimulator() {
 
     try {
       await apiRequest("POST", `/api/paramedic/exam-sessions/${session.id}/complete`, {});
-      navigate(`/paramedic/exam-results/${session.id}`);
+      navigate(`/allied-health/paramedic/exam-results/${session.id}`);
     } catch (e: any) {
       setError("Failed to submit exam: " + e.message);
     } finally {
@@ -301,7 +301,7 @@ export default function ParamedicExamSimulator() {
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
           <p className="text-gray-600 mb-6">{error || "Session not found"}</p>
-          <button onClick={() => navigate("/paramedic/practice-exams")} className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-back-to-exams">
+          <button onClick={() => navigate("/allied-health/paramedic/practice-exams")} className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-back-to-exams">
             Back to Practice Exams
           </button>
         </div>

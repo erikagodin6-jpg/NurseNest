@@ -111,7 +111,7 @@ export default function ParamedicExamResults() {
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Results Not Available</h2>
           <p className="text-gray-600 mb-6">This exam may not have been completed yet.</p>
-          <Link href="/paramedic/practice-exams" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold" data-testid="link-back-exams">
+          <Link href="/allied-health/paramedic/practice-exams" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold" data-testid="link-back-exams">
             Back to Practice Exams
           </Link>
         </div>
@@ -144,9 +144,9 @@ export default function ParamedicExamResults() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
+            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
             <ArrowRight className="w-3 h-3" />
-            <Link href="/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
+            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
             <ArrowRight className="w-3 h-3" />
             <span className="text-teal-700 font-medium">Results</span>
           </div>
@@ -324,7 +324,7 @@ export default function ParamedicExamResults() {
               {previousAttempts.slice(0, 10).map((attempt) => (
                 <Link
                   key={attempt.id}
-                  href={`/paramedic/exam-results/${attempt.id}`}
+                  href={`/allied-health/paramedic/exam-results/${attempt.id}`}
                   className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 border border-gray-100 transition-colors"
                   data-testid={`history-${attempt.id}`}
                 >
@@ -352,14 +352,14 @@ export default function ParamedicExamResults() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Link
-            href="/paramedic/practice-exams"
+            href="/allied-health/paramedic/practice-exams"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors"
             data-testid="button-take-another"
           >
             <RotateCcw className="w-4 h-4" /> Take Another Exam
           </Link>
           <Link
-            href="/paramedic"
+            href="/allied-health/paramedic"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
             data-testid="button-back-hub"
           >

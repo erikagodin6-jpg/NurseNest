@@ -8,16 +8,16 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_DISPLAY: Record<string, { name: string; shortName: string; color: string; colorAccent: string; hubPath: string }> = {
-  rrt: { name: "Registered Respiratory Therapist", shortName: "RRT", color: "#2196F3", colorAccent: "#E3F2FD", hubPath: "/rrt" },
-  paramedic: { name: "Paramedic", shortName: "Paramedic", color: "#F44336", colorAccent: "#FFEBEE", hubPath: "/paramedic" },
-  "pharmacy-technician": { name: "Pharmacy Technician", shortName: "Pharm Tech", color: "#9C27B0", colorAccent: "#F3E5F5", hubPath: "/pharmacy-technician" },
-  mlt: { name: "Medical Laboratory Technologist", shortName: "MLT", color: "#FF9800", colorAccent: "#FFF3E0", hubPath: "/mlt" },
-  imaging: { name: "Medical Imaging Technologist", shortName: "Imaging", color: "#00BCD4", colorAccent: "#E0F7FA", hubPath: "/imaging" },
-  psychotherapy: { name: "Psychotherapist", shortName: "Psychotherapy", color: "#673AB7", colorAccent: "#EDE7F6", hubPath: "/psychotherapy" },
-  "social-work": { name: "Social Worker", shortName: "Social Work", color: "#E91E63", colorAccent: "#FCE4EC", hubPath: "/social-work" },
-  addictions: { name: "Addictions Counsellor", shortName: "Addictions", color: "#795548", colorAccent: "#EFEBE9", hubPath: "/addictions" },
-  "occupational-therapy": { name: "Occupational Therapist", shortName: "OT", color: "#4CAF50", colorAccent: "#E8F5E9", hubPath: "/occupational-therapy" },
-  "physical-therapy": { name: "Physical Therapist", shortName: "PT", color: "#FF5722", colorAccent: "#FBE9E7", hubPath: "/physical-therapy" },
+  rrt: { name: "Registered Respiratory Therapist", shortName: "RRT", color: "#2196F3", colorAccent: "#E3F2FD", hubPath: "/allied-health/rrt" },
+  paramedic: { name: "Paramedic", shortName: "Paramedic", color: "#F44336", colorAccent: "#FFEBEE", hubPath: "/allied-health/paramedic" },
+  "pharmacy-technician": { name: "Pharmacy Technician", shortName: "Pharm Tech", color: "#9C27B0", colorAccent: "#F3E5F5", hubPath: "/allied-health/pharmacy-technician" },
+  mlt: { name: "Medical Laboratory Technologist", shortName: "MLT", color: "#FF9800", colorAccent: "#FFF3E0", hubPath: "/allied-health/mlt" },
+  imaging: { name: "Medical Imaging Technologist", shortName: "Imaging", color: "#00BCD4", colorAccent: "#E0F7FA", hubPath: "/allied-health/imaging" },
+  psychotherapy: { name: "Psychotherapist", shortName: "Psychotherapy", color: "#673AB7", colorAccent: "#EDE7F6", hubPath: "/allied-health/psychotherapy" },
+  "social-work": { name: "Social Worker", shortName: "Social Work", color: "#E91E63", colorAccent: "#FCE4EC", hubPath: "/allied-health/social-work" },
+  addictions: { name: "Addictions Counsellor", shortName: "Addictions", color: "#795548", colorAccent: "#EFEBE9", hubPath: "/allied-health/addictions" },
+  "occupational-therapy": { name: "Occupational Therapist", shortName: "OT", color: "#4CAF50", colorAccent: "#E8F5E9", hubPath: "/allied-health/occupational-therapy" },
+  "physical-therapy": { name: "Physical Therapist", shortName: "PT", color: "#FF5722", colorAccent: "#FBE9E7", hubPath: "/allied-health/physical-therapy" },
 };
 
 const STUDY_TOOL_LINKS = [

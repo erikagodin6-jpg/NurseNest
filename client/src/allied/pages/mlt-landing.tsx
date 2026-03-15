@@ -25,7 +25,7 @@ const COUNTRY_CARDS = [
     totalQuestions: 120,
     timeLimit: 180,
     passScore: "65%",
-    href: "/mlt/canada/exam-prep",
+    href: "/allied-health/mlt/canada/exam-prep",
   },
   {
     country: "usa",
@@ -43,7 +43,7 @@ const COUNTRY_CARDS = [
     totalQuestions: 100,
     timeLimit: 150,
     passScore: "400/999",
-    href: "/mlt/usa/exam-prep",
+    href: "/allied-health/mlt/usa/exam-prep",
   },
 ];
 
@@ -123,7 +123,7 @@ export default function MltLandingPage() {
         title="MLT Exam Prep — CSMLS & ASCP Certification | NurseNest Allied"
         description="Prepare for your Medical Laboratory Technologist certification with practice questions, mock exams, and study tools covering all 16 lab disciplines. CSMLS (Canada) and ASCP (USA) exam tracks."
         keywords="MLT exam prep, CSMLS MLT practice questions, ASCP MLS exam prep, medical laboratory technologist, MLT certification, lab tech exam, hematology questions, clinical chemistry practice"
-        canonicalPath="/mlt"
+        canonicalPath="/allied-health/mlt"
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData, breadcrumbStructuredData]}
       />
@@ -329,10 +329,10 @@ export default function MltLandingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your MLT Exam Prep?</h2>
           <p className="text-gray-600 mb-8">Choose your country track and begin practicing with free sample questions today.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/mlt/canada/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-cta-canada">
+            <Link href="/allied-health/mlt/canada/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-cta-canada">
               🇨🇦 Start CSMLS Prep <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/mlt/usa/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors border border-purple-200" data-testid="button-cta-usa">
+            <Link href="/allied-health/mlt/usa/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors border border-purple-200" data-testid="button-cta-usa">
               🇺🇸 Start ASCP Prep <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -343,9 +343,9 @@ export default function MltLandingPage() {
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">MLT Career Overview →</Link>
-            <Link href="/mlt/canada/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-ca">Free CSMLS Practice Questions →</Link>
-            <Link href="/mlt/usa/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-us">Free ASCP Practice Questions →</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">MLT Career Overview →</Link>
+            <Link href="/allied-health/mlt/canada/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-ca">Free CSMLS Practice Questions →</Link>
+            <Link href="/allied-health/mlt/usa/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-us">Free ASCP Practice Questions →</Link>
           </div>
         </div>
       </section>

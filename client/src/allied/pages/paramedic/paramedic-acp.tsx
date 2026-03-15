@@ -35,7 +35,7 @@ export default function ParamedicACPPage() {
         title="ACP Exam Prep — Advanced Care Paramedic Practice Questions | NurseNest"
         description="Prepare for your Advanced Care Paramedic exam with ACLS/PALS mastery, 12-lead ECG drills, advanced pharmacology, and blueprint-weighted mock exams. 600+ word clinical rationales on every question."
         keywords="advanced care paramedic exam, ACP exam prep, ACP practice questions, paramedic ACLS, ACP certification canada, advanced paramedic study guide, 12-lead ECG paramedic"
-        canonicalPath="/paramedic/acp"
+        canonicalPath="/allied-health/paramedic/acp"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",

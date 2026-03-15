@@ -16,11 +16,11 @@ function ExamList() {
       <AlliedSEO
         title="Pharmacy Technician Practice Exams - Timed PTCB Simulations"
         description="Take timed pharmacy technician practice exams that simulate real PTCB testing conditions. Get instant score reports with detailed rationales for every question."
-        canonicalPath="/pharmacy-technician/exams"
+        canonicalPath="/allied-health/pharmacy-technician/exams"
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-exams-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Practice Exams</span>
         </div>
@@ -43,10 +43,10 @@ function ExamList() {
                   <span>Pass: {exam.passingScore}%</span>
                 </div>
                 <div className="flex gap-2">
-                  <Link href={`/pharmacy-technician/exams/${exam.slug}?mode=timed`} className="flex-1 text-center px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 transition-colors" data-testid={`button-start-timed-${exam.slug}`}>
+                  <Link href={`/allied-health/pharmacy-technician/exams/${exam.slug}?mode=timed`} className="flex-1 text-center px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 transition-colors" data-testid={`button-start-timed-${exam.slug}`}>
                     Timed Mode
                   </Link>
-                  <Link href={`/pharmacy-technician/exams/${exam.slug}?mode=tutor`} className="flex-1 text-center px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium border border-green-200 hover:bg-green-100 transition-colors" data-testid={`button-start-tutor-${exam.slug}`}>
+                  <Link href={`/allied-health/pharmacy-technician/exams/${exam.slug}?mode=tutor`} className="flex-1 text-center px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium border border-green-200 hover:bg-green-100 transition-colors" data-testid={`button-start-tutor-${exam.slug}`}>
                     Tutor Mode
                   </Link>
                 </div>
@@ -132,7 +132,7 @@ function ExamTaker() {
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Exam Not Found</h1>
         <p className="text-gray-500 mb-6">This exam could not be loaded. It may have been removed or is unavailable.</p>
-        <Link href="/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
+        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
       </div>
     );
   }
@@ -147,7 +147,7 @@ function ExamTaker() {
 
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="exam-results">
-        <AlliedSEO title={`${exam.title} Results`} description="Your exam results" canonicalPath={`/pharmacy-technician/exams/${slug}`} />
+        <AlliedSEO title={`${exam.title} Results`} description="Your exam results" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Exam Results</h1>
         <div className={`rounded-2xl p-8 text-center mb-8 ${passed ? "bg-green-50 border-2 border-green-200" : "bg-red-50 border-2 border-red-200"}`}>
           <div className={`text-5xl font-bold mb-2 ${passed ? "text-green-700" : "text-red-700"}`} data-testid="text-score">{percent}%</div>
@@ -179,11 +179,11 @@ function ExamTaker() {
             Review Answers
           </button>
           {attemptId && (
-            <Link href={`/pharmacy-technician/review/${attemptId}`} className="flex-1 text-center px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-medium border border-blue-200 hover:bg-blue-100" data-testid="button-full-review">
+            <Link href={`/allied-health/pharmacy-technician/review/${attemptId}`} className="flex-1 text-center px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-medium border border-blue-200 hover:bg-blue-100" data-testid="button-full-review">
               Full Review
             </Link>
           )}
-          <Link href="/pharmacy-technician/exams" className="flex-1 text-center px-4 py-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back-exams">
+          <Link href="/allied-health/pharmacy-technician/exams" className="flex-1 text-center px-4 py-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back-exams">
             Back to Exams
           </Link>
         </div>
@@ -194,7 +194,7 @@ function ExamTaker() {
   if (status === "review") {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="exam-review">
-        <AlliedSEO title={`${exam.title} Review`} description="Review your exam answers" canonicalPath={`/pharmacy-technician/exams/${slug}`} />
+        <AlliedSEO title={`${exam.title} Review`} description="Review your exam answers" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Review Answers</h1>
           <button onClick={() => setStatus("submitted")} className="text-sm text-green-600 font-medium hover:underline" data-testid="button-back-results">← Back to Results</button>
@@ -224,7 +224,7 @@ function ExamTaker() {
                   <p className="text-sm text-blue-900">{q.rationale}</p>
                 </div>
                 {!isCorrect && q.lessonSlug && (
-                  <Link href={`/pharmacy-technician/lessons/${q.lessonSlug}`} className="inline-flex items-center gap-1 mt-3 text-sm text-green-600 font-medium hover:underline" data-testid={`link-lesson-${q.lessonSlug}`}>
+                  <Link href={`/allied-health/pharmacy-technician/lessons/${q.lessonSlug}`} className="inline-flex items-center gap-1 mt-3 text-sm text-green-600 font-medium hover:underline" data-testid={`link-lesson-${q.lessonSlug}`}>
                     <BookOpen className="w-3.5 h-3.5" /> Study this topic →
                   </Link>
                 )}
@@ -238,7 +238,7 @@ function ExamTaker() {
 
   return (
     <>
-      <AlliedSEO title={`${exam.title} - Taking Exam`} description="Taking pharmacy technician practice exam" canonicalPath={`/pharmacy-technician/exams/${slug}`} />
+      <AlliedSEO title={`${exam.title} - Taking Exam`} description="Taking pharmacy technician practice exam" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4" data-testid="exam-taking">
         <div className="flex items-center justify-between mb-4 bg-white rounded-xl border border-gray-100 px-4 py-3 sticky top-16 z-40">
           <div className="flex items-center gap-4">

@@ -40,14 +40,14 @@ export default function ParamedicLandingPage() {
   const { region, isCanada, isUS } = useParamedicRegion();
 
   const caExamTracks = [
-    { title: "PCP Students", description: "Primary Care Paramedic learners preparing for COPR or provincial exams in Canada.", examNames: ["COPR", "Provincial PCP"], href: "/paramedic/pcp", color: "#7C3AED", icon: Ambulance },
-    { title: "ACP Candidates", description: "Advanced Care Paramedics studying ACLS, PALS, pharmacology, and 12-lead interpretation.", examNames: ["ACP Provincial", "COPR ACP"], href: "/paramedic/acp", color: "#0D9488", icon: Heart },
+    { title: "PCP Students", description: "Primary Care Paramedic learners preparing for COPR or provincial exams in Canada.", examNames: ["COPR", "Provincial PCP"], href: "/allied-health/paramedic/pcp", color: "#7C3AED", icon: Ambulance },
+    { title: "ACP Candidates", description: "Advanced Care Paramedics studying ACLS, PALS, pharmacology, and 12-lead interpretation.", examNames: ["ACP Provincial", "COPR ACP"], href: "/allied-health/paramedic/acp", color: "#0D9488", icon: Heart },
   ];
 
   const usExamTracks = [
-    { title: "EMT-Basic", description: "Entry-level emergency medical technicians preparing for the NREMT EMT cognitive exam.", examNames: ["NREMT EMT"], href: "/paramedic/nremt", color: "#2563EB", icon: Shield },
-    { title: "EMT-Advanced", description: "Advanced EMTs bridging to paramedic level with expanded scope of practice.", examNames: ["NREMT AEMT"], href: "/paramedic/nremt", color: "#D97706", icon: TrendingUp },
-    { title: "NREMT Paramedic", description: "US-based paramedic students preparing for the National Registry cognitive and psychomotor exams.", examNames: ["NREMT Paramedic"], href: "/paramedic/nremt", color: "#2563EB", icon: Shield },
+    { title: "EMT-Basic", description: "Entry-level emergency medical technicians preparing for the NREMT EMT cognitive exam.", examNames: ["NREMT EMT"], href: "/allied-health/paramedic/nremt", color: "#2563EB", icon: Shield },
+    { title: "EMT-Advanced", description: "Advanced EMTs bridging to paramedic level with expanded scope of practice.", examNames: ["NREMT AEMT"], href: "/allied-health/paramedic/nremt", color: "#D97706", icon: TrendingUp },
+    { title: "NREMT Paramedic", description: "US-based paramedic students preparing for the National Registry cognitive and psychomotor exams.", examNames: ["NREMT Paramedic"], href: "/allied-health/paramedic/nremt", color: "#2563EB", icon: Shield },
   ];
 
   const examTracks = isCanada ? caExamTracks : usExamTracks;
@@ -58,7 +58,7 @@ export default function ParamedicLandingPage() {
         title="Paramedic Exam Prep — PCP, ACP & NREMT Practice Questions | NurseNest"
         description="Prepare for your paramedic certification exam with 500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams. Covers NREMT, COPR, PCP, and ACP exam tracks."
         keywords="paramedic exam prep, NREMT practice questions, PCP exam canada, ACP exam, paramedic practice test, paramedic flashcards, paramedic study guide, EMS certification"
-        canonicalPath="/paramedic"
+        canonicalPath="/allied-health/paramedic"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
@@ -77,7 +77,7 @@ export default function ParamedicLandingPage() {
           : "Adaptive question banks, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for EMT, AEMT, and NREMT Paramedic learners who need more than just a question bank."
         }
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "Explore Study Tools", href: "/paramedic/lessons" }}
+        secondaryCTA={{ label: "Explore Study Tools", href: "/allied-health/paramedic/lessons" }}
       />
 
       <section className="py-6 bg-white border-b border-gray-100" data-testid="section-region-selector">
@@ -154,12 +154,12 @@ export default function ParamedicLandingPage() {
                 key={tc.title}
                 title={tc.title}
                 questionCount={tc.questionCount}
-                href={`/paramedic/questions?category=${encodeURIComponent(tc.title)}`}
+                href={`/allied-health/paramedic/questions?category=${encodeURIComponent(tc.title)}`}
               />
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href="/paramedic/questions" className="inline-flex items-center gap-2 text-teal-600 font-semibold hover:text-teal-700 text-sm" data-testid="link-browse-all-topics">
+            <Link href="/allied-health/paramedic/questions" className="inline-flex items-center gap-2 text-teal-600 font-semibold hover:text-teal-700 text-sm" data-testid="link-browse-all-topics">
               Browse all question topics <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -193,14 +193,14 @@ export default function ParamedicLandingPage() {
                   title="PCP Exam Prep (Canada)"
                   description="Primary Care Paramedic certification prep aligned with COPR and provincial licensing standards."
                   features={["COPR blueprint alignment", "Canadian pharmacology & protocols", "Provincial scope-of-practice focus", "BLS and primary care scenarios"]}
-                  href="/paramedic/pcp"
+                  href="/allied-health/paramedic/pcp"
                   badge="Canada"
                 />
                 <ExamPathCard
                   title="ACP Exam Prep (Canada)"
                   description="Advanced Care Paramedic study materials covering ACLS, PALS, advanced pharmacology, and 12-lead ECG."
                   features={["Advanced cardiac & pharmacology", "12-lead ECG interpretation drills", "ACLS/PALS algorithm mastery", "Critical care transport scenarios"]}
-                  href="/paramedic/acp"
+                  href="/allied-health/paramedic/acp"
                   badge="Advanced"
                 />
               </>
@@ -210,21 +210,21 @@ export default function ParamedicLandingPage() {
                   title="EMT-Basic Exam"
                   description="Entry-level EMT certification prep with US protocols and foundational patient assessment."
                   features={["NREMT EMT blueprint alignment", "BLS protocols & patient assessment", "Foundational pharmacology", "Trauma & medical scenarios"]}
-                  href="/paramedic/nremt"
+                  href="/allied-health/paramedic/nremt"
                   badge="Entry Level"
                 />
                 <ExamPathCard
                   title="EMT-Advanced / AEMT"
                   description="Advanced EMT certification prep bridging to paramedic-level interventions."
                   features={["Expanded scope of practice", "IV access & fluid therapy", "Advanced airway management", "Medication administration"]}
-                  href="/paramedic/nremt"
+                  href="/allied-health/paramedic/nremt"
                   badge="Intermediate"
                 />
                 <ExamPathCard
                   title="NREMT Paramedic"
                   description="National Registry paramedic cognitive exam preparation with US-focused protocols."
                   features={["NREMT cognitive exam blueprint", "CAT-style adaptive simulation", "US pharmacology & protocols", "Psychomotor skills reference"]}
-                  href="/paramedic/nremt"
+                  href="/allied-health/paramedic/nremt"
                   badge="Advanced"
                 />
               </>

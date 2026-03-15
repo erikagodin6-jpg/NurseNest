@@ -4,12 +4,12 @@ import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCirc
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const TOPIC_CARDS = [
-  { title: "Pharmacology & Drug Classifications", slug: "drug-classes", desc: "Top 200 drugs, brand/generic names, drug classes, mechanisms of action, and therapeutic uses", icon: Pill, href: "/pharmacy-technician/drug-classes" },
-  { title: "Dosage Calculations", slug: "dosage-calculations", desc: "Unit conversions, concentration calculations, drip rates, pediatric dosing, and compounding math", icon: Target, href: "/pharmacy-technician/study-guide?topic=dosage-calculations" },
-  { title: "Pharmacy Law & Regulations", slug: "pharmacy-law", desc: "DEA schedules, HIPAA, state and federal regulations, record keeping, and controlled substances", icon: FileText, href: "/pharmacy-technician/study-guide?topic=pharmacy-law" },
-  { title: "Sterile & Non-Sterile Compounding", slug: "compounding", desc: "USP 795/797/800, beyond-use dating, aseptic technique, hazardous drug handling", icon: Sparkles, href: "/pharmacy-technician/study-guide?topic=compounding" },
-  { title: "Prescription Processing", slug: "prescription-processing", desc: "Interpreting prescriptions, sig codes, DAW codes, insurance billing, prior authorizations", icon: BookOpen, href: "/pharmacy-technician/study-guide?topic=prescription-processing" },
-  { title: "Patient Safety & Quality Assurance", slug: "patient-safety", desc: "Medication errors, look-alike/sound-alike drugs, tall man lettering, adverse effects reporting", icon: CheckCircle2, href: "/pharmacy-technician/study-guide?topic=patient-safety" },
+  { title: "Pharmacology & Drug Classifications", slug: "drug-classes", desc: "Top 200 drugs, brand/generic names, drug classes, mechanisms of action, and therapeutic uses", icon: Pill, href: "/allied-health/pharmacy-technician/drug-classes" },
+  { title: "Dosage Calculations", slug: "dosage-calculations", desc: "Unit conversions, concentration calculations, drip rates, pediatric dosing, and compounding math", icon: Target, href: "/allied-health/pharmacy-technician/study-guide?topic=dosage-calculations" },
+  { title: "Pharmacy Law & Regulations", slug: "pharmacy-law", desc: "DEA schedules, HIPAA, state and federal regulations, record keeping, and controlled substances", icon: FileText, href: "/allied-health/pharmacy-technician/study-guide?topic=pharmacy-law" },
+  { title: "Sterile & Non-Sterile Compounding", slug: "compounding", desc: "USP 795/797/800, beyond-use dating, aseptic technique, hazardous drug handling", icon: Sparkles, href: "/allied-health/pharmacy-technician/study-guide?topic=compounding" },
+  { title: "Prescription Processing", slug: "prescription-processing", desc: "Interpreting prescriptions, sig codes, DAW codes, insurance billing, prior authorizations", icon: BookOpen, href: "/allied-health/pharmacy-technician/study-guide?topic=prescription-processing" },
+  { title: "Patient Safety & Quality Assurance", slug: "patient-safety", desc: "Medication errors, look-alike/sound-alike drugs, tall man lettering, adverse effects reporting", icon: CheckCircle2, href: "/allied-health/pharmacy-technician/study-guide?topic=patient-safety" },
 ];
 
 const FAQ_DATA = [
@@ -34,7 +34,7 @@ export default function PharmtechHubPage() {
         title="Pharmacy Technician Exam Prep - PTCB & ExCPT Study Resources"
         description="Prepare for the PTCB and ExCPT pharmacy technician certification exams with 200+ practice questions, flashcard decks, full-length practice exams, and a comprehensive study guide. Free to start."
         keywords="pharmacy technician exam prep, PTCB exam, ExCPT exam, pharmacy tech practice questions, pharmacy technician certification, pharmacy tech study guide, pharmacy tech flashcards"
-        canonicalPath="/pharmacy-technician"
+        canonicalPath="/allied-health/pharmacy-technician"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
@@ -84,13 +84,13 @@ export default function PharmtechHubPage() {
                 Master every domain of the PTCB and ExCPT exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-learning">
+                <Link href="/allied-health/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-learning">
                   <GraduationCap className="w-4 h-4" /> Start Learning Free
                 </Link>
-                <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">
+                <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">
                   <BookOpen className="w-4 h-4" /> Practice Questions
                 </Link>
-                <Link href="/pharmacy-technician/practice-exam-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-exam-questions">
+                <Link href="/allied-health/pharmacy-technician/practice-exam-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-exam-questions">
                   <FileText className="w-4 h-4" /> Practice Exam Questions
                 </Link>
               </div>
@@ -140,7 +140,7 @@ export default function PharmtechHubPage() {
                 <p className="text-sm text-gray-500 mt-1">Create a personalized study schedule for your PTCB or ExCPT exam</p>
               </div>
               <Link
-                href="/pharmacy-technician/study-plan"
+                href="/allied-health/pharmacy-technician/study-plan"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-sm transition-all"
                 data-testid="button-create-study-plan"
               >
@@ -148,7 +148,7 @@ export default function PharmtechHubPage() {
               </Link>
             </div>
             <div className="grid sm:grid-cols-3 gap-3">
-              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-crash">
+              <Link href="/allied-health/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-crash">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
@@ -157,7 +157,7 @@ export default function PharmtechHubPage() {
                   <div className="text-xs text-gray-500">Intensive review</div>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-balanced">
+              <Link href="/allied-health/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-balanced">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
                   <Target className="w-4 h-4 text-white" />
                 </div>
@@ -166,7 +166,7 @@ export default function PharmtechHubPage() {
                   <div className="text-xs text-gray-500">Steady coverage</div>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-comprehensive">
+              <Link href="/allied-health/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-comprehensive">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
                   <GraduationCap className="w-4 h-4 text-white" />
                 </div>
@@ -182,7 +182,7 @@ export default function PharmtechHubPage() {
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Link href="/pharmacy-technician/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-flashcards">
+              <Link href="/allied-health/pharmacy-technician/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-green-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
                 <p className="text-sm text-gray-500 mb-4">Master key pharmacy concepts with spaced-repetition flashcards organized by topic.</p>
@@ -190,7 +190,7 @@ export default function PharmtechHubPage() {
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/pharmacy-technician/exams" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-exams">
+              <Link href="/allied-health/pharmacy-technician/exams" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-green-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Exams</h3>
                 <p className="text-sm text-gray-500 mb-4">Take timed practice exams that simulate real PTCB testing conditions with score reports.</p>
@@ -198,7 +198,7 @@ export default function PharmtechHubPage() {
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/pharmacy-technician/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-study-guide">
+              <Link href="/allied-health/pharmacy-technician/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-green-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
                 <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every pharmacy technician exam topic in detail.</p>
@@ -206,7 +206,7 @@ export default function PharmtechHubPage() {
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <Link href="/pharmacy-technician/adaptive-practice" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-adaptive-practice">
+              <Link href="/allied-health/pharmacy-technician/adaptive-practice" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-adaptive-practice">
                 <Zap className="w-8 h-8 text-green-600 mb-4" />
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Adaptive Practice</h3>
                 <p className="text-sm text-gray-500 mb-4">AI-powered practice that adapts to your level with mastery tracking and weak area recommendations.</p>
@@ -247,7 +247,7 @@ export default function PharmtechHubPage() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Studying?</h2>
             <p className="text-green-100 mb-8">Join thousands of pharmacy technician students using NurseNest Allied to pass their certification exams.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
+              <Link href="/allied-health/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free
               </Link>
               <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-pricing">

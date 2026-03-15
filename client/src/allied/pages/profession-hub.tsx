@@ -47,7 +47,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
       { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://www.nursenest.ca/allied-health/careers" },
-      { "@type": "ListItem", "position": 3, "name": `${data.shortName} Exam Prep`, "item": `https://www.nursenest.ca/allied-health${data.seo.canonicalPath}` },
+      { "@type": "ListItem", "position": 3, "name": `${data.shortName} Exam Prep`, "item": `https://www.nursenest.ca${data.seo.canonicalPath}` },
     ],
   };
 

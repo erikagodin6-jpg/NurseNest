@@ -85,10 +85,10 @@ export default function AlliedHomePage() {
               Adaptive test banks, blueprint-weighted mock exams, AI study tools, and readiness tracking for RRT, Paramedic, Pharmacy Tech, MLT, and Diagnostic Imaging certifications.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
+              <Link href="/allied-health/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
                 Explore Careers <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/pricing" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-all border border-teal-200" data-testid="button-view-pricing">
+              <Link href="/allied-health/pricing" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-all border border-teal-200" data-testid="button-view-pricing">
                 View Pricing
               </Link>
             </div>
@@ -186,10 +186,10 @@ export default function AlliedHomePage() {
                   Institutional licensing gives your program cohort-wide access to test banks, mock exams, readiness tracking, and faculty analytics. Volume pricing available for programs of all sizes.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/institutions" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 transition-colors" data-testid="button-institutional-learn">
+                  <Link href="/allied-health/institutions" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 transition-colors" data-testid="button-institutional-learn">
                     Learn More <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link href="/institutions/faq" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-xl text-sm font-semibold hover:bg-white/20 transition-colors" data-testid="button-institutional-faq">
+                  <Link href="/allied-health/institutions/faq" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-xl text-sm font-semibold hover:bg-white/20 transition-colors" data-testid="button-institutional-faq">
                     Institutional FAQ
                   </Link>
                 </div>

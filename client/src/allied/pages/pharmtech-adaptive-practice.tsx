@@ -328,7 +328,7 @@ export default function PharmtechAdaptivePractice() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10" data-testid="pharmtech-adaptive-setup">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/pharmacy-technician" className="hover:text-green-600">Pharmacy Technician</Link>
+        <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Technician</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-green-700 font-medium">Adaptive Practice</span>
       </div>

@@ -69,7 +69,7 @@ export default function MltExamResults() {
         <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
         <h2 className="text-xl font-bold text-gray-900 mb-2">Results Unavailable</h2>
         <p className="text-gray-600 mb-4">{error || "No results found for this session."}</p>
-        <button onClick={() => setLocation("/mlt/exams")} className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="button-back-to-hub-results">
+        <button onClick={() => setLocation("/allied-health/mlt/exams")} className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="button-back-to-hub-results">
           Back to Exam Hub
         </button>
       </div>
@@ -252,7 +252,7 @@ export default function MltExamResults() {
 
       <div className="flex items-center justify-center gap-4">
         <button
-          onClick={() => setLocation("/mlt/exams")}
+          onClick={() => setLocation("/allied-health/mlt/exams")}
           className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200"
           data-testid="button-back-to-hub-from-results"
         >
@@ -260,9 +260,9 @@ export default function MltExamResults() {
         </button>
         <button
           onClick={() => {
-            if (report.mode === "usa_cat") setLocation("/mlt/exam/usa_cat?country=US");
-            else if (report.mode === "canada_realistic") setLocation("/mlt/exam/canada_realistic?country=CA");
-            else setLocation("/mlt/exams");
+            if (report.mode === "usa_cat") setLocation("/allied-health/mlt/exam/usa_cat?country=US");
+            else if (report.mode === "canada_realistic") setLocation("/allied-health/mlt/exam/canada_realistic?country=CA");
+            else setLocation("/allied-health/mlt/exams");
           }}
           className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700"
           data-testid="button-retake-exam"

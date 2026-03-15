@@ -154,8 +154,8 @@ export function ParamedicTopicPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: data.title, href: `/paramedic/topic/${data.slug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: data.title, href: `/allied-health/paramedic/topic/${data.slug}` },
   ];
 
   const schemas = buildStructuredData("topic", data, breadcrumbs);
@@ -165,7 +165,7 @@ export function ParamedicTopicPage() {
       <AlliedSEO
         title={data.seoTitle || data.title}
         description={data.metaDescription || ""}
-        canonicalPath={`/paramedic/topic/${data.slug}`}
+        canonicalPath={`/allied-health/paramedic/topic/${data.slug}`}
         structuredData={schemas[0]}
         additionalStructuredData={schemas.slice(1)}
       />
@@ -197,8 +197,8 @@ export function ParamedicCategoryPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: data.title, href: `/paramedic/category/${data.slug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: data.title, href: `/allied-health/paramedic/category/${data.slug}` },
   ];
 
   const schemas = buildStructuredData("category", data, breadcrumbs);
@@ -208,7 +208,7 @@ export function ParamedicCategoryPage() {
       <AlliedSEO
         title={data.seoTitle || data.title}
         description={data.metaDescription || data.description || ""}
-        canonicalPath={`/paramedic/category/${data.slug}`}
+        canonicalPath={`/allied-health/paramedic/category/${data.slug}`}
         structuredData={schemas[0]}
         additionalStructuredData={schemas.slice(1)}
       />
@@ -233,9 +233,9 @@ export function ParamedicGlossaryPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: "Glossary", href: "/paramedic/glossary" },
-    { label: data.term, href: `/paramedic/glossary/${data.slug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: "Glossary", href: "/allied-health/paramedic/glossary" },
+    { label: data.term, href: `/allied-health/paramedic/glossary/${data.slug}` },
   ];
 
   const schemas = buildStructuredData("glossary", data, breadcrumbs);
@@ -245,7 +245,7 @@ export function ParamedicGlossaryPage() {
       <AlliedSEO
         title={data.seoTitle || `${data.term} - Paramedic Glossary`}
         description={data.metaDescription || data.definition}
-        canonicalPath={`/paramedic/glossary/${data.slug}`}
+        canonicalPath={`/allied-health/paramedic/glossary/${data.slug}`}
         structuredData={schemas[0]}
         additionalStructuredData={schemas.slice(1)}
       />
@@ -286,8 +286,8 @@ export function ParamedicComparisonPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: data.title, href: `/paramedic/compare/${data.slug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: data.title, href: `/allied-health/paramedic/compare/${data.slug}` },
   ];
 
   const schemas = buildStructuredData("comparison", data, breadcrumbs);
@@ -297,7 +297,7 @@ export function ParamedicComparisonPage() {
       <AlliedSEO
         title={data.seoTitle || data.title}
         description={data.metaDescription || data.summary || ""}
-        canonicalPath={`/paramedic/compare/${data.slug}`}
+        canonicalPath={`/allied-health/paramedic/compare/${data.slug}`}
         structuredData={schemas[0]}
         additionalStructuredData={schemas.slice(1)}
       />
@@ -323,9 +323,9 @@ export function ParamedicStudyGuidePage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: "Study Guides", href: "/paramedic/study-guide" },
-    { label: data.title, href: `/paramedic/study-guide/${data.slug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: "Study Guides", href: "/allied-health/paramedic/study-guide" },
+    { label: data.title, href: `/allied-health/paramedic/study-guide/${data.slug}` },
   ];
 
   const schemas = buildStructuredData("study-guide", data, breadcrumbs);
@@ -335,7 +335,7 @@ export function ParamedicStudyGuidePage() {
       <AlliedSEO
         title={data.seoTitle || data.title}
         description={data.metaDescription || ""}
-        canonicalPath={`/paramedic/study-guide/${data.slug}`}
+        canonicalPath={`/allied-health/paramedic/study-guide/${data.slug}`}
         structuredData={schemas[0]}
         additionalStructuredData={schemas.slice(1)}
       />

@@ -20,11 +20,11 @@ const TAB_CONFIG: { id: ContentTab; label: string; icon: any; titleField: string
 ];
 
 const URL_PREFIXES: Record<ContentTab, string> = {
-  topic: "/paramedic/topic",
-  category: "/paramedic/category",
-  glossary: "/paramedic/glossary",
-  comparison: "/paramedic/compare",
-  "study-guide": "/paramedic/study-guide",
+  topic: "/allied-health/paramedic/topic",
+  category: "/allied-health/paramedic/category",
+  glossary: "/allied-health/paramedic/glossary",
+  comparison: "/allied-health/paramedic/compare",
+  "study-guide": "/allied-health/paramedic/study-guide",
 };
 
 async function apiFetch(url: string, opts?: RequestInit) {

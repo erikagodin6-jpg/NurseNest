@@ -174,7 +174,7 @@ export default function ParamedicQuestionSeoPage() {
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
         <p className="text-gray-600 mb-4">The paramedic question topic you're looking for doesn't exist.</p>
-        <Link href="/paramedic/questions" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-to-topics">
+        <Link href="/allied-health/paramedic/questions" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-to-topics">
           Browse All Topics
         </Link>
       </div>
@@ -193,9 +193,9 @@ export default function ParamedicQuestionSeoPage() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Paramedic", href: "/paramedic" },
-    { label: "Practice Questions", href: "/paramedic/questions" },
-    { label: topicTitle, href: `/paramedic/questions/${data.topicSlug}` },
+    { label: "Paramedic", href: "/allied-health/paramedic" },
+    { label: "Practice Questions", href: "/allied-health/paramedic/questions" },
+    { label: topicTitle, href: `/allied-health/paramedic/questions/${data.topicSlug}` },
   ];
 
   const structuredData = [
@@ -241,7 +241,7 @@ export default function ParamedicQuestionSeoPage() {
         title={`${topicTitle} — Paramedic Practice Questions | NurseNest`}
         description={`Practice ${data.totalQuestions} paramedic exam questions on ${topicTitle}. Part of ${data.category} with 600+ word clinical rationales. Free sample questions and full question bank access.`}
         keywords={`${data.topic} paramedic questions, ${data.topic} practice test, ${data.category} exam questions, paramedic ${data.topic}, NREMT ${data.topic}`}
-        canonicalPath={`/paramedic/questions/${data.topicSlug}`}
+        canonicalPath={`/allied-health/paramedic/questions/${data.topicSlug}`}
         structuredData={structuredData[0]}
         additionalStructuredData={structuredData.slice(1)}
       />
@@ -251,7 +251,7 @@ export default function ParamedicQuestionSeoPage() {
       <section className="bg-gradient-to-br from-purple-50 via-white to-teal-50 border-b border-gray-100 py-10 px-4" data-testid="section-topic-hero">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-2 mb-4">
-            <Link href={`/paramedic/questions`} className="text-xs text-teal-600 hover:text-teal-700 font-medium" data-testid="link-category-breadcrumb">
+            <Link href={`/allied-health/paramedic/questions`} className="text-xs text-teal-600 hover:text-teal-700 font-medium" data-testid="link-category-breadcrumb">
               {data.category}
             </Link>
           </div>
@@ -328,7 +328,7 @@ export default function ParamedicQuestionSeoPage() {
               {data.relatedTopics.map(rt => (
                 <Link
                   key={rt.topicSlug}
-                  href={`/paramedic/questions/${rt.topicSlug}`}
+                  href={`/allied-health/paramedic/questions/${rt.topicSlug}`}
                   className="group flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all"
                   data-testid={`link-related-${rt.topicSlug}`}
                 >
@@ -349,21 +349,21 @@ export default function ParamedicQuestionSeoPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-lg font-bold text-gray-900 mb-4">More Paramedic Study Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/paramedic/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-lessons">
+            <Link href="/allied-health/paramedic/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-lessons">
               <BookOpen className="w-5 h-5 text-teal-500" />
               <div>
                 <h3 className="text-sm font-semibold text-gray-900">Lessons</h3>
                 <p className="text-xs text-gray-500">In-depth clinical guides</p>
               </div>
             </Link>
-            <Link href="/paramedic/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-exams">
+            <Link href="/allied-health/paramedic/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-exams">
               <FileText className="w-5 h-5 text-teal-500" />
               <div>
                 <h3 className="text-sm font-semibold text-gray-900">Practice Exams</h3>
                 <p className="text-xs text-gray-500">Blueprint-weighted mocks</p>
               </div>
             </Link>
-            <Link href="/paramedic/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-all-topics">
+            <Link href="/allied-health/paramedic/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-all-topics">
               <Target className="w-5 h-5 text-teal-500" />
               <div>
                 <h3 className="text-sm font-semibold text-gray-900">All Topics</h3>
@@ -378,7 +378,7 @@ export default function ParamedicQuestionSeoPage() {
         title={`Master ${topicTitle} for Your Paramedic Exam`}
         subtitle="Start with a free diagnostic to see where you stand, then follow your personalized study plan."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View All Topics", href: "/paramedic/questions" }}
+        secondaryCTA={{ label: "View All Topics", href: "/allied-health/paramedic/questions" }}
       />
     </div>
   );

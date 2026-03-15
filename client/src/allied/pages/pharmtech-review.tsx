@@ -34,7 +34,7 @@ export default function PharmtechReviewPage() {
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Review Unavailable</h1>
         <p className="text-gray-500 mb-6">{error || "This exam review could not be loaded."}</p>
-        <Link href="/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
+        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
       </div>
     );
   }
@@ -75,20 +75,20 @@ export default function PharmtechReviewPage() {
       <AlliedSEO
         title={`${exam.title} - Exam Review`}
         description="Review your pharmacy technician exam attempt with detailed rationales"
-        canonicalPath={`/pharmacy-technician/review/${attemptId}`}
+        canonicalPath={`/allied-health/pharmacy-technician/review/${attemptId}`}
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-review-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/pharmacy-technician/exams" className="hover:text-teal-600">Practice Exams</Link>
+          <Link href="/allied-health/pharmacy-technician/exams" className="hover:text-teal-600">Practice Exams</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Review</span>
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900" data-testid="text-review-title">{exam.title} — Review</h1>
-          <Link href="/pharmacy-technician/exams" className="flex items-center gap-1 text-sm text-green-600 font-medium hover:underline" data-testid="link-back-exams">
+          <Link href="/allied-health/pharmacy-technician/exams" className="flex items-center gap-1 text-sm text-green-600 font-medium hover:underline" data-testid="link-back-exams">
             <ArrowLeft className="w-4 h-4" /> Back to Exams
           </Link>
         </div>
@@ -149,7 +149,7 @@ export default function PharmtechReviewPage() {
                 {recommendedLessons.map(lesson => (
                   <Link
                     key={lesson.slug}
-                    href={`/pharmacy-technician/lessons/${lesson.slug}`}
+                    href={`/allied-health/pharmacy-technician/lessons/${lesson.slug}`}
                     className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-3 hover:border-green-200 hover:shadow-sm transition-all"
                     data-testid={`link-recommended-${lesson.slug}`}
                   >
@@ -205,7 +205,7 @@ export default function PharmtechReviewPage() {
 
                 {!isCorrect && q.lessonSlug && lessonMap[q.lessonSlug] && (
                   <Link
-                    href={`/pharmacy-technician/lessons/${q.lessonSlug}`}
+                    href={`/allied-health/pharmacy-technician/lessons/${q.lessonSlug}`}
                     className="inline-flex items-center gap-1.5 mt-3 text-sm text-green-600 font-medium hover:underline"
                     data-testid={`link-lesson-review-${q.lessonSlug}`}
                   >
@@ -218,10 +218,10 @@ export default function PharmtechReviewPage() {
         </div>
 
         <div className="mt-8 flex gap-3">
-          <Link href="/pharmacy-technician/exams" className="flex-1 text-center px-4 py-3 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-back-to-exams">
+          <Link href="/allied-health/pharmacy-technician/exams" className="flex-1 text-center px-4 py-3 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-back-to-exams">
             Back to Exams
           </Link>
-          <Link href="/pharmacy-technician/practice-questions" className="flex-1 text-center px-4 py-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-practice-more">
+          <Link href="/allied-health/pharmacy-technician/practice-questions" className="flex-1 text-center px-4 py-3 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-practice-more">
             Practice Questions
           </Link>
         </div>

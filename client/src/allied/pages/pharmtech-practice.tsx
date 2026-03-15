@@ -66,11 +66,11 @@ export default function PharmtechPracticePage() {
         title="Pharmacy Technician Practice Questions - PTCB Prep"
         description="Practice pharmacy technician certification questions with detailed rationales. Filter by category and difficulty. Free to start with 10 questions."
         keywords="pharmacy technician practice questions, PTCB practice questions, pharmacy tech exam questions, ExCPT practice test"
-        canonicalPath="/pharmacy-technician/practice-questions"
+        canonicalPath="/allied-health/pharmacy-technician/practice-questions"
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-practice-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Practice Questions</span>
         </div>

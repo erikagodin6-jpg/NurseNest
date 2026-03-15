@@ -102,7 +102,7 @@ export default function MltCanadaExam() {
       setAnswers((prev) => ({ ...prev, [currentQuestion.id]: selectedAnswer }));
 
       if (data.completed) {
-        setLocation(`/mlt/exam/results/${session.id}`);
+        setLocation(`/allied-health/mlt/exam/results/${session.id}`);
         return;
       }
 
@@ -155,7 +155,7 @@ export default function MltCanadaExam() {
       const res = await fetch(`/api/mlt/exam/${session.id}/complete`, { method: "POST" });
       const data = await res.json();
       if (res.ok) {
-        setLocation(`/mlt/exam/results/${session.id}`);
+        setLocation(`/allied-health/mlt/exam/results/${session.id}`);
       }
     } catch (e: any) {
       setError(e.message);
@@ -186,7 +186,7 @@ export default function MltCanadaExam() {
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
         <h2 className="text-xl font-bold text-gray-900 mb-2">Exam Error</h2>
         <p className="text-gray-600 mb-4">{error}</p>
-        <button onClick={() => setLocation("/mlt/exams")} className="px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700" data-testid="button-back-to-hub">
+        <button onClick={() => setLocation("/allied-health/mlt/exams")} className="px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700" data-testid="button-back-to-hub">
           Back to Exam Hub
         </button>
       </div>

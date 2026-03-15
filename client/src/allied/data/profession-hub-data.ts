@@ -52,7 +52,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "RRT Exam Prep — Respiratory Therapy NBRC TMC & CSE | NurseNest Allied",
       description: "Prepare for your respiratory therapy certification with adaptive practice questions, ventilator simulators, ABG interpretation tools, and blueprint-weighted mock exams for NBRC TMC and CSE.",
       keywords: "RRT exam prep, respiratory therapy exam, NBRC TMC practice questions, respiratory therapist study guide, RRT mock exam, CSE exam prep, ventilator management, ABG interpretation, respiratory therapy certification, CBRC exam",
-      canonicalPath: "/rrt",
+      canonicalPath: "/allied-health/rrt",
     },
     examInfo: {
       examNames: ["NBRC TMC", "NBRC CSE", "CBRC"],
@@ -114,7 +114,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Social Work Exam Prep — ASWB Clinical, Masters & Advanced | NurseNest Allied",
       description: "Prepare for ASWB Clinical, Masters, and Advanced Generalist licensing exams with practice questions, DSM-5 case studies, intervention matching, and ethics scenario drills.",
       keywords: "social work exam prep, ASWB practice questions, LCSW exam prep, social work licensing exam, ASWB clinical exam, MSW exam prep, social work mock exam, DSM-5 practice, social work study guide, ASWB masters exam",
-      canonicalPath: "/social-work",
+      canonicalPath: "/allied-health/social-work",
     },
     examInfo: {
       examNames: ["ASWB Clinical", "ASWB Masters", "ASWB Advanced Generalist"],
@@ -169,7 +169,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Psychotherapy Exam Prep — CRPO, NCE & Counseling Certification | NurseNest Allied",
       description: "Prepare for the CRPO Registration Exam, National Counselor Examination (NCE), and counseling certification with practice questions, therapeutic modality simulations, and ethics scenario drills.",
       keywords: "psychotherapy exam prep, CRPO registration exam, registered psychotherapist exam, NCE practice questions, counseling certification, psychotherapy study guide, therapeutic modalities, clinical mental health counseling exam, psychotherapy mock exam",
-      canonicalPath: "/psychotherapy",
+      canonicalPath: "/allied-health/psychotherapy",
     },
     examInfo: {
       examNames: ["CRPO Registration Exam", "RP Qualifying Exam", "NCE", "CMHCE", "CCC Exam"],
@@ -224,7 +224,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Addictions Counsellor Exam Prep — IC&RC, CASAC & CCAC Certification | NurseNest Allied",
       description: "Prepare for addiction counselor certification with practice questions, motivational interviewing simulations, substance identification drills, and co-occurring disorders case studies for IC&RC ADC, CASAC, and CCAC exams.",
       keywords: "addictions counsellor exam prep, IC&RC ADC exam, CASAC certification, addiction counselor practice questions, substance abuse counselor exam, CCAC exam prep, motivational interviewing, relapse prevention, addictions study guide, substance use disorders",
-      canonicalPath: "/addictions",
+      canonicalPath: "/allied-health/addictions",
     },
     examInfo: {
       examNames: ["IC&RC ADC", "CASAC", "CCAC"],
@@ -283,7 +283,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Occupational Therapy Exam Prep — NBCOT OTR & NOTCE Certification | NurseNest Allied",
       description: "Prepare for NBCOT OTR and NOTCE occupational therapy licensing exams with practice questions, case analysis simulations, SMART goal writing tools, and comprehensive domain coverage.",
       keywords: "occupational therapy exam prep, NBCOT OTR practice questions, OT licensing exam, occupational therapy study guide, NOTCE exam prep, OT mock exam, occupational therapy certification, OTR exam, COTO exam prep, occupational therapy flashcards",
-      canonicalPath: "/occupational-therapy",
+      canonicalPath: "/allied-health/occupational-therapy",
     },
     examInfo: {
       examNames: ["NBCOT OTR", "NOTCE"],
@@ -342,7 +342,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Physical Therapy Exam Prep — NPTE & PCE Certification | NurseNest Allied",
       description: "Prepare for NPTE and PCE physical therapy licensing exams with practice questions, differential diagnosis training, gait analysis tools, and comprehensive domain coverage.",
       keywords: "physical therapy exam prep, NPTE practice questions, PT licensing exam, physical therapy study guide, PCE exam prep, PT mock exam, physical therapy certification, physiotherapy exam, FSBPT exam prep, physical therapy flashcards",
-      canonicalPath: "/physical-therapy",
+      canonicalPath: "/allied-health/physical-therapy",
     },
     examInfo: {
       examNames: ["NPTE", "PCE"],
@@ -401,7 +401,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "Diagnostic Imaging Exam Prep — ARRT & CAMRT Certification | NurseNest Allied",
       description: "Prepare for ARRT and CAMRT diagnostic imaging certification exams with practice questions, positioning simulators, radiation physics drills, and blueprint-weighted mock exams.",
       keywords: "diagnostic imaging exam prep, ARRT practice questions, radiography exam, medical imaging certification, CAMRT exam prep, radiology technologist exam, radiographic positioning, radiation safety, X-ray technologist, imaging study guide",
-      canonicalPath: "/imaging",
+      canonicalPath: "/allied-health/imaging",
     },
     examInfo: {
       examNames: ["ARRT Radiography", "CAMRT"],
@@ -460,7 +460,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       title: "HIM Exam Prep — AHIMA RHIT, RHIA & CCS Certification | NurseNest Allied",
       description: "Prepare for AHIMA RHIT, RHIA, and CCS certification exams with ICD-10 coding drills, HIPAA scenario simulations, revenue cycle case studies, and blueprint-weighted mock exams.",
       keywords: "HIM exam prep, RHIT practice questions, RHIA exam prep, health information management certification, AHIMA exam, ICD-10 coding, CPT coding, medical coding exam, HIM study guide, CCS certification, HIPAA compliance, EHR management",
-      canonicalPath: "/health-info-mgmt",
+      canonicalPath: "/allied-health/health-info-mgmt",
     },
     examInfo: {
       examNames: ["AHIMA RHIT", "AHIMA RHIA", "AHIMA CCS", "AAPC CPC"],

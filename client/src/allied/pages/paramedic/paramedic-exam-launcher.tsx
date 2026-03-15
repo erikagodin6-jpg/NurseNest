@@ -115,7 +115,7 @@ export default function ParamedicExamLauncher() {
         setError(session.error);
         return;
       }
-      navigate(`/paramedic/exam-simulator/${session.id}`);
+      navigate(`/allied-health/paramedic/exam-simulator/${session.id}`);
     } catch (e: any) {
       setError(e.message || "Failed to create exam session");
     } finally {
@@ -143,9 +143,9 @@ export default function ParamedicExamLauncher() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
+            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
             <ArrowRight className="w-3 h-3" />
-            <Link href="/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
+            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
             <ArrowRight className="w-3 h-3" />
             <span className="text-teal-700 font-medium">Start Exam</span>
           </div>

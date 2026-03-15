@@ -22,7 +22,7 @@ export default function ParamedicFlashcardsHub() {
         title="Paramedic Flashcards — Spaced Repetition Study Decks | NurseNest"
         description="Master paramedic protocols, drug dosages, and clinical mnemonics with spaced repetition flashcard decks. Covers trauma, ACLS, pharmacology, pediatrics, and more."
         keywords="paramedic flashcards, EMS flashcards, ACLS flashcards, paramedic drug dosages, paramedic study cards, spaced repetition paramedic"
-        canonicalPath="/paramedic/flashcards"
+        canonicalPath="/allied-health/paramedic/flashcards"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
@@ -36,7 +36,7 @@ export default function ParamedicFlashcardsHub() {
         title="Paramedic Flashcards"
         subtitle="Spaced repetition flashcard decks organized by clinical domain. Cards adapt to your recall accuracy — spending more time on concepts you find difficult and less on what you already know."
         breadcrumbs={[
-          { label: "Paramedic", href: "/paramedic" },
+          { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Flashcards" },
         ]}
       />
@@ -54,7 +54,7 @@ export default function ParamedicFlashcardsHub() {
                 description={deck.description}
                 meta={`${deck.cardCount} cards`}
                 tags={deck.tags}
-                href="/paramedic/flashcards"
+                href="/allied-health/paramedic/flashcards"
                 icon={Brain}
               />
             ))}

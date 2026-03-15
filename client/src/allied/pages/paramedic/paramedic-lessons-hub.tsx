@@ -32,7 +32,7 @@ export default function ParamedicLessonsHub() {
         title="Paramedic Lessons — Clinical Study Guides & Protocols | NurseNest"
         description="In-depth paramedic lessons covering trauma algorithms, ACLS pharmacology, airway management, pediatric emergencies, and field triage. 600+ word clinical guides with quizzes."
         keywords="paramedic lessons, paramedic study guide, EMS clinical lessons, paramedic protocols, ACLS lessons, trauma assessment guide, paramedic education"
-        canonicalPath="/paramedic/lessons"
+        canonicalPath="/allied-health/paramedic/lessons"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
@@ -46,7 +46,7 @@ export default function ParamedicLessonsHub() {
         title="Paramedic Lessons"
         subtitle="In-depth clinical study guides covering every domain tested on your paramedic certification exam. Each lesson includes pathophysiology, assessment, management, medications, and practice quizzes."
         breadcrumbs={[
-          { label: "Paramedic", href: "/paramedic" },
+          { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Lessons" },
         ]}
       />
@@ -86,7 +86,7 @@ export default function ParamedicLessonsHub() {
                   key={lesson.slug}
                   title={lesson.title}
                   description={lesson.description}
-                  href={`/paramedic/study-plan`}
+                  href={`/allied-health/paramedic/study-plan`}
                   icon={BookOpen}
                   tags={[lesson.topic]}
                 />

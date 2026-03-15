@@ -75,7 +75,7 @@ export default function ParamedicQuestionsIndex() {
         title="Paramedic Practice Questions by Topic — NREMT, PCP & ACP | NurseNest"
         description={`Browse ${data?.totalQuestions || 500}+ paramedic practice questions organized by ${data?.totalTopics || 100} clinical topics. Covers trauma management, cardiac arrest algorithms, pharmacology, airway management, and more.`}
         keywords="paramedic practice questions, NREMT questions by topic, paramedic exam questions, PCP practice questions, ACP practice questions, EMS practice test"
-        canonicalPath="/paramedic/questions"
+        canonicalPath="/allied-health/paramedic/questions"
         structuredData={structuredData}
       />
 
@@ -83,7 +83,7 @@ export default function ParamedicQuestionsIndex() {
         title="Paramedic Practice Questions"
         subtitle={`Browse ${data?.totalQuestions || 500}+ practice questions organized by clinical topic. Each topic page includes sample questions with detailed rationales, difficulty levels, and links to related study materials.`}
         breadcrumbs={[
-          { label: "Paramedic", href: "/paramedic" },
+          { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Practice Questions" },
         ]}
       />
@@ -166,7 +166,7 @@ export default function ParamedicQuestionsIndex() {
                   {filteredTopics.map(topic => (
                     <Link
                       key={topic.topicSlug}
-                      href={`/paramedic/questions/${topic.topicSlug}`}
+                      href={`/allied-health/paramedic/questions/${topic.topicSlug}`}
                       className="group"
                       data-testid={`card-topic-${topic.topicSlug}`}
                     >

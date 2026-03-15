@@ -212,7 +212,7 @@ export default function PharmtechPracticeExamSeo() {
         title="Pharmacy Technician Practice Exam Questions | Free PTCB & ExCPT Sample Questions"
         description="Practice pharmacy technician certification exam questions with detailed answer explanations. Free sample PTCB and ExCPT questions covering pharmacology, dosage calculations, pharmacy law, and patient safety."
         keywords="pharmacy technician practice questions, pharmacy tech exam questions, pharmacy technician certification practice exam, PTCB practice test, ExCPT practice questions, pharmacy tech sample questions, pharmacy technician exam prep"
-        canonicalPath="/pharmacy-technician/practice-exam-questions"
+        canonicalPath="/allied-health/pharmacy-technician/practice-exam-questions"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "FAQPage",
@@ -253,7 +253,7 @@ export default function PharmtechPracticeExamSeo() {
             <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
               <Link href="/" className="hover:text-teal-600">Allied</Link>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-              <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
               <span className="text-green-700 font-medium">Practice Exam Questions</span>
             </nav>
@@ -270,13 +270,13 @@ export default function PharmtechPracticeExamSeo() {
                 Sharpen your PTCB and ExCPT exam readiness with free sample questions covering pharmacology, dosage calculations, pharmacy law, compounding, and patient safety — each with detailed answer explanations so you learn the reasoning behind every correct answer.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-quiz">
+                <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-quiz">
                   <BookOpen className="w-4 h-4" /> Start 10-Question Quiz
                 </Link>
-                <Link href="/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-full-exam">
+                <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-full-exam">
                   <FileText className="w-4 h-4" /> Start Full Practice Exam
                 </Link>
-                <Link href="/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-study-flashcards">
+                <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-study-flashcards">
                   <Brain className="w-4 h-4" /> Study Flashcards
                 </Link>
               </div>
@@ -385,10 +385,10 @@ export default function PharmtechPracticeExamSeo() {
             <div className="text-center mt-10">
               <p className="text-gray-600 mb-4">Ready for more? Access our full question bank with 500+ exam-authentic questions.</p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-more-questions">
+                <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-more-questions">
                   <BookOpen className="w-4 h-4" /> Start 10-Question Quiz
                 </Link>
-                <Link href="/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-full-exam-bottom">
+                <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-full-exam-bottom">
                   <FileText className="w-4 h-4" /> Start Full Practice Exam
                 </Link>
               </div>
@@ -450,35 +450,35 @@ export default function PharmtechPracticeExamSeo() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore More Pharmacy Tech Resources</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <Link href="/pharmacy-technician/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-exams">
+              <Link href="/allied-health/pharmacy-technician/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-exams">
                 <FileText className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Practice Exams</p>
                   <p className="text-xs text-gray-500">Full-length timed PTCB simulations</p>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/flashcards" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-flashcards">
+              <Link href="/allied-health/pharmacy-technician/flashcards" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-flashcards">
                 <Brain className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Flashcards</p>
                   <p className="text-xs text-gray-500">Spaced repetition for drug names & concepts</p>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/study-guide" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-study-guide">
+              <Link href="/allied-health/pharmacy-technician/study-guide" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-study-guide">
                 <GraduationCap className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Study Guide</p>
                   <p className="text-xs text-gray-500">Comprehensive PTCB domain coverage</p>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-practice-questions">
+              <Link href="/allied-health/pharmacy-technician/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-practice-questions">
                 <BookOpen className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Test Bank</p>
                   <p className="text-xs text-gray-500">500+ questions with rationales</p>
                 </div>
               </Link>
-              <Link href="/pharmacy-technician/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-lessons">
+              <Link href="/allied-health/pharmacy-technician/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-lessons">
                 <Award className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Lessons</p>
@@ -501,7 +501,7 @@ export default function PharmtechPracticeExamSeo() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Pass Your Pharmacy Tech Exam?</h2>
             <p className="text-green-100 mb-8">Join thousands of pharmacy technician students using NurseNest Allied to achieve their certification goals.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
+              <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
                 <BookOpen className="w-4 h-4" /> Start Practicing Free
               </Link>
               <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-pricing">

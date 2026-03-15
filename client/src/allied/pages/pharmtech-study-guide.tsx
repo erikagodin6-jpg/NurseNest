@@ -13,7 +13,7 @@ const SECTIONS = [
       "Brand/generic name pairs you must know: atorvastatin (Lipitor), lisinopril (Zestril/Prinivil), metformin (Glucophage), amlodipine (Norvasc), omeprazole (Prilosec), levothyroxine (Synthroid), amoxicillin (Amoxil), metoprolol (Lopressor/Toprol-XL).",
       "Drug suffixes help identify classes: -pril (ACE inhibitors), -sartan (ARBs), -olol (beta-blockers), -statin (HMG-CoA reductase inhibitors), -prazole (proton pump inhibitors), -mycin/-micin (antibiotics), -ine (many antihistamines).",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/flashcards"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/flashcards"],
   },
   {
     id: "dosage-calculations",
@@ -27,7 +27,7 @@ const SECTIONS = [
       "IV flow rate calculations: Flow rate (mL/hr) = Total volume (mL) / Time (hr). Drip rate (gtt/min) = Volume (mL) × Drop factor (gtt/mL) / Time (min).",
       "Pediatric dosing: Often weight-based. Dose = Weight (kg) × Dose per kg. Young's Rule: Child dose = [Age / (Age + 12)] × Adult dose. Clark's Rule: Child dose = [Weight in lb / 150] × Adult dose.",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/practice-questions"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/practice-questions"],
   },
   {
     id: "pharmacy-law",
@@ -41,7 +41,7 @@ const SECTIONS = [
       "HIPAA: Protected Health Information (PHI) includes any individually identifiable health information. Minimum necessary standard applies — only access what's needed for the task. Patients have the right to access their records and request amendments.",
       "Recall classifications: Class I (serious adverse health consequences or death), Class II (temporary or reversible adverse effects), Class III (not likely to cause adverse health consequences).",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/practice-questions"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/practice-questions"],
   },
   {
     id: "compounding",
@@ -54,7 +54,7 @@ const SECTIONS = [
       "Aseptic technique: Hand hygiene with soap and water, then alcohol-based hand rub. Garbing order: shoe covers, hair cover, face mask, gown, gloves. Work at least 6 inches inside the LAFW. Never block first air between HEPA filter and critical sites.",
       "USP <800>: Applies to all healthcare settings handling hazardous drugs. Requires assessment of risk, containment strategies, use of closed-system transfer devices (CSTDs), proper PPE, deactivation/decontamination procedures, and medical surveillance.",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/flashcards"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/flashcards"],
   },
   {
     id: "prescription-processing",
@@ -67,7 +67,7 @@ const SECTIONS = [
       "Insurance billing: BIN (Bank Identification Number), PCN (Processor Control Number), Group Number, ID Number. Common rejections: drug not covered (formulary issue), prior authorization required, refill too soon, quantity limits exceeded, step therapy required.",
       "NDC numbers: 10-digit code in 5-4-1, 5-3-2, or 4-4-2 format. First segment = labeler/manufacturer, second = product/strength/dosage form, third = package size.",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/practice-questions"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/practice-questions"],
   },
   {
     id: "patient-safety",
@@ -81,7 +81,7 @@ const SECTIONS = [
       "Adverse Drug Reactions (ADRs): Report to FDA MedWatch. Severity ranges from mild (rash, GI upset) to severe (anaphylaxis, Stevens-Johnson syndrome). Black box warnings indicate the most serious risks.",
       "Medication Guides: Required for certain medications with serious risks. Must be dispensed with each fill. Examples: isotretinoin (iPLEDGE program), clozapine (REMS), opioid analgesics.",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/flashcards"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/flashcards"],
   },
   {
     id: "inventory",
@@ -95,7 +95,7 @@ const SECTIONS = [
       "Controlled substance inventory: Biennial (every 2 years) inventory of all controlled substances required by DEA. C-II inventory must be exact count. C-III through C-V can be estimated if container holds ≤1000 units.",
       "Formulary management: Pharmacy and Therapeutics (P&T) committee manages hospital formularies. Therapeutic substitution, generic substitution, and therapeutic interchange are key concepts.",
     ],
-    links: ["/pharmacy-technician/lessons"],
+    links: ["/allied-health/pharmacy-technician/lessons"],
   },
   {
     id: "drug-interactions",
@@ -108,7 +108,7 @@ const SECTIONS = [
       "Drug-food interactions: Tetracyclines + dairy (decreased absorption), Warfarin + vitamin K-rich foods (decreased anticoagulant effect), MAOIs + tyramine (hypertensive crisis), Grapefruit + statins/CCBs (increased drug levels).",
       "Contraindications: Metformin in renal impairment (lactic acidosis risk), ACE inhibitors in pregnancy (teratogenic), Fluoroquinolones in children (tendon damage risk), Methotrexate in pregnancy (teratogenic), Thalidomide in pregnancy (phocomelia risk).",
     ],
-    links: ["/pharmacy-technician/lessons", "/pharmacy-technician/practice-questions"],
+    links: ["/allied-health/pharmacy-technician/lessons", "/allied-health/pharmacy-technician/practice-questions"],
   },
 ];
 
@@ -119,7 +119,7 @@ export default function PharmtechStudyGuidePage() {
         title="Pharmacy Technician Study Guide - Complete PTCB & ExCPT Review"
         description="Comprehensive pharmacy technician study guide covering all PTCB and ExCPT exam topics: pharmacology, dosage calculations, pharmacy law, compounding, prescription processing, and patient safety."
         keywords="pharmacy technician study guide, PTCB study guide, ExCPT study guide, pharmacy tech review, pharmacy technician exam topics"
-        canonicalPath="/pharmacy-technician/study-guide"
+        canonicalPath="/allied-health/pharmacy-technician/study-guide"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -132,7 +132,7 @@ export default function PharmtechStudyGuidePage() {
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-study-guide">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Study Guide</span>
         </div>
@@ -190,10 +190,10 @@ export default function PharmtechStudyGuidePage() {
           <h2 className="text-xl font-bold text-gray-900 mb-3">Ready to Test Your Knowledge?</h2>
           <p className="text-gray-600 text-sm mb-6">Take a practice exam or try practice questions to see how well you've prepared.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700" data-testid="button-take-exam">
+            <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700" data-testid="button-take-exam">
               <FileText className="w-4 h-4" /> Take Practice Exam
             </Link>
-            <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50" data-testid="button-practice-from-guide">
+            <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50" data-testid="button-practice-from-guide">
               <Target className="w-4 h-4" /> Practice Questions
             </Link>
           </div>

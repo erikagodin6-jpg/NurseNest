@@ -41,7 +41,7 @@ export default function PharmtechDrugClassesHub() {
         title="Drug Classes Study Guide for Pharmacy Technicians | PTCB Exam Prep"
         description="Master the most commonly tested drug classes for the PTCB and ExCPT exams. Study ACE inhibitors, beta blockers, statins, antibiotics, antidiabetics, antidepressants, and antihistamines with practice questions and flashcards."
         keywords="pharmacy technician drug classes, PTCB drug classification, pharmacy tech pharmacology, drug class study guide, medication categories, brand generic names"
-        canonicalPath="/pharmacy-technician/drug-classes"
+        canonicalPath="/allied-health/pharmacy-technician/drug-classes"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
@@ -83,7 +83,7 @@ export default function PharmtechDrugClassesHub() {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
               <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className="text-green-700 font-medium">Drug Classes</span>
             </div>
@@ -100,10 +100,10 @@ export default function PharmtechDrugClassesHub() {
                 Master the most commonly tested medication classes for the PTCB and ExCPT exams. Each drug class guide includes generic and brand names, mechanisms of action, key side effects, clinical pearls, and practice questions with detailed rationales.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-study-flashcards">
+                <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-study-flashcards">
                   <Brain className="w-4 h-4" /> Study Flashcards
                 </Link>
-                <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">
+                <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">
                   <BookOpen className="w-4 h-4" /> Practice Questions
                 </Link>
               </div>
@@ -121,7 +121,7 @@ export default function PharmtechDrugClassesHub() {
               return (
                 <Link
                   key={dc.slug}
-                  href={`/pharmacy-technician/drug-classes/${dc.slug}`}
+                  href={`/allied-health/pharmacy-technician/drug-classes/${dc.slug}`}
                   className={`group bg-white rounded-2xl border ${colors.border} p-6 hover:shadow-lg ${colors.hoverBorder} transition-all`}
                   data-testid={`card-drug-class-${dc.slug}`}
                 >
@@ -217,10 +217,10 @@ export default function PharmtechDrugClassesHub() {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Master Drug Classes?</h2>
             <p className="text-green-100 mb-8">Start with our flashcard decks and practice questions to build a strong pharmacology foundation for your PTCB exam.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-flashcards">
+              <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-flashcards">
                 <Brain className="w-4 h-4" /> Study Flashcards
               </Link>
-              <Link href="/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-exams">
+              <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-exams">
                 <FileText className="w-4 h-4" /> Take Practice Exam
               </Link>
             </div>
@@ -267,7 +267,7 @@ function HubFAQ() {
 }
 
 export function PharmtechDrugClassDetail() {
-  const [, params] = useRoute("/pharmacy-technician/drug-classes/:slug");
+  const [, params] = useRoute("/allied-health/pharmacy-technician/drug-classes/:slug");
   const slug = params?.slug;
   const drugClass = DRUG_CLASSES.find(dc => dc.slug === slug);
 
@@ -276,7 +276,7 @@ export function PharmtechDrugClassDetail() {
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Drug Class Not Found</h1>
         <p className="text-gray-600 mb-4">The drug class you're looking for doesn't exist.</p>
-        <Link href="/pharmacy-technician/drug-classes" className="inline-block px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="link-back-drug-classes">
+        <Link href="/allied-health/pharmacy-technician/drug-classes" className="inline-block px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="link-back-drug-classes">
           Back to Drug Classes
         </Link>
       </div>
@@ -300,7 +300,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
         title={drugClass.metaTitle}
         description={drugClass.metaDescription}
         keywords={drugClass.keywords}
-        canonicalPath={`/pharmacy-technician/drug-classes/${drugClass.slug}`}
+        canonicalPath={`/allied-health/pharmacy-technician/drug-classes/${drugClass.slug}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Article",
@@ -339,9 +339,9 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap">
               <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/pharmacy-technician/drug-classes" className="hover:text-teal-600" data-testid="breadcrumb-drug-classes">Drug Classes</Link>
+              <Link href="/allied-health/pharmacy-technician/drug-classes" className="hover:text-teal-600" data-testid="breadcrumb-drug-classes">Drug Classes</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className={`${colors.text} font-medium`}>{drugClass.shortName}</span>
             </div>
@@ -468,7 +468,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                   ))}
                 </div>
                 <div className="mt-4 text-center">
-                  <Link href="/pharmacy-technician/practice-questions" className={`inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r ${colors.gradient} text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-all`} data-testid="button-more-questions">
+                  <Link href="/allied-health/pharmacy-technician/practice-questions" className={`inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r ${colors.gradient} text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-all`} data-testid="button-more-questions">
                     <BookOpen className="w-4 h-4" /> More Practice Questions <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -508,21 +508,21 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                 <div className={`bg-gradient-to-br ${colors.bg} rounded-2xl border ${colors.border} p-6`}>
                   <h3 className="font-bold text-gray-900 mb-4">Study This Drug Class</h3>
                   <div className="space-y-3">
-                    <Link href="/pharmacy-technician/flashcards" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-flashcards">
+                    <Link href="/allied-health/pharmacy-technician/flashcards" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-flashcards">
                       <Brain className={`w-5 h-5 ${colors.text}`} />
                       <div>
                         <p className="text-sm font-semibold text-gray-900">Flashcards</p>
                         <p className="text-xs text-gray-500">Review with spaced repetition</p>
                       </div>
                     </Link>
-                    <Link href="/pharmacy-technician/practice-questions" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-questions">
+                    <Link href="/allied-health/pharmacy-technician/practice-questions" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-questions">
                       <BookOpen className={`w-5 h-5 ${colors.text}`} />
                       <div>
                         <p className="text-sm font-semibold text-gray-900">Practice Questions</p>
                         <p className="text-xs text-gray-500">Test your knowledge</p>
                       </div>
                     </Link>
-                    <Link href="/pharmacy-technician/exams" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-exams">
+                    <Link href="/allied-health/pharmacy-technician/exams" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-exams">
                       <FileText className={`w-5 h-5 ${colors.text}`} />
                       <div>
                         <p className="text-sm font-semibold text-gray-900">Practice Exams</p>
@@ -541,7 +541,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                       return (
                         <Link
                           key={dc.slug}
-                          href={`/pharmacy-technician/drug-classes/${dc.slug}`}
+                          href={`/allied-health/pharmacy-technician/drug-classes/${dc.slug}`}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors"
                           data-testid={`sidebar-class-${dc.slug}`}
                         >
@@ -556,16 +556,16 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                 <div className="bg-white rounded-2xl border border-gray-100 p-6">
                   <h3 className="font-bold text-gray-900 mb-2">Internal Links</h3>
                   <div className="space-y-2">
-                    <Link href="/pharmacy-technician" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-hub">
+                    <Link href="/allied-health/pharmacy-technician" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-hub">
                       <GraduationCap className="w-4 h-4" /> Pharmacy Tech Hub
                     </Link>
-                    <Link href="/pharmacy-technician/study-guide" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-guide">
+                    <Link href="/allied-health/pharmacy-technician/study-guide" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-guide">
                       <BookOpen className="w-4 h-4" /> Study Guide
                     </Link>
-                    <Link href="/pharmacy-technician/lessons" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-lessons">
+                    <Link href="/allied-health/pharmacy-technician/lessons" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-lessons">
                       <FileText className="w-4 h-4" /> Lessons
                     </Link>
-                    <Link href="/pharmacy-technician/drug-classes" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-all-classes">
+                    <Link href="/allied-health/pharmacy-technician/drug-classes" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-all-classes">
                       <Pill className="w-4 h-4" /> All Drug Classes
                     </Link>
                   </div>
@@ -580,13 +580,13 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Master {drugClass.shortName} and More</h2>
             <p className="text-green-100 mb-8">Continue your pharmacy technician exam prep with flashcards, practice questions, and full-length mock exams.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-bottom-cta-flashcards">
+              <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-bottom-cta-flashcards">
                 <Brain className="w-4 h-4" /> Study Flashcards
               </Link>
-              <Link href="/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-bottom-cta-questions">
+              <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-bottom-cta-questions">
                 <BookOpen className="w-4 h-4" /> Practice Questions
               </Link>
-              <Link href="/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-bottom-cta-exams">
+              <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-bottom-cta-exams">
                 <FileText className="w-4 h-4" /> Take Exam
               </Link>
             </div>

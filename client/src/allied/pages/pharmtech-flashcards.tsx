@@ -17,11 +17,11 @@ function DeckLibrary() {
       <AlliedSEO
         title="Pharmacy Technician Flashcards - Study Decks by Topic"
         description="Master pharmacy technician concepts with interactive flashcard decks organized by exam topic. Covers pharmacology, dosage calculations, pharmacy law, compounding, and more."
-        canonicalPath="/pharmacy-technician/flashcards"
+        canonicalPath="/allied-health/pharmacy-technician/flashcards"
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-flashcards-page">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-primary font-medium">Flashcards</span>
         </div>
@@ -34,7 +34,7 @@ function DeckLibrary() {
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {decks.map(deck => (
-              <Link key={deck.id} href={`/pharmacy-technician/flashcards/${deck.slug}`} className="group bg-card rounded-2xl border border-border p-6 hover:shadow-lg hover:border-primary/30 transition-all" data-testid={`card-deck-${deck.slug}`}>
+              <Link key={deck.id} href={`/allied-health/pharmacy-technician/flashcards/${deck.slug}`} className="group bg-card rounded-2xl border border-border p-6 hover:shadow-lg hover:border-primary/30 transition-all" data-testid={`card-deck-${deck.slug}`}>
                 <Brain className="w-6 h-6 text-primary mb-3" />
                 <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium mb-2">{deck.category}</span>
                 <h3 className="font-semibold text-foreground mb-1">{deck.title}</h3>
@@ -101,13 +101,13 @@ function DeckDetail() {
       <AlliedSEO
         title={`${deck.title} - Pharmacy Technician Flashcards`}
         description={deck.description || `Study ${deck.title} flashcards for pharmacy technician certification exam prep. ${deck.cardCount} cards available.`}
-        canonicalPath={`/pharmacy-technician/flashcards/${deck.slug}`}
+        canonicalPath={`/allied-health/pharmacy-technician/flashcards/${deck.slug}`}
       />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-deck-detail">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/pharmacy-technician/flashcards" className="hover:text-primary">Flashcards</Link>
+          <Link href="/allied-health/pharmacy-technician/flashcards" className="hover:text-primary">Flashcards</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-primary font-medium truncate">{deck.title}</span>
         </div>

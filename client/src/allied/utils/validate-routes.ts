@@ -11,16 +11,16 @@ const REGISTERED_ROUTES = new Set([
   "/diagnostic",
   "/qbank",
   "/allied-health",
-  "/rrt",
-  "/paramedic",
-  "/pharmacy-technician",
-  "/mlt",
-  "/imaging",
-  "/social-work",
-  "/psychotherapy",
-  "/addictions",
-  "/occupational-therapy",
-  "/physical-therapy",
+  "/allied-health/rrt",
+  "/allied-health/paramedic",
+  "/allied-health/pharmacy-technician",
+  "/allied-health/mlt",
+  "/allied-health/imaging",
+  "/allied-health/social-work",
+  "/allied-health/psychotherapy",
+  "/allied-health/addictions",
+  "/allied-health/occupational-therapy",
+  "/allied-health/physical-therapy",
 ]);
 
 const REGISTERED_ROUTE_PATTERNS = [
@@ -85,8 +85,8 @@ export function validateAlliedRoutes(): { valid: string[]; broken: string[]; war
   }
 
   const footerLinks = [
-    "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
-    "/occupational-therapy", "/physical-therapy", "/social-work",
+    "/allied-health/rrt", "/allied-health/paramedic", "/allied-health/pharmacy-technician", "/allied-health/mlt", "/allied-health/imaging",
+    "/allied-health/occupational-therapy", "/allied-health/physical-therapy", "/allied-health/social-work",
     "/careers", "/pricing",
   ];
   for (const link of footerLinks) {

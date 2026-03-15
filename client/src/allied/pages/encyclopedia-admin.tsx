@@ -18,14 +18,14 @@ const PROFESSIONS = [
 const STATUSES = ["draft", "published", "archived"];
 
 const PROFESSION_HUB_PATH: Record<string, string> = {
-  paramedic: "/paramedic-encyclopedia",
+  paramedic: "/allied-health/paramedic-encyclopedia",
   "respiratory-therapy": "/respiratory-therapy-encyclopedia",
-  mlt: "/mlt-encyclopedia",
-  imaging: "/imaging-encyclopedia",
-  "social-work": "/social-work-encyclopedia",
-  psychotherapy: "/psychotherapy-encyclopedia",
-  addictions: "/addictions-encyclopedia",
-  "occupational-therapy": "/occupational-therapy-encyclopedia",
+  mlt: "/allied-health/mlt-encyclopedia",
+  imaging: "/allied-health/imaging-encyclopedia",
+  "social-work": "/allied-health/social-work-encyclopedia",
+  psychotherapy: "/allied-health/psychotherapy-encyclopedia",
+  addictions: "/allied-health/addictions-encyclopedia",
+  "occupational-therapy": "/allied-health/occupational-therapy-encyclopedia",
 };
 
 interface EncyclopediaEntry {

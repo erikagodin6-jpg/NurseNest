@@ -85,14 +85,14 @@ export default function MltExamHub() {
                     {mode.country === "both" ? (
                       <>
                         <button
-                          onClick={() => setLocation(`/mlt/exam/${mode.id}?country=CA`)}
+                          onClick={() => setLocation(`/allied-health/mlt/exam/${mode.id}?country=CA`)}
                           className={`px-4 py-2 text-sm font-medium text-white rounded-xl ${mode.buttonColor}`}
                           data-testid={`button-start-${mode.id}-ca`}
                         >
                           🇨🇦 Canada
                         </button>
                         <button
-                          onClick={() => setLocation(`/mlt/exam/${mode.id}?country=US`)}
+                          onClick={() => setLocation(`/allied-health/mlt/exam/${mode.id}?country=US`)}
                           className={`px-4 py-2 text-sm font-medium text-white rounded-xl ${mode.buttonColor}`}
                           data-testid={`button-start-${mode.id}-us`}
                         >
@@ -101,7 +101,7 @@ export default function MltExamHub() {
                       </>
                     ) : (
                       <button
-                        onClick={() => setLocation(`/mlt/exam/${mode.id}?country=${mode.country}`)}
+                        onClick={() => setLocation(`/allied-health/mlt/exam/${mode.id}?country=${mode.country}`)}
                         className={`px-4 py-2 text-sm font-medium text-white rounded-xl ${mode.buttonColor}`}
                         data-testid={`button-start-${mode.id}`}
                       >
@@ -118,7 +118,7 @@ export default function MltExamHub() {
 
       <div className="mt-8 text-center">
         <button
-          onClick={() => setLocation("/mlt/exam/history")}
+          onClick={() => setLocation("/allied-health/mlt/exam/history")}
           className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200"
           data-testid="button-view-history"
         >

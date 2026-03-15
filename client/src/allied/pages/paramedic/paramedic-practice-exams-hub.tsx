@@ -13,7 +13,7 @@ export default function ParamedicPracticeExamsHub() {
         title="Paramedic Practice Exams — Full-Length Timed Mock Tests | NurseNest"
         description="Take full-length, blueprint-weighted paramedic practice exams with adaptive difficulty. Get detailed domain-level performance analytics and readiness scoring."
         keywords="paramedic practice exam, paramedic mock test, NREMT practice exam, paramedic certification test, full length paramedic exam, paramedic readiness test"
-        canonicalPath="/paramedic/practice-exams"
+        canonicalPath="/allied-health/paramedic/practice-exams"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
@@ -27,7 +27,7 @@ export default function ParamedicPracticeExamsHub() {
         title="Paramedic Practice Exams"
         subtitle="Full-length, timed practice exams that replicate the real certification testing experience. Blueprint-weighted, adaptive, and analyzed down to the domain level."
         breadcrumbs={[
-          { label: "Paramedic", href: "/paramedic" },
+          { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Practice Exams" },
         ]}
       />
@@ -97,7 +97,7 @@ export default function ParamedicPracticeExamsHub() {
                   Readiness prediction score
                 </li>
               </ul>
-              <Link href="/paramedic/exam-launcher" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-take-mock">
+              <Link href="/allied-health/paramedic/exam-launcher" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-take-mock">
                 Take Mock Exam <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -129,7 +129,7 @@ export default function ParamedicPracticeExamsHub() {
                   Performance tracking over time
                 </li>
               </ul>
-              <Link href="/paramedic/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-sm font-semibold hover:bg-purple-700 transition-colors" data-testid="button-browse-sets">
+              <Link href="/allied-health/paramedic/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-sm font-semibold hover:bg-purple-700 transition-colors" data-testid="button-browse-sets">
                 Browse Practice Sets <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -162,7 +162,7 @@ export default function ParamedicPracticeExamsHub() {
       <FinalCTASection
         title="Take Your First Practice Exam"
         subtitle="See where you stand with a free mock exam, then use your results to build a targeted study plan for exam day."
-        primaryCTA={{ label: "Start Free Mock Exam", href: "/paramedic/exam-launcher" }}
+        primaryCTA={{ label: "Start Free Mock Exam", href: "/allied-health/paramedic/exam-launcher" }}
         secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
       />
     </div>

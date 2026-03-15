@@ -104,7 +104,7 @@ export default function MltAdaptivePractice() {
 
       if (data.completed) {
         setTimeout(() => {
-          setLocation(`/mlt/exam/results/${sessionId}`);
+          setLocation(`/allied-health/mlt/exam/results/${sessionId}`);
         }, 2000);
         return;
       }

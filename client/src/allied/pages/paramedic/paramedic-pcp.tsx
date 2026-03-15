@@ -35,7 +35,7 @@ export default function ParamedicPCPPage() {
         title="PCP Exam Prep — Primary Care Paramedic Practice Questions | NurseNest"
         description="Prepare for your PCP exam with 500+ practice questions aligned to COPR standards. Covers patient assessment, airway management, trauma, and BLS protocols with 600+ word clinical rationales."
         keywords="pcp exam canada, primary care paramedic exam prep, COPR exam, PCP practice questions, paramedic exam canada, PCP certification, paramedic study guide canada"
-        canonicalPath="/paramedic/pcp"
+        canonicalPath="/allied-health/paramedic/pcp"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",

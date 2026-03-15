@@ -113,7 +113,7 @@ export default function MltUsaCatExam() {
       setAbilityEstimate(data.abilityEstimate);
 
       if (data.completed) {
-        setLocation(`/mlt/exam/results/${sessionId}`);
+        setLocation(`/allied-health/mlt/exam/results/${sessionId}`);
         return;
       }
 
@@ -137,7 +137,7 @@ export default function MltUsaCatExam() {
     if (!sessionId) return;
     try {
       await fetch(`/api/mlt/exam/${sessionId}/complete`, { method: "POST" });
-      setLocation(`/mlt/exam/results/${sessionId}`);
+      setLocation(`/allied-health/mlt/exam/results/${sessionId}`);
     } catch (e: any) {
       setError(e.message);
     }
@@ -171,7 +171,7 @@ export default function MltUsaCatExam() {
           <button onClick={() => { setError(""); setLoading(true); startExam(); }} className="px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-retry-exam">
             Retry
           </button>
-          <button onClick={() => setLocation("/mlt/exams")} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="button-back-to-hub">
+          <button onClick={() => setLocation("/allied-health/mlt/exams")} className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="button-back-to-hub">
             Back to Exam Hub
           </button>
         </div>

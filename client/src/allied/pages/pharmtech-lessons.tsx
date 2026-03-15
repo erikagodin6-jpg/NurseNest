@@ -32,7 +32,7 @@ function LessonLibrary() {
       <AlliedSEO
         title="Pharmacy Technician Lessons - Complete Lesson Library"
         description="Browse all pharmacy technician certification lessons covering pharmacology, dosage calculations, compounding, pharmacy law, and more. Free to preview."
-        canonicalPath="/pharmacy-technician/lessons"
+        canonicalPath="/allied-health/pharmacy-technician/lessons"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -45,7 +45,7 @@ function LessonLibrary() {
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-lessons-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium">Lessons</span>
         </div>
@@ -92,7 +92,7 @@ function LessonLibrary() {
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(lesson => (
-              <Link key={lesson.id} href={`/pharmacy-technician/lessons/${lesson.slug}`} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-lesson-${lesson.slug}`}>
+              <Link key={lesson.id} href={`/allied-health/pharmacy-technician/lessons/${lesson.slug}`} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-lesson-${lesson.slug}`}>
                 <span className="inline-block px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium mb-3">{lesson.category}</span>
                 <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">{lesson.title}</h3>
                 <p className="text-sm text-gray-500 line-clamp-2 mb-4">{lesson.summary}</p>
@@ -119,14 +119,14 @@ function LessonDetail() {
   }, [slug]);
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!lesson) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Lesson Not Found</h1><Link href="/pharmacy-technician/lessons" className="text-green-600 mt-4 inline-block">Back to Lessons</Link></div>;
+  if (!lesson) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Lesson Not Found</h1><Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 mt-4 inline-block">Back to Lessons</Link></div>;
 
   return (
     <>
       <AlliedSEO
         title={lesson.seoTitle || `${lesson.title} - Pharmacy Technician Lesson`}
         description={lesson.seoDescription || lesson.summary || `Learn about ${lesson.title} for pharmacy technician certification exam preparation.`}
-        canonicalPath={`/pharmacy-technician/lessons/${lesson.slug}`}
+        canonicalPath={`/allied-health/pharmacy-technician/lessons/${lesson.slug}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -140,9 +140,9 @@ function LessonDetail() {
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-lesson-detail">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/pharmacy-technician/lessons" className="hover:text-teal-600">Lessons</Link>
+          <Link href="/allied-health/pharmacy-technician/lessons" className="hover:text-teal-600">Lessons</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium truncate">{lesson.title}</span>
         </div>
@@ -207,7 +207,7 @@ function LessonDetail() {
             <h2 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Brain className="w-4 h-4 text-green-600" /> Related Flashcard Decks</h2>
             <div className="flex flex-wrap gap-2">
               {lesson.relatedDeckSlugs.map((deckSlug: string) => (
-                <Link key={deckSlug} href={`/pharmacy-technician/flashcards/${deckSlug}`} className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm text-green-700 hover:bg-green-50 hover:border-green-200 transition-colors" data-testid={`link-deck-${deckSlug}`}>
+                <Link key={deckSlug} href={`/allied-health/pharmacy-technician/flashcards/${deckSlug}`} className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm text-green-700 hover:bg-green-50 hover:border-green-200 transition-colors" data-testid={`link-deck-${deckSlug}`}>
                   {deckSlug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
                 </Link>
               ))}
@@ -216,8 +216,8 @@ function LessonDetail() {
         )}
 
         <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
-          <Link href="/pharmacy-technician/lessons" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-back-lessons">← Back to Lessons</Link>
-          <Link href="/pharmacy-technician/practice-questions" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-practice">Practice Questions →</Link>
+          <Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-back-lessons">← Back to Lessons</Link>
+          <Link href="/allied-health/pharmacy-technician/practice-questions" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-practice">Practice Questions →</Link>
         </div>
       </div>
     </>

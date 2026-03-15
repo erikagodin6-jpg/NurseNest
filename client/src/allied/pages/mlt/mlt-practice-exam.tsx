@@ -138,7 +138,7 @@ export default function MltPracticeExam() {
         setShowRationale(true);
 
         if (data.completed) {
-          setTimeout(() => setLocation(`/mlt/exam/results/${sessionId}`), 3000);
+          setTimeout(() => setLocation(`/allied-health/mlt/exam/results/${sessionId}`), 3000);
           return;
         }
 
@@ -148,7 +148,7 @@ export default function MltPracticeExam() {
         }
       } else {
         if (data.completed) {
-          setLocation(`/mlt/exam/results/${sessionId}`);
+          setLocation(`/allied-health/mlt/exam/results/${sessionId}`);
           return;
         }
         if (data.nextQuestion) {
@@ -179,7 +179,7 @@ export default function MltPracticeExam() {
     if (!sessionId) return;
     try {
       await fetch(`/api/mlt/exam/${sessionId}/complete`, { method: "POST" });
-      setLocation(`/mlt/exam/results/${sessionId}`);
+      setLocation(`/allied-health/mlt/exam/results/${sessionId}`);
     } catch (e: any) {
       setError(e.message);
     }

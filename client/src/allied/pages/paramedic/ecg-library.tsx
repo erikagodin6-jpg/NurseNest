@@ -71,14 +71,14 @@ export default function ECGLibraryPage() {
         title="ECG & Waveform Library — Paramedic Rhythm Interpretation | NurseNest"
         description="Browse clinically accurate ECG rhythm strips, 12-lead patterns, and capnography waveforms. Practice cardiac rhythm interpretation with educational annotations for paramedic exam prep."
         keywords="ECG library, cardiac rhythm strips, 12-lead ECG patterns, capnography waveforms, paramedic rhythm interpretation, STEMI patterns, heart blocks"
-        canonicalPath="/paramedic/ecg-library"
+        canonicalPath="/allied-health/paramedic/ecg-library"
       />
 
       <HubHero
         title="ECG & Waveform Library"
         subtitle="Browse clinically accurate ECG rhythm strips, 12-lead patterns, and capnography waveforms with detailed clinical annotations and treatment notes."
         breadcrumbs={[
-          { label: "Paramedic Academy", href: "/paramedic" },
+          { label: "Paramedic Academy", href: "/allied-health/paramedic" },
           { label: "ECG Library" },
         ]}
       />

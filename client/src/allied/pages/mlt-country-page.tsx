@@ -204,13 +204,13 @@ function ExamPrepContent({ cc }: { cc: CountryConfig }) {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Start Preparing Now</h2>
           <p className="text-gray-600 mb-8">Access study tools designed specifically for the {cc.examName}.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href={`/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-free-questions">
+            <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-free-questions">
               Try Free Questions <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/practice-exams`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors border border-purple-200" data-testid="button-practice-exams">
+            <Link href={`/allied-health/mlt/${cc.country}/practice-exams`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 transition-colors border border-purple-200" data-testid="button-practice-exams">
               Practice Exams
             </Link>
-            <Link href={`/mlt/${cc.country}/study-plan`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-study-plan">
+            <Link href={`/allied-health/mlt/${cc.country}/study-plan`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-study-plan">
               Study Plan
             </Link>
           </div>
@@ -252,10 +252,10 @@ function LessonsContent({ cc }: { cc: CountryConfig }) {
         <div className="mt-10 text-center">
           <p className="text-sm text-gray-600 mb-4">All lessons include {cc.regionKey === "CA" ? "SI" : "conventional"} unit lab values, glossary tooltips, and end-of-lesson quizzes aligned to {cc.examBoard} blueprints.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`/mlt/${cc.country}/flashcards`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-flashcards-from-lessons">
+            <Link href={`/allied-health/mlt/${cc.country}/flashcards`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-flashcards-from-lessons">
               Review with Flashcards <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-lessons">
+            <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-lessons">
               Practice Questions
             </Link>
           </div>
@@ -286,10 +286,10 @@ function FlashcardsContent({ cc }: { cc: CountryConfig }) {
             Master all 16 laboratory disciplines with spaced repetition. Each deck aligns with {cc.examBoard} blueprint categories and uses {cc.regionKey === "CA" ? "SI" : "conventional"} units for lab values.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`/mlt/${cc.country}/lessons`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-lessons-from-flashcards">
+            <Link href={`/allied-health/mlt/${cc.country}/lessons`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-lessons-from-flashcards">
               Browse Lessons <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-flashcards">
+            <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-flashcards">
               Try Free Questions
             </Link>
           </div>
@@ -331,10 +331,10 @@ function PracticeExamsContent({ cc }: { cc: CountryConfig }) {
             timed sessions, and detailed performance analytics across all laboratory disciplines.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-free-questions-fallback">
+            <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-free-questions-fallback">
               Start with Free Questions <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/study-plan`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-study-plan-from-exams">
+            <Link href={`/allied-health/mlt/${cc.country}/study-plan`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-study-plan-from-exams">
               View Study Plan
             </Link>
           </div>
@@ -388,10 +388,10 @@ function StudyPlanContent({ cc }: { cc: CountryConfig }) {
             Create an account to generate a {cc.examBoard} study plan tailored to your diagnostic results, exam date, and available study time.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`/mlt/${cc.country}/exam-prep`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-exam-prep-from-plan">
+            <Link href={`/allied-health/mlt/${cc.country}/exam-prep`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-exam-prep-from-plan">
               Explore Exam Prep <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-plan">
+            <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-free-from-plan">
               Try Free Questions
             </Link>
           </div>
@@ -444,7 +444,7 @@ function FreeQuestionsContent({ cc }: { cc: CountryConfig }) {
             <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-pricing-from-free">
               View Pricing <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/mlt/${cc.country}/exam-prep`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-exam-prep-from-free">
+            <Link href={`/allied-health/mlt/${cc.country}/exam-prep`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-exam-prep-from-free">
               Explore Exam Prep
             </Link>
           </div>
@@ -504,7 +504,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-        <Link href="/mlt" className="text-purple-600 font-medium hover:underline">Back to MLT Hub</Link>
+        <Link href="/allied-health/mlt" className="text-purple-600 font-medium hover:underline">Back to MLT Hub</Link>
       </div>
     );
   }
@@ -548,7 +548,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
         title={pageConfig.title(cc) + " | NurseNest Allied"}
         description={pageConfig.metaDescription(cc)}
         keywords={cc.seoKeywords[pageType]}
-        canonicalPath={`/mlt/${cc.country}/${pageType}`}
+        canonicalPath={`/allied-health/mlt/${cc.country}/${pageType}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
@@ -565,9 +565,9 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
             <Link href="/" className="hover:text-purple-600">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/mlt" className="hover:text-purple-600">MLT</Link>
+            <Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={`/mlt/${cc.country}/exam-prep`} className="hover:text-purple-600">{cc.label}</Link>
+            <Link href={`/allied-health/mlt/${cc.country}/exam-prep`} className="hover:text-purple-600">{cc.label}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-purple-700 font-medium">{navLinks.find(n => n.slug === pageType)?.label || pageType}</span>
           </div>
@@ -576,7 +576,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700">
               {cc.examBoard}
             </div>
-            <Link href={`/mlt/${cc.otherCountry}/${pageType}`} className="text-xs text-gray-500 hover:text-purple-600 ml-auto" data-testid="link-switch-country">
+            <Link href={`/allied-health/mlt/${cc.otherCountry}/${pageType}`} className="text-xs text-gray-500 hover:text-purple-600 ml-auto" data-testid="link-switch-country">
               Switch to {cc.otherLabel} →
             </Link>
           </div>
@@ -592,7 +592,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
             {navLinks.map(link => (
               <Link
                 key={link.slug}
-                href={`/mlt/${cc.country}/${link.slug}`}
+                href={`/allied-health/mlt/${cc.country}/${link.slug}`}
                 className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${pageType === link.slug ? "bg-purple-50 text-purple-700" : "text-gray-600 hover:text-purple-700 hover:bg-purple-50/50"}`}
                 data-testid={`nav-${link.slug}`}
               >
@@ -609,9 +609,9 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Related MLT Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">← MLT Exam Prep Hub</Link>
-            <Link href={`/mlt/${cc.otherCountry}/exam-prep`} className="text-sm text-purple-600 hover:underline" data-testid="link-other-country">{cc.otherLabel} ({cc.country === "canada" ? "ASCP" : "CSMLS"}) Exam Prep →</Link>
-            <Link href="/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">MLT Career Overview →</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">← MLT Exam Prep Hub</Link>
+            <Link href={`/allied-health/mlt/${cc.otherCountry}/exam-prep`} className="text-sm text-purple-600 hover:underline" data-testid="link-other-country">{cc.otherLabel} ({cc.country === "canada" ? "ASCP" : "CSMLS"}) Exam Prep →</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">MLT Career Overview →</Link>
           </div>
         </div>
       </section>

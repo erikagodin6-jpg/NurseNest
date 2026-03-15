@@ -34,7 +34,7 @@ export default function OccupationalTherapyHubPage() {
         title="Occupational Therapy Exam Prep - NBCOT OTR & NOTCE Study Resources"
         description="Prepare for the NBCOT OTR and NOTCE occupational therapy licensing exams with practice questions, case analysis simulations, flashcard decks, full-length practice exams, and a comprehensive study guide. Free to start."
         keywords="occupational therapy exam prep, NBCOT OTR exam, NOTCE exam, OT practice questions, occupational therapy certification, OT study guide, OT flashcards, occupational therapist licensing"
-        canonicalPath="/occupational-therapy"
+        canonicalPath="/allied-health/occupational-therapy"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
