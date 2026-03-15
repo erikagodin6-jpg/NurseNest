@@ -371,6 +371,8 @@ const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then
 const NclexReadinessScore = lazy(() => import("@/pages/nclex-readiness-score"));
 const SeoLandingPage = lazy(() => import("@/pages/seo-landing-page"));
 const SeoLandingBySlug = lazy(() => import("@/pages/seo-landing-page").then(m => ({ default: m.SeoLandingBySlug })));
+const ExamBlueprintHub = lazy(() => import("@/pages/exam-blueprint-hub"));
+const ExamBlueprintCategory = lazy(() => import("@/pages/exam-blueprint-category"));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -899,6 +901,42 @@ function AppRoutes() {
         <Route path="/nclex-pn" component={ExamHubPage} />
         <Route path="/canada-np" component={ExamHubPage} />
         <Route path="/us-np" component={ExamHubPage} />
+        <Route path="/rexpn-exam-blueprint" component={ExamBlueprintHub} />
+        <Route path="/nclex-rn-exam-blueprint" component={ExamBlueprintHub} />
+        <Route path="/nclex-pn-exam-blueprint" component={ExamBlueprintHub} />
+        <Route path="/allied-health-exam-blueprint" component={ExamBlueprintHub} />
+        <Route path="/rexpn-foundations-of-practice" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-collaborative-practice" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-professional-practice" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-ethical-practice" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-legal-practice" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-safety-and-infection-control" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-health-promotion" component={ExamBlueprintCategory} />
+        <Route path="/rexpn-pharmacological-therapies" component={ExamBlueprintCategory} />
+        <Route path="/nclex-management-of-care" component={ExamBlueprintCategory} />
+        <Route path="/nclex-safety-and-infection-control" component={ExamBlueprintCategory} />
+        <Route path="/nclex-health-promotion" component={ExamBlueprintCategory} />
+        <Route path="/nclex-psychosocial-integrity" component={ExamBlueprintCategory} />
+        <Route path="/nclex-basic-care-and-comfort" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pharmacology" component={ExamBlueprintCategory} />
+        <Route path="/nclex-reduction-of-risk" component={ExamBlueprintCategory} />
+        <Route path="/nclex-physiological-adaptation" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-coordinated-care" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-safety-infection-control" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-health-promotion" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-psychosocial-integrity" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-basic-care" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-pharmacology" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-reduction-of-risk" component={ExamBlueprintCategory} />
+        <Route path="/nclex-pn-physiological-adaptation" component={ExamBlueprintCategory} />
+        <Route path="/allied-respiratory-therapy" component={ExamBlueprintCategory} />
+        <Route path="/allied-medical-lab-tech" component={ExamBlueprintCategory} />
+        <Route path="/allied-radiography" component={ExamBlueprintCategory} />
+        <Route path="/allied-paramedic" component={ExamBlueprintCategory} />
+        <Route path="/allied-occupational-therapy" component={ExamBlueprintCategory} />
+        <Route path="/allied-social-work" component={ExamBlueprintCategory} />
+        <Route path="/allied-pharmacy-tech" component={ExamBlueprintCategory} />
+        <Route path="/allied-psychotherapy-addictions" component={ExamBlueprintCategory} />
         <Route path="/topics" component={TopicsIndex} />
         <Route path="/topics/:slug" component={TopicDetail} />
         <Route path="/conditions/:slug" component={ConditionPage} />
