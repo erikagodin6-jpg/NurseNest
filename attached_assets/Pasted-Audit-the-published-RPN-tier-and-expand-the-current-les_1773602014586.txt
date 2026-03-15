@@ -1,0 +1,89 @@
+Audit the published RPN tier and expand the current lessons, flashcards, test bank questions, and CAT questions using the uploaded McCance & Huether pathophysiology text for foundational concepts and the earlier uploaded nursing pathophysiology documents.
+
+Primary goal
+- Pull practical nursing-appropriate foundational topics from the uploaded books.
+- Add or expand content only within the CURRENT RPN categories and current live site architecture.
+- Do not create new categories.
+- Do not rename lessons or categories.
+- Expand weak or empty current lessons first.
+
+Source topic buckets to extract
+- cellular biology basics
+- fluids and electrolytes
+- acid-base balance
+- immunity and infection
+- stress and disease
+- cancer basics
+- neuro basics
+- endocrine basics
+- hematologic basics
+- cardiovascular basics
+- pulmonary basics
+- renal basics
+- digestive basics
+- musculoskeletal basics
+- integument basics
+- shock and burns basics
+- pediatric alterations at a practical-nursing level where current site categories support it
+
+Priority RPN topics to add or strengthen
+- dehydration / fluid balance
+- acid-base basics
+- infection / inflammation
+- immunity basics
+- shock basics
+- burns basics
+- diabetes and endocrine basics
+- respiratory and cardiac basics
+- hematologic disorders at a practical nursing depth
+- neuro changes and safety
+- skin/wound concepts
+- renal and urinary basics
+- musculoskeletal conditions commonly tested
+- common pediatric or maternal foundational topics only if those categories already exist in the current RPN structure
+
+RPN lesson depth standard
+Each lesson must include:
+- clear overview
+- simple but accurate pathophysiology
+- hallmark signs and symptoms
+- practical nursing assessment points
+- nursing interventions
+- safety concerns
+- patient teaching
+- common complications
+- exam tips and memory anchors
+
+Flashcards
+Generate:
+- 20 to 30 RPN flashcards per topic
+- include definitions, symptoms, safety priorities, interventions, common medications, and teaching points
+- publish into the correct current RPN flashcard area
+
+Test bank questions
+Generate:
+- 25 to 40 original RPN-level questions per topic
+- include multiple choice, SATA, safety, basic prioritization, and scope-appropriate delegation
+- include rationales for all answer options except CAT mode if CAT excludes them
+- publish into the correct current RPN test banks
+
+CAT questions
+Generate:
+- 10 to 20 RPN adaptive questions per topic
+- build from basic recall to simple clinical application and prioritization
+- publish into the existing RPN CAT/adaptive engine only
+
+Strict rules
+- do not copy textbook wording or question banks verbatim
+- do not create new categories
+- do not create duplicates
+- no placeholder lessons
+- ensure all added content appears on the published live site
+
+QA
+Confirm:
+- every new lesson/topic is inside an existing RPN category
+- all links work
+- flashcards/questions are in the proper RPN areas
+- no duplicates
+- no empty shells
