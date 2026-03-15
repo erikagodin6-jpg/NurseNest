@@ -75,7 +75,7 @@ async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promis
   return xml;
 }
 
-const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es", "fil", "zh", "ar", "hi", "ko", "pa", "vi", "ht", "ur", "ja", "fa", "de"];
+const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es", "fil", "zh", "ar", "hi", "ko", "pa", "vi", "ht", "ur", "ja", "fa", "de", "pt"];
 
 async function buildMainSitemapIndex(): Promise<string> {
   const base = getSiteBase();

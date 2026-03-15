@@ -3,30 +3,30 @@
     "title": "Insuficiência cardíaca",
     "overview": "A insuficiência cardíaca é uma condição crônica e progressiva na qual o músculo cardíaco é incapaz de bombear sangue suficiente para atender às necessidades do corpo em sangue e oxigênio. O coração tenta compensar pela dilatação, hipertrofia e aumento da frequência cardíaca, mas esses mecanismos eventualmente falham.",
     "riskFactors": [
-      "Maladie coronarienne",
-      "Hypertension",
-      "Diabète sucré",
-      "Cardiomyopathie",
-      "Maladie valvulaire",
-      "Obésité",
-      "Tabagisme"
+      "Doença arterial coronariana",
+      "Hipertensão",
+      "Diabetes mellitus",
+      "Cardiomiopatia",
+      "Doença valvular",
+      "Obesidade",
+      "Tabagismo"
     ],
     "clinicalPearls": [
-      "Pesez le patient quotidiennement à la même heure",
-      "Surveillez l'apport et l'élimination avec précision",
-      "Éduquez sur le régime pauvre en sodium",
-      "La digoxine nécessite une surveillance du pouls avant administration",
-      "Élevez la tête du lit à 45 degrés pour l'orthopnée"
+      "Pese o paciente diariamente no mesmo horário",
+      "Monitore a ingestão e a eliminação com precisão",
+      "Eduque sobre a dieta com baixo teor de sódio",
+      "A digoxina requer verificação do pulso antes da administração",
+      "Eleve a cabeceira da cama a 45 graus para ortopneia"
     ]
   },
   "hypertension": {
     "title": "Hipertensão",
     "overview": "A hipertensão é uma elevação persistente da pressão arterial sistêmica. É um fator de risco importante para doenças cardiovasculares, AVC e doença renal. A maioria dos pacientes é assintomática, daí seu apelido de 'assassino silencioso'.",
     "clinicalPearls": [
-      "Enseignez la technique correcte de mesure de la PA",
-      "Les médicaments doivent être pris de manière constante",
-      "Surveillez les effets secondaires des antihypertenseurs",
-      "Encouragez les modifications du mode de vie"
+      "Ensine a técnica correta de medição da PA",
+      "Os medicamentos devem ser tomados de forma consistente",
+      "Monitore os efeitos colaterais dos anti-hipertensivos",
+      "Incentive as modificações do estilo de vida"
     ]
   },
   "respiratory-assessment": {

@@ -26,6 +26,17 @@ const ROUTE_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/preguntas-frecuentes",
     "/blog": "/blog",
   },
+  pt: {
+    "/pricing": "/precos",
+    "/flashcards": "/cartoes-de-estudo",
+    "/lessons": "/licoes",
+    "/mock-exams": "/simulados",
+    "/glossary": "/glossario",
+    "/about": "/sobre",
+    "/contact": "/contato",
+    "/faq": "/perguntas-frequentes",
+    "/blog": "/blog",
+  },
 };
 
 function languageToLocale(lang: LanguageCode): string {

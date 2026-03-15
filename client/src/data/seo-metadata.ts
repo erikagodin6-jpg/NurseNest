@@ -4,7 +4,7 @@ export interface LocalizedSEOEntry {
   keywords: string;
 }
 
-export type SEOLocale = "fr" | "es" | "zh" | "ar" | "hi" | "ko" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de";
+export type SEOLocale = "fr" | "es" | "zh" | "ar" | "hi" | "ko" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "pt";
 
 const frenchMetadata: Record<string, LocalizedSEOEntry> = {
   "/": {
@@ -352,12 +352,186 @@ const spanishMetadata: Record<string, LocalizedSEOEntry> = {
   },
 };
 
-export const localizedSEOMetadata: Record<SEOLocale, Record<string, LocalizedSEOEntry>> = {
+const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Preparação para Exame de Enfermagem | Questões NCLEX e Banco de Questões",
+    description: "Prepare-se para seus exames de enfermagem com o NurseNest. Acesse milhares de questões práticas NCLEX, simulações clínicas, flashcards de enfermagem e lições de fisiopatologia. Para estudantes RPN, RN e NP no Canadá e Estados Unidos.",
+    keywords: "questões práticas NCLEX, preparação exame enfermagem, banco de questões enfermagem, flashcards enfermagem, revisão NCLEX, simulações clínicas, fisiopatologia enfermagem, exame enfermagem",
+  },
+  "/pricing": {
+    title: "Preços e Planos | NurseNest – Preparação para Exame de Enfermagem",
+    description: "Compare os planos do NurseNest para preparação de exames de enfermagem. Acesso gratuito incluído. Planos mensais acessíveis com banco de questões NCLEX, simulações clínicas e flashcards.",
+    keywords: "preços NurseNest, planos preparação NCLEX, custo exame enfermagem, assinatura revisão NCLEX, preparação exame enfermagem preço",
+  },
+  "/lessons": {
+    title: "Lições Clínicas – Fisiopatologia e Enfermagem | NurseNest",
+    description: "Explore nossas lições clínicas detalhadas cobrindo fisiopatologia, farmacologia e raciocínio clínico. Conteúdo estruturado por sistema corporal para RPN, RN e NP.",
+    keywords: "lições enfermagem, fisiopatologia enfermagem, aulas clínicas, raciocínio clínico, farmacologia enfermagem, revisão NCLEX lições",
+  },
+  "/flashcards": {
+    title: "Flashcards de Enfermagem – Farmacologia e Revisão | NurseNest",
+    description: "Estude com flashcards de enfermagem verificados clinicamente. Farmacologia, valores laboratoriais e fisiopatologia com modos Aprender e Testar. Crie seus próprios baralhos.",
+    keywords: "flashcards enfermagem, flashcards farmacologia, revisão NCLEX cartões, flashcards estudo enfermagem, estudo enfermagem",
+  },
+  "/mock-exams": {
+    title: "Simulados NCLEX – Simulação Cronometrada | NurseNest",
+    description: "Simule condições reais de exame com nossos simulados NCLEX cronometrados. Seleção adaptativa de questões, acompanhamento de desempenho e justificativas detalhadas.",
+    keywords: "simulados NCLEX, simulação exame enfermagem, exame prático cronometrado, preparação exame enfermagem, simulado NCLEX",
+  },
+  "/test-bank": {
+    title: "Banco de Questões de Enfermagem – Questões Práticas NCLEX | NurseNest",
+    description: "Acesse nosso banco de questões de enfermagem completo. Filtre por sistema corporal, nível e tópico. Cada questão inclui justificativas detalhadas para revisão NCLEX.",
+    keywords: "banco de questões enfermagem, questões práticas NCLEX, questões exame enfermagem, banco de testes enfermagem",
+  },
+  "/question-bank": {
+    title: "Banco de Questões de Enfermagem – Questões Práticas NCLEX | NurseNest",
+    description: "Acesse nosso banco de questões de enfermagem completo. Filtre por sistema corporal, nível e tópico. Cada questão inclui justificativas detalhadas para revisão NCLEX.",
+    keywords: "banco de questões enfermagem, questões práticas NCLEX, questões exame enfermagem, banco de testes enfermagem",
+  },
+  "/simulators": {
+    title: "Simuladores Clínicos – Cenários Interativos | NurseNest",
+    description: "Pratique julgamento clínico com simuladores interativos. Cenários de pacientes ramificados incluindo sepse, infarto do miocárdio, CAD e deterioração do paciente.",
+    keywords: "simuladores clínicos enfermagem, simulações de paciente, julgamento clínico, cenários enfermagem, simulação enfermagem",
+  },
+  "/free-practice": {
+    title: "Questões Práticas Gratuitas – Revisão NCLEX | NurseNest",
+    description: "Comece sua preparação NCLEX com questões práticas gratuitas. Justificativas detalhadas, raciocínio clínico e conteúdo alinhado ao exame. Sem necessidade de cartão de crédito.",
+    keywords: "questões práticas NCLEX gratuitas, revisão NCLEX grátis, questões enfermagem grátis, preparação exame enfermagem grátis",
+  },
+  "/anatomy": {
+    title: "Anatomia e Fisiologia – Revisão Gratuita | NurseNest",
+    description: "Domine anatomia e fisiologia com nossa revisão gratuita e interativa. Todos os sistemas corporais cobertos com exercícios de rotulagem e conteúdo educacional detalhado.",
+    keywords: "anatomia fisiologia enfermagem, revisão anatomia grátis, sistemas corporais, anatomia enfermagem, A&P revisão",
+  },
+  "/pre-nursing": {
+    title: "Pré-Enfermagem – Fundamentos e Módulos Gratuitos | NurseNest",
+    description: "Explore nossos módulos de pré-enfermagem gratuitos e interativos. Biologia celular, fisiologia, terminologia médica e bases de farmacologia para construir sua base clínica.",
+    keywords: "pré-enfermagem, fundamentos enfermagem, biologia celular enfermagem, terminologia médica, bases farmacologia",
+  },
+  "/clinical-clarity": {
+    title: "Clareza Clínica – Respostas Baseadas em Evidências | NurseNest",
+    description: "Obtenha respostas claras e baseadas em evidências para questões clínicas frequentemente erradas em exames. Conteúdo baseado em evidências para estudantes de enfermagem.",
+    keywords: "clareza clínica enfermagem, respostas clínicas, raciocínio clínico, questões frequentes exame enfermagem",
+  },
+  "/study-plan": {
+    title: "Plano de Estudo Personalizado – Preparação NCLEX | NurseNest",
+    description: "Crie seu plano de estudo personalizado para preparação NCLEX. Percurso estruturado adaptado ao seu nível e objetivos de exame.",
+    keywords: "plano de estudo NCLEX, planejamento revisão enfermagem, percurso de estudo, programa revisão NCLEX",
+  },
+  "/faq": {
+    title: "Perguntas Frequentes (FAQ) | NurseNest",
+    description: "Encontre respostas para suas perguntas sobre o NurseNest. Informações sobre assinaturas, conteúdo educacional, preparação para exames e funcionalidades da plataforma.",
+    keywords: "FAQ NurseNest, perguntas frequentes, ajuda NurseNest, suporte plataforma enfermagem",
+  },
+  "/contact": {
+    title: "Contate-nos | NurseNest – Suporte e Perguntas",
+    description: "Entre em contato com a equipe NurseNest para qualquer pergunta, comentário ou solicitação de suporte. Estamos aqui para ajudá-lo em sua preparação para exames de enfermagem.",
+    keywords: "contato NurseNest, suporte NurseNest, ajuda preparação exame enfermagem",
+  },
+  "/blog": {
+    title: "Blog Educação Clínica – Artigos de Enfermagem | NurseNest",
+    description: "Artigos de educação clínica baseados em evidências. Raciocínio clínico, fisiopatologia, farmacologia e estratégias de preparação para exames. Citações APA 7.",
+    keywords: "blog enfermagem, artigos clínicos, educação enfermagem, raciocínio clínico blog, farmacologia artigos",
+  },
+  "/med-math": {
+    title: "Cálculos de Medicamentos – Prática Matemática de Enfermagem | NurseNest",
+    description: "Pratique cálculos de dosagem e matemática de medicamentos com exercícios interativos. Soluções passo a passo e fórmulas essenciais para exames de enfermagem.",
+    keywords: "cálculos medicamentos enfermagem, matemática médica, dosagem medicamentos, cálculo infusão, matemática enfermagem",
+  },
+  "/lab-values": {
+    title: "Valores Laboratoriais – Interpretação de Enfermagem | NurseNest",
+    description: "Domine a interpretação de valores laboratoriais. Faixas normais, significado clínico de resultados anormais e ações de enfermagem correspondentes.",
+    keywords: "valores laboratoriais enfermagem, interpretação resultados lab, valores normais, análise sanguínea enfermagem",
+  },
+  "/question-of-the-day": {
+    title: "Questão do Dia – Raciocínio Clínico Diário | NurseNest",
+    description: "Receba uma questão de raciocínio clínico diária com justificativa detalhada. Mantenha sua rotina de estudo para preparação NCLEX.",
+    keywords: "questão do dia NCLEX, questão clínica diária, revisão diária enfermagem, prática diária NCLEX",
+  },
+  "/compare": {
+    title: "Comparar Planos – NurseNest vs Alternativas | NurseNest",
+    description: "Compare os planos do NurseNest e descubra por que o NurseNest oferece mais recursos a um preço mais acessível que UWorld e Archer para preparação NCLEX.",
+    keywords: "comparar NurseNest, NurseNest vs UWorld, preparação NCLEX comparação, melhor preparação NCLEX preço",
+  },
+  "/glossary": {
+    title: "Glossário de Enfermagem – Terminologia Médica | NurseNest",
+    description: "Consulte nosso glossário completo de termos de enfermagem e medicina. Definições claras para a terminologia usada em enfermagem e exames.",
+    keywords: "glossário enfermagem, terminologia médica, definições enfermagem, vocabulário enfermagem",
+  },
+  "/practice-questions": {
+    title: "Questões Práticas Gratuitas – Revisão de Enfermagem | NurseNest",
+    description: "Acesse questões práticas gratuitas para revisão de enfermagem. Conteúdo alinhado a exames com justificativas detalhadas para cada resposta.",
+    keywords: "questões práticas gratuitas enfermagem, revisão NCLEX grátis, questões exame enfermagem grátis",
+  },
+  "/nclex-rn-practice-questions": {
+    title: "Questões Práticas NCLEX-RN – Preparação para Exame | NurseNest",
+    description: "Prepare-se para o NCLEX-RN com questões práticas direcionadas. Raciocínio clínico, justificativas detalhadas e conteúdo alinhado aos domínios do exame.",
+    keywords: "questões práticas NCLEX-RN, preparação NCLEX-RN, revisão NCLEX-RN, exame RN questões",
+  },
+  "/nclex-pn-practice-questions": {
+    title: "Questões Práticas NCLEX-PN – Preparação para Exame | NurseNest",
+    description: "Prepare-se para o NCLEX-PN com questões práticas adaptadas. Conteúdo RPN/LVN com justificativas clínicas e acompanhamento de desempenho.",
+    keywords: "questões práticas NCLEX-PN, preparação NCLEX-PN, revisão RPN, exame PN questões",
+  },
+  "/rex-pn-practice-questions": {
+    title: "Questões Práticas REx-PN – Preparação para Exame Canadá | NurseNest",
+    description: "Prepare-se para o REx-PN com questões práticas projetadas para enfermeiros no Canadá. Conteúdo adaptado às normas canadenses.",
+    keywords: "questões práticas REx-PN, preparação REx-PN Canadá, exame RPN Canadá, revisão REx-PN",
+  },
+  "/np-exam-practice-questions": {
+    title: "Questões Práticas Exame NP – Certificação Enfermeiro Praticante | NurseNest",
+    description: "Prepare-se para seu exame de certificação NP com questões práticas avançadas. Conteúdo AANP e ANCC com justificativas clínicas detalhadas.",
+    keywords: "questões práticas NP, preparação exame NP, certificação enfermeiro praticante, revisão AANP ANCC",
+  },
+  "/diagnostic-assessment": {
+    title: "Avaliação Diagnóstica – Teste Seu Nível | NurseNest",
+    description: "Avalie seu nível atual com nossa avaliação diagnóstica. Identifique seus pontos fortes e fracos para otimizar seu plano de revisão NCLEX.",
+    keywords: "avaliação diagnóstica enfermagem, teste de nível NCLEX, diagnóstico preparação exame, avaliação conhecimentos enfermagem",
+  },
+  "/medication-mastery": {
+    title: "Domínio de Medicamentos – Farmacologia de Enfermagem | NurseNest",
+    description: "Domine a farmacologia de enfermagem com nossas ferramentas de revisão. Classes de medicamentos, efeitos colaterais, contraindicações e cálculos de dosagem.",
+    keywords: "farmacologia enfermagem, domínio medicamentos, revisão farmacologia NCLEX, classes medicamentos enfermagem",
+  },
+  "/lectures": {
+    title: "Videoaulas – Lições Clínicas em Vídeo | NurseNest",
+    description: "Assista videoaulas sobre fisiopatologia, farmacologia e enfermagem. Conteúdo pedagógico estruturado por sistema corporal e nível.",
+    keywords: "videoaulas enfermagem, lições vídeo enfermagem, fisiopatologia vídeo, aulas clínicas online",
+  },
+  "/nclex-rn-guide": {
+    title: "Guia NCLEX-RN – Tudo para Passar | NurseNest",
+    description: "Guia completo para passar no NCLEX-RN. Formato do exame, domínios de conteúdo, estratégias de preparação e recursos de estudo recomendados.",
+    keywords: "guia NCLEX-RN, passar NCLEX-RN, preparação NCLEX-RN guia, estratégias exame RN",
+  },
+  "/rex-pn-guide": {
+    title: "Guia REx-PN – Preparação para Exame Canadá | NurseNest",
+    description: "Guia completo para o REx-PN no Canadá. Formato do exame, competências avaliadas e estratégias de preparação para enfermeiros canadenses.",
+    keywords: "guia REx-PN, preparação REx-PN Canadá, exame RPN guia, passar REx-PN",
+  },
+  "/np-exam-guide": {
+    title: "Guia Exame NP – Certificação Enfermeiro Praticante | NurseNest",
+    description: "Guia completo para exames de certificação NP. Cobre exames AANP, ANCC e especialidades FNP, AGPCNP, PMHNP e mais.",
+    keywords: "guia exame NP, certificação enfermeiro praticante guia, preparação AANP ANCC, passar exame NP",
+  },
+  "/pathways": {
+    title: "Percursos de Aprendizagem – Progressão Estruturada | NurseNest",
+    description: "Siga percursos de aprendizagem estruturados para progredir do nível fundamental ao avançado. Progressão guiada para cada especialidade de enfermagem.",
+    keywords: "percursos aprendizagem enfermagem, progressão estruturada, percurso estudo NCLEX, programa revisão enfermagem",
+  },
+  "/shop": {
+    title: "Loja – Recursos de Estudo e Pacotes de Exame | NurseNest",
+    description: "Descubra nossos pacotes de exame imprimíveis, guias de estudo e recursos de revisão para preparação de exames de enfermagem.",
+    keywords: "loja NurseNest, pacotes exame enfermagem, recursos estudo, guias revisão NCLEX",
+  },
+};
+
+export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {
   fr: frenchMetadata,
   es: spanishMetadata,
+  pt: portugueseMetadata,
 };
 
 export function getLocalizedSEO(locale: string, path: string): LocalizedSEOEntry | null {
-  if (locale !== "fr" && locale !== "es") return null;
-  return localizedSEOMetadata[locale][path] || null;
+  if (!(locale in localizedSEOMetadata)) return null;
+  return localizedSEOMetadata[locale as SEOLocale][path] || null;
 }

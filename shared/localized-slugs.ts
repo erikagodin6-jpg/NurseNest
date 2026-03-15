@@ -207,6 +207,22 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "topics": "themen",
     "guides": "leitfaeden",
   },
+  pt: {
+    "pricing": "precos",
+    "lessons": "licoes",
+    "flashcards": "cartoes-de-estudo",
+    "question-bank": "banco-de-questoes",
+    "about": "sobre",
+    "contact": "contato",
+    "faq": "perguntas-frequentes",
+    "blog": "blog",
+    "glossary": "glossario",
+    "shop": "loja",
+    "nursing": "enfermagem",
+    "exam-prep": "preparacao-para-exame",
+    "topics": "topicos",
+    "guides": "guias",
+  },
 };
 
 const _reverseCache: Record<string, Record<string, string>> = {};

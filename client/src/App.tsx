@@ -1180,7 +1180,7 @@ function LocaleRouter() {
     return <Redirect to={redirectTarget} />;
   }
 
-  const needsDelocalization = locale === "fr" || locale === "es";
+  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt";
 
   if (needsDelocalization) {
     return (
