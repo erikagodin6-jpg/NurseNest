@@ -207,7 +207,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
             <img
               src={lesson.imageUrl}
               alt={lesson.imageAlt || `Clinical illustration of ${displayTitle}`}
-              className="w-full h-auto object-cover max-h-[400px]"
+              className="w-full h-auto object-contain"
               loading="lazy"
             />
           </div>

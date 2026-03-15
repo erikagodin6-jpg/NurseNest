@@ -2862,16 +2862,15 @@ export default function LessonDetail() {
           const caption = getImageCaption(lessonId);
           return lessonImg ? (
             <figure className="mb-6" data-testid={`figure-lesson-${lessonId}`}>
-              <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden shadow-md">
+              <div className="relative w-full rounded-2xl overflow-hidden shadow-md">
                 <ProtectedImage
                   src={lessonImg}
                   alt={getImageAltText(lessonId, lessonContent.title)}
                   title={getImageTitle(lessonId, lessonContent.title)}
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto object-contain"
                   loading="lazy"
                   data-testid={`img-lesson-${lessonId}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent pointer-events-none" style={{ zIndex: 3 }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getImageStructuredData(lessonId, lessonImg, lessonContent.title)) }} />
               </div>
               {caption && (

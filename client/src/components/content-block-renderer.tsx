@@ -134,7 +134,7 @@ function BlockImage({ block }: { block: ContentBlock }) {
   const altText = block.caption || "NurseNest clinical nursing illustration";
   return (
     <figure className="mb-6 rounded-xl overflow-hidden border border-gray-100 bg-gray-50/30 p-3" data-testid="block-image">
-      <img src={block.url} alt={altText} title={altText} className="w-full rounded-lg max-h-96 object-contain" loading="lazy" />
+      <img src={block.url} alt={altText} title={altText} className="w-full rounded-lg max-h-[600px] object-contain" loading="lazy" />
       <figcaption className="text-xs text-gray-500 text-center mt-2.5 italic">{block.caption || altText}</figcaption>
     </figure>
   );
