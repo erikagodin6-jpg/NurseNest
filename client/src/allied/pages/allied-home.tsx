@@ -67,7 +67,7 @@ export default function AlliedHomePage() {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "NurseNest Allied - Healthcare Exam Academy",
-          "url": "https://allied.nursenest.ca"
+          "url": "https://www.nursenest.ca/allied-health"
         }}
       />
       <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32" data-testid="allied-hero">

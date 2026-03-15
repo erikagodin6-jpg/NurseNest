@@ -95,7 +95,7 @@ export default function CareerLandingPage() {
           "provider": {
             "@type": "EducationalOrganization",
             "name": "NurseNest Allied",
-            "url": "https://allied.nursenest.ca",
+            "url": "https://www.nursenest.ca/allied-health",
             "parentOrganization": {
               "@type": "EducationalOrganization",
               "name": PARENT_EDUCATIONAL_ORG.name,
@@ -104,7 +104,7 @@ export default function CareerLandingPage() {
           },
           "courseMode": "online",
           "inLanguage": "en",
-          "url": `https://allied.nursenest.ca${careerRoute}`,
+          "url": `https://www.nursenest.ca/allied-health${careerRoute}`,
         }}
         additionalStructuredData={[
           {
@@ -124,7 +124,7 @@ export default function CareerLandingPage() {
             salaryCurrency: "USD",
             educationRequirements: career.examNames[0],
             occupationalCategory: career.name,
-            url: `https://allied.nursenest.ca${careerRoute}`,
+            url: `https://www.nursenest.ca/allied-health${careerRoute}`,
           }),
         ]}
       />

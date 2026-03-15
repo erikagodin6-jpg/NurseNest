@@ -393,8 +393,8 @@ export default function CareerGuidePage() {
     "headline": guide.articleTitle,
     "description": guide.heroDescription,
     "author": { "@type": "Organization", "name": "NurseNest" },
-    "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://allied.nursenest.ca" },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://allied.nursenest.ca/${guide.slug}` },
+    "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca/allied-health" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.nursenest.ca/allied-health/${guide.slug}` },
   };
 
   const occupationData = {
@@ -422,7 +422,7 @@ export default function CareerGuidePage() {
     "hiringOrganization": {
       "@type": "Organization",
       "name": "NurseNest",
-      "sameAs": "https://allied.nursenest.ca",
+      "sameAs": "https://www.nursenest.ca/allied-health",
     },
     "baseSalary": {
       "@type": "MonetaryAmount",
@@ -439,7 +439,7 @@ export default function CareerGuidePage() {
       "@type": "EducationalOccupationalCredential",
       "credentialCategory": guide.licensingRequirements.usa?.exams[0] || guide.licensingRequirements.canada?.exams[0] || guide.profession,
     },
-    "url": `https://allied.nursenest.ca/${guide.slug}`,
+    "url": `https://www.nursenest.ca/allied-health/${guide.slug}`,
     "datePosted": "2025-01-15",
     "validThrough": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
   };

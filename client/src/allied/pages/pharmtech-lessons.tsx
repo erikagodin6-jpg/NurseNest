@@ -37,9 +37,9 @@ function LessonLibrary() {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Allied", item: "https://allied.nursenest.ca" },
-            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-            { "@type": "ListItem", position: 3, name: "Lessons", item: "https://allied.nursenest.ca/pharmacy-technician/lessons" },
+            { "@type": "ListItem", position: 1, name: "Allied", item: "https://www.nursenest.ca/allied-health" },
+            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+            { "@type": "ListItem", position: 3, name: "Lessons", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/lessons" },
           ],
         }}
       />
@@ -131,10 +131,10 @@ function LessonDetail() {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Allied", item: "https://allied.nursenest.ca" },
-            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-            { "@type": "ListItem", position: 3, name: "Lessons", item: "https://allied.nursenest.ca/pharmacy-technician/lessons" },
-            { "@type": "ListItem", position: 4, name: lesson.title, item: `https://allied.nursenest.ca/pharmacy-technician/lessons/${lesson.slug}` },
+            { "@type": "ListItem", position: 1, name: "Allied", item: "https://www.nursenest.ca/allied-health" },
+            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+            { "@type": "ListItem", position: 3, name: "Lessons", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/lessons" },
+            { "@type": "ListItem", position: 4, name: lesson.title, item: `https://www.nursenest.ca/allied-health/pharmacy-technician/lessons/${lesson.slug}` },
           ],
         }}
       />

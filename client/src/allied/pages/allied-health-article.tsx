@@ -125,7 +125,7 @@ export default function AlliedHealthArticlePage() {
           },
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://allied.nursenest.ca/allied-health/${professionSlug}/${articleSlug}`
+            "@id": `https://www.nursenest.ca/allied-health/${professionSlug}/${articleSlug}`
           },
           "wordCount": article.wordCount,
           "articleSection": profession?.name || "Allied Health",

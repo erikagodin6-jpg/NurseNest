@@ -38,7 +38,7 @@ export default function ParamedicLessonsHub() {
           "@type": "CollectionPage",
           "name": "Paramedic Clinical Lessons",
           "description": "In-depth paramedic lessons covering trauma algorithms, ACLS pharmacology, airway management, pediatric emergencies, and field triage.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

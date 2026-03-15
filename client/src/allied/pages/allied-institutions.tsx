@@ -211,7 +211,7 @@ export default function AlliedInstitutionsPage() {
           "@type": "Service",
           "name": "NurseNest Institutional Access",
           "description": "Exam readiness and performance analytics platform for allied health and nursing programs.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={[
           {

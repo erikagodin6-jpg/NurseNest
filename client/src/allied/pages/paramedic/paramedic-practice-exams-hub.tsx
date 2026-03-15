@@ -19,7 +19,7 @@ export default function ParamedicPracticeExamsHub() {
           "@type": "CollectionPage",
           "name": "Paramedic Practice Exams",
           "description": "Full-length, timed paramedic practice exams that replicate the real certification testing experience with blueprint weighting and adaptive difficulty.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

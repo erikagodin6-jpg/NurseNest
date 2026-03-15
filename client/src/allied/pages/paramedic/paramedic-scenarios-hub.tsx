@@ -27,7 +27,7 @@ export default function ParamedicScenariosHub() {
           "@type": "CollectionPage",
           "name": "Paramedic Clinical Scenarios",
           "description": "Unfolding dispatch-to-disposition paramedic clinical scenarios with branching decisions and detailed clinical debriefs.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

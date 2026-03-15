@@ -36,7 +36,7 @@ export default function CareerDirectoryPage() {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           "name": "Allied Health Career Directory",
-          "url": "https://allied.nursenest.ca/careers",
+          "url": "https://www.nursenest.ca/allied-health/careers",
           "description": "Browse all allied health career paths. Access tailored question banks, mock exams, flashcards, AI tools, and study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certifications."
         }}
         additionalStructuredData={[
@@ -50,7 +50,7 @@ export default function CareerDirectoryPage() {
               salaryCurrency: "USD",
               educationRequirements: career.examNames[0],
               occupationalCategory: career.name,
-              url: `https://allied.nursenest.ca${getCanonicalRoute(career.slug)}`,
+              url: `https://www.nursenest.ca/allied-health${getCanonicalRoute(career.slug)}`,
             })
           ),
         ]}

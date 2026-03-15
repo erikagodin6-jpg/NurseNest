@@ -1091,9 +1091,9 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca/" },
-              { "@type": "ListItem", "position": 2, "name": career?.name || "Allied Health", "item": `https://allied.nursenest.ca/career/${page.careerSlug}` },
-              { "@type": "ListItem", "position": 3, "name": page.h1, "item": `https://allied.nursenest.ca/${page.slug}` }
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health/" },
+              { "@type": "ListItem", "position": 2, "name": career?.name || "Allied Health", "item": `https://www.nursenest.ca/allied-health/career/${page.careerSlug}` },
+              { "@type": "ListItem", "position": 3, "name": page.h1, "item": `https://www.nursenest.ca/allied-health/${page.slug}` }
             ]
           },
           {
@@ -1101,7 +1101,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             "@type": "Course",
             "name": page.h1,
             "description": page.metaDescription,
-            "provider": { "@type": "Organization", "name": "NurseNest Allied", "sameAs": "https://allied.nursenest.ca" },
+            "provider": { "@type": "Organization", "name": "NurseNest Allied", "sameAs": "https://www.nursenest.ca/allied-health" },
             "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT40H" }
           },
           ...(page.pageType === "category" ? [{
@@ -1113,10 +1113,10 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             "publisher": {
               "@type": "Organization",
               "name": "NurseNest Allied",
-              "url": "https://allied.nursenest.ca",
+              "url": "https://www.nursenest.ca/allied-health",
               "logo": { "@type": "ImageObject", "url": "https://www.nursenest.ca/opengraph.jpg" }
             },
-            "mainEntityOfPage": { "@type": "WebPage", "@id": `https://allied.nursenest.ca/${page.slug}` },
+            "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.nursenest.ca/allied-health/${page.slug}` },
             "articleSection": career?.name || "Allied Health"
           }] : [])
         ]}

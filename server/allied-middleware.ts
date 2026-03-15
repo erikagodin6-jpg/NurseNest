@@ -71,7 +71,7 @@ export function getNursingHost(req: Request): string {
 export function getAlliedHost(req: Request): string {
   const proto = req.get("x-forwarded-proto") || req.protocol || "https";
   if (process.env.NODE_ENV !== "production") return `${proto}://localhost:5000`;
-  return "https://allied.nursenest.ca";
+  return "https://www.nursenest.ca";
 }
 
 export function alliedDetectionMiddleware(req: Request, _res: Response, next: NextFunction) {
@@ -128,8 +128,8 @@ export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next
   }
 
   const ALTERNATE_SLUG_REDIRECTS: Record<string, string> = {
-    "respiratory-therapy": "/rrt",
-    "medical-lab-tech": "/mlt",
+    "respiratory-therapy": "/allied-health/rrt",
+    "medical-lab-tech": "/allied-health/mlt",
   };
   if (segments.length === 1 && ALTERNATE_SLUG_REDIRECTS[firstSeg]) {
     return res.redirect(301, ALTERNATE_SLUG_REDIRECTS[firstSeg]);
@@ -146,30 +146,13 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
     return next();
   }
 
-  const pathWithoutLocale = req.path.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
-
   if (req.isAllied) {
-    for (const nursingPath of NURSING_ONLY_PATHS) {
-      if (pathWithoutLocale.startsWith(nursingPath)) {
-        return res.redirect(302, getNursingHost(req) + req.originalUrl);
-      }
-    }
-  } else {
-    const alliedTarget = getAlliedHost(req);
-    const currentHost = getNursingHost(req);
-    const isSameHost = alliedTarget === currentHost;
-
-    if (!isSameHost) {
-      for (const alliedPath of ALLIED_ONLY_PATHS) {
-        if (pathWithoutLocale.startsWith(alliedPath)) {
-          return res.redirect(302, alliedTarget + req.originalUrl);
-        }
-      }
-      const firstSeg = pathWithoutLocale.split("/").filter(Boolean)[0];
-      if (firstSeg && ALLIED_SLUGS.has(firstSeg) && !pathWithoutLocale.startsWith("/admin")) {
-        return res.redirect(302, alliedTarget + req.originalUrl);
-      }
-    }
+    const mainHost = getNursingHost(req);
+    const pathWithoutLocale = req.path.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
+    const localePart = req.path !== pathWithoutLocale ? req.path.slice(0, req.path.length - pathWithoutLocale.length) : "";
+    const newPath = pathWithoutLocale === "/" ? "/allied-health" : `/allied-health${pathWithoutLocale}`;
+    const qs = req.originalUrl.includes("?") ? req.originalUrl.slice(req.originalUrl.indexOf("?")) : "";
+    return res.redirect(301, `${mainHost}${localePart}${newPath}${qs}`);
   }
 
   next();
@@ -177,9 +160,9 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
 
 export function generateAlliedSitemap(baseUrl: string): string {
   const canonicalCareerRoutes = [
-    "/rrt", "/paramedic", "/pharmacy-technician", "/mlt", "/imaging",
-    "/social-work", "/psychotherapy", "/addictions", "/occupational-therapy",
-    "/physical-therapy",
+    "/allied-health/rrt", "/allied-health/paramedic", "/allied-health/pharmacy-technician", "/allied-health/mlt", "/allied-health/imaging",
+    "/allied-health/social-work", "/allied-health/psychotherapy", "/allied-health/addictions", "/allied-health/occupational-therapy",
+    "/allied-health/physical-therapy",
   ];
 
   const careerSubPages = ["mock-exams", "dashboard", "flashcards", "study-plan", "sims", "tools"];
@@ -217,11 +200,10 @@ export function generateAlliedSitemap(baseUrl: string): string {
   const urls: string[] = [];
   const now = new Date().toISOString().split("T")[0];
 
-  urls.push(`<url><loc>${baseUrl}/</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>${now}</lastmod></url>`);
-  urls.push(`<url><loc>${baseUrl}/pricing</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
-  urls.push(`<url><loc>${baseUrl}/careers</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
-  urls.push(`<url><loc>${baseUrl}/diagnostic</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
-  urls.push(`<url><loc>${baseUrl}/qbank</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health/careers</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health/diagnostic</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health/qbank</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
 
   for (const route of canonicalCareerRoutes) {
     urls.push(`<url><loc>${baseUrl}${route}</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
@@ -231,55 +213,53 @@ export function generateAlliedSitemap(baseUrl: string): string {
   }
 
   for (const page of seoLandingPages) {
-    urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+    urls.push(`<url><loc>${baseUrl}/allied-health/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
   const otNamespacedPages = [
-    "occupational-therapist/question-bank",
-    "occupational-therapist/mock-exams",
-    "occupational-therapist/study-plan",
+    "allied-health/occupational-therapist/question-bank",
+    "allied-health/occupational-therapist/mock-exams",
+    "allied-health/occupational-therapist/study-plan",
   ];
   for (const page of otNamespacedPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
   const careerGuidePages = [
-    "how-to-become-a-paramedic",
-    "how-to-become-a-respiratory-therapist",
-    "how-to-become-a-medical-lab-technologist",
-    "how-to-become-a-radiologic-technologist",
-    "how-to-become-a-social-worker",
-    "how-to-become-a-psychotherapist",
-    "how-to-become-an-addictions-counselor",
-    "how-to-become-an-occupational-therapist",
-    "how-to-become-a-pharmacy-technician",
+    "allied-health/how-to-become-a-paramedic",
+    "allied-health/how-to-become-a-respiratory-therapist",
+    "allied-health/how-to-become-a-medical-lab-technologist",
+    "allied-health/how-to-become-a-radiologic-technologist",
+    "allied-health/how-to-become-a-social-worker",
+    "allied-health/how-to-become-a-psychotherapist",
+    "allied-health/how-to-become-an-addictions-counselor",
+    "allied-health/how-to-become-an-occupational-therapist",
+    "allied-health/how-to-become-a-pharmacy-technician",
   ];
   for (const page of careerGuidePages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
   }
 
   const examPrepPages = [
-    "paramedic-exam-prep",
-    "rrt-exam-prep",
-    "mlt-exam-prep",
-    "radiography-exam-prep",
-    "social-work-exam-prep",
-    "psychotherapy-exam-prep",
-    "addictions-counselling-exam-prep",
-    "occupational-therapy-exam-prep",
-    "physical-therapy-exam-prep",
+    "allied-health/paramedic-exam-prep",
+    "allied-health/rrt-exam-prep",
+    "allied-health/mlt-exam-prep",
+    "allied-health/radiography-exam-prep",
+    "allied-health/social-work-exam-prep",
+    "allied-health/psychotherapy-exam-prep",
+    "allied-health/addictions-counselling-exam-prep",
+    "allied-health/occupational-therapy-exam-prep",
+    "allied-health/physical-therapy-exam-prep",
   ];
   for (const page of examPrepPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
-  urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health/pharmacy-technician/drug-classes</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   for (const slug of drugClassSlugs) {
-    urls.push(`<url><loc>${baseUrl}/pharmacy-technician/drug-classes/${slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
+    urls.push(`<url><loc>${baseUrl}/allied-health/pharmacy-technician/drug-classes/${slug}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
   }
-  urls.push(`<url><loc>${baseUrl}/pharmacy-technician/practice-exam-questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
-
-  urls.push(`<url><loc>${baseUrl}/allied-health</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/allied-health/pharmacy-technician/practice-exam-questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   const alliedHealthProfessions = [
     "respiratory-therapy", "paramedic", "pharmacy-technician", "medical-lab-technologist",
     "medical-imaging", "occupational-therapy", "physical-therapy", "social-work",

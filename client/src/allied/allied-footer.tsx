@@ -24,14 +24,14 @@ export function AlliedFooter() {
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Careers</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><Link href="/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">Respiratory Therapist</Link></li>
-              <li><Link href="/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">Paramedic</Link></li>
-              <li><Link href="/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
-              <li><Link href="/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
-              <li><Link href="/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
-              <li><Link href="/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">Occupational Therapy</Link></li>
-              <li><Link href="/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">Physical Therapy</Link></li>
-              <li><Link href="/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">Social Work</Link></li>
+              <li><Link href="/allied-health/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">Respiratory Therapist</Link></li>
+              <li><Link href="/allied-health/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">Paramedic</Link></li>
+              <li><Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
+              <li><Link href="/allied-health/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
+              <li><Link href="/allied-health/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
+              <li><Link href="/allied-health/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">Occupational Therapy</Link></li>
+              <li><Link href="/allied-health/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">Physical Therapy</Link></li>
+              <li><Link href="/allied-health/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">Social Work</Link></li>
             </ul>
           </div>
           <div>

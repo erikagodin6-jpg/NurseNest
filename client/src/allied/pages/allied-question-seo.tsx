@@ -257,7 +257,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
         "@type": "ListItem",
         position: i + 1,
         name: b.label,
-        item: `https://allied.nursenest.ca${b.href}`,
+        item: `https://www.nursenest.ca/allied-health${b.href}`,
       })),
     },
     {
@@ -267,9 +267,9 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
       description: `Practice ${data.totalQuestions} ${profession.label} exam questions on ${topicTitle}. Covers ${data.category} with detailed rationales.`,
       learningResourceType: "Quiz",
       educationalLevel: "Professional",
-      provider: { "@type": "Organization", name: "NurseNest", url: "https://allied.nursenest.ca" },
+      provider: { "@type": "Organization", name: "NurseNest", url: "https://www.nursenest.ca/allied-health" },
       about: { "@type": "Thing", name: topicTitle },
-      url: `https://allied.nursenest.ca/${profession.key}/questions/${data.topicSlug}`,
+      url: `https://www.nursenest.ca/allied-health/${profession.key}/questions/${data.topicSlug}`,
     },
     {
       "@context": "https://schema.org",

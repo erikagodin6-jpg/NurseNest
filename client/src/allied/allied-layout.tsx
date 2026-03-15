@@ -7,7 +7,7 @@ import { AlliedSubNav } from "./allied-sub-nav";
 export function AlliedLayout({ children }: { children: ReactNode }) {
   const [location] = useLocation();
 
-  const isCareerPage = /^\/(rrt|paramedic|pharmacy-technician|mlt|imaging|occupational-therapy|physical-therapy|social-work|psychotherapy|addictions|health-info-mgmt)(\/|$)/.test(location);
+  const isCareerPage = /^\/allied-health\/(rrt|paramedic|pharmacy-technician|pharmacy-tech|mlt|imaging|occupational-therapy|occupational-therapist|physical-therapy|social-work|social-worker|psychotherapy|psychotherapist|addictions|addictions-counsellor|health-info-mgmt|respiratory-therapy)(\/|$)/.test(location);
 
   return (
     <div className="min-h-screen flex flex-col" data-testid="allied-layout">

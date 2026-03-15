@@ -132,23 +132,23 @@ export function AlliedRoutes() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
-        <Route path="/" component={AlliedHome} />
-        <Route path="/lessons" component={AlliedLessons} />
-        <Route path="/careers" component={CareerDirectory} />
+        <Route path="/allied-health/home" component={AlliedHome} />
+        <Route path="/allied-health/lessons" component={AlliedLessons} />
+        <Route path="/allied-health/careers" component={CareerDirectory} />
         <Route path="/pricing">{() => <Redirect to="/pricing/allied" />}</Route>
-        <Route path="/institutions/faq" component={AlliedInstitutionsFAQ} />
-        <Route path="/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
-        <Route path="/institutions" component={AlliedInstitutions} />
-        <Route path="/diagnostic" component={AlliedDiagnostic} />
-        <Route path="/qbank" component={AlliedQBank} />
+        <Route path="/allied-health/institutions/faq" component={AlliedInstitutionsFAQ} />
+        <Route path="/allied-health/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
+        <Route path="/allied-health/institutions" component={AlliedInstitutions} />
+        <Route path="/allied-health/diagnostic" component={AlliedDiagnostic} />
+        <Route path="/allied-health/qbank" component={AlliedQBank} />
         <Route path="/admin/allied" component={AlliedAdmin} />
         <Route path="/admin/paramedic-seo" component={ParamedicSeoAdmin} />
-        <Route path="/paramedic/topic/:slug" component={ParamedicSeoPage} />
-        <Route path="/paramedic/category/:slug" component={ParamedicCategoryPage} />
-        <Route path="/paramedic/glossary/:slug" component={ParamedicGlossaryPage} />
-        <Route path="/paramedic/compare/:slug" component={ParamedicComparisonPage} />
-        <Route path="/paramedic/study-guide/:slug" component={ParamedicStudyGuidePage} />
-        <Route path="/paramedic/exam-prep/:slug" component={ParamedicExamPrepPage} />
+        <Route path="/allied-health/paramedic/topic/:slug" component={ParamedicSeoPage} />
+        <Route path="/allied-health/paramedic/category/:slug" component={ParamedicCategoryPage} />
+        <Route path="/allied-health/paramedic/glossary/:slug" component={ParamedicGlossaryPage} />
+        <Route path="/allied-health/paramedic/compare/:slug" component={ParamedicComparisonPage} />
+        <Route path="/allied-health/paramedic/study-guide/:slug" component={ParamedicStudyGuidePage} />
+        <Route path="/allied-health/paramedic/exam-prep/:slug" component={ParamedicExamPrepPage} />
         <Route path="/admin/mlt" component={MltAdmin} />
         <Route path="/admin/mlt/questions" component={MltAdmin} />
         <Route path="/admin/mlt/flashcards" component={MltAdmin} />
@@ -174,289 +174,289 @@ export function AlliedRoutes() {
         <Route path="/admin/allied-content/pharmacy-technician/import" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician" component={PharmtechAdmin} />
         <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
-        <Route path="/pharmacy-technician/drug-classes/:slug" component={PharmtechDrugClassDetail} />
-        <Route path="/pharmacy-technician/drug-classes" component={PharmtechDrugClassesHub} />
+        <Route path="/allied-health/pharmacy-technician/drug-classes/:slug" component={PharmtechDrugClassDetail} />
+        <Route path="/allied-health/pharmacy-technician/drug-classes" component={PharmtechDrugClassesHub} />
         <Route path="/admin/allied-content/pharmacy-technician/study-plans" component={PharmtechAdmin} />
-        <Route path="/pharmacy-technician/study-plan/:planId" component={PharmtechStudyPlan} />
-        <Route path="/pharmacy-technician/study-plan" component={PharmtechStudyPlan} />
-        <Route path="/pharmacy-technician/mock-exams">{() => { window.location.replace("/pharmacy-technician/exams"); return null; }}</Route>
-        <Route path="/pharmacy-technician" component={PharmtechHub} />
-        <Route path="/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
-        <Route path="/pharmacy-technician/lessons" component={PharmtechLessons} />
-        <Route path="/pharmacy-technician/flashcards/:slug" component={PharmtechFlashcards} />
-        <Route path="/pharmacy-technician/flashcards" component={PharmtechFlashcards} />
-        <Route path="/pharmacy-technician/review/:attemptId" component={PharmtechReview} />
-        <Route path="/pharmacy-technician/exams/:slug" component={PharmtechExams} />
-        <Route path="/pharmacy-technician/exams" component={PharmtechExams} />
-        <Route path="/pharmacy-technician/practice-exam-questions" component={PharmtechPracticeExamSeo} />
-        <Route path="/pharmacy-technician/adaptive-practice" component={PharmtechAdaptivePractice} />
-        <Route path="/pharmacy-technician/practice-questions" component={PharmtechPractice} />
-        <Route path="/pharmacy-technician/study-guide" component={PharmtechStudyGuide} />
-        <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
-        <Route path="/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
-        <Route path="/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>
-        <Route path="/pharmacy-technician-top-200-drugs-flashcards">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs-flashcards" />}</Route>
-        <Route path="/pharmacy-technician-dosage-calculations-practice">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations-practice" />}</Route>
-        <Route path="/pharmacy-technician-dosage-calculations">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations" />}</Route>
-        <Route path="/pharmacy-technician-pharmacy-law-and-ethics">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-pharmacy-law-and-ethics" />}</Route>
-        <Route path="/pharmacy-technician-medication-safety">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-medication-safety" />}</Route>
-        <Route path="/pharmacy-technician-top-200-drugs">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs" />}</Route>
-        <Route path="/rrt-practice-questions">{() => <AlliedSeoLanding pageSlug="rrt-practice-questions" />}</Route>
-        <Route path="/rrt-mock-exam">{() => <AlliedSeoLanding pageSlug="rrt-mock-exam" />}</Route>
-        <Route path="/rrt-study-guide">{() => <AlliedSeoLanding pageSlug="rrt-study-guide" />}</Route>
-        <Route path="/pharmacy-tech-us">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-us" />}</Route>
-        <Route path="/pharmacy-tech-canada">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-canada" />}</Route>
-        <Route path="/rrt-us">{() => <AlliedSeoLanding pageSlug="rrt-us" />}</Route>
-        <Route path="/rrt-canada">{() => <AlliedSeoLanding pageSlug="rrt-canada" />}</Route>
-        <Route path="/medical-imaging/:country/physics/:topicSlug" component={ImagingPhysicsTopic} />
-        <Route path="/medical-imaging/:country/physics" component={ImagingPhysicsListing} />
-        <Route path="/medical-imaging/:country/flashcards" component={ImagingFlashcardsPage} />
-        <Route path="/medical-imaging/:country/:pageType">{(params) => <ImagingSeoLanding />}</Route>
-        <Route path="/imaging-us">{() => <AlliedSeoLanding pageSlug="imaging-us" />}</Route>
-        <Route path="/imaging-canada">{() => <AlliedSeoLanding pageSlug="imaging-canada" />}</Route>
-        <Route path="/paramedic-us">{() => <AlliedSeoLanding pageSlug="paramedic-us" />}</Route>
-        <Route path="/paramedic-canada">{() => <AlliedSeoLanding pageSlug="paramedic-canada" />}</Route>
-        <Route path="/mlt-us">{() => <AlliedSeoLanding pageSlug="mlt-us" />}</Route>
-        <Route path="/mlt-canada">{() => <AlliedSeoLanding pageSlug="mlt-canada" />}</Route>
-        <Route path="/dashboard/mlt/canada" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/usa" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/exam" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/flashcards" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/lessons" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/performance" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/wrong-answers" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt/study-plan" component={MltStudentDashboard} />
-        <Route path="/dashboard/mlt" component={MltStudentDashboard} />
-        <Route path="/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
-        <Route path="/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
-        <Route path="/mlt/exam-prep">{() => <MltSEOPage country="both" pageType="exam-prep" />}</Route>
-        <Route path="/mlt/study-guide">{() => <MltSEOPage country="both" pageType="study-guide" />}</Route>
-        <Route path="/mlt/mock-exam">{() => <MltSEOPage country="both" pageType="mock-exam" />}</Route>
-        <Route path="/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
+        <Route path="/allied-health/pharmacy-technician/study-plan/:planId" component={PharmtechStudyPlan} />
+        <Route path="/allied-health/pharmacy-technician/study-plan" component={PharmtechStudyPlan} />
+        <Route path="/allied-health/pharmacy-technician/mock-exams">{() => { window.location.replace("/allied-health/pharmacy-technician/exams"); return null; }}</Route>
+        <Route path="/allied-health/pharmacy-technician" component={PharmtechHub} />
+        <Route path="/allied-health/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
+        <Route path="/allied-health/pharmacy-technician/lessons" component={PharmtechLessons} />
+        <Route path="/allied-health/pharmacy-technician/flashcards/:slug" component={PharmtechFlashcards} />
+        <Route path="/allied-health/pharmacy-technician/flashcards" component={PharmtechFlashcards} />
+        <Route path="/allied-health/pharmacy-technician/review/:attemptId" component={PharmtechReview} />
+        <Route path="/allied-health/pharmacy-technician/exams/:slug" component={PharmtechExams} />
+        <Route path="/allied-health/pharmacy-technician/exams" component={PharmtechExams} />
+        <Route path="/allied-health/pharmacy-technician/practice-exam-questions" component={PharmtechPracticeExamSeo} />
+        <Route path="/allied-health/pharmacy-technician/adaptive-practice" component={PharmtechAdaptivePractice} />
+        <Route path="/allied-health/pharmacy-technician/practice-questions" component={PharmtechPractice} />
+        <Route path="/allied-health/pharmacy-technician/study-guide" component={PharmtechStudyGuide} />
+        <Route path="/allied-health/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-top-200-drugs-flashcards">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs-flashcards" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-dosage-calculations-practice">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations-practice" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-dosage-calculations">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-dosage-calculations" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-pharmacy-law-and-ethics">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-pharmacy-law-and-ethics" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-medication-safety">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-medication-safety" />}</Route>
+        <Route path="/allied-health/pharmacy-technician-top-200-drugs">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-top-200-drugs" />}</Route>
+        <Route path="/allied-health/rrt-practice-questions">{() => <AlliedSeoLanding pageSlug="rrt-practice-questions" />}</Route>
+        <Route path="/allied-health/rrt-mock-exam">{() => <AlliedSeoLanding pageSlug="rrt-mock-exam" />}</Route>
+        <Route path="/allied-health/rrt-study-guide">{() => <AlliedSeoLanding pageSlug="rrt-study-guide" />}</Route>
+        <Route path="/allied-health/pharmacy-tech-us">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-us" />}</Route>
+        <Route path="/allied-health/pharmacy-tech-canada">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-canada" />}</Route>
+        <Route path="/allied-health/rrt-us">{() => <AlliedSeoLanding pageSlug="rrt-us" />}</Route>
+        <Route path="/allied-health/rrt-canada">{() => <AlliedSeoLanding pageSlug="rrt-canada" />}</Route>
+        <Route path="/allied-health/medical-imaging/:country/physics/:topicSlug" component={ImagingPhysicsTopic} />
+        <Route path="/allied-health/medical-imaging/:country/physics" component={ImagingPhysicsListing} />
+        <Route path="/allied-health/medical-imaging/:country/flashcards" component={ImagingFlashcardsPage} />
+        <Route path="/allied-health/medical-imaging/:country/:pageType">{(params) => <ImagingSeoLanding />}</Route>
+        <Route path="/allied-health/imaging-us">{() => <AlliedSeoLanding pageSlug="imaging-us" />}</Route>
+        <Route path="/allied-health/imaging-canada">{() => <AlliedSeoLanding pageSlug="imaging-canada" />}</Route>
+        <Route path="/allied-health/paramedic-us">{() => <AlliedSeoLanding pageSlug="paramedic-us" />}</Route>
+        <Route path="/allied-health/paramedic-canada">{() => <AlliedSeoLanding pageSlug="paramedic-canada" />}</Route>
+        <Route path="/allied-health/mlt-us">{() => <AlliedSeoLanding pageSlug="mlt-us" />}</Route>
+        <Route path="/allied-health/mlt-canada">{() => <AlliedSeoLanding pageSlug="mlt-canada" />}</Route>
+        <Route path="/allied-health/dashboard/mlt/canada" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/usa" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/exam" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/flashcards" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/lessons" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/performance" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/wrong-answers" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt/study-plan" component={MltStudentDashboard} />
+        <Route path="/allied-health/dashboard/mlt" component={MltStudentDashboard} />
+        <Route path="/allied-health/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
+        <Route path="/allied-health/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
+        <Route path="/allied-health/mlt/exam-prep">{() => <MltSEOPage country="both" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/mlt/study-guide">{() => <MltSEOPage country="both" pageType="study-guide" />}</Route>
+        <Route path="/allied-health/mlt/mock-exam">{() => <MltSEOPage country="both" pageType="mock-exam" />}</Route>
+        <Route path="/allied-health/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
         <Route path="/admin/mlt/images" component={MltImageLibrary} />
-        <Route path="/mlt/image-drill" component={MltImageDrill} />
-        <Route path="/careers/mlt/image-drill">{() => { window.location.replace("/mlt/image-drill"); return null; }}</Route>
-        <Route path="/paramedic/pcp" component={ParamedicPCP} />
-        <Route path="/paramedic/acp" component={ParamedicACP} />
-        <Route path="/paramedic/nremt" component={ParamedicNREMT} />
-        <Route path="/paramedic/lessons" component={ParamedicLessonsHub} />
-        <Route path="/paramedic/exams" component={ParamedicExamsHub} />
-        <Route path="/paramedic/flashcards" component={ParamedicFlashcardsHub} />
-        <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
-        <Route path="/paramedic/exam-simulator/:sessionId" component={ParamedicExamSimulator} />
-        <Route path="/paramedic/exam-results/:sessionId" component={ParamedicExamResults} />
-        <Route path="/paramedic/exam-launcher" component={ParamedicExamLauncher} />
-        <Route path="/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
-        <Route path="/paramedic/ecg-library" component={ParamedicECGLibrary} />
+        <Route path="/allied-health/mlt/image-drill" component={MltImageDrill} />
+        <Route path="/allied-health/careers/mlt/image-drill">{() => { window.location.replace("/allied-health/mlt/image-drill"); return null; }}</Route>
+        <Route path="/allied-health/paramedic/pcp" component={ParamedicPCP} />
+        <Route path="/allied-health/paramedic/acp" component={ParamedicACP} />
+        <Route path="/allied-health/paramedic/nremt" component={ParamedicNREMT} />
+        <Route path="/allied-health/paramedic/lessons" component={ParamedicLessonsHub} />
+        <Route path="/allied-health/paramedic/exams" component={ParamedicExamsHub} />
+        <Route path="/allied-health/paramedic/flashcards" component={ParamedicFlashcardsHub} />
+        <Route path="/allied-health/paramedic/scenarios" component={ParamedicScenariosHub} />
+        <Route path="/allied-health/paramedic/exam-simulator/:sessionId" component={ParamedicExamSimulator} />
+        <Route path="/allied-health/paramedic/exam-results/:sessionId" component={ParamedicExamResults} />
+        <Route path="/allied-health/paramedic/exam-launcher" component={ParamedicExamLauncher} />
+        <Route path="/allied-health/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
+        <Route path="/allied-health/paramedic/ecg-library" component={ParamedicECGLibrary} />
         <Route path="/admin/paramedic-waveforms" component={ParamedicECGAdmin} />
-        <Route path="/paramedic/questions/:topicSlug" component={ParamedicQuestionSeoPage} />
-        <Route path="/paramedic/questions" component={ParamedicQuestionsIndex} />
-        <Route path="/rrt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="rrt" />}</Route>
-        <Route path="/rrt/questions">{() => <AlliedQuestionsIndexPage professionKey="rrt" />}</Route>
-        <Route path="/mlt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="mlt" />}</Route>
-        <Route path="/mlt/questions">{() => <AlliedQuestionsIndexPage professionKey="mlt" />}</Route>
-        <Route path="/imaging/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="imaging" />}</Route>
-        <Route path="/imaging/questions">{() => <AlliedQuestionsIndexPage professionKey="imaging" />}</Route>
-        <Route path="/occupational-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="occupationalTherapy" />}</Route>
-        <Route path="/occupational-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="occupationalTherapy" />}</Route>
-        <Route path="/physical-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="physicalTherapy" />}</Route>
-        <Route path="/physical-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="physicalTherapy" />}</Route>
-        <Route path="/paramedic" component={ParamedicLanding} />
-        <Route path="/mlt/exams" component={MltExamHub} />
-        <Route path="/mlt/exam/canada_realistic" component={MltCanadaExam} />
-        <Route path="/mlt/exam/usa_cat" component={MltUsaCatExam} />
-        <Route path="/mlt/exam/adaptive_practice" component={MltAdaptivePractice} />
-        <Route path="/mlt/exam/practice_exam" component={MltPracticeExam} />
-        <Route path="/mlt/exam/results/:sessionId" component={MltExamResults} />
-        <Route path="/mlt/exam/history" component={MltExamHistory} />
-        <Route path="/mlt/admin/cat" component={MltAdminCat} />
-        <Route path="/mlt/blog/:slug">{() => <MltBlog isPost />}</Route>
-        <Route path="/mlt/blog">{() => <MltBlog />}</Route>
-        <Route path="/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
-        <Route path="/mlt/canada/lessons">{() => <MltCountryPage country="canada" pageType="lessons" />}</Route>
-        <Route path="/mlt/canada/flashcards">{() => <MltCountryPage country="canada" pageType="flashcards" />}</Route>
-        <Route path="/mlt/canada/practice-exams">{() => <MltCountryPage country="canada" pageType="practice-exams" />}</Route>
-        <Route path="/mlt/canada/study-plan">{() => <MltCountryPage country="canada" pageType="study-plan" />}</Route>
-        <Route path="/mlt/canada/free-questions">{() => <MltCountryPage country="canada" pageType="free-questions" />}</Route>
-        <Route path="/mlt/canada/faq">{() => <MltCountryPage country="canada" pageType="faq" />}</Route>
-        <Route path="/mlt/usa/exam-prep">{() => <MltCountryPage country="usa" pageType="exam-prep" />}</Route>
-        <Route path="/mlt/usa/lessons">{() => <MltCountryPage country="usa" pageType="lessons" />}</Route>
-        <Route path="/mlt/usa/flashcards">{() => <MltCountryPage country="usa" pageType="flashcards" />}</Route>
-        <Route path="/mlt/usa/practice-exams">{() => <MltCountryPage country="usa" pageType="practice-exams" />}</Route>
-        <Route path="/mlt/usa/study-plan">{() => <MltCountryPage country="usa" pageType="study-plan" />}</Route>
-        <Route path="/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
-        <Route path="/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
-        <Route path="/mlt" component={MltLanding} />
-        <Route path="/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
-        <Route path="/imaging">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["imaging"]} />}</Route>
-        <Route path="/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
-        <Route path="/psychotherapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["psychotherapy"]} />}</Route>
-        <Route path="/addictions">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["addictions"]} />}</Route>
-        <Route path="/occupational-therapy" component={OccupationalTherapyHub} />
-        <Route path="/physical-therapy" component={PhysicalTherapyHub} />
+        <Route path="/allied-health/paramedic/questions/:topicSlug" component={ParamedicQuestionSeoPage} />
+        <Route path="/allied-health/paramedic/questions" component={ParamedicQuestionsIndex} />
+        <Route path="/allied-health/rrt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="rrt" />}</Route>
+        <Route path="/allied-health/rrt/questions">{() => <AlliedQuestionsIndexPage professionKey="rrt" />}</Route>
+        <Route path="/allied-health/mlt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="mlt" />}</Route>
+        <Route path="/allied-health/mlt/questions">{() => <AlliedQuestionsIndexPage professionKey="mlt" />}</Route>
+        <Route path="/allied-health/imaging/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="imaging" />}</Route>
+        <Route path="/allied-health/imaging/questions">{() => <AlliedQuestionsIndexPage professionKey="imaging" />}</Route>
+        <Route path="/allied-health/occupational-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="occupationalTherapy" />}</Route>
+        <Route path="/allied-health/occupational-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="occupationalTherapy" />}</Route>
+        <Route path="/allied-health/physical-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="physicalTherapy" />}</Route>
+        <Route path="/allied-health/physical-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="physicalTherapy" />}</Route>
+        <Route path="/allied-health/paramedic" component={ParamedicLanding} />
+        <Route path="/allied-health/mlt/exams" component={MltExamHub} />
+        <Route path="/allied-health/mlt/exam/canada_realistic" component={MltCanadaExam} />
+        <Route path="/allied-health/mlt/exam/usa_cat" component={MltUsaCatExam} />
+        <Route path="/allied-health/mlt/exam/adaptive_practice" component={MltAdaptivePractice} />
+        <Route path="/allied-health/mlt/exam/practice_exam" component={MltPracticeExam} />
+        <Route path="/allied-health/mlt/exam/results/:sessionId" component={MltExamResults} />
+        <Route path="/allied-health/mlt/exam/history" component={MltExamHistory} />
+        <Route path="/allied-health/mlt/admin/cat" component={MltAdminCat} />
+        <Route path="/allied-health/mlt/blog/:slug">{() => <MltBlog isPost />}</Route>
+        <Route path="/allied-health/mlt/blog">{() => <MltBlog />}</Route>
+        <Route path="/allied-health/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/mlt/canada/lessons">{() => <MltCountryPage country="canada" pageType="lessons" />}</Route>
+        <Route path="/allied-health/mlt/canada/flashcards">{() => <MltCountryPage country="canada" pageType="flashcards" />}</Route>
+        <Route path="/allied-health/mlt/canada/practice-exams">{() => <MltCountryPage country="canada" pageType="practice-exams" />}</Route>
+        <Route path="/allied-health/mlt/canada/study-plan">{() => <MltCountryPage country="canada" pageType="study-plan" />}</Route>
+        <Route path="/allied-health/mlt/canada/free-questions">{() => <MltCountryPage country="canada" pageType="free-questions" />}</Route>
+        <Route path="/allied-health/mlt/canada/faq">{() => <MltCountryPage country="canada" pageType="faq" />}</Route>
+        <Route path="/allied-health/mlt/usa/exam-prep">{() => <MltCountryPage country="usa" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/mlt/usa/lessons">{() => <MltCountryPage country="usa" pageType="lessons" />}</Route>
+        <Route path="/allied-health/mlt/usa/flashcards">{() => <MltCountryPage country="usa" pageType="flashcards" />}</Route>
+        <Route path="/allied-health/mlt/usa/practice-exams">{() => <MltCountryPage country="usa" pageType="practice-exams" />}</Route>
+        <Route path="/allied-health/mlt/usa/study-plan">{() => <MltCountryPage country="usa" pageType="study-plan" />}</Route>
+        <Route path="/allied-health/mlt/usa/free-questions">{() => <MltCountryPage country="usa" pageType="free-questions" />}</Route>
+        <Route path="/allied-health/mlt/usa/faq">{() => <MltCountryPage country="usa" pageType="faq" />}</Route>
+        <Route path="/allied-health/mlt" component={MltLanding} />
+        <Route path="/allied-health/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
+        <Route path="/allied-health/imaging">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["imaging"]} />}</Route>
+        <Route path="/allied-health/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
+        <Route path="/allied-health/psychotherapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["psychotherapy"]} />}</Route>
+        <Route path="/allied-health/addictions">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["addictions"]} />}</Route>
+        <Route path="/allied-health/occupational-therapy" component={OccupationalTherapyHub} />
+        <Route path="/allied-health/physical-therapy" component={PhysicalTherapyHub} />
 
-        <Route path="/rrt/lessons">{() => <ProfessionClusterRedirect profession="rrt" clusterType="lessons" />}</Route>
-        <Route path="/rrt/practice-questions">{() => <ProfessionClusterRedirect profession="rrt" clusterType="practice-questions" />}</Route>
-        <Route path="/rrt/flashcards">{() => <ProfessionClusterRedirect profession="rrt" clusterType="flashcards" />}</Route>
-        <Route path="/rrt/mock-exam">{() => <ProfessionClusterRedirect profession="rrt" clusterType="mock-exam" />}</Route>
-        <Route path="/rrt/study-guide">{() => <ProfessionClusterRedirect profession="rrt" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/rrt/lessons">{() => <ProfessionClusterRedirect profession="rrt" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/rrt/practice-questions">{() => <ProfessionClusterRedirect profession="rrt" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/rrt/flashcards">{() => <ProfessionClusterRedirect profession="rrt" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/rrt/mock-exam">{() => <ProfessionClusterRedirect profession="rrt" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/rrt/study-guide">{() => <ProfessionClusterRedirect profession="rrt" clusterType="study-guide" />}</Route>
 
-        <Route path="/social-work/lessons">{() => <ProfessionClusterRedirect profession="social-work" clusterType="lessons" />}</Route>
-        <Route path="/social-work/practice-questions">{() => <ProfessionClusterRedirect profession="social-work" clusterType="practice-questions" />}</Route>
-        <Route path="/social-work/flashcards">{() => <ProfessionClusterRedirect profession="social-work" clusterType="flashcards" />}</Route>
-        <Route path="/social-work/mock-exam">{() => <ProfessionClusterRedirect profession="social-work" clusterType="mock-exam" />}</Route>
-        <Route path="/social-work/study-guide">{() => <ProfessionClusterRedirect profession="social-work" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/social-work/lessons">{() => <ProfessionClusterRedirect profession="social-work" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/social-work/practice-questions">{() => <ProfessionClusterRedirect profession="social-work" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/social-work/flashcards">{() => <ProfessionClusterRedirect profession="social-work" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/social-work/mock-exam">{() => <ProfessionClusterRedirect profession="social-work" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/social-work/study-guide">{() => <ProfessionClusterRedirect profession="social-work" clusterType="study-guide" />}</Route>
 
-        <Route path="/psychotherapy/lessons">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="lessons" />}</Route>
-        <Route path="/psychotherapy/practice-questions">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="practice-questions" />}</Route>
-        <Route path="/psychotherapy/flashcards">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="flashcards" />}</Route>
-        <Route path="/psychotherapy/mock-exam">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="mock-exam" />}</Route>
-        <Route path="/psychotherapy/study-guide">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/psychotherapy/lessons">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/psychotherapy/practice-questions">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/psychotherapy/flashcards">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/psychotherapy/mock-exam">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/psychotherapy/study-guide">{() => <ProfessionClusterRedirect profession="psychotherapy" clusterType="study-guide" />}</Route>
 
-        <Route path="/addictions/lessons">{() => <ProfessionClusterRedirect profession="addictions" clusterType="lessons" />}</Route>
-        <Route path="/addictions/practice-questions">{() => <ProfessionClusterRedirect profession="addictions" clusterType="practice-questions" />}</Route>
-        <Route path="/addictions/flashcards">{() => <ProfessionClusterRedirect profession="addictions" clusterType="flashcards" />}</Route>
-        <Route path="/addictions/mock-exam">{() => <ProfessionClusterRedirect profession="addictions" clusterType="mock-exam" />}</Route>
-        <Route path="/addictions/study-guide">{() => <ProfessionClusterRedirect profession="addictions" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/addictions/lessons">{() => <ProfessionClusterRedirect profession="addictions" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/addictions/practice-questions">{() => <ProfessionClusterRedirect profession="addictions" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/addictions/flashcards">{() => <ProfessionClusterRedirect profession="addictions" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/addictions/mock-exam">{() => <ProfessionClusterRedirect profession="addictions" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/addictions/study-guide">{() => <ProfessionClusterRedirect profession="addictions" clusterType="study-guide" />}</Route>
 
-        <Route path="/occupational-therapy/lessons">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="lessons" />}</Route>
-        <Route path="/occupational-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="practice-questions" />}</Route>
-        <Route path="/occupational-therapy/flashcards">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="flashcards" />}</Route>
-        <Route path="/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
-        <Route path="/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/occupational-therapy/lessons">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/occupational-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/occupational-therapy/flashcards">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/occupational-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/occupational-therapy/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy" clusterType="study-guide" />}</Route>
 
-        <Route path="/physical-therapy/lessons">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="lessons" />}</Route>
-        <Route path="/physical-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="practice-questions" />}</Route>
-        <Route path="/physical-therapy/flashcards">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="flashcards" />}</Route>
-        <Route path="/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
-        <Route path="/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/physical-therapy/lessons">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/physical-therapy/practice-questions">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/physical-therapy/flashcards">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
 
-        <Route path="/health-info-mgmt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["health-info-mgmt"]} />}</Route>
-        <Route path="/health-info-mgmt/lessons">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="lessons" />}</Route>
-        <Route path="/health-info-mgmt/practice-questions">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="practice-questions" />}</Route>
-        <Route path="/health-info-mgmt/flashcards">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="flashcards" />}</Route>
-        <Route path="/health-info-mgmt/mock-exam">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="mock-exam" />}</Route>
-        <Route path="/health-info-mgmt/study-guide">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="study-guide" />}</Route>
+        <Route path="/allied-health/health-info-mgmt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["health-info-mgmt"]} />}</Route>
+        <Route path="/allied-health/health-info-mgmt/lessons">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/practice-questions">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/flashcards">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="flashcards" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/mock-exam">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/study-guide">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="study-guide" />}</Route>
 
-        <Route path="/paramedic-exam-prep" component={ParamedicExamPrepLanding} />
-        <Route path="/rrt-exam-prep" component={RrtExamPrepLanding} />
-        <Route path="/mlt-exam-prep" component={MltExamPrepLanding} />
-        <Route path="/radiography-exam-prep" component={RadiographyExamPrepLanding} />
-        <Route path="/social-work-exam-prep" component={SocialWorkExamPrepLanding} />
-        <Route path="/psychotherapy-exam-prep" component={PsychotherapyExamPrepLanding} />
-        <Route path="/addictions-counselling-exam-prep" component={AddictionsCounsellingExamPrepLanding} />
-        <Route path="/occupational-therapy-exam-prep" component={OccupationalTherapyExamPrepLanding} />
-        <Route path="/physical-therapy-exam-prep" component={PhysicalTherapyExamPrepLanding} />
+        <Route path="/allied-health/paramedic-exam-prep" component={ParamedicExamPrepLanding} />
+        <Route path="/allied-health/rrt-exam-prep" component={RrtExamPrepLanding} />
+        <Route path="/allied-health/mlt-exam-prep" component={MltExamPrepLanding} />
+        <Route path="/allied-health/radiography-exam-prep" component={RadiographyExamPrepLanding} />
+        <Route path="/allied-health/social-work-exam-prep" component={SocialWorkExamPrepLanding} />
+        <Route path="/allied-health/psychotherapy-exam-prep" component={PsychotherapyExamPrepLanding} />
+        <Route path="/allied-health/addictions-counselling-exam-prep" component={AddictionsCounsellingExamPrepLanding} />
+        <Route path="/allied-health/occupational-therapy-exam-prep" component={OccupationalTherapyExamPrepLanding} />
+        <Route path="/allied-health/physical-therapy-exam-prep" component={PhysicalTherapyExamPrepLanding} />
 
-        <Route path="/occupational-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="occupational-therapy-practice-questions" />}</Route>
-        <Route path="/occupational-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-study-guide" />}</Route>
-        <Route path="/physical-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="physical-therapy-practice-questions" />}</Route>
-        <Route path="/physical-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-study-guide" />}</Route>
+        <Route path="/allied-health/occupational-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="occupational-therapy-practice-questions" />}</Route>
+        <Route path="/allied-health/occupational-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-study-guide" />}</Route>
+        <Route path="/allied-health/physical-therapy-practice-questions">{() => <AlliedSeoLanding pageSlug="physical-therapy-practice-questions" />}</Route>
+        <Route path="/allied-health/physical-therapy-study-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-study-guide" />}</Route>
 
-        <Route path="/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
-        <Route path="/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
-        <Route path="/social-worker-study-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="study-guide" />}</Route>
-        <Route path="/social-worker-practice-questions">{() => <UnderservedSEOPage profession="social-worker" pageType="practice-questions" />}</Route>
-        <Route path="/psychotherapist-exam-prep">{() => <UnderservedSEOPage profession="psychotherapist" pageType="exam-prep" />}</Route>
-        <Route path="/psychotherapist-career-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="career-guide" />}</Route>
-        <Route path="/psychotherapist-study-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="study-guide" />}</Route>
-        <Route path="/psychotherapist-practice-questions">{() => <UnderservedSEOPage profession="psychotherapist" pageType="practice-questions" />}</Route>
-        <Route path="/addictions-counsellor-exam-prep">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="exam-prep" />}</Route>
-        <Route path="/addictions-counsellor-career-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="career-guide" />}</Route>
-        <Route path="/addictions-counsellor-study-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="study-guide" />}</Route>
-        <Route path="/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
-        <Route path="/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
-        <Route path="/physical-therapy-career-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="career-guide" />}</Route>
-        <Route path="/occupational-therapist/test-bank" component={OTQuestionBankPage} />
-        <Route path="/occupational-therapist/question-bank">{() => <Redirect to="/occupational-therapist/test-bank" />}</Route>
-        <Route path="/occupational-therapist/mock-exams" component={OTMockExamsPage} />
-        <Route path="/occupational-therapist/study-plan" component={OTStudyPlanPage} />
-        <Route path="/:careerSlug/mock-exams" component={AlliedMockExams} />
-        <Route path="/:careerSlug/dashboard" component={AlliedDashboard} />
-        <Route path="/:careerSlug/study-plan" component={AlliedStudyPlan} />
-        <Route path="/:careerSlug/flashcards" component={AlliedFlashcards} />
-        <Route path="/:careerSlug/sims" component={AlliedSims} />
-        <Route path="/:careerSlug/tools" component={AlliedTools} />
+        <Route path="/allied-health/social-worker-exam-prep">{() => <UnderservedSEOPage profession="social-worker" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/social-worker-career-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/social-worker-study-guide">{() => <UnderservedSEOPage profession="social-worker" pageType="study-guide" />}</Route>
+        <Route path="/allied-health/social-worker-practice-questions">{() => <UnderservedSEOPage profession="social-worker" pageType="practice-questions" />}</Route>
+        <Route path="/allied-health/psychotherapist-exam-prep">{() => <UnderservedSEOPage profession="psychotherapist" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/psychotherapist-career-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/psychotherapist-study-guide">{() => <UnderservedSEOPage profession="psychotherapist" pageType="study-guide" />}</Route>
+        <Route path="/allied-health/psychotherapist-practice-questions">{() => <UnderservedSEOPage profession="psychotherapist" pageType="practice-questions" />}</Route>
+        <Route path="/allied-health/addictions-counsellor-exam-prep">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="exam-prep" />}</Route>
+        <Route path="/allied-health/addictions-counsellor-career-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/addictions-counsellor-study-guide">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="study-guide" />}</Route>
+        <Route path="/allied-health/addictions-counsellor-practice-questions">{() => <UnderservedSEOPage profession="addictions-counsellor" pageType="practice-questions" />}</Route>
+        <Route path="/allied-health/occupational-therapy-career-guide">{() => <UnderservedSEOPage profession="occupational-therapy" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/physical-therapy-career-guide">{() => <UnderservedSEOPage profession="physical-therapy" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/occupational-therapist/test-bank" component={OTQuestionBankPage} />
+        <Route path="/allied-health/occupational-therapist/question-bank">{() => <Redirect to="/allied-health/occupational-therapist/test-bank" />}</Route>
+        <Route path="/allied-health/occupational-therapist/mock-exams" component={OTMockExamsPage} />
+        <Route path="/allied-health/occupational-therapist/study-plan" component={OTStudyPlanPage} />
+        <Route path="/allied-health/:careerSlug/mock-exams" component={AlliedMockExams} />
+        <Route path="/allied-health/:careerSlug/dashboard" component={AlliedDashboard} />
+        <Route path="/allied-health/:careerSlug/study-plan" component={AlliedStudyPlan} />
+        <Route path="/allied-health/:careerSlug/flashcards" component={AlliedFlashcards} />
+        <Route path="/allied-health/:careerSlug/sims" component={AlliedSims} />
+        <Route path="/allied-health/:careerSlug/tools" component={AlliedTools} />
 
-        <Route path="/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
-        <Route path="/paramedic/scenarios" component={ParamedicScenariosHub} />
-        <Route path="/careers/paramedic/scenarios/:slug">{(params) => { window.location.replace(`/paramedic/scenarios/${params.slug}`); return null; }}</Route>
-        <Route path="/careers/paramedic/scenarios">{() => { window.location.replace("/paramedic/scenarios"); return null; }}</Route>
+        <Route path="/allied-health/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
+        <Route path="/allied-health/paramedic/scenarios" component={ParamedicScenariosHub} />
+        <Route path="/allied-health/careers/paramedic/scenarios/:slug">{(params) => { window.location.replace(`/allied-health/paramedic/scenarios/${params.slug}`); return null; }}</Route>
+        <Route path="/allied-health/careers/paramedic/scenarios">{() => { window.location.replace("/allied-health/paramedic/scenarios"); return null; }}</Route>
 
-        <Route path="/careers/:careerSlug/mock-exams">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="mock-exams" />}</Route>
-        <Route path="/careers/:careerSlug/dashboard">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="dashboard" />}</Route>
-        <Route path="/careers/:careerSlug/study-plan">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="study-plan" />}</Route>
-        <Route path="/careers/:careerSlug/flashcards">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="flashcards" />}</Route>
-        <Route path="/careers/:careerSlug/sims">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="sims" />}</Route>
-        <Route path="/careers/:careerSlug/tools">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="tools" />}</Route>
-        <Route path="/careers/:careerSlug">{(params) => <CareerRedirect careerSlug={params.careerSlug} />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/mock-exams">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="mock-exams" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/dashboard">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="dashboard" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/study-plan">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="study-plan" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/flashcards">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="flashcards" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/sims">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="sims" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug/tools">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="tools" />}</Route>
+        <Route path="/allied-health/careers/:careerSlug">{(params) => <CareerRedirect careerSlug={params.careerSlug} />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
-        <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-respiratory-therapist" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-medical-lab-technologist" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-radiologic-technologist" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-social-worker" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-psychotherapist" component={CareerGuidePage} />
-        <Route path="/how-to-become-an-addictions-counselor" component={CareerGuidePage} />
-        <Route path="/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-physical-therapist" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
-        <Route path="/how-to-become-a-health-information-manager" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-paramedic" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-respiratory-therapist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-medical-lab-technologist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-radiologic-technologist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-social-worker" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-psychotherapist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-an-addictions-counselor" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-an-occupational-therapist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-physical-therapist" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
+        <Route path="/allied-health/how-to-become-a-health-information-manager" component={CareerGuidePage} />
 
-        <Route path="/respiratory-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="respiratory-therapy-certification-guide" />}</Route>
-        <Route path="/paramedic-certification-study-guide">{() => <AlliedSeoLanding pageSlug="paramedic-certification-study-guide" />}</Route>
-        <Route path="/mlt-certification-study-guide">{() => <AlliedSeoLanding pageSlug="mlt-certification-study-guide" />}</Route>
-        <Route path="/diagnostic-imaging-certification-guide">{() => <AlliedSeoLanding pageSlug="diagnostic-imaging-certification-guide" />}</Route>
-        <Route path="/occupational-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-certification-guide" />}</Route>
-        <Route path="/physical-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-certification-guide" />}</Route>
+        <Route path="/allied-health/respiratory-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="respiratory-therapy-certification-guide" />}</Route>
+        <Route path="/allied-health/paramedic-certification-study-guide">{() => <AlliedSeoLanding pageSlug="paramedic-certification-study-guide" />}</Route>
+        <Route path="/allied-health/mlt-certification-study-guide">{() => <AlliedSeoLanding pageSlug="mlt-certification-study-guide" />}</Route>
+        <Route path="/allied-health/diagnostic-imaging-certification-guide">{() => <AlliedSeoLanding pageSlug="diagnostic-imaging-certification-guide" />}</Route>
+        <Route path="/allied-health/occupational-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-certification-guide" />}</Route>
+        <Route path="/allied-health/physical-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-certification-guide" />}</Route>
 
-        <Route path="/health-info-mgmt-exam-prep">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-exam-prep" />}</Route>
-        <Route path="/health-info-mgmt-practice-questions">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-practice-questions" />}</Route>
-        <Route path="/health-info-mgmt-study-guide">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-study-guide" />}</Route>
-        <Route path="/health-info-mgmt-career-guide">{() => <UnderservedSEOPage profession="health-info-mgmt" pageType="career-guide" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-exam-prep">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-exam-prep" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-practice-questions">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-practice-questions" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-study-guide">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-study-guide" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-career-guide">{() => <UnderservedSEOPage profession="health-info-mgmt" pageType="career-guide" />}</Route>
 
-        <Route path="/health-info-mgmt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="health-info-mgmt" />}</Route>
-        <Route path="/health-info-mgmt-encyclopedia">{() => <EncyclopediaHubPage profession="health-info-mgmt" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="health-info-mgmt" />}</Route>
+        <Route path="/allied-health/health-info-mgmt-encyclopedia">{() => <EncyclopediaHubPage profession="health-info-mgmt" />}</Route>
 
-        <Route path="/respiratory-therapy">{() => { window.location.replace("/rrt"); return null; }}</Route>
-        <Route path="/medical-lab-tech">{() => { window.location.replace("/mlt"); return null; }}</Route>
+        <Route path="/allied-health/respiratory-therapy">{() => { window.location.replace("/allied-health/rrt"); return null; }}</Route>
+        <Route path="/allied-health/medical-lab-tech">{() => { window.location.replace("/allied-health/mlt"); return null; }}</Route>
+        <Route path="/allied-health/pharmacy-tech">{() => { window.location.replace("/allied-health/pharmacy-technician"); return null; }}</Route>
         <Route path="/account">{() => <AlliedDashboard />}</Route>
-        <Route path="/pharmacy-tech">{() => { window.location.replace("/pharmacy-technician"); return null; }}</Route>
 
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />
         <Route path="/allied-health/:professionSlug" component={AlliedHealthProfessionPage} />
         <Route path="/allied-health" component={AlliedHealthHub} />
         <Route path="/admin/allied-health-seo" component={AdminAlliedHealthSEO} />
         <Route path="/admin/encyclopedia" component={EncyclopediaAdmin} />
-        <Route path="/paramedic-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="paramedic" />}</Route>
-        <Route path="/paramedic-encyclopedia">{() => <EncyclopediaHubPage profession="paramedic" />}</Route>
-        <Route path="/respiratory-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="respiratory-therapy" />}</Route>
-        <Route path="/respiratory-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="respiratory-therapy" />}</Route>
-        <Route path="/mlt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="mlt" />}</Route>
-        <Route path="/mlt-encyclopedia">{() => <EncyclopediaHubPage profession="mlt" />}</Route>
-        <Route path="/imaging-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="imaging" />}</Route>
-        <Route path="/imaging-encyclopedia">{() => <EncyclopediaHubPage profession="imaging" />}</Route>
-        <Route path="/social-work-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="social-work" />}</Route>
-        <Route path="/social-work-encyclopedia">{() => <EncyclopediaHubPage profession="social-work" />}</Route>
-        <Route path="/psychotherapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="psychotherapy" />}</Route>
-        <Route path="/psychotherapy-encyclopedia">{() => <EncyclopediaHubPage profession="psychotherapy" />}</Route>
-        <Route path="/addictions-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="addictions" />}</Route>
-        <Route path="/addictions-encyclopedia">{() => <EncyclopediaHubPage profession="addictions" />}</Route>
-        <Route path="/occupational-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="occupational-therapy" />}</Route>
-        <Route path="/occupational-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="occupational-therapy" />}</Route>
-        <Route path="/physical-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="physical-therapy" />}</Route>
-        <Route path="/physical-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="physical-therapy" />}</Route>
+        <Route path="/allied-health/paramedic-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="paramedic" />}</Route>
+        <Route path="/allied-health/paramedic-encyclopedia">{() => <EncyclopediaHubPage profession="paramedic" />}</Route>
+        <Route path="/allied-health/respiratory-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="respiratory-therapy" />}</Route>
+        <Route path="/allied-health/respiratory-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="respiratory-therapy" />}</Route>
+        <Route path="/allied-health/mlt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="mlt" />}</Route>
+        <Route path="/allied-health/mlt-encyclopedia">{() => <EncyclopediaHubPage profession="mlt" />}</Route>
+        <Route path="/allied-health/imaging-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="imaging" />}</Route>
+        <Route path="/allied-health/imaging-encyclopedia">{() => <EncyclopediaHubPage profession="imaging" />}</Route>
+        <Route path="/allied-health/social-work-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="social-work" />}</Route>
+        <Route path="/allied-health/social-work-encyclopedia">{() => <EncyclopediaHubPage profession="social-work" />}</Route>
+        <Route path="/allied-health/psychotherapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="psychotherapy" />}</Route>
+        <Route path="/allied-health/psychotherapy-encyclopedia">{() => <EncyclopediaHubPage profession="psychotherapy" />}</Route>
+        <Route path="/allied-health/addictions-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="addictions" />}</Route>
+        <Route path="/allied-health/addictions-encyclopedia">{() => <EncyclopediaHubPage profession="addictions" />}</Route>
+        <Route path="/allied-health/occupational-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="occupational-therapy" />}</Route>
+        <Route path="/allied-health/occupational-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="occupational-therapy" />}</Route>
+        <Route path="/allied-health/physical-therapy-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="physical-therapy" />}</Route>
+        <Route path="/allied-health/physical-therapy-encyclopedia">{() => <EncyclopediaHubPage profession="physical-therapy" />}</Route>
 
         <Route path="/allied-health/:professionSlug/articles" component={ArticleListingPage} />
         <Route path="/allied-health/:professionSlug/:articleSlug" component={ArticleDetailPage} />
 
-        <Route path="/:careerSlug/study-guide/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
-        <Route path="/:careerSlug/exam-tips/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
-        <Route path="/:careerSlug/clinical-scenarios/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
-        <Route path="/:careerSlug/practice-questions/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
-        <Route path="/:careerSlug/question-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
-        <Route path="/:careerSlug/flashcard-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/study-guide/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/exam-tips/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/clinical-scenarios/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/practice-questions/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/question-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
+        <Route path="/allied-health/:careerSlug/flashcard-detail/:topicSlug">{() => <ProgrammaticSeoPage />}</Route>
 
         <Route>
           {() => (

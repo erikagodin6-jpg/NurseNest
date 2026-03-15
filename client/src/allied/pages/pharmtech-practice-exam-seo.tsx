@@ -229,18 +229,18 @@ export default function PharmtechPracticeExamSeo() {
             headline: "Pharmacy Technician Practice Exam Questions — Free PTCB & ExCPT Sample Questions",
             description: "Practice pharmacy technician certification exam questions with detailed answer explanations covering all PTCB and ExCPT domains.",
             author: { "@type": "Organization", name: "NurseNest Allied" },
-            publisher: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
+            publisher: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
             datePublished: "2026-03-12",
             dateModified: "2026-03-12",
-            mainEntityOfPage: "https://allied.nursenest.ca/pharmacy-technician/practice-exam-questions"
+            mainEntityOfPage: "https://www.nursenest.ca/allied-health/pharmacy-technician/practice-exam-questions"
           },
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-              { "@type": "ListItem", position: 3, name: "Practice Exam Questions", item: "https://allied.nursenest.ca/pharmacy-technician/practice-exam-questions" }
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+              { "@type": "ListItem", position: 3, name: "Practice Exam Questions", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/practice-exam-questions" }
             ]
           }
         ]}

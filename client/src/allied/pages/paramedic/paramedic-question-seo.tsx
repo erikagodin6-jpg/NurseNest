@@ -206,7 +206,7 @@ export default function ParamedicQuestionSeoPage() {
         "@type": "ListItem",
         position: i + 1,
         name: b.label,
-        item: `https://allied.nursenest.ca${b.href}`,
+        item: `https://www.nursenest.ca/allied-health${b.href}`,
       })),
     },
     {

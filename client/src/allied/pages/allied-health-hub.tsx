@@ -44,7 +44,7 @@ export default function AlliedHealthHub() {
           "@type": "CollectionPage",
           "name": "Allied Health Careers Hub",
           "description": "Comprehensive resource for allied health career exploration, education pathways, certification requirements, and exam preparation.",
-          "url": "https://allied.nursenest.ca/allied-health",
+          "url": "https://www.nursenest.ca/allied-health",
           "publisher": {
             "@type": "Organization",
             "name": "NurseNest",

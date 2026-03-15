@@ -41,7 +41,7 @@ export default function ParamedicACPPage() {
           "@type": "Course",
           "name": "Advanced Care Paramedic (ACP) Exam Prep",
           "description": "Advanced Care Paramedic exam preparation with ACLS/PALS mastery, 12-lead ECG drills, expanded pharmacology, and clinical scenarios for ACP certification.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

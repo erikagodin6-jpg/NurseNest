@@ -210,7 +210,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
     "provider": {
       "@type": "Organization",
       "name": "NurseNest Allied",
-      "sameAs": "https://allied.nursenest.ca",
+      "sameAs": "https://www.nursenest.ca/allied-health",
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",

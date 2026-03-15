@@ -5,7 +5,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 
-const ALLIED_DOMAIN = "https://allied.nursenest.ca";
+const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_DISPLAY: Record<string, { name: string; shortName: string; color: string; colorAccent: string; hubPath: string }> = {
   rrt: { name: "Registered Respiratory Therapist", shortName: "RRT", color: "#2196F3", colorAccent: "#E3F2FD", hubPath: "/rrt" },

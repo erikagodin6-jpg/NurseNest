@@ -131,9 +131,9 @@ function MltBlogIndex() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://allied.nursenest.ca/mlt" },
-      { "@type": "ListItem", "position": 3, "name": "Blog", "item": "https://allied.nursenest.ca/mlt/blog" },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://www.nursenest.ca/allied-health/mlt" },
+      { "@type": "ListItem", "position": 3, "name": "Blog", "item": "https://www.nursenest.ca/allied-health/mlt/blog" },
     ],
   };
 
@@ -149,7 +149,7 @@ function MltBlogIndex() {
           "@type": "Blog",
           "name": "MLT Blog — NurseNest Allied",
           "description": "Expert articles on medical laboratory science topics and exam preparation.",
-          "publisher": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
+          "publisher": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={[breadcrumbStructuredData]}
       />
@@ -234,10 +234,10 @@ function MltBlogPost() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://allied.nursenest.ca/mlt" },
-      { "@type": "ListItem", "position": 3, "name": "Blog", "item": "https://allied.nursenest.ca/mlt/blog" },
-      { "@type": "ListItem", "position": 4, "name": titleText, "item": `https://allied.nursenest.ca/mlt/blog/${slug}` },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://www.nursenest.ca/allied-health/mlt" },
+      { "@type": "ListItem", "position": 3, "name": "Blog", "item": "https://www.nursenest.ca/allied-health/mlt/blog" },
+      { "@type": "ListItem", "position": 4, "name": titleText, "item": `https://www.nursenest.ca/allied-health/mlt/blog/${slug}` },
     ],
   };
 
@@ -246,11 +246,11 @@ function MltBlogPost() {
     "@type": "BlogPosting",
     "headline": titleText,
     "description": descriptionText,
-    "url": `https://allied.nursenest.ca/mlt/blog/${slug}`,
+    "url": `https://www.nursenest.ca/allied-health/mlt/blog/${slug}`,
     "datePublished": article?.date || "2026-01-01",
-    "author": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
-    "publisher": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://allied.nursenest.ca/mlt/blog/${slug}` },
+    "author": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
+    "publisher": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.nursenest.ca/allied-health/mlt/blog/${slug}` },
   };
 
   return (

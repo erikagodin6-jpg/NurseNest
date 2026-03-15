@@ -124,9 +124,9 @@ export default function PharmtechStudyGuidePage() {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Allied", item: "https://allied.nursenest.ca" },
-            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-            { "@type": "ListItem", position: 3, name: "Study Guide", item: "https://allied.nursenest.ca/pharmacy-technician/study-guide" },
+            { "@type": "ListItem", position: 1, name: "Allied", item: "https://www.nursenest.ca/allied-health" },
+            { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+            { "@type": "ListItem", position: 3, name: "Study Guide", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/study-guide" },
           ],
         }}
       />

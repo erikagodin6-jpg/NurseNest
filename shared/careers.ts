@@ -652,7 +652,21 @@ export const CAREER_SLUG_TO_CANONICAL_ROUTE: Record<string, string> = {
   "pediatric-cert": "/pediatric-cert",
 };
 
+const ALLIED_HEALTH_CAREER_SLUGS = new Set([
+  "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging",
+  "psychotherapist", "social-worker", "addictions-counsellor",
+  "occupational-therapy", "physical-therapy", "health-info-mgmt",
+]);
+
 export function getCanonicalRoute(careerSlug: string): string {
+  const base = CAREER_SLUG_TO_CANONICAL_ROUTE[careerSlug] || `/careers/${careerSlug}`;
+  if (ALLIED_HEALTH_CAREER_SLUGS.has(careerSlug)) {
+    return `/allied-health${base}`;
+  }
+  return base;
+}
+
+export function getBaseCanonicalRoute(careerSlug: string): string {
   return CAREER_SLUG_TO_CANONICAL_ROUTE[careerSlug] || `/careers/${careerSlug}`;
 }
 
@@ -667,7 +681,8 @@ export const CANONICAL_ROUTE_SLUG_TO_CAREER_SLUG: Record<string, string> = Objec
 }, {} as Record<string, string>);
 
 export function getCareerByRouteSlug(routeSlug: string): CareerConfig | undefined {
-  const careerSlug = CANONICAL_ROUTE_SLUG_TO_CAREER_SLUG[routeSlug] || routeSlug;
+  const cleanSlug = routeSlug.replace(/^allied-health\//, "");
+  const careerSlug = CANONICAL_ROUTE_SLUG_TO_CAREER_SLUG[cleanSlug] || cleanSlug;
   return getCareerBySlug(careerSlug);
 }
 

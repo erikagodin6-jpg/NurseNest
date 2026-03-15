@@ -42,7 +42,7 @@ export default function ParamedicExamsHub() {
           "@type": "CollectionPage",
           "name": "Paramedic Practice Exams",
           "description": "Full-length paramedic mock exams and domain-specific practice sets with blueprint weighting and adaptive difficulty.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

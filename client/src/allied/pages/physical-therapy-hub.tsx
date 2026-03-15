@@ -40,7 +40,7 @@ export default function PhysicalTherapyHubPage() {
           "@type": "Course",
           name: "Physical Therapy Certification Prep",
           description: "Comprehensive NPTE and PCE exam preparation with practice questions, flashcards, and study tools.",
-          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
+          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={[
           {
@@ -56,8 +56,8 @@ export default function PhysicalTherapyHubPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Physical Therapy", item: "https://allied.nursenest.ca/physical-therapy" },
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Physical Therapy", item: "https://www.nursenest.ca/allied-health/physical-therapy" },
             ],
           },
         ]}

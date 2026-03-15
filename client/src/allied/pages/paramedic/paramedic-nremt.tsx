@@ -41,7 +41,7 @@ export default function ParamedicNREMTPage() {
           "@type": "Course",
           "name": "NREMT Paramedic Cognitive Exam Prep",
           "description": "National Registry Paramedic cognitive exam preparation with CAT-style adaptive questions, blueprint-weighted mock exams, and comprehensive clinical rationales.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

@@ -9,7 +9,7 @@ import {
 } from "../components/paramedic-seo-components";
 import { Loader2 } from "lucide-react";
 
-const ALLIED_DOMAIN = "https://allied.nursenest.ca";
+const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 type PageType = "topic" | "category" | "glossary" | "comparison" | "study-guide";
 

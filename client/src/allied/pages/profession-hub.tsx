@@ -35,7 +35,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
     "provider": {
       "@type": "EducationalOrganization",
       "name": "NurseNest Allied",
-      "url": "https://allied.nursenest.ca",
+      "url": "https://www.nursenest.ca/allied-health",
     },
     "courseMode": "online",
     "isAccessibleForFree": false,
@@ -45,9 +45,9 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://allied.nursenest.ca/careers" },
-      { "@type": "ListItem", "position": 3, "name": `${data.shortName} Exam Prep`, "item": `https://allied.nursenest.ca${data.seo.canonicalPath}` },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://www.nursenest.ca/allied-health/careers" },
+      { "@type": "ListItem", "position": 3, "name": `${data.shortName} Exam Prep`, "item": `https://www.nursenest.ca/allied-health${data.seo.canonicalPath}` },
     ],
   };
 
@@ -55,7 +55,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "NurseNest Allied",
-    "url": "https://allied.nursenest.ca",
+    "url": "https://www.nursenest.ca/allied-health",
     "description": "Allied health professional exam preparation platform offering courses for respiratory therapy, medical lab technology, social work, psychotherapy, addictions counselling, occupational therapy, and more.",
     "sameAs": [
       "https://www.instagram.com/nursenest.ca",

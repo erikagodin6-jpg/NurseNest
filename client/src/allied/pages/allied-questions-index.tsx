@@ -109,7 +109,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
     "@type": "CollectionPage",
     "name": `${profession.label} Practice Questions by Topic`,
     "description": `Browse ${profession.shortLabel} practice questions organized by clinical topic. Covers key ${profession.examNames} exam domains.`,
-    "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
+    "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
     "numberOfItems": data?.totalTopics || 0,
   };
 

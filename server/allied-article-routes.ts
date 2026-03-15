@@ -459,7 +459,7 @@ function generateArticleSlug(professionSlug: string, templateKey: string): strin
 
 function buildInternalLinks(professionSlug: string, professionName: string, linkTargets: any): any[] {
   const links: any[] = [];
-  const baseUrl = `https://allied.nursenest.ca`;
+  const baseUrl = `https://www.nursenest.ca`;
 
   if (linkTargets.hub) {
     links.push({
@@ -536,7 +536,7 @@ async function generateArticle(professionSlug: string, templateKey: string): Pro
 
   const openai = getOpenAI();
 
-  const systemPrompt = `You are an expert allied health educator and SEO content strategist writing for NurseNest (allied.nursenest.ca).
+  const systemPrompt = `You are an expert allied health educator and SEO content strategist writing for NurseNest (www.nursenest.ca/allied-health).
 You create comprehensive, evergreen, educational articles about allied health careers and certification exams.
 
 ${template.prompt_instructions}
@@ -577,7 +577,7 @@ Return valid JSON with this exact structure:
     "headline": "Article title",
     "description": "Article description",
     "author": { "@type": "Organization", "name": "NurseNest" },
-    "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://allied.nursenest.ca" }
+    "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" }
   }
 }
 
@@ -629,10 +629,10 @@ Requirements:
     }
   }
 
-  const canonicalUrl = `https://allied.nursenest.ca/allied-health/${professionSlug}/${slug}`;
+  const canonicalUrl = `https://www.nursenest.ca/allied-health/${professionSlug}/${slug}`;
   const breadcrumbItems = [
-    { name: "Home", url: "https://allied.nursenest.ca" },
-    { name: professionName, url: `https://allied.nursenest.ca/${professionSlug}` },
+    { name: "Home", url: "https://www.nursenest.ca" },
+    { name: professionName, url: `https://www.nursenest.ca/allied-health/${professionSlug}` },
     { name: parsed.title || template.display_name.replace("[Profession]", professionName), url: canonicalUrl },
   ];
 

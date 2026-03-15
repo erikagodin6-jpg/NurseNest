@@ -64,7 +64,7 @@ export default function ParamedicLandingPage() {
           "@type": "Course",
           "name": "Paramedic Certification Exam Prep",
           "description": "Comprehensive paramedic exam preparation with adaptive question banks, clinical scenarios, and blueprint-weighted mock exams for NREMT, COPR, PCP, and ACP certifications.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

@@ -550,7 +550,7 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
     "provider": {
       "@type": "EducationalOrganization",
       "name": "NurseNest Allied",
-      "sameAs": "https://allied.nursenest.ca",
+      "sameAs": "https://www.nursenest.ca/allied-health",
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",

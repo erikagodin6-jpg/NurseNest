@@ -9,7 +9,7 @@ import {
   ClipboardList, Shield, ArrowRight, ChevronRight, Activity, Microscope,
 } from "lucide-react";
 
-const ALLIED_DOMAIN = "https://allied.nursenest.ca";
+const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_META: Record<string, { label: string; hubPath: string; color: string; accent: string }> = {
   paramedic: { label: "Paramedic", hubPath: "/paramedic-encyclopedia", color: "teal", accent: "from-red-50 via-white to-teal-50" },

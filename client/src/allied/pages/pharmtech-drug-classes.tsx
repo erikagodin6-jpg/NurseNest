@@ -47,11 +47,11 @@ export default function PharmtechDrugClassesHub() {
           "@type": "CollectionPage",
           name: "Drug Classes Study Guide for Pharmacy Technicians",
           description: "Comprehensive study guides for 7 major drug classes tested on the PTCB and ExCPT pharmacy technician certification exams.",
-          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
+          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
           hasPart: DRUG_CLASSES.map(dc => ({
             "@type": "Article",
             name: dc.name,
-            url: `https://allied.nursenest.ca/pharmacy-technician/drug-classes/${dc.slug}`,
+            url: `https://www.nursenest.ca/allied-health/pharmacy-technician/drug-classes/${dc.slug}`,
             description: dc.description,
           })),
         }}
@@ -60,9 +60,9 @@ export default function PharmtechDrugClassesHub() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-              { "@type": "ListItem", position: 3, name: "Drug Classes", item: "https://allied.nursenest.ca/pharmacy-technician/drug-classes" },
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+              { "@type": "ListItem", position: 3, name: "Drug Classes", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/drug-classes" },
             ],
           },
           {
@@ -307,18 +307,18 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
           headline: drugClass.metaTitle,
           description: drugClass.metaDescription,
           author: { "@type": "Organization", name: "NurseNest Allied" },
-          publisher: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
-          mainEntityOfPage: `https://allied.nursenest.ca/pharmacy-technician/drug-classes/${drugClass.slug}`,
+          publisher: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
+          mainEntityOfPage: `https://www.nursenest.ca/allied-health/pharmacy-technician/drug-classes/${drugClass.slug}`,
         }}
         additionalStructuredData={[
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
-              { "@type": "ListItem", position: 3, name: "Drug Classes", item: "https://allied.nursenest.ca/pharmacy-technician/drug-classes" },
-              { "@type": "ListItem", position: 4, name: drugClass.shortName, item: `https://allied.nursenest.ca/pharmacy-technician/drug-classes/${drugClass.slug}` },
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
+              { "@type": "ListItem", position: 3, name: "Drug Classes", item: "https://www.nursenest.ca/allied-health/pharmacy-technician/drug-classes" },
+              { "@type": "ListItem", position: 4, name: drugClass.shortName, item: `https://www.nursenest.ca/allied-health/pharmacy-technician/drug-classes/${drugClass.slug}` },
             ],
           },
           {

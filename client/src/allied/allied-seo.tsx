@@ -40,7 +40,8 @@ export function AlliedSEO({ title, description, keywords, canonicalPath, ogType 
     setMeta("twitter:image", "https://www.nursenest.ca/opengraph.jpg");
 
     if (canonicalPath) {
-      const canonicalUrl = `${ALLIED_DOMAIN}${canonicalPath}`;
+      const alliedCanonicalPath = canonicalPath.startsWith("/allied-health") ? canonicalPath : `/allied-health${canonicalPath}`;
+      const canonicalUrl = `${ALLIED_DOMAIN}${alliedCanonicalPath}`;
       setMeta("og:url", canonicalUrl, true);
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!link) {

@@ -37,6 +37,10 @@ function getFeatureIcon(feature: string) {
 
 function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]): CareerConfig | undefined {
   const segments = location.split("/").filter(Boolean);
+  if (segments[0] === "allied-health" && segments[1]) {
+    const canonicalMatch = alliedCareers.find(c => getCanonicalRoute(c.slug) === `/allied-health/${segments[1]}`);
+    if (canonicalMatch) return canonicalMatch;
+  }
   if (segments[0]) {
     const canonicalMatch = alliedCareers.find(c => getCanonicalRoute(c.slug) === `/${segments[0]}`);
     if (canonicalMatch) return canonicalMatch;
@@ -75,7 +79,7 @@ export function AlliedSubNav() {
   }
 
   const breadcrumbItems = [
-    { label: currentCareer.shortName },
+    { label: currentCareer.shortName, href: getCanonicalRoute(currentCareer.slug) },
   ];
 
   return (

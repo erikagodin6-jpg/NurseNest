@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 
-const ALLIED_BASE = "https://www.nursenest.ca";
+const CANONICAL_BASE = "https://www.nursenest.ca";
 
 export function useAlliedCanonical(path: string, queryParams?: Record<string, string>) {
   useEffect(() => {
-    let canonical = `${ALLIED_BASE}${path}`;
+    const alliedPath = path.startsWith("/allied-health") ? path : `/allied-health${path}`;
+    let canonical = `${CANONICAL_BASE}${alliedPath}`;
     if (queryParams) {
       const search = new URLSearchParams(queryParams).toString();
       if (search) canonical += `?${search}`;

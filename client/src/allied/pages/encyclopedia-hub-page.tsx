@@ -6,7 +6,7 @@ import {
   ChevronRight, Hash, Grid3X3,
 } from "lucide-react";
 
-const ALLIED_DOMAIN = "https://allied.nursenest.ca";
+const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_META: Record<string, {
   label: string; fullName: string; hubPath: string; color: string; accent: string;

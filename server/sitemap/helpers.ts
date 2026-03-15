@@ -88,7 +88,7 @@ export function getSiteBase(): string {
 }
 
 export function getAlliedBase(): string {
-  return "https://allied.nursenest.ca";
+  return "https://www.nursenest.ca/allied-health";
 }
 
 export function getNewGradBase(): string {

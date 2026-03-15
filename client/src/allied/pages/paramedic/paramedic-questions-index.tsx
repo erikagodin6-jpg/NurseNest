@@ -65,7 +65,7 @@ export default function ParamedicQuestionsIndex() {
     "@type": "CollectionPage",
     "name": "Paramedic Practice Questions by Topic",
     "description": "Browse paramedic practice questions organized by clinical topic. Covers trauma, cardiac, pharmacology, airway, pediatric, OB emergencies, and more.",
-    "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
+    "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
     "numberOfItems": data?.totalTopics || 0,
   };
 

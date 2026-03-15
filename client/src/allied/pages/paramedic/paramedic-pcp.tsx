@@ -41,7 +41,7 @@ export default function ParamedicPCPPage() {
           "@type": "Course",
           "name": "Primary Care Paramedic (PCP) Exam Prep",
           "description": "Comprehensive PCP exam preparation aligned with Canadian COPR standards. Adaptive question bank, mock exams, and clinical scenarios for primary care paramedic certification.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

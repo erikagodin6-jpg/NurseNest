@@ -104,7 +104,7 @@ export default function MltLandingPage() {
     "provider": {
       "@type": "Organization",
       "name": "NurseNest Allied",
-      "url": "https://allied.nursenest.ca",
+      "url": "https://www.nursenest.ca/allied-health",
     },
   };
 
@@ -112,8 +112,8 @@ export default function MltLandingPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://allied.nursenest.ca/mlt" },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://www.nursenest.ca/allied-health/mlt" },
     ],
   };
 

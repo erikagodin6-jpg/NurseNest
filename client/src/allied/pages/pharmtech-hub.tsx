@@ -40,7 +40,7 @@ export default function PharmtechHubPage() {
           "@type": "Course",
           name: "Pharmacy Technician Certification Prep",
           description: "Comprehensive PTCB and ExCPT exam preparation with practice questions, flashcards, and study tools.",
-          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
+          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={[
           {
@@ -56,8 +56,8 @@ export default function PharmtechHubPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://allied.nursenest.ca/pharmacy-technician" },
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Pharmacy Technician", item: "https://www.nursenest.ca/allied-health/pharmacy-technician" },
             ],
           },
         ]}

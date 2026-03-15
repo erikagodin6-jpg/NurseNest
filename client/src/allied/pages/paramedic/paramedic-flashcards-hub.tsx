@@ -28,7 +28,7 @@ export default function ParamedicFlashcardsHub() {
           "@type": "CollectionPage",
           "name": "Paramedic Flashcards",
           "description": "Spaced repetition flashcard decks for paramedic exam prep covering trauma, ACLS, pharmacology, pediatrics, and clinical mnemonics.",
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" }
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" }
         }}
       />
 

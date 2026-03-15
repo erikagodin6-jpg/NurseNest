@@ -40,7 +40,7 @@ export default function OccupationalTherapyHubPage() {
           "@type": "Course",
           name: "Occupational Therapy Certification Prep",
           description: "Comprehensive NBCOT OTR and NOTCE exam preparation with practice questions, flashcards, and study tools.",
-          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://allied.nursenest.ca" },
+          provider: { "@type": "Organization", name: "NurseNest Allied", url: "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={[
           {
@@ -56,8 +56,8 @@ export default function OccupationalTherapyHubPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://allied.nursenest.ca" },
-              { "@type": "ListItem", position: 2, name: "Occupational Therapy", item: "https://allied.nursenest.ca/occupational-therapy" },
+              { "@type": "ListItem", position: 1, name: "NurseNest Allied", item: "https://www.nursenest.ca/allied-health" },
+              { "@type": "ListItem", position: 2, name: "Occupational Therapy", item: "https://www.nursenest.ca/allied-health/occupational-therapy" },
             ],
           },
         ]}

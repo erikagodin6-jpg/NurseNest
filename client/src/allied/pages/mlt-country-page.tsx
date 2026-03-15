@@ -516,10 +516,10 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca" },
-      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://allied.nursenest.ca/mlt" },
-      { "@type": "ListItem", "position": 3, "name": `${cc.label}`, "item": `https://allied.nursenest.ca/mlt/${cc.country}/exam-prep` },
-      { "@type": "ListItem", "position": 4, "name": pageConfig.title(cc), "item": `https://allied.nursenest.ca/mlt/${cc.country}/${pageType}` },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/allied-health" },
+      { "@type": "ListItem", "position": 2, "name": "MLT Exam Prep", "item": "https://www.nursenest.ca/allied-health/mlt" },
+      { "@type": "ListItem", "position": 3, "name": `${cc.label}`, "item": `https://www.nursenest.ca/allied-health/mlt/${cc.country}/exam-prep` },
+      { "@type": "ListItem", "position": 4, "name": pageConfig.title(cc), "item": `https://www.nursenest.ca/allied-health/mlt/${cc.country}/${pageType}` },
     ],
   };
 
@@ -554,7 +554,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
           "@type": "Course",
           "name": pageConfig.title(cc),
           "description": pageConfig.metaDescription(cc),
-          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://allied.nursenest.ca" },
+          "provider": { "@type": "Organization", "name": "NurseNest Allied", "url": "https://www.nursenest.ca/allied-health" },
         }}
         additionalStructuredData={additionalSD}
       />

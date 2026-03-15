@@ -65,7 +65,7 @@ export default function AlliedHealthProfessionPage() {
           "@type": "EducationalOrganization",
           "name": `NurseNest ${profession.shortName} Exam Prep`,
           "description": profession.overview,
-          "url": `https://allied.nursenest.ca/allied-health/${profession.slug}`,
+          "url": `https://www.nursenest.ca/allied-health/${profession.slug}`,
           "sameAs": ["https://www.nursenest.ca"],
           "educationalCredentialAwarded": profession.examNames.join(", "),
         }}
