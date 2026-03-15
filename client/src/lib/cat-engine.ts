@@ -9,6 +9,15 @@ export interface CATResponse {
   bodySystem: string;
 }
 
+export interface DomainCoverage {
+  domain: string;
+  targetWeight: number;
+  questionsAdministered: number;
+  correct: number;
+  total: number;
+  coverageMet: boolean;
+}
+
 export interface CATState {
   abilityEstimate: number;
   standardError: number;
@@ -16,6 +25,7 @@ export interface CATState {
   responses: CATResponse[];
   abilityHistory: number[];
   bodySystemsSeen: Record<string, number>;
+  domainCoverage: Record<string, DomainCoverage>;
 }
 
 export interface DomainBand {
@@ -41,7 +51,20 @@ export interface WeakArea {
   percentage: number;
 }
 
-export function initCAT(): CATState {
+export function initCAT(blueprint?: ExamBlueprint): CATState {
+  const domainCoverage: Record<string, DomainCoverage> = {};
+  if (blueprint?.domains) {
+    for (const d of blueprint.domains) {
+      domainCoverage[d.name] = {
+        domain: d.name,
+        targetWeight: d.weight,
+        questionsAdministered: 0,
+        correct: 0,
+        total: 0,
+        coverageMet: false,
+      };
+    }
+  }
   return {
     abilityEstimate: 0,
     standardError: 1.0,
@@ -49,6 +72,7 @@ export function initCAT(): CATState {
     responses: [],
     abilityHistory: [0],
     bodySystemsSeen: {},
+    domainCoverage,
   };
 }
 
@@ -72,13 +96,17 @@ function logistic(theta: number, b: number): number {
 
 export function selectNextItem(
   state: CATState,
-  remainingItems: PooledQuestion[]
+  remainingItems: PooledQuestion[],
+  blueprint?: ExamBlueprint,
+  domainMap?: Record<string, string>
 ): PooledQuestion | null {
   if (remainingItems.length === 0) return null;
 
   const systemCounts = state.bodySystemsSeen;
   const totalSeen = state.itemsAdministered;
   const avgPerSystem = totalSeen > 0 ? totalSeen / Math.max(Object.keys(systemCounts).length, 1) : 0;
+
+  const hasDomainCoverage = blueprint?.domains && Object.keys(state.domainCoverage).length > 0;
 
   const scored = remainingItems.map((item) => {
     const b = itemDifficulty(item);
@@ -92,8 +120,23 @@ export function selectNextItem(
       diversityBonus = 0.4;
     }
 
+    let domainBonus = 0;
+    if (hasDomainCoverage && domainMap) {
+      const domainName = domainMap[item.id] || domainMap[item.bodySystem];
+      if (domainName && state.domainCoverage[domainName]) {
+        const dc = state.domainCoverage[domainName];
+        const targetCount = Math.max(1, Math.round((blueprint!.minQuestions || 85) * dc.targetWeight));
+        const deficit = targetCount - dc.questionsAdministered;
+        if (deficit > 0 && !dc.coverageMet) {
+          domainBonus = -0.5 * (deficit / targetCount);
+        } else if (dc.questionsAdministered > targetCount * 1.3) {
+          domainBonus = 0.5;
+        }
+      }
+    }
+
     const jitter = Math.random() * 0.2;
-    return { item, score: dist + diversityBonus + jitter };
+    return { item, score: dist + diversityBonus + domainBonus + jitter };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -106,7 +149,8 @@ export function selectNextItem(
 export function updateAbility(
   state: CATState,
   item: PooledQuestion,
-  isCorrect: boolean
+  isCorrect: boolean,
+  domainName?: string
 ): CATState {
   const b = itemDifficulty(item);
   const p = logistic(state.abilityEstimate, b);
@@ -134,6 +178,18 @@ export function updateAbility(
   const newSystemsSeen = { ...state.bodySystemsSeen };
   newSystemsSeen[item.bodySystem] = (newSystemsSeen[item.bodySystem] || 0) + 1;
 
+  const newDomainCoverage = { ...state.domainCoverage };
+  if (domainName && newDomainCoverage[domainName]) {
+    const dc = { ...newDomainCoverage[domainName] };
+    dc.questionsAdministered++;
+    dc.total++;
+    if (isCorrect) dc.correct++;
+    const minQ = 85;
+    const targetCount = Math.max(2, Math.round(minQ * dc.targetWeight));
+    dc.coverageMet = dc.questionsAdministered >= targetCount;
+    newDomainCoverage[domainName] = dc;
+  }
+
   return {
     abilityEstimate: newTheta,
     standardError: newSE,
@@ -141,25 +197,39 @@ export function updateAbility(
     responses: [...state.responses, newResponse],
     abilityHistory: [...state.abilityHistory, newTheta],
     bodySystemsSeen: newSystemsSeen,
+    domainCoverage: newDomainCoverage,
   };
+}
+
+function isDomainCoverageSufficient(state: CATState): boolean {
+  const domains = Object.values(state.domainCoverage);
+  if (domains.length === 0) return true;
+  return domains.every(dc => dc.coverageMet);
 }
 
 export function shouldStop(
   state: CATState,
   blueprint: ExamBlueprint
-): boolean {
-  const minQ = (blueprint as any).minQuestions ?? blueprint.totalQuestions;
-  const maxQ = (blueprint as any).maxQuestions ?? blueprint.totalQuestions;
+): { stop: boolean; reason: string } {
+  const minQ = blueprint.minQuestions ?? 85;
+  const maxQ = blueprint.maxQuestions ?? 150;
 
   if (state.itemsAdministered >= maxQ) {
-    return true;
+    return { stop: true, reason: "maximum_reached" };
   }
 
-  if (state.standardError < 0.33 && state.itemsAdministered >= minQ) {
-    return true;
+  if (state.itemsAdministered < minQ) {
+    return { stop: false, reason: "below_minimum" };
   }
 
-  return false;
+  const seThresholdMet = state.standardError < 0.33;
+  const coverageMet = isDomainCoverageSufficient(state);
+
+  if (seThresholdMet && coverageMet) {
+    return { stop: true, reason: "confidence_and_coverage_met" };
+  }
+
+  return { stop: false, reason: seThresholdMet ? "awaiting_coverage" : coverageMet ? "awaiting_confidence" : "awaiting_both" };
 }
 
 export function getPassFailResult(state: CATState): {
@@ -215,6 +285,27 @@ export function getWeakAreas(state: CATState): WeakArea[] {
     }))
     .filter((a) => a.total >= 2 && a.percentage < 65)
     .sort((a, b) => a.percentage - b.percentage);
+}
+
+export function getStrengthAreas(state: CATState): WeakArea[] {
+  const topicStats: Record<string, { correct: number; total: number }> = {};
+
+  for (const r of state.responses) {
+    const system = r.bodySystem || "Unknown";
+    if (!topicStats[system]) topicStats[system] = { correct: 0, total: 0 };
+    topicStats[system].total++;
+    if (r.isCorrect) topicStats[system].correct++;
+  }
+
+  return Object.entries(topicStats)
+    .map(([topic, stats]) => ({
+      topic,
+      correct: stats.correct,
+      total: stats.total,
+      percentage: stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0,
+    }))
+    .filter((a) => a.total >= 2 && a.percentage >= 70)
+    .sort((a, b) => b.percentage - a.percentage);
 }
 
 export function getDifficultyDistribution(state: CATState): { easy: number; moderate: number; hard: number } {

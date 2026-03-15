@@ -8938,11 +8938,24 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
       }
 
+      const blueprintMetaData = req.body.blueprintMeta || null;
+      const domainAssignments = req.body.domainAssignments || null;
+      const resolvedExamType = examMode === "official"
+        ? (blueprintMetaData?.examType === "cat" ? "cat" : "practice")
+        : examMode === "readiness" ? "readiness" : "practice";
+
+      const storedBpMeta = blueprintMetaData ? { ...blueprintMetaData, domainAssignments } : null;
+
       const result = await pool.query(
-        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report)
-         VALUES ($1, $2, $3, $4, 'in_progress', $5)
+        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, exam_type, blueprint_code, blueprint_meta)
+         VALUES ($1, $2, $3, $4, 'in_progress', $5, $6, $7, $8)
          RETURNING id`,
-        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions), JSON.stringify({ examMode: examMode || "practice" })],
+        [
+          String(authUser.id), tier, totalQuestions, JSON.stringify(questions),
+          JSON.stringify({ examMode: examMode || "practice" }),
+          resolvedExamType, blueprintCode || null,
+          storedBpMeta ? JSON.stringify(storedBpMeta) : null,
+        ],
       );
 
       const attemptId = result.rows[0].id;
@@ -8967,16 +8980,31 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { attemptId } = req.params;
-      const { answers, flagged, timeSpent } = req.body;
+      const { answers, flagged, timeSpent, catState, timerState } = req.body;
 
       const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
 
-      await pool.query(
-        `UPDATE mock_exam_attempts SET answers = $1, flagged = $2, time_spent = $3 WHERE id = $4`,
-        [JSON.stringify(answers || {}), JSON.stringify(flagged || []), timeSpent || 0, attemptId],
-      );
+      let query = `UPDATE mock_exam_attempts SET answers = $1, flagged = $2, time_spent = $3`;
+      const params: any[] = [JSON.stringify(answers || {}), JSON.stringify(flagged || []), timeSpent || 0];
+      let paramIdx = 4;
+
+      if (catState) {
+        query += `, cat_state = $${paramIdx}`;
+        params.push(JSON.stringify(catState));
+        paramIdx++;
+      }
+      if (timerState) {
+        query += `, timer_state = $${paramIdx}`;
+        params.push(JSON.stringify(timerState));
+        paramIdx++;
+      }
+
+      query += ` WHERE id = $${paramIdx}`;
+      params.push(attemptId);
+
+      await pool.query(query, params);
 
       res.json({ success: true });
     } catch (e: any) {
@@ -8990,7 +9018,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { attemptId } = req.params;
-      const { answers, flagged, timeSpent, report } = req.body;
+      const { answers, flagged, timeSpent, report, catState: completeCatState, stoppingReason } = req.body;
       if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
 
       const check = await pool.query(`SELECT * FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
@@ -9069,9 +9097,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
              time_spent = $3,
              report = $4,
              score = $5,
-             completed_at = NOW()
+             completed_at = NOW(),
+             review_unlocked = true,
+             cat_state = COALESCE($7, cat_state),
+             stopping_rule_status = COALESCE($8, stopping_rule_status)
          WHERE id = $6`,
-        [JSON.stringify(answers), JSON.stringify(flaggedIds), timeSpent, JSON.stringify(enhancedReport), score, attemptId],
+        [
+          JSON.stringify(answers), JSON.stringify(flaggedIds), timeSpent,
+          JSON.stringify(enhancedReport), score, attemptId,
+          completeCatState ? JSON.stringify(completeCatState) : null,
+          stoppingReason || null,
+        ],
       );
 
       res.json({ success: true, report: enhancedReport });
@@ -9090,7 +9126,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       const result = await pool.query(
-        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report, career_type
+        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report, career_type, exam_type, blueprint_code, blueprint_meta, review_unlocked
          FROM mock_exam_attempts
          WHERE user_id = $1
          ORDER BY started_at DESC

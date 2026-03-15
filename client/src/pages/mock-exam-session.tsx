@@ -9,9 +9,10 @@ import type { PooledQuestion } from "@/lib/question-pool";
 import {
   initCAT, selectNextItem, updateAbility, shouldStop,
   getPassFailResult, getDomainBands, computeScaledScore,
-  getReadinessScore, getWeakAreas, getDifficultyDistribution,
+  getReadinessScore, getWeakAreas, getStrengthAreas, getDifficultyDistribution,
   type CATState
 } from "@/lib/cat-engine";
+import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
@@ -238,6 +239,10 @@ export default function MockExamSession() {
   const [catFinished, setCatFinished] = useState(false);
   const [allPoolQuestions, setAllPoolQuestions] = useState<PooledQuestion[]>([]);
   const [optionShuffleMap, setOptionShuffleMap] = useState<Record<string, number[]>>({});
+  const [completionData, setCompletionData] = useState<any>(null);
+  const [reviewMode, setReviewMode] = useState(false);
+  const [reviewFilter, setReviewFilter] = useState<"all" | "incorrect" | "flagged">("all");
+  const [fullQuestions, setFullQuestions] = useState<PooledQuestion[]>([]);
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
   const [accentColor] = useState(() => getExamAccentColor());
@@ -303,11 +308,21 @@ export default function MockExamSession() {
         if (parsedBp?.examType === "cat") {
           setAllPoolQuestions(allQuestions);
 
+          const fullBlueprint = parsedBp?.examCode ? EXAM_BLUEPRINTS[parsedBp.examCode] : undefined;
+
           const savedCatStr = localStorage.getItem(`cat-state-${attemptId}`);
           let existingCat: CATState | null = null;
           try {
             if (savedCatStr) existingCat = JSON.parse(savedCatStr);
           } catch {}
+
+          if (data.cat_state) {
+            const serverItems = data.cat_state.itemsAdministered || 0;
+            const localItems = existingCat?.itemsAdministered || 0;
+            if (serverItems >= localItems) {
+              existingCat = data.cat_state;
+            }
+          }
 
           if (existingCat && existingCat.itemsAdministered > 0) {
             const administeredIds = new Set(existingCat.responses.map(r => r.itemId));
@@ -317,8 +332,9 @@ export default function MockExamSession() {
             setCurrentQ(administeredQuestions.length - 1);
             setCatState(existingCat);
           } else {
-            const freshCat = initCAT();
-            const firstItem = selectNextItem(freshCat, allQuestions);
+            const freshCat = initCAT(fullBlueprint);
+            const domainMap = parsedBp?.domainAssignments || {};
+            const firstItem = selectNextItem(freshCat, allQuestions, fullBlueprint, domainMap);
             if (firstItem) {
               setQuestions([firstItem]);
               setOptionShuffleMap(createOptionShuffleMap([firstItem]));
@@ -382,11 +398,15 @@ export default function MockExamSession() {
       fetch(`/api/mock-exams/${attemptId}/progress`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ answers: a, flagged: f, timeSpent: t }),
+        body: JSON.stringify({
+          answers: a, flagged: f, timeSpent: t,
+          catState: catState || undefined,
+          timerState: { elapsed: t, paused },
+        }),
       }).catch(() => {});
     }, 10000);
     return () => clearInterval(interval);
-  }, [loading, attemptId]);
+  }, [loading, attemptId, catState, paused]);
 
   const selectAnswer = (questionId: string, optionIndex: number) => {
     if (strictMode && answers[questionId] !== undefined) {
@@ -415,27 +435,34 @@ export default function MockExamSession() {
     if (userAnswer === undefined) return;
 
     const isCorrect = userAnswer === currentQuestion.correct;
-    const newState = updateAbility(catState, currentQuestion, isCorrect);
+    const domainName = blueprintMeta?.domainAssignments?.[currentQuestion.id];
+    const newState = updateAbility(catState, currentQuestion, isCorrect, domainName || undefined);
 
-    const blueprintForStop = {
-      totalQuestions: blueprintMeta?.maxQuestions || 90,
-      minQuestions: blueprintMeta?.minQuestions,
-      maxQuestions: blueprintMeta?.maxQuestions,
+    const fullBlueprint = blueprintMeta?.examCode ? EXAM_BLUEPRINTS[blueprintMeta.examCode] : null;
+    const blueprintForStop = fullBlueprint || {
+      totalQuestions: blueprintMeta?.maxQuestions || 150,
+      minQuestions: blueprintMeta?.minQuestions || 85,
+      maxQuestions: blueprintMeta?.maxQuestions || 150,
+      domains: blueprintMeta?.domains || [],
+      examType: "cat" as const,
     };
 
-    if (shouldStop(newState, blueprintForStop as any)) {
+    const stopResult = shouldStop(newState, blueprintForStop as any);
+    if (stopResult.stop) {
       setCatState(newState);
       setCatFinished(true);
       localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(newState));
+      saveProgressToServer(newState);
       setTimeout(() => {
-        submitExamWithState(newState);
+        submitExamWithState(newState, stopResult.reason);
       }, 0);
       return;
     }
 
     const administeredIds = new Set(newState.responses.map(r => r.itemId));
     const remaining = allPoolQuestions.filter(q => !administeredIds.has(q.id));
-    const nextItem = selectNextItem(newState, remaining);
+    const domainMap = blueprintMeta?.domainAssignments || {};
+    const nextItem = selectNextItem(newState, remaining, fullBlueprint || undefined, domainMap);
 
     if (nextItem) {
       setQuestions(prev => [...prev, nextItem]);
@@ -444,25 +471,53 @@ export default function MockExamSession() {
     } else {
       setCatFinished(true);
       setTimeout(() => {
-        submitExamWithState(newState);
+        submitExamWithState(newState, "pool_exhausted");
       }, 0);
     }
 
     setCatState(newState);
     localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(newState));
+    saveProgressToServer(newState);
   }, [isCATExam, catState, attemptId, questions, currentQ, answers, blueprintMeta, allPoolQuestions]);
 
-  const submitExamWithState = async (finalCatState?: CATState) => {
+  const saveProgressToServer = useCallback((currentCatState?: CATState) => {
+    if (!attemptId) return;
+    const state = currentCatState || catState;
+    fetch(`/api/mock-exams/${attemptId}/progress`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({
+        answers,
+        flagged,
+        timeSpent,
+        catState: state,
+        timerState: { elapsed: timeSpent, paused },
+      }),
+    }).catch(() => {});
+  }, [attemptId, answers, flagged, timeSpent, catState, paused]);
+
+  const submitExamWithState = async (finalCatState?: CATState, stoppingReason?: string) => {
     if (!attemptId) return;
     setSubmitting(true);
     try {
       const report = computeReport(questions, answers, blueprintMeta, finalCatState || catState);
-      await fetch(`/api/mock-exams/${attemptId}/complete`, {
+      const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ answers, flagged, timeSpent, report }),
+        body: JSON.stringify({
+          answers,
+          flagged,
+          timeSpent,
+          report,
+          catState: finalCatState || catState,
+          stoppingReason,
+        }),
       });
-      navigate(`/mock-exams/${attemptId}/report`);
+      if (!res.ok) {
+        throw new Error("Server returned error");
+      }
+      setCompletionData({ report, stoppingReason, catState: finalCatState || catState });
+      fetchFullQuestions();
     } catch {
       toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
       setSubmitting(false);
@@ -474,16 +529,37 @@ export default function MockExamSession() {
     setSubmitting(true);
     try {
       const report = computeReport(questions, answers, blueprintMeta, catState);
-      await fetch(`/api/mock-exams/${attemptId}/complete`, {
+      const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ answers, flagged, timeSpent, report }),
       });
-      navigate(`/mock-exams/${attemptId}/report`);
+      if (!res.ok) {
+        throw new Error("Server returned error");
+      }
+      setCompletionData({ report, catState });
+      fetchFullQuestions();
     } catch {
       toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
       setSubmitting(false);
     }
+  };
+
+  const fetchFullQuestions = async () => {
+    if (!attemptId) return;
+    try {
+      const res = await fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() });
+      const data = await res.json();
+      if (data.questions) {
+        setFullQuestions(data.questions);
+      }
+    } catch {}
+  };
+
+  const enterReviewMode = () => {
+    setReviewMode(true);
+    setCurrentQ(0);
+    setSubmitting(false);
   };
 
   const handleNextQuestion = () => {
@@ -500,6 +576,348 @@ export default function MockExamSession() {
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-gray-500">Loading exam...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (reviewMode) {
+    const rawQuestions = fullQuestions.length > 0 ? fullQuestions : questions;
+    const answeredIds = new Set(Object.keys(answers));
+    const reviewQuestions = rawQuestions.filter(q => answeredIds.has(q.id));
+    const filteredIndices = reviewQuestions.map((_, i) => i).filter(i => {
+      const q = reviewQuestions[i];
+      if (reviewFilter === "incorrect") return answers[q.id] !== q.correct;
+      if (reviewFilter === "flagged") return flagged.includes(q.id);
+      return true;
+    });
+    const reviewIdx = filteredIndices.indexOf(currentQ) >= 0 ? currentQ : (filteredIndices[0] ?? 0);
+    const rq = filteredIndices.length > 0 ? reviewQuestions[reviewIdx] : null;
+    const userAnswer = rq ? answers[rq.id] : undefined;
+    const isCorrect = rq ? userAnswer === rq.correct : false;
+
+    return (
+      <div className="min-h-screen bg-gray-50 font-sans text-gray-900" data-testid="review-mode">
+        <div className="sticky top-0 z-50 bg-white border-b border-gray-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <h2 className="text-sm font-bold text-gray-900">Review Mode</h2>
+              <span className="text-xs text-gray-400">Q {reviewIdx + 1} of {reviewQuestions.length}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <select
+                value={reviewFilter}
+                onChange={(e) => { setReviewFilter(e.target.value as any); setCurrentQ(0); }}
+                className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white"
+                data-testid="select-review-filter"
+              >
+                <option value="all">All Questions</option>
+                <option value="incorrect">Incorrect Only</option>
+                <option value="flagged">Flagged Only</option>
+              </select>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate(`/mock-exams/${attemptId}/report`)}
+                data-testid="button-view-full-report"
+              >
+                Full Report
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => { setReviewMode(false); setCompletionData(completionData); }}
+                data-testid="button-back-to-results"
+              >
+                Back to Results
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="fixed left-0 top-14 bottom-0 w-16 bg-white border-r border-gray-100 overflow-y-auto hidden md:block z-40">
+          <div className="p-2 space-y-1">
+            {filteredIndices.map((idx) => {
+              const q = reviewQuestions[idx];
+              const correct = answers[q.id] === q.correct;
+              const isFl = flagged.includes(q.id);
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentQ(idx)}
+                  className={`w-full h-8 rounded text-xs font-bold flex items-center justify-center transition-all ${
+                    idx === reviewIdx ? "ring-2 ring-primary ring-offset-1" : ""
+                  } ${
+                    isFl ? "bg-amber-100 text-amber-700" :
+                    correct ? "bg-emerald-100 text-emerald-700" :
+                    "bg-red-100 text-red-700"
+                  }`}
+                  data-testid={`button-review-nav-${idx}`}
+                >
+                  {idx + 1}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 pb-24 md:ml-20">
+          {!rq && (
+            <div className="text-center py-12 text-gray-400" data-testid="review-empty-state">
+              <p className="text-lg font-medium">No questions match this filter</p>
+              <p className="text-sm mt-1">Try switching to "All Questions"</p>
+              <Button variant="outline" className="mt-4" onClick={() => setReviewFilter("all")}>Show All Questions</Button>
+            </div>
+          )}
+          {rq && (
+            <div className="space-y-5">
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`text-xs font-bold px-2 py-0.5 rounded ${isCorrect ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
+                  {isCorrect ? "CORRECT" : "INCORRECT"}
+                </span>
+                <span className="text-xs text-gray-400">{rq.bodySystem}</span>
+                {flagged.includes(rq.id) && (
+                  <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium flex items-center gap-1">
+                    <Flag className="w-3 h-3" /> Flagged
+                  </span>
+                )}
+              </div>
+
+              <h2 className="text-lg font-semibold text-gray-900 leading-relaxed" data-testid="text-review-question">
+                {rq.question}
+              </h2>
+
+              <div className="space-y-2">
+                {rq.options.map((option, oi) => {
+                  const isUserAnswer = userAnswer === oi;
+                  const isCorrectOption = rq.correct === oi;
+                  const letterLabel = String.fromCharCode(65 + oi);
+                  return (
+                    <div
+                      key={oi}
+                      className={`px-4 py-3 rounded-lg border-2 flex items-start gap-3 ${
+                        isCorrectOption ? "border-emerald-400 bg-emerald-50" :
+                        isUserAnswer && !isCorrectOption ? "border-red-400 bg-red-50" :
+                        "border-gray-200"
+                      }`}
+                      data-testid={`review-option-${oi}`}
+                    >
+                      <span className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                        isCorrectOption ? "border-emerald-500 bg-emerald-500" :
+                        isUserAnswer ? "border-red-500 bg-red-500" :
+                        "border-gray-300"
+                      }`}>
+                        {(isCorrectOption || isUserAnswer) && (
+                          isCorrectOption
+                            ? <CheckCircle2 className="w-3 h-3 text-white" />
+                            : <XCircle className="w-3 h-3 text-white" />
+                        )}
+                      </span>
+                      <div className="flex-1">
+                        <span className="text-sm">
+                          <span className="font-semibold mr-1">{letterLabel}.</span>
+                          {option}
+                        </span>
+                        {isCorrectOption && <span className="text-xs text-emerald-600 ml-2 font-medium">(Correct Answer)</span>}
+                        {isUserAnswer && !isCorrectOption && <span className="text-xs text-red-600 ml-2 font-medium">(Your Answer)</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {(rq.rationale || rq.explanation) && (
+                <Card className="border-none shadow-sm bg-blue-50/50" data-testid="review-rationale">
+                  <CardContent className="p-4 space-y-2">
+                    <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">Rationale</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">{rq.rationale || rq.explanation}</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {(rq as any).clinicalPearl && (
+                <Card className="border-none shadow-sm bg-amber-50/50" data-testid="review-clinical-pearl">
+                  <CardContent className="p-4 space-y-2">
+                    <p className="text-xs font-bold text-amber-700 uppercase tracking-wider">Clinical Pearl</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">{(rq as any).clinicalPearl}</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {(rq as any).examStrategy && (
+                <Card className="border-none shadow-sm bg-violet-50/50" data-testid="review-exam-strategy">
+                  <CardContent className="p-4 space-y-2">
+                    <p className="text-xs font-bold text-violet-700 uppercase tracking-wider">Exam Strategy</p>
+                    <p className="text-sm text-gray-700 leading-relaxed">{(rq as any).examStrategy}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+        </main>
+
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between md:ml-20">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                const curIdx = filteredIndices.indexOf(reviewIdx);
+                if (curIdx > 0) setCurrentQ(filteredIndices[curIdx - 1]);
+              }}
+              disabled={filteredIndices.indexOf(reviewIdx) <= 0}
+              className="gap-1"
+              data-testid="button-review-prev"
+            >
+              <ChevronLeft className="w-4 h-4" /> Previous
+            </Button>
+            <span className="text-xs text-gray-400">
+              {filteredIndices.indexOf(reviewIdx) + 1} of {filteredIndices.length} ({reviewFilter})
+            </span>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                const curIdx = filteredIndices.indexOf(reviewIdx);
+                if (curIdx < filteredIndices.length - 1) setCurrentQ(filteredIndices[curIdx + 1]);
+              }}
+              disabled={filteredIndices.indexOf(reviewIdx) >= filteredIndices.length - 1}
+              className="gap-1"
+              data-testid="button-review-next"
+            >
+              Next <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (completionData) {
+    const report = completionData.report;
+    const cState = completionData.catState as CATState | null;
+    const isCatCompletion = report?.examType === "cat";
+    const strengthAreas = cState ? getStrengthAreas(cState) : [];
+    const weakAreasList = cState ? getWeakAreas(cState) : (report?.weakAreas || []);
+
+    return (
+      <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex items-center justify-center" data-testid="completion-screen">
+        <div className="max-w-lg w-full mx-4 space-y-6">
+          <Card className="border-none shadow-xl overflow-hidden">
+            <div className="h-2" style={{ backgroundColor: isCatCompletion ? (report?.overallPass ? "#10b981" : "#ef4444") : accentColor }} />
+            <CardContent className="p-6 sm:p-8 space-y-6">
+              <div className="text-center space-y-3">
+                {isCatCompletion ? (
+                  <>
+                    <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center ${report?.overallPass ? "bg-emerald-100" : "bg-red-100"}`}>
+                      {report?.overallPass ? <CheckCircle2 className="w-8 h-8 text-emerald-600" /> : <XCircle className="w-8 h-8 text-red-600" />}
+                    </div>
+                    <h1 className="text-2xl font-bold" data-testid="text-completion-title">
+                      {report?.overallPass ? "Above Passing Standard" : "Below Passing Standard"}
+                    </h1>
+                    <p className="text-sm text-gray-500">
+                      CAT Exam Complete &middot; {report?.totalQuestions} questions administered
+                    </p>
+                    {completionData.stoppingReason && (
+                      <p className="text-xs text-gray-400">
+                        Stopping rule: {completionData.stoppingReason.replace(/_/g, " ")}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center ${
+                      (report?.percentage || 0) >= 80 ? "bg-emerald-100" :
+                      (report?.percentage || 0) >= 60 ? "bg-amber-100" : "bg-red-100"
+                    }`}>
+                      <span className={`text-2xl font-bold ${
+                        (report?.percentage || 0) >= 80 ? "text-emerald-600" :
+                        (report?.percentage || 0) >= 60 ? "text-amber-600" : "text-red-600"
+                      }`}>{report?.percentage}%</span>
+                    </div>
+                    <h1 className="text-2xl font-bold" data-testid="text-completion-title">
+                      Exam Complete
+                    </h1>
+                    <p className="text-sm text-gray-500">
+                      {report?.score}/{report?.totalQuestions} correct &middot; {formatTime(timeSpent)} elapsed
+                    </p>
+                  </>
+                )}
+              </div>
+
+              {report?.domainBreakdown && report.domainBreakdown.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Category Breakdown</p>
+                  {report.domainBreakdown.map((d: any) => (
+                    <div key={d.name} className="flex items-center justify-between py-1.5">
+                      <span className="text-sm text-gray-700 flex-1">{d.name}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${d.passed ? "bg-emerald-500" : "bg-red-400"}`}
+                            style={{ width: `${d.percentage}%` }}
+                          />
+                        </div>
+                        <span className={`text-xs font-bold w-10 text-right ${d.passed ? "text-emerald-600" : "text-red-500"}`}>
+                          {d.percentage}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {strengthAreas.length > 0 && (
+                <div className="space-y-1.5">
+                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Strengths</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {strengthAreas.slice(0, 3).map((area: any) => (
+                      <span key={area.topic} className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-full">
+                        {area.topic} ({area.percentage}%)
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {weakAreasList.length > 0 && (
+                <div className="space-y-1.5">
+                  <p className="text-xs font-bold text-red-500 uppercase tracking-wider">Areas to Improve</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {weakAreasList.slice(0, 3).map((area: any) => (
+                      <span key={area.topic || area.system} className="text-xs bg-red-50 text-red-700 px-2 py-1 rounded-full">
+                        {area.topic || area.system} ({area.percentage || area.score}%)
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-2 pt-2">
+                <Button
+                  className="w-full h-12 rounded-full gap-2 text-base font-semibold"
+                  onClick={enterReviewMode}
+                  data-testid="button-review-questions"
+                >
+                  <Eye className="w-5 h-5" /> Review Questions & Rationale
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full h-10 rounded-full gap-2"
+                  onClick={() => navigate(`/mock-exams/${attemptId}/report`)}
+                  data-testid="button-view-report"
+                >
+                  View Full Report
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full text-sm text-gray-500"
+                  onClick={() => navigate("/mock-exams")}
+                  data-testid="button-back-to-exams"
+                >
+                  Back to Exams
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
