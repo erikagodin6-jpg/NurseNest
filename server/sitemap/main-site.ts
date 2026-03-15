@@ -174,6 +174,22 @@ export async function generateMainPages(): Promise<string[]> {
     { path: "/allied-social-work", priority: "0.7", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/allied-pharmacy-tech", priority: "0.7", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/allied-psychotherapy-addictions", priority: "0.7", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/sepsis-nursing-interventions", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/ventilator-management-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/diabetes-nursing-management", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/fluid-electrolyte-imbalance-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/hemodynamic-monitoring-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/wound-care-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/medication-administration-safety-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/pain-management-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/cardiac-rhythm-interpretation-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/infection-control-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/maternal-newborn-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/pediatric-assessment-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/mental-health-crisis-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/perioperative-care-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/pharmacology-basics-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/nclex-clinical-judgment-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
   ];
 
   for (const route of staticRoutes) {

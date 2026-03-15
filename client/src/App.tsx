@@ -373,6 +373,8 @@ const SeoLandingPage = lazy(() => import("@/pages/seo-landing-page"));
 const SeoLandingBySlug = lazy(() => import("@/pages/seo-landing-page").then(m => ({ default: m.SeoLandingBySlug })));
 const ExamBlueprintHub = lazy(() => import("@/pages/exam-blueprint-hub"));
 const ExamBlueprintCategory = lazy(() => import("@/pages/exam-blueprint-category"));
+const TopicClusterPage = lazy(() => import("@/pages/topic-cluster-page"));
+const TopicClusterBySlug = lazy(() => import("@/pages/topic-cluster-page").then(m => ({ default: m.TopicClusterBySlug })));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -1054,6 +1056,24 @@ function AppRoutes() {
         {/* Career Guides — Healthcare Ultimate Guides + Authority Guides */}
         <Route path="/guides/:slug" component={UnifiedGuidePage} />
         <Route path="/guides" component={HealthcareGuidesIndex} />
+
+        {/* Topic Cluster Pages — Clinical Nursing Topics */}
+        <Route path="/sepsis-nursing-interventions">{() => <TopicClusterBySlug slug="sepsis-nursing-interventions" />}</Route>
+        <Route path="/ventilator-management-nursing">{() => <TopicClusterBySlug slug="ventilator-management-nursing" />}</Route>
+        <Route path="/diabetes-nursing-management">{() => <TopicClusterBySlug slug="diabetes-nursing-management" />}</Route>
+        <Route path="/fluid-electrolyte-imbalance-nursing">{() => <TopicClusterBySlug slug="fluid-electrolyte-imbalance-nursing" />}</Route>
+        <Route path="/hemodynamic-monitoring-nursing">{() => <TopicClusterBySlug slug="hemodynamic-monitoring-nursing" />}</Route>
+        <Route path="/wound-care-nursing">{() => <TopicClusterBySlug slug="wound-care-nursing" />}</Route>
+        <Route path="/medication-administration-safety-nursing">{() => <TopicClusterBySlug slug="medication-administration-safety-nursing" />}</Route>
+        <Route path="/pain-management-nursing">{() => <TopicClusterBySlug slug="pain-management-nursing" />}</Route>
+        <Route path="/cardiac-rhythm-interpretation-nursing">{() => <TopicClusterBySlug slug="cardiac-rhythm-interpretation-nursing" />}</Route>
+        <Route path="/infection-control-nursing">{() => <TopicClusterBySlug slug="infection-control-nursing" />}</Route>
+        <Route path="/maternal-newborn-nursing">{() => <TopicClusterBySlug slug="maternal-newborn-nursing" />}</Route>
+        <Route path="/pediatric-assessment-nursing">{() => <TopicClusterBySlug slug="pediatric-assessment-nursing" />}</Route>
+        <Route path="/mental-health-crisis-nursing">{() => <TopicClusterBySlug slug="mental-health-crisis-nursing" />}</Route>
+        <Route path="/perioperative-care-nursing">{() => <TopicClusterBySlug slug="perioperative-care-nursing" />}</Route>
+        <Route path="/pharmacology-basics-nursing">{() => <TopicClusterBySlug slug="pharmacology-basics-nursing" />}</Route>
+        <Route path="/nclex-clinical-judgment-nursing">{() => <TopicClusterBySlug slug="nclex-clinical-judgment-nursing" />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
