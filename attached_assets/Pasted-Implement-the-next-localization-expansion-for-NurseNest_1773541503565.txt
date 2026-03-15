@@ -1,0 +1,174 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add **Portuguese (Brazilian Portuguese)** as the next supported language and prepare the infrastructure for the next language expansion (**Tagalog / Filipino**) immediately afterward.
+
+The system must support both languages properly for SEO, routing, and translation consistency without breaking the existing multilingual framework.
+
+---
+
+SECTION 1 — ADD PORTUGUESE LANGUAGE SUPPORT
+
+Add a new locale:
+
+language code:
+pt
+
+region:
+Brazilian Portuguese
+
+display name:
+Português
+
+Update the localization configuration so Portuguese appears in the language selector and routing.
+
+Ensure the language dropdown includes:
+English
+French
+Spanish
+Português
+
+---
+
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Portuguese routes follow the same pattern as other localized routes.
+
+Examples:
+
+/pt
+/pt/pricing
+/pt/lessons
+/pt/practice
+/pt/new-grad
+/pt/allied-health
+
+All internal links must automatically switch to Portuguese equivalents when the user is in the Portuguese locale.
+
+---
+
+SECTION 3 — TRANSLATION SCOPE
+
+Translate the highest-impact pages first.
+
+Priority pages:
+
+Homepage
+Pricing
+Lessons overview
+Practice / Question bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Blog index page
+
+Do not attempt to translate every blog or lesson initially.
+
+Instead create a fallback system so untranslated pages gracefully display the English version.
+
+---
+
+SECTION 4 — SEO LOCALIZATION
+
+Update SEO metadata for Portuguese pages.
+
+Each localized page must include:
+
+hreflang tags
+canonical tags
+localized meta titles
+localized meta descriptions
+
+Example hreflang structure:
+
+hreflang="en"
+hreflang="fr"
+hreflang="es"
+hreflang="pt"
+
+Ensure Portuguese pages are included in the sitemap.
+
+Create or update:
+
+/sitemap-pt.xml
+
+---
+
+SECTION 5 — LANGUAGE DETECTION
+
+Add automatic language detection.
+
+If a user’s browser language is Portuguese:
+
+redirect to:
+/pt
+
+but allow manual language switching.
+
+---
+
+SECTION 6 — CONTENT QUALITY
+
+Ensure translation quality remains professional.
+
+Rules:
+
+do not translate brand name NurseNest
+maintain clinical terminology accuracy
+preserve medical abbreviations
+do not break internal linking
+
+---
+
+SECTION 7 — PREPARE NEXT LANGUAGE
+
+Prepare the system to add **Tagalog (Filipino)** next.
+
+Add language scaffolding but do not translate pages yet.
+
+language code:
+tl
+
+display name:
+Tagalog
+
+Ensure the i18n system can easily enable this language later without structural changes.
+
+---
+
+SECTION 8 — UPDATE SITEMAPS
+
+Update all sitemaps to include Portuguese URLs.
+
+Confirm Google can crawl:
+
+/pt
+/pt/pricing
+/pt/lessons
+/pt/new-grad
+/pt/allied-health
+
+---
+
+SECTION 9 — TESTING
+
+Verify:
+
+Portuguese appears in language selector
+Switching languages updates URLs correctly
+Portuguese routes load correctly
+English fallback works for untranslated content
+SEO tags generate correctly
+Sitemap includes Portuguese pages
+
+---
+
+DELIVERABLES
+
+Provide:
+
+files changed
+new localization configuration
+Portuguese routes confirmed
+sitemap updates
+confirmation Tagalog scaffolding exists for future expansion
