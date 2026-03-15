@@ -265,7 +265,7 @@ export default function NewGradProfessionHub() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="grid sm:grid-cols-2 gap-4">
           <FlashcardCTA profession={profession.name.toLowerCase()} href={profession.resources[1]?.href || "/flashcards"} variant="sidebar" />
-          <PracticeQuestionCTA profession={profession.name.toLowerCase()} href={profession.resources[0]?.href || "/preview/med-surg"} variant="sidebar" />
+          <PracticeQuestionCTA profession={profession.name.toLowerCase()} href={profession.resources[0]?.href || "/free-practice"} variant="sidebar" />
         </div>
       </div>
 

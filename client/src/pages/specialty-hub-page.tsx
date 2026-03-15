@@ -188,7 +188,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
                 </span>
               </div>
             </Link>
-            <Link href="/preview/med-surg" className="group" data-testid="card-resource-qbank">
+            <Link href="/free-practice" className="group" data-testid="card-resource-qbank">
               <div className={`bg-white rounded-xl border ${specialty.borderColor} p-6 hover:shadow-md transition-all h-full`}>
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${specialty.iconColor}`} />

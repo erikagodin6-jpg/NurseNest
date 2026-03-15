@@ -367,7 +367,7 @@ export default function SeoPracticeQuiz() {
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Try Again
                   </Button>
-                  <LocaleLink href="/preview/med-surg">
+                  <LocaleLink href="/free-practice">
                     <Button data-testid="button-full-bank">
                       <BookOpen className="w-4 h-4 mr-2" />
                       Full Test Bank

@@ -3704,7 +3704,7 @@ export default function LessonDetail() {
           <h3 className="text-xl font-bold text-gray-900 mb-2">What's Next?</h3>
           <p className="text-sm text-gray-600 mb-6">Reinforce what you just learned with active practice.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <LocaleLink href="/preview/med-surg" className="block" data-testid="cta-practice-questions">
+            <LocaleLink href="/free-practice" className="block" data-testid="cta-practice-questions">
               <div className="h-full p-4 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-md transition-all group cursor-pointer">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
                   <ClipboardList className="w-5 h-5 text-primary" />

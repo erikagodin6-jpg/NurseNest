@@ -63,7 +63,7 @@ const NEW_GRAD_RESOURCES: ResourceSection[] = [
 const EXAM_PREP_CROSS_LINKS = [
   { title: "NCLEX-RN Study Hub", href: "/nclex-rn", description: "Full NCLEX-RN exam prep with mock exams and question banks." },
   { title: "REx-PN Study Hub", href: "/rex-pn", description: "Canadian RPN exam preparation aligned to REx-PN competencies." },
-  { title: "Test Bank", href: "/preview/med-surg", description: "Thousands of practice questions organized by body system." },
+  { title: "Test Bank", href: "/free-practice", description: "Thousands of practice questions organized by body system." },
   { title: "Flashcard Decks", href: "/flashcards", description: "Quick-review flashcards for pharmacology, lab values, and more." },
   { title: "Clinical Judgment Cases", href: "/clinical-clarity", description: "NGN-style clinical judgment scenarios and case studies." },
   { title: "Mock Exams", href: "/mock-exams", description: "Full-length adaptive mock exams that mirror real testing." },

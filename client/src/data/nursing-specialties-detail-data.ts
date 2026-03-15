@@ -372,7 +372,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Cancer Pain Management", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Oncology Nursing Questions", href: "/preview/med-surg" },
+      { title: "Oncology Nursing Questions", href: "/free-practice" },
     ],
     relatedFlashcards: [
       { title: "Chemotherapy Agents Flashcards", href: "/flashcards" },
@@ -452,7 +452,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Acid-Base Disorders", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Renal Nursing Questions", href: "/preview/med-surg" },
+      { title: "Renal Nursing Questions", href: "/preview/renal" },
     ],
     relatedFlashcards: [
       { title: "Renal Lab Values Flashcards", href: "/flashcards" },
@@ -532,7 +532,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Substance Use Disorders", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Mental Health Nursing Questions", href: "/preview/med-surg" },
+      { title: "Mental Health Nursing Questions", href: "/preview/mental-health" },
     ],
     relatedFlashcards: [
       { title: "Psychiatric Medications Flashcards", href: "/flashcards" },
@@ -612,7 +612,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Communicable Diseases", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Public Health Nursing Questions", href: "/preview/med-surg" },
+      { title: "Public Health Nursing Questions", href: "/free-practice" },
     ],
     relatedFlashcards: [
       { title: "Immunization Schedule Flashcards", href: "/flashcards" },
@@ -692,7 +692,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Diabetes Self-Management", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Community Health Questions", href: "/preview/med-surg" },
+      { title: "Community Health Questions", href: "/free-practice" },
     ],
     relatedFlashcards: [
       { title: "Wound Care Flashcards", href: "/flashcards" },
@@ -853,7 +853,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "DVT Prevention", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Orthopedic Nursing Questions", href: "/preview/med-surg" },
+      { title: "Orthopedic Nursing Questions", href: "/preview/orthopedic" },
     ],
     relatedFlashcards: [
       { title: "Fracture Types Flashcards", href: "/flashcards" },
@@ -932,7 +932,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Neurological Assessment", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Rehabilitation Nursing Questions", href: "/preview/med-surg" },
+      { title: "Rehabilitation Nursing Questions", href: "/free-practice" },
     ],
     relatedFlashcards: [
       { title: "Spinal Cord Injury Levels Flashcards", href: "/flashcards" },
@@ -1012,7 +1012,7 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
       { title: "Ethical Decision-Making in Nursing", href: "/lessons" },
     ],
     relatedQuestions: [
-      { title: "Palliative Care Questions", href: "/preview/med-surg" },
+      { title: "Palliative Care Questions", href: "/preview/palliative-care" },
     ],
     relatedFlashcards: [
       { title: "Opioid Medications Flashcards", href: "/flashcards" },

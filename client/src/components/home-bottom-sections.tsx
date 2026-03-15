@@ -520,7 +520,7 @@ export function HomeBottomSections({
               {/* Test Bank */}
               <div
                 className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
-                onClick={() => setLocation("/test-bank")}
+                onClick={() => setLocation("/free-practice")}
                 data-testid="card-feature-test-bank"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-100/50 to-transparent rounded-bl-full" />

@@ -348,7 +348,7 @@ export default function FreePractice() {
                       Try Full Mock Exams <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                     <Button
-                      onClick={() => setLocation("/test-bank")}
+                      onClick={() => setLocation("/free-practice")}
                       variant="outline"
                       className="w-full h-12 rounded-xl"
                       data-testid="button-browse-qbank"

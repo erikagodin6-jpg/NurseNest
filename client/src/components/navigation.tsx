@@ -1104,7 +1104,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 p-2">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.coreStudyTools")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/test-bank")} data-testid="nav-questions-desktop">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/free-practice")} data-testid="nav-questions-desktop">
                     <FlaskConical className="w-4 h-4 text-primary/70" />
                     {t("nav.testBank")}
                   </DropdownMenuItem>

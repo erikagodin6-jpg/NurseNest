@@ -97,7 +97,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
       { title: "Ask Questions Without Shame", desc: "Your first year is your learning year. It's better to ask a 'stupid' question than to make a preventable error. Seek out experienced nurses as mentors." },
     ],
     resources: [
-      { title: "NCLEX Prep Test Bank", desc: "2,400+ practice questions with detailed rationales", href: "/preview/med-surg" },
+      { title: "NCLEX Prep Test Bank", desc: "2,400+ practice questions with detailed rationales", href: "/free-practice" },
       { title: "Clinical Flashcards", desc: "Spaced repetition flashcards for pharmacology and pathophysiology", href: "/flashcards" },
       { title: "Mock Exams", desc: "Adaptive CAT-style practice exams simulating real test conditions", href: "/mock-exams" },
       { title: "Clinical Simulators", desc: "Interactive clinical decision-making scenarios", href: "/case-simulations" },

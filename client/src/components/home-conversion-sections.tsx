@@ -597,7 +597,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       color: "bg-blue-100",
       iconColor: "text-blue-600",
       tags: ["Multiple Choice", "SATA", "NGN", "Rationales"],
-      href: "/preview/med-surg",
+      href: "/free-practice",
     },
     {
       icon: Layers,

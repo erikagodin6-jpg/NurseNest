@@ -405,6 +405,7 @@ function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+
 function PageTracker() {
   usePageTracker();
   return null;
@@ -547,7 +548,6 @@ function AppRoutes() {
         <Route path="/qbank/exam" component={QBankExamPage} />
         <Route path="/qbank/study" component={QBankStudyPage} />
         <Route path="/qbank/browse" component={QBankPreviewPage} />
-        <Route path="/preview/:specialty" component={SpecialtyPreviewPage} />
         <Route path="/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/content-editor" component={ContentEditorPage} />

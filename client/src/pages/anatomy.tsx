@@ -962,7 +962,7 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lessons">{t("anatomy.clinicalLessons")}</LocaleLink>
             <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-flashcards">{t("anatomy.flashcards")}</LocaleLink>
             <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-pre-nursing">{t("anatomy.preNursing")}</LocaleLink>
-            <LocaleLink href="/preview/med-surg" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-questions">{t("anatomy.testBank")}</LocaleLink>
+            <LocaleLink href="/free-practice" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-questions">{t("anatomy.testBank")}</LocaleLink>
             <LocaleLink href="/lectures" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lectures">{t("anatomy.videoLectures")}</LocaleLink>
           </div>
         </div>
@@ -1292,7 +1292,7 @@ function AnatomyListingPage() {
               <Zap className="w-4 h-4" />
               {t("anatomy.flashcards")}
             </LocaleLink>
-            <LocaleLink href="/preview/med-surg" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-test-bank">
+            <LocaleLink href="/free-practice" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-test-bank">
               <CheckCircle2 className="w-4 h-4" />
               {t("anatomy.testBank")}
             </LocaleLink>

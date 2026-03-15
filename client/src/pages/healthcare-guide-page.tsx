@@ -98,13 +98,14 @@ function ImagePlaceholder({ alt, caption }: { alt: string; caption: string }) {
 }
 
 function CtaBanner({ variant, color, guideSlug }: { variant: "questions" | "flashcards" | "signup"; color: string; guideSlug?: string }) {
-  const previewSlug = guideSlug ? (GUIDE_TO_PREVIEW_SLUG[guideSlug] || "med-surg") : "med-surg";
+  const previewSlug = guideSlug ? GUIDE_TO_PREVIEW_SLUG[guideSlug] : undefined;
+  const questionsHref = previewSlug ? `/preview/${previewSlug}` : "/free-practice";
   const configs = {
     questions: {
       title: "Ready to Test Your Knowledge?",
       description: "Practice with exam-style questions and detailed clinical rationales.",
       buttonText: "Start Practice Questions",
-      href: `/preview/${previewSlug}`,
+      href: questionsHref,
     },
     flashcards: {
       title: "Review Key Concepts",
@@ -848,7 +849,7 @@ export function HealthcareGuidesIndex() {
               Access practice questions, flashcards, and study tools for all healthcare specialties and professions.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <LocaleLink href="/preview/med-surg">
+              <LocaleLink href="/free-practice">
                 <Button className="bg-white text-blue-700 hover:bg-blue-50 px-6 py-2.5 font-semibold" data-testid="button-explore-questions">
                   Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
