@@ -462,7 +462,27 @@ export const arrhythmiaLessons: Record<string, LessonContent> = {
       { question: "What is the defining characteristic of sinus dysrhythmia?", options: ["Absent P waves", "Wide QRS complexes", "Irregular R-R intervals with normal P waves", "Prolonged PR interval"], correct: 2, rationale: "Sinus dysrhythmia is defined by variable R-R intervals while all other components of the rhythm remain normal. P waves are upright and uniform (confirming SA node origin), PR interval is normal, and QRS is narrow. The irregularity is in the spacing between beats, often linked to the respiratory cycle." },
       { question: "A young athlete has an irregular rhythm on the monitor. P waves are upright and uniform, PR interval is 0.16 sec, QRS is 0.08 sec. The rate speeds up with inspiration and slows with expiration. This rhythm is:", options: ["Atrial fibrillation", "Sinus dysrhythmia", "Wandering atrial pacemaker", "Second-degree AV block"], correct: 1, rationale: "Normal P waves, normal PR interval, normal QRS, with rate variation linked to the respiratory cycle is classic respiratory sinus arrhythmia. Atrial fibrillation has no P waves. Wandering atrial pacemaker has varying P wave morphology. AV blocks have dropped beats or prolonged PR intervals." },
       { question: "How can the nurse confirm respiratory sinus arrhythmia at the bedside?", options: ["Administer adenosine", "Ask the patient to hold their breath", "Apply carotid massage", "Increase the IV fluid rate"], correct: 1, rationale: "If the rhythm becomes regular when the patient holds their breath, the variation is respiratory in origin, confirming respiratory sinus arrhythmia. This simple bedside maneuver eliminates the respiratory influence on vagal tone." }
-    ]
+    ],
+    assessmentFindings: [
+      "Irregular pulse that varies with respiration (faster on inspiration, slower on expiration)",
+      "Heart rate typically 60-100 bpm with cyclic variation in rate",
+      "Patient is usually asymptomatic with no hemodynamic compromise",
+      "Auscultation reveals irregular rhythm with consistent S1 and S2 heart sounds",
+      "ECG rhythm strip shows variable R-R intervals with uniform P wave morphology"
+    ],
+    medications: [
+      { name: "No pharmacologic therapy indicated", type: "N/A", action: "Respiratory sinus arrhythmia is a benign physiologic variant requiring no pharmacological intervention", sideEffects: "N/A", contra: "N/A", pearl: "Respiratory sinus arrhythmia is a normal finding. No medications are needed. Reassure the patient and document the rhythm." }
+    ],
+    pearls: [
+      "Respiratory sinus arrhythmia is a normal finding and does NOT require treatment — do not confuse with pathologic arrhythmias",
+      "The breath-holding test is a quick bedside maneuver: if the rhythm regularizes when the patient holds their breath, it confirms respiratory origin",
+      "Absence of sinus arrhythmia in young patients may actually indicate autonomic dysfunction and warrants further assessment",
+      "Always verify P wave uniformity to distinguish from atrial fibrillation, which also presents with irregular R-R intervals but has NO identifiable P waves"
+    ],
+    signs: {
+      left: ["Rate variation linked to respiration", "Normal P waves before each QRS", "PR interval 0.12-0.20 sec consistently", "Narrow QRS complex (< 0.12 sec)"],
+      right: ["Irregular R-R intervals on ECG strip", "Rate increases with inspiration", "Rate decreases with expiration", "Rhythm regularizes with breath holding"]
+    }
   },
 
   "sinus-arrest": {
@@ -516,7 +536,29 @@ export const arrhythmiaLessons: Record<string, LessonContent> = {
       { question: "The key ECG feature that differentiates sinus arrest from sinus exit block is:", options: ["P wave morphology", "QRS width", "Whether the pause is an exact multiple of the underlying R-R interval", "PR interval duration"], correct: 2, rationale: "In sinus arrest, the pause is NOT an exact multiple of the underlying R-R interval because the SA node fails to fire and must reset before resuming. In sinus exit block, the impulse is generated but blocked from exiting, so the pause IS an exact multiple of the baseline R-R interval." },
       { question: "A patient on telemetry suddenly has a 4.8-second pause with no P-QRS-T complexes visible. The pause is not a multiple of the previous R-R intervals. The patient reports feeling lightheaded. The nurse should:", options: ["Continue monitoring and document", "Administer adenosine", "Notify the provider immediately and prepare for pacing", "Increase the IV rate"], correct: 2, rationale: "A 4.8-second symptomatic pause with characteristics of sinus arrest (not a multiple of baseline R-R) requires immediate intervention. The provider must be notified, and pacing equipment should be prepared. Pauses greater than 3 seconds with symptoms are clinically significant." },
       { question: "Which medication is most appropriate for acute symptomatic sinus arrest?", options: ["Adenosine", "Atropine", "Amiodarone", "Diltiazem"], correct: 1, rationale: "Atropine 0.5 mg IV increases SA node automaticity by blocking vagal (parasympathetic) input. Adenosine slows conduction and would worsen the condition. Amiodarone and diltiazem both suppress SA node function and are contraindicated." }
-    ]
+    ],
+    assessmentFindings: [
+      "Sudden absence of pulse during pause episodes with possible near-syncope or syncope",
+      "Irregular rhythm on telemetry with intermittent pauses where P-QRS-T complexes are absent",
+      "Patient may report dizziness, lightheadedness, or sensation of the heart stopping",
+      "Hemodynamic instability during prolonged pauses (hypotension, altered mental status)",
+      "Escape beats (junctional or ventricular) may appear during extended pauses"
+    ],
+    medications: [
+      { name: "Atropine", type: "Anticholinergic", action: "Blocks vagal (parasympathetic) stimulation of the SA node, increasing heart rate and restoring automaticity", sideEffects: "Tachycardia, dry mouth, urinary retention, blurred vision", contra: "Glaucoma, myasthenia gravis; doses less than 0.5 mg may cause paradoxical bradycardia", pearl: "First-line for symptomatic sinus arrest. Give 0.5 mg IV push every 3-5 minutes to a maximum of 3 mg. Monitor heart rate response closely." },
+      { name: "Isoproterenol", type: "Sympathomimetic (Beta-agonist)", action: "Stimulates beta-1 and beta-2 receptors increasing heart rate and contractility as a temporizing measure", sideEffects: "Tachycardia, tremor, palpitations, hypotension, myocardial ischemia", contra: "Tachyarrhythmias, coronary artery disease (use with caution)", pearl: "Used as a bridge therapy for symptomatic sinus arrest unresponsive to atropine while awaiting pacemaker placement. Titrate to heart rate response and monitor for ischemia." }
+    ],
+    pearls: [
+      "The pause in sinus arrest is NOT an exact multiple of the baseline R-R interval — this is the key differentiator from sinus exit block",
+      "Any pause greater than 3 seconds is clinically significant and must be reported immediately",
+      "A pause exceeding 6 seconds is a medical emergency — prepare for transcutaneous pacing",
+      "Always review the medication list: beta blockers, calcium channel blockers, and digoxin are common culprits",
+      "Inferior MI can cause sinus arrest because the right coronary artery supplies the SA node in approximately 60% of patients"
+    ],
+    signs: {
+      left: ["Sudden absence of P-QRS-T complex on ECG", "Pause is NOT a multiple of baseline R-R", "Normal sinus rhythm between pauses", "Possible junctional or ventricular escape beats"],
+      right: ["Dizziness or syncope during prolonged pauses", "Hypotension with extended pauses", "Pulse deficit during pause episodes", "May have associated symptoms of underlying cause (e.g., digoxin toxicity)"]
+    }
   },
 
   "sinus-exit-block": {

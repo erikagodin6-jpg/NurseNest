@@ -307,6 +307,13 @@ import { npGeneratedBatch3 } from "./np-generated-batch-3";
 import { npGeneratedBatch4 } from "./np-generated-batch-4";
 import { npGeneratedBatch5 } from "./np-generated-batch-5";
 import { npGeneratedBatch6 } from "./np-generated-batch-6";
+import { rnIncompleteBatch1Lessons } from "./rn-incomplete-batch-1";
+import { rnIncompleteBatch2Lessons } from "./rn-incomplete-batch-2";
+import { rnIncompleteBatch3Lessons } from "./rn-incomplete-batch-3";
+import { rnIncompleteBatch4Lessons } from "./rn-incomplete-batch-4";
+import { rnIncompleteBatch5Lessons } from "./rn-incomplete-batch-5";
+import { rnIncompleteBatch6Lessons } from "./rn-incomplete-batch-6";
+import { rnIncompleteBatch7Lessons } from "./rn-incomplete-batch-7";
 
 import { rnContentBatch001Lessons } from "./rn-content-batch-001";
 import { rnContentBatch002Lessons } from "./rn-content-batch-002";
@@ -817,6 +824,13 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rpnPathoMusculoskeletalLessons,
   rpnPathoImmunologyLessons,
   rpnPathoStressMetabolismLessons,
+  rnIncompleteBatch1Lessons,
+  rnIncompleteBatch2Lessons,
+  rnIncompleteBatch3Lessons,
+  rnIncompleteBatch4Lessons,
+  rnIncompleteBatch5Lessons,
+  rnIncompleteBatch6Lessons,
+  rnIncompleteBatch7Lessons,
 );
 
 
