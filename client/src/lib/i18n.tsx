@@ -53,10 +53,12 @@ function trackMissingKey(lang: LanguageCode, key: string) {
 }
 
 let enLoaded = false;
-const enReady = import("./i18n-en").then((m) => {
-  Object.assign(translations.en, m.default);
-  enLoaded = true;
-});
+const enReady = fetch("/i18n/en.json")
+  .then((r) => r.json())
+  .then((data: Record<string, string>) => {
+    Object.assign(translations.en, data);
+    enLoaded = true;
+  });
 
 type I18nContextType = {
   language: LanguageCode;

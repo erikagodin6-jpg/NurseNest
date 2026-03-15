@@ -61,12 +61,6 @@ export default defineConfig({
             return "vendor";
           }
 
-          if (id.match(/\/lib\/i18n-[a-z]{2}(-[a-z]{2,})?\.ts/)) {
-            const match = id.match(/i18n-([a-z]{2}(?:-[a-z]{2,})?)\.ts/);
-            if (match) {
-              return `i18n-${match[1]}`;
-            }
-          }
         },
       },
     },

@@ -48,6 +48,13 @@ Key systems include:
 - **New Grad Certifications Hub**: Dedicated `/newgrad/certifications` hub for hospital certifications (ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN) with individual detail pages at `/newgrad/certifications/:slug`. Old routes `/new-grad/certifications/*` redirect to new paths.
 - **Exam Completion Follow-Up System**: After a user's exam date passes (24+ hours), a follow-up modal appears on the dashboard asking "How Did Your Exam Go?" with four paths: Passed (confetti + NEWGRAD20 coupon + New Grad resources link), Waiting (supportive message + light review), Didn't Pass (weak area selection + targeted study plan), Postponed (update exam date). Responses stored in `exam_followup_responses` table. Dashboard cards replace exam countdown based on result status. API: `/api/exam-followup/status/:userId`, `/api/exam-followup/:userId`, `POST /api/exam-followup/submit`.
 
+## Build Optimization
+- **i18n UI translations**: 20 language files compiled from `client/src/lib/i18n-*.ts` to `client/public/i18n/*.json` and loaded via `fetch()` at runtime. The TS source files remain as the source of truth; regenerate JSON with `npx tsx script/compile-i18n.ts`.
+- **Lesson content translations**: Served from `client/public/translations/*.json` via `fetch()` (done in Task #480).
+- **Career question data**: Barrel export in `client/src/data/career-questions/index.ts` uses dynamic `import()` only — no static re-exports of individual question modules.
+- **Lesson data files** (343 files, 318K lines): Located in `client/src/data/lessons/` but NOT imported by any client code — only consumed server-side via `server/lesson-content-api.ts` dynamic import. Vite does not process them.
+- **Vite manualChunks**: vendor-icons (lucide-react), vendor-charts (recharts/d3), vendor-radix, vendor-motion.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

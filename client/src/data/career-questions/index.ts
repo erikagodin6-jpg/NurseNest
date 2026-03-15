@@ -1,20 +1,6 @@
 export type { CareerQuestion } from "./rrt-questions";
 export { getCareerQuestionPool } from "./career-question-pool";
 
-export { rrtQuestions } from "./rrt-questions";
-export { paramedicQuestions } from "./paramedic-questions";
-export { pharmacyTechQuestions } from "./pharmacy-tech-questions";
-export { mltQuestions } from "./mlt-questions";
-export { imagingQuestions } from "./imaging-questions";
-export { criticalCareQuestions } from "./critical-care-questions";
-export { emergencyNursingQuestions } from "./emergency-nursing-questions";
-export { perioperativeQuestions } from "./perioperative-questions";
-export { oncologyNursingQuestions } from "./oncology-nursing-questions";
-export { pediatricCertQuestions } from "./pediatric-cert-questions";
-export { psychotherapistQuestions } from "./psychotherapist-questions";
-export { socialWorkerQuestions } from "./social-worker-questions";
-export { addictionsCounsellorQuestions } from "./addictions-counsellor-questions";
-
 import type { CareerQuestion } from "./rrt-questions";
 import type { CareerType } from "@shared/careers";
 
