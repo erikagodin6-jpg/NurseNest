@@ -132,6 +132,11 @@ export const CAREER_SUBPAGE_DATA: Record<string, CareerSubpageData> = {
       { title: "Surgical Specialties", slug: "surgical-specialties", description: "General surgery, orthopedics, cardiovascular, neurosurgery, OB/GYN, urology, ophthalmology, and ENT procedures", icon: "Layers" },
       { title: "Anesthesia Concepts for Surg Techs", slug: "anesthesia-concepts", description: "Types of anesthesia, airway management, patient monitoring, malignant hyperthermia, and the scrub tech's role during induction", icon: "Wind" },
       { title: "OR Safety & Emergency Procedures", slug: "or-safety", description: "Fire prevention (fire triangle), electrical safety, laser safety, handling hazardous materials, and emergency protocols", icon: "AlertTriangle" },
+      { title: "Cardiac Surgical Instrumentation", slug: "cardiac-instrumentation", description: "Sternal saws, rib spreaders, vascular clamps, cardiac sutures, cannulation equipment, and back table setup for cardiac cases", icon: "Heart" },
+      { title: "Hemodynamic Monitoring in the OR", slug: "hemodynamic-monitoring-or", description: "Arterial lines, CVP monitoring, PA catheters, TEE, MAP interpretation, and scrub tech awareness of hemodynamic changes", icon: "Activity" },
+      { title: "Cardiopulmonary Bypass & Sterile Field", slug: "cpb-sterile-field", description: "CPB circuit components, cannulation, cardioplegia, sterile-nonsterile tubing handoff, de-airing, and ACT monitoring", icon: "RefreshCw" },
+      { title: "Postoperative Cardiac Monitoring", slug: "postop-cardiac-monitoring", description: "Chest tube output thresholds, cardiac tamponade recognition, temporary pacing wires, and emergent re-sternotomy preparation", icon: "HeartPulse" },
+      { title: "Anesthesia-Hemodynamic Interactions", slug: "anesthesia-hemodynamics", description: "Anesthetic agents and cardiovascular effects, induction risks in cardiac patients, malignant hyperthermia, and emergency protocols", icon: "Wind" },
     ],
     flashcardDecks: [
       { title: "Surgical Instruments ID", slug: "instrument-identification", description: "Visual identification of clamps, retractors, forceps, scissors, and specialty instruments", cardCount: 150, icon: "Scissors" },

@@ -13311,6 +13311,24 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== SEED CARDIAC ALLIED CONTENT (flashcards + questions) ======
+  app.post("/api/admin/seed-cardiac-allied", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { seedCardiacAlliedContent } = await import("./seed-cardiac-allied-content");
+      await seedCardiacAlliedContent();
+
+      heroStatsCache = null;
+
+      res.json({ success: true, message: "Cardiac allied content seeded successfully" });
+    } catch (e: any) {
+      console.error("[Cardiac Allied Seed] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== SEED PROMPTS3 QUESTIONS (bowtie, RRT, RN NGN) ======
   app.post("/api/admin/questions/seed-prompts3", async (req, res) => {
     try {

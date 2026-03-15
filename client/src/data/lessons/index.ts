@@ -118,6 +118,11 @@ import { rrtLessonsExpanded2 } from "./rrt-lessons-expanded-2";
 import { rrtLessonsExpanded3 } from "./rrt-lessons-expanded-3";
 import { mltLessonsExpanded } from "./mlt-lessons-expanded";
 
+import { rrtCardiacCriticalCareLessons } from "./rrt-cardiac-critical-care";
+import { paramedicCardiacCriticalCareLessons } from "./paramedic-cardiac-critical-care";
+import { imagingCardiacLessons } from "./imaging-cardiac-lessons";
+import { surgicalTechCardiacLessons } from "./surgical-tech-cardiac-lessons";
+
 import { alliedHealthFoundations1Lessons } from "./allied-health-foundations-1";
 import { alliedHealthFoundations2Lessons } from "./allied-health-foundations-2";
 import { alliedHealthFoundations3Lessons } from "./allied-health-foundations-3";
@@ -725,6 +730,10 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rrtLessonsExpanded2,
   rrtLessonsExpanded3,
   mltLessonsExpanded,
+  rrtCardiacCriticalCareLessons,
+  paramedicCardiacCriticalCareLessons,
+  imagingCardiacLessons,
+  surgicalTechCardiacLessons,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,
