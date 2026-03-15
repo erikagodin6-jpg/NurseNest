@@ -62,8 +62,6 @@ import { useI18n, LANGUAGES } from "@/lib/i18n";
 import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
-import { useCareer } from "@/lib/career-context";
-import { getEnabledCareers, type CareerType } from "@shared/careers";
 
 function UserProfileDropdown({ user, logout, setLocation: navigate }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -224,12 +222,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const { language, setLanguage, t } = useI18n();
   const navTo = (path: string) => setLocation(path);
   const currentLang = LANGUAGES.find(l => l.code === language);
-  const { career, careerType, setCareer } = useCareer();
-  const enabledCareers = getEnabledCareers();
-
-  const CAREER_ICONS: Record<string, any> = {
-    Stethoscope, Wind, Ambulance, Pill, Microscope, ScanLine,
-  };
 
   const setRegion = (newRegion: "US" | "CA") => {
     setRegionState(newRegion);
@@ -1043,56 +1035,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 </div>
               </div>
             </LocaleLink>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="hidden sm:inline-flex items-center text-xs font-semibold gap-1.5 px-2.5 h-8 border-primary/20 hover:border-primary/40 hover:bg-primary/5 min-w-[80px] max-w-[200px] whitespace-nowrap"
-                  data-testid="button-career-selector"
-                  style={{ borderColor: career.color + "40", color: career.color }}
-                >
-                  {(() => { const Icon = CAREER_ICONS[career.icon]; return Icon ? <Icon className="w-3.5 h-3.5 flex-shrink-0" /> : null; })()}
-                  <span className="truncate">{career.shortName}</span>
-                  <ChevronDown className="w-3 h-3 flex-shrink-0" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-64 p-2">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1.5 tracking-wider">{t("nav.selectCareerTrack")}</p>
-                {enabledCareers.map((c) => {
-                  const CIcon = CAREER_ICONS[c.icon];
-                  return (
-                    <DropdownMenuItem
-                      key={c.id}
-                      onClick={() => {
-                        setCareer(c.id);
-                        if (c.routePrefix) {
-                          navTo(c.routePrefix);
-                        } else {
-                          navTo("/");
-                        }
-                      }}
-                      className={cn(
-                        "cursor-pointer gap-2 rounded-md py-2 px-3",
-                        careerType === c.id
-                          ? "bg-primary/5 text-primary font-semibold"
-                          : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                      )}
-                      data-testid={`menu-career-${c.slug}`}
-                    >
-                      <div className="flex items-center gap-2.5 flex-1">
-                        {CIcon && <CIcon className="w-4 h-4" style={{ color: c.color }} />}
-                        <div className="flex flex-col">
-                          <span className="text-sm">{c.shortName}</span>
-                          <span className="text-[10px] text-gray-400 leading-tight">{c.examNames.slice(0, 2).join(", ")}</span>
-                        </div>
-                      </div>
-                      {careerType === c.id && <span className="text-primary text-xs">✓</span>}
-                    </DropdownMenuItem>
-                  );
-                })}
-              </DropdownMenuContent>
-            </DropdownMenu>
 
             <div className={cn("hidden md:flex items-center gap-0.5 lg:gap-1", compact && "md:hidden")}>
               <DropdownMenu>
