@@ -164,12 +164,13 @@ export default function ForInstitutions() {
 
       <section id="pricing-section" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">Institutional Pricing</h2>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Volume pricing that scales with your program. All plans include full platform access.</p>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-3" data-testid="text-pricing-heading">Institutional Pricing</h2>
+          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-4" data-testid="text-pricing-subtitle">Volume pricing that scales with your program. All plans include full platform access.</p>
+          <p className="text-primary font-medium text-center max-w-2xl mx-auto mb-12" data-testid="text-pricing-outcomes">Proven to improve NCLEX pass rates and student confidence — trusted by nursing programs preparing the next generation of nurses.</p>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all" data-testid="card-pricing-small">
-              <CardContent className="pt-6 text-center">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-small">
+              <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <GraduationCap className="w-10 h-10 text-primary mx-auto mb-3" />
                 <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Small Program</h3>
                 <p className="text-gray-500 text-sm mb-4">Up to 50 seats</p>
@@ -182,19 +183,28 @@ export default function ForInstitutions() {
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Assignment management</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Enrollment codes</li>
                 </ul>
+                <div className="mt-auto">
+                  <Button
+                    className="w-full gap-2"
+                    onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
+                    data-testid="button-cta-small"
+                  >
+                    Request Demo <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-primary shadow-lg relative" data-testid="card-pricing-medium">
+            <Card className="border-2 border-primary shadow-lg relative flex flex-col" data-testid="card-pricing-medium">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
               </div>
-              <CardContent className="pt-6 text-center">
+              <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <Award className="w-10 h-10 text-primary mx-auto mb-3" />
                 <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Medium Program</h3>
-                <p className="text-gray-500 text-sm mb-4">Up to 100 seats</p>
+                <p className="text-gray-500 text-sm mb-4">51–150 seats</p>
                 <p className="text-3xl font-bold text-primary mb-1">$6<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
-                <p className="text-sm text-gray-500 mb-6">$600/month for 100 seats</p>
+                <p className="text-sm text-gray-500 mb-6">$900/month for 150 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Small</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Institution analytics</li>
@@ -202,25 +212,97 @@ export default function ForInstitutions() {
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> CSV bulk enrollment</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Certificate generation</li>
                 </ul>
+                <div className="mt-auto">
+                  <Button
+                    className="w-full gap-2"
+                    onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
+                    data-testid="button-cta-medium"
+                  >
+                    Request Demo <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all" data-testid="card-pricing-large">
-              <CardContent className="pt-6 text-center">
+            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-large">
+              <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <Zap className="w-10 h-10 text-primary mx-auto mb-3" />
                 <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Large Program</h3>
-                <p className="text-gray-500 text-sm mb-4">250+ seats</p>
+                <p className="text-gray-500 text-sm mb-4">151–300 seats</p>
                 <p className="text-3xl font-bold text-primary mb-1">$4<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
-                <p className="text-sm text-gray-500 mb-6">From $1,000/month</p>
+                <p className="text-sm text-gray-500 mb-6">$1,200/month for 300 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Medium</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Priority support</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom reporting</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> API access</li>
                   <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Dedicated account manager</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> LMS integration (Canvas / Blackboard)</li>
                 </ul>
+                <div className="mt-auto">
+                  <Button
+                    className="w-full gap-2"
+                    onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
+                    data-testid="button-cta-large"
+                  >
+                    Contact Sales <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
+
+            <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-enterprise">
+              <CardContent className="pt-6 text-center flex flex-col flex-1">
+                <Building2 className="w-10 h-10 text-primary mx-auto mb-3" />
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Enterprise</h3>
+                <p className="text-gray-500 text-sm mb-4">300+ seats</p>
+                <p className="text-3xl font-bold text-primary mb-1">Custom</p>
+                <p className="text-sm text-gray-500 mb-6">Tailored to your program</p>
+                <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Large</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Unlimited program support</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom integrations</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Enterprise analytics</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Dedicated onboarding</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> LMS integration (Canvas / Blackboard)</li>
+                </ul>
+                <div className="mt-auto">
+                  <Button
+                    className="w-full gap-2"
+                    onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
+                    data-testid="button-cta-enterprise"
+                  >
+                    Contact Institutional Team <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <p className="text-center text-sm text-gray-500 mt-8" data-testid="text-pricing-note">
+            Billed annually &middot; Minimum 25 seats &middot; Academic year pricing available
+          </p>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-10" data-testid="text-trust-heading">Why Nursing Programs Choose NurseNest</h2>
+          <div className="space-y-5">
+            {[
+              { icon: Target, text: "Covers NCLEX-RN, NCLEX-PN, and Canadian REx-PN exam formats with competency-mapped questions" },
+              { icon: Brain, text: "Adaptive question bank with 3,000+ questions that adjusts to each student's weak areas" },
+              { icon: BarChart3, text: "Real-time instructor dashboards with cohort analytics, individual progress, and at-risk student alerts" },
+              { icon: Users, text: "Detailed performance analytics by body system, exam category, and question difficulty" },
+              { icon: BookOpen, text: "Continuously updated clinical content reviewed by practicing nurses and nursing educators" },
+            ].map(({ icon: Icon, text }, i) => (
+              <div key={i} className="flex items-start gap-4" data-testid={`trust-point-${i}`}>
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <p className="text-gray-700 leading-relaxed pt-2">{text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
