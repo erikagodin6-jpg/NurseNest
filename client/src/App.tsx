@@ -667,7 +667,6 @@ function AppRoutes() {
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/ai-ops" component={AdminAiOps} />
         <Route path="/admin/content-expansion" component={AdminContentExpansion} />
-        <Route path="/admin/content-coverage" component={AdminContentCoverage} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/allied-health-articles" component={AdminAlliedHealthArticles} />
