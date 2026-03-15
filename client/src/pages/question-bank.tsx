@@ -450,7 +450,7 @@ export default function QuestionBank() {
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto px-4 py-8">
+          <div className="max-w-3xl mx-auto px-4 py-8 pb-16">
             {eq && (
               <Card className="premium-card border-0 shadow-lg bg-white animate-fade-in-up" data-testid="card-exam-question">
                 <CardHeader className="pb-3 px-6 pt-6">
@@ -518,7 +518,7 @@ export default function QuestionBank() {
       <Navigation />
 
       <main className="min-h-screen bg-warmwhite">
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="container mx-auto px-4 py-8 pb-16 max-w-4xl">
           <BreadcrumbNav />
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight" data-testid="text-qb-title">
@@ -745,7 +745,7 @@ export default function QuestionBank() {
           {mode === "study" && (
             <>
               {loadingQuestions ? (
-                <Card className="premium-card border-0 shadow-md bg-white overflow-hidden">
+                <Card className="premium-card border-0 shadow-md bg-white">
                   <CardHeader className="pb-3 px-6 pt-6">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="skeleton-block h-6 w-16" />

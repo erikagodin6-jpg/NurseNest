@@ -85,7 +85,6 @@ const ImagingFlashcardsPage = lazy(() => import("./pages/imaging-flashcards"));
 const ImagingSeoLanding = lazy(() => import("./pages/imaging-seo-landing"));
 const CareerStudyIndexPage = lazy(() => import("./components/career-study-index-page"));
 const CareerFlashcardsIndexPage = lazy(() => import("./components/career-flashcards-index-page"));
-const CareerExamsPage = lazy(() => import("./components/career-exams-page"));
 const CareerCareerGuidePage = lazy(() => import("./components/career-career-guide-page"));
 import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
 import { MltSEOPage } from "./pages/mlt-seo-pages";

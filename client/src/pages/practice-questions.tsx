@@ -127,7 +127,7 @@ function PracticeQuestionsIndex() {
         structuredData={structuredData}
       />
       <Navigation />
-      <main className="flex-1">
+      <main className="flex-1 pb-16">
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-12 px-4">
           <div className="max-w-5xl mx-auto">
             <BreadcrumbNav items={[
@@ -316,7 +316,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
         ]}
       />
       <Navigation />
-      <main className="flex-1">
+      <main className="flex-1 pb-16">
         <section className="py-6 sm:py-10 px-4">
           <div className="max-w-[820px] mx-auto">
             <BreadcrumbNav items={[
@@ -350,7 +350,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                   />
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="card-question">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60" data-testid="card-question">
                   <div className="p-6 sm:p-8">
                     <p className="text-xl font-semibold text-slate-900 leading-relaxed" style={{ lineHeight: '1.65' }} data-testid="text-question">
                       {current.question}
@@ -410,7 +410,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                 </div>
 
                 {showRationale && (
-                  <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="section-rationale">
+                  <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200/60" data-testid="section-rationale">
                     <div className="px-6 sm:px-8 pt-6 sm:pt-8 pb-2">
                       <div className="flex items-center gap-2 mb-4">
                         <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
@@ -476,7 +476,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                 )}
               </div>
             ) : (
-              <div className="mt-4 bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden" data-testid="card-results">
+              <div className="mt-4 bg-white rounded-2xl shadow-sm border border-slate-200/60" data-testid="card-results">
                 <div className="p-8 sm:p-10 text-center">
                   <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
                     <Target className="w-10 h-10 text-primary" />

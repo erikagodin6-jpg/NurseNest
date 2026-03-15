@@ -34,7 +34,7 @@ export function QuestionStemCard({
   "data-testid"?: string;
 }) {
   return (
-    <Card className={cn("premium-card border-0 shadow-md bg-white overflow-hidden rounded-2xl", className)} data-testid={testId}>
+    <Card className={cn("premium-card border-0 shadow-md bg-white rounded-2xl", className)} data-testid={testId}>
       {(badges || (questionNumber !== undefined && totalQuestions !== undefined)) && (
         <div className="px-6 sm:px-8 pt-5 pb-0 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2 flex-wrap">{badges}</div>

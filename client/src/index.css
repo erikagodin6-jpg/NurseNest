@@ -670,12 +670,7 @@ img:not([loading]) {
   box-sizing: border-box;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 body {
-  overflow-x: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -756,13 +751,19 @@ input, textarea, [contenteditable="true"], .allow-select {
 
 .study-control-bar {
   position: sticky;
-  top: 0;
+  top: 44px;
   z-index: 40;
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 50%, transparent);
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+@media (min-width: 768px) {
+  .study-control-bar {
+    top: 96px;
+  }
 }
 
 .lesson-prose h2,
@@ -930,10 +931,6 @@ input, textarea, [contenteditable="true"], .allow-select {
 :is([data-theme="dark-clinical"], [data-theme="dark-academia"], [data-theme="dark-mode"]) .study-skeleton {
   background: linear-gradient(90deg, var(--theme-card-bg) 25%, var(--theme-card-border) 50%, var(--theme-card-bg) 75%);
   background-size: 200% 100%;
-}
-
-html, body {
-  overflow-x: hidden;
 }
 
 @keyframes skeleton-pulse {
