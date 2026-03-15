@@ -1,0 +1,104 @@
+Audit the RPN tier and expand the existing lessons using the uploaded pathophysiology material.
+
+Goal
+Fill missing or thin RPN lessons using the concepts extracted from the uploaded course notes and ensure content is placed inside the existing lesson categories already on the published site.
+
+Critical rules
+Do not create new lesson categories.
+Do not rename lesson titles.
+Do not move lessons between systems.
+Only add or expand lessons inside the current category structure.
+
+Extract high-yield topics from the uploaded materials including:
+
+Cardiovascular
+• Abdominal aortic aneurysm
+• Myocardial infarction
+• Heart failure
+• Cardiogenic shock
+• Coronary artery disease
+
+Hematology
+• Acute lymphoblastic leukemia
+• Acute myelogenous leukemia
+• Sickle cell disease
+• Thalassemia
+• Neutropenia and infection risk
+
+Endocrine
+• Diabetes mellitus
+• Diabetic ketoacidosis
+• Hypothyroidism
+• Hyperthyroidism
+• Adrenal insufficiency
+• Cushing syndrome
+
+Neurology
+• Stroke
+• Seizures
+• Febrile seizures
+• Cerebral palsy
+• Meningitis
+• Parkinson disease
+
+Musculoskeletal
+• Rheumatoid arthritis
+• Osteoarthritis
+• Osteoporosis
+• Septic arthritis
+• Osteomyelitis
+
+Immunology / Infection
+• Vaccines
+• Gram positive vs gram negative bacteria
+• Antibiotic resistance
+• Anti-infectives
+
+Stress and metabolism
+• HPA axis
+• Chronic stress effects
+• Obesity pathophysiology
+
+For each topic:
+
+1. Place the lesson in the correct existing system category (cardiovascular, neuro, endocrine, etc).
+2. Build an RPN-level lesson containing:
+   • overview
+   • simplified pathophysiology
+   • key signs and symptoms
+   • nursing assessment
+   • nursing interventions
+   • patient teaching
+   • exam tips
+3. Do not overwrite completed lessons unless expanding them.
+
+Flashcards
+Create 20 flashcards per topic:
+• definition
+• signs/symptoms
+• nursing priorities
+• medication pearls
+• exam traps
+
+Test Bank
+Create 30 exam-style questions per topic:
+• NCLEX style
+• SATA
+• prioritization
+• clinical scenario
+• rationales for every answer
+
+CAT Questions
+Create 15 CAT difficulty adaptive questions per topic
+• escalating difficulty
+• clinical reasoning
+• prioritization
+• safety questions
+
+Publishing rules
+Lessons → lesson system
+Flashcards → flashcard deck system
+Test bank → practice questions
+CAT questions → adaptive exam engine
+
+Ensure all new material is published on the live site.
