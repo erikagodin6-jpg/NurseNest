@@ -92,6 +92,7 @@ const StartFreePage = lazy(() => import("@/pages/start-free"));
 const AdminPage = lazy(() => import("@/pages/admin"));
 const AdminAiJobs = lazy(() => import("@/pages/admin-ai-jobs"));
 const AdminBusinessHealth = lazy(() => import("@/pages/admin-business-health"));
+const AdminContentCoverage = lazy(() => import("@/pages/admin-content-coverage"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
@@ -492,6 +493,7 @@ function AppRoutes() {
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/ai-jobs" component={AdminAiJobs} />
         <Route path="/admin/business-health" component={AdminBusinessHealth} />
+        <Route path="/admin/content-coverage" component={AdminContentCoverage} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/qbank/exam" component={QBankExamPage} />

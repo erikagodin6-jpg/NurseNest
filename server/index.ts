@@ -578,6 +578,9 @@ app.use((req, res, next) => {
   const { setupAutopilotRoutes } = await import("./autopilot");
   setupAutopilotRoutes(app);
 
+  const { setupContentCoverageRoutes } = await import("./content-coverage");
+  setupContentCoverageRoutes(app);
+
   startJobQueueWorker();
 
   const { setupLessonContentRoutes } = await import("./lesson-content-api");

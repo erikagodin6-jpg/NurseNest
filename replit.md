@@ -29,6 +29,7 @@ Key systems include:
 - **SEO & Marketing Infrastructure**: Programmatic SEO Engines, NCLEX Question Preview Pages, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, and various content hubs (e.g., Allied Health Content Hub).
 - **Public Marketing & Conversion Proof System**: Dynamic trust counters and conversion-focused proof blocks display live platform statistics.
 - **Analytics & Admin**: Content Analytics Engine and Admin Dashboard provide real-time production data and ROI insights.
+- **Content Coverage Analyzer**: Admin dashboard at `/admin/content-coverage` analyzes question/flashcard coverage across nursing tiers, body systems, allied careers/topics, and flashcard topics. Compares against configurable targets (stored in `system_settings`), identifies zero-count gaps using expected taxonomies, and supports AI auto-generation of missing content with Jaccard duplicate detection, validation, and difficulty distribution (30/50/20 easy/moderate/hard). Generated content saves as draft/pending for review.
 - **Offline Capabilities**: An IndexedDB-based Offline Study System for question packs and flashcards.
 - **Multi-Profession Framework**: Dynamic system for configuring new healthcare professions with a Universal Question Bank Importer.
 - **Production Database Safety**: `EnvironmentAwareContentWriteService` enforces preflight checks, post-write verification, and audit logging.
