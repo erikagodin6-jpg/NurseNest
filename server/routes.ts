@@ -11078,6 +11078,150 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== EXAM FOLLOW-UP SYSTEM ======
+  app.get("/api/exam-followup/status/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const authUser = (req as any).user;
+      if (!authUser) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      if (String(authUser.id) !== userId) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const existing = await pool.query(
+        `SELECT id FROM exam_followup_responses WHERE user_id = $1`,
+        [userId]
+      );
+      if (existing.rows.length > 0) {
+        return res.json({ shouldShow: false, reason: "already_completed" });
+      }
+
+      const profileRes = await pool.query(
+        `SELECT exam_date FROM user_exam_profile WHERE user_id = $1`,
+        [userId]
+      );
+      if (!profileRes.rows.length || !profileRes.rows[0].exam_date) {
+        return res.json({ shouldShow: false, reason: "no_exam_date" });
+      }
+
+      const examDate = new Date(profileRes.rows[0].exam_date);
+      const now = new Date();
+      const hoursSinceExam = (now.getTime() - examDate.getTime()) / (1000 * 60 * 60);
+
+      if (hoursSinceExam >= 24) {
+        return res.json({ shouldShow: true, examDate: examDate.toISOString() });
+      }
+
+      return res.json({ shouldShow: false, reason: "exam_not_passed_yet" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/exam-followup/submit", async (req, res) => {
+    try {
+      const authUser = (req as any).user;
+      if (!authUser) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const userId = String(authUser.id);
+      const { examResultStatus, examWeakAreas, newExamDate } = req.body;
+
+      if (!examResultStatus || !["passed", "waiting", "failed", "postponed", "skipped"].includes(examResultStatus)) {
+        return res.status(400).json({ error: "Invalid examResultStatus" });
+      }
+
+      if (examResultStatus === "postponed" && !newExamDate) {
+        return res.status(400).json({ error: "newExamDate is required when postponing" });
+      }
+      if (newExamDate && isNaN(new Date(newExamDate).getTime())) {
+        return res.status(400).json({ error: "Invalid date format for newExamDate" });
+      }
+
+      const existing = await pool.query(
+        `SELECT id FROM exam_followup_responses WHERE user_id = $1`,
+        [userId]
+      );
+      if (existing.rows.length > 0) {
+        return res.status(409).json({ error: "Follow-up already submitted" });
+      }
+
+      let couponCode: string | null = null;
+      let couponExpiresAt: Date | null = null;
+      if (examResultStatus === "passed") {
+        couponCode = "NEWGRAD20";
+        couponExpiresAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+      }
+
+      let parsedNewExamDate: Date | null = null;
+      if (examResultStatus === "postponed" && newExamDate) {
+        parsedNewExamDate = new Date(newExamDate);
+        await pool.query(
+          `UPDATE user_exam_profile SET exam_date = $2 WHERE user_id = $1`,
+          [userId, parsedNewExamDate]
+        );
+      }
+
+      await pool.query(
+        `INSERT INTO exam_followup_responses (id, user_id, exam_result_status, exam_weak_areas, coupon_code, coupon_expires_at, new_exam_date)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6)`,
+        [
+          userId,
+          examResultStatus,
+          JSON.stringify(examWeakAreas || []),
+          couponCode,
+          couponExpiresAt,
+          parsedNewExamDate,
+        ]
+      );
+
+      res.json({
+        success: true,
+        examResultStatus,
+        couponCode,
+        couponExpiresAt: couponExpiresAt?.toISOString() || null,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/exam-followup/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const authUser = (req as any).user;
+      if (!authUser) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      if (String(authUser.id) !== userId) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const result = await pool.query(
+        `SELECT * FROM exam_followup_responses WHERE user_id = $1`,
+        [userId]
+      );
+      if (result.rows.length === 0) {
+        return res.json({ hasResponse: false });
+      }
+
+      const row = result.rows[0];
+      res.json({
+        hasResponse: true,
+        examResultStatus: row.exam_result_status,
+        examWeakAreas: row.exam_weak_areas || [],
+        examResultDate: row.exam_result_date,
+        couponCode: row.coupon_code,
+        couponExpiresAt: row.coupon_expires_at,
+        newExamDate: row.new_exam_date,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== PASS PROBABILITY + RISK SCORE ======
   app.get("/api/pass-probability/:userId", async (req, res) => {
     try {

@@ -191,6 +191,18 @@ export async function ensureStudyCoachingTables(): Promise<void> {
       completed_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT NOW() NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS exam_followup_responses (
+      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id VARCHAR NOT NULL UNIQUE,
+      exam_result_status TEXT NOT NULL,
+      exam_weak_areas JSONB DEFAULT '[]'::jsonb,
+      exam_result_date TIMESTAMP DEFAULT NOW() NOT NULL,
+      coupon_code TEXT,
+      coupon_expires_at TIMESTAMP,
+      new_exam_date TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW() NOT NULL
+    );
   `);
 }
 

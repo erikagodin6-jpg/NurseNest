@@ -44,6 +44,7 @@ Key systems include:
 - **Business Health & Subscriber Dashboard**: Admin page for financial summaries, subscriber metrics, and purchase metrics.
 - **Site Health & Integrity System**: Admin dashboard with broken link crawler, missing content detection, SEO metadata auditor, and auto-repair capabilities.
 - **New Grad Certifications Hub**: Dedicated `/newgrad/certifications` hub for hospital certifications (ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN) with individual detail pages at `/newgrad/certifications/:slug`. Old routes `/new-grad/certifications/*` redirect to new paths.
+- **Exam Completion Follow-Up System**: After a user's exam date passes (24+ hours), a follow-up modal appears on the dashboard asking "How Did Your Exam Go?" with four paths: Passed (confetti + NEWGRAD20 coupon + New Grad resources link), Waiting (supportive message + light review), Didn't Pass (weak area selection + targeted study plan), Postponed (update exam date). Responses stored in `exam_followup_responses` table. Dashboard cards replace exam countdown based on result status. API: `/api/exam-followup/status/:userId`, `/api/exam-followup/:userId`, `POST /api/exam-followup/submit`.
 
 ## External Dependencies
 - **Database**: PostgreSQL
