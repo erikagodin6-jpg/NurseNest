@@ -341,7 +341,6 @@ const CustomPracticePage = lazy(() => import("@/pages/custom-practice"));
 const PerformanceAnalyticsPage = lazy(() => import("@/pages/performance-analytics"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
-const SpecialtyPreviewPage = lazy(() => import("@/pages/specialty-preview"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
 const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
