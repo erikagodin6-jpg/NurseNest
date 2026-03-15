@@ -38,6 +38,12 @@ export interface GuideInternalLink {
   type: "questions" | "flashcards" | "lessons" | "specialty" | "profession" | "guide";
 }
 
+export interface SpokeGuideRef {
+  slug: string;
+  title: string;
+  description: string;
+}
+
 export interface HealthcareGuide {
   slug: string;
   title: string;
@@ -68,6 +74,8 @@ export interface HealthcareGuide {
   faqs: GuideFAQ[];
   relatedGuides: string[];
   imagePlaceholders: { alt: string; caption: string; section: string }[];
+  hubGuideSlug?: string;
+  spokeGuides?: SpokeGuideRef[];
 }
 
 export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
@@ -149,20 +157,428 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
       workSettings: ["Medical ICU", "Surgical ICU", "Cardiac ICU (CICU)", "Neuro ICU", "Trauma ICU", "Step-down/Progressive Care Units"],
     },
     faqs: [
+      { question: "What does an ICU nurse do?", answer: "ICU nurses provide continuous, intensive care to critically ill patients in the intensive care unit. Their responsibilities include hemodynamic monitoring, mechanical ventilation management, administering vasoactive medications, performing rapid assessments, collaborating with intensivists and multidisciplinary teams, and communicating with families during life-threatening situations. They are trained to recognize and respond to rapid patient deterioration." },
+      { question: "How do you become an ICU nurse?", answer: "To become an ICU nurse, you need a nursing degree (BSN preferred) and must pass the NCLEX-RN exam. Many hospitals offer new graduate ICU residency programs with extended orientations of 12-16 weeks. Some facilities prefer 1-2 years of med-surg experience first. After gaining ICU experience, pursuing CCRN certification validates your critical care expertise." },
+      { question: "What certifications do ICU nurses need?", answer: "The primary certification for ICU nurses is the CCRN (Critical Care Registered Nurse) from AACN, which requires 1,750 hours of direct care of acutely/critically ill patients within the past 2 years. Additional certifications include CMC (Cardiac Medicine Certification), CSC (Cardiac Surgery Certification), and ACLS, BLS, and PALS certifications are typically required by employers." },
+      { question: "Is ICU nursing hard?", answer: "ICU nursing is considered one of the most challenging nursing specialties due to high patient acuity, the need for rapid clinical decision-making, complex technology management, emotional toll from end-of-life care, and the constant vigilance required. However, many ICU nurses find it deeply rewarding. Success depends on strong clinical knowledge, resilience, peer support, and effective self-care strategies." },
+      { question: "What is the ICU nurse salary?", answer: "ICU nurse salaries typically range from $70,000 to $120,000+ annually, varying by region, experience, certifications, and facility type. Nurses with CCRN certification often earn higher wages. Travel ICU nursing positions can command premium rates of $2,000-$4,000+ per week. Night shift and weekend differentials further increase earnings." },
       { question: "How much experience do I need before working in the ICU?", answer: "Many hospitals offer new graduate ICU programs with extended orientations (12-16 weeks). Some facilities prefer 1-2 years of med-surg experience first. Both pathways can lead to successful ICU careers with proper mentorship and training." },
-      { question: "What is the CCRN certification and when should I pursue it?", answer: "The CCRN (Critical Care Registered Nurse) certification from AACN validates expertise in critical care nursing. Eligibility requires 1,750 hours of direct care of acutely/critically ill patients within the past 2 years. Most nurses pursue it after 2-3 years of ICU experience." },
       { question: "What is the nurse-to-patient ratio in the ICU?", answer: "ICU nurse-to-patient ratios are typically 1:1 or 1:2, depending on patient acuity, institutional policies, and state regulations (California mandates 1:2 in ICU). High-acuity patients on multiple vasoactive drips or CRRT often require 1:1 care." },
-      { question: "How stressful is ICU nursing?", answer: "ICU nursing is inherently high-stress due to patient acuity, rapid deterioration potential, end-of-life situations, and complex family dynamics. Self-care strategies, peer support, debriefing after critical events, and maintaining work-life boundaries are essential for long-term sustainability." },
       { question: "What advanced practice roles are available for ICU nurses?", answer: "ICU nurses can advance to Acute Care Nurse Practitioner (ACNP), Clinical Nurse Specialist (CNS) in critical care, Certified Registered Nurse Anesthetist (CRNA), or leadership roles such as ICU charge nurse, nurse manager, or director of critical care services." },
-      { question: "What technology skills do ICU nurses need?", answer: "ICU nurses must be proficient with bedside monitors (hemodynamic, cardiac), mechanical ventilators, infusion pumps (multi-channel), CRRT machines, intra-aortic balloon pumps, and electronic health record systems including CPOE and clinical decision support tools." },
     ],
     relatedGuides: ["trauma-nursing-ultimate-guide", "med-surg-nursing-ultimate-guide", "respiratory-therapy-career-guide"],
+    spokeGuides: [
+      { slug: "ventilator-management-nursing-guide", title: "Ventilator Management Nursing Guide", description: "Master mechanical ventilation modes, waveform interpretation, alarm troubleshooting, and weaning protocols." },
+      { slug: "sepsis-nursing-interventions-guide", title: "Sepsis Nursing Interventions Guide", description: "Learn sepsis recognition, Hour-1 Bundle implementation, vasopressor management, and lactate-guided resuscitation." },
+      { slug: "hemodynamic-monitoring-nursing-guide", title: "Hemodynamic Monitoring Nursing Guide", description: "Understand arterial lines, CVP, PA catheters, cardiac output measurement, and waveform interpretation." },
+      { slug: "icu-medications-guide", title: "ICU Medications Guide", description: "Comprehensive guide to vasoactive drips, sedation protocols, high-alert medications, and infusion titration." },
+      { slug: "icu-nursing-skills-guide", title: "ICU Nursing Skills Guide", description: "Essential critical care skills including rapid assessment, ventilator care, central line management, and CRRT." },
+      { slug: "icu-nurse-salary-guide", title: "ICU Nurse Salary & Career Guide", description: "Explore ICU nurse salary ranges, career advancement paths, certifications, and job market outlook." },
+    ],
     imagePlaceholders: [
       { alt: "Hemodynamic monitoring waveforms showing arterial line, CVP, and PA catheter tracings", caption: "Figure 1: Common hemodynamic waveforms in ICU monitoring", section: "clinicalSkills" },
       { alt: "Ventilator mode comparison chart showing AC/VC, AC/PC, SIMV, PSV, and APRV settings", caption: "Figure 2: Mechanical ventilation modes comparison", section: "ventilator-management" },
       { alt: "Sepsis management flowchart from recognition through Hour-1 Bundle completion", caption: "Figure 3: Surviving Sepsis Campaign Hour-1 Bundle", section: "sepsis-management" },
       { alt: "ICU medication infusion compatibility chart for common vasoactive drips", caption: "Figure 4: Vasoactive medication infusion reference", section: "medications" },
     ],
+  },
+
+  {
+    slug: "ventilator-management-nursing-guide",
+    title: "Ventilator Management Nursing Guide",
+    metaTitle: "Ventilator Management Nursing Guide | Mechanical Ventilation for ICU Nurses | NurseNest",
+    metaDescription: "Complete ventilator management guide for ICU nurses covering ventilator modes (AC, SIMV, PSV, APRV), waveform interpretation, alarm troubleshooting, lung-protective strategies, and weaning protocols.",
+    keywords: "ventilator management nursing, mechanical ventilation ICU, ventilator modes, ventilator waveforms, ventilator weaning, lung-protective ventilation, ICU respiratory care",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "Mechanical ventilation is one of the most critical competencies for ICU nurses. Understanding ventilator modes, interpreting waveforms, troubleshooting alarms, and facilitating safe weaning are essential skills that directly impact patient outcomes. This guide provides a comprehensive overview of ventilator management for nurses working in intensive care settings, from initial setup through liberation from mechanical ventilation.",
+    conditions: [
+      { name: "Acute Respiratory Failure", description: "The primary indication for mechanical ventilation, occurring when the respiratory system fails to maintain adequate gas exchange.", keyPoints: ["Type I (hypoxemic): PaO2 <60 mmHg on room air", "Type II (hypercapnic): PaCO2 >50 mmHg with pH <7.35", "Common causes: pneumonia, ARDS, COPD exacerbation, pulmonary embolism", "Assessment: ABG analysis, respiratory rate, work of breathing, SpO2 trend"] },
+      { name: "ARDS and Lung-Protective Ventilation", description: "ARDS requires specific ventilator strategies to minimize ventilator-induced lung injury (VILI).", keyPoints: ["Low tidal volume: 6 mL/kg ideal body weight", "Plateau pressure <30 cmH2O", "PEEP titration using FiO2/PEEP tables or best compliance method", "Prone positioning for severe ARDS (P/F ratio <150)"] },
+      { name: "Ventilator-Associated Pneumonia (VAP)", description: "A hospital-acquired infection that develops 48+ hours after intubation, requiring aggressive prevention strategies.", keyPoints: ["VAP bundle: HOB 30-45 degrees, oral care with chlorhexidine, DVT prophylaxis, PUD prophylaxis", "Daily sedation vacation and spontaneous breathing trial assessment", "Subglottic suctioning ETT when available", "Monitor for new infiltrate, fever, purulent secretions, leukocytosis"] },
+    ],
+    clinicalSkills: [
+      "Ventilator mode selection and parameter adjustment",
+      "Waveform interpretation: flow, pressure, and volume scalars",
+      "Patient-ventilator asynchrony recognition and correction",
+      "Alarm troubleshooting: high pressure, low pressure, apnea alarms",
+      "Endotracheal tube management: cuff pressure, positioning, securing",
+      "Suctioning techniques: inline and open suction",
+      "Spontaneous breathing trial (SBT) assessment and facilitation",
+      "ABG interpretation and ventilator adjustments",
+    ],
+    procedures: [
+      { name: "Ventilator Setup and Initial Settings", description: "Selecting appropriate mode (usually AC/VC for initial ventilation), setting tidal volume (6-8 mL/kg IBW), rate (12-16), PEEP (5-8 cmH2O), and FiO2 (100% initially, wean rapidly)." },
+      { name: "Spontaneous Breathing Trial (SBT)", description: "Daily SBT assessment for weaning readiness: RSBI <105, adequate oxygenation on FiO2 ≤40% and PEEP ≤8, hemodynamic stability, and patient cooperation. T-piece or PSV 5-8 cmH2O for 30-120 minutes." },
+      { name: "Extubation Procedure", description: "Pre-extubation assessment including cuff leak test, suction oropharynx and ETT, deflate cuff, remove ETT during exhalation, apply supplemental oxygen, and monitor for stridor and respiratory distress." },
+    ],
+    medications: [
+      { drugClass: "Neuromuscular Blocking Agents", examples: "Cisatracurium, rocuronium, vecuronium", nursingConsiderations: "Used for severe ARDS to improve ventilator synchrony. Train-of-four monitoring required. Ensure adequate sedation before paralysis. Eye care and repositioning essential." },
+      { drugClass: "Bronchodilators", examples: "Albuterol, ipratropium via MDI or nebulizer through ventilator circuit", nursingConsiderations: "Administer via in-line MDI adapter or vibrating mesh nebulizer. Monitor for tachycardia. Assess peak pressures before and after treatment." },
+      { drugClass: "Sedation for Ventilated Patients", examples: "Propofol, dexmedetomidine, midazolam, fentanyl", nursingConsiderations: "Target RASS -2 to 0 for most patients. Daily sedation vacation. Monitor for propofol infusion syndrome with prolonged use. Dexmedetomidine preferred for shorter ventilation duration." },
+    ],
+    scenarios: [
+      { title: "High-Pressure Alarm with Desaturation", presentation: "Ventilated patient on AC/VC (TV 450, RR 14, PEEP 8, FiO2 50%) triggers repeated high-pressure alarms. Peak pressure 48 cmH2O (baseline 28). SpO2 dropping from 96% to 88%.", keyActions: ["Assess patient at bedside immediately: auscultate bilateral breath sounds", "Check for ETT obstruction: attempt to pass suction catheter", "Evaluate for pneumothorax: absent breath sounds, tracheal deviation, subcutaneous emphysema", "If unable to ventilate: disconnect from ventilator, attempt manual bag ventilation", "Prepare for emergent chest decompression if tension pneumothorax suspected", "Notify provider with assessment findings"] },
+      { title: "Failed Spontaneous Breathing Trial", presentation: "Patient on day 5 of mechanical ventilation placed on PSV 5/PEEP 5 for SBT. After 15 minutes: RR 34, HR increases from 78 to 112, SpO2 drops to 90%, patient appears agitated and diaphoretic.", keyActions: ["Immediately return to previous ventilator settings", "Reassess and stabilize the patient", "Document SBT failure and specific parameters at time of failure", "Assess for reversible causes: fluid overload, anxiety, secretions, bronchospasm", "Communicate with team regarding optimization before next SBT attempt", "Consider factors for next day reassessment"] },
+    ],
+    subSections: [
+      { id: "ventilator-modes", title: "Understanding Ventilator Modes", content: "Volume-controlled modes (AC/VC) deliver a set tidal volume with each breath, while pressure-controlled modes (AC/PC) deliver a set pressure with variable tidal volumes. SIMV provides mandatory breaths with spontaneous breathing between them. Pressure Support Ventilation (PSV) augments patient-initiated breaths only. APRV (Airway Pressure Release Ventilation) maintains a high continuous pressure with brief releases for CO2 elimination, used primarily in ARDS. Understanding the advantages and limitations of each mode helps nurses anticipate appropriate settings changes and recognize when mode changes may benefit the patient." },
+      { id: "waveform-interpretation", title: "Ventilator Waveform Interpretation", content: "Flow-time waveforms show inspiratory and expiratory flow patterns; failure to return to baseline before the next breath indicates auto-PEEP. Pressure-time waveforms reveal peak inspiratory pressure (PIP), plateau pressure (Pplat), and the difference between them indicates airway resistance. Volume-time waveforms confirm delivered tidal volume and detect air trapping. Recognizing patient-ventilator asynchrony patterns on waveforms—including trigger asynchrony, flow starvation, double-triggering, and auto-triggering—is a critical nursing assessment skill." },
+    ],
+    practiceQuestionsIntro: "Test your ventilator management knowledge with targeted practice questions covering ventilator modes, waveform analysis, alarm troubleshooting, and weaning protocols.",
+    practiceQuestionsLinks: [
+      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Respiratory Nursing Questions", href: "/study-guide/nclex-rn-respiratory", type: "questions" },
+    ],
+    flashcardReviewIntro: "Reinforce ventilator management concepts with spaced-repetition flashcards covering modes, settings, waveforms, and alarm responses.",
+    flashcardLinks: [
+      { label: "ICU Pharmacology Flashcards", href: "/flashcards", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "Ventilator management expertise is a cornerstone of ICU nursing practice and is increasingly valued across critical care settings. Nurses with advanced ventilator skills are sought after in medical, surgical, cardiac, and neuro ICUs.",
+      salaryRange: "$70,000 - $120,000+ (ICU nurses with ventilator expertise)",
+      outlook: "High demand for ICU nurses with mechanical ventilation competency, especially post-pandemic.",
+      certifications: ["CCRN (Critical Care Registered Nurse)", "ACLS, BLS"],
+      workSettings: ["Medical ICU", "Surgical ICU", "Respiratory Step-Down Units", "Transport/Flight Nursing"],
+    },
+    faqs: [
+      { question: "What ventilator modes should ICU nurses know?", answer: "ICU nurses should be proficient in Assist-Control Volume (AC/VC), Assist-Control Pressure (AC/PC), SIMV, Pressure Support (PSV), and APRV. Each mode has specific indications, advantages, and monitoring requirements." },
+      { question: "How do you troubleshoot a high-pressure ventilator alarm?", answer: "Assess the patient first (breath sounds, secretions, positioning), check the ETT for kinking or obstruction, suction if needed, evaluate for bronchospasm or pneumothorax, and check ventilator circuit for water accumulation or kinks." },
+      { question: "What is a spontaneous breathing trial?", answer: "An SBT assesses readiness for extubation by reducing ventilator support (T-piece or low PSV) for 30-120 minutes. Success criteria include RSBI <105, stable vitals, no distress, and adequate oxygenation." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "sepsis-nursing-interventions-guide", "hemodynamic-monitoring-nursing-guide"],
+    imagePlaceholders: [
+      { alt: "Ventilator mode comparison chart showing AC/VC, AC/PC, SIMV, PSV, and APRV settings", caption: "Figure 1: Mechanical ventilation modes comparison", section: "clinicalSkills" },
+      { alt: "Ventilator waveform examples showing flow, pressure, and volume scalars", caption: "Figure 2: Ventilator waveform interpretation guide", section: "waveform-interpretation" },
+    ],
+  },
+
+  {
+    slug: "sepsis-nursing-interventions-guide",
+    title: "Sepsis Nursing Interventions Guide",
+    metaTitle: "Sepsis Nursing Interventions Guide | Sepsis Management for ICU Nurses | NurseNest",
+    metaDescription: "Complete sepsis nursing guide covering early recognition, Hour-1 Bundle, vasopressor management, lactate-guided resuscitation, sepsis screening tools, and surviving sepsis campaign guidelines for critical care nurses.",
+    keywords: "sepsis nursing interventions, sepsis management, sepsis protocol, Hour-1 Bundle, surviving sepsis campaign, septic shock nursing, vasopressor management, lactate clearance",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "Sepsis remains one of the leading causes of mortality in hospitalized patients, and early nursing recognition and intervention are critical to improving outcomes. ICU nurses play a pivotal role in implementing the Surviving Sepsis Campaign guidelines, executing the Hour-1 Bundle, managing vasopressor therapy, and monitoring for end-organ perfusion. This guide covers the essential knowledge and clinical skills needed for effective sepsis management in the ICU.",
+    conditions: [
+      { name: "Sepsis (SEPSIS-3 Definition)", description: "Life-threatening organ dysfunction caused by a dysregulated host response to infection, identified by an acute increase of ≥2 SOFA points.", keyPoints: ["qSOFA screening: altered mentation, SBP ≤100 mmHg, RR ≥22", "SOFA score assesses 6 organ systems: respiratory, coagulation, liver, cardiovascular, CNS, renal", "Sepsis = suspected/documented infection + organ dysfunction", "Sepsis is a medical emergency requiring immediate intervention"] },
+      { name: "Septic Shock", description: "A subset of sepsis with circulatory, cellular, and metabolic dysfunction associated with a higher risk of mortality.", keyPoints: ["Defined as: sepsis + vasopressor requirement for MAP ≥65 mmHg + lactate >2 mmol/L despite adequate fluid resuscitation", "Mortality rates 30-50% depending on severity and time to intervention", "Norepinephrine is first-line vasopressor", "May require addition of vasopressin or epinephrine for refractory shock"] },
+      { name: "Multiorgan Dysfunction in Sepsis", description: "Progressive failure of organ systems driven by the sepsis inflammatory cascade, requiring organ-specific supportive care.", keyPoints: ["Acute kidney injury: monitor urine output, creatinine, consider CRRT", "ARDS: lung-protective ventilation strategies", "Coagulopathy/DIC: monitor coagulation studies, platelet counts", "Hepatic dysfunction: monitor bilirubin, coagulation factors"] },
+    ],
+    clinicalSkills: [
+      "Sepsis screening using qSOFA and SOFA scoring tools",
+      "Hour-1 Bundle implementation and documentation",
+      "Blood culture collection technique from two separate sites",
+      "Vasopressor initiation, titration, and hemodynamic monitoring",
+      "Lactate measurement and serial monitoring for clearance",
+      "Fluid responsiveness assessment: passive leg raise, pulse pressure variation",
+      "Central venous access management for vasopressor administration",
+      "End-organ perfusion assessment: urine output, mental status, skin mottling, capillary refill",
+    ],
+    procedures: [
+      { name: "Hour-1 Bundle Execution", description: "Measure lactate, obtain blood cultures before antibiotics, administer broad-spectrum antibiotics, begin 30 mL/kg crystalloid for hypotension or lactate ≥4 mmol/L, and start vasopressors for MAP <65 mmHg after fluid resuscitation." },
+      { name: "Vasopressor Titration", description: "Titrate norepinephrine (0.01-3 mcg/kg/min) to target MAP ≥65 mmHg via central line. Add vasopressin (0.03-0.04 units/min fixed dose) as second agent. Epinephrine as third-line. Monitor for tissue ischemia and dysrhythmias." },
+      { name: "Source Control Assessment", description: "Collaborate with team to identify and control the source of infection: abscess drainage, infected device removal, surgical debridement, or biliary decompression as indicated." },
+    ],
+    medications: [
+      { drugClass: "First-Line Antibiotics", examples: "Piperacillin-tazobactam, meropenem, cefepime, vancomycin", nursingConsiderations: "Administer within 1 hour of sepsis recognition. Obtain cultures BEFORE first dose. Monitor renal function for dose adjustments. De-escalate based on culture results." },
+      { drugClass: "Vasopressors", examples: "Norepinephrine, vasopressin, epinephrine, phenylephrine", nursingConsiderations: "Central line preferred. Continuous hemodynamic monitoring required. Titrate to MAP ≥65. Monitor for peripheral ischemia, dysrhythmias, and skin necrosis." },
+      { drugClass: "Corticosteroids", examples: "Hydrocortisone 200 mg/day IV", nursingConsiderations: "Consider for refractory septic shock (requiring escalating vasopressors). Monitor blood glucose closely. Taper when vasopressors discontinued." },
+    ],
+    scenarios: [
+      { title: "Early Sepsis Recognition on Med-Surg", presentation: "A 72-year-old patient post-op day 2 from hip replacement develops new confusion, temperature 38.8°C, HR 108, BP 92/58, RR 24, urine output 15 mL in last 2 hours.", keyActions: ["Apply qSOFA criteria: 2/3 met (altered mentation, SBP ≤100)", "Activate sepsis protocol and notify rapid response/provider", "Obtain blood cultures x2, lactate level, CBC, BMP", "Initiate 30 mL/kg crystalloid bolus", "Ensure antibiotics administered within 1 hour", "Insert Foley catheter for strict hourly urine output monitoring"] },
+      { title: "Refractory Septic Shock", presentation: "ICU patient on norepinephrine 0.3 mcg/kg/min with MAP 58 mmHg, lactate 6.2 mmol/L (up from 4.1), urine output 10 mL/hr, cool mottled extremities, pH 7.28.", keyActions: ["Initiate vasopressin 0.03 units/min as second vasopressor", "Reassess fluid responsiveness with passive leg raise", "Obtain repeat lactate and ABG", "Consider hydrocortisone 50 mg IV q6h for refractory shock", "Ensure source control has been addressed", "Prepare for potential CRRT if renal failure worsening"] },
+    ],
+    subSections: [
+      { id: "sepsis-screening", title: "Sepsis Screening and Early Recognition", content: "Effective sepsis management begins with early recognition. Nurses should apply qSOFA (quick Sequential Organ Failure Assessment) at the bedside: altered mental status (GCS <15), systolic blood pressure ≤100 mmHg, and respiratory rate ≥22 breaths/min. A qSOFA score ≥2 in a patient with suspected infection should prompt immediate assessment and intervention. The full SOFA score evaluates six organ systems and is used for formal sepsis diagnosis. Nursing assessment should include trending vital signs, evaluating for new organ dysfunction, and maintaining a high index of suspicion in at-risk populations (elderly, immunocompromised, post-surgical, indwelling devices)." },
+    ],
+    practiceQuestionsIntro: "Test your sepsis management knowledge with practice questions covering recognition, bundle implementation, vasopressor management, and clinical decision-making.",
+    practiceQuestionsLinks: [
+      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
+    ],
+    flashcardReviewIntro: "Reinforce sepsis management concepts with flashcards covering the Hour-1 Bundle, vasopressor protocols, and lactate-guided resuscitation.",
+    flashcardLinks: [
+      { label: "ICU Pharmacology Flashcards", href: "/flashcards", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "Sepsis management expertise is essential for all ICU nurses and is increasingly valued across emergency departments, step-down units, and rapid response teams.",
+      salaryRange: "$70,000 - $120,000+ (ICU nurses)",
+      outlook: "Critical care nurses with sepsis management expertise are in high demand across all hospital settings.",
+      certifications: ["CCRN (Critical Care Registered Nurse)", "ACLS, BLS"],
+      workSettings: ["Medical ICU", "Surgical ICU", "Emergency Department", "Rapid Response Teams"],
+    },
+    faqs: [
+      { question: "What is the sepsis Hour-1 Bundle?", answer: "The Hour-1 Bundle includes: measure lactate, obtain blood cultures before antibiotics, administer broad-spectrum antibiotics, begin 30 mL/kg crystalloid for hypotension or lactate ≥4 mmol/L, and apply vasopressors if MAP <65 after fluids. All interventions should begin within one hour of sepsis recognition." },
+      { question: "What is the first-line vasopressor for septic shock?", answer: "Norepinephrine is the first-line vasopressor for septic shock, titrated to a target MAP ≥65 mmHg. Vasopressin (0.03-0.04 units/min) is typically added as a second agent, and epinephrine may be used as a third-line agent." },
+      { question: "How do nurses monitor sepsis resuscitation adequacy?", answer: "Nurses monitor lactate clearance (target >10% decrease in 2-4 hours), urine output (≥0.5 mL/kg/hr), mental status improvement, capillary refill time, skin mottling resolution, and hemodynamic stability on current vasopressor doses." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "ventilator-management-nursing-guide", "icu-medications-guide"],
+    imagePlaceholders: [
+      { alt: "Sepsis Hour-1 Bundle flowchart showing time-critical interventions", caption: "Figure 1: Surviving Sepsis Campaign Hour-1 Bundle", section: "clinicalSkills" },
+    ],
+  },
+
+  {
+    slug: "hemodynamic-monitoring-nursing-guide",
+    title: "Hemodynamic Monitoring Nursing Guide",
+    metaTitle: "Hemodynamic Monitoring Nursing Guide | Arterial Lines, CVP & PA Catheters | NurseNest",
+    metaDescription: "Comprehensive hemodynamic monitoring guide for ICU nurses covering arterial lines, CVP monitoring, PA catheters, cardiac output measurement, waveform interpretation, and clinical decision-making.",
+    keywords: "hemodynamic monitoring nursing, arterial line nursing, CVP monitoring, PA catheter, cardiac output, ICU hemodynamics, waveform interpretation, critical care monitoring",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "Hemodynamic monitoring is a cornerstone of ICU nursing practice, enabling continuous assessment of cardiovascular status and guiding therapeutic interventions. From arterial blood pressure monitoring to advanced cardiac output measurements, ICU nurses must interpret complex waveforms, troubleshoot monitoring systems, and integrate hemodynamic data into clinical decision-making. This guide covers the essential hemodynamic monitoring competencies for critical care nurses.",
+    conditions: [
+      { name: "Shock States and Hemodynamic Profiles", description: "Different shock types present with distinct hemodynamic patterns that guide treatment selection.", keyPoints: ["Distributive (septic): low SVR, high CO initially, low MAP", "Cardiogenic: high SVR, low CO, elevated PCWP", "Hypovolemic: low CVP, high SVR, low CO, tachycardia", "Obstructive: elevated CVP, low CO, may have pulsus paradoxus"] },
+      { name: "Heart Failure in the ICU", description: "Advanced heart failure patients require careful hemodynamic monitoring to balance preload, afterload, and contractility.", keyPoints: ["PCWP >18 mmHg suggests volume overload", "Cardiac index <2.2 L/min/m² indicates low output state", "Monitor mixed venous oxygen saturation (SvO2) for tissue perfusion", "Titrate inotropes and vasodilators based on hemodynamic parameters"] },
+    ],
+    clinicalSkills: [
+      "Arterial line insertion assistance, zeroing, leveling, and waveform interpretation",
+      "Central venous pressure (CVP) monitoring and trend analysis",
+      "Pulmonary artery catheter management and waveform recognition",
+      "Cardiac output/cardiac index measurement (thermodilution and continuous)",
+      "Non-invasive hemodynamic monitoring devices (FloTrac, LiDCO, ClearSight)",
+      "Troubleshooting dampened, over-dampened, and catheter whip waveforms",
+      "Calculating and interpreting SVR, PVR, stroke volume variation",
+      "Integrating hemodynamic data into clinical assessment and reporting",
+    ],
+    procedures: [
+      { name: "Arterial Line Setup and Maintenance", description: "Assisting with radial or femoral artery cannulation, connecting to pressure transducer, zeroing at phlebostatic axis (4th ICS, mid-axillary), square wave test for dynamic response, and maintaining system integrity." },
+      { name: "PA Catheter Insertion Assistance", description: "Preparing equipment, monitoring waveform progression through RA, RV, PA, and PCWP positions, confirming placement with chest X-ray, and ongoing maintenance including balloon integrity checks." },
+      { name: "Cardiac Output Measurement", description: "Performing thermodilution cardiac output measurements: inject 10 mL cold saline rapidly through proximal port, obtain 3 measurements within 10% variation, and calculate cardiac index using BSA." },
+    ],
+    medications: [
+      { drugClass: "Inotropes", examples: "Dobutamine, milrinone, dopamine (moderate dose)", nursingConsiderations: "Monitor cardiac output response, HR, and rhythm. Dobutamine may cause tachycardia and hypotension. Milrinone has longer half-life; renal dose adjustment needed." },
+      { drugClass: "Vasodilators", examples: "Nitroprusside, nitroglycerin, nicardipine", nursingConsiderations: "Monitor arterial BP continuously. Nitroprusside: protect from light, monitor cyanide levels >48 hours. NTG: use non-PVC tubing. Titrate to target hemodynamic parameters." },
+    ],
+    scenarios: [
+      { title: "Dampened Arterial Waveform", presentation: "ICU patient with radial arterial line showing dampened waveform. Displayed BP 92/70 (mean 77), but NIBP reads 128/82. Patient appears clinically stable with warm extremities and brisk capillary refill.", keyActions: ["Perform square wave test to confirm dampened response", "Check for air bubbles in tubing and flush system", "Assess catheter insertion site for kinking or positional issues", "Ensure transducer is zeroed and leveled at phlebostatic axis", "Aspirate and flush the arterial line gently", "If dampening persists, consider catheter repositioning or replacement"] },
+    ],
+    subSections: [
+      { id: "waveform-basics", title: "Hemodynamic Waveform Basics", content: "Arterial waveforms display systolic upstroke, dicrotic notch (aortic valve closure), and diastolic runoff. The dicrotic notch position and waveform morphology provide information about cardiac output and vascular tone. CVP waveforms show a, c, and v waves corresponding to atrial contraction, tricuspid closure, and venous filling. Elevated v waves suggest tricuspid regurgitation or volume overload. PA catheter waveforms progress through right atrial, right ventricular, pulmonary artery, and pulmonary capillary wedge positions, each with characteristic patterns that nurses must recognize during insertion and ongoing monitoring." },
+    ],
+    practiceQuestionsIntro: "Test your hemodynamic monitoring knowledge with practice questions covering waveform interpretation, troubleshooting, and clinical applications.",
+    practiceQuestionsLinks: [
+      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Cardiovascular Nursing Questions", href: "/study-guide/nclex-rn-cardiovascular", type: "questions" },
+    ],
+    flashcardReviewIntro: "Reinforce hemodynamic monitoring concepts with flashcards covering normal values, waveform patterns, and clinical correlations.",
+    flashcardLinks: [
+      { label: "Lab Values Flashcards", href: "/lab-values", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "Hemodynamic monitoring expertise distinguishes advanced ICU nurses and is essential for cardiac ICU, cardiothoracic surgery recovery, and transplant nursing.",
+      salaryRange: "$75,000 - $125,000+ (specialized cardiac/ICU nurses)",
+      outlook: "Growing demand for nurses with advanced hemodynamic monitoring skills, particularly in cardiac critical care.",
+      certifications: ["CCRN", "CMC (Cardiac Medicine Certification)", "CSC (Cardiac Surgery Certification)"],
+      workSettings: ["Cardiac ICU (CICU)", "Cardiothoracic Surgery ICU", "Medical ICU", "Heart Failure/Transplant Units"],
+    },
+    faqs: [
+      { question: "What is the phlebostatic axis?", answer: "The phlebostatic axis is the reference point for zeroing hemodynamic transducers, located at the intersection of the 4th intercostal space and the mid-axillary line. Proper leveling at this point ensures accurate pressure readings." },
+      { question: "What does a dampened arterial waveform mean?", answer: "A dampened waveform shows a blunted systolic peak and absent dicrotic notch, resulting in falsely low systolic and falsely high diastolic readings. Causes include air bubbles, catheter kinking, clot formation, or tubing compliance issues." },
+      { question: "What is the normal cardiac output?", answer: "Normal cardiac output is 4-8 L/min, and normal cardiac index (adjusted for body surface area) is 2.5-4.0 L/min/m². Values below 2.2 L/min/m² indicate a low output state requiring intervention." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "ventilator-management-nursing-guide", "icu-medications-guide"],
+    imagePlaceholders: [
+      { alt: "Hemodynamic waveform examples showing arterial, CVP, and PA catheter tracings", caption: "Figure 1: Common ICU hemodynamic waveforms", section: "waveform-basics" },
+    ],
+  },
+
+  {
+    slug: "icu-medications-guide",
+    title: "ICU Medications Guide",
+    metaTitle: "ICU Medications Guide | Critical Care Drips, Titrations & High-Alert Drugs | NurseNest",
+    metaDescription: "Comprehensive ICU medications guide covering vasoactive drips, sedation protocols, neuromuscular blockers, anticoagulants, insulin infusions, high-alert medications, and nursing considerations for critical care pharmacology.",
+    keywords: "ICU medications, critical care pharmacology, vasoactive drips, sedation ICU, high-alert medications, vasopressor dosing, ICU drug titration, critical care nursing medications",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "Medication management in the ICU is among the most complex and high-stakes responsibilities in nursing. ICU nurses must master continuous infusion titration, high-alert medication safety protocols, drug compatibility, and pharmacokinetic principles to deliver safe, effective care. This guide provides a comprehensive overview of ICU medications, from vasoactive drips and sedation protocols to anticoagulation management and insulin infusions.",
+    conditions: [
+      { name: "Vasoactive Medication Management", description: "Hemodynamic instability in the ICU frequently requires vasoactive infusions with precise titration based on continuous monitoring.", keyPoints: ["Norepinephrine: first-line vasopressor for septic shock (0.01-3 mcg/kg/min)", "Vasopressin: fixed dose 0.01-0.04 units/min, used as adjunct to norepinephrine", "Epinephrine: used for anaphylaxis and refractory septic shock", "Dobutamine: inotrope for cardiogenic shock (2-20 mcg/kg/min)"] },
+      { name: "Sedation and Analgesia in the ICU", description: "Optimal sedation management balances patient comfort with the ability to perform neurological assessments and facilitate ventilator weaning.", keyPoints: ["RASS (Richmond Agitation-Sedation Scale) target: -2 to 0 for most patients", "Analgesia-first approach: treat pain before adding sedation", "Daily sedation vacation to assess neurological status", "CAM-ICU for delirium screening every shift"] },
+      { name: "High-Alert Medication Safety", description: "High-alert medications carry heightened risk of causing significant harm when used in error.", keyPoints: ["Independent double-check required: insulin infusions, heparin, potassium chloride, neuromuscular blockers", "Standardized concentration protocols reduce calculation errors", "Smart pump drug library utilization for dose limit alerts", "Medication reconciliation at every transition of care"] },
+    ],
+    clinicalSkills: [
+      "Vasoactive infusion calculation, preparation, and titration",
+      "RASS and CAM-ICU assessment for sedation and delirium monitoring",
+      "High-alert medication verification and independent double-check procedures",
+      "IV compatibility assessment for multi-lumen central line infusions",
+      "Smart pump programming and drug library utilization",
+      "Medication error prevention strategies",
+      "Pharmacokinetic considerations in renal and hepatic impairment",
+      "Emergency medication preparation: code cart medications, rapid sequence intubation drugs",
+    ],
+    procedures: [
+      { name: "Vasoactive Drip Titration", description: "Calculate dose changes using concentration formulas, adjust infusion rate per protocol or provider order, assess hemodynamic response within 5-10 minutes, document titration rationale, and monitor for adverse effects including dysrhythmias and peripheral ischemia." },
+      { name: "Insulin Infusion Protocol", description: "Initiate continuous regular insulin infusion per protocol, monitor blood glucose every 1-2 hours, target glucose 140-180 mg/dL in critically ill patients, manage hypoglycemia with D50W, and transition to subcutaneous insulin when patient is eating." },
+      { name: "Heparin Infusion Management", description: "Initiate heparin per weight-based protocol, monitor aPTT or anti-Xa levels per protocol, adjust rate based on results, assess for bleeding and HIT (platelet monitoring), and hold for procedures per institutional policy." },
+    ],
+    medications: [
+      { drugClass: "Vasopressors", examples: "Norepinephrine, vasopressin, epinephrine, phenylephrine, dopamine", nursingConsiderations: "Central line preferred. Continuous arterial BP monitoring required. Titrate to target MAP (usually ≥65 mmHg). Monitor for tissue ischemia, tachyarrhythmias, and extravasation." },
+      { drugClass: "Sedatives", examples: "Propofol (5-80 mcg/kg/min), dexmedetomidine (0.2-1.5 mcg/kg/hr), midazolam (0.5-5 mg/hr)", nursingConsiderations: "RASS-guided titration. Propofol: monitor triglycerides, watch for PRIS with prolonged use. Dexmedetomidine: no respiratory depression but may cause bradycardia. Daily sedation vacation." },
+      { drugClass: "Analgesics", examples: "Fentanyl (25-200 mcg/hr), hydromorphone, ketamine (low-dose for analgesia)", nursingConsiderations: "Assess pain using CPOT (Critical-Care Pain Observation Tool) for non-verbal patients. Fentanyl: accumulates in renal failure. Ketamine: emerging role for opioid-sparing analgesia." },
+      { drugClass: "Neuromuscular Blocking Agents", examples: "Cisatracurium, rocuronium, vecuronium", nursingConsiderations: "Train-of-four monitoring (target 1-2 twitches). MUST ensure adequate sedation and analgesia before and during paralysis. Eye care q2h, repositioning q2h, DVT prophylaxis." },
+      { drugClass: "Anticoagulants", examples: "Unfractionated heparin, argatroban, bivalirudin", nursingConsiderations: "Weight-based dosing for heparin. Monitor aPTT or anti-Xa. Watch for HIT (platelet drop >50%). Argatroban for confirmed HIT. Hold parameters per protocol." },
+    ],
+    scenarios: [
+      { title: "Vasopressor Extravasation", presentation: "Peripheral norepinephrine infusion (0.1 mcg/kg/min via 18g antecubital IV) — nurse notes blanching and swelling at IV site. Patient's only IV access.", keyActions: ["Stop the norepinephrine infusion immediately", "Assess the extent of extravasation and document", "Administer phentolamine (5-10 mg in 10 mL NS) via subcutaneous injection into the affected area", "Notify provider and obtain central venous access urgently", "Restart vasopressor via central line once placed", "Monitor the affected extremity for tissue necrosis"] },
+    ],
+    subSections: [
+      { id: "drip-calculations", title: "ICU Drip Calculations and Titration Principles", content: "ICU nurses must be proficient in calculating infusion rates from ordered doses. The universal formula is: Rate (mL/hr) = [Dose (mcg/kg/min) × Weight (kg) × 60] / Concentration (mcg/mL). For weight-based medications like norepinephrine, verify patient weight, confirm concentration, and use the drug library on smart pumps. When titrating, make one change at a time, allow adequate time for medication effect (5-10 minutes for most vasopressors), and reassess hemodynamic response before further adjustments. Document the clinical rationale for each titration." },
+    ],
+    practiceQuestionsIntro: "Test your ICU pharmacology knowledge with practice questions covering vasoactive medications, sedation protocols, and high-alert drug safety.",
+    practiceQuestionsLinks: [
+      { label: "ICU Pharmacology Questions", href: "/question-bank", type: "questions" },
+      { label: "Medication Mastery", href: "/medication-mastery", type: "questions" },
+    ],
+    flashcardReviewIntro: "Reinforce critical care pharmacology with flashcards covering drug classes, dosing ranges, monitoring parameters, and nursing considerations.",
+    flashcardLinks: [
+      { label: "ICU Pharmacology Flashcards", href: "/flashcards", type: "flashcards" },
+      { label: "Medication Mastery", href: "/medication-mastery", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "ICU medication expertise is a foundational competency for all critical care nurses. Proficiency in pharmacology enhances clinical decision-making and patient safety.",
+      salaryRange: "$70,000 - $120,000+ (ICU nurses)",
+      outlook: "Strong demand for nurses with advanced pharmacology knowledge in all critical care settings.",
+      certifications: ["CCRN", "ACLS, BLS", "BCPS (Board Certified Pharmacotherapy Specialist) — for advanced practice"],
+      workSettings: ["Medical ICU", "Surgical ICU", "Cardiac ICU", "Emergency Department"],
+    },
+    faqs: [
+      { question: "What are the most common ICU drips?", answer: "Common ICU drips include norepinephrine, vasopressin, propofol, fentanyl, dexmedetomidine, midazolam, insulin, heparin, and dobutamine. Each requires specific monitoring parameters and titration protocols." },
+      { question: "How do you prevent medication errors in the ICU?", answer: "Use independent double-checks for high-alert medications, utilize smart pump drug libraries, standardize concentrations, perform medication reconciliation, verify patient allergies, and follow institutional medication administration policies." },
+      { question: "What is propofol infusion syndrome?", answer: "PRIS is a rare but potentially fatal complication of prolonged propofol use (>48 hours at high doses >5 mg/kg/hr). Signs include metabolic acidosis, rhabdomyolysis, hyperkalemia, hepatomegaly, cardiac failure, and lipemia. Monitor triglycerides and CK regularly." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "sepsis-nursing-interventions-guide", "hemodynamic-monitoring-nursing-guide"],
+    imagePlaceholders: [
+      { alt: "ICU medication infusion compatibility chart", caption: "Figure 1: Common ICU medication compatibility reference", section: "clinicalSkills" },
+    ],
+  },
+
+  {
+    slug: "icu-nursing-skills-guide",
+    title: "ICU Nursing Skills Guide",
+    metaTitle: "ICU Nursing Skills Guide | Essential Critical Care Nursing Competencies | NurseNest",
+    metaDescription: "Comprehensive ICU nursing skills guide covering rapid patient assessment, central line management, CRRT, ventilator care, neurological assessment, arterial blood gas interpretation, and essential critical care competencies.",
+    keywords: "ICU nursing skills, critical care competencies, rapid assessment, central line management, CRRT nursing, ABG interpretation, neurological assessment ICU, critical care nursing skills",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "ICU nursing requires a unique combination of advanced clinical skills, rapid assessment abilities, and technical proficiency with complex medical equipment. From the systematic ABCDE approach to patient assessment through advanced procedures like CRRT management, these skills form the foundation of safe and effective critical care nursing practice. This guide outlines the essential skills every ICU nurse needs to master.",
+    conditions: [
+      { name: "Rapid Patient Deterioration", description: "ICU nurses must rapidly identify and respond to acute changes in patient condition using systematic assessment approaches.", keyPoints: ["ABCDE approach: Airway, Breathing, Circulation, Disability, Exposure", "Early warning score systems for trend identification", "Situation-Background-Assessment-Recommendation (SBAR) communication", "Escalation protocols and rapid response activation"] },
+      { name: "Central Line-Associated Bloodstream Infection (CLABSI)", description: "Prevention of CLABSIs requires meticulous central line management and adherence to evidence-based bundles.", keyPoints: ["CLABSI bundle: hand hygiene, maximal barrier precautions, chlorhexidine skin prep, optimal catheter site selection, daily necessity review", "Scrub the hub for 15 seconds before each access", "Sterile dressing changes every 7 days (transparent) or 2 days (gauze)", "Daily assessment for signs of infection and catheter necessity"] },
+    ],
+    clinicalSkills: [
+      "ABCDE systematic rapid assessment approach",
+      "Central venous catheter insertion assistance and ongoing management",
+      "Continuous renal replacement therapy (CRRT) setup and troubleshooting",
+      "Arterial blood gas (ABG) sampling and interpretation",
+      "Glasgow Coma Scale (GCS) and pupillary assessment",
+      "Chest tube management: drainage monitoring, air leak assessment, water seal integrity",
+      "Endotracheal tube management: securing, cuff pressure monitoring, repositioning",
+      "12-lead ECG acquisition and basic dysrhythmia interpretation",
+      "Code blue team participation and documentation",
+      "SBAR communication for handoff and provider notification",
+    ],
+    procedures: [
+      { name: "CRRT Management", description: "Circuit setup and priming, anticoagulation management (regional citrate or systemic heparin), monitoring circuit pressures (access, return, filter, effluent), calculating fluid balance, managing electrolyte replacement, and troubleshooting alarms (clotting, air detection, blood leak)." },
+      { name: "ABG Sampling and Interpretation", description: "Arterial blood gas sampling from arterial line or radial artery puncture. Interpretation using the Romanski method: assess pH (acidosis/alkalosis), evaluate PaCO2 (respiratory component), evaluate HCO3 (metabolic component), check for compensation, and calculate A-a gradient." },
+      { name: "Central Line Dressing Change", description: "Sterile technique using chlorhexidine preparation, assess insertion site for erythema/drainage/tenderness, apply transparent semipermeable dressing, label with date and initials, and document site assessment." },
+      { name: "Chest Tube Management", description: "Monitor drainage character (sanguineous, serosanguineous, purulent), measure output hourly, assess for air leaks (continuous bubbling in water seal chamber), maintain system below chest level, and assist with removal when indicated." },
+    ],
+    medications: [
+      { drugClass: "CRRT Anticoagulation", examples: "Regional citrate anticoagulation, systemic heparin", nursingConsiderations: "Citrate: monitor ionized calcium (systemic and circuit), watch for citrate toxicity (rising total/ionized calcium ratio). Heparin: monitor aPTT, watch for HIT." },
+      { drugClass: "Code Medications", examples: "Epinephrine 1 mg IV, amiodarone 300 mg IV, sodium bicarbonate, calcium chloride", nursingConsiderations: "Know location and doses of all code cart medications. Epinephrine every 3-5 minutes during arrest. Amiodarone for refractory VF/pulseless VT. Calcium for hyperkalemia with ECG changes." },
+    ],
+    scenarios: [
+      { title: "CRRT Circuit Clotting", presentation: "CRRT has been running for 18 hours with citrate anticoagulation. Nurse notes rising transmembrane pressure (TMP) from 120 to 280 mmHg, darkening of blood in the filter, and access pressure alarms.", keyActions: ["Assess filter visually for clot formation", "Check and optimize blood flow rate", "Review anticoagulation parameters: circuit ionized calcium, citrate dose", "Prepare to return blood and change the circuit if TMP continues to rise", "Document circuit lifespan and reason for change", "Recalculate and adjust citrate protocol for new circuit"] },
+    ],
+    subSections: [
+      { id: "abcde-assessment", title: "The ABCDE Assessment Approach", content: "The ABCDE approach provides a systematic framework for rapid patient assessment in critical care. Airway: assess patency, ETT position, and secretions. Breathing: respiratory rate, pattern, SpO2, breath sounds, ventilator parameters. Circulation: heart rate and rhythm, blood pressure (arterial line), perfusion (skin color, temperature, capillary refill), hemodynamic parameters, urine output. Disability: level of consciousness (GCS or RASS), pupil size and reactivity, blood glucose, pain assessment. Exposure: full skin assessment, temperature, check all lines, drains, and devices. This systematic approach ensures no critical assessment component is missed during nursing rounds or acute deterioration events." },
+    ],
+    practiceQuestionsIntro: "Test your critical care nursing skills knowledge with practice questions covering assessment techniques, procedures, and clinical decision-making.",
+    practiceQuestionsLinks: [
+      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
+    ],
+    flashcardReviewIntro: "Reinforce essential ICU skills with flashcards covering assessment frameworks, normal values, procedures, and emergency responses.",
+    flashcardLinks: [
+      { label: "Lab Values Flashcards", href: "/lab-values", type: "flashcards" },
+      { label: "ICU Pharmacology Flashcards", href: "/flashcards", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "Mastering ICU nursing skills opens doors to specialized roles in cardiac critical care, neuro ICU, trauma, and transport/flight nursing. Strong clinical skills are the foundation for career advancement.",
+      salaryRange: "$70,000 - $120,000+ (ICU nurses)",
+      outlook: "Consistent demand for skilled ICU nurses across all hospital systems.",
+      certifications: ["CCRN", "ACLS, BLS, PALS", "TNCC (Trauma Nursing Core Course)"],
+      workSettings: ["Medical ICU", "Surgical ICU", "Cardiac ICU", "Neuro ICU", "Trauma ICU"],
+    },
+    faqs: [
+      { question: "What skills do new ICU nurses need to learn first?", answer: "New ICU nurses should prioritize: systematic assessment (ABCDE), hemodynamic monitoring interpretation, ventilator alarm response, medication administration safety (especially vasoactive drips), and effective SBAR communication with providers." },
+      { question: "How long does it take to become proficient in ICU nursing?", answer: "Most ICU nurses reach baseline competency within 6-12 months and develop strong clinical confidence by 2-3 years. Continuous learning through certifications, simulation, and mentorship accelerates skill development." },
+      { question: "What is CRRT and when is it used?", answer: "Continuous Renal Replacement Therapy is a slow, continuous form of dialysis used for hemodynamically unstable ICU patients with acute kidney injury. It runs 24/7 and requires specialized nursing skills for circuit management, anticoagulation, and fluid balance calculations." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "hemodynamic-monitoring-nursing-guide", "ventilator-management-nursing-guide"],
+    imagePlaceholders: [
+      { alt: "ABCDE assessment framework for critical care nursing", caption: "Figure 1: Systematic ABCDE Assessment Approach", section: "abcde-assessment" },
+    ],
+  },
+
+  {
+    slug: "icu-nurse-salary-guide",
+    title: "ICU Nurse Salary & Career Guide",
+    metaTitle: "ICU Nurse Salary & Career Guide | Critical Care Nursing Compensation & Advancement | NurseNest",
+    metaDescription: "Complete ICU nurse salary guide covering pay ranges by experience, region, and setting, plus career advancement pathways, certifications, travel nursing compensation, and tips for maximizing ICU nursing income.",
+    keywords: "ICU nurse salary, critical care nurse pay, ICU nursing career, CCRN salary, travel ICU nurse salary, ICU nurse career path, critical care nursing advancement, ICU nurse compensation",
+    category: "nursing-specialty",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+    hubGuideSlug: "icu-nursing-ultimate-guide",
+    introduction: "ICU nursing is one of the highest-paying nursing specialties, reflecting the advanced skills, high-stakes clinical environment, and specialized knowledge required. Understanding salary ranges, factors that influence compensation, career advancement pathways, and strategies for maximizing your earning potential helps ICU nurses make informed career decisions. This guide provides comprehensive salary data, career trajectory information, and practical advice for critical care nursing professionals.",
+    conditions: [],
+    clinicalSkills: [],
+    procedures: [],
+    medications: [],
+    scenarios: [],
+    subSections: [
+      { id: "salary-by-experience", title: "ICU Nurse Salary by Experience Level", content: "Entry-level ICU nurses (0-2 years) typically earn $60,000-$78,000 annually, depending on region and facility type. Mid-career ICU nurses (3-7 years) with CCRN certification earn $78,000-$100,000. Experienced ICU nurses (8+ years) in leadership or specialized roles can earn $100,000-$130,000+. Factors influencing salary include geographic location (urban vs. rural, cost of living adjustments), facility type (academic medical center vs. community hospital), shift differentials (night, weekend, holiday), certifications held, and years of ICU-specific experience." },
+      { id: "salary-by-region", title: "ICU Nurse Salary by Region", content: "Salaries vary significantly by region. California, New York, Massachusetts, and Hawaii offer the highest ICU nurse salaries ($90,000-$140,000+), driven by higher cost of living and state regulations. Midwest and Southern states typically offer $65,000-$90,000. Canadian ICU nurses earn $75,000-$110,000 CAD depending on province, with Ontario and British Columbia at the higher end. International opportunities in the Middle East (UAE, Saudi Arabia) offer tax-free packages of $80,000-$120,000+ USD equivalent with housing and travel benefits." },
+      { id: "travel-icu-nursing", title: "Travel ICU Nursing Compensation", content: "Travel ICU nurses command premium compensation of $2,000-$4,000+ per week, with crisis rates reaching $5,000-$8,000+ during surges. Typical assignments are 13 weeks with housing stipends, travel reimbursement, and benefits. Requirements include 2+ years of ICU experience, CCRN certification (preferred), and flexibility with location and schedule. Travel nursing platforms like Cross Country, Aya Healthcare, and FlexCare offer competitive packages. Tax advantages include non-taxable housing stipends for nurses who maintain a permanent tax home." },
+      { id: "career-advancement", title: "ICU Nursing Career Advancement Paths", content: "ICU nurses have diverse career advancement options. Clinical ladder programs allow progression from Staff Nurse to Clinical Nurse III/IV with increased compensation. Leadership roles include Charge Nurse, Unit Educator, Assistant Nurse Manager, and Nurse Manager positions. Advanced practice pathways include Acute Care Nurse Practitioner (ACNP, earning $110,000-$160,000+), Clinical Nurse Specialist in Critical Care (CNS), and Certified Registered Nurse Anesthetist (CRNA, earning $180,000-$220,000+). Non-clinical paths include quality improvement, informatics, pharmaceutical/device industry, and legal nurse consulting." },
+      { id: "certifications-and-salary", title: "How Certifications Impact ICU Nurse Salary", content: "CCRN certification typically adds $3,000-$8,000 annually through certification differentials and enhanced marketability. Some facilities offer one-time bonuses of $1,000-$5,000 for obtaining specialty certifications. Multiple certifications (CCRN + CMC, CCRN + CSC) can further increase earnings. Beyond direct salary impact, certifications strengthen job applications, increase access to leadership roles, and demonstrate commitment to professional development. AACN data shows CCRN-certified nurses report higher job satisfaction and career advancement rates." },
+    ],
+    practiceQuestionsIntro: "Prepare for your ICU nursing career with practice questions covering critical care clinical knowledge, leadership, and professional development.",
+    practiceQuestionsLinks: [
+      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
+    ],
+    flashcardReviewIntro: "Review key ICU nursing concepts with flashcards to strengthen your clinical knowledge and prepare for certification exams.",
+    flashcardLinks: [
+      { label: "ICU Pharmacology Flashcards", href: "/flashcards", type: "flashcards" },
+    ],
+    careerOverview: {
+      description: "ICU nursing offers one of the most rewarding and well-compensated career paths in nursing. With multiple advancement options, certification pathways, and the growing demand for critical care expertise, ICU nurses have excellent career prospects.",
+      salaryRange: "$60,000 - $140,000+ (varies by experience, region, certifications, and role)",
+      outlook: "Strong and growing demand. Bureau of Labor Statistics projects 6% growth for registered nurses through 2032, with critical care positions growing faster than average.",
+      certifications: ["CCRN (Critical Care Registered Nurse)", "CMC (Cardiac Medicine Certification)", "CSC (Cardiac Surgery Certification)", "ACNP-BC (Acute Care NP)", "CRNA (Nurse Anesthetist)"],
+      workSettings: ["Hospital ICUs (Medical, Surgical, Cardiac, Neuro, Trauma)", "Travel/Agency Nursing", "Advanced Practice (ACNP, CRNA)", "Nursing Leadership and Education", "Industry and Consulting"],
+    },
+    faqs: [
+      { question: "How much do ICU nurses make per hour?", answer: "ICU nurses earn approximately $33-$65+ per hour depending on experience, location, and facility type. With shift differentials (night shift typically adds $3-$8/hr, weekends $2-$6/hr), effective hourly rates can be significantly higher. Overtime pay at 1.5x base rate further increases earnings." },
+      { question: "Do ICU nurses make more than regular nurses?", answer: "Yes, ICU nurses typically earn 10-20% more than general med-surg nurses due to specialty knowledge requirements, higher patient acuity, and the advanced skills needed. CCRN certification and experience further widen this gap." },
+      { question: "What is the highest-paying ICU nursing specialty?", answer: "CRNA (Certified Registered Nurse Anesthetist) is the highest-paying advanced practice role for ICU nurses, earning $180,000-$220,000+. Among staff nursing positions, cardiac ICU, neuro ICU, and travel ICU nursing tend to offer the highest compensation." },
+      { question: "Is CCRN certification worth it financially?", answer: "Yes. CCRN typically adds $3,000-$8,000/year in certification differentials, plus enhanced marketability for higher-paying positions, leadership roles, and travel nursing assignments. Most nurses recover the exam cost within the first year." },
+    ],
+    relatedGuides: ["icu-nursing-ultimate-guide", "icu-nursing-skills-guide", "icu-medications-guide"],
+    imagePlaceholders: [],
   },
 
   {

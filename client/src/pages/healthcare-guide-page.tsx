@@ -30,6 +30,7 @@ import {
   Briefcase, Award, Target, Heart, Image,
   GraduationCap, Users, Layers, ClipboardList,
   AlertTriangle, Star, MapPin, DollarSign, TrendingUp,
+  Play, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,12 +39,13 @@ import { Badge } from "@/components/ui/badge";
 function TableOfContents({ guide }: { guide: HealthcareGuide }) {
   const sections = [
     { id: "introduction", title: "Introduction" },
-    { id: "conditions", title: "Key Conditions & Clinical Topics" },
-    { id: "clinical-skills", title: "Important Clinical Skills" },
-    { id: "procedures", title: "Common Procedures & Equipment" },
-    { id: "medications", title: "Medications Frequently Used" },
+    ...(guide.spokeGuides && guide.spokeGuides.length > 0 ? [{ id: "topic-guides", title: "In-Depth Topic Guides" }] : []),
+    ...(guide.conditions.length > 0 ? [{ id: "conditions", title: "Key Conditions & Clinical Topics" }] : []),
+    ...(guide.clinicalSkills.length > 0 ? [{ id: "clinical-skills", title: "Important Clinical Skills" }] : []),
+    ...(guide.procedures.length > 0 ? [{ id: "procedures", title: "Common Procedures & Equipment" }] : []),
+    ...(guide.medications.length > 0 ? [{ id: "medications", title: "Medications Frequently Used" }] : []),
     ...(guide.subSections?.map(s => ({ id: s.id, title: s.title })) || []),
-    { id: "scenarios", title: "Clinical Scenarios" },
+    ...(guide.scenarios.length > 0 ? [{ id: "scenarios", title: "Clinical Scenarios" }] : []),
     { id: "practice-questions", title: "Practice Questions" },
     { id: "flashcard-review", title: "Flashcard Review" },
     { id: "career-overview", title: "Career Overview" },
@@ -194,13 +196,26 @@ export default function HealthcareGuidePage() {
     "specialty": guide.category === "nursing-specialty" ? "Nursing" : "Allied Health",
   };
 
-  const breadcrumbItems = [
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Guides", url: "https://www.nursenest.ca/guides" },
-    { name: guide.title, url: `https://www.nursenest.ca/guides/${guide.slug}` },
-  ];
+  const hubGuide = guide.hubGuideSlug ? getHealthcareGuideBySlug(guide.hubGuideSlug) : null;
+  const isSpokePage = !!guide.hubGuideSlug;
+
+  const breadcrumbItems = isSpokePage && hubGuide
+    ? [
+        { name: "Home", url: "https://www.nursenest.ca" },
+        { name: "Guides", url: "https://www.nursenest.ca/guides" },
+        { name: hubGuide.title, url: `https://www.nursenest.ca/guides/${hubGuide.slug}` },
+        { name: guide.title, url: `https://www.nursenest.ca/guides/${guide.slug}` },
+      ]
+    : [
+        { name: "Home", url: "https://www.nursenest.ca" },
+        { name: "Guides", url: "https://www.nursenest.ca/guides" },
+        { name: guide.title, url: `https://www.nursenest.ca/guides/${guide.slug}` },
+      ];
 
   const relatedGuides = HEALTHCARE_GUIDES.filter(g => guide.relatedGuides.includes(g.slug));
+
+  const ctaBaseGuide = hubGuide || guide;
+  const specialtySlug = ctaBaseGuide.slug.replace(/-ultimate-guide$/, "").replace(/-guide$/, "").replace(/-nursing$/, "");
 
   return (
     <div className="min-h-screen bg-gray-50" data-testid={`healthcare-guide-${guide.slug}`}>
@@ -250,6 +265,18 @@ export default function HealthcareGuidePage() {
                 <Briefcase className="w-3 h-3 mr-1" /> Career Overview
               </Badge>
             </div>
+            <div className="flex flex-wrap gap-3 mt-8">
+              <LocaleLink href={`/preview/${specialtySlug}`}>
+                <Button className="text-white px-5 py-2.5 font-semibold" style={{ backgroundColor: guide.color }} data-testid="button-hero-preview">
+                  <Play className="w-4 h-4 mr-2" /> Try Free Preview
+                </Button>
+              </LocaleLink>
+              <LocaleLink href={`/lessons/${specialtySlug}`}>
+                <Button variant="outline" className="px-5 py-2.5 font-semibold border-gray-300 hover:bg-white" data-testid="button-hero-lessons">
+                  <Sparkles className="w-4 h-4 mr-2" /> Browse Lessons
+                </Button>
+              </LocaleLink>
+            </div>
           </div>
         </div>
       </section>
@@ -261,96 +288,150 @@ export default function HealthcareGuidePage() {
           </div>
 
           <div className="flex-1 min-w-0">
+            {isSpokePage && hubGuide && (
+              <div className="mb-6 bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center gap-3" data-testid="link-back-to-hub">
+                <ArrowRight className="w-4 h-4 text-blue-600 rotate-180 shrink-0" />
+                <p className="text-sm text-blue-800">
+                  This guide is part of our{" "}
+                  <LocaleLink href={`/guides/${hubGuide.slug}`} className="font-semibold text-blue-700 underline hover:text-blue-900" data-testid="link-hub-guide">
+                    {hubGuide.title}
+                  </LocaleLink>
+                  {" "}topic cluster.
+                </p>
+              </div>
+            )}
+
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
               <p className="text-gray-700 leading-relaxed text-base">{guide.introduction}</p>
             </section>
 
-            <section id="conditions" className="mb-12 scroll-mt-24" data-testid="section-conditions">
-              <SectionHeading id="conditions-heading" title="Key Conditions & Clinical Topics" icon={ClipboardList} color={guide.color} />
-              <div className="space-y-6">
-                {guide.conditions.map((condition, i) => (
-                  <Card key={i} className="overflow-hidden" data-testid={`card-condition-${i}`}>
-                    <CardContent className="p-5">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">{condition.name}</h3>
-                      <p className="text-sm text-gray-600 mb-3">{condition.description}</p>
-                      <ul className="space-y-1.5">
-                        {condition.keyPoints.map((point, j) => (
-                          <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
-                            <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ backgroundColor: guide.color }} />
-                            {point}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
+            {guide.spokeGuides && guide.spokeGuides.length > 0 && (
+              <section id="topic-guides" className="mb-12 scroll-mt-24" data-testid="section-spoke-guides">
+                <SectionHeading id="topic-guides-heading" title="In-Depth Topic Guides" icon={BookOpen} color={guide.color} />
+                <p className="text-sm text-gray-600 mb-4">
+                  Explore detailed sub-topic guides that dive deeper into key areas of {guide.title.replace(" Ultimate Guide", "")} practice.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {guide.spokeGuides.map((spoke) => (
+                    <LocaleLink key={spoke.slug} href={`/guides/${spoke.slug}`}>
+                      <Card className="h-full hover:shadow-md hover:border-gray-300 transition-all cursor-pointer group" data-testid={`card-spoke-${spoke.slug}`}>
+                        <CardContent className="p-5">
+                          <div className="flex items-start gap-3">
+                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
+                              <BookOpen className="w-4 h-4" style={{ color: guide.color }} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-700 transition-colors">
+                                {spoke.title}
+                              </h3>
+                              <p className="text-xs text-gray-500 line-clamp-2">{spoke.description}</p>
+                              <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 mt-2">
+                                Read Guide <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </LocaleLink>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {guide.conditions.length > 0 && (
+              <section id="conditions" className="mb-12 scroll-mt-24" data-testid="section-conditions">
+                <SectionHeading id="conditions-heading" title="Key Conditions & Clinical Topics" icon={ClipboardList} color={guide.color} />
+                <div className="space-y-6">
+                  {guide.conditions.map((condition, i) => (
+                    <Card key={i} className="overflow-hidden" data-testid={`card-condition-${i}`}>
+                      <CardContent className="p-5">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">{condition.name}</h3>
+                        <p className="text-sm text-gray-600 mb-3">{condition.description}</p>
+                        <ul className="space-y-1.5">
+                          {condition.keyPoints.map((point, j) => (
+                            <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
+                              <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ backgroundColor: guide.color }} />
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                {sectionImages["conditions"]?.map((img, i) => (
+                  <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
                 ))}
-              </div>
-              {sectionImages["conditions"]?.map((img, i) => (
-                <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
-              ))}
-            </section>
+              </section>
+            )}
 
             <CtaBanner variant="questions" color={guide.color} guideSlug={guide.slug} />
 
-            <section id="clinical-skills" className="mb-12 scroll-mt-24" data-testid="section-clinical-skills">
-              <SectionHeading id="skills-heading" title="Important Clinical Skills" icon={Activity} color={guide.color} />
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <ol className="space-y-3">
-                  {guide.clinicalSkills.map((skill, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`skill-item-${i}`}>
-                      <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white shrink-0 mt-0.5" style={{ backgroundColor: guide.color }}>
-                        {i + 1}
-                      </span>
-                      {skill}
-                    </li>
+            {guide.clinicalSkills.length > 0 && (
+              <section id="clinical-skills" className="mb-12 scroll-mt-24" data-testid="section-clinical-skills">
+                <SectionHeading id="skills-heading" title="Important Clinical Skills" icon={Activity} color={guide.color} />
+                <div className="bg-white rounded-xl border border-gray-200 p-5">
+                  <ol className="space-y-3">
+                    {guide.clinicalSkills.map((skill, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`skill-item-${i}`}>
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white shrink-0 mt-0.5" style={{ backgroundColor: guide.color }}>
+                          {i + 1}
+                        </span>
+                        {skill}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+                {sectionImages["clinicalSkills"]?.map((img, i) => (
+                  <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
+                ))}
+              </section>
+            )}
+
+            {guide.procedures.length > 0 && (
+              <section id="procedures" className="mb-12 scroll-mt-24" data-testid="section-procedures">
+                <SectionHeading id="procedures-heading" title="Common Procedures & Equipment" icon={Target} color={guide.color} />
+                <div className="grid gap-4">
+                  {guide.procedures.map((proc, i) => (
+                    <div key={i} className="bg-white rounded-xl border border-gray-200 p-5" data-testid={`card-procedure-${i}`}>
+                      <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: guide.color }} />
+                        {proc.name}
+                      </h3>
+                      <p className="text-sm text-gray-600">{proc.description}</p>
+                    </div>
                   ))}
-                </ol>
-              </div>
-              {sectionImages["clinicalSkills"]?.map((img, i) => (
-                <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
-              ))}
-            </section>
-
-            <section id="procedures" className="mb-12 scroll-mt-24" data-testid="section-procedures">
-              <SectionHeading id="procedures-heading" title="Common Procedures & Equipment" icon={Target} color={guide.color} />
-              <div className="grid gap-4">
-                {guide.procedures.map((proc, i) => (
-                  <div key={i} className="bg-white rounded-xl border border-gray-200 p-5" data-testid={`card-procedure-${i}`}>
-                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: guide.color }} />
-                      {proc.name}
-                    </h3>
-                    <p className="text-sm text-gray-600">{proc.description}</p>
-                  </div>
+                </div>
+                {sectionImages["procedures"]?.map((img, i) => (
+                  <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
                 ))}
-              </div>
-              {sectionImages["procedures"]?.map((img, i) => (
-                <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
-              ))}
-            </section>
+              </section>
+            )}
 
-            <section id="medications" className="mb-12 scroll-mt-24" data-testid="section-medications">
-              <SectionHeading id="medications-heading" title="Medications Frequently Used" icon={Pill} color={guide.color} />
-              <div className="space-y-4">
-                {guide.medications.map((med, i) => (
-                  <Card key={i} data-testid={`card-medication-${i}`}>
-                    <CardContent className="p-5">
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-bold text-gray-900">{med.drugClass}</h3>
-                        <Badge variant="outline" className="text-xs shrink-0">{med.examples.split(",").length} drugs</Badge>
-                      </div>
-                      <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">Examples:</span> {med.examples}</p>
-                      <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                        <p className="text-sm text-amber-800"><span className="font-semibold">Nursing Considerations:</span> {med.nursingConsiderations}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
+            {guide.medications.length > 0 && (
+              <section id="medications" className="mb-12 scroll-mt-24" data-testid="section-medications">
+                <SectionHeading id="medications-heading" title="Medications Frequently Used" icon={Pill} color={guide.color} />
+                <div className="space-y-4">
+                  {guide.medications.map((med, i) => (
+                    <Card key={i} data-testid={`card-medication-${i}`}>
+                      <CardContent className="p-5">
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <h3 className="font-bold text-gray-900">{med.drugClass}</h3>
+                          <Badge variant="outline" className="text-xs shrink-0">{med.examples.split(",").length} drugs</Badge>
+                        </div>
+                        <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">Examples:</span> {med.examples}</p>
+                        <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
+                          <p className="text-sm text-amber-800"><span className="font-semibold">Nursing Considerations:</span> {med.nursingConsiderations}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                {sectionImages["medications"]?.map((img, i) => (
+                  <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
                 ))}
-              </div>
-              {sectionImages["medications"]?.map((img, i) => (
-                <ImagePlaceholder key={i} alt={img.alt} caption={img.caption} />
-              ))}
-            </section>
+              </section>
+            )}
 
             {guide.subSections && guide.subSections.length > 0 && (
               <>
@@ -372,36 +453,38 @@ export default function HealthcareGuidePage() {
 
             <CtaBanner variant="signup" color={guide.color} guideSlug={guide.slug} />
 
-            <section id="scenarios" className="mb-12 scroll-mt-24" data-testid="section-scenarios">
-              <SectionHeading id="scenarios-heading" title="Clinical Scenarios" icon={Brain} color={guide.color} />
-              <div className="space-y-6">
-                {guide.scenarios.map((scenario, i) => (
-                  <Card key={i} className="overflow-hidden border-l-4" style={{ borderLeftColor: guide.color }} data-testid={`card-scenario-${i}`}>
-                    <CardContent className="p-5">
-                      <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle className="w-4 h-4" style={{ color: guide.color }} />
-                        <h3 className="font-bold text-gray-900">{scenario.title}</h3>
-                      </div>
-                      <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                        <p className="text-sm font-medium text-gray-800 mb-1">Patient Presentation:</p>
-                        <p className="text-sm text-gray-600">{scenario.presentation}</p>
-                      </div>
-                      <p className="text-sm font-medium text-gray-800 mb-2">Priority Nursing Actions:</p>
-                      <ol className="space-y-2">
-                        {scenario.keyActions.map((action, j) => (
-                          <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
-                            <span className="flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white shrink-0 mt-0.5" style={{ backgroundColor: guide.color }}>
-                              {j + 1}
-                            </span>
-                            {action}
-                          </li>
-                        ))}
-                      </ol>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
+            {guide.scenarios.length > 0 && (
+              <section id="scenarios" className="mb-12 scroll-mt-24" data-testid="section-scenarios">
+                <SectionHeading id="scenarios-heading" title="Clinical Scenarios" icon={Brain} color={guide.color} />
+                <div className="space-y-6">
+                  {guide.scenarios.map((scenario, i) => (
+                    <Card key={i} className="overflow-hidden border-l-4" style={{ borderLeftColor: guide.color }} data-testid={`card-scenario-${i}`}>
+                      <CardContent className="p-5">
+                        <div className="flex items-center gap-2 mb-3">
+                          <AlertTriangle className="w-4 h-4" style={{ color: guide.color }} />
+                          <h3 className="font-bold text-gray-900">{scenario.title}</h3>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                          <p className="text-sm font-medium text-gray-800 mb-1">Patient Presentation:</p>
+                          <p className="text-sm text-gray-600">{scenario.presentation}</p>
+                        </div>
+                        <p className="text-sm font-medium text-gray-800 mb-2">Priority Nursing Actions:</p>
+                        <ol className="space-y-2">
+                          {scenario.keyActions.map((action, j) => (
+                            <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
+                              <span className="flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white shrink-0 mt-0.5" style={{ backgroundColor: guide.color }}>
+                                {j + 1}
+                              </span>
+                              {action}
+                            </li>
+                          ))}
+                        </ol>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <section id="practice-questions" className="mb-12 scroll-mt-24" data-testid="section-practice-questions">
               <SectionHeading id="practice-heading" title="Practice Questions" icon={FileText} color={guide.color} />
