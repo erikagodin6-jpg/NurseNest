@@ -20,6 +20,7 @@ import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ConfidenceRatingModal } from "@/components/study-momentum";
 import { SocialProofBar } from "@/components/conversion-funnel";
+import { useI18n } from "@/lib/i18n";
 import {
   AnswerOption,
   ResultHeader,
@@ -78,6 +79,7 @@ const DIFFICULTY_LABELS: Record<number, string> = { 1: "Easy", 2: "Easy", 3: "Mo
 export default function QuestionBank() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useI18n();
   const allowedQBankTiers = getAllowedExamTiers(effectiveTier || "free");
   const defaultTierFilter = allowedQBankTiers.length === 1 ? allowedQBankTiers[0] : (allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : "all");
   const [tierFilter, setTierFilter] = useState<string>(defaultTierFilter);
@@ -323,7 +325,7 @@ export default function QuestionBank() {
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <BreadcrumbNav />
             <div className="text-center mb-10 animate-fade-in-up">
-              <h1 className="text-3xl font-bold mb-4 text-gray-900" data-testid="text-exam-results-title">Practice Exam Results</h1>
+              <h1 className="text-3xl font-bold mb-4 text-gray-900" data-testid="text-exam-results-title">{t("qbank.practiceExamResults")}</h1>
               <div className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl border-2 ${examReport.percentage >= 70 ? "bg-gradient-to-br from-emerald-50 to-teal-50/50 border-emerald-200/60" : "bg-gradient-to-br from-amber-50 to-orange-50/30 border-amber-200/60"}`}>
                 <Trophy className={`h-7 w-7 ${examReport.percentage >= 70 ? "text-emerald-600" : "text-amber-600"}`} />
                 <span className={`text-4xl font-black ${examReport.percentage >= 70 ? "text-emerald-700" : "text-amber-700"}`} data-testid="text-exam-score">
@@ -335,7 +337,7 @@ export default function QuestionBank() {
 
             <div className="grid md:grid-cols-2 gap-5 mb-8">
               <Card className="premium-card border-0 shadow-md" data-testid="card-system-breakdown">
-                <CardHeader className="pb-2"><CardTitle className="text-base flex items-center gap-2"><BarChart3 className="h-4 w-4 text-primary" /> By Body System</CardTitle></CardHeader>
+                <CardHeader className="pb-2"><CardTitle className="text-base flex items-center gap-2"><BarChart3 className="h-4 w-4 text-primary" /> {t("qbank.byBodySystem")}</CardTitle></CardHeader>
                 <CardContent className="space-y-3">
                   {examReport.systemBreakdown.map(s => (
                     <div key={s.system} className="flex items-center justify-between text-sm gap-3">
@@ -351,7 +353,7 @@ export default function QuestionBank() {
                 </CardContent>
               </Card>
               <Card className="premium-card border-0 shadow-md" data-testid="card-difficulty-breakdown">
-                <CardHeader className="pb-2"><CardTitle className="text-base flex items-center gap-2"><Target className="h-4 w-4 text-primary" /> By Difficulty</CardTitle></CardHeader>
+                <CardHeader className="pb-2"><CardTitle className="text-base flex items-center gap-2"><Target className="h-4 w-4 text-primary" /> {t("qbank.byDifficulty")}</CardTitle></CardHeader>
                 <CardContent className="space-y-3">
                   {examReport.difficultyBreakdown.map(d => (
                     <div key={d.level} className="flex items-center justify-between text-sm gap-3">
@@ -369,7 +371,7 @@ export default function QuestionBank() {
             </div>
 
             <Card className="premium-card border-0 shadow-md mb-8" data-testid="card-exam-review">
-              <CardHeader><CardTitle className="text-base">Question Review</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">{t("qbank.questionReview")}</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 {examReport.review.map((r, i) => (
                   <div key={i} className={`p-5 rounded-2xl border ${r.isCorrect ? "border-emerald-200/60 bg-emerald-50/30" : "border-red-200/60 bg-red-50/30"}`} data-testid={`review-item-${i}`}>
@@ -412,9 +414,9 @@ export default function QuestionBank() {
 
             <div className="flex gap-3 justify-center">
               <Button onClick={() => { exitExam(); startExamSession(); }} className="rounded-xl bg-primary hover:bg-primary/90 text-white shadow-sm gap-2 px-6" data-testid="button-retake-exam">
-                <RotateCcw className="h-4 w-4" /> Retake Exam
+                <RotateCcw className="h-4 w-4" /> {t("qbank.retakeExam")}
               </Button>
-              <Button variant="outline" onClick={exitExam} className="rounded-xl border-gray-200 px-6" data-testid="button-back-to-study">Back to Test Bank</Button>
+              <Button variant="outline" onClick={exitExam} className="rounded-xl border-gray-200 px-6" data-testid="button-back-to-study">{t("qbank.backToTestBank")}</Button>
             </div>
           </div>
         </main>
@@ -447,8 +449,8 @@ export default function QuestionBank() {
                   <Clock className="h-4 w-4" />
                   {formatTime(examSession.timeRemaining)}
                 </div>
-                <PremiumBadge variant="default" data-testid="badge-answered-count">{answeredCount}/{examSession.questions.length} answered</PremiumBadge>
-                <Button size="sm" onClick={submitExam} className="rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-sm" data-testid="button-submit-exam">Submit Exam</Button>
+                <PremiumBadge variant="default" data-testid="badge-answered-count">{answeredCount}/{examSession.questions.length} {t("qbank.answered")}</PremiumBadge>
+                <Button size="sm" onClick={submitExam} className="rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-sm" data-testid="button-submit-exam">{t("qbank.submitExam")}</Button>
               </div>
             </div>
           </div>
@@ -484,7 +486,7 @@ export default function QuestionBank() {
                       className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50"
                       data-testid="button-exam-prev"
                     >
-                      <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+                      <ChevronLeft className="h-4 w-4 mr-1" /> {t("qbank.previous")}
                     </Button>
                     {examSession.currentIndex < examSession.questions.length - 1 ? (
                       <Button
@@ -492,11 +494,11 @@ export default function QuestionBank() {
                         className="flex-1 rounded-xl bg-primary hover:bg-primary/90 text-white shadow-sm"
                         data-testid="button-exam-next"
                       >
-                        Next <ChevronRight className="h-4 w-4 ml-1" />
+                        {t("qbank.next")} <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     ) : (
                       <Button onClick={submitExam} className="flex-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" data-testid="button-exam-finish">
-                        Finish & Submit
+                        {t("qbank.finishSubmit")}
                       </Button>
                     )}
                   </div>
@@ -528,7 +530,7 @@ export default function QuestionBank() {
               {qbTitle}
             </h1>
             <p className="text-gray-500 text-sm">
-              Practice {accessibleQuestions.length.toLocaleString()} questions with detailed rationales
+              {t("qbank.practiceQuestions", { count: String(accessibleQuestions.length.toLocaleString()) })}
             </p>
           </div>
 
@@ -541,7 +543,7 @@ export default function QuestionBank() {
                 className={`rounded-xl gap-1.5 px-5 transition-all duration-200 ${mode === "study" ? "bg-white text-gray-900 shadow-sm font-semibold" : "text-gray-500 hover:text-gray-700"}`}
                 data-testid="button-mode-study"
               >
-                <BookOpen className="h-4 w-4" /> Study Mode
+                <BookOpen className="h-4 w-4" /> {t("qbank.studyMode")}
               </Button>
               <Button
                 variant="ghost"
@@ -550,7 +552,7 @@ export default function QuestionBank() {
                 className={`rounded-xl gap-1.5 px-5 transition-all duration-200 ${mode === "exam" ? "bg-white text-gray-900 shadow-sm font-semibold" : "text-gray-500 hover:text-gray-700"}`}
                 data-testid="button-mode-exam"
               >
-                <PenLine className="h-4 w-4" /> Exam Mode
+                <PenLine className="h-4 w-4" /> {t("qbank.examMode")}
               </Button>
             </div>
           </div>
@@ -562,11 +564,11 @@ export default function QuestionBank() {
                   <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
                     <GraduationCap className="h-5 w-5 text-primary" />
                   </div>
-                  Configure Practice Exam
+                  {t("qbank.configureExam")}
                 </h3>
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Number of Questions</label>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("qbank.numberOfQuestions")}</label>
                     <Select value={String(examQuestionCount)} onValueChange={(v) => setExamQuestionCount(Number(v))}>
                       <SelectTrigger className="border-gray-200/80 rounded-xl h-11" data-testid="select-exam-count">
                         <SelectValue />
@@ -580,7 +582,7 @@ export default function QuestionBank() {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Time Limit</label>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("qbank.timeLimit")}</label>
                     <Select value={String(examTimerMinutes)} onValueChange={(v) => setExamTimerMinutes(Number(v))}>
                       <SelectTrigger className="border-gray-200/80 rounded-xl h-11" data-testid="select-exam-time">
                         <SelectValue />
@@ -597,8 +599,8 @@ export default function QuestionBank() {
                   </div>
                 </div>
                 <div className="text-xs text-gray-500 mb-5 space-y-1 bg-gray-50/80 rounded-xl p-3">
-                  <p>Questions and answer choices will be randomized. Rationale is hidden until you submit.</p>
-                  <p>A performance summary by body system and difficulty will be shown at the end.</p>
+                  <p>{t("qbank.examDesc1")}</p>
+                  <p>{t("qbank.examDesc2")}</p>
                 </div>
                 <Button
                   onClick={startExamSession}
@@ -606,7 +608,7 @@ export default function QuestionBank() {
                   className="w-full rounded-xl bg-primary hover:bg-primary/90 text-white py-6 text-base font-semibold shadow-sm shadow-primary/20 transition-all duration-200"
                   data-testid="button-start-exam"
                 >
-                  <PenLine className="h-4 w-4 mr-2" /> Start Practice Exam ({Math.min(examQuestionCount, accessibleQuestions.length)} questions, {examTimerMinutes} min)
+                  <PenLine className="h-4 w-4 mr-2" /> {t("qbank.startPracticeExam", { count: String(Math.min(examQuestionCount, accessibleQuestions.length)), time: String(examTimerMinutes) })}
                 </Button>
               </CardContent>
             </Card>
@@ -621,9 +623,9 @@ export default function QuestionBank() {
                   <SelectValue placeholder="Tier" />
                 </SelectTrigger>
                 <SelectContent>
-                  {allowedQBankTiers.length === 0 && <SelectItem value="all">All Tiers</SelectItem>}
-                  {allowedQBankTiers.map(t => (
-                    <SelectItem key={t} value={t}>{t === "rpn" ? "RPN/LVN" : t.toUpperCase()}</SelectItem>
+                  {allowedQBankTiers.length === 0 && <SelectItem value="all">{t("qbank.allTiers")}</SelectItem>}
+                  {allowedQBankTiers.map(tier => (
+                    <SelectItem key={tier} value={tier}>{tier === "rpn" ? "RPN/LVN" : tier.toUpperCase()}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -634,7 +636,7 @@ export default function QuestionBank() {
                   <SelectValue placeholder="Body System" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Systems</SelectItem>
+                  <SelectItem value="all">{t("qbank.allSystems")}</SelectItem>
                   {bodySystems.map(s => (
                     <SelectItem key={s} value={s}>{s}</SelectItem>
                   ))}
@@ -647,7 +649,7 @@ export default function QuestionBank() {
                     <SelectValue placeholder="Exam" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Exams</SelectItem>
+                    <SelectItem value="all">{t("qbank.allExams")}</SelectItem>
                     {filterOptions.exams.map(e => (
                       <SelectItem key={e} value={e}>{e}</SelectItem>
                     ))}
@@ -660,10 +662,10 @@ export default function QuestionBank() {
                   <SelectValue placeholder="Difficulty" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Levels</SelectItem>
-                  <SelectItem value="easy">Easy</SelectItem>
-                  <SelectItem value="moderate">Moderate</SelectItem>
-                  <SelectItem value="hard">Hard</SelectItem>
+                  <SelectItem value="all">{t("qbank.allLevels")}</SelectItem>
+                  <SelectItem value="easy">{t("qbank.easy")}</SelectItem>
+                  <SelectItem value="moderate">{t("qbank.moderate")}</SelectItem>
+                  <SelectItem value="hard">{t("qbank.hard")}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -673,9 +675,9 @@ export default function QuestionBank() {
                     <SelectValue placeholder="Topic" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Topics</SelectItem>
-                    {filterOptions.topics.slice(0, 50).map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
+                    <SelectItem value="all">{t("qbank.allTopics")}</SelectItem>
+                    {filterOptions.topics.slice(0, 50).map(topic => (
+                      <SelectItem key={topic} value={topic}>{topic}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -694,7 +696,7 @@ export default function QuestionBank() {
                     <span data-testid="text-score">{stats.correct}/{stats.total}</span>
                   </div>
                   <Button variant="ghost" size="sm" onClick={handleReset} className="text-gray-500 hover:text-gray-700" data-testid="button-reset">
-                    <RotateCcw className="h-3 w-3 mr-1" /> Reset
+                    <RotateCcw className="h-3 w-3 mr-1" /> {t("qbank.reset")}
                   </Button>
                 </div>
               )}
@@ -708,19 +710,19 @@ export default function QuestionBank() {
                   <Lock className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2" data-testid="text-qb-locked">
-                  {tierFilter === "rpn" ? "RPN/LVN" : tierFilter === "rn" ? "RN" : "NP"} Questions Require a Subscription
+                  {t("qbank.requiresSubscription", { tier: tierFilter === "rpn" ? "RPN/LVN" : tierFilter === "rn" ? "RN" : "NP" })}
                 </h3>
                 <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto leading-relaxed">
-                  Practice questions with detailed rationales are available with a subscription. Upgrade to unlock full access.
+                  {t("qbank.requiresSubscriptionDesc")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2 justify-center">
                   {!user ? (
                     <Button onClick={() => setLocation("/start-free")} className="rounded-xl gap-2 px-6 shadow-sm" data-testid="button-qb-signup">
-                      Start Free - No Credit Card
+                      {t("qbank.startFreeNoCreditCard")}
                     </Button>
                   ) : null}
                   <Button onClick={() => setLocation("/pricing")} variant={user ? "default" : "outline"} className="rounded-xl gap-2 px-6" data-testid="button-qb-upgrade">
-                    <Crown className="w-4 h-4" /> View Plans
+                    <Crown className="w-4 h-4" /> {t("qbank.viewPlans")}
                   </Button>
                 </div>
               </CardContent>
@@ -735,11 +737,11 @@ export default function QuestionBank() {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-amber-800 font-medium">
-                    Showing {accessibleQuestions.length} preview questions. Subscribe to unlock all {allQuestions.length.toLocaleString()} questions.
+                    {t("qbank.showingPreview", { shown: String(accessibleQuestions.length), total: String(allQuestions.length.toLocaleString()) })}
                   </p>
                 </div>
                 <Button size="sm" onClick={() => setLocation(user ? "/pricing" : "/start-free")} className="rounded-xl shrink-0 shadow-sm" data-testid="button-qb-unlock">
-                  Unlock All
+                  {t("qbank.unlockAll")}
                 </Button>
               </CardContent>
             </Card>
@@ -778,8 +780,8 @@ export default function QuestionBank() {
                     <div className="w-16 h-16 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-4">
                       <BookOpen className="w-7 h-7 text-primary/40" />
                     </div>
-                    <p className="empty-state-title" data-testid="text-no-questions">{isTierLocked ? "Subscribe to access these questions" : "No questions match your filters"}</p>
-                    <p className="empty-state-description">{isTierLocked ? "Upgrade your plan to unlock this question bank and start practicing." : "Try adjusting the filters above to find more questions."}</p>
+                    <p className="empty-state-title" data-testid="text-no-questions">{isTierLocked ? t("qbank.noQuestionsSubscribe") : t("qbank.noQuestionsFilter")}</p>
+                    <p className="empty-state-description">{isTierLocked ? t("qbank.noQuestionsSubscribeDesc") : t("qbank.noQuestionsFilterDesc")}</p>
                   </CardContent>
                 </Card>
               ) : question ? (
@@ -838,7 +840,7 @@ export default function QuestionBank() {
                           size="lg"
                           data-testid="button-qb-check"
                         >
-                          Check Answer
+                          {t("qbank.checkAnswer")}
                         </Button>
                       ) : (
                         <>
@@ -853,15 +855,15 @@ export default function QuestionBank() {
 
                                 {revealed && question.difficulty && (
                                   <div className="flex items-center gap-2 text-xs text-gray-400 flex-wrap">
-                                    <PremiumBadge variant="difficulty">Difficulty: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
-                                    {question.frameworkUsed && <PremiumBadge>Framework: {question.frameworkUsed}</PremiumBadge>}
-                                    {question.questionType && <PremiumBadge>Type: {question.questionType}</PremiumBadge>}
+                                    <PremiumBadge variant="difficulty">{t("qbank.difficulty")}: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
+                                    {question.frameworkUsed && <PremiumBadge>{t("qbank.framework")}: {question.frameworkUsed}</PremiumBadge>}
+                                    {question.questionType && <PremiumBadge>{t("qbank.type")}: {question.questionType}</PremiumBadge>}
                                   </div>
                                 )}
 
                                 <RationaleSection
                                   icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                                  title="Why Other Options Are Wrong"
+                                  title={t("qbank.whyOtherWrong")}
                                   variant="distractor"
                                   data-testid="section-distractor-rationales"
                                 >
@@ -877,7 +879,7 @@ export default function QuestionBank() {
                                         })
                                         .filter(Boolean);
                                       return cards.length > 0 ? cards : (
-                                        <p className="text-sm text-gray-500 italic">Distractor explanations are not yet available for this question.</p>
+                                        <p className="text-sm text-gray-500 italic">{t("qbank.distractorNotAvailable")}</p>
                                       );
                                     })()}
                                   </div>
@@ -888,7 +890,7 @@ export default function QuestionBank() {
                               <>
                                 <RationaleSection
                                   icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-                                  title="Why This Is Correct"
+                                  title={t("qbank.whyCorrect")}
                                   data-testid="section-rationale"
                                 >
                                   <div data-testid="text-qb-rationale">
@@ -915,7 +917,7 @@ export default function QuestionBank() {
                                 {question.clinicalPearl && (
                                   <RationaleSection
                                     icon={<Lightbulb className="h-4 w-4 text-violet-600" />}
-                                    title="Clinical Pearl"
+                                    title={t("qbank.clinicalPearl")}
                                     variant="pearl"
                                     data-testid="section-clinical-pearl"
                                   >
@@ -926,7 +928,7 @@ export default function QuestionBank() {
                                 {question.examStrategy && (
                                   <RationaleSection
                                     icon={<Crosshair className="h-4 w-4 text-blue-600" />}
-                                    title="Exam Strategy"
+                                    title={t("qbank.examStrategy")}
                                     variant="strategy"
                                     data-testid="section-exam-strategy"
                                   >
@@ -937,7 +939,7 @@ export default function QuestionBank() {
                                 {question.memoryHook && (
                                   <RationaleSection
                                     icon={<Bookmark className="h-4 w-4 text-amber-600" />}
-                                    title="Memory Hook"
+                                    title={t("qbank.memoryHook")}
                                     variant="memory"
                                     data-testid="section-memory-hook"
                                   >
@@ -966,10 +968,10 @@ export default function QuestionBank() {
 
                           <div className="flex gap-3 pt-2">
                             <Button variant="outline" onClick={handlePrev} className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50" data-testid="button-prev">
-                              <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+                              <ChevronLeft className="h-4 w-4 mr-1" /> {t("qbank.previous")}
                             </Button>
                             <Button onClick={handleNext} className="flex-1 rounded-xl bg-primary hover:bg-primary/90 text-white shadow-sm" data-testid="button-next">
-                              Next Question <ChevronRight className="h-4 w-4 ml-1" />
+                              {t("qbank.nextQuestion")} <ChevronRight className="h-4 w-4 ml-1" />
                             </Button>
                           </div>
                         </>
@@ -980,10 +982,10 @@ export default function QuestionBank() {
                   {!revealed && (
                     <div className="flex justify-between">
                       <Button variant="ghost" onClick={handlePrev} className="text-gray-400 hover:text-gray-700 rounded-xl" data-testid="button-nav-prev">
-                        <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+                        <ChevronLeft className="h-4 w-4 mr-1" /> {t("qbank.previous")}
                       </Button>
                       <Button variant="ghost" onClick={handleNext} className="text-gray-400 hover:text-gray-700 rounded-xl" data-testid="button-nav-next">
-                        Skip <ChevronRight className="h-4 w-4 ml-1" />
+                        {t("qbank.skip")} <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
                   )}
@@ -993,20 +995,20 @@ export default function QuestionBank() {
           )}
 
           <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-related-tools">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Related Study Tools</p>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("qbank.relatedStudyTools")}</p>
             <div className="flex flex-wrap gap-2">
-              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-lessons">Clinical Lessons</LocaleLink>
-              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-flashcards">Flashcards</LocaleLink>
-              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-mock-exams">Mock Exams</LocaleLink>
-              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-anatomy">Anatomy Explorer</LocaleLink>
-              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-med-math">Med Math</LocaleLink>
-              <LocaleLink href="/clinical-clarity" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-clinical-clarity">Clinical Clarity</LocaleLink>
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-lessons">{t("qbank.clinicalLessons")}</LocaleLink>
+              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-flashcards">{t("qbank.flashcards")}</LocaleLink>
+              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-mock-exams">{t("qbank.mockExams")}</LocaleLink>
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-anatomy">{t("qbank.anatomyExplorer")}</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-med-math">{t("qbank.medMath")}</LocaleLink>
+              <LocaleLink href="/clinical-clarity" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-clinical-clarity">{t("qbank.clinicalClarity")}</LocaleLink>
             </div>
           </div>
 
           <div className="text-center text-xs text-gray-400 mt-8 space-y-1">
-            <p>NurseNest is an independent educational platform.</p>
-            <p>NurseNest is NOT affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any regulatory body.</p>
+            <p>{t("qbank.disclaimerIndependent")}</p>
+            <p>{t("qbank.disclaimerNotAffiliated")}</p>
           </div>
         </div>
       </main>
@@ -1021,7 +1023,7 @@ export default function QuestionBank() {
             { title: "Nursing Lessons", href: "/lessons", description: "Study in-depth lessons covering pathophysiology, pharmacology, and clinical nursing.", icon: "lesson" },
             { title: "Clinical Simulators", href: "/clinical-simulators", description: "Practice clinical decision-making with realistic patient scenarios.", icon: "simulator" },
           ]}
-          title="Continue Your Study"
+          title={t("qbank.continueStudy")}
         />
       </div>
 

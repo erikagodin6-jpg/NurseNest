@@ -10,26 +10,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Crown, Zap, Shield, Sparkles, BookOpen, Brain, FileText, Loader2, TrendingUp, Clock, Award } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 
 function PricingCard({ plan, price, period, isPopular, features, onSelect, loading }: {
   plan: string; price: string; period: string; isPopular?: boolean;
   features: string[]; onSelect: () => void; loading: boolean;
 }) {
+  const { t } = useI18n();
   return (
     <Card className={`relative ${isPopular ? "border-2 border-purple-500 shadow-xl scale-105" : "border"}`} data-testid={`card-plan-${plan}`}>
       {isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge className="bg-purple-600 text-white px-4 py-1" data-testid="badge-best-value">Best Value</Badge>
+          <Badge className="bg-purple-600 text-white px-4 py-1" data-testid="badge-best-value">{t("upgrade.bestValue")}</Badge>
         </div>
       )}
       <CardHeader className="text-center pb-2">
-        <CardTitle className="text-xl">{plan === "yearly" ? "Pro Yearly" : "Pro Monthly"}</CardTitle>
+        <CardTitle className="text-xl">{plan === "yearly" ? t("upgrade.proYearly") : t("upgrade.proMonthly")}</CardTitle>
         <div className="mt-2">
           <span className="text-4xl font-bold" data-testid={`text-price-${plan}`}>{price}</span>
           <span className="text-muted-foreground">/{period}</span>
         </div>
         {plan === "yearly" && (
-          <p className="text-sm text-green-600 font-medium mt-1" data-testid="text-savings">Save $20.88/year vs monthly</p>
+          <p className="text-sm text-green-600 font-medium mt-1" data-testid="text-savings">{t("upgrade.savings")}</p>
         )}
       </CardHeader>
       <CardContent>
@@ -49,7 +51,7 @@ function PricingCard({ plan, price, period, isPopular, features, onSelect, loadi
           data-testid={`button-upgrade-${plan}`}
         >
           {loading ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Crown className="mr-2 h-4 w-4" />}
-          {loading ? "Processing..." : "Upgrade Now"}
+          {loading ? t("upgrade.processing") : t("upgrade.upgradeNow")}
         </Button>
       </CardContent>
     </Card>
@@ -57,6 +59,7 @@ function PricingCard({ plan, price, period, isPopular, features, onSelect, loadi
 }
 
 function ComparisonTable() {
+  const { t } = useI18n();
   const rows = [
     { feature: "Total Flashcards", free: "300", pro: "Unlimited" },
     { feature: "AI Flashcard Generation", free: false, pro: true },
@@ -75,9 +78,9 @@ function ComparisonTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b">
-            <th className="text-left py-3 px-4">Feature</th>
-            <th className="text-center py-3 px-4">Free</th>
-            <th className="text-center py-3 px-4 bg-purple-50">Pro</th>
+            <th className="text-left py-3 px-4">{t("upgrade.featureHeader")}</th>
+            <th className="text-center py-3 px-4">{t("upgrade.free")}</th>
+            <th className="text-center py-3 px-4 bg-purple-50">{t("upgrade.pro")}</th>
           </tr>
         </thead>
         <tbody>
@@ -128,7 +131,7 @@ function CompetitorComparisonTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b bg-gray-50">
-            <th className="text-left py-3 px-3 font-semibold">Feature</th>
+            <th className="text-left py-3 px-3 font-semibold">{t("upgrade.featureColumn")}</th>
             <th className="text-center py-3 px-3 bg-purple-50 font-semibold">
               <span className="flex items-center justify-center gap-1">
                 <Crown className="h-4 w-4 text-purple-600" /> NurseNest Pro
@@ -159,6 +162,7 @@ export default function UpgradePage() {
   const { user } = useAuth();
   const region = useRegion();
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   const searchParams = new URLSearchParams(window.location.search);
@@ -207,15 +211,15 @@ export default function UpgradePage() {
             {verifyMutation.isPending ? (
               <>
                 <Loader2 className="animate-spin h-12 w-12 text-purple-600 mx-auto mb-4" />
-                <h2 className="text-xl font-bold">Verifying your upgrade...</h2>
-                <p className="text-muted-foreground mt-2">Please wait while we activate your Pro account.</p>
+                <h2 className="text-xl font-bold">{t("upgrade.verifying")}</h2>
+                <p className="text-muted-foreground mt-2">{t("upgrade.verifyingDesc")}</p>
               </>
             ) : verifyMutation.isError ? (
               <>
                 <X className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                <h2 className="text-xl font-bold">Verification Failed</h2>
-                <p className="text-muted-foreground mt-2">Please contact support if this issue persists.</p>
-                <Button className="mt-4" onClick={() => navigate("/upgrade")}>Try Again</Button>
+                <h2 className="text-xl font-bold">{t("upgrade.verifyFailed")}</h2>
+                <p className="text-muted-foreground mt-2">{t("upgrade.verifyFailedDesc")}</p>
+                <Button className="mt-4" onClick={() => navigate("/upgrade")}>{t("upgrade.tryAgain")}</Button>
               </>
             ) : null}
           </CardContent>
@@ -230,10 +234,10 @@ export default function UpgradePage() {
         <Card className="max-w-md w-full">
           <CardContent className="py-12 text-center">
             <Crown className="h-16 w-16 text-purple-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold" data-testid="text-already-pro">You're on the Pro Plan!</h2>
-            <p className="text-muted-foreground mt-2">You have unlimited flashcards and all premium features.</p>
+            <h2 className="text-2xl font-bold" data-testid="text-already-pro">{t("upgrade.alreadyPro")}</h2>
+            <p className="text-muted-foreground mt-2">{t("upgrade.alreadyProDesc")}</p>
             <Link href="/flashcards">
-              <Button className="mt-6" data-testid="button-go-flashcards">Go to Flashcards</Button>
+              <Button className="mt-6" data-testid="button-go-flashcards">{t("upgrade.goToFlashcards")}</Button>
             </Link>
           </CardContent>
         </Card>
@@ -256,34 +260,34 @@ export default function UpgradePage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <Badge className="bg-purple-100 text-purple-700 mb-4" data-testid="badge-upgrade-header">
-            <Sparkles className="h-3 w-3 mr-1" /> Upgrade to Pro
+            <Sparkles className="h-3 w-3 mr-1" /> {t("upgrade.upgradeToPro")}
           </Badge>
           <h1 className="text-4xl font-bold mb-3" data-testid="text-upgrade-title">
-            Pass Your NCLEX or {getPracticalNurseExamName(region)} With Structured Exam-Level Practice
+            {t("upgrade.title", { examName: getPracticalNurseExamName(region) })}
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-upgrade-subtitle">
-            4,000+ questions, unlimited flashcards, adaptive testing — for less than Quizlet+.
+            {t("upgrade.subtitle")}
           </p>
 
           {usage && !usage.isPremium && (
             <div className="mt-6 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
               <Zap className="h-4 w-4 text-amber-500" />
               <span className="text-sm font-medium text-amber-800" data-testid="text-usage-banner">
-                You've used {usage.used} of {usage.limit} free cards ({usage.percentage}%)
+                {t("upgrade.usageNote", { used: String(usage.used), limit: String(usage.limit), percentage: String(usage.percentage) })}
               </span>
             </div>
           )}
 
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-purple-700 font-medium" data-testid="text-urgency">
             <Clock className="h-4 w-4" />
-            Start studying in 60 seconds
+            {t("upgrade.startStudying")}
           </div>
         </div>
 
         <div className="mb-6 text-center">
           <p className="text-sm text-muted-foreground">
             <span className="line-through text-gray-400">Quizlet+ $7.99/month</span>
-            <span className="ml-2 text-green-600 font-semibold" data-testid="text-cheaper">NurseNest Pro — nearly 40% cheaper</span>
+            <span className="ml-2 text-green-600 font-semibold" data-testid="text-cheaper">{t("upgrade.cheaperNote")}</span>
           </p>
         </div>
 
@@ -308,13 +312,13 @@ export default function UpgradePage() {
         </div>
 
         <div className="max-w-3xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold text-center mb-6">Free vs Pro Comparison</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">{t("upgrade.freeVsPro")}</h2>
           <ComparisonTable />
         </div>
 
         <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold text-center mb-2" data-testid="text-competitor-heading">How NurseNest Pro Stacks Up</h2>
-          <p className="text-center text-muted-foreground mb-6">See how we compare to the most popular NCLEX prep platforms.</p>
+          <h2 className="text-2xl font-bold text-center mb-2" data-testid="text-competitor-heading">{t("upgrade.howStacksUp")}</h2>
+          <p className="text-center text-muted-foreground mb-6">{t("upgrade.howStacksUpDesc")}</p>
           <Card>
             <CardContent className="p-0">
               <CompetitorComparisonTable />
@@ -322,7 +326,7 @@ export default function UpgradePage() {
           </Card>
           <div className="flex justify-center mt-4">
             <Badge className="bg-green-100 text-green-700 px-3 py-1" data-testid="badge-guarantee">
-              <Shield className="h-3 w-3 mr-1" /> 30-day money-back guarantee
+              <Shield className="h-3 w-3 mr-1" /> {t("upgrade.guarantee")}
             </Badge>
           </div>
         </div>
@@ -333,22 +337,22 @@ export default function UpgradePage() {
               <TrendingUp className="h-6 w-6 text-purple-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold mb-2" data-testid="text-outcome-heading">Practice More, Pass With Confidence</h2>
+              <h2 className="text-xl font-bold mb-2" data-testid="text-outcome-heading">{t("upgrade.outcomeHeading")}</h2>
               <p className="text-muted-foreground mb-3">
-                Students who complete 500+ practice questions improve pass probability significantly. NurseNest Pro gives you 4,000+ exam-aligned questions with detailed rationales so you can build the clinical judgment skills tested on the NCLEX-RN, NCLEX-PN, and REx-PN.
+                {t("upgrade.outcomeDesc")}
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
                 <div className="flex items-center gap-2">
                   <Award className="h-5 w-5 text-purple-500" />
-                  <span className="text-sm font-medium">4,000+ NCLEX-style questions</span>
+                  <span className="text-sm font-medium">{t("upgrade.questionsFeature")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Brain className="h-5 w-5 text-purple-500" />
-                  <span className="text-sm font-medium">Adaptive difficulty engine</span>
+                  <span className="text-sm font-medium">{t("upgrade.adaptiveEngine")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-purple-500" />
-                  <span className="text-sm font-medium">Detailed rationales for every answer</span>
+                  <span className="text-sm font-medium">{t("upgrade.detailedRationales")}</span>
                 </div>
               </div>
             </div>
@@ -358,24 +362,24 @@ export default function UpgradePage() {
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <Card className="text-center p-6" data-testid="card-feature-nursing">
             <BookOpen className="h-8 w-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold mb-1">Built for Nursing Students</h3>
-            <p className="text-sm text-muted-foreground">Thousands of cards created weekly by nursing students preparing for NCLEX and REX-PN.</p>
+            <h3 className="font-semibold mb-1">{t("upgrade.builtForNursing")}</h3>
+            <p className="text-sm text-muted-foreground">{t("upgrade.builtForNursingDesc")}</p>
           </Card>
           <Card className="text-center p-6" data-testid="card-feature-ai">
             <Brain className="h-8 w-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold mb-1">AI-Powered Learning</h3>
-            <p className="text-sm text-muted-foreground">Generate clinically accurate flashcards instantly with our AI trained on nursing content.</p>
+            <h3 className="font-semibold mb-1">{t("upgrade.aiLearning")}</h3>
+            <p className="text-sm text-muted-foreground">{t("upgrade.aiLearningDesc")}</p>
           </Card>
           <Card className="text-center p-6" data-testid="card-feature-guarantee">
             <Shield className="h-8 w-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold mb-1">30-Day Guarantee</h3>
-            <p className="text-sm text-muted-foreground">Not satisfied? Get a full refund within 30 days, no questions asked.</p>
+            <h3 className="font-semibold mb-1">{t("upgrade.guaranteeTitle")}</h3>
+            <p className="text-sm text-muted-foreground">{t("upgrade.guaranteeDesc")}</p>
           </Card>
         </div>
 
         <div className="text-center">
           <p className="text-xs text-muted-foreground">
-            Cancel anytime. Subscriptions are managed through Stripe. Your data is always yours.
+            {t("upgrade.cancelNote")}
           </p>
         </div>
       </div>

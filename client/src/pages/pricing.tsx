@@ -243,10 +243,10 @@ export default function PricingPage() {
               {/* Hero Section */}
               <div className="text-center mb-10">
                 <h1 className="font-bold mb-4 tracking-tight" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-pricing-title">
-                  Pass Your Nursing Exam With Confidence
+                  {t("pricing.heroTitle")}
                 </h1>
                 <p className="text-gray-500 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed mb-4" data-testid="text-pricing-subtitle">
-                  Start with a free 1-day pass, then choose the study plan that fits your timeline.
+                  {t("pricing.heroSubtitle")}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
                   {user ? (
@@ -255,7 +255,7 @@ export default function PricingPage() {
                       onClick={() => navigate("/dashboard")}
                       data-testid="button-hero-start-free"
                     >
-                      Start Free
+                      {t("pricing.startFree")}
                     </Button>
                   ) : (
                     <Button
@@ -263,7 +263,7 @@ export default function PricingPage() {
                       onClick={() => navigate("/register")}
                       data-testid="button-hero-start-free"
                     >
-                      Start Free
+                      {t("pricing.startFree")}
                     </Button>
                   )}
                   <Button
@@ -274,11 +274,11 @@ export default function PricingPage() {
                     }}
                     data-testid="button-hero-explore-plans"
                   >
-                    Explore Plans
+                    {t("pricing.explorePlans")}
                   </Button>
                 </div>
                 <p className="text-sm text-gray-400" data-testid="text-hero-subtext">
-                  Start with a free 1-day pass. Upgrade anytime.
+                  {t("pricing.heroSubtext")}
                 </p>
                 {isCAD && (
                   <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-50/80 border border-red-200/40 text-sm shadow-[var(--shadow-card)]" data-testid="badge-canadian-pricing">
@@ -312,15 +312,15 @@ export default function PricingPage() {
                 </div>
                 <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
                   <Zap className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-700">Instant access after payment</span>
+                  <span className="text-sm font-medium text-blue-700">{t("pricing.instantAccess")}</span>
                 </div>
                 <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200/60 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
                   <Shield className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm font-medium text-gray-600">Cancel anytime</span>
+                  <span className="text-sm font-medium text-gray-600">{t("pricing.cancelAnytime")}</span>
                 </div>
                 <div className="inline-flex items-center gap-2 bg-purple-50/80 border border-purple-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
                   <BookOpen className="w-4 h-4 text-purple-600" />
-                  <span className="text-sm font-medium text-purple-700">Canadian and U.S. exam coverage</span>
+                  <span className="text-sm font-medium text-purple-700">{t("pricing.examCoverage")}</span>
                 </div>
               </div>
 
@@ -362,7 +362,7 @@ export default function PricingPage() {
                       <CardContent className="text-center pt-2">
                         {lowestPrice > 0 && (
                           <div className="mb-4">
-                            <span className="text-sm text-gray-500">From </span>
+                            <span className="text-sm text-gray-500">{t("pricing.from")} </span>
                             <span className="text-2xl font-bold text-primary" data-testid={`text-tier-from-price-${tierId}`}>
                               ${lowestPrice.toFixed(2)}
                             </span>
@@ -373,7 +373,7 @@ export default function PricingPage() {
                           className="w-full rounded-full font-semibold bg-primary hover:brightness-110 text-white"
                           data-testid={`button-view-plans-${tierId}`}
                         >
-                          View Plans
+                          {t("pricing.viewPlans")}
                         </Button>
                       </CardContent>
                     </Card>
@@ -389,10 +389,10 @@ export default function PricingPage() {
                       <Clock className="w-6 h-6 text-emerald-600" />
                     </div>
                     <h3 className="text-lg font-bold text-emerald-800 mb-1" data-testid="text-free-pass-title">
-                      Free 1-Day Pass
+                      {t("pricing.freePassTitle")}
                     </h3>
                     <p className="text-sm text-emerald-600 mb-4 max-w-md mx-auto">
-                      Every new account receives a free 1-day pass to explore the platform before upgrading. No payment required.
+                      {t("pricing.freePassDesc")}
                     </p>
                     {user ? (
                       <Button
@@ -400,7 +400,7 @@ export default function PricingPage() {
                         onClick={() => navigate("/dashboard")}
                         data-testid="button-start-free"
                       >
-                        Start Free
+                        {t("pricing.startFree")}
                       </Button>
                     ) : (
                       <Button
@@ -408,7 +408,7 @@ export default function PricingPage() {
                         onClick={() => navigate("/register")}
                         data-testid="button-get-free-pass"
                       >
-                        Get Your Free 1-Day Pass
+                        {t("pricing.getFreePass")}
                       </Button>
                     )}
                   </CardContent>
@@ -419,18 +419,18 @@ export default function PricingPage() {
               <div className="mb-16">
                 <div className="text-center mb-8">
                   <h2 className="font-bold mb-2" style={{ fontSize: 'var(--text-section)' }} data-testid="text-comparison-title">
-                    What's Included
+                    {t("pricing.whatsIncluded")}
                   </h2>
                   <p className="text-gray-500 text-base max-w-xl mx-auto">
-                    See what you get with each plan.
+                    {t("pricing.whatsIncludedDesc")}
                   </p>
                 </div>
                 <div className="max-w-3xl mx-auto overflow-x-auto">
                   <table className="w-full text-sm border-collapse" data-testid="table-feature-comparison">
                     <thead>
                       <tr className="border-b border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Feature</th>
-                        <th className="text-center py-3 px-4 font-semibold text-gray-500">Free Pass</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">{t("pricing.feature")}</th>
+                        <th className="text-center py-3 px-4 font-semibold text-gray-500">{t("pricing.freePass")}</th>
                         <th className="text-center py-3 px-4 font-semibold text-gray-700">RPN</th>
                         <th className="text-center py-3 px-4 font-bold text-primary bg-primary/5 rounded-t-lg">RN</th>
                         <th className="text-center py-3 px-4 font-semibold text-gray-700">NP</th>
@@ -520,7 +520,7 @@ export default function PricingPage() {
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                         <GraduationCap className="w-5 h-5 text-primary" />
                       </div>
-                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-study-timeline-title">How long should you study?</h3>
+                      <h3 className="font-bold text-lg text-gray-900" data-testid="text-study-timeline-title">{t("pricing.studyTimelineTitle")}</h3>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" data-testid="study-timelines">
                       {ALL_TIERS.map((tier) => {
@@ -551,13 +551,13 @@ export default function PricingPage() {
                   </div>
                   <div className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-blue-50/80 border border-blue-200/40">
                     <Zap className="w-6 h-6 text-blue-600" />
-                    <span className="text-sm font-bold text-blue-800">Cancel Anytime</span>
-                    <p className="text-xs text-blue-600/80">No contracts. No commitments. Cancel your subscription whenever you need to.</p>
+                    <span className="text-sm font-bold text-blue-800">{t("pricing.cancelAnytimeTitle")}</span>
+                    <p className="text-xs text-blue-600/80">{t("pricing.cancelAnytimeDesc")}</p>
                   </div>
                   <div className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-purple-50/80 border border-purple-200/40">
                     <Lock className="w-6 h-6 text-purple-600" />
-                    <span className="text-sm font-bold text-purple-800">Secure Checkout</span>
-                    <p className="text-xs text-purple-600/80">Your payment is processed securely through Stripe. We never store your card details.</p>
+                    <span className="text-sm font-bold text-purple-800">{t("pricing.secureCheckout")}</span>
+                    <p className="text-xs text-purple-600/80">{t("pricing.secureCheckoutDesc")}</p>
                   </div>
                 </div>
                 <LocaleLink href="/faq" className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium" data-testid="link-faq">
@@ -577,11 +577,11 @@ export default function PricingPage() {
                   data-testid="button-back-to-tiers"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to all tiers
+                  {t("pricing.backToTiers")}
                 </Button>
                 <div className="text-center">
                   <h1 className="font-bold mb-2" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-tier-plans-title">
-                    {isCAD ? tierMeta[selectedTier as TierKey]?.nameCA : tierMeta[selectedTier as TierKey]?.nameUS} Plans
+                    {isCAD ? tierMeta[selectedTier as TierKey]?.nameCA : tierMeta[selectedTier as TierKey]?.nameUS} {t("pricing.plans")}
                   </h1>
                   <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-2" data-testid="text-tier-plans-subtitle">
                     {tierMeta[selectedTier as TierKey]?.tagline}
@@ -614,23 +614,23 @@ export default function PricingPage() {
                 </div>
                 <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/40 rounded-full px-5 py-2.5 shadow-[var(--shadow-card)]">
                   <Zap className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-700">Instant access after payment</span>
+                  <span className="text-sm font-medium text-blue-700">{t("pricing.instantAccess")}</span>
                 </div>
               </div>
 
               <p className="text-center text-sm text-gray-400 mb-8" data-testid="text-study-urgency">
-                Most students choose the 6-month plan to prepare comfortably before their exam.
+                {t("pricing.studyUrgency")}
               </p>
 
               {loadingPlans ? (
-                <div className="text-center py-12 text-gray-500">Loading plans...</div>
+                <div className="text-center py-12 text-gray-500">{t("pricing.loadingPlans")}</div>
               ) : plansError || tierPlans.length === 0 ? (
                 <div className="text-center py-12 px-4" data-testid="text-plans-unavailable">
                   <div className="max-w-md mx-auto bg-amber-50 border border-amber-200 rounded-2xl p-8">
                     <Shield className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Plans Temporarily Unavailable</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t("pricing.plansUnavailable")}</h3>
                     <p className="text-sm text-gray-600">
-                      Pricing plans are temporarily unavailable. Please refresh or contact support.
+                      {t("pricing.plansUnavailableDesc")}
                     </p>
                     <Button
                       className="mt-4 rounded-full"
@@ -638,7 +638,7 @@ export default function PricingPage() {
                       onClick={() => window.location.reload()}
                       data-testid="button-refresh-plans"
                     >
-                      Refresh Page
+                      {t("pricing.refreshPage")}
                     </Button>
                   </div>
                 </div>
@@ -674,14 +674,14 @@ export default function PricingPage() {
                           <div className="absolute -top-3 right-3 z-10">
                             <Badge className="bg-gradient-to-r from-amber-400 to-amber-500 text-white px-3 py-1 text-xs font-bold shadow-md border-0" data-testid={`badge-founding-${plan.duration}`}>
                               <Crown className="w-3 h-3 mr-1" />
-                              Founding Price
+                              {t("pricing.foundingPrice")}
                             </Badge>
                           </div>
                         )}
                         {savings > 0 && (
                           <div className={`absolute -top-3 right-3 ${is6Month ? "z-10" : ""}`}>
                             <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-semibold shadow-md" data-testid={`badge-save-${plan.duration}`}>
-                              Save {savings}%
+                              {t("pricing.save", { percent: String(savings) })}
                             </Badge>
                           </div>
                         )}
@@ -727,11 +727,11 @@ export default function PricingPage() {
                             <CreditCard className="w-4 h-4 mr-2" />
                             {loadingTier === plan.id
                               ? t("pricing.processing")
-                              : "Unlock Full Access"}
+                              : t("pricing.unlockFullAccess")}
                           </Button>
 
                           <div className="flex items-center justify-center gap-2 mt-2 py-1.5 px-3 bg-gray-50 rounded-full" data-testid={`bnpl-badges-${plan.duration}`}>
-                            <span className="text-[10px] text-gray-400 font-medium">Also accepted:</span>
+                            <span className="text-[10px] text-gray-400 font-medium">{t("pricing.alsoAccepted")}</span>
                             <span className="text-[10px] font-semibold text-[#FFB3C7]">Klarna</span>
                             <span className="text-[10px] text-gray-300">|</span>
                             <span className="text-[10px] font-semibold text-[#B2FCE4]">Afterpay</span>
@@ -791,7 +791,7 @@ export default function PricingPage() {
 
               {/* Reassurance under plans */}
               <div className="text-center mb-12">
-                <p className="text-sm text-gray-400 mb-1">No contracts. Cancel anytime.</p>
+                <p className="text-sm text-gray-400 mb-1">{t("pricing.noContracts")}</p>
                 <p className="text-sm text-gray-400">Secure checkout powered by Stripe.</p>
               </div>
 

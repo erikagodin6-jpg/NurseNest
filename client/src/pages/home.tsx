@@ -237,11 +237,11 @@ export default function Home() {
                 
                 <div className="space-y-4">
                   <h1 className="font-bold tracking-tight text-gray-900 leading-[1.08]" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-hero-heading">
-                    Exam Prep for Every Health Career
+                    {t("home.hero.mainTitle")}
                   </h1>
                   
                   <p className="text-lg lg:text-xl text-gray-500 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
-                    {formatCount(questionCount)} practice questions, {flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards, ` : ""}{formatCount(lessonCount)} clinical lessons, and adaptive mock exams — built for {rpnLabel}, RN, NP, and allied health students in {region === "CA" ? "Canada" : "the United States"}.
+                    {t("home.hero.dynamicSubtitle", { questionCount: formatCount(questionCount), flashcardInfo: flashcardCount > 0 ? t("home.hero.flashcardsInfo", { count: formatCount(flashcardCount) }) : "", lessonCount: formatCount(lessonCount), rpnLabel, regionName: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
                   </p>
                 </div>
                 
@@ -257,7 +257,7 @@ export default function Home() {
                       data-testid="button-region-us"
                     >
                       <span className="text-xl" role="img" aria-label="US flag">🇺🇸</span>
-                      <span>United States</span>
+                      <span>{t("home.region.us")}</span>
                       {region === "US" && <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />}
                     </button>
                     <div className="w-px bg-gray-200" />
@@ -271,7 +271,7 @@ export default function Home() {
                       data-testid="button-region-ca"
                     >
                       <span className="text-xl" role="img" aria-label="Canadian flag">🇨🇦</span>
-                      <span>Canada</span>
+                      <span>{t("home.region.ca")}</span>
                       {region === "CA" && <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0" />}
                     </button>
                   </div>
@@ -279,11 +279,7 @@ export default function Home() {
                     <div className="flex items-start gap-2">
                       <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
                       <p className="text-xs text-gray-500 leading-relaxed">
-                        {region === "US" ? (
-                          <>Showing <strong className="text-gray-700">NCLEX-PN, NCLEX-RN, AANP/ANCC</strong> exam content with <strong className="text-gray-700">US measurements</strong> (°F, lbs, in) and <strong className="text-gray-700">LPN/LVN</strong> terminology.</>
-                        ) : (
-                          <>Showing <strong className="text-gray-700">REx-PN, NCLEX-RN, NP Exam</strong> content with <strong className="text-gray-700">Canadian measurements</strong> (°C, kg, cm) and <strong className="text-gray-700">RPN</strong> terminology.</>
-                        )}
+                        {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
                       </p>
                     </div>
                   </div>
@@ -296,7 +292,7 @@ export default function Home() {
                     onClick={() => setLocation("/register")}
                     data-testid="button-hero-start-free"
                   >
-                    Start Practicing Free
+                    {t("home.hero.startPracticingFree")}
                     <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
                   </Button>
                   <Button 
@@ -307,14 +303,14 @@ export default function Home() {
                     data-testid="button-hero-browse"
                   >
                     <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
-                    Explore Lessons
+                    {t("home.hero.exploreLessons")}
                   </Button>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>No credit card required</span>
+                    <span>{t("home.hero.noCreditCard")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Shield className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -322,7 +318,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Cancel anytime</span>
+                    <span>{t("home.hero.cancelAnytime")}</span>
                   </div>
                 </div>
 
@@ -362,8 +358,8 @@ export default function Home() {
                     <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-gray-900">94% Pass Rate</div>
-                    <div className="text-xs text-gray-500">First-attempt students</div>
+                    <div className="text-sm font-bold text-gray-900">{t("home.hero.passRate")}</div>
+                    <div className="text-xs text-gray-500">{t("home.hero.firstAttempt")}</div>
                   </div>
                 </div>
                 <div className="absolute -top-3 -right-3 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-4 py-2.5 flex items-center gap-2">
@@ -374,14 +370,14 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <span className="text-xs font-semibold text-gray-700">5,000+ students</span>
+                  <span className="text-xs font-semibold text-gray-700">{t("home.hero.studentCount")}</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-10 sm:mt-12" data-testid="section-careers-supported">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                {region === "CA" ? "Canadian" : "US"} Exam Prep Available For
+                {t("home.hero.examPrepFor", { region: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
               </p>
               <div className="flex flex-wrap gap-2">
                 {enabledCareers.slice(0, 8).map((career) => (
@@ -394,7 +390,7 @@ export default function Home() {
                 ))}
                 {enabledCareers.length > 8 && (
                   <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/5 border border-primary/15 text-xs font-semibold text-primary">
-                    +{enabledCareers.length - 8} more
+                    {t("home.hero.moreCount", { count: String(enabledCareers.length - 8) })}
                   </span>
                 )}
               </div>
@@ -416,17 +412,17 @@ export default function Home() {
             <div className="bg-gradient-to-r from-blue-50/60 via-indigo-50/40 to-purple-50/30 rounded-3xl border border-blue-100/60 p-8 sm:p-12 shadow-[var(--shadow-card)]">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-200/60 shadow-[var(--shadow-card)] mb-5">
                 <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
-                <span className="text-xs sm:text-sm font-medium text-blue-700">Study → Pass → Transition → Get Hired</span>
+                <span className="text-xs sm:text-sm font-medium text-blue-700">{t("home.career.journeyBadge")}</span>
               </div>
-              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }}>See Your Complete Career Path</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-base lg:text-lg">Follow the step-by-step journey from exam prep to career launch. Every stage connects to the resources you need.</p>
+              <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }}>{t("home.career.journeyTitle")}</h2>
+              <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-base lg:text-lg">{t("home.career.journeySubtitle")}</p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Button
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold shadow-[var(--shadow-card)]"
                   onClick={() => setLocation("/career-journey")}
                   data-testid="button-career-journey-home"
                 >
-                  Explore Your Career Journey
+                  {t("home.career.exploreJourney")}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button
@@ -435,7 +431,7 @@ export default function Home() {
                   onClick={() => setLocation("/career-journey/nursing")}
                   data-testid="button-career-journey-nursing"
                 >
-                  RN Career Path
+                  {t("home.career.rnPath")}
                 </Button>
               </div>
             </div>

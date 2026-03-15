@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Shield, Star, ChevronRight, ArrowRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface ComparisonData {
   seoTitle: string;
@@ -410,7 +411,7 @@ function FeatureTable({ features, nurseNestLabel, competitorLabel }: {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b-2 border-gray-200">
-            <th className="text-left py-3 px-4 font-semibold text-gray-700">Feature</th>
+            <th className="text-left py-3 px-4 font-semibold text-gray-700">{t("compare.featureColumn")}</th>
             <th className="text-center py-3 px-4 font-semibold bg-primary/5 text-primary">NurseNest</th>
             <th className="text-center py-3 px-4 font-semibold text-gray-500">{competitorLabel}</th>
           </tr>
@@ -442,6 +443,7 @@ export default function ComparePage() {
   const slug = params?.slug || "";
   const data = comparisonData[slug];
   const { user } = useAuth();
+  const { t } = useI18n();
 
   if (!data) {
     return (
@@ -449,10 +451,10 @@ export default function ComparePage() {
         <Navigation />
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="text-center" data-testid="text-compare-not-found">
-            <h1 className="text-2xl font-bold mb-4">Comparison Not Found</h1>
-            <p className="text-gray-500 mb-6">The comparison page you're looking for doesn't exist.</p>
+            <h1 className="text-2xl font-bold mb-4">{t("compare.notFound")}</h1>
+            <p className="text-gray-500 mb-6">{t("compare.notFoundDesc")}</p>
             <LocaleLink href="/pricing">
-              <Button data-testid="button-view-pricing">View Pricing</Button>
+              <Button data-testid="button-view-pricing">{t("compare.viewPricing")}</Button>
             </LocaleLink>
           </div>
         </main>
@@ -492,7 +494,7 @@ export default function ComparePage() {
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-16 px-4" data-testid="section-compare-hero">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-primary/10 text-primary mb-4 px-4 py-1.5" data-testid="badge-compare">
-              <Star className="w-3 h-3 mr-1.5" /> Comparison Guide
+              <Star className="w-3 h-3 mr-1.5" /> {t("compare.comparisonGuide")}
             </Badge>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" data-testid="text-compare-title">
               {data.heroTitle}
@@ -504,19 +506,19 @@ export default function ComparePage() {
               {user ? (
                 <LocaleLink href="/dashboard">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8" data-testid="button-compare-dashboard">
-                    View Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                    {t("compare.viewDashboard")} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </LocaleLink>
               ) : (
                 <LocaleLink href="/start-free">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8" data-testid="button-compare-start-free">
-                    Start Free <ArrowRight className="ml-2 h-4 w-4" />
+                    {t("compare.startFree")} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </LocaleLink>
               )}
               <LocaleLink href="/pricing">
                 <Button size="lg" variant="outline" className="px-8" data-testid="button-compare-pricing">
-                  View Pricing
+                  {t("compare.viewPricing")}
                 </Button>
               </LocaleLink>
             </div>
@@ -528,11 +530,11 @@ export default function ComparePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <Card className="border-2 border-primary/20 bg-primary/5" data-testid="card-nursenest-price">
                 <CardContent className="p-6 text-center">
-                  <p className="text-sm font-medium text-primary mb-1">NurseNest Pro</p>
+                  <p className="text-sm font-medium text-primary mb-1">{t("compare.nurseNestPro")}</p>
                   <p className="text-4xl font-bold text-primary">{data.nurseNestPrice}</p>
                   <div className="mt-3 flex items-center justify-center gap-2">
                     <Shield className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-green-600 font-medium" data-testid="text-guarantee-nursenest">30-day money-back guarantee</span>
+                    <span className="text-sm text-green-600 font-medium" data-testid="text-guarantee-nursenest">{t("compare.guaranteeShort")}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -540,7 +542,7 @@ export default function ComparePage() {
                 <CardContent className="p-6 text-center">
                   <p className="text-sm font-medium text-gray-500 mb-1">{data.competitorName}</p>
                   <p className="text-4xl font-bold text-gray-400">{data.competitorPrice}</p>
-                  <p className="mt-3 text-sm text-gray-400">No money-back guarantee</p>
+                  <p className="mt-3 text-sm text-gray-400">{t("compare.noGuarantee")}</p>
                 </CardContent>
               </Card>
             </div>
@@ -551,7 +553,7 @@ export default function ComparePage() {
         <section className="py-12 px-4 bg-gray-50/50" data-testid="section-compare-table">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8" data-testid="text-feature-heading">
-              Feature-by-Feature Comparison
+              {t("compare.featureComparison")}
             </h2>
             <Card className="overflow-hidden">
               <FeatureTable
@@ -565,26 +567,26 @@ export default function ComparePage() {
 
         <section className="py-12 px-4" data-testid="section-compare-cta">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-3">Ready to Start Studying?</h2>
-            <p className="text-gray-600 mb-6">Join thousands of nursing students preparing smarter with NurseNest.</p>
+            <h2 className="text-2xl font-bold mb-3">{t("compare.readyToStudy")}</h2>
+            <p className="text-gray-600 mb-6">{t("compare.readyToStudyDesc")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {user ? (
                 <LocaleLink href="/dashboard">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8" data-testid="button-cta-dashboard">
-                    View Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                    {t("compare.viewDashboard")} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </LocaleLink>
               ) : (
                 <LocaleLink href="/start-free">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8" data-testid="button-cta-start-free">
-                    Start Free Today <ArrowRight className="ml-2 h-4 w-4" />
+                    {t("compare.startFreeToday")} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </LocaleLink>
               )}
             </div>
             <div className="mt-4 flex items-center justify-center gap-2">
               <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-sm text-green-600 font-medium" data-testid="text-guarantee-cta">30-day money-back guarantee on all plans</span>
+              <span className="text-sm text-green-600 font-medium" data-testid="text-guarantee-cta">{t("compare.guarantee")}</span>
             </div>
           </div>
         </section>
@@ -592,7 +594,7 @@ export default function ComparePage() {
         <section className="py-12 px-4 bg-gray-50/50" data-testid="section-compare-faq">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8" data-testid="text-faq-heading">
-              Frequently Asked Questions
+              {t("compare.faqHeading")}
             </h2>
             <div className="space-y-4">
               {data.faqs.map((faq, i) => (
@@ -609,7 +611,7 @@ export default function ComparePage() {
 
         <section className="py-12 px-4" data-testid="section-compare-links">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl font-bold text-center mb-6" data-testid="text-links-heading">Explore More</h2>
+            <h2 className="text-xl font-bold text-center mb-6" data-testid="text-links-heading">{t("compare.exploreMore")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {data.hubLinks.map((link, i) => (
                 <LocaleLink key={i} href={link.href}>

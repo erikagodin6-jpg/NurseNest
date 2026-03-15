@@ -126,37 +126,37 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
               {t("nav.blogManager")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/seo")} data-testid="menu-seo-dashboard">
-              SEO Dashboard
+              {t("nav.seoDashboard")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/translations")} data-testid="menu-translations">
-              Translations
+              {t("nav.translations")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/content-intelligence")} data-testid="menu-content-intelligence">
-              Content Intelligence
+              {t("nav.contentIntelligence")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/cat")} data-testid="menu-cat-dashboard">
-              CAT Analytics
+              {t("nav.catAnalytics")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/revenue")} data-testid="menu-revenue">
-              Revenue Intelligence
+              {t("nav.revenueIntelligence")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/product-builder")} data-testid="menu-product-builder">
-              Product Builder
+              {t("nav.productBuilder")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/generator-v2")} data-testid="menu-generator-v2">
-              QBank Generator
+              {t("nav.qbankGenerator")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/demo-screenshot-studio")} data-testid="menu-screenshot-studio">
-              Screenshot Studio
+              {t("nav.screenshotStudio")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/mock-results")} data-testid="menu-mock-results">
-              Mock Results
+              {t("nav.mockResults")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/seo-progress")} data-testid="menu-seo-progress">
-              SEO Progress Report
+              {t("nav.seoProgress")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/content-metrics")} data-testid="menu-content-metrics">
-              Content Metrics
+              {t("nav.contentMetrics")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/weekly-reports")} data-testid="menu-weekly-reports">
               Weekly Reports
@@ -165,7 +165,7 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
               SEO Performance
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/site-health")} data-testid="menu-site-health">
-              Site Health
+              {t("nav.siteHealth")}
             </DropdownMenuItem>
           </>
         )}
@@ -429,24 +429,24 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           
           <div className="p-5 flex flex-col gap-1 pb-20">
             <div className="mb-4">
-              <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 px-3">NurseNest Ecosystem</p>
+              <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 px-3">{t("nav.ecosystem")}</p>
               <div className="flex flex-col gap-1 px-1">
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50 gap-2 h-9" onClick={() => setLocation("/exam-prep")} data-testid="mobile-ecosystem-exam-prep">
                     <BookOpen className="w-4 h-4 text-blue-600" />
-                    Exam Prep
+                    {t("nav.examPrep")}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 gap-2 h-9" onClick={() => setLocation("/new-graduate-support")} data-testid="mobile-ecosystem-new-grad">
                     <GraduationCap className="w-4 h-4 text-indigo-600" />
-                    New Grad Support
+                    {t("nav.newGradSupport")}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-purple-600 hover:bg-purple-50 gap-2 h-9" onClick={() => setLocation("/healthcare-careers")} data-testid="mobile-ecosystem-healthcare-jobs">
                     <Briefcase className="w-4 h-4 text-purple-600" />
-                    Healthcare Careers
+                    {t("nav.healthcareCareers")}
                   </Button>
                 </SheetClose>
               </div>
@@ -530,7 +530,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/nursing-specialties")} data-testid="button-specialties-mobile">
                 <Stethoscope className="w-4 h-4" />
-                Nursing Specialties
+                {t("nav.nursingSpecialties")}
               </Button>
             </SheetClose>
 
@@ -551,130 +551,130 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
 
             <Separator className="my-2 bg-gray-100" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">New Grad Career</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.newGradCareer")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad")} data-testid="button-new-grad-hub-mobile">
                 <GraduationCap className="w-4 h-4" />
-                New Grad Hub
+                {t("footer.newGradHub")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/nursing")} data-testid="button-new-grad-nursing-mobile">
                 <Stethoscope className="w-4 h-4" />
-                Nursing
+                {t("footer.nursing")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/paramedic")} data-testid="button-new-grad-paramedic-mobile">
                 <Ambulance className="w-4 h-4" />
-                Paramedic
+                {t("footer.paramedic")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/respiratory-therapy")} data-testid="button-new-grad-rrt-mobile">
                 <Wind className="w-4 h-4" />
-                Respiratory Therapy
+                {t("footer.respiratoryTherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/mlt")} data-testid="button-new-grad-mlt-mobile">
                 <Microscope className="w-4 h-4" />
-                Medical Lab Tech
+                {t("footer.medLabTech")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/imaging")} data-testid="button-new-grad-imaging-mobile">
                 <ScanLine className="w-4 h-4" />
-                Diagnostic Imaging
+                {t("nav.diagnosticImaging")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/occupational-therapy")} data-testid="button-new-grad-ot-mobile">
-                Occupational Therapy
+                {t("nav.occupationalTherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/social-work")} data-testid="button-new-grad-sw-mobile">
-                Social Work
+                {t("nav.socialWork")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/psychotherapy")} data-testid="button-new-grad-psychotherapy-mobile">
-                Psychotherapy
+                {t("nav.psychotherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/addictions-counseling")} data-testid="button-new-grad-addictions-mobile">
-                Addictions Counseling
+                {t("nav.addictionsCounseling")}
               </Button>
             </SheetClose>
 
             <Separator className="my-2 bg-gray-100" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Career Guides</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.careerGuides")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/nursing")} data-testid="button-career-nursing-mobile">
                 <Stethoscope className="w-4 h-4" />
-                Nursing
+                {t("footer.nursing")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/nursing-specialties")} data-testid="button-nursing-specialties-mobile">
-                Specialties
+                {t("nav.specialties")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/nursing-certifications")} data-testid="button-nursing-certifications-mobile">
-                Certifications
+                {t("nav.certifications")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => setLocation("/study-pathways")} data-testid="button-study-pathways-mobile">
-                Study Pathways
+                {t("nav.studyPathways")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/paramedic")} data-testid="button-career-paramedic-mobile">
                 <Ambulance className="w-4 h-4" />
-                Paramedic
+                {t("footer.paramedic")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/respiratory-therapy")} data-testid="button-career-rrt-mobile">
                 <Wind className="w-4 h-4" />
-                Respiratory Therapy
+                {t("footer.respiratoryTherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/mlt")} data-testid="button-career-mlt-mobile">
                 <Microscope className="w-4 h-4" />
-                Medical Lab Tech
+                {t("footer.medLabTech")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/imaging")} data-testid="button-career-imaging-mobile">
                 <ScanLine className="w-4 h-4" />
-                Diagnostic Imaging
+                {t("nav.diagnosticImaging")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/social-work")} data-testid="button-career-social-work-mobile">
-                Social Work
+                {t("nav.socialWork")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/psychotherapy")} data-testid="button-career-psychotherapy-mobile">
-                Psychotherapy
+                {t("nav.psychotherapy")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/addictions")} data-testid="button-career-addictions-mobile">
-                Addictions Counseling
+                {t("nav.addictionsCounseling")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/occupational-therapy")} data-testid="button-career-ot-mobile">
-                Occupational Therapy
+                {t("nav.occupationalTherapy")}
               </Button>
             </SheetClose>
 
@@ -709,7 +709,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 setLocation(`/${targetSlug}/test-bank`);
               }} data-testid="button-test-bank-mobile">
                 <FileText className="w-4 h-4" />
-                Test Bank
+                {t("nav.testBank")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -798,7 +798,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/for-institutions")} data-testid="link-mobile-for-schools">
-                For Schools
+                {t("nav.forSchools")}
               </Button>
             </SheetClose>
 
@@ -990,18 +990,18 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
             <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
               <BookOpen className="w-3 h-3" />
-              <span>Exam Prep</span>
+              <span>{t("nav.ecosystemExamPrep")}</span>
             </LocaleLink>
             <span className="text-white/30 hidden sm:inline">|</span>
             <LocaleLink href={appendUtmParams("/new-graduate-support")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-new-grad" onClick={() => trackCrossSectionClick(getPlatformSection(location), "new_grad", "New Grad Support")}>
               <GraduationCap className="w-3 h-3" />
-              <span>New Grad Support</span>
+              <span>{t("nav.ecosystemNewGrad")}</span>
             </LocaleLink>
             <span className="text-white/30 hidden sm:inline">|</span>
             <LocaleLink href={appendUtmParams("/healthcare-careers")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-healthcare-jobs" onClick={() => trackCrossSectionClick(getPlatformSection(location), "career_tools", "Healthcare Jobs")}>
               <Briefcase className="w-3 h-3" />
-              <span className="hidden sm:inline">Healthcare Careers</span>
-              <span className="sm:hidden">Careers</span>
+              <span className="hidden sm:inline">{t("nav.ecosystemHealthcareCareers")}</span>
+              <span className="sm:hidden">{t("nav.ecosystemCareers")}</span>
             </LocaleLink>
           </div>
         </div>
@@ -1035,7 +1035,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64 p-2">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1.5 tracking-wider">Select Career Track</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1.5 tracking-wider">{t("nav.selectCareerTrack")}</p>
                 {enabledCareers.map((c) => {
                   const CIcon = CAREER_ICONS[c.icon];
                   return (

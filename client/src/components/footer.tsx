@@ -44,41 +44,41 @@ export function Footer() {
               <li><LocaleLink href="/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-pricing">{t("footer.pricing")}</LocaleLink></li>
               <li><LocaleLink href="/contact" className="hover:text-primary transition-colors" data-testid="link-footer-contact">{t("footer.contact")}</LocaleLink></li>
               <li><LocaleLink href="/feedback" className="hover:text-primary transition-colors" data-testid="link-footer-feedback">{t("footer.feedback")}</LocaleLink></li>
-              <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">About NurseNest</LocaleLink></li>
-              <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">For Schools</LocaleLink></li>
+              <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">{t("footer.about")}</LocaleLink></li>
+              <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">{t("footer.forSchools")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">New Grad Support</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.newGradSupportSection")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">New Grad Hub</LocaleLink></li>
-              <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">Nursing</LocaleLink></li>
-              <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">Paramedic</LocaleLink></li>
-              <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">Respiratory Therapy</LocaleLink></li>
-              <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">Medical Lab Tech</LocaleLink></li>
+              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">{t("footer.newGradHub")}</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">{t("footer.nursing")}</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">{t("footer.paramedic")}</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">{t("footer.respiratoryTherapy")}</LocaleLink></li>
+              <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">{t("footer.medLabTech")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Nursing Specialties</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.nursingSpecialties")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/nursing-specialties" className="hover:text-primary transition-colors" data-testid="link-footer-specialties">All Specialties</LocaleLink></li>
-              <li><LocaleLink href="/guides/icu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-icu-guide">ICU Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/nicu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nicu-guide">NICU Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/trauma-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-trauma-guide">Trauma Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/med-surg-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-medsurg-guide">Med-Surg Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/mental-health-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mental-health-guide">Mental Health Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/orthopedic-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ortho-guide">Orthopedic Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/nephrology-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nephro-guide">Nephrology Nursing Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/palliative-care-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-palliative-guide">Palliative Care Guide</LocaleLink></li>
+              <li><LocaleLink href="/nursing-specialties" className="hover:text-primary transition-colors" data-testid="link-footer-specialties">{t("footer.allSpecialties")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/icu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-icu-guide">{t("footer.icuGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/nicu-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nicu-guide">{t("footer.nicuGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/trauma-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-trauma-guide">{t("footer.traumaGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/med-surg-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-medsurg-guide">{t("footer.medSurgGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/mental-health-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mental-health-guide">{t("footer.mentalHealthGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/orthopedic-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ortho-guide">{t("footer.orthoGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/nephrology-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-nephro-guide">{t("footer.nephroGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/palliative-care-nursing-ultimate-guide" className="hover:text-primary transition-colors" data-testid="link-footer-palliative-guide">{t("footer.palliativeGuide")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Allied Health Guides</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.alliedHealthGuides")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/guides/paramedic-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-paramedic-guide">Paramedic Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/respiratory-therapy-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-rrt-guide">Respiratory Therapy Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/medical-laboratory-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mlt-guide">MLT Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/diagnostic-imaging-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-imaging-guide">Diagnostic Imaging Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">Occupational Therapy Guide</LocaleLink></li>
-              <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">Physical Therapy Guide</LocaleLink></li>
+              <li><LocaleLink href="/guides/paramedic-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-paramedic-guide">{t("footer.paramedicGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/respiratory-therapy-career-guide" className="hover:text-primary transition-colors" data-testid="link-footer-rrt-guide">{t("footer.rrtGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/medical-laboratory-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-mlt-guide">{t("footer.mltGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/diagnostic-imaging-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-imaging-guide">{t("footer.imagingGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">{t("footer.otGuide")}</LocaleLink></li>
+              <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">{t("footer.ptGuide")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Healthcare Jobs</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">ApplyNest Career Tools</LocaleLink></li>
+              <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">{t("footer.applyNest")}</LocaleLink></li>
             </ul>
           </div>
           <div>
@@ -93,11 +93,11 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-gray-500">
               <li><a href={window.location.hostname.includes("nursenest.ca") ? "https://allied.nursenest.ca" : "/?mode=allied"} className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</a></li>
             </ul>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Ecosystem</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">{t("footer.ecosystem")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">Exam Prep</LocaleLink></li>
-              <li><LocaleLink href="/new-graduate-support" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">New Grad Support</LocaleLink></li>
-              <li><LocaleLink href="/healthcare-careers" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">Healthcare Careers</LocaleLink></li>
+              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">{t("footer.ecosystemExamPrep")}</LocaleLink></li>
+              <li><LocaleLink href="/new-graduate-support" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">{t("footer.ecosystemNewGrad")}</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-careers" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">{t("footer.ecosystemCareers")}</LocaleLink></li>
             </ul>
           </div>
         </div>

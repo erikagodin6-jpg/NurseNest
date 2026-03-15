@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { useI18n } from "@/lib/i18n";
 
 interface HubConfig {
   slug: string;
@@ -178,6 +179,7 @@ function getExamData(examSlug: string): SeoExamPageConfig | undefined {
 }
 
 export default function ExamHub() {
+  const { t } = useI18n();
   const [location] = useLocation();
   const slug = location.replace(/^\/(?:en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)\//, "/").replace(/^\//, "").replace(/\/$/, "");
   const hub = getHubConfig(slug);
@@ -188,10 +190,10 @@ export default function ExamHub() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-slate-800 mb-4" data-testid="text-hub-not-found">Exam Hub Not Found</h1>
-          <p className="text-slate-600 mb-6">The exam hub you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-slate-800 mb-4" data-testid="text-hub-not-found">{t("examHub.notFound")}</h1>
+          <p className="text-slate-600 mb-6">{t("examHub.notFoundDesc")}</p>
           <LocaleLink href="/">
-            <Button data-testid="button-hub-go-home">Return to Home</Button>
+            <Button data-testid="button-hub-go-home">{t("examHub.returnHome")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -245,10 +247,10 @@ export default function ExamHub() {
               </div>
               <div>
                 <Badge variant="outline" className="mb-2 text-xs border-[#BFA6F6]/30 text-[#2E3A59]" data-testid="badge-hub-region">
-                  {hub.region === "CA" ? "Canada" : hub.region === "US" ? "United States" : "US and Canada"}
+                  {hub.region === "CA" ? t("examHub.regionCA") : hub.region === "US" ? t("examHub.regionUS") : t("examHub.regionBoth")}
                 </Badge>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#2E3A59] leading-tight" data-testid="text-hub-h1">
-                  {hub.title} Study Hub
+                  {hub.title} {t("examHub.studyHub")}
                 </h1>
               </div>
             </div>
@@ -272,7 +274,7 @@ export default function ExamHub() {
         </section>
 
         <section className="mb-12" data-testid="section-hub-resources">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">Study Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">{t("examHub.studyResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {hub.links.map((link, idx) => {
               const Icon = link.icon;
@@ -310,42 +312,42 @@ export default function ExamHub() {
 
         {examData && (
           <section className="mb-12" data-testid="section-hub-exam-details">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">Exam Format Details</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">{t("examHub.examFormat")}</h2>
             <Card className="border-slate-200/60">
               <CardContent className="p-6 sm:p-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="flex items-start gap-3">
                     <FileText className="w-5 h-5 text-[#BFA6F6] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm font-semibold text-[#2E3A59]">Questions</p>
+                      <p className="text-sm font-semibold text-[#2E3A59]">{t("examHub.questions")}</p>
                       <p className="text-sm text-slate-500">{examData.formatDetails.questionCount}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-[#BFA6F6] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm font-semibold text-[#2E3A59]">Time Limit</p>
+                      <p className="text-sm font-semibold text-[#2E3A59]">{t("examHub.timeLimit")}</p>
                       <p className="text-sm text-slate-500">{examData.formatDetails.timeLimit}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <BarChart className="w-5 h-5 text-[#BFA6F6] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm font-semibold text-[#2E3A59]">Format</p>
+                      <p className="text-sm font-semibold text-[#2E3A59]">{t("examHub.format")}</p>
                       <p className="text-sm text-slate-500 capitalize">{examData.formatDetails.adaptiveOrFixed.replace("-", " ")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Award className="w-5 h-5 text-[#BFA6F6] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm font-semibold text-[#2E3A59]">Pass Rate</p>
+                      <p className="text-sm font-semibold text-[#2E3A59]">{t("examHub.passRate")}</p>
                       <p className="text-sm text-slate-500">{examData.formatDetails.passRate}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6 pt-6 border-t border-slate-100">
-                  <p className="text-sm font-semibold text-[#2E3A59] mb-3">Question Types</p>
+                  <p className="text-sm font-semibold text-[#2E3A59] mb-3">{t("examHub.questionTypes")}</p>
                   <div className="flex flex-wrap gap-2">
                     {examData.formatDetails.questionTypes.map((qt, idx) => (
                       <Badge key={idx} variant="outline" className="text-xs border-slate-200 text-slate-600" data-testid={`badge-question-type-${idx}`}>
@@ -362,21 +364,21 @@ export default function ExamHub() {
         <section className="mb-12" data-testid="section-hub-cta">
           <div className="bg-[#2E3A59] rounded-2xl p-8 sm:p-10 text-center">
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-              Ready to Start Preparing for the {hub.title}?
+              {t("examHub.readyToStart", { title: hub.title })}
             </h2>
             <p className="text-slate-300 text-sm sm:text-base mb-6 max-w-2xl mx-auto">
-              Begin with a free mock exam to assess your baseline knowledge, then use the study resources above to target your weak areas.
+              {t("examHub.readyToStartDesc")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <LocaleLink href={hub.links[0]?.href || "/mock-exams"}>
                 <Button className="bg-[#BFA6F6] hover:bg-[#a88de8] text-white px-6 py-2.5" data-testid="button-hub-start-exam">
-                  Start Mock Exam
+                  {t("examHub.startMockExam")}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </LocaleLink>
               <LocaleLink href="/lessons">
                 <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 px-6 py-2.5" data-testid="button-hub-browse-lessons">
-                  Browse Study Guides
+                  {t("examHub.browseStudyGuides")}
                 </Button>
               </LocaleLink>
             </div>
@@ -387,13 +389,13 @@ export default function ExamHub() {
           <div className="bg-gradient-to-r from-blue-50 via-indigo-50/50 to-purple-50/30 rounded-2xl border border-blue-100 p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex-1">
-                <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Career Journey</p>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">See the Full Path: Study → Pass → Transition → Get Hired</h3>
-                <p className="text-sm text-gray-600">Follow the complete journey from exam prep through your first job, with linked resources at every step.</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">{t("examHub.careerJourney")}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{t("examHub.careerJourneyTitle")}</h3>
+                <p className="text-sm text-gray-600">{t("examHub.careerJourneyDesc")}</p>
               </div>
               <LocaleLink href="/career-journey/nursing">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg whitespace-nowrap" data-testid="button-hub-journey-cta">
-                  View Career Path
+                  {t("examHub.viewCareerPath")}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </LocaleLink>
@@ -402,15 +404,15 @@ export default function ExamHub() {
         </section>
 
         <section className="mb-12" data-testid="section-hub-guides">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-4">In-Depth Career Guides</h2>
-          <p className="text-sm text-gray-600 mb-4">Comprehensive guides covering exam prep, clinical transition, and career placement for healthcare careers.</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-4">{t("examHub.inDepthGuides")}</h2>
+          <p className="text-sm text-gray-600 mb-4">{t("examHub.inDepthGuidesDesc")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <LocaleLink href="/guides/complete-guide-to-becoming-a-registered-nurse">
               <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#BFA6F6]/40 hover:shadow-sm transition-all cursor-pointer group" data-testid="link-guide-rn">
                 <BookOpen className="w-5 h-5 text-[#BFA6F6] shrink-0" />
                 <div className="min-w-0">
-                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">Complete RN Career Guide</span>
-                  <span className="text-xs text-gray-500">NCLEX-RN prep, clinical transition & career path</span>
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">{t("examHub.rnGuide")}</span>
+                  <span className="text-xs text-gray-500">{t("examHub.rnGuideDesc")}</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] shrink-0 ml-auto" />
               </div>
@@ -419,8 +421,8 @@ export default function ExamHub() {
               <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-[#BFA6F6]/40 hover:shadow-sm transition-all cursor-pointer group" data-testid="link-guide-rpn">
                 <BookOpen className="w-5 h-5 text-[#BFA6F6] shrink-0" />
                 <div className="min-w-0">
-                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">Complete RPN/LVN Career Guide</span>
-                  <span className="text-xs text-gray-500">REx-PN & NCLEX-PN prep, scope of practice & career path</span>
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-[#BFA6F6] block">{t("examHub.rpnGuide")}</span>
+                  <span className="text-xs text-gray-500">{t("examHub.rpnGuideDesc")}</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] shrink-0 ml-auto" />
               </div>
@@ -429,7 +431,7 @@ export default function ExamHub() {
         </section>
 
         <section data-testid="section-hub-related">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">Explore Other Exam Hubs</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-6">{t("examHub.exploreOtherHubs")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {HUB_CONFIGS.filter((h) => h.slug !== hub.slug).map((other) => (
               <LocaleLink key={other.slug} href={`/${other.slug}`}>
@@ -440,7 +442,7 @@ export default function ExamHub() {
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-2">
                       <Badge variant="outline" className="text-[10px] border-slate-200 text-slate-500">
-                        {other.region === "CA" ? "Canada" : other.region === "US" ? "United States" : "US/CA"}
+                        {other.region === "CA" ? t("examHub.regionCA") : other.region === "US" ? t("examHub.regionUS") : t("examHub.regionBoth")}
                       </Badge>
                       <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#BFA6F6] transition-colors" />
                     </div>

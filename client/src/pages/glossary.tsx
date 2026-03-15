@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, BookOpen, ArrowLeft, ChevronRight } from "lucide-react";
 import { slugToDisplayName } from "@/lib/canonical-display";
+import { useI18n } from "@/lib/i18n";
 import {
   glossaryTerms,
   getTermBySlug,
@@ -32,6 +33,7 @@ const CATEGORY_COLORS: Record<GlossaryCategory, string> = {
 };
 
 function GlossaryIndex() {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<GlossaryCategory | null>(null);
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
@@ -93,10 +95,10 @@ function GlossaryIndex() {
 
           <div className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2" data-testid="text-glossary-title">
-              Nursing Glossary
+              {t("glossary.title")}
             </h1>
             <p className="text-gray-600 text-lg" data-testid="text-glossary-description">
-              {glossaryTerms.length}+ essential nursing terms and clinical definitions
+              {t("glossary.description", { count: String(glossaryTerms.length) })}
             </p>
           </div>
 
@@ -104,7 +106,7 @@ function GlossaryIndex() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
-                placeholder="Search terms..."
+                placeholder={t("glossary.searchPlaceholder")}
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
@@ -122,7 +124,7 @@ function GlossaryIndex() {
                 onClick={() => setSelectedCategory(null)}
                 data-testid="button-category-all"
               >
-                All
+                {t("glossary.all")}
               </Button>
               {GLOSSARY_CATEGORIES.map((cat) => (
                 <Button
@@ -157,7 +159,7 @@ function GlossaryIndex() {
           </div>
 
           <p className="text-sm text-gray-500 mb-4" data-testid="text-glossary-count">
-            Showing {filteredTerms.length} of {glossaryTerms.length} terms
+            {t("glossary.showing", { filtered: String(filteredTerms.length), total: String(glossaryTerms.length) })}
           </p>
 
           <div className="space-y-6">
@@ -200,8 +202,8 @@ function GlossaryIndex() {
           {filteredTerms.length === 0 && (
             <div className="text-center py-16 text-gray-500" data-testid="text-glossary-no-results">
               <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-              <p className="text-lg font-medium">No terms found</p>
-              <p className="text-sm">Try a different search or category</p>
+              <p className="text-lg font-medium">{t("glossary.noTerms")}</p>
+              <p className="text-sm">{t("glossary.noTermsDesc")}</p>
             </div>
           )}
         </div>
@@ -212,6 +214,7 @@ function GlossaryIndex() {
 }
 
 function GlossaryDetail({ slug }: { slug: string }) {
+  const { t } = useI18n();
   const term = getTermBySlug(slug);
 
   if (!term) {
@@ -220,12 +223,12 @@ function GlossaryDetail({ slug }: { slug: string }) {
         <Navigation />
         <main className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center" data-testid="text-glossary-not-found">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Term Not Found</h1>
-            <p className="text-gray-500 mb-4">This glossary term does not exist.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("glossary.termNotFound")}</h1>
+            <p className="text-gray-500 mb-4">{t("glossary.termNotFoundDesc")}</p>
             <LocaleLink href="/glossary">
               <Button data-testid="button-back-to-glossary">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Glossary
+                {t("glossary.backToGlossary")}
               </Button>
             </LocaleLink>
           </div>
@@ -273,7 +276,7 @@ function GlossaryDetail({ slug }: { slug: string }) {
 
           <LocaleLink href="/glossary" className="inline-flex items-center gap-1 text-sm text-primary hover:underline mb-6" data-testid="link-back-glossary">
             <ArrowLeft className="w-3.5 h-3.5" />
-            Back to Glossary
+            {t("glossary.backToGlossary")}
           </LocaleLink>
 
           <article className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sm:p-8 mb-8">
@@ -293,7 +296,7 @@ function GlossaryDetail({ slug }: { slug: string }) {
           {term.relatedLessonIds.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-3" data-testid="text-related-lessons-heading">
-                Related Lessons
+                {t("glossary.relatedLessons")}
               </h2>
               <div className="grid gap-2">
                 {term.relatedLessonIds.map((lessonId) => (
@@ -314,7 +317,7 @@ function GlossaryDetail({ slug }: { slug: string }) {
           {relatedTerms.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-3" data-testid="text-related-terms-heading">
-                Related {term.category} Terms
+                {t("glossary.relatedTerms", { category: term.category })}
               </h2>
               <div className="grid gap-2">
                 {relatedTerms.map((rt) => (
@@ -333,12 +336,12 @@ function GlossaryDetail({ slug }: { slug: string }) {
           )}
 
           <div className="bg-primary/5 rounded-xl border border-primary/20 p-6 text-center">
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">Master Nursing Terminology</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">{t("glossary.masterTitle")}</h2>
             <p className="text-gray-600 text-sm mb-4">
-              Study with interactive flashcards, practice questions, and clinical lessons on NurseNest.
+              {t("glossary.masterDesc")}
             </p>
             <LocaleLink href="/start-free">
-              <Button data-testid="button-glossary-cta">Start Free Today</Button>
+              <Button data-testid="button-glossary-cta">{t("glossary.startFree")}</Button>
             </LocaleLink>
           </div>
         </div>
