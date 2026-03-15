@@ -1,10 +1,11 @@
 import { Link, useParams } from "wouter";
-import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
+import { getCareerByRouteSlug, getCanonicalRoute, CAREER_CONFIGS } from "@shared/careers";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap, Wrench,
   BarChart3, Target, Clock, CheckCircle2, ChevronRight, Check, X,
   HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe, Stethoscope,
-  Lightbulb, Heart, ChevronDown, ChevronUp
+  Lightbulb, Heart, ChevronDown, ChevronUp, Wind, Ambulance, Pill, Microscope,
+  Radio, Hand, Activity, Database, Users, ShieldCheck
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -846,6 +847,54 @@ export default function CareerLandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Browse Other Careers */}
+      {(() => {
+        const ALLIED_CAREER_ICONS: Record<string, any> = {
+          rrt: Wind, paramedic: Ambulance, "pharmacy-tech": Pill,
+          mlt: Microscope, imaging: Radio, "occupational-therapy": Hand,
+          "physical-therapy": Activity, "health-info-mgmt": Database,
+          "social-worker": Users, psychotherapist: Brain, "addictions-counsellor": ShieldCheck,
+        };
+        const alliedKeys = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt", "socialWorker", "psychotherapist", "addictionsCounsellor"] as const;
+        const otherCareers = alliedKeys
+          .map(k => CAREER_CONFIGS[k])
+          .filter(c => c.enabled && c.slug !== career.slug);
+
+        if (otherCareers.length === 0) return null;
+
+        return (
+          <section className="py-16 bg-gray-50" data-testid="section-browse-careers">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Browse Other Allied Health Careers</h2>
+                <p className="text-gray-600">Explore exam prep resources for other healthcare professions</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {otherCareers.slice(0, 8).map(c => {
+                  const Icon = ALLIED_CAREER_ICONS[c.slug] || BookOpen;
+                  return (
+                    <Link key={c.slug} href={getCanonicalRoute(c.slug)} className="group" data-testid={`link-browse-career-${c.slug}`}>
+                      <div className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all h-full text-center">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: c.colorAccent }}>
+                          <Icon className="w-5 h-5" style={{ color: c.color }} />
+                        </div>
+                        <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-700 transition-colors">{c.shortName}</h3>
+                        <p className="text-xs text-gray-500 mt-1">{c.examNames[0]}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="text-center mt-6">
+                <Link href="/careers" className="inline-flex items-center gap-2 text-teal-600 font-medium hover:text-teal-700 transition-colors" data-testid="link-view-all-careers">
+                  View All Careers <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Final CTA */}
       <section className="py-16 bg-gradient-to-br from-teal-600 to-teal-700" data-testid="section-final-cta">

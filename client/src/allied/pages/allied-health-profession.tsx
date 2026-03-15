@@ -7,7 +7,7 @@ import {
   ClipboardList, Layers, Loader2, Database, Monitor, HeartPulse, Scissors
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
-import { getAlliedHealthProfession, type AlliedHealthProfession } from "@/allied/data/allied-health-professions";
+import { getAlliedHealthProfession, ALLIED_HEALTH_PROFESSIONS, type AlliedHealthProfession } from "@/allied/data/allied-health-professions";
 
 const ICON_MAP: Record<string, any> = {
   Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck, Database, Monitor, HeartPulse, Scissors,
@@ -266,6 +266,42 @@ export default function AlliedHealthProfessionPage() {
           )}
         </div>
       </section>
+
+      {(() => {
+        const otherProfessions = Object.values(ALLIED_HEALTH_PROFESSIONS).filter(p => p.slug !== profession.slug);
+        if (otherProfessions.length === 0) return null;
+        return (
+          <section className="py-16 bg-white" data-testid="section-browse-careers">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-10">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Browse Other Allied Health Careers</h2>
+                <p className="text-gray-600">Explore exam prep resources for other healthcare professions</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {otherProfessions.slice(0, 8).map(p => {
+                  const PIcon = ICON_MAP[p.icon] || BookOpen;
+                  return (
+                    <Link key={p.slug} href={`/allied-health/${p.slug}`} className="group" data-testid={`link-browse-career-${p.slug}`}>
+                      <div className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all h-full text-center">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: p.colorAccent }}>
+                          <PIcon className="w-5 h-5" style={{ color: p.color }} />
+                        </div>
+                        <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-700 transition-colors">{p.shortName}</h3>
+                        <p className="text-xs text-gray-500 mt-1">{p.examNames[0]}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="text-center mt-6">
+                <Link href="/allied-health" className="inline-flex items-center gap-2 text-teal-600 font-medium hover:text-teal-700 transition-colors" data-testid="link-view-all-careers">
+                  View All Careers <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
     </div>
   );
 }

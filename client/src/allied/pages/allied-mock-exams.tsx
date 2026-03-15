@@ -6,6 +6,7 @@ import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Tar
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
 const EXAM_TYPES = [
   { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam" },
@@ -43,6 +44,30 @@ export default function AlliedMockExamsPage() {
 
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+  }
+
+  const questionPool = getCareerQuestionPool(career.id) || [];
+  if (questionPool.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16" data-testid="mock-exams-page">
+        <AlliedSEO
+          title={`${career.name} Mock Exams`}
+          description={`Mock exams for ${career.name} are being developed.`}
+          keywords={`${career.name} mock exam`}
+          canonicalPath={`/career/${params.careerSlug}/mock-exams`}
+        />
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+          <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-teal-700 font-medium">Mock Exams</span>
+        </div>
+        <ComingSoonFallback
+          title={`${career.shortName} Mock Exams Coming Soon`}
+          description={`Blueprint-weighted mock exams for ${career.shortName} certification are being developed by our team. Check back soon for full-length practice tests.`}
+          careerSlug={career.slug}
+        />
+      </div>
+    );
   }
 
   const mockExamSeo = (

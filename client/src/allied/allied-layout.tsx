@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useLocation } from "wouter";
 import { AlliedNavigation } from "./allied-navigation";
-import { Footer } from "@/components/footer";
+import { AlliedFooter } from "./allied-footer";
 import { AlliedSubNav } from "./allied-sub-nav";
 
 export function AlliedLayout({ children }: { children: ReactNode }) {
@@ -16,7 +16,7 @@ export function AlliedLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">
         {children}
       </main>
-      <Footer />
+      <AlliedFooter />
     </div>
   );
 }

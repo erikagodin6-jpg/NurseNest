@@ -3,6 +3,7 @@ import { useParams, Link } from "wouter";
 import { getCareerByRouteSlug, getCanonicalRoute, type CareerConfig } from "@shared/careers";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye, Layers } from "lucide-react";
+import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 import { pharmacyTechDecks, type FlashcardDeck } from "@/data/pharmacy-tech-flashcards";
 import { mltFlashcardDecks } from "@/data/mlt-flashcards";
 import { alliedHealthFlashcardDecks } from "@/data/allied-health-flashcards";
@@ -92,6 +93,31 @@ export default function AlliedFlashcardsPage() {
     : "All Decks";
 
   const getDeckCategory = (deck: any) => deck.category || deck.discipline || "";
+
+  if (activeDeckList.length === 0) {
+    return (
+      <>
+        <AlliedSEO
+          title={`${career.name} Flashcards`}
+          description={`Flashcard decks for ${career.name} exam preparation are being developed.`}
+          keywords={`${career.name} flashcards`}
+          canonicalPath={`/career/${params.careerSlug}/flashcards`}
+        />
+        <div className="max-w-3xl mx-auto px-4 py-16" data-testid="allied-flashcards-page">
+          <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
+            <Link href={getCanonicalRoute(career.slug)} className="hover:text-primary">{career.shortName}</Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-primary font-medium">Flashcards</span>
+          </div>
+          <ComingSoonFallback
+            title={`${career.shortName} Flashcards Coming Soon`}
+            description={`Spaced repetition flashcard decks for ${career.shortName} exam preparation are being developed by our team of certified professionals. Check back soon for updates.`}
+            careerSlug={career.slug}
+          />
+        </div>
+      </>
+    );
+  }
 
   if (hasDeckSelector && showDeckSelector) {
     const totalCards = activeDeckList.reduce((sum: number, d: any) => sum + d.cards.length, 0);

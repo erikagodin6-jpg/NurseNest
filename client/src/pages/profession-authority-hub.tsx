@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AlliedNavigation } from "@/allied/allied-navigation";
+import { AlliedFooter } from "@/allied/allied-footer";
 import { useState } from "react";
 import {
   ArrowRight, BookOpen, FileText, Brain, GraduationCap, Target,
@@ -146,10 +148,13 @@ function ExamInfoTable({ exams, color }: { exams: { name: string; format: string
 export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubProps) {
   const [showAllSteps, setShowAllSteps] = useState(false);
   const visibleSteps = showAllSteps ? data.careerPathway : data.careerPathway.slice(0, 4);
+  const isNursing = data.slug === "nursing";
+  const Nav = isNursing ? Navigation : AlliedNavigation;
+  const Foot = isNursing ? Footer : AlliedFooter;
 
   return (
     <div data-testid={`authority-hub-${data.slug}`}>
-      <Navigation />
+      <Nav />
       <SEO
         title={data.seoTitle}
         description={data.seoDescription}
@@ -524,7 +529,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
         <SocialProofBar />
       </div>
 
-      <Footer />
+      <Foot />
     </div>
   );
 }

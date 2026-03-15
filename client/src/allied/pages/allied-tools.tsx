@@ -3,6 +3,7 @@ import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { Wrench, ChevronRight, ArrowRight, Lock, Zap, Calculator, Activity, Microscope, Radio } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
 const TOOL_ICONS: Record<string, any> = {
   "abg-engine": Activity, "ventilator-sim": Zap, "trauma-algorithm": Activity, "ecg-drill": Activity,
@@ -29,6 +30,29 @@ export default function AlliedToolsPage() {
   }
 
   const extras = EXTRA_TOOLS[career.slug] || [];
+
+  if (career.aiTools.length === 0 && extras.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16" data-testid="allied-tools-page">
+        <AlliedSEO
+          title={`${career.name} AI Study Tools`}
+          description={`AI-powered study tools for ${career.name} are being developed.`}
+          keywords={`${career.name} study tools`}
+          canonicalPath={`${getCanonicalRoute(career.slug)}/tools`}
+        />
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+          <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-teal-700 font-medium">AI Tools</span>
+        </div>
+        <ComingSoonFallback
+          title={`${career.shortName} AI Tools Coming Soon`}
+          description={`Interactive AI-powered study tools for ${career.shortName} exam preparation are being developed. Check back soon for calculators, simulators, and practice engines.`}
+          careerSlug={career.slug}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-tools-page">
