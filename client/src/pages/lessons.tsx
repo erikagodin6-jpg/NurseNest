@@ -1653,7 +1653,14 @@ export const rnSystems = [
       { id: "bundle-branch-block", name: "Bundle Branch Block (BBB)", status: "Available" },
       { id: "torsades-management", name: "Torsades de Pointes", status: "Available" },
       { id: "asystole-pea", name: "Asystole & PEA", status: "Available" },
-      { id: "aivr-idioventricular", name: "AIVR & Idioventricular Rhythm", status: "Available" }
+      { id: "aivr-idioventricular", name: "AIVR & Idioventricular Rhythm", status: "Available" },
+      { id: "atrial-fibrillation-expanded-rn", name: "Atrial Fibrillation: Expanded RN", status: "Available" },
+      { id: "atrial-flutter-expanded-rn", name: "Atrial Flutter: Expanded RN", status: "Available" },
+      { id: "svt-expanded-rn", name: "SVT: Expanded RN", status: "Available" },
+      { id: "vtach-expanded-rn", name: "Ventricular Tachycardia: Expanded RN", status: "Available" },
+      { id: "vfib-expanded-rn", name: "Ventricular Fibrillation: Expanded RN", status: "Available" },
+      { id: "heart-blocks-expanded-rn", name: "Heart Blocks: Expanded RN", status: "Available" },
+      { id: "sinus-brady-tachy-expanded-rn", name: "Sinus Bradycardia & Tachycardia: Expanded RN", status: "Available" }
     ]
   },
   {
@@ -2070,7 +2077,11 @@ export const rnSystems = [
       { id: "vp-shunt-management-rn", name: "VP Shunt Management", status: "Available" },
       { id: "tonsillectomy-care-rn", name: "Tonsillectomy Care", status: "Available" },
       { id: "newborn-diabetic-mother-rn", name: "Newborn of Diabetic Mother", status: "Available" },
-      { id: "rn-maternal-newborn-advanced-edge-cases-rn", name: "RN Maternal-Newborn Advanced Edge Cases", status: "Available" }
+      { id: "rn-maternal-newborn-advanced-edge-cases-rn", name: "RN Maternal-Newborn Advanced Edge Cases", status: "Available" },
+      { id: "chd-overview-rn", name: "Congenital Heart Disease: Overview", status: "Available" },
+      { id: "tetralogy-of-fallot-expanded-rn", name: "Tetralogy of Fallot: Expanded RN", status: "Available" },
+      { id: "septal-defects-expanded-rn", name: "Septal Defects (VSD/ASD): Expanded RN", status: "Available" },
+      { id: "coarctation-expanded-rn", name: "Coarctation of the Aorta: Expanded RN", status: "Available" }
     ]
   },
   {
@@ -2129,7 +2140,10 @@ export const rnSystems = [
       { id: "insulin-pump-management-rn", name: "Insulin Pump: Clinical Management", status: "Available" },
       { id: "anticoagulation-therapy-rn", name: "Anticoagulation: Heparin & Warfarin Protocols", status: "Available" },
       { id: "opioid-management-rn", name: "Opioid Management: PCA & Monitoring", status: "Available" },
-      { id: "rn-advanced-medication-calculations-rn", name: "RN Advanced Medication Calculations", status: "Available" }
+      { id: "rn-advanced-medication-calculations-rn", name: "RN Advanced Medication Calculations", status: "Available" },
+      { id: "anticoagulation-therapy-expanded-rn", name: "Anticoagulation Therapy: Expanded RN", status: "Available" },
+      { id: "bleeding-risks-reversal-rn", name: "Bleeding Risks & Reversal Agents", status: "Available" },
+      { id: "dic-expanded-rn", name: "DIC: Expanded RN", status: "Available" }
     ]
   },
   {
