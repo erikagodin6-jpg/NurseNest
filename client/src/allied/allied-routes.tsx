@@ -403,6 +403,13 @@ export function AlliedRoutes() {
         <Route path="/how-to-become-a-pharmacy-technician" component={CareerGuidePage} />
         <Route path="/how-to-become-a-health-information-manager" component={CareerGuidePage} />
 
+        <Route path="/respiratory-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="respiratory-therapy-certification-guide" />}</Route>
+        <Route path="/paramedic-certification-study-guide">{() => <AlliedSeoLanding pageSlug="paramedic-certification-study-guide" />}</Route>
+        <Route path="/mlt-certification-study-guide">{() => <AlliedSeoLanding pageSlug="mlt-certification-study-guide" />}</Route>
+        <Route path="/diagnostic-imaging-certification-guide">{() => <AlliedSeoLanding pageSlug="diagnostic-imaging-certification-guide" />}</Route>
+        <Route path="/occupational-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-certification-guide" />}</Route>
+        <Route path="/physical-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-certification-guide" />}</Route>
+
         <Route path="/health-info-mgmt-exam-prep">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-exam-prep" />}</Route>
         <Route path="/health-info-mgmt-practice-questions">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-practice-questions" />}</Route>
         <Route path="/health-info-mgmt-study-guide">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-study-guide" />}</Route>

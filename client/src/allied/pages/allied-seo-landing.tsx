@@ -695,7 +695,323 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "How long should I study before taking the NPTE?", a: "Most students use our platform for 8-16 weeks before their exam. The study planner creates an optimized schedule based on your timeline, starting knowledge level, and target score." }
     ]
   },
+  {
+    slug: "respiratory-therapy-certification-guide",
+    careerSlug: "rrt",
+    pageType: "category",
+    title: "Respiratory Therapy Exam Prep | NBRC TMC & CSE Certification Guide | NurseNest",
+    metaDescription: "Complete respiratory therapy certification guide covering NBRC TMC and CSE exam requirements, clinical skills, ventilator management, ABG interpretation, and study resources for RRT candidates.",
+    h1: "Respiratory Therapy Exam Prep: Complete NBRC TMC & CSE Certification Guide",
+    heroSubtitle: "Everything you need to pass your respiratory therapy certification — from NBRC exam blueprints and clinical skill requirements to ventilator simulators, ABG tools, and personalized study plans.",
+    sections: [
+      {
+        heading: "Respiratory Therapy Program Overview",
+        content: "Respiratory therapy is one of the fastest-growing allied health professions, with the Bureau of Labor Statistics projecting 14% job growth through 2032 — significantly faster than the national average. Respiratory therapists (RTs) are licensed healthcare professionals who evaluate, treat, and manage patients with breathing disorders and cardiopulmonary diseases. They work alongside physicians and nurses in hospitals, ICUs, emergency departments, neonatal units, pulmonary rehabilitation centers, sleep disorder clinics, and home health settings. RTs play a critical role in life-sustaining treatments including mechanical ventilation, oxygen therapy, aerosol medication delivery, and pulmonary rehabilitation. The profession demands strong clinical judgment, technical expertise with complex equipment, and the ability to respond quickly in life-threatening situations. With a median salary of $62,810 USD and growing demand driven by an aging population, increased prevalence of respiratory conditions like COPD, asthma, and sleep apnea, and the ongoing need for critical care ventilator expertise, respiratory therapy offers a rewarding career with excellent job security and advancement opportunities into education, management, and advanced practice roles."
+      },
+      {
+        heading: "NBRC Certification Requirements for Respiratory Therapists",
+        content: "In the United States, respiratory therapists must pass exams administered by the National Board for Respiratory Care (NBRC). The Therapist Multiple-Choice (TMC) Examination is a 160-question exam (100 scored + 60 pretest) with a 3-hour time limit. Passing at the low cut-score earns the Certified Respiratory Therapist (CRT) credential, while achieving the high cut-score qualifies you to take the Clinical Simulation Exam (CSE) for the Registered Respiratory Therapist (RRT) credential. The CSE tests clinical decision-making through branching patient scenarios where you manage patients from initial assessment through treatment, monitoring, and outcome evaluation. In Canada, the Canadian Board for Respiratory Care (CBRC) administers the national certification exam. Candidates must graduate from a CoARC-accredited program (US) or an accredited Canadian program before sitting for certification. Most states and provinces also require licensure in addition to national certification, with continuing education requirements for renewal."
+      },
+      {
+        heading: "Respiratory Therapy Exam Prep: What the NBRC TMC Tests",
+        content: "The NBRC TMC examination covers a comprehensive range of respiratory therapy competencies organized across three major domains. Patient Assessment includes gathering clinical data through patient interviews and chart review, performing physical examinations, interpreting diagnostic tests including chest radiographs and lab values, and evaluating treatment effectiveness using clinical indicators. Equipment Manipulation covers selecting, assembling, calibrating, and troubleshooting respiratory equipment including ventilators, oxygen delivery devices, aerosol generators, and cardiopulmonary monitoring equipment. Therapeutic Procedures tests your ability to initiate, modify, and discontinue respiratory treatments including mechanical ventilation modes (AC, SIMV, PSV, APRV, HFOV), oxygen therapy, bronchial hygiene techniques, airway management, and pharmacological interventions. Each domain is weighted according to the official blueprint, so understanding where the exam places emphasis is essential for effective study planning and time allocation. Our practice questions mirror this distribution, ensuring your preparation accurately reflects the actual exam experience."
+      },
+      {
+        heading: "Clinical Skills Required for Respiratory Therapy Certification",
+        content: "Successful respiratory therapists must master a diverse set of clinical skills. Ventilator management is perhaps the most critical — understanding ventilator modes, waveform analysis, patient-ventilator synchrony, weaning protocols, and troubleshooting alarms. Arterial blood gas (ABG) interpretation requires rapid analysis of pH, PaCO2, PaO2, HCO3, and base excess to identify acid-base disorders, compensation patterns, and mixed disturbances. Airway management skills include endotracheal intubation, tracheostomy care, suctioning techniques, and managing difficult airways. Oxygen therapy knowledge spans low-flow devices (nasal cannula, simple mask), high-flow devices (Venturi mask, non-rebreather), and high-flow nasal cannula (HFNC) therapy. Pulmonary function testing (PFT) requires understanding spirometry, lung volumes, diffusion capacity, and bronchial provocation testing. Neonatal and pediatric respiratory care adds complexity with surfactant administration, CPAP management, and age-specific assessment techniques. Our platform includes dedicated simulators for ABG interpretation and ventilator mode analysis to build these critical clinical reasoning skills."
+      },
+      {
+        heading: "Study Resources for Respiratory Therapy Exam Success",
+        content: "NurseNest Allied provides a comprehensive ecosystem of study tools designed specifically for respiratory therapy certification. Our adaptive test bank contains 500+ exam-authentic questions mapped to the NBRC TMC and CSE blueprints, each with 600+ word clinical rationales that teach the reasoning behind every answer. The ABG Interpretation Engine offers unlimited practice with auto-generated cases covering simple disorders, mixed acid-base problems, and compensation analysis with instant AI feedback. Our Ventilator Mode Simulator lets you interact with ventilator settings and waveform analysis, building the clinical judgment tested on the CSE. Blueprint-weighted mock exams simulate the real TMC testing experience with adaptive difficulty and domain-level scoring. Spaced repetition flashcards reinforce critical concepts — ventilator settings, drug dosages, pulmonary function values, and equipment parameters — at scientifically optimized intervals. The personalized study planner creates a day-by-day schedule based on your diagnostic results, exam date, and weak areas, adjusting daily as your performance improves."
+      },
+      {
+        heading: "Internal Resources for RRT Exam Preparation",
+        content: "Explore our full range of respiratory therapy study tools: start with the free 15-question diagnostic assessment to identify your readiness across all NBRC domains. Access the RRT Test Bank for targeted practice with detailed rationales, or take a full-length RRT Mock Exam to simulate test-day conditions with adaptive difficulty and domain-level scoring. Use RRT Flashcards with spaced repetition for long-term concept retention of ventilator parameters, drug dosages, normal values, and equipment specifications. Review our respiratory therapy articles and study guides for in-depth topic coverage on mechanical ventilation modes, ABG interpretation, oxygen therapy devices, pulmonary function testing, neonatal respiratory care, and airway management techniques. Browse our respiratory therapy encyclopedia for reference articles on pulmonary pathophysiology, pharmacology, and critical care concepts. Connect with related content in paramedic airway management, critical care nursing ventilator content, and emergency nursing respiratory emergency resources to build cross-disciplinary clinical knowledge."
+      }
+    ],
+    faqs: [
+      { q: "What is the difference between CRT and RRT credentials?", a: "The CRT (Certified Respiratory Therapist) is earned by passing the TMC at the low cut-score. The RRT (Registered Respiratory Therapist) requires passing the TMC at the high cut-score AND passing the Clinical Simulation Exam (CSE). The RRT is the preferred credential for most employers and is required for advanced practice roles." },
+      { q: "How many questions are on the NBRC TMC exam?", a: "The TMC has 160 questions total — 100 are scored and 60 are pretest items that don't count toward your score. You won't know which are pretest, so treat every question equally. The time limit is 3 hours." },
+      { q: "What is the CSE format?", a: "The Clinical Simulation Exam presents branching patient scenarios where your choices determine what happens next. You manage patients from initial assessment through treatment decisions, monitoring, and outcomes. It tests clinical judgment rather than rote knowledge." },
+      { q: "How should I prepare for the NBRC TMC?", a: "Start with a diagnostic assessment to find your weak domains. Then use targeted practice questions with detailed rationales, ventilator and ABG simulators for hands-on practice, and blueprint-weighted mock exams. Most students study 6-10 weeks." },
+      { q: "Does NurseNest cover Canadian respiratory therapy exams?", a: "Yes. We include content aligned with the CBRC (Canadian Board for Respiratory Care) exam, covering Canadian respiratory therapy regulations, scope of practice, and clinical standards." },
+      { q: "Is there a free trial for RRT exam prep?", a: "Yes! Take our free 15-question diagnostic to assess your readiness across all respiratory therapy domains. You also get 5 free practice questions with full 600+ word rationales." }
+    ]
+  },
+  {
+    slug: "paramedic-certification-study-guide",
+    careerSlug: "paramedic",
+    pageType: "category",
+    title: "Paramedic Certification Study Guide | NREMT, PCP & ACP Exam Prep | NurseNest",
+    metaDescription: "Complete paramedic certification guide covering NREMT, PCP, and ACP exam requirements, clinical skills, trauma management, ECG interpretation, and study resources for paramedic students.",
+    h1: "Paramedic Certification Study Guide: Complete NREMT, PCP & ACP Exam Prep",
+    heroSubtitle: "Your comprehensive guide to paramedic certification — covering exam blueprints, prehospital clinical skills, trauma protocols, cardiac emergencies, pharmacology, and adaptive study tools.",
+    sections: [
+      {
+        heading: "Paramedic Program Overview and Career Outlook",
+        content: "Paramedics are highly trained emergency medical professionals who provide advanced life support (ALS) in prehospital settings. They respond to 911 calls, assess patients in the field, make rapid clinical decisions under pressure, and deliver life-saving interventions including advanced airway management, cardiac monitoring and defibrillation, IV and IO medication administration, and comprehensive trauma care. Paramedics operate in high-stress, unpredictable environments and must be prepared to manage any medical or traumatic emergency — from cardiac arrests and strokes to multi-vehicle collisions, pediatric emergencies, obstetric complications, and psychiatric crises. The Bureau of Labor Statistics projects 5% growth through 2032, with a median salary of $49,590 USD. However, compensation varies significantly by setting and specialization — critical care transport, flight paramedics, community paramedicine, and tactical EMS roles command substantially higher salaries and offer unique clinical challenges. In Canada, paramedics work under provincial regulation with Primary Care Paramedic (PCP) and Advanced Care Paramedic (ACP) designations, each with distinct scopes of practice. Career advancement opportunities include flight paramedicine, community paramedicine, tactical EMS, EMS education, quality improvement, and administrative leadership roles within emergency medical services systems."
+      },
+      {
+        heading: "Paramedic Certification Requirements: NREMT, PCP, and ACP Exams",
+        content: "In the United States, the National Registry of Emergency Medical Technicians (NREMT) administers the paramedic certification exam, which includes both cognitive and psychomotor components. The cognitive exam uses computer adaptive testing (CAT) with 70-120 questions — the system adjusts difficulty based on your performance, so strong candidates may finish with fewer questions. Content areas include Airway/Respiration/Ventilation, Cardiology/Resuscitation, Trauma, Medical/OB/GYN, and EMS Operations. The psychomotor component tests hands-on skills through practical stations. In Canada, certification is managed provincially, with many provinces using the COPR (Canadian Organization of Paramedic Regulators) competency framework. The PCP (Primary Care Paramedic) exam typically consists of 150-200 multiple-choice questions covering prehospital assessment, basic pharmacology, trauma management, and medical emergencies. The ACP (Advanced Care Paramedic) exam adds advanced pharmacology, 12-lead ECG interpretation, advanced airway management including RSI, and critical care interventions. Both US and Canadian certification pathways require completion of an accredited paramedic education program and maintaining certification through continuing education."
+      },
+      {
+        heading: "Paramedic Exam Prep: Critical Content Domains",
+        content: "The paramedic certification exam covers comprehensive prehospital emergency care across multiple critical domains. Airway, Respiration, and Ventilation encompasses basic and advanced airway management (including endotracheal intubation, supraglottic airways, surgical airways, and rapid sequence intubation), oxygen therapy, ventilator management in transport, and respiratory emergency assessment. Cardiology and Resuscitation covers 12-lead ECG interpretation, cardiac rhythm identification, ACLS algorithms, synchronized cardioversion, transcutaneous pacing, and management of acute coronary syndromes, heart failure, and cardiac arrest. Trauma assessment requires proficiency in primary and secondary surveys, hemorrhage control (tourniquets, wound packing, hemostatic agents), spinal motion restriction decisions, chest decompression, pelvic binding, and multi-system trauma management. Medical emergencies span diabetic emergencies, stroke assessment and triage, seizure management, toxicological emergencies, environmental exposures, obstetric complications, and psychiatric crisis intervention. EMS Operations covers scene safety, mass casualty triage (START/JumpSTART), hazmat awareness, and incident command system integration."
+      },
+      {
+        heading: "Essential Clinical Skills for Paramedic Certification",
+        content: "Paramedic certification demands mastery of both cognitive knowledge and hands-on clinical skills. ECG rhythm interpretation is fundamental — you must rapidly identify normal sinus rhythm, sinus bradycardia, sinus tachycardia, atrial fibrillation, atrial flutter, SVT, ventricular tachycardia, ventricular fibrillation, asystole, PEA, and heart blocks (first degree, second degree Type I and II, third degree). For ACP-level candidates, 12-lead ECG interpretation adds STEMI recognition, axis deviation, bundle branch blocks, and right ventricular infarction patterns. Pharmacology knowledge includes emergency medication dosing, routes, contraindications, and mechanisms of action for drugs like epinephrine, amiodarone, atropine, adenosine, fentanyl, midazolam, ketamine, and RSI agents. Trauma skills encompass rapid extrication, spinal motion restriction assessment, tourniquet application, chest seal placement, needle decompression, IO access, and massive transfusion protocol activation. Patient assessment follows a systematic approach: scene size-up, primary assessment (ABCDE), history gathering (SAMPLE/OPQRST), secondary assessment, and ongoing reassessment during transport."
+      },
+      {
+        heading: "Study Resources for Paramedic Exam Success",
+        content: "NurseNest Allied offers a comprehensive paramedic exam preparation platform built by practicing paramedics and EMS educators. Our adaptive test bank contains 500+ exam-aligned questions covering trauma, medical emergencies, cardiology, pharmacology, and operations — each with detailed clinical rationales explaining the prehospital reasoning behind every answer. The ECG Interpretation Library provides practice with rhythm identification, 12-lead analysis, and clinical correlation with treatment protocols. Full-length mock exams simulate the NREMT CAT experience with adaptive difficulty and domain-level scoring, while PCP and ACP-specific practice tests mirror Canadian provincial exam formats. Spaced repetition flashcards reinforce critical pharmacology dosages, protocol steps, assessment mnemonics, and anatomy knowledge. Clinical scenario simulations present high-fidelity field situations requiring rapid assessment, treatment decisions, and transport coordination — building the clinical judgment that separates confident paramedics from those who merely memorize protocols."
+      },
+      {
+        heading: "Paramedic Study Tools and Internal Resources",
+        content: "Start your paramedic exam preparation with our free diagnostic assessment to identify your strongest and weakest domains across all NREMT and PCP/ACP content areas. Access the Paramedic Test Bank for targeted practice with detailed prehospital rationales covering trauma, medical emergencies, cardiology, pharmacology, and operations. Use the ECG Library for unlimited rhythm interpretation practice with instant clinical feedback and treatment protocol correlation. Take full-length Paramedic Mock Exams to build testing endurance, time management skills, and familiarity with the adaptive CAT format used by the NREMT. Study with Paramedic Flashcards using scientifically-backed spaced repetition algorithms to master drug dosages, protocol steps, assessment mnemonics, and anatomy. Explore our PCP-specific and ACP-specific study tracks for Canadian paramedic students, or the NREMT-focused track for US candidates. Browse paramedic study guides and encyclopedia articles covering cardiac arrest management, trauma assessment, pediatric emergencies, emergency pharmacology, ECG rhythm interpretation, and advanced airway management techniques including RSI. Connect with related exam prep content in respiratory therapy airway management, critical care transport topics, and emergency nursing certification resources."
+      }
+    ],
+    faqs: [
+      { q: "How does the NREMT paramedic exam work?", a: "The NREMT uses computer adaptive testing (CAT) with 70-120 questions. The system adjusts difficulty based on your answers — if you answer correctly, questions get harder. Strong candidates may finish with fewer questions. The exam covers airway management, cardiology, trauma, medical emergencies, and EMS operations." },
+      { q: "What is the difference between PCP and ACP in Canada?", a: "Primary Care Paramedics (PCP) provide basic life support and select advanced skills. Advanced Care Paramedics (ACP) provide full advanced life support including 12-lead ECG interpretation, advanced pharmacology, RSI, and critical care interventions. ACP requires additional education and clinical training." },
+      { q: "How many practice questions are available for paramedics?", a: "Our paramedic question bank includes 500+ exam-authentic questions covering all NREMT and PCP/ACP domains, with new questions added regularly. Each question includes detailed clinical rationales explaining prehospital reasoning." },
+      { q: "Does NurseNest cover ECG interpretation for paramedics?", a: "Yes. Our ECG Library provides comprehensive rhythm identification practice covering basic rhythms, atrial dysrhythmias, ventricular rhythms, heart blocks, and 12-lead interpretation for ACP-level candidates — all with clinical correlation and treatment protocols." },
+      { q: "How long should I study for the NREMT paramedic exam?", a: "Most students study 6-10 weeks before their NREMT exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and available study time." },
+      { q: "Is there a free trial for paramedic exam prep?", a: "Yes! Take our free 15-question diagnostic to assess your readiness across all paramedic domains, plus access free practice questions with detailed rationales to experience our content quality." }
+    ]
+  },
+  {
+    slug: "mlt-certification-study-guide",
+    careerSlug: "mlt",
+    pageType: "category",
+    title: "Medical Laboratory Technologist Exam Prep | CSMLS & ASCP Certification Guide | NurseNest",
+    metaDescription: "Complete MLT certification guide covering CSMLS and ASCP MLS exam requirements, lab disciplines, hematology, microbiology, blood banking, and study resources for medical lab technologists.",
+    h1: "Medical Lab Tech Exam Prep: Complete CSMLS & ASCP Certification Guide",
+    heroSubtitle: "Master every laboratory discipline for your MLT certification — from hematology and clinical chemistry to microbiology, blood banking, and molecular diagnostics with adaptive practice tools.",
+    sections: [
+      {
+        heading: "Medical Laboratory Technology Program Overview",
+        content: "Medical Laboratory Technologists (MLTs) are highly trained scientists who work behind the scenes in healthcare, performing laboratory tests essential for diagnosing and treating diseases. They analyze blood, urine, body fluids, and tissue samples using sophisticated instruments and manual techniques across multiple disciplines including clinical chemistry, hematology, microbiology, immunohematology (blood banking), and molecular diagnostics. Their work directly impacts patient outcomes — approximately 70% of all medical decisions rely on laboratory test results. MLTs work in hospital clinical laboratories, reference laboratories, public health labs, research institutions, forensic laboratories, pharmaceutical companies, blood banks, and veterinary labs. The Bureau of Labor Statistics projects 7% job growth through 2032 with a median salary of $57,380 USD. In Canada, MLTs earn comparable salaries with strong demand driven by an aging population and advancing diagnostic technologies. The profession requires meticulous attention to detail, strong analytical skills, and the ability to work under pressure when stat results are needed for critical patient care decisions."
+      },
+      {
+        heading: "MLT Certification Requirements: CSMLS and ASCP Exams",
+        content: "In the United States, the American Society for Clinical Pathology (ASCP) Board of Certification offers the MLS (Medical Laboratory Scientist) credential for bachelor's-degree graduates and the MLT (Medical Laboratory Technician) credential for associate-degree graduates. The ASCP MLS exam consists of 100 questions across multiple laboratory disciplines with a 2.5-hour time limit. Questions test both theoretical knowledge and practical application, including result interpretation, quality control troubleshooting, and clinical correlation. In Canada, the Canadian Society for Medical Laboratory Science (CSMLS) administers the national certification examination for Medical Laboratory Technologists. The CSMLS exam is a comprehensive multiple-choice examination covering all major laboratory disciplines. Candidates must graduate from an accredited medical laboratory science or clinical laboratory science program and complete required clinical practicums before sitting for certification. Provincial registration is required in addition to national certification in most Canadian provinces. Continuing education and periodic recertification ensure MLTs maintain current competency as laboratory science evolves."
+      },
+      {
+        heading: "MLT Exam Content: Laboratory Disciplines Tested",
+        content: "The MLT certification exam covers the full breadth of clinical laboratory practice across major disciplines. Hematology tests your knowledge of complete blood counts (CBC), peripheral blood smear morphology, coagulation studies (PT, PTT, INR, D-dimer), hemoglobin electrophoresis, and hematologic malignancies. Clinical Chemistry covers metabolic panels, liver function tests, cardiac markers (troponin, BNP), thyroid function, tumor markers, therapeutic drug monitoring, and electrolyte analysis. Microbiology requires identification of bacteria, fungi, parasites, and viruses through culture techniques, Gram staining, biochemical testing, antimicrobial susceptibility testing, and molecular methods. Immunohematology (Blood Banking) tests ABO/Rh typing, antibody screening and identification, crossmatching procedures, transfusion reactions, and hemolytic disease of the fetus and newborn. Urinalysis and Body Fluids covers physical, chemical, and microscopic examination of urine, cerebrospinal fluid, synovial fluid, and serous fluids. Immunology and Serology addresses antigen-antibody reactions, autoimmune disease markers, infectious disease serology, and immunoassay methodologies."
+      },
+      {
+        heading: "Clinical Skills Required for Medical Lab Technologist Certification",
+        content: "MLT certification demands proficiency across diverse laboratory skills. Quality control and quality assurance are foundational — understanding Levey-Jennings charts, Westgard rules, proficiency testing, and corrective action procedures is essential for every discipline. Instrument operation and maintenance requires knowledge of automated analyzers, spectrophotometry, flow cytometry, mass spectrometry, and point-of-care testing devices. Critical value recognition and communication is a patient safety competency tested heavily on certification exams — you must know which results require immediate notification to healthcare providers. Specimen collection and handling knowledge ensures pre-analytical quality, including order of draw for venipuncture, proper anticoagulant selection, specimen transport requirements, and rejection criteria. Molecular diagnostic techniques including PCR, nucleic acid amplification, and DNA sequencing are increasingly important as molecular testing expands. Laboratory safety encompasses chemical hygiene, bloodborne pathogen exposure prevention, fire safety, and proper PPE usage. Each of these skill areas is represented in certification exam questions through clinical scenarios that test application, not just memorization."
+      },
+      {
+        heading: "Study Resources for MLT Exam Success",
+        content: "NurseNest Allied provides a targeted study ecosystem for medical laboratory technology certification. Our adaptive test bank contains 500+ exam-authentic questions organized by laboratory discipline and mapped to CSMLS and ASCP blueprints, each with detailed rationales explaining the laboratory science behind every answer. Country-specific exam tracks let Canadian students focus on CSMLS content with SI unit lab values while US students prepare for the ASCP MLS/MLT exams with conventional units. Full-length mock exams simulate the real testing experience with discipline-weighted question distribution and performance analytics by laboratory section. The MLT Image Library provides visual identification practice for peripheral blood smear morphology, Gram stain interpretations, crystal identification in body fluids, and urinalysis microscopy. Spaced repetition flashcards reinforce critical lab values, normal ranges, staining characteristics, and quality control rules. The personalized study planner creates an adaptive schedule targeting your weakest disciplines first, ensuring comprehensive coverage before exam day."
+      },
+      {
+        heading: "Internal Resources for MLT Exam Preparation",
+        content: "Begin your MLT exam preparation with our free diagnostic assessment to identify strengths and gaps across all laboratory disciplines. Access the MLT Test Bank for discipline-specific practice with detailed rationales covering hematology, clinical chemistry, microbiology, blood banking, urinalysis, immunology, and molecular diagnostics. Take full-length MLT Mock Exams with country-specific formats — the Canada Realistic Exam mirrors CSMLS format while the USA CAT Exam simulates the ASCP adaptive testing experience. Use MLT Flashcards for spaced repetition learning of normal ranges, staining characteristics, quality control rules, and laboratory calculations. Explore the MLT Image Library for visual identification drills across laboratory disciplines including peripheral blood smear morphology, Gram stain interpretations, crystal identification, and urinalysis microscopy. Review our MLT blog articles and study guides covering CBC interpretation, blood banking crossmatch procedures, clinical chemistry panels, microbiology culture identification, coagulation studies, and urinalysis body fluid analysis. Access Canada-specific and USA-specific exam prep tracks with country-appropriate lab values, professional regulations, and clinical laboratory standards."
+      }
+    ],
+    faqs: [
+      { q: "What is the difference between MLS and MLT certification?", a: "MLS (Medical Laboratory Scientist) requires a bachelor's degree and is the higher credential. MLT (Medical Laboratory Technician) requires an associate's degree. Both are offered by ASCP. The MLS exam covers more advanced topics and offers higher salary potential. In Canada, CSMLS offers a single MLT credential." },
+      { q: "How many questions are on the ASCP MLS exam?", a: "The ASCP MLS exam has 100 questions covering all major laboratory disciplines with a 2.5-hour time limit. Questions test theoretical knowledge, result interpretation, quality control troubleshooting, and clinical correlation." },
+      { q: "Does NurseNest cover the CSMLS exam for Canada?", a: "Yes. We have a dedicated Canada exam track with CSMLS-aligned content, SI unit lab values (mmol/L), and Canadian regulatory standards. Our Canada Realistic Mock Exam mirrors the CSMLS exam format." },
+      { q: "What laboratory disciplines are most heavily tested?", a: "Hematology and Clinical Chemistry typically make up the largest portions of both CSMLS and ASCP exams. Blood Banking, Microbiology, and Urinalysis/Body Fluids are also heavily weighted. Our practice exams mirror the official blueprint distribution." },
+      { q: "How long should I study for the MLT certification exam?", a: "Most students study 6-10 weeks before their certification exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and performance across laboratory disciplines." },
+      { q: "Is there a free trial for MLT exam prep?", a: "Yes! Take our free diagnostic assessment to evaluate your readiness across all laboratory disciplines and access free practice questions with detailed lab science rationales." }
+    ]
+  },
+  {
+    slug: "diagnostic-imaging-certification-guide",
+    careerSlug: "imaging",
+    pageType: "category",
+    title: "Diagnostic Imaging Exam Prep | ARRT & CAMRT Radiography Certification Guide | NurseNest",
+    metaDescription: "Complete diagnostic imaging certification guide covering ARRT and CAMRT exam requirements, radiographic positioning, radiation safety, image production, and study resources for rad tech students.",
+    h1: "Diagnostic Imaging Exam Prep: Complete ARRT & CAMRT Certification Guide",
+    heroSubtitle: "Master radiographic positioning, radiation safety, image production, and patient care for your ARRT or CAMRT certification — with positioning simulators, physics drills, and adaptive practice tools.",
+    sections: [
+      {
+        heading: "Diagnostic Imaging Program Overview and Career Path",
+        content: "Diagnostic medical imaging is a critical component of modern healthcare, with radiologic technologists (also called radiographers or rad techs) performing the imaging examinations that physicians rely on to diagnose and treat medical conditions. Radiologic technologists operate X-ray machines, CT scanners, fluoroscopy units, and other imaging equipment to produce high-quality diagnostic images while minimizing radiation exposure to patients and staff. The profession requires comprehensive knowledge of human anatomy, radiographic positioning techniques, radiation physics, image quality factors, and patient safety protocols. The Bureau of Labor Statistics projects 6% job growth through 2032 with a median salary of $65,140 USD. Imaging technologists work in hospital radiology departments, outpatient imaging centers, emergency departments, orthopedic offices, mobile imaging services, and research facilities. Career advancement includes specialization in CT, MRI, mammography, interventional radiology, or radiation therapy — each requiring additional certification. In Canada, the Canadian Association of Medical Radiation Technologists (CAMRT) oversees national certification with comparable salary and career trajectory."
+      },
+      {
+        heading: "ARRT and CAMRT Certification Requirements for Radiographers",
+        content: "In the United States, the American Registry of Radiologic Technologists (ARRT) administers the radiography certification exam. Candidates must graduate from a JRCERT-accredited radiologic technology program and meet ARRT ethics requirements before sitting for the exam. The ARRT Radiography exam consists of 220 questions (200 scored + 20 pilot) with a 3.5-hour time limit covering five major content areas: Radiation Protection and Safety (covering biological effects, personnel monitoring, patient dose reduction, and regulatory compliance), Equipment Operation and Quality Control (X-ray tube components, generators, digital imaging systems, and quality assurance procedures), Image Production and Evaluation (exposure factors, image quality, digital image processing, and artifact recognition), Procedures (radiographic positioning for all body regions), and Patient Care and Management (patient assessment, contrast media, pharmacology, and emergency procedures). In Canada, CAMRT certification follows a similar structure with Canadian-specific radiation safety regulations and clinical standards. Most states and provinces also require licensure in addition to national certification, with continuing education requirements of approximately 24 CE credits every two years."
+      },
+      {
+        heading: "Radiographic Positioning and Procedures for Certification",
+        content: "Radiographic positioning is the largest content domain on the ARRT exam and requires extensive knowledge of human anatomy, positioning landmarks, central ray angles, and image evaluation criteria for every standard projection. Upper extremity positioning covers finger, hand, wrist, forearm, elbow, and humerus examinations with multiple projections for each. Lower extremity includes toe, foot, ankle, tibia/fibula, knee, and femur studies. The spine series encompasses cervical, thoracic, lumbar, sacral, and coccygeal examinations with specialized views like the open-mouth odontoid, swimmer's lateral, and oblique projections. Chest radiography — the most commonly performed examination — requires understanding of PA, AP, and lateral positioning, inspiration quality, and the ability to evaluate heart size, lung fields, and mediastinal structures. Abdominal imaging covers KUB positioning and the acute abdomen series. Skull, facial bones, sinuses, and special contrast studies round out the procedural knowledge. For each projection, you must know the patient position, central ray direction and angle, anatomy demonstrated, evaluation criteria, and common positioning errors that degrade image quality."
+      },
+      {
+        heading: "Radiation Safety and Physics for Imaging Technologists",
+        content: "Radiation protection is both a patient safety imperative and a heavily tested exam domain. The ALARA principle (As Low As Reasonably Achievable) guides all clinical decisions — you must produce diagnostically adequate images with the minimum radiation dose necessary. Understanding the biological effects of radiation includes deterministic effects (skin erythema, cataracts) and stochastic effects (cancer induction, genetic effects), along with dose-response relationships and the concept of linear no-threshold (LNT) model. Personnel monitoring requires knowledge of dosimetry badges, dose limits for occupational workers and members of the public, and the pregnant worker policy. Patient dose reduction techniques include proper collimation, using the shortest exposure time possible, appropriate filtration, gonadal shielding when applicable, and selecting optimal technical factors (kVp and mAs). Radiation physics covers X-ray production, the electromagnetic spectrum, photon interactions with matter (photoelectric absorption, Compton scattering), beam quality and quantity, and the inverse square law. Digital imaging physics adds detector technology (CR vs DR), image processing algorithms, detective quantum efficiency (DQE), exposure index values, and PACS (Picture Archiving and Communication Systems) workflows."
+      },
+      {
+        heading: "Study Resources for Diagnostic Imaging Exam Success",
+        content: "NurseNest Allied provides purpose-built study tools for diagnostic imaging certification. Our adaptive test bank contains 500+ ARRT-aligned questions with detailed rationales covering radiographic positioning, radiation protection, image production, patient care, and equipment operation. The Positioning Simulator provides interactive guides for every standard radiographic projection — review patient positioning, central ray placement, anatomy demonstrated, and common errors with visual overlays. Radiation Physics Drills offer practice with exposure factor calculations, inverse square law problems, image quality optimization, and radiation safety scenarios. The Image Evaluation Trainer lets you analyze radiographic images for positioning accuracy, exposure quality, and artifact identification. Blueprint-weighted mock exams simulate the real ARRT testing experience with domain-level scoring and performance analytics. Spaced repetition flashcards reinforce anatomy landmarks, positioning criteria, exposure techniques, and radiation safety standards. The personalized study planner targets your weakest content areas first and adjusts daily based on your progress."
+      },
+      {
+        heading: "Internal Resources for Imaging Certification Preparation",
+        content: "Launch your diagnostic imaging exam preparation with our free diagnostic assessment to evaluate readiness across all ARRT content areas. Access the Imaging Test Bank for targeted practice with detailed rationales covering positioning, physics, safety, and patient care. Use Imaging Flashcards with spaced repetition for anatomy landmarks, positioning criteria, and technical factor relationships. Take full-length Imaging Mock Exams with blueprint-weighted question distribution. Explore our imaging physics lessons covering X-ray production, beam interactions, digital imaging technology, and dose optimization. Review country-specific content for US (ARRT) and Canadian (CAMRT) certification pathways. Browse related study resources in respiratory therapy chest radiograph interpretation, paramedic trauma imaging assessment, and medical laboratory technology diagnostic testing correlations. Access our radiographic positioning guide, radiation safety ALARA principles guide, CT imaging fundamentals, contrast media administration guide, and pediatric imaging techniques resources."
+      }
+    ],
+    faqs: [
+      { q: "How many questions are on the ARRT radiography exam?", a: "The ARRT Radiography exam has 220 questions (200 scored + 20 pilot items) with a 3.5-hour time limit. Questions cover radiation protection, equipment operation, image production, procedures (positioning), and patient care." },
+      { q: "What is the most heavily tested content area?", a: "Procedures (radiographic positioning) is typically the largest content area, followed by image production and evaluation. Radiation protection and patient care are also significant. Our practice exams mirror the official ARRT blueprint weighting." },
+      { q: "Does NurseNest cover the CAMRT exam for Canada?", a: "Yes. We include content aligned with CAMRT certification requirements, including Canadian radiation safety regulations, provincial licensing standards, and clinical practice guidelines." },
+      { q: "How does the positioning simulator work?", a: "Our positioning simulator provides interactive guides for every standard radiographic projection. You can review patient positioning, central ray placement, anatomy demonstrated, evaluation criteria, and common positioning errors — all with visual overlays and clinical tips." },
+      { q: "How long should I study for the ARRT exam?", a: "Most students study 6-10 weeks before the ARRT Radiography exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and content area performance." },
+      { q: "Is there a free trial for imaging exam prep?", a: "Yes! Take our free diagnostic assessment to identify your strengths and gaps across all imaging content areas, plus access free practice questions with detailed positioning and physics rationales." }
+    ]
+  },
+  {
+    slug: "occupational-therapy-certification-guide",
+    careerSlug: "occupational-therapy",
+    pageType: "category",
+    title: "Occupational Therapy Exam Prep | NBCOT OTR & NOTCE Certification Guide | NurseNest",
+    metaDescription: "Complete occupational therapy certification guide covering NBCOT OTR and NOTCE exam requirements, clinical evaluation skills, intervention planning, pediatric OT, and study resources for OT students.",
+    h1: "Occupational Therapy Exam Prep: Complete NBCOT OTR & NOTCE Certification Guide",
+    heroSubtitle: "Master evaluation, intervention planning, and professional practice for your OT certification — with clinical case simulators, SMART goal tools, activity analysis engines, and adaptive study plans.",
+    sections: [
+      {
+        heading: "Occupational Therapy Program Overview and Career Outlook",
+        content: "Occupational therapy is a dynamic healthcare profession focused on helping people across the lifespan participate in meaningful activities — or occupations — despite physical, cognitive, developmental, or psychosocial challenges. Occupational therapists (OTs) evaluate functional abilities, design intervention plans, recommend adaptive equipment, and modify environments to promote independence in daily living. The profession encompasses a remarkably broad scope of practice: pediatric development and sensory integration, adult rehabilitation after stroke or injury, cognitive rehabilitation for traumatic brain injury, mental health intervention, ergonomic workplace assessment, assistive technology prescription, and geriatric fall prevention. The Bureau of Labor Statistics projects 12% job growth through 2032 — much faster than average — with a median salary ranging from $72,000 to $100,000 USD. In Canada, occupational therapists earn $65,000 to $95,000 CAD with strong demand across healthcare settings. OTs work in hospitals, rehabilitation centers, schools, community health agencies, home health, skilled nursing facilities, outpatient clinics, and private practice. The profession requires a master's or doctoral degree in occupational therapy and offers excellent work-life balance compared to many healthcare roles."
+      },
+      {
+        heading: "NBCOT OTR and NOTCE Certification Requirements",
+        content: "In the United States, the National Board for Certification in Occupational Therapy (NBCOT) administers the OTR (Occupational Therapist Registered) examination. The NBCOT OTR exam consists of 200 questions — 170 scored and 30 pretest — including both multiple-choice and clinical simulation test (CST) items, with a 4-hour time limit. Clinical simulation items present patient scenarios where you make sequential decisions about evaluation, intervention, and discharge planning, testing applied clinical reasoning rather than isolated factual recall. The exam covers four major domains: Evaluation and Assessment (acquiring information, interpreting data, and determining need for OT services), Intervention Planning (developing goals, selecting approaches, and planning evidence-based interventions), Intervention Implementation (providing therapeutic interventions, modifying approaches, and applying activity analysis), and Competency and Practice Management (professional development, documentation, ethical practice, and evidence-based decision-making). In Canada, the NOTCE (National Occupational Therapy Certification Examination) administered by the Canadian Association of Occupational Therapists (CAOT) is the pathway to provincial registration. Candidates must graduate from an accredited OT program and complete required fieldwork before sitting for either exam."
+      },
+      {
+        heading: "Occupational Therapy Exam Content: What NBCOT Tests",
+        content: "The NBCOT OTR exam tests a comprehensive range of occupational therapy competencies across practice settings and populations. Evaluation and Assessment requires knowledge of standardized assessment tools (FIM, Barthel Index, COPM, Allen Cognitive Levels, sensory profiles), occupational profiles, activity demands analysis, and clinical observation skills. You must demonstrate the ability to select appropriate assessments, interpret results, and establish occupational therapy diagnoses. Intervention Planning tests your ability to write SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound) that are occupation-focused, select appropriate frames of reference (biomechanical, rehabilitative, sensory integration, MOHO, PEO), and design evidence-based treatment plans. Intervention Implementation covers therapeutic techniques across populations: neurodevelopmental treatment for pediatric and neurological conditions, activity grading and adaptation, splinting and orthotic fabrication, cognitive rehabilitation strategies, sensory modulation techniques, ADL/IADL training approaches, assistive technology prescription, and environmental modification. Professional Practice tests ethical reasoning (AOTA Code of Ethics), documentation standards, supervision requirements, reimbursement knowledge, and evidence-based practice principles."
+      },
+      {
+        heading: "Clinical Skills Required for Occupational Therapy Certification",
+        content: "Occupational therapy certification demands proficiency across diverse clinical skill areas. Pediatric OT skills include developmental milestone assessment, sensory processing evaluation and intervention (Ayres Sensory Integration), school-based practice (IEP development, handwriting intervention, classroom modification), play-based assessment, and early intervention strategies for children with autism spectrum disorder, cerebral palsy, Down syndrome, and learning disabilities. Adult rehabilitation skills encompass ADL and IADL training after stroke, traumatic brain injury, spinal cord injury, and orthopedic conditions — including dressing techniques, bathing adaptations, meal preparation modifications, and community reintegration. Cognitive rehabilitation requires knowledge of Allen Cognitive Levels, cognitive-perceptual assessments, memory compensation strategies, executive function interventions, and safety awareness training. Mental health OT skills include therapeutic use of self, group dynamics facilitation, stress management programming, coping skills development, and occupation-based mental health interventions. Hand therapy and upper extremity rehabilitation adds splinting fabrication, manual muscle testing, range of motion assessment, scar management, and work conditioning programs. Each of these clinical areas appears in NBCOT exam questions through patient case vignettes requiring applied clinical reasoning."
+      },
+      {
+        heading: "Study Resources for Occupational Therapy Exam Success",
+        content: "NurseNest Allied provides a comprehensive study ecosystem designed specifically for occupational therapy certification. Our adaptive test bank contains 500+ NBCOT-aligned questions with detailed clinical rationales covering evaluation, intervention planning, implementation, and professional practice across pediatric, adult, and geriatric populations. The Case Analysis Simulator presents OT-specific patient vignettes requiring clinical reasoning through the occupational therapy process — from referral and evaluation through goal setting, intervention, and discharge planning. The SMART Goal Writer provides structured practice in writing measurable, occupation-focused treatment goals with feedback on specificity, measurability, and clinical relevance. The Activity Analysis Tool helps you break down activities into component performance skills and client factors, then grade and adapt interventions for therapeutic benefit. Blueprint-weighted mock exams simulate the real NBCOT OTR experience including clinical simulation test items with domain-level scoring. Spaced repetition flashcards reinforce assessment tools, frames of reference, intervention techniques, developmental milestones, and key terminology."
+      },
+      {
+        heading: "Internal Resources for OT Exam Preparation",
+        content: "Launch your OT exam preparation with our free diagnostic assessment to identify your readiness across all NBCOT domains. Access the OT Practice Questions page for targeted exam practice with clinical case vignettes and detailed rationales. Use the OT Study Guide for comprehensive domain coverage and study strategies. Take OT Mock Exams with blueprint-weighted scoring to simulate test-day conditions. Study with OT Flashcards using spaced repetition for assessment tools, frames of reference, and developmental milestones. Explore the OT Question Bank for domain-filtered practice covering evaluation, intervention, pediatrics, adult rehab, and mental health. Review related exam prep resources in Physical Therapy certification for rehabilitation overlap content, Psychotherapy exam prep for mental health intervention connections, and Pediatric Nursing certification for developmental and family-centered care content. Access our occupational therapy encyclopedia for in-depth reference articles on key OT topics and clinical concepts."
+      }
+    ],
+    faqs: [
+      { q: "What is the format of the NBCOT OTR exam?", a: "The NBCOT OTR exam has 200 questions (170 scored + 30 pretest) including both multiple-choice and clinical simulation test (CST) items. CST items present patient scenarios where you make sequential clinical decisions. The time limit is 4 hours." },
+      { q: "What are clinical simulation test items?", a: "CST items present a patient case and require you to make decisions at multiple points — selecting assessments, interpreting results, choosing interventions, and planning discharge. Your choices determine what information you receive next, testing applied clinical reasoning." },
+      { q: "Does NurseNest cover the NOTCE for Canadian OTs?", a: "Yes. We include content aligned with the NOTCE administered by CAOT, covering Canadian practice standards, provincial regulatory requirements, and clinical guidelines specific to Canadian occupational therapy practice." },
+      { q: "What OT practice areas are most heavily tested?", a: "The NBCOT OTR exam emphasizes evaluation and intervention across multiple practice settings. Pediatric OT, adult rehabilitation (stroke, TBI, SCI), and mental health are all well-represented. Our practice exams mirror the official blueprint distribution." },
+      { q: "How long should I study for the NBCOT exam?", a: "Most students study 8-12 weeks before the NBCOT OTR exam. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and performance across practice domains." },
+      { q: "Is there a free trial for OT exam prep?", a: "Yes! Take our free diagnostic assessment to evaluate your readiness across all OT content areas, plus access free practice questions with detailed clinical rationales." }
+    ]
+  },
+  {
+    slug: "physical-therapy-certification-guide",
+    careerSlug: "physical-therapy",
+    pageType: "category",
+    title: "Physical Therapy Exam Prep | NPTE & PCE Certification Guide | NurseNest",
+    metaDescription: "Complete physical therapy certification guide covering NPTE and PCE exam requirements, musculoskeletal assessment, neuromuscular rehabilitation, exercise prescription, and study resources for PT students.",
+    h1: "Physical Therapy Exam Prep: Complete NPTE & PCE Certification Guide",
+    heroSubtitle: "Master musculoskeletal, neuromuscular, cardiovascular, and integumentary systems for your PT certification — with differential diagnosis trainers, gait analysis tools, and adaptive study plans.",
+    sections: [
+      {
+        heading: "Physical Therapy Program Overview and Career Outlook",
+        content: "Physical therapy is one of the most respected and in-demand healthcare professions, with the Bureau of Labor Statistics projecting 15% job growth through 2032 — much faster than the national average. Physical therapists (PTs) are healthcare professionals who help patients improve movement, manage pain, and restore function after injury, surgery, or illness. They perform comprehensive evaluations, design progressive exercise programs, apply manual therapy techniques, use therapeutic modalities, and educate patients on injury prevention and wellness. PTs work across diverse settings: outpatient orthopedic clinics, hospital acute care, inpatient rehabilitation, sports medicine facilities, home health agencies, school systems, skilled nursing facilities, and private practice. The profession requires a Doctor of Physical Therapy (DPT) degree and offers a median salary ranging from $76,000 to $105,000 USD. In Canada, physiotherapists earn $68,000 to $98,000 CAD with similarly strong demand. Career specialization options include orthopedics, sports, neurology, pediatrics, geriatrics, women's health, and cardiopulmonary physical therapy — each offering board certification through the American Board of Physical Therapy Specialties (ABPTS)."
+      },
+      {
+        heading: "NPTE and PCE Certification Requirements for Physical Therapists",
+        content: "In the United States, the Federation of State Boards of Physical Therapy (FSBPT) administers the National Physical Therapy Examination (NPTE). The NPTE consists of 250 questions — 200 scored and 50 pretest — with a 5-hour time limit. The exam is divided into system-based categories: Musculoskeletal (the largest section), Neuromuscular, Cardiovascular & Pulmonary, Integumentary, and Other Systems, plus non-system content covering Safety, Professional Responsibilities, and Research/Evidence-Based Practice. Questions use clinical scenario formats requiring you to apply knowledge to patient cases rather than recall isolated facts. You must demonstrate competence in examination, evaluation, diagnosis, prognosis, intervention, and outcome assessment across all body systems. In Canada, the Canadian Alliance of Physiotherapy Regulators (CAPR) administers the Physiotherapy Competency Examination (PCE), which has both written and clinical components. The written component tests theoretical knowledge while the clinical component evaluates hands-on patient management skills. Candidates must graduate from an accredited DPT program (US) or physiotherapy program (Canada) and meet jurisdiction-specific requirements before sitting for the exam. State and provincial licensure requires passing the national exam plus any additional jurisdiction-specific requirements."
+      },
+      {
+        heading: "NPTE Exam Content: Body Systems and Clinical Domains",
+        content: "The NPTE covers comprehensive physical therapy knowledge organized by body systems. The Musculoskeletal system — the largest exam section — tests orthopedic evaluation (special tests, joint assessment, muscle testing), differential diagnosis of musculoskeletal conditions, manual therapy techniques (joint mobilization grades I-V, soft tissue mobilization, myofascial release), therapeutic exercise prescription (strengthening, stretching, stabilization, proprioception), post-surgical rehabilitation protocols (ACL reconstruction, total joint arthroplasty, rotator cuff repair, spinal surgery), and biomechanical analysis. The Neuromuscular system covers neurological evaluation (sensation, motor control, balance, coordination), stroke rehabilitation (Brunnstrom stages, PNF patterns, constraint-induced movement therapy), spinal cord injury management (functional expectations by level), traumatic brain injury rehabilitation, Parkinson's disease, multiple sclerosis, and vestibular rehabilitation. Cardiovascular and Pulmonary content includes cardiac rehabilitation protocols, exercise physiology, vital sign monitoring, pulmonary function testing, and exercise prescription for cardiac and pulmonary conditions. Integumentary covers wound classification, wound management, burns, pressure injury prevention, and skin integrity assessment. Non-system content tests safety, pharmacology, imaging, research interpretation, and professional ethics."
+      },
+      {
+        heading: "Clinical Skills Required for Physical Therapy Certification",
+        content: "Physical therapy certification demands mastery of both evaluation and intervention skills across body systems. Musculoskeletal evaluation skills include goniometry, manual muscle testing, special orthopedic tests (Lachman, McMurray, Neer, Hawkins-Kennedy, FABER, SLR), postural assessment, and functional movement screening. Neurological evaluation requires proficiency in dermatome and myotome testing, cranial nerve assessment, balance and coordination testing (Berg Balance Scale, Timed Up and Go, Dynamic Gait Index), motor control assessment, and spasticity grading (Modified Ashworth Scale). Gait analysis is a critical competency — identifying normal gait parameters, common deviations, their causes, and appropriate interventions. Therapeutic exercise prescription requires understanding of exercise physiology, progressive resistance training, stretching protocols, aerobic conditioning, aquatic therapy, and sport-specific rehabilitation progressions. Manual therapy skills include joint mobilization and manipulation, soft tissue mobilization, myofascial release, and muscle energy techniques. Therapeutic modalities knowledge covers ultrasound, electrical stimulation (NMES, TENS, iontophoresis), cryotherapy, thermotherapy, and mechanical traction. Patient education, home exercise program design, and discharge planning are tested throughout the exam in clinical scenario format."
+      },
+      {
+        heading: "Study Resources for Physical Therapy Exam Success",
+        content: "NurseNest Allied provides a comprehensive study platform built specifically for physical therapy certification. Our adaptive test bank contains 500+ NPTE-aligned questions with detailed clinical rationales covering all body systems and non-system content — each rationale explains the biomechanical, physiological, or clinical reasoning behind the correct answer and why each distractor is incorrect. The Differential Diagnosis Trainer presents realistic patient presentations requiring you to distinguish between similar musculoskeletal and neurological conditions — a skill heavily tested on the NPTE. The Gait Analysis Simulator lets you identify gait deviations, correlate findings with clinical diagnoses, and select appropriate interventions. The Manual Therapy Reference provides an interactive guide to joint mobilization grades, soft tissue techniques, and evidence-based therapeutic interventions. Blueprint-weighted mock exams simulate the real NPTE experience with 250 questions, realistic timing, and system-level scoring. Spaced repetition flashcards reinforce anatomy, special tests, exercise progressions, pharmacology, and clinical outcome measures at scientifically optimized intervals."
+      },
+      {
+        heading: "Internal Resources for PT Exam Preparation",
+        content: "Start your physical therapy exam preparation with our free diagnostic assessment to evaluate your readiness across all NPTE body systems. Access the PT Practice Questions page for system-specific practice with clinical case vignettes and detailed biomechanical rationales. Use the PT Study Guide for comprehensive coverage of exam content, study strategies, and domain-specific review. Take PT Mock Exams with blueprint-weighted scoring to simulate the 5-hour NPTE experience. Study with PT Flashcards using spaced repetition for special tests, exercise progressions, neurological assessments, and pharmacology. Explore the PT Question Bank organized by body system — musculoskeletal, neuromuscular, cardiovascular, integumentary, and non-system content. Review related exam prep resources in Occupational Therapy certification for rehabilitation overlap content, Paramedic certification for emergency musculoskeletal assessment, and Sports Medicine nursing resources. Access our physical therapy encyclopedia for in-depth reference articles covering biomechanics, kinesiology, therapeutic exercise principles, and evidence-based clinical guidelines."
+      }
+    ],
+    faqs: [
+      { q: "How many questions are on the NPTE?", a: "The NPTE has 250 questions — 200 scored and 50 pretest items that don't count toward your score. You won't know which are pretest, so treat every question equally. The time limit is 5 hours." },
+      { q: "What body system is most heavily tested on the NPTE?", a: "The Musculoskeletal system is the largest section of the NPTE, followed by Neuromuscular, then Cardiovascular/Pulmonary and Other Systems. Non-system content (safety, professional practice, research) is also significant. Our mock exams mirror the official blueprint weighting." },
+      { q: "Does NurseNest cover the PCE for Canadian physiotherapists?", a: "Yes. We include content aligned with the Physiotherapy Competency Examination (PCE) administered by CAPR, covering Canadian practice standards, SI units, and provincial regulatory requirements." },
+      { q: "What is the difference between the NPTE and PCE?", a: "The NPTE (US) is a 250-question written exam. The PCE (Canada) has both a written component and a clinical component that tests hands-on patient management skills. Our platform covers the theoretical content tested on both exams." },
+      { q: "How long should I study for the NPTE?", a: "Most students study 8-16 weeks before the NPTE. Our personalized study planner creates an adaptive schedule based on your diagnostic results, exam date, and body system performance." },
+      { q: "Is there a free trial for PT exam prep?", a: "Yes! Take our free diagnostic assessment to evaluate your readiness across all PT body systems, plus access free practice questions with detailed clinical and biomechanical rationales." }
+    ]
+  },
 ];
+
+const RELATED_LINKS: Record<string, { label: string; href: string }[]> = {
+  rrt: [
+    { label: "RRT Practice Questions", href: "/rrt-practice-questions" },
+    { label: "RRT Mock Exam", href: "/rrt-mock-exam" },
+    { label: "RRT Study Guide", href: "/rrt-study-guide" },
+    { label: "RRT Exam Prep Hub", href: "/rrt-exam-prep" },
+    { label: "RRT Flashcards", href: "/rrt/flashcards" },
+    { label: "Paramedic Certification Guide", href: "/paramedic-certification-study-guide" },
+  ],
+  paramedic: [
+    { label: "Paramedic Questions", href: "/paramedic/questions" },
+    { label: "Paramedic Mock Exams", href: "/paramedic/practice-exams" },
+    { label: "Paramedic Flashcards", href: "/paramedic/flashcards" },
+    { label: "Paramedic ECG Library", href: "/paramedic/ecg-library" },
+    { label: "Paramedic Exam Prep Hub", href: "/paramedic-exam-prep" },
+    { label: "RRT Certification Guide", href: "/respiratory-therapy-certification-guide" },
+  ],
+  mlt: [
+    { label: "MLT Practice Questions", href: "/mlt/exam-prep" },
+    { label: "MLT Mock Exam", href: "/mlt/mock-exam" },
+    { label: "MLT Study Guide", href: "/mlt/study-guide" },
+    { label: "MLT Flashcards", href: "/mlt/flashcard-prep" },
+    { label: "MLT Image Library", href: "/mlt/image-drill" },
+    { label: "MLT Exam Prep Hub", href: "/mlt-exam-prep" },
+  ],
+  imaging: [
+    { label: "Imaging Practice Questions", href: "/imaging/questions" },
+    { label: "Imaging Flashcards", href: "/imaging/flashcards" },
+    { label: "Imaging Exam Prep Hub", href: "/radiography-exam-prep" },
+    { label: "RRT Certification Guide", href: "/respiratory-therapy-certification-guide" },
+    { label: "MLT Certification Guide", href: "/mlt-certification-study-guide" },
+  ],
+  "occupational-therapy": [
+    { label: "OT Practice Questions", href: "/occupational-therapy-practice-questions" },
+    { label: "OT Study Guide", href: "/occupational-therapy-study-guide" },
+    { label: "OT Exam Prep Hub", href: "/occupational-therapy-exam-prep" },
+    { label: "OT Question Bank", href: "/occupational-therapist/test-bank" },
+    { label: "PT Certification Guide", href: "/physical-therapy-certification-guide" },
+    { label: "PT Practice Questions", href: "/physical-therapy-practice-questions" },
+  ],
+  "physical-therapy": [
+    { label: "PT Practice Questions", href: "/physical-therapy-practice-questions" },
+    { label: "PT Study Guide", href: "/physical-therapy-study-guide" },
+    { label: "PT Exam Prep Hub", href: "/physical-therapy-exam-prep" },
+    { label: "OT Certification Guide", href: "/occupational-therapy-certification-guide" },
+    { label: "OT Practice Questions", href: "/occupational-therapy-practice-questions" },
+    { label: "Paramedic Certification Guide", href: "/paramedic-certification-study-guide" },
+  ],
+  "pharmacy-tech": [
+    { label: "Pharmacy Tech Practice Questions", href: "/pharmacy-technician-practice-questions" },
+    { label: "Pharmacy Tech Mock Exam", href: "/pharmacy-technician-mock-exam" },
+    { label: "Pharmacy Tech Study Guide", href: "/pharmacy-technician-study-guide" },
+    { label: "Top 200 Drugs Flashcards", href: "/pharmacy-technician-top-200-drugs-flashcards" },
+    { label: "Pharmacy Tech Flashcards", href: "/pharmacy-technician/flashcards" },
+    { label: "RRT Certification Guide", href: "/respiratory-therapy-certification-guide" },
+  ],
+};
 
 function getPageBySlug(slug: string): SEOPageConfig | undefined {
   return SEO_PAGES.find(p => p.slug === slug);
@@ -732,6 +1048,8 @@ function PageTypeIcon({ type }: { type: SEOPageConfig["pageType"] }) {
     case "practice-questions": return <BookOpen className="w-6 h-6" />;
     case "mock-exam": return <FileText className="w-6 h-6" />;
     case "study-guide": return <Brain className="w-6 h-6" />;
+    case "flashcards": return <Brain className="w-6 h-6" />;
+    case "category": return <Award className="w-6 h-6" />;
   }
 }
 
@@ -785,7 +1103,22 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             "description": page.metaDescription,
             "provider": { "@type": "Organization", "name": "NurseNest Allied", "sameAs": "https://allied.nursenest.ca" },
             "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT40H" }
-          }
+          },
+          ...(page.pageType === "category" ? [{
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": page.h1,
+            "description": page.metaDescription,
+            "author": { "@type": "Organization", "name": "NurseNest Allied" },
+            "publisher": {
+              "@type": "Organization",
+              "name": "NurseNest Allied",
+              "url": "https://allied.nursenest.ca",
+              "logo": { "@type": "ImageObject", "url": "https://www.nursenest.ca/opengraph.jpg" }
+            },
+            "mainEntityOfPage": { "@type": "WebPage", "@id": `https://allied.nursenest.ca/${page.slug}` },
+            "articleSection": career?.name || "Allied Health"
+          }] : [])
         ]}
       />
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 text-white py-16 md:py-20">
@@ -941,56 +1274,16 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
         </div>
       </section>
 
-      {page.careerSlug === "occupational-therapy" && (
+      {RELATED_LINKS[page.careerSlug] && (
         <section className="py-8 bg-gray-50 border-t border-gray-100">
           <div className="max-w-4xl mx-auto px-4">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Related Exam Prep</h3>
             <div className="flex flex-wrap gap-3">
-              <Link href="/occupational-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-exam-prep">
-                <ArrowRight className="w-3.5 h-3.5" /> OT Exam Prep Hub
-              </Link>
-              <Link href="/occupational-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-practice">
-                <ArrowRight className="w-3.5 h-3.5" /> OT Practice Questions
-              </Link>
-              <Link href="/occupational-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-study">
-                <ArrowRight className="w-3.5 h-3.5" /> OT Study Guide
-              </Link>
-              <Link href="/physical-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-exam-prep">
-                <ArrowRight className="w-3.5 h-3.5" /> Physical Therapy Exam Prep
-              </Link>
-              <Link href="/physical-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-practice">
-                <ArrowRight className="w-3.5 h-3.5" /> PT Practice Questions
-              </Link>
-              <Link href="/physical-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-study">
-                <ArrowRight className="w-3.5 h-3.5" /> PT Study Guide
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-      {page.careerSlug === "physical-therapy" && (
-        <section className="py-8 bg-gray-50 border-t border-gray-100">
-          <div className="max-w-4xl mx-auto px-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Related Exam Prep</h3>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/physical-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-exam-prep">
-                <ArrowRight className="w-3.5 h-3.5" /> PT Exam Prep Hub
-              </Link>
-              <Link href="/physical-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-practice">
-                <ArrowRight className="w-3.5 h-3.5" /> PT Practice Questions
-              </Link>
-              <Link href="/physical-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-pt-study">
-                <ArrowRight className="w-3.5 h-3.5" /> PT Study Guide
-              </Link>
-              <Link href="/occupational-therapy-exam-prep" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-exam-prep">
-                <ArrowRight className="w-3.5 h-3.5" /> Occupational Therapy Exam Prep
-              </Link>
-              <Link href="/occupational-therapy-practice-questions" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-practice">
-                <ArrowRight className="w-3.5 h-3.5" /> OT Practice Questions
-              </Link>
-              <Link href="/occupational-therapy-study-guide" className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid="link-related-ot-study">
-                <ArrowRight className="w-3.5 h-3.5" /> OT Study Guide
-              </Link>
+              {RELATED_LINKS[page.careerSlug].map((link, i) => (
+                <Link key={i} href={link.href} className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid={`link-related-${link.href.replace(/\//g, "").replace(/[^a-z0-9-]/g, "-")}`}>
+                  <ArrowRight className="w-3.5 h-3.5" /> {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         </section>
