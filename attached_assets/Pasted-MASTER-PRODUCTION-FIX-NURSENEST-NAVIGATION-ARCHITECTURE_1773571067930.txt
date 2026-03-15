@@ -1,0 +1,385 @@
+MASTER PRODUCTION FIX — NURSENEST NAVIGATION, ARCHITECTURE, ROUTING, LINKING, AND LESSON DISPLAY
+
+Problem:
+The published NurseNest experience is structurally inconsistent. Multiple sections behave like disconnected products, some routes redirect into different shells/subdomains, many links are broken or orphaned, and lesson content is being exposed in the wrong public structure.
+
+This must be treated as one architecture incident, not a series of isolated bugs.
+
+==================================================
+SECTION 1 — CORE PRODUCT RULES
+==================================================
+
+1. NurseNest must feel like ONE ecosystem.
+2. Allied Health must feel like a section of NurseNest, not a trap site.
+3. New Grad / Nursing Certifications must be a separate section from Allied Health.
+4. Public lesson pages must show curated, production-ready content only.
+5. No link should render unless its destination exists and works on published.
+6. The database is the source of content, NOT the source of public structure.
+
+==================================================
+SECTION 2 — AUDIT THE LIVE PUBLISHED SITE
+==================================================
+
+Audit the actual published site, not preview.
+
+Document all of the following:
+- main domain routes
+- allied subdomain routes
+- redirects between them
+- pages using main NurseNest shell
+- pages using disconnected/legacy shells
+- header links
+- footer links
+- dropdown links
+- hero CTA links
+- lesson card links
+- specialty/certification links
+- locale behavior
+
+For every link, record:
+- visible label
+- current href
+- final destination
+- whether it resolves
+- whether it 404s
+- whether it redirects to wrong shell/subdomain
+- whether destination exists on published
+- whether destination belongs in the correct section
+
+==================================================
+SECTION 3 — NORMALIZE SITE ARCHITECTURE
+==================================================
+
+Separate these three ecosystems clearly:
+
+A. Exam Prep
+Examples:
+- /exam-prep
+- /pricing
+- /lessons
+- /practice
+- /analytics
+
+B. New Grad / Nursing Certifications
+Examples:
+- /new-grad
+- /new-grad/certifications
+- /new-grad/certifications/critical-care
+- /new-grad/certifications/emergency
+- /new-grad/certifications/oncology
+- /new-grad/certifications/perioperative
+- /new-grad/certifications/pediatric
+
+C. Allied Health / Healthcare Careers
+Examples:
+- /allied-health
+- /allied-health/paramedic
+- /allied-health/respiratory-therapy
+- /allied-health/pharmacy-tech
+- /allied-health/mlt
+- etc.
+
+Do NOT:
+- route Nursing Certifications to Allied Health
+- route Allied specialties to generic hero pages unless intentional
+- mix multiple layout systems for these sections
+
+==================================================
+SECTION 4 — ALLIED HEALTH MUST BE INTEGRATED
+==================================================
+
+Preferred end state:
+Allied Health should live inside the main NurseNest architecture and feel fully integrated.
+
+Preferred routes:
+- /allied-health
+- /allied-health/paramedic
+- /allied-health/respiratory-therapy
+- /allied-health/pharmacy-tech
+- /allied-health/mlt
+- /allied-health/radiologic-tech
+- /allied-health/diagnostic-medical-sonography
+- /allied-health/cardiac-sonography
+- /allied-health/occupational-therapy-assistant
+- /allied-health/physiotherapy-assistant
+- /allied-health/health-information-management
+
+If the allied subdomain must remain temporarily:
+- make it use the exact same NurseNest header/footer/layout
+- make cross-navigation explicit
+- remove all disconnected-site behavior
+- preserve branding and locale
+- make return to main NurseNest possible in one click from every allied page
+
+==================================================
+SECTION 5 — ADD CROSS-SITE NAVIGATION
+==================================================
+
+On every allied page add:
+- NurseNest logo linking to main homepage
+- visible nav item: Back to NurseNest or NurseNest Home
+- ecosystem nav links to:
+  - Exam Prep
+  - New Grad Support
+  - Healthcare Careers
+- footer links back to:
+  - homepage
+  - pricing
+  - lessons
+  - new grad
+  - FAQ
+
+Add breadcrumbs where appropriate:
+NurseNest > Allied Health > Pharmacy Technician
+
+Users must never get trapped on allied pages.
+
+==================================================
+SECTION 6 — FIX MENU / DROPDOWN ROUTING
+==================================================
+
+Audit and fix all dropdown items, especially:
+- Paramedic
+- RRT / Respiratory Therapy
+- Pharmacy Tech
+- Nursing Certifications
+- New Grad
+- Healthcare Careers
+- Career Guides
+- Nursing Specialties
+
+Rules:
+- specialty items go to specialty pages
+- hub items go to hub pages
+- no specialty item should randomly land on an unrelated hero page
+- no menu item should redirect into a mismatched shell
+- no dead links
+
+==================================================
+SECTION 7 — NEW GRAD MUST HAVE ITS OWN HUB
+==================================================
+
+Create or normalize a dedicated New Grad hero/hub page.
+
+Required:
+- New Grad hero section
+- Nursing Certifications / specialty cards
+- clear links to certification pages
+- survival/career transition content
+- distinct section from Allied Health
+
+Nursing Certifications must route here, not to Allied Health.
+
+If content exists for:
+- Critical Care
+- Emergency
+- Oncology
+- Perioperative
+- Pediatric
+then create/restore dedicated routes and cards for those pages.
+
+Do NOT force newly created certification content into legacy “closest match” pages unless explicitly approved.
+
+==================================================
+SECTION 8 — FIX BROKEN LINKS EVERYWHERE
+==================================================
+
+For all visible links on affected pages:
+- top nav
+- secondary nav
+- hero CTAs
+- lesson links
+- progress buttons
+- footer
+- guide links
+- specialty links
+- allied links
+- new grad links
+
+Apply this rule:
+DO NOT render a link unless the destination exists and works on published.
+
+If destination does not exist:
+- either create it
+- or hide/remove the link temporarily
+
+No orphaned or fake destinations.
+
+==================================================
+SECTION 9 — REPAIR LESSON PAGE TAXONOMY
+==================================================
+
+The current lessons implementation exposed the wrong public structure.
+
+Fix the lesson pipeline so:
+1. lessons are fetched from the database
+2. lesson records are validated
+3. only approved/public/production-ready lessons pass
+4. lessons are mapped into approved systems/categories
+5. only curated public systems render
+
+Do NOT:
+- render raw database dumps publicly
+- create a new public “Database Lessons” block
+- expose unfinished, internal, malformed, duplicate, or review-needed lessons
+
+Hide from public display any lesson that is:
+- draft
+- incomplete
+- low-quality
+- duplicate
+- unmapped
+- malformed
+- internal/test/seed content
+- badly titled
+- missing required metadata
+
+If a lesson cannot be confidently mapped to an approved system, send it to admin review only.
+
+==================================================
+SECTION 10 — TITLE / DUPLICATE CLEANUP
+==================================================
+
+Clean public lesson titles so they are:
+- consistent
+- student-facing
+- polished
+- not raw/admin-looking
+
+Remove or hide:
+- ugly internal suffixes
+- malformed capitalization
+- duplicate basics/full-version collisions unless intentional
+- near-duplicate lessons that clutter the paid tier
+
+Preserve records in the database, but clean the PUBLIC display layer.
+
+==================================================
+SECTION 11 — SHARED SHELL / DESIGN CONSISTENCY
+==================================================
+
+All pages across main, allied, and new grad must use the same:
+- NurseNest logo behavior
+- top header
+- ecosystem nav
+- footer
+- container spacing
+- visual design language
+- locale behavior
+- account/menu behavior
+
+Allowed:
+- section-specific hero content
+- section-specific subnav
+
+Not allowed:
+- multiple disconnected app shells
+- pages missing nav/footer
+- pages that look like another product
+
+==================================================
+SECTION 12 — LOCALE / SEO CONSISTENCY
+==================================================
+
+Preserve locale across routes.
+
+Examples:
+- /en/allied-health/pharmacy-tech should return to /en home
+- /fr/new-grad should stay in /fr where localized content exists
+
+Also preserve/improve:
+- canonical tags
+- hreflang
+- sitemap inclusion
+- breadcrumb schema
+- internal linking hierarchy
+
+Do not let architecture fixes damage SEO.
+
+==================================================
+SECTION 13 — UX IMPROVEMENTS AFTER SITE REVIEW
+==================================================
+
+After fixing the structural bugs, apply these improvements:
+
+1. Simplify top navigation
+Recommended top nav:
+- Exam Prep
+- New Grad
+- Healthcare Careers
+- Lessons
+- Practice
+- Pricing
+
+2. Reduce footer clutter
+Too many footer links create dead ends and expose incomplete sections.
+Only show links that exist and are ready.
+
+3. Add a clear hub structure
+Every content family needs:
+- one hub page
+- child specialty/career pages
+- clear return paths
+- internal cards linking downward
+
+4. Tighten public lesson curation
+The paid tier should feel premium and intentional, not like an internal content warehouse.
+
+5. Add stronger section labels
+Users should always know whether they are in:
+- Exam Prep
+- New Grad
+- Healthcare Careers / Allied Health
+
+6. Prevent unfinished content from leaking publicly
+No placeholder or raw inventory should ever appear on production.
+
+==================================================
+SECTION 14 — TESTING
+==================================================
+
+Test on the published site, not preview.
+
+Required testing:
+- homepage
+- lessons pages
+- new grad hub
+- nursing certifications hub
+- allied health hub
+- paramedic
+- respiratory therapy / RRT
+- pharmacy tech
+- MLT
+- any other allied pages
+- all dropdown items
+- footer links
+- hero CTA buttons
+- mobile nav
+- desktop nav
+- locale switching
+- login state if applicable
+
+Confirm:
+- no page traps the user
+- every section has a return path
+- no broken links remain
+- no mismatched layout shells remain
+- no accidental raw lesson dump remains
+- unfinished lessons are hidden
+- paid tier looks curated and premium
+
+==================================================
+SECTION 15 — DELIVERABLES
+==================================================
+
+Provide:
+- root cause summary
+- final recommended architecture
+- exact files changed
+- old route behavior vs new route behavior
+- list of redirects removed or normalized
+- list of broken links fixed
+- list of links hidden because destination pages do not exist
+- lesson filtering logic added
+- duplicate/title cleanup logic added
+- confirmation that published Allied, New Grad, and lesson pages now behave as one coherent NurseNest ecosystem
