@@ -88,10 +88,13 @@ const CareerFlashcardsIndexPage = lazy(() => import("./components/career-flashca
 const ImagingCareerExamsPage = lazy(() => import("./components/career-exams-page"));
 const CareerCareerGuidePage = lazy(() => import("./components/career-career-guide-page"));
 import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
-import { MltSEOPage } from "./pages/mlt-seo-pages";
+const MltSEOPage = lazy(() => import("./pages/mlt-seo-pages").then(m => ({ default: m.MltSEOPage })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
-import { UnderservedSEOPage, OTQuestionBankPage, OTMockExamsPage, OTStudyPlanPage } from "./pages/underserved-seo-pages";
+const UnderservedSEOPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.UnderservedSEOPage })));
+const OTQuestionBankPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.OTQuestionBankPage })));
+const OTMockExamsPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.OTMockExamsPage })));
+const OTStudyPlanPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.OTStudyPlanPage })));
 const EncyclopediaHubPage = lazy(() => import("./pages/encyclopedia-hub-page"));
 const EncyclopediaTopicPage = lazy(() => import("./pages/encyclopedia-topic-page"));
 const EncyclopediaAdmin = lazy(() => import("./pages/encyclopedia-admin"));

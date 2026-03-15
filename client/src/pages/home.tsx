@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react"
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
-import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
+
+const AdminEditButton = lazy(() => import("@/components/admin-edit-button").then(m => ({ default: m.AdminEditButton })));
 const Footer = lazy(() => import("@/components/footer").then(m => ({ default: m.Footer })));
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
@@ -609,7 +610,11 @@ export default function Home() {
       <Suspense fallback={<div className="min-h-[200px]" />}>
         <Footer />
       </Suspense>
-      <AdminEditButton />
+      {isAdmin && (
+        <Suspense fallback={null}>
+          <AdminEditButton />
+        </Suspense>
+      )}
     </div>
   );
 }

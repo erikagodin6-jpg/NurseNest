@@ -1,6 +1,6 @@
 import { Switch, Route, Router, Redirect, useLocation } from "wouter";
 import { useBrowserLocation, navigate as wouterNavigate } from "wouter/use-browser-location";
-import { useEffect, lazy, Suspense, Component, type ReactNode, type ErrorInfo } from "react";
+import { useEffect, useState, lazy, Suspense, Component, type ReactNode, type ErrorInfo } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -12,9 +12,15 @@ import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE, deLocalizeSlug } from "@/lib/locale-utils";
 import { ParamedicRegionProvider } from "@/allied/contexts/paramedic-region-context";
-import { AlliedLayout } from "@/allied/allied-layout";
-import { AlliedRoutes } from "@/allied/allied-routes";
-import { TesterBanner } from "@/components/tester-banner";
+const AlliedLayout = lazy(() => import("@/allied/allied-layout").then(m => ({ default: m.AlliedLayout })));
+const AlliedRoutes = lazy(() => import("@/allied/allied-routes").then(m => ({ default: m.AlliedRoutes })));
+const TesterBanner = lazy(() => import("@/components/tester-banner").then(m => ({ default: m.TesterBanner })));
+const UpgradePrompt = lazy(() => import("@/components/upgrade-prompt").then(m => ({ default: m.UpgradePrompt })));
+const PWAInstallPrompt = lazy(() => import("@/components/pwa-install-prompt").then(m => ({ default: m.PWAInstallPrompt })));
+const ExitIntentModal = lazy(() => import("@/components/exit-intent-modal").then(m => ({ default: m.ExitIntentModal })));
+const MobileBottomNav = lazy(() => import("@/components/mobile-study-shell").then(m => ({ default: m.MobileBottomNav })));
+const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker"));
+const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
 
 function PreviewBanner() {
   const { previewTier, setPreviewTier, isAdmin } = useAuth();
@@ -65,12 +71,6 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   }
 }
 const Home = lazy(() => import("@/pages/home"));
-import { UpgradePrompt } from "@/components/upgrade-prompt";
-import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
-import { ExitIntentModal } from "@/components/exit-intent-modal";
-import { ReportProblemButton } from "@/components/report-problem-button";
-import { MobileBottomNav } from "@/components/mobile-study-shell";
-import AnalyticsTracker from "@/components/analytics-tracker";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -109,8 +109,6 @@ const SpecialtyPreviewPage = lazy(() => import("@/pages/specialty-preview"));
 const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const MltStudentDashboard = lazy(() => import("@/allied/pages/mlt-student-dashboard"));
-import { MltSEOPage } from "@/allied/pages/mlt-seo-pages";
-import { ExamStudyGuidePage } from "@/pages/exam-study-guide";
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
 const LabValuesPage = lazy(() => import("@/pages/lab-values"));
@@ -1219,6 +1217,30 @@ handleDevModeSwitch();
   }
 })();
 
+function DeferredShellComponents() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if ("requestIdleCallback" in window) {
+      const id = requestIdleCallback(() => setReady(true), { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    }
+    const timer = setTimeout(() => setReady(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+  if (!ready) return null;
+  return (
+    <Suspense fallback={null}>
+      <TesterBanner />
+      <LazyAnalyticsTracker />
+      <MobileBottomNav />
+      <UpgradePrompt />
+      <PWAInstallPrompt />
+      <ExitIntentModal />
+      <ReportProblemButton />
+    </Suspense>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
@@ -1232,16 +1254,10 @@ function App() {
                 <TooltipProvider>
                   <Toaster />
                   <PreviewBanner />
-                  <TesterBanner />
                   <PageTracker />
                   <CopyProtection />
-                  <AnalyticsTracker />
                   <LocaleRouter />
-                  <MobileBottomNav />
-                  <UpgradePrompt />
-                  <PWAInstallPrompt />
-                  <ExitIntentModal />
-                  <ReportProblemButton />
+                  <DeferredShellComponents />
                 </TooltipProvider>
               </SiteImagesProvider>
               </ParamedicRegionProvider>

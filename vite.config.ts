@@ -58,6 +58,30 @@ export default defineConfig({
             if (id.includes("framer-motion")) {
               return "vendor-motion";
             }
+            if (id.includes("@tanstack/react-query")) {
+              return "vendor-query";
+            }
+            if (id.includes("i18next") || id.includes("react-i18next")) {
+              return "vendor-i18n";
+            }
+            if (id.includes("zod") || id.includes("drizzle-zod")) {
+              return "vendor-validation";
+            }
+            if (id.includes("@stripe") || id.includes("stripe")) {
+              return "vendor-stripe";
+            }
+            if (id.includes("next-themes")) {
+              return "vendor-themes";
+            }
+            if (id.includes("wouter")) {
+              return "vendor-router";
+            }
+            if (id.includes("react-dom")) {
+              return "vendor-react";
+            }
+            if (id.includes("react")) {
+              return "vendor-react";
+            }
             return "vendor";
           }
 
