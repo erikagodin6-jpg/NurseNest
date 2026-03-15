@@ -102,6 +102,7 @@ import { rpnPathoNeurologyLessons } from "./rpn-patho-neurology";
 import { rpnPathoMusculoskeletalLessons } from "./rpn-patho-musculoskeletal";
 import { rpnPathoImmunologyLessons } from "./rpn-patho-immunology";
 import { rpnPathoStressMetabolismLessons } from "./rpn-patho-stress-metabolism";
+import { rnPathoCardioNeuroLessons } from "./rn-patho-cardio-neuro";
 
 import { rrtLessons } from "./rrt-lessons";
 import { paramedicLessons } from "./paramedic-lessons";
@@ -963,6 +964,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnIncompleteBatch7Lessons,
   npPathoExpansionLessons,
   rnInfectiousDiseaseExpansionLessons,
+  rnPathoCardioNeuroLessons,
 );
 
 

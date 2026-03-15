@@ -1622,7 +1622,8 @@ export const rnSystems = [
       { id: "fetal-heart-rate-monitoring-rn", name: "Fetal Heart Rate Monitoring", status: "Available" },
       { id: "fluid-and-electrolytes-1-rn", name: "Fluid & Electrolytes (1)", status: "Available" },
       { id: "fluid-electrolyte-and-acid-base-balance-rn-rn", name: "Fluid, Electrolyte, and Acid-Base Balance (RN)", status: "Available" },
-      { id: "advanced-cardiovascular-nursing-rn-rn", name: "Advanced Cardiovascular Nursing (RN)", status: "Available" }
+      { id: "advanced-cardiovascular-nursing-rn-rn", name: "Advanced Cardiovascular Nursing (RN)", status: "Available" },
+      { id: "coronary-artery-disease-rn", name: "Coronary Artery Disease: RN Pathophysiology", status: "Available" }
     ]
   },
   {
@@ -1751,7 +1752,11 @@ export const rnSystems = [
       { id: "alzheimer-disease-rn", name: "Alzheimer Disease", status: "Available" },
       { id: "guillain-barre-rn", name: "Guillain-Barre Syndrome", status: "Available" },
       { id: "myasthenia-gravis-rn", name: "Myasthenia Gravis", status: "Available" },
-      { id: "brown-sequard-syndrome-2-rn", name: "Brown-Sequard Syndrome", status: "Available" }
+      { id: "brown-sequard-syndrome-2-rn", name: "Brown-Sequard Syndrome", status: "Available" },
+      { id: "hemorrhagic-stroke-rn", name: "Hemorrhagic Stroke: RN Pathophysiology", status: "Available" },
+      { id: "parkinson-disease-rn", name: "Parkinson Disease: RN Pathophysiology", status: "Available" },
+      { id: "delirium-vs-dementia-rn", name: "Delirium vs Dementia: RN Differentiation", status: "Available" },
+      { id: "meningitis-patho-rn", name: "Meningitis: RN Pathophysiology", status: "Available" }
     ]
   },
   {

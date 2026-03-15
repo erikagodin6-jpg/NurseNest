@@ -180,6 +180,8 @@ QUESTION_FILES.push({ file: "rpn-expansion-i", tier: "rpn", exam: "REX-PN", expo
 QUESTION_FILES.push({ file: "pn-us-batch-02", tier: "rpn", exam: "NCLEX-PN", exportName: "pnUsBatch02Questions" });
 QUESTION_FILES.push({ file: "rn-infectious-disease-testbank", tier: "rn", exam: "NCLEX-RN", exportName: "rnInfectiousDiseaseTestbankQuestions" });
 QUESTION_FILES.push({ file: "rn-infectious-disease-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnInfectiousDiseaseCatQuestions" });
+QUESTION_FILES.push({ file: "rn-patho-cardio-neuro", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroQuestions" });
+QUESTION_FILES.push({ file: "rn-patho-cardio-neuro-cat", tier: "rn", exam: "NCLEX-RN", exportName: "rnPathoCardioNeuroCatQuestions" });
 
 for (let i = 1; i <= 72; i++) {
   const pad = String(i).padStart(2, "0");
