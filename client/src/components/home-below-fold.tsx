@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { LazySection } from "@/components/lazy-section";
 import { useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
-import { getEnabledCareers } from "@shared/careers";
+import { getEnabledCareers, getCanonicalRoute } from "@shared/careers";
 import type { DigitalProduct } from "@shared/schema";
 import type { HeroStats } from "@shared/lesson-stats";
 import {
@@ -140,7 +140,8 @@ export function HomeBelowFold({
                 if (career.id === "nursing") {
                   setLocation("/free-practice");
                 } else if (isAllied) {
-                  window.open(`https://allied.nursenest.ca${career.routePrefix}`, "_blank");
+                  const canonical = getCanonicalRoute(career.slug);
+                  window.open(`https://allied.nursenest.ca${canonical}`, "_blank");
                 } else {
                   setLocation(career.routePrefix || "/");
                 }

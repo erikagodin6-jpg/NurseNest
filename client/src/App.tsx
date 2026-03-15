@@ -896,6 +896,7 @@ function AppRoutes() {
         <Route path="/pharmacy-tech/dashboard" component={DashboardPage} />
         <Route path="/pharmacy-tech/top-100-pharmacy-technician-exam-questions" component={AuthorityContentPage} />
         <Route path="/pharmacy-tech" component={AlliedHomePage} />
+        <Route path="/pharmacy-technician">{() => <Redirect to="/pharmacy-tech" />}</Route>
         <Route path="/social-work/ultimate-aswb-exam-study-guide" component={AuthorityContentPage} />
         <Route path="/social-work" component={SocialWorkAuthorityHub} />
         <Route path="/psychotherapy/complete-psychotherapy-licensing-exam-guide" component={AuthorityContentPage} />

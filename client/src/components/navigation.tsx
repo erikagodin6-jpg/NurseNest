@@ -1026,13 +1026,13 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="hidden sm:inline-flex text-xs font-semibold gap-1.5 px-2.5 h-8 border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                  className="hidden sm:inline-flex text-xs font-semibold gap-1.5 px-2.5 h-8 border-primary/20 hover:border-primary/40 hover:bg-primary/5 max-w-[180px] whitespace-nowrap overflow-hidden"
                   data-testid="button-career-selector"
                   style={{ borderColor: career.color + "40", color: career.color }}
                 >
-                  {(() => { const Icon = CAREER_ICONS[career.icon]; return Icon ? <Icon className="w-3.5 h-3.5" /> : null; })()}
-                  {career.shortName}
-                  <ChevronDown className="w-3 h-3" />
+                  {(() => { const Icon = CAREER_ICONS[career.icon]; return Icon ? <Icon className="w-3.5 h-3.5 flex-shrink-0" /> : null; })()}
+                  <span className="truncate">{career.shortName}</span>
+                  <ChevronDown className="w-3 h-3 flex-shrink-0" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64 p-2">

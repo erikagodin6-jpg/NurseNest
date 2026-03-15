@@ -137,17 +137,25 @@ export function AlliedNavigation() {
               </Link>
 
               <div className="relative" onMouseEnter={() => setCareerDropdownOpen(true)} onMouseLeave={() => setCareerDropdownOpen(false)}>
-                <button className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 flex items-center gap-1" data-testid="button-career-dropdown">
-                  {currentCareer ? currentCareer.shortName : "Study"} <ChevronDown className="w-3.5 h-3.5" />
+                <button className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 flex items-center gap-1 max-w-[160px] whitespace-nowrap" data-testid="button-career-dropdown">
+                  <span className="truncate">{currentCareer ? currentCareer.shortName : "Study"}</span>
+                  <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" />
                 </button>
                 {careerDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50" data-testid="dropdown-careers">
+                    <Link href="/allied-health" className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors border-b border-gray-100 mb-1 ${location === "/allied-health" ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid="link-allied-health-hub">
+                      <span className="flex-shrink-0"><GraduationCap className="w-4 h-4" /></span>
+                      <div className="min-w-0">
+                        <div className="font-medium truncate">Allied Health Hub</div>
+                        <div className="text-xs text-gray-400 truncate">All career guides</div>
+                      </div>
+                    </Link>
                     {alliedCareers.filter(c => c.enabled).map(career => (
                       <Link key={career.slug} href={getCanonicalRoute(career.slug)} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${currentCareer?.slug === career.slug ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${career.slug}`}>
-                        {getCareerIcon(career.slug)}
-                        <div>
-                          <div className="font-medium">{career.shortName}</div>
-                          <div className="text-xs text-gray-400">{career.examNames[0]}</div>
+                        <span className="flex-shrink-0">{getCareerIcon(career.slug)}</span>
+                        <div className="min-w-0">
+                          <div className="font-medium truncate">{career.shortName}</div>
+                          <div className="text-xs text-gray-400 truncate">{career.examNames[0]}</div>
                         </div>
                       </Link>
                     ))}
@@ -221,6 +229,7 @@ export function AlliedNavigation() {
               Healthcare Jobs (ApplyNest)
             </a>
             <div className="border-t border-gray-100 my-2" />
+            <Link href="/allied-health" className="block px-4 py-3 text-sm font-medium text-teal-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-health-hub">Allied Health Hub</Link>
             <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">All Careers</Link>
             {alliedCareers.filter(c => c.enabled).map(career => (
               <div key={career.slug}>
