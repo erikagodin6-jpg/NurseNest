@@ -1546,7 +1546,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 ))}
               </div>
               <div className="flex items-center gap-2">
-                <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
                 <NavDropdown label={t("nav.resources")} items={[
                   { label: t("nav.pricing"), key: "Pricing" },
                   { label: t("footer.faq"), key: "FAQ" },

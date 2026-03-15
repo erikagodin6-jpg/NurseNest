@@ -4,7 +4,15 @@ import {
   clinicalScenariosSystems,
   medMathSystems,
   preNursingSystems,
-  freeGeneralSystems,
+  freeCardiovascularSystems,
+  freeEndocrineSystems,
+  freeGIRenalSystems,
+  freeMusculoskeletalSystems,
+  freeMaternalSystems,
+  freeImmuneSystems,
+  freeMentalHealthSystems,
+  freeOncologySystems,
+  freePharmacologySystems,
   rpnSystems,
   rnSystems,
   npSystems,
@@ -49,7 +57,7 @@ const alliedFoundationsSystems: TierSystems = [
 ];
 
 const tierSystemGroups: { tier: string; systems: TierSystems }[] = [
-  { tier: "free", systems: [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems] as TierSystems },
+  { tier: "free", systems: [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeCardiovascularSystems, ...freeEndocrineSystems, ...freeGIRenalSystems, ...freeMusculoskeletalSystems, ...freeMaternalSystems, ...freeImmuneSystems, ...freeMentalHealthSystems, ...freeOncologySystems, ...freePharmacologySystems] as TierSystems },
   { tier: "rpn", systems: rpnSystems },
   { tier: "rn", systems: rnSystems },
   { tier: "np", systems: npSystems },

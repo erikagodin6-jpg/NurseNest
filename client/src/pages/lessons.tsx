@@ -58,7 +58,6 @@ import {
   Microscope,
   FlaskConical,
   BarChart3,
-  Database,
   Trophy,
   Lightbulb,
   Search,
@@ -187,48 +186,150 @@ export const preNursingSystems = [
   }
 ];
 
-export const freeGeneralSystems = [
+export const freeCardiovascularSystems = [
   {
-    id: "free-clinical-topics",
-    title: "Clinical Topics",
-    icon: Stethoscope,
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-50",
+    id: "free-cardiovascular",
+    title: "Cardiovascular",
+    icon: Heart,
+    color: "text-red-500",
+    bgColor: "bg-red-50",
     diseases: [
-      { id: "cardiac-critical-patterns-rpnrn", name: "Cardiac Critical Patterns (RPN/RN)", status: "Available" },
+      { id: "cardiac-critical-patterns-rpnrn", name: "Cardiac Critical Patterns", status: "Available" },
       { id: "cardiac-monitoring-and-telemetry", name: "Cardiac Monitoring and Telemetry", status: "Available" },
-      { id: "endocrine-pharmacology", name: "Endocrine Pharmacology", status: "Available" },
-      { id: "rpn-endocrine-test-bank", name: "RPN Endocrine Test Bank", status: "Available" },
-      { id: "thyrotoxicosis-thyroid-storm", name: "Thyrotoxicosis (Thyroid Storm)", status: "Available" },
-      { id: "np-high-risk-prescribing-and-safety", name: "NP High-Risk Prescribing and Safety", status: "Available" },
-      { id: "vaccine-reactions-and-safety-management", name: "Vaccine Reactions & Safety Management", status: "Available" },
-      { id: "gi-and-renal-pharmacology", name: "GI and Renal Pharmacology", status: "Available" },
-      { id: "rpn-renalgi-test-bank", name: "RPN Renal/GI Test Bank", status: "Available" },
-      { id: "acute-lumbosacral-strain", name: "Acute Lumbosacral Strain", status: "Available" },
       { id: "acute-myocardial-infarction", name: "Acute Myocardial Infarction", status: "Available" },
-      { id: "antacids", name: "Antacids", status: "Available" },
-      { id: "antenatal-corticosteroids-betamethasone-and-dexamethasone", name: "Antenatal Corticosteroids (Betamethasone & Dexamethasone)", status: "Available" },
-      { id: "antenatal-diagnostic-testing", name: "Antenatal Diagnostic Testing", status: "Available" },
-      { id: "anthrax-bacillus-anthracis", name: "Anthrax (Bacillus anthracis)", status: "Available" },
-      { id: "antibody-types-and-functions", name: "Antibody Types and Functions", status: "Available" },
-      { id: "antidiarrheals", name: "Antidiarrheals", status: "Available" },
-      { id: "antiemetics", name: "Antiemetics", status: "Available" },
       { id: "asystole-and-pulseless-electrical-activity-pea", name: "Asystole and Pulseless Electrical Activity (PEA)", status: "Available" },
       { id: "av-fistula-care", name: "AV Fistula Care", status: "Available" },
-      { id: "bariatric-surgery", name: "Bariatric Surgery", status: "Available" },
-      { id: "contraceptive-methods", name: "Contraceptive Methods", status: "Available" },
-      { id: "crutch-paralysis", name: "Crutch Paralysis", status: "Available" },
-      { id: "dsm-5-personality-disorders-cluster-abc-overview", name: "DSM-5 Personality Disorders (Cluster A/B/C Overview)", status: "Available" },
-      { id: "fetal-monitoring-late-and-variable-decels", name: "Fetal Monitoring: Late & Variable Decels", status: "Available" },
-      { id: "h2-receptor-antagonists", name: "H2-Receptor Antagonists", status: "Available" },
-      { id: "kaposi-sarcoma", name: "Kaposi Sarcoma", status: "Available" },
-      { id: "laxatives", name: "Laxatives", status: "Available" },
-      { id: "lumbosacral-disc-herniation", name: "Lumbosacral Disc Herniation", status: "Available" },
-      { id: "mastectomy-post-operative-care", name: "Mastectomy Post-Operative Care", status: "Available" },
-      { id: "merkel-cell-carcinoma", name: "Merkel Cell Carcinoma", status: "Available" },
-      { id: "multiple-gestation", name: "Multiple Gestation", status: "Available" }
     ]
   }
+];
+
+export const freeEndocrineSystems = [
+  {
+    id: "free-endocrine",
+    title: "Endocrine",
+    icon: Activity,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "endocrine-pharmacology", name: "Endocrine Pharmacology", status: "Available" },
+      { id: "rpn-endocrine-test-bank", name: "Endocrine Test Bank", status: "Available" },
+      { id: "thyrotoxicosis-thyroid-storm", name: "Thyrotoxicosis (Thyroid Storm)", status: "Available" },
+    ]
+  }
+];
+
+export const freeGIRenalSystems = [
+  {
+    id: "free-gi-renal",
+    title: "Gastrointestinal & Renal",
+    icon: Droplets,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "gi-and-renal-pharmacology", name: "GI and Renal Pharmacology", status: "Available" },
+      { id: "rpn-renalgi-test-bank", name: "Renal/GI Test Bank", status: "Available" },
+      { id: "antacids", name: "Antacids", status: "Available" },
+      { id: "antidiarrheals", name: "Antidiarrheals", status: "Available" },
+      { id: "antiemetics", name: "Antiemetics", status: "Available" },
+      { id: "bariatric-surgery", name: "Bariatric Surgery", status: "Available" },
+      { id: "h2-receptor-antagonists", name: "H2-Receptor Antagonists", status: "Available" },
+      { id: "laxatives", name: "Laxatives", status: "Available" },
+    ]
+  }
+];
+
+export const freeMusculoskeletalSystems = [
+  {
+    id: "free-musculoskeletal",
+    title: "Musculoskeletal",
+    icon: Bandage,
+    color: "text-stone-600",
+    bgColor: "bg-stone-50",
+    diseases: [
+      { id: "acute-lumbosacral-strain", name: "Acute Lumbosacral Strain", status: "Available" },
+      { id: "crutch-paralysis", name: "Crutch Paralysis", status: "Available" },
+      { id: "lumbosacral-disc-herniation", name: "Lumbosacral Disc Herniation", status: "Available" },
+    ]
+  }
+];
+
+export const freeMaternalSystems = [
+  {
+    id: "free-maternal",
+    title: "Maternal & Reproductive",
+    icon: Baby,
+    color: "text-pink-600",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "antenatal-corticosteroids-betamethasone-and-dexamethasone", name: "Antenatal Corticosteroids (Betamethasone & Dexamethasone)", status: "Available" },
+      { id: "antenatal-diagnostic-testing", name: "Antenatal Diagnostic Testing", status: "Available" },
+      { id: "contraceptive-methods", name: "Contraceptive Methods", status: "Available" },
+      { id: "fetal-monitoring-late-and-variable-decels", name: "Fetal Monitoring: Late & Variable Decels", status: "Available" },
+      { id: "multiple-gestation", name: "Multiple Gestation", status: "Available" },
+      { id: "mastectomy-post-operative-care", name: "Mastectomy Post-Operative Care", status: "Available" },
+    ]
+  }
+];
+
+export const freeImmuneSystems = [
+  {
+    id: "free-immune-infectious",
+    title: "Immunology & Infectious Disease",
+    icon: Bug,
+    color: "text-green-600",
+    bgColor: "bg-green-50",
+    diseases: [
+      { id: "vaccine-reactions-and-safety-management", name: "Vaccine Reactions & Safety Management", status: "Available" },
+      { id: "antibody-types-and-functions", name: "Antibody Types and Functions", status: "Available" },
+      { id: "anthrax-bacillus-anthracis", name: "Anthrax (Bacillus anthracis)", status: "Available" },
+    ]
+  }
+];
+
+export const freeMentalHealthSystems = [
+  {
+    id: "free-mental-health",
+    title: "Mental Health",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "dsm-5-personality-disorders-cluster-abc-overview", name: "DSM-5 Personality Disorders (Cluster A/B/C Overview)", status: "Available" },
+    ]
+  }
+];
+
+export const freeOncologySystems = [
+  {
+    id: "free-oncology",
+    title: "Oncology & Dermatology",
+    icon: Microscope,
+    color: "text-fuchsia-600",
+    bgColor: "bg-fuchsia-50",
+    diseases: [
+      { id: "kaposi-sarcoma", name: "Kaposi Sarcoma", status: "Available" },
+      { id: "merkel-cell-carcinoma", name: "Merkel Cell Carcinoma", status: "Available" },
+    ]
+  }
+];
+
+export const freePharmacologySystems = [
+  {
+    id: "free-pharmacology",
+    title: "Pharmacology & Prescribing",
+    icon: Pill,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "np-high-risk-prescribing-and-safety", name: "High-Risk Prescribing and Safety", status: "Available" },
+    ]
+  }
+];
+
+const allFreeSystems = [
+  ...freeCardiovascularSystems, ...freeEndocrineSystems, ...freeGIRenalSystems,
+  ...freeMusculoskeletalSystems, ...freeMaternalSystems, ...freeImmuneSystems,
+  ...freeMentalHealthSystems, ...freeOncologySystems, ...freePharmacologySystems,
 ];
 
 export const rpnSystems = [
@@ -4210,90 +4311,6 @@ function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path
   );
 }
 
-interface DbLesson {
-  id: number;
-  title: string;
-  slug: string;
-  category?: string;
-  bodySystem?: string;
-  tier?: string;
-  summary?: string;
-  tags?: string[];
-}
-
-function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
-  if (lessons.length === 0) return null;
-
-  const grouped = lessons.reduce<Record<string, DbLesson[]>>((acc, lesson) => {
-    const cat = lesson.category || "Other";
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(lesson);
-    return acc;
-  }, {});
-
-  const tierColors: Record<string, string> = {
-    free: "bg-green-100 text-green-800",
-    rpn: "bg-blue-100 text-blue-800",
-    rn: "bg-purple-100 text-purple-800",
-    np: "bg-red-100 text-red-800",
-  };
-
-  return (
-    <div className="mb-8">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="p-2.5 rounded-xl bg-primary/10">
-          <Database className="w-6 h-6 text-primary" />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold text-gray-900">Database Lessons ({lessons.length})</h2>
-          <p className="text-sm text-gray-500">Full lesson content from the database</p>
-        </div>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Object.entries(grouped).map(([category, items]) => (
-          <Card key={category} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white">
-            <CardHeader className="flex flex-row items-center gap-3 py-3 px-4 bg-slate-50">
-              <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
-                <Stethoscope className="w-4 h-4" />
-              </div>
-              <CardTitle className="text-base font-bold text-gray-900">{category}</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-3 px-4 pb-4">
-              <div className="space-y-1.5">
-                {items.map((lesson) => (
-                  <LocaleLink
-                    key={lesson.id}
-                    href={`/lessons/${lesson.slug}`}
-                    data-testid={`db-lesson-card-${lesson.slug}`}
-                    className="flex items-center justify-between px-3 py-2 rounded-lg border border-primary/10 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-primary" />
-                      <div className="min-w-0">
-                        <span className="text-sm font-medium text-gray-900 block truncate">{lesson.title}</span>
-                        {lesson.summary && (
-                          <span className="text-xs text-gray-500 block truncate mt-0.5">{lesson.summary}</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0 ml-2">
-                      {lesson.tier && (
-                        <Badge variant="secondary" className={`text-xs ${tierColors[lesson.tier] || ""}`}>
-                          {lesson.tier.toUpperCase()}
-                        </Badge>
-                      )}
-                      <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </LocaleLink>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function Lessons() {
   const [, setLocation] = useLocation();
@@ -4320,6 +4337,17 @@ export default function Lessons() {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [lessonSearchQuery, setLessonSearchQuery] = useState("");
   const [selectedSystemFilter, setSelectedSystemFilter] = useState<string>("all");
+
+  interface DbLesson {
+    id: number;
+    title: string;
+    slug: string;
+    category?: string;
+    bodySystem?: string;
+    tier?: string;
+    summary?: string;
+    tags?: string[];
+  }
 
   const [dbLessons, setDbLessons] = useState<DbLesson[]>([]);
   const [customSystems, setCustomSystems] = useState<any[]>([]);
@@ -4359,6 +4387,18 @@ export default function Lessons() {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    if (authLoading) return;
+    const langParam = language && language !== "en" ? `?lang=${encodeURIComponent(language)}` : "";
+    fetch(`/api/content/lessons${langParam}`, { headers: getAuthHeaders() })
+      .then((r) => r.ok ? r.json() : [])
+      .then((data: any) => {
+        const lessons = Array.isArray(data) ? data : [];
+        setDbLessons(lessons);
+      })
+      .catch(() => setDbLessons([]));
+  }, [language, authLoading]);
+
   const deleteCustomSystem = async (id: string) => {
     const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
     try {
@@ -4375,34 +4415,21 @@ export default function Lessons() {
     }
   };
 
-  useEffect(() => {
-    if (authLoading) return;
-    const langParam = language && language !== "en" ? `?lang=${encodeURIComponent(language)}` : "";
-    fetch(`/api/content/lessons${langParam}`, { headers: getAuthHeaders() })
-      .then((r) => r.ok ? r.json() : [])
-      .then((data) => {
-        const lessons = Array.isArray(data) ? data : [];
-        setDbLessons(lessons);
-        if (isAdmin) {
-          console.log("[LessonDebug] DB lessons loaded:", lessons.length, "| user tier:", effectiveTier, "| auth token present:", !!localStorage.getItem("nursenest-user-token"));
-        }
-      })
-      .catch(() => setDbLessons([]));
-  }, [language, authLoading]);
 
   useEffect(() => {
     if (!authLoading && isAdmin) {
-      const staticRpnCount = [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnSystems.filter(s => !s.id.includes("pharmacology"))].reduce((acc, s) => acc + (s.diseases?.length || s.lessons?.length || 0), 0);
+      const staticRpnCount = [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnSystems.filter(s => !s.id.includes("pharmacology"))].reduce((acc, s) => acc + (s.diseases?.length || s.lessons?.length || 0), 0);
       console.log("[LessonDebug] Admin diagnostics:", {
         detectedTier: userTier,
         effectiveTier,
         authTokenPresent: !!localStorage.getItem("nursenest-user-token"),
         adminTokenPresent: !!localStorage.getItem("nn_admin_access_token"),
-        dbLessonCount: dbLessons.length,
         staticRpnLessonCount: staticRpnCount,
+        dbLessonCount: dbLessons.length,
+        dbLessonsMapped: mergedSystemsMap.additions.size,
+        dbLessonsUnmapped: mergedSystemsMap.unmapped.length,
         isFreeUser,
         authLoading,
-        dataSource: dbLessons.length > 0 ? "db+static" : "static-only",
       });
     }
   }, [authLoading, isAdmin, dbLessons.length]);
@@ -4410,6 +4437,129 @@ export default function Lessons() {
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
   const npNonPharm = npSystems.filter(s => !s.id.includes("pharmacology"));
+
+  const categoryKeywordMap: Record<string, string[]> = {
+    "cardiovascular": ["cardiac", "heart", "cardio", "ecg", "ekg", "arrhythmia", "hypertension", "angina", "mi ", "myocardial", "pacemaker", "aortic", "vascular", "dvt", "embolism", "tamponade"],
+    "respiratory": ["respiratory", "lung", "pulmonary", "asthma", "copd", "pneumonia", "bronch", "oxygen", "ventilat", "airway", "tracheostomy", "pleural"],
+    "neurological": ["neuro", "brain", "stroke", "seizure", "dementia", "parkinson", "cranial", "spinal", "meningitis", "neuropathy"],
+    "gastrointestinal": ["gastrointestinal", "gi ", "hepat", "liver", "bowel", "colon", "gastric", "esophag", "pancreat", "appendic", "hernia", "ulcer", "crohn", "celiac"],
+    "renal": ["renal", "kidney", "dialysis", "urinary", "bladder", "nephro", "uti"],
+    "endocrine": ["endocrine", "thyroid", "diabetes", "insulin", "adrenal", "pituitary", "hormone", "cushing", "addison"],
+    "hematology": ["hematolog", "blood", "anemia", "leukemia", "lymphoma", "platelet", "coagulat", "hemophilia", "sickle cell", "transfusion"],
+    "musculoskeletal": ["musculoskeletal", "orthopedic", "fracture", "joint", "arthritis", "osteo", "sprain", "lumbar", "skeletal", "bone"],
+    "mental-health": ["mental health", "psychiatr", "psych", "anxiety", "depression", "bipolar", "schizophren", "dsm", "personality disorder", "ptsd"],
+    "maternity": ["maternity", "obstetric", "prenatal", "antenatal", "postpartum", "labor", "delivery", "fetal", "gestation", "pregnancy"],
+    "pediatrics": ["pediatric", "peds", "neonatal", "newborn", "infant", "child health"],
+    "infectious": ["infection", "infectious", "bacteria", "virus", "fungal", "sepsis", "hiv", "aids", "tuberculosis", "hepatitis", "mrsa", "vaccine", "immuniz"],
+    "pharmacology": ["pharmacolog", "medication", "drug", "prescribing", "dosing", "adverse effect", "antidote"],
+    "oncology": ["oncolog", "cancer", "tumor", "carcinoma", "sarcoma", "chemotherapy", "radiation therapy", "malignant"],
+    "immune": ["immune", "autoimmune", "allergy", "antibody", "immunoglobulin", "lupus", "rheumatoid"],
+    "wound-care": ["wound", "burn", "pressure ulcer", "debridement", "skin integrity"],
+    "fluid-electrolytes": ["electrolyte", "sodium", "potassium", "calcium", "magnesium", "fluid balance", "dehydration", "edema"],
+  };
+
+  const systemIdCategoryMap: Record<string, string> = {};
+  const allStaticSystems = [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnSystems, ...rnSystems, ...npSystems];
+  for (const sys of allStaticSystems) {
+    const title = (sys.title || "").toLowerCase();
+    for (const [cat] of Object.entries(categoryKeywordMap)) {
+      if (title.includes(cat) || sys.id.includes(cat)) {
+        systemIdCategoryMap[sys.id] = cat;
+        break;
+      }
+    }
+  }
+
+  function mapDbLessonToCategory(lesson: DbLesson): string | null {
+    const cat = (lesson.category || "").toLowerCase();
+    const body = (lesson.bodySystem || "").toLowerCase();
+    const titleLower = (lesson.title || "").toLowerCase();
+    const slugLower = (lesson.slug || "").toLowerCase();
+
+    for (const [category, keywords] of Object.entries(categoryKeywordMap)) {
+      if (cat.includes(category) || body.includes(category)) return category;
+      for (const kw of keywords) {
+        if (titleLower.includes(kw) || slugLower.includes(kw)) return category;
+      }
+    }
+    return null;
+  }
+
+  function findBestSystemId(category: string, tier: string): string | null {
+    const tierSuffix = `-${tier}`;
+    for (const sys of allStaticSystems) {
+      const sysCategory = systemIdCategoryMap[sys.id];
+      if (sysCategory === category && sys.id.endsWith(tierSuffix)) return sys.id;
+    }
+    for (const sys of allStaticSystems) {
+      const sysCategory = systemIdCategoryMap[sys.id];
+      if (sysCategory === category && sys.id.startsWith("free-")) return sys.id;
+    }
+    for (const sys of allStaticSystems) {
+      if (systemIdCategoryMap[sys.id] === category) return sys.id;
+    }
+    return null;
+  }
+
+  const mergedSystemsMap = useMemo(() => {
+    if (dbLessons.length === 0) return { additions: new Map<string, any[]>(), unmapped: [] as DbLesson[] };
+
+    const staticSlugs = new Set<string>();
+    for (const sys of allStaticSystems) {
+      for (const d of sys.diseases || []) {
+        staticSlugs.add(d.id);
+      }
+    }
+
+    const additions = new Map<string, any[]>();
+    const unmapped: DbLesson[] = [];
+
+    for (const lesson of dbLessons) {
+      if (staticSlugs.has(lesson.slug)) continue;
+
+      const category = mapDbLessonToCategory(lesson);
+      if (!category) {
+        unmapped.push(lesson);
+        continue;
+      }
+
+      const tier = lesson.tier || "free";
+      const systemId = findBestSystemId(category, tier);
+      if (!systemId) {
+        unmapped.push(lesson);
+        continue;
+      }
+
+      if (!additions.has(systemId)) additions.set(systemId, []);
+      additions.get(systemId)!.push({
+        id: lesson.slug,
+        name: canonicalDisplayName(lesson.title),
+        status: "Available",
+        _dbLesson: true,
+      });
+    }
+
+    return { additions, unmapped };
+  }, [dbLessons]);
+
+  useEffect(() => {
+    if (isAdmin && mergedSystemsMap.unmapped.length > 0) {
+      console.log("[LessonMerge] Unmapped DB lessons (admin review needed):", mergedSystemsMap.unmapped.map(l => ({ id: l.id, title: l.title, slug: l.slug, category: l.category, bodySystem: l.bodySystem })));
+    }
+  }, [isAdmin, mergedSystemsMap.unmapped]);
+
+  function getEnhancedSystem(system: any): any {
+    const extras = mergedSystemsMap.additions.get(system.id);
+    if (!extras || extras.length === 0) return system;
+    const existingIds = new Set((system.diseases || []).map((d: any) => d.id));
+    const newDiseases = extras.filter(e => !existingIds.has(e.id));
+    if (newDiseases.length === 0) return system;
+    return { ...system, diseases: [...system.diseases, ...newDiseases] };
+  }
+
+  function enhanceSystems(systems: any[]): any[] {
+    return systems.map(getEnhancedSystem);
+  }
 
   const preNursingRoutes: Record<string, string> = {
     "pre-nursing-science": "/pre-nursing?module=science-foundations",
@@ -4523,9 +4673,9 @@ export default function Lessons() {
           >
             <option value="all">All Systems</option>
             {(() => {
-              const currentSystems = activeTab === "rpn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnNonPharm]
-                : activeTab === "rn" ? [...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rnNonPharm]
-                : activeTab === "np" ? [...medMathSystems, ...freeGeneralSystems, ...npNonPharm]
+              const currentSystems = activeTab === "rpn" ? enhanceSystems([...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnNonPharm])
+                : activeTab === "rn" ? enhanceSystems([...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rnNonPharm])
+                : activeTab === "np" ? enhanceSystems([...medMathSystems, ...allFreeSystems, ...npNonPharm])
                 : [];
               return currentSystems.map((s) => (
                 <option key={s.id} value={s.id}>{s.title || s.name} ({(s.diseases || s.lessons || []).length})</option>
@@ -4558,9 +4708,9 @@ export default function Lessons() {
           <div className="lg:col-span-1">
             <LessonProgressCard
               activeTier={activeTab}
-              systems={activeTab === "rpn" ? [...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnNonPharm]
-                : activeTab === "rn" ? [...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rnNonPharm]
-                : activeTab === "np" ? [...medMathSystems, ...freeGeneralSystems, ...npNonPharm]
+              systems={activeTab === "rpn" ? enhanceSystems([...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnNonPharm])
+                : activeTab === "rn" ? enhanceSystems([...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rnNonPharm])
+                : activeTab === "np" ? enhanceSystems([...medMathSystems, ...allFreeSystems, ...npNonPharm])
                 : []}
             />
           </div>
@@ -4569,9 +4719,9 @@ export default function Lessons() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
             <LecturesSection tier="rpn" onNavigate={setLocation} />
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rpn")} />
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rpnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {enhanceSystems([...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnNonPharm]).filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "rpn" || !s.tier).map((cs) => (
@@ -4584,9 +4734,9 @@ export default function Lessons() {
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "rn")} />
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems, ...rnNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {enhanceSystems([...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rnNonPharm]).filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
@@ -4599,9 +4749,9 @@ export default function Lessons() {
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
-            <DbLessonsSection lessons={dbLessons.filter(l => l.tier === "free" || l.tier === "np")} />
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...medMathSystems, ...freeGeneralSystems, ...npNonPharm].filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
+              {enhanceSystems([...medMathSystems, ...allFreeSystems, ...npNonPharm]).filter((system) => { if (selectedSystemFilter !== "all" && system.id !== selectedSystemFilter) return false; if (!lessonSearchQuery) return true; const q = lessonSearchQuery.toLowerCase(); const sysName = (system.name || system.title || "").toLowerCase(); return sysName.includes(q) || system.diseases?.some((d: any) => d.name?.toLowerCase().includes(q)) || system.lessons?.some((l: any) => l.title?.toLowerCase().includes(q)); }).map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} completeLessons={completeLessons} />
               ))}
               {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (

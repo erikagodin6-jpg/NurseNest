@@ -22,6 +22,7 @@ export function canonicalDisplayName(name: string): string {
     .replace(/\bfor Practical Nurses$/i, "")
     .replace(/\bfor Practical Nurse$/i, "")
     .replace(/\bfor RPN$/i, "")
+    .replace(TIER_INLINE_WORD, "")
     .replace(/\s{2,}/g, " ")
     .trim();
   if (result.endsWith(":")) {

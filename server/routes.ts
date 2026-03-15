@@ -4372,6 +4372,75 @@ Rules:
     }
   });
 
+  app.get("/api/admin/lesson-audit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const result = await pool.query(
+        `SELECT id, title, slug, category, body_system, tier, status FROM content_items WHERE type = 'lesson' ORDER BY title`
+      );
+      const lessons = result.rows;
+
+      const tierSuffixPattern = /\b(Rpn|Rn|Np|RPN|RN|NP)\s*$/i;
+      const tierInlinePattern = /\b(Rpn|Rn|Np)\b/;
+
+      const uncategorized = lessons.filter((l: any) => !l.category && !l.body_system);
+      const missingTier = lessons.filter((l: any) => !l.tier);
+      const tierSuffixedTitles = lessons.filter((l: any) =>
+        tierSuffixPattern.test(l.title) || tierInlinePattern.test(l.title)
+      );
+      const categoryKeywords: Record<string, string[]> = {
+        "Cardiovascular": ["cardiac", "heart", "cardio", "ecg", "myocardial", "pacemaker", "aortic"],
+        "Respiratory": ["respiratory", "lung", "pulmonary", "asthma", "copd", "pneumonia", "bronch"],
+        "Neurological": ["neuro", "brain", "stroke", "seizure", "dementia", "parkinson"],
+        "Gastrointestinal": ["gastrointestinal", "gi ", "hepat", "liver", "bowel", "gastric"],
+        "Renal": ["renal", "kidney", "dialysis", "urinary", "nephro"],
+        "Endocrine": ["endocrine", "thyroid", "diabetes", "insulin", "adrenal"],
+        "Musculoskeletal": ["musculoskeletal", "fracture", "joint", "arthritis", "osteo"],
+        "Mental Health": ["mental health", "psychiatr", "psych", "anxiety", "depression"],
+        "Maternity": ["maternity", "obstetric", "prenatal", "antenatal", "postpartum", "fetal"],
+        "Pharmacology": ["pharmacolog", "medication", "drug", "prescribing"],
+      };
+      const generalCategory = lessons.filter((l: any) =>
+        (l.category || "").toLowerCase() === "general" || (l.body_system || "").toLowerCase() === "general"
+      ).map((l: any) => {
+        const titleLower = (l.title || "").toLowerCase();
+        let suggestedCategory: string | null = null;
+        for (const [cat, keywords] of Object.entries(categoryKeywords)) {
+          if (keywords.some(kw => titleLower.includes(kw))) {
+            suggestedCategory = cat;
+            break;
+          }
+        }
+        return { ...l, suggestedCategory };
+      });
+      const publishedDuplicates: any[] = [];
+      const slugMap = new Map<string, any[]>();
+      for (const l of lessons.filter((l: any) => l.status === "published")) {
+        const baseSlug = (l.slug || "").replace(/-(rpn|rn|np|lvn|nclex)$/i, "");
+        if (!slugMap.has(baseSlug)) slugMap.set(baseSlug, []);
+        slugMap.get(baseSlug)!.push(l);
+      }
+      for (const [slug, items] of slugMap) {
+        if (items.length > 1) publishedDuplicates.push({ slug, count: items.length, items });
+      }
+
+      res.json({
+        total: lessons.length,
+        issues: {
+          uncategorized: { count: uncategorized.length, items: uncategorized.slice(0, 50) },
+          missingTier: { count: missingTier.length, items: missingTier.slice(0, 50) },
+          tierSuffixedTitles: { count: tierSuffixedTitles.length, items: tierSuffixedTitles.slice(0, 50) },
+          generalCategory: { count: generalCategory.length, items: generalCategory.slice(0, 50) },
+          publishedDuplicates: { count: publishedDuplicates.length, items: publishedDuplicates.slice(0, 20) },
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/content/flashcard-sets", async (req, res) => {
     try {
       const region = req.region || "US";
@@ -5242,6 +5311,22 @@ Rules:
         }
         if (!parsed.slug || !parsed.slug.trim()) {
           return res.status(422).json({ error: "Lesson slug is required for publishing.", code: "LESSON_MISSING_SLUG" });
+        }
+        if (!contentData.forcePublish) {
+          const validTiers = ["free", "rpn", "rn", "np", "lvn", "allied"];
+          if (!parsed.tier || !parsed.tier.trim()) {
+            return res.status(422).json({ error: "A tier (rpn, rn, np, free) is required to publish a lesson.", code: "LESSON_MISSING_TIER" });
+          }
+          if (!validTiers.includes(parsed.tier.toLowerCase())) {
+            return res.status(422).json({ error: `Invalid tier "${parsed.tier}". Must be one of: ${validTiers.join(", ")}`, code: "LESSON_INVALID_TIER" });
+          }
+          const cat = (parsed as any).category || (parsed as any).bodySystem;
+          if (!cat || !cat.trim()) {
+            return res.status(422).json({ error: "A category or body_system is required to publish a lesson.", code: "LESSON_MISSING_CATEGORY" });
+          }
+          if (cat.toLowerCase() === "general" || cat.toLowerCase() === "other") {
+            return res.status(422).json({ error: `Category "${cat}" is too generic. Please assign a specific body system or topic category.`, code: "LESSON_GENERIC_CATEGORY" });
+          }
         }
         if (wc < lessonMinWords && !contentData.forcePublish) {
           return res.status(422).json({
