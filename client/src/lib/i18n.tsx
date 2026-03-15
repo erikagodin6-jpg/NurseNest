@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
 
-export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "th" | "tr";
+export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "zh-tw" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "th" | "tr";
 
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "\ud83c\uddec\ud83c\udde7" },
@@ -11,6 +11,7 @@ export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; 
   { code: "hi", name: "Hindi", nativeName: "\u0939\u093f\u0928\u094d\u0926\u0940", flag: "\ud83c\uddee\ud83c\uddf3" },
   { code: "es", name: "Spanish", nativeName: "Espa\u00f1ol", flag: "\ud83c\uddea\ud83c\uddf8" },
   { code: "zh", name: "Chinese", nativeName: "\u4e2d\u6587", flag: "\ud83c\udde8\ud83c\uddf3" },
+  { code: "zh-tw", name: "Traditional Chinese", nativeName: "\u7e41\u9ad4\u4e2d\u6587", flag: "\ud83c\uddf9\ud83c\uddfc" },
   { code: "ar", name: "Arabic", nativeName: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629", flag: "\ud83c\uddf8\ud83c\udde6" },
   { code: "ko", name: "Korean", nativeName: "\ud55c\uad6d\uc5b4", flag: "\ud83c\uddf0\ud83c\uddf7" },
   { code: "pt", name: "Portuguese", nativeName: "Portugu\u00eas", flag: "\ud83c\udde7\ud83c\uddf7" },
@@ -91,7 +92,11 @@ function getInitialLanguage(): LanguageCode {
   if (saved && LANGUAGES.some(l => l.code === saved)) {
     return saved as LanguageCode;
   }
-  const browserLang = navigator.language?.split("-")[0]?.toLowerCase();
+  const rawBrowserLang = navigator.language?.toLowerCase();
+  if (rawBrowserLang && (rawBrowserLang === "zh-tw" || rawBrowserLang.startsWith("zh-hant") || rawBrowserLang.startsWith("zh-tw"))) {
+    return "zh-tw" as LanguageCode;
+  }
+  const browserLang = rawBrowserLang?.split("-")[0];
   if (browserLang && LANGUAGES.some(l => l.code === browserLang)) {
     return browserLang as LanguageCode;
   }

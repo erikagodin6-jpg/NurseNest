@@ -11,7 +11,7 @@ import {
 import { getIndexableLocales, isLocaleIndexable, getHreflangCode, auditAllLocales, getTranslationThreshold } from "./translation-audit";
 import { getSiteBase } from "./sitemap";
 
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
 
 const KNOWN_ROUTES = [
   "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",

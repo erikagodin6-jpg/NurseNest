@@ -418,7 +418,7 @@ const HREFLANG_MAP: Record<string, string> = {
 
 app.get("/api/seo-debug", (_req, res) => {
   const siteBase = getSiteBase();
-  const debugLocales = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+  const debugLocales = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
   const results: any[] = [];
 
   for (const route of SEO_DEBUG_ROUTES) {
@@ -451,7 +451,7 @@ app.get("/api/seo-debug", (_req, res) => {
 // -------------------------
 // Locale redirect middleware
 // -------------------------
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
 const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
 
 function detectLocaleFromAcceptLanguage(acceptLanguage: string | undefined): string {
@@ -463,6 +463,9 @@ function detectLocaleFromAcceptLanguage(acceptLanguage: string | undefined): str
   parts.sort((a, b) => b.q - a.q);
 
   for (const { lang } of parts) {
+    if (lang === "zh-tw" || lang.startsWith("zh-hant") || lang.startsWith("zh-tw")) {
+      return "zh-tw";
+    }
     const primary = lang.split("-")[0];
     if (primary === "tl" || primary === "fil") {
       if (SUPPORTED_LOCALES_SET.has("fil")) return "fil";

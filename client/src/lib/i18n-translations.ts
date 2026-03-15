@@ -6,6 +6,7 @@ const LANG_LOADERS: Record<string, () => Promise<{ default: Record<string, strin
   hi: () => import("./i18n-hi"),
   es: () => import("./i18n-es"),
   zh: () => import("./i18n-zh"),
+  "zh-tw": () => import("./i18n-zh-tw"),
   ar: () => import("./i18n-ar"),
   ko: () => import("./i18n-ko"),
   pt: () => import("./i18n-pt"),

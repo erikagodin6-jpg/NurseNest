@@ -4,6 +4,17 @@ export const SITEMAP_SPLIT_LIMIT = 5000;
 export const SITEMAP_CACHE_TTL = 3600_000;
 
 const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
+  "zh-tw": {
+    "/pricing": "/jiage",
+    "/flashcards": "/shankakapian",
+    "/lessons": "/kecheng",
+    "/mock-exams": "/moni-kaoshi",
+    "/glossary": "/shuyu",
+    "/about": "/guanyu",
+    "/contact": "/lianxi",
+    "/faq": "/changjianwenti",
+    "/blog": "/boke",
+  },
   fr: {
     "/pricing": "/tarifs",
     "/flashcards": "/cartes-memoire",

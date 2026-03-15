@@ -10,7 +10,7 @@ declare global {
 }
 
 const SUPPORTED_LANGUAGES = [
-  "en", "fr", "es", "zh", "ar", "hi", "pt", "tl", "ko", "ja",
+  "en", "fr", "es", "zh", "zh-tw", "ar", "hi", "pt", "tl", "ko", "ja",
   "de", "vi", "pa", "ur", "fa"
 ];
 
@@ -31,13 +31,17 @@ export function detectLanguage(req: Request): string {
       .split(",")
       .map((part) => {
         const [lang, q] = part.trim().split(";q=");
-        return { lang: lang.split("-")[0].toLowerCase(), q: q ? parseFloat(q) : 1 };
+        return { lang: lang.trim().toLowerCase(), q: q ? parseFloat(q) : 1 };
       })
       .sort((a, b) => b.q - a.q);
 
     for (const { lang } of preferred) {
-      if (SUPPORTED_LANGUAGES.includes(lang)) {
-        return lang;
+      if (lang === "zh-tw" || lang.startsWith("zh-hant") || lang.startsWith("zh-tw")) {
+        return "zh-tw";
+      }
+      const primary = lang.split("-")[0];
+      if (SUPPORTED_LANGUAGES.includes(primary)) {
+        return primary;
       }
     }
   }

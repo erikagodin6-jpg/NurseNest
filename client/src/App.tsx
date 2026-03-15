@@ -1188,7 +1188,7 @@ function LocaleRouter() {
     return <Redirect to={redirectTarget} />;
   }
 
-  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt" || locale === "de" || locale === "th";
+  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt" || locale === "de" || locale === "th" || locale === "zh" || locale === "zh-tw";
 
   if (needsDelocalization) {
     return (

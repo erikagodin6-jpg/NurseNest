@@ -12,7 +12,7 @@ const __audit_dirname = (() => {
   return process.cwd();
 })();
 
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"] as const;
+const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"] as const;
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 const TRANSLATION_THRESHOLD = 95;
@@ -58,7 +58,7 @@ function loadTranslationKeys(): void {
     enKeysCache = [];
   }
 
-  const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+  const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
   for (const lang of LANG_FILES) {
     try {
       const langPath = path.resolve(__audit_dirname, `../client/src/lib/i18n-${lang}.ts`);
@@ -192,7 +192,7 @@ export function getLocaleDirection(locale: string): "ltr" | "rtl" {
 export function getHreflangCode(locale: string): string {
   const HREFLANG_MAP: Record<string, string> = {
     en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
-    zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
+    zh: "zh", "zh-tw": "zh-TW", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
     vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
     de: "de", th: "th", tr: "tr",
   };

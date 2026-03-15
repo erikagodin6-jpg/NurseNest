@@ -6,7 +6,7 @@ import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirec
 
 const SITE_BASE = "https://www.nursenest.ca";
 
-const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
 
 let lessonSeoData: Record<string, any> | null = null;
 function getLessonSeoData(): Record<string, any> {
@@ -1147,9 +1147,70 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
   return null;
 }
 
+const LOCALE_META_OVERRIDES: Record<string, Record<string, { title: string; description: string }>> = {
+  "zh-tw": {
+    "/": {
+      title: "NurseNest - NCLEX與REx-PN考試準備 | 護理題庫、模擬與閃卡",
+      description: "使用NurseNest準備NCLEX、NCLEX-PN和REx-PN考試。1,200+護理練習題、臨床案例模擬、藥理學閃卡和200+病理生理學課程，適合加拿大和美國的RPN/LVN、RN和NP學生。每週更新內容。免費開始，無需信用卡。",
+    },
+    "/lessons": {
+      title: "護理課程 - 病理生理學與臨床主題 | NurseNest",
+      description: "瀏覽200+臨床護理課程，涵蓋病理生理學、藥理學和病患護理，適合RPN/LVN、RN和NP學生。互動式內容，專注考試準備。",
+    },
+    "/flashcards": {
+      title: "護理閃卡 - 藥理學與臨床複習 | NurseNest",
+      description: "使用互動式護理閃卡學習，涵蓋藥理學、病理生理學和臨床概念。追蹤掌握程度並收藏卡片進行重點複習。",
+    },
+    "/pricing": {
+      title: "價格方案 - RPN、RN與NP訂閱 | NurseNest",
+      description: "選擇您的NurseNest訂閱方案。RPN/LVN $29.99/月，RN/NCLEX $39.99/月，NP進階 $49.99/月。免費試用，無需信用卡。",
+    },
+    "/faq": {
+      title: "常見問題 - NurseNest護理考試準備",
+      description: "關於NurseNest護理考試準備平台的常見問題解答。了解我們的課程、題庫、閃卡和訂閱方案。",
+    },
+    "/blog": {
+      title: "護理教育部落格 - 臨床推理與考試準備 | NurseNest",
+      description: "循證護理教育文章，涵蓋臨床推理、病理生理學、藥理學和考試準備，適合RPN和RN學生。",
+    },
+    "/about": {
+      title: "關於NurseNest - 護理考試準備平台",
+      description: "了解NurseNest如何幫助護理學生準備NCLEX、NCLEX-PN和REx-PN考試。我們的使命是讓每位護理學生都能獲得優質的考試準備資源。",
+    },
+    "/contact": {
+      title: "聯繫我們 | NurseNest",
+      description: "聯繫NurseNest團隊。我們隨時為您解答關於護理考試準備平台的問題。",
+    },
+    "/mock-exams": {
+      title: "模擬考試 - NCLEX與REx-PN練習測驗 | NurseNest",
+      description: "參加模擬NCLEX、NCLEX-PN和REx-PN格式的計時考試。追蹤成績，找出薄弱環節，查看詳細解析。",
+    },
+    "/glossary": {
+      title: "護理術語表 - 臨床術語與定義 | NurseNest",
+      description: "護理關鍵術語的完整參考，包含臨床相關性。適合護理學生考試準備。",
+    },
+    "/anatomy": {
+      title: "解剖學與生理學複習 | NurseNest",
+      description: "護理學生的解剖生理學基礎複習。人體系統、結構和臨床關聯，適合考試準備。",
+    },
+    "/exam-prep": {
+      title: "考試準備 - NCLEX與護理執照考試 | NurseNest",
+      description: "使用NurseNest的題庫、模擬考試和課程準備護理執照考試。支持NCLEX-RN、NCLEX-PN、REx-PN和NP認證考試。",
+    },
+  },
+};
+
+function getLocalizedStaticPage(path: string, locale: string): { title: string; description: string } | undefined {
+  const localeOverrides = LOCALE_META_OVERRIDES[locale];
+  if (localeOverrides && localeOverrides[path]) {
+    return localeOverrides[path];
+  }
+  return staticPages[path];
+}
+
 export function getPageMeta(pathname: string): PageMeta {
   let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
-  const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
+  const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : cleanPath;
 
@@ -1164,10 +1225,11 @@ export function getPageMeta(pathname: string): PageMeta {
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
 
-  if (staticPages[cleanPath]) {
+  const localizedPage = getLocalizedStaticPage(cleanPath, detectedLocale);
+  if (localizedPage) {
     const result: PageMeta = {
-      title: staticPages[cleanPath].title,
-      description: staticPages[cleanPath].description,
+      title: localizedPage.title,
+      description: localizedPage.description,
       canonical,
       noindex,
       breadcrumbs,
@@ -1657,7 +1719,7 @@ export function getPageMeta(pathname: string): PageMeta {
 }
 
 export async function injectMeta(html: string, pathname: string): Promise<string> {
-  const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
+  const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname);
