@@ -1819,7 +1819,6 @@ export const rpnFlashcards: FlashcardData[] = [
     type: "term",
     question: "Febrile Seizures",
     answer: "Seizures triggered by rapid rise in temperature, occurring in children 6 months to 5 years. Usually brief (< 15 min), generalized. Most are simple and benign. Management: Fever control (acetaminophen/ibuprofen: NO aspirin), seizure precautions, parent education. Do not indicate epilepsy.",
-    image: imgFebrileSeizures,
     category: "Pediatrics",
     difficulty: 2,
     image: imgPediatricSeizuresNew

@@ -1,7 +1,5 @@
 import crypto from "crypto";
-import { db } from "./db";
-import { flashcardBank, alliedQuestions } from "@shared/schema";
-import { sql } from "drizzle-orm";
+import { pool } from "./storage";
 
 interface FlashcardSeed {
   front: string;
@@ -177,18 +175,12 @@ async function seedFlashcards(flashcards: FlashcardSeed[]) {
   for (const fc of flashcards) {
     const hash = contentHash(fc.careerType, fc.front);
     try {
-      await db.insert(flashcardBank).values({
-        front: fc.front,
-        back: fc.back,
-        topic: fc.topic,
-        subtopic: fc.subtopic,
-        careerType: fc.careerType,
-        tier: fc.tier,
-        blueprintCategory: fc.blueprintCategory,
-        contentHash: hash,
-        status: "approved",
-        sourceType: "allied_cardiac_enrichment",
-      }).onConflictDoNothing();
+      await pool.query(
+        `INSERT INTO flashcard_bank (front, back, topic, subtopic, career_type, tier, blueprint_category, content_hash, status, source_type)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+         ON CONFLICT DO NOTHING`,
+        [fc.front, fc.back, fc.topic, fc.subtopic, fc.careerType, fc.tier, fc.blueprintCategory, hash, "approved", "allied_cardiac_enrichment"]
+      );
       inserted++;
     } catch (e: any) {
       if (!e.message?.includes("duplicate")) {
@@ -203,22 +195,13 @@ async function seedQuestions(questions: QuestionSeed[]) {
   let inserted = 0;
   for (const q of questions) {
     try {
-      await db.insert(alliedQuestions).values({
-        careerType: q.careerType,
-        stem: q.stem,
-        options: q.options.map((text, i) => ({ id: i, text })),
-        correctAnswer: q.correctAnswer,
-        rationaleLong: q.rationaleLong,
-        learningObjective: q.learningObjective,
-        blueprintCategory: q.blueprintCategory,
-        subtopic: q.subtopic,
-        difficulty: q.difficulty,
-        cognitiveLevel: q.cognitiveLevel,
-        questionType: q.questionType,
-        batchId: "cardiac-allied-enrichment-2026",
-        status: "approved",
-        isFree: false,
-      }).onConflictDoNothing();
+      const options = JSON.stringify(q.options.map((text, i) => ({ id: i, text })));
+      await pool.query(
+        `INSERT INTO allied_questions (career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, batch_id, status, is_free)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+         ON CONFLICT DO NOTHING`,
+        [q.careerType, q.stem, options, q.correctAnswer, q.rationaleLong, q.learningObjective, q.blueprintCategory, q.subtopic, q.difficulty, q.cognitiveLevel, q.questionType, "cardiac-allied-enrichment-2026", "approved", false]
+      );
       inserted++;
     } catch (e: any) {
       if (!e.message?.includes("duplicate")) {

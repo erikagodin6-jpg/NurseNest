@@ -312,29 +312,9 @@ function slugToTitle(slug: string): string {
 }
 
 const staticPages: Record<string, { title: string; description: string }> = {
-  "/": {
-    title: "NurseNest - NCLEX & NCLEX-PN / REx-PN Exam Prep | Nursing Test Bank, Simulations & Flashcards",
-    description: "Prepare for NCLEX, NCLEX-PN, and REx-PN with NurseNest. 1,200+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 200+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.",
-  },
-  "/lessons": {
-    title: "Nursing Lessons - Pathophysiology & Clinical Topics | NurseNest",
-    description: "Browse 200+ clinical nursing lessons covering pathophysiology, pharmacology, and patient care for RPN/LVN, RN, and NP students. Interactive content with exam prep focus.",
-  },
-  "/flashcards": {
-    title: "Nursing Flashcards - Pharmacology & Clinical Review | NurseNest",
-    description: "Study with interactive nursing flashcards covering pharmacology, pathophysiology, and clinical concepts. Track mastery and bookmark cards for focused review.",
-  },
-  "/pricing": {
-    title: "Pricing Plans - RPN, RN & NP Subscriptions | NurseNest",
-    description: "Choose your NurseNest subscription plan. RPN/LVN $29.99/mo, RN/NCLEX $39.99/mo, NP Advanced $49.99/mo. Start with a free trial - no credit card required.",
-  },
   "/start-free": {
     title: "Start Free - Begin Your Nursing Exam Prep | NurseNest",
     description: "Start your free NurseNest account today. Access nursing lessons, flashcards, and practice questions to begin preparing for NCLEX, NCLEX-PN, and REx-PN exams.",
-  },
-  "/anatomy": {
-    title: "Anatomy & Physiology Review | NurseNest",
-    description: "Review anatomy and physiology fundamentals for nursing students. Body systems, structures, and clinical correlations for exam preparation.",
   },
   "/med-math": {
     title: "Med Math Practice - Dosage Calculations | NurseNest",
@@ -343,10 +323,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/lab-values": {
     title: "Lab Values Interpretation - Abnormal Clinical Findings | NurseNest",
     description: "Master abnormal lab value interpretation with cluster-based scenarios. Practice identifying critical values and clinical correlations for nursing exams.",
-  },
-  "/mock-exams": {
-    title: "Mock Exams - NCLEX & NCLEX-PN / REx-PN Practice Tests | NurseNest",
-    description: "Take timed mock exams simulating NCLEX, NCLEX-PN, and REx-PN format. Track your scores, identify weak areas, and review detailed rationales.",
   },
   "/clinical-clarity": {
     title: "Clinical Clarity - Why Does This Happen? | NurseNest",
@@ -388,10 +364,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Study Guides & Cram Booklets | NurseNest Store",
     description: "Download professional nursing cram guides, quick reference sheets, and study bundles. NCLEX-PN, REx-PN, NCLEX-RN, and NP exam prep materials from $19. Instant PDF download.",
   },
-  "/blog": {
-    title: "Nursing Blog - Evidence-Based Articles | NurseNest",
-    description: "Read evidence-based nursing articles with APA7 citations. Clinical topics, exam tips, and professional development for nursing students.",
-  },
   "/pre-nursing": {
     title: "Pre-Nursing Resources - Get Started | NurseNest",
     description: "Resources for pre-nursing students considering a career in nursing. Program information, prerequisites, and study tips. Compare NurseNest vs UWorld and Archer for your prep journey.",
@@ -431,18 +403,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/compare/rex-pn-practice-questions-free": {
     title: "Free REx-PN Practice Questions 2025 | NurseNest Canada",
     description: "Access free REx-PN practice questions for Canadian practical nursing exam prep. Daily questions, detailed rationales, and full mock exams.",
-  },
-  "/about": {
-    title: "About NurseNest | Our Mission, Story & Editorial Standards",
-    description: "NurseNest is a nursing education platform founded by Erika Godin, RN. Clinically accurate, evidence-based exam preparation for RPN, RN, and NP students in Canada and the U.S.",
-  },
-  "/contact": {
-    title: "Contact Us | NurseNest",
-    description: "Get in touch with the NurseNest team. Questions about subscriptions, content, or features? We're here to help.",
-  },
-  "/faq": {
-    title: "Frequently Asked Questions | NurseNest",
-    description: "Find answers to common questions about NurseNest subscriptions, content access, NCLEX prep, and platform features.",
   },
   "/terms": {
     title: "Terms of Use | NurseNest",
@@ -535,18 +495,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/us-np/mock-exam": {
     title: "US NP Certification Exam Mock Simulator (AANP/ANCC) | NurseNest",
     description: "Practice for AANP or ANCC nurse practitioner certification with a realistic mock exam. 175 advanced practice questions covering FNP, AGNP, and specialty content.",
-  },
-  "/exam-prep": {
-    title: "Exam Prep Hub: Healthcare Certification Study Resources | NurseNest",
-    description: "Central hub for all healthcare exam preparation resources. Practice questions, mock exams, flashcards, and lessons for nursing, paramedic, MLT, respiratory therapy, medical imaging, pharmacy tech, social work, and occupational therapy certifications.",
-  },
-  "/new-graduate-support": {
-    title: "New Graduate Support Hub: Career Launch Resources for Healthcare Professionals | NurseNest",
-    description: "Central hub for new graduate healthcare professionals. Interview prep, ATS-optimized resume builder, cover letter generator, first 90 days roadmap, and clinical confidence tools for nursing and allied health graduates.",
-  },
-  "/healthcare-careers": {
-    title: "Healthcare Careers Hub: Explore Career Paths and Certification Requirements | NurseNest",
-    description: "Explore healthcare career paths across nursing, paramedic, respiratory therapy, medical laboratory, medical imaging, pharmacy, social work, and occupational therapy. Compare salaries, job outlook, and certification requirements.",
   },
   "/perioperative-nursing": {
     title: "Perioperative Nursing Hub: Surgical Nursing & CNOR Exam Prep | NurseNest",
@@ -680,10 +628,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Healthcare Job Search Guide - Find, Evaluate & Negotiate Offers | ApplyNest",
     description: "Complete healthcare job search guide. Where to find jobs, how to evaluate offers, salary negotiation tips, and credentialing timelines for healthcare professionals.",
   },
-  "/paramedic-exam-prep": {
-    title: "Paramedic Exam Prep | NREMT, PCP & ACP Practice Questions | NurseNest",
-    description: "Complete paramedic exam preparation for NREMT, PCP (Canada), and ACP certification. Practice questions, trauma scenarios, ECG drills, and mock exams with detailed rationales.",
-  },
   "/rrt-exam-prep": {
     title: "RRT Exam Prep | NBRC TMC & CSE Practice Questions | NurseNest",
     description: "Complete RRT exam preparation for NBRC TMC, CSE, and CBRC certification. Practice questions, ABG analysis, ventilator management, and mock exams with detailed rationales.",
@@ -707,10 +651,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/addictions-counselling-exam-prep": {
     title: "Addictions Counselling Exam Prep | IC&RC ADC & CASAC | NurseNest",
     description: "Complete addictions counselor exam preparation for IC&RC ADC, CASAC, and CCAC certification. Practice questions, motivational interviewing simulations, substance identification drills, and mock exams.",
-  },
-  "/occupational-therapy-exam-prep": {
-    title: "Occupational Therapy Exam Prep | NBCOT OTR & NOTCE | NurseNest",
-    description: "Complete occupational therapy exam preparation for NBCOT OTR (USA) and NOTCE (Canada). Practice questions, clinical case analysis, SMART goal writing, mock exams, and personalized study plans.",
   },
   "/nursing-exam-prep": {
     title: "Nursing Exam Prep | NCLEX-RN, NCLEX-PN, REx-PN & NP | NurseNest",
@@ -756,10 +696,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Top 100 Pharmacy Technician Exam Questions (2025) — PTCB Prep | NurseNest",
     description: "Practice 100 essential PTCB and ExCPT pharmacy technician exam questions with detailed rationales. Covers pharmacy calculations, pharmacology, law, compounding, and medication safety.",
   },
-  "/exam-prep": {
-    title: "Nursing & Allied Health Exam Prep Hub | NCLEX, REx-PN, NP & More | NurseNest",
-    description: "Your one-stop exam prep hub for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health licensing exams. Practice questions, mock exams, flashcards, and study plans.",
-  },
   "/new-graduate-support": {
     title: "New Graduate Nurse Support Hub | Transition to Practice | NurseNest",
     description: "Comprehensive resources for new graduate nurses transitioning to practice. Clinical confidence builders, preceptor guides, resume help, and first-year survival strategies.",
@@ -799,10 +735,6 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/study-pathways": {
     title: "Personalized Study Pathways | Guided Nursing Exam Prep | NurseNest",
     description: "Customized study pathways for nursing students. Structured learning plans for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification exams based on your strengths and weaknesses.",
-  },
-  "/glossary": {
-    title: "Nursing & Healthcare Glossary | Medical Terminology A-Z | NurseNest",
-    description: "Comprehensive nursing and healthcare glossary. Look up medical terminology, abbreviations, clinical definitions, and pharmacology terms used in nursing practice and exams.",
   },
   "/topics": {
     title: "Nursing Topics A-Z | Clinical Study Library | NurseNest",
