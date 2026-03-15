@@ -1,0 +1,118 @@
+Audit the published RN tier and expand the current lessons, flashcards, test bank questions, and CAT questions using the uploaded McCance & Huether pathophysiology book plus the uploaded pediatric cardiac and CCU handbook materials where clinically appropriate.
+
+Primary goal
+- Pull high-yield topics and blueprint areas from the uploaded books.
+- Add or expand content only inside the CURRENT RN lesson categories and current published site structure.
+- Do not create new categories.
+- Do not rename existing categories.
+- Do not move lessons to different systems.
+- Expand current lessons first before creating any truly missing topic within an existing category.
+
+Source content buckets to extract from
+1. McCance & Huether pathophysiology:
+- cellular biology
+- fluids/electrolytes/acids-bases
+- immunity/infection
+- stress and disease
+- cancer
+- neuro
+- endocrine
+- hematologic
+- cardiovascular
+- pulmonary
+- renal
+- GI
+- musculoskeletal
+- integument
+- shock / MODS / burns
+- pediatric system alterations
+
+2. Critical care/cardiac handbook content for selected RN categories:
+- hemodynamic monitoring
+- respiratory management
+- fluid/electrolyte management
+- postoperative cardiac complications
+- low cardiac output syndrome
+- impaired gas exchange
+- pulmonary hypertension
+- bleeding/clotting
+- arrhythmias
+- DKA
+- sepsis/septic shock
+- status epilepticus
+- TBI
+- anticoagulation
+- acid-base and cardiorespiratory formulas
+
+Priority RN topics to add or strengthen inside existing categories
+- acid-base disorders
+- shock types
+- MODS
+- burns
+- sepsis and septic shock
+- DKA
+- hemodynamic monitoring basics
+- arrhythmias
+- heart failure
+- congenital heart disease overview where RN categories already support pediatric/cardiac content
+- pulmonary hypertension
+- impaired gas exchange
+- anticoagulation and bleeding risks
+- neurologic emergencies
+- endocrine emergencies
+- fluids and electrolytes
+- infection and immunity
+- cancer biology / hematologic disorders
+- renal and pulmonary system dysfunction
+- pediatric alterations already supported by existing current categories
+
+RN lesson depth standard
+Each lesson must include:
+- concise overview
+- RN-level pathophysiology
+- risk factors / precipitating causes
+- hallmark signs and symptoms
+- assessment findings
+- diagnostics / labs / imaging
+- nursing priorities and interventions
+- complications
+- patient teaching
+- pharmacology points where relevant
+- exam pearls / clinical judgment cues
+
+Flashcards
+For every added or expanded RN topic, generate:
+- 25 to 35 flashcards per topic
+- include patho, hallmark findings, assessment, labs, interventions, meds, complications, and priority cues
+- publish into the correct existing RN flashcard deck/category
+
+Test bank questions
+For every added or expanded RN topic, generate:
+- 35 to 50 original RN-level questions per topic
+- include multiple choice, SATA, priority, delegation, case-based, and clinical judgment questions
+- include rationales for all answer options except CAT mode if CAT excludes full rationale
+- publish into the correct RN practice question banks already on the live site
+
+CAT questions
+For every added or expanded RN topic, generate:
+- 15 to 25 adaptive RN CAT questions per topic
+- difficulty should progress from recognition to application to prioritization
+- publish into the current RN adaptive/CAT area only
+
+Strict rules
+- do not copy book text or question banks verbatim
+- do not create new categories
+- do not create duplicate lesson titles
+- do not create placeholder shells
+- ensure all content is linked on the live published site
+- do not overwrite strong current lessons unless materially improving them
+
+QA
+Confirm:
+- all new content sits in existing RN categories
+- lessons open properly
+- flashcards show in the right RN decks
+- test bank items show in the correct RN banks
+- CAT items show in the current RN adaptive engine
+- no 404s
+- no duplicate shells
