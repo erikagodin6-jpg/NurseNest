@@ -104,11 +104,12 @@ function ArticleEditor({ article, onClose, onSave }: { article: any; onClose: ()
 
 export default function AdminAlliedHealthSEO() {
   const queryClient = useQueryClient();
-  const [selectedProfession, setSelectedProfession] = useState<string>(ALLIED_HEALTH_PROFESSIONS[0]?.slug || "");
+  const professionsList = Object.values(ALLIED_HEALTH_PROFESSIONS);
+  const [selectedProfession, setSelectedProfession] = useState<string>(professionsList[0]?.slug || "");
   const [editingArticle, setEditingArticle] = useState<any>(null);
   const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
 
-  const profession = ALLIED_HEALTH_PROFESSIONS.find(p => p.slug === selectedProfession);
+  const profession = professionsList.find(p => p.slug === selectedProfession);
 
   const { data: topicsData, isLoading: topicsLoading, refetch: refetchTopics } = useQuery({
     queryKey: ["/api/admin/allied-health/profession-topics", selectedProfession],
@@ -225,7 +226,7 @@ export default function AdminAlliedHealthSEO() {
               className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium appearance-none bg-white"
               data-testid="select-profession"
             >
-              {ALLIED_HEALTH_PROFESSIONS.map(p => (
+              {Object.values(ALLIED_HEALTH_PROFESSIONS).map(p => (
                 <option key={p.slug} value={p.slug}>{p.name} ({p.shortName})</option>
               ))}
             </select>

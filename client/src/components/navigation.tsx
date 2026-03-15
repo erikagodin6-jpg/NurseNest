@@ -567,6 +567,38 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 Respiratory Therapy
               </Button>
             </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/mlt")} data-testid="button-new-grad-mlt-mobile">
+                <Microscope className="w-4 h-4" />
+                Medical Lab Tech
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/imaging")} data-testid="button-new-grad-imaging-mobile">
+                <ScanLine className="w-4 h-4" />
+                Diagnostic Imaging
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/occupational-therapy")} data-testid="button-new-grad-ot-mobile">
+                Occupational Therapy
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/social-work")} data-testid="button-new-grad-sw-mobile">
+                Social Work
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/psychotherapy")} data-testid="button-new-grad-psychotherapy-mobile">
+                Psychotherapy
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/new-grad/addictions-counseling")} data-testid="button-new-grad-addictions-mobile">
+                Addictions Counseling
+              </Button>
+            </SheetClose>
 
             <Separator className="my-2 bg-gray-100" />
 
