@@ -5,41 +5,15 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye, Layers } from "lucide-react";
 import { pharmacyTechDecks, type FlashcardDeck } from "@/data/pharmacy-tech-flashcards";
 import { mltFlashcardDecks } from "@/data/mlt-flashcards";
-
-function generateFlashcards(career: CareerConfig) {
-  const cards: { id: number; front: string; back: string; domain: string; difficulty: number }[] = [];
-  const templates: Record<string, { fronts: string[]; backs: string[] }> = {
-    rrt: {
-      fronts: ["What is the normal PaO2 range?", "What ventilator mode provides full respiratory support?", "Primary cause of respiratory alkalosis?", "Henderson-Hasselbalch equation component for pH?", "What does FiO2 stand for?", "Normal tidal volume range?", "What is auto-PEEP?", "Indication for CPAP?", "What causes right shift in oxyhemoglobin curve?", "Normal SpO2 range?"],
-      backs: ["80-100 mmHg", "Assist-Control (AC) mode", "Hyperventilation / excessive CO2 elimination", "pH = pKa + log([HCO3-]/[H2CO3])", "Fraction of Inspired Oxygen", "6-8 mL/kg ideal body weight", "Air trapping causing positive pressure at end-expiration", "Obstructive sleep apnea, mild COPD, cardiogenic pulmonary edema", "Increased temperature, acidosis, increased 2,3-DPG, hypercapnia", "95-100%"],
-    },
-    paramedic: {
-      fronts: ["Normal adult heart rate range?", "Glasgow Coma Scale range?", "SAMPLE history stands for?", "First-line drug for anaphylaxis?", "Normal capillary refill time?", "Signs of tension pneumothorax?", "APGAR score components?", "Rule of Nines for adult trunk?", "Cushing's triad indicates?", "Dose of epinephrine in cardiac arrest?"],
-      backs: ["60-100 bpm", "3-15", "Signs/Symptoms, Allergies, Medications, Past history, Last meal, Events", "Epinephrine (IM 0.3-0.5mg 1:1000)", "Less than 2 seconds", "Tracheal deviation, absent breath sounds, JVD, hypotension, tachycardia", "Appearance, Pulse, Grimace, Activity, Respiration", "36% (18% front, 18% back)", "Increased ICP (hypertension, bradycardia, irregular respirations)", "1mg (1:10,000) IV/IO every 3-5 minutes"],
-    },
-    mlt: {
-      fronts: ["Normal WBC count range?", "What does ESR measure?", "Blood type with no antigens?", "Normal platelet count?", "What is a critical value?", "Westgard rule 1-2s means?", "Normal hemoglobin for adult male?", "What is a differential count?", "Direct vs indirect Coombs test?", "Normal glucose range (fasting)?"],
-      backs: ["4,500-11,000/mcL", "Rate of red blood cell sedimentation - inflammation marker", "Type O (has anti-A and anti-B antibodies)", "150,000-400,000/mcL", "A lab result requiring immediate physician notification", "One control exceeds 2 standard deviations - warning rule", "14-18 g/dL", "Percentage of each WBC type in peripheral blood", "Direct: detects antibodies on RBCs. Indirect: detects antibodies in serum", "70-100 mg/dL"],
-    },
-    imaging: {
-      fronts: ["What does ALARA stand for?", "kVp controls what in an x-ray?", "What is the bucky?", "Normal adult effective dose for chest x-ray?", "What causes motion blur?", "MRI contraindication?", "What is SID?", "Contrast media reaction types?", "What projection is PA chest?", "Lead apron minimum thickness?"],
-      backs: ["As Low As Reasonably Achievable", "Penetrating power of x-ray beam (contrast)", "Grid device that reduces scatter radiation", "Approximately 0.02 mSv", "Patient movement during exposure", "Ferromagnetic implants, pacemakers (some), metallic foreign bodies", "Source-to-Image Distance", "Mild (hives, nausea), Moderate (bronchospasm), Severe (anaphylaxis)", "Posteroanterior - x-ray enters back, exits chest to film", "0.5 mm lead equivalent"],
-    },
-  };
-
-  const t = templates[career.slug] || templates.rrt;
-  t.fronts.forEach((front, i) => {
-    cards.push({ id: i, front, back: t.backs[i] || "Study this concept further.", domain: career.domains[i % career.domains.length], difficulty: (i % 3) + 1 });
-  });
-  return cards;
-}
+import { alliedHealthFlashcardDecks } from "@/data/allied-health-flashcards";
 
 export default function AlliedFlashcardsPage() {
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const isPharmacyTech = career?.slug === "pharmacy-tech";
   const isMLT = career?.slug === "mlt";
-  const hasDeckSelector = isPharmacyTech || isMLT;
+  const isAlliedHealth = !isPharmacyTech && !isMLT;
+  const hasDeckSelector = true;
   const [currentIdx, setCurrentIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useState<Set<number>>(new Set());
@@ -47,7 +21,7 @@ export default function AlliedFlashcardsPage() {
   const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null);
   const [showDeckSelector, setShowDeckSelector] = useState(hasDeckSelector);
 
-  const activeDeckList = isMLT ? mltFlashcardDecks : pharmacyTechDecks;
+  const activeDeckList: any[] = isMLT ? mltFlashcardDecks : isPharmacyTech ? pharmacyTechDecks : alliedHealthFlashcardDecks;
 
   const cards = useMemo(() => {
     if (!career) return [];
@@ -65,8 +39,12 @@ export default function AlliedFlashcardsPage() {
       }
       return mltFlashcardDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.discipline })));
     }
-    return generateFlashcards(career);
-  }, [career?.id, selectedDeckId, isPharmacyTech, isMLT]);
+    if (selectedDeckId) {
+      const deck = alliedHealthFlashcardDecks.find(d => d.id === selectedDeckId);
+      return deck ? deck.cards.map(c => ({ ...c, domain: deck.category })) : [];
+    }
+    return alliedHealthFlashcardDecks.flatMap(deck => deck.cards.map(c => ({ ...c, domain: deck.category })));
+  }, [career?.id, selectedDeckId, isPharmacyTech, isMLT, isAlliedHealth]);
 
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
@@ -120,10 +98,14 @@ export default function AlliedFlashcardsPage() {
     const deckCount = activeDeckList.length;
     const seoDesc = isMLT
       ? `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering Hematology, Chemistry, Microbiology, Blood Banking, and more.`
-      : `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering Top 200 Drugs, dosage calculations, pharmacy law, compounding, and more.`;
+      : isPharmacyTech
+      ? `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering Top 200 Drugs, dosage calculations, pharmacy law, compounding, and more.`
+      : `Master ${career.name} concepts with ${deckCount} spaced repetition flashcard decks and ${totalCards}+ cards covering medical terminology, anatomy, lab values, clinical concepts, medications, and professional responsibilities.`;
     const seoKeywords = isMLT
       ? `${career.name} flashcards, CSMLS flashcards, ASCP MLT flashcards, hematology flashcards, clinical chemistry flashcards`
-      : `${career.name} flashcards, PTCB flashcards, pharmacy tech study cards, top 200 drugs flashcards, pharmacy math flashcards`;
+      : isPharmacyTech
+      ? `${career.name} flashcards, PTCB flashcards, pharmacy tech study cards, top 200 drugs flashcards, pharmacy math flashcards`
+      : `${career.name} flashcards, allied health flashcards, medical terminology flashcards, anatomy flashcards, clinical concepts study cards`;
     return (
       <>
       <AlliedSEO
@@ -196,16 +178,14 @@ export default function AlliedFlashcardsPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground" data-testid="text-flashcards-title">
-            {isPharmacyTech ? selectedDeckName : `${career.shortName} Flashcards`}
+            {hasDeckSelector ? selectedDeckName : `${career.shortName} Flashcards`}
           </h1>
           <p className="text-muted-foreground text-sm mt-1">{cards.length} cards - Spaced repetition learning</p>
         </div>
         <div className="flex gap-2">
-          {isPharmacyTech && (
-            <button onClick={() => setShowDeckSelector(true)} className="flex items-center gap-1 px-3 py-1.5 bg-primary/10 rounded-lg text-sm text-primary hover:bg-primary/20" data-testid="button-switch-deck">
-              <Layers className="w-3.5 h-3.5" /> Decks
-            </button>
-          )}
+          <button onClick={() => setShowDeckSelector(true)} className="flex items-center gap-1 px-3 py-1.5 bg-primary/10 rounded-lg text-sm text-primary hover:bg-primary/20" data-testid="button-switch-deck">
+            <Layers className="w-3.5 h-3.5" /> Decks
+          </button>
           <button onClick={reset} className="flex items-center gap-1 px-3 py-1.5 bg-secondary rounded-lg text-sm text-foreground/60 hover:bg-secondary/80" data-testid="button-reset">
             <RotateCcw className="w-3.5 h-3.5" /> Reset
           </button>
