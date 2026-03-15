@@ -53,6 +53,14 @@ function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]
   return undefined;
 }
 
+/*
+ * ── AlliedNavigation Spacing System ────────────────────────────────────
+ * Ecosystem bar:  h-7 sm:h-8 | text-[10px] sm:text-xs | gap-1 sm:gap-6
+ * Main bar:       h-16 | max-w-7xl px-2 sm:px-4 lg:px-8
+ * Nav link:       px-3 py-2 gap-1
+ * Ecosystem links: px-2 py-1 gap-1.5
+ * ───────────────────────────────────────────────────────────────────────
+ */
 export function AlliedNavigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [careerDropdownOpen, setCareerDropdownOpen] = useState(false);
@@ -88,8 +96,8 @@ export function AlliedNavigation() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-teal-100 shadow-sm" data-testid="allied-navigation">
       <div className="bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white" data-testid="allied-ecosystem-nav">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-1 sm:gap-6 h-8 text-[11px] sm:text-xs font-medium">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
             <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="allied-ecosystem-link-exam-prep">
               <BookOpen className="w-3 h-3" />
               <span>Exam Prep</span>
@@ -108,7 +116,7 @@ export function AlliedNavigation() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 group" data-testid="link-allied-home">

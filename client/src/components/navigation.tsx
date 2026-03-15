@@ -53,6 +53,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
@@ -189,6 +190,17 @@ function appendUtmParams(path: string): string {
   }
 }
 
+/*
+ * ── Navigation Spacing System ──────────────────────────────────────────
+ * Ecosystem bar:  h-7 sm:h-8 | text-[10px] sm:text-xs | gap-1 sm:gap-6
+ * Main bar:       h-14 sm:h-16 (compact: h-10 sm:h-11) | max-w-7xl px-2 sm:px-4 lg:px-8
+ * Sub-bar:        h-9 | max-w-7xl px-2 sm:px-4 lg:px-8
+ * Menu trigger:   px-2 lg:px-2.5 (main bar) | px-1.5 lg:px-2 (sub-bar)
+ * Menu gap:       gap-0.5 lg:gap-1 (desktop triggers)
+ * Right controls: gap-1 lg:gap-2
+ * Ecosystem links: px-2 py-1 gap-1.5
+ * ───────────────────────────────────────────────────────────────────────
+ */
 export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -310,7 +322,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             "font-medium hover:bg-transparent flex items-center gap-1 group data-[state=open]:text-primary",
             subBar 
               ? "text-xs text-primary/70 hover:text-primary px-1.5 lg:px-2 h-7" 
-              : "text-sm text-softgray hover:text-primary px-2 lg:px-3"
+              : "text-sm text-softgray hover:text-primary px-2 lg:px-2.5"
           )}
         >
           {label}
@@ -389,7 +401,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const MobileNav = () => (
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 -ml-1" aria-label="Open menu">
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8" aria-label="Open menu">
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
@@ -429,7 +441,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </Button>
                 </SheetClose>
               </div>
-              <div className="h-[1px] bg-gray-100 my-3 mx-3" />
+              <Separator className="my-3 mx-3 bg-gray-100" />
             </div>
 
             <div className="mb-6">
@@ -478,7 +490,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </div>
                 </Button>
               </div>
-              <div className="h-[1px] bg-gray-100 my-6 mx-3" />
+              <Separator className="my-6 mx-3 bg-gray-100" />
             </div>
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.freeLearning")}</p>
@@ -528,7 +540,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">New Grad Career</p>
             <SheetClose asChild>
@@ -556,7 +568,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Career Guides</p>
             <SheetClose asChild>
@@ -625,7 +637,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.interactiveTools")}</p>
             <SheetClose asChild>
@@ -689,7 +701,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-1" />
+            <Separator className="my-1 bg-gray-100" />
             <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">{t("nav.clinicalSimulators")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
@@ -725,7 +737,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.resources")}</p>
             <SheetClose asChild>
@@ -749,7 +761,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.language")}</p>
             <div className="flex flex-wrap gap-1.5 px-3 mb-2">
@@ -772,7 +784,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               ))}
             </div>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.regionTheme")}</p>
             <div className="flex items-center gap-1 px-3 mb-2 bg-gray-100 rounded-full p-0.5 w-fit">
@@ -811,7 +823,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               ))}
             </div>
 
-            <div className="h-[1px] bg-gray-100 my-2" />
+            <Separator className="my-2 bg-gray-100" />
 
             {user ? (
               <>
@@ -962,7 +974,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 <div className="hidden sm:block">
                   <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
                 </div>
-                <div className="sm:hidden -ml-1">
+                <div className="sm:hidden">
                   <ThemedLogo width={130} className="group-hover:scale-105 transition-transform duration-300" />
                 </div>
               </div>
