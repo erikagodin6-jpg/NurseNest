@@ -10,47 +10,35 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import {
   BookOpen, Check, ChevronDown, ChevronRight, Clock, Target,
-  RefreshCw, GraduationCap, Loader2, ExternalLink, SkipForward,
-  Calendar, BarChart3
+  RefreshCw, GraduationCap, Loader2, Calendar, BarChart3,
+  Sparkles, ArrowRight, Settings, Eye, EyeOff, Zap, Brain,
+  CheckCircle2, AlertTriangle, TrendingUp, X
 } from "lucide-react";
 
-interface PlanTask {
-  id: string;
-  type: string;
-  domain: string;
-  title: string;
-  minutes: number;
-  linkUrl: string | null;
-  resourceId: string | null;
-  status: string;
-}
+type Intensity = "light" | "balanced" | "intensive";
 
-interface PlanDay {
-  id: string;
-  weekNum: number;
-  dayNum: number;
-  title: string;
-  focusDomains: string[] | null;
-  tasks: PlanTask[];
-}
-
-interface StudyPlanData {
-  id: string;
-  tier: string;
-  timeframeWeeks: number;
-  minutesPerDay: number;
-  progressPercent: number;
-  createdAt: string;
-  days: PlanDay[];
+interface PlannerData {
+  settings: any;
+  plan: any;
+  hasExamDate: boolean;
+  hasPlan: boolean;
 }
 
 export default function StudyPlanPage() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
-  const [plan, setPlan] = useState<StudyPlanData | null>(null);
+  const [data, setData] = useState<PlannerData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [expandedWeek, setExpandedWeek] = useState<number | null>(1);
-  const [updatingTask, setUpdatingTask] = useState<string | null>(null);
+  const [showFullPlan, setShowFullPlan] = useState(false);
+
+  const [examDate, setExamDate] = useState("");
+  const [examDateType, setExamDateType] = useState<"booked" | "target">("target");
+  const [intensity, setIntensity] = useState<Intensity>("balanced");
+  const [planWithoutDate, setPlanWithoutDate] = useState(false);
+  const [planWithoutDateWeeks, setPlanWithoutDateWeeks] = useState(8);
 
   useEffect(() => {
     if (!user) return;
@@ -59,50 +47,105 @@ export default function StudyPlanPage() {
 
   async function fetchPlan() {
     try {
-      const res = await fetch(`/api/study-plan?userId=${user!.id}&username=${encodeURIComponent(user!.username)}`);
+      const res = await fetch("/api/exam-planner/plan", { credentials: "include" });
       if (res.ok) {
-        const data = await res.json();
-        if (data.plan) {
-          setPlan(data.plan);
+        const d = await res.json();
+        setData(d);
+        if (d.settings) {
+          if (d.settings.exam_date) {
+            setExamDate(new Date(d.settings.exam_date).toISOString().slice(0, 10));
+          }
+          setExamDateType(d.settings.exam_date_type || "target");
+          setIntensity(d.settings.study_plan_intensity || "balanced");
+          setPlanWithoutDate(d.settings.plan_without_date || false);
+          setPlanWithoutDateWeeks(d.settings.plan_without_date_weeks || 8);
         }
       }
     } catch (err) {
-      console.error("Failed to fetch study plan:", err);
+      console.error("Failed to fetch plan:", err);
     } finally {
       setLoading(false);
     }
   }
 
-  async function updateTaskStatus(taskId: string, status: string) {
-    setUpdatingTask(taskId);
+  async function handleGeneratePlan() {
+    if (!user) return;
+    setGenerating(true);
     try {
-      const res = await fetch(`/api/study-plan/tasks/${taskId}`, {
-        method: "PATCH",
+      const body: any = { intensity };
+      if (planWithoutDate) {
+        body.planWithoutDate = true;
+        body.planWithoutDateWeeks = planWithoutDateWeeks;
+      } else if (examDate) {
+        body.examDate = new Date(examDate).toISOString();
+        body.examDateType = examDateType;
+      }
+      const res = await fetch("/api/exam-planner/generate", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, userId: user!.id, username: user!.username }),
+        credentials: "include",
+        body: JSON.stringify(body),
       });
       if (res.ok) {
-        setPlan((prev) => {
-          if (!prev) return prev;
-          const updated = { ...prev };
-          updated.days = updated.days.map((day) => ({
-            ...day,
-            tasks: day.tasks.map((t) =>
-              t.id === taskId ? { ...t, status } : t
-            ),
-          }));
-          const totalTasks = updated.days.reduce((sum, d) => sum + d.tasks.length, 0);
-          const doneTasks = updated.days.reduce(
-            (sum, d) => sum + d.tasks.filter((t) => t.status === "done").length, 0
-          );
-          updated.progressPercent = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
-          return updated;
-        });
+        const d = await res.json();
+        setData({ ...data, ...d, settings: { ...data?.settings, ...body } } as PlannerData);
+        setShowSettings(false);
       }
     } catch (err) {
-      console.error("Failed to update task:", err);
+      console.error("Failed to generate plan:", err);
     } finally {
-      setUpdatingTask(null);
+      setGenerating(false);
+    }
+  }
+
+  async function handleRegenerate() {
+    if (!user) return;
+    setGenerating(true);
+    try {
+      const res = await fetch("/api/exam-planner/regenerate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (res.ok) {
+        const d = await res.json();
+        setData({ ...data, ...d } as PlannerData);
+      }
+    } catch (err) {
+      console.error("Failed to regenerate:", err);
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function handleResetPlan() {
+    if (!user) return;
+    try {
+      await fetch("/api/exam-planner/plan", {
+        method: "DELETE",
+        credentials: "include",
+      });
+      setData(null);
+      setExamDate("");
+      setPlanWithoutDate(false);
+      setShowSettings(false);
+      await fetchPlan();
+    } catch (err) {
+      console.error("Failed to reset:", err);
+    }
+  }
+
+  async function handleUpdateSettings(updates: Record<string, any>) {
+    try {
+      await fetch("/api/exam-planner/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(updates),
+      });
+      await fetchPlan();
+    } catch (err) {
+      console.error("Failed to update settings:", err);
     }
   }
 
@@ -139,52 +182,22 @@ export default function StudyPlanPage() {
     );
   }
 
-  if (!plan) {
-    return (
-      <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-        <Navigation />
-        <main className="flex-1 flex items-center justify-center px-4 py-12">
-          <Card className="w-full max-w-md border-none shadow-xl">
-            <CardContent className="p-8 text-center space-y-4">
-              <Target className="w-12 h-12 text-primary mx-auto" />
-              <h2 className="text-2xl font-bold">No Study Plan Yet</h2>
-              <p className="text-gray-500">
-                Complete the onboarding assessment to generate your personalized study plan.
-              </p>
-              <Button onClick={() => navigate("/onboarding/plan")} className="rounded-full px-8" data-testid="button-create-plan">
-                Create My Study Plan
-              </Button>
-            </CardContent>
-          </Card>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  const hasPlan = data?.hasPlan && data?.plan;
+  const plan = data?.plan;
+  const settings = data?.settings;
 
-  const weeks: Record<number, PlanDay[]> = {};
-  plan.days.forEach((day) => {
-    if (!weeks[day.weekNum]) weeks[day.weekNum] = [];
-    weeks[day.weekNum].push(day);
-  });
-  const weekNumbers = Object.keys(weeks).map(Number).sort((a, b) => a - b);
-
-  const totalTasks = plan.days.reduce((sum, d) => sum + d.tasks.length, 0);
-  const doneTasks = plan.days.reduce((sum, d) => sum + d.tasks.filter((t) => t.status === "done").length, 0);
-  const skippedTasks = plan.days.reduce((sum, d) => sum + d.tasks.filter((t) => t.status === "skipped").length, 0);
-
-  const typeIcons: Record<string, any> = {
-    lesson: BookOpen,
-    qbank: Target,
-    flashcards: BarChart3,
-    review: RefreshCw,
+  const phaseColors: Record<string, { bg: string; text: string; border: string; badge: string }> = {
+    foundation: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200", badge: "bg-blue-100 text-blue-800" },
+    practice: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", badge: "bg-purple-100 text-purple-800" },
+    timed_review: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", badge: "bg-amber-100 text-amber-800" },
+    final_review: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", badge: "bg-emerald-100 text-emerald-800" },
   };
 
-  const typeColors: Record<string, string> = {
-    lesson: "bg-blue-100 text-blue-700",
-    qbank: "bg-purple-100 text-purple-700",
-    flashcards: "bg-amber-100 text-amber-700",
-    review: "bg-emerald-100 text-emerald-700",
+  const phaseIcons: Record<string, any> = {
+    foundation: BookOpen,
+    practice: Target,
+    timed_review: Clock,
+    final_review: CheckCircle2,
   };
 
   return (
@@ -193,205 +206,384 @@ export default function StudyPlanPage() {
       <main className="flex-1 px-4 py-8 sm:py-12">
         <div className="max-w-3xl mx-auto">
           <BreadcrumbNav />
+
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-study-plan-title">
-                My Study Plan
+                Your Study Plan
               </h1>
               <p className="text-gray-500 text-sm mt-1">
-                {plan.timeframeWeeks}-week plan | {plan.minutesPerDay} min/day | {plan.tier.toUpperCase()} tier
+                Personalized exam prep powered by your progress
               </p>
             </div>
-            <Button
-              variant="outline"
-              onClick={() => navigate("/onboarding/plan")}
-              className="rounded-full text-sm"
-              data-testid="button-regenerate-plan"
-            >
-              <RefreshCw className="w-4 h-4 mr-2" /> Regenerate Plan
-            </Button>
+            {hasPlan && (
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="rounded-full text-sm"
+                  data-testid="button-plan-settings"
+                >
+                  <Settings className="w-4 h-4 mr-1.5" /> Settings
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRegenerate}
+                  disabled={generating}
+                  className="rounded-full text-sm"
+                  data-testid="button-regenerate-plan"
+                >
+                  {generating ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1.5" />}
+                  Regenerate
+                </Button>
+              </div>
+            )}
           </div>
 
-          <Card className="border-none shadow-md mb-8" data-testid="card-progress-overview">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium">Overall Progress</span>
-                <span className="text-sm text-gray-500">{doneTasks} of {totalTasks} tasks completed</span>
-              </div>
-              <div className="w-full bg-gray-100 rounded-full h-3">
-                <div
-                  className="bg-primary h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${plan.progressPercent}%` }}
-                  data-testid="progress-bar"
+          {showSettings && hasPlan && (
+            <Card className="border-none shadow-md mb-6" data-testid="card-plan-settings">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold text-base">Plan Settings</h3>
+                  <Button variant="ghost" size="sm" onClick={() => setShowSettings(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+                <PlanSettingsForm
+                  examDate={examDate}
+                  setExamDate={setExamDate}
+                  examDateType={examDateType}
+                  setExamDateType={setExamDateType}
+                  intensity={intensity}
+                  setIntensity={setIntensity}
+                  planWithoutDate={planWithoutDate}
+                  setPlanWithoutDate={setPlanWithoutDate}
+                  planWithoutDateWeeks={planWithoutDateWeeks}
+                  setPlanWithoutDateWeeks={setPlanWithoutDateWeeks}
+                  onGenerate={handleGeneratePlan}
+                  generating={generating}
+                  showReset
+                  onReset={handleResetPlan}
+                  countdownHidden={settings?.exam_countdown_hidden}
+                  plannerHidden={settings?.study_planner_hidden}
+                  onToggleCountdown={() => handleUpdateSettings({ examCountdownHidden: !settings?.exam_countdown_hidden })}
+                  onTogglePlanner={() => handleUpdateSettings({ studyPlannerHidden: !settings?.study_planner_hidden })}
                 />
-              </div>
-              <div className="flex gap-6 mt-4 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-primary" />
-                  <span className="text-gray-600">Done: {doneTasks}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-gray-300" />
-                  <span className="text-gray-600">Remaining: {totalTasks - doneTasks - skippedTasks}</span>
-                </div>
-                {skippedTasks > 0 && (
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-amber-400" />
-                    <span className="text-gray-600">Skipped: {skippedTasks}</span>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
 
-          {plan && plan.days && plan.days.length > 0 && (() => {
-            const weakDomains = getWeakDomains(plan.days);
-            if (weakDomains.length === 0) return null;
-            return (
-              <Card className="border-none shadow-sm border-l-4 border-l-amber-400" data-testid="card-remediation">
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Target className="w-5 h-5 text-amber-600" />
-                    <h3 className="font-semibold text-sm">Remediation Focus</h3>
+          {!hasPlan && (
+            <Card className="border-none shadow-xl mb-8" data-testid="card-create-plan">
+              <CardContent className="p-8">
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                    <Sparkles className="w-8 h-8 text-primary" />
                   </div>
-                  <p className="text-xs text-gray-500 mb-3">
-                    These domains have the most incomplete tasks. Prioritize them for the strongest improvement.
+                  <h2 className="text-xl font-bold mb-2">Create Your Study Plan</h2>
+                  <p className="text-gray-500 text-sm max-w-md mx-auto">
+                    Get a personalized study plan with weekly goals, pacing targets, and smart recommendations based on your progress.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {weakDomains.map((d, i) => (
-                      <Badge key={i} variant="outline" className="text-xs bg-amber-50 text-amber-800 border-amber-200" data-testid={`badge-remediation-${i}`}>
-                        {d.domain} ({d.remaining} tasks left)
-                      </Badge>
-                    ))}
+                </div>
+
+                <PlanSettingsForm
+                  examDate={examDate}
+                  setExamDate={setExamDate}
+                  examDateType={examDateType}
+                  setExamDateType={setExamDateType}
+                  intensity={intensity}
+                  setIntensity={setIntensity}
+                  planWithoutDate={planWithoutDate}
+                  setPlanWithoutDate={setPlanWithoutDate}
+                  planWithoutDateWeeks={planWithoutDateWeeks}
+                  setPlanWithoutDateWeeks={setPlanWithoutDateWeeks}
+                  onGenerate={handleGeneratePlan}
+                  generating={generating}
+                />
+              </CardContent>
+            </Card>
+          )}
+
+          {hasPlan && plan && (
+            <div className="space-y-6">
+              {(() => {
+                const phase = plan.phase;
+                const pStyle = phaseColors[phase?.phase || "foundation"] || phaseColors.foundation;
+                const PhaseIcon = phaseIcons[phase?.phase || "foundation"] || BookOpen;
+                const daysRemaining = phase?.daysRemaining || 0;
+
+                return (
+                  <Card className={`border-none shadow-md ${pStyle.bg}`} data-testid="card-phase-overview">
+                    <CardContent className="p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className={`w-12 h-12 rounded-full ${pStyle.bg} border ${pStyle.border} flex items-center justify-center`}>
+                            <PhaseIcon className={`w-6 h-6 ${pStyle.text}`} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <h3 className={`font-bold text-lg ${pStyle.text}`} data-testid="text-phase-label">{phase?.label}</h3>
+                              <Badge className={`text-xs ${pStyle.badge}`} data-testid="badge-phase-name">
+                                {phase?.phase?.replace("_", " ")}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-gray-600">{phase?.description}</p>
+                          </div>
+                        </div>
+                        {!settings?.exam_countdown_hidden && daysRemaining > 0 && (
+                          <div className="text-center sm:text-right flex-shrink-0">
+                            <p className="text-3xl font-bold text-primary" data-testid="text-countdown-days">{daysRemaining}</p>
+                            <p className="text-xs text-gray-500 uppercase tracking-wider">days until exam</p>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
+              <Card className="border-none shadow-md" data-testid="card-on-track-status">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    {plan.onTrackStatus === "ahead" && <TrendingUp className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />}
+                    {plan.onTrackStatus === "on_track" && <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />}
+                    {plan.onTrackStatus === "slightly_behind" && <Clock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />}
+                    {plan.onTrackStatus === "needs_attention" && <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />}
+                    <div>
+                      <p className="text-sm font-medium mb-0.5" data-testid="text-on-track-status">
+                        {plan.onTrackStatus === "ahead" && "Ahead of Schedule"}
+                        {plan.onTrackStatus === "on_track" && "On Track"}
+                        {plan.onTrackStatus === "slightly_behind" && "A Little Behind"}
+                        {plan.onTrackStatus === "needs_attention" && "Needs Attention"}
+                      </p>
+                      <p className="text-xs text-gray-500">{plan.onTrackMessage}</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
-            );
-          })()}
 
-          <div className="space-y-4">
-            {weekNumbers.map((weekNum) => {
-              const days = weeks[weekNum].sort((a, b) => a.dayNum - b.dayNum);
-              const weekTasks = days.reduce((sum, d) => sum + d.tasks.length, 0);
-              const weekDone = days.reduce((sum, d) => sum + d.tasks.filter((t) => t.status === "done").length, 0);
-              const isExpanded = expandedWeek === weekNum;
+              <Card className="border-none shadow-md" data-testid="card-pacing-targets">
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                    <Target className="w-4 h-4 text-primary" /> Your Pacing Targets
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <PacingBox label="Questions/Day" value={plan.pacingTargets?.questionsPerDay} icon={Target} color="text-purple-600" testId="pacing-questions" />
+                    <PacingBox label="Flashcards/Week" value={plan.pacingTargets?.flashcardsPerWeek} icon={Brain} color="text-amber-600" testId="pacing-flashcards" />
+                    <PacingBox label="Mock Exams" value={plan.pacingTargets?.mocksToTake} icon={BarChart3} color="text-blue-600" testId="pacing-mocks" />
+                    <PacingBox label="Lessons/Week" value={plan.pacingTargets?.lessonsPerWeek} icon={BookOpen} color="text-emerald-600" testId="pacing-lessons" />
+                    <PacingBox label="Weak Areas" value={plan.pacingTargets?.weakAreasToReview} icon={AlertTriangle} color="text-red-600" testId="pacing-weak" />
+                    <PacingBox label="Min/Day" value={plan.pacingTargets?.studyMinutesPerDay} icon={Clock} color="text-gray-600" testId="pacing-minutes" />
+                  </div>
+                </CardContent>
+              </Card>
 
-              return (
-                <Card key={weekNum} className="border-none shadow-sm overflow-hidden" data-testid={`card-week-${weekNum}`}>
-                  <button
-                    onClick={() => setExpandedWeek(isExpanded ? null : weekNum)}
-                    className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors"
-                    data-testid={`button-toggle-week-${weekNum}`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Calendar className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">Week {weekNum}</h3>
-                        <p className="text-xs text-gray-400">{weekDone}/{weekTasks} tasks completed</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-16 bg-gray-100 rounded-full h-1.5 hidden sm:block">
-                        <div
-                          className="bg-primary h-1.5 rounded-full"
-                          style={{ width: weekTasks > 0 ? `${(weekDone / weekTasks) * 100}%` : "0%" }}
-                        />
-                      </div>
-                      {isExpanded ? <ChevronDown className="w-5 h-5 text-gray-400" /> : <ChevronRight className="w-5 h-5 text-gray-400" />}
-                    </div>
-                  </button>
-                  {isExpanded && (
-                    <div className="border-t border-gray-100">
-                      {days.map((day) => (
-                        <div key={day.id} className="border-b border-gray-50 last:border-0" data-testid={`day-${day.id}`}>
-                          <div className="px-5 py-3 bg-gray-50/50">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-gray-700">Day {day.dayNum}: {day.title}</span>
-                              {day.focusDomains && day.focusDomains.length > 0 && (
-                                <div className="flex gap-1 flex-wrap justify-end">
-                                  {(day.focusDomains as string[]).slice(0, 2).map((d, i) => (
-                                    <Badge key={i} variant="outline" className="text-[10px] px-1.5 py-0">{d}</Badge>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
+              {plan.recommendations && plan.recommendations.length > 0 && (
+                <Card className="border-none shadow-md" data-testid="card-recommendations">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-primary" /> Recommended Next Actions
+                    </h3>
+                    <div className="space-y-3">
+                      {plan.recommendations.map((rec: any, i: number) => (
+                        <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors" data-testid={`recommendation-${i}`}>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            rec.priority === "high" ? "bg-red-100" : rec.priority === "medium" ? "bg-amber-100" : "bg-emerald-100"
+                          }`}>
+                            {rec.type === "next_action" && <ArrowRight className={`w-4 h-4 ${rec.priority === "high" ? "text-red-600" : rec.priority === "medium" ? "text-amber-600" : "text-emerald-600"}`} />}
+                            {rec.type === "area_focus" && <Target className="w-4 h-4 text-purple-600" />}
+                            {rec.type === "content_mix" && <BarChart3 className="w-4 h-4 text-blue-600" />}
+                            {rec.type === "intensity_tip" && <Zap className="w-4 h-4 text-amber-600" />}
                           </div>
-                          <div className="divide-y divide-gray-50">
-                            {day.tasks.map((task) => {
-                              const TypeIcon = typeIcons[task.type] || BookOpen;
-                              const colorClass = typeColors[task.type] || "bg-gray-100 text-gray-700";
-                              return (
-                                <div
-                                  key={task.id}
-                                  className={`flex items-center gap-3 px-5 py-3 ${task.status === "done" ? "opacity-60" : ""}`}
-                                  data-testid={`task-${task.id}`}
-                                >
-                                  <button
-                                    onClick={() => updateTaskStatus(task.id, task.status === "done" ? "todo" : "done")}
-                                    disabled={updatingTask === task.id}
-                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                                      task.status === "done"
-                                        ? "bg-primary border-primary text-white"
-                                        : "border-gray-300 hover:border-primary"
-                                    }`}
-                                    data-testid={`button-toggle-task-${task.id}`}
-                                  >
-                                    {task.status === "done" && <Check className="w-3.5 h-3.5" />}
-                                    {updatingTask === task.id && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                                  </button>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2">
-                                      <Badge className={`${colorClass} text-[10px] px-1.5 py-0 border-0`}>
-                                        <TypeIcon className="w-3 h-3 mr-0.5" />
-                                        {task.type}
-                                      </Badge>
-                                      <span className={`text-sm truncate ${task.status === "done" ? "line-through text-gray-400" : ""}`}>
-                                        {task.title}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center gap-2 mt-0.5">
-                                      <span className="text-[10px] text-gray-400 flex items-center gap-0.5">
-                                        <Clock className="w-3 h-3" /> {task.minutes} min
-                                      </span>
-                                      <span className="text-[10px] text-gray-400">{task.domain}</span>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-1 flex-shrink-0">
-                                    {task.status !== "skipped" && task.status !== "done" && (
-                                      <button
-                                        onClick={() => updateTaskStatus(task.id, "skipped")}
-                                        className="p-1 text-gray-300 hover:text-amber-500 transition-colors"
-                                        title="Skip"
-                                        data-testid={`button-skip-task-${task.id}`}
-                                      >
-                                        <SkipForward className="w-4 h-4" />
-                                      </button>
-                                    )}
-                                    {task.linkUrl && (
-                                      <button
-                                        onClick={() => navigate(task.linkUrl!)}
-                                        className="p-1 text-gray-300 hover:text-primary transition-colors"
-                                        title="Open resource"
-                                        data-testid={`button-open-task-${task.id}`}
-                                      >
-                                        <ExternalLink className="w-4 h-4" />
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">{rec.title}</p>
+                            <p className="text-xs text-gray-500 mt-0.5">{rec.description}</p>
                           </div>
+                          {rec.actionUrl && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="rounded-full text-xs flex-shrink-0"
+                              onClick={() => navigate(rec.actionUrl)}
+                              data-testid={`button-rec-action-${i}`}
+                            >
+                              {rec.actionLabel || "Go"} <ArrowRight className="w-3 h-3 ml-1" />
+                            </Button>
+                          )}
                         </div>
                       ))}
                     </div>
-                  )}
+                  </CardContent>
                 </Card>
-              );
-            })}
-          </div>
+              )}
+
+              {plan.contentMix && plan.contentMix.length > 0 && (
+                <Card className="border-none shadow-md" data-testid="card-content-mix">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-sm mb-4 flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4 text-primary" /> Recommended Content Mix
+                    </h3>
+                    <div className="space-y-2">
+                      {plan.contentMix.map((item: any, i: number) => (
+                        <div key={i} className="flex items-center gap-3" data-testid={`content-mix-${i}`}>
+                          <span className="text-xs text-gray-500 w-24 text-right">{item.type}</span>
+                          <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${
+                                i === 0 ? "bg-primary" : i === 1 ? "bg-purple-500" : i === 2 ? "bg-amber-500" : "bg-emerald-500"
+                              }`}
+                              style={{ width: `${item.percentage}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium w-10">{item.percentage}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {(plan.weakestAreas?.length > 0 || plan.strongestAreas?.length > 0) && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {plan.weakestAreas?.length > 0 && (
+                    <Card className="border-none shadow-md" data-testid="card-weak-areas">
+                      <CardContent className="p-5">
+                        <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                          <AlertTriangle className="w-4 h-4 text-amber-600" /> Areas to Strengthen
+                        </h3>
+                        <div className="space-y-1.5">
+                          {plan.weakestAreas.map((area: string, i: number) => (
+                            <div key={i} className="flex items-center gap-2 text-xs" data-testid={`weak-area-${i}`}>
+                              <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                              <span className="text-gray-600">{area}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                  {plan.strongestAreas?.length > 0 && (
+                    <Card className="border-none shadow-md" data-testid="card-strong-areas">
+                      <CardContent className="p-5">
+                        <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Your Strengths
+                        </h3>
+                        <div className="space-y-1.5">
+                          {plan.strongestAreas.map((area: string, i: number) => (
+                            <div key={i} className="flex items-center gap-2 text-xs" data-testid={`strong-area-${i}`}>
+                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                              <span className="text-gray-600">{area}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              )}
+
+              <Card className="border-none shadow-md" data-testid="card-weekly-plan">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold text-sm flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-primary" /> Weekly Plan
+                    </h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowFullPlan(!showFullPlan)}
+                      className="text-xs"
+                      data-testid="button-toggle-full-plan"
+                    >
+                      {showFullPlan ? "Show Less" : "View All Weeks"}
+                      <ChevronDown className={`w-3 h-3 ml-1 transition-transform ${showFullPlan ? "rotate-180" : ""}`} />
+                    </Button>
+                  </div>
+
+                  <div className="space-y-3">
+                    {(showFullPlan ? plan.weeklyPlan : plan.weeklyPlan?.slice(0, 4))?.map((week: any) => {
+                      const wPhase = phaseColors[week.phase] || phaseColors.foundation;
+                      const isExpanded = expandedWeek === week.weekNumber;
+
+                      return (
+                        <div key={week.weekNumber} className="border rounded-lg overflow-hidden" data-testid={`week-${week.weekNumber}`}>
+                          <button
+                            onClick={() => setExpandedWeek(isExpanded ? null : week.weekNumber)}
+                            className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
+                            data-testid={`button-toggle-week-${week.weekNumber}`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-8 h-8 rounded-full ${wPhase.bg} flex items-center justify-center`}>
+                                <Calendar className={`w-4 h-4 ${wPhase.text}`} />
+                              </div>
+                              <div>
+                                <p className="font-semibold text-sm">Week {week.weekNumber}</p>
+                                <Badge className={`text-[10px] ${wPhase.badge}`}>{week.phase?.replace("_", " ")}</Badge>
+                              </div>
+                            </div>
+                            {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
+                          </button>
+
+                          {isExpanded && (
+                            <div className="border-t px-4 py-3 space-y-3 bg-gray-50/50">
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <WeekTarget label="Questions" value={week.questionsTarget} />
+                                <WeekTarget label="Flashcards" value={week.flashcardsTarget} />
+                                <WeekTarget label="Lessons" value={week.lessonsTarget} />
+                                <WeekTarget label="Mock Exams" value={week.mockExamsTarget} />
+                              </div>
+
+                              {week.focusAreas?.length > 0 && (
+                                <div>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Focus Areas</p>
+                                  <div className="flex flex-wrap gap-1.5">
+                                    {week.focusAreas.map((area: string, i: number) => (
+                                      <Badge key={i} variant="outline" className="text-[10px]" data-testid={`focus-area-${week.weekNumber}-${i}`}>
+                                        {area}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {week.studyRhythm && (
+                                <div>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Study Rhythm</p>
+                                  <p className="text-xs text-gray-600">{week.studyRhythm}</p>
+                                </div>
+                              )}
+
+                              {week.recommendations?.length > 0 && (
+                                <div>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Tips</p>
+                                  <div className="space-y-1">
+                                    {week.recommendations.map((tip: string, i: number) => (
+                                      <div key={i} className="flex items-start gap-2 text-xs text-gray-600">
+                                        <Sparkles className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                                        <span>{tip}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {plan.generatedAt && (
+                <p className="text-[10px] text-gray-400 text-center">
+                  Plan generated {new Date(plan.generatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </main>
       <Footer />
@@ -399,23 +591,227 @@ export default function StudyPlanPage() {
   );
 }
 
-function getWeakDomains(days: PlanDay[]): Array<{ domain: string; remaining: number }> {
-  const domainStats: Record<string, { total: number; done: number }> = {};
-  for (const day of days) {
-    for (const task of day.tasks) {
-      if (!task.domain) continue;
-      if (!domainStats[task.domain]) domainStats[task.domain] = { total: 0, done: 0 };
-      domainStats[task.domain].total++;
-      if (task.status === "done") domainStats[task.domain].done++;
-    }
-  }
-  return Object.entries(domainStats)
-    .map(([domain, stats]) => ({
-      domain,
-      remaining: stats.total - stats.done,
-      completionRate: stats.total > 0 ? stats.done / stats.total : 1,
-    }))
-    .filter((d) => d.remaining > 0)
-    .sort((a, b) => a.completionRate - b.completionRate)
-    .slice(0, 5);
+function PacingBox({ label, value, icon: Icon, color, testId }: {
+  label: string;
+  value: number | undefined;
+  icon: any;
+  color: string;
+  testId: string;
+}) {
+  return (
+    <div className="p-3 rounded-lg bg-gray-50 text-center" data-testid={testId}>
+      <Icon className={`w-4 h-4 mx-auto mb-1 ${color}`} />
+      <p className="text-xl font-bold">{value ?? 0}</p>
+      <p className="text-[10px] text-gray-500 uppercase tracking-wider">{label}</p>
+    </div>
+  );
+}
+
+function WeekTarget({ label, value }: { label: string; value: number | undefined }) {
+  return (
+    <div className="p-2 rounded bg-white text-center border">
+      <p className="text-base font-bold text-primary">{value ?? 0}</p>
+      <p className="text-[9px] text-gray-500 uppercase">{label}</p>
+    </div>
+  );
+}
+
+function PlanSettingsForm({
+  examDate, setExamDate,
+  examDateType, setExamDateType,
+  intensity, setIntensity,
+  planWithoutDate, setPlanWithoutDate,
+  planWithoutDateWeeks, setPlanWithoutDateWeeks,
+  onGenerate, generating,
+  showReset, onReset,
+  countdownHidden, plannerHidden,
+  onToggleCountdown, onTogglePlanner,
+}: {
+  examDate: string;
+  setExamDate: (v: string) => void;
+  examDateType: "booked" | "target";
+  setExamDateType: (v: "booked" | "target") => void;
+  intensity: Intensity;
+  setIntensity: (v: Intensity) => void;
+  planWithoutDate: boolean;
+  setPlanWithoutDate: (v: boolean) => void;
+  planWithoutDateWeeks: number;
+  setPlanWithoutDateWeeks: (v: number) => void;
+  onGenerate: () => void;
+  generating: boolean;
+  showReset?: boolean;
+  onReset?: () => void;
+  countdownHidden?: boolean;
+  plannerHidden?: boolean;
+  onToggleCountdown?: () => void;
+  onTogglePlanner?: () => void;
+}) {
+  return (
+    <div className="space-y-5">
+      <div>
+        <label className="text-sm font-medium mb-2 block">Exam Date</label>
+        <div className="flex items-center gap-2 mb-3">
+          <label className="flex items-center gap-1.5 text-xs cursor-pointer">
+            <input
+              type="radio"
+              checked={!planWithoutDate}
+              onChange={() => setPlanWithoutDate(false)}
+              className="accent-primary"
+              data-testid="radio-has-date"
+            />
+            I have a date
+          </label>
+          <label className="flex items-center gap-1.5 text-xs cursor-pointer">
+            <input
+              type="radio"
+              checked={planWithoutDate}
+              onChange={() => setPlanWithoutDate(true)}
+              className="accent-primary"
+              data-testid="radio-no-date"
+            />
+            Plan without a date
+          </label>
+        </div>
+
+        {!planWithoutDate ? (
+          <div className="space-y-3">
+            <input
+              type="date"
+              value={examDate}
+              onChange={(e) => setExamDate(e.target.value)}
+              min={new Date().toISOString().slice(0, 10)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              data-testid="input-exam-date"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => setExamDateType("booked")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium border transition-colors ${
+                  examDateType === "booked" ? "bg-primary text-white border-primary" : "bg-white text-gray-600 hover:bg-gray-50"
+                }`}
+                data-testid="button-date-type-booked"
+              >
+                Booked Date
+              </button>
+              <button
+                onClick={() => setExamDateType("target")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium border transition-colors ${
+                  examDateType === "target" ? "bg-primary text-white border-primary" : "bg-white text-gray-600 hover:bg-gray-50"
+                }`}
+                data-testid="button-date-type-target"
+              >
+                Target Date
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p className="text-xs text-gray-500 mb-2">Choose a timeframe for your study plan:</p>
+            <div className="grid grid-cols-4 gap-2">
+              {[4, 8, 12].map((weeks) => (
+                <button
+                  key={weeks}
+                  onClick={() => setPlanWithoutDateWeeks(weeks)}
+                  className={`py-2 px-2 rounded-lg text-xs font-medium border transition-colors ${
+                    planWithoutDateWeeks === weeks ? "bg-primary text-white border-primary" : "bg-white text-gray-600 hover:bg-gray-50"
+                  }`}
+                  data-testid={`button-weeks-${weeks}`}
+                >
+                  {weeks} weeks
+                </button>
+              ))}
+              <div className="relative">
+                <input
+                  type="number"
+                  min={1}
+                  max={52}
+                  value={![4, 8, 12].includes(planWithoutDateWeeks) ? planWithoutDateWeeks : ""}
+                  onChange={(e) => setPlanWithoutDateWeeks(parseInt(e.target.value) || 8)}
+                  placeholder="Custom"
+                  className="w-full py-2 px-2 rounded-lg text-xs font-medium border text-center focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  data-testid="input-custom-weeks"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="text-sm font-medium mb-2 block">Study Intensity</label>
+        <div className="grid grid-cols-3 gap-2">
+          {(["light", "balanced", "intensive"] as Intensity[]).map((level) => (
+            <button
+              key={level}
+              onClick={() => setIntensity(level)}
+              className={`py-3 px-2 rounded-lg text-xs font-medium border transition-colors text-center ${
+                intensity === level ? "bg-primary text-white border-primary" : "bg-white text-gray-600 hover:bg-gray-50"
+              }`}
+              data-testid={`button-intensity-${level}`}
+            >
+              {level === "light" && "☀️ "}
+              {level === "balanced" && "⚖️ "}
+              {level === "intensive" && "🔥 "}
+              {level.charAt(0).toUpperCase() + level.slice(1)}
+              <p className={`text-[10px] mt-0.5 ${intensity === level ? "text-white/80" : "text-gray-400"}`}>
+                {level === "light" && "~45 min/day"}
+                {level === "balanced" && "~75 min/day"}
+                {level === "intensive" && "~120 min/day"}
+              </p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {showReset && (
+        <div className="space-y-3 pt-2 border-t">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-600">Show exam countdown</span>
+            <button
+              onClick={onToggleCountdown}
+              className="text-xs text-primary font-medium"
+              data-testid="button-toggle-countdown"
+            >
+              {countdownHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-600">Show study planner on dashboard</span>
+            <button
+              onClick={onTogglePlanner}
+              className="text-xs text-primary font-medium"
+              data-testid="button-toggle-planner"
+            >
+              {plannerHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="flex gap-2">
+        <Button
+          onClick={onGenerate}
+          disabled={generating || (!planWithoutDate && !examDate)}
+          className="flex-1 rounded-full"
+          data-testid="button-generate-plan"
+        >
+          {generating ? (
+            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> Generating...</>
+          ) : (
+            <><Sparkles className="w-4 h-4 mr-1.5" /> {showReset ? "Update Plan" : "Generate My Plan"}</>
+          )}
+        </Button>
+        {showReset && (
+          <Button
+            variant="outline"
+            onClick={onReset}
+            className="rounded-full text-xs"
+            data-testid="button-reset-plan"
+          >
+            Reset
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 }

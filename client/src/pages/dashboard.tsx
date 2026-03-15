@@ -1191,59 +1191,19 @@ function IntelligentRecommendationsWidget({ user }: { user: any }) {
   );
 }
 
-interface WorkloadData {
-  hasProfile: boolean;
-  examPassed?: boolean;
-  message: string;
-  examDate?: string;
-  examType?: string;
-  totalRecommended?: number;
-  questionsCompleted?: number;
-  remaining?: number;
-  dailyTarget?: number;
-  daysPerWeek?: number;
-  daysNeeded?: number;
-  daysUntilExam?: number;
-  bufferDays?: number;
-  projectedCompletionDate?: string;
-  percentComplete?: number;
-  status?: "ahead" | "on_track" | "behind" | "completed";
-  calculatedAt?: string;
-}
-
 function StudyWorkloadWidget({ user }: { user: any }) {
-  const [data, setData] = useState<WorkloadData | null>(null);
+  const [planData, setPlanData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
-  const { t } = useI18n();
-
-  const CACHE_KEY = `study_workload_${user.id}`;
-  const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (cached) {
-      try {
-        const parsed = JSON.parse(cached);
-        if (Date.now() - parsed.fetchedAt < CACHE_DURATION) {
-          setData(parsed.data);
-          setLoading(false);
-          return;
-        }
-      } catch {}
-    }
-
-    fetch(`/api/study-workload/${user.id}`)
+    if (!user?.id) return;
+    fetch("/api/exam-planner/plan", { credentials: "include" })
       .then((r) => r.ok ? r.json() : null)
-      .then((d) => {
-        if (d) {
-          setData(d);
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ data: d, fetchedAt: Date.now() }));
-        }
-      })
+      .then((d) => setPlanData(d))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [user.id]);
+  }, [user?.id]);
 
   if (loading) {
     return (
@@ -1253,105 +1213,123 @@ function StudyWorkloadWidget({ user }: { user: any }) {
     );
   }
 
-  if (!data || !data.hasProfile) {
+  if (!planData || !planData.hasPlan) {
+    const hasExamDate = planData?.hasExamDate;
+    const examDate = planData?.settings?.exam_date;
+    const examPassed = examDate && new Date(examDate) <= new Date();
+
+    if (examPassed) {
+      return (
+        <div className="text-center py-4" data-testid="widget-content-study-workload-passed">
+          <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
+          <p className="text-sm font-medium">Your exam date has passed</p>
+          <p className="text-xs text-muted-foreground mt-1 mb-3">Set a new exam date to create a fresh study plan.</p>
+          <Button size="sm" variant="outline" onClick={() => navigate("/study-plan")} data-testid="button-new-exam-date">
+            Set New Date
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div className="text-center py-4" data-testid="widget-content-study-workload-empty">
         <CalendarClock className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.noExamProfile")}</p>
-        <p className="text-xs text-muted-foreground mb-3">{t("dashboard.noExamProfileDesc")}</p>
-        <Button size="sm" variant="outline" onClick={() => navigate("/study-plan")} data-testid="button-set-exam-date">
-          {t("dashboard.setExamDate")}
+        <p className="text-sm font-medium mb-1">Your Study Plan</p>
+        <p className="text-xs text-muted-foreground mb-3">Set your exam date and get a personalized study plan with weekly goals, pacing targets, and smart recommendations.</p>
+        <Button size="sm" onClick={() => navigate("/study-plan")} className="rounded-full" data-testid="button-set-exam-date">
+          <CalendarClock className="h-4 w-4 mr-1.5" /> Create Study Plan
         </Button>
       </div>
     );
   }
 
-  if (data.examPassed) {
-    return (
-      <div className="text-center py-4" data-testid="widget-content-study-workload-passed">
-        <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
-        <p className="text-sm font-medium">{t("dashboard.examDatePassed")}</p>
-        <p className="text-xs text-muted-foreground">{t("dashboard.examDatePassedDesc")}</p>
-      </div>
-    );
-  }
+  const plan = planData.plan;
+  const phase = plan?.phase;
+  const pacing = plan?.pacingTargets;
+  const recs = plan?.recommendations || [];
+  const settings = planData.settings;
 
-  const statusColors: Record<string, string> = {
-    ahead: "text-emerald-600",
-    on_track: "text-blue-600",
-    behind: "text-red-600",
-    completed: "text-emerald-600",
+  const phaseColors: Record<string, { bg: string; text: string; badge: string }> = {
+    foundation: { bg: "bg-blue-50 border-blue-100", text: "text-blue-700", badge: "bg-blue-100 text-blue-800" },
+    practice: { bg: "bg-purple-50 border-purple-100", text: "text-purple-700", badge: "bg-purple-100 text-purple-800" },
+    timed_review: { bg: "bg-amber-50 border-amber-100", text: "text-amber-700", badge: "bg-amber-100 text-amber-800" },
+    final_review: { bg: "bg-emerald-50 border-emerald-100", text: "text-emerald-700", badge: "bg-emerald-100 text-emerald-800" },
   };
 
-  const statusBg: Record<string, string> = {
-    ahead: "bg-emerald-50 border-emerald-100",
-    on_track: "bg-blue-50 border-blue-100",
-    behind: "bg-red-50 border-red-100",
-    completed: "bg-emerald-50 border-emerald-100",
+  const statusColors: Record<string, { bg: string; text: string }> = {
+    ahead: { bg: "bg-emerald-50 border-emerald-200", text: "text-emerald-700" },
+    on_track: { bg: "bg-blue-50 border-blue-200", text: "text-blue-700" },
+    slightly_behind: { bg: "bg-amber-50 border-amber-200", text: "text-amber-700" },
+    needs_attention: { bg: "bg-red-50 border-red-200", text: "text-red-700" },
   };
 
-  const statusIcon: Record<string, any> = {
-    ahead: CheckCircle2,
-    on_track: CalendarClock,
-    behind: AlertTriangle,
-    completed: CheckCircle2,
-  };
+  const phaseStyle = phaseColors[phase?.phase || "foundation"] || phaseColors.foundation;
+  const statusStyle = statusColors[plan?.onTrackStatus || "on_track"] || statusColors.on_track;
+  const daysRemaining = phase?.daysRemaining || 0;
 
-  const StatusIcon = statusIcon[data.status || "on_track"] || CalendarClock;
-  const pct = data.percentComplete || 0;
+  const countdownHidden = settings?.exam_countdown_hidden;
 
   return (
     <div data-testid="widget-content-study-workload">
-      <div className="space-y-4">
-        <div className={`flex items-start gap-3 p-3 rounded-lg border ${statusBg[data.status || "on_track"]}`}>
-          <StatusIcon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${statusColors[data.status || "on_track"]}`} />
-          <p className={`text-sm font-medium leading-relaxed ${statusColors[data.status || "on_track"]}`} data-testid="text-workload-message">
-            {data.message}
-          </p>
-        </div>
-
-        <div className="space-y-1.5">
-          <div className="flex justify-between text-xs">
-            <span className="text-muted-foreground">{t("dashboard.questionsCompleted")}</span>
-            <span className="font-medium">{data.questionsCompleted?.toLocaleString()} / {data.totalRecommended?.toLocaleString()}</span>
+      <div className="space-y-3">
+        {!countdownHidden && daysRemaining > 0 && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${phaseStyle.badge}`} data-testid="badge-study-phase">
+                {phase?.label}
+              </span>
+            </div>
+            <div className="text-right">
+              <p className="text-lg font-bold text-primary" data-testid="text-days-remaining">{daysRemaining}</p>
+              <p className="text-[10px] text-muted-foreground uppercase">days left</p>
+            </div>
           </div>
-          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all duration-700 ${pct >= 100 ? "bg-emerald-500" : pct >= 50 ? "bg-primary" : "bg-amber-500"}`}
-              style={{ width: `${Math.min(100, pct)}%` }}
-              data-testid="progress-workload-bar"
-            />
-          </div>
-          <p className="text-[10px] text-muted-foreground text-right">{pct}% {t("dashboard.percentComplete")}</p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          <div className="p-2 rounded-lg bg-muted/50 text-center">
-            <p className="text-lg font-bold text-primary" data-testid="text-remaining-questions">{data.remaining?.toLocaleString()}</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.remaining")}</p>
-          </div>
-          <div className="p-2 rounded-lg bg-muted/50 text-center">
-            <p className="text-lg font-bold" data-testid="text-daily-target">{data.dailyTarget}</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.dailyTarget")}</p>
-          </div>
-          <div className="p-2 rounded-lg bg-muted/50 text-center">
-            <p className={`text-lg font-bold ${(data.bufferDays || 0) >= 0 ? "text-emerald-600" : "text-red-600"}`} data-testid="text-buffer-days">
-              {(data.bufferDays || 0) >= 0 ? `+${data.bufferDays}` : data.bufferDays}
-            </p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.bufferDays")}</p>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t">
-          <span>{t("dashboard.examLabel")} {data.examDate ? new Date(data.examDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }) : "—"}</span>
-          <span>{data.daysUntilExam} {t("dashboard.daysAway")}</span>
-        </div>
-
-        {data.calculatedAt && (
-          <p className="text-[10px] text-muted-foreground text-center">
-            {t("dashboard.recalculatedWeekly")} · {t("dashboard.lastCalculated")} {new Date(data.calculatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}
-          </p>
         )}
+
+        <div className={`p-2.5 rounded-lg border ${statusStyle.bg}`}>
+          <p className={`text-xs font-medium leading-relaxed ${statusStyle.text}`} data-testid="text-workload-message">
+            {plan?.onTrackMessage}
+          </p>
+        </div>
+
+        {pacing && (
+          <div className="grid grid-cols-3 gap-1.5">
+            <div className="p-2 rounded-lg bg-muted/50 text-center">
+              <p className="text-base font-bold text-primary" data-testid="text-daily-questions">{pacing.questionsPerDay}</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Q/Day</p>
+            </div>
+            <div className="p-2 rounded-lg bg-muted/50 text-center">
+              <p className="text-base font-bold text-primary" data-testid="text-weekly-flashcards">{pacing.flashcardsPerWeek}</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Cards/Wk</p>
+            </div>
+            <div className="p-2 rounded-lg bg-muted/50 text-center">
+              <p className="text-base font-bold text-primary" data-testid="text-mocks-target">{pacing.mocksToTake}</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Mocks</p>
+            </div>
+          </div>
+        )}
+
+        {recs.length > 0 && (
+          <div className="space-y-1.5">
+            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Next Steps</p>
+            {recs.slice(0, 2).map((rec: any, i: number) => (
+              <div key={i} className="flex items-start gap-2 text-xs" data-testid={`rec-item-${i}`}>
+                <Sparkles className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                <span className="text-muted-foreground leading-relaxed">{rec.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="w-full rounded-full text-xs"
+          onClick={() => navigate("/study-plan")}
+          data-testid="button-view-full-plan"
+        >
+          View Full Plan <ArrowRight className="h-3 w-3 ml-1" />
+        </Button>
       </div>
     </div>
   );

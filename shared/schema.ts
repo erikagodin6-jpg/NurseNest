@@ -5917,3 +5917,29 @@ export const insertContentGrowthRunSchema = createInsertSchema(contentGrowthRuns
 });
 export type ContentGrowthRun = typeof contentGrowthRuns.$inferSelect;
 export type InsertContentGrowthRun = z.infer<typeof insertContentGrowthRunSchema>;
+
+export const examPlannerSettings = pgTable("exam_planner_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  examDate: timestamp("exam_date"),
+  examDateType: text("exam_date_type").default("target"),
+  examCountdownHidden: boolean("exam_countdown_hidden").default(false),
+  studyPlannerHidden: boolean("study_planner_hidden").default(false),
+  studyPlanIntensity: text("study_plan_intensity").default("balanced"),
+  planWithoutDate: boolean("plan_without_date").default(false),
+  planWithoutDateWeeks: integer("plan_without_date_weeks"),
+  tier: text("tier").default("rn"),
+  careerType: text("career_type").default("nursing"),
+  generatedPlan: jsonb("generated_plan"),
+  plannerLastUpdated: timestamp("planner_last_updated"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertExamPlannerSettingsSchema = createInsertSchema(examPlannerSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ExamPlannerSettings = typeof examPlannerSettings.$inferSelect;
+export type InsertExamPlannerSettings = z.infer<typeof insertExamPlannerSettingsSchema>;
