@@ -1700,7 +1700,13 @@ export const rnSystems = [
       { id: "pulmonary-valve-stenosis-2-rn", name: "Pulmonary Valve Stenosis", status: "Available" },
       { id: "advanced-respiratory-nursing-rn-rn", name: "Advanced Respiratory Nursing (RN)", status: "Available" },
       { id: "comprehensive-airway-assessment-rn-rn", name: "Comprehensive Airway Assessment (RN)", status: "Available" },
-      { id: "respiratory-assessment-protocol-rn-rn", name: "Respiratory Assessment Protocol (RN)", status: "Available" }
+      { id: "respiratory-assessment-protocol-rn-rn", name: "Respiratory Assessment Protocol (RN)", status: "Available" },
+      { id: "pulmonary-hypertension-rn", name: "Pulmonary Hypertension", status: "Available" },
+      { id: "ards-pathophysiology-rn", name: "ARDS Pathophysiology", status: "Available" },
+      { id: "copd-pathophysiology-rn", name: "COPD Pathophysiology", status: "Available" },
+      { id: "asthma-pathophysiology-rn", name: "Asthma Pathophysiology", status: "Available" },
+      { id: "pe-pathophysiology-rn", name: "Pulmonary Embolism: Virchow Triad", status: "Available" },
+      { id: "pneumonia-comprehensive-rn", name: "Pneumonia: CAP vs HAP", status: "Available" }
     ]
   },
   {
@@ -1849,7 +1855,18 @@ export const rnSystems = [
       { id: "chronic-kidney-disease-rn", name: "Chronic Kidney Disease", status: "Available" },
       { id: "male-infertility-rn", name: "Male Infertility: Assessment & Diagnostics", status: "Available" },
       { id: "bph-turp-rn", name: "BPH/TURP: Pre/Post-Op Assessment", status: "Available" },
-      { id: "continuous-bladder-irrigation-rn", name: "Continuous Bladder Irrigation (CBI)", status: "Available" }
+      { id: "continuous-bladder-irrigation-rn", name: "Continuous Bladder Irrigation (CBI)", status: "Available" },
+      { id: "aki-pathophysiology-rn", name: "AKI Pathophysiology", status: "Available" },
+      { id: "ckd-pathophysiology-rn", name: "CKD Staging & Complications", status: "Available" },
+      { id: "glomerulonephritis-rn", name: "Glomerulonephritis & Nephrotic vs Nephritic", status: "Available" },
+      { id: "fluid-volume-imbalances-rn", name: "Fluid Volume Imbalances", status: "Available" },
+      { id: "sodium-imbalances-rn", name: "Sodium Imbalances", status: "Available" },
+      { id: "potassium-imbalances-rn", name: "Potassium Imbalances", status: "Available" },
+      { id: "calcium-phosphate-imbalances-rn", name: "Calcium & Phosphate Imbalances", status: "Available" },
+      { id: "metabolic-acidosis-rn", name: "Metabolic Acidosis", status: "Available" },
+      { id: "metabolic-alkalosis-rn", name: "Metabolic Alkalosis", status: "Available" },
+      { id: "respiratory-acidosis-alkalosis-rn", name: "Respiratory Acidosis & Alkalosis", status: "Available" },
+      { id: "mixed-acid-base-disorders-rn", name: "Mixed Acid-Base Disorders: ABG Interpretation", status: "Available" }
     ]
   },
   {
