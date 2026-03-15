@@ -706,6 +706,142 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Top 100 Pharmacy Technician Exam Questions (2025) — PTCB Prep | NurseNest",
     description: "Practice 100 essential PTCB and ExCPT pharmacy technician exam questions with detailed rationales. Covers pharmacy calculations, pharmacology, law, compounding, and medication safety.",
   },
+  "/exam-prep": {
+    title: "Nursing & Allied Health Exam Prep Hub | NCLEX, REx-PN, NP & More | NurseNest",
+    description: "Your one-stop exam prep hub for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health licensing exams. Practice questions, mock exams, flashcards, and study plans.",
+  },
+  "/new-graduate-support": {
+    title: "New Graduate Nurse Support Hub | Transition to Practice | NurseNest",
+    description: "Comprehensive resources for new graduate nurses transitioning to practice. Clinical confidence builders, preceptor guides, resume help, and first-year survival strategies.",
+  },
+  "/healthcare-careers": {
+    title: "Healthcare Career Explorer | Nursing & Allied Health Pathways | NurseNest",
+    description: "Explore healthcare career paths in nursing, paramedicine, respiratory therapy, medical lab science, imaging, social work, and more. Salary data, education requirements, and job outlook.",
+  },
+  "/guides": {
+    title: "Healthcare Career Guides | Complete How-To Guides | NurseNest",
+    description: "In-depth healthcare career guides covering nursing, paramedicine, respiratory therapy, medical lab technology, and radiography. Education pathways, certification requirements, and career advice.",
+  },
+  "/guides/complete-guide-to-becoming-a-registered-nurse": {
+    title: "Complete Guide to Becoming a Registered Nurse (RN) | NurseNest",
+    description: "Everything you need to know about becoming an RN. Education pathways, NCLEX-RN exam prep, clinical requirements, salary expectations, and career growth opportunities.",
+  },
+  "/guides/complete-guide-to-becoming-an-rpn-lvn": {
+    title: "Complete Guide to Becoming an RPN / LVN | NurseNest",
+    description: "Step-by-step guide to becoming a Registered Practical Nurse (RPN) or Licensed Vocational Nurse (LVN). NCLEX-PN/REx-PN prep, education, and career outlook.",
+  },
+  "/guides/complete-guide-to-becoming-a-respiratory-therapist": {
+    title: "Complete Guide to Becoming a Respiratory Therapist | NurseNest",
+    description: "Comprehensive guide to becoming a respiratory therapist. NBRC TMC/CSE exam prep, education requirements, salary data, and career advancement pathways.",
+  },
+  "/guides/complete-guide-to-becoming-a-paramedic": {
+    title: "Complete Guide to Becoming a Paramedic | NurseNest",
+    description: "Full career guide for aspiring paramedics. NREMT/COPR certification, training programs, salary expectations, and career opportunities in emergency medicine.",
+  },
+  "/guides/complete-guide-to-becoming-a-medical-lab-technologist": {
+    title: "Complete Guide to Becoming a Medical Lab Technologist | NurseNest",
+    description: "Detailed MLT career guide covering CSMLS/ASCP certification, education pathways, lab specializations, salary ranges, and job growth outlook.",
+  },
+  "/nursing-certifications": {
+    title: "Nursing Certifications Hub | Specialty Credentials & Exam Prep | NurseNest",
+    description: "Explore nursing specialty certifications including CNOR, CCRN, CEN, and more. Certification requirements, exam prep resources, and career advancement guides.",
+  },
+  "/study-pathways": {
+    title: "Personalized Study Pathways | Guided Nursing Exam Prep | NurseNest",
+    description: "Customized study pathways for nursing students. Structured learning plans for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification exams based on your strengths and weaknesses.",
+  },
+  "/glossary": {
+    title: "Nursing & Healthcare Glossary | Medical Terminology A-Z | NurseNest",
+    description: "Comprehensive nursing and healthcare glossary. Look up medical terminology, abbreviations, clinical definitions, and pharmacology terms used in nursing practice and exams.",
+  },
+  "/topics": {
+    title: "Nursing Topics A-Z | Clinical Study Library | NurseNest",
+    description: "Browse nursing topics alphabetically. Pathophysiology, pharmacology, clinical skills, and exam prep content organized by topic for easy reference and study.",
+  },
+  "/nursing": {
+    title: "Nursing Hub | NCLEX, REx-PN & NP Exam Prep Resources | NurseNest",
+    description: "Your complete nursing education hub. Access lessons, practice questions, flashcards, mock exams, and study resources for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification.",
+  },
+  "/nursing-specialties": {
+    title: "Nursing Specialties | Explore Specialty Career Paths | NurseNest",
+    description: "Explore nursing specialty areas including ICU, pediatrics, labor & delivery, mental health, oncology, and more. Certification guides, salary data, and career pathways.",
+  },
+  "/rpn": {
+    title: "RPN / LVN Track | NCLEX-PN & REx-PN Exam Prep | NurseNest",
+    description: "Comprehensive RPN/LVN exam preparation. Practice questions, flashcards, mock exams, and study resources tailored for NCLEX-PN and REx-PN certification exams.",
+  },
+  "/rn": {
+    title: "RN Track | NCLEX-RN Exam Prep | NurseNest",
+    description: "Complete RN exam preparation with NCLEX-RN practice questions, clinical case simulations, pharmacology flashcards, and adaptive mock exams.",
+  },
+  "/np": {
+    title: "Nurse Practitioner Track | AANP & ANCC Certification Prep | NurseNest",
+    description: "Advanced NP certification exam preparation for AANP and ANCC. Practice questions, differential diagnosis cases, pharmacology review, and mock exams.",
+  },
+  "/newgrad": {
+    title: "New Grad Career Hub | Resources for New Nursing Graduates | NurseNest",
+    description: "Career development resources for new nursing graduates. Interview prep, resume building, salary guides, workplace navigation, and professional development content.",
+  },
+  "/rex-pn": {
+    title: "REx-PN Exam Prep Hub | Canadian RPN Exam Review | NurseNest",
+    description: "Complete REx-PN exam preparation for Canadian practical nursing students. Mock exams, practice questions, study strategies, wellness tips, and exam format guide.",
+  },
+  "/rex-pn/exam-format": {
+    title: "REx-PN Exam Format Guide | What to Expect | NurseNest",
+    description: "Understand the REx-PN exam format, question types, time limits, and scoring. Complete guide to help Canadian RPN students prepare for exam day.",
+  },
+  "/rex-pn/test-taking-strategies": {
+    title: "REx-PN Test-Taking Strategies | Proven Tips | NurseNest",
+    description: "Expert test-taking strategies for the REx-PN exam. Time management, question analysis, elimination techniques, and stress management tips.",
+  },
+  "/rex-pn/wellness": {
+    title: "REx-PN Exam Wellness | Stress Management & Self-Care | NurseNest",
+    description: "Wellness strategies for REx-PN exam preparation. Managing test anxiety, self-care routines, study-life balance, and mental health tips for nursing students.",
+  },
+  "/pass-nclex-first-time": {
+    title: "How to Pass NCLEX on Your First Attempt | NurseNest",
+    description: "Proven strategies to pass the NCLEX exam on your first try. Study plans, practice question tips, test-day advice, and common mistakes to avoid.",
+  },
+  "/for-institutions": {
+    title: "NurseNest for Institutions | Group Licensing & Faculty Tools | NurseNest",
+    description: "NurseNest institutional partnerships for nursing programs. Group licensing, faculty dashboards, student analytics, and curriculum integration for nursing schools.",
+  },
+  "/clinical-skills": {
+    title: "Clinical Skills Hub | Nursing Competencies & Practice | NurseNest",
+    description: "Master essential clinical nursing skills. IV insertion, wound care, medication administration, patient assessment, and competency-based practice guides.",
+  },
+  "/order-of-the-draw": {
+    title: "Order of the Draw | Phlebotomy Tube Guide | NurseNest",
+    description: "Complete phlebotomy order of the draw guide. Blood collection tube colors, additives, inversions, and common errors for nursing and lab students.",
+  },
+  "/clinical-case-studies": {
+    title: "Clinical Case Studies | Real-World Nursing Scenarios | NurseNest",
+    description: "Practice clinical decision-making with evidence-based case studies. Complex patient scenarios with diagnostic reasoning and nursing intervention analysis.",
+  },
+  "/allied-health": {
+    title: "Allied Health Hub | Exam Prep for Healthcare Professionals | NurseNest",
+    description: "Exam preparation and career resources for allied health professionals. Paramedics, respiratory therapists, MLTs, imaging technologists, and more.",
+  },
+  "/practice-questions": {
+    title: "Nursing Practice Questions | NCLEX & REx-PN Question Bank | NurseNest",
+    description: "Free nursing practice questions organized by system and exam tier. NCLEX-RN, NCLEX-PN, REx-PN, and NP questions with detailed clinical rationales.",
+  },
+  "/pharmacology": {
+    title: "Pharmacology Hub | Nursing Drug Review & Practice | NurseNest",
+    description: "Master nursing pharmacology with drug class reviews, mechanism of action guides, side effect profiles, and NCLEX-focused practice questions.",
+  },
+  "/rpn/test-bank": {
+    title: "RPN Test Bank | NCLEX-PN & REx-PN Practice Questions | NurseNest",
+    description: "Comprehensive RPN/LVN test bank with practice questions organized by body system. Track progress and identify weak areas for NCLEX-PN and REx-PN exam prep.",
+  },
+  "/rn/test-bank": {
+    title: "RN Test Bank | NCLEX-RN Practice Questions by System | NurseNest",
+    description: "Complete RN test bank with NCLEX-RN practice questions organized by body system. Adaptive difficulty, detailed rationales, and performance analytics.",
+  },
+  "/np/test-bank": {
+    title: "NP Test Bank | Advanced Practice Questions | NurseNest",
+    description: "Nurse Practitioner test bank with advanced practice questions for AANP and ANCC certification. Differential diagnosis, pharmacology, and clinical management.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",
