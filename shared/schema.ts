@@ -1188,7 +1188,6 @@ export const flashcardBank = pgTable("flashcard_bank", {
   updatedAt: timestamp("updated_at").defaultNow(),
   highYield: boolean("high_yield").default(false),
   isFoundational: boolean("is_foundational").default(false),
-  blueprintCategory: text("blueprint_category"),
   qualityScores: jsonb("quality_scores"),
   qualityFeedback: jsonb("quality_feedback"),
   qualityScore: integer("quality_score"),

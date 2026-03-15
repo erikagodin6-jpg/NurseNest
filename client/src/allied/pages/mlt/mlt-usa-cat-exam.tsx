@@ -74,11 +74,14 @@ export default function MltUsaCatExam() {
       setLoading(false);
       startTimeRef.current = Date.now();
     } catch (e: any) {
+      console.error("[MLT-CAT] startExam failed:", { message: e.message, status: e.status });
       const msg = e.message || "Failed to start exam";
       if (msg.includes("Unable to create") || msg.includes("SCHEMA_DRIFT") || msg.includes("database") || msg.includes("500")) {
         setError("Unable to start exam session — please retry in a moment. If the issue persists, contact support.");
       } else if (msg.includes("No questions") || msg.includes("question bank")) {
         setError("No questions available for this exam configuration. Please try again later.");
+      } else if (msg.includes("Upgrade required") || msg.includes("403") || msg.includes("subscription")) {
+        setError("This feature requires a paid subscription. Please upgrade your plan.");
       } else if (msg.includes("Authentication") || msg.includes("401")) {
         setError("Please log in to start the exam.");
       } else {

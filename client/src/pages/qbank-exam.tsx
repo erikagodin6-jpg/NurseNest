@@ -130,7 +130,19 @@ export default function QBankExamPage() {
       setPhase("exam");
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
     } catch (e: any) {
-      setError(e.message);
+      console.error("[QBankExam] startExam failed:", { message: e.message, category: filterCategory, difficulty: filterDifficulty, count: questionCount });
+      const msg = e.message || "Failed to load questions";
+      if (msg.includes("No questions") || msg.includes("question bank")) {
+        setError("No questions available for your selected filters. Try a different category or difficulty.");
+      } else if (msg.includes("Upgrade required") || msg.includes("403") || msg.includes("subscription")) {
+        setError("This feature requires a paid subscription. Please upgrade your plan.");
+      } else if (msg.includes("Authentication") || msg.includes("401") || msg.includes("log in")) {
+        setError("Please log in to start an exam.");
+      } else if (msg.includes("Unable to create") || msg.includes("database") || msg.includes("SCHEMA_DRIFT")) {
+        setError("Unable to start exam session — please retry in a moment. If the issue persists, contact support.");
+      } else {
+        setError(msg);
+      }
     }
     setLoading(false);
   };

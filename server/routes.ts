@@ -8941,9 +8941,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   app.post("/api/mock-exams/start-specialty", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
+      console.log("[MockExam][start-specialty] Received payload:", { examDefinitionId: req.body.examDefinitionId, specialty: req.body.specialty });
+      console.log("[MockExam][start-specialty] User auth state:", { userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
 
       const { examDefinitionId, specialty } = req.body;
       if (!examDefinitionId) {
+        console.log("[MockExam][start-specialty] Validation failed: missing exam definition ID");
         return res.status(400).json({ error: "Missing exam definition ID" });
       }
 
@@ -8993,6 +8996,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return rest;
       });
 
+      console.log("[MockExam][start-specialty] Inserting attempt:", { userId: String(authUser.id), questionCount: questions.length, specialty: examDef.specialty, examTitle: examDef.title });
+
       const result = await pool.query(
         `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, career_type)
          VALUES ($1, $2, $3, $4, 'in_progress', $5, $6)
@@ -9007,17 +9012,19 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         ],
       );
 
-      res.json({ attemptId: result.rows[0].id, timeLimit: examDef.time_limit, examTitle: examDef.title });
+      const attemptId = result.rows[0].id;
+      console.log("[MockExam][start-specialty] INSERT success, attemptId:", attemptId);
+
+      res.json({ attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title });
     } catch (e: any) {
+      console.error("[MockExam][start-specialty] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
-        console.error("[MockExam] Schema drift on start-specialty:", e.message);
         res.status(500).json({
           error: "Unable to create exam session due to a database configuration issue. Please retry shortly.",
           code: "SCHEMA_DRIFT",
         });
       } else {
-        console.error("[MockExam] start-specialty error:", e.message);
         res.status(500).json({ error: "Unable to create exam session. Please try again." });
       }
     }
@@ -9026,12 +9033,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   app.post("/api/mock-exams/start", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
+      console.log("[MockExam][start] Received payload:", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions });
+      console.log("[MockExam][start] User auth state:", { userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
 
       const { tier, totalQuestions, questions, examMode } = req.body;
       if (!tier || !questions || !Array.isArray(questions)) {
+        console.log("[MockExam][start] Validation failed: missing required fields");
         return res.status(400).json({ error: "Missing required fields" });
       }
       if (questions.length === 0) {
+        console.log("[MockExam][start] Validation failed: zero questions");
         return res.status(400).json({ error: "Cannot start an exam with zero questions. Please select a valid exam configuration." });
       }
       let effectiveExamTier = authUser.tier || "free";
@@ -9040,6 +9051,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         const preview = getPreviewFromToken(previewToken);
         effectiveExamTier = preview ? preview.mode : "admin";
       }
+      console.log("[MockExam][start] Effective tier:", effectiveExamTier);
 
       if (effectiveExamTier !== "admin" && effectiveExamTier !== "free") {
         const { getAllowedExamTiers } = await import("../shared/tier-config");
@@ -9095,6 +9107,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const storedBpMeta = blueprintMetaData ? { ...blueprintMetaData, domainAssignments } : null;
 
+      console.log("[MockExam][start] Inserting attempt:", { userId: String(authUser.id), tier, totalQuestions, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit });
+
       const result = await pool.query(
         `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, exam_type, blueprint_code, blueprint_meta)
          VALUES ($1, $2, $3, $4, 'in_progress', $5, $6, $7, $8)
@@ -9108,6 +9122,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       );
 
       const attemptId = result.rows[0].id;
+      console.log("[MockExam][start] INSERT success, attemptId:", attemptId);
 
       if (usedCredit) {
         await pool.query(
@@ -9115,19 +9130,19 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
            VALUES ($1, 'MOCK_OFFICIAL', $2, -1, $3, 'Consumed for official mock exam')`,
           [String(authUser.id), creditScope, attemptId]
         );
+        console.log("[MockExam][start] Credit consumed for scope:", creditScope);
       }
 
       res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
+      console.error("[MockExam][start] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
-        console.error("[MockExam] Schema drift detected on INSERT:", e.message);
         res.status(500).json({
           error: "Unable to create exam session due to a database configuration issue. Please retry shortly.",
           code: "SCHEMA_DRIFT",
         });
       } else {
-        console.error("[MockExam] startExam error:", e.message);
         res.status(500).json({ error: "Unable to create exam session. Please try again." });
       }
     }

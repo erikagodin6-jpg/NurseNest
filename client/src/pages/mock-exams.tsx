@@ -397,7 +397,7 @@ export default function MockExamsPage() {
         throw new Error("No exam session was created. Please try again.");
       }
     } catch (err: any) {
-      console.error("[MockExam] startExam failed:", err);
+      console.error("[MockExam] startExam failed:", { message: err?.message, code: err?.code, status: err?.status, tier: selectedTier, examMode, blueprint: selectedBlueprint });
       const message = err?.message || "Failed to start exam";
       const code = err?.code || "";
       if (code === "MOCK_PAYWALL" || code === "TIER_MISMATCH" || message.includes("Upgrade required") || message.includes("403")) {
