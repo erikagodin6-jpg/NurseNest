@@ -35,7 +35,7 @@ const PAIN_POINTS = [
 
 const FEATURES = [
   { title: "Adaptive Lessons", desc: "6,000+ pathophysiology lessons covering every body system with clinical depth and exam-aligned content.", icon: BookOpen, link: "/lessons" },
-  { title: "Test Bank", desc: "2,400+ NCLEX-style questions with detailed rationales explaining the clinical reasoning behind every answer.", icon: FileText, link: "/test-bank" },
+  { title: "Test Bank", desc: "2,400+ NCLEX-style questions with detailed rationales explaining the clinical reasoning behind every answer.", icon: FileText, link: "/practice-questions" },
   { title: "Mock Exams", desc: "Blueprint-weighted timed exams with adaptive CAT-style simulation matching real exam conditions.", icon: Layers, link: "/mock-exams" },
   { title: "Clinical Simulators", desc: "15 interactive simulators including OSCE practice, clinical skills lab, and unfolding case studies.", icon: Stethoscope, link: "/simulators/osce" },
   { title: "Custom Study Plan", desc: "Personalized study schedules that identify your weak areas and prioritize high-yield topics first.", icon: Sparkles, link: "/dashboard" },
@@ -316,7 +316,7 @@ export default function NursingHub() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href="/test-bank" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-unlock-questions">
+            <Link href="/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-unlock-questions">
               Unlock 2,400+ More <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

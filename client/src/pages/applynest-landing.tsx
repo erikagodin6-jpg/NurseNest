@@ -205,7 +205,7 @@ export default function ApplyNestLanding() {
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
             </Link>
-            <Link href="/test-bank">
+            <Link href="/practice-questions">
               <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer" data-testid="link-test-bank">
                 <FileText className="w-8 h-8 text-green-500 flex-shrink-0" />
                 <div>

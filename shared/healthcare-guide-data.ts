@@ -130,8 +130,8 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Test your ICU nursing knowledge with targeted practice questions covering critical care pharmacology, hemodynamic monitoring, ventilator management, and emergency scenarios. Questions feature detailed clinical rationales to deepen your understanding of intensive care nursing concepts.",
     practiceQuestionsLinks: [
-      { label: "Critical Care Practice Questions", href: "/question-bank", type: "questions" },
-      { label: "NCLEX-RN Question Bank", href: "/question-bank?exam=nclex-rn", type: "questions" },
+      { label: "Critical Care Practice Questions", href: "/preview/icu", type: "questions" },
+      { label: "NCLEX-RN Question Bank", href: "/preview/icu", type: "questions" },
       { label: "Cardiovascular Nursing Questions", href: "/study-guide/nclex-rn-cardiovascular", type: "questions" },
       { label: "Respiratory Nursing Questions", href: "/study-guide/nclex-rn-respiratory", type: "questions" },
     ],
@@ -214,7 +214,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Strengthen your neonatal nursing knowledge with practice questions covering prematurity management, neonatal resuscitation, NICU pharmacology, and developmental care principles.",
     practiceQuestionsLinks: [
-      { label: "Pediatric & Neonatal Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Pediatric & Neonatal Practice Questions", href: "/preview/nicu", type: "questions" },
       { label: "NCLEX-RN Pediatric Nursing Review", href: "/study-guide/nclex-rn-pediatric-nursing", type: "questions" },
     ],
     flashcardReviewIntro: "Master essential NICU concepts with flashcards covering neonatal vital sign ranges, medication dosing, developmental milestones, and gestational age assessment.",
@@ -292,7 +292,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Challenge yourself with trauma nursing practice questions covering primary survey prioritization, hemorrhage management, injury-specific interventions, and team coordination scenarios.",
     practiceQuestionsLinks: [
-      { label: "Emergency & Trauma Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Emergency & Trauma Practice Questions", href: "/preview/emergency-nursing", type: "questions" },
       { label: "NCLEX-RN Safety & Infection Control", href: "/study-guide/nclex-rn-safety-infection-control", type: "questions" },
     ],
     flashcardReviewIntro: "Review trauma assessment frameworks, hemorrhage classifications, and emergency medication dosages with targeted flashcards.",
@@ -371,7 +371,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Build your med-surg nursing knowledge with practice questions spanning all major body systems, medication management, post-operative care, and patient education scenarios.",
     practiceQuestionsLinks: [
-      { label: "Med-Surg Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Med-Surg Practice Questions", href: "/preview/med-surg", type: "questions" },
       { label: "NCLEX-RN Med-Surg Review", href: "/study-guide/nclex-rn-med-surg", type: "questions" },
       { label: "Pharmacology Questions", href: "/study-guide/nclex-rn-pharmacology-review", type: "questions" },
     ],
@@ -451,7 +451,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Test your mental health nursing knowledge with practice questions covering therapeutic communication, psychopharmacology, crisis intervention, and psychiatric assessment.",
     practiceQuestionsLinks: [
-      { label: "Mental Health Nursing Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Mental Health Nursing Practice Questions", href: "/preview/mental-health", type: "questions" },
       { label: "NCLEX-RN Mental Health Review", href: "/study-guide/nclex-rn-mental-health", type: "questions" },
     ],
     flashcardReviewIntro: "Review psychiatric medication classifications, therapeutic communication techniques, and mental status exam components with targeted flashcards.",
@@ -527,7 +527,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Test your orthopedic nursing knowledge with practice questions covering fracture management, postoperative care, neurovascular assessment, and complication recognition.",
     practiceQuestionsLinks: [
-      { label: "Orthopedic Nursing Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Orthopedic Nursing Practice Questions", href: "/preview/orthopedic", type: "questions" },
       { label: "NCLEX-RN Med-Surg Review", href: "/study-guide/nclex-rn-med-surg", type: "questions" },
     ],
     flashcardReviewIntro: "Review orthopedic concepts including fracture classifications, neurovascular assessment parameters, and post-surgical care protocols with flashcards.",
@@ -600,7 +600,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Strengthen your nephrology nursing knowledge with practice questions covering CKD management, dialysis procedures, electrolyte imbalances, and transplant care.",
     practiceQuestionsLinks: [
-      { label: "Renal Nursing Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Renal Nursing Practice Questions", href: "/preview/renal", type: "questions" },
       { label: "NCLEX-RN Renal Review", href: "/study-guide/nclex-rn-med-surg", type: "questions" },
     ],
     flashcardReviewIntro: "Master nephrology concepts with flashcards covering CKD stages, dialysis parameters, renal medications, and electrolyte management.",
@@ -675,7 +675,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Deepen your palliative care knowledge with practice questions on symptom management, opioid dosing, ethical dilemmas, and family communication scenarios.",
     practiceQuestionsLinks: [
-      { label: "Palliative Care Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "Palliative Care Practice Questions", href: "/preview/palliative-care", type: "questions" },
       { label: "Pharmacology Review", href: "/study-guide/nclex-rn-pharmacology-review", type: "questions" },
     ],
     flashcardReviewIntro: "Review opioid equianalgesic conversions, symptom management protocols, and advance care planning concepts with flashcards.",
@@ -753,7 +753,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     practiceQuestionsIntro: "Prepare for paramedic certification exams with practice questions covering cardiac emergencies, trauma management, pharmacology, and prehospital protocols.",
     practiceQuestionsLinks: [
       { label: "Paramedic Practice Questions", href: "/paramedic/practice-questions", type: "questions" },
-      { label: "EMS Question Bank", href: "/question-bank", type: "questions" },
+      { label: "EMS Question Bank", href: "/paramedic/practice-questions", type: "questions" },
     ],
     flashcardReviewIntro: "Review essential paramedic concepts including medication dosages, ECG interpretation, trauma protocols, and ACLS algorithms with flashcards.",
     flashcardLinks: [
@@ -830,7 +830,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     practiceQuestionsIntro: "Prepare for NBRC TMC and CSE certification exams with practice questions covering ventilator management, ABG analysis, pulmonary diagnostics, and clinical decision-making.",
     practiceQuestionsLinks: [
       { label: "RRT Practice Questions", href: "/rrt/practice-questions", type: "questions" },
-      { label: "Respiratory Therapy Question Bank", href: "/question-bank", type: "questions" },
+      { label: "Respiratory Therapy Question Bank", href: "/rrt/practice-questions", type: "questions" },
     ],
     flashcardReviewIntro: "Master respiratory therapy concepts with flashcards covering ABG interpretation, ventilator parameters, drug dosages, and pulmonary function values.",
     flashcardLinks: [
@@ -902,7 +902,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     practiceQuestionsIntro: "Prepare for ASCP or CSMLS certification exams with practice questions covering clinical chemistry, hematology, microbiology, blood bank, and laboratory management.",
     practiceQuestionsLinks: [
       { label: "MLT Practice Questions", href: "/mlt/practice-questions", type: "questions" },
-      { label: "Laboratory Science Question Bank", href: "/question-bank", type: "questions" },
+      { label: "Laboratory Science Question Bank", href: "/mlt/practice-questions", type: "questions" },
     ],
     flashcardReviewIntro: "Review laboratory reference ranges, Gram stain characteristics, blood bank antibodies, and quality control rules with flashcards.",
     flashcardLinks: [
@@ -974,7 +974,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     practiceQuestionsIntro: "Prepare for ARRT or CAMRT certification exams with practice questions covering radiographic procedures, image production, radiation protection, and patient care.",
     practiceQuestionsLinks: [
       { label: "Imaging Practice Questions", href: "/imaging/practice-exam", type: "questions" },
-      { label: "Radiography Question Bank", href: "/question-bank", type: "questions" },
+      { label: "Radiography Question Bank", href: "/imaging/practice-exam", type: "questions" },
     ],
     flashcardReviewIntro: "Review radiographic positioning, exposure technique factors, anatomy landmarks, and radiation safety principles with flashcards.",
     flashcardLinks: [
@@ -1046,7 +1046,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Prepare for NBCOT certification with practice questions covering ADL interventions, hand therapy, pediatric OT, neurological rehabilitation, and clinical reasoning.",
     practiceQuestionsLinks: [
-      { label: "OT Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "OT Practice Questions", href: "/preview/orthopedic", type: "questions" },
     ],
     flashcardReviewIntro: "Review occupational therapy assessments, splinting indications, developmental milestones, and intervention approaches with flashcards.",
     flashcardLinks: [
@@ -1117,7 +1117,7 @@ export const HEALTHCARE_GUIDES: HealthcareGuide[] = [
     ],
     practiceQuestionsIntro: "Prepare for NPTE certification with practice questions covering musculoskeletal, neurological, cardiopulmonary, and integumentary practice areas.",
     practiceQuestionsLinks: [
-      { label: "PT Practice Questions", href: "/question-bank", type: "questions" },
+      { label: "PT Practice Questions", href: "/preview/med-surg", type: "questions" },
     ],
     flashcardReviewIntro: "Review physical therapy assessments, therapeutic exercise principles, manual therapy grades, and rehabilitation protocols with flashcards.",
     flashcardLinks: [

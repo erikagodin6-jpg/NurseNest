@@ -107,6 +107,7 @@ export const DYNAMIC_ROUTE_PATTERNS: RegExp[] = [
   /^\/nursing-specialties\/.+$/,
   /^\/compare\/.+$/,
   /^\/np-exam-guide\/.+$/,
+  /^\/preview\/.+$/,
   /^\/questions\/.+$/,
   /^\/clinical-skills\/.+$/,
   /^\/unit-guides\/.+$/,

@@ -170,7 +170,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
 
                 <PracticeQuestionCTA
                   profession={guide.profession.toLowerCase()}
-                  href={guide.questionBankHref || "/test-bank"}
+                  href={guide.questionBankHref || "/practice-questions"}
                   variant="sidebar"
                 />
               </div>
@@ -256,7 +256,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
               <div className="mb-12">
                 <PracticeQuestionCTA
                   profession={guide.profession.toLowerCase()}
-                  href={guide.questionBankHref || "/test-bank"}
+                  href={guide.questionBankHref || "/practice-questions"}
                   variant="banner"
                 />
               </div>

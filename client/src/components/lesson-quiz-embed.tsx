@@ -199,7 +199,7 @@ export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
                   Keep practicing to strengthen weak areas
                 </p>
               </div>
-              <LocaleLink href="/test-bank">
+              <LocaleLink href="/practice-questions">
                 <Button variant="outline" size="sm" className="gap-2" data-testid="btn-quiz-embed-more">
                   More Questions <ArrowRight className="w-4 h-4" />
                 </Button>

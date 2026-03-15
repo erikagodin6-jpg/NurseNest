@@ -11,6 +11,17 @@ import {
   HEALTHCARE_GUIDES,
   type HealthcareGuide,
 } from "@shared/healthcare-guide-data";
+
+const GUIDE_TO_PREVIEW_SLUG: Record<string, string> = {
+  "icu-nursing-ultimate-guide": "icu",
+  "nicu-nursing-ultimate-guide": "nicu",
+  "trauma-nursing-ultimate-guide": "emergency-nursing",
+  "med-surg-nursing-ultimate-guide": "med-surg",
+  "mental-health-nursing-ultimate-guide": "mental-health",
+  "orthopedic-nursing-ultimate-guide": "orthopedic",
+  "nephrology-nursing-ultimate-guide": "renal",
+  "palliative-care-nursing-ultimate-guide": "palliative-care",
+};
 import { AUTHORITY_GUIDES } from "@shared/guide-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import {
@@ -82,13 +93,13 @@ function ImagePlaceholder({ alt, caption }: { alt: string; caption: string }) {
   );
 }
 
-function CtaBanner({ variant, color }: { variant: "questions" | "flashcards" | "signup"; color: string }) {
+function CtaBanner({ variant, color, previewSlug }: { variant: "questions" | "flashcards" | "signup"; color: string; previewSlug?: string }) {
   const configs = {
     questions: {
       title: "Ready to Test Your Knowledge?",
       description: "Practice with exam-style questions and detailed clinical rationales.",
       buttonText: "Start Practice Questions",
-      href: "/test-bank",
+      href: previewSlug ? `/preview/${previewSlug}` : "/practice-questions",
     },
     flashcards: {
       title: "Review Key Concepts",
@@ -278,7 +289,7 @@ export default function HealthcareGuidePage() {
               ))}
             </section>
 
-            <CtaBanner variant="questions" color={guide.color} />
+            <CtaBanner variant="questions" color={guide.color} previewSlug={GUIDE_TO_PREVIEW_SLUG[guide.slug]} />
 
             <section id="clinical-skills" className="mb-12 scroll-mt-24" data-testid="section-clinical-skills">
               <SectionHeading id="skills-heading" title="Important Clinical Skills" icon={Activity} color={guide.color} />
@@ -411,7 +422,7 @@ export default function HealthcareGuidePage() {
                   </LocaleLink>
                 ))}
               </div>
-              <CtaBanner variant="questions" color={guide.color} />
+              <CtaBanner variant="questions" color={guide.color} previewSlug={GUIDE_TO_PREVIEW_SLUG[guide.slug]} />
             </section>
 
             <section id="flashcard-review" className="mb-12 scroll-mt-24" data-testid="section-flashcard-review">

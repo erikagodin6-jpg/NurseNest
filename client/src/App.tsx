@@ -340,6 +340,7 @@ const CustomPracticePage = lazy(() => import("@/pages/custom-practice"));
 const PerformanceAnalyticsPage = lazy(() => import("@/pages/performance-analytics"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
+const SpecialtyPreviewPage = lazy(() => import("@/pages/specialty-preview"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
 const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
@@ -370,6 +371,37 @@ const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then
 const NclexReadinessScore = lazy(() => import("@/pages/nclex-readiness-score"));
 const SeoLandingPage = lazy(() => import("@/pages/seo-landing-page"));
 const SeoLandingBySlug = lazy(() => import("@/pages/seo-landing-page").then(m => ({ default: m.SeoLandingBySlug })));
+
+function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
+  const { user, isLoading, hasAccess } = useAuth();
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!user) {
+      navigate("/login?redirect=" + encodeURIComponent(window.location.pathname));
+      return;
+    }
+    if (!hasAccess("rpn")) {
+      navigate("/pricing");
+      return;
+    }
+  }, [user, isLoading, hasAccess, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  if (!user || !hasAccess("rpn")) {
+    return null;
+  }
+
+  return <>{children}</>;
+}
 
 function PageTracker() {
   usePageTracker();
@@ -805,10 +837,13 @@ function AppRoutes() {
         <Route path="/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/flashcards" component={PublicFlashcards} />
 
-        {/* Tier-specific Test Bank routes */}
-        <Route path="/rpn/test-bank" component={TestBank} />
-        <Route path="/rn/test-bank" component={TestBank} />
-        <Route path="/np/test-bank" component={TestBank} />
+        {/* Specialty Preview Pages (public) */}
+        <Route path="/preview/:specialty" component={SpecialtyPreviewPage} />
+
+        {/* Tier-specific Test Bank routes (auth-guarded) */}
+        <Route path="/rpn/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/rn/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/np/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
         {/* Legacy tier flashcard routes → redirect to test-bank */}
         <Route path="/rpn/flashcards">{() => <Redirect to="/rpn/test-bank" />}</Route>
         <Route path="/rn/flashcards">{() => <Redirect to="/rn/test-bank" />}</Route>
@@ -835,7 +870,7 @@ function AppRoutes() {
         <Route path="/refund-policy" component={RefundPolicyPage} />
         <Route path="/email-preferences" component={EmailPreferencesPage} />
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
-        <Route path="/test-bank" component={QuestionBank} />
+        <Route path="/test-bank">{() => <ProtectedTestBankRoute><QuestionBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/question-bank">{() => <Redirect to="/test-bank" />}</Route>
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />

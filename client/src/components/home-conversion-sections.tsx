@@ -597,7 +597,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       color: "bg-blue-100",
       iconColor: "text-blue-600",
       tags: ["Multiple Choice", "SATA", "NGN", "Rationales"],
-      href: "/test-bank",
+      href: "/practice-questions",
     },
     {
       icon: Layers,
