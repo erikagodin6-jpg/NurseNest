@@ -11408,6 +11408,41 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           last30.push(acc);
         }
       }
+
+      const questionLevelResult = await pool.query(
+        `SELECT was_correct, created_at FROM confidence_ratings
+         WHERE user_id = $1 ORDER BY created_at DESC LIMIT 200`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+
+      let weightedAccuracy = 0;
+      if (questionLevelResult.rows.length > 0) {
+        let totalWeight = 0;
+        for (let i = 0; i < questionLevelResult.rows.length; i++) {
+          const weight = 1 / (1 + i * 0.01);
+          const correct = questionLevelResult.rows[i].was_correct ? 100 : 0;
+          weightedAccuracy += correct * weight;
+          totalWeight += weight;
+        }
+        weightedAccuracy = totalWeight > 0 ? weightedAccuracy / totalWeight : 0;
+      } else {
+        weightedAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+      }
+
+      const flashcardResult = await pool.query(
+        `SELECT response, ease_factor FROM flashcard_reviews
+         WHERE user_id = $1 ORDER BY reviewed_at DESC LIMIT 200`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+      let flashcardMastery = 0;
+      if (flashcardResult.rows.length > 0) {
+        const goodResponses = flashcardResult.rows.filter((r: any) =>
+          r.response === "good" || r.response === "easy" || r.response === "correct"
+        ).length;
+        const avgEase = flashcardResult.rows.reduce((s: number, r: any) => s + (r.ease_factor || 250), 0) / flashcardResult.rows.length;
+        flashcardMastery = (goodResponses / flashcardResult.rows.length) * 50 + Math.min(50, (avgEase / 300) * 50);
+      }
+
       const overallAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
 
       let trend = 0;
@@ -11448,6 +11483,33 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
       const tutorModeRatio = mockResults.rows.length > 0 ? tutorMocks / mockResults.rows.length : 0;
 
+      const catDifficultyResult = await pool.query(
+        `SELECT difficulty_level FROM confidence_ratings WHERE user_id = $1 AND difficulty_level IS NOT NULL ORDER BY created_at DESC LIMIT 200`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+      let catDifficultyScore = 50;
+      if (catDifficultyResult.rows.length > 0) {
+        const avgDiff = catDifficultyResult.rows.reduce((s: number, r: any) => s + (parseInt(r.difficulty_level) || 3), 0) / catDifficultyResult.rows.length;
+        catDifficultyScore = Math.min(100, (avgDiff / 5) * 100);
+      }
+
+      const hasFlashcardData = flashcardResult.rows.length > 0;
+      let finalProbability: number;
+      if (hasFlashcardData) {
+        finalProbability = Math.round(Math.min(99, Math.max(1,
+          weightedAccuracy * 0.45 +
+          mockAvg * 0.25 +
+          catDifficultyScore * 0.2 +
+          flashcardMastery * 0.1
+        )));
+      } else {
+        finalProbability = Math.round(Math.min(99, Math.max(1,
+          weightedAccuracy * 0.5 +
+          mockAvg * 0.3 +
+          catDifficultyScore * 0.2
+        )));
+      }
+
       const result = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, {
         tier,
         strictMockCount,
@@ -11458,13 +11520,31 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         domainAccuracies: Object.fromEntries(Object.entries(domainStats).map(([d, s]) => [d, s.total > 0 ? (s.correct / s.total) * 100 : 0])),
       });
 
+      let readinessTier = "Not Ready";
+      if (finalProbability >= 85) readinessTier = "Strong Pass";
+      else if (finalProbability >= 70) readinessTier = "Likely Pass";
+      else if (finalProbability >= 40) readinessTier = "Developing";
+
       const weakDomains = Object.entries(domainStats)
         .map(([d, s]) => ({ domain: d, accuracy: s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0, total: s.total }))
         .sort((a, b) => a.accuracy - b.accuracy)
         .slice(0, 3);
 
+      try {
+        await pool.query(
+          `INSERT INTO user_performance_summary (id, user_id, readiness_score, projected_pass_probability, weakness_vector, strengths_vector, top_weak_domains, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())
+           ON CONFLICT (user_id) DO UPDATE SET readiness_score=$2, projected_pass_probability=$3, weakness_vector=$4, strengths_vector=$5, top_weak_domains=$6, updated_at=NOW()`,
+          [userId, finalProbability, finalProbability, JSON.stringify(weakDomains), JSON.stringify([]), JSON.stringify(weakDomains.map(w => w.domain))]
+        );
+      } catch (_e) {}
+
       res.json({
         ...result,
+        probability: finalProbability,
+        readinessTier,
+        weightedAccuracy: Math.round(weightedAccuracy),
+        catDifficultyScore: Math.round(catDifficultyScore),
         overallAccuracy: Math.round(overallAccuracy),
         totalQuestions,
         trend: Math.round(trend * 10) / 10,
@@ -17658,6 +17738,11 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/topic-mastery/:userId", async (req, res) => {
     try {
+      const allBodySystems = [
+        "Cardiovascular", "Respiratory", "Renal", "Endocrine", "Neurologic",
+        "Pharmacology", "Hematologic", "Gastrointestinal", "Musculoskeletal",
+        "Pediatrics", "Maternity", "Mental Health"
+      ];
       const result = await pool.query(
         `SELECT body_system,
           COUNT(*) as total,
@@ -17670,12 +17755,37 @@ Return ONLY valid JSON with this exact structure:
         ORDER BY accuracy ASC`,
         [req.params.userId]
       );
-      const systems = result.rows.map((r: any) => ({
-        bodySystem: r.body_system,
-        accuracy: parseFloat(r.accuracy),
-        total: parseInt(r.total),
-        correct: parseInt(r.correct),
-      }));
+      const dataMap: Record<string, { accuracy: number; total: number; correct: number }> = {};
+      for (const r of result.rows) {
+        dataMap[(r.body_system as string).toLowerCase()] = {
+          accuracy: parseFloat(r.accuracy),
+          total: parseInt(r.total),
+          correct: parseInt(r.correct),
+        };
+      }
+      const systems = allBodySystems.map(bs => {
+        const key = bs.toLowerCase();
+        const found = dataMap[key];
+        return {
+          bodySystem: bs,
+          accuracy: found ? found.accuracy : 0,
+          total: found ? found.total : 0,
+          correct: found ? found.correct : 0,
+          status: found ? (found.accuracy >= 70 ? "strong" : found.accuracy >= 50 ? "moderate" : "weak") : "untested",
+        };
+      });
+      for (const r of result.rows) {
+        const key = (r.body_system as string).toLowerCase();
+        if (!allBodySystems.some(bs => bs.toLowerCase() === key)) {
+          systems.push({
+            bodySystem: r.body_system as string,
+            accuracy: parseFloat(r.accuracy),
+            total: parseInt(r.total),
+            correct: parseInt(r.correct),
+            status: parseFloat(r.accuracy) >= 70 ? "strong" : parseFloat(r.accuracy) >= 50 ? "moderate" : "weak",
+          });
+        }
+      }
       res.json({ systems });
     } catch (e: any) {
       res.status(500).json({ error: "Failed to fetch topic mastery" });
@@ -17775,6 +17885,42 @@ Return ONLY valid JSON with this exact structure:
       });
     } catch (e: any) {
       res.status(500).json({ error: "Failed to compute exam readiness" });
+    }
+  });
+
+  app.get("/api/study-recommendations/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const result = await pool.query(
+        `SELECT body_system,
+          COUNT(*) as total,
+          SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) as correct,
+          ROUND(100.0 * SUM(CASE WHEN was_correct THEN 1 ELSE 0 END) / COUNT(*), 1) as accuracy
+        FROM confidence_ratings
+        WHERE user_id = $1 AND body_system IS NOT NULL AND body_system != ''
+        GROUP BY body_system
+        HAVING COUNT(*) >= 1
+        ORDER BY accuracy ASC
+        LIMIT 3`,
+        [userId]
+      );
+      const recommendations = result.rows.map((r: any) => {
+        const bodySystem = r.body_system as string;
+        const slug = bodySystem.toLowerCase().replace(/\s+/g, "-");
+        return {
+          category: bodySystem,
+          accuracy: parseFloat(r.accuracy),
+          total: parseInt(r.total),
+          links: {
+            lessons: `/lessons?category=${encodeURIComponent(bodySystem)}`,
+            flashcards: `/flashcards?category=${encodeURIComponent(bodySystem)}`,
+            practice: `/practice?topics=${encodeURIComponent(bodySystem)}`,
+          },
+        };
+      });
+      res.json({ recommendations });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch study recommendations" });
     }
   });
 

@@ -1138,31 +1138,42 @@ function PassProbabilityWidget({ user }: { user: any }) {
   }
 
   const probability = data.probability || 0;
-  const riskTier = data.riskTier || "Unknown";
-  const riskI18nKeys: Record<string, string> = {
-    "Low Risk": "dashboard.riskLow",
-    "Moderate Risk": "dashboard.riskModerate",
-    "High Risk": "dashboard.riskHigh",
+  const readinessTier = data.readinessTier || "Not Ready";
+
+  const gaugeColor = probability >= 85 ? "#10b981" : probability >= 70 ? "#3b82f6" : probability >= 40 ? "#f59e0b" : "#ef4444";
+  const tierColors: Record<string, string> = {
+    "Strong Pass": "bg-emerald-100 text-emerald-700",
+    "Likely Pass": "bg-blue-100 text-blue-700",
+    "Developing": "bg-amber-100 text-amber-700",
+    "Not Ready": "bg-red-100 text-red-700",
   };
-  const riskColors: Record<string, string> = {
-    "Low Risk": "text-emerald-600",
-    "Moderate Risk": "text-amber-600",
-    "High Risk": "text-red-600",
-  };
+
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (probability / 100) * circumference;
 
   return (
     <div data-testid="widget-content-pass-probability">
-      <div className="flex items-center gap-4 mb-3">
-        <div className="relative h-16 w-16 flex-shrink-0">
-          <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90">
-            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" className="text-muted" />
-            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray={`${probability}, 100`} className={`${probability >= 75 ? "text-emerald-500" : probability >= 60 ? "text-amber-500" : "text-red-500"} transition-all duration-700`} />
+      <div className="flex items-center gap-4 mb-4">
+        <div className="relative flex-shrink-0" style={{ width: 96, height: 96 }}>
+          <svg width={96} height={96} className="transform -rotate-90">
+            <circle cx={48} cy={48} r={radius} fill="none" stroke="#e5e7eb" strokeWidth={7} />
+            <circle
+              cx={48} cy={48} r={radius} fill="none" stroke={gaugeColor} strokeWidth={7}
+              strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
+              className="transition-all duration-1000"
+            />
           </svg>
-          <span className="absolute inset-0 flex items-center justify-center text-sm font-bold">{probability}%</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-2xl font-bold" style={{ color: gaugeColor }} data-testid="text-pass-probability">{probability}%</span>
+          </div>
         </div>
-        <div>
-          <p className={`text-lg font-bold ${riskColors[riskTier] || "text-gray-600"}`} data-testid="text-risk-tier">{t(riskI18nKeys[riskTier] || "dashboard.riskUnknown")}</p>
-          <p className="text-xs text-muted-foreground">{t("dashboard.estimatedPassProbability")}</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-base font-bold text-foreground" data-testid="text-pass-label">{probability}% Likely to Pass</p>
+          <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mt-1 ${tierColors[readinessTier] || "bg-gray-100 text-gray-700"}`} data-testid="text-risk-tier">
+            {readinessTier}
+          </span>
+          <p className="text-[10px] text-muted-foreground mt-1">{t("dashboard.estimatedPassProbability")}</p>
         </div>
       </div>
     </div>
@@ -1460,7 +1471,7 @@ function ReviewDueWidget({ user }: { user: any }) {
   );
 }
 
-type MasteryData = { bodySystem: string; accuracy: number; total: number };
+type MasteryData = { bodySystem: string; accuracy: number; total: number; status?: string };
 
 function TopicMasteryWidget({ user }: { user: any }) {
   const [data, setData] = useState<MasteryData[]>([]);
@@ -1501,38 +1512,45 @@ function TopicMasteryWidget({ user }: { user: any }) {
     );
   }
 
-  const barColor = (pct: number) =>
-    pct >= 70 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-400";
-  const labelColor = (pct: number) =>
-    pct >= 70 ? "text-emerald-700" : pct >= 50 ? "text-amber-700" : "text-red-600";
+  const heatmapColor = (accuracy: number, status?: string) => {
+    if (status === "untested") return "bg-gray-100 border-gray-200 text-gray-400";
+    if (accuracy >= 70) return "bg-emerald-100 border-emerald-300 text-emerald-800";
+    if (accuracy >= 50) return "bg-amber-100 border-amber-300 text-amber-800";
+    return "bg-red-100 border-red-300 text-red-800";
+  };
+
+  const heatmapDot = (accuracy: number, status?: string) => {
+    if (status === "untested") return "bg-gray-300";
+    if (accuracy >= 70) return "bg-emerald-500";
+    if (accuracy >= 50) return "bg-amber-500";
+    return "bg-red-500";
+  };
 
   return (
-    <div className="space-y-2.5" data-testid="widget-topic-mastery">
-      {data.slice(0, 8).map((sys) => (
-        <div key={sys.bodySystem} className="group">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-[#2E3A59] truncate max-w-[140px]" data-testid={`mastery-label-${sys.bodySystem}`}>
-              {sys.bodySystem}
-            </span>
-            <span className={`text-xs font-semibold ${labelColor(sys.accuracy)}`} data-testid={`mastery-pct-${sys.bodySystem}`}>
-              {Math.round(sys.accuracy)}%
-            </span>
-          </div>
-          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all duration-700 ${barColor(sys.accuracy)}`}
-              style={{ width: `${Math.min(100, Math.round(sys.accuracy))}%` }}
-              data-testid={`mastery-bar-${sys.bodySystem}`}
-            />
-          </div>
-          <p className="text-[10px] text-muted-foreground mt-0.5">{sys.total} question{sys.total !== 1 ? "s" : ""} attempted</p>
-        </div>
-      ))}
-      {data.length > 8 && (
-        <p className="text-[10px] text-muted-foreground text-center pt-1">
-          + {data.length - 8} more topic{data.length - 8 !== 1 ? "s" : ""}
-        </p>
-      )}
+    <div data-testid="widget-topic-mastery">
+      <div className="grid grid-cols-3 gap-2 mb-3" data-testid="heatmap-grid">
+        {data.map((sys) => (
+          <button
+            key={sys.bodySystem}
+            onClick={() => navigate(`/practice?topics=${encodeURIComponent(sys.bodySystem)}`)}
+            className={`p-2 rounded-lg border text-left transition-all hover:shadow-md cursor-pointer ${heatmapColor(sys.accuracy, sys.status)}`}
+            data-testid={`heatmap-cell-${sys.bodySystem}`}
+          >
+            <div className="flex items-center gap-1 mb-1">
+              <div className={`w-2 h-2 rounded-full ${heatmapDot(sys.accuracy, sys.status)}`} />
+              <span className="text-[10px] font-medium truncate">{sys.bodySystem}</span>
+            </div>
+            <p className="text-sm font-bold">{sys.status === "untested" ? "—" : `${Math.round(sys.accuracy)}%`}</p>
+            {sys.total > 0 && <p className="text-[9px] opacity-70">{sys.total} Q</p>}
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Strong</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> Moderate</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Weak</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-300" /> Untested</span>
+      </div>
     </div>
   );
 }
@@ -1562,56 +1580,56 @@ function ExamReadinessWidget({ user }: { user: any }) {
   const readiness = data?.readiness || 0;
   const accuracy = data?.accuracy || 0;
   const totalAnswered = data?.totalAnswered || 0;
-  const scoreColor = readiness >= 70 ? "#10b981" : readiness >= 50 ? "#f59e0b" : "#ef4444";
-  const statusLabel = readiness >= 70 ? "Ready" : readiness >= 50 ? "Almost There" : "Needs Work";
-  const statusBg = readiness >= 70 ? "bg-green-50 text-green-700" : readiness >= 50 ? "bg-amber-50 text-amber-700" : "bg-red-50 text-red-700";
 
-  const suggestions = [];
-  if (accuracy < 60) suggestions.push("Focus on understanding rationales for incorrect answers");
-  if (totalAnswered < 100) suggestions.push("Complete more practice questions to increase coverage");
-  if (readiness < 50) suggestions.push("Review weak topics with targeted practice sessions");
-  if (suggestions.length === 0) suggestions.push("Keep up the good work! Maintain consistent daily practice");
+  const tiers = [
+    { label: "Not Ready", range: "0–40%", min: 0, max: 40, color: "bg-red-400", active: "bg-red-500" },
+    { label: "Developing", range: "40–70%", min: 40, max: 70, color: "bg-amber-300", active: "bg-amber-500" },
+    { label: "Likely Pass", range: "70–85%", min: 70, max: 85, color: "bg-blue-300", active: "bg-blue-500" },
+    { label: "Strong Pass", range: "85–100%", min: 85, max: 100, color: "bg-emerald-300", active: "bg-emerald-500" },
+  ];
 
-  const radius = 42;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (readiness / 100) * circumference;
+  const currentTier = tiers.find(t => readiness >= t.min && readiness < t.max) || tiers[tiers.length - 1];
+  const tierIndex = tiers.indexOf(currentTier);
 
   return (
     <div data-testid="widget-content-exam-readiness">
-      <div className="flex items-center gap-4 mb-4">
-        <div className="relative flex-shrink-0" style={{ width: 100, height: 100 }}>
-          <svg width={100} height={100} className="transform -rotate-90">
-            <circle cx={50} cy={50} r={radius} fill="none" stroke="#e5e7eb" strokeWidth={8} />
-            <circle
-              cx={50} cy={50} r={radius} fill="none" stroke={scoreColor} strokeWidth={8}
-              strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
-              className="transition-all duration-1000"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold" style={{ color: scoreColor }} data-testid="text-readiness-score">{readiness}%</span>
-          </div>
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusBg}`} data-testid="badge-readiness-status">
-              {statusLabel}
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {accuracy}% accuracy · {totalAnswered} questions answered
-          </p>
-        </div>
+      <div className="text-center mb-3">
+        <span className="text-3xl font-bold text-foreground" data-testid="text-readiness-score">{readiness}%</span>
+        <p className="text-sm font-medium text-muted-foreground mt-0.5">Exam Readiness</p>
       </div>
-      <div className="space-y-1.5">
-        {suggestions.slice(0, 2).map((s, i) => (
-          <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-            <Lightbulb className="h-3.5 w-3.5 text-amber-500 mt-0.5 flex-shrink-0" />
-            <span>{s}</span>
+      <div className="flex gap-1 mb-2" data-testid="readiness-meter">
+        {tiers.map((tier, i) => {
+          const isActive = i <= tierIndex;
+          const segmentWidth = tier.max - tier.min;
+          let fillPercent = 0;
+          if (readiness >= tier.max) fillPercent = 100;
+          else if (readiness > tier.min) fillPercent = ((readiness - tier.min) / (tier.max - tier.min)) * 100;
+          return (
+            <div key={tier.label} className="flex-1" data-testid={`readiness-segment-${i}`}>
+              <div className={`h-3 rounded-full overflow-hidden ${i === 0 ? "rounded-l-full" : ""} ${i === tiers.length - 1 ? "rounded-r-full" : ""} bg-gray-100`}>
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ${isActive ? tier.active : tier.color}`}
+                  style={{ width: `${fillPercent}%` }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex justify-between mb-3">
+        {tiers.map((tier, i) => (
+          <div key={tier.label} className="flex-1 text-center">
+            <p className={`text-[9px] font-medium ${i === tierIndex ? "text-foreground" : "text-muted-foreground"}`}>
+              {tier.label}
+            </p>
           </div>
         ))}
       </div>
-      <Button size="sm" variant="outline" className="w-full mt-3" onClick={() => navigate("/performance-analytics")} data-testid="button-view-analytics">
+      <div className="flex items-center justify-between text-xs text-muted-foreground mb-3 px-1">
+        <span>{accuracy}% accuracy</span>
+        <span>{totalAnswered} questions</span>
+      </div>
+      <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/performance-analytics")} data-testid="button-view-analytics">
         <BarChart3 className="h-4 w-4 mr-1.5" /> View Analytics
       </Button>
     </div>
@@ -1619,15 +1637,15 @@ function ExamReadinessWidget({ user }: { user: any }) {
 }
 
 function WeakTopicsWidget({ user }: { user: any }) {
-  const [weakAreas, setWeakAreas] = useState<any[]>([]);
+  const [recommendations, setRecommendations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
 
   useEffect(() => {
     if (!user?.id) { setLoading(false); return; }
-    fetch(`/api/weak-areas/${user.id}`)
-      .then((r) => r.ok ? r.json() : [])
-      .then((data) => setWeakAreas(Array.isArray(data) ? data.slice(0, 5) : []))
+    fetch(`/api/study-recommendations/${user.id}`)
+      .then((r) => r.ok ? r.json() : { recommendations: [] })
+      .then((data) => setRecommendations(data.recommendations || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [user?.id]);
@@ -1640,7 +1658,7 @@ function WeakTopicsWidget({ user }: { user: any }) {
     );
   }
 
-  if (weakAreas.length === 0) {
+  if (recommendations.length === 0) {
     return (
       <div className="text-center py-4" data-testid="widget-weak-topics-empty">
         <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
@@ -1650,40 +1668,52 @@ function WeakTopicsWidget({ user }: { user: any }) {
     );
   }
 
-  const handlePracticeWeak = () => {
-    const topics = weakAreas.map((w) => w.topic || w.bodySystem).join(",");
-    navigate(`/practice?topics=${encodeURIComponent(topics)}`);
-  };
-
-  const barColor = (pct: number) =>
-    pct >= 70 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-400";
+  const accuracyColor = (pct: number) =>
+    pct >= 50 ? "text-amber-600" : "text-red-600";
+  const dotColor = (pct: number) =>
+    pct >= 50 ? "bg-amber-500" : "bg-red-500";
 
   return (
     <div data-testid="widget-content-weak-topics">
-      <div className="space-y-2.5 mb-4">
-        {weakAreas.map((area, i) => (
-          <div key={i} data-testid={`weak-topic-${i}`}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-medium text-foreground truncate max-w-[160px]">
-                {area.topic || area.bodySystem}
-              </span>
-              <span className={`text-xs font-semibold ${area.accuracy >= 50 ? "text-amber-600" : "text-red-600"}`}>
-                {area.accuracy}%
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3" data-testid="text-recommended-focus-heading">Recommended Focus</p>
+      <div className="space-y-3 mb-3">
+        {recommendations.map((rec, i) => (
+          <div key={i} className="p-2.5 rounded-lg border bg-card" data-testid={`weak-topic-${i}`}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className={`w-2.5 h-2.5 rounded-full ${dotColor(rec.accuracy)}`} />
+                <span className="text-sm font-medium text-foreground">{rec.category}</span>
+              </div>
+              <span className={`text-xs font-semibold ${accuracyColor(rec.accuracy)}`}>
+                {rec.accuracy}%
               </span>
             </div>
-            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-500 ${barColor(area.accuracy)}`}
-                style={{ width: `${Math.min(100, area.accuracy)}%` }}
-              />
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate(rec.links.lessons)}
+                className="flex items-center gap-1 text-[10px] text-blue-600 hover:text-blue-800 hover:underline"
+                data-testid={`link-lessons-${i}`}
+              >
+                <BookOpen className="h-3 w-3" /> Lessons
+              </button>
+              <button
+                onClick={() => navigate(rec.links.flashcards)}
+                className="flex items-center gap-1 text-[10px] text-purple-600 hover:text-purple-800 hover:underline"
+                data-testid={`link-flashcards-${i}`}
+              >
+                <Brain className="h-3 w-3" /> Flashcards
+              </button>
+              <button
+                onClick={() => navigate(rec.links.practice)}
+                className="flex items-center gap-1 text-[10px] text-emerald-600 hover:text-emerald-800 hover:underline"
+                data-testid={`link-practice-${i}`}
+              >
+                <Target className="h-3 w-3" /> Practice
+              </button>
             </div>
-            <p className="text-[10px] text-muted-foreground mt-0.5">{area.total} questions attempted</p>
           </div>
         ))}
       </div>
-      <Button size="sm" className="w-full gap-1.5" onClick={handlePracticeWeak} data-testid="button-practice-weak-topics">
-        <Target className="h-4 w-4" /> Practice Weak Topics
-      </Button>
     </div>
   );
 }
