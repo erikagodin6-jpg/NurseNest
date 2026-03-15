@@ -1220,7 +1220,7 @@ function LocaleRouter() {
     return <Redirect to={redirectTarget} />;
   }
 
-  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt" || locale === "de" || locale === "th" || locale === "zh" || locale === "zh-tw";
+  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt" || locale === "de" || locale === "th" || locale === "zh" || locale === "zh-tw" || locale === "id";
 
   if (needsDelocalization) {
     return (

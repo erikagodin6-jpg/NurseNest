@@ -451,7 +451,7 @@ app.get("/api/seo-debug", (_req, res) => {
 // -------------------------
 // Locale redirect middleware
 // -------------------------
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
 const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
 
 function detectLocaleFromAcceptLanguage(acceptLanguage: string | undefined): string {

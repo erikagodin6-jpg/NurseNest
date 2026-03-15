@@ -70,6 +70,17 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/sikca-sorulan-sorular",
     "/blog": "/blog",
   },
+  id: {
+    "/pricing": "/harga",
+    "/flashcards": "/kartu-flash",
+    "/lessons": "/pelajaran",
+    "/mock-exams": "/ujian-simulasi",
+    "/glossary": "/glosarium",
+    "/about": "/tentang",
+    "/contact": "/kontak",
+    "/faq": "/pertanyaan-umum",
+    "/blog": "/blog",
+  },
 };
 
 function applySlugMapping(path: string, locale: string): string {

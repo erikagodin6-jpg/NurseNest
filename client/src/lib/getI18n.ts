@@ -49,6 +49,7 @@ const translationModules: Record<string, () => Promise<{ default: Record<string,
   ur: () => import("@/data/translations/ur.json"),
   fa: () => import("@/data/translations/fa.json"),
   ht: () => import("@/data/translations/ht.json"),
+  id: () => import("@/data/translations/id.json"),
 };
 
 const loadedLanguages = new Set<string>();
