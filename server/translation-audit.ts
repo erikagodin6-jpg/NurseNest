@@ -58,38 +58,26 @@ function loadTranslationKeys(): void {
     enKeysCache = [];
   }
 
-  try {
-    const translationsPath = path.resolve(__audit_dirname, "../client/src/lib/i18n-translations.ts");
-    const altPath = path.resolve(process.cwd(), "client/src/lib/i18n-translations.ts");
-    const filePath = fs.existsSync(translationsPath) ? translationsPath : altPath;
+  const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+  for (const lang of LANG_FILES) {
+    try {
+      const langPath = path.resolve(__audit_dirname, `../client/src/lib/i18n-${lang}.ts`);
+      const altLangPath = path.resolve(process.cwd(), `client/src/lib/i18n-${lang}.ts`);
+      const langFile = fs.existsSync(langPath) ? langPath : altLangPath;
 
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, "utf-8");
-      const langBlockRegex = /(\w{2,3}):\s*\{/g;
-      let langMatch;
-      while ((langMatch = langBlockRegex.exec(content)) !== null) {
-        const lang = langMatch[1];
-        if (lang === "en") continue;
-        const startIdx = langMatch.index + langMatch[0].length;
-        let braceCount = 1;
-        let idx = startIdx;
-        while (idx < content.length && braceCount > 0) {
-          if (content[idx] === "{") braceCount++;
-          if (content[idx] === "}") braceCount--;
-          idx++;
-        }
-        const block = content.substring(startIdx, idx - 1);
+      if (fs.existsSync(langFile)) {
+        const content = fs.readFileSync(langFile, "utf-8");
         const keyRegex = /"([^"]+)":\s*"/g;
         const keys = new Set<string>();
         let km;
-        while ((km = keyRegex.exec(block)) !== null) {
+        while ((km = keyRegex.exec(content)) !== null) {
           keys.add(km[1]);
         }
         translationKeysCache[lang] = keys;
       }
+    } catch (e) {
+      console.error(`Failed to load translation keys for ${lang}:`, e);
     }
-  } catch (e) {
-    console.error("Failed to load translation keys:", e);
   }
 
   const translationsDir = path.resolve(process.cwd(), "client/src/data/translations");

@@ -1121,9 +1121,7 @@ export function getPageMeta(pathname: string): PageMeta {
   const noindex = isNoindexRoute || !localeIsIndexable;
 
   const selfCanonicalPath = strippedPath === "/" ? localePrefix : `${localePrefix}${strippedPath}`;
-  const canonical = localeIsIndexable && !isNoindexRoute
-    ? `${SITE_BASE}${selfCanonicalPath}`
-    : `${SITE_BASE}/en${strippedPath === "/" ? "" : strippedPath}`;
+  const canonical = `${SITE_BASE}${selfCanonicalPath}`;
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;

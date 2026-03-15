@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
+import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
 
 export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa";
 
@@ -25,29 +26,47 @@ const translations: Partial<Record<LanguageCode, Record<string, string>>> & { en
   en: {},
 };
 
+const missingKeys: Map<string, Set<string>> = new Map();
+
+export function getMissingKeys(): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+  missingKeys.forEach((keys, lang) => {
+    result[lang] = Array.from(keys);
+  });
+  return result;
+}
+
+export function getMissingKeyCount(): number {
+  let total = 0;
+  missingKeys.forEach((keys) => { total += keys.size; });
+  return total;
+}
+
+function trackMissingKey(lang: LanguageCode, key: string) {
+  if (!missingKeys.has(lang)) missingKeys.set(lang, new Set());
+  missingKeys.get(lang)!.add(key);
+}
+
 let enLoaded = false;
 const enReady = import("./i18n-en").then((m) => {
   Object.assign(translations.en, m.default);
   enLoaded = true;
 });
 
-import("./i18n-translations").then((m) => {
-  const data = m.default;
-  Object.entries(data).forEach(([lang, strings]) => {
-    translations[lang as LanguageCode] = strings as Record<string, string>;
-  });
-});
-
 type I18nContextType = {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
   t: (key: string, vars?: Record<string, string>) => string;
+  isTranslationLoaded: boolean;
+  isFallback: (key: string) => boolean;
 };
 
 const I18nContext = createContext<I18nContextType>({
   language: "en",
   setLanguage: () => {},
   t: (key: string, _vars?: Record<string, string>) => key,
+  isTranslationLoaded: false,
+  isFallback: () => false,
 });
 
 function localeToLanguage(locale: SupportedLocale): LanguageCode {
@@ -79,12 +98,24 @@ function getInitialLanguage(): LanguageCode {
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage);
   const [ready, setReady] = useState(enLoaded);
+  const [langLoaded, setLangLoaded] = useState<LanguageCode | null>(language === "en" ? "en" : null);
 
   useEffect(() => {
     if (!ready) {
       enReady.then(() => setReady(true));
     }
   }, [ready]);
+
+  useEffect(() => {
+    if (language !== "en" && hasLoader(language)) {
+      loadLanguage(language).then((strings) => {
+        translations[language] = strings;
+        setLangLoaded(language);
+      });
+    } else if (language === "en") {
+      setLangLoaded("en");
+    }
+  }, [language]);
 
   const setLanguage = (lang: LanguageCode) => {
     setLanguageState(lang);
@@ -117,13 +148,20 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("nursenest-language", language);
   }, [language]);
 
-  const t = (key: string, vars?: Record<string, string>): string => {
-    let val = translations[language]?.[key] || translations.en[key];
-    if (!val && typeof window !== "undefined" && (window as any).__DEV_MODE !== false) {
-      if (process.env.NODE_ENV === "development" || import.meta.env?.DEV) {
-        console.warn(`[i18n] Missing translation key: "${key}" for language "${language}"`);
-      }
+  const isFallback = useCallback((key: string): boolean => {
+    if (language === "en") return false;
+    const langStrings = translations[language];
+    return !langStrings || !langStrings[key];
+  }, [language, langLoaded]);
+
+  const t = useCallback((key: string, vars?: Record<string, string>): string => {
+    const langStrings = translations[language];
+    let val = langStrings?.[key] || translations.en[key];
+
+    if (language !== "en" && (!langStrings || !langStrings[key])) {
+      trackMissingKey(language, key);
     }
+
     val = val || key;
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
@@ -131,12 +169,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       }
     }
     return val;
-  };
+  }, [language, langLoaded]);
+
+  const isTranslationLoaded = ready && (language === "en" || langLoaded === language);
 
   if (!ready) return null;
 
   return (
-    <I18nContext.Provider value={{ language, setLanguage, t }}>
+    <I18nContext.Provider value={{ language, setLanguage, t, isTranslationLoaded, isFallback }}>
       {children}
     </I18nContext.Provider>
   );

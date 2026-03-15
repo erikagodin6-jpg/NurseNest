@@ -177,47 +177,25 @@ async function scanUiTranslationKeys(indexingThreshold: number): Promise<AuditRe
     console.error("[TranslationAudit] Failed to load en keys:", e);
   }
 
-  try {
-    const transPath = path.resolve(process.cwd(), "client/src/lib/i18n-translations.ts");
-    if (fs.existsSync(transPath)) {
-      const content = fs.readFileSync(transPath, "utf-8");
-      for (const locale of SUPPORTED_LOCALES) {
-        const langRegex = new RegExp(`(?:^|\\s)${locale === "fil" ? "tl" : locale}:\\s*\\{`, "m");
-        if (langRegex.test(content)) {
-          const keyValuePairs = [...content.matchAll(/"([^"]+)":\s*"([^"]*(?:\\.[^"]*)*)"/g)];
-          const langCode = locale === "fil" ? "tl" : locale;
-          const langSectionStart = content.indexOf(`${langCode}: {`);
-          if (langSectionStart === -1) continue;
+  const LANG_FILE_CODES = ["fr", "tl", "hi", "es", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+  const LANG_TO_LOCALE: Record<string, string> = { tl: "fil" };
 
-          let braceCount = 0;
-          let inSection = false;
-          let sectionEnd = content.length;
-
-          for (let i = langSectionStart; i < content.length; i++) {
-            if (content[i] === "{") {
-              braceCount++;
-              inSection = true;
-            } else if (content[i] === "}") {
-              braceCount--;
-              if (inSection && braceCount === 0) {
-                sectionEnd = i;
-                break;
-              }
-            }
-          }
-
-          const section = content.substring(langSectionStart, sectionEnd + 1);
-          const sectionKeys: Record<string, string> = {};
-          const sectionPairs = [...section.matchAll(/"([^"]+)":\s*"([^"]*(?:\\.[^"]*)*)"/g)];
-          for (const m of sectionPairs) {
-            sectionKeys[m[1]] = m[2];
-          }
-          nonEnTranslations[locale] = sectionKeys;
+  for (const langCode of LANG_FILE_CODES) {
+    try {
+      const langPath = path.resolve(process.cwd(), `client/src/lib/i18n-${langCode}.ts`);
+      if (fs.existsSync(langPath)) {
+        const content = fs.readFileSync(langPath, "utf-8");
+        const sectionKeys: Record<string, string> = {};
+        const sectionPairs = [...content.matchAll(/"([^"]+)":\s*"([^"]*(?:\\.[^"]*)*)"/g)];
+        for (const m of sectionPairs) {
+          sectionKeys[m[1]] = m[2];
         }
+        const locale = LANG_TO_LOCALE[langCode] || langCode;
+        nonEnTranslations[locale] = sectionKeys;
       }
+    } catch (e) {
+      console.error(`[TranslationAudit] Failed to load ${langCode} translations:`, e);
     }
-  } catch (e) {
-    console.error("[TranslationAudit] Failed to load translations:", e);
   }
 
   const enKeyList = Object.keys(enKeys);

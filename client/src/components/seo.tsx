@@ -39,8 +39,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     let effectiveTitle = title;
     let effectiveDescription = description;
     let effectiveKeywords = keywords;
-
-    if (activeLocale === "fr" || activeLocale === "es") {
+    if (activeLocale !== "en") {
       const localizedEntry = getLocalizedSEO(activeLocale, pathWithoutLocale);
       if (localizedEntry) {
         effectiveTitle = localizedEntry.title;
@@ -48,6 +47,10 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         effectiveKeywords = localizedEntry.keywords;
       }
     }
+
+    const indexableLocales: string[] = (window as any).__INDEXABLE_LOCALES__ || SUPPORTED_LOCALES;
+    const localeNotIndexable = activeLocale !== "en" && !indexableLocales.includes(activeLocale);
+    const shouldNoindex = noindex || localeNotIndexable;
 
     const fullTitle = effectiveTitle.includes("NurseNest") ? effectiveTitle : `${effectiveTitle} | NurseNest`;
     document.title = fullTitle;
@@ -66,10 +69,10 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     const existingRobots = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
     const serverSetNoindex = existingRobots && existingRobots.content.includes("noindex") && existingRobots.dataset.clientSet !== "true";
 
-    if (noindex || serverSetNoindex) {
+    if (shouldNoindex || serverSetNoindex) {
       setMeta("robots", "noindex, follow");
       const el = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
-      if (el) el.dataset.clientSet = noindex ? "true" : "";
+      if (el) el.dataset.clientSet = shouldNoindex ? "true" : "";
     } else {
       const robotsEl = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
       if (robotsEl) {
@@ -179,7 +182,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       });
     }
 
-    if (!noindex && !noBreadcrumbs) {
+    if (!shouldNoindex && !noBreadcrumbs) {
       const items = breadcrumbs && breadcrumbs.length > 0
         ? breadcrumbs
         : buildBreadcrumbs(currentPath, { title: effectiveTitle });
@@ -206,7 +209,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         if (el) el.remove();
       });
       hreflangLinks.forEach((el) => el.remove());
-      if (noindex) {
+      if (shouldNoindex) {
         const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
         if (robotsMeta) robotsMeta.remove();
       }

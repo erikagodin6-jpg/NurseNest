@@ -454,6 +454,25 @@ app.get("/api/seo-debug", (_req, res) => {
 const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
 const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
 
+function detectLocaleFromAcceptLanguage(acceptLanguage: string | undefined): string {
+  if (!acceptLanguage) return "en";
+  const parts = acceptLanguage.split(",").map(part => {
+    const [lang, qStr] = part.trim().split(";q=");
+    return { lang: lang.trim().toLowerCase(), q: qStr ? parseFloat(qStr) : 1.0 };
+  });
+  parts.sort((a, b) => b.q - a.q);
+
+  for (const { lang } of parts) {
+    const primary = lang.split("-")[0];
+    if (primary === "tl" || primary === "fil") {
+      if (SUPPORTED_LOCALES_SET.has("fil")) return "fil";
+    }
+    if (SUPPORTED_LOCALES_SET.has(primary)) return primary;
+    if (SUPPORTED_LOCALES_SET.has(lang)) return lang;
+  }
+  return "en";
+}
+
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (req.isAllied) return next();
 
@@ -487,7 +506,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV === "production") {
     const restPath = urlPath === "/" ? "" : urlPath;
     const query = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
-    return res.redirect(301, `/en${restPath}${query}`);
+    const detectedLocale = detectLocaleFromAcceptLanguage(req.headers["accept-language"]);
+    return res.redirect(301, `/${detectedLocale}${restPath}${query}`);
   }
 
   return next();
