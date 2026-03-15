@@ -1008,7 +1008,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-11 sm:h-14 lg:h-16")}>
+        <div className={cn("flex items-center justify-between", compact ? "h-10 sm:h-11" : "h-11 sm:h-16")}>
           <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-6 min-w-0">
             <MobileNav />
             <LocaleLink href="/">
