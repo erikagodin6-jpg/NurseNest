@@ -9,7 +9,6 @@ import { RelatedResources } from "@/components/related-resources";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { fetchFilterOptions, type FilterOptions } from "@/lib/qbank-api";
-import { getQuestionImage } from "@/lib/system-images";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, Lightbulb, Crosshair, BookOpen, Bookmark, Clock, GraduationCap, PenLine, BarChart3 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -18,14 +17,14 @@ import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
 import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { ConfidenceRatingModal } from "@/components/study-momentum";
+import { InlineConfidenceRating } from "@/components/study-momentum";
 import { SocialProofBar } from "@/components/conversion-funnel";
 import { useI18n } from "@/lib/i18n";
 import {
   AnswerOption,
   ResultHeader,
   RationaleSection,
-  RationaleImageBlock,
+  CollapsibleRationaleSection,
   DistractorCard,
   PremiumBadge,
   StudyProgressBar,
@@ -93,8 +92,6 @@ export default function QuestionBank() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
-  const [showConfidence, setShowConfidence] = useState(false);
-  const [confidenceRated, setConfidenceRated] = useState(false);
   const [allQuestions, setAllQuestions] = useState<PooledQuestion[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
   const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(null);
@@ -184,15 +181,6 @@ export default function QuestionBank() {
       correct: prev.correct + (selectedAnswer === question?.correct ? 1 : 0),
       total: prev.total + 1,
     }));
-    if (user) {
-      setShowConfidence(true);
-      setConfidenceRated(false);
-    }
-  };
-
-  const handleConfidenceClose = () => {
-    setShowConfidence(false);
-    setConfidenceRated(true);
   };
 
   const handleNext = () => {
@@ -203,8 +191,6 @@ export default function QuestionBank() {
     }
     setSelectedAnswer(null);
     setRevealed(false);
-    setShowConfidence(false);
-    setConfidenceRated(false);
   };
 
   const handlePrev = () => {
@@ -215,8 +201,6 @@ export default function QuestionBank() {
     }
     setSelectedAnswer(null);
     setRevealed(false);
-    setShowConfidence(false);
-    setConfidenceRated(false);
   };
 
   const handleReset = () => {
@@ -392,20 +376,6 @@ export default function QuestionBank() {
                         </div>
                       ))}
                       <p className="text-xs text-gray-600 mt-3 leading-relaxed italic">{r.question.rationale}</p>
-                      {(() => {
-                        const img = getQuestionImage({ topic: r.question.topic, subtopic: r.question.subtopic, bodySystem: r.question.bodySystem });
-                        const imgAlt = r.question.topic
-                          ? `Clinical illustration of ${r.question.topic}${r.question.bodySystem ? ` - ${r.question.bodySystem}` : ""} - NurseNest nursing education`
-                          : r.question.bodySystem
-                          ? `${r.question.bodySystem} system clinical reference - NurseNest nursing education`
-                          : "NurseNest clinical reference illustration";
-                        return img ? (
-                          <figure className="mt-3 rounded-xl border border-gray-200/60 overflow-hidden bg-gray-50/50 p-3">
-                            <img src={img} alt={imgAlt} title={imgAlt} className="rounded-lg max-h-48 w-auto" loading="lazy" />
-                            <figcaption className="text-xs text-gray-500 text-center mt-2 italic">{r.question.topic || r.question.bodySystem || "Clinical reference"}</figcaption>
-                          </figure>
-                        ) : null;
-                      })()}
                     </div>
                   </div>
                 ))}
@@ -868,20 +838,13 @@ export default function QuestionBank() {
                                   data-testid="section-distractor-rationales"
                                 >
                                   <div className="space-y-2">
-                                    {(() => {
-                                      const cards = question.options
-                                        .map((opt, idx) => {
-                                          if (idx === question.correct) return null;
-                                          const key = String.fromCharCode(65 + idx);
-                                          const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
-                                          if (!rationale) return null;
-                                          return <DistractorCard key={idx} letter={key} text={opt} rationale={rationale} />;
-                                        })
-                                        .filter(Boolean);
-                                      return cards.length > 0 ? cards : (
-                                        <p className="text-sm text-gray-500 italic">{t("qbank.distractorNotAvailable")}</p>
-                                      );
-                                    })()}
+                                    {question.options.map((opt, idx) => {
+                                      if (idx === question.correct) return null;
+                                      const key = String.fromCharCode(65 + idx);
+                                      const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
+                                      const fallback = `This option is incorrect. The correct answer is ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]} — ${question.rationale?.slice(0, 120) || "review the explanation for details"}.`;
+                                      return <DistractorCard key={idx} letter={key} text={opt} rationale={rationale || fallback} />;
+                                    })}
                                   </div>
                                 </RationaleSection>
                               </>
@@ -896,55 +859,39 @@ export default function QuestionBank() {
                                   <div data-testid="text-qb-rationale">
                                     <RationaleText text={question.rationale} />
                                   </div>
-                                  {(() => {
-                                    const img = getQuestionImage({ topic: question.topic, subtopic: question.subtopic, bodySystem: question.bodySystem });
-                                    const rationaleAlt = question.topic
-                                      ? `Clinical illustration of ${question.topic}${question.bodySystem ? ` - ${question.bodySystem}` : ""} - NurseNest nursing education`
-                                      : question.bodySystem
-                                      ? `${question.bodySystem} system clinical reference - NurseNest nursing education`
-                                      : "NurseNest clinical reference illustration";
-                                    return img ? (
-                                      <RationaleImageBlock
-                                        src={img}
-                                        alt={rationaleAlt}
-                                        caption={question.topic || question.bodySystem || undefined}
-                                        data-testid="img-rationale"
-                                      />
-                                    ) : null;
-                                  })()}
                                 </RationaleSection>
 
                                 {question.clinicalPearl && (
-                                  <RationaleSection
+                                  <CollapsibleRationaleSection
                                     icon={<Lightbulb className="h-4 w-4 text-violet-600" />}
                                     title={t("qbank.clinicalPearl")}
                                     variant="pearl"
                                     data-testid="section-clinical-pearl"
                                   >
                                     <p>{question.clinicalPearl}</p>
-                                  </RationaleSection>
+                                  </CollapsibleRationaleSection>
                                 )}
 
                                 {question.examStrategy && (
-                                  <RationaleSection
+                                  <CollapsibleRationaleSection
                                     icon={<Crosshair className="h-4 w-4 text-blue-600" />}
                                     title={t("qbank.examStrategy")}
                                     variant="strategy"
                                     data-testid="section-exam-strategy"
                                   >
                                     <p>{question.examStrategy}</p>
-                                  </RationaleSection>
+                                  </CollapsibleRationaleSection>
                                 )}
 
                                 {question.memoryHook && (
-                                  <RationaleSection
+                                  <CollapsibleRationaleSection
                                     icon={<Bookmark className="h-4 w-4 text-amber-600" />}
                                     title={t("qbank.memoryHook")}
                                     variant="memory"
                                     data-testid="section-memory-hook"
                                   >
                                     <p className="font-medium italic">{question.memoryHook}</p>
-                                  </RationaleSection>
+                                  </CollapsibleRationaleSection>
                                 )}
 
                                 <StudyTopicLink
@@ -952,19 +899,18 @@ export default function QuestionBank() {
                                   subtopic={question.subtopic}
                                   bodySystem={question.bodySystem}
                                 />
+
+                                {user && question && selectedAnswer !== null && (
+                                  <InlineConfidenceRating
+                                    questionId={`qb-${question.tier}-${currentIndex}`}
+                                    wasCorrect={isCorrect}
+                                    topic={question.bodySystem}
+                                    bodySystem={question.bodySystem}
+                                  />
+                                )}
                               </>
                             }
                           />
-
-                          {showConfidence && question && selectedAnswer !== null && (
-                            <ConfidenceRatingModal
-                              questionId={`qb-${question.tier}-${currentIndex}`}
-                              wasCorrect={isCorrect}
-                              topic={question.bodySystem}
-                              bodySystem={question.bodySystem}
-                              onClose={handleConfidenceClose}
-                            />
-                          )}
 
                           <div className="flex gap-3 pt-2">
                             <Button variant="outline" onClick={handlePrev} className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50" data-testid="button-prev">

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 import {
   CheckCircle2, XCircle, Lightbulb, Crosshair, Bookmark,
   ChevronLeft, ChevronRight, Target, Trophy, RotateCcw,
-  Clock, BookOpen, Flag, GraduationCap, Star, AlertCircle
+  Clock, BookOpen, Flag, GraduationCap, Star, AlertCircle,
+  ChevronDown
 } from "lucide-react";
 
 export function StudyPageShell({ children, className }: { children: ReactNode; className?: string }) {
@@ -242,6 +243,68 @@ export function RationaleSection({
   );
 }
 
+export function CollapsibleRationaleSection({
+  icon,
+  title,
+  children,
+  variant = "default",
+  className,
+  defaultOpen = false,
+  "data-testid": testId,
+}: {
+  icon?: ReactNode;
+  title: string;
+  children: ReactNode;
+  variant?: "default" | "pearl" | "strategy" | "memory" | "distractor";
+  className?: string;
+  defaultOpen?: boolean;
+  "data-testid"?: string;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  const variantStyles = {
+    default: "bg-gray-50/80 border-gray-200/60",
+    pearl: "bg-violet-50/60 border-violet-200/50",
+    strategy: "bg-blue-50/60 border-blue-200/50",
+    memory: "bg-amber-50/60 border-amber-200/50",
+    distractor: "bg-gray-50/60 border-gray-200/50",
+  };
+
+  const titleColors = {
+    default: "text-gray-700",
+    pearl: "text-violet-700",
+    strategy: "text-blue-700",
+    memory: "text-amber-700",
+    distractor: "text-gray-700",
+  };
+
+  const accentBar = {
+    default: "bg-gray-300",
+    pearl: "bg-violet-300",
+    strategy: "bg-blue-300",
+    memory: "bg-amber-300",
+    distractor: "bg-gray-300",
+  };
+
+  return (
+    <div className={cn("rounded-xl border relative", variantStyles[variant], className)} data-testid={testId}>
+      <div className={cn("absolute left-0 top-3 bottom-3 w-[3px] rounded-full", accentBar[variant])} />
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center gap-2 px-4 py-2.5 pl-6 text-left"
+        data-testid={testId ? `${testId}-toggle` : undefined}
+      >
+        {icon}
+        <p className={cn("text-xs font-semibold uppercase tracking-wider flex-1", titleColors[variant])}>{title}</p>
+        <ChevronDown className={cn("h-4 w-4 text-gray-400 transition-transform", isOpen && "rotate-180")} />
+      </button>
+      {isOpen && (
+        <div className="text-sm leading-[1.75] text-gray-700 px-4 pb-3 pl-6">{children}</div>
+      )}
+    </div>
+  );
+}
+
 export function RationaleImageBlock({
   src,
   alt,
@@ -351,11 +414,11 @@ export function PostAnswerReviewLayout({
 }) {
   return (
     <div className={cn("animate-fade-in-up", className)}>
-      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4">
-        <div className="space-y-2">{questionColumn}</div>
-        <div className="space-y-2">{rationaleColumn}</div>
+      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-3">
+        <div className="space-y-1.5">{questionColumn}</div>
+        <div className="space-y-1.5">{rationaleColumn}</div>
       </div>
-      <div className="lg:hidden space-y-2">
+      <div className="lg:hidden space-y-1.5">
         {questionColumn}
         {rationaleColumn}
       </div>

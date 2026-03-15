@@ -8,14 +8,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
-import { getQuestionImage } from "@/lib/system-images";
 import {
   ArrowRight, CheckCircle2, XCircle, BookOpen, Target,
   ChevronRight, RotateCcw, Heart, Brain, Wind, Stethoscope,
   Activity, Pill, Baby, Droplets, Shield, Layers,
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
-import { ConfidenceRatingModal } from "@/components/study-momentum";
+import { InlineConfidenceRating } from "@/components/study-momentum";
 import { useAuth } from "@/lib/auth";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
@@ -230,8 +229,6 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [completed, setCompleted] = useState(false);
-  const [showConfidence, setShowConfidence] = useState(false);
-  const [confidenceRated, setConfidenceRated] = useState(false);
 
   const current = questions[currentIndex];
   const tierLabel = TIER_LABELS[tier] || tier.toUpperCase();
@@ -246,13 +243,6 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
     if (optionIndex === current.correct) {
       setScore((s) => s + 1);
     }
-    setShowConfidence(true);
-    setConfidenceRated(false);
-  };
-
-  const handleConfidenceClose = () => {
-    setShowConfidence(false);
-    setConfidenceRated(true);
   };
 
   const handleNext = () => {
@@ -260,8 +250,6 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
       setCurrentIndex((i) => i + 1);
       setSelectedAnswer(null);
       setShowRationale(false);
-      setShowConfidence(false);
-      setConfidenceRated(false);
     } else {
       setCompleted(true);
     }
@@ -274,8 +262,6 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
     setScore(0);
     setAnswered(0);
     setCompleted(false);
-    setShowConfidence(false);
-    setConfidenceRated(false);
   };
 
   const faqStructuredData = {
@@ -437,30 +423,28 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                       </p>
                     </div>
 
-                    {(() => {
-                      const img = getQuestionImage({ topic: current.topic, subtopic: current.subtopic, bodySystem: current.bodySystem });
-                      const pqAlt = current.topic
-                        ? `Clinical illustration of ${current.topic}${current.bodySystem ? ` - ${current.bodySystem}` : ""} - NurseNest nursing education`
-                        : current.bodySystem
-                        ? `${current.bodySystem} system clinical reference - NurseNest nursing education`
-                        : "NurseNest clinical reference illustration";
-                      return img ? (
-                        <figure className="px-6 sm:px-8 py-4">
-                          <div className="border-t border-slate-100 pt-4">
-                            <img
-                              src={img}
-                              alt={pqAlt}
-                              title={current.topic || current.bodySystem || "Clinical reference"}
-                              className="rounded-xl border border-slate-200/60 max-w-full w-auto mx-auto"
-                              style={{ maxHeight: '320px' }}
-                              loading="lazy"
-                              data-testid="img-rationale"
-                            />
-                          </div>
-                          <figcaption className="text-xs text-gray-500 text-center mt-2 italic">{current.topic || current.bodySystem || "Clinical reference"}</figcaption>
-                        </figure>
-                      ) : null;
-                    })()}
+                    <div className="px-6 sm:px-8 py-4" data-testid="section-distractor-rationales">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center">
+                          <XCircle className="w-3.5 h-3.5 text-gray-500" />
+                        </div>
+                        <h4 className="font-semibold text-slate-700 text-sm">Why Other Options Are Wrong</h4>
+                      </div>
+                      <div className="space-y-2">
+                        {current.options.map((opt, idx) => {
+                          if (idx === current.correct) return null;
+                          const key = String.fromCharCode(65 + idx);
+                          const rationale = current.distractorRationales?.[key] || current.distractorRationales?.[key.toLowerCase()] || current.distractorRationales?.[String(idx)];
+                          const fallback = `This option is incorrect. The correct answer is ${String.fromCharCode(65 + current.correct)}. ${current.options[current.correct]} — ${current.rationale?.slice(0, 120) || "review the explanation for details"}.`;
+                          return (
+                            <div key={idx} className="pl-3 border-l-[3px] border-gray-300/80 py-0.5">
+                              <p className="text-sm font-semibold text-gray-700">{key}. {opt}</p>
+                              <p className="text-sm text-gray-600 mt-0.5 leading-relaxed">{rationale || fallback}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
 
                     {current.clinicalPearl && (
                       <div className="mx-6 sm:mx-8 mb-4 p-4 bg-amber-50/80 rounded-xl border border-amber-200/60">
@@ -470,26 +454,23 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                     )}
 
                     <div className="px-6 sm:px-8 pb-6 sm:pb-8">
-                      {showConfidence && selectedAnswer !== null && (
-                        <ConfidenceRatingModal
+                      {user && selectedAnswer !== null && (
+                        <InlineConfidenceRating
                           questionId={`${tier}-${systemSlug}-${currentIndex}`}
                           wasCorrect={selectedAnswer === current.correct}
                           topic={systemSlug}
                           bodySystem={systemSlug}
-                          onClose={handleConfidenceClose}
                         />
                       )}
 
-                      {confidenceRated && (
-                        <Button
-                          onClick={handleNext}
-                          className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl font-semibold text-base shadow-sm shadow-primary/20"
-                          data-testid="button-next-question"
-                        >
-                          {currentIndex < questions.length - 1 ? "Next Question" : "View Results"}
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        </Button>
-                      )}
+                      <Button
+                        onClick={handleNext}
+                        className="w-full h-12 bg-primary hover:brightness-110 text-white rounded-xl font-semibold text-base shadow-sm shadow-primary/20"
+                        data-testid="button-next-question"
+                      >
+                        {currentIndex < questions.length - 1 ? "Next Question" : "View Results"}
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
                 )}

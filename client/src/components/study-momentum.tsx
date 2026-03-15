@@ -292,3 +292,70 @@ export function ConfidenceRatingModal({
     </div>
   );
 }
+
+export function InlineConfidenceRating({
+  questionId,
+  wasCorrect,
+  topic,
+  bodySystem,
+  onClose,
+}: {
+  questionId: string;
+  wasCorrect: boolean;
+  topic?: string;
+  bodySystem?: string;
+  onClose?: (confidence: string) => void;
+}) {
+  const { user } = useAuth();
+  const [selected, setSelected] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+
+  if (dismissed || submitted) return null;
+
+  const handleSubmit = async (value: string) => {
+    setSelected(value);
+    setSubmitted(true);
+    if (user?.id) {
+      try {
+        await fetch("/api/confidence-rating", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id, questionId, confidence: value, wasCorrect, topic, bodySystem }),
+        });
+      } catch (e) {}
+    }
+    onClose?.(value);
+  };
+
+  const options = [
+    { value: "very_confident", label: "Confident", emoji: "✓", cls: "hover:border-emerald-400 hover:bg-emerald-50 text-emerald-700" },
+    { value: "somewhat", label: "Somewhat", emoji: "~", cls: "hover:border-amber-400 hover:bg-amber-50 text-amber-700" },
+    { value: "guessing", label: "Guessing", emoji: "?", cls: "hover:border-red-400 hover:bg-red-50 text-red-700" },
+  ];
+
+  return (
+    <div data-testid="inline-confidence-rating" className="flex items-center gap-2 py-2 px-1">
+      <span className="text-xs text-gray-500 shrink-0">Confidence:</span>
+      <div className="flex gap-1.5">
+        {options.map((opt) => (
+          <button
+            key={opt.value}
+            data-testid={`button-inline-confidence-${opt.value}`}
+            onClick={() => handleSubmit(opt.value)}
+            className={`px-3 py-1 rounded-lg border border-gray-200 text-xs font-medium transition-all ${opt.cls}`}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+      <button
+        data-testid="button-dismiss-confidence"
+        onClick={() => { setDismissed(true); onClose?.("skipped"); }}
+        className="text-xs text-gray-400 hover:text-gray-600 ml-auto"
+      >
+        Skip
+      </button>
+    </div>
+  );
+}

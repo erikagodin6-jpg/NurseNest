@@ -27,6 +27,7 @@ import {
   AnswerOption,
   ResultHeader,
   RationaleSection,
+  CollapsibleRationaleSection,
   PremiumBadge,
   StudyProgressBar,
   ScoreCircle,
@@ -34,9 +35,7 @@ import {
   RationaleText,
   StudyTopicLink,
   DistractorCard,
-  RationaleImageBlock,
 } from "@/components/premium-study";
-import { getQuestionImage } from "@/lib/system-images";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -338,47 +337,29 @@ export default function QBankStudyPage() {
                             correctText={`Correct Answer: ${currentQ.correctAnswer}. ${currentQ[`option${currentQ.correctAnswer}` as keyof Question] as string}`}
                           />
 
-                          {Object.keys(currentQ.distractorRationales || {}).length > 0 ? (
-                            <RationaleSection
-                              icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                              title="Why Other Options Are Wrong"
-                              variant="distractor"
-                              data-testid="section-distractor-rationales"
-                            >
-                              <div className="space-y-2">
-                                {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer && currentQ[`option${k}` as keyof Question]).map(k => {
-                                  const optText = currentQ[`option${k}` as keyof Question] as string;
-                                  const rationale = currentQ.distractorRationales[optText] || "Review the rationale to understand why this is incorrect.";
-                                  return (
-                                    <DistractorCard
-                                      key={k}
-                                      letter={k}
-                                      text={optText}
-                                      rationale={rationale}
-                                    />
-                                  );
-                                })}
-                              </div>
-                            </RationaleSection>
-                          ) : (
-                            <RationaleSection
-                              icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                              title="Why Other Options Are Wrong"
-                              variant="distractor"
-                              data-testid="section-distractor-rationales"
-                            >
-                              <div className="space-y-2">
-                                {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer && currentQ[`option${k}` as keyof Question]).map(k => (
+                          <RationaleSection
+                            icon={<XCircle className="h-4 w-4 text-gray-500" />}
+                            title="Why Other Options Are Wrong"
+                            variant="distractor"
+                            data-testid="section-distractor-rationales"
+                          >
+                            <div className="space-y-2">
+                              {["A", "B", "C", "D"].filter(k => k !== currentQ.correctAnswer && currentQ[`option${k}` as keyof Question]).map(k => {
+                                const optText = currentQ[`option${k}` as keyof Question] as string;
+                                const rationale = currentQ.distractorRationales?.[optText] || currentQ.distractorRationales?.[k] || currentQ.distractorRationales?.[k.toLowerCase()];
+                                const correctOptText = currentQ[`option${currentQ.correctAnswer}` as keyof Question] as string;
+                                const fallback = `This option is incorrect. The correct answer is ${currentQ.correctAnswer}. ${correctOptText} — ${currentQ.rationale?.slice(0, 120) || "review the explanation for details"}.`;
+                                return (
                                   <DistractorCard
                                     key={k}
                                     letter={k}
-                                    text={currentQ[`option${k}` as keyof Question] as string}
-                                    rationale="Review the rationale above to understand why this option is incorrect."
+                                    text={optText}
+                                    rationale={rationale || fallback}
                                   />
-                                ))}
-                              </div>
-                            </RationaleSection>
-                          )}
+                                );
+                              })}
+                            </div>
+                          </RationaleSection>
                         </>
                       }
                       rationaleColumn={
@@ -391,23 +372,23 @@ export default function QBankStudyPage() {
                           </RationaleSection>
 
                           {currentQ.clinicalTakeaway && (
-                            <RationaleSection
+                            <CollapsibleRationaleSection
                               icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
                               title="Clinical Takeaway"
                               variant="pearl"
                             >
                               <p className="text-sm text-gray-700 leading-relaxed">{currentQ.clinicalTakeaway}</p>
-                            </RationaleSection>
+                            </CollapsibleRationaleSection>
                           )}
 
                           {currentQ.examPearl && (
-                            <RationaleSection
+                            <CollapsibleRationaleSection
                               icon={<Star className="h-4 w-4 text-amber-500" />}
                               title="Exam Strategy"
                               variant="pearl"
                             >
                               <p className="text-sm text-gray-700 leading-relaxed">{currentQ.examPearl}</p>
-                            </RationaleSection>
+                            </CollapsibleRationaleSection>
                           )}
 
                           {currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0 && (
@@ -446,26 +427,6 @@ export default function QBankStudyPage() {
                             </RationaleSection>
                           )}
 
-                          {(() => {
-                            const hasMediaImages = currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0;
-                            if (!hasMediaImages) {
-                              const img = getQuestionImage({ topic: currentQ.topic, bodySystem: currentQ.category });
-                              const qbAlt = currentQ.topic
-                                ? `Clinical illustration of ${currentQ.topic}${currentQ.category ? ` - ${currentQ.category}` : ""} - NurseNest nursing education`
-                                : currentQ.category
-                                ? `${currentQ.category} system clinical reference - NurseNest nursing education`
-                                : "NurseNest clinical reference illustration";
-                              return img ? (
-                                <RationaleImageBlock
-                                  src={img}
-                                  alt={qbAlt}
-                                  caption={currentQ.topic || currentQ.category || undefined}
-                                  data-testid="img-rationale"
-                                />
-                              ) : null;
-                            }
-                            return null;
-                          })()}
 
                           {currentQ.lessonLinks && currentQ.lessonLinks.length > 0 && (
                             <RationaleSection
