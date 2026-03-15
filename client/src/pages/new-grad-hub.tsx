@@ -18,12 +18,12 @@ import {
 import { cn } from "@/lib/utils";
 
 const CERTIFICATION_GRID = [
-  { name: "NICU Nursing", desc: "Neonatal intensive care for critically ill newborns and premature infants.", href: "/nursing-specialties/pediatric-icu-nurse", icon: Baby, color: "bg-sky-50 text-sky-600 border-sky-100" },
-  { name: "PICU Nursing", desc: "Pediatric critical care for infants, children, and adolescents with life-threatening conditions.", href: "/nursing-specialties/pediatric-icu-nurse", icon: Baby, color: "bg-blue-50 text-blue-600 border-blue-100" },
-  { name: "Emergency Nursing", desc: "Fast-paced emergency department care, triage, and trauma nursing.", href: "/nursing-specialties/trauma-nurse", icon: Activity, color: "bg-orange-50 text-orange-600 border-orange-100" },
-  { name: "Oncology Nursing", desc: "Cancer care from diagnosis through treatment, survivorship, and palliative care.", href: "/nursing-specialties/oncology-nurse", icon: Ribbon, color: "bg-purple-50 text-purple-600 border-purple-100" },
-  { name: "Critical Care", desc: "ICU nursing with hemodynamic monitoring, ventilator management, and vasoactive drips.", href: "/nursing-specialties/icu-nurse", icon: Activity, color: "bg-red-50 text-red-600 border-red-100" },
-  { name: "Perioperative Nursing", desc: "Surgical nursing in pre-op, intra-op, and post-op settings.", href: "/certifications/cnor", icon: Scissors, color: "bg-indigo-50 text-indigo-600 border-indigo-100" },
+  { name: "NICU Nursing", desc: "Neonatal intensive care for critically ill newborns and premature infants.", href: "/new-grad/certifications/nicu", icon: Baby, color: "bg-sky-50 text-sky-600 border-sky-100" },
+  { name: "PICU Nursing", desc: "Pediatric critical care for infants, children, and adolescents with life-threatening conditions.", href: "/new-grad/certifications/picu", icon: Baby, color: "bg-blue-50 text-blue-600 border-blue-100" },
+  { name: "Emergency Nursing", desc: "Fast-paced emergency department care, triage, and trauma nursing.", href: "/new-grad/certifications/emergency-nursing", icon: Activity, color: "bg-orange-50 text-orange-600 border-orange-100" },
+  { name: "Oncology Nursing", desc: "Cancer care from diagnosis through treatment, survivorship, and palliative care.", href: "/new-grad/certifications/oncology-nursing", icon: Ribbon, color: "bg-purple-50 text-purple-600 border-purple-100" },
+  { name: "Critical Care", desc: "ICU nursing with hemodynamic monitoring, ventilator management, and vasoactive drips.", href: "/new-grad/certifications/critical-care-nursing", icon: Activity, color: "bg-red-50 text-red-600 border-red-100" },
+  { name: "Perioperative Nursing", desc: "Surgical nursing in pre-op, intra-op, and post-op settings.", href: "/new-grad/certifications/perioperative-nursing", icon: Scissors, color: "bg-indigo-50 text-indigo-600 border-indigo-100" },
   { name: "Pediatric Nursing", desc: "Caring for infants, children, and adolescents across clinical settings.", href: "/certifications/cpn", icon: Baby, color: "bg-pink-50 text-pink-600 border-pink-100" },
   { name: "Cardiac Nursing", desc: "Cardiovascular care including ECG interpretation and heart failure management.", href: "/nursing-specialties/cardiac-nurse", icon: Heart, color: "bg-rose-50 text-rose-600 border-rose-100" },
   { name: "Mental Health Nursing", desc: "Psychiatric nursing, therapeutic communication, and crisis intervention.", href: "/nursing-specialties/mental-health-nurse", icon: Brain, color: "bg-teal-50 text-teal-600 border-teal-100" },

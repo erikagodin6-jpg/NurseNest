@@ -201,6 +201,7 @@ const NewGradSalaryPage = lazy(() => import("@/pages/newgrad/salary-page"));
 const NewGradProfDevPage = lazy(() => import("@/pages/newgrad/professional-development-page"));
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
+const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certification-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
@@ -518,6 +519,7 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
+        <Route path="/new-grad/certifications/:slug" component={NewGradCertificationPage} />
         <Route path="/new-grad/clinical-skills/:skill" component={ClinicalSkillsGuidePage} />
         <Route path="/new-grad/unit-guide/:unit" component={UnitGuidePage} />
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
@@ -605,8 +607,12 @@ function AppRoutes() {
         <Route path="/community-nursing">{() => <SpecialtyHubBySlug slug="community-nursing" />}</Route>
         <Route path="/long-term-care">{() => <SpecialtyHubBySlug slug="long-term-care" />}</Route>
         <Route path="/rehabilitation">{() => <SpecialtyHubBySlug slug="rehabilitation" />}</Route>
+        <Route path="/emergency-nursing-specialty">{() => <SpecialtyHubBySlug slug="emergency-nursing-specialty" />}</Route>
+        <Route path="/oncology-nursing-specialty">{() => <SpecialtyHubBySlug slug="oncology-nursing-specialty" />}</Route>
+        <Route path="/perioperative-nursing-specialty">{() => <SpecialtyHubBySlug slug="perioperative-nursing-specialty" />}</Route>
+        <Route path="/critical-care-specialty">{() => <SpecialtyHubBySlug slug="critical-care-specialty" />}</Route>
 
-        {/* 16 Specialty SEO Landing Pages */}
+        {/* 20 Specialty SEO Landing Pages */}
         <Route path="/icu-nursing-guide">{() => <SpecialtySeoBySlug slug="icu-nursing-guide" />}</Route>
         <Route path="/pediatric-icu-nursing-guide">{() => <SpecialtySeoBySlug slug="pediatric-icu-nursing-guide" />}</Route>
         <Route path="/nicu-nursing-guide">{() => <SpecialtySeoBySlug slug="nicu-nursing-guide" />}</Route>
@@ -623,6 +629,10 @@ function AppRoutes() {
         <Route path="/community-nursing-guide">{() => <SpecialtySeoBySlug slug="community-nursing-guide" />}</Route>
         <Route path="/long-term-care-nursing-guide">{() => <SpecialtySeoBySlug slug="long-term-care-nursing-guide" />}</Route>
         <Route path="/rehabilitation-nursing-guide">{() => <SpecialtySeoBySlug slug="rehabilitation-nursing-guide" />}</Route>
+        <Route path="/emergency-nursing-specialty-guide">{() => <SpecialtySeoBySlug slug="emergency-nursing-specialty-guide" />}</Route>
+        <Route path="/oncology-nursing-specialty-guide">{() => <SpecialtySeoBySlug slug="oncology-nursing-specialty-guide" />}</Route>
+        <Route path="/perioperative-nursing-specialty-guide">{() => <SpecialtySeoBySlug slug="perioperative-nursing-specialty-guide" />}</Route>
+        <Route path="/critical-care-specialty-guide">{() => <SpecialtySeoBySlug slug="critical-care-specialty-guide" />}</Route>
 
         {/* Nursing Content Hub */}
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
