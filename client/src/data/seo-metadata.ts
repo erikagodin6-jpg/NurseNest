@@ -4,7 +4,7 @@ export interface LocalizedSEOEntry {
   keywords: string;
 }
 
-export type SEOLocale = "fr" | "es";
+export type SEOLocale = "fr" | "es" | "zh" | "ar" | "hi" | "ko" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de";
 
 const frenchMetadata: Record<string, LocalizedSEOEntry> = {
   "/": {
