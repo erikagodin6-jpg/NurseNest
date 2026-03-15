@@ -106,6 +106,8 @@ import { addictionsCounsellorLessons } from "./addictions-counsellor-lessons";
 import { occupationalTherapyLessons } from "./occupational-therapy-lessons";
 import { paramedicLessonsExpanded } from "./paramedic-lessons-expanded";
 import { rrtLessonsExpanded } from "./rrt-lessons-expanded";
+import { rrtLessonsExpanded2 } from "./rrt-lessons-expanded-2";
+import { rrtLessonsExpanded3 } from "./rrt-lessons-expanded-3";
 import { mltLessonsExpanded } from "./mlt-lessons-expanded";
 
 import { alliedHealthFoundations1Lessons } from "./allied-health-foundations-1";
@@ -586,6 +588,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   occupationalTherapyLessons,
   paramedicLessonsExpanded,
   rrtLessonsExpanded,
+  rrtLessonsExpanded2,
+  rrtLessonsExpanded3,
   mltLessonsExpanded,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
