@@ -33,8 +33,29 @@ const allowlist = [
   "zod-validation-error",
 ];
 
+async function compileI18n() {
+  const { writeFileSync, mkdirSync } = await import("fs");
+  const path = await import("path");
+  const LANGUAGES = [
+    "en", "fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko",
+    "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id",
+  ];
+  const outDir = path.resolve(process.cwd(), "client/public/i18n");
+  mkdirSync(outDir, { recursive: true });
+  for (const lang of LANGUAGES) {
+    const mod = await import(`../client/src/lib/i18n-${lang}`);
+    const key = Object.keys(mod).find((k: string) => typeof mod[k] === "object" && !Array.isArray(mod[k]));
+    if (!key) continue;
+    writeFileSync(path.join(outDir, `${lang}.json`), JSON.stringify(mod[key]));
+  }
+  console.log(`compiled ${LANGUAGES.length} i18n files to JSON`);
+}
+
 async function buildAll() {
   await rm("dist", { recursive: true, force: true });
+
+  console.log("compiling i18n...");
+  await compileI18n();
 
   console.log("building client...");
   await viteBuild();
