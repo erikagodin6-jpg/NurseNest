@@ -387,6 +387,7 @@ import { npRheumatologyContentLessons } from "./np-rheumatology-content";
 import { npAssessmentContentALessons } from "./np-assessment-content-a";
 import { npAssessmentContentBLessons } from "./np-assessment-content-b";
 import { npAssessmentContentCLessons } from "./np-assessment-content-c";
+import { rnPathoEndocrineHemeMskLessons } from "./rn-patho-endocrine-heme-msk";
 
 export type { LessonContent } from "./types";
 
@@ -604,6 +605,7 @@ function safeMerge(
 }
 
 export const contentMap: Record<string, LessonContent> = safeMerge({},
+  rnPathoEndocrineHemeMskLessons,
   npClinicalBatch4Lessons,
   npClinicalBatch5Lessons,
   npClinicalBatch6Lessons,
