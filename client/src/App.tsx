@@ -363,6 +363,7 @@ const PreoperativeNursingGuide = lazy(() => import("@/pages/perioperative-hub-pa
 const PerioperativeNurseCareer = lazy(() => import("@/pages/perioperative-hub-pages").then(m => ({ default: m.PerioperativeNurseCareer })));
 const HealthcareGuidesIndex = lazy(() => import("@/pages/healthcare-guide-page").then(m => ({ default: m.HealthcareGuidesIndex })));
 const UnifiedGuidePage = lazy(() => import("@/pages/unified-guide-page"));
+const ClusterGuidePage = lazy(() => import("@/pages/cluster-guide-page"));
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
@@ -1054,6 +1055,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert/peds-assessment-sim">{() => <CareerAISimulator toolId="peds-assessment-sim" />}</Route>
         <Route path="/pediatric-cert/growth-dev-drill">{() => <CareerAISimulator toolId="growth-dev-drill" />}</Route>
         {/* Career Guides — Healthcare Ultimate Guides + Authority Guides */}
+        <Route path="/guides/:parentSlug/:clusterSlug" component={ClusterGuidePage} />
         <Route path="/guides/:slug" component={UnifiedGuidePage} />
         <Route path="/guides" component={HealthcareGuidesIndex} />
 

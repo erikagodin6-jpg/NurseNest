@@ -23,6 +23,7 @@ const GUIDE_TO_PREVIEW_SLUG: Record<string, string> = {
   "palliative-care-nursing-ultimate-guide": "palliative-care",
 };
 import { AUTHORITY_GUIDES } from "@shared/guide-data";
+import { getClusterPagesForParent } from "@/data/icu-cluster-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import {
   BookOpen, ChevronDown, ArrowRight, HelpCircle,
@@ -36,11 +37,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-function TableOfContents({ guide }: { guide: HealthcareGuide }) {
+function TableOfContents({ guide, hasClusterPages }: { guide: HealthcareGuide; hasClusterPages?: boolean }) {
   const sections = [
     { id: "introduction", title: "Introduction" },
-    { id: "what-you-will-learn", title: "What You Will Learn" },
-    ...(guide.spokeGuides && guide.spokeGuides.length > 0 ? [{ id: "topic-guides", title: "In-Depth Topic Guides" }] : []),
+    ...(hasClusterPages ? [{ id: "cluster-topics", title: "Deep Dive Topics" }] : []),
     ...(guide.conditions.length > 0 ? [{ id: "conditions", title: "Key Conditions & Clinical Topics" }] : []),
     ...(guide.clinicalSkills.length > 0 ? [{ id: "clinical-skills", title: "Important Clinical Skills" }] : []),
     ...(guide.procedures.length > 0 ? [{ id: "procedures", title: "Common Procedures & Equipment" }] : []),
@@ -216,6 +216,8 @@ export default function HealthcareGuidePage() {
       ];
 
   const relatedGuides = HEALTHCARE_GUIDES.filter(g => guide.relatedGuides.includes(g.slug));
+  const previewSlug = GUIDE_TO_PREVIEW_SLUG[guide.slug];
+  const clusterPages = getClusterPagesForParent(guide.slug);
 
   const ctaBaseGuide = hubGuide || guide;
   const specialtySlug = ctaBaseGuide.slug.replace(/-ultimate-guide$/, "").replace(/-guide$/, "").replace(/-nursing$/, "");
@@ -251,7 +253,23 @@ export default function HealthcareGuidePage() {
             <p className="text-base sm:text-lg text-gray-600 leading-relaxed" data-testid="text-guide-subtitle">
               {guide.metaDescription}
             </p>
-            <div className="flex flex-wrap gap-2 mt-6">
+            <div className="flex flex-wrap gap-3 mt-6">
+              {previewSlug && (
+                <LocaleLink href={`/preview/${previewSlug}`}>
+                  <Button className="text-white" style={{ backgroundColor: guide.color }} data-testid="button-hero-practice-questions">
+                    Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </LocaleLink>
+              )}
+              {previewSlug && (
+                <LocaleLink href={`/lessons/${previewSlug}`}>
+                  <Button variant="outline" className="border-gray-300" data-testid="button-hero-explore-lessons">
+                    <FileText className="w-4 h-4 mr-2" /> Explore Lessons
+                  </Button>
+                </LocaleLink>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
               <Badge variant="outline" className="text-xs border-gray-300">
                 <ClipboardList className="w-3 h-3 mr-1" /> Clinical Conditions
               </Badge>
@@ -287,7 +305,7 @@ export default function HealthcareGuidePage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="hidden lg:block lg:w-64 shrink-0">
-            <TableOfContents guide={guide} />
+            <TableOfContents guide={guide} hasClusterPages={clusterPages.length > 0} />
           </div>
 
           <div className="flex-1 min-w-0">
@@ -307,49 +325,40 @@ export default function HealthcareGuidePage() {
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
               <p className="text-gray-700 leading-relaxed text-base font-medium mb-4">{guide.seoIntro}</p>
               <p className="text-gray-700 leading-relaxed text-base">{guide.introduction}</p>
-            </section>
-
-            <section id="what-you-will-learn" className="mb-12 scroll-mt-24" data-testid="section-what-you-will-learn">
-              <SectionHeading id="what-you-will-learn-heading" title="What You Will Learn in This Guide" icon={GraduationCap} color={guide.color} />
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <ul className="space-y-3">
-                  {guide.whatYouWillLearn.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`learn-item-${i}`}>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
-                        <Target className="w-3.5 h-3.5" style={{ color: guide.color }} />
-                      </div>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
-
-            {guide.spokeGuides && guide.spokeGuides.length > 0 && (
-              <section id="topic-guides" className="mb-12 scroll-mt-24" data-testid="section-spoke-guides">
-                <SectionHeading id="topic-guides-heading" title="In-Depth Topic Guides" icon={BookOpen} color={guide.color} />
-                <p className="text-sm text-gray-600 mb-4">
-                  Explore detailed sub-topic guides that dive deeper into key areas of {guide.title.replace(" Ultimate Guide", "")} practice.
+              {guide.slug === "icu-nursing-ultimate-guide" && (
+                <p className="text-gray-700 leading-relaxed text-base mt-4">
+                  Dive deeper into specific ICU topics with our comprehensive sub-guides: master{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-ventilator-management" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-ventilator">ventilator management</LocaleLink>,
+                  learn evidence-based{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-sepsis-nursing-interventions" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-sepsis">sepsis nursing interventions</LocaleLink>,
+                  refine your{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-hemodynamic-monitoring" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-hemodynamic">hemodynamic monitoring skills</LocaleLink>,
+                  review essential{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-medications-guide" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-medications">ICU medications and drip titrations</LocaleLink>,
+                  build core{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-nursing-skills" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-skills">ICU nursing skills</LocaleLink>,
+                  and explore{" "}
+                  <LocaleLink href="/guides/icu-nursing-ultimate-guide/icu-nurse-salary" className="text-blue-600 hover:underline font-medium" data-testid="link-inline-salary">ICU nurse salary and career growth</LocaleLink>.
                 </p>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {guide.spokeGuides.map((spoke) => (
-                    <LocaleLink key={spoke.slug} href={`/guides/${spoke.slug}`}>
-                      <Card className="h-full hover:shadow-md hover:border-gray-300 transition-all cursor-pointer group" data-testid={`card-spoke-${spoke.slug}`}>
-                        <CardContent className="p-5">
-                          <div className="flex items-start gap-3">
-                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${guide.color}15` }}>
-                              <BookOpen className="w-4 h-4" style={{ color: guide.color }} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-700 transition-colors">
-                                {spoke.title}
-                              </h3>
-                              <p className="text-xs text-gray-500 line-clamp-2">{spoke.description}</p>
-                              <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 mt-2">
-                                Read Guide <ArrowRight className="w-3 h-3" />
-                              </span>
-                            </div>
+              )}
+            </section>
+
+            {clusterPages.length > 0 && (
+              <section id="cluster-topics" className="mb-12 scroll-mt-24" data-testid="section-cluster-topics">
+                <SectionHeading id="cluster-heading" title="Deep Dive Topics" icon={Layers} color={guide.color} />
+                <p className="text-sm text-gray-600 mb-4">Explore in-depth guides on specific topics within this specialty.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {clusterPages.map((cp) => (
+                    <LocaleLink key={cp.slug} href={`/guides/${guide.slug}/${cp.slug}`}>
+                      <Card className="h-full hover:shadow-md hover:border-gray-300 transition-all cursor-pointer group" data-testid={`card-cluster-${cp.slug}`}>
+                        <CardContent className="p-4 flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${guide.color}15` }}>
+                            <Layers className="w-4 h-4" style={{ color: guide.color }} />
                           </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-blue-700 transition-colors">{cp.title}</p>
+                          </div>
+                          <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 shrink-0" />
                         </CardContent>
                       </Card>
                     </LocaleLink>
