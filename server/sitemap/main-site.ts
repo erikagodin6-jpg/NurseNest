@@ -441,9 +441,20 @@ export async function generateMainSeoContent(): Promise<string[]> {
     const seoPages = await pool.query(
       `SELECT slug, language_code, page_type, last_updated FROM seo_pages WHERE is_public = true AND is_indexable = true ORDER BY last_updated DESC`
     );
+    const highPriorityTypes = new Set(["pillar", "program-landing", "topic-hub", "long-form-guide"]);
     for (const page of seoPages.rows) {
-      const priority = page.page_type === "pillar" ? "0.9" : "0.7";
-      urls.push(simpleUrl(`${base}/${page.language_code}/study-guide/${page.slug}`, toLastmod(page.last_updated), "weekly", priority));
+      const priority = highPriorityTypes.has(page.page_type) ? "0.9" : "0.7";
+      const pageTypePathMap: Record<string, string> = {
+        "program-landing": "",
+        "topic-hub": "",
+        "long-form-guide": "study-guide",
+        "long-tail": "study-guide",
+      };
+      const pathPrefix = pageTypePathMap[page.page_type];
+      const pagePath = pathPrefix !== undefined
+        ? (pathPrefix ? `/${pathPrefix}/${page.slug}` : `/${page.slug}`)
+        : `/${page.language_code}/study-guide/${page.slug}`;
+      urls.push(simpleUrl(`${base}${pagePath}`, toLastmod(page.last_updated), "weekly", priority));
     }
   } catch {}
 

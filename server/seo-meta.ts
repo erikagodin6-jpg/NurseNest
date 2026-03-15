@@ -886,6 +886,82 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "OT Exam Study Guide | NBCOT OTR & NOTCE Prep 2025 | NurseNest",
     description: "Comprehensive occupational therapy exam study guide for NBCOT OTR and NOTCE certification. Evaluation, intervention planning, OT theory, and clinical reasoning with proven study strategies.",
   },
+  "/respiratory-therapy-exam-prep": {
+    title: "Respiratory Therapy Exam Prep: RRT & TMC Study Guide 2025 | NurseNest",
+    description: "Comprehensive respiratory therapy exam preparation for TMC and CSE certification. Study guides, practice questions, ventilator management, ABG interpretation, and airway management.",
+  },
+  "/paramedic-exam-prep": {
+    title: "Paramedic Exam Prep: NREMT & AEMCA Study Guide 2025 | NurseNest",
+    description: "Comprehensive paramedic exam preparation for NREMT and AEMCA certification. Trauma assessment, cardiac emergencies, pharmacology, and airway management study resources.",
+  },
+  "/medical-lab-tech-exam-prep": {
+    title: "Medical Lab Tech Exam Prep: MLT & ASCP Study Guide 2025 | NurseNest",
+    description: "Comprehensive MLT exam preparation for ASCP and CSMLS certification. Hematology, clinical chemistry, microbiology, and blood bank study resources.",
+  },
+  "/diagnostic-imaging-exam-prep": {
+    title: "Diagnostic Imaging Exam Prep: ARRT & CAMRT Study Guide 2025 | NurseNest",
+    description: "Comprehensive diagnostic imaging exam preparation for ARRT and CAMRT certification. Radiographic positioning, radiation safety, image quality, and patient care.",
+  },
+  "/occupational-therapy-exam-prep": {
+    title: "Occupational Therapy Exam Prep: NBCOT Study Guide 2025 | NurseNest",
+    description: "Comprehensive OT exam preparation for NBCOT OTR certification. ADL assessment, therapeutic interventions, splinting, cognitive rehabilitation, and pediatric OT study resources.",
+  },
+  "/physical-therapy-exam-prep": {
+    title: "Physical Therapy Exam Prep: NPTE & PTA Study Guide 2025 | NurseNest",
+    description: "Comprehensive physical therapy exam preparation for NPTE-PT and NPTE-PTA certification. Therapeutic exercise, gait analysis, orthopedics, and modalities study resources.",
+  },
+  "/respiratory-therapy-topics-hub": {
+    title: "Respiratory Therapy Topics Hub: Study Resources | NurseNest",
+    description: "Complete respiratory therapy topic hub covering ABG interpretation, ventilator management, airway management, pulmonary physiology, and oxygen therapy study resources.",
+  },
+  "/paramedic-topics-hub": {
+    title: "Paramedic Topics Hub: EMS Study Resources | NurseNest",
+    description: "Complete paramedic topic hub covering trauma assessment, cardiac emergencies, airway management, pharmacology, and medical emergencies for NREMT exam prep.",
+  },
+  "/nclex-pharmacology-hub": {
+    title: "NCLEX Pharmacology Hub: Medication Study Guide | NurseNest",
+    description: "Complete NCLEX pharmacology topic hub covering drug classifications, medication safety, dosage calculations, and high-alert medications for nursing exam prep.",
+  },
+  "/cardiac-nursing-hub": {
+    title: "Cardiac Nursing Hub: Heart & Vascular Study Guide | NurseNest",
+    description: "Complete cardiac nursing topic hub covering heart failure, ECG interpretation, acute coronary syndromes, dysrhythmias, and hemodynamic monitoring for NCLEX prep.",
+  },
+  "/study-guide/nclex-pharmacology-study-guide": {
+    title: "NCLEX Pharmacology Study Guide: Drug Review 2025 | NurseNest",
+    description: "Comprehensive NCLEX pharmacology study guide covering all major drug classifications, medication safety, dosage calculations, and nursing considerations.",
+  },
+  "/study-guide/abg-interpretation-study-guide": {
+    title: "ABG Interpretation Study Guide: Step-by-Step 2025 | NurseNest",
+    description: "Comprehensive ABG interpretation study guide for nursing students. Step-by-step analysis, acid-base disorders, compensation, and clinical application with practice examples.",
+  },
+  "/study-guide/new-grad-nurse-survival-guide": {
+    title: "New Grad Nurse Survival Guide: First Year Handbook | NurseNest",
+    description: "Complete new graduate nurse survival guide covering orientation, time management, clinical skills, communication, and building confidence in your first year of nursing.",
+  },
+  "/study-guide/nclex-cardiology-questions": {
+    title: "NCLEX Cardiology Questions: Heart Conditions Practice | NurseNest",
+    description: "Practice NCLEX cardiology questions covering heart failure, ACS, dysrhythmias, and cardiac medications with detailed rationales and clinical scenarios.",
+  },
+  "/study-guide/respiratory-therapy-abg-questions": {
+    title: "Respiratory Therapy ABG Questions: Practice Guide | NurseNest",
+    description: "Practice respiratory therapy ABG interpretation questions for TMC and CSE exam preparation with step-by-step analysis and clinical scenarios.",
+  },
+  "/study-guide/nursing-prioritization-questions-guide": {
+    title: "Nursing Prioritization Questions: NCLEX Delegation Guide | NurseNest",
+    description: "Master NCLEX prioritization and delegation questions. ABCs, Maslow's hierarchy, acute vs chronic, and delegation rules for RN, LPN, and UAP scope of practice.",
+  },
+  "/study-guide/paramedic-trauma-assessment-questions": {
+    title: "Paramedic Trauma Questions: Primary Survey Guide | NurseNest",
+    description: "Practice paramedic trauma assessment questions for NREMT exam. Primary survey ABCDE approach, hemorrhage control, transport decisions, and clinical scenarios.",
+  },
+  "/study-guide/pediatric-nursing-nclex-questions": {
+    title: "Pediatric Nursing NCLEX Questions: Study Guide | NurseNest",
+    description: "Practice pediatric nursing NCLEX questions covering growth and development, pediatric assessment, common childhood conditions, and medication dosing.",
+  },
+  "/study-guide/blood-bank-antibody-identification-guide": {
+    title: "Blood Bank Antibody ID: Panel Interpretation Guide | NurseNest",
+    description: "Master blood bank antibody identification and panel interpretation for ASCP MLT exam. Rule-out methodology, multiple antibodies, and clinical significance.",
+  },
 };
 
 function escapeHtml(str: string): string {

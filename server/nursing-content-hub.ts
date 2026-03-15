@@ -67,7 +67,7 @@ export function registerNursingContentHubRoutes(app: Express): void {
         FROM seo_pages 
         WHERE is_public = true 
           AND language_code = 'en'
-          AND page_type IN ('certification', 'specialty', 'study-pathway')
+          AND page_type IN ('certification', 'specialty', 'study-pathway', 'program-landing', 'topic-hub', 'long-form-guide', 'long-tail')
           AND slug != $1
         ORDER BY RANDOM()
         LIMIT 6
@@ -91,7 +91,7 @@ export function registerNursingContentHubRoutes(app: Express): void {
       const result = await pool.query(
         `SELECT slug, page_type, title FROM seo_pages 
          WHERE is_public = true AND language_code = 'en' 
-         AND page_type IN ('certification', 'specialty', 'study-pathway')
+         AND page_type IN ('certification', 'specialty', 'study-pathway', 'program-landing', 'topic-hub', 'long-form-guide', 'long-tail')
          ORDER BY page_type, title`
       );
       res.json(result.rows.map((r: any) => ({

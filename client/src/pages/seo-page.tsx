@@ -43,22 +43,24 @@ function parseSafe<T>(val: T | string | null, fallback: T): T {
   return val;
 }
 
-export default function SeoPage() {
+export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
   const params = useParams<{ slug: string }>();
+  const [location, navigate] = useLocation();
   const { language } = useI18n();
   const { user } = useAuth();
-  const [, navigate] = useLocation();
   const [page, setPage] = useState<SeoPageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const isAdmin = user?.tier === "admin";
 
+  const slug = propSlug || params.slug || location.split("/").filter(Boolean).pop() || "";
+
   useEffect(() => {
-    if (!params.slug) return;
+    if (!slug) return;
     setLoading(true);
     const previewParam = isAdmin ? "&preview=true" : "";
-    fetch(`/api/seo-pages/${params.slug}?language=${language}${previewParam}`)
+    fetch(`/api/seo-pages/${slug}?language=${language}${previewParam}`)
       .then(r => r.json())
       .then(data => {
         if (data.error) { setError(data.error); setPage(null); }
@@ -66,7 +68,7 @@ export default function SeoPage() {
       })
       .catch(() => setError("Failed to load page"))
       .finally(() => setLoading(false));
-  }, [params.slug, language]);
+  }, [slug, language]);
 
   if (loading) return (
     <>

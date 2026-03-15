@@ -67,6 +67,21 @@ export async function generateAlliedPages(): Promise<string[]> {
     urls.push(simpleUrl(`${base}/${page}`, now, "monthly", "0.8"));
   }
 
+  const programLandingPages = [
+    "respiratory-therapy-exam-prep", "paramedic-exam-prep", "medical-lab-tech-exam-prep",
+    "diagnostic-imaging-exam-prep", "occupational-therapy-exam-prep", "physical-therapy-exam-prep",
+  ];
+  for (const page of programLandingPages) {
+    urls.push(simpleUrl(`${base}/${page}`, now, "monthly", "0.9"));
+  }
+
+  const topicHubPages = [
+    "respiratory-therapy-topics-hub", "paramedic-topics-hub",
+  ];
+  for (const page of topicHubPages) {
+    urls.push(simpleUrl(`${base}/${page}`, now, "weekly", "0.8"));
+  }
+
   urls.push(simpleUrl(`${base}/pharmacy-technician/drug-classes`, now, "weekly", "0.8"));
   const drugClassSlugs = ["ace-inhibitors", "beta-blockers", "statins", "antibiotics", "antidiabetic-drugs", "antidepressants", "antihistamines"];
   for (const slug of drugClassSlugs) {

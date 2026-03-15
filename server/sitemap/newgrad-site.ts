@@ -31,6 +31,7 @@ export async function generateNewGradPages(): Promise<string[]> {
     "nursing-specialties-for-new-grads", "night-shift-survival-guide-new-nurse",
     "preceptor-relationship-guide-new-nurse", "new-grad-rn-time-management",
     "imposter-syndrome-new-nurse", "new-grad-rn-skills-checklist",
+    "new-grad-nurse-survival-guide",
   ];
   for (const slug of seoPages) {
     urls.push(simpleUrl(`${base}/${slug}`, now, "monthly", "0.8"));

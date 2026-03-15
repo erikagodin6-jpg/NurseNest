@@ -920,6 +920,18 @@ function AppRoutes() {
         <Route path="/addictions-exam-study-guide">{() => <ExamStudyGuidePage slug="addictions-exam-study-guide" />}</Route>
         <Route path="/occupational-therapy-exam-study-guide">{() => <ExamStudyGuidePage slug="occupational-therapy-exam-study-guide" />}</Route>
 
+        <Route path="/respiratory-therapy-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/paramedic-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/medical-lab-tech-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/diagnostic-imaging-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/occupational-therapy-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/physical-therapy-exam-prep">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+
+        <Route path="/respiratory-therapy-topics-hub">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/paramedic-topics-hub">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/nclex-pharmacology-hub">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+        <Route path="/cardiac-nursing-hub">{() => <Suspense fallback={<div />}><SeoPage /></Suspense>}</Route>
+
         <Route path="/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
         <Route path="/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
         <Route path="/mlt/exam-prep">{() => <MltSEOPage country="both" pageType="exam-prep" />}</Route>
