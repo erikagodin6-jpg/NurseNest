@@ -9,7 +9,8 @@ import {
   generateMainPages, generateMainLessons, generateMainQuestions,
   generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
   generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
-  generateMainSeoContent, generateMainTopics, generateMainProgrammatic
+  generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
+  generateSeoContentPages
 } from "./main-site";
 import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
@@ -66,6 +67,7 @@ const mainSitemapDefs: SitemapDef[] = [
   { name: "seo-content", generator: generateMainSeoContent },
   { name: "topics", generator: generateMainTopics },
   { name: "programmatic", generator: generateMainProgrammatic },
+  { name: "seo-content-pages", generator: generateSeoContentPages },
   { name: "allied-health", generator: generateAlliedCombined },
 ];
 

@@ -525,6 +525,36 @@ export async function generateMainTopics(): Promise<string[]> {
   return urls;
 }
 
+export async function generateSeoContentPages(): Promise<string[]> {
+  const base = getSiteBase();
+  const today = todayDate();
+  const urls: string[] = [];
+  const includedSlugs = new Set<string>();
+
+  try {
+    const { getSeoContentSlugs } = await import("../seo-content-pages");
+    const slugs = getSeoContentSlugs();
+    for (const slug of slugs) {
+      includedSlugs.add(slug);
+      urls.push(simpleUrl(`${base}/${slug}`, today, "weekly", "0.7"));
+    }
+  } catch {}
+
+  try {
+    const result = await pool.query(
+      "SELECT slug, updated_at FROM programmatic_pages WHERE source_content_type = 'seo-landing' AND status = 'published' ORDER BY slug"
+    );
+    for (const row of result.rows) {
+      if (!includedSlugs.has(row.slug)) {
+        includedSlugs.add(row.slug);
+        urls.push(simpleUrl(`${base}/${row.slug}`, toLastmod(row.updated_at), "weekly", "0.7"));
+      }
+    }
+  } catch {}
+
+  return urls;
+}
+
 export async function generateMainProgrammatic(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
@@ -542,7 +572,7 @@ export async function generateMainProgrammatic(): Promise<string[]> {
   for (const [_key, pageType] of Object.entries(programmaticSitemapTypes)) {
     try {
       const result = await pool.query(
-        "SELECT slug, updated_at FROM programmatic_pages WHERE page_type = $1 AND status = 'published' ORDER BY slug",
+        "SELECT slug, updated_at FROM programmatic_pages WHERE page_type = $1 AND status = 'published' AND source_content_type != 'seo-landing' ORDER BY slug",
         [pageType]
       );
       for (const row of result.rows) {

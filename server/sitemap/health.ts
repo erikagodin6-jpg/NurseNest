@@ -7,7 +7,8 @@ import {
   generateMainPages, generateMainLessons, generateMainQuestions,
   generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
   generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
-  generateMainSeoContent, generateMainTopics, generateMainProgrammatic
+  generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
+  generateSeoContentPages
 } from "./main-site";
 import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
@@ -36,6 +37,7 @@ export async function sitemapValidate(req: Request, res: Response) {
         generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
         generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
         generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
+        generateSeoContentPages,
       ];
       for (const gen of generators) {
         try {

@@ -618,6 +618,9 @@ app.use((req, res, next) => {
   const { registerNursingContentHubRoutes } = await import("./nursing-content-hub");
   registerNursingContentHubRoutes(app);
 
+  const { registerSeoContentRoutes } = await import("./seo-content-pages");
+  registerSeoContentRoutes(app);
+
   const { registerParamedicSeoRoutes } = await import("./paramedic-seo");
   registerParamedicSeoRoutes(app);
 

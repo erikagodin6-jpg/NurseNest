@@ -368,6 +368,8 @@ const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub")
 const GenericCareerJourney = lazy(() => import("@/pages/career-journey"));
 const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then(m => ({ default: m.ProfessionCareerJourney })));
 const NclexReadinessScore = lazy(() => import("@/pages/nclex-readiness-score"));
+const SeoLandingPage = lazy(() => import("@/pages/seo-landing-page"));
+const SeoLandingBySlug = lazy(() => import("@/pages/seo-landing-page").then(m => ({ default: m.SeoLandingBySlug })));
 
 function PageTracker() {
   usePageTracker();
@@ -544,6 +546,8 @@ function AppRoutes() {
         <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
         <Route path="/newgrad"><Redirect to="/new-grad" /></Route>
         <Route path="/new-grad/faq" component={NewGradFAQPage} />
+        <Route path="/new-grad/first-year-nurse-survival-guide">{() => <SeoLandingBySlug slug="new-grad/first-year-nurse-survival-guide" />}</Route>
+        <Route path="/new-grad/new-nurse-orientation-tips">{() => <SeoLandingBySlug slug="new-grad/new-nurse-orientation-tips" />}</Route>
         <Route path="/new-grad/:profession/:guideSlug" component={SeoGuidePage} />
         <Route path="/new-grad/:profession">{(params: any) => {
           const prof = params.profession || "";
@@ -556,6 +560,9 @@ function AppRoutes() {
         <Route path="/exam-prep" component={ExamPrepHub} />
         <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
         <Route path="/healthcare-careers" component={HealthcareCareersHub} />
+        <Route path="/career-guides/how-to-become-an-icu-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-an-icu-nurse" />}</Route>
+        <Route path="/career-guides/how-to-become-an-er-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-an-er-nurse" />}</Route>
+        <Route path="/career-guides/how-to-become-a-pediatric-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-a-pediatric-nurse" />}</Route>
 
         {/* Allied health routes handled by catch-all AlliedRoutes below */}
 
@@ -594,6 +601,15 @@ function AppRoutes() {
         <Route path="/rn">{() => <TrackLandingPage track="rn" />}</Route>
         <Route path="/np">{() => <TrackLandingPage track="np" />}</Route>
         <Route path="/nursing/top-100-nclex-practice-questions" component={AuthorityContentPage} />
+        <Route path="/nursing/rex-pn-practice-questions">{() => <SeoLandingBySlug slug="nursing/rex-pn-practice-questions" />}</Route>
+        <Route path="/nursing/rex-pn-study-guide">{() => <SeoLandingBySlug slug="nursing/rex-pn-study-guide" />}</Route>
+        <Route path="/nursing/rex-pn-flashcards">{() => <SeoLandingBySlug slug="nursing/rex-pn-flashcards" />}</Route>
+        <Route path="/nursing/rex-pn-mock-exam">{() => <SeoLandingBySlug slug="nursing/rex-pn-mock-exam" />}</Route>
+        <Route path="/nursing/nclex-rn-practice-questions">{() => <SeoLandingBySlug slug="nursing/nclex-rn-practice-questions" />}</Route>
+        <Route path="/nursing/nclex-rn-study-guide">{() => <SeoLandingBySlug slug="nursing/nclex-rn-study-guide" />}</Route>
+        <Route path="/nursing/nclex-pn-practice-questions">{() => <SeoLandingBySlug slug="nursing/nclex-pn-practice-questions" />}</Route>
+        <Route path="/nursing/nclex-pn-flashcards">{() => <SeoLandingBySlug slug="nursing/nclex-pn-flashcards" />}</Route>
+        <Route path="/nursing/np-exam-prep">{() => <SeoLandingBySlug slug="nursing/np-exam-prep" />}</Route>
         <Route path="/nursing" component={NursingAuthorityHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/nursing-specialties/:slug" component={NursingSpecialtyDetail} />
@@ -646,6 +662,11 @@ function AppRoutes() {
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
         <Route path="/nursing-certifications-hub">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/study-pathways" component={StudyPathwaysHub} />
+        <Route path="/certifications/ccrn-exam-prep">{() => <SeoLandingBySlug slug="certifications/ccrn-exam-prep" />}</Route>
+        <Route path="/certifications/cen-exam-prep">{() => <SeoLandingBySlug slug="certifications/cen-exam-prep" />}</Route>
+        <Route path="/certifications/tncc-overview">{() => <SeoLandingBySlug slug="certifications/tncc-overview" />}</Route>
+        <Route path="/certifications/acls-overview">{() => <SeoLandingBySlug slug="certifications/acls-overview" />}</Route>
+        <Route path="/certifications/pals-overview">{() => <SeoLandingBySlug slug="certifications/pals-overview" />}</Route>
         <Route path="/certifications/:slug">{() => <NursingHubPage pageType="certification" />}</Route>
         <Route path="/specialties/:slug">{() => <NursingHubPage pageType="specialty" />}</Route>
         <Route path="/study-pathways/:slug">{() => <NursingHubPage pageType="study-pathway" />}</Route>
@@ -656,6 +677,9 @@ function AppRoutes() {
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
         <Route path="/shop/:slug" component={ShopProductPage} />
         <Route path="/shop" component={ShopPage} />
+        <Route path="/compare/best-nclex-question-bank">{() => <SeoLandingBySlug slug="compare/best-nclex-question-bank" />}</Route>
+        <Route path="/compare/best-rex-pn-prep">{() => <SeoLandingBySlug slug="compare/best-rex-pn-prep" />}</Route>
+        <Route path="/compare/uworld-alternative-nursing">{() => <SeoLandingBySlug slug="compare/uworld-alternative-nursing" />}</Route>
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />
@@ -851,6 +875,9 @@ function AppRoutes() {
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
         <Route path="/nursing-exam-prep" component={NursingExamPrepPage} />
+        <Route path="/allied-health/respiratory-therapy-exam-prep-guide">{() => <SeoLandingBySlug slug="allied-health/respiratory-therapy-exam-prep-guide" />}</Route>
+        <Route path="/allied-health/paramedic-exam-prep-guide">{() => <SeoLandingBySlug slug="allied-health/paramedic-exam-prep-guide" />}</Route>
+        <Route path="/allied-health/pharmacy-tech-exam-prep-guide">{() => <SeoLandingBySlug slug="allied-health/pharmacy-tech-exam-prep-guide" />}</Route>
         <Route path="/allied-health/paramedic-practice-questions" component={ParamedicPracticeQuestions} />
         <Route path="/allied-health/rrt-practice-questions" component={RrtPracticeQuestions} />
         <Route path="/allied-health/mlt-practice-questions" component={MltPracticeQuestionsPage} />
