@@ -303,6 +303,42 @@ import { rnContentBatch001Lessons } from "./rn-content-batch-001";
 import { rnContentBatch002Lessons } from "./rn-content-batch-002";
 import { rnContentBatch003Lessons } from "./rn-content-batch-003";
 import { rnContentBatch004Lessons } from "./rn-content-batch-004";
+import { rpnContentBatch001Lessons } from "./rpn-content-batch-001";
+import { rpnContentBatch002Lessons } from "./rpn-content-batch-002";
+import { rpnContentBatch003Lessons } from "./rpn-content-batch-003";
+import { rpnContentBatch004Lessons } from "./rpn-content-batch-004";
+import { rpnContentBatch005Lessons } from "./rpn-content-batch-005";
+import { rpnContentBatch006Lessons } from "./rpn-content-batch-006";
+import { rpnContentBatch007Lessons } from "./rpn-content-batch-007";
+import { rpnContentBatch008Lessons } from "./rpn-content-batch-008";
+import { rpnContentBatch009Lessons } from "./rpn-content-batch-009";
+import { rpnContentBatch010Lessons } from "./rpn-content-batch-010";
+import { rpnContentBatch011Lessons } from "./rpn-content-batch-011";
+import { rpnContentBatch012Lessons } from "./rpn-content-batch-012";
+import { rpnContentBatch013Lessons } from "./rpn-content-batch-013";
+import { rpnContentBatch014Lessons } from "./rpn-content-batch-014";
+import { rpnContentBatch015Lessons } from "./rpn-content-batch-015";
+import { rpnContentBatch016Lessons } from "./rpn-content-batch-016";
+import { rpnContentBatch017Lessons } from "./rpn-content-batch-017";
+import { rpnContentBatch018Lessons } from "./rpn-content-batch-018";
+import { rpnContentBatch019Lessons } from "./rpn-content-batch-019";
+import { rpnContentBatch020Lessons } from "./rpn-content-batch-020";
+import { rpnContentBatch021Lessons } from "./rpn-content-batch-021";
+import { rpnContentBatch022Lessons } from "./rpn-content-batch-022";
+import { rpnContentBatch023Lessons } from "./rpn-content-batch-023";
+import { rpnContentBatch024Lessons } from "./rpn-content-batch-024";
+import { rpnContentBatch025Lessons } from "./rpn-content-batch-025";
+import { rpnContentBatch026Lessons } from "./rpn-content-batch-026";
+import { rpnContentBatch027Lessons } from "./rpn-content-batch-027";
+import { rpnContentBatch028Lessons } from "./rpn-content-batch-028";
+import { rpnContentBatch029Lessons } from "./rpn-content-batch-029";
+import { rpnContentBatch030Lessons } from "./rpn-content-batch-030";
+import { rpnContentBatch031Lessons } from "./rpn-content-batch-031";
+import { rpnContentBatch032Lessons } from "./rpn-content-batch-032";
+import { rpnContentBatch033Lessons } from "./rpn-content-batch-033";
+import { rpnContentBatch034Lessons } from "./rpn-content-batch-034";
+import { rpnContentBatch035Lessons } from "./rpn-content-batch-035";
+import { rpnContentBatch036Lessons } from "./rpn-content-batch-036";
 
 export type { LessonContent } from "./types";
 
@@ -717,6 +753,42 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnContentBatch002Lessons,
   rnContentBatch003Lessons,
   rnContentBatch004Lessons,
+  rpnContentBatch001Lessons,
+  rpnContentBatch002Lessons,
+  rpnContentBatch003Lessons,
+  rpnContentBatch004Lessons,
+  rpnContentBatch005Lessons,
+  rpnContentBatch006Lessons,
+  rpnContentBatch007Lessons,
+  rpnContentBatch008Lessons,
+  rpnContentBatch009Lessons,
+  rpnContentBatch010Lessons,
+  rpnContentBatch011Lessons,
+  rpnContentBatch012Lessons,
+  rpnContentBatch013Lessons,
+  rpnContentBatch014Lessons,
+  rpnContentBatch015Lessons,
+  rpnContentBatch016Lessons,
+  rpnContentBatch017Lessons,
+  rpnContentBatch018Lessons,
+  rpnContentBatch019Lessons,
+  rpnContentBatch020Lessons,
+  rpnContentBatch021Lessons,
+  rpnContentBatch022Lessons,
+  rpnContentBatch023Lessons,
+  rpnContentBatch024Lessons,
+  rpnContentBatch025Lessons,
+  rpnContentBatch026Lessons,
+  rpnContentBatch027Lessons,
+  rpnContentBatch028Lessons,
+  rpnContentBatch029Lessons,
+  rpnContentBatch030Lessons,
+  rpnContentBatch031Lessons,
+  rpnContentBatch032Lessons,
+  rpnContentBatch033Lessons,
+  rpnContentBatch034Lessons,
+  rpnContentBatch035Lessons,
+  rpnContentBatch036Lessons,
   npFreeBatch1Lessons,
   npFreeBatch2Lessons,
   npFreeBatch3Lessons,
