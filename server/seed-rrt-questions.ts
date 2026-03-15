@@ -36,7 +36,7 @@ export async function seedRRTQuestions(pool: Pool): Promise<void> {
     "SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'rrt'"
   );
   const dbCount = existingCount.rows[0].cnt;
-  if (dbCount >= 232) {
+  if (dbCount >= 510) {
     console.log(`[RRTSeed] Fast-path: ${dbCount} RRT questions in DB (>= seed file size), skipping`);
     return;
   }
