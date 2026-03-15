@@ -139,6 +139,7 @@ const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulato
 const SeoPage = lazy(() => import("@/pages/seo-page"));
 const AdminSeoLessonsPage = lazy(() => import("@/pages/admin-seo-lessons"));
 const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
+const AdminSeoPerformance = lazy(() => import("@/pages/admin-seo-performance"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
 const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
 const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
@@ -651,6 +652,7 @@ function AppRoutes() {
         <Route path="/nclex-rn-guide" component={NclexRnGuide} />
         <Route path="/study-guide/:slug" component={SeoPage} />
         <Route path="/admin/seo" component={AdminSeoDashboard} />
+        <Route path="/admin/seo-performance" component={AdminSeoPerformance} />
         <Route path="/admin/translations" component={AdminTranslationDashboard} />
         <Route path="/admin/translation-coverage" component={AdminTranslationCoverage} />
         <Route path="/admin/seo-inspector" component={AdminSeoInspector} />
