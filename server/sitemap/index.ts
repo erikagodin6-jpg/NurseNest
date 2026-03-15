@@ -2,7 +2,8 @@ import type { Express, Request, Response } from "express";
 import {
   getSiteBase, getAlliedBase, getNewGradBase, todayDate, toLastmod,
   wrapUrlset, wrapSitemapIndex, sitemapIndexEntry,
-  splitIntoChunks, SITEMAP_SPLIT_LIMIT, SITEMAP_CACHE_TTL
+  splitIntoChunks, SITEMAP_SPLIT_LIMIT, SITEMAP_CACHE_TTL,
+  getIndexableLocales
 } from "./helpers";
 import {
   generateMainPages, generateMainLessons, generateMainQuestions,
@@ -12,6 +13,7 @@ import {
 } from "./main-site";
 import { generateAlliedPages, generateAlliedDatabaseContent } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
+import { generateLanguageSitemap } from "./language-sitemaps";
 import { sitemapHealthCheck, sitemapValidate } from "./health";
 
 interface CacheEntry {
@@ -73,10 +75,16 @@ async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promis
   return xml;
 }
 
+const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es"];
+
 async function buildMainSitemapIndex(): Promise<string> {
   const base = getSiteBase();
   const today = todayDate();
   const entries: string[] = [];
+
+  for (const locale of LANGUAGE_SITEMAP_LOCALES) {
+    entries.push(sitemapIndexEntry(`${base}/sitemaps/sitemap-lang-${locale}.xml`, today));
+  }
 
   for (const def of mainSitemapDefs) {
     try {
@@ -235,6 +243,23 @@ export function registerSitemapRoutes(app: Express) {
       sendXml(res, wrapSitemapIndex([]), false);
     }
   });
+
+  for (const locale of LANGUAGE_SITEMAP_LOCALES) {
+    app.get(`/sitemaps/sitemap-lang-${locale}.xml`, async (_req: Request, res: Response) => {
+      try {
+        const cacheKey = `lang-${locale}`;
+        const cached = getCached(cacheKey);
+        if (cached) return sendXml(res, cached, true);
+        const urls = await generateLanguageSitemap(locale);
+        const xml = wrapUrlset(urls);
+        setCache(cacheKey, xml);
+        sendXml(res, xml, false);
+      } catch (e: any) {
+        console.error(`Sitemap lang-${locale} error:`, e);
+        sendXml(res, wrapUrlset([]), false);
+      }
+    });
+  }
 
   for (const def of mainSitemapDefs) {
     app.get(`/sitemaps/sitemap-${def.name}.xml`, async (_req: Request, res: Response) => {

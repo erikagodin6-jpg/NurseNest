@@ -3,6 +3,42 @@ import { getIndexableLocales, getHreflangCode } from "../translation-audit";
 export const SITEMAP_SPLIT_LIMIT = 5000;
 export const SITEMAP_CACHE_TTL = 3600_000;
 
+const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
+  fr: {
+    "/pricing": "/tarifs",
+    "/flashcards": "/cartes-memoire",
+    "/lessons": "/lecons",
+    "/mock-exams": "/examens-pratiques",
+    "/glossary": "/glossaire",
+    "/about": "/a-propos",
+    "/contact": "/nous-joindre",
+    "/faq": "/foire-aux-questions",
+    "/blog": "/blogue",
+  },
+  es: {
+    "/pricing": "/precios",
+    "/flashcards": "/tarjetas-de-memoria",
+    "/lessons": "/lecciones",
+    "/mock-exams": "/examenes-de-practica",
+    "/glossary": "/glosario",
+    "/about": "/acerca-de",
+    "/contact": "/contacto",
+    "/faq": "/preguntas-frecuentes",
+    "/blog": "/blog",
+  },
+};
+
+function applySlugMapping(path: string, locale: string): string {
+  const mapping = SITEMAP_SLUG_MAP[locale];
+  if (!mapping) return path;
+  for (const [enSlug, localizedSlug] of Object.entries(mapping)) {
+    if (path === enSlug || path.startsWith(enSlug + "/") || path.startsWith(enSlug + "?") || path.startsWith(enSlug + "#")) {
+      return localizedSlug + path.slice(enSlug.length);
+    }
+  }
+  return path;
+}
+
 export function getSiteBase(): string {
   return "https://www.nursenest.ca";
 }
@@ -47,20 +83,44 @@ export function simpleUrl(loc: string, lastmod: string, changefreq = "weekly", p
 export function localizedUrl(base: string, path: string, priority: string, changefreq: string, locales: string[], lastmod?: string): string {
   const lines: string[] = [];
   for (const locale of locales) {
-    const loc = `${base}/${locale}${path === "/" ? "" : path}`;
+    const mappedPath = applySlugMapping(path, locale);
+    const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
     lines.push(`<url>`);
     lines.push(`<loc>${loc}</loc>`);
     lines.push(`<priority>${priority}</priority>`);
     lines.push(`<changefreq>${changefreq}</changefreq>`);
     if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
     for (const alt of locales) {
+      const altMapped = applySlugMapping(path, alt);
       const hreflang = getHreflangCode(alt);
-      const altHref = `${base}/${alt}${path === "/" ? "" : path}`;
+      const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;
       lines.push(`<xhtml:link rel="alternate" hreflang="${hreflang}" href="${altHref}"/>`);
     }
-    lines.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${base}/en${path === "/" ? "" : path}"/>`);
+    const enMapped = applySlugMapping(path, "en");
+    lines.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${base}/en${enMapped === "/" ? "" : enMapped}"/>`);
     lines.push(`</url>`);
   }
+  return lines.join("\n");
+}
+
+export function singleLocaleUrl(base: string, path: string, locale: string, allLocales: string[], priority: string, changefreq: string, lastmod?: string): string {
+  const mappedPath = applySlugMapping(path, locale);
+  const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
+  const lines: string[] = [];
+  lines.push(`<url>`);
+  lines.push(`<loc>${loc}</loc>`);
+  lines.push(`<priority>${priority}</priority>`);
+  lines.push(`<changefreq>${changefreq}</changefreq>`);
+  if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
+  for (const alt of allLocales) {
+    const altMapped = applySlugMapping(path, alt);
+    const hreflang = getHreflangCode(alt);
+    const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;
+    lines.push(`<xhtml:link rel="alternate" hreflang="${hreflang}" href="${altHref}"/>`);
+  }
+  const enMapped = applySlugMapping(path, "en");
+  lines.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${base}/en${enMapped === "/" ? "" : enMapped}"/>`);
+  lines.push(`</url>`);
   return lines.join("\n");
 }
 

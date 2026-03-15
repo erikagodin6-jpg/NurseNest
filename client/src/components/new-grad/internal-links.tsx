@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { NEW_GRAD_PROFESSIONS, CLINICAL_SKILLS_CATEGORIES, UNIT_GUIDES, CAREER_DEVELOPMENT_PATHS } from "@shared/new-grad-professions";
 import { ArrowRight, BookOpen, GraduationCap, TrendingUp, Stethoscope } from "lucide-react";
 
@@ -92,10 +92,10 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
                 <ul className="space-y-2">
                   {links.slice(0, 4).map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="text-sm text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-1" data-testid={`internal-link-${link.href.replace(/\//g, "-")}`}>
+                      <LocaleLink href={link.href} className="text-sm text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-1" data-testid={`internal-link-${link.href.replace(/\//g, "-")}`}>
                         <ArrowRight className="w-3 h-3 flex-shrink-0" />
                         {link.label}
-                      </Link>
+                      </LocaleLink>
                     </li>
                   ))}
                 </ul>
