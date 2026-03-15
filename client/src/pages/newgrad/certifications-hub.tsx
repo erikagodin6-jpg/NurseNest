@@ -282,9 +282,9 @@ export default function NewGradCertificationsHub() {
               Everything you need to prepare for the certifications hospitals require in your first year. Practice questions, study guides, and exam strategies for ACLS, BLS, PALS, TNCC, NRP, CEN, and CCRN.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="#certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certs">
+              <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certs">
                 Explore Certifications <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
               <Link href="/new-grad" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-new-grad-hub">
                 New Grad Hub
               </Link>

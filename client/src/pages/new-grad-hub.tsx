@@ -158,12 +158,12 @@ export default function NewGradHub() {
               Everything you need to launch your nursing career with confidence — from specialty certifications and clinical survival guides to career growth pathways. Built for new graduate nurses navigating their first year.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="#certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certifications">
+              <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certifications">
                 Explore Certifications <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="#survival-guides" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-survival-guides">
+              </a>
+              <a href="#survival-guides" onClick={(e) => { e.preventDefault(); document.getElementById('survival-guides')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-survival-guides">
                 New Nurse Survival Guides
-              </Link>
+              </a>
             </div>
           </div>
         </div>
