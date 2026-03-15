@@ -4197,7 +4197,8 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Ventricular Fibrillation (VFib)",
     answer: "Lethal dysrhythmia with chaotic electrical activity and NO cardiac output. No identifiable P waves, QRS, or T waves on ECG. Client is pulseless and unresponsive. Treatment: Immediate CPR and defibrillation. Medications: Epinephrine, amiodarone. Every minute without defibrillation decreases survival by 7-10%.",
     category: "Cardiovascular",
-    difficulty: 3
+    difficulty: 3,
+    image: getAssetUrl("lethaldysrhythmias_1773517523349.png")
   },
   {
     id: "rpn-cv-q26",

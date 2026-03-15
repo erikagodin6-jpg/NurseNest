@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
 
 export const npExamBatch41Questions: ExamQuestion[] = [
@@ -48,7 +49,8 @@ export const npExamBatch41Questions: ExamQuestion[] = [
     o: ["Kaposi sarcoma associated with HHV-8 infection; optimize antiretroviral therapy as first-line treatment", "Squamous cell carcinoma; wide excision", "Psoriasis; topical corticosteroids", "Bacillary angiomatosis; doxycycline"],
     a: 0,
     r: "Violaceous (purple) mucocutaneous plaques in an immunocompromised patient (HIV/AIDS) with HHV-8 (human herpesvirus 8) positive biopsy showing spindle cells with slit-like vascular spaces is diagnostic of Kaposi sarcoma. KS is an AIDS-defining illness. First-line treatment is ART optimization (immune reconstitution often leads to KS regression). For extensive or visceral KS, systemic chemotherapy (liposomal doxorubicin) is added. Bacillary angiomatosis (Bartonella) can mimic KS clinically but shows different histology and responds to antibiotics.",
-    s: "Dermatology"
+    s: "Dermatology",
+    image: getAssetUrl("kaposisarcoma_1773517523349.png")
   },
   {
     q: "A 55-year-old postmenopausal female with an intact uterus presents with bothersome hot flashes, night sweats, and vaginal dryness significantly affecting her quality of life. She has no contraindications to hormone therapy. What HRT regimen should the NP prescribe?",

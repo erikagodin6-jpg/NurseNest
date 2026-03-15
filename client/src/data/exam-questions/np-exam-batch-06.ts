@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
 
 export const npExamBatch06Questions: ExamQuestion[] = [
@@ -41,7 +42,8 @@ export const npExamBatch06Questions: ExamQuestion[] = [
     o: ["Pneumocystis jirovecii pneumonia; start TMP-SMX and corticosteroids for PaO2 less than 70 mmHg", "Community-acquired pneumonia; start amoxicillin", "Pulmonary tuberculosis; start RIPE therapy", "Kaposi sarcoma; refer to oncology"],
     a: 0,
     r: "CD4 below 200, bilateral interstitial infiltrates, elevated LDH, and hypoxia are classic for PCP. TMP-SMX is first-line; adjunctive corticosteroids are indicated when PaO2 is less than 70 mmHg or A-a gradient exceeds 35. CAP is less likely given the immunocompromised state and characteristic imaging. TB presents differently on imaging. Kaposi sarcoma is a consideration but imaging pattern differs.",
-    s: "Infectious Disease"
+    s: "Infectious Disease",
+    image: getAssetUrl("kaposisarcoma_1773517523349.png")
   },
   {
     q: "A 22-year-old female presents with dysuria, urinary frequency, and suprapubic pain for 2 days. She is not pregnant and has no history of complicated UTI. Urinalysis shows nitrites and leukocyte esterase. What is the recommended empiric treatment?",

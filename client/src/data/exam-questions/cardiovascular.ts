@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
 
 export const cardiovascularQuestions: ExamQuestion[] = [
@@ -256,7 +257,8 @@ export const cardiovascularQuestions: ExamQuestion[] = [
     o: ["Call a code and begin CPR immediately, as this is ventricular fibrillation", "Administer sublingual nitroglycerin and recheck the rhythm", "Turn the client on their side and wait for the episode to pass", "Check lead placement, as the rhythm is likely artifact"],
     a: 0,
     r: "An unresponsive client with a chaotic rhythm and no identifiable QRS complexes is in ventricular fibrillation, a lethal dysrhythmia requiring immediate CPR and defibrillation. Nitroglycerin is not indicated. Waiting would be fatal. While artifact should be considered, an unresponsive client should be treated as a cardiac arrest until proven otherwise.",
-    s: "Cardiovascular"
+    s: "Cardiovascular",
+    image: getAssetUrl("lethaldysrhythmias_1773517523349.png")
   },
   {
     q: "A 60-year-old client with atrial fibrillation has been cardioverted successfully to normal sinus rhythm. Which medication does the nurse anticipate will be continued post-cardioversion?",

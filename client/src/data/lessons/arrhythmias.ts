@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgLethalDysrhythmias = getAssetUrl("lethaldysrhythmias_1773517523349.png");
 
 export const arrhythmiaLessons: Record<string, LessonContent> = {
   "normal-sinus-rhythm": {
@@ -201,6 +204,7 @@ export const arrhythmiaLessons: Record<string, LessonContent> = {
 
   "vfib-management": {
     title: "Ventricular Fibrillation (V-Fib)",
+    image: imgLethalDysrhythmias,
     cellular: { title: "Chaotic Ventricular Electrical Activity", content: "Multiple areas of the ventricular myocardium depolarize and repolarize in a completely disorganized fashion. There is no coordinated contraction — the ventricles quiver uselessly. Cardiac output is ZERO. This is cardiac arrest. Without immediate defibrillation, V-fib will deteriorate to asystole within minutes as the myocardium becomes increasingly ischemic and acidotic. V-fib is the most common initial rhythm in witnessed sudden cardiac arrest and is the most responsive to defibrillation — the sooner defibrillation occurs, the better the survival. Every minute without defibrillation decreases survival by 7-10%." },
     riskFactors: ["Acute myocardial infarction (most common cause)", "Ventricular tachycardia degenerating to V-fib", "Severe electrolyte imbalances (hypokalemia, hypomagnesemia)", "R-on-T phenomenon (PVC during vulnerable period)", "Drowning/hypothermia", "Electrical shock/lightning strike", "Drug toxicity (digoxin, cocaine, antiarrhythmics)", "Long QT syndrome (congenital or acquired)", "Brugada syndrome", "Commotio cordis (blunt chest trauma during vulnerable period)"],
     diagnostics: ["ECG: chaotic, irregular, undulating waveform with no discernible P waves, QRS complexes, or T waves", "No identifiable cardiac rhythm", "No pulse (this IS cardiac arrest)", "Coarse V-fib: larger amplitude waves, more recently onset, more responsive to defibrillation", "Fine V-fib: smaller amplitude waves, longer duration, less responsive — may resemble asystole (confirm in 2 leads)"],

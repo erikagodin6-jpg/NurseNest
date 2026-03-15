@@ -13,6 +13,7 @@ export interface ExamQuestion {
   t?: QuestionType;
   s: string;
   dr?: string[];
+  image?: string;
 }
 
 export interface BowtieQuestion {

@@ -1,6 +1,7 @@
 import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 const imgFibromyalgia = getAssetUrl("fibro_1773374861631.png");
+const imgLumbarSacralStrain = getAssetUrl("lumbarsacralstrain_1773517523349.png");
 
 export const orthopedicLessons: Record<string, LessonContent> = {
   "osteoarthritis": {
@@ -1263,6 +1264,7 @@ export const orthopedicLessons: Record<string, LessonContent> = {
 
   "acute-lumbosacral-strain": {
     title: "Acute Lumbosacral Strain",
+    image: imgLumbarSacralStrain,
     cellular: {
       title: "Paravertebral Muscle and Ligament Injury",
       content: "Acute lumbosacral strain involves stretching or microscopic tearing of the paravertebral muscles, tendons, or ligaments supporting the lumbar spine and sacroiliac region. The lumbar spine bears the greatest mechanical load in the body, and the erector spinae, multifidus, and quadratus lumborum muscles provide dynamic stabilization during movement. When these muscles are subjected to forces exceeding their tensile strength - through lifting, twisting, or sudden uncoordinated movements - myofibrils tear and release intracellular enzymes and inflammatory mediators. Prostaglandins, histamine, and bradykinin sensitize local nociceptors, producing pain. The body responds with protective muscle spasm - involuntary sustained contraction of surrounding muscles that splints the injured area to prevent further damage. While initially protective, prolonged spasm compresses local blood vessels, creating ischemia that generates more pain mediators, establishing a self-perpetuating pain-spasm-pain cycle. The injury is self-limiting with proper management, typically resolving within 2-6 weeks as collagen repair restores tissue integrity."

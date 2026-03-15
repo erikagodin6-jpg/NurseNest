@@ -1889,7 +1889,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Pulseless VT is a shockable rhythm. ACLS sequence: begin high-quality CPR immediately, defibrillate as soon as the defibrillator is available (biphasic 120-200J), resume CPR for 2 minutes, then reassess. Epinephrine 1 mg IV/IO is given after the 2nd shock. Amiodarone 300 mg IV is given after the 3rd shock. Synchronized cardioversion is used for VT WITH a pulse, not pulseless VT.",
     category: "Emergency",
-    difficulty: 3
+    difficulty: 3,
+    image: getAssetUrl("lethaldysrhythmias_1773517523349.png")
   },
   {
     id: "rn-emerg-q12",
@@ -2532,7 +2533,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 2,
     answer: "Ventricular fibrillation is a shockable rhythm. Per ACLS, begin high-quality CPR immediately and defibrillate as soon as possible. Epinephrine is given after the second shock. Synchronized cardioversion is for unstable tachyarrhythmias with a pulse. Early defibrillation is the most important intervention for VF survival.",
     category: "Critical Care",
-    difficulty: 2
+    difficulty: 2,
+    image: getAssetUrl("lethaldysrhythmias_1773517523349.png")
   },
   {
     id: "rn-cc-q9",
@@ -4519,7 +4521,8 @@ export const rnFlashcards: FlashcardData[] = [
     correctIndex: 1,
     answer: "Basal cell carcinoma (BCC) is the most common skin cancer and classically presents with pearly, waxy, translucent nodules with rolled borders, central ulceration, and visible telangiectasia (small blood vessels). BCC is slow-growing and rarely metastasizes but causes local tissue destruction. It is most common on sun-exposed areas (face, ears, neck). Melanoma presents with asymmetric, multicolored lesions. Squamous cell carcinoma appears as scaly, red, crusted lesions. Kaposi sarcoma presents as purple/brown macules or plaques associated with HIV/AIDS.",
     category: "Integumentary",
-    difficulty: 2
+    difficulty: 2,
+    image: getAssetUrl("kaposisarcoma_1773517523349.png")
   },
   {
     id: "rn-integ-q9",

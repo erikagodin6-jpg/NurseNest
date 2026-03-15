@@ -1,4 +1,7 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
+
+const imgKaposiSarcoma = getAssetUrl("kaposisarcoma_1773517523349.png");
 
 export const oncologyLessons: Record<string, LessonContent> = {
   "hodgkin-lymphoma": {
@@ -593,6 +596,7 @@ export const oncologyLessons: Record<string, LessonContent> = {
 
   "kaposi-sarcoma": {
     title: "Kaposi Sarcoma",
+    image: imgKaposiSarcoma,
     cellular: {
       title: "Pathophysiology of Kaposi Sarcoma",
       content: "Kaposi sarcoma (KS) is a vascular malignancy caused by human herpesvirus 8 (HHV-8, also known as Kaposi sarcoma-associated herpesvirus). HHV-8 infects endothelial cells and drives aberrant angiogenesis, creating characteristic spindle cell tumors composed of abnormal vascular channels. The virus encodes viral oncogenes that mimic cellular growth factors and anti-apoptotic proteins, promoting uncontrolled vascular proliferation. KS is most commonly associated with advanced HIV/AIDS (epidemic or AIDS-related KS) when CD4 counts fall below 200 cells per microliter. Other forms include classic KS (elderly Mediterranean men), endemic KS (sub-Saharan Africa), and iatrogenic KS (organ transplant recipients on immunosuppression). Lesions can involve skin, mucous membranes, lymph nodes, lungs, and the gastrointestinal tract. Immune reconstitution with antiretroviral therapy (ART) is the cornerstone of treatment for AIDS-related KS."

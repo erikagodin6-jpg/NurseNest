@@ -1,3 +1,4 @@
+import { getAssetUrl } from "@/lib/asset-url";
 import type { ExamQuestion } from "./types";
 
 export const npExamBatch22Questions: ExamQuestion[] = [
@@ -48,7 +49,8 @@ export const npExamBatch22Questions: ExamQuestion[] = [
     o: ["Diabetic amyotrophy (diabetic lumbosacral radiculoplexus neuropathy)", "Lumbar disc herniation at L3-L4", "Peripheral arterial disease", "Diabetic peripheral neuropathy"],
     a: 0,
     r: "Diabetic amyotrophy (also called diabetic lumbosacral radiculoplexus neuropathy or Bruns-Garland syndrome) presents with acute/subacute asymmetric proximal leg pain, weakness (especially quadriceps), and weight loss. It is distinct from typical symmetric diabetic peripheral neuropathy. EMG shows denervation in the lumbosacral plexus distribution. Management includes pain control, glycemic optimization, and physical therapy. Most patients recover partially over 12-24 months.",
-    s: "Endocrine"
+    s: "Endocrine",
+    image: getAssetUrl("lumbarsacralstrain_1773517523349.png")
   },
   {
     q: "A 22-year-old female with type 1 diabetes has an insulin pump delivering a total daily dose of 38 units. She is planning to run a half marathon. How should she adjust her insulin pump settings?",
