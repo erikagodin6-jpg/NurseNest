@@ -14,6 +14,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "preparation-examen",
     "topics": "sujets",
     "guides": "guides",
+    "test-nclex-avec-corrige": "test-nclex-avec-corrige",
   },
   es: {
     "pricing": "precios",

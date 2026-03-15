@@ -190,6 +190,13 @@ export async function generateMainPages(): Promise<string[]> {
     { path: "/perioperative-care-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/pharmacology-basics-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/nclex-clinical-judgment-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/hyperkalemia-effects-on-heart", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/hyperkalemia-vs-hypokalemia-cardiac", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/barrel-chest-copd", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/question-bank-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/medication-mastery-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/nursing-simulation-practice", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/test-nclex-avec-corrige", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
   ];
 
   for (const route of staticRoutes) {

@@ -106,6 +106,11 @@ export default function ProgrammaticSeoPage() {
   if (error || !page) return (
     <>
       <Navigation />
+      <SEO
+        title="Page Not Found"
+        description="The requested page could not be found."
+        noindex={true}
+      />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md mx-auto">
           <CardContent className="p-8 text-center">

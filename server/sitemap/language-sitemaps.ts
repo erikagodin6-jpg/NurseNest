@@ -106,6 +106,13 @@ function getStaticRoutes(today: string): StaticRoute[] {
     { path: "/radiography-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/radiography-positioning-guide", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/radiography-artifact-recognition", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/hyperkalemia-effects-on-heart", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/hyperkalemia-vs-hypokalemia-cardiac", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/barrel-chest-copd", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/question-bank-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/medication-mastery-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-simulation-practice", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/test-nclex-avec-corrige", priority: "0.8", changefreq: "monthly", lastmod: today },
   ];
 
   const enOnlyRoutes: Omit<StaticRoute, "multilingual">[] = [

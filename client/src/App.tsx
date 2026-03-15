@@ -1084,6 +1084,13 @@ function AppRoutes() {
         <Route path="/perioperative-care-nursing">{() => <TopicClusterBySlug slug="perioperative-care-nursing" />}</Route>
         <Route path="/pharmacology-basics-nursing">{() => <TopicClusterBySlug slug="pharmacology-basics-nursing" />}</Route>
         <Route path="/nclex-clinical-judgment-nursing">{() => <TopicClusterBySlug slug="nclex-clinical-judgment-nursing" />}</Route>
+        <Route path="/hyperkalemia-effects-on-heart">{() => <TopicClusterBySlug slug="hyperkalemia-effects-on-heart" />}</Route>
+        <Route path="/hyperkalemia-vs-hypokalemia-cardiac">{() => <TopicClusterBySlug slug="hyperkalemia-vs-hypokalemia-cardiac" />}</Route>
+        <Route path="/barrel-chest-copd">{() => <TopicClusterBySlug slug="barrel-chest-copd" />}</Route>
+        <Route path="/question-bank-nursing">{() => <TopicClusterBySlug slug="question-bank-nursing" />}</Route>
+        <Route path="/medication-mastery-nursing">{() => <TopicClusterBySlug slug="medication-mastery-nursing" />}</Route>
+        <Route path="/nursing-simulation-practice">{() => <TopicClusterBySlug slug="nursing-simulation-practice" />}</Route>
+        <Route path="/test-nclex-avec-corrige">{() => <TopicClusterBySlug slug="test-nclex-avec-corrige" />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
