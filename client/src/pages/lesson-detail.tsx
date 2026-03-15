@@ -2862,12 +2862,12 @@ export default function LessonDetail() {
           const caption = getImageCaption(lessonId);
           return lessonImg ? (
             <figure className="mb-6" data-testid={`figure-lesson-${lessonId}`}>
-              <div className="relative w-full rounded-2xl overflow-hidden shadow-md">
+              <div className="relative w-full h-72 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-md">
                 <ProtectedImage
                   src={lessonImg}
                   alt={getImageAltText(lessonId, lessonContent.title)}
                   title={getImageTitle(lessonId, lessonContent.title)}
-                  className="w-full h-auto object-contain"
+                  className="w-full h-full object-contain"
                   loading="lazy"
                   data-testid={`img-lesson-${lessonId}`}
                 />
