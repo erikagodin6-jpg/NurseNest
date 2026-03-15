@@ -5863,3 +5863,57 @@ export const insertSearchPerformanceSnapshotSchema = createInsertSchema(searchPe
 });
 export type SearchPerformanceSnapshot = typeof searchPerformanceSnapshots.$inferSelect;
 export type InsertSearchPerformanceSnapshot = z.infer<typeof insertSearchPerformanceSnapshotSchema>;
+
+export const contentGrowthSchedules = pgTable("content_growth_schedules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull(),
+  cadence: text("cadence").notNull().default("daily"),
+  enabled: boolean("enabled").default(false),
+  itemsPerRun: integer("items_per_run").default(5),
+  runTimeHour: integer("run_time_hour").default(3),
+  maxDailyRuns: integer("max_daily_runs").default(1),
+  priorityTopics: text("priority_topics").array().default(sql`'{}'::text[]`),
+  targetTier: text("target_tier").default("rn"),
+  lastRunAt: timestamp("last_run_at"),
+  nextRunAt: timestamp("next_run_at"),
+  totalRuns: integer("total_runs").default(0),
+  totalItemsGenerated: integer("total_items_generated").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertContentGrowthScheduleSchema = createInsertSchema(contentGrowthSchedules).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ContentGrowthSchedule = typeof contentGrowthSchedules.$inferSelect;
+export type InsertContentGrowthSchedule = z.infer<typeof insertContentGrowthScheduleSchema>;
+
+export const contentGrowthRuns = pgTable("content_growth_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scheduleId: varchar("schedule_id").references(() => contentGrowthSchedules.id),
+  contentType: text("content_type").notNull(),
+  targetTier: text("target_tier").default("rn"),
+  status: text("status").default("queued"),
+  targetCount: integer("target_count").default(0),
+  generatedCount: integer("generated_count").default(0),
+  acceptedCount: integer("accepted_count").default(0),
+  rejectedCount: integer("rejected_count").default(0),
+  validationResults: jsonb("validation_results").default(sql`'[]'::jsonb`),
+  topicsPrioritized: jsonb("topics_prioritized").default(sql`'[]'::jsonb`),
+  gapAnalysis: jsonb("gap_analysis").default(sql`'{}'::jsonb`),
+  errorMessage: text("error_message"),
+  triggeredBy: text("triggered_by").default("schedule"),
+  estimatedCost: doublePrecision("estimated_cost").default(0),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentGrowthRunSchema = createInsertSchema(contentGrowthRuns).omit({
+  id: true,
+  createdAt: true,
+});
+export type ContentGrowthRun = typeof contentGrowthRuns.$inferSelect;
+export type InsertContentGrowthRun = z.infer<typeof insertContentGrowthRunSchema>;

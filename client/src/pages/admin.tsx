@@ -61,6 +61,7 @@ import { adminFetch } from "@/lib/admin-fetch";
 import { AlertTriangle } from "lucide-react";
 import AdminContentSecurity from "./admin-content-security";
 import { AdminTrialAnalytics } from "@/components/admin-trial-analytics";
+import AdminContentGrowth from "./admin-content-growth";
 
 function KillSwitchBanner() {
   const { data } = useQueryRQ({
@@ -170,7 +171,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics", "content-growth"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -187,7 +188,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1589,7 +1590,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "content-growth", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1602,6 +1603,7 @@ export default function AdminPage() {
                     {tab === "users" && `Users (${data.overview.totalUsers})`}
                     {tab === "activity" && "Recent Activity"}
                     {tab === "content-engine" && "Content Engine"}
+                    {tab === "content-growth" && "Content Growth"}
                     {tab === "analytics" && "Site Analytics"}
                     {tab === "promotions" && "Promotions"}
                     {tab === "feedback" && "Feedback"}
@@ -4919,6 +4921,9 @@ export default function AdminPage() {
               )}
               {activeTab === "trial-analytics" && (
                 <AdminTrialAnalytics />
+              )}
+              {activeTab === "content-growth" && (
+                <AdminContentGrowth />
               )}
             </>
           ) : null}

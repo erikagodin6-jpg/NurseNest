@@ -589,6 +589,9 @@ app.use((req, res, next) => {
   const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
 
+  const { setupContentGrowthRoutes } = await import("./content-growth-routes");
+  setupContentGrowthRoutes(app);
+
   const { registerNursingContentHubRoutes } = await import("./nursing-content-hub");
   registerNursingContentHubRoutes(app);
 
