@@ -21,11 +21,39 @@ type LessonNavResult = {
 
 type TierSystems = typeof rpnSystems;
 
+const alliedFoundationsSystems: TierSystems = [
+  {
+    id: "allied-foundations",
+    title: "Allied Health Foundations",
+    icon: null as any,
+    color: "text-teal-700",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "allied-human-anatomy", name: "Human Anatomy", status: "Available" },
+      { id: "allied-human-physiology", name: "Human Physiology", status: "Available" },
+      { id: "allied-medical-terminology", name: "Medical Terminology", status: "Available" },
+      { id: "allied-pharmacology-basics", name: "Pharmacology Basics", status: "Available" },
+      { id: "allied-patient-assessment", name: "Patient Assessment", status: "Available" },
+      { id: "allied-infection-control", name: "Infection Control", status: "Available" },
+      { id: "allied-medical-ethics", name: "Medical Ethics", status: "Available" },
+      { id: "allied-clinical-documentation", name: "Clinical Documentation", status: "Available" },
+      { id: "allied-vital-signs", name: "Vital Signs", status: "Available" },
+      { id: "allied-emergency-response", name: "Emergency Response Basics", status: "Available" },
+      { id: "allied-lab-values", name: "Lab Values", status: "Available" },
+      { id: "allied-imaging-basics", name: "Imaging Basics", status: "Available" },
+      { id: "allied-medication-safety", name: "Medication Safety", status: "Available" },
+      { id: "allied-patient-communication", name: "Patient Communication", status: "Available" },
+      { id: "allied-healthcare-teamwork", name: "Healthcare Teamwork", status: "Available" },
+    ]
+  }
+];
+
 const tierSystemGroups: { tier: string; systems: TierSystems }[] = [
   { tier: "free", systems: [...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...freeGeneralSystems] as TierSystems },
   { tier: "rpn", systems: rpnSystems },
   { tier: "rn", systems: rnSystems },
   { tier: "np", systems: npSystems },
+  { tier: "allied", systems: alliedFoundationsSystems },
 ];
 
 let navMap: Map<string, LessonNavResult> | null = null;

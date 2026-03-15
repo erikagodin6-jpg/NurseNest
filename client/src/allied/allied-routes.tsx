@@ -4,6 +4,7 @@ import { getCanonicalRoute } from "@shared/careers";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
 const AlliedHome = lazy(() => import("./pages/allied-home"));
+const AlliedLessons = lazy(() => import("./pages/allied-lessons"));
 const CareerDirectory = lazy(() => import("./pages/career-directory"));
 const CareerLanding = lazy(() => import("./pages/career-landing"));
 const AlliedQBank = lazy(() => import("./pages/allied-qbank"));
@@ -132,6 +133,7 @@ export function AlliedRoutes() {
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
         <Route path="/" component={AlliedHome} />
+        <Route path="/lessons" component={AlliedLessons} />
         <Route path="/careers" component={CareerDirectory} />
         <Route path="/pricing">{() => { window.location.href = "/pricing/allied"; return null; }}</Route>
         <Route path="/institutions/faq" component={AlliedInstitutionsFAQ} />
