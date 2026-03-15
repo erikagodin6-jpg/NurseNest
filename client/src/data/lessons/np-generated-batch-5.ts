@@ -6340,99 +6340,124 @@ export const npGeneratedBatch5: Record<string, LessonContent> = {
   "amniotic-fluid-embolism-dic-pathway-np": {
     "title": "Amniotic Fluid Embolism: DIC Pathway",
     "cellular": {
-      "title": "Pathophysiology of Amniotic Fluid Embolism",
-      "content": "Amniotic Fluid Embolism involves dysregulation of hormonal feedback loops, receptor sensitivity, and metabolic homeostasis. At the cellular level, altered second-messenger signaling (cAMP, IP3/DAG), receptor downregulation, and enzymatic pathway disruption lead to systemic metabolic derangement. Understanding these cellular mechanisms is essential for advanced clinical decision-making, as targeted pharmacotherapy and evidence-based interventions are directed at specific points in the pathological cascade. The focus on dic pathway requires integration of molecular pathophysiology with clinical presentation patterns."
+      "title": "DIC Cascade in Amniotic Fluid Embolism",
+      "content": "Amniotic fluid embolism (AFE) triggers disseminated intravascular coagulation (DIC) through a two-phase pathological cascade. In Phase 1, amniotic fluid containing fetal squamous cells, lanugo hair, vernix caseosa, mucin, and tissue factor enters the maternal circulation via disrupted endocervical veins, placental implantation site, or uterine lacerations. This material activates the extrinsic coagulation pathway: fetal tissue factor binds Factor VII, forming the TF-VIIa complex that activates Factor X, generating massive thrombin (Factor IIa). Simultaneously, amniotic fluid activates complement (C3a, C5a) and triggers an anaphylactoid immune response with mast cell degranulation, histamine release, and leukotriene production, causing acute pulmonary vasospasm, right ventricular failure, and cardiovascular collapse. In Phase 2, the consumptive coagulopathy develops: widespread microvascular thrombi consume circulating fibrinogen, platelets, and clotting factors (V, VIII, XIII) faster than the liver can replace them. Secondary fibrinolysis activates as plasmin breaks down the deposited fibrin, generating elevated D-dimer and fibrin degradation products (FDPs) that further inhibit fibrin polymerization and platelet aggregation, creating a vicious cycle of coagulation failure. The resulting DIC produces simultaneous thrombosis (organ ischemia) and hemorrhage (coagulation factor depletion). Thromboelastography (TEG) or rotational thromboelastometry (ROTEM) provides real-time assessment of clot formation, strength, and lysis, guiding component-specific blood product replacement. The mortality rate for AFE with DIC ranges from 20-60%, with survivors at risk for multi-organ failure, Sheehan syndrome (pituitary necrosis from hemorrhagic shock), and long-term neurological sequelae."
     },
     "riskFactors": [
-      "Age-related risk factors specific to amniotic fluid embolism",
-      "Genetic predisposition and family history",
-      "Modifiable lifestyle factors (smoking, obesity, sedentary behavior)",
-      "Comorbid conditions (diabetes mellitus, hypertension, chronic kidney disease)",
-      "Medication-related risk (polypharmacy, drug interactions)",
-      "Environmental and occupational exposures",
-      "Nutritional deficiencies or excesses",
-      "Psychosocial factors (chronic stress, socioeconomic status)",
-      "Previous history of related conditions"
+      "Rapid or tumultuous labor with strong, frequent contractions (precipitous labor)",
+      "Cesarean section or operative delivery (disrupts uteroplacental interface)",
+      "Advanced maternal age (>35 years)",
+      "Multiparity (especially grand multiparity >5)",
+      "Placental abruption (exposes amniotic fluid to disrupted vasculature)",
+      "Amniotomy or intrauterine pressure catheter placement",
+      "Eclampsia or pre-eclampsia (endothelial dysfunction primes coagulation cascade)",
+      "Cervical lacerations providing entry for amniotic fluid into venous circulation",
+      "Meconium-stained amniotic fluid (higher tissue factor concentration)",
+      "Induction of labor with oxytocin or prostaglandins (uterine hyperstimulation)"
     ],
     "diagnostics": [
-      "Order comprehensive history and physical examination focused on amniotic fluid embolism presentation",
-      "Order CBC with differential, CMP, and targeted serology",
-      "Order imaging studies appropriate to clinical presentation",
-      "Calculate risk stratification score using validated clinical tools",
-      "Order specialty-specific diagnostic studies as indicated",
-      "Assess vital signs and hemodynamic parameters",
-      "Order point-of-care testing for rapid clinical decision-making",
-      "Consider referral for advanced diagnostic procedures if indicated"
+      "Order STAT DIC panel: fibrinogen (<200 mg/dL confirms consumption), D-dimer (markedly elevated), PT/INR (prolonged >1.5x), aPTT (prolonged), platelet count (falling <100,000/μL)",
+      "Order thromboelastography (TEG) or ROTEM for real-time clot kinetics: R-time (clotting factor activity), K-time (clot formation), MA (maximum amplitude = platelet/fibrinogen contribution), LY30 (fibrinolysis at 30 minutes)",
+      "Order ABG: expect severe metabolic acidosis (pH <7.25, lactate >4 mmol/L) and hypoxemia (PaO2 <60 mmHg)",
+      "Order serial fibrinogen levels every 30-60 minutes (target >200 mg/dL with replacement therapy)",
+      "Order CBC with peripheral smear: look for schistocytes (microangiopathic hemolytic anemia from fibrin strand shearing of RBCs), falling hematocrit",
+      "Order BNP and troponin for right heart strain and myocardial injury assessment",
+      "Order echocardiogram: assess for acute right ventricular dilation, tricuspid regurgitation, and left ventricular dysfunction",
+      "Order chest X-ray: bilateral pulmonary edema pattern in non-cardiogenic distribution"
     ],
     "management": [
-      "Initiate evidence-based first-line pharmacotherapy for amniotic fluid embolism",
-      "Implement non-pharmacological interventions as adjunct therapy",
-      "Titrate medications based on clinical response and lab monitoring",
-      "Coordinate multidisciplinary care team involvement",
-      "Develop patient-specific treatment plan with shared decision-making",
-      "Monitor for treatment complications and adverse effects",
-      "Implement guideline-directed escalation protocols if initial therapy fails",
-      "Plan appropriate follow-up intervals and outcome measurements"
+      "Activate massive transfusion protocol immediately: target 1:1:1 ratio of PRBCs:FFP:platelets; do not wait for lab confirmation to begin transfusion",
+      "Administer cryoprecipitate 10 units (each unit raises fibrinogen ~5-10 mg/dL) to maintain fibrinogen >200 mg/dL; repeat every 30 minutes guided by serial levels or TEG",
+      "Administer tranexamic acid (TXA) 1 g IV over 10 minutes within 3 hours of hemorrhage onset to inhibit plasmin-mediated fibrinolysis (WOMAN trial evidence)",
+      "If cardiac arrest occurs, initiate ACLS with left uterine displacement (15-30 degrees) and perform perimortem cesarean delivery within 4-5 minutes to improve venous return and maternal/fetal outcomes",
+      "Prescribe vasopressor support: norepinephrine 0.1-0.5 mcg/kg/min first-line for hemodynamic instability; add vasopressin 0.04 units/min if refractory",
+      "Order Factor VIIa (recombinant, NovoSeven) 90 mcg/kg IV as rescue therapy for refractory hemorrhage unresponsive to conventional blood product replacement",
+      "Intubate and mechanically ventilate for respiratory failure (lung-protective settings: TV 6 mL/kg IBW, PEEP 5-10 cmH2O)",
+      "Consider ECMO (extracorporeal membrane oxygenation) for refractory cardiopulmonary failure unresponsive to conventional resuscitation",
+      "Consult hematology urgently for DIC management and interventional radiology for uterine artery embolization if surgical hemorrhage control is inadequate",
+      "Post-resuscitation: ICU admission with continuous hemodynamic monitoring, serial coagulation studies every 2-4 hours, and assessment for multi-organ dysfunction"
     ],
     "nursingActions": [
-      "Perform systematic assessment using standardized tools for amniotic fluid embolism",
-      "Monitor vital signs and pertinent clinical parameters at prescribed intervals",
-      "Administer prescribed medications with appropriate safety checks",
-      "Implement evidence-based nursing interventions for symptom management",
-      "Document clinical findings, interventions, and patient responses",
-      "Educate patient and family on disease process, medications, and self-management",
-      "Assess pain and implement multimodal pain management strategies",
-      "Coordinate care transitions and discharge planning"
+      "Recognize the classic triad of sudden cardiovascular collapse, respiratory distress, and coagulopathy during labor/delivery as potential AFE-DIC",
+      "Establish two large-bore (14-16 gauge) IV lines and rapid infuser setup immediately; draw STAT labs including DIC panel before initiating transfusion",
+      "Administer blood products via rapid infuser per massive transfusion protocol; document each unit transfused with time, vital signs, and any transfusion reaction",
+      "Monitor for signs of DIC progression: oozing from IV sites, gingival bleeding, petechiae, ecchymosis, hematuria, and uncontrolled surgical bleeding",
+      "Perform continuous electronic fetal monitoring until delivery; communicate fetal heart rate abnormalities immediately to the obstetric team",
+      "Maintain left uterine displacement (manual or wedge) in all peripartum resuscitation to prevent aortocaval compression",
+      "Coordinate simultaneous maternal resuscitation and neonatal resuscitation teams; ensure NICU team is present at delivery",
+      "Document timeline of events meticulously including onset of symptoms, interventions, blood products administered, and response to treatment for medicolegal purposes",
+      "Monitor urine output hourly via Foley catheter (target >0.5 mL/kg/hr); report oliguria as sign of renal hypoperfusion from DIC microvascular thrombosis",
+      "Provide ongoing emotional support and clear communication to family members during and after the emergency; involve social work and chaplaincy services"
     ],
     "signs": {
       "left": [
-        "Weight changes (gain/loss)",
-        "Polyuria / Polydipsia",
-        "Temperature intolerance",
-        "Fatigue / Weakness"
+        "Sudden severe dyspnea and hypoxemia (SpO2 <90%)",
+        "Acute cardiovascular collapse with hypotension (SBP <90 mmHg)",
+        "Seizure activity or altered mental status",
+        "Chest pain and acute right heart failure symptoms"
       ],
       "right": [
-        "Abnormal glucose levels",
-        "Electrolyte imbalances",
-        "Thyroid changes (goiter/nodule)",
-        "Skin/hair changes"
+        "DIC hemorrhage: oozing from IV sites, surgical incisions, gingival bleeding, petechiae",
+        "Massive postpartum hemorrhage unresponsive to uterotonic agents",
+        "Cardiac arrest (PEA or asystole most common rhythms)",
+        "Fetal bradycardia (<110 bpm sustained) from uteroplacental hypoperfusion"
       ]
     },
     "medications": [
       {
-        "name": "Insulin (Regular/Glargine)",
-        "type": "Hormone Replacement",
-        "action": "Facilitates glucose uptake, inhibits gluconeogenesis and lipolysis",
-        "sideEffects": "Hypoglycemia, weight gain, lipodystrophy",
-        "contra": "Hypoglycemia",
-        "pearl": "Basal-bolus regimen mimics physiologic secretion; adjust based on carb counting and correction factors."
+        "name": "Cryoprecipitate",
+        "type": "Blood Product (Coagulation Factor Replacement)",
+        "action": "Provides concentrated fibrinogen, Factor VIII, Factor XIII, von Willebrand factor, and fibronectin to replace consumed coagulation factors in DIC",
+        "sideEffects": "Transfusion reaction (febrile, allergic), volume overload, TRALI (rare)",
+        "contra": "No absolute contraindication in life-threatening DIC hemorrhage",
+        "pearl": "Each unit raises fibrinogen ~5-10 mg/dL; administer 10 units initially, target fibrinogen >200 mg/dL; recheck level 30 minutes post-infusion and repeat as needed."
       },
       {
-        "name": "Levothyroxine",
-        "type": "Thyroid Hormone",
-        "action": "Replaces deficient T4, converted peripherally to active T3",
-        "sideEffects": "Tachycardia, tremor, weight loss (if overdosed)",
-        "contra": "Untreated adrenal insufficiency, acute MI",
-        "pearl": "Take on empty stomach 30-60 min before breakfast; check TSH 6-8 weeks after dose change."
+        "name": "Tranexamic Acid (TXA)",
+        "type": "Antifibrinolytic",
+        "action": "Competitively inhibits plasminogen activation to plasmin, preventing fibrin clot degradation and reducing hemorrhage from secondary hyperfibrinolysis in DIC",
+        "sideEffects": "Nausea, diarrhea, seizures (rare at high doses), thromboembolic risk (theoretical)",
+        "contra": "Active thromboembolic disease, severe renal impairment (dose adjust); use with caution in DIC where thrombosis and hemorrhage coexist",
+        "pearl": "Administer 1 g IV over 10 minutes within 3 hours of hemorrhage onset (WOMAN trial); may repeat 1 g if bleeding continues after 30 minutes; most effective when given early."
+      },
+      {
+        "name": "Norepinephrine",
+        "type": "Vasopressor (Alpha-1 > Beta-1 Agonist)",
+        "action": "Potent peripheral vasoconstriction restoring mean arterial pressure; mild inotropic effect supports cardiac output in cardiogenic component of AFE",
+        "sideEffects": "Peripheral ischemia, arrhythmia, tissue necrosis with extravasation",
+        "contra": "Hypovolemia (correct volume deficit before or concurrently with vasopressor initiation)",
+        "pearl": "First-line vasopressor for AFE-related shock; start 0.1 mcg/kg/min and titrate to MAP >65 mmHg; administer via central line when possible to prevent extravasation injury."
       }
     ],
     "pearls": [
-      "Always consider amniotic fluid embolism in the differential diagnosis based on presenting symptoms and risk factors",
-      "Evidence-based clinical practice guidelines should direct management decisions",
-      "DIC Pathway is a high-yield area for NP certification examinations",
-      "Document clinical reasoning, shared decision-making, and patient education in the medical record"
+      "AFE-DIC is a two-phase emergency: Phase 1 (cardiovascular collapse from pulmonary vasospasm) transitions to Phase 2 (consumptive coagulopathy with massive hemorrhage) within minutes to hours",
+      "Do NOT wait for DIC panel results to activate massive transfusion protocol — clinical recognition of coagulopathic bleeding mandates immediate empiric blood product replacement",
+      "TEG/ROTEM at the bedside provides real-time coagulation assessment superior to conventional labs (PT/aPTT/fibrinogen) which have 45-60 minute turnaround and may not reflect the rapidly evolving DIC state",
+      "Perimortem cesarean delivery within 4-5 minutes of cardiac arrest improves maternal survival by relieving aortocaval compression and improving venous return — it is performed for MATERNAL benefit, not solely fetal",
+      "Fibrinogen is the first clotting factor depleted in obstetric DIC; a level <200 mg/dL has a positive predictive value of 100% for severe postpartum hemorrhage"
     ],
     "quiz": [
       {
-        "question": "A 58-year-old patient presents with symptoms consistent with amniotic fluid embolism. Which of the following is the most appropriate initial diagnostic approach?",
+        "question": "A 32-year-old G3P2 at 39 weeks presents with sudden cardiovascular collapse during active labor followed by oozing from IV sites and uncontrolled vaginal bleeding. Labs show fibrinogen 85 mg/dL, platelets 62,000, PT 22 seconds, D-dimer >10,000 ng/mL. Which intervention takes priority?",
         "options": [
-          "Order a comprehensive metabolic panel only",
-          "Perform a focused history and physical with targeted diagnostic studies",
-          "Immediately refer to a specialist without further workup",
-          "Prescribe empiric treatment without further evaluation"
+          "Order CT pulmonary angiography to confirm diagnosis before treatment",
+          "Activate massive transfusion protocol and administer cryoprecipitate 10 units",
+          "Administer heparin to prevent further microvascular thrombosis",
+          "Perform emergent hysterectomy as definitive hemorrhage control"
         ],
         "correct": 1,
-        "rationale": "A focused history and physical examination with targeted diagnostic studies is the gold standard initial approach for amniotic fluid embolism. This allows the clinician to formulate a differential diagnosis, risk-stratify the patient, and determine appropriate management or referral. Empiric treatment without evaluation or specialist referral without initial workup may delay diagnosis and increase healthcare costs."
+        "rationale": "In AFE with established DIC (critically low fibrinogen, thrombocytopenia, prolonged PT, elevated D-dimer), immediate activation of massive transfusion protocol with cryoprecipitate to replace consumed fibrinogen is the priority intervention. CT angiography would delay treatment of a clinical diagnosis. Heparin is contraindicated in acute hemorrhagic DIC. Hysterectomy may be needed but only after coagulation factor replacement to prevent uncontrollable surgical bleeding."
+      },
+      {
+        "question": "Which bedside test provides the most rapid and actionable assessment of coagulation status in AFE-associated DIC?",
+        "options": [
+          "Prothrombin time (PT) and activated partial thromboplastin time (aPTT)",
+          "Fibrinogen level via Clauss method",
+          "Thromboelastography (TEG) or rotational thromboelastometry (ROTEM)",
+          "D-dimer quantitative assay"
+        ],
+        "correct": 2,
+        "rationale": "TEG/ROTEM provides real-time, point-of-care assessment of the entire coagulation cascade — from initial clot formation (R-time/CT reflecting clotting factor activity) through clot strength (MA/MCF reflecting platelet and fibrinogen contribution) to fibrinolysis (LY30/ML reflecting clot stability). This allows component-specific blood product replacement within minutes, whereas conventional labs (PT, aPTT, fibrinogen) have a 45-60 minute turnaround that cannot keep pace with rapidly evolving DIC."
       }
     ]
   },
