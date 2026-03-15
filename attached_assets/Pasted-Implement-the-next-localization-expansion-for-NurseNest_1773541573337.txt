@@ -1,0 +1,233 @@
+Implement the next localization expansion for NurseNest.
+
+Goal:
+Add **Tagalog / Filipino** as the next supported language after Portuguese, using the existing multilingual framework and keeping routing, SEO, and content quality clean and scalable.
+
+This must be production-safe and must not break any existing English, French, Spanish, or Portuguese routes.
+
+-------------------------------------
+SECTION 1 — ADD TAGALOG LANGUAGE SUPPORT
+
+Add a new locale:
+
+language code:
+tl
+
+display name:
+Tagalog
+
+language label in selector:
+Filipino
+
+Update the localization configuration so Tagalog appears in the language selector and routing.
+
+Language selector should now support:
+English
+French
+Spanish
+Português
+Filipino
+
+-------------------------------------
+SECTION 2 — ROUTING STRUCTURE
+
+Ensure Tagalog routes follow the same pattern as all other locales.
+
+Examples:
+
+/tl
+/tl/pricing
+/tl/lessons
+/tl/practice
+/tl/new-grad
+/tl/allied-health
+/tl/faq
+
+All internal links must switch correctly to the Tagalog route version when the active locale is tl.
+
+Do not leave links pointing back to English unless the page is intentionally using fallback behavior.
+
+-------------------------------------
+SECTION 3 — TRANSLATION PRIORITIES
+
+Translate the highest-conversion and highest-traffic pages first.
+
+Priority pages:
+Homepage
+Pricing
+Lessons overview
+Practice / Question Bank landing page
+New Grad hero page
+Allied Health hub page
+FAQ
+Main blog index page
+Primary subscription call-to-action sections
+Top navigation and footer
+
+Do not attempt to translate every lesson or blog post initially.
+
+Instead:
+- translate core navigation and conversion pages first
+- use graceful English fallback for untranslated deep pages
+- ensure fallback pages still preserve the /tl route when appropriate
+
+-------------------------------------
+SECTION 4 — TAGALOG CONTENT QUALITY RULES
+
+Translation quality must feel natural to Filipino users and remain clinically accurate.
+
+Rules:
+- do not translate the brand name NurseNest
+- maintain correct nursing and medical terminology
+- preserve abbreviations like RN, RPN, NP, NCLEX, NICU, PICU, ICU unless there is a clear reason not to
+- keep pricing, subscription, and CTA language clear and trustworthy
+- avoid awkward machine-translated phrasing
+- keep tone supportive, modern, and professional
+
+Where appropriate, prefer widely understandable Filipino/Tagalog phrasing over overly literal translation.
+
+-------------------------------------
+SECTION 5 — SEO LOCALIZATION
+
+Add full SEO support for Tagalog pages.
+
+Each localized page must include:
+- hreflang tags
+- canonical tags
+- localized meta titles
+- localized meta descriptions
+- localized Open Graph data if your framework supports it
+
+Add hreflang support for:
+en
+fr
+es
+pt
+tl
+
+Update structured data and page metadata where needed so Tagalog routes are crawlable and indexable.
+
+-------------------------------------
+SECTION 6 — SITEMAP SUPPORT
+
+Create or update a dedicated Tagalog sitemap:
+
+/sitemap-tl.xml
+
+Include key crawlable routes such as:
+- /tl
+- /tl/pricing
+- /tl/lessons
+- /tl/practice
+- /tl/new-grad
+- /tl/allied-health
+- /tl/faq
+
+Update sitemap index files if used.
+
+Ensure the sitemap is valid and uses the correct canonical localized URLs.
+
+-------------------------------------
+SECTION 7 — LANGUAGE DETECTION
+
+Add support for Tagalog browser-language detection.
+
+If a user’s browser language is Tagalog/Filipino, the site should prefer:
+ /tl
+
+But:
+- do not force redirect loops
+- allow manual language switching at any time
+- preserve user-selected language preference
+
+-------------------------------------
+SECTION 8 — UI / NAVIGATION INTEGRITY
+
+Ensure Tagalog text does not break the UI.
+
+Check:
+- top navigation
+- dropdown menus
+- careers dropdown
+- pricing cards
+- CTA buttons
+- hero headings
+- footer links
+- mobile menu
+
+Prevent:
+- text overflow
+- clipping
+- broken alignment
+- labels crossing button edges
+- layout shifts caused by longer translated strings
+
+If needed:
+- allow wrapping
+- increase button/container height
+- improve spacing responsively
+
+-------------------------------------
+SECTION 9 — FALLBACK LOGIC
+
+If a page is not yet translated into Tagalog:
+- serve the English content safely
+- preserve navigation and layout
+- do not return broken pages
+- do not create empty content blocks
+- log untranslated pages for future localization work
+
+Build this so Tagalog can expand page-by-page over time.
+
+-------------------------------------
+SECTION 10 — ANALYTICS / TRACKING
+
+Ensure analytics and SEO tracking still work correctly on Tagalog pages.
+
+Confirm:
+- page views track on /tl routes
+- conversions can be attributed by locale
+- Search Console / sitemap discovery can support Tagalog URLs
+
+If locale is already tracked, make sure tl is added to reporting.
+
+-------------------------------------
+SECTION 11 — FUTURE SCALING PREP
+
+Prepare the system so the next language after Tagalog can be added without major architecture changes.
+
+Make the localization registry easy to extend for:
+- Hindi
+- Arabic
+- Vietnamese
+
+Do not hardcode Tagalog in a way that makes future language additions messy.
+
+-------------------------------------
+SECTION 12 — TESTING
+
+Verify on the published site:
+
+- Tagalog appears in the language selector
+- switching to Tagalog updates URLs correctly
+- homepage loads in /tl
+- pricing page loads in /tl
+- new grad page loads in /tl
+- allied health page loads in /tl
+- hreflang tags include tl
+- sitemap-tl.xml is valid
+- untranslated pages fall back safely
+- no navigation or dropdown overflow occurs
+- desktop and mobile both work correctly
+
+-------------------------------------
+DELIVERABLES
+
+Provide:
+- files changed
+- localization config updated
+- routes added for tl
+- sitemap updates
+- pages translated in this batch
+- fallback behavior confirmed
+- confirmation the Tagalog locale works on the published site
