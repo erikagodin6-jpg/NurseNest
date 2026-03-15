@@ -713,18 +713,29 @@ export async function seedNpLessons(
   async function processLesson(lesson: NpLessonDef): Promise<boolean> {
     try {
       const dupCheck: QueryResult = await pool.query(
-        `SELECT id FROM content_items WHERE slug = $1`,
+        `SELECT id, title FROM content_items WHERE slug = $1`,
         [lesson.slug]
       );
       if (dupCheck.rows.length > 0) {
+        console.warn(`[NP-Lessons] Duplicate slug detected: "${lesson.slug}" already exists as "${dupCheck.rows[0].title}" (id: ${dupCheck.rows[0].id}). Skipping.`);
         return false;
       }
 
       const aiContent = await generateAILessonContent(openai, lesson);
       if (!aiContent) {
+        console.warn(`[NP-Lessons] Validation rejected: "${lesson.title}" - AI content generation failed or empty`);
         validationRejections++;
         return false;
       }
+
+      if (!aiContent.sections || aiContent.sections.length === 0) {
+        console.warn(`[NP-Lessons] Skipping lesson "${lesson.title}" - empty content sections`);
+        validationRejections++;
+        return false;
+      }
+
+      console.log(`[NP-Lessons] Publishing: title="${lesson.title}", slug="${lesson.slug}", domain="${lesson.domain}", tier=np`);
+
 
       const summary =
         aiContent.sections

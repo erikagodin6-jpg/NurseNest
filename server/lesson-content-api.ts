@@ -69,10 +69,13 @@ export async function loadLessonData(): Promise<Record<string, any>> {
   return lessonData!;
 }
 
-export function deriveTier(id: string): string {
-  if (id.endsWith("-np") || id.endsWith("-advanced-np") || id.endsWith("-management-np")) return "np";
-  if (id.endsWith("-rn") || id.endsWith("-basics-rn")) return "rn";
-  if (id.endsWith("-rpn") || id.endsWith("-basics-rpn")) return "rpn";
+export function deriveTier(id: string, metadata?: { tier?: string }): string {
+  if (metadata?.tier && ["rpn", "rn", "np", "free", "allied", "imaging", "newgrad"].includes(metadata.tier)) {
+    return metadata.tier;
+  }
+  if (/-np$/.test(id) || /-advanced-np$/.test(id) || /-management-np$/.test(id) || /-np-/.test(id)) return "np";
+  if (/-rn$/.test(id) || /-basics-rn$/.test(id) || /-rn-/.test(id)) return "rn";
+  if (/-rpn$/.test(id) || /-basics-rpn$/.test(id) || /-rpn-/.test(id)) return "rpn";
   if (id.startsWith("free-") || id.endsWith("-free")) return "free";
   return "rpn";
 }

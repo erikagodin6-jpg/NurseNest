@@ -616,16 +616,23 @@ export async function generateRnLessons(): Promise<{ lessonsInserted: number; fl
     for (const topic of batch) {
       try {
         const existingResult = await pool.query(
-          `SELECT id FROM content_items WHERE slug = $1 LIMIT 1`,
+          `SELECT id, title FROM content_items WHERE slug = $1 LIMIT 1`,
           [topic.slug]
         );
         if (existingResult.rows.length > 0) {
-          console.log(`[RN-Lessons] Skipping existing: ${topic.slug}`);
+          console.warn(`[RN-Lessons] Duplicate slug detected: "${topic.slug}" already exists as "${existingResult.rows[0].title}" (id: ${existingResult.rows[0].id}). Skipping.`);
           continue;
         }
 
         const content = generateLessonContent(topic.title, topic.domain, topic.tags, topic.keywords);
+        if (!content || (Array.isArray(content) && content.length === 0)) {
+          console.warn(`[RN-Lessons] Skipping lesson "${topic.title}" - empty content body`);
+          errors.push(`Empty content for ${topic.title}`);
+          continue;
+        }
         const summary = `Comprehensive NCLEX-RN study guide covering ${topic.title.toLowerCase()} in ${topic.domain} nursing. Includes pathophysiology, signs and symptoms, assessment, nursing interventions, clinical pearls, and common exam pitfalls.`;
+        console.log(`[RN-Lessons] Publishing: title="${topic.title}", slug="${topic.slug}", domain="${topic.domain}", bodySystem="${topic.bodySystem}", tier=rn`);
+
 
         const insertResult = await pool.query(
           `INSERT INTO content_items (id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, auto_publish, region_scope, author_name, published_at, created_at, updated_at)

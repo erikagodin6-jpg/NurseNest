@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
 import { getAuthHeaders } from "@/lib/queryClient";
 import { Navigation } from "@/components/navigation";
@@ -308,15 +308,12 @@ export const rpnSystems = [
       { id: "acute-silicosis-rpn", name: "Acute Silicosis", status: "Available" },
       { id: "pneumothorax-management-rpn", name: "Pneumothorax Management", status: "Available" },
       { id: "chest-drainage-system-rpn", name: "Chest Drainage System", status: "Available" },
-      { id: "malignant-hyperthermia-rpn", name: "Malignant Hyperthermia", status: "Available" },
-      { id: "wound-irrigation-rpn", name: "Wound Irrigation", status: "Available" },
       { id: "black-lung-disease-rpn", name: "Black Lung Disease (Coal Workers' Pneumoconiosis)", status: "Available" },
       { id: "hypoventilation-syndromes-rpn", name: "Hypoventilation Syndromes", status: "Available" },
       { id: "bronchopulmonary-dysplasia-rpnlvn-rpn", name: "Bronchopulmonary Dysplasia (RPN/LVN)", status: "Available" },
       { id: "chest-tube-basics-rpnlvn-rpn", name: "Chest Tube Basics (RPN/LVN)", status: "Available" },
       { id: "tracheostomy-care-rpnlvn-rpn", name: "Tracheostomy Care (RPN/LVN)", status: "Available" },
       { id: "airway-suctioning-for-practical-nurses-rpn", name: "Airway Suctioning for Practical Nurses", status: "Available" },
-      { id: "fetal-oxygenation-during-second-stage-pushing-rpn", name: "Fetal Oxygenation During Second Stage Pushing for Practical Nurses", status: "Available" },
       { id: "lung-cancer-basics-rpnlvn-rpn", name: "Lung Cancer Basics (RPN/LVN)", status: "Available" },
       { id: "lung-sounds-assessment-rpnlvn-rpn", name: "Lung Sounds Assessment (RPN/LVN)", status: "Available" },
       { id: "oxygen-therapy-setup-rpnlvn-rpn", name: "Oxygen Therapy Setup (RPN/LVN)", status: "Available" },
@@ -370,8 +367,7 @@ export const rpnSystems = [
       { id: "neurogenic-bladder-for-practical-nurses-rpn", name: "Neurogenic Bladder for Practical Nurses", status: "Available" },
       { id: "neurogenic-shock-basics-for-practical-nurses-rpn", name: "Neurogenic Shock Basics for Practical Nurses", status: "Available" },
       { id: "neurological-assessment-for-practical-nurses-rpn", name: "Neurological Assessment for Practical Nurses", status: "Available" },
-      { id: "population-screening-programs-for-practical-nurses-rpn", name: "Population Screening Programs for Practical Nurses", status: "Available" },
-      { id: "wilms-tumor-nephroblastoma-for-practical-nurses-rpn", name: "Wilms Tumor (Nephroblastoma) for Practical Nurses", status: "Available" }
+      { id: "tardive-dyskinesia-2-rpn", name: "Tardive Dyskinesia", status: "Available" }
     ]
   },
   {
@@ -467,8 +463,6 @@ export const rpnSystems = [
       { id: "bph-turp-rpn", name: "BPH/TURP: Advanced Management", status: "Available" },
       { id: "continuous-bladder-irrigation-rpn", name: "Continuous Bladder Irrigation (CBI)", status: "Available" },
       { id: "hemolytic-uremic-syndrome-for-practical-nurses-rpn", name: "Hemolytic Uremic Syndrome for Practical Nurses", status: "Available" },
-      { id: "siadh-syndrome-of-inappropriate-adh-rpn", name: "SIADH (Syndrome of Inappropriate ADH)", status: "Available" },
-      { id: "addison-disease-primary-adrenal-insufficiency-rpn", name: "Addison Disease (Primary Adrenal Insufficiency)", status: "Available" },
       { id: "hemodialysis-nursing-fundamentals-rpn", name: "Hemodialysis Nursing Fundamentals", status: "Available" },
       { id: "kidney-stones-nephrolithiasis-rpn", name: "Kidney Stones (Nephrolithiasis)", status: "Available" },
       { id: "oxybutynin-ditropan-anticholinergic-for-overactive-bladder-rpn", name: "Oxybutynin (Ditropan) - Anticholinergic for Overactive Bladder", status: "Available" },
@@ -513,7 +507,6 @@ export const rpnSystems = [
       { id: "endocrine-system-foundations-rpn", name: "Endocrine System Foundations", status: "Available" },
       { id: "gestational-diabetes-mellitus-for-practical-nurses-rpn", name: "Gestational Diabetes Mellitus for Practical Nurses", status: "Available" },
       { id: "short-acting-insulin-regular-insulin-humulin-r-rpn", name: "Short-Acting Insulin (Regular Insulin / Humulin R)", status: "Available" },
-      { id: "amniotic-fluid-imbalances-for-practical-nurses-rpn", name: "Amniotic Fluid Imbalances for Practical Nurses", status: "Available" },
       { id: "calcium-imbalance-hypocalcemia-and-hypercalcemia-rpn", name: "Calcium Imbalance: Hypocalcemia and Hypercalcemia", status: "Available" },
       { id: "dehydration-2-rpn", name: "Dehydration", status: "Available" },
       { id: "electrolyte-emergency-patterns-recognition-and-rapid-rpn", name: "Electrolyte Emergency Patterns: Recognition and Rapid Intervention", status: "Available" },
@@ -523,7 +516,9 @@ export const rpnSystems = [
       { id: "iv-fluid-types-for-practical-nurses-rpn", name: "IV Fluid Types for Practical Nurses", status: "Available" },
       { id: "magnesium-imbalance-for-practical-nurses-rpn", name: "Magnesium Imbalance for Practical Nurses", status: "Available" },
       { id: "overhydration-and-fluid-volume-excess-for-rpn", name: "Overhydration and Fluid Volume Excess for Practical Nurses", status: "Available" },
-      { id: "sodium-imbalance-hyponatremia-and-hypernatremia-for-rpn", name: "Sodium Imbalance: Hyponatremia and Hypernatremia for Practical Nurses", status: "Available" }
+      { id: "sodium-imbalance-hyponatremia-and-hypernatremia-for-rpn", name: "Sodium Imbalance: Hyponatremia and Hypernatremia for Practical Nurses", status: "Available" },
+      { id: "siadh-syndrome-of-inappropriate-adh-rpn", name: "SIADH (Syndrome of Inappropriate ADH)", status: "Available" },
+      { id: "addison-disease-primary-adrenal-insufficiency-rpn", name: "Addison Disease (Primary Adrenal Insufficiency)", status: "Available" }
     ]
   },
   {
@@ -742,7 +737,8 @@ export const rpnSystems = [
       { id: "newborn-metabolic-and-critical-congenital-screening-rpn", name: "Newborn Metabolic and Critical Congenital Screening for Practical Nurses", status: "Available" },
       { id: "pediatric-nursing-fundamentals-for-practical-nurses-rpn", name: "Pediatric Nursing Fundamentals for Practical Nurses", status: "Available" },
       { id: "pediatric-pain-assessment-and-management-for-rpn", name: "Pediatric Pain Assessment and Management for Practical Nurses", status: "Available" },
-      { id: "rpn-maternal-newborn-essentials-rpn", name: "RPN Maternal-Newborn Essentials", status: "Available" }
+      { id: "rpn-maternal-newborn-essentials-rpn", name: "Maternal-Newborn Essentials", status: "Available" },
+      { id: "wilms-tumor-nephroblastoma-for-practical-nurses-rpn", name: "Wilms Tumor (Nephroblastoma)", status: "Available" }
     ]
   },
   {
@@ -789,7 +785,9 @@ export const rpnSystems = [
       { id: "antepartum-complications-for-practical-nurses-rpn", name: "Antepartum Complications for Practical Nurses", status: "Available" },
       { id: "epidural-analgesia-labor-pain-management-for-rpn", name: "Epidural Analgesia: Labor Pain Management for Practical Nurses", status: "Available" },
       { id: "lochia-assessment-for-practical-nurses-rpn", name: "Lochia Assessment for Practical Nurses", status: "Available" },
-      { id: "postpartum-hemorrhage-for-practical-nurses-rpn", name: "Postpartum Hemorrhage for Practical Nurses", status: "Available" }
+      { id: "postpartum-hemorrhage-for-practical-nurses-rpn", name: "Postpartum Hemorrhage for Practical Nurses", status: "Available" },
+      { id: "fetal-oxygenation-during-second-stage-pushing-rpn", name: "Fetal Oxygenation During Second Stage Pushing", status: "Available" },
+      { id: "amniotic-fluid-imbalances-for-practical-nurses-rpn", name: "Amniotic Fluid Imbalances", status: "Available" }
     ]
   },
   {
@@ -1265,9 +1263,9 @@ export const rpnSystems = [
       { id: "heent-and-skin-assessment-for-practical-nurses-rpn", name: "HEENT and Skin Assessment for Practical Nurses", status: "Available" },
       { id: "shingles-herpes-zoster-2-rpn", name: "Shingles (Herpes Zoster)", status: "Available" },
       { id: "skin-tear-prevention-and-management-for-rpn", name: "Skin Tear Prevention and Management for Practical Nurses", status: "Available" },
-      { id: "tardive-dyskinesia-2-rpn", name: "Tardive Dyskinesia", status: "Available" },
       { id: "wound-assessment-and-documentation-for-practical-rpn", name: "Wound Assessment and Documentation for Practical Nurses", status: "Available" },
-      { id: "wound-care-and-management-rpn", name: "Wound Care and Management", status: "Available" }
+      { id: "wound-care-and-management-rpn", name: "Wound Care and Management", status: "Available" },
+      { id: "wound-irrigation-rpn", name: "Wound Irrigation", status: "Available" }
     ]
   },
   {
@@ -1330,7 +1328,8 @@ export const rpnSystems = [
       { id: "community-health-nursing-for-practical-nurses-rpn", name: "Community Health Nursing for Practical Nurses", status: "Available" },
       { id: "community-health-nursing-foundations-rpn", name: "Community Health Nursing Foundations", status: "Available" },
       { id: "community-resources-and-referral-navigation-for-rpn", name: "Community Resources and Referral Navigation for Practical Nurses", status: "Available" },
-      { id: "rpn-health-promotion-and-disease-prevention-rpn", name: "RPN Health Promotion and Disease Prevention", status: "Available" }
+      { id: "rpn-health-promotion-and-disease-prevention-rpn", name: "Health Promotion and Disease Prevention", status: "Available" },
+      { id: "population-screening-programs-for-practical-nurses-rpn", name: "Population Screening Programs", status: "Available" }
     ]
   },
   {
@@ -1391,7 +1390,8 @@ export const rpnSystems = [
       { id: "critical-care-basics-for-practical-nurses-rpn", name: "Critical Care Basics for Practical Nurses", status: "Available" },
       { id: "shock-types-recognition-2-rpn", name: "Shock Types Recognition", status: "Available" },
       { id: "toxic-shock-syndrome-2-rpn", name: "Toxic Shock Syndrome", status: "Available" },
-      { id: "toxic-shock-syndrome-gynecologic-for-practical-rpn", name: "Toxic Shock Syndrome (Gynecologic) for Practical Nurses", status: "Available" }
+      { id: "toxic-shock-syndrome-gynecologic-for-practical-rpn", name: "Toxic Shock Syndrome (Gynecologic) for Practical Nurses", status: "Available" },
+      { id: "malignant-hyperthermia-rpn", name: "Malignant Hyperthermia", status: "Available" }
     ]
   },
   {
@@ -1587,8 +1587,6 @@ export const rnSystems = [
       { id: "tracheomalacia-rn", name: "Tracheomalacia", status: "Available" },
       { id: "pneumothorax-management-rn", name: "Pneumothorax: Clinical Management", status: "Available" },
       { id: "chest-drainage-system-rn", name: "Chest Drainage System: RN Management", status: "Available" },
-      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia: RN Emergency Response", status: "Available" },
-      { id: "wound-irrigation-rn", name: "Wound Irrigation: Clinical Protocol", status: "Available" },
       { id: "subglottic-stenosis-rn", name: "Subglottic Stenosis", status: "Available" },
       { id: "vocal-cord-paralysis-rn", name: "Vocal Cord Paralysis", status: "Available" },
       { id: "lymphangioleiomyomatosis-rn", name: "Lymphangioleiomyomatosis (LAM)", status: "Available" },
@@ -2096,7 +2094,8 @@ export const rnSystems = [
       { id: "acute-compartment-syndrome-rn", name: "Acute Compartment Syndrome", status: "Available" },
       { id: "acute-hemolytic-reaction-rn", name: "Acute Hemolytic Transfusion Reaction", status: "Available" },
       { id: "trali-critical-rn", name: "TRALI (Critical Care)", status: "Available" },
-      { id: "massive-hemorrhage-rn", name: "Massive Hemorrhage Protocol", status: "Available" }
+      { id: "massive-hemorrhage-rn", name: "Massive Hemorrhage Protocol", status: "Available" },
+      { id: "malignant-hyperthermia-rn", name: "Malignant Hyperthermia: RN Emergency Response", status: "Available" }
     ]
   },
   {
@@ -2254,7 +2253,8 @@ export const rnSystems = [
       { id: "melanoma-skin-cancer-screening-rn", name: "Melanoma & Skin Cancer: Screening & Detection", status: "Available" },
       { id: "advanced-integumentary-assessment-and-wound-care-rn", name: "Advanced Integumentary Assessment and Wound Care (RN)", status: "Available" },
       { id: "burn-assessment-and-management-rn", name: "Burn Assessment and Management", status: "Available" },
-      { id: "dermatological-assessment-in-nursing-rn", name: "Dermatological Assessment in Nursing", status: "Available" }
+      { id: "dermatological-assessment-in-nursing-rn", name: "Dermatological Assessment in Nursing", status: "Available" },
+      { id: "wound-irrigation-rn", name: "Wound Irrigation: Clinical Protocol", status: "Available" }
     ]
   },
   {
@@ -2354,8 +2354,6 @@ export const npSystems = [
       { id: "hemothorax-management-np", name: "Hemothorax: Chest Tube & Surgical Intervention", status: "Available" },
       { id: "pneumothorax-management-np", name: "Pneumothorax: Needle Decompression & Chest Tube", status: "Available" },
       { id: "chest-drainage-system-np", name: "Chest Drainage: Advanced Management & Prescribing", status: "Available" },
-      { id: "malignant-hyperthermia-np", name: "Malignant Hyperthermia: Dantrolene Protocol & Pharmacogenomics", status: "Available" },
-      { id: "wound-irrigation-np", name: "Wound Irrigation: Advanced Wound Management", status: "Available" }
     ]
   },
   {
@@ -2511,7 +2509,8 @@ export const npSystems = [
       { id: "placenta-previa-management-np", name: "Placenta Previa: NP Advanced Management", status: "Available" },
       { id: "umbilical-cord-prolapse-np", name: "Umbilical Cord Prolapse: NP Emergency Management", status: "Available" },
       { id: "hyperemesis-gravidarum-np", name: "Hyperemesis Gravidarum: NP Prescribing", status: "Available" },
-      { id: "rh-alloimmunization-np", name: "Rh Alloimmunization: NP Advanced Management", status: "Available" }
+      { id: "rh-alloimmunization-np", name: "Rh Alloimmunization: NP Advanced Management", status: "Available" },
+      { id: "amniotic-fluid-embolism-dic-pathway-np", name: "Amniotic Fluid Embolism: DIC Pathway", status: "Available" }
     ]
   },
   {
@@ -2659,7 +2658,8 @@ export const npSystems = [
       { id: "actinic-keratosis-np", name: "Actinic Keratosis: Premalignant Workup & Cryotherapy", status: "Available" },
       { id: "squamous-cell-carcinoma-np", name: "Squamous Cell Carcinoma: Staging & Mohs Referral", status: "Available" },
       { id: "dermatitis-herpetiformis-np", name: "Dermatitis Herpetiformis: Celiac Association & Dapsone", status: "Available" },
-      { id: "integumentary-pathophysiology-np", name: "Integumentary Pathophysiology: Epidermal Barrier & Atopic Dermatitis", status: "Available" }
+      { id: "integumentary-pathophysiology-np", name: "Integumentary Pathophysiology: Epidermal Barrier & Atopic Dermatitis", status: "Available" },
+      { id: "wound-irrigation-np", name: "Wound Irrigation: Advanced Wound Management", status: "Available" }
     ]
   },
   {
@@ -3073,7 +3073,8 @@ export const npSystems = [
       { id: "icu-nutrition-np", name: "ICU Nutrition", status: "Available" },
       { id: "early-mobilization-icu-np", name: "Early Mobilization ICU", status: "Available" },
       { id: "critical-care-ventilator-weaning-np", name: "Mechanical Ventilation Weaning: Assessment & Protocols", status: "Available" },
-      { id: "hemodynamic-monitoring-advanced-np", name: "Hemodynamic Monitoring: Invasive & Non-Invasive", status: "Available" }
+      { id: "hemodynamic-monitoring-advanced-np", name: "Hemodynamic Monitoring: Invasive & Non-Invasive", status: "Available" },
+      { id: "malignant-hyperthermia-np", name: "Malignant Hyperthermia: Dantrolene Protocol & Pharmacogenomics", status: "Available" }
     ]
   },
   {
@@ -3872,7 +3873,6 @@ export const npSystems = [
       { id: "thyroid-dysfunction-np", name: "Thyroid Dysfunction", status: "Available" },
       { id: "fluid-and-electrolytes-3-np", name: "Fluid & Electrolytes (3)", status: "Available" },
       { id: "advanced-fluid-electrolyte-and-acid-base-np", name: "Advanced Fluid, Electrolyte, and Acid-Base Management (NP)", status: "Available" },
-      { id: "amniotic-fluid-embolism-dic-pathway-np", name: "Amniotic Fluid Embolism: DIC Pathway", status: "Available" },
       { id: "sodium-disorders-osmoregulation-np", name: "Sodium Disorders: Osmoregulation", status: "Available" },
       { id: "chronic-stress-and-disease-np", name: "Chronic Stress and Disease", status: "Available" },
       { id: "dkahhs-anion-gap-and-osmolality-np", name: "DKA/HHS: Anion Gap & Osmolality", status: "Available" },
@@ -4340,18 +4340,16 @@ export default function Lessons() {
   useEffect(() => {
     if (authLoading) return;
     refreshOverrides();
-    if (isAdmin) {
-      fetch("/api/lessons/meta", { headers: getAuthHeaders() })
-        .then((r) => r.ok ? r.json() : [])
-        .then((meta: { id: string; isComplete: boolean }[]) => {
-          const complete = new Set<string>();
-          for (const m of meta) {
-            if (m.isComplete) complete.add(m.id);
-          }
-          setCompleteLessons(complete);
-        })
-        .catch(() => {});
-    }
+    fetch("/api/lessons/meta", { headers: getAuthHeaders() })
+      .then((r) => r.ok ? r.json() : [])
+      .then((meta: { id: string; isComplete: boolean }[]) => {
+        const complete = new Set<string>();
+        for (const m of meta) {
+          if (m.isComplete) complete.add(m.id);
+        }
+        setCompleteLessons(complete);
+      })
+      .catch(() => {});
   }, [authLoading]);
 
   useEffect(() => {
@@ -4730,6 +4728,14 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
   const systemImg = getSystemPreviewImage(system.id) || getSystemImage(system.id);
   const isAdmin = user?.tier === "admin";
+
+  const filteredSystem = useMemo(() => {
+    if (isAdmin) return system;
+    if (!completeLessons || completeLessons.size === 0) return { ...system, diseases: [] };
+    const filteredDiseases = system.diseases.filter((d: any) => completeLessons.has(d.id));
+    if (filteredDiseases.length === system.diseases.length) return system;
+    return { ...system, diseases: filteredDiseases };
+  }, [system, isAdmin, completeLessons]);
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [savingName, setSavingName] = useState(false);
@@ -4801,6 +4807,8 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
     }
   };
 
+  if (!isAdmin && filteredSystem.diseases.length === 0) return null;
+
   return (
     <Card id={`system-${system.id}`} className="border-none shadow-md hover:shadow-lg transition-all overflow-hidden bg-white scroll-mt-24">
       <CardHeader className={cn("flex flex-row items-center gap-3 py-3 px-4", system.bgColor)}>
@@ -4809,7 +4817,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
         </div>
         <div className="flex-1 min-w-0">
           <CardTitle className="text-base font-bold text-gray-900">{system.title}</CardTitle>
-          {completeLessons && (() => {
+          {isAdmin && completeLessons && (() => {
             const completed = system.diseases.filter((d: any) => completeLessons.has(d.id)).length;
             const total = system.diseases.length;
             const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
@@ -4823,10 +4831,10 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
             ) : null;
           })()}
         </div>
-        <Badge variant="secondary" className="text-[10px] font-medium bg-gray-100 text-gray-500 shrink-0" data-testid={`badge-count-${system.id}`}>{system.diseases.length} {system.diseases.length === 1 ? "lesson" : "lessons"}</Badge>
+        <Badge variant="secondary" className="text-[10px] font-medium bg-gray-100 text-gray-500 shrink-0" data-testid={`badge-count-${system.id}`}>{filteredSystem.diseases.length} {filteredSystem.diseases.length === 1 ? "lesson" : "lessons"}</Badge>
       </CardHeader>
       <CardContent className="pt-3 px-4 pb-4">
-        <CollapsibleLessonList diseases={system.diseases} systemId={system.id}>
+        <CollapsibleLessonList diseases={filteredSystem.diseases} systemId={system.id}>
           {(disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
             const overrideName = lessonOverrides?.[disease.id]?.title;

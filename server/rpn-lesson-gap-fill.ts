@@ -145,9 +145,23 @@ Scope: Practical nursing (RPN/LPN) - focus on assessment, monitoring, medication
   return JSON.parse(content);
 }
 
-async function insertLesson(pool: any, lesson: any, title: string, bodySystem: string, category: string): Promise<string> {
+async function insertLesson(pool: any, lesson: any, title: string, bodySystem: string, category: string): Promise<string | null> {
   const slug = slugify(title) + "-rpn";
   const id = crypto.randomUUID();
+
+  const contentBody = JSON.stringify(lesson.content);
+  if (!contentBody || contentBody === '""' || contentBody === 'null' || contentBody === '{}' || contentBody === '[]') {
+    console.warn(`[RPN-GAP-FILL] Skipping lesson "${title}" - empty content body`);
+    return null;
+  }
+
+  const existingCheck = await pool.query(`SELECT id, title FROM content_items WHERE slug = $1`, [slug]);
+  if (existingCheck.rows.length > 0) {
+    console.warn(`[RPN-GAP-FILL] Duplicate slug detected: "${slug}" already exists as "${existingCheck.rows[0].title}" (id: ${existingCheck.rows[0].id}). Skipping insert.`);
+    return existingCheck.rows[0].id;
+  }
+
+  console.log(`[RPN-GAP-FILL] Publishing lesson: title="${title}", slug="${slug}", category="${category}", bodySystem="${bodySystem}", tier=rpn`);
 
   const result = await pool.query(
     `INSERT INTO content_items (id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, auto_publish, clinical_safety_review, region_scope, created_at, updated_at, published_at)
@@ -156,13 +170,13 @@ async function insertLesson(pool: any, lesson: any, title: string, bodySystem: s
      RETURNING id`,
     [
       id,
-      title + " Rpn",
+      title,
       slug,
       category,
       bodySystem,
       [bodySystem.toLowerCase(), category, "rpn"],
       lesson.summary || `Comprehensive RPN lesson on ${title}`,
-      JSON.stringify(lesson.content),
+      contentBody,
       lesson.seoTitle || `${title} - RPN Nursing Study Guide`,
       lesson.seoDescription || `Learn about ${title} for RPN/LPN exam preparation. Includes pathophysiology, nursing interventions, medications, and clinical pearls.`,
     ]
@@ -251,6 +265,10 @@ export async function runRpnLessonGapFill() {
       const lesson = await generateLesson(title, bodySystem);
 
       const lessonId = await insertLesson(pool, lesson, title, bodySystem, category);
+      if (!lessonId) {
+        console.warn(`  Lesson skipped (empty content): ${title}`);
+        continue;
+      }
       totalLessons++;
       console.log(`  Lesson inserted: ${lessonId}`);
 
