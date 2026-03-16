@@ -1,12 +1,10 @@
 import { createRoot } from "react-dom/client";
-import App from "./App";
-import "./index.css";
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
-  });
-}
-
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <div style={{ padding: "40px", fontFamily: "sans-serif" }}>
+    <h1 style={{ color: "#7c3aed" }}>NURSENEST RECOVERY TEST</h1>
+    <p>If you can see this, the base render pipeline works.</p>
+    <p>Time: {new Date().toISOString()}</p>
+  </div>
+);
 (window as any).__reactRendered = true;
