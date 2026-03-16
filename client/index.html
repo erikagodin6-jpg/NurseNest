@@ -96,6 +96,31 @@
     </script>
   </head>
   <body class="h-full">
+    <script>
+    (function(){
+      var REQUIRED='nursenest-v6';
+      if(!('serviceWorker' in navigator))return;
+      if(sessionStorage.getItem('sw_purged'))return;
+      function purge(reg){
+        sessionStorage.setItem('sw_purged','1');
+        caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})});
+        reg.unregister().then(function(){location.reload()});
+      }
+      navigator.serviceWorker.getRegistration().then(function(reg){
+        if(!reg)return;
+        var sw=reg.active||reg.waiting||reg.installing;
+        if(!sw)return;
+        var ch=new MessageChannel();
+        var timeout=setTimeout(function(){purge(reg)},2000);
+        ch.port1.onmessage=function(e){
+          clearTimeout(timeout);
+          if(e.data&&e.data.version===REQUIRED)return;
+          purge(reg);
+        };
+        sw.postMessage({type:'VERSION_CHECK'},[ch.port2]);
+      }).catch(function(){});
+    })();
+    </script>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NR5LJ6TG"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

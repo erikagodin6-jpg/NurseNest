@@ -118,6 +118,15 @@ self.addEventListener('push', (event) => {
   );
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'VERSION_CHECK') {
+    const port = event.ports[0];
+    if (port) {
+      port.postMessage({ version: CACHE_NAME });
+    }
+  }
+});
+
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
