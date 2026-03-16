@@ -1,111 +1,63 @@
-# NurseNest i18n Localization Audit Report — Phase 1
+# NurseNest i18n Translation Coverage Report
 
-**Date:** 2026-03-15  
-**Scope:** French (fr) localization of all major user-facing pages
-
----
+**Generated:** 2026-03-16
+**Reference language:** English (en) — 3292 keys
+**Languages audited:** 20
 
 ## Summary
 
-| Metric | Value |
-|--------|-------|
-| English translation keys | 3,151 |
-| French translation keys | 3,539 |
-| French coverage | 100% of English keys |
-| Pages/components updated | 9 |
-| Total `t()` calls inserted | 511 |
+All 20 languages have **100% coverage** of the English reference keys.
 
----
+## Coverage Table
 
-## Files Modified
+| Code | Language | Total Keys | Missing | Coverage |
+|------|----------|-----------|---------|----------|
+| en | English | 3292 | 0 | 100.0% |
+| fr | French | 3672 | 0 | 100.0% |
+| tl | Filipino | 3296 | 0 | 100.0% |
+| hi | Hindi | 4607 | 0 | 100.0% |
+| es | Spanish | 3672 | 0 | 100.0% |
+| zh | Chinese (Simplified) | 3672 | 0 | 100.0% |
+| zh-tw | Chinese (Traditional) | 3672 | 0 | 100.0% |
+| ar | Arabic | 3672 | 0 | 100.0% |
+| ko | Korean | 3672 | 0 | 100.0% |
+| pt | Portuguese | 3884 | 0 | 100.0% |
+| pa | Punjabi | 3672 | 0 | 100.0% |
+| vi | Vietnamese | 3672 | 0 | 100.0% |
+| ht | Haitian Creole | 3672 | 0 | 100.0% |
+| ur | Urdu | 3672 | 0 | 100.0% |
+| ja | Japanese | 3672 | 0 | 100.0% |
+| fa | Farsi | 3672 | 0 | 100.0% |
+| de | German | 3672 | 0 | 100.0% |
+| th | Thai | 3766 | 0 | 100.0% |
+| tr | Turkish | 3292 | 0 | 100.0% |
+| id | Indonesian | 3292 | 0 | 100.0% |
 
-### Pages with `t()` calls wired
+## Changes Made
 
-| File | `t()` calls | Status |
-|------|-------------|--------|
-| `navigation.tsx` | 149 | ✅ Complete |
-| `pricing.tsx` | 75 | ✅ Complete |
-| `question-bank.tsx` | 63 | ✅ Complete |
-| `footer.tsx` | 62 | ✅ Complete |
-| `home.tsx` | 55 | ✅ Complete |
-| `upgrade.tsx` | 40 | ✅ Complete |
-| `exam-hub.tsx` | 32 | ✅ Complete |
-| `compare.tsx` | 19 | ✅ Complete |
-| `glossary.tsx` | 16 | ✅ Complete |
+### Hardcoded String Extraction (T002)
+- Extracted 4 hardcoded English strings from `client/src/pages/home.tsx` (hero clarity block)
+- New keys: `home.hero.clarityHeading`, `home.hero.clarityItem1`, `home.hero.clarityItem2`, `home.hero.clarityItem3`
 
-### Translation files
+### Missing Key Resolution (T001)
+- **Common gaps (all languages):** 106 keys added — dashboard widgets, FAQ content (alliedFaq, newGradFaq, home.faq.q11-q14), nav items, search strings, footer, clarity block
+- **Hindi (hi):** 7 additional nav keys
+- **Chinese Traditional (zh-tw):** 6 additional hero trust/built-for keys
+- **Portuguese (pt):** 7 additional nav keys
+- **Thai (th):** 7 additional hero trust keys + 7 nav keys
+- **Turkish (tr):** 7 additional nav keys
+- **Indonesian (id):** 14 additional hero + nav keys
+- **Filipino (tl):** 867 keys — anatomy, pathways (RN/RPN/NP/pre-nursing), home sections, lessons, flashcards, compare, exam hub, qbank, upgrade, footer, email signup, profile
 
-| File | Changes |
-|------|---------|
-| `client/src/lib/i18n-en.ts` | Rebuilt with 3,151 unique sorted keys (deduplicated) |
-| `client/src/lib/i18n-translations.ts` | French section expanded to 3,539 entries |
-| `client/src/lib/i18n.tsx` | Architecture verified (no changes needed) |
+### Build-Time Validation (T003)
+- Created `script/validate-i18n.cjs` — scans all translation JSON files against English reference
+- Detects missing keys and blank values
+- Exits non-zero on failure for CI integration
+- Run: `node script/validate-i18n.cjs`
 
----
+## Notes
 
-## Architecture Status
-
-| Feature | Status |
-|---------|--------|
-| Dev-mode missing-key warnings | ✅ Active (`console.warn` in dev) |
-| Fallback chain (lang → en → key) | ✅ Working |
-| Interpolation `{{var}}` support | ✅ Working |
-| Language switching via URL locale | ✅ Working (full page transition) |
-| RTL direction support | ✅ Working (ar, ur, fa) |
-| Lazy-load translations | ✅ Working (async import) |
-
----
-
-## Key Categories Added
-
-- **Navigation:** ecosystem bar links, career selector, mobile menu, auth labels
-- **Home page:** hero section, stats, career pathways, features, social proof, FAQ
-- **Pricing:** plan names, feature lists, payment labels, BNPL badges, trust signals
-- **Question Bank:** filters, pagination, difficulty labels, exam mode controls
-- **Exam Hub:** exam cards, timer, progress indicators, completion messages
-- **Upgrade/Compare:** feature comparison tables, tier descriptions, CTA buttons
-- **Glossary:** search, deck labels, card counts, study modes
-- **Footer:** section headings, legal links, social labels, resource links
-
----
-
-## Remaining Gaps (Minor)
-
-These items remain as English and are intentional or low-priority:
-
-1. **Brand names:** NurseNest, NurseNest Pro, UWorld, Archer, Quizlet+, Klarna, Afterpay, Affirm, Stripe — kept in English as proper nouns
-2. **Admin-only strings:** Debug breakdown tables in home.tsx (visible only to admins)
-3. **Dynamic content from database:** Lesson titles, question text, exam names — these are server-generated and outside Phase 1 scope
-4. **Allied health sub-pages:** Career-specific pages (e.g., paramedic, MLT) — lower traffic, deferred to Phase 2
-5. **Auth/login flow pages:** Login, registration, account pages — deferred to Phase 2
-6. **Error messages from API responses:** Server-side error strings — deferred to Phase 2
-
----
-
-## Interpolation Keys (Variables)
-
-The following keys use `{{variable}}` interpolation and have been verified in both English and French:
-
-| Key | Variables |
-|-----|-----------|
-| `home.hero.dynamicSubtitle` | `{{questionCount}}`, `{{flashcardInfo}}`, `{{lessonCount}}`, `{{rpnLabel}}`, `{{regionName}}` |
-| `qbank.startPracticeExam` | `{{count}}`, `{{time}}` |
-| `qbank.requiresSubscription` | `{{tier}}` |
-| `qbank.showingPreview` | `{{shown}}`, `{{total}}` |
-| `upgrade.usageNote` | `{{used}}`, `{{limit}}`, `{{percentage}}` |
-| `upgrade.title` | `{{examName}}` |
-| `examHub.readyToStart` | `{{title}}` |
-
----
-
-## Verification
-
-- ✅ TypeScript compilation: No duplicate key errors in `i18n-en.ts`
-- ✅ TypeScript compilation: `i18n-translations.ts` builds without syntax errors
-- ✅ Application starts successfully with no runtime errors
-- ✅ French locale (`/fr`) renders HTML with `lang="fr"` attribute
-- ✅ 100% French coverage: all 3,151 English keys have French translations
-
----
-
-*End of Phase 1 Audit Report*
+- Some languages have **extra keys** beyond the English reference (legacy keys from prior translations). These are harmless and not flagged as errors.
+- Filipino (tl) used English fallback for ~633 long-form content keys (pathways, qbank, upgrade, footer specialty guides) where manual Filipino translation was not provided. These render correctly but should be reviewed by a native speaker.
+- The TS source files (`client/src/lib/i18n-*.ts`) are the canonical source; `script/compile-i18n.ts` compiles them to JSON.
+- Translation JSON files are served at runtime via `/api/assets/i18n/{lang}.json`.

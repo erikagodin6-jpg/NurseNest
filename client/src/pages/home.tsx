@@ -469,19 +469,19 @@ export default function Home() {
                 </p>
 
                 <div className="rounded-xl border border-gray-100 bg-white/80 shadow-[var(--shadow-card)] p-4" data-testid="hero-clarity-block">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">What you get</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">{t("home.hero.clarityHeading")}</p>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Practice exam questions for nursing, NP, and allied health</span>
+                      <span>{t("home.hero.clarityItem1")}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Clinical lessons, flashcards, mock exams, and case simulations</span>
+                      <span>{t("home.hero.clarityItem2")}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Track your progress with personalized analytics</span>
+                      <span>{t("home.hero.clarityItem3")}</span>
                     </div>
                   </div>
                 </div>
