@@ -125,8 +125,8 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                   Full Prep Guide <ArrowRight className="w-4 h-4" />
                 </Link>
               )}
-              <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-all-certifications">
-                All Certifications
+              <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-all-certifications">
+                Certification Hub
               </Link>
             </div>
           </div>
@@ -284,22 +284,36 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Other Certifications</h2>
-              <p className="text-gray-600">Explore other certifications new graduate nurses commonly pursue.</p>
+              <p className="text-gray-600 mb-2">Explore other certifications new graduate nurses commonly pursue.</p>
+              <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
+                ← Back to Certification Hub
+              </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {otherCerts.map((rel) => {
                 const relColors = COLOR_MAP[rel.color] || COLOR_MAP.blue;
                 const RelIcon = rel.icon;
+                const hasPrepPage = ["bls", "acls", "pals", "nrp", "tncc", "enpc"].includes(rel.slug);
                 return (
-                  <Link key={rel.slug} href={`/newgrad/certifications/${rel.slug}`} className="group" data-testid={`card-related-${rel.slug}`}>
-                    <div className={`bg-white rounded-xl border ${relColors.border} p-5 hover:shadow-md transition-all h-full`}>
+                  <div key={rel.slug} className={`bg-white rounded-xl border ${relColors.border} p-5 hover:shadow-md transition-all h-full`} data-testid={`card-related-${rel.slug}`}>
+                    <Link href={`/newgrad/certifications/${rel.slug}`} className="group">
                       <div className={`w-10 h-10 rounded-xl ${relColors.bg} flex items-center justify-center mb-3`}>
                         <RelIcon className={`w-5 h-5 ${relColors.iconColor}`} />
                       </div>
                       <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">{rel.name}</h3>
                       <p className="text-xs text-gray-500 line-clamp-2">{rel.fullName}</p>
-                    </div>
-                  </Link>
+                    </Link>
+                    {hasPrepPage && (
+                      <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                        <Link href={`/certifications/${rel.slug}-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid={`link-related-prep-${rel.slug}`}>
+                          Prep
+                        </Link>
+                        <Link href={`/certifications/${rel.slug}-renewal-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-related-renewal-${rel.slug}`}>
+                          Renewal
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>

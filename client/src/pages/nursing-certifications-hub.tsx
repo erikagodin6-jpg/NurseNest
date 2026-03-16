@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -8,10 +7,20 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
   HelpCircle, TrendingUp, Clock, DollarSign, GraduationCap,
-  Stethoscope, Heart, Brain, Baby, Scissors, Ribbon, Activity
+  Stethoscope, Heart, Brain, Baby, Scissors, Ribbon, Activity,
+  RefreshCw, Zap, ClipboardList, Layers, Users
 } from "lucide-react";
 
-const CERTIFICATION_CARDS = [
+const EMERGENCY_CERTS = [
+  { slug: "bls", name: "BLS", fullName: "Basic Life Support", org: "AHA", icon: Activity, color: "blue", validity: "2 years", desc: "High-quality CPR, AED use, choking management, and team-based resuscitation for healthcare providers." },
+  { slug: "acls", name: "ACLS", fullName: "Advanced Cardiovascular Life Support", org: "AHA", icon: Heart, color: "red", validity: "2 years", desc: "Cardiac arrest algorithms, rhythm recognition, acute coronary syndromes, stroke management, and pharmacology." },
+  { slug: "pals", name: "PALS", fullName: "Pediatric Advanced Life Support", org: "AHA", icon: Baby, color: "sky", validity: "2 years", desc: "Pediatric assessment triangle, weight-based dosing, respiratory emergencies, shock, and cardiac arrest in children." },
+  { slug: "nrp", name: "NRP", fullName: "Neonatal Resuscitation Program", org: "AAP", icon: Baby, color: "pink", validity: "2 years", desc: "Delivery room resuscitation — initial steps, positive pressure ventilation, chest compressions, and epinephrine." },
+  { slug: "tncc", name: "TNCC", fullName: "Trauma Nursing Core Course", org: "ENA", icon: Zap, color: "orange", validity: "4 years", desc: "Systematic trauma assessment, hemorrhage control, massive transfusion protocols, and evidence-based trauma care." },
+  { slug: "enpc", name: "ENPC", fullName: "Emergency Nursing Pediatric Course", org: "ENA", icon: Baby, color: "violet", validity: "4 years", desc: "Pediatric triage, respiratory emergencies, trauma assessment, child maltreatment recognition, and stabilization." },
+];
+
+const SPECIALTY_CERTS = [
   { slug: "ccrn", name: "CCRN", fullName: "Critical-Care Registered Nurse", org: "AACN", icon: Activity, color: "red" },
   { slug: "cen", name: "CEN", fullName: "Certified Emergency Nurse", org: "BCEN", icon: Stethoscope, color: "orange" },
   { slug: "cmsrn", name: "CMSRN", fullName: "Certified Med-Surg Nurse", org: "MSNCB", icon: Heart, color: "blue" },
@@ -35,15 +44,19 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string 
   rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100" },
   amber: { bg: "bg-amber-50", iconColor: "text-amber-600", border: "border-amber-100" },
   emerald: { bg: "bg-emerald-50", iconColor: "text-emerald-600", border: "border-emerald-100" },
+  pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100" },
+  violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100" },
 };
 
 const FAQ_DATA = [
-  { question: "How do I choose which nursing certification to pursue?", answer: "Choose based on your clinical specialty and career goals. Start with the certification most aligned to your current practice area. For example, if you work in an ICU, pursue CCRN. If you work in emergency, pursue CEN. Consider employer requirements and salary differentials in your decision." },
-  { question: "Are nursing certifications required to practice?", answer: "No. Nursing certifications are voluntary credentials that demonstrate specialized expertise. However, many employers prefer or require certification for specialty positions, and Magnet hospitals often mandate certification for clinical ladder advancement." },
-  { question: "How long does it take to prepare for a certification exam?", answer: "Most nurses study 6-12 weeks while working full-time. The preparation time depends on your clinical experience in the specialty. Nurses with 3+ years in their specialty typically need less preparation than those with 1-2 years of experience." },
-  { question: "Do nursing certifications increase salary?", answer: "Yes. Most hospitals offer certification pay differentials ranging from $1,000 to $10,000 annually. The exact amount varies by institution, but CCRN, CEN, and CNOR certifications typically command the highest premiums." },
-  { question: "Are US certifications recognized in Canada?", answer: "US certifications like CCRN and CEN are recognized by many Canadian employers but are not equivalent to CNA specialty certifications. Canadian nurses may hold both US and Canadian credentials. The CNA offers Canada-specific certification exams." },
-  { question: "How often do certifications need to be renewed?", answer: "Most nursing certifications are valid for 3-5 years and require renewal through continuing education, practice hours, or re-examination. Check the specific requirements of your certifying body." },
+  { question: "How do I choose which nursing certification to pursue?", answer: "Choose based on your clinical specialty and career goals. Start with required certifications for your unit (BLS is universal, ACLS for acute care, PALS for pediatrics). Then pursue specialty certifications like CCRN or CEN after gaining clinical experience." },
+  { question: "Are nursing certifications required to practice?", answer: "BLS is required for all nursing positions. ACLS, PALS, NRP, TNCC, and ENPC are required by specific units. Specialty certifications like CCRN, CEN, and CNOR are voluntary but strongly preferred by employers and required for clinical ladder advancement at many hospitals." },
+  { question: "How long does it take to prepare for a certification exam?", answer: "Course-based certifications (BLS: 1 day, ACLS/PALS: 2 days, TNCC/ENPC: 2 days) include instruction time. Knowledge-based exams like CCRN and CEN typically require 6-12 weeks of self-study while working full-time." },
+  { question: "Do nursing certifications increase salary?", answer: "Yes. Most hospitals offer certification pay differentials ranging from $1,000 to $10,000 annually. CCRN, CEN, and CNOR certifications typically command the highest premiums. Certifications also strengthen your position for leadership roles." },
+  { question: "What is the difference between course certifications and exam certifications?", answer: "Course certifications (BLS, ACLS, PALS, NRP, TNCC, ENPC) are earned by completing a structured course with skills testing. Exam certifications (CCRN, CEN, CMSRN, etc.) require passing a comprehensive knowledge exam and typically require clinical experience hours." },
+  { question: "How often do certifications need to be renewed?", answer: "BLS, ACLS, PALS, and NRP renew every 2 years. TNCC and ENPC renew every 4 years. Specialty certifications like CCRN and CEN are valid for 3-5 years and renew through continuing education, practice hours, or re-examination." },
+  { question: "Are US certifications recognized in Canada?", answer: "BLS, ACLS, PALS, and NRP are recognized across North America. US specialty certifications like CCRN and CEN are recognized by many Canadian employers but are not equivalent to CNA specialty certifications. Canadian nurses may hold both." },
+  { question: "What certifications should new graduate nurses get first?", answer: "BLS before day one (usually done in nursing school). ACLS within 90 days for acute care. PALS within 6 months for pediatric/ED units. NRP for labor & delivery. TNCC for trauma/ED. Specialty certifications after 1-2 years of experience." },
 ];
 
 const WHY_CERTIFY = [
@@ -60,15 +73,15 @@ export default function NursingCertificationsHub() {
     <div data-testid="page-nursing-certifications-hub">
       <Navigation />
       <SEO
-        title="Nursing Certifications Guide: CCRN, CEN, CNOR & More | NurseNest"
-        description="Complete guide to nursing certifications including CCRN, CEN, CMSRN, OCN, CNOR, CPN, PMH-BC, and Canadian CNA specialty certifications. Eligibility, exam content, and study resources."
-        keywords="nursing certifications, CCRN certification, CEN certification, CMSRN, OCN, CNOR, CPN, PMH-BC, CNA certification, nursing specialty certification, certification exam prep"
+        title="Nursing Certifications Guide: BLS, ACLS, PALS, CCRN, CEN & More | NurseNest"
+        description="Complete guide to nursing certifications. Prep guides and renewal resources for BLS, ACLS, PALS, NRP, TNCC, ENPC, plus specialty certifications including CCRN, CEN, CMSRN, OCN, CNOR, and Canadian CNA certifications."
+        keywords="nursing certifications, BLS certification, ACLS certification, PALS certification, NRP certification, TNCC certification, ENPC certification, CCRN certification, CEN certification, nursing specialty certification, certification exam prep, certification renewal"
         canonicalPath="/nursing-certifications"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           "name": "Nursing Certifications Guide",
-          "description": "Complete guide to nursing certifications including CCRN, CEN, CMSRN, OCN, CNOR, CPN, PMH-BC, and Canadian CNA specialty certifications.",
+          "description": "Complete guide to nursing certifications including BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, CMSRN, OCN, CNOR, and Canadian CNA specialty certifications.",
           "provider": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
         }}
         breadcrumbs={[
@@ -88,21 +101,21 @@ export default function NursingCertificationsHub() {
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700 mb-4" data-testid="badge-certifications">
-              <Award className="w-4 h-4" /> Certification Guides
+              <Award className="w-4 h-4" /> Certification Hub
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
               Nursing Certification Guides
             </h1>
             <p className="text-lg text-gray-600 mb-8" data-testid="text-page-subtitle">
-              Comprehensive guides for every major nursing certification — eligibility requirements, exam content blueprints, study strategies, and career impact. Find the right credential for your specialty.
+              Your central resource for every nursing certification — from essential life support courses (BLS, ACLS, PALS) to advanced specialty credentials (CCRN, CEN, CNOR). Prep guides, renewal resources, practice questions, and study strategies for each certification.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/nursing-specialties" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-explore-specialties">
-                Explore Specialties <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/study-pathways" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors border border-emerald-200" data-testid="button-study-pathways">
-                Study Pathways
-              </Link>
+              <a href="#emergency-certs" onClick={(e) => { e.preventDefault(); document.getElementById('emergency-certs')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-emergency-certs">
+                Life Support Certifications <ArrowRight className="w-4 h-4" />
+              </a>
+              <a href="#specialty-certs" onClick={(e) => { e.preventDefault(); document.getElementById('specialty-certs')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors border border-emerald-200" data-testid="button-specialty-certs">
+                Specialty Certifications
+              </a>
             </div>
           </div>
         </div>
@@ -125,14 +138,108 @@ export default function NursingCertificationsHub() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50" data-testid="section-certification-grid">
+      <section className="py-16 bg-gray-50" id="emergency-certs" data-testid="section-emergency-certs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">10 Certification Guides</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each guide covers eligibility, exam blueprint, study strategies, and career impact for a specific nursing certification.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-emergency-heading">Life Support & Emergency Certifications</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Course-based certifications required by hospitals for acute care, emergency, pediatric, and neonatal nursing. Each includes a prep guide and renewal resources.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {CERTIFICATION_CARDS.map((cert) => {
+            {EMERGENCY_CERTS.map((cert) => {
+              const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
+              return (
+                <div key={cert.slug} className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all`} data-testid={`card-emergency-${cert.slug}`}>
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center flex-shrink-0`}>
+                      <cert.icon className={`w-6 h-6 ${colors.iconColor}`} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-bold text-gray-900 text-lg" data-testid={`text-cert-name-${cert.slug}`}>{cert.name}</h3>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{cert.org}</span>
+                      </div>
+                      <p className="text-sm text-gray-500">{cert.fullName}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3 leading-relaxed">{cert.desc}</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Renews every {cert.validity}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link href={`/certifications/${cert.slug}-prep`} className="flex-1 text-center text-sm font-medium px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors" data-testid={`link-prep-${cert.slug}`}>
+                      Prep Guide
+                    </Link>
+                    <Link href={`/certifications/${cert.slug}-renewal-prep`} className="flex-1 text-center text-sm font-medium px-3 py-2 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-renewal-${cert.slug}`}>
+                      Renewal Prep
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-newgrad-certs">
+              <GraduationCap className="w-4 h-4" /> New graduate? See the certification timeline for your first year <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white" data-testid="section-comparison">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-comparison-heading">Certification at a Glance</h2>
+            <p className="text-gray-600">Quick comparison of life support certifications to help you plan your prep and renewal timeline.</p>
+          </div>
+          <div className="overflow-x-auto rounded-xl border border-gray-200">
+            <table className="w-full text-sm" data-testid="table-comparison">
+              <thead>
+                <tr className="bg-gray-50 text-left">
+                  <th className="px-4 py-3 font-semibold text-gray-900">Certification</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Organization</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Validity</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Required For</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Links</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {[
+                  { name: "BLS", org: "AHA", validity: "2 years", required: "All nursing positions", slug: "bls" },
+                  { name: "ACLS", org: "AHA", validity: "2 years", required: "ICU, ER, Telemetry, Step-down", slug: "acls" },
+                  { name: "PALS", org: "AHA", validity: "2 years", required: "Pediatric units, ED", slug: "pals" },
+                  { name: "NRP", org: "AAP", validity: "2 years", required: "L&D, NICU, Newborn Nursery", slug: "nrp" },
+                  { name: "TNCC", org: "ENA", validity: "4 years", required: "Trauma centers, ED", slug: "tncc" },
+                  { name: "ENPC", org: "ENA", validity: "4 years", required: "Pediatric ED, General ED", slug: "enpc" },
+                ].map((row, i) => (
+                  <tr key={i} className="hover:bg-gray-50" data-testid={`row-comparison-${row.slug}`}>
+                    <td className="px-4 py-3 font-semibold text-gray-900">{row.name}</td>
+                    <td className="px-4 py-3 text-gray-600">{row.org}</td>
+                    <td className="px-4 py-3 text-gray-600">{row.validity}</td>
+                    <td className="px-4 py-3 text-gray-600">{row.required}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <Link href={`/certifications/${row.slug}-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-prep-${row.slug}`}>Prep</Link>
+                        <span className="text-gray-300">|</span>
+                        <Link href={`/certifications/${row.slug}-renewal-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-renewal-${row.slug}`}>Renewal</Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50" id="specialty-certs" data-testid="section-specialty-certs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-heading">Specialty Nursing Certifications</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Knowledge-based exams that validate expertise in a clinical specialty. Typically require 1-2 years of experience in the specialty area.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {SPECIALTY_CERTS.map((cert) => {
               const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
               return (
                 <Link key={cert.slug} href={`/certifications/${cert.slug}`} className="group" data-testid={`card-cert-${cert.slug}`}>
@@ -158,34 +265,49 @@ export default function NursingCertificationsHub() {
         </div>
       </section>
 
-      <section className="py-16" data-testid="section-emergency-certs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-emergency-heading">Emergency Certification Prep & Renewal</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Dedicated preparation and renewal guides for the six core emergency certifications.</p>
+      <section className="py-16 bg-white" data-testid="section-study-tools">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-tools-heading">Study Tools for Certification Prep</h2>
+            <p className="text-gray-600">Everything you need to prepare for and pass your certification exams.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { slug: "bls", name: "BLS", fullName: "Basic Life Support" },
-              { slug: "acls", name: "ACLS", fullName: "Advanced Cardiovascular Life Support" },
-              { slug: "pals", name: "PALS", fullName: "Pediatric Advanced Life Support" },
-              { slug: "nrp", name: "NRP", fullName: "Neonatal Resuscitation Program" },
-              { slug: "tncc", name: "TNCC", fullName: "Trauma Nursing Core Course" },
-              { slug: "enpc", name: "ENPC", fullName: "Emergency Nursing Pediatric Course" },
-            ].map((cert) => (
-              <div key={cert.slug} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`card-emergency-${cert.slug}`}>
-                <h3 className="font-bold text-gray-900 mb-0.5">{cert.name}</h3>
-                <p className="text-xs text-gray-500 mb-3">{cert.fullName}</p>
-                <div className="flex gap-2">
-                  <Link href={`/certifications/${cert.slug}-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors" data-testid={`link-emergency-prep-${cert.slug}`}>
-                    Prep Guide
-                  </Link>
-                  <Link href={`/certifications/${cert.slug}-renewal-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-emergency-renewal-${cert.slug}`}>
-                    Renewal Prep
-                  </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link href="/free-practice" className="group" data-testid="link-tool-practice">
+              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                  <ClipboardList className="w-6 h-6 text-emerald-600" />
                 </div>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Practice Questions</h3>
+                <p className="text-xs text-gray-500">Thousands of questions aligned to certification exam blueprints.</p>
               </div>
-            ))}
+            </Link>
+            <Link href="/flashcards" className="group" data-testid="link-tool-flashcards">
+              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                  <Layers className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Flashcards</h3>
+                <p className="text-xs text-gray-500">Spaced-repetition decks for algorithms, medications, and key concepts.</p>
+              </div>
+            </Link>
+            <Link href="/lessons" className="group" data-testid="link-tool-lessons">
+              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                  <BookOpen className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Lessons</h3>
+                <p className="text-xs text-gray-500">In-depth clinical lessons covering certification content areas.</p>
+              </div>
+            </Link>
+            <Link href="/mock-exams" className="group" data-testid="link-tool-mocks">
+              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                  <Award className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Mock Exams</h3>
+                <p className="text-xs text-gray-500">Timed practice exams simulating real certification exam conditions.</p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -193,14 +315,18 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Link href="/nursing-specialties" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-specialties">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">Nursing Specialties</h3>
-              <p className="text-sm text-blue-700/70">Explore career guides for critical care, emergency, pediatric, oncology, and more.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link href="/newgrad/certifications" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-newgrad-hub">
+              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">New Grad Certification Guide</h3>
+              <p className="text-sm text-blue-700/70">Certification timeline and study strategies for new graduate nurses.</p>
+            </Link>
+            <Link href="/nursing-specialties" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-specialties">
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Nursing Specialties</h3>
+              <p className="text-sm text-emerald-700/70">Explore career guides for critical care, emergency, pediatric, oncology, and more.</p>
             </Link>
             <Link href="/study-pathways" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-pathways">
               <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">Study Pathways</h3>
-              <p className="text-sm text-violet-700/70">Structured study plans to master your specialty and prepare for certification exams.</p>
+              <p className="text-sm text-violet-700/70">Structured study plans to master your specialty and prepare for exams.</p>
             </Link>
           </div>
         </div>

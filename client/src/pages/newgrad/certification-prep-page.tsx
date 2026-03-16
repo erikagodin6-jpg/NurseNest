@@ -428,46 +428,65 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Certifications</h2>
-            <p className="text-gray-600">Other life support certifications that complement {cert.name}.</p>
+            <p className="text-gray-600 mb-2">Other life support certifications that complement {cert.name}.</p>
+            <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
+              ← Back to Certification Hub
+            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {cert.slug !== "bls" && (
-              <Link href="/newgrad/certifications/bls" className="group" data-testid="card-related-bls">
-                <div className="bg-white rounded-xl border border-blue-100 p-5 hover:shadow-md transition-all h-full">
+              <div className="bg-white rounded-xl border border-blue-100 p-5 hover:shadow-md transition-all h-full" data-testid="card-related-bls">
+                <Link href="/newgrad/certifications/bls" className="group">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
                     <Activity className="w-5 h-5 text-blue-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">BLS</h3>
                   <p className="text-xs text-gray-500">Basic Life Support — the prerequisite for ACLS and PALS.</p>
+                </Link>
+                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <Link href="/certifications/bls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-bls">Prep</Link>
+                  <Link href="/certifications/bls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-bls">Renewal</Link>
                 </div>
-              </Link>
+              </div>
             )}
             {cert.slug !== "acls" && (
-              <Link href="/newgrad/certifications/acls" className="group" data-testid="card-related-acls">
-                <div className="bg-white rounded-xl border border-red-100 p-5 hover:shadow-md transition-all h-full">
+              <div className="bg-white rounded-xl border border-red-100 p-5 hover:shadow-md transition-all h-full" data-testid="card-related-acls">
+                <Link href="/newgrad/certifications/acls" className="group">
                   <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-3">
                     <Heart className="w-5 h-5 text-red-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">ACLS</h3>
                   <p className="text-xs text-gray-500">Advanced Cardiovascular Life Support for adult cardiac emergencies.</p>
+                </Link>
+                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <Link href="/certifications/acls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-acls">Prep</Link>
+                  <Link href="/certifications/acls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-acls">Renewal</Link>
                 </div>
-              </Link>
+              </div>
             )}
             {cert.slug !== "pals" && (
-              <Link href="/newgrad/certifications/pals" className="group" data-testid="card-related-pals">
-                <div className="bg-white rounded-xl border border-sky-100 p-5 hover:shadow-md transition-all h-full">
+              <div className="bg-white rounded-xl border border-sky-100 p-5 hover:shadow-md transition-all h-full" data-testid="card-related-pals">
+                <Link href="/newgrad/certifications/pals" className="group">
                   <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center mb-3">
                     <Baby className="w-5 h-5 text-sky-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">PALS</h3>
                   <p className="text-xs text-gray-500">Pediatric Advanced Life Support for pediatric emergencies.</p>
+                </Link>
+                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <Link href="/certifications/pals-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-pals">Prep</Link>
+                  <Link href="/certifications/pals-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-pals">Renewal</Link>
                 </div>
-              </Link>
+              </div>
             )}
           </div>
-          <div className="text-center mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <Link href="/nursing-certifications" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-800 transition-colors" data-testid="link-certification-hub">
+              Certification Hub <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <span className="hidden sm:inline text-gray-300">|</span>
             <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors" data-testid="link-all-certs">
-              View All 7 Certifications <ArrowRight className="w-3.5 h-3.5" />
+              New Grad Certifications <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

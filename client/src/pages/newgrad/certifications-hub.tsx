@@ -418,8 +418,8 @@ export default function NewGradCertificationsHub() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-nursing-certs">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Specialty Nursing Certifications</h3>
-              <p className="text-sm text-emerald-700/70">CMSRN, OCN, CNOR, CPN, PMH-BC and more specialty certification guides.</p>
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">All Nursing Certifications Hub</h3>
+              <p className="text-sm text-emerald-700/70">Complete certification hub with prep guides, renewal resources, and specialty certifications (CCRN, CEN, CMSRN, CNOR, and more).</p>
             </Link>
             <Link href="/newgrad/guides" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-guides">
               <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">New Grad Survival Guides</h3>

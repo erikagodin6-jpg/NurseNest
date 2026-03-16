@@ -36,7 +36,7 @@ export default function CertificationRenewalPage() {
           <div className="text-center max-w-md px-4">
             <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Renewal Prep Not Found</h1>
             <p className="text-gray-600 mb-6">The renewal prep page you are looking for is not available.</p>
-            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-certs">
+            <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-certs">
               Back to Certifications <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -58,7 +58,8 @@ export default function CertificationRenewalPage() {
         canonicalPath={`/certifications/${certSlug}-renewal-prep`}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "Certifications", url: "https://www.nursenest.ca/newgrad/certifications" },
+          { name: "Nursing Certifications", url: "https://www.nursenest.ca/nursing-certifications" },
+          { name: `${content.certName} Prep`, url: `https://www.nursenest.ca/certifications/${certSlug}-prep` },
           { name: `${content.certName} Renewal`, url: `https://www.nursenest.ca/certifications/${certSlug}-renewal-prep` },
         ]}
       />
@@ -69,7 +70,7 @@ export default function CertificationRenewalPage() {
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad/certifications" className="hover:text-blue-600">Certifications</Link>
+            <Link href="/nursing-certifications" className="hover:text-blue-600">Certifications</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={`/certifications/${certSlug}-prep`} className="hover:text-blue-600">{content.certName} Prep</Link>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -268,7 +269,12 @@ export default function CertificationRenewalPage() {
 
       <section className="py-12 bg-white" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Other Renewal Prep Guides</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">Other Renewal Prep Guides</h2>
+            <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
+              ← Back to Certification Hub
+            </Link>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {["bls", "acls", "pals", "nrp", "tncc", "enpc"].filter(s => s !== certSlug).map(slug => {
               const rel = CERT_RENEWAL_CONTENT[slug];
