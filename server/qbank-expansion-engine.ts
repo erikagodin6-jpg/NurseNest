@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { pool } from "./storage";
 import { getProdPool, hasSeparateProdDb } from "./db";
 import OpenAI from "openai";
+import { checkDuplicateStem } from "./question-bank-validation";
 
 const EXPANSION_DOMAINS = [
   "Foundations", "Health Assessment", "Pharmacology", "Cardiovascular",
@@ -12,17 +13,29 @@ const EXPANSION_DOMAINS = [
 
 const BATCH_SIZE = 50;
 
-const DIFFICULTY_DISTRIBUTION = { easy: 0.35, moderate: 0.45, hard: 0.20 };
+const DIFFICULTY_DISTRIBUTION = { easy: 0.30, moderate: 0.40, hard: 0.20, critical_thinking: 0.10 };
 
-const DIFFICULTY_MAP: Record<string, number> = { easy: 1, moderate: 3, hard: 5 };
+const DIFFICULTY_MAP: Record<string, number> = { easy: 1, moderate: 3, hard: 5, critical_thinking: 7 };
 
 const MASTERY_MAP: Record<string, string> = {
   easy: "low_mastery",
   moderate: "moderate_mastery",
   hard: "high_mastery",
+  critical_thinking: "high_mastery",
 };
 
-const TIER_TARGETS: Record<string, number> = { rpn: 1000, rn: 1500, np: 1200 };
+const TIER_TARGETS: Record<string, number> = { rpn: 2000, rn: 4000, np: 2000 };
+
+const ALLIED_HEALTH_TARGETS: Record<string, number> = {
+  paramedic: 500,
+  rrt: 500,
+  mlt: 600,
+  radiography: 400,
+  pharmacy_tech: 400,
+  occupational_therapy: 300,
+  physical_therapy: 300,
+  social_work: 400,
+};
 
 const TIER_EXAM_MAP: Record<string, string> = {
   rpn: "RPN-CAT",
@@ -98,9 +111,11 @@ function distributeDomains(totalCount: number): Record<string, number> {
 function assignDifficulty(batchIndex: number, totalInBatch: number): string {
   const easyCount = Math.round(totalInBatch * DIFFICULTY_DISTRIBUTION.easy);
   const modCount = Math.round(totalInBatch * DIFFICULTY_DISTRIBUTION.moderate);
+  const hardCount = Math.round(totalInBatch * DIFFICULTY_DISTRIBUTION.hard);
   if (batchIndex < easyCount) return "easy";
   if (batchIndex < easyCount + modCount) return "moderate";
-  return "hard";
+  if (batchIndex < easyCount + modCount + hardCount) return "hard";
+  return "critical_thinking";
 }
 
 function buildExpansionPrompt(
@@ -451,6 +466,12 @@ export async function runExpansionForTier(
 
         const stemHash = computeStemHash(item.stem);
         if (existingHashes.has(stemHash)) {
+          batchDuplicates++;
+          continue;
+        }
+
+        const dupCheck = await checkDuplicateStem(item.stem, tier);
+        if (dupCheck.isDuplicate) {
           batchDuplicates++;
           continue;
         }
@@ -1128,6 +1149,12 @@ export async function runCriticalCareSubspecialty(
 
         const stemHash = computeStemHash(item.stem);
         if (existingHashes.has(stemHash)) {
+          batchDuplicates++;
+          continue;
+        }
+
+        const dupCheck = await checkDuplicateStem(item.stem, tier);
+        if (dupCheck.isDuplicate) {
           batchDuplicates++;
           continue;
         }
@@ -1896,6 +1923,12 @@ export async function runProceduralSurgicalSubspecialty(
           continue;
         }
 
+        const dupCheck = await checkDuplicateStem(item.stem, tier);
+        if (dupCheck.isDuplicate) {
+          batchDuplicates++;
+          continue;
+        }
+
         const difficulty = item.difficulty || "moderate";
         const difficultyNum = DIFFICULTY_MAP[difficulty] || 3;
         const masteryCategory = MASTERY_MAP[difficulty] || "moderate_mastery";
@@ -2188,4 +2221,87 @@ export async function getProceduralSurgicalExpansionStatus(): Promise<any> {
     recentEvents: events,
     validSubspecialties: [...PROCEDURAL_SURGICAL_SUBSPECIALTIES],
   };
+}
+
+const AUTO_TRIGGER_THRESHOLD = 0.5;
+
+const EXPANSION_SUPPORTED_TIERS = new Set(Object.keys(TIER_SCOPE));
+
+export interface TierDeficit {
+  tier: string;
+  current: number;
+  target: number;
+  deficit: number;
+  fillPercent: number;
+  supported: boolean;
+}
+
+export async function checkAutoGenerationTriggers(): Promise<{
+  deficits: TierDeficit[];
+  triggered: string[];
+}> {
+  const dbPool = hasSeparateProdDb() ? getProdPool() : pool;
+  const result = await dbPool.query(`
+    SELECT tier, COUNT(*)::int AS count
+    FROM exam_questions
+    WHERE status = 'published'
+    GROUP BY tier
+  `);
+
+  const counts: Record<string, number> = {};
+  for (const row of result.rows) {
+    counts[row.tier] = row.count;
+  }
+
+  const allTargets: Record<string, number> = { ...TIER_TARGETS, ...ALLIED_HEALTH_TARGETS };
+  const deficits: TierDeficit[] = [];
+  const triggered: string[] = [];
+
+  for (const [tier, target] of Object.entries(allTargets)) {
+    const current = counts[tier] || 0;
+    const fillPercent = target > 0 ? current / target : 1;
+    const deficit = Math.max(0, target - current);
+    const supported = EXPANSION_SUPPORTED_TIERS.has(tier);
+
+    if (fillPercent < AUTO_TRIGGER_THRESHOLD) {
+      deficits.push({ tier, current, target, deficit, fillPercent: Math.round(fillPercent * 100), supported });
+      if (supported) {
+        triggered.push(tier);
+      }
+    }
+  }
+
+  deficits.sort((a, b) => a.fillPercent - b.fillPercent);
+
+  return { deficits, triggered };
+}
+
+export async function runAutoTriggeredExpansions(
+  onProgress?: (info: { tier: string; status: string }) => void
+): Promise<{ results: Record<string, any> }> {
+  const { deficits } = await checkAutoGenerationTriggers();
+  const results: Record<string, any> = {};
+
+  for (const d of deficits) {
+    if (!d.supported) {
+      results[d.tier] = { status: "skipped", reason: "tier not yet supported for auto-expansion" };
+      onProgress?.({ tier: d.tier, status: "skipped (unsupported tier)" });
+      continue;
+    }
+
+    const batchTarget = Math.min(d.deficit, BATCH_SIZE * 5);
+    onProgress?.({ tier: d.tier, status: `starting: ${d.current}/${d.target} (deficit ${d.deficit}), generating ${batchTarget}` });
+
+    try {
+      const summary = await runExpansionForTier(d.tier, batchTarget);
+      const actualInserted = summary?.totalInserted ?? summary?.questionsGenerated ?? batchTarget;
+      results[d.tier] = { status: "complete", requested: batchTarget, inserted: actualInserted, summary };
+      onProgress?.({ tier: d.tier, status: `complete (${actualInserted} inserted)` });
+    } catch (err: any) {
+      results[d.tier] = { status: "failed", error: err.message };
+      onProgress?.({ tier: d.tier, status: `failed: ${err.message}` });
+    }
+  }
+
+  return { results };
 }

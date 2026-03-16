@@ -172,6 +172,7 @@ export default function QBankStudyPage() {
       case "moderate": return "bg-amber-50 text-amber-700 border-amber-200";
       case "hard": return "bg-orange-50 text-orange-700 border-orange-200";
       case "very_hard": return "bg-red-50 text-red-700 border-red-200";
+      case "critical_thinking": return "bg-purple-50 text-purple-700 border-purple-200";
       default: return "bg-gray-50 text-gray-700 border-gray-200";
     }
   };
@@ -234,6 +235,7 @@ export default function QBankStudyPage() {
                     <option value="moderate">Moderate</option>
                     <option value="hard">Hard</option>
                     <option value="very_hard">Very Hard</option>
+                    <option value="critical_thinking">Critical Thinking</option>
                   </select>
                 </div>
               </div>
@@ -290,7 +292,7 @@ export default function QBankStudyPage() {
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <PremiumBadge variant="system">{currentQ.category}</PremiumBadge>
                   <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${difficultyColor(currentQ.difficulty)}`}>
-                    {currentQ.difficulty === "very_hard" ? "Very Hard" : currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1)}
+                    {currentQ.difficulty === "very_hard" ? "Very Hard" : currentQ.difficulty === "critical_thinking" ? "Critical Thinking" : currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1)}
                   </span>
                   {currentQ.topic && <PremiumBadge>{currentQ.topic}</PremiumBadge>}
                   {currentQ.questionType && currentQ.questionType !== "mcq" && currentQ.questionType !== "multiple_choice" && (

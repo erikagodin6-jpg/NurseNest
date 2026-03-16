@@ -1,7 +1,8 @@
 import type { InsertQuestionBankItem } from "@shared/schema";
+import { pool } from "./storage";
 
 const VALID_CORRECT_ANSWERS = ["A", "B", "C", "D"];
-const VALID_DIFFICULTIES = ["easy", "moderate", "hard", "very_hard"];
+const VALID_DIFFICULTIES = ["easy", "moderate", "hard", "very_hard", "critical_thinking"];
 const VALID_EXAM_TYPES = ["NCLEX-PN", "REx-PN"];
 const VALID_COUNTRIES = ["US", "CA"];
 const VALID_QUESTION_TYPES = ["MCQ"];
@@ -39,10 +40,112 @@ export interface ValidationResult {
   totalRows: number;
   acceptedCount: number;
   rejectedCount: number;
+  duplicatesRejected: number;
 }
 
 function isNonEmptyString(val: unknown): val is string {
   return typeof val === "string" && val.trim().length > 0;
+}
+
+function normalizeStem(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, " ");
+}
+
+function trigramSet(text: string): Set<string> {
+  const normalized = normalizeStem(text);
+  const trigrams = new Set<string>();
+  for (let i = 0; i <= normalized.length - 3; i++) {
+    trigrams.add(normalized.substring(i, i + 3));
+  }
+  return trigrams;
+}
+
+function trigramSimilarity(a: string, b: string): number {
+  const setA = trigramSet(a);
+  const setB = trigramSet(b);
+  if (setA.size === 0 || setB.size === 0) return 0;
+  let intersection = 0;
+  for (const tri of setA) {
+    if (setB.has(tri)) intersection++;
+  }
+  return intersection / Math.max(setA.size, setB.size);
+}
+
+const SIMILARITY_THRESHOLD = 0.75;
+
+export async function checkDuplicateStem(stem: string, tier?: string): Promise<{ isDuplicate: boolean; similarStem?: string; similarity?: number }> {
+  try {
+    const normalized = normalizeStem(stem);
+    if (normalized.length < 20) return { isDuplicate: false };
+
+    const words = normalized.split(" ").filter(w => w.length > 3).slice(0, 5);
+    if (words.length === 0) return { isDuplicate: false };
+
+    const searchPattern = words.join(" & ");
+
+    let query = `
+      SELECT stem FROM exam_questions
+      WHERE status = 'published'
+    `;
+    const params: any[] = [];
+    let idx = 1;
+
+    if (tier) {
+      query += ` AND tier = $${idx++}`;
+      params.push(tier);
+    }
+
+    query += ` ORDER BY id DESC LIMIT 2000`;
+
+    const result = await pool.query(query, params);
+
+    for (const row of result.rows) {
+      if (!row.stem) continue;
+      const sim = trigramSimilarity(stem, row.stem);
+      if (sim >= SIMILARITY_THRESHOLD) {
+        return { isDuplicate: true, similarStem: row.stem.substring(0, 100), similarity: Math.round(sim * 100) / 100 };
+      }
+    }
+
+    return { isDuplicate: false };
+  } catch {
+    return { isDuplicate: false };
+  }
+}
+
+export async function checkDuplicateStems(stems: string[], tier?: string): Promise<Map<number, { similarStem: string; similarity: number }>> {
+  const duplicates = new Map<number, { similarStem: string; similarity: number }>();
+  try {
+    let query = `SELECT stem FROM exam_questions WHERE status = 'published'`;
+    const params: any[] = [];
+    if (tier) {
+      query += ` AND tier = $1`;
+      params.push(tier);
+    }
+    query += ` ORDER BY id DESC LIMIT 5000`;
+
+    const result = await pool.query(query, params);
+    const existingStems = result.rows.map((r: any) => r.stem).filter(Boolean);
+
+    for (let i = 0; i < stems.length; i++) {
+      const stem = stems[i];
+      if (!stem || stem.length < 20) continue;
+
+      for (const existing of existingStems) {
+        const sim = trigramSimilarity(stem, existing);
+        if (sim >= SIMILARITY_THRESHOLD) {
+          duplicates.set(i, { similarStem: existing.substring(0, 100), similarity: Math.round(sim * 100) / 100 });
+          break;
+        }
+      }
+    }
+  } catch {
+  }
+  return duplicates;
 }
 
 export function validateQuestionBankImport(rows: any[]): ValidationResult {
@@ -50,6 +153,7 @@ export function validateQuestionBankImport(rows: any[]): ValidationResult {
   const valid: InsertQuestionBankItem[] = [];
   const seenQuestions = new Set<string>();
   const seenRationales = new Set<string>();
+  let duplicatesRejected = 0;
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
@@ -123,11 +227,22 @@ export function validateQuestionBankImport(rows: any[]): ValidationResult {
     const questionText = (row.question || "").toString().trim().toLowerCase();
     if (questionText && seenQuestions.has(questionText)) {
       rowErrors.push({ row: rowNum, field: "question", message: "Duplicate question text in import batch" });
+      duplicatesRejected++;
     }
 
     const rationaleText = (row.rationale || "").toString().trim().toLowerCase();
     if (rationaleText && seenRationales.has(rationaleText)) {
       rowErrors.push({ row: rowNum, field: "rationale", message: "Duplicate rationale text in import batch" });
+    }
+
+    if (questionText && !seenQuestions.has(questionText)) {
+      for (const existing of seenQuestions) {
+        if (trigramSimilarity(questionText, existing) >= SIMILARITY_THRESHOLD) {
+          rowErrors.push({ row: rowNum, field: "question", message: "Question is too similar to another question in this import batch" });
+          duplicatesRejected++;
+          break;
+        }
+      }
     }
 
     if (rowErrors.length > 0) {
@@ -161,6 +276,7 @@ export function validateQuestionBankImport(rows: any[]): ValidationResult {
     totalRows: rows.length,
     acceptedCount: valid.length,
     rejectedCount: rows.length - valid.length,
+    duplicatesRejected,
   };
 }
 

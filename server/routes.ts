@@ -640,11 +640,56 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  let tierQuestionCountsCache: { data: any; timestamp: number } | null = null;
+  const TIER_Q_CACHE_TTL = 5 * 60 * 1000;
+
+  app.get("/api/tier-question-counts", async (_req, res) => {
+    try {
+      if (tierQuestionCountsCache && Date.now() - tierQuestionCountsCache.timestamp < TIER_Q_CACHE_TTL) {
+        return res.json(tierQuestionCountsCache.data);
+      }
+
+      const result = await pool.query(`
+        SELECT
+          tier,
+          COUNT(*)::int AS count
+        FROM exam_questions
+        WHERE status = 'published'
+        GROUP BY tier
+        ORDER BY tier
+      `);
+
+      const counts: Record<string, number> = {};
+      let total = 0;
+      for (const row of result.rows) {
+        counts[row.tier] = row.count;
+        total += row.count;
+      }
+
+      const data = {
+        rpn: counts.rpn || 0,
+        rn: counts.rn || 0,
+        np: counts.np || 0,
+        free: counts.free || 0,
+        total,
+        counts,
+        computedAt: new Date().toISOString(),
+      };
+
+      tierQuestionCountsCache = { data, timestamp: Date.now() };
+      res.json(data);
+    } catch (error: any) {
+      console.error("Tier question counts error:", error);
+      res.status(500).json({ error: "Failed to compute tier question counts" });
+    }
+  });
+
   app.post("/api/admin/invalidate-hero-cache", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     heroStatsCache = null;
     platformProofCache = null;
+    tierQuestionCountsCache = null;
     res.json({ ok: true });
   });
 

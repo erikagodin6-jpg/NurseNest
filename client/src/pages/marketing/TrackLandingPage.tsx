@@ -34,7 +34,7 @@ import type { LucideIcon } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRegion } from "@/hooks/use-region";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -121,7 +121,7 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
 
       <Navigation />
 
-      <HeroSection copy={copy} colors={colors} label={label} onNavigate={setLocation} />
+      <HeroSection copy={copy} colors={colors} label={label} onNavigate={setLocation} track={track} />
 
       {copy.trustStrip && (
         <TrustStrip items={copy.trustStrip.items.map(r)} colors={colors} />
@@ -223,20 +223,47 @@ function AnnouncementBar({ message, ctaText, onCta }: { message: string; ctaText
   );
 }
 
+function useLiveQuestionCount(tier: string): number | null {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    fetch("/api/tier-question-counts")
+      .then(r => r.json())
+      .then(data => {
+        const c = data[tier];
+        if (typeof c === "number" && c > 0) setCount(c);
+      })
+      .catch(() => {});
+  }, [tier]);
+  return count;
+}
+
 function HeroSection({
   copy,
   colors,
   label,
   onNavigate,
+  track,
 }: {
   copy: ReturnType<typeof getMarketingCopy>;
   colors: (typeof trackAccentMap)[string];
   label: string;
   onNavigate: (path: string) => void;
+  track: MarketingTrack;
 }) {
   const region = useRegion();
   const r = (text: string) => resolveMarketingText(text, region);
   const { hero } = copy;
+  const liveCount = useLiveQuestionCount(track);
+
+  const dynamicStats = hero.stats?.map(stat => {
+    if (liveCount && liveCount > 0 && stat.label.toLowerCase().includes("question")) {
+      const formatted = liveCount >= 1000
+        ? `${(Math.floor(liveCount / 100) * 100).toLocaleString()}+`
+        : `${liveCount}+`;
+      return { ...stat, value: formatted };
+    }
+    return stat;
+  });
 
   return (
     <section
@@ -328,9 +355,9 @@ function HeroSection({
           </div>
         )}
 
-        {hero.stats && hero.stats.length > 0 && (
+        {dynamicStats && dynamicStats.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {hero.stats.map((stat, i) => (
+            {dynamicStats.map((stat, i) => (
               <div
                 key={i}
                 className="text-center p-4 rounded-xl bg-white/70 border border-[#BFA6F6]/15 backdrop-blur-sm"

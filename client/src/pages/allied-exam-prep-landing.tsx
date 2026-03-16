@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -30,6 +30,7 @@ interface ExamPrepDomain {
 
 interface ExamPrepConfig {
   slug: string;
+  tier: string;
   title: string;
   h1: string;
   description: string;
@@ -55,6 +56,7 @@ interface ExamPrepConfig {
 const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
   paramedic: {
     slug: "paramedic-exam-prep",
+    tier: "paramedic",
     title: "Paramedic Exam Prep | NREMT, PCP & ACP Practice Questions | NurseNest",
     h1: "Paramedic Exam Prep",
     description: "Prepare for your paramedic certification with adaptive practice questions, clinical scenarios, and blueprint-weighted mock exams.",
@@ -112,6 +114,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   rrt: {
     slug: "rrt-exam-prep",
+    tier: "rrt",
     title: "RRT Exam Prep | NBRC TMC & CSE Practice Questions | NurseNest",
     h1: "Respiratory Therapy Exam Prep",
     description: "Prepare for your respiratory therapy certification with adaptive practice questions, ABG interpretation tools, and ventilator simulators.",
@@ -169,6 +172,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   mlt: {
     slug: "mlt-exam-prep",
+    tier: "mlt",
     title: "MLT Exam Prep | CSMLS & ASCP Practice Questions | NurseNest",
     h1: "Medical Laboratory Technologist Exam Prep",
     description: "Prepare for MLT certification with adaptive practice questions, image-based drills, and blueprint-weighted mock exams.",
@@ -226,6 +230,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   radiography: {
     slug: "radiography-exam-prep",
+    tier: "radiography",
     title: "Radiography Exam Prep | CAMRT & ARRT Practice Questions | NurseNest",
     h1: "Radiography & Medical Imaging Exam Prep",
     description: "Prepare for radiography certification with positioning guides, physics review, and blueprint-weighted practice exams.",
@@ -283,6 +288,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   "social-work": {
     slug: "social-work-exam-prep",
+    tier: "social_work",
     title: "Social Work Exam Prep | ASWB Clinical & Masters Practice Questions | NurseNest",
     h1: "Social Work Exam Prep",
     description: "Prepare for ASWB licensing exams with practice questions, DSM-5 case studies, ethics scenarios, and blueprint-weighted mock exams.",
@@ -340,6 +346,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   psychotherapy: {
     slug: "psychotherapy-exam-prep",
+    tier: "psychotherapy",
     title: "Psychotherapy Exam Prep | CRPO, NCE & Counseling Certification | NurseNest",
     h1: "Psychotherapy & Counseling Exam Prep",
     description: "Prepare for psychotherapy and counseling certification with practice questions, modality simulations, and ethics scenario drills.",
@@ -397,6 +404,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   addictions: {
     slug: "addictions-counselling-exam-prep",
+    tier: "addictions",
     title: "Addictions Counselling Exam Prep | IC&RC ADC & CASAC | NurseNest",
     h1: "Addictions Counselling Exam Prep",
     description: "Prepare for addiction counselor certification with practice questions, MI simulations, and co-occurring disorder case studies.",
@@ -454,6 +462,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   "occupational-therapy": {
     slug: "occupational-therapy-exam-prep",
+    tier: "occupational_therapy",
     title: "Occupational Therapy Exam Prep | NBCOT OTR & NOTCE | NurseNest",
     h1: "Occupational Therapy Exam Prep",
     description: "Prepare for OT licensing exams with practice questions, case analysis simulations, and blueprint-weighted mock exams.",
@@ -511,6 +520,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   "physical-therapy": {
     slug: "physical-therapy-exam-prep",
+    tier: "physical_therapy",
     title: "Physical Therapy Exam Prep | NPTE & PCE | NurseNest",
     h1: "Physical Therapy Exam Prep",
     description: "Prepare for PT licensing exams with practice questions, clinical case simulations, and blueprint-weighted mock exams.",
@@ -568,6 +578,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 
   nursing: {
     slug: "nursing-exam-prep",
+    tier: "nursing",
     title: "Nursing Exam Prep | NCLEX-RN, NCLEX-PN, REx-PN & NP | NurseNest",
     h1: "Nursing Exam Prep",
     description: "Prepare for nursing certification with practice questions, clinical judgment cases, mock exams, and flashcards for all nursing tiers.",
@@ -649,9 +660,34 @@ function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
   );
 }
 
+function useLiveQuestionCount(tier: string): number | null {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    fetch("/api/tier-question-counts")
+      .then(r => r.json())
+      .then(data => {
+        const c = data.counts?.[tier] ?? data[tier];
+        if (typeof c === "number" && c > 0) setCount(c);
+      })
+      .catch(() => {});
+  }, [tier]);
+  return count;
+}
+
 function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
   const [, setLocation] = useLocation();
   const Icon = config.Icon;
+  const liveCount = useLiveQuestionCount(config.tier);
+
+  const dynamicStats = config.stats.map(stat => {
+    if (liveCount && liveCount > 0 && stat.label.toLowerCase().includes("question")) {
+      const formatted = liveCount >= 1000
+        ? `${(Math.floor(liveCount / 100) * 100).toLocaleString()}+`
+        : `${liveCount}+`;
+      return { ...stat, value: formatted };
+    }
+    return stat;
+  });
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -765,7 +801,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
-              {config.stats.map((stat, i) => (
+              {dynamicStats.map((stat, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-200/60 p-3 text-center shadow-sm" data-testid={`stat-${i}`}>
                   <p className="text-lg font-bold" style={{ color: config.color }}>{stat.value}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{stat.label}</p>

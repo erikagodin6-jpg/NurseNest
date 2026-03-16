@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
-import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runProceduralSurgicalSubspecialty, runFullProceduralSurgicalExpansion, getProceduralSurgicalExpansionStatus } from "./qbank-expansion-engine";
+import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runProceduralSurgicalSubspecialty, runFullProceduralSurgicalExpansion, getProceduralSurgicalExpansionStatus, checkAutoGenerationTriggers, runAutoTriggeredExpansions } from "./qbank-expansion-engine";
 
 const activeExpansions = new Map<string, { status: string; summary?: any; error?: string }>();
 
@@ -53,7 +53,7 @@ export function registerExpansionEngineRoutes(app: Express) {
       }
 
       activeExpansions.set("expansion-full", { status: "running" });
-      res.json({ ok: true, message: "Started full 3,700-question expansion across all tiers (rpn=1000, rn=1500, np=1200)" });
+      res.json({ ok: true, message: "Started full 8,000-question expansion across all tiers (rpn=2000, rn=4000, np=2000)" });
 
       runFullExpansion((progress) => {
         console.log(`[Expansion Full] Progress: batch ${progress.batchNumber} (${progress.tier}), ${progress.questionsGenerated} questions`);
@@ -274,6 +274,57 @@ export function registerExpansionEngineRoutes(app: Express) {
       res.json({
         ...dbStatus,
         activeJobs: runningJobs,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/expansion-engine/auto-trigger-check", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const result = await checkAutoGenerationTriggers();
+      res.json({
+        ok: true,
+        tiersBelow50Percent: result.triggered.length,
+        deficits: result.deficits,
+        triggered: result.triggered,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/expansion-engine/auto-trigger-run", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      if (activeExpansions.has("auto-trigger") && activeExpansions.get("auto-trigger")?.status === "running") {
+        return res.status(409).json({ error: "Auto-triggered expansion is already running" });
+      }
+
+      const check = await checkAutoGenerationTriggers();
+      if (check.triggered.length === 0) {
+        return res.json({ ok: true, message: "All tiers are above the 50% threshold. No expansion needed.", deficits: [] });
+      }
+
+      activeExpansions.set("auto-trigger", { status: "running" });
+      res.json({
+        ok: true,
+        message: `Auto-triggering expansion for ${check.triggered.length} tier(s): ${check.triggered.join(", ")}`,
+        deficits: check.deficits,
+      });
+
+      runAutoTriggeredExpansions((info) => {
+        console.log(`[Auto-Trigger] ${info.tier}: ${info.status}`);
+      }).then((result) => {
+        activeExpansions.set("auto-trigger", { status: "complete", summary: result });
+      }).catch((err) => {
+        console.error("[Auto-Trigger] Error:", err);
+        activeExpansions.set("auto-trigger", { status: "failed", error: err.message });
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
