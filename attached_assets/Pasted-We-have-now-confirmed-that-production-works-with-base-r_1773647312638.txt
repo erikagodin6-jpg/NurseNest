@@ -1,0 +1,74 @@
+We have now confirmed that production works with:
+- base render
+- QueryClientProvider
+- ThemeProvider
+- I18nProvider
+- AuthProvider
+- CareerProvider
+- ParamedicRegionProvider
+- SiteImagesProvider
+- TooltipProvider
+
+Therefore the crash is NOT the deployment pipeline and NOT the provider stack.
+
+The likely fault is now in:
+- router config
+- route components
+- lazy imports
+- page-level startup code
+- a hook or module imported by the full app
+
+Do this exactly:
+
+1. Do NOT restore the full app blindly.
+2. Restore the real App shell, but replace all actual route elements with trivial placeholder pages first.
+3. Keep the real router structure, paths, and layout wrappers, but use simple components like:
+   const SafePage = ({ name }) => <div>Route loaded: {name}</div>;
+
+4. Test production.
+   - If this fails, the router/layout shell itself is broken.
+   - If this works, the issue is in a real page component import.
+
+5. If placeholder routes work, restore real routes in batches:
+   Batch A: landing/home pages
+   Batch B: auth/account pages
+   Batch C: pricing/store pages
+   Batch D: lessons/practice pages
+   Batch E: admin/dashboard pages
+   Batch F: allied health/new grad pages
+
+6. After each batch:
+   - run production build
+   - publish
+   - test /en
+   - test one route from that batch directly
+
+7. Add explicit console logs:
+   - before router creation
+   - before route array creation
+   - before each lazy import
+   - inside each page module top level: console.log("module loaded: X")
+   - inside each page component mount: console.log("component mounted: X")
+
+8. Search the codebase for:
+   - unstable_now
+   - scheduler
+   - React internals
+   - window/document/localStorage/sessionStorage access at module top level
+   - immediate fetches at import time
+   - import() lazy loaders
+   - Suspense boundaries
+   - useLayoutEffect in pages/layouts
+   - code that assumes browser APIs exist before mount
+
+9. Specifically inspect any route component recently changed around:
+   - i18n
+   - analytics
+   - SEO/meta injection
+   - image/provider hooks
+   - lesson/category navigation
+   - pricing
+   - allied/new grad hero pages
+
+10. If the full app fails immediately again, capture the FIRST production console error and the exact route being loaded.
+Do not say “cache issue.” This is now a route/module-level regression hunt.
