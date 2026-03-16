@@ -1181,7 +1181,7 @@ function LocaleRouter() {
     <Router base={`/${locale}`}>
       <Suspense fallback={<div style={{padding:"40px",fontFamily:"sans-serif"}}>Loading...</div>}>
         <Switch>
-          <Route path="/" component={Home} />
+          <Route path="/">{() => <div style={{padding:"40px",fontFamily:"sans-serif"}}><h1 style={{color:"#7c3aed"}}>RECOVERY TEST 5: Router works, Home disabled</h1><p>Time: {new Date().toISOString()}</p></div>}</Route>
           <Route>{() => <div style={{padding:"40px"}}>Page found - router works</div>}</Route>
         </Switch>
       </Suspense>
