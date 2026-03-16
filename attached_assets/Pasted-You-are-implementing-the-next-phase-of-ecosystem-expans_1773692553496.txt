@@ -1,0 +1,273 @@
+You are implementing the next phase of ecosystem expansion for the NurseNest and ApplyNest platforms.
+The objective is to increase long-term organic traffic, strengthen topical authority in healthcare education and careers, and create evergreen content systems that require minimal ongoing maintenance once deployed.
+
+All improvements must integrate into the existing ecosystem without disrupting the current architecture.
+
+CRITICAL RULES
+
+Do NOT modify the existing navigation hierarchy.
+Do NOT rename exam tiers (RPN, RN, NP).
+Do NOT remove or alter current lesson or question bank pages.
+Do NOT break multilingual routing.
+Do NOT create duplicate content routes.
+All new sections must integrate with existing NurseNest and ApplyNest internal linking systems.
+
+All pages must support the same multilingual infrastructure used on NurseNest.
+
+Language implementation priority:
+
+French (fr)
+Spanish (es)
+Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+
+Then automatically support all additional NurseNest languages detected from the localization configuration.
+
+All pages must include translated metadata, hreflang tags, and proper sitemap inclusion.
+
+---
+
+STEP 1 — BUILD A GLOBAL HEALTHCARE CAREER GUIDES HUB
+
+Create a major content hub:
+
+/healthcare-careers
+
+This hub must provide structured career guides for healthcare professions and act as a discovery pathway into both NurseNest learning resources and ApplyNest job opportunities.
+
+Create pages for major healthcare roles including:
+
+Registered Nurse
+Licensed Practical Nurse
+Nurse Practitioner
+Respiratory Therapist
+Radiologic Technologist
+Sonographer
+Physical Therapist Assistant
+Occupational Therapy Assistant
+Surgical Technologist
+Medical Laboratory Technologist
+Paramedic
+Pharmacy Technician
+
+Each career page must include:
+
+role overview
+education pathways
+licensing requirements
+salary ranges
+work environments
+typical responsibilities
+advancement opportunities
+
+Each page must link to:
+
+relevant NurseNest study resources
+related certification or exam preparation pages
+ApplyNest job listings for that profession
+
+---
+
+STEP 2 — CREATE A GLOBAL HEALTHCARE CERTIFICATIONS DATABASE
+
+Create a certification hub:
+
+/healthcare-certifications
+
+Add pages for major clinical certifications including:
+
+ACLS
+PALS
+BLS
+NRP
+TNCC
+ENPC
+CCRN
+CEN
+OCN
+CMSRN
+
+Each certification page must include:
+
+who the certification is for
+eligibility requirements
+exam structure
+renewal cycle
+clinical relevance
+study preparation guidance
+
+Each page must link to NurseNest learning material where appropriate.
+
+---
+
+STEP 3 — CREATE A MEDICAL CALCULATOR TOOL HUB
+
+Create a new tools section:
+
+/clinical-calculators
+
+Add calculators commonly used by nurses and healthcare students such as:
+
+anion gap calculator
+IV drip rate calculator
+body surface area calculator
+pediatric medication dose calculator
+ABG interpretation helper
+GFR calculator
+BMI calculator
+
+Each calculator page must include:
+
+clear instructions
+clinical interpretation guidance
+exam tips where applicable
+
+These tools must be lightweight, SEO-friendly, and multilingual.
+
+---
+
+STEP 4 — BUILD A NURSING STUDY RESOURCE LIBRARY
+
+Create:
+
+/nursing-study-guides
+
+Add long-form learning pages including:
+
+electrolytes for nursing exams
+acid-base disorders explained for nurses
+cardiac ECG interpretation guide
+fluid and electrolyte balance overview
+critical lab values nurses must recognize
+
+Each guide should function as a cornerstone educational resource linking to:
+
+NurseNest lessons
+NurseNest question banks
+practice scenarios
+
+---
+
+STEP 5 — CREATE A NURSING PRACTICE SCENARIO LIBRARY
+
+Create:
+
+/nursing-clinical-scenarios
+
+Add clinical reasoning scenarios such as:
+
+chest pain emergency scenario
+sepsis recognition scenario
+respiratory distress case study
+stroke assessment scenario
+pediatric deterioration scenario
+
+Each scenario must include:
+
+patient presentation
+assessment findings
+clinical reasoning explanation
+nursing priorities
+follow-up quiz questions
+
+These pages must link to NurseNest scenario question banks.
+
+---
+
+STEP 6 — CREATE A GLOBAL HEALTHCARE NEWS AND POLICY HUB
+
+Create:
+
+/healthcare-policy-and-updates
+
+Add evergreen informational pages about:
+
+major licensing policy changes
+international nursing recruitment policies
+exam format updates
+regulatory changes affecting nurses
+
+This content should remain evergreen and not rely on daily news updates.
+
+---
+
+STEP 7 — MULTILANGUAGE IMPLEMENTATION
+
+All new sections must support multilingual routing identical to NurseNest.
+
+Automatically detect languages using:
+
+i18n configuration
+translation JSON files
+language folders
+routing definitions
+
+Generate translated routes such as:
+
+/en/healthcare-careers/registered-nurse
+/fr/healthcare-careers/registered-nurse
+/es/healthcare-careers/registered-nurse
+/pt/healthcare-careers/registered-nurse
+
+Ensure translated metadata and UI text exist for all supported languages.
+
+---
+
+STEP 8 — SEO AND DISCOVERY REQUIREMENTS
+
+Every new page must include:
+
+optimized title tags
+translated meta descriptions
+structured headings
+internal linking to NurseNest and ApplyNest
+FAQ sections targeting common search questions
+
+Add structured data where appropriate:
+
+Article schema
+FAQ schema
+Breadcrumb schema
+
+---
+
+STEP 9 — ECOSYSTEM INTERNAL LINKING
+
+Ensure that all new sections connect the ecosystem:
+
+career pages → NurseNest study resources
+exam pages → NurseNest question banks
+career pathways → ApplyNest jobs
+certification pages → NurseNest prep content
+
+These pages must act as traffic funnels rather than isolated content.
+
+---
+
+STEP 10 — FINAL QUALITY CHECK
+
+After implementation verify that:
+
+existing navigation remains unchanged
+multilingual routing works correctly
+hreflang tags are generated automatically
+translated metadata is present
+internal linking connects the ecosystem
+sitemaps include all indexable pages
+no duplicate content routes are created
+
+---
+
+FINAL RESULT
+
+The NurseNest and ApplyNest ecosystem must evolve into a comprehensive multilingual healthcare education and career platform that includes:
+
+career discovery
+exam preparation
+clinical learning resources
+certification pathways
+job opportunities
+international licensing guidance
+
+while continuing to drive users toward NurseNest learning products and ApplyNest career tools.

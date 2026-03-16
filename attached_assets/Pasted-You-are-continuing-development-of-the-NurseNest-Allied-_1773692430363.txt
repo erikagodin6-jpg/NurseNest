@@ -1,0 +1,310 @@
+You are continuing development of the NurseNest / Allied Health / New Grad ecosystem.
+
+Major platform systems already implemented:
+
+• Social Worker expansion  
+• OTA/PTA expansion  
+• Allied health tier expansions  
+• Pre-Nursing expansion  
+• New Grad career readiness expansion  
+• Certification exam hub expansion  
+• AI Adaptive Testing Engine  
+• Question Explanation Engine  
+• AI Study Guide / Lesson Generation Engine  
+• Smart Flashcard + Spaced Repetition System  
+• Exam Readiness Predictor + Benchmarking System  
+
+You must now implement the NEXT highest-impact platform capability.
+
+Do NOT explain reasoning.  
+Do NOT provide options.  
+Automatically select the next priority and implement it completely.
+
+────────────────────────
+
+CURRENT PLATFORM STATE
+
+NURSING
+RN ~8,350  
+RPN/PN/LVN ~6,300  
+NP ~4,150  
+
+Pre-Nursing expanded  
+
+ALLIED HEALTH
+RRT ~4,070  
+Surgical Technologist ~3,000  
+MLT ~2,000  
+OTA expanded  
+PTA expanded  
+Pharmacy Technician ~1,710  
+Paramedic ~1,500  
+Imaging / Radiology ~2,560  
+Addictions Counsellor ~1,000  
+Psychotherapist ~1,000  
+
+Certification hubs expanded  
+New Grad expanded  
+
+Adaptive testing deployed  
+Explanation engine deployed  
+Study guide engine deployed  
+Flashcard engine deployed  
+Readiness predictor deployed  
+
+DATABASE
+AI question generator ~28,436 items
+
+────────────────────────
+
+NEXT PRIORITY TARGET
+
+The next highest-impact capability is an **AI TUTORING ASSISTANT** integrated directly into the learning system.
+
+This converts NurseNest from a static learning platform into an **interactive tutoring environment**.
+
+Store priority in configuration:
+
+ACTIVE_BUILD_PRIORITY = "AI_TUTORING_ASSISTANT"
+
+Expose this constant in the admin dashboard.
+
+────────────────────────
+
+PART 1 — AI TUTOR INTERFACE
+
+Create an AI tutoring interface embedded across the platform.
+
+Users can ask questions about:
+
+practice questions  
+study guides  
+clinical topics  
+exam strategies  
+
+Interface must support:
+
+chat-style conversation  
+topic-aware responses  
+context from the question or lesson being viewed  
+
+────────────────────────
+
+PART 2 — CONTEXT-AWARE RESPONSES
+
+When the tutor is opened from:
+
+a question  
+a study guide  
+a flashcard  
+a practice exam  
+
+The tutor must automatically receive the context.
+
+Example:
+
+If opened on a shock question → tutor explains shock types.
+
+────────────────────────
+
+PART 3 — TUTORING CAPABILITIES
+
+Tutor must provide:
+
+concept explanations  
+step-by-step reasoning  
+exam strategy advice  
+mnemonics  
+simplified breakdowns  
+
+The tutor must never provide unsafe clinical advice.
+
+Focus strictly on exam preparation and education.
+
+────────────────────────
+
+PART 4 — QUESTION WALKTHROUGH MODE
+
+Allow users to request a walkthrough.
+
+Example command:
+
+“Walk me through this question.”
+
+The tutor should explain:
+
+how to analyze the stem  
+how to eliminate distractors  
+how to choose the correct answer  
+
+────────────────────────
+
+PART 5 — STUDY GUIDE SUPPORT
+
+Tutor must assist with lessons.
+
+Users can ask:
+
+“Explain this topic more simply.”  
+“Give me a mnemonic.”  
+“Give me a clinical example.”
+
+Tutor responses should reference the study guide content.
+
+────────────────────────
+
+PART 6 — PRACTICE RECOMMENDATIONS
+
+Tutor can recommend:
+
+practice questions  
+flashcard decks  
+study guides  
+
+Example response:
+
+“You should practice cardiac rhythm questions next.”
+
+────────────────────────
+
+PART 7 — LEARNING MODE INTEGRATION
+
+Add a new option:
+
+Tutor Mode
+
+Features:
+
+ask questions while studying  
+clarify explanations  
+expand concepts  
+
+Tutor must appear alongside:
+
+study guides  
+flashcards  
+practice questions  
+
+────────────────────────
+
+PART 8 — ADMIN SAFETY CONTROLS
+
+Admin panel must allow:
+
+tutor response review  
+prompt configuration  
+safety filters  
+
+Block responses involving:
+
+medical treatment advice  
+unsafe clinical recommendations  
+
+────────────────────────
+
+PART 9 — TUTOR ANALYTICS
+
+Track tutor usage.
+
+Metrics:
+
+questions asked  
+topics discussed  
+most requested explanations  
+
+Use this data to improve content coverage.
+
+────────────────────────
+
+PART 10 — MULTI-LANGUAGE SUPPORT
+
+Tutor must support:
+
+English  
+French  
+Spanish  
+
+Responses should match the language of the interface.
+
+────────────────────────
+
+PART 11 — PAYWALL STRUCTURE
+
+Free users:
+
+limited tutor questions per day  
+
+Premium users:
+
+unlimited tutoring  
+deep explanations  
+study strategy guidance  
+
+────────────────────────
+
+PART 12 — INTERNAL PROMOTION
+
+Promote tutor availability across the platform.
+
+Example CTAs:
+
+“Ask the NurseNest AI Tutor”  
+“Need help with this question?”
+
+Add buttons to:
+
+practice questions  
+study guides  
+flashcards  
+mock exams  
+
+────────────────────────
+
+PART 13 — ROADMAP GENERATION
+
+After deploying the AI Tutor, generate the next development roadmap.
+
+Rank opportunities by:
+
+engagement impact  
+conversion potential  
+learning effectiveness  
+
+Likely next priorities:
+
+Competitive Study Leaderboards  
+Group Study Rooms  
+Daily Study Streaks  
+Exam Countdown Tracker  
+
+Store roadmap in admin as:
+
+CONTENT_EXPANSION_ROADMAP
+
+────────────────────────
+
+PART 14 — OUTPUT
+
+Return build summary including:
+
+selected priority  
+tutor modules built  
+files modified  
+analytics created  
+next recommended expansion
+
+────────────────────────
+
+QUALITY RULES
+
+Do not expose private user data  
+Do not generate unsafe clinical guidance  
+Do not degrade site performance  
+
+Tutor must feel **fast, helpful, and highly educational**.
+
+────────────────────────
+
+FINAL EXECUTION
+
+Identify the next priority and implement the full AI Tutoring Assistant with contextual help, study support, safety controls, and premium feature integration.
