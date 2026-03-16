@@ -241,6 +241,24 @@ export default function NewGradHub() {
         </div>
       </section>
 
+      <section className="py-16 bg-gradient-to-br from-teal-50 via-emerald-50/50 to-cyan-50" data-testid="section-career-step">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Preparing for Your Next Career Step</h2>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Ready to take the leap from study to practice? ApplyNest helps healthcare graduates navigate program applications, craft standout personal statements, and discover scholarship opportunities — all in one place.
+          </p>
+          <a
+            href="https://applynest.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200"
+            data-testid="button-applynest-career-step"
+          >
+            Explore ApplyNest <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </section>
+
       <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Launch Your Career?</h2>

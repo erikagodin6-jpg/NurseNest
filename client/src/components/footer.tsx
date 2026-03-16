@@ -127,6 +127,19 @@ export function Footer() {
             </ul>
           </div>
         </div>
+        <div className="border-t border-[var(--theme-separator)] pt-6 pb-6 mb-6">
+          <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">Our Education Ecosystem</h3>
+          <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+            <li>
+              <LocaleLink href="/" className="hover:text-primary transition-colors font-medium" data-testid="link-footer-ecosystem-nursenest">NurseNest</LocaleLink>
+              <span className="ml-1">— Nursing exam prep, clinical tools, and career development</span>
+            </li>
+            <li>
+              <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium" data-testid="link-footer-ecosystem-applynest">ApplyNest</a>
+              <span className="ml-1">— Healthcare program applications, admissions, and scholarship tools</span>
+            </li>
+          </ul>
+        </div>
         <div className="border-t border-[var(--theme-separator)] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <ThemedLogo width={160} />

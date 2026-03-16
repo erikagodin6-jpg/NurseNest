@@ -198,6 +198,9 @@ export default function InterviewPage() {
       <section className="py-12 bg-gradient-to-r from-purple-50 to-indigo-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-3">More Career Resources</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Looking for healthcare career-entry support? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-700 font-semibold hover:underline" data-testid="link-applynest-interview">ApplyNest offers admissions guidance and scholarship search tools</a>.
+          </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/resume" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-resume">
               Resume Tools

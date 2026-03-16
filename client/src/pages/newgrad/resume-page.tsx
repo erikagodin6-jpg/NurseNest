@@ -144,6 +144,9 @@ export default function ResumePage() {
       <section className="py-12 bg-gradient-to-r from-pink-50 to-rose-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-3">Complete Your Job Search Toolkit</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Need help with program applications or personal statements? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-pink-700 font-semibold hover:underline" data-testid="link-applynest-resume">Visit ApplyNest for application tools and career-entry resources</a>.
+          </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-pink-700 rounded-xl font-semibold hover:bg-pink-50 transition-colors border border-pink-200" data-testid="link-interview">
               Interview Prep

@@ -1595,6 +1595,14 @@ export default function PreNursingPage() {
         />
       )}
 
+      <section className="py-12 bg-gradient-to-r from-teal-50 to-cyan-50" data-testid="section-applynest-prenursing">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-600 mb-4">
+            Exploring healthcare programs or preparing applications? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-semibold hover:underline" data-testid="link-applynest-prenursing">ApplyNest</a> offers tools for program applications, personal statement writing, and scholarship searches to help you find the right path.
+          </p>
+        </div>
+      </section>
+
       <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
       <Footer />
     </div>
