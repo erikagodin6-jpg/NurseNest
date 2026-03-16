@@ -1426,6 +1426,17 @@ export default function MedMathPage() {
         </Tabs>
         )}
 
+        <LocaleLink href="/si-to-conventional-units-converter">
+          <div className="flex items-center gap-3 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 hover:bg-blue-50 transition-colors cursor-pointer group mt-10" data-testid="link-unit-converter-cta">
+            <ArrowRight className="w-5 h-5 text-primary flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-900">SI ↔ Conventional Units Converter</p>
+              <p className="text-xs text-gray-500">Convert between Canadian SI and U.S. conventional lab units — free tool for nursing students</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
+          </div>
+        </LocaleLink>
+
         <div className="mt-16 border-t border-gray-200 pt-6">
           <div className="flex items-start gap-2 text-xs text-gray-400 max-w-3xl mx-auto">
             <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-gray-300" />

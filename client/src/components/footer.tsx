@@ -20,6 +20,7 @@ export function Footer() {
               <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">{t("footer.anatomyExplorer")}</LocaleLink></li>
               <li><LocaleLink href="/pre-nursing" className="hover:text-primary transition-colors" data-testid="link-footer-pre-nursing">{t("footer.preNursing")}</LocaleLink></li>
               <li><LocaleLink href="/med-math" className="hover:text-primary transition-colors" data-testid="link-footer-med-math">{t("footer.medMath")}</LocaleLink></li>
+              <li><LocaleLink href="/si-to-conventional-units-converter" className="hover:text-primary transition-colors" data-testid="link-footer-unit-converter">SI ↔ Conventional Converter</LocaleLink></li>
               <li><LocaleLink href="/medication-mastery" className="hover:text-primary transition-colors" data-testid="link-footer-medication-mastery">{t("footer.medicationMastery")}</LocaleLink></li>
               <li><LocaleLink href="/clinical-clarity" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-clarity">{t("footer.clinicalClarity")}</LocaleLink></li>
             </ul>

@@ -27,6 +27,7 @@ export async function generateMainPages(): Promise<string[]> {
     { path: "/anatomy", priority: "0.7", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/med-math", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/lab-values", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/si-to-conventional-units-converter", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/mock-exams", priority: "0.8", changefreq: "weekly", localeSet: locales, lastmod: today },
     { path: "/clinical-clarity", priority: "0.8", changefreq: "weekly", localeSet: locales, lastmod: today },
     { path: "/blog", priority: "0.7", changefreq: "daily", localeSet: locales, lastmod: today },

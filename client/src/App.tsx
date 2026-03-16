@@ -113,6 +113,7 @@ const MltStudentDashboard = lazy(() => import("@/allied/pages/mlt-student-dashbo
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
 const LabValuesPage = lazy(() => import("@/pages/lab-values"));
+const SIConventionalConverterPage = lazy(() => import("@/pages/si-conventional-converter"));
 const ContentPage = lazy(() => import("@/pages/content-page"));
 const BlogPage = lazy(() => import("@/pages/blog"));
 const ClinicalClarityIndex = lazy(() => import("@/pages/clinical-clarity"));
@@ -554,6 +555,7 @@ function AppRoutes() {
         <Route path="/pathways" component={PathwaysPage} />
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
+        <Route path="/si-to-conventional-units-converter" component={SIConventionalConverterPage} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/ai-jobs" component={AdminAiJobs} />
         <Route path="/admin/business-health" component={AdminBusinessHealth} />

@@ -59,7 +59,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award, Sparkles } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award, Sparkles, ArrowRightLeft } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
 
@@ -763,6 +763,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
             <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/si-to-conventional-units-converter")}>
+                <span className="flex items-center gap-2"><ArrowRightLeft className="w-4 h-4" /> SI ↔ Conventional Converter</span>
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/case-simulations")}>
                 <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> {t("nav.caseSimulations")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
@@ -1179,6 +1184,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/medication-mastery")}>
                     <Pill className="w-4 h-4 text-primary/70" />
                     {t("nav.medicationMastery")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">Free Tools</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/si-to-conventional-units-converter")}>
+                    <ArrowRightLeft className="w-4 h-4 text-primary/70" />
+                    SI ↔ Conventional Converter
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

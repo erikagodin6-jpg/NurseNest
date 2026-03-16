@@ -324,6 +324,10 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Lab Values Interpretation - Abnormal Clinical Findings | NurseNest",
     description: "Master abnormal lab value interpretation with cluster-based scenarios. Practice identifying critical values and clinical correlations for nursing exams.",
   },
+  "/si-to-conventional-units-converter": {
+    title: "SI to Conventional Units Converter — Nursing Lab Value Calculator | NurseNest",
+    description: "Free nursing unit converter: convert between SI (Canadian) and conventional (U.S.) units for glucose, creatinine, hemoglobin, cholesterol, BUN, and more. Quick-reference tables and formulas for NCLEX & REx-PN prep.",
+  },
   "/clinical-clarity": {
     title: "Clinical Clarity - Why Does This Happen? | NurseNest",
     description: "Understand the 'why' behind clinical phenomena. Evidence-based explanations for pathophysiology concepts nursing students need to know.",

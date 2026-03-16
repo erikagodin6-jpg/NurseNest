@@ -52,6 +52,7 @@ const STATIC_ROUTES: Record<string, string> = {
   "/flashcards": "Flashcards",
   "/med-math": "Med Math",
   "/lab-values": "Lab Values",
+  "/si-to-conventional-units-converter": "SI ↔ Conventional Units Converter",
   "/pricing": "Pricing",
   "/shop": "Shop",
   "/test-bank": "Test Bank",
