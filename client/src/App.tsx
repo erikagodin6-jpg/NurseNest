@@ -243,6 +243,7 @@ const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
 const AdminContentAnalytics = lazy(() => import("@/pages/admin-content-analytics"));
+const AdminTierHealth = lazy(() => import("@/pages/admin-tier-health"));
 const AdminProfessionsPage = lazy(() => import("@/pages/admin-professions"));
 const AdminUniversalImport = lazy(() => import("@/pages/admin-universal-import"));
 const ProfessionHubPage = lazy(() => import("@/pages/profession-hub"));
@@ -810,6 +811,7 @@ function AppRoutes() {
         <Route path="/admin/content-manager" component={AdminContentManager} />
         <Route path="/admin/content-audit" component={AdminContentAudit} />
         <Route path="/admin/content-analytics" component={AdminContentAnalytics} />
+        <Route path="/admin/tier-health" component={AdminTierHealth} />
         <Route path="/admin/qbank/import" component={AdminQBankImport} />
         <Route path="/admin/qbank/manage" component={AdminQBankManage} />
         <Route path="/admin/flashcard-studio" component={AdminFlashcardStudio} />

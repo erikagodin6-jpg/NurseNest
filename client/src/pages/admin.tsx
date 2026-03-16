@@ -1587,6 +1587,9 @@ export default function AdminPage() {
                 <a href="/admin/content-coverage" className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-content-coverage">
                   <BarChart3 className="w-4 h-4" /> Content Coverage
                 </a>
+                <a href="/admin/tier-health" className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors" data-testid="link-tier-health">
+                  <Activity className="w-4 h-4" /> Tier Health
+                </a>
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
