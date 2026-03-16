@@ -449,6 +449,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSiteHealthRoutes } = await import("./site-health-routes");
   registerSiteHealthRoutes(app);
 
+  const { registerContentHealthRoutes } = await import("./content-health-routes");
+  registerContentHealthRoutes(app);
+
   const { registerSeoPerformanceRoutes } = await import("./seo-performance-routes");
   registerSeoPerformanceRoutes(app);
 
@@ -5308,6 +5311,22 @@ Rules:
       }
       const parsed = insertContentItemSchema.parse(contentData);
 
+      if (parsed.slug) {
+        const timestampSlugMatch = parsed.slug.match(/^(.+)-(\d{13})$/);
+        if (timestampSlugMatch) {
+          const cleanSlug = timestampSlugMatch[1];
+          const existingClean = await storage.getContentItemBySlug(cleanSlug);
+          if (existingClean) {
+            return res.status(409).json({
+              error: `Slug "${parsed.slug}" contains a timestamp suffix. A clean version "${cleanSlug}" already exists.`,
+              code: "DUPLICATE_TIMESTAMP_SLUG",
+              canonicalSlug: cleanSlug,
+            });
+          }
+          parsed.slug = cleanSlug;
+        }
+      }
+
       if (parsed.type === "lesson" && parsed.title && !contentData.forcePublish) {
         try {
           const { validateLessonTitle } = await import("./title-canonicalizer");
@@ -5408,6 +5427,22 @@ Rules:
           if (!validScopes.includes(contentData.regionScope)) {
             contentData.regionScope = existing.regionScope || "BOTH";
           }
+        }
+      }
+
+      if (contentData.slug) {
+        const timestampSlugMatch = contentData.slug.match(/^(.+)-(\d{13})$/);
+        if (timestampSlugMatch) {
+          const cleanSlug = timestampSlugMatch[1];
+          const existingClean = await storage.getContentItemBySlug(cleanSlug);
+          if (existingClean && existingClean.id !== req.params.id) {
+            return res.status(409).json({
+              error: `Slug "${contentData.slug}" contains a timestamp suffix. A clean version "${cleanSlug}" already exists.`,
+              code: "DUPLICATE_TIMESTAMP_SLUG",
+              canonicalSlug: cleanSlug,
+            });
+          }
+          contentData.slug = cleanSlug;
         }
       }
 

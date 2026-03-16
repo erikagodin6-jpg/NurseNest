@@ -10,6 +10,25 @@ const LEARN_REDIRECTS: Record<string, string> = {
   "test-publish-flow-1772145129698": "",
 };
 
+const TIMESTAMP_SUFFIX_RE = /^.+-\d{13}$/;
+
+const PLACEHOLDER_TITLE_PATTERNS = [
+  /unable to complete/i,
+  /placeholder/i,
+  /coming soon/i,
+  /\[draft\]/i,
+  /untitled/i,
+  /test publish/i,
+];
+
+function isPlaceholderContent(title: string, contentLength: number): boolean {
+  if (contentLength < 200) return true;
+  for (const pattern of PLACEHOLDER_TITLE_PATTERNS) {
+    if (pattern.test(title)) return true;
+  }
+  return false;
+}
+
 interface StaticRoute {
   path: string;
   priority: string;
@@ -303,7 +322,8 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
-      if (/-\d{10,13}$/.test(item.slug)) return false;
+      if (TIMESTAMP_SUFFIX_RE.test(item.slug)) return false;
+      if (isPlaceholderContent(item.title || "", contentLen)) return false;
       return true;
     });
     for (const post of blogPosts) {

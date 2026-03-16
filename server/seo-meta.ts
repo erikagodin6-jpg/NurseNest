@@ -253,6 +253,34 @@ function stripTierFromSeoTitle(title: string): string {
     .trim();
 }
 
+const NURSING_KEYWORDS_RE = /\b(nurs|nclex|clinical|patient care|exam prep|lpn|lvn|rpn|rnursing|for nurses|nursing guide|nursing care|nursing interventions|nurse practitioner)\b/i;
+
+function appendNursingContext(title: string, slug: string): string {
+  if (NURSING_KEYWORDS_RE.test(title)) {
+    return title;
+  }
+
+  if (title.includes(":") || title.includes("—") || title.includes(" - ")) {
+    if (title.length > 55) return title;
+  }
+
+  const npSlugs = /-np$|^np-|-management-np$|-np-/;
+  const rnSlugs = /-rn$|^rn-|-basics-rn$|-rn-/;
+
+  if (npSlugs.test(slug)) {
+    return `${title} — NP Clinical Guide`;
+  }
+  if (rnSlugs.test(slug)) {
+    return `${title} — Nursing Guide`;
+  }
+
+  if (slug.includes("allied-") || slug.includes("-mlt") || slug.includes("-rrt") || slug.includes("paramedic")) {
+    return title;
+  }
+
+  return `${title} — Nursing Guide`;
+}
+
 function slugToTitle(slug: string): string {
   return slug
     .replace(/-/g, " ")
@@ -1471,8 +1499,9 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     const seoEntry = seoTitleMap[slug];
     if (seoEntry) {
       const cleanSeoTitle = stripTierFromSeoTitle(seoEntry.title);
+      const optimizedTitle = appendNursingContext(cleanSeoTitle, slug);
       return {
-        title: `${cleanSeoTitle} | NurseNest`,
+        title: `${optimizedTitle} | NurseNest`,
         description: seoEntry.description,
         canonical,
         noindex,
@@ -1480,8 +1509,9 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
       };
     }
     const readable = stripTierFromSeoTitle(slugToTitle(slug));
+    const optimizedTitle = appendNursingContext(readable, slug);
     return {
-      title: `${readable} | NurseNest`,
+      title: `${optimizedTitle} | NurseNest`,
       description: `Learn about ${readable} with detailed pathophysiology, clinical findings, nursing interventions, and exam pearls. Evidence-based nursing education for NCLEX, NCLEX-PN, and REx-PN preparation.`,
       canonical,
       noindex,
@@ -1755,6 +1785,11 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
     );
   }
 
+  const timestampSlugMatch = strippedPath.match(/^\/(lessons|learn)\/(.+)-\d{13}$/);
+  if (timestampSlugMatch) {
+    meta.noindex = true;
+  }
+
   const contentData = await fetchContentForPath(strippedPath);
   if (contentData) {
     if (contentData.summary) {
@@ -1766,6 +1801,22 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
     const isClarity = strippedPath.startsWith("/clinical-clarity/") && strippedPath !== "/clinical-clarity";
     const textContent = extractTextFromContent(contentData.content);
     const wordCount = textContent.split(/\s+/).length;
+
+    const PLACEHOLDER_CONTENT_MARKERS = [
+      /unable to complete/i,
+      /placeholder/i,
+      /\[draft\]/i,
+      /test publish/i,
+      /coming soon/i,
+    ];
+    const titleLower = (contentData.title || "").toLowerCase();
+    const isPlaceholderPage = wordCount < 200 ||
+      PLACEHOLDER_CONTENT_MARKERS.some(p => p.test(titleLower)) ||
+      PLACEHOLDER_CONTENT_MARKERS.some(p => p.test(textContent.substring(0, 500)));
+
+    if (isPlaceholderPage) {
+      meta.noindex = true;
+    }
 
     const jsonLd: any = {
       "@context": "https://schema.org",

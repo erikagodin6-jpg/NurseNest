@@ -118,19 +118,47 @@ const LEARN_REDIRECTS: Record<string, string> = {
   "test-publish-flow-1772145129698": "",
 };
 
+const TIMESTAMP_SUFFIX_RE = /^(.+)-(\d{13})$/;
+
+function stripTimestampSuffix(slug: string): string | null {
+  const m = slug.match(TIMESTAMP_SUFFIX_RE);
+  return m ? m[1] : null;
+}
+
+const LOCALE_PREFIX_RE = /^\/([a-z]{2,3}(?:-[a-z]{2,4})?)\//;
+
 app.use((req, res, next) => {
-  const match = req.path.match(/^(?:\/[a-z]{2,3})?\/learn\/([^/]+)\/?$/);
-  if (match) {
-    const slug = match[1];
+  const learnMatch = req.path.match(/^(?:\/[a-z]{2,3}(?:-[a-z]{2,4})?)?\/learn\/([^/]+)\/?$/);
+  if (learnMatch) {
+    const slug = learnMatch[1];
+    const localeMatch = req.path.match(LOCALE_PREFIX_RE);
+    const locale = localeMatch ? localeMatch[1] : "";
+    const localePrefix = locale ? `/${locale}` : "";
+
     if (slug in LEARN_REDIRECTS) {
       const target = LEARN_REDIRECTS[slug];
       if (target) {
-        const locale = req.path.match(/^\/([a-z]{2,3})\/learn\//)?.[1] || "en";
-        return res.redirect(301, `/${locale}/learn/${target}`);
+        return res.redirect(301, `${localePrefix}/learn/${target}`);
       }
-      return res.redirect(301, "/en/blog");
+      return res.redirect(301, `${localePrefix}/blog`);
+    }
+    const cleanSlug = stripTimestampSuffix(slug);
+    if (cleanSlug) {
+      return res.redirect(301, `${localePrefix}/learn/${cleanSlug}`);
     }
   }
+
+  const lessonMatch = req.path.match(/^(?:\/[a-z]{2,3}(?:-[a-z]{2,4})?)?\/lessons\/([^/]+)\/?$/);
+  if (lessonMatch) {
+    const slug = lessonMatch[1];
+    const cleanSlug = stripTimestampSuffix(slug);
+    if (cleanSlug) {
+      const localeMatch = req.path.match(LOCALE_PREFIX_RE);
+      const localePrefix = localeMatch ? `/${localeMatch[1]}` : "";
+      return res.redirect(301, `${localePrefix}/lessons/${cleanSlug}`);
+    }
+  }
+
   next();
 });
 

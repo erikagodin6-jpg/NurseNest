@@ -11,6 +11,25 @@ const LEARN_REDIRECTS: Record<string, string> = {
   "test-publish-flow-1772145129698": "",
 };
 
+const TIMESTAMP_SUFFIX_RE = /^.+-\d{13}$/;
+
+const PLACEHOLDER_TITLE_PATTERNS = [
+  /unable to complete/i,
+  /placeholder/i,
+  /coming soon/i,
+  /\[draft\]/i,
+  /untitled/i,
+  /test publish/i,
+];
+
+function isPlaceholderContent(title: string, contentLength: number): boolean {
+  if (contentLength < 200) return true;
+  for (const pattern of PLACEHOLDER_TITLE_PATTERNS) {
+    if (pattern.test(title)) return true;
+  }
+  return false;
+}
+
 export async function generateMainPages(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
@@ -236,8 +255,6 @@ export async function generateMainPages(): Promise<string[]> {
   return urls;
 }
 
-const TIMESTAMP_SUFFIX_REGEX = /-\d{10,13}$/;
-
 export async function generateMainLessons(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
@@ -250,7 +267,7 @@ export async function generateMainLessons(): Promise<string[]> {
       `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
     );
     for (const lesson of result.rows) {
-      if (TIMESTAMP_SUFFIX_REGEX.test(lesson.slug)) continue;
+      if (TIMESTAMP_SUFFIX_RE.test(lesson.slug)) continue;
 
       const canonicalSlug = lesson.slug;
       if (seenCanonicalSlugs.has(canonicalSlug)) continue;
@@ -459,7 +476,8 @@ export async function generateMainBlog(): Promise<string[]> {
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
-      if (/-\d{10,13}$/.test(item.slug)) return false;
+      if (TIMESTAMP_SUFFIX_RE.test(item.slug)) return false;
+      if (isPlaceholderContent(item.title || "", contentLen)) return false;
       return true;
     });
     for (const post of blogPosts) {
