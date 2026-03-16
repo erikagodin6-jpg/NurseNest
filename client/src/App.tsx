@@ -71,6 +71,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   }
 }
 const Home = lazy(() => import("@/pages/home"));
+const LanguagesPage = lazy(() => import("@/pages/languages"));
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -555,6 +556,7 @@ function AppRoutes() {
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/languages" component={LanguagesPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/start-free" component={StartFreePage} />
         <Route path="/pathways" component={PathwaysPage} />

@@ -134,6 +134,46 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-[var(--theme-separator)] pt-6 pb-6 mb-6">
+          <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.studyInYourLanguage") || "Study Nursing in Your Language"}</h3>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {[
+              { locale: "en", flag: "\ud83c\uddec\ud83c\udde7", name: "English" },
+              { locale: "fr", flag: "\ud83c\uddeb\ud83c\uddf7", name: "Fran\u00e7ais" },
+              { locale: "es", flag: "\ud83c\uddea\ud83c\uddf8", name: "Espa\u00f1ol" },
+              { locale: "fil", flag: "\ud83c\uddf5\ud83c\udded", name: "Tagalog" },
+              { locale: "hi", flag: "\ud83c\uddee\ud83c\uddf3", name: "\u0939\u093f\u0928\u094d\u0926\u0940" },
+              { locale: "zh", flag: "\ud83c\udde8\ud83c\uddf3", name: "\u4e2d\u6587" },
+              { locale: "zh-tw", flag: "\ud83c\uddf9\ud83c\uddfc", name: "\u7e41\u9ad4\u4e2d\u6587" },
+              { locale: "ar", flag: "\ud83c\uddf8\ud83c\udde6", name: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629" },
+              { locale: "ko", flag: "\ud83c\uddf0\ud83c\uddf7", name: "\ud55c\uad6d\uc5b4" },
+              { locale: "pt", flag: "\ud83c\udde7\ud83c\uddf7", name: "Portugu\u00eas" },
+              { locale: "pa", flag: "\ud83c\udde8\ud83c\udde6", name: "\u0a2a\u0a70\u0a1c\u0a3e\u0a2c\u0a40" },
+              { locale: "vi", flag: "\ud83c\uddfb\ud83c\uddf3", name: "Ti\u1ebfng Vi\u1ec7t" },
+              { locale: "ht", flag: "\ud83c\udded\ud83c\uddf9", name: "Krey\u00f2l" },
+              { locale: "ur", flag: "\ud83c\uddf5\ud83c\uddf0", name: "\u0627\u0631\u062f\u0648" },
+              { locale: "ja", flag: "\ud83c\uddef\ud83c\uddf5", name: "\u65e5\u672c\u8a9e" },
+              { locale: "fa", flag: "\ud83c\uddee\ud83c\uddf7", name: "\u0641\u0627\u0631\u0633\u06cc" },
+              { locale: "de", flag: "\ud83c\udde9\ud83c\uddea", name: "Deutsch" },
+              { locale: "th", flag: "\ud83c\uddf9\ud83c\udded", name: "\u0e44\u0e17\u0e22" },
+              { locale: "tr", flag: "\ud83c\uddf9\ud83c\uddf7", name: "T\u00fcrk\u00e7e" },
+              { locale: "id", flag: "\ud83c\uddee\ud83c\udde9", name: "Indonesia" },
+            ].map(({ locale, flag, name }) => (
+              <a
+                key={locale}
+                href={`/${locale}`}
+                className="inline-flex items-center gap-1 text-xs text-[var(--theme-muted-text)] hover:text-primary transition-colors"
+                data-testid={`link-footer-lang-${locale}`}
+              >
+                <span>{flag}</span>
+                <span>{name}</span>
+              </a>
+            ))}
+          </div>
+          <LocaleLink href="/languages" className="text-xs text-primary hover:underline" data-testid="link-footer-all-languages">
+            {t("footer.viewAllLanguages") || "View all languages \u2192"}
+          </LocaleLink>
+        </div>
+        <div className="border-t border-[var(--theme-separator)] pt-6 pb-6 mb-6">
           <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">Our Education Ecosystem</h3>
           <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
             <li>

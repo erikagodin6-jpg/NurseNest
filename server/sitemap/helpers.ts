@@ -281,6 +281,7 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/allied-health/psychotherapy", priority: "0.8", changefreq: "weekly", lastmod: today },
     { path: "/allied-health/addictions", priority: "0.8", changefreq: "weekly", lastmod: today },
     { path: "/allied-health/occupational-therapy", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/languages", priority: "0.6", changefreq: "monthly", lastmod: today },
     { path: "/pass-nclex-first-time", priority: "0.9", changefreq: "monthly", lastmod: today },
     { path: "/pharmacology", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/rex-pn", priority: "0.9", changefreq: "monthly", lastmod: today },

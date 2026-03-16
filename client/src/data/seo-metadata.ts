@@ -4,7 +4,7 @@ export interface LocalizedSEOEntry {
   keywords: string;
 }
 
-export type SEOLocale = "fr" | "es" | "zh" | "ar" | "hi" | "ko" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "pt";
+export type SEOLocale = "fr" | "es" | "zh" | "zh-tw" | "ar" | "hi" | "ko" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "pt" | "fil" | "th" | "tr" | "id";
 
 const frenchMetadata: Record<string, LocalizedSEOEntry> = {
   "/": {
@@ -698,14 +698,218 @@ const vietnameseMetadata: Record<string, LocalizedSEOEntry> = {
   },
 };
 
+const filipinoMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Paghahanda sa Exam ng Nursing | NCLEX Questions & Question Bank",
+    description: "Maghanda para sa iyong nursing exam gamit ang NurseNest. I-access ang libu-libong NCLEX practice questions, clinical simulations, nursing flashcards at pathophysiology lessons. Para sa RPN, RN at NP students sa Canada at US.",
+    keywords: "NCLEX practice questions, paghahanda sa nursing exam, nursing question bank, nursing flashcards, NCLEX review, clinical simulations, pathophysiology nursing, nursing exam Canada",
+  },
+  "/pricing": {
+    title: "Presyo & Mga Plano | NurseNest – Paghahanda sa Nursing Exam",
+    description: "Ihambing ang mga plano ng NurseNest para sa paghahanda sa nursing exam. May libreng access. Abot-kayang monthly plans na may NCLEX question bank, clinical simulations at flashcards.",
+    keywords: "presyo NurseNest, NCLEX prep plans, nursing exam cost, NCLEX review subscription",
+  },
+  "/lessons": {
+    title: "Clinical Lessons – Pathophysiology & Nursing | NurseNest",
+    description: "Tuklasin ang detalyadong clinical lessons tungkol sa pathophysiology, pharmacology at clinical reasoning. Nakaayos ayon sa body system para sa RPN, RN at NP.",
+    keywords: "nursing lessons, pathophysiology nursing, clinical courses, clinical reasoning, pharmacology nursing",
+  },
+  "/flashcards": {
+    title: "Nursing Flashcards – Pharmacology & Review | NurseNest",
+    description: "Mag-aral gamit ang clinically-verified nursing flashcards. Pharmacology, lab values at pathophysiology na may Learn at Test modes. Gumawa ng sariling decks.",
+    keywords: "nursing flashcards, pharmacology flashcards, NCLEX review cards, nursing study cards",
+  },
+  "/mock-exams": {
+    title: "NCLEX Mock Exams – Timed Simulation | NurseNest",
+    description: "I-simulate ang totoong exam conditions gamit ang timed NCLEX mock exams. Adaptive question selection, performance tracking at detalyadong rationales.",
+    keywords: "NCLEX mock exams, nursing exam simulation, timed practice exam, nursing exam prep",
+  },
+  "/free-practice": {
+    title: "Libreng Practice Questions – NCLEX Review | NurseNest",
+    description: "Simulan ang iyong NCLEX prep gamit ang libreng practice questions. Detalyadong rationales, clinical reasoning at exam-aligned content. Walang credit card needed.",
+    keywords: "libreng NCLEX practice questions, free NCLEX review, free nursing questions",
+  },
+};
+
+const traditionalChineseMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – 護理考試準備 | NCLEX題庫與練習題",
+    description: "使用NurseNest準備護理考試。存取數千道NCLEX練習題、臨床模擬、護理記憶卡和病理生理學課程。適用於加拿大和美國的RPN、RN和NP學生。",
+    keywords: "NCLEX練習題, 護理考試準備, 護理題庫, 護理記憶卡, NCLEX複習, 臨床模擬, 病理生理學護理, 護理考試加拿大",
+  },
+  "/pricing": {
+    title: "價格與方案 | NurseNest – 護理考試準備",
+    description: "比較NurseNest護理考試準備方案。含免費存取。每月實惠方案含NCLEX題庫、臨床模擬和記憶卡。",
+    keywords: "NurseNest價格, NCLEX準備方案, 護理考試費用, NCLEX複習訂閱",
+  },
+  "/lessons": {
+    title: "臨床課程 – 病理生理學與護理 | NurseNest",
+    description: "探索深入的病理生理學、藥理學和臨床推理課程。按身體系統分類，適用於RPN、RN和NP。",
+    keywords: "護理課程, 病理生理學護理, 臨床課程, 臨床推理, 藥理學護理",
+  },
+  "/flashcards": {
+    title: "護理記憶卡 – 藥理學與複習 | NurseNest",
+    description: "使用經臨床驗證的護理記憶卡學習。藥理學、實驗室數值和病理生理學，含學習和測試模式。建立自己的牌組。",
+    keywords: "護理記憶卡, 藥理學記憶卡, NCLEX複習卡, 護理學習卡",
+  },
+  "/mock-exams": {
+    title: "NCLEX模擬考試 – 計時模擬 | NurseNest",
+    description: "使用計時NCLEX模擬考試模擬真實考試條件。自適應題目選擇、成績追蹤和詳細解析。",
+    keywords: "NCLEX模擬考試, 護理考試模擬, 計時練習考試, 護理考試準備",
+  },
+  "/free-practice": {
+    title: "免費練習題 – NCLEX複習 | NurseNest",
+    description: "使用免費練習題開始NCLEX準備。詳細解析、臨床推理和考試對齊內容。無需信用卡。",
+    keywords: "免費NCLEX練習題, 免費NCLEX複習, 免費護理題目",
+  },
+};
+
+const germanMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Pflegeprüfungsvorbereitung | NCLEX-Fragen & Fragenbank",
+    description: "Bereiten Sie sich mit NurseNest auf Ihre Pflegeprüfung vor. Zugriff auf Tausende NCLEX-Übungsfragen, klinische Simulationen, Pflege-Lernkarten und Pathophysiologie-Lektionen. Für RPN-, RN- und NP-Studierende in Kanada und den USA.",
+    keywords: "NCLEX Übungsfragen, Pflegeprüfungsvorbereitung, Pflege-Fragenbank, Pflege-Lernkarten, NCLEX-Wiederholung, klinische Simulationen, Pathophysiologie Pflege, Pflegeprüfung Kanada",
+  },
+  "/pricing": {
+    title: "Preise & Pakete | NurseNest – Pflegeprüfungsvorbereitung",
+    description: "Vergleichen Sie NurseNest-Pakete für die Pflegeprüfungsvorbereitung. Kostenloser Zugang inklusive. Erschwingliche Monatspakete mit NCLEX-Fragenbank, klinischen Simulationen und Lernkarten.",
+    keywords: "NurseNest Preise, NCLEX-Vorbereitungspakete, Pflegeprüfungskosten, NCLEX-Wiederholungsabonnement",
+  },
+  "/lessons": {
+    title: "Klinische Lektionen – Pathophysiologie & Pflege | NurseNest",
+    description: "Entdecken Sie detaillierte klinische Lektionen zu Pathophysiologie, Pharmakologie und klinischem Denken. Nach Körpersystemen geordnet für RPN, RN und NP.",
+    keywords: "Pflegelektionen, Pathophysiologie Pflege, klinische Kurse, klinisches Denken, Pharmakologie Pflege",
+  },
+  "/flashcards": {
+    title: "Pflege-Lernkarten – Pharmakologie & Wiederholung | NurseNest",
+    description: "Lernen Sie mit klinisch verifizierten Pflege-Lernkarten. Pharmakologie, Laborwerte und Pathophysiologie mit Lern- und Testmodus. Erstellen Sie eigene Decks.",
+    keywords: "Pflege-Lernkarten, Pharmakologie-Lernkarten, NCLEX-Wiederholungskarten, Pflege-Lernkarten",
+  },
+  "/mock-exams": {
+    title: "NCLEX-Probeprüfungen – Zeitsimulation | NurseNest",
+    description: "Simulieren Sie reale Prüfungsbedingungen mit zeitgesteuerten NCLEX-Probeprüfungen. Adaptive Fragenauswahl, Leistungsverfolgung und detaillierte Erklärungen.",
+    keywords: "NCLEX Probeprüfungen, Pflegeprüfungssimulation, zeitgesteuerte Übungsprüfung, Pflegeprüfungsvorbereitung",
+  },
+  "/free-practice": {
+    title: "Kostenlose Übungsfragen – NCLEX-Wiederholung | NurseNest",
+    description: "Starten Sie Ihre NCLEX-Vorbereitung mit kostenlosen Übungsfragen. Detaillierte Erklärungen, klinisches Denken und prüfungsrelevante Inhalte. Keine Kreditkarte erforderlich.",
+    keywords: "kostenlose NCLEX-Übungsfragen, kostenlose NCLEX-Wiederholung, kostenlose Pflegefragen",
+  },
+};
+
+const thaiMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – เตรียมสอบพยาบาล | คำถาม NCLEX & คลังข้อสอบ",
+    description: "เตรียมสอบพยาบาลกับ NurseNest เข้าถึงคำถามฝึกหัด NCLEX หลายพันข้อ การจำลองทางคลินิก แฟลชการ์ดพยาบาล และบทเรียนพยาธิสรีรวิทยา สำหรับนักศึกษา RPN, RN และ NP ในแคนาดาและสหรัฐอเมริกา",
+    keywords: "คำถามฝึกหัด NCLEX, เตรียมสอบพยาบาล, คลังข้อสอบพยาบาล, แฟลชการ์ดพยาบาล, ทบทวน NCLEX, การจำลองทางคลินิก, พยาธิสรีรวิทยาพยาบาล, สอบพยาบาลแคนาดา",
+  },
+  "/pricing": {
+    title: "ราคาและแพ็กเกจ | NurseNest – เตรียมสอบพยาบาล",
+    description: "เปรียบเทียบแพ็กเกจ NurseNest สำหรับเตรียมสอบพยาบาล รวมการเข้าถึงฟรี แพ็กเกจรายเดือนราคาย่อมเยาพร้อมคลังข้อสอบ NCLEX การจำลองทางคลินิก และแฟลชการ์ด",
+    keywords: "ราคา NurseNest, แพ็กเกจเตรียมสอบ NCLEX, ค่าใช้จ่ายสอบพยาบาล, สมัครสมาชิกทบทวน NCLEX",
+  },
+  "/lessons": {
+    title: "บทเรียนคลินิก – พยาธิสรีรวิทยาและพยาบาล | NurseNest",
+    description: "สำรวจบทเรียนคลินิกเชิงลึกเกี่ยวกับพยาธิสรีรวิทยา เภสัชวิทยา และการให้เหตุผลทางคลินิก จัดเรียงตามระบบร่างกายสำหรับ RPN, RN และ NP",
+    keywords: "บทเรียนพยาบาล, พยาธิสรีรวิทยาพยาบาล, หลักสูตรคลินิก, การให้เหตุผลทางคลินิก, เภสัชวิทยาพยาบาล",
+  },
+  "/flashcards": {
+    title: "แฟลชการ์ดพยาบาล – เภสัชวิทยาและทบทวน | NurseNest",
+    description: "เรียนรู้ด้วยแฟลชการ์ดพยาบาลที่ได้รับการตรวจสอบทางคลินิก เภสัชวิทยา ค่าห้องปฏิบัติการ และพยาธิสรีรวิทยาพร้อมโหมดเรียนรู้และทดสอบ สร้างชุดของคุณเอง",
+    keywords: "แฟลชการ์ดพยาบาล, แฟลชการ์ดเภสัชวิทยา, การ์ดทบทวน NCLEX, การ์ดเรียนพยาบาล",
+  },
+  "/mock-exams": {
+    title: "สอบจำลอง NCLEX – จำลองแบบจับเวลา | NurseNest",
+    description: "จำลองสภาวะสอบจริงด้วยสอบจำลอง NCLEX แบบจับเวลา การเลือกคำถามแบบปรับตัว ติดตามผลการเรียน และคำอธิบายโดยละเอียด",
+    keywords: "สอบจำลอง NCLEX, จำลองสอบพยาบาล, สอบฝึกหัดแบบจับเวลา, เตรียมสอบพยาบาล",
+  },
+  "/free-practice": {
+    title: "คำถามฝึกหัดฟรี – ทบทวน NCLEX | NurseNest",
+    description: "เริ่มเตรียมสอบ NCLEX ด้วยคำถามฝึกหัดฟรี คำอธิบายโดยละเอียด การให้เหตุผลทางคลินิก และเนื้อหาตรงตามข้อสอบ ไม่ต้องใช้บัตรเครดิต",
+    keywords: "คำถามฝึกหัด NCLEX ฟรี, ทบทวน NCLEX ฟรี, คำถามพยาบาลฟรี",
+  },
+};
+
+const turkishMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Hemşirelik Sınavı Hazırlığı | NCLEX Soruları & Soru Bankası",
+    description: "NurseNest ile hemşirelik sınavınıza hazırlanın. Binlerce NCLEX pratik sorusu, klinik simülasyonlar, hemşirelik bilgi kartları ve patofizyoloji dersleri. Kanada ve ABD'deki RPN, RN ve NP öğrencileri için.",
+    keywords: "NCLEX pratik soruları, hemşirelik sınavı hazırlığı, hemşirelik soru bankası, hemşirelik bilgi kartları, NCLEX tekrar, klinik simülasyonlar, patofizyoloji hemşirelik, hemşirelik sınavı Kanada",
+  },
+  "/pricing": {
+    title: "Fiyatlar & Planlar | NurseNest – Hemşirelik Sınavı Hazırlığı",
+    description: "Hemşirelik sınavı hazırlığı için NurseNest planlarını karşılaştırın. Ücretsiz erişim dahil. NCLEX soru bankası, klinik simülasyonlar ve bilgi kartları ile uygun fiyatlı aylık planlar.",
+    keywords: "NurseNest fiyatlar, NCLEX hazırlık planları, hemşirelik sınavı maliyeti, NCLEX tekrar aboneliği",
+  },
+  "/lessons": {
+    title: "Klinik Dersler – Patofizyoloji & Hemşirelik | NurseNest",
+    description: "Patofizyoloji, farmakoloji ve klinik muhakeme hakkında ayrıntılı klinik dersleri keşfedin. RPN, RN ve NP için vücut sistemine göre düzenlenmiştir.",
+    keywords: "hemşirelik dersleri, patofizyoloji hemşirelik, klinik kurslar, klinik muhakeme, farmakoloji hemşirelik",
+  },
+  "/flashcards": {
+    title: "Hemşirelik Bilgi Kartları – Farmakoloji & Tekrar | NurseNest",
+    description: "Klinik olarak doğrulanmış hemşirelik bilgi kartları ile çalışın. Farmakoloji, laboratuvar değerleri ve patofizyoloji, Öğrenme ve Test modları ile. Kendi destelerinizi oluşturun.",
+    keywords: "hemşirelik bilgi kartları, farmakoloji bilgi kartları, NCLEX tekrar kartları, hemşirelik çalışma kartları",
+  },
+  "/mock-exams": {
+    title: "NCLEX Deneme Sınavları – Zamanlı Simülasyon | NurseNest",
+    description: "Zamanlı NCLEX deneme sınavları ile gerçek sınav koşullarını simüle edin. Uyarlanabilir soru seçimi, performans takibi ve ayrıntılı açıklamalar.",
+    keywords: "NCLEX deneme sınavları, hemşirelik sınavı simülasyonu, zamanlı pratik sınav, hemşirelik sınavı hazırlığı",
+  },
+  "/free-practice": {
+    title: "Ücretsiz Pratik Sorular – NCLEX Tekrar | NurseNest",
+    description: "Ücretsiz pratik sorular ile NCLEX hazırlığınıza başlayın. Ayrıntılı açıklamalar, klinik muhakeme ve sınava uygun içerik. Kredi kartı gerekmez.",
+    keywords: "ücretsiz NCLEX pratik soruları, ücretsiz NCLEX tekrar, ücretsiz hemşirelik soruları",
+  },
+};
+
+const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Persiapan Ujian Keperawatan | Soal NCLEX & Bank Soal",
+    description: "Persiapkan ujian keperawatan Anda dengan NurseNest. Akses ribuan soal latihan NCLEX, simulasi klinis, kartu flash keperawatan, dan pelajaran patofisiologi. Untuk mahasiswa RPN, RN, dan NP di Kanada dan AS.",
+    keywords: "soal latihan NCLEX, persiapan ujian keperawatan, bank soal keperawatan, kartu flash keperawatan, ulasan NCLEX, simulasi klinis, patofisiologi keperawatan, ujian keperawatan Kanada",
+  },
+  "/pricing": {
+    title: "Harga & Paket | NurseNest – Persiapan Ujian Keperawatan",
+    description: "Bandingkan paket NurseNest untuk persiapan ujian keperawatan. Termasuk akses gratis. Paket bulanan terjangkau dengan bank soal NCLEX, simulasi klinis, dan kartu flash.",
+    keywords: "harga NurseNest, paket persiapan NCLEX, biaya ujian keperawatan, langganan ulasan NCLEX",
+  },
+  "/lessons": {
+    title: "Pelajaran Klinis – Patofisiologi & Keperawatan | NurseNest",
+    description: "Jelajahi pelajaran klinis mendalam tentang patofisiologi, farmakologi, dan penalaran klinis. Diatur berdasarkan sistem tubuh untuk RPN, RN, dan NP.",
+    keywords: "pelajaran keperawatan, patofisiologi keperawatan, kursus klinis, penalaran klinis, farmakologi keperawatan",
+  },
+  "/flashcards": {
+    title: "Kartu Flash Keperawatan – Farmakologi & Ulasan | NurseNest",
+    description: "Belajar dengan kartu flash keperawatan yang terverifikasi secara klinis. Farmakologi, nilai laboratorium, dan patofisiologi dengan mode Belajar dan Tes. Buat dek Anda sendiri.",
+    keywords: "kartu flash keperawatan, kartu flash farmakologi, kartu ulasan NCLEX, kartu belajar keperawatan",
+  },
+  "/mock-exams": {
+    title: "Ujian Simulasi NCLEX – Simulasi Berwaktu | NurseNest",
+    description: "Simulasikan kondisi ujian nyata dengan ujian simulasi NCLEX berwaktu. Pemilihan soal adaptif, pelacakan kinerja, dan penjelasan terperinci.",
+    keywords: "ujian simulasi NCLEX, simulasi ujian keperawatan, ujian latihan berwaktu, persiapan ujian keperawatan",
+  },
+  "/free-practice": {
+    title: "Soal Latihan Gratis – Ulasan NCLEX | NurseNest",
+    description: "Mulai persiapan NCLEX Anda dengan soal latihan gratis. Penjelasan terperinci, penalaran klinis, dan konten sesuai ujian. Tidak perlu kartu kredit.",
+    keywords: "soal latihan NCLEX gratis, ulasan NCLEX gratis, soal keperawatan gratis",
+  },
+};
+
 export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {
   fr: frenchMetadata,
   es: spanishMetadata,
   pt: portugueseMetadata,
   vi: vietnameseMetadata,
+  fil: filipinoMetadata,
+  "zh-tw": traditionalChineseMetadata,
+  de: germanMetadata,
+  th: thaiMetadata,
+  tr: turkishMetadata,
+  id: indonesianMetadata,
 };
 
 export function getLocalizedSEO(locale: string, path: string): LocalizedSEOEntry | null {
   if (!(locale in localizedSEOMetadata)) return null;
-  return localizedSEOMetadata[locale as SEOLocale][path] || null;
+  return localizedSEOMetadata[locale as SEOLocale]?.[path] || null;
 }

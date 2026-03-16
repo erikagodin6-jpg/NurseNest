@@ -590,6 +590,14 @@ export default function Home() {
           </Suspense>
         </LazySection>
 
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+          <a href="/languages" className="inline-flex items-center gap-2 text-sm text-[var(--theme-muted-text)] hover:text-primary transition-colors" data-testid="link-home-languages">
+            <span>🌐</span>
+            <span>Available in 20 languages — Study nursing in your language</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+
       </main>
 
       {isAdmin && heroStats?.breakdown && (
