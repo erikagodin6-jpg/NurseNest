@@ -104,47 +104,6 @@ export function getQuestionCountDisplay(careerSlugOrKey: string): string {
   return `${rounded.toLocaleString()}+`;
 }
 
-const ALLIED_HEALTH_CAREER_KEYS = Object.keys(manifest.static.alliedHealth);
-
-export function getTotalAlliedHealthQuestions(): number {
-  return ALLIED_HEALTH_CAREER_KEYS.reduce(
-    (sum, key) => sum + (CAREER_QUESTION_COUNTS[key] || 0),
-    0
-  );
-}
-
-export function getTotalAlliedHealthDisplay(): string {
-  const total = getTotalAlliedHealthQuestions();
-  const rounded = Math.floor(total / 500) * 500;
-  return `${rounded.toLocaleString()}+`;
-}
-
-export function getNursingTierCount(tierSlugOrKey: string): number {
-  const key = NURSING_TIER_SLUG_TO_KEY[tierSlugOrKey] || tierSlugOrKey;
-  return NURSING_TIER_COUNTS[key] || 0;
-}
-
-export function getNursingTierDisplay(tierSlugOrKey: string): string {
-  const count = getNursingTierCount(tierSlugOrKey);
-  if (count === 0) return "Coming Soon";
-  if (count < 1000) {
-    const rounded = Math.floor(count / 50) * 50;
-    return `${rounded}+`;
-  }
-  const rounded = Math.floor(count / 100) * 100;
-  return `${rounded.toLocaleString()}+`;
-}
-
-export function getTotalNursingQuestions(): number {
-  return Object.values(NURSING_TIER_COUNTS).reduce((sum, n) => sum + n, 0);
-}
-
-export function getTotalNursingDisplay(): string {
-  const total = getTotalNursingQuestions();
-  const rounded = Math.floor(total / 500) * 500;
-  return `${rounded.toLocaleString()}+`;
-}
-
 export function getTotalNursingCertQuestions(): number {
   return Object.values(manifest.static.nursingCert).reduce(
     (sum, tc) => sum + tc.total,

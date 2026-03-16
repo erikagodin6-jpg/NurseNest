@@ -7,6 +7,7 @@ export interface CareerQuestion {
     difficulty: number;
     category: string;
     topic: string;
+    questionType?: "MCQ" | "CASE_VIGNETTE" | "ETHICS_SCENARIO" | "PRIORITIZATION" | "APPLIED_ETHICS";
   }
 
   export const socialWorkerQuestions: CareerQuestion[] = [
@@ -23,7 +24,8 @@ export interface CareerQuestion {
       rationale: "A comprehensive psychosocial assessment is the foundational step in social work practice. Before recommending any specific interventions, the social worker must understand the full scope of the client's situation, including their emotional state, support systems, financial resources, and the care needs of the elderly parent. This assessment informs all subsequent intervention planning and ensures that services are tailored to the client's unique circumstances.",
       difficulty: 2,
       category: "Assessment",
-      topic: "Psychosocial Assessment"
+      topic: "Psychosocial Assessment",
+      questionType: "MCQ"
     },
     {
       id: "sw-002",
@@ -38,7 +40,8 @@ export interface CareerQuestion {
       rationale: "Social workers are mandated reporters in all jurisdictions. When there is reasonable suspicion of child abuse or neglect, the social worker is legally obligated to report to child protective services immediately. Bruises on the torso and upper arms in various stages of healing are inconsistent with normal childhood play injuries and raise significant concern for physical abuse. Delaying a report to consult, monitor, or confront the parent could put the child at continued risk.",
       difficulty: 2,
       category: "Ethics and Legal",
-      topic: "Mandated Reporting"
+      topic: "Mandated Reporting",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-003",
@@ -53,7 +56,8 @@ export interface CareerQuestion {
       rationale: "Motivational interviewing is an evidence-based approach that is particularly effective with clients experiencing substance use disorders. It recognizes that relapse is often part of the recovery process and avoids judgmental responses. By exploring ambivalence and reinforcing the client's own motivation for change, the social worker supports autonomy and self-efficacy. Expressing disappointment or terminating services would be counterproductive and potentially harmful.",
       difficulty: 2,
       category: "Clinical Practice",
-      topic: "Substance Use Disorders"
+      topic: "Substance Use Disorders",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-004",
@@ -68,7 +72,8 @@ export interface CareerQuestion {
       rationale: "The social worker's first step should be to assess the patient's understanding of their medical situation. This ensures that the patient is making an informed decision based on accurate information. The principle of self-determination is central to social work ethics, and patients have the right to refuse treatment. However, it is essential to confirm that the decision is based on a clear understanding of the diagnosis, prognosis, and available options, including palliative care.",
       difficulty: 3,
       category: "Clinical Practice",
-      topic: "End-of-Life Care"
+      topic: "End-of-Life Care",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-005",
@@ -83,7 +88,8 @@ export interface CareerQuestion {
       rationale: "The person-in-environment (PIE) perspective is a foundational concept in social work that recognizes the dynamic interaction between individuals and their environments. This framework considers biological, psychological, social, cultural, and environmental factors that influence a person's functioning and well-being. It distinguishes social work from other helping professions by emphasizing the importance of context in understanding and addressing client needs.",
       difficulty: 1,
       category: "Human Development",
-      topic: "Social Work Theory"
+      topic: "Social Work Theory",
+      questionType: "MCQ"
     },
     {
       id: "sw-006",
@@ -98,7 +104,8 @@ export interface CareerQuestion {
       rationale: "Effective group facilitation requires attending to the needs of all members while maintaining group safety. Acknowledging both members' experiences validates their feelings and demonstrates empathy. Checking in with the group empowers members to participate in managing the group process and reinforces the therapeutic principle that the group itself is the agent of change. This approach balances the sharing member's need to tell her story with the other member's emotional response.",
       difficulty: 3,
       category: "Clinical Practice",
-      topic: "Group Work"
+      topic: "Group Work",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-007",
@@ -113,7 +120,8 @@ export interface CareerQuestion {
       rationale: "Social workers must be transparent about the limits of confidentiality, especially when working with minors. While building trust is essential, making promises that cannot be kept is unethical. The social worker should explain that safety concerns may require sharing information with others and then collaborate with the client on developing a plan. This approach respects the adolescent's autonomy while fulfilling the duty to protect their well-being.",
       difficulty: 2,
       category: "Ethics and Legal",
-      topic: "Confidentiality"
+      topic: "Confidentiality",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-008",
@@ -128,7 +136,8 @@ export interface CareerQuestion {
       rationale: "Critical theory and intersectionality provide the theoretical foundation for anti-oppressive practice in social work. These frameworks examine how systems of power, privilege, and oppression intersect to create and maintain social inequalities based on race, gender, class, sexuality, ability, and other dimensions of identity. Understanding these dynamics is essential for social workers to address structural barriers and advocate for social justice.",
       difficulty: 2,
       category: "Human Development",
-      topic: "Anti-Oppressive Practice"
+      topic: "Anti-Oppressive Practice",
+      questionType: "MCQ"
     },
     {
       id: "sw-009",
@@ -143,7 +152,8 @@ export interface CareerQuestion {
       rationale: "While a comprehensive safety plan includes multiple elements, emergency contact numbers and crisis resources are the most critical components because they provide immediate access to help during a crisis. The 988 Suicide & Crisis Lifeline (call or text 988) offers 24/7 support. A safety plan should also include warning signs, coping strategies, people to contact for support, and ways to make the environment safe, but immediate crisis resources are essential for acute situations.",
       difficulty: 2,
       category: "Clinical Practice",
-      topic: "Crisis Intervention"
+      topic: "Crisis Intervention",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-010",
@@ -158,7 +168,8 @@ export interface CareerQuestion {
       rationale: "Social workers have an ethical obligation to address impairment in colleagues when it affects their ability to practice competently. According to the NASW Code of Ethics, when informal resolution is not possible or appropriate, the social worker should report concerns to the proper authority. Client safety is the primary concern, and a colleague practicing while impaired poses a direct risk to client welfare. Covering errors or ignoring the behavior could result in harm to clients.",
       difficulty: 2,
       category: "Ethics and Legal",
-      topic: "Professional Conduct"
+      topic: "Professional Conduct",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-011",
@@ -173,7 +184,8 @@ export interface CareerQuestion {
       rationale: "According to Erik Erikson's theory of psychosocial development, the primary developmental task of adolescence (ages 12-18) is Identity vs. Role Confusion. During this stage, adolescents explore their sense of self, including their values, beliefs, and goals. Successful resolution of this stage results in a strong sense of personal identity, while failure can lead to role confusion and difficulty establishing a clear sense of self.",
       difficulty: 1,
       category: "Human Development",
-      topic: "Developmental Theory"
+      topic: "Developmental Theory",
+      questionType: "MCQ"
     },
     {
       id: "sw-012",
@@ -188,7 +200,8 @@ export interface CareerQuestion {
       rationale: "Structural family therapy, developed by Salvador Minuchin, focuses on the organization and patterns within family systems. When one member dominates, it often reflects dysfunctional boundaries and power dynamics within the family structure. The social worker can use techniques such as boundary setting, enactment, and restructuring to address these patterns. This approach addresses the systemic issue rather than targeting the individual, which is consistent with a family systems perspective.",
       difficulty: 3,
       category: "Clinical Practice",
-      topic: "Family Therapy"
+      topic: "Family Therapy",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-013",
@@ -203,7 +216,8 @@ export interface CareerQuestion {
       rationale: "The Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5) provides a common language and standardized criteria for the classification and diagnosis of mental health disorders. Social workers use the DSM-5 as one tool within a comprehensive assessment process. It facilitates communication among professionals, informs treatment planning, and is often required for insurance reimbursement. However, it does not replace the broader biopsychosocial assessment that is fundamental to social work practice.",
       difficulty: 1,
       category: "Assessment",
-      topic: "Diagnostic Classification"
+      topic: "Diagnostic Classification",
+      questionType: "MCQ"
     },
     {
       id: "sw-014",
@@ -218,7 +232,8 @@ export interface CareerQuestion {
       rationale: "Culturally responsive practice requires recognizing and honoring the cultural strengths, values, and healing traditions of diverse populations. For refugee families, this means understanding that Western therapeutic models may not align with their cultural framework for understanding and processing trauma. Incorporating culturally specific practices alongside evidence-based interventions demonstrates respect for the family's identity and can enhance therapeutic outcomes. This approach also aligns with the social work value of cultural competence.",
       difficulty: 3,
       category: "Diversity and Cultural Competence",
-      topic: "Culturally Responsive Practice"
+      topic: "Culturally Responsive Practice",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-015",
@@ -233,7 +248,8 @@ export interface CareerQuestion {
       rationale: "Participatory action research (PAR) is a community-based approach that involves community members as active participants in the research process. This method empowers communities by valuing their knowledge and experience, ensures that the assessment captures the perspectives of those most affected by food insecurity, and builds community capacity for advocacy and change. PAR aligns with social work principles of empowerment, social justice, and community self-determination.",
       difficulty: 3,
       category: "Community Practice",
-      topic: "Community Assessment"
+      topic: "Community Assessment",
+      questionType: "MCQ"
     },
     {
       id: "sw-016",
@@ -248,7 +264,8 @@ export interface CareerQuestion {
       rationale: "A dual relationship occurs when a social worker has a professional relationship with a client and simultaneously maintains another type of relationship with that person, such as a social, business, or romantic relationship. Dual relationships create conflicts of interest and can compromise professional judgment, exploit the power differential inherent in the therapeutic relationship, and harm the client. The NASW Code of Ethics requires social workers to avoid dual relationships that could impair professional judgment or create a risk of exploitation.",
       difficulty: 1,
       category: "Ethics and Legal",
-      topic: "Professional Boundaries"
+      topic: "Professional Boundaries",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-017",
@@ -263,7 +280,8 @@ export interface CareerQuestion {
       rationale: "The social work principle of client self-determination means respecting the client's right to make their own decisions, including decisions about medication. The social worker should provide education about the potential risks of discontinuing medication while exploring the client's reasons for wanting to stop. Collaborative planning might include discussing alternatives, establishing monitoring criteria, and creating a plan for responding to symptom recurrence. This approach balances respect for autonomy with the duty to inform.",
       difficulty: 2,
       category: "Clinical Practice",
-      topic: "Case Management"
+      topic: "Case Management",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-018",
@@ -278,7 +296,8 @@ export interface CareerQuestion {
       rationale: "Strengths-based practice shifts the focus from deficits and pathology to identifying and building on the inherent strengths, resources, and capacities that clients already possess. This approach recognizes that all individuals and communities have assets that can be mobilized to promote positive change. It empowers clients by validating their abilities and experiences, fosters resilience, and creates a more collaborative and respectful therapeutic relationship.",
       difficulty: 1,
       category: "Clinical Practice",
-      topic: "Strengths-Based Approach"
+      topic: "Strengths-Based Approach",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-019",
@@ -293,7 +312,8 @@ export interface CareerQuestion {
       rationale: "When a social worker receives a subpoena, the appropriate first step is to consult with legal counsel to understand the legal requirements and options. The social worker should also notify the client about the subpoena and discuss next steps. A subpoena does not automatically require the release of all records; there may be grounds to object or limit the scope of disclosure. Privilege laws, informed consent, and the specific nature of the subpoena all factor into the appropriate response.",
       difficulty: 3,
       category: "Ethics and Legal",
-      topic: "Legal Processes"
+      topic: "Legal Processes",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-020",
@@ -308,7 +328,8 @@ export interface CareerQuestion {
       rationale: "In the transtheoretical model developed by Prochaska and DiClemente, the Contemplation stage is characterized by awareness of the problem and consideration of change, but without a commitment to take action. The client may weigh the pros and cons of changing. In Precontemplation, the client does not recognize the problem. In Preparation, the client intends to take action soon. In Action, the client is actively modifying behavior. Understanding the client's stage of change helps the social worker match interventions appropriately.",
       difficulty: 1,
       category: "Clinical Practice",
-      topic: "Behavior Change Theory"
+      topic: "Behavior Change Theory",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-021",
@@ -323,7 +344,8 @@ export interface CareerQuestion {
       rationale: "When a client's safety is potentially at risk, the social worker must balance self-determination with the duty to protect. Assessing decision-making capacity is a critical first step to determine whether the client can understand the risks of their choices. If capacity is intact, the social worker should respect the client's decision while continuing to offer services and exploring alternatives. If capacity is impaired, the social worker may need to involve adult protective services or pursue guardianship proceedings to ensure the client's safety.",
       difficulty: 3,
       category: "Assessment",
-      topic: "Capacity Assessment"
+      topic: "Capacity Assessment",
+      questionType: "MCQ"
     },
     {
       id: "sw-022",
@@ -338,7 +360,8 @@ export interface CareerQuestion {
       rationale: "Trauma-informed care is grounded in five core principles: safety, trustworthiness and transparency, peer support, collaboration and mutuality, and empowerment and choice. This approach recognizes the widespread impact of trauma and integrates knowledge about trauma into policies, procedures, and practices. It seeks to actively resist retraumatization by creating environments that are physically and psychologically safe, and by giving clients voice and choice in their treatment.",
       difficulty: 2,
       category: "Clinical Practice",
-      topic: "Trauma-Informed Care"
+      topic: "Trauma-Informed Care",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-023",
@@ -353,7 +376,8 @@ export interface CareerQuestion {
       rationale: "A comprehensive discharge plan should address the patient's ongoing care needs after leaving the hospital. This includes follow-up medical appointments, referrals to community resources (such as home health care, mental health services, or social supports), identification of the patient's support system, medication management plans, and strategies for continuity of care. Effective discharge planning reduces readmission rates and ensures that patients have the resources they need to continue their recovery.",
       difficulty: 2,
       category: "Clinical Practice",
-      topic: "Discharge Planning"
+      topic: "Discharge Planning",
+      questionType: "CASE_VIGNETTE"
     },
     {
       id: "sw-024",
@@ -368,7 +392,8 @@ export interface CareerQuestion {
       rationale: "The NASW Code of Ethics identifies the primary mission of social work as enhancing human well-being and helping to meet the basic human needs of all people, with particular attention to the needs and empowerment of people who are vulnerable, oppressed, and living in poverty. This mission is carried out through the core values of service, social justice, dignity and worth of the person, importance of human relationships, integrity, and competence.",
       difficulty: 1,
       category: "Ethics and Legal",
-      topic: "NASW Code of Ethics"
+      topic: "NASW Code of Ethics",
+      questionType: "APPLIED_ETHICS"
     },
     {
       id: "sw-025",
@@ -383,6 +408,7 @@ export interface CareerQuestion {
       rationale: "In couples therapy involving infidelity, the social worker's role is to facilitate a safe and structured process for addressing the betrayal. This includes helping the couple establish ground rules about what and how information will be shared, managing the emotional intensity of the disclosure, and creating a framework for rebuilding trust over time. Forcing full disclosure or avoiding the topic entirely are both counterproductive approaches that can increase harm or avoid necessary healing work.",
       difficulty: 3,
       category: "Clinical Practice",
-      topic: "Couples Therapy"
+      topic: "Couples Therapy",
+      questionType: "CASE_VIGNETTE"
     },
   ];

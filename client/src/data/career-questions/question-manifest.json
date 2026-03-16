@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T22:10:57.224Z",
+  "generatedAt": "2026-03-16T23:07:58.611Z",
   "version": 1,
   "static": {
     "alliedHealth": {
@@ -149,52 +149,27 @@
         ]
       },
       "physiotherapyAssistant": {
-        "total": 2002,
+        "total": 900,
         "byCategory": {
-          "Musculoskeletal Rehabilitation": 350,
-          "Neurological Rehabilitation": 200,
-          "Cardiopulmonary Physical Therapy": 75,
-          "Pediatric Rehabilitation": 95,
-          "Geriatric Rehabilitation": 90,
-          "Therapeutic Modalities": 60,
-          "Gait Training & Assistive Devices": 100,
-          "Patient Safety & Body Mechanics": 100,
-          "Documentation & Communication": 50,
-          "Ethics & Professional Practice": 80,
-          "Integumentary & Wound Care": 57,
-          "Prosthetics & Orthotics": 65,
-          "Biomechanics & Kinesiology": 61,
-          "Pain Management": 60,
-          "Evidence-Based Practice": 60,
-          "Therapeutic Exercise": 186,
-          "Data Collection & Measurement": 55,
-          "Patient Education & Home Programs": 60,
-          "Pharmacology for PTAs": 56,
-          "Clinical Prioritization & Workflow": 42
+          "Musculoskeletal Rehabilitation": 331,
+          "Gait Training & Assistive Devices": 47,
+          "Therapeutic Exercise": 139,
+          "Neurological Rehabilitation": 149,
+          "Geriatric Rehabilitation": 31,
+          "Patient Safety & Body Mechanics": 59,
+          "Pediatric Rehabilitation": 36,
+          "Ethics & Professional Practice": 59,
+          "Therapeutic Modalities": 11,
+          "Cardiopulmonary Physical Therapy": 8,
+          "Integumentary & Wound Care": 9,
+          "Data Collection & Measurement": 11,
+          "Patient Education & Home Programs": 10
         },
         "byFormat": {
-          "MCQ": 2002
+          "MCQ": 900
         },
         "files": [
-          "pta-questions.ts",
-          "pta-questions-batch1.ts",
-          "pta-questions-batch2.ts",
-          "pta-questions-batch3.ts",
-          "pta-questions-batch4.ts",
-          "pta-questions-batch5.ts",
-          "pta-questions-batch6.ts",
-          "pta-questions-batch7.ts",
-          "pta-questions-batch8.ts",
-          "pta-questions-batch9.ts",
-          "pta-questions-batch10.ts",
-          "pta-questions-batch11.ts",
-          "pta-questions-batch12.ts",
-          "pta-questions-batch13.ts",
-          "pta-questions-batch14.ts",
-          "pta-questions-batch15.ts",
-          "pta-questions-batch16.ts",
-          "pta-questions-batch17.ts",
-          "pta-questions-batch18.ts"
+          "pta-questions.ts"
         ]
       },
       "psychotherapist": {
@@ -219,20 +194,72 @@
         ]
       },
       "socialWorker": {
-        "total": 25,
+        "total": 1000,
         "byCategory": {
           "Assessment": 3,
           "Ethics and Legal": 6,
-          "Clinical Practice": 11,
+          "Clinical Practice": 98,
           "Human Development": 3,
           "Diversity and Cultural Competence": 1,
-          "Community Practice": 1
+          "Community Practice": 34,
+          "Ethics & Boundaries": 40,
+          "Mental Health": 29,
+          "Crisis Intervention": 41,
+          "Trauma-Informed Care": 43,
+          "Child & Family Services": 58,
+          "Case Management": 31,
+          "Documentation & Record-Keeping": 16,
+          "Legislation & Consent": 21,
+          "DEI & Anti-Oppressive Practice": 34,
+          "Assessment & Intervention Planning": 67,
+          "Group Work": 27,
+          "Gerontology": 36,
+          "School & Social Service Systems": 15,
+          "Safeguarding & Risk Management": 27,
+          "Social Determinants of Health": 32,
+          "Interdisciplinary Collaboration": 32,
+          "Communication & Interviewing": 38,
+          "Exam-Style Mixed Practice": 84,
+          "Addictions & Substance Use": 45,
+          "Ethics & Professional Boundaries": 27,
+          "Mental Health & Psychopathology": 17,
+          "Community Practice & Advocacy": 26,
+          "Documentation & Record Keeping": 15,
+          "Legislation & Policy Frameworks": 14,
+          "Diversity, Equity & Inclusion": 17,
+          "School Social Work": 11,
+          "Safeguarding & Vulnerable Populations": 12
         },
         "byFormat": {
-          "MCQ": 25
+          "MCQ": 298,
+          "APPLIED_ETHICS": 41,
+          "CASE_VIGNETTE": 457,
+          "ETHICS_SCENARIO": 67,
+          "PRIORITIZATION": 137
         },
         "files": [
-          "social-worker-questions.ts"
+          "social-worker-questions.ts",
+          "social-worker-questions-batch2.ts",
+          "social-worker-questions-batch3.ts",
+          "social-worker-questions-batch4.ts",
+          "social-worker-questions-batch5.ts",
+          "social-worker-questions-batch6.ts",
+          "social-worker-questions-batch7.ts",
+          "social-worker-questions-batch8.ts",
+          "social-worker-questions-batch9.ts",
+          "social-worker-questions-batch10.ts",
+          "social-worker-questions-batch11.ts",
+          "social-worker-questions-batch12.ts",
+          "social-worker-questions-batch13.ts",
+          "social-worker-questions-batch14.ts",
+          "social-worker-questions-batch15.ts",
+          "social-worker-questions-batch16.ts",
+          "social-worker-questions-batch17.ts",
+          "social-worker-questions-batch18.ts",
+          "social-worker-questions-batch19.ts",
+          "social-worker-questions-batch20.ts",
+          "social-worker-questions-batch21.ts",
+          "social-worker-questions-batch22.ts"
         ]
       },
       "addictionsCounsellor": {
@@ -281,69 +308,6 @@
           "surgical-technologist-questions-4.ts",
           "surgical-technologist-questions-5.ts",
           "surgical-technologist-questions-6.ts"
-        ]
-      },
-      "healthInfoMgmt": {
-        "total": 310,
-        "byCategory": {
-          "ICD-10-CM/PCS Coding": 75,
-          "CPT/HCPCS Coding": 45,
-          "Revenue Cycle Management": 35,
-          "Health Data Analytics": 30,
-          "HIPAA & Compliance": 30,
-          "EHR & Health IT": 30,
-          "Clinical Documentation Improvement": 25,
-          "Quality & Performance Improvement": 20,
-          "Health Information Exchange": 10,
-          "Cancer Registry & Registries": 10
-        },
-        "byFormat": {
-          "MCQ": 310
-        },
-        "files": [
-          "him-questions.ts"
-        ]
-      },
-      "diagnosticSonography": {
-        "total": 310,
-        "byCategory": {
-          "Ultrasound Physics & Instrumentation": 50,
-          "Abdominal Sonography": 55,
-          "Obstetric Sonography": 45,
-          "Gynecologic Sonography": 35,
-          "Vascular Sonography": 35,
-          "Small Parts Sonography": 30,
-          "Musculoskeletal Sonography": 25,
-          "Sonographic Pathology": 20,
-          "Patient Care & Safety": 15
-        },
-        "byFormat": {
-          "MCQ": 310
-        },
-        "files": [
-          "sonography-questions.ts"
-        ]
-      },
-      "cardiacSonographer": {
-        "total": 311,
-        "byCategory": {
-          "Cardiac Anatomy & Physiology": 40,
-          "Standard Echocardiography Views": 35,
-          "Cardiac Hemodynamics & Doppler": 40,
-          "Valvular Heart Disease": 40,
-          "LV Systolic Function": 30,
-          "Diastolic Function": 25,
-          "Congenital Heart Disease": 25,
-          "Cardiomyopathies": 25,
-          "Stress Echocardiography": 20,
-          "TEE & Advanced Imaging": 20,
-          "Pericardial Disease": 11
-        },
-        "byFormat": {
-          "MCQ": 311
-        },
-        "files": [
-          "cardiac-sonographer-questions.ts"
         ]
       }
     },
@@ -1077,23 +1041,30 @@
   },
   "database": {
     "generatedQuestions": 28436,
-    "alliedQuestions": 875,
+    "alliedQuestions": 6618,
     "byCareerType": {
+      "surgicalTechnologist": 1502,
+      "rrt": 1010,
+      "physicalTherapy": 900,
+      "occupationalTherapy": 900,
       "paramedic": 500,
-      "emergencyNursing": 375
+      "imaging": 500,
+      "emergencyNursing": 375,
+      "cardiacSonographer": 311,
+      "healthInfoMgmt": 310,
+      "diagnosticSonography": 310
     }
   },
   "totals": {
-    "alliedHealthStatic": 10346,
+    "alliedHealthStatic": 11321,
     "nursingStatic": 6139,
     "nursingCertStatic": 2500,
-    "databaseGenerated": 29311,
-    "publicTotal": 20087,
-    "alliedHealthTotal": 11448
+    "databaseGenerated": 35054,
+    "publicTotal": 13821
   },
   "integrity": {
-    "fileCount": 225,
+    "fileCount": 246,
     "parseFailures": [],
-    "contentHash": "53c7fbe15bb849a2"
+    "contentHash": "26759bfb48ade929"
   }
 }

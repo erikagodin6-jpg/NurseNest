@@ -980,7 +980,7 @@ export const HUB_MARKETING: Record<string, HubMarketingData> = {
       { name: "Thomas Reilly, DSW, LCSW", credentials: "DSW, LCSW, CASAC", specialty: "Addiction Treatment & Crisis Intervention", bio: "Thomas has 16 years of clinical experience in community mental health and substance abuse treatment. He develops ASWB Clinical exam preparation content and crisis intervention training." },
     ],
     platformStats: {
-      totalQuestions: "25",
+      totalQuestions: "1,000+",
       totalLessons: "100+",
       flashcardDecks: "45+",
       mockExams: "Unlimited",
@@ -995,7 +995,7 @@ export const HUB_MARKETING: Record<string, HubMarketingData> = {
       { question: "Is DSM-5 content included?", answer: "Yes. Our DSM-5 Diagnosis Simulator provides practice with differential diagnosis using case vignettes, and the question bank covers major diagnostic categories." },
       { question: "Does the platform cover ethics?", answer: "Yes. Ethics is one of our most comprehensive domains, covering the NASW Code of Ethics, boundary issues, confidentiality, dual relationships, and professional responsibilities." },
       { question: "Are evidence-based interventions covered?", answer: "Yes. We cover CBT, DBT, MI, solution-focused therapy, trauma-informed care, and their application to clinical social work practice." },
-      { question: "How many questions are available?", answer: "We currently have 25 social work exam questions and are actively expanding our question bank. New questions are added regularly with a roadmap to 500+." },
+      { question: "How many questions are available?", answer: "We have 1,000+ ASWB-aligned practice questions spanning 20 content domains including ethics, mental health, crisis intervention, trauma-informed care, child & family services, and more. New questions are added regularly." },
       { question: "Is there a free trial?", answer: "Yes. Free diagnostic and 5 practice questions with rationales." },
       { question: "Does this cover Canadian social work licensing?", answer: "Our content primarily targets ASWB exams. Canadian social work regulatory requirements vary by province, but the clinical knowledge content is broadly applicable." },
       { question: "What study tools are included?", answer: "Question bank, mock exams, DSM-5 Diagnosis Simulator, Intervention Matching Engine, flashcards, study planner, and analytics." },

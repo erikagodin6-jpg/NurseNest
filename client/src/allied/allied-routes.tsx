@@ -1,5 +1,5 @@
 import { Switch, Route, Redirect } from "wouter";
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { getCanonicalRoute } from "@shared/careers";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
@@ -168,6 +168,8 @@ const SocialWorkPracticeQuestions = lazy(() => import("@/pages/profession-practi
 const PsychotherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.PsychotherapyPracticeQuestions })));
 const AddictionsPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.AddictionsPracticeQuestions })));
 const OccupationalTherapyPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.OccupationalTherapyPracticeQuestions })));
+const SocialWorkDomainsPage = lazy(() => import("./pages/social-work-domains"));
+const SocialWorkTestBankPage = lazy(() => import("./pages/social-work-domains").then(m => ({ default: m.SocialWorkTestBankPage })));
 const MainEncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 
 const ParamedicExamPrepLanding = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.ParamedicExamPrep })));
@@ -196,6 +198,17 @@ function LoadingFallback() {
       </div>
     </div>
   );
+}
+
+function SocialWorkDomainDetailWrapper({ slug }: { slug: string }) {
+  const [Component, setComponent] = React.useState<React.ComponentType<{ slug: string }> | null>(null);
+  React.useEffect(() => {
+    import("./pages/social-work-domains").then(m => {
+      setComponent(() => (props: { slug: string }) => m.SocialWorkDomainDetailPage(props));
+    });
+  }, []);
+  if (!Component) return <LoadingFallback />;
+  return <Component slug={slug} />;
 }
 
 export function AlliedRoutes() {
@@ -470,6 +483,9 @@ export function AlliedRoutes() {
         <Route path="/allied-health/rrt/pharmacology" component={RrtPharmacologyHub} />
         <Route path="/allied-health/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
         <Route path="/allied-health/imaging">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["imaging"]} />}</Route>
+        <Route path="/allied-health/social-work/domains" component={SocialWorkDomainsPage} />
+        <Route path="/allied-health/social-work/domain/:slug">{(params) => <SocialWorkDomainDetailWrapper slug={params.slug} />}</Route>
+        <Route path="/allied-health/social-work/test-bank" component={SocialWorkTestBankPage} />
         <Route path="/allied-health/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
         <Route path="/allied-health/psychotherapy">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["psychotherapy"]} />}</Route>
         <Route path="/allied-health/addictions">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["addictions"]} />}</Route>
