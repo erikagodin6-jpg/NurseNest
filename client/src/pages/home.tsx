@@ -32,6 +32,7 @@ function NavPlaceholder() {
   );
 }
 
+const HomeHeroFeatures = lazy(() => import("@/components/home-hero-features"));
 const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
 const HomeChoosePath = lazy(() => import("@/components/home-choose-path"));
@@ -540,6 +541,12 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <LazySection minHeight="200px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[200px]" />}>
+            <HomeHeroFeatures />
+          </Suspense>
+        </LazySection>
 
         <LazySection minHeight="300px" rootMargin="200px">
           <Suspense fallback={<div className="min-h-[300px]" />}>
