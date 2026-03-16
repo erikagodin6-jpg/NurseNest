@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Brain, FlaskConical, Stethoscope, FileText, ArrowRight, Globe } from "lucide-react";
+import { BookOpen, Brain, FlaskConical, Stethoscope, FileText, ArrowRight, Globe, Sparkles } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
 interface RelatedResource {
@@ -352,5 +352,38 @@ export function ContextualRelatedResources({
       title="Continue Your Learning"
       className={className}
     />
+  );
+}
+
+interface FlashcardStudyCTAProps {
+  topic?: string;
+  className?: string;
+}
+
+export function FlashcardStudyCTA({ topic, className = "" }: FlashcardStudyCTAProps) {
+  const href = topic ? `/flashcards?topic=${encodeURIComponent(topic)}` : "/flashcards";
+  const description = topic
+    ? `Reinforce your understanding of ${topic} with spaced repetition flashcards.`
+    : "Boost retention with smart flashcard review.";
+
+  return (
+    <div className={`p-4 bg-gradient-to-r from-violet-50 to-indigo-50 rounded-xl border border-violet-100 ${className}`} data-testid="flashcard-study-cta">
+      <div className="flex items-start gap-3">
+        <div className="w-10 h-10 rounded-lg bg-violet-100 flex items-center justify-center shrink-0">
+          <Sparkles className="w-5 h-5 text-violet-600" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-gray-900" data-testid="text-flashcard-cta-title">Review this concept with flashcards</h3>
+          <p className="text-xs text-gray-600 mt-0.5" data-testid="text-flashcard-cta-desc">{description}</p>
+          <LocaleLink
+            href={href}
+            className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-violet-600 text-white text-xs font-medium rounded-lg hover:bg-violet-700 transition-colors"
+            data-testid="link-flashcard-cta"
+          >
+            <Brain className="w-3.5 h-3.5" /> Study
+          </LocaleLink>
+        </div>
+      </div>
+    </div>
   );
 }

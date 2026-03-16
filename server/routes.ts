@@ -18426,6 +18426,122 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  const sm2Engine = await import("./sm2-engine");
+
+  app.post("/api/sm2/review", requireEntitlement("flashcard_review"), async (req: any, res) => {
+    try {
+      const authUser = req.authUser;
+      const { cardId, deckId, rating, responseTimeMs } = req.body;
+      if (!cardId || !rating || !["again", "hard", "good", "easy"].includes(rating)) {
+        return res.status(400).json({ error: "cardId and valid rating (again/hard/good/easy) required" });
+      }
+      const result = await sm2Engine.processSM2Review({ userId: authUser.id, cardId, deckId, rating, responseTimeMs });
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to process review" });
+    }
+  });
+
+  app.get("/api/sm2/due-cards/:userId", requireEntitlement("flashcard_review"), async (req: any, res) => {
+    try {
+      const authUser = req.authUser;
+      const limit = parseInt(req.query.limit as string) || 20;
+      const cards = await sm2Engine.getCardsDueForReview(authUser.id, limit);
+      res.json(cards);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch due cards" });
+    }
+  });
+
+  app.get("/api/sm2/dashboard/:userId", requireEntitlement("flashcard_review"), async (req: any, res) => {
+    try {
+      const authUser = req.authUser;
+      const dashboard = await sm2Engine.getSM2Dashboard(authUser.id);
+      res.json(dashboard);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch SM2 dashboard" });
+    }
+  });
+
+  app.get("/api/sm2/analytics/:userId", requireEntitlement("flashcard_review"), async (req: any, res) => {
+    try {
+      const authUser = req.authUser;
+      const analytics = await sm2Engine.getFlashcardAnalytics(authUser.id);
+      res.json(analytics);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch analytics" });
+    }
+  });
+
+  app.get("/api/admin/sm2/analytics", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const analytics = await sm2Engine.getAdminFlashcardAnalytics();
+      res.json(analytics);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch admin analytics" });
+    }
+  });
+
+  app.get("/api/admin/sm2/duplicates", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const duplicates = await sm2Engine.detectDuplicates();
+      res.json(duplicates);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to detect duplicates" });
+    }
+  });
+
+  app.post("/api/admin/sm2/flag-low-quality", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const count = await sm2Engine.flagLowQualityCards();
+      res.json({ flagged: count });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to flag low quality cards" });
+    }
+  });
+
+  app.post("/api/admin/sm2/bulk-generate", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      const { sourceType, tier, limit } = req.body;
+      if (!sourceType || !tier) return res.status(400).json({ error: "sourceType and tier required" });
+      const result = await sm2Engine.bulkGenerateFromContent(sourceType, tier, limit || 50);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to generate flashcards" });
+    }
+  });
+
+  app.get("/api/admin/config/build-priority", async (req, res) => {
+    try {
+      const authUser = await resolveAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const user = await storage.getUser(authUser.id);
+      if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
+      res.json({
+        ACTIVE_BUILD_PRIORITY: sm2Engine.ACTIVE_BUILD_PRIORITY,
+        CONTENT_EXPANSION_ROADMAP: sm2Engine.CONTENT_EXPANSION_ROADMAP,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to fetch config" });
+    }
+  });
+
   app.get("/api/quick-study/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const userId = req.params.userId;

@@ -1687,6 +1687,196 @@ type ExamFlashcard = {
   sourceQuestionId: string;
 };
 
+function FlashcardDashboardWidget({ userId }: { userId: string }) {
+  const { t } = useI18n();
+  const [dashboard, setDashboard] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || localStorage.getItem("adminToken");
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    fetch(`/api/sm2/dashboard/${userId}`, { headers })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setDashboard(data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  if (loading) return <div className="animate-pulse h-32 bg-muted rounded-xl" />;
+  if (!dashboard) return null;
+
+  return (
+    <Card className="border border-border shadow-sm rounded-xl overflow-hidden" data-testid="widget-flashcard-dashboard">
+      <CardHeader className="pb-2 bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20">
+        <CardTitle className="text-base font-semibold flex items-center gap-2">
+          <Brain className="w-4 h-4 text-violet-500" />
+          {t("flashcards.dashboardTitle")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-3 pb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="text-center p-2 rounded-lg bg-orange-50 dark:bg-orange-950/20" data-testid="stat-cards-due">
+            <div className="text-2xl font-bold text-orange-600">{dashboard.cardsDueToday}</div>
+            <div className="text-[10px] text-muted-foreground font-medium">{t("flashcards.dueToday")}</div>
+          </div>
+          <div className="text-center p-2 rounded-lg bg-green-50 dark:bg-green-950/20" data-testid="stat-cards-learned">
+            <div className="text-2xl font-bold text-green-600">{dashboard.cardsLearned}</div>
+            <div className="text-[10px] text-muted-foreground font-medium">{t("flashcards.cardsLearned")}</div>
+          </div>
+          <div className="text-center p-2 rounded-lg bg-blue-50 dark:bg-blue-950/20" data-testid="stat-streak">
+            <div className="text-2xl font-bold text-blue-600">{dashboard.streakDays}</div>
+            <div className="text-[10px] text-muted-foreground font-medium">{t("flashcards.streakDays")}</div>
+          </div>
+          <div className="text-center p-2 rounded-lg bg-violet-50 dark:bg-violet-950/20" data-testid="stat-mastery">
+            <div className="text-2xl font-bold text-violet-600">{dashboard.masteryPercentage}%</div>
+            <div className="text-[10px] text-muted-foreground font-medium">{t("flashcards.masteryPct")}</div>
+          </div>
+        </div>
+        {dashboard.cardsDueToday > 0 && (
+          <div className="mt-3 p-2.5 rounded-lg bg-primary/5 border border-primary/10 flex items-center justify-between" data-testid="cta-daily-review">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              <span className="text-xs font-medium text-foreground">{t("flashcards.dailyReviewPrompt")}</span>
+            </div>
+            <Button size="sm" className="h-7 text-xs rounded-md" data-testid="button-start-daily-review">
+              {t("flashcards.reviewNow")}
+            </Button>
+          </div>
+        )}
+        <div className="mt-3 grid grid-cols-4 gap-1.5" data-testid="stat-card-states">
+          {(["new", "learning", "review", "mastered"] as const).map(state => (
+            <div key={state} className="text-center py-1.5 rounded-md bg-muted/50">
+              <div className="text-sm font-semibold">{dashboard.byState?.[state] || 0}</div>
+              <div className="text-[9px] text-muted-foreground capitalize">{state}</div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function FlashcardAnalyticsPanel({ userId }: { userId: string }) {
+  const { t } = useI18n();
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || localStorage.getItem("adminToken");
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    fetch(`/api/sm2/analytics/${userId}`, { headers })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setAnalytics(data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  if (loading) return <div className="animate-pulse h-48 bg-muted rounded-xl" />;
+  if (!analytics) return null;
+
+  return (
+    <Card className="border border-border shadow-sm rounded-xl overflow-hidden" data-testid="panel-flashcard-analytics">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base font-semibold flex items-center gap-2">
+          <BarChart3 className="w-4 h-4 text-violet-500" />
+          {t("flashcards.analyticsTitle")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {analytics.difficultyDistribution?.length > 0 && (
+          <div data-testid="chart-difficulty-distribution">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">{t("flashcards.difficultyDistribution")}</h4>
+            <div className="flex gap-1.5 items-end h-16">
+              {analytics.difficultyDistribution.map((d: any, i: number) => {
+                const maxCount = Math.max(...analytics.difficultyDistribution.map((x: any) => x.count));
+                const height = maxCount > 0 ? (d.count / maxCount) * 100 : 0;
+                const colors: Record<string, string> = { again: "bg-red-400", hard: "bg-orange-400", good: "bg-green-400", easy: "bg-blue-400" };
+                return (
+                  <div key={i} className="flex flex-col items-center flex-1">
+                    <div className={cn("w-full rounded-t-sm", colors[d.rating] || "bg-gray-400")} style={{ height: `${Math.max(height, 4)}%` }} />
+                    <span className="text-[8px] text-muted-foreground mt-1 capitalize">{d.rating}</span>
+                    <span className="text-[9px] font-medium">{d.count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {analytics.retentionRate?.length > 0 && (
+          <div data-testid="chart-retention-rate">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">{t("flashcards.retentionRate")}</h4>
+            <div className="flex gap-1 items-end h-12">
+              {analytics.retentionRate.map((r: any, i: number) => (
+                <div key={i} className="flex flex-col items-center flex-1">
+                  <div className="w-full bg-green-400 rounded-t-sm" style={{ height: `${Math.max(r.retention, 4)}%` }} />
+                  <span className="text-[8px] text-muted-foreground mt-0.5">{r.retention}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {analytics.topicMastery?.length > 0 && (
+          <div data-testid="chart-topic-mastery">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">{t("flashcards.topicMastery")}</h4>
+            <div className="space-y-1.5">
+              {analytics.topicMastery.slice(0, 8).map((tm: any, i: number) => (
+                <div key={i} className="flex items-center gap-2">
+                  <span className="text-[10px] text-muted-foreground w-24 truncate">{tm.topic}</span>
+                  <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-full bg-violet-500 rounded-full transition-all" style={{ width: `${tm.percentage}%` }} />
+                  </div>
+                  <span className="text-[10px] font-medium w-8 text-right">{tm.percentage}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {analytics.reviewFrequency?.length > 0 && (
+          <div data-testid="chart-review-frequency">
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">{t("flashcards.reviewFrequency")}</h4>
+            <div className="flex gap-0.5 items-end h-10">
+              {analytics.reviewFrequency.slice(-14).map((rf: any, i: number) => {
+                const maxC = Math.max(...analytics.reviewFrequency.map((x: any) => x.count));
+                const h = maxC > 0 ? (rf.count / maxC) * 100 : 0;
+                return <div key={i} className="flex-1 bg-violet-400 rounded-t-sm" style={{ height: `${Math.max(h, 4)}%` }} />;
+              })}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function FlashcardCTA({ topic, context }: { topic?: string; context: string }) {
+  const { t } = useI18n();
+  return (
+    <div className="mt-4 p-3 rounded-lg border border-violet-200 bg-violet-50/50 dark:bg-violet-950/20 dark:border-violet-800/30" data-testid={`cta-flashcard-${context}`}>
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center shrink-0">
+          <Brain className="w-4 h-4 text-violet-600" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-semibold text-violet-700 dark:text-violet-300">{t("flashcards.ctaTitle")}</p>
+          <p className="text-[10px] text-violet-600/70 dark:text-violet-400/70">{topic ? t("flashcards.ctaWithTopic").replace("{topic}", topic) : t("flashcards.ctaGeneric")}</p>
+        </div>
+        <LocaleLink href="/flashcards" className="shrink-0">
+          <Button size="sm" variant="outline" className="h-7 text-xs border-violet-300 text-violet-700 hover:bg-violet-100" data-testid={`button-cta-flashcard-${context}`}>
+            <Zap className="w-3 h-3 mr-1" /> {t("flashcards.ctaButton")}
+          </Button>
+        </LocaleLink>
+      </div>
+    </div>
+  );
+}
+
+export { FlashcardDashboardWidget, FlashcardAnalyticsPanel, FlashcardCTA };
+
 export default function Flashcards({ isTestBank = false }: { isTestBank?: boolean } = {}) {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
@@ -2836,6 +3026,23 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     setView("study");
   };
 
+  const handleSM2Rating = async (rating: "again" | "hard" | "good" | "easy") => {
+    const card = sessionCards[currentIndex];
+    if (user && card.id && card.source !== "static") {
+      try {
+        const token = localStorage.getItem("token") || localStorage.getItem("adminToken");
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+        await fetch("/api/sm2/review", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ cardId: card.id, rating }),
+        });
+      } catch {}
+    }
+    handleNext();
+  };
+
   const handleNext = () => {
     if (!isPaid && user && previewStatus && !previewStatus.isPremium) {
       if (previewStatus.sessionRemaining <= 0 || previewStatus.dailyRemaining <= 0) {
@@ -3435,6 +3642,15 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     </div>
                   )}
                 </div>
+              </div>
+            </section>
+          )}
+
+          {user && isPaid && (
+            <section className="py-8 bg-white border-b border-violet-50" data-testid="section-flashcard-dashboard">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <FlashcardDashboardWidget userId={user.id} />
+                <FlashcardAnalyticsPanel userId={user.id} />
               </div>
             </section>
           )}
@@ -6925,10 +7141,35 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-none shadow-lg rounded-2xl flex flex-col items-center justify-center p-6 sm:p-10 text-center">
                     <h3 className="text-[10px] font-semibold text-primary-foreground/50 uppercase tracking-widest mb-6">{t("flashcards.clinicalDefinition")}</h3>
                     <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
-                    <div className="mt-10 pt-6 border-t border-primary-foreground/15 w-full flex justify-center">
-                      <Button variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10 font-medium" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
-                        {t("flashcards.gotIt")} <ChevronRight className="w-4 h-4 ml-2" />
-                      </Button>
+                    <div className="mt-8 pt-4 border-t border-primary-foreground/15 w-full">
+                      <p className="text-[10px] font-semibold text-primary-foreground/50 uppercase tracking-widest mb-3" data-testid="text-rate-difficulty">{t("flashcards.rateDifficulty")}</p>
+                      <div className="flex items-center justify-center gap-2 flex-wrap" data-testid="group-sm2-ratings">
+                        {(["again", "hard", "good", "easy"] as const).map((rating) => {
+                          const ratingConfig: Record<string, { label: string; sublabel: string; color: string }> = {
+                            again: { label: t("flashcards.ratingAgain"), sublabel: "<10m", color: "bg-red-500/20 hover:bg-red-500/40 border-red-300/30" },
+                            hard: { label: t("flashcards.ratingHard"), sublabel: "1d", color: "bg-orange-500/20 hover:bg-orange-500/40 border-orange-300/30" },
+                            good: { label: t("flashcards.ratingGood"), sublabel: "1-6d", color: "bg-green-500/20 hover:bg-green-500/40 border-green-300/30" },
+                            easy: { label: t("flashcards.ratingEasy"), sublabel: "6d+", color: "bg-blue-500/20 hover:bg-blue-500/40 border-blue-300/30" },
+                          };
+                          const cfg = ratingConfig[rating];
+                          return (
+                            <Button
+                              key={rating}
+                              variant="ghost"
+                              size="sm"
+                              className={cn("flex flex-col items-center gap-0.5 px-3 py-2 h-auto rounded-lg border text-primary-foreground font-medium transition-all", cfg.color)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSM2Rating(rating);
+                              }}
+                              data-testid={`button-rating-${rating}`}
+                            >
+                              <span className="text-xs">{cfg.label}</span>
+                              <span className="text-[9px] opacity-60">{cfg.sublabel}</span>
+                            </Button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </Card>
                 </div>

@@ -72,7 +72,7 @@ interface FlashcardDetail {
   updatedAt: string;
 }
 
-type TabType = "list" | "create" | "convert" | "import" | "preview" | "stats";
+type TabType = "list" | "create" | "convert" | "import" | "preview" | "stats" | "ai-generate" | "quality" | "config";
 
 const TIERS = ["rpn", "rn", "np"];
 const STATUSES = ["draft", "published", "archived", "needs_review", "approved"];
@@ -561,6 +561,9 @@ export default function AdminFlashcardStudio() {
               ["import", "Bulk Import", Upload],
               ["preview", "Tier Preview", Eye],
               ["stats", "Content Reuse", RefreshCw],
+              ["ai-generate", "AI Generate", Zap],
+              ["quality", "Quality Tools", AlertTriangle],
+              ["config", "Build Config", RefreshCw],
             ] as [TabType, string, any][]).map(([t, label, Icon]) => (
               <Button
                 key={t}
@@ -1332,6 +1335,10 @@ export default function AdminFlashcardStudio() {
             </div>
           )}
           {tab === "stats" && <ContentReuseStats />}
+
+          {tab === "ai-generate" && <AIGeneratePanel />}
+          {tab === "quality" && <QualityToolsPanel />}
+          {tab === "config" && <BuildConfigPanel />}
         </div>
       </main>
     </>
@@ -1549,6 +1556,253 @@ function ContentReuseStats() {
             <p>Questions with matched images show clinical reference visuals in the rationale panel.</p>
             <p>Questions with matched lessons show direct links to related study content.</p>
             <p>Use the "Re-sync All" button to re-process all questions after adding new exam content or images.</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function AIGeneratePanel() {
+  const [tier, setTier] = useState("rn");
+  const [sourceType, setSourceType] = useState("question_explanations");
+  const [limit, setLimit] = useState(20);
+  const [generating, setGenerating] = useState(false);
+  const [result, setResult] = useState<{ generated: number; skipped: number } | null>(null);
+  const [adminAnalytics, setAdminAnalytics] = useState<any>(null);
+
+  useEffect(() => {
+    adminFetch("/api/admin/sm2/analytics")
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setAdminAnalytics(data); })
+      .catch(() => {});
+  }, []);
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    setResult(null);
+    try {
+      const res = await adminFetch("/api/admin/sm2/bulk-generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sourceType, tier, limit }),
+      });
+      const data = await res.json();
+      setResult(data);
+    } catch {
+      setResult({ generated: 0, skipped: 0 });
+    }
+    setGenerating(false);
+  };
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-semibold flex items-center gap-2">
+            <Zap className="w-4 h-4 text-violet-500" /> Bulk AI Flashcard Generation
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <Label className="text-xs">Source Type</Label>
+              <Select value={sourceType} onValueChange={setSourceType}>
+                <SelectTrigger data-testid="select-source-type"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="question_explanations">Question Explanations</SelectItem>
+                  <SelectItem value="study_guides">Study Guides</SelectItem>
+                  <SelectItem value="topic_summaries">Topic Summaries</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs">Tier</Label>
+              <Select value={tier} onValueChange={setTier}>
+                <SelectTrigger data-testid="select-gen-tier"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {TIERS.map(t => <SelectItem key={t} value={t}>{t.toUpperCase()}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs">Batch Size</Label>
+              <Input type="number" value={limit} onChange={e => setLimit(parseInt(e.target.value) || 20)} min={1} max={100} data-testid="input-batch-size" />
+            </div>
+          </div>
+          <Button onClick={handleGenerate} disabled={generating} className="w-full" data-testid="button-bulk-generate">
+            {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</> : <><Zap className="w-4 h-4 mr-2" /> Generate Flashcards</>}
+          </Button>
+          {result && (
+            <div className="p-3 rounded-lg bg-green-50 border border-green-200 text-sm" data-testid="text-generate-result">
+              <CheckCircle className="w-4 h-4 text-green-600 inline mr-2" />
+              Generated {result.generated} flashcards, skipped {result.skipped}.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {adminAnalytics && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Generation Statistics</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="text-center p-2 rounded-lg bg-violet-50">
+                <div className="text-xl font-bold text-violet-600">{adminAnalytics.totalCards}</div>
+                <div className="text-[10px] text-gray-500">Total Cards</div>
+              </div>
+              <div className="text-center p-2 rounded-lg bg-blue-50">
+                <div className="text-xl font-bold text-blue-600">{adminAnalytics.totalReviews}</div>
+                <div className="text-[10px] text-gray-500">Total Reviews</div>
+              </div>
+              <div className="text-center p-2 rounded-lg bg-green-50">
+                <div className="text-xl font-bold text-green-600">{adminAnalytics.activeUsers}</div>
+                <div className="text-[10px] text-gray-500">Active Users</div>
+              </div>
+              <div className="text-center p-2 rounded-lg bg-orange-50">
+                <div className="text-xl font-bold text-orange-600">{adminAnalytics.duplicateCount}</div>
+                <div className="text-[10px] text-gray-500">Duplicates</div>
+              </div>
+            </div>
+            {adminAnalytics.generationStats?.length > 0 && (
+              <div className="mt-3 space-y-1">
+                <p className="text-xs font-semibold text-gray-500 uppercase">By Source</p>
+                {adminAnalytics.generationStats.map((gs: any, i: number) => (
+                  <div key={i} className="flex justify-between text-xs">
+                    <span className="text-gray-600">{gs.source || "manual"}</span>
+                    <span className="font-medium">{gs.count}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function QualityToolsPanel() {
+  const [duplicates, setDuplicates] = useState<any[]>([]);
+  const [flagResult, setFlagResult] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [flagging, setFlagging] = useState(false);
+
+  const fetchDuplicates = async () => {
+    setLoading(true);
+    try {
+      const res = await adminFetch("/api/admin/sm2/duplicates");
+      const data = await res.json();
+      setDuplicates(data);
+    } catch {}
+    setLoading(false);
+  };
+
+  const handleFlagLowQuality = async () => {
+    setFlagging(true);
+    try {
+      const res = await adminFetch("/api/admin/sm2/flag-low-quality", { method: "POST" });
+      const data = await res.json();
+      setFlagResult(data.flagged);
+    } catch {}
+    setFlagging(false);
+  };
+
+  useEffect(() => { fetchDuplicates(); }, []);
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-semibold flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-500" /> Quality Control
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Button onClick={handleFlagLowQuality} disabled={flagging} variant="outline" className="w-full" data-testid="button-flag-low-quality">
+            {flagging ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Scanning...</> : <><AlertTriangle className="w-4 h-4 mr-2" /> Flag Low-Quality Cards</>}
+          </Button>
+          {flagResult !== null && (
+            <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-xs" data-testid="text-flag-result">
+              Flagged {flagResult} low-quality cards for review.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-semibold">Duplicate Detection ({duplicates.length} groups)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="flex justify-center py-4"><Loader2 className="w-5 h-5 animate-spin text-gray-400" /></div>
+          ) : duplicates.length === 0 ? (
+            <p className="text-sm text-gray-500 text-center py-4">No duplicate flashcards detected.</p>
+          ) : (
+            <div className="space-y-2 max-h-96 overflow-y-auto" data-testid="list-duplicates">
+              {duplicates.map((dup, i) => (
+                <div key={i} className="p-2 rounded-lg border border-gray-200 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Hash: {dup.hash.substring(0, 12)}...</span>
+                    <Badge className="text-[10px] bg-red-100 text-red-700">{dup.count} copies</Badge>
+                  </div>
+                  <div className="text-gray-400 mt-1">IDs: {dup.ids.slice(0, 3).join(", ")}{dup.ids.length > 3 ? "..." : ""}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function BuildConfigPanel() {
+  const [config, setConfig] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    adminFetch("/api/admin/config/build-priority")
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setConfig(data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 animate-spin text-gray-400" /></div>;
+  if (!config) return <p className="text-sm text-gray-500 text-center py-8">Failed to load config.</p>;
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-semibold">Active Build Priority</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="p-3 rounded-lg bg-violet-50 border border-violet-200" data-testid="text-build-priority">
+            <p className="text-sm font-bold text-violet-700">{config.ACTIVE_BUILD_PRIORITY}</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-semibold">Content Expansion Roadmap</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2" data-testid="list-roadmap">
+            {config.CONTENT_EXPANSION_ROADMAP?.map((item: any) => (
+              <div key={item.rank} className="flex items-center gap-3 p-2 rounded-lg bg-gray-50 border border-gray-100">
+                <div className="w-7 h-7 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold">{item.rank}</div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                  <p className="text-[10px] text-gray-500 capitalize">{item.status}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
