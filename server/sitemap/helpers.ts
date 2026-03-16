@@ -14,6 +14,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/lianxi",
     "/faq": "/changjianwenti",
     "/blog": "/boke",
+    "/international-nurses": "/guoji-hushi",
   },
   fr: {
     "/pricing": "/tarifs",
@@ -28,6 +29,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/nursing-exam-prep": "/examen-nclex",
     "/nursing-simulation-practice": "/simulation-nursing",
     "/hyperkalemia-effects-on-heart": "/hyperkalemie-coeur",
+    "/international-nurses": "/infirmiers-internationaux",
   },
   es: {
     "/pricing": "/precios",
@@ -39,6 +41,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/contacto",
     "/faq": "/preguntas-frecuentes",
     "/blog": "/blog",
+    "/international-nurses": "/enfermeros-internacionales",
   },
   pt: {
     "/pricing": "/precos",
@@ -50,6 +53,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/contato",
     "/faq": "/perguntas-frequentes",
     "/blog": "/blog",
+    "/international-nurses": "/enfermeiros-internacionais",
   },
   th: {
     "/pricing": "/rakha",
@@ -61,6 +65,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/tidtaw",
     "/faq": "/kham-tham-thi-phop-boi",
     "/blog": "/blog",
+    "/international-nurses": "/phayaban-nana-chat",
   },
   tr: {
     "/pricing": "/fiyatlandirma",
@@ -72,6 +77,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/iletisim",
     "/faq": "/sikca-sorulan-sorular",
     "/blog": "/blog",
+    "/international-nurses": "/uluslararasi-hemsireler",
   },
   id: {
     "/pricing": "/harga",
@@ -83,6 +89,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/kontak",
     "/faq": "/pertanyaan-umum",
     "/blog": "/blog",
+    "/international-nurses": "/perawat-internasional",
   },
 };
 

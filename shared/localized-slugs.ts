@@ -18,6 +18,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-exam-prep": "examen-nclex",
     "nursing-simulation-practice": "simulation-nursing",
     "hyperkalemia-effects-on-heart": "hyperkalemie-coeur",
+    "international-nurses": "infirmiers-internationaux",
   },
   es: {
     "pricing": "precios",
@@ -34,6 +35,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "preparacion-examen",
     "topics": "temas",
     "guides": "guias",
+    "international-nurses": "enfermeros-internacionales",
   },
   zh: {
     "pricing": "jiage",
@@ -50,6 +52,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "beikao",
     "topics": "zhuanti",
     "guides": "zhinan",
+    "international-nurses": "guoji-hushi",
   },
   "zh-tw": {
     "pricing": "jiage",
@@ -66,6 +69,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "beikao",
     "topics": "zhuanti",
     "guides": "zhinan",
+    "international-nurses": "guoji-hushi",
   },
   ar: {
     "pricing": "al-asar",
@@ -82,6 +86,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "istidad-lilimtihan",
     "topics": "mawadii",
     "guides": "adilla",
+    "international-nurses": "mumarridat-dawliyyat",
   },
   hi: {
     "pricing": "mulya",
@@ -98,6 +103,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "pariksha-taiyaari",
     "topics": "vishay",
     "guides": "margadarshikaaen",
+    "international-nurses": "antarrashtriya-nurses",
   },
   ko: {
     "pricing": "gagyeog",
@@ -114,6 +120,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "siheom-junbi",
     "topics": "juje",
     "guides": "gaideu",
+    "international-nurses": "gukje-ganho",
   },
   pa: {
     "pricing": "keemat",
@@ -130,6 +137,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "pariksha-tayari",
     "topics": "vishae",
     "guides": "margadarshikavan",
+    "international-nurses": "antarrashtriya-nurses",
   },
   vi: {
     "pricing": "bang-gia",
@@ -146,6 +154,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "on-thi",
     "topics": "chu-de",
     "guides": "huong-dan",
+    "international-nurses": "dieu-duong-quoc-te",
   },
   ht: {
     "pricing": "pri",
@@ -162,6 +171,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "preparasyon-egzamen",
     "topics": "sije",
     "guides": "gid",
+    "international-nurses": "enfimye-entenaasyonal",
   },
   ur: {
     "pricing": "qeemat",
@@ -178,6 +188,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "imtihaan-ki-tayyari",
     "topics": "mauzoaat",
     "guides": "rahnumaiyaan",
+    "international-nurses": "bainulaqwami-nurses",
   },
   ja: {
     "pricing": "kakaku",
@@ -194,6 +205,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "shiken-taisaku",
     "topics": "topikku",
     "guides": "gaido",
+    "international-nurses": "kokusai-kangoshi",
   },
   fa: {
     "pricing": "gheymat",
@@ -210,6 +222,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "amadegi-azmun",
     "topics": "mowzuat",
     "guides": "rahnama",
+    "international-nurses": "parastar-beinolmelali",
   },
   de: {
     "pricing": "preise",
@@ -226,6 +239,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "pruefungsvorbereitung",
     "topics": "themen",
     "guides": "leitfaeden",
+    "international-nurses": "internationale-pflegekraefte",
   },
   tr: {
     "pricing": "fiyatlandirma",
@@ -242,6 +256,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "sinav-hazirligi",
     "topics": "konular",
     "guides": "rehberler",
+    "international-nurses": "uluslararasi-hemsireler",
   },
   id: {
     "pricing": "harga",
@@ -258,6 +273,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "persiapan-ujian",
     "topics": "topik",
     "guides": "panduan",
+    "international-nurses": "perawat-internasional",
   },
   pt: {
     "pricing": "precos",
@@ -274,6 +290,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "preparacao-para-exame",
     "topics": "topicos",
     "guides": "guias",
+    "international-nurses": "enfermeiros-internacionais",
   },
   th: {
     "pricing": "rakha",
@@ -290,6 +307,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "exam-prep": "triam-sop",
     "topics": "hua-khaw",
     "guides": "khumu",
+    "international-nurses": "phayaban-nana-chat",
   },
 };
 
