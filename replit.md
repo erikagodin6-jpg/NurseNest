@@ -74,6 +74,13 @@ Key systems:
 - **Sitemap**: All 10 pages registered in `server/sitemap/main-site.ts` with priority 0.7
 - **Internal linking**: Hub page links down to all 10 cluster pages via "In-Depth Conversion Guides" section; each cluster page links back to hub and to related cluster pages
 
+## SEO Technical Infrastructure
+- **301 Redirect Middleware**: `server/seo-redirects.ts` — detects timestamp-suffix duplicate URLs (pattern `-\d{10,13}`) on `/lessons/:slug` and `/learn/:slug` across all locale prefixes, strips suffix and 301 redirects to canonical slug. Also handles known bad slug redirects in single-hop resolution.
+- **Structured Data**: Lesson pages emit Article, Course, MedicalCondition, and FAQ JSON-LD schemas. `seo-lesson-detail.tsx` includes Article schema via `buildArticleSD()`. `lesson-detail.tsx` uses `buildLessonFaqFromContent()` + `buildFaqStructuredData()` for content-derived FAQs.
+- **Thin Content Detection**: `isLessonThinContent()` in `client/src/lib/seo-utils.ts` flags lessons with placeholder/incomplete content for noindex. `content-page.tsx` applies noindex for pages with <100 words or <2 content blocks.
+- **Sitemap Cleanup**: `server/sitemap/main-site.ts` and `server/sitemap/language-sitemaps.ts` filter out timestamp-suffix duplicate slugs and thin content from lesson and blog sitemaps.
+- **Meta Optimization**: `generateLessonSeoTitle()` and `generateLessonSeoDescription()` in `client/src/lib/seo-utils.ts` produce exam-relevance-focused titles and descriptions.
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`

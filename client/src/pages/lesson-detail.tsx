@@ -30,7 +30,7 @@ import { useAuth } from "@/lib/auth";
 import { getAuthHeaders } from "@/lib/queryClient";
 import { canAccessTier, getTierPricingPath, getTierLabel } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
-import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData } from "@/lib/seo-utils";
+import { generateLessonSeoDescription, generateLessonSeoTitle, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData, buildLessonFaqFromContent, buildFaqStructuredData, isLessonThinContent } from "@/lib/seo-utils";
 import { buildFaqFromQuizQuestions } from "@/lib/structured-data";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getInternalLinksForLesson, getCrossPlatformLinksForLesson } from "@/data/internal-links";
@@ -2773,11 +2773,12 @@ export default function LessonDetail() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title={`${lessonContent?.title || "Lesson"} - Clinical Nursing Lesson | NurseNest`}
+        title={generateLessonSeoTitle(id || "", lessonContent)}
         description={generateLessonSeoDescription(id || "", lessonContent)}
         keywords={generateLessonKeywords(id || "", lessonContent)}
         canonicalPath={`/lessons/${id}`}
         ogType="article"
+        noindex={isLessonThinContent(lessonContent)}
         structuredData={buildLessonStructuredData(id || "", lessonContent, lessonTier === "free")}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca/" },
@@ -2789,6 +2790,7 @@ export default function LessonDetail() {
           buildArticleStructuredData(id || "", lessonContent),
           buildCourseStructuredData(id || "", lessonContent),
           ...(lessonContent.quiz && lessonContent.quiz.length > 0 ? [buildFaqFromQuizQuestions(lessonContent.quiz)] : []),
+          ...(buildLessonFaqFromContent(id || "", lessonContent).length > 0 ? [buildFaqStructuredData(buildLessonFaqFromContent(id || "", lessonContent))] : []),
         ]}
       />
       <Navigation />

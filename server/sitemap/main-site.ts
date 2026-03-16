@@ -236,17 +236,26 @@ export async function generateMainPages(): Promise<string[]> {
   return urls;
 }
 
+const TIMESTAMP_SUFFIX_REGEX = /-\d{10,13}$/;
+
 export async function generateMainLessons(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
   const locales = getIndexableLocales();
   const urls: string[] = [];
+  const seenCanonicalSlugs = new Set<string>();
 
   try {
     const result = await pool.query(
       `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
     );
     for (const lesson of result.rows) {
+      if (TIMESTAMP_SUFFIX_REGEX.test(lesson.slug)) continue;
+
+      const canonicalSlug = lesson.slug;
+      if (seenCanonicalSlugs.has(canonicalSlug)) continue;
+      seenCanonicalSlugs.add(canonicalSlug);
+
       urls.push(localizedUrl(base, `/lessons/${lesson.slug}`, "0.8", "weekly", locales, toLastmod(lesson.updated_at)));
     }
   } catch (e) {
@@ -450,6 +459,7 @@ export async function generateMainBlog(): Promise<string[]> {
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
+      if (/-\d{10,13}$/.test(item.slug)) return false;
       return true;
     });
     for (const post of blogPosts) {

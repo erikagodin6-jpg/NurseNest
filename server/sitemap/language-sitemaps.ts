@@ -181,7 +181,11 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     const result = await pool.query(
       `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
     );
+    const seenLessonSlugs = new Set<string>();
     for (const lesson of result.rows) {
+      if (/-\d{10,13}$/.test(lesson.slug)) continue;
+      if (seenLessonSlugs.has(lesson.slug)) continue;
+      seenLessonSlugs.add(lesson.slug);
       urls.push(singleLocaleUrl(base, `/lessons/${lesson.slug}`, targetLocale, allLocales, "0.8", "weekly", toLastmod(lesson.updated_at)));
     }
   } catch {}
@@ -299,6 +303,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
+      if (/-\d{10,13}$/.test(item.slug)) return false;
       return true;
     });
     for (const post of blogPosts) {

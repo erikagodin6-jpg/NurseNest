@@ -561,6 +561,9 @@ app.use((req, res, next) => {
 (async () => {
   await initStripe();
 
+  const { setupSeoRedirects } = await import("./seo-redirects");
+  setupSeoRedirects(app);
+
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
   registerAiJobsRoutes(app);

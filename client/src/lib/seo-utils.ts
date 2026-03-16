@@ -8,15 +8,30 @@ function stripTierFromTitle(title: string): string {
     .trim();
 }
 
+export function isLessonThinContent(lesson: LessonContent): boolean {
+  const title = (lesson.title || "").toLowerCase();
+  if (!title || title === "untitled" || title === "draft") return true;
+
+  const cellularContent = lesson.cellular?.content || "";
+  if (cellularContent.includes("[WRITE YOUR") || cellularContent.length < 50) return true;
+
+  const signCount = (lesson.signs?.left?.length || 0) + (lesson.signs?.right?.length || 0);
+  const medCount = lesson.medications?.length || 0;
+  if (signCount === 0 && medCount === 0 && cellularContent.length < 200) return true;
+
+  return false;
+}
+
 export function generateLessonSeoDescription(lessonId: string, lesson: LessonContent): string {
   const title = stripTierFromTitle(lesson.title);
-  const mechanism = lesson.cellular.content.slice(0, 120).replace(/\.$/, "");
+  const bodySystem = getLessonBodySystem(lessonId);
+  const mechanism = lesson.cellular.content.slice(0, 100).replace(/\.$/, "");
   const medNames = lesson.medications.slice(0, 3).map((m) => m.name).join(", ");
   const signCount = lesson.signs.left.length + lesson.signs.right.length;
 
-  let desc = `${title}: ${mechanism}. `;
-  if (medNames) desc += `Key medications include ${medNames}. `;
-  desc += `${signCount} clinical signs, danger signs, and nursing interventions for exam preparation.`;
+  let desc = `Master ${title} for nursing exams. ${mechanism}. `;
+  if (medNames) desc += `Key medications: ${medNames}. `;
+  desc += `Covers ${signCount} clinical signs, nursing interventions, and ${bodySystem.toLowerCase()} assessment for NCLEX & REx-PN prep.`;
 
   if (desc.length > 160) desc = desc.slice(0, 157) + "...";
   return desc;
@@ -44,6 +59,70 @@ export function generateLessonKeywords(lessonId: string, lesson: LessonContent):
   }
 
   return parts.join(", ");
+}
+
+export function generateLessonSeoTitle(lessonId: string, lesson: LessonContent): string {
+  const title = stripTierFromTitle(lesson.title);
+  const bodySystem = getLessonBodySystem(lessonId);
+  const tierLabel = getLessonTierLabel(lessonId);
+
+  let seoTitle = `${title}: Nursing Assessment & Management`;
+  if (bodySystem !== "Clinical Nursing") {
+    seoTitle = `${title} — ${bodySystem} Nursing Guide`;
+  }
+
+  if (seoTitle.length > 60) {
+    seoTitle = `${title} | Nursing Guide`;
+  }
+
+  return seoTitle;
+}
+
+export function buildLessonFaqFromContent(lessonId: string, lesson: LessonContent): { question: string; answer: string }[] {
+  const title = stripTierFromTitle(lesson.title);
+  const faqs: { question: string; answer: string }[] = [];
+
+  if (lesson.cellular?.content && lesson.cellular.content.length > 30) {
+    faqs.push({
+      question: `What is the pathophysiology of ${title}?`,
+      answer: lesson.cellular.content.slice(0, 300) + (lesson.cellular.content.length > 300 ? "..." : ""),
+    });
+  }
+
+  if (lesson.signs?.left?.length > 0 || lesson.signs?.right?.length > 0) {
+    const allSigns = [...(lesson.signs?.left || []), ...(lesson.signs?.right || [])].slice(0, 6);
+    faqs.push({
+      question: `What are the key clinical signs of ${title}?`,
+      answer: `Key clinical signs include: ${allSigns.join(", ")}. Early recognition of these signs is critical for nursing assessment and timely intervention.`,
+    });
+  }
+
+  if (lesson.nursingActions?.length > 0) {
+    const actions = lesson.nursingActions.slice(0, 5);
+    faqs.push({
+      question: `What are the priority nursing interventions for ${title}?`,
+      answer: `Priority nursing interventions include: ${actions.join("; ")}. These evidence-based interventions are essential for safe patient care.`,
+    });
+  }
+
+  if (lesson.medications?.length > 0) {
+    const meds = lesson.medications.slice(0, 4);
+    const medInfo = meds.map(m => `${m.name} (${m.class || "medication"})`).join(", ");
+    faqs.push({
+      question: `What medications are used to treat ${title}?`,
+      answer: `Key medications include ${medInfo}. Understanding these medications, their mechanisms, side effects, and nursing considerations is essential for exam preparation.`,
+    });
+  }
+
+  if (lesson.dangerSigns?.length > 0) {
+    const dangers = lesson.dangerSigns.slice(0, 5);
+    faqs.push({
+      question: `What are the danger signs of ${title} that require immediate nursing action?`,
+      answer: `Danger signs requiring immediate intervention include: ${dangers.join(", ")}. Nurses must recognize these critical findings and escalate care promptly.`,
+    });
+  }
+
+  return faqs.slice(0, 5);
 }
 
 export function getLessonBodySystem(lessonId: string): string {

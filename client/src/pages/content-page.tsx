@@ -700,6 +700,7 @@ export default function ContentPage() {
   const showApplyNestBacklink = isBlogType && (categoryMatch || phraseMatch);
 
   const wordCount = contentBlocks.reduce((acc, block) => acc + (block.content || "").split(/\s+/).length, 0);
+  const isThinContent = wordCount < 100 || contentBlocks.length < 2;
 
   const structuredData = isBlogType
     ? {
@@ -763,7 +764,7 @@ export default function ContentPage() {
         description={description}
         canonicalPath={`/learn/${slug}`}
         ogType="article"
-        noindex={language !== "en"}
+        noindex={language !== "en" || isThinContent}
         keywords={tags.length > 0 ? tags.join(", ") : (contentItem!.category ? `${contentItem!.category}, nursing, ${contentItem!.tier || "education"}` : undefined)}
         structuredData={structuredData}
         breadcrumbs={

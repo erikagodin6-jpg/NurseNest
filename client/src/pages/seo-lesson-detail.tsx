@@ -91,6 +91,37 @@ function buildEducationalSD(lesson: any) {
   };
 }
 
+function buildArticleSD(lesson: any) {
+  const displayTitle = stripTierFromTitle(lesson.title);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": displayTitle,
+    "description": lesson.seoDescription || lesson.summary || `Clinical nursing lesson about ${displayTitle}`,
+    "author": {
+      "@type": "EducationalOrganization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+    },
+    "publisher": {
+      "@type": "EducationalOrganization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.nursenest.ca/brand-logo.gif",
+      },
+    },
+    "dateModified": new Date().toISOString().split("T")[0],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.nursenest.ca/lessons/${lesson.slug}`,
+    },
+    "articleSection": lesson.category || "Nursing Education",
+    "inLanguage": "en",
+  };
+}
+
 interface SeoLessonData {
   id: string;
   slug: string;
@@ -158,9 +189,12 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
   const seoTitle = lesson.seoTitle || `${displayTitle} - NurseNest Nursing Lesson`;
   const seoDesc = lesson.seoDescription || lesson.summary || `Learn about ${displayTitle}: pathophysiology, signs & symptoms, diagnostics, treatment, and nursing interventions.`;
 
+  const isThin = !lesson.definition && (!lesson.signsSymptoms || lesson.signsSymptoms.length === 0) && (!lesson.treatment || lesson.treatment.length === 0);
+
   const structuredData = [
     buildMedicalConditionSD(lesson),
     buildEducationalSD(lesson),
+    buildArticleSD(lesson),
   ];
   const faqSD = buildFAQSD(lesson);
   if (faqSD) structuredData.push(faqSD);
@@ -171,6 +205,9 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
         title={seoTitle}
         description={seoDesc}
         keywords={lesson.seoKeywords?.join(", ")}
+        canonicalPath={`/lessons/${lesson.slug}`}
+        ogType="article"
+        noindex={isThin}
       />
       {structuredData.map((sd, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sd) }} />
