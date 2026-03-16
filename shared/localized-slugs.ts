@@ -20,6 +20,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "hyperkalemia-effects-on-heart": "hyperkalemie-coeur",
     "international-nurses": "infirmiers-internationaux",
     "newgrad": "nouveau-diplome",
+    "nursing-schools": "ecoles-infirmieres",
+    "nurse-residency-programs": "programmes-residence-infirmiere",
+    "nursing-regulatory-bodies": "organismes-reglementation-infirmiere",
   },
   es: {
     "pricing": "precios",
@@ -38,6 +41,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "guias",
     "international-nurses": "enfermeros-internacionales",
     "newgrad": "recien-graduado",
+    "nursing-schools": "escuelas-enfermeria",
+    "nurse-residency-programs": "programas-residencia-enfermeria",
+    "nursing-regulatory-bodies": "organismos-reguladores-enfermeria",
   },
   zh: {
     "pricing": "jiage",
@@ -56,6 +62,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "zhinan",
     "international-nurses": "guoji-hushi",
     "newgrad": "yingjie-biye",
+    "nursing-schools": "huli-xuexiao",
+    "nurse-residency-programs": "hushi-zhuyuan-xiangmu",
+    "nursing-regulatory-bodies": "huli-jianguan-jigou",
   },
   "zh-tw": {
     "pricing": "jiage",
@@ -92,6 +101,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "adilla",
     "international-nurses": "mumarridat-dawliyyat",
     "newgrad": "kharrij-jadid",
+    "nursing-schools": "madaris-altamrid",
+    "nurse-residency-programs": "baramij-iqama-tamrid",
+    "nursing-regulatory-bodies": "hayaat-tanzim-altamrid",
   },
   hi: {
     "pricing": "mulya",
@@ -305,6 +317,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "guias",
     "international-nurses": "enfermeiros-internacionais",
     "newgrad": "recem-formado",
+    "nursing-schools": "escolas-enfermagem",
+    "nurse-residency-programs": "programas-residencia-enfermagem",
+    "nursing-regulatory-bodies": "orgaos-reguladores-enfermagem",
   },
   th: {
     "pricing": "rakha",

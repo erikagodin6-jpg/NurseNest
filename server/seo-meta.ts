@@ -831,6 +831,18 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Specialties | Explore Specialty Career Paths | NurseNest",
     description: "Explore nursing specialty areas including ICU, pediatrics, labor & delivery, mental health, oncology, and more. Certification guides, salary data, and career pathways.",
   },
+  "/nursing-schools": {
+    title: "Nursing Schools Directory – Global Programs Guide | NurseNest",
+    description: "Comprehensive directory of nursing schools worldwide. Compare programs, tuition, admissions requirements, and licensing outcomes across 6 countries.",
+  },
+  "/nurse-residency-programs": {
+    title: "Nurse Residency & New Grad Programs Directory | NurseNest",
+    description: "Directory of nurse residency and new graduate programs. Find transition-to-practice programs by country, hospital system, and specialty.",
+  },
+  "/nursing-regulatory-bodies": {
+    title: "Nursing Regulatory Bodies Directory – Licensing & Registration Guide | NurseNest",
+    description: "Complete directory of nursing regulatory bodies worldwide. Understand licensing requirements, registration processes, and credential recognition.",
+  },
   "/rpn": {
     title: "RPN / LVN Track | NCLEX-PN & REx-PN Exam Prep | NurseNest",
     description: "Comprehensive RPN/LVN exam preparation. Practice questions, flashcards, mock exams, and study resources tailored for NCLEX-PN and REx-PN certification exams.",
@@ -1860,6 +1872,54 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     };
   }
 
+  const nursingSchoolsMatch = cleanPath.match(/^\/nursing-schools\/(.+)$/);
+  if (nursingSchoolsMatch) {
+    const country = slugToTitle(nursingSchoolsMatch[1]);
+    return {
+      title: `Nursing Schools in ${country} – Accredited Programs & Admissions Guide | NurseNest`,
+      description: `Complete directory of nursing schools in ${country}. Compare programs, tuition, admissions requirements, and licensing outcomes for ${country} nursing education.`,
+      canonical,
+      noindex,
+      breadcrumbs: [
+        { name: "Home", url: SITE_BASE },
+        { name: "Nursing Schools", url: `${SITE_BASE}/nursing-schools` },
+        { name: `Nursing Schools in ${country}`, url: `${SITE_BASE}/nursing-schools/${nursingSchoolsMatch[1]}` },
+      ],
+    };
+  }
+
+  const residencyMatch = cleanPath.match(/^\/nurse-residency-programs\/(.+)$/);
+  if (residencyMatch) {
+    const country = slugToTitle(residencyMatch[1]);
+    return {
+      title: `Nurse Residency Programs in ${country} – New Grad Programs Guide | NurseNest`,
+      description: `Directory of nurse residency and new graduate programs in ${country}. Find transition-to-practice programs by hospital system, specialty, and application timeline.`,
+      canonical,
+      noindex,
+      breadcrumbs: [
+        { name: "Home", url: SITE_BASE },
+        { name: "Nurse Residency Programs", url: `${SITE_BASE}/nurse-residency-programs` },
+        { name: country, url: `${SITE_BASE}/nurse-residency-programs/${residencyMatch[1]}` },
+      ],
+    };
+  }
+
+  const regulatoryMatch = cleanPath.match(/^\/nursing-regulatory-bodies\/(.+)$/);
+  if (regulatoryMatch) {
+    const bodyName = slugToTitle(regulatoryMatch[1]);
+    return {
+      title: `${bodyName} – Nursing Registration & Licensing Guide | NurseNest`,
+      description: `Complete guide to ${bodyName}. Learn about registration requirements, licensing exams, credential recognition, and pathways for internationally educated nurses.`,
+      canonical,
+      noindex,
+      breadcrumbs: [
+        { name: "Home", url: SITE_BASE },
+        { name: "Nursing Regulatory Bodies", url: `${SITE_BASE}/nursing-regulatory-bodies` },
+        { name: bodyName, url: `${SITE_BASE}/nursing-regulatory-bodies/${regulatoryMatch[1]}` },
+      ],
+    };
+  }
+
   const newGradMatch = cleanPath.match(/^\/new-grad(\/.*)?$/);
   if (newGradMatch) {
     const subPath = newGradMatch[1] || "";
@@ -1895,7 +1955,8 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
   "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
   "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
-  "/nursing", "/nursing-specialties", "/nursing-certifications", "/study-pathways",
+  "/nursing", "/nursing-specialties", "/nursing-certifications", "/nursing-schools",
+  "/nurse-residency-programs", "/nursing-regulatory-bodies", "/study-pathways",
   "/faq", "/about", "/contact", "/terms", "/privacy",
   "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
   "/rex-pn-practice-questions", "/np-exam-practice-questions",

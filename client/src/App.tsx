@@ -228,6 +228,12 @@ const CertificationExamDetail = lazy(() => import("@/pages/certification-exam-de
 const CertificationPractice = lazy(() => import("@/pages/certification-practice"));
 const CertificationRenewalPage = lazy(() => import("@/pages/certification-renewal-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
+const NursingSchoolsHub = lazy(() => import("@/pages/nursing-schools-hub"));
+const NursingSchoolsCountry = lazy(() => import("@/pages/nursing-schools-country"));
+const NurseResidencyHub = lazy(() => import("@/pages/nurse-residency-hub"));
+const NurseResidencyCountry = lazy(() => import("@/pages/nurse-residency-country"));
+const NursingRegulatoryHub = lazy(() => import("@/pages/nursing-regulatory-hub"));
+const NursingRegulatoryDetail = lazy(() => import("@/pages/nursing-regulatory-detail"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
@@ -711,6 +717,12 @@ function AppRoutes() {
         <Route path="/nursing/nclex-pn-flashcards">{() => <SeoLandingBySlug slug="nursing/nclex-pn-flashcards" />}</Route>
         <Route path="/nursing/np-exam-prep">{() => { window.location.replace("/np-exam-prep"); return null; }}</Route>
         <Route path="/nursing" component={NursingAuthorityHub} />
+        <Route path="/nursing-schools/:country" component={NursingSchoolsCountry} />
+        <Route path="/nursing-schools" component={NursingSchoolsHub} />
+        <Route path="/nurse-residency-programs/:country" component={NurseResidencyCountry} />
+        <Route path="/nurse-residency-programs" component={NurseResidencyHub} />
+        <Route path="/nursing-regulatory-bodies/:slug" component={NursingRegulatoryDetail} />
+        <Route path="/nursing-regulatory-bodies" component={NursingRegulatoryHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/nursing-specialties/:slug" component={NursingSpecialtyDetail} />
 

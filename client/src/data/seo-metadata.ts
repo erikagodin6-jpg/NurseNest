@@ -197,6 +197,21 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Guide complet pour les infirmières formées à l'international : permis d'exercice, examens, évaluation des diplômes, parcours migratoire et offres d'emploi à travers le monde.",
       keywords: "infirmières internationales, permis infirmier étranger, migration infirmière, NCLEX international, examen infirmier Canada",
     },
+  "/nursing-schools": {
+    title: "Répertoire des Écoles Infirmières – Guide Mondial des Programmes | NurseNest",
+    description: "Répertoire complet des écoles infirmières dans le monde. Comparez les programmes, les frais de scolarité, les conditions d'admission et les résultats de licence dans 6 pays.",
+    keywords: "écoles infirmières, programmes soins infirmiers, éducation infirmière, BScN programmes, écoles infirmières Canada, écoles infirmières internationales",
+  },
+  "/nurse-residency-programs": {
+    title: "Programmes de Résidence Infirmière – Guide pour Nouveaux Diplômés | NurseNest",
+    description: "Répertoire des programmes de résidence infirmière et de transition pour les nouveaux diplômés. Trouvez des programmes par pays, système hospitalier et spécialité.",
+    keywords: "programmes résidence infirmière, programmes nouveaux diplômés infirmiers, transition vers la pratique, résidence hospitalière infirmière",
+  },
+  "/nursing-regulatory-bodies": {
+    title: "Organismes de Réglementation Infirmière – Guide des Licences et de l'Inscription | NurseNest",
+    description: "Répertoire complet des organismes de réglementation infirmière dans le monde. Comprenez les exigences de licence, les processus d'inscription et la reconnaissance des diplômes.",
+    keywords: "organismes réglementation infirmière, licence infirmière, inscription infirmière, CNO, NMC, AHPRA, NCSBN, conseil infirmier",
+  },
 };
 
 const spanishMetadata: Record<string, LocalizedSEOEntry> = {
@@ -375,6 +390,21 @@ const spanishMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Guía completa para enfermeras educadas internacionalmente: licencias, exámenes, evaluación de credenciales, rutas migratorias y oportunidades de empleo en todo el mundo.",
       keywords: "enfermeras internacionales, licencia enfermería extranjera, migración enfermería, NCLEX internacional, examen enfermería Canadá",
     },
+  "/nursing-schools": {
+    title: "Directorio de Escuelas de Enfermería – Guía Mundial de Programas | NurseNest",
+    description: "Directorio completo de escuelas de enfermería en el mundo. Compare programas, matrículas, requisitos de admisión y resultados de licencia en 6 países.",
+    keywords: "escuelas enfermería, programas enfermería, educación enfermería, BSN programas, escuelas enfermería internacionales",
+  },
+  "/nurse-residency-programs": {
+    title: "Programas de Residencia de Enfermería – Guía para Nuevos Graduados | NurseNest",
+    description: "Directorio de programas de residencia de enfermería y transición para nuevos graduados. Encuentre programas por país, sistema hospitalario y especialidad.",
+    keywords: "programas residencia enfermería, programas nuevos graduados enfermería, transición a la práctica, residencia hospitalaria enfermería",
+  },
+  "/nursing-regulatory-bodies": {
+    title: "Organismos Reguladores de Enfermería – Guía de Licencias y Registro | NurseNest",
+    description: "Directorio completo de organismos reguladores de enfermería en el mundo. Comprenda los requisitos de licencia, procesos de registro y reconocimiento de credenciales.",
+    keywords: "organismos reguladores enfermería, licencia enfermería, registro enfermería, NCSBN, NMC, AHPRA, consejo enfermería",
+  },
 };
 
 const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
