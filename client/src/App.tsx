@@ -223,6 +223,9 @@ const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certificati
 const NewGradCertificationsHub = lazy(() => import("@/pages/newgrad/certifications-hub"));
 const NewGradCertificationDetail = lazy(() => import("@/pages/newgrad/certification-detail"));
 const CertificationPrepPage = lazy(() => import("@/pages/certification-prep-page"));
+const CertificationExamPrepHub = lazy(() => import("@/pages/certification-exam-prep-hub"));
+const CertificationExamDetail = lazy(() => import("@/pages/certification-exam-detail"));
+const CertificationPractice = lazy(() => import("@/pages/certification-practice"));
 const CertificationRenewalPage = lazy(() => import("@/pages/certification-renewal-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
@@ -751,6 +754,11 @@ function AppRoutes() {
         <Route path="/oncology-nursing-specialty-guide">{() => <SpecialtySeoBySlug slug="oncology-nursing-specialty-guide" />}</Route>
         <Route path="/perioperative-nursing-specialty-guide">{() => <SpecialtySeoBySlug slug="perioperative-nursing-specialty-guide" />}</Route>
         <Route path="/critical-care-specialty-guide">{() => <SpecialtySeoBySlug slug="critical-care-specialty-guide" />}</Route>
+
+        {/* Certification Exam Prep */}
+        <Route path="/certification-exam-prep/:slug/practice" component={CertificationPractice} />
+        <Route path="/certification-exam-prep/:slug" component={CertificationExamDetail} />
+        <Route path="/certification-exam-prep" component={CertificationExamPrepHub} />
 
         {/* Nursing Content Hub */}
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />

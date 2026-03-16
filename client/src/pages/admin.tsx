@@ -58,6 +58,7 @@ import {
 
 import { useQuery as useQueryRQ } from "@tanstack/react-query";
 import { adminFetch } from "@/lib/admin-fetch";
+import { getCertAnalytics, getCertTotalQuestions, getCertTotalMockExams, getCertCount } from "@/data/certification-exam-data";
 import { AlertTriangle } from "lucide-react";
 import AdminContentSecurity from "./admin-content-security";
 import { AdminTrialAnalytics } from "@/components/admin-trial-analytics";
@@ -188,7 +189,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth" | "cert-analytics"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1593,7 +1594,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "content-growth", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "content-growth", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics", "cert-analytics"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1620,6 +1621,7 @@ export default function AdminPage() {
                     {tab === "pricing" && "Pricing Plans"}
                     {tab === "sub-analytics" && "Sub Analytics"}
                     {tab === "trial-analytics" && "Trial Analytics"}
+                    {tab === "cert-analytics" && "Cert Exam Banks"}
                   </button>
                 ))}
               </div>
@@ -4928,6 +4930,9 @@ export default function AdminPage() {
               {activeTab === "content-growth" && (
                 <AdminContentGrowth />
               )}
+              {activeTab === "cert-analytics" && (
+                <CertExamBankAnalytics />
+              )}
             </>
           ) : null}
         </div>
@@ -5543,6 +5548,95 @@ function SubscriptionAnalyticsPanel() {
           </CardContent>
         </Card>
       )}
+    </div>
+  );
+}
+
+function CertExamBankAnalytics() {
+  const analytics = getCertAnalytics();
+  const totalQuestions = getCertTotalQuestions();
+  const totalMockExams = getCertTotalMockExams();
+  const certCount = getCertCount();
+
+  return (
+    <div className="space-y-6" data-testid="section-cert-analytics">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-gray-900">Certification Exam Bank Analytics</h2>
+        <Badge className="bg-emerald-100 text-emerald-700">
+          {certCount} Certifications
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-questions">{totalQuestions.toLocaleString()}</div>
+            <div className="text-sm text-gray-500">Total Questions</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-mocks">{totalMockExams}</div>
+            <div className="text-sm text-gray-500">Mock Exams</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900" data-testid="stat-cert-count">{certCount}</div>
+            <div className="text-sm text-gray-500">Certifications</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900" data-testid="stat-avg-questions">{Math.round(totalQuestions / certCount).toLocaleString()}</div>
+            <div className="text-sm text-gray-500">Avg Questions/Cert</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Question Bank Coverage by Certification</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {analytics.map((cert) => (
+              <div key={cert.slug} className="border border-gray-100 rounded-lg p-4" data-testid={`cert-row-${cert.slug}`}>
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <span className="font-semibold text-gray-900">{cert.name}</span>
+                    <span className="text-sm text-gray-500 ml-2">({cert.fullName})</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge variant="outline" className="text-xs">{cert.totalQuestions.toLocaleString()} questions</Badge>
+                    <Badge variant="outline" className="text-xs">{cert.mockExamCount} mocks</Badge>
+                    <Badge variant="outline" className="text-xs">{cert.topicBankCount} topics</Badge>
+                    <Badge className={cert.aiPoolCoverage >= 90 ? "bg-emerald-100 text-emerald-700" : cert.aiPoolCoverage >= 70 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}>
+                      {cert.aiPoolCoverage}% coverage
+                    </Badge>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {cert.topicCoverage.map((topic) => (
+                    <div key={topic.topic} className="flex items-center justify-between bg-gray-50 rounded px-3 py-1.5 text-xs">
+                      <span className="text-gray-600 truncate mr-2">{topic.topic}</span>
+                      <span className={`font-medium ${topic.questionCount >= 250 ? "text-emerald-600" : topic.questionCount >= 200 ? "text-amber-600" : "text-red-500"}`}>
+                        {topic.questionCount}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                {cert.thinCategories.length > 0 && (
+                  <div className="mt-2 flex items-center gap-1 text-xs text-amber-600">
+                    <AlertTriangle className="w-3 h-3" />
+                    <span>Thin coverage: {cert.thinCategories.map(t => t.topic).join(", ")}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
