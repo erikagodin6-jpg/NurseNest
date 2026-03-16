@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
-import { BookOpen, ChevronRight, Search, Filter, ArrowRight, Brain, Clock } from "lucide-react";
+import { BookOpen, ChevronRight, Search, Filter, ArrowRight, Brain, Clock, Globe } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const CATEGORIES = [
@@ -9,15 +9,31 @@ const CATEGORIES = [
   "Drug Classifications", "Prescription Processing",
 ];
 
+const CERT_OPTIONS = [
+  { value: "", label: "All Content" },
+  { value: "PTCB", label: "US (PTCB/ExCPT)" },
+  { value: "PEBC", label: "Canada (PEBC)" },
+];
+
+function CertBadge({ certContext }: { certContext?: string }) {
+  if (!certContext || certContext === "BOTH") return null;
+  if (certContext === "PTCB") return <span className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-medium ml-1">US</span>;
+  if (certContext === "PEBC") return <span className="inline-block px-1.5 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium ml-1">CA</span>;
+  return null;
+}
+
 function LessonLibrary() {
   const [lessons, setLessons] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [cert, setCert] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/pharmtech/lessons").then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); }).then(data => { setLessons(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
-  }, []);
+    setLoading(true);
+    const params = cert ? `?cert=${cert}` : "";
+    fetch(`/api/pharmtech/lessons${params}`).then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); }).then(data => { setLessons(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
+  }, [cert]);
 
   const filtered = lessons.filter(l => {
     if (search && !l.title.toLowerCase().includes(search.toLowerCase()) && !(l.summary || "").toLowerCase().includes(search.toLowerCase())) return false;
@@ -50,7 +66,7 @@ function LessonLibrary() {
           <span className="text-green-700 font-medium">Lessons</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">Pharmacy Technician Lessons</h1>
             <p className="text-gray-500 text-sm mt-1">{lessons.length} lessons available</p>
@@ -79,6 +95,20 @@ function LessonLibrary() {
           </div>
         </div>
 
+        <div className="flex items-center gap-1.5 mb-8" data-testid="cert-filter">
+          <Globe className="w-4 h-4 text-gray-400 mr-1" />
+          {CERT_OPTIONS.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setCert(opt.value)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${cert === opt.value ? "bg-green-600 text-white shadow-sm" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              data-testid={`button-cert-${opt.value || "all"}`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin" />
@@ -93,7 +123,10 @@ function LessonLibrary() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(lesson => (
               <Link key={lesson.id} href={`/allied-health/pharmacy-technician/lessons/${lesson.slug}`} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-lesson-${lesson.slug}`}>
-                <span className="inline-block px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium mb-3">{lesson.category}</span>
+                <div className="flex items-center gap-1 mb-3">
+                  <span className="inline-block px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium">{lesson.category}</span>
+                  <CertBadge certContext={lesson.certContext} />
+                </div>
                 <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">{lesson.title}</h3>
                 <p className="text-sm text-gray-500 line-clamp-2 mb-4">{lesson.summary}</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">

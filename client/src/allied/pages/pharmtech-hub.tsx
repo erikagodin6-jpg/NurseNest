@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
-import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap } from "lucide-react";
+import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap, Globe } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
 
@@ -28,9 +28,16 @@ const FAQ_DATA = [
   { q: "Can I study for free?", a: "Yes! Free users get access to lesson previews, a limited number of practice questions, and sample flashcard decks. Upgrade to Allied Pro for unlimited access to all content." },
 ];
 
+const CERT_OPTIONS = [
+  { value: "", label: "All Content", desc: "US + Canada" },
+  { value: "PTCB", label: "US (PTCB/ExCPT)", desc: "United States" },
+  { value: "PEBC", label: "Canada (PEBC)", desc: "Canada" },
+];
+
 export default function PharmtechHubPage() {
   const [stats, setStats] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [cert, setCert] = useState("");
 
   useEffect(() => {
     fetch("/api/pharmtech/stats").then(r => r.json()).then(setStats).catch(() => {});
@@ -96,11 +103,24 @@ export default function PharmtechHubPage() {
                 Pharmacy Technician<br />
                 <span className="text-green-600">Exam Prep Hub</span>
               </h1>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed" data-testid="text-hero-subtitle">
                 Master every domain of the PTCB and ExCPT exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
               </p>
+              <div className="flex items-center gap-1.5 mb-6" data-testid="cert-filter-hub">
+                <Globe className="w-4 h-4 text-gray-400 mr-1" />
+                {CERT_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => setCert(opt.value)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${cert === opt.value ? "bg-green-600 text-white shadow-sm" : "bg-white/80 text-gray-600 hover:bg-white"}`}
+                    data-testid={`button-hub-cert-${opt.value || "all"}`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
               <div className="flex flex-wrap gap-3">
-                <Link href="/allied-health/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-learning">
+                <Link href={`/allied-health/pharmacy-technician/lessons${cert ? `?cert=${cert}` : ""}`} className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-start-learning">
                   <GraduationCap className="w-4 h-4" /> Start Learning Free
                 </Link>
                 <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold border border-green-200 hover:bg-green-50 transition-all" data-testid="button-practice-questions">

@@ -24,11 +24,17 @@ function snakeToCamel(obj: any): any {
 }
 
 export function registerPharmtechRoutes(app: Express) {
-  app.get("/api/pharmtech/lessons", async (_req, res) => {
+  app.get("/api/pharmtech/lessons", async (req, res) => {
     try {
-      const { rows } = await pool.query(
-        `SELECT * FROM pharmtech_lessons WHERE published = true ORDER BY sort_order, title`
-      );
+      const cert = (req.query.cert as string || "").toUpperCase();
+      let query = `SELECT * FROM pharmtech_lessons WHERE published = true`;
+      const params: any[] = [];
+      if (cert === "PTCB" || cert === "PEBC") {
+        params.push(cert);
+        query += ` AND cert_context IN ($${params.length}, 'BOTH')`;
+      }
+      query += ` ORDER BY sort_order, title`;
+      const { rows } = await pool.query(query, params);
       res.json(rows.map(snakeToCamel));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -48,11 +54,17 @@ export function registerPharmtechRoutes(app: Express) {
     }
   });
 
-  app.get("/api/pharmtech/flashcard-decks", async (_req, res) => {
+  app.get("/api/pharmtech/flashcard-decks", async (req, res) => {
     try {
-      const { rows } = await pool.query(
-        `SELECT * FROM pharmtech_flashcard_decks WHERE published = true ORDER BY sort_order, title`
-      );
+      const cert = (req.query.cert as string || "").toUpperCase();
+      let query = `SELECT * FROM pharmtech_flashcard_decks WHERE published = true`;
+      const params: any[] = [];
+      if (cert === "PTCB" || cert === "PEBC") {
+        params.push(cert);
+        query += ` AND cert_context IN ($${params.length}, 'BOTH')`;
+      }
+      query += ` ORDER BY sort_order, title`;
+      const { rows } = await pool.query(query, params);
       res.json(rows.map(snakeToCamel));
     } catch (e: any) {
       res.status(500).json({ error: e.message });

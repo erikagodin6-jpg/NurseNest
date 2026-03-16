@@ -1,16 +1,32 @@
 import { useState, useEffect, useCallback } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Link, useParams } from "wouter";
-import { Brain, ChevronRight, ArrowRight, RotateCcw, ChevronLeft, Shuffle } from "lucide-react";
+import { Brain, ChevronRight, ArrowRight, RotateCcw, ChevronLeft, Shuffle, Globe } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
+
+const CERT_OPTIONS = [
+  { value: "", label: "All Content" },
+  { value: "PTCB", label: "US (PTCB/ExCPT)" },
+  { value: "PEBC", label: "Canada (PEBC)" },
+];
+
+function CertBadge({ certContext }: { certContext?: string }) {
+  if (!certContext || certContext === "BOTH") return null;
+  if (certContext === "PTCB") return <span className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-medium">US</span>;
+  if (certContext === "PEBC") return <span className="inline-block px-1.5 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium">CA</span>;
+  return null;
+}
 
 function DeckLibrary() {
   const [decks, setDecks] = useState<any[]>([]);
+  const [cert, setCert] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/pharmtech/flashcard-decks").then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); }).then(data => { setDecks(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
-  }, []);
+    setLoading(true);
+    const params = cert ? `?cert=${cert}` : "";
+    fetch(`/api/pharmtech/flashcard-decks${params}`).then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); }).then(data => { setDecks(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
+  }, [cert]);
 
   return (
     <>
@@ -27,7 +43,21 @@ function DeckLibrary() {
         </div>
 
         <h1 className="text-2xl font-bold text-foreground mb-2" data-testid="text-flashcards-title">Flashcard Decks</h1>
-        <p className="text-muted-foreground text-sm mb-8">{decks.length} decks available — tap to study</p>
+        <p className="text-muted-foreground text-sm mb-4">{decks.length} decks available — tap to study</p>
+
+        <div className="flex items-center gap-1.5 mb-8" data-testid="cert-filter-decks">
+          <Globe className="w-4 h-4 text-gray-400 mr-1" />
+          {CERT_OPTIONS.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setCert(opt.value)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${cert === opt.value ? "bg-green-600 text-white shadow-sm" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              data-testid={`button-deck-cert-${opt.value || "all"}`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
 
         {loading ? (
           <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" /></div>
@@ -35,7 +65,10 @@ function DeckLibrary() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {decks.map(deck => (
               <Link key={deck.id} href={`/allied-health/pharmacy-technician/flashcards/${deck.slug}`} className="group bg-card rounded-2xl border border-border p-6 hover:shadow-lg hover:border-primary/30 transition-all" data-testid={`card-deck-${deck.slug}`}>
-                <Brain className="w-6 h-6 text-primary mb-3" />
+                <div className="flex items-center justify-between mb-3">
+                  <Brain className="w-6 h-6 text-primary" />
+                  <CertBadge certContext={deck.certContext} />
+                </div>
                 <span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium mb-2">{deck.category}</span>
                 <h3 className="font-semibold text-foreground mb-1">{deck.title}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{deck.description}</p>
