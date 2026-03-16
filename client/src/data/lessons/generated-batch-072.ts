@@ -1,45 +1,6 @@
 import type { LessonContent } from "./types";
 
-export const generatedBatch072Lessons: Record<string, LessonContent> = {
-  "pca-management-np": {
-    title: "PCA Management: Programming & Safety",
-    cellular: { title: "PCA Pharmacokinetics & Safety", content: "Patient-controlled analgesia delivers opioid analgesics via a programmable infusion pump that allows patients to self-administer preset bolus doses within provider-defined parameters. The pump is programmed with a demand dose (bolus amount), lockout interval (minimum time between doses), and optional basal (continuous) rate. Opioids bind mu-receptors in the dorsal horn of the spinal cord and periaqueductal gray matter, inhibiting substance P release and ascending pain signal transmission. The key safety feature is that a sedated patient cannot press the demand button, creating an inherent overdose safeguard that is bypassed when unauthorized individuals press the button (PCA by proxy)." },
-    riskFactors: ["Opioid-naive patients (higher sensitivity to respiratory depression)", "Obstructive sleep apnea", "Obesity (altered volume of distribution)", "Concurrent CNS depressant use (benzodiazepines, antihistamines)", "Renal or hepatic impairment (impaired drug clearance)", "Extremes of age (elderly and pediatric patients)", "PCA by proxy (family member pressing button)"],
-    diagnostics: ["Monitor respiratory rate, depth, and pattern every 1-2 hours", "Continuous pulse oximetry with alarm parameters set", "Assess sedation level using Pasero Opioid-Induced Sedation Scale (POSS)", "Review PCA pump history log for demand-to-delivery ratio", "Monitor pain scores using validated tools before and after doses", "End-tidal CO2 capnography for high-risk patients"],
-    management: ["Program demand dose, lockout interval, and 4-hour limit per prescriber orders", "Titrate basal rate cautiously — avoid in opioid-naive patients", "Set appropriate pump alarms and verify programming with independent double-check", "Establish multimodal analgesia protocol (NSAIDs, acetaminophen, regional blocks)", "Prescribe naloxone at bedside for all PCA patients", "Adjust dosing for renal/hepatic impairment and age"],
-    nursingActions: ["Perform independent double-check of PCA programming at initiation and shift change", "Educate patient that ONLY they should press the demand button", "Assess sedation level and respiratory status every 1-2 hours", "Document pain scores, total opioid consumption, and demand-to-delivery ratio", "Maintain naloxone at bedside and know emergency reversal protocol", "Report sedation score ≥ 3 (POSS) or respiratory rate < 10 immediately"],
-    assessmentFindings: ["Pain intensity scores trending with PCA use", "Respiratory rate and depth (baseline and ongoing)", "Level of sedation (POSS scale: 1=alert to 4=somnolent)", "Demand-to-delivery ratio indicating pain control adequacy", "Bowel sounds and GI motility (opioid-induced constipation)"],
-    signs: {
-      left: ["Adequate pain relief (pain score < 4)", "Appropriate demand-to-delivery ratio", "Alert and oriented between doses", "Normal respiratory rate 12-20/min"],
-      right: ["Respiratory rate < 10/min", "Sedation score ≥ 3 (difficult to arouse)", "Oxygen desaturation < 92%", "Pinpoint pupils with decreased LOC"]
-    },
-    medications: [
-      { name: "Morphine (PCA)", type: "Opioid agonist", action: "Binds mu-receptors to block pain signal transmission in CNS", sideEffects: "Respiratory depression, sedation, nausea, constipation, pruritus, urinary retention", contra: "Renal failure (active metabolite M6G accumulates), severe asthma, paralytic ileus", pearl: "Typical PCA demand dose 1-2 mg with 6-10 min lockout; avoid basal rate in opioid-naive patients" },
-      { name: "Naloxone", type: "Opioid antagonist", action: "Competitively displaces opioids from mu-receptors, reversing respiratory depression", sideEffects: "Acute opioid withdrawal, severe pain return, hypertension, tachycardia, pulmonary edema", contra: "No absolute contraindications in life-threatening overdose", pearl: "Dilute 0.4 mg in 10 mL NS; give 0.04 mg (1 mL) IV every 2 min to restore respirations without fully reversing analgesia" }
-    ],
-    pearls: ["PCA by proxy is the #1 preventable cause of PCA-related deaths — ONLY the patient presses the button", "Demand-to-delivery ratio > 3:1 suggests inadequate dosing — notify prescriber", "Sedation precedes respiratory depression — monitor sedation as an early warning", "Avoid basal rates in opioid-naive patients to prevent respiratory depression", "Always have naloxone at bedside and know the dilution protocol", "Multimodal analgesia reduces total opioid requirements and side effects"],
-    quiz: [
-      {
-        question: "A patient on PCA morphine has a sedation score of 3 (arouses with stimulation, drifts off). What is the priority nursing action?",
-        options: ["Increase the lockout interval", "Hold the PCA and administer naloxone as needed", "Continue monitoring every 4 hours", "Encourage the patient to press the button less frequently"],
-        correct: 1,
-        rationale: "A sedation score of 3 indicates excessive sedation that precedes respiratory depression. The PCA should be held and naloxone administered per protocol to prevent respiratory arrest."
-      },
-      {
-        question: "Which patient is at highest risk for PCA-related respiratory depression?",
-        options: ["A 35-year-old with chronic pain on long-term opioids", "A 70-year-old opioid-naive patient with sleep apnea and a basal rate ordered", "A 25-year-old post-operative patient using PCA demand only", "A 40-year-old using PCA with a multimodal pain regimen"],
-        correct: 1,
-        rationale: "Advanced age, opioid-naive status, sleep apnea, and a basal rate all independently increase respiratory depression risk. Together they represent the highest-risk scenario."
-      },
-      {
-        question: "The PCA history shows 30 demands and 8 deliveries in 4 hours. What does this indicate?",
-        options: ["The patient is oversedated", "The PCA pump is malfunctioning", "The patient has inadequate pain control and needs dose adjustment", "The lockout interval is too long and should be eliminated"],
-        correct: 2,
-        rationale: "A demand-to-delivery ratio > 3:1 indicates the patient is requesting more medication than the pump parameters allow, suggesting inadequate pain control requiring prescriber notification and dose adjustment."
-      }
-    ]
-  },
-  "pca-pumps-rpn": {
+export const generatedBatch072Lessons: Record<string, LessonContent> = {  "pca-pumps-rpn": {
     title: "Patient-Controlled Analgesia Pumps",
     cellular: { title: "How PCA Pumps Work", content: "A PCA pump is a computerized device that delivers pain medication (usually an opioid like morphine or hydromorphone) through an IV line when the patient presses a button. The pump has safety settings including a lockout interval that prevents overdosing by not delivering another dose until enough time has passed. The medication works by blocking pain signals in the brain and spinal cord. The most important safety rule is that ONLY the patient should press the button — if they are too sleepy to press it themselves, they are too sleepy for more medication." },
     riskFactors: ["Patients who are very sleepy or sedated", "Patients with breathing problems (COPD, sleep apnea)", "Elderly patients", "Family members pressing the button for the patient", "Patients receiving other sedating medications"],

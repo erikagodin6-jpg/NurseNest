@@ -1,50 +1,7 @@
 import { getAssetUrl } from "@/lib/asset-url";
 import type { LessonContent } from "./types";
 
-export const generatedBatch086Lessons: Record<string, LessonContent> = {
-  "rheumatoid-arthritis": {
-    title: "Rheumatoid Arthritis",
-    cellular: { title: "Pathophysiology of Rheumatoid Arthritis", content: "Rheumatoid arthritis (RA) is a chronic systemic autoimmune disease primarily affecting synovial joints, characterized by symmetric inflammatory polyarthritis causing progressive joint destruction. The pathogenesis involves activation of autoreactive CD4+ T lymphocytes (likely triggered by citrullinated peptide antigens in genetically susceptible individuals with HLA-DR4) that activate macrophages and B cells within the synovium, producing pro-inflammatory cytokines (TNF-alpha, IL-1, IL-6) and autoantibodies (rheumatoid factor, anti-CCP antibodies). Chronic synovial inflammation leads to formation of pannus — an invasive fibrovascular granulation tissue that erodes articular cartilage, subchondral bone, and periarticular structures through matrix metalloproteinase and osteoclast-mediated destruction. Extra-articular manifestations include rheumatoid nodules, interstitial lung disease, pericarditis, vasculitis, Felty syndrome (splenomegaly with neutropenia), and accelerated atherosclerosis." },
-    riskFactors: ["Female sex (3:1 female-to-male ratio)","Age 40-60 years (peak onset)","HLA-DR4 genetic susceptibility","Cigarette smoking (strongest modifiable risk factor)","Family history of RA","Obesity","Periodontal disease (Porphyromonas gingivalis produces citrullinated proteins)","Silica dust exposure"],
-    diagnostics: ["Rheumatoid factor (RF): positive in 70-80% of RA patients; non-specific","Anti-CCP antibodies (anti-citrullinated peptide): highly specific (95%) for RA; positive early in disease","ESR and CRP: elevated during active inflammation; used to monitor disease activity","CBC: anemia of chronic disease, thrombocytosis during flares","X-ray of affected joints: periarticular osteopenia, joint space narrowing, marginal erosions","Synovial fluid analysis: inflammatory fluid (WBC 2000-50,000, predominant neutrophils)","Ultrasound or MRI of joints: detects early synovitis and erosions before visible on X-ray"],
-    management: ["Early aggressive DMARD therapy (treat-to-target approach within 3 months of diagnosis)","Methotrexate first-line DMARD (7.5-25 mg weekly with folic acid supplementation)","Biologic DMARDs for inadequate response: TNF inhibitors (etanercept, adalimumab), IL-6 inhibitors (tocilizumab), T-cell costimulation inhibitors (abatacept), B-cell depletion (rituximab)","Short-term low-dose prednisone (≤10 mg/day) as bridge therapy while waiting for DMARD onset","NSAIDs for symptomatic relief (do not modify disease progression)","Physical and occupational therapy for joint protection and function","Smoking cessation (reduces disease severity and improves treatment response)"],
-    nursingActions: ["Assess joints for swelling, warmth, tenderness, and range of motion at each visit","Monitor for morning stiffness duration (>30 minutes suggests active inflammation)","Administer methotrexate as prescribed and monitor for adverse effects (hepatotoxicity, myelosuppression)","Ensure folic acid supplementation with methotrexate to reduce side effects","Monitor CBC and liver function tests regularly during DMARD therapy","Educate on joint protection strategies: avoid prolonged gripping, use assistive devices, balance rest and activity","Screen for tuberculosis before starting biologic DMARDs (TNF inhibitors reactivate latent TB)"],
-    assessmentFindings: ["Symmetric joint swelling and tenderness, especially small joints of hands (MCP, PIP) and wrists","Morning stiffness lasting >30-60 minutes (hallmark of inflammatory arthritis)","Ulnar deviation and swan-neck or boutonniere deformities (late findings)","Rheumatoid nodules on extensor surfaces (elbows, fingers)","Warm, boggy, swollen joints on palpation","Extra-articular findings: dry eyes (secondary Sjögren), pleural effusion, pericarditis","Functional limitations: difficulty with grip strength, fine motor tasks, ADLs"],
-    signs: {
-      left: ["Symmetric joint stiffness and swelling in MCP and PIP joints","Morning stiffness >30 minutes","Mild functional limitation","Positive RF and anti-CCP antibodies","Elevated ESR/CRP"],
-      right: ["Severe joint destruction with deformities (ulnar deviation, subluxation)","Atlantoaxial subluxation (C1-C2 instability — risk of spinal cord compression)","Rheumatoid vasculitis with skin ulcers","Felty syndrome (splenomegaly, neutropenia, recurrent infections)","Interstitial lung disease with progressive dyspnea"]
-    },
-    medications: [{
-      name: "Methotrexate",
-      type: "Disease-modifying antirheumatic drug (DMARD)",
-      action: "Inhibits dihydrofolate reductase and has immunomodulatory anti-inflammatory effects; reduces synovial inflammation and slows joint destruction",
-      sideEffects: "Hepatotoxicity, myelosuppression (pancytopenia), stomatitis, nausea, pneumonitis, teratogenicity",
-      contra: "Pregnancy (category X — potent teratogen), severe hepatic or renal disease, immunodeficiency, pre-existing blood dyscrasias, active infection",
-      pearl: "First-line DMARD for RA; given WEEKLY (not daily — daily dosing causes fatal toxicity); always co-prescribe folic acid 1 mg daily to reduce side effects; monitor CBC and LFTs every 4-8 weeks; effective within 6-12 weeks"
-    }],
-    pearls: ["Methotrexate is dosed WEEKLY — accidental daily dosing is a fatal medication error","Anti-CCP antibodies are more specific than RF for RA and can be positive years before symptoms appear","Morning stiffness >30 minutes distinguishes inflammatory arthritis (RA) from osteoarthritis (OA stiffness <30 minutes, improves with rest)","DIP joint involvement suggests osteoarthritis, NOT rheumatoid arthritis (RA spares DIPs)","Screen for latent TB before starting TNF inhibitors — these drugs reactivate latent tuberculosis","The treat-to-target approach aims for low disease activity or remission within 6 months of DMARD initiation"],
-    quiz: [
-      {
-        question: "A patient newly diagnosed with RA asks why they must take folic acid with methotrexate. What is the best explanation?",
-        options: ["Folic acid increases the effectiveness of methotrexate","Folic acid reduces methotrexate side effects like mouth sores and nausea without decreasing its efficacy","Folic acid treats the anemia caused by RA","Folic acid prevents joint damage"],
-        correct: 1,
-        rationale: "Folic acid supplementation reduces methotrexate-related side effects (stomatitis, nausea, hepatotoxicity, myelosuppression) by replenishing folate stores depleted by the drug's anti-folate mechanism. It does not decrease methotrexate's anti-inflammatory efficacy in RA."
-      },
-      {
-        question: "Which joint involvement pattern is most characteristic of rheumatoid arthritis?",
-        options: ["Asymmetric involvement of DIP joints","Symmetric involvement of MCP and PIP joints with morning stiffness >1 hour","First MTP joint involvement (podagra)","Unilateral knee involvement only"],
-        correct: 1,
-        rationale: "RA characteristically affects the MCP and PIP joints symmetrically with prolonged morning stiffness (>30-60 minutes). DIP involvement suggests osteoarthritis. First MTP joint (podagra) suggests gout. RA is symmetric, not unilateral."
-      },
-      {
-        question: "Before starting a TNF inhibitor (adalimumab) for RA, which screening test is essential?",
-        options: ["Bone density scan","Tuberculosis screening (PPD or IGRA)","Echocardiogram","Colonoscopy"],
-        correct: 1,
-        rationale: "TNF inhibitors suppress the immune response that contains latent Mycobacterium tuberculosis infection. Starting a TNF inhibitor without screening can reactivate latent TB, causing active and potentially disseminated tuberculosis. PPD or IGRA testing is mandatory before initiation."
-      },
-    ]
-  },
-  "rheumatoid-arthritis-advanced-np": {
+export const generatedBatch086Lessons: Record<string, LessonContent> = {  "rheumatoid-arthritis-advanced-np": {
     title: "Rheumatoid Arthritis Advanced",
     cellular: { title: "Advanced RA Management", content: "Advanced RA management requires the NP to apply treat-to-target (T2T) principles with DAS28 scoring for disease activity assessment. The DAS28 incorporates tender joint count (28 joints), swollen joint count, ESR or CRP, and patient global assessment. Target: DAS28 <2.6 (remission) or <3.2 (low disease activity). Treatment algorithm: start methotrexate 15 mg/week escalating to 25 mg/week within 8 weeks; if target not reached by 3-6 months, add or switch to biologic DMARD. Biologic selection is guided by mechanism and comorbidities: TNF inhibitors (etanercept, adalimumab, infliximab) are first-line biologics — avoid in CHF (NYHA III-IV), active hepatitis B, or demyelinating disease. IL-6 inhibitors (tocilizumab) — monitor lipids and avoid with diverticulitis risk. JAK inhibitors (tofacitinib, baricitinib) are oral targeted synthetic DMARDs — FDA black box warning for increased risk of serious infections, malignancy, thromboembolism, and cardiovascular events vs. TNF inhibitors. T-cell costimulation inhibitor (abatacept) — preferred with ILD. B-cell depletion (rituximab) — reserved for RF/anti-CCP positive patients failing TNF inhibitors. Combination DMARD therapy (methotrexate + leflunomide or methotrexate + sulfasalazine + hydroxychloroquine 'triple therapy') is an alternative to biologics. Monitoring includes regular CBC, LFTs, renal function, lipid panel, hepatitis B/C screening, and TB screening before biologics. Cardiovascular risk reduction is essential as RA patients have 1.5-2x increased CV mortality." },
     riskFactors: ["Seropositive disease (RF+, anti-CCP+) — predicts more aggressive erosive disease","Smoking (reduces DMARD efficacy, increases cardiovascular risk)","Early erosions on imaging at diagnosis","High baseline disease activity (DAS28 >5.1)","Extra-articular manifestations (nodules, vasculitis, ILD)","HLA-DR4 shared epitope positive","Delay in DMARD initiation beyond 3 months","Female sex and obesity"],
@@ -497,5 +454,5 @@ export const generatedBatch086Lessons: Record<string, LessonContent> = {
         rationale: "Hemodynamic instability indicates ruptured ectopic pregnancy, which is a contraindication to methotrexate and requires emergent surgical intervention. Methotrexate is only appropriate for hemodynamically stable, unruptured ectopic pregnancies meeting specific criteria."
       },
     ]
-  },
+  }
 };

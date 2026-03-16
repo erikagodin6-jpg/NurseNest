@@ -192,45 +192,7 @@ export const generatedBatch074Lessons: Record<string, LessonContent> = {
         rationale: "Emphysema causes air trapping and hyperinflation of the lungs, producing bilateral hyperresonance on percussion. The diaphragms are pushed down (low and flat) due to hyperinflated lungs."
       }
     ]
-  },
-  "pe-recognition-np": {
-    title: "PE Recognition",
-    cellular: { title: "Clinical Recognition of Pulmonary Embolism", content: "Pulmonary embolism presents along a clinical spectrum from asymptomatic small subsegmental emboli to massive life-threatening obstruction. The diagnostic challenge lies in its nonspecific presentation — dyspnea and tachycardia are common to many conditions. Clinical recognition requires combining pre-test probability assessment (Wells criteria or Geneva score) with knowledge of common presentations: acute PE typically presents with sudden-onset dyspnea (most common symptom, 73%), pleuritic chest pain (44%), cough (34%), and hemoptysis (13%). The combination of dyspnea + pleuritic chest pain + tachycardia in a patient with VTE risk factors should immediately raise PE suspicion. Atypical presentations include syncope (massive PE), isolated tachycardia, or new-onset atrial fibrillation." },
-    riskFactors: ["Immobilization > 3 days or recent surgery (especially orthopedic)", "Active malignancy or cancer treatment", "Prior VTE (DVT or PE)", "Pregnancy or postpartum (hypercoagulable state)", "OCP or HRT use", "Obesity (BMI > 30)", "Long-distance travel (> 4 hours)", "Thrombophilia (inherited or acquired)", "Central venous catheter"],
-    diagnostics: ["Apply Wells criteria or revised Geneva score for risk stratification", "Wells ≤ 4 (unlikely): D-dimer → if negative, PE ruled out; if positive, CTPA", "Wells > 4 (likely): CTPA directly without D-dimer", "Age-adjusted D-dimer cutoff for patients > 50: age × 10 mcg/L", "PERC rule for very low-risk ED patients (if all 8 criteria negative, no further testing needed)", "Bedside echocardiography for hemodynamically unstable patients who cannot go to CT scanner"],
-    management: ["Risk-stratify confirmed PE: low-risk (sPESI 0) vs submassive (RV strain markers) vs massive (hemodynamic instability)", "Low-risk PE: consider outpatient management with DOAC", "Submassive PE: admit to monitored bed, anticoagulation, serial troponin/echo", "Massive PE: ICU, vasopressors, systemic thrombolysis (alteplase), consider surgical embolectomy", "All confirmed PE: anticoagulation for minimum 3 months", "Provoked PE (surgery, immobilization): 3 months; Unprovoked PE: consider indefinite anticoagulation"],
-    nursingActions: ["Maintain high index of suspicion for PE in at-risk patients with unexplained dyspnea or tachycardia", "Apply Wells criteria and communicate risk assessment to provider", "Obtain ECG, ABG, and troponin while awaiting imaging", "Ensure hemodynamic monitoring for moderate-to-high probability patients", "Initiate empiric anticoagulation per protocol while awaiting diagnostic confirmation in high-probability patients", "Prepare for rapid deterioration in massive PE — have resuscitation equipment accessible"],
-    assessmentFindings: ["Sudden-onset dyspnea (especially at rest)", "Pleuritic chest pain (sharp, worse with inspiration)", "Tachycardia (most common sign, often disproportionate to clinical picture)", "Tachypnea", "Hemoptysis (suggests pulmonary infarction)", "Unilateral leg swelling (DVT)", "Syncope (massive PE)"],
-    signs: {
-      left: ["Mild dyspnea on exertion", "Pleuritic chest pain", "HR 100-110 with normal BP", "Low Wells score (≤ 4)"],
-      right: ["Dyspnea at rest with severe hypoxemia", "Syncope or altered consciousness", "Hypotension (SBP < 90)", "Pulseless electrical activity (PEA arrest)"]
-    },
-    medications: [
-      { name: "Apixaban", type: "Direct oral anticoagulant (factor Xa inhibitor)", action: "Directly and reversibly inhibits free and clot-bound factor Xa, preventing thrombin generation and clot propagation", sideEffects: "Bleeding (less GI bleeding than rivaroxaban), rare hepatotoxicity", contra: "Active pathological bleeding, prosthetic heart valve, severe hepatic impairment", pearl: "Initial PE treatment: 10 mg BID × 7 days, then 5 mg BID; no routine lab monitoring needed; can be used as single-agent without heparin bridge" }
-    ],
-    pearls: ["The classic PE triad (dyspnea + pleuritic chest pain + hemoptysis) is present in < 20% of cases — maintain high suspicion", "Tachycardia is often the earliest and most common sign of PE", "Syncope suggests massive PE with hemodynamic compromise", "New-onset atrial fibrillation can be the presenting rhythm of PE (RV strain triggers AF)", "A normal chest X-ray in a dyspneic, hypoxemic patient should increase PE suspicion", "PEA arrest in a post-surgical patient: think PE first"],
-    quiz: [
-      {
-        question: "A post-surgical patient develops sudden-onset dyspnea, tachycardia to 120, and a normal chest X-ray. What should the NP suspect first?",
-        options: ["Anxiety attack", "Pneumonia", "Pulmonary embolism", "Heart failure"],
-        correct: 2,
-        rationale: "Sudden dyspnea with tachycardia after surgery with a normal chest X-ray is classic for PE. Surgery is a major VTE risk factor, and a normal CXR in a hypoxemic patient actually raises PE suspicion."
-      },
-      {
-        question: "A patient with confirmed PE presents with syncope. What does this suggest about PE severity?",
-        options: ["Mild PE with vasovagal response", "Massive PE with hemodynamic compromise", "Chronic PE", "The syncope is unrelated to PE"],
-        correct: 1,
-        rationale: "Syncope in PE indicates massive obstruction causing a sudden drop in cardiac output. These patients require ICU admission and may need systemic thrombolysis."
-      },
-      {
-        question: "When can D-dimer be used to evaluate for PE?",
-        options: ["In all patients with suspected PE", "Only in patients with Wells score ≤ 4 (PE unlikely)", "Only in patients over age 50", "Only in patients already on anticoagulation"],
-        correct: 1,
-        rationale: "D-dimer has high sensitivity but low specificity. It is useful only to rule out PE in low-probability patients (Wells ≤ 4). In high-probability patients (Wells > 4), D-dimer should be skipped and CTPA performed directly."
-      }
-    ]
-  },
-  "perfusion-pressure-np": {
+  },  "perfusion-pressure-np": {
     title: "Perfusion Pressure",
     cellular: { title: "Cerebral & Organ Perfusion Pressure Physiology", content: "Perfusion pressure is the net pressure gradient driving blood flow through an organ's vascular bed, calculated as the difference between arterial inflow pressure and venous outflow pressure (or, in the case of the brain, intracranial pressure). Cerebral perfusion pressure (CPP) = Mean Arterial Pressure (MAP) - Intracranial Pressure (ICP), with the target CPP typically 60-70 mmHg. The brain autoregulates blood flow across a MAP range of 60-150 mmHg through myogenic and metabolic mechanisms that dilate or constrict cerebral arterioles. When MAP falls below the autoregulatory range or ICP rises, CPP drops below the ischemic threshold, causing neuronal injury. Similarly, renal perfusion requires MAP > 65 mmHg to maintain glomerular filtration, and abdominal perfusion pressure (APP = MAP - intra-abdominal pressure) becomes critical in abdominal compartment syndrome." },
     riskFactors: ["Traumatic brain injury (elevated ICP reducing CPP)", "Hemorrhagic or ischemic stroke", "Brain tumor with mass effect", "Hydrocephalus", "Shock states (hemorrhagic, septic, cardiogenic — reduced MAP)", "Abdominal compartment syndrome (elevated IAP reducing APP)", "Chronic hypertension (autoregulatory curve shifted rightward — higher MAP needed for adequate CPP)"],
@@ -304,45 +266,7 @@ export const generatedBatch074Lessons: Record<string, LessonContent> = {
         rationale: "Mesothelioma cells can be morphologically similar to reactive mesothelial cells, making cytologic diagnosis difficult. Surgical biopsy with immunohistochemistry is often needed for definitive diagnosis."
       }
     ]
-  },
-  "peripheral-embolism-np": {
-    title: "Peripheral Arterial Embolism",
-    cellular: { title: "Peripheral Embolism Pathophysiology", content: "Peripheral arterial embolism occurs when a thrombus or other embolic material (atherosclerotic debris, tumor, vegetation) travels from a proximal source and lodges at an arterial bifurcation, acutely occluding blood flow to the distal extremity. The most common source is a cardiac thrombus from atrial fibrillation (left atrial appendage thrombus), followed by ventricular mural thrombus from post-MI akinetic segments and aortic atherosclerotic plaque. Arterial occlusion causes ischemia distal to the embolus, progressing through the 6 P's: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, and Poikilothermia. Without intervention within 4-6 hours, irreversible ischemic tissue death occurs. The femoral bifurcation is the most common site of lodgment." },
-    riskFactors: ["Atrial fibrillation (most common embolic source — 80%)", "Recent myocardial infarction with ventricular thrombus", "Valvular heart disease (especially mitral stenosis)", "Infective endocarditis (septic emboli)", "Prosthetic heart valve", "Aortic aneurysm or atherosclerotic disease", "Patent foramen ovale (paradoxical embolism)", "Hypercoagulable states"],
-    diagnostics: ["Clinical assessment of the 6 P's (Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia)", "Ankle-brachial index (ABI) on affected limb (acutely reduced or absent)", "CT angiography or conventional angiography to locate occlusion site", "Echocardiography (TEE preferred) to identify cardiac embolic source", "ECG and telemetry to detect atrial fibrillation", "Doppler ultrasound of affected extremity", "Baseline labs: CBC, BMP, coagulation studies, lactate, CK (rhabdomyolysis marker)"],
-    management: ["Immediate systemic anticoagulation with IV heparin (prevent clot propagation)", "Emergent surgical embolectomy (Fogarty catheter) for viable limbs with < 6 hours ischemia", "Catheter-directed thrombolysis for subacute presentation", "Fasciotomy for compartment syndrome post-reperfusion", "Identify and treat embolic source (anticoagulation for AF, valve surgery for endocarditis)", "Monitor for reperfusion injury: hyperkalemia, myoglobinuria, metabolic acidosis", "Long-term anticoagulation for recurrence prevention"],
-    nursingActions: ["Assess and document the 6 P's in the affected extremity with comparison to contralateral limb", "Mark peripheral pulses with a pen for serial monitoring", "Keep affected extremity in dependent position (slightly below heart level to improve perfusion)", "Do NOT elevate or apply heat to ischemic limb", "Monitor for signs of compartment syndrome post-procedure (increasing pain, tense compartment)", "Monitor for reperfusion complications: urine color (dark = myoglobinuria), potassium levels, cardiac rhythm"],
-    assessmentFindings: ["Sudden-onset severe extremity pain", "Pale or mottled, cool extremity", "Absent distal pulses", "Paresthesias progressing to numbness", "Motor weakness or paralysis (late — indicates advanced ischemia)", "Cold extremity compared to contralateral limb"],
-    signs: {
-      left: ["Pain and pallor with palpable but diminished pulses (partial occlusion)", "Paresthesias (sensory nerve ischemia — reversible)", "Cool extremity with delayed capillary refill", "Mild mottling (blanches with pressure)"],
-      right: ["Absent pulses (complete occlusion)", "Paralysis (motor nerve ischemia — irreversible if prolonged)", "Fixed mottling/cyanosis (does not blanch — tissue death)", "Tense, rigid compartment (compartment syndrome)"]
-    },
-    medications: [
-      { name: "Unfractionated Heparin", type: "Anticoagulant", action: "Potentiates antithrombin III to inhibit clot propagation distal to the embolus, preventing extension of thrombus while awaiting definitive intervention", sideEffects: "Bleeding, HIT (heparin-induced thrombocytopenia), osteoporosis", contra: "Active major bleeding, HIT history, severe thrombocytopenia", pearl: "80 units/kg IV bolus then 18 units/kg/hr; essential to start IMMEDIATELY upon diagnosis — prevents distal thrombus propagation that worsens limb ischemia; monitor aPTT every 6 hours" }
-    ],
-    pearls: ["The 6 P's of acute limb ischemia: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia", "Atrial fibrillation is the #1 cause of peripheral arterial embolism — check ECG/rhythm in every case", "Paralysis = advanced ischemia — limb viability threatened, surgical intervention < 6 hours or amputation risk", "NEVER elevate an acutely ischemic limb — keep it slightly dependent to maximize gravity-assisted perfusion", "Post-reperfusion monitoring is critical: watch for hyperkalemia (cardiac arrest risk), myoglobinuria (renal failure), and compartment syndrome", "Fixed mottling that does NOT blanch indicates irreversible tissue death — limb may not be salvageable"],
-    quiz: [
-      {
-        question: "A patient with atrial fibrillation develops sudden-onset severe left leg pain with absent pedal pulses. What is the most likely diagnosis?",
-        options: ["Deep vein thrombosis", "Peripheral arterial embolism from atrial thrombus", "Sciatic nerve compression", "Peripheral neuropathy"],
-        correct: 1,
-        rationale: "Sudden-onset severe pain with absent pulses in a patient with atrial fibrillation is classic for peripheral arterial embolism. The left atrial appendage thrombus embolizes to the femoral artery bifurcation."
-      },
-      {
-        question: "Which of the 6 P's indicates the most advanced stage of limb ischemia?",
-        options: ["Pain", "Pallor", "Paralysis", "Paresthesia"],
-        correct: 2,
-        rationale: "Paralysis indicates motor nerve and muscle ischemia, the most advanced stage before irreversible tissue death. It indicates that limb viability is immediately threatened and emergent intervention is needed."
-      },
-      {
-        question: "After successful embolectomy, the nurse notices dark reddish-brown urine. What complication is this?",
-        options: ["Urinary tract infection", "Hematuria from anticoagulation", "Myoglobinuria from reperfusion injury — risk of acute kidney injury", "Normal post-operative finding"],
-        correct: 2,
-        rationale: "Reperfusion of ischemic muscle releases myoglobin into the bloodstream, which is filtered by the kidneys. Myoglobinuria (dark urine) can cause acute tubular necrosis and kidney failure. Aggressive IV hydration and urine alkalinization are needed."
-      }
-    ]
-  },
-  "peripheral-neuropathy-basics-rpn": {
+  },  "peripheral-neuropathy-basics-rpn": {
     title: "Peripheral Neuropathy Basics",
     cellular: { title: "Pathophysiology of Peripheral Neuropathy", content: "Peripheral neuropathy refers to damage or dysfunction of the peripheral nerves (those outside the brain and spinal cord), resulting in sensory, motor, or autonomic symptoms depending on which nerve fibers are affected. It is extremely common, affecting up to 8% of the general population and up to 50% of patients with diabetes.\n\nPeripheral nerves contain three types of fibers: sensory (carrying touch, pain, temperature, and position information from the body to the brain), motor (carrying movement commands from the brain to muscles), and autonomic (controlling involuntary functions like blood pressure, heart rate, digestion, and sweating). Neuropathy can affect any combination of these fiber types.\n\nThe two main patterns of nerve damage are axonal degeneration and demyelination. In axonal degeneration (the most common), the axon itself is damaged, typically starting at the most distal portions (the longest nerves are affected first). This produces the characteristic stocking-glove distribution where symptoms begin in the toes and feet, progress to the ankles and calves, and eventually involve the fingertips and hands. The pathophysiology involves metabolic damage to the axon from hyperglycemia (diabetic neuropathy), toxins (alcohol, chemotherapy), nutritional deficiencies (B12, thiamine), or ischemia.\n\nIn demyelinating neuropathy, the myelin sheath is damaged while the axon is preserved initially. This produces motor weakness and areflexia more prominently than sensory symptoms. Guillain-Barre syndrome is the classic acute demyelinating neuropathy.\n\nDiabetic peripheral neuropathy, the most common form, occurs through several mechanisms: hyperglycemia activates the polyol pathway, converting glucose to sorbitol which accumulates in nerve cells and causes osmotic damage. Advanced glycation end-products (AGEs) damage nerve proteins and blood vessel walls. Microvascular disease reduces blood supply to peripheral nerves (vasa nervorum), causing ischemic nerve injury.\n\nFor RPNs, the critical nursing priorities are fall prevention (patients with sensory neuropathy cannot feel their feet properly), foot care education (especially for diabetic patients who may not feel injuries), pain management (neuropathic pain responds poorly to standard analgesics), and monitoring for autonomic symptoms (orthostatic hypotension, gastroparesis, neurogenic bladder)." },
     riskFactors: ["Diabetes mellitus (most common cause — affects up to 50% of diabetic patients)", "Chronic alcohol use (thiamine deficiency and direct nerve toxicity)", "Vitamin B12 deficiency", "Chemotherapy (vincristine, cisplatin, paclitaxel)", "HIV/AIDS", "Chronic kidney disease (uremic neuropathy)", "Autoimmune diseases (lupus, rheumatoid arthritis)"],

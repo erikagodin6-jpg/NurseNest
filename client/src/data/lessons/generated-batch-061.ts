@@ -253,57 +253,7 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
         rationale: "Daily weight is the most reliable indicator of fluid status in nephrotic syndrome. Rapid weight gain indicates fluid retention and worsening edema, while weight loss indicates response to treatment. Consistency in timing, scale, and clothing ensures accuracy."
       },
     ]
-  },
-  "mixed-acid-base-disorders-rn": {
-    title: "Mixed Acid-Base Disorders",
-    cellular: { title: "Pathophysiology of Mixed Acid-Base Disorders", content: "Mixed acid-base disorders occur when two or more primary acid-base disturbances coexist simultaneously, requiring systematic analysis beyond simple ABG interpretation. A mixed disorder is suspected when compensation appears excessive or inadequate for the primary disorder, when the pH is normal despite abnormal PaCO2 and HCO3-, or when the clinical context predicts multiple disturbances (e.g., a patient with COPD and sepsis may have both respiratory acidosis from CO2 retention and metabolic acidosis from lactic acid). Winter's formula (expected PaCO2 = 1.5 x HCO3- + 8, range plus or minus 2) predicts the expected respiratory compensation in metabolic acidosis -- if actual PaCO2 is higher than predicted, a concurrent respiratory acidosis is present; if lower, a concurrent respiratory alkalosis exists. The delta-delta calculation (change in anion gap / change in HCO3-) helps identify additional metabolic disorders hidden within an elevated anion gap acidosis. The nurse performs systematic ABG interpretation (pH, primary disorder, compensation assessment, anion gap calculation, delta-delta analysis), correlates findings with clinical context, monitors serial ABGs to track treatment response, reports mixed acid-base disorders promptly, administers prescribed treatments targeting each component of the disorder, and documents the interpretation rationale clearly." },
-    riskFactors: ["Sepsis and systemic infections (metabolic acidosis with concurrent respiratory compensation failure)","COPD or chronic respiratory disease with acute illness superimposed","Diabetic ketoacidosis (DKA) with concurrent vomiting (metabolic acidosis + metabolic alkalosis)","Chronic kidney disease with acute respiratory illness","Salicylate overdose (respiratory alkalosis + metabolic acidosis)","Hepatic cirrhosis with concurrent renal failure","Mechanical ventilation with inappropriate settings causing iatrogenic disturbance"],
-    diagnostics: ["Arterial blood gas (ABG) analysis: pH, PaCO2, HCO3-, PaO2 -- systematic interpretation for primary and secondary disorders","Anion gap calculation: Na - (Cl + HCO3); normal 8-12 mEq/L; elevated suggests MUDPILES etiologies","Winter's formula: expected PaCO2 = 1.5 x HCO3- + 8 (plus or minus 2) -- identifies concurrent respiratory disorder in metabolic acidosis","Delta-delta ratio: (change in AG / change in HCO3-); ratio <1 suggests concurrent non-AG metabolic acidosis; ratio >2 suggests concurrent metabolic alkalosis","Basic metabolic panel: electrolytes, BUN, creatinine, glucose to identify underlying causes","Serum lactate level to identify lactic acidosis component","Serum ketones, salicylate level, toxicology screen when ingestion suspected"],
-    management: ["Treat the underlying cause of each acid-base component (antibiotics for sepsis, insulin for DKA, dialysis for uremia)","Sodium bicarbonate administration only for severe acidemia (pH <7.1) -- not routine for all metabolic acidosis","Adjust mechanical ventilator settings to correct respiratory component without overcorrecting","Correct electrolyte imbalances (potassium shifts with pH changes -- correct K+ before correcting acidosis)","IV fluid resuscitation with isotonic saline for volume depletion contributing to metabolic acidosis","Discontinue offending medications contributing to acid-base disturbance","Serial ABG monitoring every 2-4 hours to track response to interventions"],
-    nursingActions: ["Perform systematic ABG interpretation using stepwise approach: pH, primary disorder, compensation adequacy, anion gap, delta-delta","Draw ABG specimens using proper technique (heparinized syringe, no air bubbles, on ice, to lab within 15 minutes)","Monitor respiratory rate and depth as clinical indicators of acid-base status (Kussmaul breathing = metabolic acidosis)","Report mixed acid-base findings promptly to provider with interpretation rationale","Monitor continuous cardiac rhythm for arrhythmias related to pH and electrolyte changes","Track serial ABG trends and correlate with clinical interventions","Maintain patent IV access for medication administration and fluid resuscitation"],
-    assessmentFindings: ["Kussmaul respirations (deep, rapid breathing) indicating metabolic acidosis with respiratory compensation","Altered level of consciousness ranging from confusion to coma depending on pH severity","Tachycardia and hypotension from acidemia-induced myocardial depression","Nausea, vomiting, and abdominal pain (common in metabolic acidosis)","Warm, flushed skin from acidosis-induced vasodilation","Hyperkalemia symptoms (peaked T waves, muscle weakness) from hydrogen-potassium exchange","Mixed clinical picture that does not fit a single acid-base disorder pattern"],
-    signs: {
-      left: ["Mild tachypnea with stable oxygen saturation","Slightly abnormal ABG values with near-normal pH from compensation","Mild confusion or restlessness","Subtle electrolyte imbalances on lab work","Nausea without vomiting","Mild fatigue and malaise"],
-      right: ["Severe acidemia (pH <7.1) or alkalemia (pH >7.6) with hemodynamic instability","Cardiac arrhythmias from severe pH or electrolyte disturbance","Respiratory failure requiring emergent intubation","Seizures from severe alkalosis (decreased ionized calcium)","Cardiovascular collapse from profound acidosis","Hyperkalemia with wide QRS and risk of cardiac arrest"]
-    },
-    medications: [{
-      name: "Sodium Bicarbonate",
-      type: "Alkalinizing agent",
-      action: "Provides exogenous bicarbonate ions to buffer excess hydrogen ions in severe metabolic acidosis, raising serum pH",
-      sideEffects: "Metabolic alkalosis (overcorrection), hypokalemia (shifts K+ intracellularly), hypernatremia, hyperosmolality, paradoxical CNS acidosis",
-      contra: "Metabolic or respiratory alkalosis, hypocalcemia (worsens symptoms), chloride-responsive metabolic alkalosis",
-      pearl: "Reserved for severe acidemia (pH <7.1); overcorrection is dangerous -- aim for pH of 7.2 not normalization; correct potassium first as bicarbonate drives K+ intracellularly"
-    },{
-      name: "Acetazolamide",
-      type: "Carbonic anhydrase inhibitor",
-      action: "Inhibits carbonic anhydrase in the proximal tubule, promoting bicarbonate excretion and treating metabolic alkalosis",
-      sideEffects: "Metabolic acidosis (with overuse), hypokalemia, paresthesias, drowsiness, nephrolithiasis",
-      contra: "Severe hepatic insufficiency (may precipitate hepatic encephalopathy), hyponatremia, hypokalemia, metabolic acidosis",
-      pearl: "Used to correct metabolic alkalosis in ventilated patients who cannot increase CO2 retention; useful in COPD patients with chronic respiratory acidosis and superimposed metabolic alkalosis"
-    }],
-    pearls: ["A normal pH with abnormal PaCO2 and HCO3- should raise suspicion for a mixed disorder -- the body does not overcompensate","Winter's formula only applies to metabolic acidosis -- if actual PaCO2 differs from predicted, a second respiratory disorder coexists","Delta-delta ratio <1 indicates a concurrent non-anion-gap metabolic acidosis hiding within the elevated AG acidosis","Delta-delta ratio >2 indicates a concurrent metabolic alkalosis (HCO3- has not dropped as much as expected for the AG increase)","MUDPILES mnemonic for elevated anion gap metabolic acidosis: Methanol, Uremia, DKA, Propylene glycol, Isoniazid/Iron, Lactic acidosis, Ethylene glycol, Salicylates","Always correct potassium before aggressively treating acidosis -- bicarbonate administration shifts K+ intracellularly and can cause fatal hypokalemia","Salicylate overdose classically produces a mixed respiratory alkalosis (direct medullary stimulation) and metabolic acidosis (uncoupled oxidative phosphorylation)"],
-    quiz: [
-      {
-        question: "A patient with COPD and pneumonia has ABG results: pH 7.22, PaCO2 68 mmHg, HCO3- 14 mEq/L. What acid-base disturbance is present?",
-        options: ["Simple respiratory acidosis with compensation","Simple metabolic acidosis with compensation","Mixed respiratory acidosis and metabolic acidosis","Respiratory alkalosis"],
-        correct: 2,
-        rationale: "The pH is acidotic with both an elevated PaCO2 (respiratory acidosis from COPD/pneumonia) AND a decreased HCO3- (metabolic acidosis, likely lactic from hypoxia/sepsis). In simple respiratory acidosis, the HCO3- would be elevated as compensation, not decreased. This is a mixed disorder."
-      },
-      {
-        question: "A patient with DKA has an anion gap of 28 (normal 12) and HCO3- of 10 (normal 24). The delta-delta ratio is (28-12)/(24-10) = 1.14. What does this indicate?",
-        options: ["Pure anion gap metabolic acidosis without additional disorder","Concurrent non-anion-gap metabolic acidosis","Concurrent metabolic alkalosis","Respiratory alkalosis"],
-        correct: 0,
-        rationale: "A delta-delta ratio between 1 and 2 indicates a pure anion gap metabolic acidosis. The increase in anion gap is proportional to the decrease in bicarbonate, meaning no additional metabolic disorder is hidden. A ratio <1 would suggest concurrent non-AG acidosis, and >2 would suggest concurrent metabolic alkalosis."
-      },
-      {
-        question: "When administering sodium bicarbonate for severe metabolic acidosis (pH 7.05), which nursing action is most important?",
-        options: ["Administer rapidly to normalize pH to 7.40 as quickly as possible","Check serum potassium level and correct hypokalemia before or during bicarbonate administration","Hold bicarbonate until the patient's respiratory rate normalizes","Administer with calcium gluconate simultaneously"],
-        correct: 1,
-        rationale: "Sodium bicarbonate shifts potassium intracellularly, potentially causing dangerous hypokalemia. Potassium must be assessed and corrected before or concurrently with bicarbonate administration. The goal is to raise pH to approximately 7.2, not to normalize it, as overcorrection causes alkalosis."
-      },
-    ]
-  },
-  "mobility-aids": {
+  },  "mobility-aids": {
     title: "Mobility Aids and Ambulation",
     cellular: { title: "Pathophysiology of Mobility Aids and Ambulation", content: "Mobility aids redistribute weight-bearing forces to reduce stress on injured or weakened lower extremities while maintaining safe ambulation. A standard cane reduces contralateral weight-bearing by approximately 25% and is held on the opposite side of the affected leg, with proper height at the greater trochanter with elbow flexed 20-30 degrees. Crutch gait patterns match weight-bearing status: non-weight-bearing uses three-point gait, partial weight-bearing uses four-point or two-point gait. Walkers provide the greatest stability, suitable for patients with bilateral weakness or poor balance. Nursing assessment includes evaluating weight-bearing status, upper body strength, balance, cognitive function, and home environment to select the appropriate device with proper fitting and patient education on safe technique including stair negotiation." },
     riskFactors: ["Advanced age with muscle weakness, impaired balance, or osteoporosis","Recent orthopedic surgery (hip or knee replacement, fracture repair)","Neurological conditions (stroke, Parkinson disease, multiple sclerosis, peripheral neuropathy)","Visual impairment reducing spatial awareness and obstacle detection","Obesity increasing joint stress and reducing exercise tolerance","History of falls or fear of falling leading to activity avoidance","Cognitive impairment affecting ability to learn proper device technique"],
@@ -657,5 +607,5 @@ export const generatedBatch061Lessons: Record<string, LessonContent> = {
         rationale: "This presentation describes cauda equina syndrome (bilateral leg weakness, saddle anesthesia, urinary retention), which is a surgical emergency. Emergent MRI of the lumbar spine is needed to identify the compressive lesion, and neurosurgical decompression within 24-48 hours is critical to prevent permanent neurological damage."
       },
     ]
-  },
+  }
 };

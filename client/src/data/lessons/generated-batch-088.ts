@@ -252,50 +252,7 @@ export const generatedBatch088Lessons: Record<string, LessonContent> = {
         rationale: "Carbamazepine exacerbates generalized seizure types including myoclonic and absence. JME requires broad-spectrum ASMs (valproate, lamotrigine, levetiracetam)."
       },
     ]
-  },
-  "seizure-safety-np": {
-    title: "Seizure Safety Management",
-    cellular: { title: "Seizure Safety Principles", content: "Seizure safety encompasses acute seizure management, seizure precautions, injury prevention, and status epilepticus protocols. During an active seizure: do NOT restrain, do NOT place anything in the mouth, protect from injury, turn on side after tonic-clonic phase. Seizure precautions for hospitalized patients: padded side rails up, suction at bedside, supplemental O2 available, IV access maintained, bed in lowest position. Outpatient safety counseling: driving restrictions (seizure-free interval per jurisdiction), swimming only with supervision, no locked bathrooms, avoid heights and machinery, medication adherence, seizure action plans, medical alert identification. SUDEP (Sudden Unexpected Death in Epilepsy) is the leading cause of death in drug-resistant epilepsy — risk is reduced by controlling seizures, particularly nocturnal GTC seizures." },
-    riskFactors: ["Uncontrolled seizures (highest risk for injury and SUDEP)","Non-adherence to antiseizure medications","Nocturnal seizures (highest SUDEP risk)","Seizures during high-risk activities (swimming, bathing, driving)","Alcohol and drug use","Sleep deprivation","Living alone with epilepsy"],
-    diagnostics: ["Seizure frequency and type documentation","Medication adherence assessment","SUDEP risk assessment","Home safety assessment","Driving eligibility evaluation","Rescue medication availability assessment"],
-    management: ["Seizure precautions: padded side rails, suction, O2, IV access, bed lowest position","During seizure: protect, time, do NOT restrain, do NOT insert objects in mouth, side position after","Rescue medications: intranasal midazolam, rectal diazepam, buccal midazolam","Status epilepticus protocol: benzodiazepine → second-line ASM → ICU","Optimize ASM for seizure freedom","SUDEP counseling and risk reduction","Safety counseling: driving, swimming, bathing, heights, machinery"],
-    nursingActions: ["Implement seizure precautions for at-risk patients","During seizure: ensure safety, time it, note type and body involvement, postictal assessment","After seizure: recovery position, maintain airway, suction, assess neurological status","Administer rescue benzodiazepine for seizure ≥5 minutes","Document seizure details thoroughly","Educate patients and caregivers on seizure first aid","Teach rescue medication administration to caregivers","Counsel on activity restrictions"],
-    assessmentFindings: ["Seizure frequency, type, and duration trends","Medication adherence and drug levels","Injury history related to seizures","Safety measures in place at home","Caregiver knowledge of seizure first aid","SUDEP risk factors","Quality of life impact"],
-    signs: {
-      left: ["Seizure-free on current regimen","Seizure precautions implemented","Caregiver trained in first aid and rescue medication","Medical alert identification worn"],
-      right: ["Seizure during bathing → drowning risk","Status epilepticus","Seizure-related traumatic injury","SUDEP event","Seizure while driving → MVC"]
-    },
-    medications: [{
-      name: "Midazolam Nasal Spray (Nayzilam)",
-      type: "Benzodiazepine rescue medication",
-      action: "Enhances GABA-A receptor activity, rapidly terminating seizures via nasal mucosal absorption (onset 3-5 minutes) without IV access",
-      sideEffects: "Sedation, nasal discomfort, headache, respiratory depression (rare at rescue doses)",
-      contra: "Acute narrow-angle glaucoma",
-      pearl: "Preferred community rescue medication — easier than rectal diazepam; 5 mg in one nostril; train caregivers to administer and call 911 if seizure continues >5 minutes after dosing"
-    }],
-    pearls: ["During seizure: PROTECT, TIME, turn on SIDE after, do NOT restrain, do NOT put anything in mouth","Call 911 if seizure lasts ≥5 minutes or is patient's first seizure","Intranasal midazolam preferred over rectal diazepam for community rescue","SUDEP is leading cause of death in drug-resistant epilepsy — control nocturnal GTC seizures","Postictal confusion can last minutes to hours — normal recovery","Seizure precautions in hospital: padded side rails, suction, O2, IV access, bed lowest","Driving restrictions: typically 3-12 months seizure-free by jurisdiction"],
-    quiz: [
-      {
-        question: "A nurse witnesses a GTC seizure. Which action is correct?",
-        options: ["Restrain the patient","Place a tongue depressor between teeth","Ensure safe environment, time seizure, turn on side after it ends","Leave to get help"],
-        correct: 2,
-        rationale: "Ensure safety, do not restrain, do not place objects in mouth, time the seizure, turn on side after tonic-clonic phase to prevent aspiration."
-      },
-      {
-        question: "A parent asks about rescue medication for their child's seizures lasting >5 minutes. What is preferred?",
-        options: ["Oral levetiracetam","Intranasal midazolam — easy to administer without IV access","IM phenytoin","Sublingual aspirin"],
-        correct: 1,
-        rationale: "Intranasal midazolam is preferred for community rescue: easy administration (one spray in one nostril), rapid onset, more socially acceptable than rectal route."
-      },
-      {
-        question: "Which factor most reduces SUDEP risk?",
-        options: ["Vitamin supplements","Achieving seizure control, particularly preventing nocturnal GTC seizures","Avoiding caffeine","Sleeping on right side"],
-        correct: 1,
-        rationale: "SUDEP risk is most strongly associated with uncontrolled GTC seizures, especially nocturnal. Optimal seizure control through medication adherence is the primary prevention strategy."
-      },
-    ]
-  },
-  "seizure-types-priorities-rpn": {
+  },  "seizure-types-priorities-rpn": {
     title: "Seizure Types and Priorities",
     cellular: { title: "Seizure Classification for Practical Nurses", content: "Seizures are classified by onset: focal (starting in one brain area) or generalized (both hemispheres from start). Focal seizures may be focal aware (patient remains conscious) or focal with impaired awareness (consciousness impaired). Generalized seizures include: tonic-clonic (stiffening then jerking, loss of consciousness, postictal confusion), absence (brief staring spells 5-30 seconds, no postictal confusion), myoclonic (brief shock-like jerks), tonic (sustained stiffening), atonic (drop attacks — sudden loss of tone), and clonic (rhythmic jerking). The practical nurse must recognize seizure types, implement seizure precautions, protect patients, time duration, document observations accurately, and report to the RN or physician." },
     riskFactors: ["History of epilepsy","Brain injury (trauma, stroke, infection)","Medication non-adherence","Alcohol or drug withdrawal","Metabolic imbalances (low glucose, sodium, calcium)","High fever in children (febrile seizures)","Sleep deprivation","Brain tumors"],
@@ -573,5 +530,5 @@ export const generatedBatch088Lessons: Record<string, LessonContent> = {
         rationale: "Serotonin syndrome hyperthermia results from muscle hyperactivity (clonus, tremor), not hypothalamic set-point elevation. Antipyretics are ineffective. Treatment: reduce muscle activity (benzodiazepines) + external cooling."
       },
     ]
-  },
+  }
 };

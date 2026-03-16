@@ -84,50 +84,7 @@ export const generatedBatch019Lessons: Record<string, LessonContent> = {
         rationale: "E. coli is the most common organism isolated in biliary infections due to ascending colonization from the duodenum through the ampulla of Vater."
       }
     ]
-  },
-  "cholesterol-embolization-np": {
-    title: "Cholesterol Embolization Syndrome: Blue Toe",
-    cellular: { title: "Atheromatous Embolization Pathophysiology", content: "Cholesterol embolization syndrome (CES) occurs when cholesterol crystals from ulcerated atherosclerotic plaques in the aorta dislodge and lodge in small- and medium-sized arteries distally. This typically follows vascular procedures (catheterization, vascular surgery) or anticoagulation therapy. The cholesterol crystals incite a foreign-body inflammatory response with giant cell formation, intimal fibrosis, and progressive vessel occlusion. Unlike thromboembolism, CES causes a subacute, progressive ischemic process affecting skin (blue toe syndrome, livedo reticularis), kidneys (progressive renal failure), and GI tract." },
-    riskFactors: ["Severe aortic atherosclerosis", "Recent vascular catheterization or angiography", "Recent vascular surgery", "Initiation of anticoagulation (warfarin, heparin) or thrombolytics", "Age > 60 years", "Male sex", "Hypertension and hyperlipidemia", "Smoking history"],
-    diagnostics: ["Peripheral blood eosinophilia (hallmark finding)", "Elevated ESR and CRP", "Rising serum creatinine (subacute progressive pattern)", "Low complement levels (C3, C4)", "Urinalysis with eosinophiluria", "Skin biopsy showing biconvex cholesterol clefts (pathognomonic)", "Fundoscopy may reveal Hollenhorst plaques (retinal cholesterol emboli)"],
-    management: ["Supportive care (no definitive treatment exists)", "Discontinue anticoagulation if it triggered the event", "Aggressive cardiovascular risk factor modification", "Statin therapy (stabilizes plaques and reduces inflammation)", "Blood pressure optimization", "Dialysis for severe renal failure if needed", "Wound care for digital ischemia; avoid amputation unless necrosis is extensive"],
-    nursingActions: ["Perform thorough skin assessment of extremities—inspect toes for cyanosis (blue toe)", "Assess for livedo reticularis on lower extremities, abdomen, and flanks", "Monitor renal function trends (BUN, creatinine) daily", "Monitor peripheral pulses—note that pedal pulses are typically present (small vessel disease)", "Report any new abdominal pain (mesenteric ischemia risk)", "Protect ischemic digits from trauma and pressure"],
-    assessmentFindings: ["Blue or purple discoloration of toes (blue toe syndrome) with palpable pulses", "Livedo reticularis (mottled, net-like purplish skin pattern)", "Progressive renal insufficiency developing over weeks", "Hollenhorst plaques on fundoscopic exam", "Eosinophilia on CBC differential"],
-    signs: {
-      left: ["Single blue toe", "Mild livedo reticularis", "Slightly rising creatinine", "Eosinophilia on labs", "Intact pedal pulses"],
-      right: ["Multiple gangrenous digits", "Extensive livedo reticularis", "Acute renal failure requiring dialysis", "Mesenteric ischemia (abdominal pain, bloody stool)", "Multi-organ involvement"]
-    },
-    medications: [{
-      name: "Atorvastatin",
-      type: "HMG-CoA reductase inhibitor (Statin)",
-      action: "Stabilizes atherosclerotic plaques and reduces cholesterol crystal shedding; anti-inflammatory effects reduce vascular inflammation",
-      sideEffects: "Myalgias, elevated transaminases, rhabdomyolysis (rare)",
-      contra: "Active liver disease, pregnancy",
-      pearl: "Statins are the cornerstone of medical therapy in CES—they stabilize the aortic plaque source and may reduce recurrence"
-    }],
-    pearls: ["Blue toes with palpable pulses is the hallmark—distinguishes CES from large-vessel thromboembolism", "CES often occurs days to weeks after a vascular procedure or anticoagulant initiation", "Eosinophilia and low complement differentiate CES from other causes of AKI", "Skin biopsy showing biconvex clefts ('cholesterol clefts') is diagnostic", "There is no specific treatment—supportive care and plaque stabilization with statins are key"],
-    quiz: [
-      {
-        question: "A patient develops progressive renal failure and blue discoloration of several toes 2 weeks after cardiac catheterization. Pedal pulses are palpable. What is the most likely diagnosis?",
-        options: ["Deep vein thrombosis", "Cholesterol embolization syndrome", "Peripheral artery disease", "Raynaud phenomenon"],
-        correct: 1,
-        rationale: "Blue toes with palpable pulses occurring after a vascular procedure with progressive renal failure is classic for cholesterol embolization syndrome."
-      },
-      {
-        question: "Which laboratory finding is characteristic of cholesterol embolization syndrome?",
-        options: ["Thrombocytosis", "Eosinophilia", "Elevated troponin", "Hyperkalemia"],
-        correct: 1,
-        rationale: "Peripheral eosinophilia is a hallmark lab finding in CES due to the foreign-body inflammatory response to cholesterol crystals."
-      },
-      {
-        question: "What is the pathognomonic histological finding on skin biopsy in cholesterol embolization syndrome?",
-        options: ["Granulomatous inflammation", "Biconvex cholesterol clefts in arterioles", "IgA deposits in vessel walls", "Fibrinoid necrosis"],
-        correct: 1,
-        rationale: "Biconvex (needle-shaped) cholesterol clefts within small arterioles are pathognomonic for cholesterol crystal embolization."
-      }
-    ]
-  },
-  "cholinergic-toxidrome-np": {
+  },  "cholinergic-toxidrome-np": {
     title: "Cholinergic Toxidrome",
     cellular: { title: "Acetylcholine Excess at Synapses", content: "Cholinergic toxidrome results from excessive stimulation of muscarinic and nicotinic acetylcholine receptors, most commonly caused by organophosphate or carbamate poisoning (pesticides), nerve agent exposure, or cholinesterase inhibitor overdose. Organophosphates irreversibly inhibit acetylcholinesterase, causing accumulation of acetylcholine at neuromuscular junctions, autonomic ganglia, and CNS synapses. Muscarinic effects produce the SLUDGE/DUMBELS mnemonic findings. Nicotinic effects cause fasciculations, weakness, and paralysis. Without treatment, progressive respiratory failure from bronchospasm, bronchorrhea, and diaphragmatic paralysis leads to death." },
     riskFactors: ["Agricultural workers exposed to organophosphate pesticides", "Nerve agent exposure (sarin, VX) in chemical terrorism", "Overdose of cholinesterase inhibitors (donepezil, rivastigmine, pyridostigmine)", "Carbamate insecticide exposure", "Ingestion of certain mushrooms (Clitocybe, Inocybe species)", "Myasthenia gravis patients on excessive anticholinesterase therapy"],
@@ -259,50 +216,7 @@ export const generatedBatch019Lessons: Record<string, LessonContent> = {
         rationale: "Microscopic colitis (collagenous or lymphocytic) has a grossly normal mucosa but is diagnosed on histology. Random biopsies are essential."
       }
     ]
-  },
-  "chronic-disease-management-plans-np": {
-    title: "Chronic Disease Management Plans",
-    cellular: { title: "Chronic Disease Pathophysiology and Multi-System Impact", content: "Chronic diseases (diabetes, hypertension, heart failure, COPD, CKD) share common pathophysiological features: persistent low-grade inflammation, endothelial dysfunction, oxidative stress, and progressive end-organ damage. The NP must integrate the Chronic Care Model (CCM) which emphasizes proactive, patient-centered care through self-management support, clinical decision support systems, care coordination, and community resources. Disease trajectory management requires understanding of pathophysiological progression, evidence-based treatment targets (A1C < 7%, BP < 130/80, LDL goals per risk), and identification of modifiable risk factors to slow disease progression." },
-    riskFactors: ["Multimorbidity (coexistence of 2+ chronic conditions)", "Polypharmacy and drug-drug interactions", "Health literacy barriers", "Social determinants of health (poverty, food insecurity, housing instability)", "Medication nonadherence", "Limited access to healthcare", "Mental health comorbidities (depression, anxiety)", "Lack of social support systems"],
-    diagnostics: ["A1C every 3–6 months for diabetes management", "Annual comprehensive metabolic panel and lipid panel", "eGFR and urine albumin-to-creatinine ratio for CKD screening", "Annual dilated eye exam for diabetic patients", "Spirometry for COPD staging and monitoring", "BNP/NT-proBNP for heart failure monitoring", "Preventive screening per USPSTF guidelines (cancer screening, immunizations)"],
-    management: ["Develop individualized care plans with SMART goals", "Implement shared decision-making for treatment plans", "Coordinate care across specialists using care management team", "Optimize medication regimens with regular reconciliation", "Provide self-management education and action plans", "Address social determinants through community resource referrals", "Implement motivational interviewing for behavior change"],
-    nursingActions: ["Conduct comprehensive chronic disease assessment at each visit", "Review and reconcile all medications including OTC and supplements", "Assess self-management knowledge and barriers to adherence", "Coordinate referrals (dietitian, diabetes educator, social work, PT/OT)", "Implement teach-back method for patient education", "Schedule appropriate follow-up intervals based on disease stability"],
-    assessmentFindings: ["Baseline and trending vital signs and biometrics (weight, BMI, waist circumference)", "Medication adherence assessment (prescription refill history, pill counts)", "Functional status and quality of life measures", "Depression screening (PHQ-9) at regular intervals", "End-organ damage assessment (foot exam, retinal exam, renal function)"],
-    signs: {
-      left: ["Stable chronic disease with controlled parameters", "Good medication adherence", "Active engagement in self-management", "Appropriate follow-up attendance", "Stable functional status"],
-      right: ["Uncontrolled disease markers (A1C > 9%, BP > 160/100)", "Frequent ED visits or hospitalizations", "Medication nonadherence", "New end-organ damage", "Functional decline or disability"]
-    },
-    medications: [{
-      name: "Metformin",
-      type: "Biguanide (antihyperglycemic)",
-      action: "Reduces hepatic glucose production and increases insulin sensitivity in peripheral tissues; first-line for type 2 diabetes",
-      sideEffects: "GI upset (nausea, diarrhea), lactic acidosis (rare), vitamin B12 deficiency with long-term use",
-      contra: "eGFR < 30 mL/min, acute/chronic metabolic acidosis, contrast dye procedures (hold temporarily)",
-      pearl: "Start low (500 mg daily) and titrate slowly to minimize GI side effects; extended-release formulation has better GI tolerability"
-    }],
-    pearls: ["The Chronic Care Model shifts from reactive to proactive, population-based care", "Medication reconciliation at every visit prevents polypharmacy complications", "Depression is underdiagnosed in chronic disease—screen with PHQ-9 regularly", "A1C reflects 2–3 month glucose average; do not over-rely on single fasting glucose", "Self-management support is the strongest predictor of chronic disease outcomes", "Motivational interviewing is more effective than directive counseling for behavior change"],
-    quiz: [
-      {
-        question: "An NP is developing a chronic disease management plan for a diabetic patient with A1C of 9.5% and hypertension. What is the priority intervention?",
-        options: ["Refer to endocrinology immediately", "Assess barriers to medication adherence and self-management", "Add insulin without further assessment", "Schedule follow-up in 6 months"],
-        correct: 1,
-        rationale: "Before intensifying therapy, assessing barriers to adherence (cost, understanding, side effects, access) is essential as nonadherence is the most common cause of uncontrolled chronic disease."
-      },
-      {
-        question: "Which element of the Chronic Care Model has the strongest evidence for improving outcomes?",
-        options: ["Clinical information systems", "Self-management support", "Community resources", "Healthcare organization redesign"],
-        correct: 1,
-        rationale: "Self-management support empowers patients to take an active role in their care and has consistently shown the strongest association with improved chronic disease outcomes."
-      },
-      {
-        question: "A patient on metformin for 5 years presents with macrocytic anemia and peripheral neuropathy. What should the NP evaluate?",
-        options: ["Iron deficiency", "Vitamin B12 level", "Folate level", "Thyroid function"],
-        correct: 1,
-        rationale: "Long-term metformin use is associated with vitamin B12 deficiency due to impaired ileal absorption, presenting with macrocytic anemia and neuropathy."
-      }
-    ]
-  },
-  "chronic-inflammation-mechanisms-np": {
+  },  "chronic-inflammation-mechanisms-np": {
     title: "Chronic Inflammation Mechanisms",
     cellular: { title: "Persistent Inflammatory Cascade", content: "Chronic inflammation occurs when the acute inflammatory response fails to resolve, driven by persistent infection, autoimmune reactions, or prolonged exposure to irritants. Unlike acute inflammation (neutrophil-mediated, resolves in days), chronic inflammation is characterized by simultaneous tissue destruction and repair involving macrophages, lymphocytes, and fibroblasts. Activated M1 macrophages release pro-inflammatory cytokines (TNF-α, IL-1, IL-6), reactive oxygen species, and matrix metalloproteinases that cause ongoing tissue damage. Fibroblasts deposit collagen, leading to fibrosis and organ dysfunction. Chronic inflammation underlies atherosclerosis, type 2 diabetes, cancer, and autoimmune diseases." },
     riskFactors: ["Autoimmune disorders (RA, SLE, IBD)", "Chronic infections (hepatitis B/C, H. pylori, tuberculosis)", "Obesity (visceral adipose tissue is a source of pro-inflammatory adipokines)", "Smoking and environmental pollutant exposure", "Chronic stress (cortisol dysregulation)", "Sedentary lifestyle", "Western diet (high in processed foods, sugar, trans fats)", "Advanced age (inflammaging)"],
@@ -427,92 +341,7 @@ export const generatedBatch019Lessons: Record<string, LessonContent> = {
         rationale: "Acute-on-chronic mesenteric ischemia (sudden constant pain with GI bleeding) suggests progression to acute mesenteric infarction, which is a surgical emergency with > 50% mortality."
       }
     ]
-  },
-  "chronic-pain-assessment-np": {
-    title: "Chronic Pain Assessment",
-    cellular: { title: "Central Sensitization and Neuroplastic Pain", content: "Chronic pain (> 3 months) involves neuroplastic changes in the peripheral and central nervous system. Peripheral sensitization occurs when nociceptors develop lower activation thresholds from persistent inflammation (increased prostaglandins, bradykinin, substance P). Central sensitization develops when dorsal horn neurons become hyperexcitable through NMDA receptor activation and wind-up phenomenon, amplifying pain signals. Descending inhibitory pathways (serotonergic and noradrenergic from the brainstem) become dysfunctional. This creates allodynia (pain from normally non-painful stimuli) and hyperalgesia (exaggerated pain response). Psychosocial factors (catastrophizing, fear-avoidance, depression) modulate pain perception through limbic system activation." },
-    riskFactors: ["Previous acute pain inadequately treated", "History of physical or psychological trauma", "Depression and anxiety disorders", "Catastrophizing and fear-avoidance beliefs", "Genetic predisposition (COMT gene polymorphisms)", "Fibromyalgia or central sensitization syndromes", "Obesity and physical deconditioning", "Social isolation and low socioeconomic status", "Substance use history"],
-    diagnostics: ["Comprehensive pain assessment using validated tools (BPI, McGill Pain Questionnaire, PCS)", "Biopsychosocial assessment including functional impact, mood, sleep, social factors", "Pain interference measures (how pain affects daily activities, work, relationships)", "Depression screening (PHQ-9) and anxiety screening (GAD-7)", "Substance use screening (CAGE-AID, DAST-10)", "Review prior imaging and diagnostics to avoid unnecessary repeat testing", "Quantitative sensory testing for central sensitization assessment"],
-    management: ["Multimodal approach: combine pharmacologic and non-pharmacologic therapies", "Non-pharmacologic: CBT for chronic pain, exercise therapy, physical therapy, mindfulness-based stress reduction", "Pharmacologic: SNRIs (duloxetine), gabapentinoids, topical agents; minimize opioid use", "Interventional procedures (nerve blocks, epidural injections, spinal cord stimulation) for select patients", "Interdisciplinary pain rehabilitation programs", "Treat comorbid depression, anxiety, and sleep disorders", "Set realistic functional goals rather than targeting complete pain elimination"],
-    nursingActions: ["Perform comprehensive pain assessment at initial and follow-up visits", "Use validated pain assessment tools appropriate for the patient population", "Assess functional goals and track progress with objective measures", "Screen for opioid misuse risk using validated tools (ORT, SOAPP-R)", "Monitor prescription drug monitoring program (PDMP) before prescribing controlled substances", "Educate patients on the biopsychosocial model of chronic pain"],
-    assessmentFindings: ["Pain persisting beyond expected healing time (> 3 months)", "Allodynia and hyperalgesia on examination", "Functional impairment (decreased mobility, inability to work, social withdrawal)", "Sleep disturbance and fatigue", "Mood disturbance (depression, anxiety, irritability)", "Inconsistency between reported pain and objective findings (does NOT mean malingering—reflects central sensitization)"],
-    signs: {
-      left: ["Localized pain with identifiable trigger", "Pain responsive to simple analgesics", "Maintained function and social engagement", "Normal mood and sleep", "Consistent with structural findings"],
-      right: ["Widespread pain without clear anatomic pattern", "Allodynia and hyperalgesia on exam", "Significant functional impairment", "Comorbid depression, anxiety, and insomnia", "Central sensitization features (wind-up, temporal summation)"]
-    },
-    medications: [{
-      name: "Duloxetine",
-      type: "Serotonin-norepinephrine reuptake inhibitor (SNRI)",
-      action: "Enhances descending inhibitory pain pathways by increasing serotonin and norepinephrine in the dorsal horn of the spinal cord",
-      sideEffects: "Nausea, dizziness, dry mouth, constipation, increased BP, hepatotoxicity (rare)",
-      contra: "MAOIs (within 14 days), uncontrolled narrow-angle glaucoma, severe hepatic impairment",
-      pearl: "FDA-approved for diabetic neuropathy, fibromyalgia, and chronic musculoskeletal pain; also treats comorbid depression—addresses pain and mood simultaneously"
-    }],
-    pearls: ["Chronic pain is a disease state, not just a symptom—neuroplastic changes are real and measurable", "The biopsychosocial model is essential: pain is influenced by biological, psychological, and social factors", "Functional improvement, not pain elimination, should be the primary treatment goal", "Central sensitization explains why pain persists after tissue healing and why widespread pain develops", "Always screen for depression—50% of chronic pain patients have comorbid depression", "Opioids are generally NOT first-line for chronic non-cancer pain—use multimodal approaches"],
-    quiz: [
-      {
-        question: "A patient with chronic low back pain reports pain when light touch is applied to the skin of their back. What does this finding suggest?",
-        options: ["Malingering", "Allodynia from central sensitization", "Conversion disorder", "Peripheral nerve compression"],
-        correct: 1,
-        rationale: "Allodynia (pain from normally non-painful stimuli like light touch) indicates central sensitization, where dorsal horn neurons have become hyperexcitable."
-      },
-      {
-        question: "What is the primary treatment goal for chronic pain management?",
-        options: ["Complete pain elimination", "Functional improvement and quality of life", "Opioid dose optimization", "Identifying the structural cause"],
-        correct: 1,
-        rationale: "Chronic pain management focuses on functional improvement, not complete pain elimination, which is rarely achievable and can set unrealistic expectations."
-      },
-      {
-        question: "Which class of medications enhances descending inhibitory pain pathways and is first-line for chronic neuropathic pain?",
-        options: ["NSAIDs", "Opioids", "SNRIs (duloxetine, venlafaxine)", "Muscle relaxants"],
-        correct: 2,
-        rationale: "SNRIs enhance descending serotonergic and noradrenergic inhibitory pathways in the spinal cord and are first-line for chronic neuropathic and central sensitization pain syndromes."
-      }
-    ]
-  },
-  "chronic-pain-mgmt-np": {
-    title: "Chronic Pain Management Strategies",
-    cellular: { title: "Multimodal Analgesia and Opioid Stewardship", content: "Effective chronic pain management requires a multimodal strategy targeting different levels of the pain pathway: peripheral nociception (NSAIDs, topical agents), spinal cord transmission (gabapentinoids, SNRIs), supraspinal modulation (antidepressants, CBT), and descending inhibition (SNRIs, exercise). The opioid crisis has highlighted the risks of long-term opioid therapy for chronic non-cancer pain: tolerance, hyperalgesia, hormonal disruption, immunosuppression, and substance use disorder. Evidence supports opioid-sparing strategies using non-opioid pharmacotherapy, interventional procedures, and psychological therapies as first-line approaches for most chronic pain conditions." },
-    riskFactors: ["Prior opioid exposure and tolerance development", "History of substance use disorder", "Psychiatric comorbidities (depression, anxiety, PTSD)", "Catastrophizing and passive coping styles", "Social isolation", "Work disability and litigation involvement", "Prescription opioid diversion in the community", "Inadequate pain education among providers"],
-    diagnostics: ["Prescription Drug Monitoring Program (PDMP) review before every opioid prescription", "Urine drug testing (UDT) at baseline and randomly during opioid therapy", "Opioid Risk Tool (ORT) or SOAPP-R to stratify misuse risk", "Functional outcome measures (Oswestry Disability Index, PROMIS measures)", "Pain Catastrophizing Scale (PCS) to identify modifiable psychological factors", "Morphine milligram equivalent (MME) calculation for all opioid prescriptions"],
-    management: ["Non-opioid first-line: SNRIs, gabapentinoids, topical lidocaine, capsaicin", "Non-pharmacologic: CBT, ACT, graded exercise therapy, yoga, acupuncture, TENS", "Interventional: epidural steroid injections, facet joint blocks, radiofrequency ablation, spinal cord stimulation", "If opioids indicated: lowest effective dose, < 50 MME/day, written treatment agreement", "Co-prescribe naloxone for patients on ≥ 50 MME/day or with risk factors", "Taper opioids gradually (10% dose reduction per week) when benefit-risk is unfavorable", "Buprenorphine for transition from full agonist opioids in complex pain/SUD overlap"],
-    nursingActions: ["Check PDMP before every controlled substance prescription", "Perform and document periodic risk-benefit analysis of opioid therapy", "Conduct urine drug testing per practice protocol", "Establish and enforce opioid treatment agreements", "Calculate total MME and ensure dose is < 90 MME/day (ideally < 50 MME/day)", "Monitor for opioid use disorder signs (escalating doses, early refills, obtaining from multiple providers)"],
-    assessmentFindings: ["Pain-function correlation (does pain control improve function?)", "Opioid-related adverse effects (constipation, sedation, hormonal changes, falls)", "Signs of opioid tolerance or opioid-induced hyperalgesia", "Aberrant drug-related behaviors (early refill requests, dose escalation, lost prescriptions)", "Functional status plateau or decline despite opioid therapy"],
-    signs: {
-      left: ["Pain improved with multimodal therapy", "Functional improvement documented", "No aberrant behaviors", "Stable or decreasing opioid requirements", "Active engagement in rehabilitation"],
-      right: ["Escalating opioid requirements without functional improvement", "Multiple aberrant behaviors (early refills, lost prescriptions)", "Opioid-induced hyperalgesia (widespread pain worsening on opioids)", "Endocrinopathy (hypogonadism from chronic opioids)", "Signs of substance use disorder"]
-    },
-    medications: [{
-      name: "Gabapentin",
-      type: "Gabapentinoid / anticonvulsant",
-      action: "Binds α2-δ subunit of voltage-gated calcium channels, reducing excitatory neurotransmitter release at dorsal horn synapses",
-      sideEffects: "Sedation, dizziness, peripheral edema, weight gain, respiratory depression (especially with opioids)",
-      contra: "Severe renal impairment (dose adjust), respiratory compromise",
-      pearl: "First-line for neuropathic pain (diabetic neuropathy, postherpetic neuralgia); synergistic respiratory depression risk with opioids—use cautiously in combination"
-    }],
-    pearls: ["PDMP check is mandatory before every opioid prescription—many states require it by law", "50 MME/day threshold: risk of overdose death doubles compared to < 20 MME/day", "Co-prescribe naloxone for all patients on ≥ 50 MME/day or with SUD risk factors", "Opioid-induced hyperalgesia paradoxically worsens pain with increasing opioid doses—taper, don't escalate", "CBT for chronic pain has the strongest evidence among psychological therapies", "Buprenorphine (partial agonist) provides effective analgesia with ceiling effect on respiratory depression—ideal for complex pain/SUD patients"],
-    quiz: [
-      {
-        question: "An NP is prescribing opioids for a patient with chronic pain. The current regimen totals 60 MME/day. What additional safety measure is recommended?",
-        options: ["No additional measures needed below 90 MME", "Co-prescribe naloxone for overdose reversal", "Switch to a higher potency opioid at lower volume", "Discontinue all non-opioid analgesics"],
-        correct: 1,
-        rationale: "CDC guidelines recommend co-prescribing naloxone for patients on ≥ 50 MME/day to mitigate overdose risk."
-      },
-      {
-        question: "A patient on chronic opioid therapy reports worsening widespread pain despite dose increases. What phenomenon should be suspected?",
-        options: ["Disease progression", "Opioid-induced hyperalgesia", "Medication tolerance requiring higher doses", "Somatization disorder"],
-        correct: 1,
-        rationale: "Opioid-induced hyperalgesia (OIH) is a paradoxical increase in pain sensitivity caused by chronic opioid use. The treatment is opioid dose reduction or rotation, not escalation."
-      },
-      {
-        question: "Which non-pharmacologic intervention has the strongest evidence for chronic pain management?",
-        options: ["Massage therapy", "Cognitive behavioral therapy (CBT)", "Acupuncture", "Chiropractic manipulation"],
-        correct: 1,
-        rationale: "CBT has the strongest evidence base among psychological therapies for chronic pain, targeting maladaptive thoughts and behaviors that amplify pain perception and disability."
-      }
-    ]
-  },
-  "chronic-pancreatitis-management-np": {
+  }, "chronic-pancreatitis-management-np": {
     title: "Chronic Pancreatitis Management",
     cellular: { title: "Progressive Pancreatic Fibrosis", content: "Chronic pancreatitis involves progressive inflammatory destruction of pancreatic parenchyma with replacement by fibrotic tissue, leading to irreversible loss of exocrine (digestive enzymes) and endocrine (insulin, glucagon) function. Alcohol is the most common cause (60–70%), followed by genetic mutations (PRSS1, CFTR, SPINK1), autoimmune pancreatitis, and idiopathic causes. The sentinel acute pancreatitis event (SAPE) hypothesis proposes that an initial acute episode activates pancreatic stellate cells, which produce collagen and drive fibrosis through repeated injury-repair cycles. Progressive fibrosis causes ductal obstruction, calcification, and nerve damage producing chronic severe pain." },
     riskFactors: ["Chronic alcohol use (most common cause, 60–70%)", "Tobacco smoking (independent risk factor, accelerates progression)", "Recurrent acute pancreatitis episodes", "Genetic mutations (PRSS1 hereditary pancreatitis, CFTR, SPINK1)", "Hypertriglyceridemia (severe, > 1000 mg/dL)", "Autoimmune pancreatitis (IgG4-related disease)", "Tropical pancreatitis (tropical regions)", "Pancreatic duct obstruction (stricture, stones, tumors)"],

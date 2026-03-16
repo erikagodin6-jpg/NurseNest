@@ -1,22 +1,6 @@
 import type { LessonContent } from "./types";
 
-export const proceduresLessons: Record<string, LessonContent> = {
-  "vitals-assessment": {
-    title: "Vital Signs and Physical Assessment",
-    cellular: { title: "Physiological Baselines", content: "Vital signs reflect the body's basic physiological functions. Temperature, pulse, respirations, blood pressure, and oxygen saturation provide a window into cardiovascular, respiratory, and neurological status. Changes from baseline are more clinically significant than isolated readings." },
-    riskFactors: ["Critically ill patients", "Post-surgical status", "Hemodynamic instability", "New medication administration", "Pain", "Anxiety", "Environmental temperature extremes"],
-    diagnostics: ["Expect baseline vital signs to be ordered on admission", "Monitor trends in vital sign values over time", "Expect pulse oximetry to be continuously monitored", "Monitor orthostatic vital signs as ordered", "Expect temperature monitoring route to be specified by provider", "Monitor capillary blood glucose if indicated"],
-    management: ["Position patient appropriately for accurate readings", "Ensure proper equipment sizing (BP cuff width)", "Maintain calm environment before measurements", "Follow facility protocol for vital sign frequency", "Report abnormal values per facility parameters", "Document trends and notify provider of significant changes"],
-    nursingActions: ["Obtain full set of vital signs at beginning of each shift", "Report vital signs outside normal parameters to charge nurse/provider", "Compare current values to patient baseline", "Document vital signs accurately and timely", "Assess pain as the 5th vital sign with each assessment", "Recheck abnormal vital signs within 15-30 minutes", "Perform orthostatic vital signs for patients with dizziness or syncope"],
-    signs: {
-      left: ["Temperature (oral 36.5-37.5°C, rectal is most accurate, temporal for screening)", "Pulse (radial most common, apical for cardiac meds, 60-100 adult normal)"],
-      right: ["Respirations (12-20 adult, count for full 30sec, note depth/pattern)", "BP (auscultatory gap awareness, cuff size matters - too small reads high)", "SpO2 (>95% normal, <90% critical)"]
-    },
-    medications: [{ name: "Acetaminophen", type: "Antipyretic", action: "Reduces fever", sideEffects: "Hepatotoxicity", contra: "Liver disease", pearl: "Max 4g/day in adults. Fever is the body's immune response." }],
-    pearls: ["Always compare to baseline", "Orthostatic vitals (lying/sitting/standing)", "Pain is the 5th vital sign", "Document and report trends"],
-    quiz: [{ question: "A blood pressure cuff that is too small will read:", options: ["Falsely low", "Falsely high", "Accurately", "No reading at all"], correct: 1, rationale: "A cuff that is too small compresses the artery incompletely, requiring more pressure to occlude it, resulting in a falsely high reading." }]
-  },
-  "wound-care-basics": {
+export const proceduresLessons: Record<string, LessonContent> = {  "wound-care-basics": {
     title: "Wound Care and Dressing Changes",
     cellular: { title: "Wound Healing Phases", content: "Wound healing occurs in 4 phases: Hemostasis (platelet plug), Inflammation (WBCs migrate), Proliferation (granulation tissue, new vessels), and Remodeling (scar maturation over months). Healing by primary intention (surgical closure), secondary intention (open wound fills in), or tertiary intention (delayed closure)." },
     riskFactors: ["Diabetes mellitus", "Peripheral vascular disease", "Malnutrition", "Immunosuppression", "Obesity", "Immobility", "Smoking", "Corticosteroid use", "Radiation therapy"],
