@@ -1,0 +1,248 @@
+You are updating the live NurseNest codebase.
+
+PRIMARY OBJECTIVE
+
+Fix all nursing lessons that are currently visible in the UI but have no real content, and make sure the fixes appear on the published site after deployment.
+
+This applies to all nursing tiers:
+- RPN
+- RN
+- NP
+
+CRITICAL RULES
+
+1. Do not create any new top-level menus.
+2. Do not create any new dropdown groups.
+3. Do not move content into random or inconsistent navigation areas.
+4. Do not break the existing nursing navigation structure.
+5. Do not touch the tiered menus unless absolutely required to hide empty lesson links.
+6. Do not create parallel menus, duplicate lesson sections, duplicate route groups, or “temporary” navigation systems.
+7. Any lesson that is added or repaired must appear in the correct existing category and body system only.
+8. All fixes must be deployed so they appear on the published site, not just in preview or dev.
+9. If a lesson is not ready for publish, it must not appear anywhere publicly.
+10. Do not leave any visible lesson links that go to blank pages, partial pages, or 404s.
+
+SITE STRUCTURE REQUIREMENT
+
+Use the current NurseNest nursing information architecture only.
+
+All lessons must remain inside the existing nursing tier structure and correct existing subcategories, such as:
+- correct tier
+- correct body system
+- correct lesson grouping
+- correct learning section
+
+Do NOT:
+- create a new “extra lessons” menu
+- create a new “miscellaneous” section
+- create a second lessons menu
+- place lessons under the wrong tier
+- place lessons in the wrong body system
+- surface draft lessons in public navigation
+
+MAIN TASKS
+
+STEP 1 — FULL AUDIT OF NURSING LESSONS
+
+Audit every nursing lesson shown anywhere in the public UI or generated from config/database for:
+- RPN
+- RN
+- NP
+
+Check all lesson sources including:
+- database lesson records
+- lesson config files
+- seeded content
+- JSON or TS data files
+- CMS-like records
+- static lesson pages
+- route definitions
+- navigation builders
+- body system grouping logic
+
+For each lesson, identify:
+- lesson id
+- title
+- slug
+- tier
+- body system/category
+- menu location
+- status
+- content length
+- whether a working public page exists
+- whether the lesson is visible on the published site
+- whether it is placed in the correct category
+
+Flag lessons with any of the following problems:
+- empty content
+- placeholder-only content under minimum threshold
+- missing page component
+- broken slug
+- wrong tier
+- wrong body system
+- duplicate navigation item
+- visible in UI but not actually published
+- published but routed incorrectly
+- inserted into an incohesive or newly created menu
+
+STEP 2 — FIX VISIBILITY RULES
+
+Update the lesson rendering logic so public lesson menus only show lessons that meet all of these conditions:
+- status is published
+- content exists
+- content length is above minimum threshold
+- assigned to a valid existing tier
+- assigned to a valid existing category/body system
+- has a valid public route
+
+Use a strict filter pattern similar to:
+status === "published"
+AND content exists
+AND content.length > minimum threshold
+AND valid tier mapping exists
+AND valid category mapping exists
+AND route exists
+
+Do not allow draft, incomplete, orphaned, or uncategorized lessons to render in any public menu.
+
+STEP 3 — REPAIR OR REMOVE EMPTY PUBLIC LESSONS
+
+For every lesson currently visible to users with missing or insufficient content:
+
+A. If the lesson is strategically important and should exist:
+- create a proper minimum viable lesson page
+- place it in the correct existing tier
+- place it in the correct existing body system/category
+- use the current NurseNest lesson template and styling
+- keep it cohesive with nearby lessons
+- make sure it is publishable and routed properly
+
+B. If the lesson should not yet be public:
+- remove it from public navigation
+- remove it from any lesson cards or listings
+- keep it internal/draft only
+- do not leave broken links behind
+
+Do not create fake filler pages with weak one-line content.
+If a lesson is published, it must feel intentional and complete enough for users and SEO.
+
+STEP 4 — CATEGORY INTEGRITY
+
+Validate that every visible lesson belongs to the correct category.
+
+Examples:
+- cardiovascular lessons stay under cardiovascular
+- respiratory lessons stay under respiratory
+- neuro lessons stay under neuro
+- pharmacology stays under pharmacology
+- maternity/newborn stays where it belongs
+- mental health stays where it belongs
+
+Also validate tier correctness:
+- RPN lessons stay in RPN
+- RN lessons stay in RN
+- NP lessons stay in NP
+
+Do not cross-post lessons into the wrong tier unless that is already part of the intended shared-content architecture.
+If shared content exists, it must still render correctly inside each existing tier/category structure without duplicating or creating confusing menus.
+
+STEP 5 — NO NEW INCOHESIVE MENUS
+
+Audit the menu and lesson listing components for any recent bad behavior where Replit may have:
+- created new lesson groups
+- created duplicate dropdowns
+- created “other” sections
+- injected lessons into unrelated menus
+- created extra cards or routes outside the design system
+
+Remove any of that and restore cohesion.
+
+All repaired lessons must appear naturally inside the current NurseNest structure only.
+
+STEP 6 — PUBLISHED SITE REQUIREMENT
+
+This is not complete unless the fixes are live on the published site.
+
+After code changes:
+- build production
+- verify production routes
+- verify lesson data available in production
+- verify navigation on the published deployment
+- verify no lesson appears in preview only
+- verify no stale build is masking changes
+- verify public deployment is serving the corrected content
+
+If there is a separation between dev data and production data, make sure the lesson source used by the published site is updated too.
+
+Check for:
+- stale deployment
+- incorrect environment source
+- cached seed data
+- production database mismatch
+- routes present locally but not in published build
+
+STEP 7 — ROUTING AND PUBLIC QA
+
+Test all public lesson flows on the published site for:
+- RPN
+- RN
+- NP
+
+Confirm:
+- no blank lesson pages
+- no 404 lesson pages
+- no menu items pointing nowhere
+- no lessons in wrong categories
+- no duplicate lessons in navigation
+- no newly invented menus
+- no broken breadcrumbs
+- no broken back navigation
+- no incorrect internal links between lessons
+
+STEP 8 — ADD SAFEGUARDS
+
+Add guardrails so this cannot happen again.
+
+Implement:
+1. publish validation
+2. category validation
+3. route validation
+4. minimum content length validation
+5. tier validation
+
+A lesson must not be publishable unless it has:
+- title
+- slug
+- tier
+- valid existing category/body system
+- sufficient content
+- valid route mapping
+
+STEP 9 — FINAL CLEANUP
+
+After all fixes:
+- remove any duplicate lesson cards
+- remove orphaned lesson entries
+- remove broken config references
+- remove dead routes for missing lessons
+- keep navigation visually clean and cohesive
+- preserve existing styling and UX patterns
+
+DELIVERABLE
+
+Complete the fix end-to-end so that:
+- all visible nursing lessons across RPN, RN, and NP have real content
+- all visible lessons are in the correct existing categories
+- no new incohesive menus are created
+- no empty lessons remain on the published site
+- the published deployment reflects the fixes
+
+SUCCESS CRITERIA
+
+The task is only complete if all of the following are true on the published site:
+- 0 empty lesson pages
+- 0 visible lesson links to missing content
+- 0 lessons placed in wrong categories
+- 0 duplicate or random new menus
+- 0 draft lessons exposed publicly
+- all repaired lessons appear in the correct existing NurseNest structure
