@@ -8,6 +8,7 @@ import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { type ProfessionHubData } from "@/allied/data/profession-hub-data";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
+import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
 const FEATURE_ICONS = [BookOpen, Brain, Zap, FileText, GraduationCap, Target];
 
@@ -157,7 +158,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-questions">
-              <div className="text-2xl font-bold text-gray-900">{data.questionCountDisplay}</div>
+              <div className="text-2xl font-bold text-gray-900">{getQuestionCountDisplay(data.careerSlug)}</div>
               <div className="text-sm text-gray-500">Practice Questions</div>
             </div>
             <div data-testid="stat-domains">

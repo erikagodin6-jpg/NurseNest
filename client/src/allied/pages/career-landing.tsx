@@ -216,7 +216,7 @@ export default function CareerLandingPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-questions">
-              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalQuestions || getQuestionCountDisplay(career.slug)}</div>
+              <div className="text-2xl font-bold text-gray-900">{getQuestionCountDisplay(career.slug)}</div>
               <div className="text-sm text-gray-500">Practice Questions</div>
             </div>
             <div data-testid="stat-lessons">

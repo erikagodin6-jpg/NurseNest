@@ -1,21 +1,7 @@
-export const CAREER_QUESTION_COUNTS: Record<string, number> = {
-  rrt: 510,
-  paramedic: 500,
-  pharmacyTech: 1515,
-  mlt: 500,
-  imaging: 500,
-  occupationalTherapyAssistant: 400,
-  physiotherapyAssistant: 400,
-  psychotherapist: 500,
-  socialWorker: 25,
-  addictionsCounsellor: 500,
-  surgicalTechnologist: 1502,
-  criticalCare: 500,
-  emergencyNursing: 500,
-  perioperative: 500,
-  oncologyNursing: 500,
-  pediatricCert: 500,
-};
+import manifestData from "./question-manifest.json";
+import type { QuestionManifest } from "@shared/question-manifest";
+
+const manifest: QuestionManifest = manifestData as QuestionManifest;
 
 export const CAREER_SLUG_TO_KEY: Record<string, string> = {
   "rrt": "rrt",
@@ -52,6 +38,49 @@ export const CAREER_SLUG_TO_KEY: Record<string, string> = {
   "pediatricCert": "pediatricCert",
 };
 
+const NURSING_TIER_SLUG_TO_KEY: Record<string, string> = {
+  "rn": "rn",
+  "nclex-rn": "rn",
+  "rpn": "rpn",
+  "rpn-lvn": "rpn",
+  "lvn": "rpn",
+  "nclex-pn": "rpn",
+  "np": "np",
+  "nurse-practitioner": "np",
+  "pre-nursing": "preNursing",
+  "preNursing": "preNursing",
+};
+
+const NURSING_TIER_STATIC_COUNTS: Record<string, number> = Object.fromEntries(
+  Object.entries(manifest.static.nursing)
+    .filter(([key]) => ["rn", "rpn", "np", "preNursing"].includes(key))
+    .map(([key, tc]) => [key, tc.total])
+);
+
+const NURSING_TIER_COUNTS: Record<string, number> = {
+  rn: NURSING_TIER_STATIC_COUNTS.rn || 0,
+  rpn: NURSING_TIER_STATIC_COUNTS.rpn || 0,
+  np: NURSING_TIER_STATIC_COUNTS.np || 0,
+  preNursing: NURSING_TIER_STATIC_COUNTS.preNursing || 0,
+};
+
+function getManifestCount(key: string): number {
+  const alliedEntry = manifest.static.alliedHealth[key];
+  if (alliedEntry) return alliedEntry.total;
+
+  const certEntry = manifest.static.nursingCert[key];
+  if (certEntry) return certEntry.total;
+
+  return 0;
+}
+
+export const CAREER_QUESTION_COUNTS: Record<string, number> = Object.fromEntries(
+  [
+    ...Object.keys(manifest.static.alliedHealth),
+    ...Object.keys(manifest.static.nursingCert),
+  ].map((key) => [key, getManifestCount(key)])
+);
+
 export function getQuestionCount(careerSlugOrKey: string): number {
   const key = CAREER_SLUG_TO_KEY[careerSlugOrKey] || careerSlugOrKey;
   return CAREER_QUESTION_COUNTS[key] || 0;
@@ -69,12 +98,7 @@ export function getQuestionCountDisplay(careerSlugOrKey: string): string {
   return `${rounded.toLocaleString()}+`;
 }
 
-const ALLIED_HEALTH_CAREER_KEYS = [
-  "rrt", "paramedic", "pharmacyTech", "mlt", "imaging",
-  "occupationalTherapyAssistant", "physiotherapyAssistant",
-  "psychotherapist", "socialWorker", "addictionsCounsellor",
-  "surgicalTechnologist",
-];
+const ALLIED_HEALTH_CAREER_KEYS = Object.keys(manifest.static.alliedHealth);
 
 export function getTotalAlliedHealthQuestions(): number {
   return ALLIED_HEALTH_CAREER_KEYS.reduce(
@@ -86,5 +110,79 @@ export function getTotalAlliedHealthQuestions(): number {
 export function getTotalAlliedHealthDisplay(): string {
   const total = getTotalAlliedHealthQuestions();
   const rounded = Math.floor(total / 500) * 500;
+  return `${rounded.toLocaleString()}+`;
+}
+
+export function getNursingTierCount(tierSlugOrKey: string): number {
+  const key = NURSING_TIER_SLUG_TO_KEY[tierSlugOrKey] || tierSlugOrKey;
+  return NURSING_TIER_COUNTS[key] || 0;
+}
+
+export function getNursingTierDisplay(tierSlugOrKey: string): string {
+  const count = getNursingTierCount(tierSlugOrKey);
+  if (count === 0) return "Coming Soon";
+  if (count < 1000) {
+    const rounded = Math.floor(count / 50) * 50;
+    return `${rounded}+`;
+  }
+  const rounded = Math.floor(count / 100) * 100;
+  return `${rounded.toLocaleString()}+`;
+}
+
+export function getTotalNursingQuestions(): number {
+  return Object.values(NURSING_TIER_COUNTS).reduce((sum, n) => sum + n, 0);
+}
+
+export function getTotalNursingDisplay(): string {
+  const total = getTotalNursingQuestions();
+  const rounded = Math.floor(total / 500) * 500;
+  return `${rounded.toLocaleString()}+`;
+}
+
+export function getTotalNursingCertQuestions(): number {
+  return Object.values(manifest.static.nursingCert).reduce(
+    (sum, tc) => sum + tc.total,
+    0
+  );
+}
+
+export function getTotalNursingCertDisplay(): string {
+  const total = getTotalNursingCertQuestions();
+  const rounded = Math.floor(total / 500) * 500;
+  return `${rounded.toLocaleString()}+`;
+}
+
+export function getManifest(): QuestionManifest {
+  return manifest;
+}
+
+export function getManifestIntegrity(): {
+  generatedAt: string;
+  fileCount: number;
+  parseFailures: string[];
+  contentHash: string;
+  isStale: boolean;
+} {
+  const generatedDate = new Date(manifest.generatedAt);
+  const now = new Date();
+  const ageMs = now.getTime() - generatedDate.getTime();
+  const STALE_THRESHOLD_MS = 7 * 24 * 60 * 60 * 1000;
+
+  return {
+    generatedAt: manifest.generatedAt,
+    fileCount: manifest.integrity.fileCount,
+    parseFailures: manifest.integrity.parseFailures,
+    contentHash: manifest.integrity.contentHash,
+    isStale: ageMs > STALE_THRESHOLD_MS,
+  };
+}
+
+export function getPublicTotalQuestions(): number {
+  return manifest.totals.publicTotal;
+}
+
+export function getPublicTotalDisplay(): string {
+  const total = getPublicTotalQuestions();
+  const rounded = Math.floor(total / 1000) * 1000;
   return `${rounded.toLocaleString()}+`;
 }
