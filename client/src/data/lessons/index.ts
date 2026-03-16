@@ -134,6 +134,7 @@ import { surgicalTechPositioningLessons } from "./surgical-tech-positioning";
 import { surgicalTechInfectionPreventionLessons } from "./surgical-tech-infection-prevention";
 import { surgicalTechAnesthesiaBasicsLessons } from "./surgical-tech-anesthesia-basics";
 import { surgicalTechComplicationsLessons } from "./surgical-tech-complications";
+import { echoCoreLesson } from "./echo-core-lessons";
 
 import { alliedHealthFoundations1Lessons } from "./allied-health-foundations-1";
 import { alliedHealthFoundations2Lessons } from "./allied-health-foundations-2";
@@ -769,6 +770,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   surgicalTechInfectionPreventionLessons,
   surgicalTechAnesthesiaBasicsLessons,
   surgicalTechComplicationsLessons,
+  echoCoreLesson,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,

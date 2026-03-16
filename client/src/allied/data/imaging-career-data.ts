@@ -262,6 +262,7 @@ export const IMAGING_CAREER_DATA: Record<string, ImagingCareerSubPageData> = {
         { name: "RDCS-AE (Adult Echocardiography)", organization: "ARDMS", description: "Primary credential for adult transthoracic and transesophageal echocardiography." },
         { name: "RDCS-PE (Pediatric Echocardiography)", organization: "ARDMS", description: "Specialty credential for pediatric and congenital heart disease echocardiography." },
         { name: "RCS (Registered Cardiac Sonographer)", organization: "CCI", description: "Alternative credential from Cardiovascular Credentialing International." },
+        { name: "CSCT Cardiac Sonography", organization: "Sonography Canada (formerly CSDMS)", description: "Canadian credential for cardiac sonographers. Requires graduation from an accredited program and passing the Sonography Canada cardiac sonography exam." },
       ],
       workSettings: [
         { setting: "Hospital Echocardiography Lab", description: "Comprehensive cardiac imaging including TTE, TEE, stress echo, and intraoperative echo." },

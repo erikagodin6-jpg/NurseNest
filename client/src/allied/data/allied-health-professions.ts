@@ -504,8 +504,8 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       "Clinical rotations in echocardiography labs",
       "Continuing education for credential maintenance"
     ],
-    certificationOverview: "The ARDMS offers the Registered Diagnostic Cardiac Sonographer (RDCS) credential for adult echocardiography (AE) and pediatric echocardiography (PE). Cardiovascular Credentialing International (CCI) offers the Registered Cardiac Sonographer (RCS) credential. Both require passing specialty exams and maintaining continuing education credits.",
-    examNames: ["ARDMS RDCS", "CCI RCS", "ARDMS PE"],
+    certificationOverview: "The ARDMS offers the Registered Diagnostic Cardiac Sonographer (RDCS) credential for adult echocardiography (AE) and pediatric echocardiography (PE). Cardiovascular Credentialing International (CCI) offers the Registered Cardiac Sonographer (RCS) credential. In Canada, Sonography Canada (formerly CSDMS) offers the CSCT Cardiac Sonography credential. All require passing specialty exams and maintaining continuing education credits.",
+    examNames: ["ARDMS RDCS", "CCI RCS", "ARDMS PE", "CSCT Cardiac Sonography"],
     salaryRange: "$60,000 – $95,000 USD",
     jobOutlook: "10% growth projected through 2032 (much faster than average)",
     medianSalary: "$77,740",
