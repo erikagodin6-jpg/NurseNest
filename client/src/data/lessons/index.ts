@@ -126,6 +126,8 @@ import { mltLessonsExpanded } from "./mlt-lessons-expanded";
 import { rrtCardiacCriticalCareLessons } from "./rrt-cardiac-critical-care";
 import { paramedicCardiacCriticalCareLessons } from "./paramedic-cardiac-critical-care";
 import { imagingCardiacLessons } from "./imaging-cardiac-lessons";
+import { dmsSonographyUsLessons } from "./dms-sonography-us-lessons";
+import { dmsSonographyCaLessons } from "./dms-sonography-ca-lessons";
 import { surgicalTechCardiacLessons } from "./surgical-tech-cardiac-lessons";
 import { surgicalTechSterileTechniqueLessons } from "./surgical-tech-sterile-technique";
 import { surgicalTechOrProtocolsLessons } from "./surgical-tech-or-protocols";
@@ -1022,6 +1024,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rrtPharmacologyExpandedLessons,
   rrtNeonatalExpandedLessons,
   rrtCriticalCareAdvancedLessons,
+  dmsSonographyUsLessons,
+  dmsSonographyCaLessons,
 );
 
 
