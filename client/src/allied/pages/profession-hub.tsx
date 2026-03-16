@@ -5,6 +5,7 @@ import {
   DollarSign, TrendingUp, Briefcase, Users, ExternalLink, ClipboardList
 } from "lucide-react";
 import { useState } from "react";
+import { MedicalReviewBadge } from "@/components/medical-review-badge";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { type ProfessionHubData } from "@/allied/data/profession-hub-data";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
@@ -481,6 +482,9 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
           </div>
         </div>
       </section>
+      <div className="max-w-5xl mx-auto px-4 py-10">
+        <MedicalReviewBadge />
+      </div>
     </div>
   );
 }

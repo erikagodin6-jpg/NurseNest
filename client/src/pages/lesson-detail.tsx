@@ -49,6 +49,8 @@ import { useI18n } from "@/lib/i18n";
 import { ConversionFunnel, SocialProofBar } from "@/components/conversion-funnel";
 import { FixedLessonNav } from "@/components/fixed-lesson-nav";
 import { AutoRelatedContent } from "@/components/auto-related-content";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 
 function getCredentials() {
   try {
@@ -3696,6 +3698,18 @@ export default function LessonDetail() {
           tags={dbContent?.tags as string[] || undefined}
           className="mt-10 pt-8 border-t border-gray-200"
           sectionTitle="Related Lessons, Articles & Practice"
+        />
+
+        <div className="mt-10 grid sm:grid-cols-2 gap-4">
+          <MedicalReviewBadge lastUpdated={dbContent?.updated_at || undefined} />
+          <MedicalReferences lessonId={id || ""} />
+        </div>
+
+        <MedicalReviewJsonLd
+          title={lessonContent?.title || id || ""}
+          slug={id || ""}
+          lastUpdated={dbContent?.updated_at || undefined}
+          description={lessonContent?.overview || undefined}
         />
 
         <div className="mt-10" data-testid="lesson-conversion-funnel">

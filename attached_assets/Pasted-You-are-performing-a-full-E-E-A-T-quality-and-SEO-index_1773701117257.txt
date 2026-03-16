@@ -1,0 +1,219 @@
+You are performing a full **E-E-A-T quality and SEO indexing audit** for a healthcare education website similar to NurseNest.
+
+The website provides study guides, certification preparation, and exam practice content for nursing students and healthcare professionals.
+
+Because this is medical and educational content, it falls under **Google YMYL (Your Money or Your Life)** categories and must meet the highest standards of **Experience, Expertise, Authoritativeness, and Trustworthiness (E-E-A-T)**.
+
+Your goal is to ensure every page on the site is considered **high-quality, authoritative, and indexable by Google**.
+
+The site currently contains approximately **319 public pages**.
+
+You must audit all pages and recommend improvements where necessary.
+
+---
+
+GLOBAL QUALITY STANDARDS
+
+Ensure every page meets the following standards:
+
+1. Demonstrates **real clinical expertise** appropriate for nursing education.
+2. Contains **accurate, medically sound explanations**.
+3. Avoids thin, generic, or superficial explanations.
+4. Uses structured headings and logical educational flow.
+5. Provides actionable learning value for nursing students.
+6. Includes clear internal navigation and contextual links.
+7. Contains unique content not duplicated elsewhere on the site.
+
+If content appears thin or overly generic, expand it with additional clinical depth.
+
+---
+
+CONTENT QUALITY REVIEW
+
+Evaluate each page and confirm the following elements exist.
+
+The page must include:
+
+• a clear educational objective
+• a concise introduction explaining the topic
+• structured educational sections
+
+Examples of sections for clinical topics:
+
+• definition
+• pathophysiology
+• signs and symptoms
+• diagnostic tests and labs
+• medications and pharmacology considerations
+• nursing interventions
+• patient monitoring
+• complications
+• exam tips or clinical pearls
+• practice questions when applicable
+
+Ensure explanations include **clinical reasoning and nursing rationale**, not only definitions.
+
+---
+
+EXPERIENCE AND EXPERTISE SIGNALS
+
+Each medical page must clearly demonstrate professional credibility.
+
+Ensure the following are present:
+
+• a visible author or reviewer section
+• a statement such as:
+“Medically reviewed by a Registered Nurse”
+
+• author credentials where applicable (RN, NP, etc.)
+
+Include a short reviewer bio if possible.
+
+This is required for healthcare content to meet Google E-E-A-T expectations.
+
+---
+
+MEDICAL REFERENCES
+
+Add references where appropriate using reputable sources such as:
+
+World Health Organization
+Centers for Disease Control and Prevention
+National Institutes of Health
+peer-reviewed medical journals
+recognized clinical guidelines
+
+References should be formatted in a consistent citation style.
+
+---
+
+STRUCTURE AND SEO OPTIMIZATION
+
+Every page must contain the following elements.
+
+SEO TITLE
+• unique and descriptive
+• includes primary keyword
+
+META DESCRIPTION
+• concise summary
+• encourages click-through
+
+H1 HEADING
+• matches the primary topic
+
+LOGICAL CONTENT STRUCTURE
+• H2 and H3 headings organize the material
+
+INTERNAL LINKS
+• link to 3–8 related educational pages
+
+These internal links should support a **topic cluster structure**.
+
+---
+
+INTERNAL LINKING AND TOPICAL AUTHORITY
+
+Ensure the site forms a strong **knowledge network**.
+
+For example:
+
+A page on heart failure should link to:
+
+• pulmonary edema
+• ACE inhibitors
+• diuretics
+• heart failure nursing interventions
+• related practice questions
+
+This signals topical authority to search engines.
+
+---
+
+USER EXPERIENCE AND PERFORMANCE
+
+Verify the following:
+
+• pages load quickly
+• mobile layout is responsive
+• navigation is clear
+• page layout is readable
+• no broken images or formatting errors
+
+Ensure content appears immediately in the HTML and is not hidden behind client-side rendering that search engines cannot access.
+
+---
+
+STRUCTURED DATA
+
+Implement structured data where appropriate.
+
+Examples:
+
+Article schema for study guides
+FAQ schema for question sections
+Breadcrumb schema for navigation
+
+Structured data should follow schema.org standards.
+
+---
+
+SEO INDEXING AUDIT
+
+Perform a full crawlability and indexing check.
+
+Tasks:
+
+1. Generate a complete XML sitemap containing every public page.
+
+2. Ensure the sitemap is available at:
+
+/sitemap.xml
+
+3. Verify robots.txt allows search engine crawling and does not block important pages.
+
+4. Confirm no public pages contain a “noindex” directive.
+
+5. Ensure canonical tags point to the correct primary URL.
+
+6. Identify orphan pages that are not linked internally.
+
+7. Ensure each page has a unique title and meta description.
+
+8. Confirm server responses:
+
+• valid pages return HTTP 200
+• missing pages return HTTP 404
+
+9. Ensure JavaScript rendering does not prevent Google from seeing page content.
+
+10. Confirm the sitemap is submitted in Google Search Console.
+
+---
+
+CRAWL DEPTH
+
+Ensure every page can be reached within **three clicks or fewer** from the homepage.
+
+If pages are deeper in the architecture, create additional internal links.
+
+---
+
+OUTPUT REPORT
+
+Produce a structured report that includes:
+
+1. Pages fully compliant with quality and SEO standards
+2. Pages needing content expansion
+3. Pages missing internal links
+4. Pages missing metadata
+5. Pages blocked from indexing
+6. Orphan pages
+7. Pages missing structured data
+8. Technical SEO issues detected
+
+For each page requiring improvement, provide **specific recommended enhancements**.
+
+Do not delete pages.
+
+Improve and expand them so that all ~319 pages become **high-quality, authoritative, and fully indexable educational resources** suitable for ranking in Google search results.

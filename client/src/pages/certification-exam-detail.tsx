@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import {
   CERTIFICATION_EXAM_CONFIGS,
   getCertQuestions,
@@ -320,6 +321,15 @@ export default function CertificationExamDetail() {
           </div>
         </div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-4 pb-10">
+        <MedicalReviewBadge />
+        <MedicalReviewJsonLd
+          title={`${config.name} Exam Preparation`}
+          slug={`certification-exam-prep/${certSlug}`}
+          description={config.seo.description}
+        />
+      </div>
 
       <Footer />
     </div>

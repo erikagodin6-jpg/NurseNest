@@ -3,6 +3,8 @@ import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Footer } from "@/components/footer";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -481,6 +483,17 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
           </div>
         </section>
       </main>
+      <div className="max-w-4xl mx-auto px-4 mt-10">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <MedicalReviewBadge />
+          <MedicalReferences lessonId={lesson.slug} />
+        </div>
+        <MedicalReviewJsonLd
+          title={lesson.title}
+          slug={lesson.slug}
+          description={lesson.seoDescription || lesson.summary || undefined}
+        />
+      </div>
       <FixedLessonNav lessonId={lesson.slug} />
       <div className="pb-14" />
       <Footer />
