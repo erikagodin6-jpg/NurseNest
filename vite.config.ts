@@ -77,10 +77,10 @@ export default defineConfig({
               return "vendor-router";
             }
             if (id.includes("react-dom")) {
-              return "vendor-react";
+              return "vendor-react-dom";
             }
-            if (id.includes("react")) {
-              return "vendor-react";
+            if (id.includes("/react/") || id.includes("/react-is/") || id.includes("react-helmet") || id.includes("scheduler")) {
+              return "vendor-react-core";
             }
             return "vendor";
           }
