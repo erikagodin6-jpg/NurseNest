@@ -1,0 +1,363 @@
+You are continuing development of the NurseNest / Allied Health / New Grad ecosystem.
+
+Multiple major expansions have already been completed:
+
+• Social Worker expansion  
+• OTA/PTA expansion  
+• Another allied health expansion  
+• Pre-Nursing expansion
+
+You must now execute the NEXT highest-impact platform build priority.
+
+Do NOT explain reasoning.  
+Do NOT give options.  
+Automatically select the next priority and implement it completely.
+
+CURRENT PLATFORM INVENTORY
+
+NURSING
+RN ~8,350
+RPN/PN/LVN ~6,300
+NP ~4,150
+Pre-Nursing expanded
+
+ALLIED HEALTH
+RRT ~4,070
+Surgical Technologist ~3,000
+MLT ~2,000
+OTA expanded
+PTA expanded
+Pharmacy Technician ~1,710
+Paramedic ~1,500
+Imaging / Radiology ~2,560
+Addictions Counsellor ~1,000
+Psychotherapist ~1,000
+Critical Care Cert ~1,000
+Emergency Nursing Cert ~1,375
+Perioperative Cert ~1,000
+Oncology Nursing Cert ~1,000
+Pediatric Cert ~1,000
+Social Worker expanded
+
+NEW GRAD
+Interview bank + career readiness toolkit
+
+DATABASE
+AI question generator ~28,436 items
+
+────────────────────────
+
+NEXT PRIORITY TARGET
+
+The next major platform opportunity is **NEW GRAD EXPANSION**.
+
+This tier has strong monetization potential but currently lacks scale and authority.
+
+You must transform the New Grad tier into a complete **career readiness question bank and professional transition toolkit**.
+
+Store priority in configuration:
+
+ACTIVE_BUILD_PRIORITY = "NEW_GRAD_EXPANSION"
+
+Expose this constant inside the admin dashboard.
+
+────────────────────────
+
+PART 1 — NEW GRAD QUESTION BANK EXPANSION
+
+Build a large structured question bank focused on transition-to-practice.
+
+Target content scale:
+
+New Grad question bank target: **3,000+ scenario questions**
+
+Content must focus on workplace situations rather than exam prep.
+
+Question formats:
+
+• behavioral interview questions  
+• workplace scenario decision questions  
+• prioritization scenarios  
+• conflict resolution scenarios  
+• delegation scenarios  
+• communication scenarios  
+• professionalism dilemmas  
+• documentation scenarios  
+• ethical decision cases
+
+────────────────────────
+
+PART 2 — CATEGORY ARCHITECTURE
+
+Create the following structured categories.
+
+INTERVIEW PREPARATION
+
+behavioral questions  
+clinical judgment questions  
+scenario responses  
+STAR method examples  
+common nursing interview questions  
+difficult interviewer questions  
+panel interview practice  
+
+WORKPLACE SCENARIOS
+
+prioritization scenarios  
+delegation decisions  
+patient safety dilemmas  
+medication error response  
+handoff communication  
+difficult coworkers  
+interdisciplinary communication  
+
+CLINICAL TRANSITION
+
+first shift scenarios  
+new nurse anxiety situations  
+time management  
+documentation challenges  
+critical thinking drills  
+
+PROFESSIONAL DEVELOPMENT
+
+professional boundaries  
+ethical dilemmas  
+workplace bullying response  
+advocacy situations  
+patient communication  
+
+CAREER NAVIGATION
+
+job offer negotiation  
+probation period success  
+performance evaluation preparation  
+career advancement strategy  
+
+────────────────────────
+
+PART 3 — INTERVIEW SIMULATION SYSTEM
+
+Create interactive interview simulation sets.
+
+Minimum:
+
+10 structured interview simulations  
+each containing 20-40 questions
+
+Include:
+
+scenario prompts  
+example high-quality answers  
+feedback guidance  
+STAR framework breakdown
+
+────────────────────────
+
+PART 4 — MOCK INTERVIEW TESTS
+
+Create mock interview exams.
+
+Minimum:
+
+5 full interview practice tests  
+50-75 questions each
+
+Features:
+
+randomized questions  
+timed option  
+answer review  
+example answers
+
+────────────────────────
+
+PART 5 — HERO PAGE AUTHORITY
+
+Upgrade the New Grad hero page.
+
+Hero must display:
+
+total scenario questions  
+interview simulations  
+practice interview tests  
+
+Messaging must emphasize:
+
+land your first nursing job  
+practice real interview questions  
+build confidence for the workplace  
+prepare for real clinical scenarios
+
+Add sections:
+
+What new nurses struggle with  
+What this bank prepares you for  
+How the practice system works  
+Frequently asked questions
+
+────────────────────────
+
+PART 6 — SEO AUTHORITY
+
+Optimize the New Grad section for high search traffic.
+
+Target keywords:
+
+nursing interview questions  
+new grad nurse interview prep  
+nurse behavioral interview questions  
+first nursing job interview practice  
+nursing job scenario questions  
+
+Requirements:
+
+optimized titles  
+meta descriptions  
+structured headings  
+FAQ schema  
+internal linking  
+
+────────────────────────
+
+PART 7 — PRACTICE SYSTEM
+
+Create practice modes:
+
+Interview Question Bank  
+Scenario Practice  
+Mock Interviews  
+Workplace Simulation Sets  
+
+Each mode must allow:
+
+category filtering  
+random question sets  
+review mode  
+progress tracking
+
+────────────────────────
+
+PART 8 — COUNT DISPLAY
+
+Integrate the New Grad tier into the counting system.
+
+Display:
+
+total scenario questions  
+interview simulations  
+mock interviews  
+
+Counts must pull from the automated manifest.
+
+────────────────────────
+
+PART 9 — ADMIN DASHBOARD
+
+Add New Grad analytics to admin.
+
+Admin must show:
+
+question counts by category  
+interview simulation counts  
+uncategorized scenario questions  
+AI question pool availability  
+
+Add a "career scenario coverage" tracker.
+
+────────────────────────
+
+PART 10 — PAYWALL STRUCTURE
+
+Follow the same premium architecture used across NurseNest.
+
+Requirements:
+
+free preview questions  
+locked interview simulations  
+locked mock interview exams  
+upgrade CTAs  
+
+Ensure there are no bypass routes.
+
+────────────────────────
+
+PART 11 — MULTI-LANGUAGE SUPPORT
+
+Ensure New Grad supports:
+
+English  
+French  
+Spanish  
+
+Follow the same routing architecture used elsewhere.
+
+────────────────────────
+
+PART 12 — INTERNAL LINKING
+
+Add links from:
+
+RN tier  
+RPN tier  
+NP tier  
+Pre-Nursing hub  
+Allied Health hub  
+career blog posts  
+
+This funnels graduating students directly into the New Grad system.
+
+────────────────────────
+
+PART 13 — ROADMAP GENERATION
+
+After completing the New Grad expansion, generate the next expansion roadmap.
+
+Rank remaining opportunities by:
+
+SEO potential  
+question volume  
+conversion potential  
+professional demand  
+
+Likely next priorities:
+
+Addictions Counsellor expansion  
+Psychotherapist expansion  
+Certification exam banks  
+AI adaptive testing system
+
+Store this roadmap in admin as:
+
+CONTENT_EXPANSION_ROADMAP
+
+────────────────────────
+
+PART 14 — OUTPUT
+
+Return a build summary including:
+
+selected priority  
+scenario question targets achieved  
+categories created  
+interview simulations created  
+files modified  
+next recommended expansion
+
+────────────────────────
+
+QUALITY RULES
+
+Do not inflate counts  
+Do not create thin pages  
+Do not leave empty routes  
+Do not break navigation  
+Do not modify tier menus  
+
+Ensure New Grad becomes a **major career-readiness destination**.
+
+────────────────────────
+
+FINAL EXECUTION
+
+Identify the next priority and implement the full New Grad expansion with strong SEO, structured scenario banks, and monetization readiness.
