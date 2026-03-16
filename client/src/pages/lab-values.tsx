@@ -33,7 +33,10 @@ import {
   Zap,
   Lock,
   Sparkles,
+  FlaskConical,
+  ArrowRight,
 } from "lucide-react";
+import { seoLabValues } from "@/data/seo-lab-values";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -487,6 +490,34 @@ export default function LabValuesPage() {
               )}
             </div>
           </div>
+
+          <section className="mt-12" data-testid="section-lab-value-guides-free">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <FlaskConical className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Individual Lab Value Guides</h2>
+                <p className="text-sm text-gray-500">In-depth nursing reference for each lab value</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {seoLabValues.map((lab) => (
+                <LocaleLink
+                  key={lab.slug}
+                  href={`/lab-values/${lab.slug}`}
+                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm transition-all group"
+                  data-testid={`link-lab-guide-free-${lab.slug}`}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">{lab.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Normal: {lab.normalRange.value} {lab.normalRange.unit}</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                </LocaleLink>
+              ))}
+            </div>
+          </section>
         </main>
         <AdminEditButton />
         <Footer />
@@ -831,6 +862,34 @@ export default function LabValuesPage() {
           ))}
         </Tabs>
         )}
+
+        <section className="mt-10" data-testid="section-lab-value-guides">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <FlaskConical className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Individual Lab Value Guides</h2>
+              <p className="text-sm text-gray-500">In-depth nursing reference for each lab value</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {seoLabValues.map((lab) => (
+              <LocaleLink
+                key={lab.slug}
+                href={`/lab-values/${lab.slug}`}
+                className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm transition-all group"
+                data-testid={`link-lab-guide-${lab.slug}`}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">{lab.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Normal: {lab.normalRange.value} {lab.normalRange.unit}</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+              </LocaleLink>
+            ))}
+          </div>
+        </section>
 
         <LocaleLink href="/si-to-conventional-units-converter">
           <div className="flex items-center gap-3 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 hover:bg-blue-50 transition-colors cursor-pointer group mt-10" data-testid="link-unit-converter-cta">

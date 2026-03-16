@@ -391,6 +391,66 @@ export default function LabValuePage() {
             </div>
           </section>
 
+          <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-exam-resources">
+            <div className="flex items-center gap-3 mb-4">
+              <BookOpen className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-bold text-gray-900">Exam Prep Resources</h2>
+            </div>
+            <p className="text-sm text-gray-600 mb-5">
+              Strengthen your {labData.name} knowledge with targeted practice questions and lessons across all nursing tiers.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <LocaleLink
+                href="/rpn/questions"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-rpn-questions"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>RPN Practice Questions</span>
+              </LocaleLink>
+              <LocaleLink
+                href="/rn/questions"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-rn-questions"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>RN Practice Questions</span>
+              </LocaleLink>
+              <LocaleLink
+                href="/np/test-bank"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-np-test-bank"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>NP Question Bank</span>
+              </LocaleLink>
+              <LocaleLink
+                href="/lessons"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-lessons"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>All Lessons</span>
+              </LocaleLink>
+              <LocaleLink
+                href="/question-bank"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-question-bank"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>Full Question Bank</span>
+              </LocaleLink>
+              <LocaleLink
+                href="/lab-values"
+                className="flex items-center gap-2 p-3 rounded-lg border border-gray-200 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-medium text-gray-700 hover:text-primary"
+                data-testid="link-lab-interpretation"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>Lab Interpretation Engine</span>
+              </LocaleLink>
+            </div>
+          </section>
+
           <section className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="section-cta">
             <h2 className="text-2xl font-bold mb-3">Master Lab Values for Your Nursing Exam</h2>
             <p className="text-gray-300 mb-6 max-w-xl mx-auto">

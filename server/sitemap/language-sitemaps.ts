@@ -350,7 +350,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     urls.push(singleLocaleUrl(base, `/medications/${m}`, targetLocale, allLocales, "0.8", "monthly", today));
   }
 
-  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr"];
+  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr", "calcium", "magnesium", "bicarbonate", "bun", "hemoglobin", "white-blood-cells"];
   for (const l of seoLabValues) {
     urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, allLocales, "0.8", "monthly", today));
   }

@@ -631,7 +631,7 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/medications/${m}`, "0.8", "monthly", locales, today));
   }
 
-  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr"];
+  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr", "calcium", "magnesium", "bicarbonate", "bun", "hemoglobin", "white-blood-cells"];
   for (const l of seoLabValues) {
     urls.push(localizedUrl(base, `/lab-values/${l}`, "0.8", "monthly", locales, today));
   }
