@@ -227,7 +227,7 @@ export default function AdminContentCoverage() {
   const handleGenerateQuestions = async (item: CoverageTarget) => {
     setGenerating(item.key);
     try {
-      const body: any = { count: Math.min(10, item.gap) };
+      const body: any = { count: Math.min(5, item.gap) };
       if (item.category === "Nursing Tier") body.tier = item.key.toLowerCase();
       else if (item.category === "Body System") { body.tier = "rn"; body.bodySystem = item.key; }
       else if (item.category === "Specialty") { body.tier = "rn"; body.topic = item.key; }
@@ -251,7 +251,7 @@ export default function AdminContentCoverage() {
     try {
       const res = await adminFetch("/api/admin/content-coverage/generate-flashcards", {
         method: "POST",
-        body: { tier: "rpn", topicTag: item.key, count: Math.min(10, item.gap) },
+        body: { tier: "rpn", topicTag: item.key, count: Math.min(5, item.gap) },
       });
       const result = await res.json();
       setGenResults(prev => [{ type: "flashcards", key: item.key, ...result, time: new Date().toISOString() }, ...prev]);
@@ -675,53 +675,67 @@ export default function AdminContentCoverage() {
                     {genResults.map((r, i) => {
                       const hasInserted = r.inserted !== undefined && r.inserted > 0;
                       const hasFailed = r.failureStage || (r.errors?.length > 0);
+                      const hasDetails = (r.rejectionReasons?.length > 0) || (r.errors?.length > 0) || r.failureStage;
                       return (
-                        <div key={i} className="text-xs p-2 bg-gray-50 rounded flex items-start gap-2" data-testid={`row-gen-result-${i}`}>
-                          {hasFailed && !hasInserted ? (
-                            <XCircle className="w-3.5 h-3.5 text-red-500 mt-0.5 shrink-0" />
-                          ) : hasFailed && hasInserted ? (
-                            <AlertTriangle className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
-                          ) : (
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <span className="font-medium">[{r.type}] {r.key || "auto-fill"}</span>
-                            {r.requested !== undefined && (
-                              <span className="text-gray-500 ml-2">
-                                Req: {r.requested}, Gen: {r.generated ?? 0}, Valid: {r.validated ?? 0}, Inserted: {r.inserted ?? 0}
-                                {(r.rejected ?? 0) > 0 && <span className="text-amber-600"> ({r.rejected} rejected)</span>}
-                              </span>
+                        <div key={i} className="text-xs p-2 bg-gray-50 rounded" data-testid={`row-gen-result-${i}`}>
+                          <div className="flex items-start gap-2">
+                            {hasFailed && !hasInserted ? (
+                              <XCircle className="w-3.5 h-3.5 text-red-500 mt-0.5 shrink-0" />
+                            ) : hasFailed && hasInserted ? (
+                              <AlertTriangle className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
+                            ) : (
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
                             )}
-                            {r.generated !== undefined && r.requested === undefined && (
-                              <span className="text-gray-500 ml-2">
-                                Generated: {r.generated}, Accepted: {r.inserted ?? r.accepted ?? 0}
-                              </span>
-                            )}
-                            {r.success !== undefined && (
-                              <span className="text-gray-500 ml-2">{r.success ? "Success" : `Failed: ${r.error}`}</span>
-                            )}
-                            {r.questions && (
-                              <span className="text-gray-500 ml-2">
-                                Q: {r.questions.reduce((s: number, q: any) => s + (q.inserted || q.accepted || 0), 0)} inserted
-                              </span>
-                            )}
-                            {r.failureStage && (
-                              <span className="text-red-500 ml-1">
-                                [failed at: {r.failureStage}]
-                              </span>
-                            )}
-                            {r.rejectionReasons && r.rejectionReasons.length > 0 && (
-                              <div className="text-gray-400 mt-0.5 truncate" title={r.rejectionReasons.join(", ")}>
-                                Reasons: {r.rejectionReasons.slice(0, 3).join(", ")}{r.rejectionReasons.length > 3 ? ` +${r.rejectionReasons.length - 3} more` : ""}
-                              </div>
-                            )}
-                            {r.errors?.length > 0 && (
-                              <div className="text-red-400 mt-0.5 truncate" title={r.errors.join(", ")}>
-                                {r.errors.slice(0, 2).join("; ")}
-                              </div>
-                            )}
+                            <div className="flex-1 min-w-0">
+                              <span className="font-medium">[{r.type}] {r.key || "auto-fill"}</span>
+                              {r.requested !== undefined && (
+                                <span className="text-gray-500 ml-2">
+                                  Req: {r.requested}, Gen: {r.generated ?? 0}, Valid: {r.validated ?? 0}, Inserted: {r.inserted ?? 0}
+                                  {(r.rejected ?? 0) > 0 && <span className="text-amber-600"> ({r.rejected} rejected)</span>}
+                                </span>
+                              )}
+                              {r.generated !== undefined && r.requested === undefined && (
+                                <span className="text-gray-500 ml-2">
+                                  Generated: {r.generated}, Accepted: {r.inserted ?? r.accepted ?? 0}
+                                </span>
+                              )}
+                              {r.success !== undefined && (
+                                <span className="text-gray-500 ml-2">{r.success ? "Success" : `Failed: ${r.error}`}</span>
+                              )}
+                              {r.questions && (
+                                <span className="text-gray-500 ml-2">
+                                  Q: {r.questions.reduce((s: number, q: any) => s + (q.inserted || q.accepted || 0), 0)} inserted
+                                </span>
+                              )}
+                              {r.failureStage && (
+                                <span className="text-red-500 ml-1">
+                                  [failed at: {r.failureStage}]
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-gray-400 ml-auto shrink-0">{new Date(r.time).toLocaleTimeString()}</span>
                           </div>
-                          <span className="text-gray-400 ml-auto shrink-0">{new Date(r.time).toLocaleTimeString()}</span>
+                          {hasDetails && (
+                            <details className="mt-1.5 ml-5" data-testid={`details-gen-result-${i}`}>
+                              <summary className="text-gray-400 cursor-pointer hover:text-gray-600">
+                                {r.errors?.length ? `${r.errors.length} error(s)` : ""}
+                                {r.errors?.length && r.rejectionReasons?.length ? ", " : ""}
+                                {r.rejectionReasons?.length ? `${r.rejectionReasons.length} rejection(s)` : ""}
+                                {r.failureStage && !r.errors?.length && !r.rejectionReasons?.length ? `Failed at: ${r.failureStage}` : ""}
+                              </summary>
+                              <div className="mt-1 space-y-1 text-[11px]">
+                                {r.failureStage && (
+                                  <div className="text-red-500">Stage: {r.failureStage}</div>
+                                )}
+                                {r.errors?.map((e: string, ei: number) => (
+                                  <div key={`e-${ei}`} className="text-red-400 break-words">{e}</div>
+                                ))}
+                                {r.rejectionReasons?.map((reason: string, ri: number) => (
+                                  <div key={`r-${ri}`} className="text-amber-500 break-words">{reason}</div>
+                                ))}
+                              </div>
+                            </details>
+                          )}
                         </div>
                       );
                     })}
