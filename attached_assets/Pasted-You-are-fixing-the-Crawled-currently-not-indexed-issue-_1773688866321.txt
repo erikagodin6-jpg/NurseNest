@@ -1,0 +1,222 @@
+You are fixing the “Crawled – currently not indexed” issue affecting 137 pages on the NurseNest website (https://www.nursenest.ca).
+
+Google has crawled these pages but is choosing not to index them. The objective is to improve page quality, remove duplication, strengthen internal linking, and ensure that all lessons meet Google's indexing thresholds.
+
+Do not break the current website structure.
+
+CRITICAL RULES
+
+Do NOT change the RPN, RN, NP tier navigation.
+Do NOT delete legitimate lesson content.
+Do NOT change existing URL structures unless redirecting duplicates.
+Do NOT break the multilingual routing system.
+All fixes must work globally so new lessons do not trigger the same problem.
+
+---
+
+STEP 1 — REMOVE DUPLICATE URL VERSIONS
+
+Many lesson URLs contain timestamp suffixes such as:
+
+/learn/glasgow-coma-scale-explained-1772057729426
+/learn/understanding-osmolality-1772059123796
+/learn/interpret-arterial-blood-gases-1772054592781
+
+These indicate duplicate pages created by the lesson generator.
+
+Implement the following system fix:
+
+Detect duplicate lessons with identical titles or nearly identical content.
+
+Keep only one canonical version using a clean URL format:
+
+/learn/glasgow-coma-scale-explained
+/learn/understanding-osmolality
+/learn/interpret-arterial-blood-gases
+
+Apply canonical tags from duplicate URLs to the canonical page.
+
+Redirect duplicate timestamp URLs using HTTP 301 redirects.
+
+---
+
+STEP 2 — EXPAND THIN LESSON CONTENT
+
+Google often refuses to index pages with insufficient content.
+
+Every lesson page must contain:
+
+Minimum 1000 words of educational content.
+
+Each lesson must include:
+
+Introduction
+Clinical overview
+Physiology explanation
+Nursing assessment considerations
+Nursing interventions
+Clinical examples
+Exam preparation tips
+
+Lessons that do not meet this threshold must automatically be expanded.
+
+---
+
+STEP 3 — FIX CONTENT QUALITY SIGNALS
+
+Ensure lesson pages demonstrate clear expertise and educational value.
+
+Add the following sections where appropriate:
+
+Clinical pearls
+Common nursing mistakes
+Real-world clinical scenarios
+Quick exam review summary
+
+This improves Google’s E-E-A-T signals.
+
+---
+
+STEP 4 — IMPROVE INTERNAL LINKING
+
+Pages that lack internal links are frequently crawled but not indexed.
+
+Every lesson page must have:
+
+5–10 internal links pointing to it.
+
+Link sources should include:
+
+Body system hub pages
+Related physiology lessons
+Clinical skills lessons
+Exam prep pages
+Practice question sections
+
+Add contextual links within lesson text.
+
+---
+
+STEP 5 — FIX MULTI-LANGUAGE PAGE QUALITY
+
+Many affected pages exist in translated directories:
+
+/ko/
+/ar/
+/fa/
+/es/
+/ur/
+/ht/
+/vi/
+/pa/
+
+Low quality auto-translated pages may be rejected by Google.
+
+Implement the following rules:
+
+If translation quality is low or incomplete:
+
+Add a noindex tag until content is expanded.
+
+If translation quality is high:
+
+Expand the content and add internal linking.
+
+Ensure translated pages contain:
+
+Translated titles and meta descriptions
+Self-referencing canonical tags
+Proper hreflang language relationships.
+
+---
+
+STEP 6 — IMPROVE TITLE TAGS
+
+Ensure titles are optimized for search.
+
+Examples:
+
+Glasgow Coma Scale Explained for Nurses
+Critical Lab Values Nurses Must Recognize
+Why Patients Retain CO2 (Nursing Physiology Guide)
+ABG Interpretation Made Simple for Nurses
+
+Avoid generic or duplicate titles.
+
+---
+
+STEP 7 — ADD STRUCTURED DATA
+
+Add structured schema markup to lesson pages.
+
+Required schema types:
+
+Article schema
+FAQ schema
+
+Each page should contain 3–5 FAQ questions related to the topic.
+
+Example questions:
+
+Why do patients retain CO2?
+What causes a wide QRS complex?
+How do nurses interpret ABGs?
+
+---
+
+STEP 8 — REMOVE LOW VALUE AUTO-GENERATED PAGES
+
+Detect pages created accidentally by the content generator such as:
+
+/learn/unable-to-complete-citation-constraint
+
+If a page contains placeholder text or incomplete content:
+
+Remove it from the sitemap.
+
+Add a noindex tag or return HTTP 404.
+
+---
+
+STEP 9 — CLEAN THE SITEMAP
+
+Ensure the sitemap only includes pages that:
+
+Contain full educational content
+Return HTTP 200 status
+Are intended to rank in search engines
+
+Exclude duplicate timestamp pages.
+
+---
+
+STEP 10 — STRENGTHEN CONTENT CLUSTERS
+
+Group lessons into topic clusters and create hub pages.
+
+Examples:
+
+Electrolytes and Acid-Base Disorders
+Respiratory Physiology
+Neurological Assessment
+Critical Care Nursing Concepts
+
+Hub pages must link to all related lessons to improve topical authority.
+
+---
+
+STEP 11 — REINDEX AFTER FIXES
+
+Once improvements are implemented:
+
+Submit the affected pages again for validation inside Google Search Console.
+
+Monitor indexing results to confirm that the pages transition from:
+
+“Crawled – currently not indexed”
+
+to
+
+“Indexed”.
+
+Ensure that future lessons follow the same content quality and URL structure rules to prevent recurrence.

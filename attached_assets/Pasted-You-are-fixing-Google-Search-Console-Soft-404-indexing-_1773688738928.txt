@@ -1,0 +1,159 @@
+You are fixing Google Search Console Soft 404 indexing issues for the NurseNest website (https://www.nursenest.ca).
+
+The goal is to resolve Soft 404 errors so that important pages can be indexed properly while preventing empty or placeholder pages from appearing in Google search results.
+
+CRITICAL RULES
+
+Do NOT break the existing routing structure.
+Do NOT remove multilingual support.
+Do NOT modify the exam tier navigation (RPN, RN, NP).
+Do NOT delete existing lesson content.
+Ensure fixes apply globally so the issue does not reoccur on future pages.
+
+---
+
+IDENTIFIED SOFT 404 PAGES
+
+Google has flagged the following URLs as Soft 404:
+
+/pt/learn/long-term-care-vs-acute-care-nursing
+/pt/index.html
+/zh/index.html
+/fr/index.html
+/ko/index.html
+/ja/index.html
+/learn/neurovascular-assessment-explained-clearly
+
+These pages likely return a 200 status code but contain minimal or placeholder content, causing Google to treat them as Soft 404 pages.
+
+---
+
+STEP 1 — ENSURE PROPER STATUS CODES
+
+Pages that contain no meaningful content must return a proper HTTP status code.
+
+If a page is empty, incomplete, or placeholder:
+
+Return HTTP 404 or HTTP 410.
+
+If a page is legitimate and should be indexed:
+
+Ensure it returns HTTP 200 and contains sufficient content.
+
+---
+
+STEP 2 — FIX MULTI-LANGUAGE ROOT PAGES
+
+Language root pages such as:
+
+/pt/
+/zh/
+/fr/
+/ko/
+/ja/
+
+must contain real content and should not simply display empty placeholders.
+
+Each language root page should include:
+
+• translated homepage content
+• internal links to lessons and practice questions
+• translated navigation elements
+• proper title tags and meta descriptions
+
+If full translations are not available yet:
+
+Add a localized landing page explaining that the language version is in progress and link back to the English site.
+
+---
+
+STEP 3 — PREVENT EMPTY TRANSLATED LESSONS
+
+If translated lessons are not available yet, do NOT generate empty translated pages.
+
+Instead:
+
+Redirect untranslated pages to the English version using rel="alternate" hreflang tags.
+
+Example behavior:
+
+/pt/learn/example-lesson → redirect or canonical to /en/learn/example-lesson
+
+---
+
+STEP 4 — ADD CONTENT TO FLAGGED LESSON PAGE
+
+For the page:
+
+/learn/neurovascular-assessment-explained-clearly
+
+Ensure the page includes sufficient content to avoid Soft 404 classification.
+
+Add:
+
+• 800–1500 words of educational content
+• headings and structured sections
+• clinical examples
+• internal links to related lessons
+• exam preparation tips
+
+---
+
+STEP 5 — IMPLEMENT HREFLANG STRUCTURE
+
+Ensure each language page properly declares alternate language versions.
+
+Example structure:
+
+hreflang="en"
+hreflang="fr"
+hreflang="pt"
+hreflang="zh"
+hreflang="ja"
+hreflang="ko"
+
+Include a self-referencing hreflang tag and an x-default tag.
+
+---
+
+STEP 6 — ADD CANONICAL TAGS
+
+Each page must include a canonical tag pointing to its primary URL.
+
+Translated pages should canonicalize to their own language version, not to the English version unless they are placeholders.
+
+---
+
+STEP 7 — PREVENT FUTURE SOFT 404 PAGES
+
+Modify the content generation pipeline so that:
+
+• translated pages are only created when content exists
+• empty templates cannot be indexed
+• placeholder pages automatically return 404
+
+---
+
+STEP 8 — UPDATE SITEMAP LOGIC
+
+Ensure the sitemap only includes pages that:
+
+• contain real content
+• return HTTP 200
+• are intended for indexing
+
+Remove empty translated pages from the sitemap.
+
+---
+
+STEP 9 — REQUEST REINDEXING
+
+After implementing the fixes:
+
+Submit the corrected pages for validation inside Google Search Console.
+
+Confirm that:
+
+Soft 404 errors are cleared
+Language root pages are indexed properly
+Lesson pages appear as valid indexed pages
