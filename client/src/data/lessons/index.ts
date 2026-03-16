@@ -413,6 +413,10 @@ import { npAssessmentContentCLessons } from "./np-assessment-content-c";
 import { rnPathoEndocrineHemeMskLessons } from "./rn-patho-endocrine-heme-msk";
 import { herbalSupplementsLessons } from "./herbal-supplements";
 import { herbalSupplementsQuestionBank } from "./herbal-supplements-questions";
+import { rnMskExpansionLessons } from "./rn-msk-expansion";
+import { rnHeentExpansionLessons } from "./rn-heent-expansion";
+import { rnSafetyForensicExpansionLessons } from "./rn-safety-forensic-expansion";
+import { rnInfectionControlExpansionLessons } from "./rn-infection-control-expansion";
 
 export type { LessonContent } from "./types";
 
@@ -1032,6 +1036,10 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   dmsSonographyCaLessons,
   herbalSupplementsLessons,
   herbalSupplementsQuestionBank,
+  rnMskExpansionLessons,
+  rnHeentExpansionLessons,
+  rnSafetyForensicExpansionLessons,
+  rnInfectionControlExpansionLessons,
 );
 
 

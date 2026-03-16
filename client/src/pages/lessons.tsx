@@ -1960,7 +1960,14 @@ export const rnSystems = [
       { id: "rn-acute-lumbosacral-strain", name: "Acute Lumbosacral Strain", status: "Available" },
       { id: "rn-lumbosacral-disc-herniation", name: "Lumbosacral Disc Herniation", status: "Available" },
       { id: "rn-testicular-torsion", name: "Testicular Torsion", status: "Available" },
-      { id: "rn-septic-arthritis", name: "Septic Arthritis", status: "Available" }
+      { id: "rn-septic-arthritis", name: "Septic Arthritis", status: "Available" },
+      { id: "hip-fracture-management-rn", name: "Hip Fracture: Perioperative Management", status: "Available" },
+      { id: "fracture-types-immobilization-rn", name: "Fracture Types & Immobilization", status: "Available" },
+      { id: "spinal-cord-injury-rn", name: "Spinal Cord Injury: Acute Management", status: "Available" },
+      { id: "total-knee-replacement-rn", name: "Total Knee Replacement", status: "Available" },
+      { id: "amputation-care-rn", name: "Amputation: Perioperative & Rehab", status: "Available" },
+      { id: "fibromyalgia-rn", name: "Fibromyalgia", status: "Available" },
+      { id: "traction-care-rn", name: "Traction: Types & Nursing Care", status: "Available" }
     ]
   },
   {
@@ -2005,7 +2012,16 @@ export const rnSystems = [
       { id: "elder-mistreatment", name: "Elder Mistreatment", status: "Available" },
       { id: "intimate-partner-violence", name: "Intimate Partner Violence", status: "Available" },
       { id: "disaster-triage", name: "Disaster Triage", status: "Available" },
-      { id: "rn-advanced-documentation-and-informatics-rn", name: "RN Advanced Documentation and Informatics", status: "Available" }
+      { id: "rn-advanced-documentation-and-informatics-rn", name: "RN Advanced Documentation and Informatics", status: "Available" },
+      { id: "forensic-evidence-collection-rn", name: "Forensic Evidence Collection: Chain of Custody", status: "Available" },
+      { id: "human-trafficking-recognition-rn", name: "Human Trafficking Recognition & Response", status: "Available" },
+      { id: "workplace-violence-prevention-rn", name: "Workplace Violence Prevention", status: "Available" },
+      { id: "sexual-assault-nurse-examiner-rn", name: "SANE: Sexual Assault Nurse Examiner", status: "Available" },
+      { id: "restraint-alternatives-rn", name: "Restraint Use: Legal Requirements & Alternatives", status: "Available" },
+      { id: "suicide-prevention-safety-rn", name: "Suicide Prevention & Environmental Safety", status: "Available" },
+      { id: "strangulation-assessment-rn", name: "Strangulation Assessment: Forensic Nursing", status: "Available" },
+      { id: "disaster-preparedness-rn", name: "Disaster Preparedness & Mass Casualty", status: "Available" },
+      { id: "mandatory-reporting-rn", name: "Mandatory Reporting: Abuse & Communicable Disease", status: "Available" }
     ]
   },
   {
@@ -2019,7 +2035,14 @@ export const rnSystems = [
       { id: "droplet-precautions", name: "Droplet Precautions", status: "Available" },
       { id: "contact-precautions", name: "Contact Precautions", status: "Available" },
       { id: "transmission-based-precautions", name: "Transmission-Based Precautions", status: "Available" },
-      { id: "infection-control-and-sepsis-management-rn-rn", name: "Infection Control and Sepsis Management (RN)", status: "Available" }
+      { id: "infection-control-and-sepsis-management-rn-rn", name: "Infection Control and Sepsis Management (RN)", status: "Available" },
+      { id: "standard-precautions-rn", name: "Standard Precautions: Universal Infection Prevention", status: "Available" },
+      { id: "clabsi-prevention-rn", name: "CLABSI Prevention: Central Line Bundle", status: "Available" },
+      { id: "cauti-prevention-rn", name: "CAUTI Prevention: Catheter-Associated UTI Bundle", status: "Available" },
+      { id: "surgical-site-infection-prevention-rn", name: "Surgical Site Infection Prevention", status: "Available" },
+      { id: "vap-prevention-rn", name: "VAP Prevention: Ventilator Bundle", status: "Available" },
+      { id: "needle-stick-exposure-rn", name: "Needlestick Injury & Bloodborne Pathogen Exposure", status: "Available" },
+      { id: "isolation-precautions-advanced-rn", name: "Isolation Precautions: Contact, Droplet, Airborne", status: "Available" }
     ]
   },
   {
@@ -2166,7 +2189,13 @@ export const rnSystems = [
       { id: "pharyngitis-management-rn", name: "Pharyngitis: Centor Criteria & Rapid Testing", status: "Available" },
       { id: "otitis-externa-rn", name: "Otitis Externa: Assessment & Wick Placement", status: "Available" },
       { id: "papilledema-rn", name: "Papilledema: Fundoscopic Findings & ICP", status: "Available" },
-      { id: "hearing-loss-differential-rn", name: "Hearing Loss: Weber & Rinne Testing", status: "Available" }
+      { id: "hearing-loss-differential-rn", name: "Hearing Loss: Weber & Rinne Testing", status: "Available" },
+      { id: "epistaxis-management-rn", name: "Epistaxis: Assessment & Hemorrhage Control", status: "Available" },
+      { id: "acute-glaucoma-rn", name: "Acute Angle-Closure Glaucoma: Emergency", status: "Available" },
+      { id: "peritonsillar-abscess-rn", name: "Peritonsillar Abscess: Assessment & Management", status: "Available" },
+      { id: "retinal-detachment-rn", name: "Retinal Detachment: Emergency Recognition", status: "Available" },
+      { id: "tracheostomy-emergency-rn", name: "Tracheostomy Emergencies: Decannulation & Obstruction", status: "Available" },
+      { id: "sinusitis-complications-rn", name: "Sinusitis & Orbital Complications", status: "Available" }
     ]
   }
 ];
