@@ -33,6 +33,8 @@ export function Footer() {
               <li><LocaleLink href="/lab-values" className="hover:text-primary transition-colors" data-testid="link-footer-lab-values">{t("footer.labValues")}</LocaleLink></li>
               <li><LocaleLink href="/case-simulations" className="hover:text-primary transition-colors" data-testid="link-footer-case-sims">{t("footer.caseSimulations")}</LocaleLink></li>
               <li><LocaleLink href="/lectures" className="hover:text-primary transition-colors" data-testid="link-footer-lectures">{t("footer.videoLectures")}</LocaleLink></li>
+              <li><LocaleLink href="/osce-skills" className="hover:text-primary transition-colors" data-testid="link-footer-osce-skills">OSCE Skills Practice</LocaleLink></li>
+              <li><LocaleLink href="/clinical-skills" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-skills">Clinical Skills Guides</LocaleLink></li>
             </ul>
           </div>
           <div>
@@ -49,11 +51,14 @@ export function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.newGradSupportSection")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><LocaleLink href="/new-grad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">{t("footer.newGradHub")}</LocaleLink></li>
+              <li><LocaleLink href="/newgrad" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad">{t("footer.newGradHub")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/nursing" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-nursing">{t("footer.nursing")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">{t("footer.paramedic")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">{t("footer.respiratoryTherapy")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">{t("footer.medLabTech")}</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/burnout" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-burnout">Burnout Prevention</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/guides" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-guides">Survival Guides</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/clinical-references" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-clinical-refs">Clinical References</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.nursingSpecialties")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
@@ -75,6 +80,15 @@ export function Footer() {
               <li><LocaleLink href="/guides/diagnostic-imaging-technologist-guide" className="hover:text-primary transition-colors" data-testid="link-footer-imaging-guide">{t("footer.imagingGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">{t("footer.otGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">{t("footer.ptGuide")}</LocaleLink></li>
+            </ul>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">Clinical Simulators</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+              <li><LocaleLink href="/first-action-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-first-action-sim">First Action Simulator</LocaleLink></li>
+              <li><LocaleLink href="/iv-complications-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-iv-sim">IV Complications Simulator</LocaleLink></li>
+              <li><LocaleLink href="/deteriorating-patient-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-deteriorating-sim">Deteriorating Patient Sim</LocaleLink></li>
+              <li><LocaleLink href="/blood-transfusion-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-transfusion-sim">Blood Transfusion Simulator</LocaleLink></li>
+              <li><LocaleLink href="/electrolyte-abg-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-electrolyte-sim">Electrolyte &amp; ABG Simulator</LocaleLink></li>
+              <li><LocaleLink href="/safety-hazard-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-safety-sim">Safety Hazard Simulator</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
@@ -101,6 +115,8 @@ export function Footer() {
               <li><LocaleLink href="/allied-health/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
               <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">Allied Careers</LocaleLink></li>
               <li><LocaleLink href="/allied-health/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/social-work" className="hover:text-primary transition-colors" data-testid="link-footer-allied-social-work">Social Work</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/psychotherapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-psychotherapy">Psychotherapy</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.ecosystem")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">

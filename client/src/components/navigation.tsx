@@ -289,12 +289,18 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       return;
     }
     if (itemLabel === "Test Bank") {
-      const validTestBankSlugs = ["rpn", "rn", "np", "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert", "psychotherapist", "social-worker", "addictions-counsellor"];
+      const nursingTestBankSlugs = ["rpn", "rn", "np", "critical-care", "emergency-nursing", "perioperative", "oncology-nursing", "pediatric-cert"];
+      const alliedQBankSlugs = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging", "psychotherapist", "social-worker", "addictions-counsellor"];
+      const allSlugs = [...nursingTestBankSlugs, ...alliedQBankSlugs];
       const pathSegments = window.location.pathname.split("/").filter(Boolean);
-      const currentProfession = pathSegments.find(s => validTestBankSlugs.includes(s));
-      const tierSlug = effectiveTier && validTestBankSlugs.includes(effectiveTier) ? effectiveTier : "rpn";
+      const currentProfession = pathSegments.find(s => allSlugs.includes(s));
+      const tierSlug = effectiveTier && allSlugs.includes(effectiveTier) ? effectiveTier : "rpn";
       const targetSlug = currentProfession || tierSlug;
-      navTo(`/${targetSlug}/test-bank`);
+      if (alliedQBankSlugs.includes(targetSlug)) {
+        navTo(`/allied-health/qbank?career=${targetSlug}`);
+      } else {
+        navTo(`/${targetSlug}/test-bank`);
+      }
       return;
     }
     if (itemLabel === "Reports") {
@@ -306,11 +312,11 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
       return;
     }
     if (itemLabel === "Clinical Skill Lab") {
-      navTo("/simulators/clinical-skills");
+      navTo("/clinical-skills");
       return;
     }
     if (itemLabel === "Simulators") {
-      navTo("/simulators/osce");
+      navTo("/osce-skills");
       return;
     }
     if (itemLabel === "Exams") {
@@ -763,7 +769,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/simulators/clinical-skills")}>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/clinical-skills")}>
                 <Stethoscope className="w-4 h-4" /> {t("nav.clinicalSkillsSim")}
               </Button>
             </SheetClose>
@@ -1118,7 +1124,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 p-2">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("nav.clinicalSimulators")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/simulators/osce")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/osce-skills")}>
                     <Stethoscope className="w-4 h-4 text-primary/70" />
                     {t("nav.simulators")}
                   </DropdownMenuItem>
@@ -1126,7 +1132,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     <Stethoscope className="w-4 h-4 text-primary/70" />
                     {t("nav.caseSimulations")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/simulators/clinical-skills")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/clinical-skills")}>
                     <Activity className="w-4 h-4 text-primary/70" />
                     {t("nav.clinicalSkillsSim")}
                   </DropdownMenuItem>

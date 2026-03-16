@@ -198,7 +198,9 @@ export function AlliedRoutes() {
         <Route path="/allied-health/faq" component={AlliedHealthFAQPage} />
         <Route path="/allied-health/lessons" component={AlliedLessons} />
         <Route path="/allied-health/careers" component={CareerDirectory} />
-        <Route path="/pricing">{() => <Redirect to="/pricing/allied" />}</Route>
+        <Route path="/allied-health/pricing" component={AlliedPricing} />
+        <Route path="/pricing/allied" component={AlliedPricing} />
+        <Route path="/pricing" component={AlliedPricing} />
         <Route path="/allied-health/institutions/faq" component={AlliedInstitutionsFAQ} />
         <Route path="/allied-health/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
         <Route path="/allied-health/institutions" component={AlliedInstitutions} />
@@ -604,6 +606,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/pharmacy-tech/mock-exams">{() => <Redirect to="/allied-health/pharmacy-technician/mock-exams" />}</Route>
         <Route path="/allied-health/pharmacy-tech">{() => <Redirect to="/allied-health/pharmacy-technician" replace />}</Route>
         <Route path="/account">{() => <AlliedDashboard />}</Route>
+        <Route path="/profile">{() => <Redirect to="/account" />}</Route>
 
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />
         <Route path="/allied-health/:professionSlug" component={AlliedHealthProfessionPage} />

@@ -283,7 +283,7 @@ export function AlliedNavigation() {
             </button>
             {user ? (
               <div className="hidden sm:flex items-center gap-2">
-                <Link href="/account" className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors" data-testid="link-account">
+                <Link href="/profile" className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors" data-testid="link-account">
                   <User className="w-4 h-4" />
                   {user.username}
                 </Link>

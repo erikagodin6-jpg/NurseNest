@@ -32,13 +32,14 @@ export function AlliedFooter() {
               <li><Link href="/allied-health/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">Occupational Therapy</Link></li>
               <li><Link href="/allied-health/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">Physical Therapy</Link></li>
               <li><Link href="/allied-health/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">Social Work</Link></li>
+              <li><Link href="/allied-health/psychotherapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-psychotherapy">Psychotherapy</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Study Tools</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><Link href="/careers" className="hover:text-teal-600 transition-colors" data-testid="link-footer-careers">Career Directory</Link></li>
-              <li><Link href="/pricing" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pricing">Pricing</Link></li>
+              <li><Link href="/pricing/allied" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pricing">Pricing</Link></li>
             </ul>
           </div>
           <div>
