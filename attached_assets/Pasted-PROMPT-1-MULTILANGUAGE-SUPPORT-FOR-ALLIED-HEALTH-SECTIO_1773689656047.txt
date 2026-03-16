@@ -1,0 +1,188 @@
+PROMPT 1 — MULTILANGUAGE SUPPORT FOR ALLIED HEALTH SECTION (PRIORITY IMPLEMENTATION)
+
+You are updating the Allied Health sections of the NurseNest platform so they support the same multilingual infrastructure used on the main NurseNest nursing site.
+
+The goal is to ensure that Allied Health content can be studied in multiple languages while maintaining SEO structure, routing stability, and lesson integrity.
+
+CRITICAL RULES
+
+Do NOT modify the current navigation structure.
+Do NOT rename Allied Health profession pages.
+Do NOT break existing lesson URLs.
+Do NOT remove existing content.
+Do NOT change the learning architecture already used on NurseNest.
+
+The multilingual system must automatically apply to **all existing and future Allied Health pages**.
+
+---
+
+LANGUAGE IMPLEMENTATION PRIORITY
+
+Languages must be implemented in the following order:
+
+Priority 1
+French (fr)
+Spanish (es)
+
+Priority 2
+Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+
+Priority 3
+Japanese (ja)
+Korean (ko)
+Hindi (hi)
+
+Priority 4
+Urdu (ur)
+Vietnamese (vi)
+Persian (fa)
+Punjabi (pa)
+Haitian Creole (ht)
+
+The system must automatically include any future languages added to NurseNest.
+
+---
+
+STEP 1 — CREATE LANGUAGE ROUTING FOR ALLIED HEALTH
+
+Each Allied Health page must exist in every supported language folder.
+
+Example structure:
+
+/en/allied-health/radiologic-technologist
+/fr/allied-health/radiologic-technologist
+/es/allied-health/radiologic-technologist
+/pt/allied-health/radiologic-technologist
+/zh/allied-health/radiologic-technologist
+
+Ensure routing preserves the same page when users change languages.
+
+---
+
+STEP 2 — TRANSLATE ALL ALLIED HEALTH LESSON CONTENT
+
+Translate the following for each Allied Health profession:
+
+Lesson titles
+Lesson body content
+Headings
+Clinical examples
+Study tips
+Practice questions
+Answer explanations
+
+All translations must maintain medical accuracy.
+
+---
+
+STEP 3 — TRANSLATE PRACTICE QUESTION BANKS
+
+Each Allied Health test bank must support multilingual questions.
+
+Translate:
+
+Question text
+Answer choices
+Correct answers
+Detailed explanations
+
+Ensure explanations remain clinically accurate.
+
+---
+
+STEP 4 — TRANSLATE HERO SECTIONS
+
+Hero sections for Allied Health professions must display translated study statistics.
+
+Example:
+
+English
+
+120+ Lessons
+300+ Practice Questions
+10+ Study Topics
+
+French
+
+120+ Leçons
+300+ Questions pratiques
+10+ Sujets d'étude
+
+Spanish
+
+120+ Lecciones
+300+ Preguntas de práctica
+10+ Temas de estudio
+
+---
+
+STEP 5 — IMPLEMENT HREFLANG TAGS
+
+All Allied Health pages must include hreflang tags linking all language versions.
+
+Example:
+
+hreflang="en"
+hreflang="fr"
+hreflang="es"
+hreflang="pt"
+hreflang="zh"
+
+Ensure tags are dynamically generated.
+
+---
+
+STEP 6 — ADD LANGUAGE SWITCHER
+
+The language switcher must keep users on the same Allied Health page.
+
+Example:
+
+/en/allied-health/sonography
+
+Switch language to Spanish:
+
+/es/allied-health/sonography
+
+---
+
+STEP 7 — UPDATE SITEMAPS
+
+Ensure the sitemap includes every language version of each Allied Health page.
+
+---
+
+STEP 8 — ENSURE SEO METADATA IS TRANSLATED
+
+Translate page titles and meta descriptions.
+
+Example:
+
+English
+Radiologic Technologist Study Guide | NurseNest
+
+French
+Guide d'étude technologue en radiologie | NurseNest
+
+Spanish
+Guía de estudio tecnólogo radiológico | NurseNest
+
+---
+
+STEP 9 — VERIFY FULL TRANSLATION COVERAGE
+
+Scan all Allied Health pages for:
+
+Untranslated headings
+English buttons
+Mixed-language paragraphs
+
+Automatically correct missing translations.
+
+---
+
+FINAL RESULT
+
+The Allied Health section must become a fully multilingual learning system that mirrors the capabilities of the main NurseNest nursing platform.

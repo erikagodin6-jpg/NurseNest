@@ -1,0 +1,140 @@
+PROMPT 2 — MULTILANGUAGE SUPPORT FOR NEW GRAD SECTION
+
+You are implementing full multilingual support for the NurseNest New Grad section.
+
+The New Grad area provides career transition guidance for nursing graduates and must support the same multilingual functionality used by the main NurseNest platform.
+
+CRITICAL RULES
+
+Do NOT modify the navigation structure.
+Do NOT rename New Grad pages.
+Do NOT remove any content.
+Do NOT break internal links.
+
+All multilingual features must work automatically for future content.
+
+---
+
+LANGUAGE IMPLEMENTATION PRIORITY
+
+Languages must be implemented in this order:
+
+Priority 1
+French (fr)
+Spanish (es)
+
+Priority 2
+Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+
+Priority 3
+Japanese (ja)
+Korean (ko)
+Hindi (hi)
+
+Priority 4
+Urdu (ur)
+Vietnamese (vi)
+Persian (fa)
+Punjabi (pa)
+Haitian Creole (ht)
+
+---
+
+STEP 1 — CREATE LANGUAGE ROUTING
+
+Each New Grad page must exist in all language folders.
+
+Example:
+
+/en/new-grad/interview-prep
+/fr/new-grad/interview-prep
+/es/new-grad/interview-prep
+/pt/new-grad/interview-prep
+/zh/new-grad/interview-prep
+
+Ensure language switching keeps the user on the same page.
+
+---
+
+STEP 2 — TRANSLATE NEW GRAD CONTENT
+
+Translate the following sections:
+
+Interview preparation guides
+Resume advice
+Job search tips
+Career transition articles
+Professional communication guides
+
+All translations must preserve professional tone and clarity.
+
+---
+
+STEP 3 — TRANSLATE HERO CONTENT
+
+The New Grad hero page must advertise resources in the selected language.
+
+Example:
+
+English
+
+Interview Preparation
+Resume Guides
+Job Search Strategies
+
+French
+
+Préparation aux entrevues
+Guides de CV
+Stratégies de recherche d'emploi
+
+Spanish
+
+Preparación para entrevistas
+Guías de currículum
+Estrategias de búsqueda de empleo
+
+---
+
+STEP 4 — IMPLEMENT HREFLANG TAGS
+
+Each page must include hreflang declarations linking all language versions.
+
+---
+
+STEP 5 — TRANSLATE METADATA
+
+Ensure all pages contain translated SEO metadata.
+
+Example:
+
+English
+New Grad Nursing Interview Preparation | NurseNest
+
+French
+Préparation aux entrevues infirmières débutant | NurseNest
+
+Spanish
+Preparación para entrevistas de enfermería recién graduados | NurseNest
+
+---
+
+STEP 6 — UPDATE SITEMAPS
+
+Ensure the sitemap includes translated New Grad pages for every language.
+
+---
+
+STEP 7 — VERIFY COMPLETE TRANSLATION
+
+Audit pages to ensure no English content remains when another language is selected.
+
+Automatically fix missing translations.
+
+---
+
+FINAL RESULT
+
+The New Grad section must become a fully multilingual career transition resource, allowing new nurses worldwide to access guidance in their preferred language.
