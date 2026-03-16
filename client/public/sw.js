@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nursenest-v4';
+const CACHE_NAME = 'nursenest-v5';
 const STATIC_ASSETS = [
   '/favicon.svg',
   '/favicon.gif',
@@ -54,6 +54,10 @@ self.addEventListener('fetch', (event) => {
         });
       })
     );
+    return;
+  }
+
+  if (url.pathname.startsWith('/assets/')) {
     return;
   }
 

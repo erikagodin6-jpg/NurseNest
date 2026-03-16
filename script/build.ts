@@ -45,7 +45,6 @@ async function buildAll() {
   console.log("removing bundled assets served from object storage...");
   await rm("dist/public/videos", { recursive: true, force: true });
   await rm("dist/public/translations", { recursive: true, force: true });
-  await rm("dist/public/i18n", { recursive: true, force: true });
 
   console.log("building lessons data bundle...");
   await esbuild({
