@@ -520,6 +520,31 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Separator className="my-6 mx-3 bg-gray-100" />
             </div>
 
+            <div className="mb-4">
+              <p className="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-2 px-3">NP Exam Preparation</p>
+              <div className="flex flex-col gap-1 px-1">
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/exams")} data-testid="mobile-np-exam-hub">
+                    <GraduationCap className="w-4 h-4 text-purple-500" />
+                    NP Exam Hub
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/aanp-exam")} data-testid="mobile-np-aanp">
+                    <Award className="w-4 h-4 text-blue-500" />
+                    AANP Exam
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/ancc-exam")} data-testid="mobile-np-ancc">
+                    <Award className="w-4 h-4 text-indigo-500" />
+                    ANCC Exam
+                  </Button>
+                </SheetClose>
+              </div>
+              <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
+            </div>
+
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.freeLearning")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/pre-nursing")}>

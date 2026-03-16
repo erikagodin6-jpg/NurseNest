@@ -156,6 +156,10 @@ const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboa
 const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
+const NpExamHubPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.NpExamHubPage })));
+const AanpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AanpExamPage })));
+const AnccExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AnccExamPage })));
+const UpcomingCanadaNpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.UpcomingCanadaNpExamPage })));
 const ShopPage = lazy(() => import("@/pages/shop"));
 const ShopProductPage = lazy(() => import("@/pages/shop-product"));
 const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
@@ -642,6 +646,10 @@ function AppRoutes() {
         <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
         <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
         <Route path="/rn/questions">{() => <NursingQuestionsIndexPage tier="rn" />}</Route>
+        <Route path="/np/exams" component={NpExamHubPage} />
+        <Route path="/np/aanp-exam" component={AanpExamPage} />
+        <Route path="/np/ancc-exam" component={AnccExamPage} />
+        <Route path="/np/upcoming-canada-np-exam" component={UpcomingCanadaNpExamPage} />
         <Route path="/np/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="np" />}</Route>
         <Route path="/np/questions">{() => <NursingQuestionsIndexPage tier="np" />}</Route>
         <Route path="/career-journey/:slug" component={ProfessionCareerJourney} />
