@@ -1,0 +1,330 @@
+Build a complete NCLEX curriculum map for a nursing education platform.
+
+Generate lesson topics for the following categories.
+
+Cardiovascular Diseases
+Coronary artery disease
+Acute coronary syndrome
+Stable angina
+Unstable angina
+Myocardial infarction
+Heart failure
+Left sided heart failure
+Right sided heart failure
+Cardiogenic shock
+Hypertension
+Hypertensive crisis
+Hypertensive encephalopathy
+Peripheral artery disease
+Deep vein thrombosis
+Pulmonary embolism
+Atrial fibrillation
+Atrial flutter
+Ventricular tachycardia
+Ventricular fibrillation
+Heart block
+Cardiac tamponade
+Pericarditis
+Endocarditis
+Myocarditis
+Rheumatic heart disease
+Valvular heart disease
+Mitral stenosis
+Mitral regurgitation
+Aortic stenosis
+Aortic regurgitation
+Abdominal aortic aneurysm
+Thoracic aortic aneurysm
+
+Respiratory Diseases
+Asthma
+Status asthmaticus
+Chronic obstructive pulmonary disease
+Chronic bronchitis
+Emphysema
+Pneumonia
+Aspiration pneumonia
+Tuberculosis
+Pulmonary edema
+Pulmonary hypertension
+Acute respiratory distress syndrome
+Pneumothorax
+Tension pneumothorax
+Hemothorax
+Pleural effusion
+Bronchiolitis
+Respiratory syncytial virus infection
+Cystic fibrosis
+
+Neurologic Disorders
+Stroke ischemic
+Stroke hemorrhagic
+Transient ischemic attack
+Seizure disorders
+Status epilepticus
+Epilepsy
+Meningitis
+Encephalitis
+Parkinson disease
+Multiple sclerosis
+Myasthenia gravis
+Guillain barre syndrome
+Huntington disease
+Alzheimer disease
+Dementia
+Increased intracranial pressure
+Brain tumor
+Spinal cord injury
+Cauda equina syndrome
+
+Endocrine Disorders
+Diabetes mellitus type 1
+Diabetes mellitus type 2
+Diabetic ketoacidosis
+Hyperosmolar hyperglycemic syndrome
+Hypoglycemia
+Hyperthyroidism
+Graves disease
+Hypothyroidism
+Hashimoto thyroiditis
+Thyroid storm
+Myxedema coma
+Cushing syndrome
+Addison disease
+Hyperparathyroidism
+Hypoparathyroidism
+
+Renal Disorders
+Acute kidney injury
+Chronic kidney disease
+Nephrotic syndrome
+Nephritic syndrome
+Glomerulonephritis
+Acute poststreptococcal glomerulonephritis
+Polycystic kidney disease
+Pyelonephritis
+Renal calculi
+Urinary tract infection
+
+Gastrointestinal Diseases
+Gastroesophageal reflux disease
+Peptic ulcer disease
+Gastritis
+Hiatal hernia
+Appendicitis
+Peritonitis
+Bowel obstruction
+Paralytic ileus
+Crohn disease
+Ulcerative colitis
+Diverticulitis
+Cholelithiasis
+Cholecystitis
+Pancreatitis
+Cirrhosis
+Hepatitis A
+Hepatitis B
+Hepatitis C
+Hepatic encephalopathy
+
+Hematologic Disorders
+Iron deficiency anemia
+Pernicious anemia
+Aplastic anemia
+Hemolytic anemia
+Sickle cell disease
+Thalassemia
+Leukemia
+Lymphoma
+Multiple myeloma
+Disseminated intravascular coagulation
+Hemophilia
+Thrombocytopenia
+
+Infectious Diseases
+Sepsis
+Septic shock
+MRSA infection
+Clostridium difficile infection
+Mononucleosis
+HIV infection
+AIDS
+Syphilis
+Gonorrhea
+Chlamydia
+Pelvic inflammatory disease
+
+Obstetric Conditions
+Preeclampsia
+Eclampsia
+Placenta previa
+Placental abruption
+Ectopic pregnancy
+Gestational diabetes
+Hyperemesis gravidarum
+Preterm labor
+Postpartum hemorrhage
+
+Neonatal Conditions
+Neonatal abstinence syndrome
+Neonatal hypoglycemia
+Respiratory distress syndrome
+Hyperbilirubinemia
+Kernicterus
+
+Pediatric Disorders
+Kawasaki disease
+Tetralogy of fallot
+Ventricular septal defect
+Intussusception
+Pyloric stenosis
+Hirschsprung disease
+Cerebral palsy
+
+Psychiatric Disorders
+Major depressive disorder
+Bipolar disorder
+Schizophrenia
+Generalized anxiety disorder
+Panic disorder
+Obsessive compulsive disorder
+Post traumatic stress disorder
+Substance use disorder
+
+Medications
+ACE inhibitors
+Angiotensin receptor blockers
+Beta blockers
+Calcium channel blockers
+Diuretics
+Loop diuretics
+Thiazide diuretics
+Potassium sparing diuretics
+Anticoagulants
+Antiplatelet drugs
+Thrombolytics
+Antibiotics
+Antifungals
+Antivirals
+Anticonvulsants
+Antipsychotics
+Antidepressants
+Mood stabilizers
+Bronchodilators
+Corticosteroids
+Insulin
+Oral antidiabetic drugs
+Thyroid medications
+Opioid analgesics
+Non opioid analgesics
+Antiemetics
+Laxatives
+Antacids
+Proton pump inhibitors
+H2 receptor blockers
+
+Herbs and Natural Supplements
+Ginkgo biloba
+Ginseng
+Garlic supplements
+St johns wort
+Echinacea
+Valerian root
+Kava
+Saw palmetto
+Turmeric
+Omega 3 fatty acids
+Vitamin A
+Vitamin B complex
+Vitamin B12
+Vitamin C
+Vitamin D
+Vitamin E
+Vitamin K
+Iron
+Calcium
+Magnesium
+Zinc
+Folic acid
+
+Therapeutic Diets
+Low sodium diet
+Cardiac diet
+Renal diet
+Diabetic diet
+Low fat diet
+High protein diet
+Gluten free diet
+Clear liquid diet
+Full liquid diet
+DASH diet
+Ketogenic diet
+
+Complications
+Shock
+Hypovolemic shock
+Septic shock
+Cardiogenic shock
+Anaphylactic shock
+Respiratory failure
+Acute kidney injury
+Electrolyte imbalance
+Hyperkalemia
+Hypokalemia
+Hyponatremia
+Hypernatremia
+Hypocalcemia
+Hypercalcemia
+Metabolic acidosis
+Metabolic alkalosis
+Respiratory acidosis
+Respiratory alkalosis
+
+Diagnostic Tests
+Complete blood count
+Basic metabolic panel
+Arterial blood gas
+Coagulation studies
+PT
+INR
+aPTT
+Cardiac enzymes
+Troponin
+BNP
+Urinalysis
+Chest x ray
+CT scan
+MRI
+Ultrasound
+Echocardiogram
+
+Nursing Procedures
+Central line care
+Chest tube management
+Mechanical ventilation
+Tracheostomy care
+Wound care
+Negative pressure wound therapy
+Sterile field preparation
+Medication administration
+Intravenous therapy
+Nasogastric tube insertion
+Enteral feeding
+Urinary catheterization
+Suture removal
+Staple removal
+Seizure precautions
+Fall prevention
+Pressure injury prevention
+
+Patient Safety
+Infection control
+Standard precautions
+Contact precautions
+Droplet precautions
+Airborne precautions
+Medication safety
+High alert medications
+Medication reconciliation
+Patient education
+Discharge planning

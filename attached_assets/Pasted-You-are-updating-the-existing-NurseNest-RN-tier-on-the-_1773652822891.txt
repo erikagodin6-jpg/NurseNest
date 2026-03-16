@@ -1,0 +1,161 @@
+You are updating the existing NurseNest RN tier on the published site.
+
+Your task is to create and wire in COMPLETE RN lessons only within the CURRENT existing lesson/category structure. Do not create a new menu, do not create a parallel navigation system, and do not modify the existing tier navigation that already works. Use only the current RN lesson categories that already exist in the database and navigation.
+
+CRITICAL REQUIREMENTS
+
+1. Do NOT create duplicate lessons.
+   Before creating any lesson, scan the entire RN lesson database, CMS, content folders, and routes to determine whether a lesson already exists for that disease, medication, condition, or concept.
+
+2. If a lesson already exists:
+
+* Do NOT create a second version
+* Update or expand the existing lesson instead
+* Fill in missing sections so the lesson becomes comprehensive
+* Ensure the slug, ID, and internal references remain unchanged
+
+3. If a lesson partially exists:
+
+* Complete the missing sections
+* Fix formatting
+* Ensure it is fully functional
+* Do not create a duplicate page
+
+4. Only create a new lesson if absolutely no lesson exists for that topic.
+
+5. Never publish or expose a lesson route until the lesson is fully complete and all associated learning assets exist.
+
+NO 404 ERRORS POLICY
+
+A lesson must NOT appear in navigation, sitemaps, or lesson lists until ALL of the following exist:
+
+* Lesson page content
+* Images or diagrams if required
+* Practice questions
+* Test bank questions
+* CAT exam question entries
+* Practice exam question entries
+* Flashcards if supported by the system
+* Metadata and SEO fields
+
+If any component is missing, keep the lesson in a draft/unpublished state.
+
+LESSON STRUCTURE (RN TIER)
+
+Each RN lesson must include:
+
+Title
+Overview
+Detailed pathophysiology
+Etiology and risk factors
+Signs and symptoms
+Assessment findings
+Diagnostic tests and lab values
+Medical management
+Pharmacologic management (with drug mechanisms)
+Nursing interventions
+Priority NCLEX nursing considerations
+Complications
+Patient education
+Prevention strategies
+Clinical pearls for exam questions
+
+MEDICATION LESSON REQUIREMENTS
+
+For medication topics include:
+
+Drug class
+Mechanism of action
+Indications
+Contraindications
+Side effects
+Serious adverse effects
+Nursing considerations
+Monitoring parameters
+Drug interactions
+Herbal interactions
+Food interactions
+NCLEX exam tips
+
+ASSESSMENT CONTENT
+
+Once a lesson is fully complete, automatically generate:
+
+Practice Questions
+
+* 10–15 NCLEX style questions
+* Multiple choice
+* Select all that apply
+* Priority questions
+* Rationales for every option
+
+Test Bank Questions
+
+* 25–40 exam quality questions
+* Difficulty tiers: easy, moderate, hard
+* Tagged by topic and body system
+
+CAT Exam Integration
+
+* Add questions to the CAT exam pool
+* Tag by:
+
+  * RN tier
+  * Body system
+  * Disease/medication topic
+  * Difficulty level
+
+Practice Exam Integration
+
+* Add questions to RN practice exam pools
+* Ensure question diversity and no duplicates
+
+QUESTION RULES
+
+* Do NOT create duplicate questions
+* Check the entire question database before generating new ones
+* If a similar question exists, rewrite it with a different scenario
+* Ensure realistic NCLEX-style clinical scenarios
+
+CONTENT QUALITY RULES
+
+Lessons must be:
+
+* Evidence based
+* Detailed enough for RN level
+* Written clearly for exam preparation
+* Free of placeholder text
+* Fully formatted
+* Mobile friendly
+* Consistent with the NurseNest style
+
+NAVIGATION RULES
+
+* Do not alter the existing RN lesson menu
+* Do not create new navigation items
+* Place lessons only in existing categories
+* Maintain the current routing structure
+
+DEPLOYMENT RULE
+
+After completing each lesson:
+
+1. Validate the page renders correctly
+2. Validate no 404 routes exist
+3. Confirm the lesson is linked to the proper category
+4. Confirm questions are loaded into the test bank and exams
+5. Only then mark the lesson as published
+
+FINAL CHECK
+
+Run a full scan for:
+
+* Duplicate lessons
+* Duplicate question entries
+* Broken routes
+* Empty lesson pages
+* Missing exam content
+
+Fix any issues before exposing the lesson to users.
+
+The goal is to expand the RN tier with comprehensive, exam-ready lessons while preventing duplicates, incomplete content, and broken links.

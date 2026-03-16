@@ -1,0 +1,149 @@
+You are updating the existing NurseNest RN tier on the published site.
+
+Your task is to create and wire in COMPLETE RN lessons only within the CURRENT existing lesson/category structure. Do not create a new menu, do not create a parallel navigation system, and do not modify the existing tier navigation that already works. Use only the current RN lesson categories that already exist in the database and navigation.
+
+LESSON CREATION BATCH RULE
+
+Create lessons in batches of FIVE only.
+
+Each batch must include:
+• 5 complete RN lessons
+• Practice questions for each lesson
+• Test bank questions
+• CAT exam question entries
+• Practice exam question entries
+
+After completing a batch of five lessons:
+
+1. Stop automatically creating more lessons
+2. Present the completed batch for review
+3. Wait for manual confirmation before proceeding with the next batch
+
+This allows the administrator to review and publish lessons gradually.
+
+CRITICAL REQUIREMENTS
+
+1. Do NOT create duplicate lessons.
+
+Before creating any lesson, scan the entire RN lesson database, CMS, content folders, and routes to determine whether a lesson already exists for that disease, medication, condition, or concept.
+
+2. If a lesson already exists:
+   • Do NOT create a second version
+   • Expand and complete the existing lesson instead
+   • Preserve the original slug and route
+
+3. If a lesson partially exists:
+   • Complete missing sections
+   • Improve content quality
+   • Ensure the page is fully functional
+
+4. Only create a new lesson if absolutely no lesson exists.
+
+NO 404 ERROR POLICY
+
+A lesson must NOT appear in navigation or lesson lists until ALL required components exist.
+
+Do not publish or expose the lesson route until these are complete:
+
+• Lesson content
+• Images or diagrams if needed
+• Practice questions
+• Test bank questions
+• CAT exam entries
+• Practice exam entries
+• Metadata and SEO fields
+
+If anything is missing, keep the lesson unpublished.
+
+LESSON STRUCTURE (RN TIER)
+
+Each lesson must contain:
+
+Title
+Overview
+Pathophysiology
+Risk factors
+Signs and symptoms
+Assessment findings
+Diagnostic tests and labs
+Medical management
+Pharmacologic management
+Nursing interventions
+Priority nursing considerations
+Complications
+Patient education
+Prevention
+NCLEX exam pearls
+
+MEDICATION LESSON STRUCTURE
+
+For medication topics include:
+
+Drug class
+Mechanism of action
+Indications
+Contraindications
+Side effects
+Serious adverse reactions
+Nursing considerations
+Monitoring parameters
+Drug interactions
+Herbal interactions
+Food interactions
+NCLEX exam tips
+
+QUESTION GENERATION
+
+For each lesson create:
+
+Practice Questions
+• 10–15 NCLEX-style questions
+• Include multiple choice and select-all-that-apply
+• Include rationales for every option
+
+Test Bank Questions
+• 25–40 questions
+• Tag difficulty: easy, moderate, hard
+• Tag body system and topic
+
+CAT Exam Integration
+• Add questions to CAT pool
+• Tag by RN tier and difficulty
+
+Practice Exam Integration
+• Add questions to RN practice exam pools
+
+QUESTION RULES
+
+Before generating new questions:
+
+Scan the existing question database to prevent duplicates.
+
+If a similar question already exists:
+• Rewrite it with a new clinical scenario
+• Ensure it is not identical
+
+NAVIGATION RULES
+
+• Do NOT modify the RN menu
+• Do NOT add new navigation structures
+• Only place lessons in existing RN lesson categories
+• Maintain current routes and URLs
+
+DEPLOYMENT PROCESS
+
+For each batch of five lessons:
+
+1. Validate all five lesson pages render correctly
+2. Confirm no duplicate lessons exist
+3. Confirm all questions were added to test banks and exams
+4. Ensure no broken routes or 404 pages exist
+5. Mark lessons as READY FOR ADMIN REVIEW
+
+Do not automatically publish them.
+
+Wait for admin approval before continuing to the next batch.
+
+FINAL OBJECTIVE
+
+Gradually expand the RN tier with comprehensive lessons, full exam content, and zero duplicates while maintaining the current navigation and preventing incomplete or broken pages.
