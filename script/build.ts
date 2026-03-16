@@ -168,6 +168,7 @@ async function buildAll() {
     buildNpBatch(4),
     buildNpBatch(5),
     buildNpBatch(6),
+    buildNpBatch(7),
     copySeedData(),
   ]);
 

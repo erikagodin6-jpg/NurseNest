@@ -1007,7 +1007,8 @@ export async function loadNpGeneratedBatches(): Promise<void> {
     import("./np-generated-batch-4"),
     import("./np-generated-batch-5"),
     import("./np-generated-batch-6"),
-  ]).then(([b1, b2, b3, b4, b5, b6]) => {
+    import("./np-generated-batch-7"),
+  ]).then(([b1, b2, b3, b4, b5, b6, b7]) => {
     safeMerge(
       contentMap,
       b1.npGeneratedBatch1,
@@ -1016,6 +1017,7 @@ export async function loadNpGeneratedBatches(): Promise<void> {
       b4.npGeneratedBatch4,
       b5.npGeneratedBatch5,
       b6.npGeneratedBatch6,
+      b7.npGeneratedBatch7,
     );
     npBatchesLoaded = true;
   });
