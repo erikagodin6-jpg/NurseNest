@@ -605,6 +605,7 @@ const enTranslations: Record<string, string> = {
     "footer.contact": "Contact",
     "footer.disclaimer": "Disclaimer",
     "footer.ecosystem": "Ecosystem",
+    "footer.educationEcosystem": "Education Ecosystem",
     "footer.ecosystemCareers": "Healthcare Careers",
     "footer.ecosystemExamPrep": "Exam Prep",
     "footer.ecosystemNewGrad": "New Grad Support",

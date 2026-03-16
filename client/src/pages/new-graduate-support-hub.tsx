@@ -212,6 +212,12 @@ export default function NewGraduateSupportHub() {
           </div>
         </section>
 
+        <div className="mb-12">
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Looking to advance your career with graduate program applications or professional scholarships? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-600 font-medium hover:underline" data-testid="link-applynest-newgrad-support">ApplyNest provides application preparation and scholarship discovery tools</a> designed for healthcare professionals.
+          </p>
+        </div>
+
         <section className="mb-12" data-testid="section-cross-links">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Explore More</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

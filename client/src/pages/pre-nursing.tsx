@@ -1552,6 +1552,12 @@ export default function PreNursingPage() {
             </div>
           </section>
 
+          <div className="mt-12 pt-6 border-t border-gray-100">
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Planning to apply to a nursing or healthcare program? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline" data-testid="link-applynest-prenursing">ApplyNest offers admissions preparation tools and scholarship resources</a> to help you take the next step in your healthcare education journey.
+            </p>
+          </div>
+
           <div className="mt-12 pt-6 border-t border-gray-100" data-testid="section-continue-journey">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Continue Your Journey</p>
             <div className="flex flex-wrap gap-2">

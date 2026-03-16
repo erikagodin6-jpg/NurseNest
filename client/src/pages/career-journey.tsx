@@ -223,6 +223,14 @@ function JourneyPageContent({ journey, isGeneric }: { journey: JourneyConfig; is
         </div>
       </section>
 
+      <section className="py-10 sm:py-12 bg-white" data-testid="section-applynest-link">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Ready to apply? From program applications to scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-medium hover:underline" data-testid="link-applynest-career-journey">ApplyNest has the tools to support your healthcare career application process</a>.
+          </p>
+        </div>
+      </section>
+
       <section className="py-12 sm:py-16 bg-gradient-to-br from-[#2E3A59] to-[#1a2236]" data-testid="section-journey-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">

@@ -690,6 +690,15 @@ export default function ContentPage() {
 
   const isBlogType = ["blog", "blog-post", "article"].includes(contentItem!.type || "");
 
+  const APPLYNEST_CATEGORIES = ["nursing-education", "career-entry", "admissions", "scholarships"];
+  const APPLYNEST_PHRASES = ["admissions", "admission", "scholarship", "scholarships", "career entry", "personal statement", "personal statements", "program application", "career transition", "new grad career", "new graduate career", "career launch", "nursing school application", "healthcare program application"];
+  const articleCategory = (contentItem!.category || "").toLowerCase();
+  const articleTagText = (tags || []).map(t => t.toLowerCase()).join(" ");
+  const articleFullText = `${contentItem!.title} ${contentItem!.summary || ""} ${contentBlocks.map(b => b.content || "").join(" ")}`.toLowerCase();
+  const categoryMatch = APPLYNEST_CATEGORIES.includes(articleCategory);
+  const phraseMatch = APPLYNEST_PHRASES.some(kw => articleTagText.includes(kw) || articleFullText.includes(kw));
+  const showApplyNestBacklink = isBlogType && (categoryMatch || phraseMatch);
+
   const wordCount = contentBlocks.reduce((acc, block) => acc + (block.content || "").split(/\s+/).length, 0);
 
   const structuredData = isBlogType
@@ -862,6 +871,14 @@ export default function ContentPage() {
               <ContentBlockRenderer key={index} block={block} />
             ))}
           </section>
+
+          {showApplyNestBacklink && (
+            <div className="mt-8 p-5 bg-purple-50/50 border border-purple-100 rounded-xl" data-testid="section-applynest-backlink">
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Exploring applications, scholarships, or career preparation? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-blog-article">ApplyNest provides healthcare program application tools and resources</a> to help you navigate the next step in your career.
+              </p>
+            </div>
+          )}
 
           {tags.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-tags">

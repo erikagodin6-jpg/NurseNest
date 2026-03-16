@@ -418,6 +418,12 @@ export default function HealthcareCareersHub() {
           </div>
         </section>
 
+        <div className="mb-12">
+          <p className="text-sm text-slate-600 leading-relaxed">
+            If you're exploring healthcare career options and need help with program applications or scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-careers">visit ApplyNest for healthcare application and career tools</a>.
+          </p>
+        </div>
+
         <section className="mb-12" data-testid="section-careers-faq">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
           <div className="space-y-4">
