@@ -52,9 +52,12 @@ export default function ClinicalReferencesPage() {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-clinical-ref-title">
               Clinical Reference Guides for New Graduates
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed" data-testid="text-clinical-ref-subtitle">
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6" data-testid="text-clinical-ref-subtitle">
               High-acuity clinical reference content designed to bridge the gap between nursing school and bedside practice. Each guide includes key concepts, clinical pearls, red flags, exam tips, and flashcards.
             </p>
+            <Link href="/newgrad/survival-guide" className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors text-sm shadow-lg shadow-emerald-200" data-testid="button-survival-guide">
+              <BookOpen className="w-4 h-4" /> View Survival Guide
+            </Link>
           </div>
         </div>
       </section>

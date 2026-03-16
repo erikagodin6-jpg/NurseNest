@@ -4,7 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { getClinicalReferenceBySlug, type ClinicalReferenceLesson, type ClinicalFlashcard } from "@/data/newgrad/clinical-reference-content";
+import { getClinicalReferenceBySlug, getClinicalReferenceBySlugList, getCategoryInfo, type ClinicalReferenceLesson, type ClinicalFlashcard } from "@/data/newgrad/clinical-reference-content";
 import {
   ArrowRight, BookOpen, Thermometer, Droplets, HeartPulse, Monitor,
   HeartCrack, Calculator, ArrowLeftRight, AlertTriangle, Lightbulb,
@@ -197,12 +197,19 @@ export default function ClinicalReferenceDetail() {
                 <li><a href="#clinical-pearls" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Clinical Pearls</a></li>
                 <li><a href="#red-flags" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Red Flags</a></li>
                 <li><a href="#exam-tips" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Exam Tips</a></li>
+                <li><a href="#quick-reference" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Quick Reference</a></li>
                 <li><a href="#flashcards" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Flashcards</a></li>
+                <li><a href="#related-lessons" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Related Lessons</a></li>
               </ul>
-              <div className="mt-4 pt-4 border-t">
+              <div className="mt-4 pt-4 border-t space-y-2">
                 <Link href="/newgrad/clinical-references">
                   <span className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1 cursor-pointer">
                     <ArrowRight className="w-3 h-3 rotate-180" /> All Clinical References
+                  </span>
+                </Link>
+                <Link href="/newgrad/survival-guide">
+                  <span className="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer">
+                    <BookOpen className="w-3 h-3" /> Survival Guide
                   </span>
                 </Link>
               </div>
@@ -298,6 +305,25 @@ export default function ClinicalReferenceDetail() {
               </div>
             </section>
 
+            {lesson.quickReferenceSummary && lesson.quickReferenceSummary.length > 0 && (
+              <section id="quick-reference" className="mb-10 scroll-mt-24" data-testid="section-quick-reference">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
+                  <BookOpen className="w-5 h-5" style={{ color: lesson.color }} /> Quick Reference Summary
+                </h2>
+                <div className="rounded-xl border-2 p-5" style={{ borderColor: lesson.color + "30", backgroundColor: lesson.color + "08" }} data-testid="box-quick-reference">
+                  <ul className="space-y-2.5">
+                    {lesson.quickReferenceSummary.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm" data-testid={`quick-ref-${i}`}>
+                        <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: lesson.color }} />
+                        <span className="text-gray-800 font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            )}
+
             <section id="flashcards" className="mb-10 scroll-mt-24" data-testid="section-flashcards">
               <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
@@ -305,6 +331,48 @@ export default function ClinicalReferenceDetail() {
               </h2>
               <FlashcardDeck flashcards={lesson.flashcards} color={lesson.color} />
             </section>
+
+            {lesson.relatedLessons && lesson.relatedLessons.length > 0 && (() => {
+              const related = getClinicalReferenceBySlugList(lesson.relatedLessons || []);
+              const categoryInfo = lesson.survivalCategory ? getCategoryInfo(lesson.survivalCategory) : null;
+              return related.length > 0 ? (
+                <section id="related-lessons" className="mb-10 scroll-mt-24" data-testid="section-related-lessons">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                    <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
+                    Related Lessons
+                    {categoryInfo && (
+                      <Badge variant="outline" className="text-[10px] ml-1" style={{ borderColor: categoryInfo.color + "40", color: categoryInfo.color }}>
+                        {categoryInfo.title}
+                      </Badge>
+                    )}
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {related.map((rel) => {
+                      const RelIcon = ICON_MAP[rel.icon] || BookOpen;
+                      return (
+                        <Link key={rel.slug} href={`/newgrad/clinical-references/${rel.slug}`} className="group" data-testid={`link-related-${rel.slug}`}>
+                          <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all">
+                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: rel.color + "15" }}>
+                              <RelIcon className="w-4.5 h-4.5" style={{ color: rel.color }} />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <span className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 block truncate">{rel.title}</span>
+                              <span className="text-xs text-gray-500">{rel.flashcards.length} flashcards</span>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 shrink-0" />
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-3">
+                    <Link href="/newgrad/survival-guide" className="text-sm text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-1" data-testid="link-survival-guide-from-detail">
+                      View all categories in the Survival Guide <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </section>
+              ) : null;
+            })()}
 
             <section className="mb-10" data-testid="section-lesson-cta">
               <div className="rounded-2xl p-8 text-center" style={{ backgroundColor: lesson.color }}>

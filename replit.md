@@ -25,7 +25,7 @@ Key systems:
 - **Content & SEO**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and an SEO Content Expansion System.
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center provides adaptive user guidance. A Global Report a Problem System allows users to report issues.
 - **Multi-Profession Support**: A dynamic Multi-Profession Framework allows configuration of new healthcare professions, including specific navigation and content for Allied Health careers.
-- **New Grad Resources**: Dedicated hubs for New Grad Certifications and Clinical References with detailed content and interactive elements.
+- **New Grad Resources**: Dedicated hubs for New Grad Certifications and Clinical References with detailed content and interactive elements. Includes a "New Grad Survival Guide" landing page (`/newgrad/survival-guide`) organizing content into 4 categories (Clinical Emergencies, Shift Survival, Communication & Documentation, Professional Growth). Clinical reference lessons include quick reference summary boxes, related lesson links, and category assignments.
 - **Database Safety & Management**: PostgreSQL with Drizzle ORM, supported by an EnvironmentAwareContentWriteService.
 - **Business & Analytics**: Content Analytics Engine, Admin Dashboard, SEO Performance & Growth Dashboard, Content Coverage Analyzer, Automated Content Growth Engine, and a Business Health & Subscriber Dashboard.
 - **Offline Capabilities**: An IndexedDB-based Offline Study System for question packs and flashcards.

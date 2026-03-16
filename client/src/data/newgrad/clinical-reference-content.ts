@@ -5,6 +5,12 @@ export interface ClinicalFlashcard {
   category: string;
 }
 
+export type SurvivalGuideCategory =
+  | "clinical-emergencies"
+  | "shift-survival"
+  | "communication-documentation"
+  | "professional-growth";
+
 export interface ClinicalReferenceLesson {
   slug: string;
   title: string;
@@ -21,7 +27,54 @@ export interface ClinicalReferenceLesson {
   metaTitle: string;
   metaDescription: string;
   keywords: string;
+  survivalCategory: SurvivalGuideCategory;
+  relatedLessons: string[];
+  quickReferenceSummary: string[];
 }
+
+export interface SurvivalGuideCategoryInfo {
+  id: SurvivalGuideCategory;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+  colorAccent: string;
+}
+
+export const SURVIVAL_GUIDE_CATEGORIES: SurvivalGuideCategoryInfo[] = [
+  {
+    id: "clinical-emergencies",
+    title: "Clinical Emergencies",
+    description: "Recognize and respond to life-threatening conditions including sepsis, DKA, hemorrhage, acute deterioration, rapid response situations, and cardiac emergencies.",
+    icon: "AlertTriangle",
+    color: "#DC2626",
+    colorAccent: "#FEE2E2",
+  },
+  {
+    id: "shift-survival",
+    title: "Shift Survival",
+    description: "Master the practical skills you need every shift: organization systems, report preparation, prioritization frameworks, medication calculations, and managing multiple patients.",
+    icon: "Clock",
+    color: "#2563EB",
+    colorAccent: "#DBEAFE",
+  },
+  {
+    id: "communication-documentation",
+    title: "Communication & Documentation",
+    description: "Build confidence in SBAR reporting, physician communication, clinical documentation, charting best practices, and safe handoff procedures.",
+    icon: "MessageSquare",
+    color: "#7C3AED",
+    colorAccent: "#EDE9FE",
+  },
+  {
+    id: "professional-growth",
+    title: "Professional Growth",
+    description: "Navigate workplace relationships, overcome difficult situations, ask for help effectively, prevent burnout, and maximize your learning during orientation.",
+    icon: "TrendingUp",
+    color: "#059669",
+    colorAccent: "#D1FAE5",
+  },
+];
 
 export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
   {
@@ -94,6 +147,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "Sepsis Recognition & Management for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference guide for new graduate nurses on sepsis recognition, qSOFA screening, the Surviving Sepsis 1-hour bundle, and evidence-based management. Includes flashcards.",
     keywords: "sepsis recognition, septic shock, qSOFA, surviving sepsis campaign, new grad nurse sepsis, lactate monitoring, sepsis bundle",
+    survivalCategory: "clinical-emergencies",
+    relatedLessons: ["dka", "hemorrhage-protocol", "cardiac-emergencies", "icu-monitoring"],
+    quickReferenceSummary: [
+      "qSOFA: RR ≥22, altered mentation, SBP ≤100 — score ≥2 warrants further evaluation",
+      "1-Hour Bundle: lactate, blood cultures, antibiotics, 30 mL/kg crystalloid, vasopressors for MAP <65",
+      "First-line vasopressor: Norepinephrine — target MAP ≥65 mmHg",
+      "Lactate ≥4 mmol/L = severe tissue hypoperfusion — aggressive resuscitation needed",
+      "Each hour of antibiotic delay increases mortality by ~7.6%",
+    ],
   },
   {
     slug: "dka",
@@ -161,6 +223,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "DKA Assessment & Intervention for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on diabetic ketoacidosis management including fluid resuscitation, insulin protocols, potassium monitoring, and DKA resolution criteria.",
     keywords: "DKA management, diabetic ketoacidosis, insulin drip protocol, potassium monitoring, new grad nurse DKA, metabolic acidosis, anion gap",
+    survivalCategory: "clinical-emergencies",
+    relatedLessons: ["sepsis", "hemorrhage-protocol", "cardiac-emergencies", "icu-monitoring"],
+    quickReferenceSummary: [
+      "DKA triad: Hyperglycemia (>250 mg/dL), Acidosis (pH <7.30), Ketosis (positive ketones)",
+      "Management order: Fluids FIRST → Potassium check → THEN Insulin",
+      "HOLD insulin if K+ <3.3 mEq/L — replace potassium first (fatal arrhythmia risk)",
+      "Add D5 to fluids when glucose reaches ~200 mg/dL — prevent hypoglycemia, continue insulin",
+      "Resolution: pH >7.3, bicarb ≥15, anion gap ≤12 — not just glucose normalization",
+    ],
   },
   {
     slug: "hemorrhage-protocol",
@@ -228,6 +299,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "Massive Hemorrhage Protocol for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on massive transfusion protocols, hemorrhagic shock classification, the lethal triad, damage control resuscitation, and blood product management.",
     keywords: "massive hemorrhage protocol, massive transfusion, hemorrhagic shock, blood product administration, lethal triad, TXA, damage control resuscitation",
+    survivalCategory: "clinical-emergencies",
+    relatedLessons: ["sepsis", "dka", "cardiac-emergencies", "icu-monitoring"],
+    quickReferenceSummary: [
+      "Lethal Triad: Hypothermia + Acidosis + Coagulopathy — break this cycle",
+      "Blood product ratio: 1:1:1 (PRBC:FFP:Platelets) for balanced resuscitation",
+      "TXA: 1g IV over 10 min within 3 hours of injury — reduces mortality",
+      "Permissive hypotension: target SBP 80-90 mmHg until surgical control",
+      "Tachycardia is the earliest sign — hypotension is a LATE sign (30% volume loss)",
+    ],
   },
   {
     slug: "icu-monitoring",
@@ -298,6 +378,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "ICU Monitoring Essentials for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on ICU hemodynamic monitoring, ventilator basics, vasoactive drip titration, ABG interpretation, and critical care assessment parameters.",
     keywords: "ICU monitoring, hemodynamic values, ventilator basics, vasoactive drips, ABG interpretation, MAP, cardiac output, PEEP, new grad ICU nurse",
+    survivalCategory: "clinical-emergencies",
+    relatedLessons: ["sepsis", "cardiac-emergencies", "hemorrhage-protocol"],
+    quickReferenceSummary: [
+      "MAP target: ≥65 mmHg in ICU — calculate as (SBP + 2×DBP) / 3",
+      "ABG interpretation: pH → CO2 or HCO3 as primary cause → compensation → P/F ratio",
+      "Norepinephrine: first-line vasopressor, titrate to MAP goal",
+      "Ventilator: Tidal Volume 6-8 mL/kg IBW, PEEP prevents alveolar collapse",
+      "SvO2 60-80% = normal oxygen supply-demand balance",
+    ],
   },
   {
     slug: "cardiac-emergencies",
@@ -366,6 +455,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "Cardiac Emergency Response for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on STEMI recognition, ACLS cardiac arrest algorithms, arrhythmia identification, and code management with flashcards.",
     keywords: "cardiac emergency, STEMI, ACLS, cardiac arrest, arrhythmia recognition, code blue, new grad nurse cardiac, defibrillation, CPR",
+    survivalCategory: "clinical-emergencies",
+    relatedLessons: ["sepsis", "icu-monitoring", "hemorrhage-protocol"],
+    quickReferenceSummary: [
+      "STEMI: 12-lead ECG within 10 min, door-to-balloon target <90 min",
+      "VF/pVT: Shock first, then CPR — defibrillation is the definitive treatment",
+      "Asystole/PEA: CPR + Epinephrine 1 mg IV q3-5 min — NO shock",
+      "High-quality CPR: Rate 100-120/min, depth ≥2 inches, full recoil, minimize interruptions",
+      "H's and T's: Hypovolemia, Hypoxia, Hydrogen ion, Hypo/Hyperkalemia, Hypothermia; Tension pneumo, Tamponade, Toxins, Thrombosis PE, Thrombosis MI",
+    ],
   },
   {
     slug: "medication-calculations",
@@ -433,6 +531,15 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "Medication Calculation Review for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on medication calculations including weight-based dosing, drip rate formulas, dimensional analysis, and high-alert medication safety.",
     keywords: "medication calculation, weight-based dosing, drip rate calculation, dimensional analysis, high-alert medications, nursing math, IV rate calculation, new grad nurse",
+    survivalCategory: "shift-survival",
+    relatedLessons: ["clinical-handoff", "icu-monitoring"],
+    quickReferenceSummary: [
+      "Dimensional Analysis: set up units to cancel, leaving desired units — most reliable method",
+      "Drip Rate (mL/hr) = Total volume (mL) × gtt factor / Time (min)",
+      "Weight-based: always verify patient weight, use kg not lbs for drug calculations",
+      "High-alert meds: insulin, heparin, opioids, potassium — always double-check independently",
+      "When in doubt: pharmacist is your best resource — call before administering",
+    ],
   },
   {
     slug: "clinical-handoff",
@@ -501,9 +608,32 @@ export const CLINICAL_REFERENCE_LESSONS: ClinicalReferenceLesson[] = [
     metaTitle: "Clinical Handoff Practices for New Grad Nurses | NurseNest",
     metaDescription: "Clinical reference for new graduate nurses on SBAR, I-PASS, bedside shift report, and safe handoff practices with flashcards and evidence-based strategies.",
     keywords: "clinical handoff, SBAR, I-PASS, bedside shift report, nurse handoff, patient handover, communication in nursing, handoff safety, new grad nurse",
+    survivalCategory: "communication-documentation",
+    relatedLessons: ["medication-calculations", "icu-monitoring"],
+    quickReferenceSummary: [
+      "SBAR: Situation → Background → Assessment → Recommendation — use for every provider call",
+      "I-PASS: Illness severity → Patient summary → Action list → Situation awareness → Synthesis",
+      "Bedside report: verify IV sites, pump settings, O2 delivery, drains, and bed alarms together",
+      "Read-back: always repeat verbal orders — 'To confirm, you'd like [order]. Is that correct?'",
+      "CUS escalation: 'I'm Concerned' → 'I'm Uncomfortable' → 'This is a Safety issue'",
+    ],
   },
 ];
 
 export function getClinicalReferenceBySlug(slug: string): ClinicalReferenceLesson | undefined {
   return CLINICAL_REFERENCE_LESSONS.find(l => l.slug === slug);
+}
+
+export function getClinicalReferenceBySlugList(slugs: string[]): ClinicalReferenceLesson[] {
+  return slugs
+    .map(slug => CLINICAL_REFERENCE_LESSONS.find(l => l.slug === slug))
+    .filter((l): l is ClinicalReferenceLesson => l !== undefined);
+}
+
+export function getLessonsByCategory(category: SurvivalGuideCategory): ClinicalReferenceLesson[] {
+  return CLINICAL_REFERENCE_LESSONS.filter(l => l.survivalCategory === category);
+}
+
+export function getCategoryInfo(categoryId: SurvivalGuideCategory): SurvivalGuideCategoryInfo | undefined {
+  return SURVIVAL_GUIDE_CATEGORIES.find(c => c.id === categoryId);
 }

@@ -97,6 +97,9 @@ export default function NewGradHub() {
               <Link href="/newgrad/guides" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-guides">
                 Explore Free Guides <ArrowRight className="w-4 h-4" />
               </Link>
+              <Link href="/newgrad/survival-guide" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-survival-guide">
+                Survival Guide <ArrowRight className="w-4 h-4" />
+              </Link>
               {!hasNewGradAccess && (
                 <Link href="/newgrad#premium" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="button-view-toolkit">
                   <Sparkles className="w-4 h-4" /> View Success Toolkit

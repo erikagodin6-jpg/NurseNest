@@ -206,6 +206,7 @@ const NewGradWorkplacePage = lazy(() => import("@/pages/newgrad/workplace-page")
 const NewGradBurnoutPage = lazy(() => import("@/pages/newgrad/burnout-page"));
 const NewGradSalaryPage = lazy(() => import("@/pages/newgrad/salary-page"));
 const NewGradProfDevPage = lazy(() => import("@/pages/newgrad/professional-development-page"));
+const NewGradSurvivalGuideLanding = lazy(() => import("@/pages/newgrad/survival-guide-landing"));
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
 const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certification-page"));
@@ -580,6 +581,7 @@ function AppRoutes() {
         <Route path="/new-grad/career/:path" component={CareerDevelopmentPage} />
         <Route path="/new-grad/scenario/:slug" component={ClinicalScenarioPage} />
 
+        <Route path="/newgrad/survival-guide" component={NewGradSurvivalGuideLanding} />
         <Route path="/newgrad/clinical-references/:slug" component={NewGradClinicalReferenceDetail} />
         <Route path="/newgrad/clinical-references" component={NewGradClinicalReferencesPage} />
         <Route path="/newgrad/guides" component={NewGradGuidesPage} />
