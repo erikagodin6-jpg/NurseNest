@@ -718,6 +718,31 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     `);
     await client.query(`ALTER TABLE question_explanations ADD COLUMN IF NOT EXISTS related_content JSONB DEFAULT '{}'::jsonb`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS tutor_conversations (
+        id SERIAL PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        context_type TEXT NOT NULL DEFAULT 'general',
+        context_id TEXT,
+        language TEXT NOT NULL DEFAULT 'en',
+        title TEXT NOT NULL DEFAULT 'AI Tutor Chat',
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS tutor_messages (
+        id SERIAL PRIMARY KEY,
+        conversation_id INTEGER NOT NULL REFERENCES tutor_conversations(id) ON DELETE CASCADE,
+        role TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_tutor_conversations_user_id ON tutor_conversations (user_id)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_tutor_messages_conversation_id ON tutor_messages (conversation_id)`);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

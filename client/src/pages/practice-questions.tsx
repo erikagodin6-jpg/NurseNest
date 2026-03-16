@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { InlineConfidenceRating } from "@/components/study-momentum";
+import { AITutorWidget, TutorCTA } from "@/components/ai-tutor-widget";
 import { useAuth } from "@/lib/auth";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
@@ -453,6 +454,25 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                       </div>
                     )}
 
+                    <div className="mx-6 sm:mx-8 mb-4" data-testid="tutor-cta-practice-question">
+                      <TutorCTA
+                        context={{
+                          type: "practice_question",
+                          id: current.id || `${tier}-${systemSlug}-${currentIndex}`,
+                          data: {
+                            question: current.question,
+                            options: current.options,
+                            correct: current.correct,
+                            rationale: current.rationale,
+                            bodySystem: systemName,
+                            tier,
+                          },
+                          title: `${systemName} Question`,
+                        }}
+                        label="Need help? Ask the AI Tutor"
+                      />
+                    </div>
+
                     <div className="px-6 sm:px-8 pb-6 sm:pb-8">
                       {user && selectedAnswer !== null && (
                         <InlineConfidenceRating
@@ -561,6 +581,19 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
           </div>
         </section>
       </main>
+      <AITutorWidget context={current ? {
+        type: "practice_question",
+        id: current.id || `${tier}-${systemSlug}-${currentIndex}`,
+        data: {
+          question: current.question,
+          options: current.options,
+          correct: current.correct,
+          rationale: current.rationale,
+          bodySystem: systemName,
+          tier,
+        },
+        title: `${systemName} Question`,
+      } : { type: "general" }} />
       <Footer />
     </div>
   );

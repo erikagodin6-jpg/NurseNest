@@ -91,6 +91,7 @@ import { npFlashcardsEnrichment5 } from "@/data/flashcards-np-enrichment-5";
 import { npFlashcardsEnrichment6 } from "@/data/flashcards-np-enrichment-6";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
+import { AITutorWidget } from "@/components/ai-tutor-widget";
 
 const heartImg = getAssetUrl("heart-flashcard.png");
 const pedsImg = getAssetUrl("peds-flashcard.png");
@@ -7233,6 +7234,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         .backface-hidden { backface-visibility: hidden; }
         .perspective-1000 { perspective: 1000px; }
       `}} />
+      <AITutorWidget context={{ type: "flashcard", title: "Flashcard Study" }} />
       <AdminEditButton />
     </div>
   );

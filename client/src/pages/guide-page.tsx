@@ -8,6 +8,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { getGuideBySlug, AUTHORITY_GUIDES, type AuthorityGuide, type GuideResource } from "@shared/guide-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { AITutorWidget } from "@/components/ai-tutor-widget";
 import {
   BookOpen, ChevronRight, ChevronDown, ArrowRight, HelpCircle,
   GraduationCap, Briefcase, Stethoscope, Award, Target,
@@ -424,6 +425,16 @@ export default function GuidePage() {
         </div>
       </main>
 
+      <AITutorWidget context={{
+        type: "study_guide",
+        id: guide.slug,
+        data: {
+          title: guide.title,
+          section: guide.examPrepSection.title,
+          content: guide.introduction,
+        },
+        title: guide.title,
+      }} />
       <Footer />
     </div>
   );

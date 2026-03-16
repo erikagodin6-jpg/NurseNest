@@ -340,6 +340,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);
   registerPremiumStudyRoutes(app);
+
+  const { registerTutorRoutes } = await import("./tutor-routes");
+  registerTutorRoutes(app);
+
   registerMltRemediationRoutes(app);
   registerImagingLibraryRoutes(app);
   registerInstitutionalRoutes(app);

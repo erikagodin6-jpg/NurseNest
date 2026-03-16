@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { AITutorWidget } from "@/components/ai-tutor-widget";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { getTierConfig } from "@shared/tier-config";
 import { useToast } from "@/hooks/use-toast";
@@ -944,6 +945,7 @@ export default function MockExamsPage() {
         />
       </div>
       <AdminEditButton pageName="mock-exams" />
+      <AITutorWidget context={{ type: "mock_exam", title: "Mock Exam Prep" }} />
       <Footer />
 
       {showThemeCustomizer && (
