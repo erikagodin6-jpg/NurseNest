@@ -1,0 +1,674 @@
+You are working on the LIVE/PUBLISHED NurseNest ecosystem and any directly connected brand pages in the same ecosystem.
+
+This is a high-stakes cleanup, expansion, SEO, UX, conversion, and architecture task.
+
+You must follow these instructions exactly.
+
+CORE CONTEXT
+
+NurseNest is not a generic study site.
+It is a premium healthcare education ecosystem with multiple user journeys, including:
+- nursing exam prep
+- NP exam prep
+- new grad support
+- allied health exam prep
+- certifications
+- digital study products
+- future connected ecosystem sites such as application/career-stage brands
+
+The platform already has working tiered menus and established navigation patterns.
+Those stable menu systems must not be broken.
+
+This task is not only about adding pages.
+It is about fixing structure, strengthening SEO, improving conversion paths, preventing paywall bypasses, and making the entire ecosystem feel cohesive, premium, and intentional.
+
+ABSOLUTE NON-NEGOTIABLE RULES
+
+Do not break existing stable tiered navigation.
+Do not create duplicate menus.
+Do not create duplicate lesson lists.
+Do not create empty pages.
+Do not create placeholder pages.
+Do not link to 404 pages.
+Do not advertise content that does not exist.
+Do not create thin SEO pages with shallow filler text.
+Do not create disconnected microsites that feel outside the NurseNest ecosystem.
+Do not change the brand voice into something generic or corporate.
+Do not create ugly or inconsistent hero sections.
+Do not create random routes without linking them properly.
+Do not break browser back-button behavior.
+Do not break SPA routing.
+Do not break published-site routing.
+Do not create paywall loopholes through practice question pages, lesson indexes, or hidden navigation paths.
+Do not remove working content unless it is duplicated, broken, misleading, or creating UX/SEO harm.
+Do not change the stable tier menu architecture that already took a long time to get right.
+Do not change visual styling arbitrarily.
+Do not create content that sounds AI-generated, vague, repetitive, or generic.
+Do not create medical claims framed as current clinical guidance unless verified by the content architecture already used on the site.
+Do not copy copyrighted text from uploaded or external resources.
+Use external-inspired topic ideas only as structural guidance, never as text to copy.
+
+PRIMARY GOAL
+
+Complete a full A-to-Z structured improvement of the NurseNest ecosystem so that:
+
+1. Every major exam category has a proper SEO and marketing entry point
+2. Every separated exam or certification page is part of a clear internal-linking cluster
+3. Nursing, NP, allied health, new grad, and certification content all feel cohesive
+4. No public route leads to dead content
+5. Free content supports SEO and trust
+6. Premium content is gated consistently
+7. The user cannot bypass paywalls through poorly structured routes
+8. Hero pages sell the value clearly without sounding spammy
+9. Navigation stays stable and clean
+10. All key content types are internally linked and indexable
+
+SCOPE OF WORK
+
+You must audit and improve the following content ecosystems and route groups:
+
+A. MAIN NURSENEST HOME / PRIMARY ECOSYSTEM ENTRY
+B. NURSING TIERS
+C. NP EXAM PREP
+D. CERTIFICATION PREP
+E. ALLIED HEALTH
+F. NEW GRAD
+G. PHARMACOLOGY / MEDICATION SAFETY
+H. HERBAL SUPPLEMENTS / COMPLEMENTARY MEDICINE SAFETY
+I. QUESTION BANK / MOCK EXAM / RATIONALE UX
+J. PAYWALL / GATING / CONTENT ACCESS CONTROL
+K. INTERNAL LINKING / ROUTE SAFETY / SEO STRUCTURE
+L. FUTURE-READY BRAND ARCHITECTURE FOR CONNECTED ECOSYSTEM SITES
+
+PART A — MAIN NURSENEST HOME PAGE
+
+Audit the main homepage and ensure it accurately represents the full ecosystem.
+
+The homepage must:
+- mention nursing students and nurses, but also allied health and new grad support where relevant
+- reflect the current product categories honestly
+- not promise categories or tools that do not exist
+- include clear internal links to the main sub-ecosystems
+- have conversion-focused but trustworthy hero copy
+- clearly communicate the value proposition
+- support SEO for broader healthcare exam prep intent
+- include cohesive FAQs that reflect the actual site scope, including allied health and new grad where appropriate
+- not over-focus only on nursing if the platform now includes more than nursing
+- avoid clutter and duplicate CTA pathways
+
+Homepage sections should include:
+- hero
+- trust/value proof
+- choose your path / exam category
+- featured learning tools
+- certifications / NP / allied / new grad entry cards
+- FAQs
+- strong internal links
+- clean footer links
+
+PART B — NURSING TIERS
+
+Audit all RPN, RN, and NP tier flows.
+
+Requirements:
+- keep working tiered menus intact
+- remove duplicate lesson labels if tier is already implied by the section
+- fix empty lessons
+- fix lessons created in the wrong section
+- remove or correct any advertised lessons that do not exist
+- ensure body-system pages and learning pages do not lead to dead content
+- ensure premium gating is consistent
+- ensure internal links do not let users jump into premium material without correct access checks
+- ensure all public “explore” and “practice questions” buttons go to the correct destination
+- ensure breadcrumb logic works
+- ensure route hierarchy is coherent and not redundant
+
+If any page currently shows duplicate lists of lessons or duplicate page blocks, fix that rendering issue at the component/data level instead of hiding it with CSS.
+
+PART C — NP EXAM PREP
+
+Because the NP exams have been separated, you must create a proper SEO and marketing structure around them.
+
+Create a dedicated NP exam hub / pillar page.
+
+Recommended route pattern:
+- /np-exam-prep
+or equivalent clean route already aligned with site architecture
+
+This NP hub page must:
+- act as the central entry point for all NP exams
+- rank for broad NP board exam keywords
+- explain the value of NurseNest NP prep
+- compare the supported NP exam types
+- link to each separated NP exam page
+- include FAQs
+- include benefits such as realistic questions, rationales, study plans, mock exams, and analytics
+- feel premium and authoritative
+- avoid fluff and duplication
+
+Include a “Choose Your NP Exam” section with cards linking to each dedicated exam page.
+
+For each individual NP exam page:
+- ensure it has unique title tag, meta description, H1, intro copy, and FAQ where appropriate
+- ensure it links back to the NP hub
+- ensure it links to relevant subtools like practice questions, mock exams, lessons, and plans
+- ensure there is no orphaning
+- ensure each page has unique positioning based on the exam audience and style
+
+Also include a high-value comparison section and/or supporting content for:
+- AANP vs ANCC
+- how to choose the right NP exam
+- how NP board exam prep differs from RN exam prep
+
+PART D — CERTIFICATION PREP
+
+The certifications area must become a structured cluster, not a collection of isolated pages.
+
+Audit and ensure separate pages exist and are linked properly for:
+- BLS
+- ACLS
+- PALS
+- NRP
+- TNCC
+- ENPC
+and renewal versions where applicable:
+- BLS renewal
+- ACLS renewal
+- PALS renewal
+- NRP renewal
+- TNCC renewal
+- ENPC renewal
+
+Each certification page must:
+- have its own hero section
+- clearly define who it is for
+- explain the clinical focus and exam/course style
+- explain what the learner gets on NurseNest
+- link to practice questions, study guides, lessons, mock exams, and renewal content where relevant
+- avoid duplication with other certification pages
+- have unique SEO metadata
+- have internal links to the certification hub and related certifications
+
+Create or strengthen a certification hub page that:
+- introduces all certification options
+- links into each certification prep page
+- links into renewal prep pages
+- improves topic cluster SEO
+- does not create a new site tier
+- fits inside the current nursing certification area
+
+PART E — ALLIED HEALTH
+
+The allied health side must be treated as a real growth pillar, not a side bucket.
+
+Audit all allied health hero pages and route groups.
+
+Fix:
+- broken links
+- pages with missing content
+- routes with navigation inconsistencies
+- allied health menu paths that accidentally show unrelated nursing/new grad content
+- any page where navigation changes unexpectedly
+- any route that allows bypassing gated premium content
+
+For allied health professions that currently lack real content, build proper, cohesive content clusters instead of leaving empty shells.
+
+Examples may include:
+- respiratory therapy
+- pharmacy tech
+- imaging / radiography
+- sonography
+- OTA/PTA
+- surgical tech
+- health information management
+and other allied categories already represented on the site
+
+Every allied health hero page must:
+- have strong SEO-focused but natural copy
+- clearly explain who the content is for
+- include trust/value language
+- offer free entry points and premium upsell paths
+- link to existing lessons, flashcards, question banks, blog content, or study tools
+- not advertise unsupported tools
+
+For the respiratory therapy area specifically, create or strengthen:
+- a respiratory therapy hub
+- a respiratory pharmacology exam prep cluster
+- device and medication delivery education
+- question bank modes with rationales
+- pediatric and ventilator-linked medication content
+- TMC-style logic and safety content
+- premium/free structure that matches the rest of the site
+
+PART F — NEW GRAD
+
+The new grad area must not feel unfinished or detached from the rest of the ecosystem.
+
+Requirements:
+- audit all new grad pages
+- create or improve a strong hero page
+- define what is free and what is premium
+- if the current new grad area has no paywall but should have some premium offers, implement a balanced content strategy
+- keep enough free content for trust and SEO
+- gate premium templates, packs, modules, or advanced resources consistently
+- prevent new grad routes from appearing in the wrong allied/nursing contexts
+- ensure users cannot bypass paid resources via direct route or page index links
+
+Suggested content groups for new grad:
+- first job preparation
+- resume/CV guidance
+- interview prep
+- shift survival guides
+- report templates
+- confidence-building resources
+- transition-to-practice learning
+- specialty transition guides
+- workplace professionalism
+- unit organization / prioritization content
+
+The new grad hero page must:
+- feel emotionally supportive but still professional
+- market the area clearly
+- show what resources are available
+- link into subcategories
+- drive conversion without sounding pushy
+
+PART G — PHARMACOLOGY / MEDICATION SAFETY
+
+Pharmacology needs stronger cross-site organization.
+
+You must:
+- audit pharmacology pages
+- ensure pharmacology is integrated into nursing, NP, allied, and respiratory where relevant
+- build better internal linking between pharmacology and exam prep areas
+- include higher-value learning structures such as:
+  - medication classes
+  - side effects
+  - contraindications
+  - administration routes
+  - patient teaching
+  - safety alerts
+  - “exam writers like to test this” callouts
+  - “common mistakes students make” callouts
+
+For respiratory pharmacology in particular:
+- include bronchodilators
+- corticosteroids
+- mucolytics
+- aerosolized anti-infectives
+- adrenergics
+- diuretics in cardiopulmonary care
+- emergency meds relevant to respiratory care
+- sedation/paralytic concepts linked to ventilation
+- devices and route of administration
+- reassessment logic
+- pediatric/neonatal respiratory medication concepts
+- ventilator-linked medication concepts
+
+PART H — HERBAL SUPPLEMENTS / COMPLEMENTARY MEDICINE SAFETY
+
+This is mandatory.
+
+Nursing exams often test herbal supplements, naturopathic methods, complementary therapies, and interactions with medications.
+
+Create a structured Herbal Supplements and Medication Interactions module and integrate it across the ecosystem where relevant.
+
+This must be framed as patient safety, pharmacology awareness, and nursing assessment.
+Do not frame it as promotion of alternative medicine.
+
+Create a hub and/or tightly integrated content section covering:
+- why nurses must ask about supplements
+- how supplements affect pharmacokinetics/pharmacodynamics
+- bleeding-risk herbs
+- sedating herbs
+- blood pressure effects
+- blood sugar effects
+- surgery/anesthesia interactions
+- liver enzyme interactions
+- documentation and patient teaching
+
+Include commonly tested supplements/herbs such as:
+- St. John’s Wort
+- ginkgo biloba
+- garlic supplements
+- ginseng
+- echinacea
+- valerian
+- kava
+- saw palmetto
+- black cohosh
+- evening primrose oil
+- melatonin
+- chamomile
+- turmeric / curcumin
+- omega-3s
+- cranberry supplements
+
+For each, where relevant include:
+- common use
+- safety concern
+- interaction theme
+- nursing teaching point
+- pre-op caution if appropriate
+- exam trap / high-yield point
+
+Integrate herbal content into:
+- pharmacology pages
+- nursing medication safety pages
+- pre-op teaching content
+- question bank categories
+- patient teaching scenarios
+- med-surg style nursing questions
+- NP-level patient education content where relevant
+
+Create high-yield questions on:
+- warfarin + ginkgo/garlic
+- St. John’s Wort interactions
+- ginseng and blood glucose
+- valerian/kava plus CNS depressants
+- pre-op supplement discontinuation
+- supplement documentation and med history assessment
+
+PART I — QUESTION BANK / MOCK EXAM / RATIONALE UX
+
+This is one of the most important pieces.
+
+All question systems across nursing, NP, respiratory, certifications, and related pharmacology areas must feel premium and coherent.
+
+Build or improve two clear modes where appropriate:
+
+PRACTICE MODE
+- answer shown after submission
+- detailed rationale shown
+- why correct answer is correct
+- why other options are wrong
+- exam clue
+- safety pearl where relevant
+- clear educational framing
+
+EXAM MODE
+- no answers until submission or exam completion
+- score summary
+- review incorrect questions
+- retake missed questions only if supported by system
+- feels like a realistic prep experience
+
+Requirements:
+- do not create generic quiz pages
+- do not make rationales shallow
+- do not leave premium-feeling question pages fully ungated if comparable site areas are gated
+- ensure the user cannot bypass premium content by reaching a review page or answer explanation page directly
+- build topic/category filters where supported
+- ensure question counts shown publicly match the real content count
+
+Rationales must not be one-line filler.
+They should be concise but useful.
+
+PART J — PAYWALL / GATING / CONTENT ACCESS CONTROL
+
+Audit all routes where premium content may be leaking.
+
+This is critical.
+
+You must identify and fix any area where users can bypass the paywall through:
+- lesson indexes
+- direct question routes
+- practice question category pages
+- hidden/public navigation pathways
+- preview pages that expose too much
+- broken route guards
+- duplicated pages that skip gating logic
+
+For every major ecosystem area, define a coherent funnel:
+
+FREE
+- hero pages
+- overview pages
+- limited sample lessons
+- limited sample questions
+- trust-building educational pages
+- SEO-friendly intros and FAQs
+
+PREMIUM
+- full question banks
+- mock exams
+- detailed rationale libraries
+- downloadable sheets
+- premium study packs
+- advanced case questions
+- specialty modules
+- saved progress / analytics features if already supported
+
+Apply the same logic consistently across:
+- nursing
+- NP
+- certifications
+- allied health
+- respiratory therapy
+- new grad
+
+Do not invent a completely separate gating system if there is already one.
+Reuse and extend existing access control architecture.
+
+PART K — INTERNAL LINKING / ROUTE SAFETY / SEO STRUCTURE
+
+You must rebuild the content relationships into clear pillar-cluster architecture.
+
+Every major ecosystem area should have:
+- a hub / hero / pillar page
+- linked subpages
+- linked FAQs
+- linked practice/tools
+- breadcrumbs
+- related content cards
+- clean back-navigation paths
+- no orphan pages
+
+Examples:
+- NP hub -> AANP / ANCC -> lessons / questions / mocks
+- certification hub -> ACLS / PALS / NRP etc. -> renewal pages
+- allied health hub -> profession hubs -> topic pages
+- respiratory therapy hub -> pharmacology / devices / questions
+- new grad hub -> subtools / resources
+- pharmacology hub -> class pages / safety pages / supplement pages
+
+SEO requirements for every important page:
+- unique title tag
+- unique meta description
+- clean H1
+- sensible H2/H3 structure
+- keyword-aware intro paragraphs
+- FAQs where helpful
+- internal links
+- no near-duplicate intros copied across pages
+- no keyword stuffing
+- page copy that sounds human and premium
+
+Add or correct schema only if it already fits the site’s architecture and implementation pattern.
+Do not add fragile schema snippets that create maintenance problems.
+
+Make sure sitemap logic includes all intended indexable pages and excludes junk routes if the site supports automated sitemap generation.
+
+PART L — FUTURE-READY BRAND ARCHITECTURE
+
+NurseNest may connect with future ecosystem sites such as ApplyNest or similar education/career-stage brands.
+
+Do not build a disconnected system.
+Instead, make the current architecture future-friendly by:
+- keeping naming consistent
+- keeping header/footer/site-link structures extensible
+- allowing future cross-site ecosystem references in a clean way
+- not over-hardcoding content labels that would block future expansion into applications, career prep, or advanced education support
+
+Do not create full cross-brand implementation unless already planned in the codebase.
+Just ensure the architecture would support it cleanly later.
+
+DESIGN / BRAND REQUIREMENTS
+
+Everything must feel like NurseNest.
+
+Use:
+- soft, premium, clean visual hierarchy
+- modern-clinical but approachable tone
+- rounded cards/buttons if already used in design system
+- consistent spacing
+- consistent CTA style
+- cohesive hero sections
+- no visual chaos
+- no mismatched color use
+- no generic stock-marketing feel
+
+Copy should feel:
+- confident
+- supportive
+- clear
+- conversion-aware
+- credible
+- not cheesy
+- not spammy
+- not robotic
+
+TECHNICAL REQUIREMENTS
+
+Before changing anything major, audit the current route/component/content structure.
+
+Then implement improvements in a controlled way.
+
+Requirements:
+- do not patch over structural issues with hacks
+- fix route logic at source
+- fix duplicate rendering at source
+- fix menu issues at source
+- ensure browser back button works on site pages except where intentionally disabled for exams
+- if CAT/mock exam mode intentionally disables or warns on back navigation, keep that behavior only there
+- ensure non-exam content pages behave normally with browser navigation
+- ensure published-site links work
+- ensure SPA history fallback works correctly without serving HTML to missing asset URLs
+- do not allow asset paths to be caught by generic catch-all in a way that returns HTML with 200 for missing JS chunks
+- ensure missing static assets return proper 404 behavior
+- verify build output and routing behavior in production mode, not only dev mode
+- ensure localization/i18n structure is respected
+- do not create locale-breaking routes
+- ensure linked pages work across supported language architecture if translations are already built into the system
+
+CONTENT QUALITY REQUIREMENTS
+
+Every new or revised page must:
+- be original
+- be useful
+- be non-thin
+- not repeat the same copy from other pages
+- have real informational value
+- be aligned with the exam/career audience
+- support SEO and conversion at the same time
+
+For educational/clinical content:
+- use careful evergreen educational framing
+- do not present outdated specifics as current mandatory practice
+- where appropriate, use wording like:
+  - high-yield concept
+  - commonly tested principle
+  - foundational patient-safety concept
+  - verify current institutional guidance
+- avoid medico-legal risk language
+
+DELIVERABLES
+
+Complete all relevant work required to produce the following:
+
+1. Audited and improved main NurseNest homepage
+2. Cleaned nursing tier flows
+3. NP hub page and improved separated NP exam pages
+4. Certification hub and improved certification/renewal pages
+5. Stronger allied health hero pages and route fixes
+6. Respiratory therapy / respiratory pharmacology cluster
+7. Improved new grad hub and structure
+8. Pharmacology and medication safety improvements
+9. Herbal supplement / complementary medicine safety integration
+10. Improved question/rationale UX
+11. Fixed or tightened premium gating
+12. Improved internal linking and SEO structure
+13. Route safety / navigation / back-button / no-404 validation
+14. A final QA pass on every public path touched
+
+FINAL QA CHECKLIST
+
+Before finishing, verify all of the following:
+
+NAVIGATION
+- no duplicate menus
+- no duplicate lesson lists
+- no tier menu regressions
+- no navigation items pointing to empty pages
+- no wrong content shown under the wrong top-nav section
+
+ROUTES
+- every new route works
+- every linked route works
+- no new 404s
+- no public CTA points to missing content
+- browser back button works on normal pages
+- exam-mode navigation behavior is intentional and limited to exam contexts only
+
+PAYWALL
+- no premium bypasses via question pages, lesson indexes, or direct URL access
+- preview pages still work correctly
+- free vs premium logic is coherent across site areas
+
+SEO
+- title tags present
+- meta descriptions present
+- H1s present
+- intros are unique
+- internal links are working
+- cluster pages are linked correctly
+- sitemap/indexability behavior is appropriate
+
+CONTENT
+- no placeholders
+- no copied text
+- no thin pages
+- no duplicated intros
+- FAQs reflect actual product scope
+
+UX
+- pages look cohesive
+- hero sections feel premium
+- allied health and new grad do not feel like afterthoughts
+- NP exam pages are clearly discoverable from the NP hub
+- certifications feel like a structured cluster
+- respiratory therapy content feels real and useful
+
+BUILD / PRODUCTION
+- build completes successfully
+- published routing works
+- missing assets return correct behavior
+- no React/runtime route regressions introduced
+- no hydration/render issues introduced
+
+FINAL OUTPUT REQUIRED FROM YOU
+
+After all work is complete, provide a structured summary including:
+
+- pages created
+- pages revised
+- routes added
+- routes fixed
+- navigation fixes completed
+- paywall fixes completed
+- NP hub implementation details
+- certification cluster implementation details
+- allied health improvements
+- respiratory therapy improvements
+- herbal supplement module implementation
+- SEO metadata added
+- any broken links that were repaired
+- any intentionally removed public links because content did not exist
+- any remaining issues that need manual owner input
+
+IMPORTANT EXECUTION RULE
+
+Do not stop after partial implementation.
+Do not leave the site in a half-finished state.
+If something is publicly advertised, either build it properly now or remove the public-facing promise until it exists.
+Prefer complete, coherent implementation over scattered partial additions.
