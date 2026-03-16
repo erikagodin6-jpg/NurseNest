@@ -1,5 +1,6 @@
 import pg from "pg";
 import { fixCorrectAnswerData, verifyCorrectAnswerData } from "./migrations/fix-correct-answer-data";
+import { seedEchoQuestionBank } from "./seed-echo-question-bank";
 
 export let lastStartupMigrationTimestamp: string | null = null;
 
@@ -336,6 +337,12 @@ export async function runStartupDataMigrations() {
         console.log(`[Startup Migration] Imaging monetization tables ensured`);
       } catch (monErr: any) {
         console.log(`[Startup Migration] Imaging monetization tables: ${monErr.message}`);
+      }
+
+      try {
+        await seedEchoQuestionBank();
+      } catch (echoErr: any) {
+        console.error(`[Echo QBank] Seed error: ${echoErr.message}`);
       }
 
       lastStartupMigrationTimestamp = new Date().toISOString();
