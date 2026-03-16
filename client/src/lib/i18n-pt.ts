@@ -3378,6 +3378,7 @@ const translations: Record<string, string> = {
     "nav.newGradSupport": "Apoio ao Recém-Formado",
     "nav.nursingSpecialties": "Especialidades de Enfermagem",
     "nav.occupationalTherapy": "Terapia Ocupacional",
+    "nav.physicalTherapy": "Fisioterapia",
     "nav.practice": "Praticar",
     "nav.productBuilder": "Construtor de Produto",
     "nav.psychotherapy": "Psicoterapia",

@@ -3229,6 +3229,7 @@ const hiTranslations: Record<string, string> = {
   "nav.npPathway": "NP मार्ग",
   "nav.nursingSpecialties": "नर्सिंग विशेषताएँ",
   "nav.occupationalTherapy": "व्यावसायिक चिकित्सा",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.pathways": "अध्ययन मार्ग",
   "nav.practicalNursingPrep": "प्रैक्टिकल नर्सिंग परीक्षा तैयारी",
   "nav.practice": "अभ्यास",

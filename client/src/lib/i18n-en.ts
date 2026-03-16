@@ -2481,6 +2481,7 @@ const enTranslations: Record<string, string> = {
     "nav.npContent": "Nurse Practitioner Certification Prep (AANP, ANCC, FNP-BC, PMHNP-BC)",
     "nav.nursingSpecialties": "Nursing Specialties",
     "nav.occupationalTherapy": "Occupational Therapy",
+    "nav.physicalTherapy": "Physical Therapy",
     "nav.practicalNursingPrep": "Practical Nursing Exam Prep",
     "nav.practice": "Practice",
     "nav.practiceTiers": "Practice Tiers",

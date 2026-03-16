@@ -2685,6 +2685,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "Pflege-Glossar",
   "nav.nursingSpecialties": "Pflege Specialties",
   "nav.occupationalTherapy": "Ergotherapie",
+    "nav.physicalTherapy": "Physiotherapie",
   "nav.oncologyGuide": "Onkologie-Leitfaden",
   "nav.orGuide": "OP-Leitfaden",
   "nav.orthoGuide": "Guide soins orthopédiques",

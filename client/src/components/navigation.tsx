@@ -1251,7 +1251,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-specialties")} data-testid="menu-nursing-specialties">
                     {t("nav.specialties")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/new-grad")} data-testid="menu-nursing-certifications">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-certifications")} data-testid="menu-nursing-certifications">
                     {t("nav.certifications")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/study-pathways")} data-testid="menu-study-pathways">
@@ -1284,7 +1284,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     {t("nav.diagnosticImaging")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/physical-therapy")} data-testid="menu-career-pt">
-                    Physical Therapy
+                    {t("nav.physicalTherapy")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/occupational-therapy")} data-testid="menu-career-ot">
                     {t("nav.occupationalTherapy")}

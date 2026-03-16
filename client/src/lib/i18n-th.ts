@@ -2842,6 +2842,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "อภิธานศัพท์พยาบาล",
   "nav.nursingSpecialties": "สาขาเฉพาะทางพยาบาล",
   "nav.occupationalTherapy": "กิจกรรมบำบัด",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.oncologyGuide": "คู่มือมะเร็งวิทยา",
   "nav.orGuide": "คู่มือห้องผ่าตัด",
   "nav.orthoGuide": "คู่มือกระดูกและข้อ",

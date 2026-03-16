@@ -2685,6 +2685,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "مسرد التمريض",
   "nav.nursingSpecialties": "تخصصات التمريض",
   "nav.occupationalTherapy": "العلاج الوظيفي",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.oncologyGuide": "دليل الأورام",
   "nav.orGuide": "دليل غرفة العمليات",
   "nav.orthoGuide": "دليل جراحة العظام",

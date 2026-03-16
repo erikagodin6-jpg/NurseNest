@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import {
   AnswerOption,
+  PremiumBadge,
 } from "@/components/premium-study";
 
 function getAuthHeaders(): Record<string, string> {

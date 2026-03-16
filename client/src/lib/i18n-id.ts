@@ -2451,6 +2451,7 @@ export default {
   "nav.npContent": "Persiapan Sertifikasi Nurse Practitioner (AANP, ANCC, FNP-BC, PMHNP-BC)",
   "nav.nursingSpecialties": "Spesialisasi Keperawatan",
   "nav.occupationalTherapy": "Terapi Okupasi",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.practicalNursingPrep": "Persiapan Ujian Keperawatan Praktis",
   "nav.practice": "Latihan",
   "nav.practiceTiers": "Tingkat Latihan",

@@ -2678,6 +2678,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "護理術語表",
   "nav.nursingSpecialties": "護理學 Specialties",
   "nav.occupationalTherapy": "職業治療",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.oncologyGuide": "腫瘤學指南",
   "nav.orGuide": "手術室指南",
   "nav.orthoGuide": "Guide soins 或thopédiques",

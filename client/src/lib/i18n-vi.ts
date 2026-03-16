@@ -2685,6 +2685,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "Từ điển điều dưỡng",
   "nav.nursingSpecialties": "Chuyên ngành điều dưỡng",
   "nav.occupationalTherapy": "Vật lý trị liệu nghề nghiệp",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.oncologyGuide": "Hướng dẫn ung thư",
   "nav.orGuide": "Hướng dẫn phòng mổ",
   "nav.orthoGuide": "Hướng dẫn chăm sóc chỉnh hình",

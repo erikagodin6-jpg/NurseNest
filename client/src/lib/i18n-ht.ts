@@ -2685,6 +2685,7 @@ const translations: Record<string, string> = {
   "nav.nursingGlossary": "Glosè Enfimye",
   "nav.nursingSpecialties": "Enfimye Specialties",
   "nav.occupationalTherapy": "Terapi Okipasyonèl",
+    "nav.physicalTherapy": "Physical Therapy",
   "nav.oncologyGuide": "Gid Onkoloji",
   "nav.orGuide": "Gid Sal Operasyon",
   "nav.orthoGuide": "Guide soins orthopédiques",
