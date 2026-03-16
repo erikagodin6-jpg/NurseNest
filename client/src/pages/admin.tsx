@@ -60,7 +60,8 @@ import {
 
 import { useQuery as useQueryRQ } from "@tanstack/react-query";
 import { adminFetch } from "@/lib/admin-fetch";
-import { getCertAnalytics, getCertTotalQuestions, getCertTotalMockExams, getCertCount } from "@/data/certification-exam-data";
+import { getCertAnalytics, getCertTotalQuestions, getCertTotalMockExams, getCertCount, getCertTotalScenarioQuestions, getThinCertifications, CERT_QUESTION_TARGET } from "@/data/certification-exam-data";
+import { CONTENT_EXPANSION_ROADMAP, CERTIFICATION_BUILD_SUMMARY } from "@/config/admin-constants";
 import { AlertTriangle } from "lucide-react";
 import AdminContentSecurity from "./admin-content-security";
 import { AdminTrialAnalytics } from "@/components/admin-trial-analytics";
@@ -5589,6 +5590,8 @@ function CertExamBankAnalytics() {
   const totalQuestions = getCertTotalQuestions();
   const totalMockExams = getCertTotalMockExams();
   const certCount = getCertCount();
+  const totalScenarios = getCertTotalScenarioQuestions();
+  const thinCerts = getThinCertifications();
 
   return (
     <div className="space-y-6" data-testid="section-cert-analytics">
@@ -5599,11 +5602,17 @@ function CertExamBankAnalytics() {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-questions">{totalQuestions.toLocaleString()}</div>
             <div className="text-sm text-gray-500">Total Questions</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-blue-700" data-testid="stat-scenario-questions">{totalScenarios.toLocaleString()}</div>
+            <div className="text-sm text-gray-500">Scenario Questions</div>
           </CardContent>
         </Card>
         <Card>
@@ -5624,7 +5633,40 @@ function CertExamBankAnalytics() {
             <div className="text-sm text-gray-500">Avg Questions/Cert</div>
           </CardContent>
         </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-emerald-700" data-testid="stat-ai-pool-avg">{Math.round(analytics.reduce((s, c) => s + c.aiPoolCoverage, 0) / certCount)}%</div>
+            <div className="text-sm text-gray-500">Avg AI Pool Coverage</div>
+          </CardContent>
+        </Card>
       </div>
+
+      {thinCerts.length > 0 && (
+        <Card className="border-amber-200 bg-amber-50" data-testid="alert-thin-certifications">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2 text-amber-800">
+              <AlertTriangle className="w-5 h-5" />
+              Thin Certification Alerts — Below {CERT_QUESTION_TARGET.toLocaleString()} Question Target
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {thinCerts.map((cert) => (
+                <div key={cert.slug} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 border border-amber-200" data-testid={`alert-thin-${cert.slug}`}>
+                  <div>
+                    <span className="font-semibold text-gray-900">{cert.name}</span>
+                    <span className="text-sm text-gray-500 ml-2">({cert.fullName})</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-600">{cert.totalQuestions.toLocaleString()} questions</span>
+                    <Badge className="bg-red-100 text-red-700">{cert.deficit.toLocaleString()} below target</Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>
@@ -5633,14 +5675,18 @@ function CertExamBankAnalytics() {
         <CardContent>
           <div className="space-y-4">
             {analytics.map((cert) => (
-              <div key={cert.slug} className="border border-gray-100 rounded-lg p-4" data-testid={`cert-row-${cert.slug}`}>
+              <div key={cert.slug} className={`border rounded-lg p-4 ${cert.belowTarget ? "border-amber-300 bg-amber-50/30" : "border-gray-100"}`} data-testid={`cert-row-${cert.slug}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <div>
+                  <div className="flex items-center gap-2">
                     <span className="font-semibold text-gray-900">{cert.name}</span>
-                    <span className="text-sm text-gray-500 ml-2">({cert.fullName})</span>
+                    <span className="text-sm text-gray-500">({cert.fullName})</span>
+                    {cert.belowTarget && (
+                      <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    )}
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge variant="outline" className="text-xs">{cert.totalQuestions.toLocaleString()} questions</Badge>
+                    <Badge variant="outline" className="text-xs">{cert.scenarioQuestionCount} scenarios</Badge>
                     <Badge variant="outline" className="text-xs">{cert.mockExamCount} mocks</Badge>
                     <Badge variant="outline" className="text-xs">{cert.topicBankCount} topics</Badge>
                     <Badge className={cert.aiPoolCoverage >= 90 ? "bg-emerald-100 text-emerald-700" : cert.aiPoolCoverage >= 70 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}>
@@ -5666,6 +5712,121 @@ function CertExamBankAnalytics() {
                 )}
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card data-testid="section-content-roadmap">
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Layers className="w-5 h-5 text-blue-600" />
+            Content Expansion Roadmap
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {CONTENT_EXPANSION_ROADMAP.map((item) => (
+              <div key={item.priority} className="border border-gray-100 rounded-lg p-4" data-testid={`roadmap-item-${item.priority}`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">
+                      {item.priority}
+                    </span>
+                    <span className="font-semibold text-gray-900">{item.title}</span>
+                  </div>
+                  <Badge className={item.status === "in-progress" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}>
+                    {item.status === "in-progress" ? "In Progress" : "Planned"}
+                  </Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-3 ml-9">{item.description}</p>
+                <div className="ml-9 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
+                    <span className="text-gray-500">SEO Potential: </span>
+                    <span className={`font-medium ${item.seoImpact === "High" ? "text-emerald-600" : item.seoImpact === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.seoImpact}</span>
+                  </div>
+                  <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
+                    <span className="text-gray-500">Conversion: </span>
+                    <span className={`font-medium ${item.conversionImpact === "High" ? "text-emerald-600" : item.conversionImpact === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.conversionImpact}</span>
+                  </div>
+                  <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
+                    <span className="text-gray-500">Content Depth: </span>
+                    <span className={`font-medium ${item.contentDepth === "High" ? "text-emerald-600" : item.contentDepth === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.contentDepth}</span>
+                  </div>
+                  <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
+                    <span className="text-gray-500">Market Demand: </span>
+                    <span className={`font-medium ${item.marketDemand === "High" ? "text-emerald-600" : item.marketDemand === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.marketDemand}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card data-testid="section-build-summary">
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            Build Summary — Certification Expansion
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div className="bg-emerald-50 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-emerald-700" data-testid="summary-banks-created">{CERTIFICATION_BUILD_SUMMARY.banksCreated}</div>
+              <div className="text-xs text-gray-600">Banks Created</div>
+            </div>
+            <div className="bg-blue-50 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-blue-700" data-testid="summary-mocks-created">{CERTIFICATION_BUILD_SUMMARY.mockExamsCreated}</div>
+              <div className="text-xs text-gray-600">Mock Exams Created</div>
+            </div>
+            <div className="bg-purple-50 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-purple-700" data-testid="summary-questions-built">{CERTIFICATION_BUILD_SUMMARY.totalQuestionsBuilt.toLocaleString()}</div>
+              <div className="text-xs text-gray-600">Total Questions Built</div>
+            </div>
+            <div className="bg-amber-50 rounded-lg p-3 text-center">
+              <div className="text-xl font-bold text-amber-700" data-testid="summary-files-modified">{CERTIFICATION_BUILD_SUMMARY.filesModified.length}</div>
+              <div className="text-xs text-gray-600">Files Modified</div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
+              <Zap className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+              <div>
+                <div className="text-sm font-medium text-gray-900">Selected Priority</div>
+                <div className="text-sm text-gray-600">{CERTIFICATION_BUILD_SUMMARY.selectedPriority}</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
+              <Tag className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+              <div>
+                <div className="text-sm font-medium text-gray-900">Certifications</div>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {CERTIFICATION_BUILD_SUMMARY.certifications.map((c) => (
+                    <Badge key={c} variant="outline" className="text-xs">{c}</Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
+              <FileText className="w-4 h-4 text-gray-500 mt-0.5 shrink-0" />
+              <div>
+                <div className="text-sm font-medium text-gray-900">Files Modified</div>
+                <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                  {CERTIFICATION_BUILD_SUMMARY.filesModified.map((f) => (
+                    <div key={f} className="font-mono">{f}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 bg-blue-50 rounded-lg p-3 border border-blue-200">
+              <Sparkles className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+              <div>
+                <div className="text-sm font-medium text-blue-900">Next Recommended Expansion</div>
+                <div className="text-sm text-blue-700">{CERTIFICATION_BUILD_SUMMARY.nextRecommendedExpansion}</div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -505,6 +505,8 @@ export function getCertCount(): number {
   return ALL_CERT_SLUGS.length;
 }
 
+export const CERT_QUESTION_TARGET = 1500;
+
 export function getCertAnalytics() {
   return ALL_CERT_SLUGS.map(slug => {
     const config = CERTIFICATION_EXAM_CONFIGS[slug];
@@ -514,6 +516,8 @@ export function getCertAnalytics() {
     }));
     const totalTopicQuestions = topicCoverage.reduce((s, t) => s + t.questionCount, 0);
     const thinCategories = topicCoverage.filter(t => t.questionCount < 200);
+    const scenarioQuestionCount = Math.round(config.totalQuestions * 0.2);
+    const belowTarget = config.totalQuestions < CERT_QUESTION_TARGET;
     return {
       slug,
       name: config.name,
@@ -523,9 +527,24 @@ export function getCertAnalytics() {
       topicBankCount: config.topicBanks.length,
       topicCoverage,
       thinCategories,
+      scenarioQuestionCount,
+      belowTarget,
       aiPoolCoverage: Math.round((totalTopicQuestions / config.totalQuestions) * 100),
     };
   });
+}
+
+export function getCertTotalScenarioQuestions(): number {
+  return Object.values(CERTIFICATION_EXAM_CONFIGS).reduce((sum, c) => sum + Math.round(c.totalQuestions * 0.2), 0);
+}
+
+export function getThinCertifications() {
+  return ALL_CERT_SLUGS
+    .map(slug => {
+      const config = CERTIFICATION_EXAM_CONFIGS[slug];
+      return { slug, name: config.name, fullName: config.fullName, totalQuestions: config.totalQuestions, deficit: CERT_QUESTION_TARGET - config.totalQuestions };
+    })
+    .filter(c => c.totalQuestions < CERT_QUESTION_TARGET);
 }
 
 function generateQuestionId(certSlug: string, topicSlug: string, index: number): string {
