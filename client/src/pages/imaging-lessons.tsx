@@ -5,7 +5,8 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   BookOpen, ChevronDown, ChevronUp, ArrowLeft, Search,
-  MapPin, Atom, Shield, Monitor, Heart, Wrench
+  MapPin, Atom, Shield, Monitor, Heart, Wrench,
+  Bone, Eye, Beaker, CheckCircle, AlertTriangle
 } from "lucide-react";
 
 const MODULES = [
@@ -15,12 +16,33 @@ const MODULES = [
   { key: "image_production", label: "Image Production", icon: Monitor, color: "bg-green-50 text-green-600" },
   { key: "patient_care", label: "Patient Care", icon: Heart, color: "bg-pink-50 text-pink-600" },
   { key: "equipment", label: "Equipment Operation", icon: Wrench, color: "bg-amber-50 text-amber-600" },
+  { key: "anatomy", label: "Radiographic Anatomy", icon: Bone, color: "bg-teal-50 text-teal-600" },
+  { key: "interpretation", label: "Image Interpretation", icon: Eye, color: "bg-cyan-50 text-cyan-600" },
+  { key: "contrast_media", label: "Contrast Media", icon: Beaker, color: "bg-orange-50 text-orange-600" },
+  { key: "quality_control", label: "Quality Control", icon: CheckCircle, color: "bg-emerald-50 text-emerald-600" },
+  { key: "emergency_procedures", label: "Emergency Procedures", icon: AlertTriangle, color: "bg-rose-50 text-rose-600" },
 ];
 
 const EXAM_MAP: Record<string, { exam: string }> = {
   canada: { exam: "CAMRT" },
   usa: { exam: "ARRT" },
 };
+
+const LESSON_CATEGORIES = [
+  "radiation_safety", "image_production", "patient_care", "equipment",
+  "anatomy", "interpretation", "contrast_media", "quality_control", "emergency_procedures",
+];
+
+function useLessonsByCategory(country: string) {
+  const results: Record<string, ReturnType<typeof useQuery>> = {};
+  for (const cat of LESSON_CATEGORIES) {
+    results[cat] = useQuery({
+      queryKey: ["/api/imaging/physics", country, cat],
+      queryFn: () => fetch(`/api/imaging/physics?status=published&country=${country}&category=${cat}`).then(r => r.json()),
+    });
+  }
+  return results;
+}
 
 export default function ImagingLessonsPage() {
   const [, params] = useRoute("/medical-imaging/:country/lessons");
@@ -35,28 +57,35 @@ export default function ImagingLessonsPage() {
   });
 
   const { data: physics = [] } = useQuery({
-    queryKey: ["/api/imaging/physics", country],
-    queryFn: () => fetch(`/api/imaging/physics?status=published&country=${country}`).then(r => r.json()),
+    queryKey: ["/api/imaging/physics", country, "physics_only"],
+    queryFn: async () => {
+      const all = await fetch(`/api/imaging/physics?status=published&country=${country}`).then(r => r.json());
+      return (all as any[]).filter((item: any) => !LESSON_CATEGORIES.includes(item.category));
+    },
   });
 
+  const lessonData = useLessonsByCategory(country);
+
   const moduleContent: Record<string, any[]> = {
-    positioning: positioning,
-    physics: physics,
-    radiation_safety: [],
-    image_production: [],
-    patient_care: [],
-    equipment: [],
+    positioning,
+    physics,
   };
+
+  for (const cat of LESSON_CATEGORIES) {
+    moduleContent[cat] = (lessonData[cat]?.data as any[]) || [];
+  }
 
   const filteredModules = MODULES.filter(m =>
     !search || m.label.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalLessons = Object.values(moduleContent).reduce((sum, items) => sum + items.length, 0);
+
   return (
     <div data-testid="imaging-lessons-page">
       <SEO
         title={`${examInfo.exam} Lessons & Study Guides | NurseNest`}
-        description={`Comprehensive ${examInfo.exam} radiography exam lessons covering positioning, physics, radiation safety, image production, patient care, and equipment.`}
+        description={`Comprehensive ${examInfo.exam} radiography exam lessons covering positioning, physics, radiation safety, image production, patient care, equipment, anatomy, interpretation, contrast media, quality control, and emergency procedures.`}
         canonicalPath={`/medical-imaging/${country}/lessons`}
       />
 
@@ -82,7 +111,7 @@ export default function ImagingLessonsPage() {
             <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">
               {examInfo.exam} Lessons & Study Guides
             </h1>
-            <p className="text-sm text-gray-500">6 modules covering all {examInfo.exam} exam domains</p>
+            <p className="text-sm text-gray-500">{MODULES.length} modules covering all {examInfo.exam} exam domains{totalLessons > 0 ? ` \u2022 ${totalLessons} topics` : ""}</p>
           </div>
         </div>
 
@@ -126,8 +155,11 @@ export default function ImagingLessonsPage() {
                       <div className="space-y-3">
                         {items.map((item: any) => (
                           <div key={item.id} className="bg-gray-50 rounded-lg p-4" data-testid={`lesson-item-${item.id}`}>
-                            {mod.key === "positioning" && <PositioningContent item={item} />}
-                            {mod.key === "physics" && <PhysicsContent item={item} />}
+                            {mod.key === "positioning" ? (
+                              <PositioningContent item={item} />
+                            ) : (
+                              <LessonContent item={item} />
+                            )}
                           </div>
                         ))}
                       </div>
@@ -181,25 +213,31 @@ function PositioningContent({ item }: { item: any }) {
   );
 }
 
-function PhysicsContent({ item }: { item: any }) {
+function LessonContent({ item }: { item: any }) {
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+
+  const quizItems = Array.isArray(item.quizItems) ? item.quizItems : [];
+
   return (
     <div>
       <h4 className="font-semibold text-gray-900 mb-1">{item.title}</h4>
-      <div className="flex gap-2 mb-2">
-        {item.category && <span className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded">{item.category}</span>}
+      <div className="flex flex-wrap gap-2 mb-2">
+        {item.category && <span className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded">{item.category.replace(/_/g, ' ')}</span>}
         {item.difficulty != null && <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">Level {item.difficulty}</span>}
+        {item.examType && <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-xs rounded uppercase">{item.examType}</span>}
       </div>
       {item.content && (
         typeof item.content === "string" ? (
-          <p className="text-sm text-gray-700 mb-2 whitespace-pre-line">{item.content}</p>
+          <p className="text-sm text-gray-700 mb-3 whitespace-pre-line leading-relaxed">{item.content}</p>
         ) : Array.isArray(item.content) ? (
-          <ul className="text-sm text-gray-700 mb-2 list-disc list-inside space-y-1">
+          <ul className="text-sm text-gray-700 mb-3 list-disc list-inside space-y-1">
             {item.content.map((c: any, i: number) => (
               <li key={i}>{typeof c === "string" ? c : JSON.stringify(c)}</li>
             ))}
           </ul>
         ) : typeof item.content === "object" && item.content !== null ? (
-          <div className="text-sm text-gray-700 mb-2 space-y-1">
+          <div className="text-sm text-gray-700 mb-3 space-y-1">
             {Object.entries(item.content).map(([key, val]: [string, any]) => (
               <div key={key}>
                 <span className="font-medium text-gray-900">{key}: </span>
@@ -209,8 +247,14 @@ function PhysicsContent({ item }: { item: any }) {
           </div>
         ) : null
       )}
+      {item.explanation && (
+        <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+          <span className="text-xs font-medium text-blue-600">Key Insight:</span>
+          <p className="text-sm text-blue-800 mt-0.5">{item.explanation}</p>
+        </div>
+      )}
       {item.keyConcepts && Array.isArray(item.keyConcepts) && item.keyConcepts.length > 0 && (
-        <div className="mb-2">
+        <div className="mb-3">
           <span className="text-xs font-medium text-gray-500">Key Concepts:</span>
           <div className="flex flex-wrap gap-1 mt-1">
             {item.keyConcepts.map((c: string, i: number) => (
@@ -220,7 +264,7 @@ function PhysicsContent({ item }: { item: any }) {
         </div>
       )}
       {item.formulas && Array.isArray(item.formulas) && item.formulas.length > 0 && (
-        <div>
+        <div className="mb-3">
           <span className="text-xs font-medium text-gray-500">Formulas:</span>
           <div className="mt-1 space-y-1">
             {item.formulas.map((f: any, i: number) => (
@@ -234,6 +278,55 @@ function PhysicsContent({ item }: { item: any }) {
               </div>
             ))}
           </div>
+        </div>
+      )}
+      {quizItems.length > 0 && (
+        <div className="mt-3">
+          <button
+            onClick={() => setShowQuiz(!showQuiz)}
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+            data-testid={`button-quiz-${item.id}`}
+          >
+            {showQuiz ? "Hide" : "Show"} Quiz ({quizItems.length} questions)
+            {showQuiz ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+          {showQuiz && (
+            <div className="mt-3 space-y-4">
+              {quizItems.map((q: any, qi: number) => (
+                <div key={qi} className="bg-white rounded-lg p-4 border border-gray-200" data-testid={`quiz-question-${qi}`}>
+                  <p className="text-sm font-medium text-gray-900 mb-2">{qi + 1}. {q.question}</p>
+                  <div className="space-y-1.5">
+                    {(q.options || []).map((opt: string, oi: number) => {
+                      const selected = selectedAnswers[qi] === oi;
+                      const answered = selectedAnswers[qi] !== undefined;
+                      const isCorrect = oi === q.correctIndex;
+                      let optClasses = "text-sm px-3 py-2 rounded-lg border cursor-pointer transition-colors ";
+                      if (answered && selected && isCorrect) optClasses += "bg-green-50 border-green-300 text-green-800";
+                      else if (answered && selected && !isCorrect) optClasses += "bg-red-50 border-red-300 text-red-800";
+                      else if (answered && isCorrect) optClasses += "bg-green-50 border-green-200 text-green-700";
+                      else optClasses += "bg-white border-gray-200 text-gray-700 hover:bg-gray-50";
+                      return (
+                        <button
+                          key={oi}
+                          onClick={() => !answered && setSelectedAnswers(prev => ({ ...prev, [qi]: oi }))}
+                          className={`w-full text-left ${optClasses}`}
+                          disabled={answered}
+                          data-testid={`quiz-option-${qi}-${oi}`}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {selectedAnswers[qi] !== undefined && q.rationale && (
+                    <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-blue-800">
+                      <span className="font-medium">Rationale:</span> {q.rationale}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
