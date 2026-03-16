@@ -78,6 +78,7 @@ const Lessons = lazy(() => import("@/pages/lessons"));
 const LessonDetail = lazy(() => import("@/pages/lesson-detail"));
 const Flashcards = lazy(() => import("@/pages/flashcards"));
 const PublicFlashcards = lazy(() => import("@/pages/public-flashcards"));
+const AdaptiveStudyPage = lazy(() => import("@/pages/adaptive-study-page"));
 const TestBank = lazy(() => import("@/pages/test-bank"));
 const UpgradePage = lazy(() => import("@/pages/upgrade"));
 const Reports = lazy(() => import("@/pages/reports"));
@@ -553,6 +554,8 @@ function AppRoutes() {
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
+        <Route path="/study/:mode" component={AdaptiveStudyPage} />
+        <Route path="/study" component={AdaptiveStudyPage} />
         <Route path="/qbank/exam" component={QBankExamPage} />
         <Route path="/qbank/study" component={QBankStudyPage} />
         <Route path="/qbank/browse" component={QBankPreviewPage} />

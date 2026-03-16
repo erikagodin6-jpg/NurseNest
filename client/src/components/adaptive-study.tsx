@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -76,15 +77,23 @@ interface DashboardData {
   masteryDistribution?: { state: string; count: number }[];
 }
 
-const SESSION_TYPES: { id: SessionType; label: string; desc: string; icon: any; color: string }[] = [
-  { id: "recommended", label: "Recommended", desc: "Mix of weak, due, and high-yield content", icon: Sparkles, color: "bg-rose-50 text-rose-700 border-rose-200" },
-  { id: "weakAreas", label: "Weak Areas Only", desc: "Focus on your weakest topics", icon: Target, color: "bg-red-50 text-red-700 border-red-200" },
-  { id: "dueForReview", label: "Due for Review", desc: "Spaced repetition scheduled cards", icon: Clock, color: "bg-violet-50 text-violet-700 border-violet-200" },
-  { id: "flagged", label: "Flagged Cards", desc: "Cards you've flagged for later", icon: Flag, color: "bg-amber-50 text-amber-700 border-amber-200" },
-  { id: "rapidReview", label: "Rapid Review", desc: "Quick-fire across all topics", icon: Zap, color: "bg-cyan-50 text-cyan-700 border-cyan-200" },
-  { id: "mixedAdaptive", label: "Mixed Adaptive", desc: "Balanced mix adjusted to your performance", icon: Brain, color: "bg-blue-50 text-blue-700 border-blue-200" },
-  { id: "preExamBoost", label: "Pre-Exam Boost", desc: "High-yield focus for exam prep", icon: Flame, color: "bg-orange-50 text-orange-700 border-orange-200" },
+const SESSION_TYPES: { id: SessionType; label: string; desc: string; icon: any; color: string; slug: string; analyticsMode: string }[] = [
+  { id: "recommended", label: "Recommended", desc: "Mix of weak, due, and high-yield content", icon: Sparkles, color: "bg-rose-50 text-rose-700 border-rose-200", slug: "recommended", analyticsMode: "recommended" },
+  { id: "weakAreas", label: "Weak Areas Only", desc: "Focus on your weakest topics", icon: Target, color: "bg-red-50 text-red-700 border-red-200", slug: "weak-areas", analyticsMode: "weak" },
+  { id: "dueForReview", label: "Due for Review", desc: "Spaced repetition scheduled cards", icon: Clock, color: "bg-violet-50 text-violet-700 border-violet-200", slug: "due-review", analyticsMode: "due" },
+  { id: "flagged", label: "Flagged Cards", desc: "Cards you've flagged for later", icon: Flag, color: "bg-amber-50 text-amber-700 border-amber-200", slug: "flagged", analyticsMode: "flagged" },
+  { id: "rapidReview", label: "Rapid Review", desc: "Quick-fire across all topics", icon: Zap, color: "bg-cyan-50 text-cyan-700 border-cyan-200", slug: "rapid", analyticsMode: "rapid" },
+  { id: "mixedAdaptive", label: "Mixed Adaptive", desc: "Balanced mix adjusted to your performance", icon: Brain, color: "bg-blue-50 text-blue-700 border-blue-200", slug: "mixed", analyticsMode: "mixed" },
+  { id: "preExamBoost", label: "Pre-Exam Boost", desc: "High-yield focus for exam prep", icon: Flame, color: "bg-orange-50 text-orange-700 border-orange-200", slug: "pre-exam", analyticsMode: "boost" },
 ];
+
+function trackStudyModeSelected(mode: string) {
+  try {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "study_mode_selected", { mode });
+    }
+  } catch {}
+}
 
 const PRESETS = [
   { label: "High-Yield NCLEX Review", filters: { difficulty: 4 }, mode: "preExamBoost" as SessionType },
@@ -209,10 +218,14 @@ function PremiumGate({ children, isPremium, feature }: { children: React.ReactNo
   );
 }
 
-export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string; userTier: string; onBack: () => void }) {
+export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { userId: string; userTier: string; onBack: () => void; initialMode?: string }) {
+  const [, setLocation] = useLocation();
   const isPremium = canAccessFeature(userTier, "adaptive_engine");
   const [view, setView] = useState<"modes" | "study" | "report" | "dashboard" | "admin">("modes");
   const [selectedSessionType, setSelectedSessionType] = useState<SessionType>("recommended");
+  const [loadingMode, setLoadingMode] = useState<SessionType | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [initialModeProcessed, setInitialModeProcessed] = useState(false);
   const [cards, setCards] = useState<AdaptiveCard[]>([]);
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -247,7 +260,11 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
     if (!isPremium && sessionType !== "recommended" && sessionType !== "rapidReview") {
       return;
     }
+    const stInfo = SESSION_TYPES.find(s => s.id === sessionType);
+    if (stInfo) trackStudyModeSelected(stInfo.analyticsMode);
     setLoading(true);
+    setLoadingMode(sessionType);
+    setErrorMessage(null);
     try {
       let sid: string | null = null;
       if (isPremium) {
@@ -285,11 +302,31 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
           setSelectedSessionType(sessionType);
           setView("study");
         } else {
-          alert("No cards available for these filters. Try different settings.");
+          setErrorMessage("No cards available for this study mode. Try different filters or study more topics first.");
+        }
+      } else {
+        setErrorMessage("Could not load study cards. Please try again.");
+      }
+    } catch {
+      setErrorMessage("Something went wrong loading your study session. Please try again.");
+    } finally {
+      setLoading(false);
+      setLoadingMode(null);
+    }
+  }, [userId, userTier, filters, isPremium]);
+
+  useEffect(() => {
+    if (initialMode && !initialModeProcessed && !loading) {
+      setInitialModeProcessed(true);
+      const validMode = SESSION_TYPES.find(s => s.id === initialMode);
+      if (validMode) {
+        const isLocked = !isPremium && validMode.id !== "recommended" && validMode.id !== "rapidReview";
+        if (!isLocked) {
+          startStudySession(validMode.id);
         }
       }
-    } catch {} finally { setLoading(false); }
-  }, [userId, userTier, filters, isPremium]);
+    }
+  }, [initialMode, initialModeProcessed, loading, isPremium, startStudySession]);
 
   const recordResponse = useCallback(async (cardId: string, isCorrect: boolean, conf: Confidence, timeSpent: number) => {
     if (!isPremium) return;
@@ -402,11 +439,11 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
   };
 
   if (view === "dashboard") {
-    return <DashboardView userId={userId} dashboard={dashboard} loading={dashboardLoading} onRefresh={fetchDashboard} onBack={() => setView("modes")} onStartSession={(s) => startStudySession(s)} isPremium={isPremium} />;
+    return <DashboardView userId={userId} dashboard={dashboard} loading={dashboardLoading} onRefresh={fetchDashboard} onBack={() => { setView("modes"); setLocation("/study"); }} onStartSession={(s) => { const info = SESSION_TYPES.find(st => st.id === s); if (info) setLocation(`/study/${info.slug}`); startStudySession(s); }} isPremium={isPremium} />;
   }
 
   if (view === "admin" && isAdmin) {
-    return <AdminAdaptiveControls onBack={() => setView("modes")} />;
+    return <AdminAdaptiveControls onBack={() => { setView("modes"); setLocation("/study"); }} />;
   }
 
   if (view === "report") {
@@ -478,7 +515,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
             <Button variant="outline" className="w-full h-12 rounded-xl text-base font-bold" onClick={() => { setView("dashboard"); fetchDashboard(); }} data-testid="button-view-dashboard">
               <BarChart3 className="w-4 h-4 mr-2" /> View Dashboard
             </Button>
-            <Button variant="ghost" className="w-full h-12 rounded-xl text-base" onClick={() => setView("modes")} data-testid="button-back-modes">
+            <Button variant="ghost" className="w-full h-12 rounded-xl text-base" onClick={() => { setView("modes"); setLocation("/study"); }} data-testid="button-back-modes">
               Back to Study Modes
             </Button>
           </div>
@@ -686,7 +723,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
               </>
             )}
             <div className="flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={() => setView("modes")} className="text-gray-400 hover:text-gray-600 text-xs" data-testid="button-exit-study">Exit Session</Button>
+              <Button variant="ghost" size="sm" onClick={() => { setView("modes"); setLocation("/study"); }} className="text-gray-400 hover:text-gray-600 text-xs" data-testid="button-exit-study">Exit Session</Button>
               {showRationale && (
                 <Button size="sm" disabled={!confidence} onClick={handleNext} className="bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-xs h-8 px-4 shadow-sm disabled:opacity-50" data-testid="button-next-card">
                   {cardIndex < cards.length - 1 ? "Next" : "Finish"} <ChevronRight className="w-4 h-4 ml-1" />
@@ -724,25 +761,64 @@ export function AdaptiveStudyHub({ userId, userTier, onBack }: { userId: string;
           </div>
         </div>
 
+        {errorMessage && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 flex items-center gap-2" data-testid="text-error-message">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            {errorMessage}
+            <button onClick={() => setErrorMessage(null)} className="ml-auto text-red-400 hover:text-red-600"><X className="w-4 h-4" /></button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
           {SESSION_TYPES.map(st => {
             const Icon = st.icon;
             const isLocked = !isPremium && st.id !== "recommended" && st.id !== "rapidReview";
+            const isLoadingThis = loadingMode === st.id;
             return (
-              <button key={st.id} onClick={() => !isLocked && startStudySession(st.id)} disabled={loading || isLocked}
-                className={cn("text-left p-4 rounded-2xl border-2 transition-all group relative", isLocked ? "bg-gray-50 border-gray-200 opacity-70" : "bg-white border-gray-100 hover:border-rose-200 hover:shadow-md")}
-                data-testid={`button-session-${st.id}`}>
+              <button
+                key={st.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  if (isLocked) return;
+                  setLocation(`/study/${st.slug}`);
+                  startStudySession(st.id);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (!isLocked) {
+                      setLocation(`/study/${st.slug}`);
+                      startStudySession(st.id);
+                    }
+                  }
+                }}
+                disabled={loading || isLocked}
+                className={cn(
+                  "text-left p-4 rounded-2xl border-2 transition-all duration-200 group relative cursor-pointer",
+                  isLocked
+                    ? "bg-gray-50 border-gray-200 opacity-70 cursor-not-allowed"
+                    : "bg-white border-gray-100 hover:border-rose-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                )}
+                data-testid={`button-session-${st.id}`}
+              >
                 {isLocked && (
                   <div className="absolute top-2 right-2"><Lock className="w-4 h-4 text-gray-400" /></div>
                 )}
+                {isLoadingThis && (
+                  <div className="absolute top-2 right-2">
+                    <RefreshCw className="w-4 h-4 text-rose-400 animate-spin" />
+                  </div>
+                )}
                 <div className="flex items-start gap-3">
-                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", st.color.split(" ")[0])}>
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110", st.color.split(" ")[0])}>
                     <Icon className={cn("w-5 h-5", st.color.split(" ")[1])} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-gray-800 group-hover:text-rose-600 transition-colors">{st.label}</h3>
                     <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{st.desc}</p>
                   </div>
+                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-rose-400 transition-colors shrink-0 mt-1" />
                 </div>
               </button>
             );
