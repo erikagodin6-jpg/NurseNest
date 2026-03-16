@@ -18,6 +18,7 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
   psychotherapist: () => import("./psychotherapist-questions").then(m => m.psychotherapistQuestions),
   socialWorker: () => import("./social-worker-questions").then(m => m.socialWorkerQuestions),
   addictionsCounsellor: () => import("./addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
+  surgicalTechnologist: () => import("./surgical-technologist-questions").then(m => m.surgicalTechnologistQuestions),
 };
 
 export async function loadCareerQuestions(careerType: CareerType): Promise<CareerQuestion[]> {

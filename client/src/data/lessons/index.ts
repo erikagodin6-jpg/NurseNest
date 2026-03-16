@@ -126,6 +126,14 @@ import { rrtCardiacCriticalCareLessons } from "./rrt-cardiac-critical-care";
 import { paramedicCardiacCriticalCareLessons } from "./paramedic-cardiac-critical-care";
 import { imagingCardiacLessons } from "./imaging-cardiac-lessons";
 import { surgicalTechCardiacLessons } from "./surgical-tech-cardiac-lessons";
+import { surgicalTechSterileTechniqueLessons } from "./surgical-tech-sterile-technique";
+import { surgicalTechOrProtocolsLessons } from "./surgical-tech-or-protocols";
+import { surgicalTechInstrumentsLessons } from "./surgical-tech-instruments";
+import { surgicalTechProceduresLessons } from "./surgical-tech-procedures";
+import { surgicalTechPositioningLessons } from "./surgical-tech-positioning";
+import { surgicalTechInfectionPreventionLessons } from "./surgical-tech-infection-prevention";
+import { surgicalTechAnesthesiaBasicsLessons } from "./surgical-tech-anesthesia-basics";
+import { surgicalTechComplicationsLessons } from "./surgical-tech-complications";
 
 import { alliedHealthFoundations1Lessons } from "./allied-health-foundations-1";
 import { alliedHealthFoundations2Lessons } from "./allied-health-foundations-2";
@@ -753,6 +761,14 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   paramedicCardiacCriticalCareLessons,
   imagingCardiacLessons,
   surgicalTechCardiacLessons,
+  surgicalTechSterileTechniqueLessons,
+  surgicalTechOrProtocolsLessons,
+  surgicalTechInstrumentsLessons,
+  surgicalTechProceduresLessons,
+  surgicalTechPositioningLessons,
+  surgicalTechInfectionPreventionLessons,
+  surgicalTechAnesthesiaBasicsLessons,
+  surgicalTechComplicationsLessons,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,
