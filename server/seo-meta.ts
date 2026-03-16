@@ -764,6 +764,22 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "New Grad Career Hub — Interview Prep, Resume Tools & Survival Guides | NurseNest",
     description: "Launch your nursing career with free survival guides, STAR-framework interview prep, ATS-optimized resume templates, salary negotiation tools, and burnout prevention strategies for new graduate nurses.",
   },
+  "/newgrad/certifications": {
+    title: "New Grad Certifications: ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN | NurseNest",
+    description: "Essential hospital certifications for new graduate nurses. Comprehensive prep guides for ACLS, BLS, PALS, TNCC, NRP, CEN, and CCRN with practice questions, study resources, and exam tips.",
+  },
+  "/newgrad/certifications/bls": {
+    title: "BLS Certification Prep: Practice Questions & Study Guide | NurseNest",
+    description: "Prepare for BLS certification with 150+ practice questions, study roadmap, and clinical pearls. Master high-quality CPR, AED operation, and basic life support for healthcare providers.",
+  },
+  "/newgrad/certifications/acls": {
+    title: "ACLS Certification Prep: Practice Test & Algorithms Review | NurseNest",
+    description: "Prepare for ACLS certification with 200+ practice questions, algorithm review, and clinical scenarios. Master cardiac arrest management, rhythm recognition, and advanced pharmacology.",
+  },
+  "/newgrad/certifications/pals": {
+    title: "PALS Certification Prep: Practice Questions & Pediatric Review | NurseNest",
+    description: "Prepare for PALS certification with 180+ practice questions, pediatric assessment guides, and weight-based dosing review. Master pediatric emergencies and PALS algorithms.",
+  },
   "/rex-pn": {
     title: "REx-PN Exam Prep Hub | Canadian RPN Exam Review | NurseNest",
     description: "Complete REx-PN exam preparation for Canadian practical nursing students. Mock exams, practice questions, study strategies, wellness tips, and exam format guide.",

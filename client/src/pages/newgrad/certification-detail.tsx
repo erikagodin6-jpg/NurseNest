@@ -5,6 +5,8 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { NEWGRAD_CERTIFICATIONS } from "./certifications-hub";
+import { CERT_PREP_MAP } from "./certification-prep-data";
+import CertificationPrepPage from "./certification-prep-page";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award, HelpCircle, Clock, Target, Users
@@ -282,6 +284,11 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 export default function NewGradCertificationDetail() {
   const params = useParams<{ slug: string }>();
   const certSlug = params.slug || "";
+
+  const prepContent = CERT_PREP_MAP[certSlug];
+  if (prepContent) {
+    return <CertificationPrepPage cert={prepContent} />;
+  }
 
   const cert = NEWGRAD_CERTIFICATIONS.find(c => c.slug === certSlug);
 

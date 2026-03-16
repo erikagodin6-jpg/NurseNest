@@ -47,6 +47,14 @@ export async function generateNewGradPages(): Promise<string[]> {
     { path: "/newgrad/burnout", priority: "0.8", freq: "monthly" },
     { path: "/newgrad/salary", priority: "0.9", freq: "monthly" },
     { path: "/newgrad/professional-development", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/certifications/bls", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/certifications/acls", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/certifications/pals", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/certifications/tncc", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications/nrp", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications/cen", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications/ccrn", priority: "0.8", freq: "monthly" },
   ];
   for (const page of careerHubPages) {
     urls.push(simpleUrl(`${siteBase}${page.path}`, now, page.freq, page.priority));

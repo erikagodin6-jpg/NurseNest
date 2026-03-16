@@ -13453,6 +13453,28 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/questions/seed-certification-banks", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { seedCertificationQuestions } = await import("./certification-question-seed");
+      const result = await seedCertificationQuestions();
+
+      heroStatsCache = null;
+
+      await logAudit(req, admin, "question_seed", null, "seed_certification_banks", null, {
+        inserted: result.inserted,
+        skipped: result.skipped,
+      });
+
+      res.json({ success: true, ...result });
+    } catch (e: any) {
+      console.error("[CertSeed] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== QUESTION BANK IMPORT PIPELINE ======
   app.post("/api/admin/qbank/import", async (req, res) => {
     try {
