@@ -1623,7 +1623,15 @@ export const rnSystems = [
       { id: "fluid-and-electrolytes-1-rn", name: "Fluid & Electrolytes (1)", status: "Available" },
       { id: "fluid-electrolyte-and-acid-base-balance-rn-rn", name: "Fluid, Electrolyte, and Acid-Base Balance (RN)", status: "Available" },
       { id: "advanced-cardiovascular-nursing-rn-rn", name: "Advanced Cardiovascular Nursing (RN)", status: "Available" },
-      { id: "coronary-artery-disease-rn", name: "Coronary Artery Disease: RN Pathophysiology", status: "Available" }
+      { id: "coronary-artery-disease-rn", name: "Coronary Artery Disease: RN Pathophysiology", status: "Available" },
+      { id: "rn-acute-coronary-syndrome", name: "Acute Coronary Syndrome", status: "Available" },
+      { id: "rn-pulmonary-edema", name: "Pulmonary Edema", status: "Available" },
+      { id: "rn-pericarditis", name: "Pericarditis", status: "Available" },
+      { id: "rn-mitral-valve-insufficiency", name: "Mitral Valve Insufficiency", status: "Available" },
+      { id: "rn-ventricular-bigeminy", name: "Ventricular Bigeminy", status: "Available" },
+      { id: "rn-hypertensive-encephalopathy", name: "Hypertensive Encephalopathy", status: "Available" },
+      { id: "rn-hypertension", name: "Hypertension", status: "Available" },
+      { id: "rn-coronary-artery-aneurysm", name: "Coronary Artery Aneurysm", status: "Available" }
     ]
   },
   {
@@ -1713,7 +1721,16 @@ export const rnSystems = [
       { id: "copd-pathophysiology-rn", name: "COPD Pathophysiology", status: "Available" },
       { id: "asthma-pathophysiology-rn", name: "Asthma Pathophysiology", status: "Available" },
       { id: "pe-pathophysiology-rn", name: "Pulmonary Embolism: Virchow Triad", status: "Available" },
-      { id: "pneumonia-comprehensive-rn", name: "Pneumonia: CAP vs HAP", status: "Available" }
+      { id: "pneumonia-comprehensive-rn", name: "Pneumonia: CAP vs HAP", status: "Available" },
+      { id: "rn-bronchiolitis", name: "Bronchiolitis", status: "Available" },
+      { id: "rn-respiratory-syncytial-virus-infection", name: "Respiratory Syncytial Virus Infection", status: "Available" },
+      { id: "rn-acute-otitis-media", name: "Acute Otitis Media", status: "Available" },
+      { id: "rn-chronic-obstructive-pulmonary-disease", name: "Chronic Obstructive Pulmonary Disease", status: "Available" },
+      { id: "rn-chronic-bronchitis", name: "Chronic Bronchitis", status: "Available" },
+      { id: "rn-emphysema", name: "Emphysema", status: "Available" },
+      { id: "rn-pleurisy", name: "Pleurisy", status: "Available" },
+      { id: "rn-aspiration-pneumonia", name: "Aspiration Pneumonia", status: "Available" },
+      { id: "rn-hypoxia", name: "Hypoxia", status: "Available" }
     ]
   },
   {
@@ -1771,7 +1788,9 @@ export const rnSystems = [
       { id: "delirium-vs-dementia-rn", name: "Delirium vs Dementia: RN Differentiation", status: "Available" },
       { id: "meningitis-patho-rn", name: "Meningitis: RN Pathophysiology", status: "Available" },
       { id: "status-epilepticus-rn", name: "Status Epilepticus: Emergency Management", status: "Available" },
-      { id: "traumatic-brain-injury-rn", name: "Traumatic Brain Injury: Assessment & Management", status: "Available" }
+      { id: "traumatic-brain-injury-rn", name: "Traumatic Brain Injury: Assessment & Management", status: "Available" },
+      { id: "rn-increased-intracranial-pressure", name: "Increased Intracranial Pressure", status: "Available" },
+      { id: "rn-sydenham-chorea", name: "Sydenham Chorea", status: "Available" }
     ]
   },
   {
@@ -1827,7 +1846,16 @@ export const rnSystems = [
       { id: "acute-pancreatitis-patho-rn", name: "Acute Pancreatitis: RN Pathophysiology", status: "Available" },
       { id: "gi-bleeding-assessment-rn", name: "GI Bleeding: Upper vs Lower Assessment", status: "Available" },
       { id: "bowel-obstruction-patho-rn", name: "Bowel Obstruction: Pathophysiology & Management", status: "Available" },
-      { id: "ibd-crohns-vs-uc-rn", name: "IBD: Crohn Disease vs Ulcerative Colitis", status: "Available" }
+      { id: "ibd-crohns-vs-uc-rn", name: "IBD: Crohn Disease vs Ulcerative Colitis", status: "Available" },
+      { id: "rn-gallstones", name: "Gallstones (Cholelithiasis)", status: "Available" },
+      { id: "rn-mechanical-bowel-obstruction", name: "Mechanical Bowel Obstruction", status: "Available" },
+      { id: "rn-paralytic-ileus", name: "Paralytic Ileus", status: "Available" },
+      { id: "rn-appendiceal-rupture", name: "Appendiceal Rupture", status: "Available" },
+      { id: "rn-peritonitis", name: "Peritonitis", status: "Available" },
+      { id: "rn-hiatal-hernia", name: "Hiatal Hernia", status: "Available" },
+      { id: "rn-inguinal-hernia", name: "Inguinal Hernia", status: "Available" },
+      { id: "rn-encopresis", name: "Encopresis", status: "Available" },
+      { id: "rn-functional-fecal-incontinence", name: "Functional Fecal Incontinence", status: "Available" }
     ]
   },
   {
@@ -1881,7 +1909,8 @@ export const rnSystems = [
       { id: "metabolic-acidosis-rn", name: "Metabolic Acidosis", status: "Available" },
       { id: "metabolic-alkalosis-rn", name: "Metabolic Alkalosis", status: "Available" },
       { id: "respiratory-acidosis-alkalosis-rn", name: "Respiratory Acidosis & Alkalosis", status: "Available" },
-      { id: "mixed-acid-base-disorders-rn", name: "Mixed Acid-Base Disorders: ABG Interpretation", status: "Available" }
+      { id: "mixed-acid-base-disorders-rn", name: "Mixed Acid-Base Disorders: ABG Interpretation", status: "Available" },
+      { id: "rn-nephrotic-syndrome", name: "Nephrotic Syndrome", status: "Available" }
     ]
   },
   {
@@ -1903,7 +1932,16 @@ export const rnSystems = [
       { id: "hpa-axis-stress-rn", name: "HPA Axis & Stress Response: Assessment", status: "Available" },
       { id: "adrenal-crisis-rn", name: "Adrenal Crisis (Addisonian Crisis): Emergency Recognition", status: "Available" },
       { id: "endocrine-pheochromocytoma-rn", name: "Pheochromocytoma: Catecholamine-Secreting Tumor", status: "Available" },
-      { id: "diabetes-insipidus-siadh-rn", name: "DI vs. SIADH: Fluid & Electrolyte Opposites", status: "Available" }
+      { id: "diabetes-insipidus-siadh-rn", name: "DI vs. SIADH: Fluid & Electrolyte Opposites", status: "Available" },
+      { id: "rn-hypoparathyroidism", name: "Hypoparathyroidism", status: "Available" },
+      { id: "rn-hypocalcemia", name: "Hypocalcemia", status: "Available" },
+      { id: "rn-addison-disease", name: "Addison Disease", status: "Available" },
+      { id: "rn-hypokalemia", name: "Hypokalemia", status: "Available" },
+      { id: "rn-hypophosphatemia", name: "Hypophosphatemia", status: "Available" },
+      { id: "rn-hypomagnesemia", name: "Hypomagnesemia", status: "Available" },
+      { id: "rn-hyperkalemia", name: "Hyperkalemia", status: "Available" },
+      { id: "rn-hypoglycemia", name: "Hypoglycemia", status: "Available" },
+      { id: "rn-newborn-hypoglycemia", name: "Newborn Hypoglycemia", status: "Available" }
     ]
   },
   {
@@ -1946,7 +1984,13 @@ export const rnSystems = [
       { id: "disseminated-intravascular-coagulation-advanced-rn", name: "Disseminated Intravascular Coagulation (Advanced)", status: "Available" },
       { id: "cancer-biology-fundamentals-rn", name: "Cancer Biology Fundamentals", status: "Available" },
       { id: "oncologic-emergencies-rn", name: "Oncologic Emergencies", status: "Available" },
-      { id: "neutropenic-precautions-rn", name: "Neutropenic Precautions & Febrile Neutropenia", status: "Available" }
+      { id: "neutropenic-precautions-rn", name: "Neutropenic Precautions & Febrile Neutropenia", status: "Available" },
+      { id: "rn-thrombocytopenia", name: "Thrombocytopenia", status: "Available" },
+      { id: "rn-sickle-cell-disease", name: "Sickle Cell Disease", status: "Available" },
+      { id: "rn-vaso-occlusive-crisis", name: "Vaso-occlusive Crisis", status: "Available" },
+      { id: "rn-sequestration-crisis", name: "Sequestration Crisis", status: "Available" },
+      { id: "rn-hyperhemolytic-crisis", name: "Hyperhemolytic Crisis", status: "Available" },
+      { id: "rn-hemophilia", name: "Hemophilia", status: "Available" }
     ]
   },
   {
@@ -2004,7 +2048,11 @@ export const rnSystems = [
       { id: "placenta-previa-management-rn", name: "Placenta Previa: RN Clinical Management", status: "Available" },
       { id: "umbilical-cord-prolapse-rn", name: "Umbilical Cord Prolapse: RN Emergency Response", status: "Available" },
       { id: "hyperemesis-gravidarum-rn", name: "Hyperemesis Gravidarum: RN Assessment", status: "Available" },
-      { id: "rh-alloimmunization-rn", name: "Rh Alloimmunization: RN Management", status: "Available" }
+      { id: "rh-alloimmunization-rn", name: "Rh Alloimmunization: RN Management", status: "Available" },
+      { id: "rn-placental-abruption", name: "Placental Abruption", status: "Available" },
+      { id: "rn-uterine-rupture", name: "Uterine Rupture", status: "Available" },
+      { id: "rn-menopause", name: "Menopause", status: "Available" },
+      { id: "rn-morning-sickness", name: "Morning Sickness", status: "Available" }
     ]
   },
   {
@@ -2051,7 +2099,9 @@ export const rnSystems = [
       { id: "neonatal-respiratory-distress-rn", name: "Neonatal Respiratory Distress Syndrome", status: "Available" },
       { id: "neonatal-necrotizing-enterocolitis-rn", name: "Necrotizing Enterocolitis: Early Detection", status: "Available" },
       { id: "neonatal-congenital-heart-defects-rn", name: "Congenital Heart Defects: Cyanotic vs. Acyanotic", status: "Available" },
-      { id: "low-cardiac-output-peds-rn", name: "Low Cardiac Output Syndrome in Pediatric Patients", status: "Available" }
+      { id: "low-cardiac-output-peds-rn", name: "Low Cardiac Output Syndrome in Pediatric Patients", status: "Available" },
+      { id: "rn-neonatal-abstinence-syndrome", name: "Neonatal Abstinence Syndrome", status: "Available" },
+      { id: "rn-submersion-injury", name: "Submersion Injury", status: "Available" }
     ]
   },
   {
@@ -2097,7 +2147,17 @@ export const rnSystems = [
       { id: "coarctation-expanded-rn", name: "Coarctation of the Aorta: Expanded RN", status: "Available" },
       { id: "pediatric-respiratory-distress-rn", name: "Pediatric Respiratory Distress: Croup, Epiglottitis & Bronchiolitis", status: "Available" },
       { id: "pediatric-fluid-electrolyte-rn", name: "Pediatric Fluid & Electrolyte Management", status: "Available" },
-      { id: "pediatric-seizures-neuro-rn", name: "Pediatric Seizures & Neurologic Emergencies", status: "Available" }
+      { id: "pediatric-seizures-neuro-rn", name: "Pediatric Seizures & Neurologic Emergencies", status: "Available" },
+      { id: "rn-wilms-tumor", name: "Wilms Tumor (Nephroblastoma)", status: "Available" },
+      { id: "rn-cystic-fibrosis", name: "Cystic Fibrosis", status: "Available" },
+      { id: "rn-hypertrophic-pyloric-stenosis", name: "Hypertrophic Pyloric Stenosis", status: "Available" },
+      { id: "rn-cleft-palate", name: "Cleft Palate", status: "Available" },
+      { id: "rn-tracheoesophageal-fistula", name: "Tracheoesophageal Fistula", status: "Available" },
+      { id: "rn-esophageal-atresia", name: "Esophageal Atresia", status: "Available" },
+      { id: "rn-ventricular-septal-defect", name: "Ventricular Septal Defect", status: "Available" },
+      { id: "rn-pulmonary-stenosis", name: "Pulmonary Stenosis", status: "Available" },
+      { id: "rn-right-ventricular-hypertrophy", name: "Right Ventricular Hypertrophy", status: "Available" },
+      { id: "rn-atrioventricular-canal-defect", name: "Atrioventricular Canal Defect", status: "Available" }
     ]
   },
   {
@@ -2131,7 +2191,8 @@ export const rnSystems = [
       { id: "serotonin-syndrome-rn", name: "Serotonin Syndrome: RN Recognition", status: "Available" },
       { id: "intimate-partner-violence-rn", name: "Intimate Partner Violence: RN Screening", status: "Available" },
       { id: "delirium-screening-and-management-rn", name: "Delirium Screening and Management", status: "Available" },
-      { id: "developmental-milestones-assessment-rn", name: "Developmental Milestones Assessment", status: "Available" }
+      { id: "developmental-milestones-assessment-rn", name: "Developmental Milestones Assessment", status: "Available" },
+      { id: "rn-conversion-disorder", name: "Conversion Disorder", status: "Available" }
     ]
   },
   {
@@ -2220,7 +2281,12 @@ export const rnSystems = [
       { id: "prostate-cancer-rn", name: "Prostate Cancer", status: "Available" },
       { id: "oral-candidiasis-rn-clinical-decision-making-rn", name: "Oral Candidiasis - RN Clinical Decision-Making", status: "Available" },
       { id: "bacterial-cell-structure-rn", name: "Bacterial Cell Structure", status: "Available" },
-      { id: "vaccine-mechanisms-rn", name: "Vaccine Mechanisms", status: "Available" }
+      { id: "vaccine-mechanisms-rn", name: "Vaccine Mechanisms", status: "Available" },
+      { id: "rn-acute-rheumatic-fever", name: "Acute Rheumatic Fever", status: "Available" },
+      { id: "rn-streptococcal-infection", name: "Streptococcal Infection (Group A Strep)", status: "Available" },
+      { id: "rn-mononucleosis", name: "Mononucleosis (Epstein-Barr Virus)", status: "Available" },
+      { id: "rn-hepatitis-b", name: "Hepatitis B", status: "Available" },
+      { id: "rn-botulism", name: "Botulism", status: "Available" }
     ]
   },
   {
@@ -2234,7 +2300,11 @@ export const rnSystems = [
       { id: "compartment-syndrome-rn", name: "Compartment Syndrome", status: "Available" },
       { id: "rheumatoid-arthritis-rn", name: "Rheumatoid Arthritis", status: "Available" },
       { id: "bone-marrow-failure-syndromes-rn", name: "Bone Marrow Failure Syndromes", status: "Available" },
-      { id: "osteoporosis-rn-clinical-management-rn", name: "Osteoporosis - RN Clinical Management", status: "Available" }
+      { id: "osteoporosis-rn-clinical-management-rn", name: "Osteoporosis - RN Clinical Management", status: "Available" },
+      { id: "rn-acute-lumbosacral-strain", name: "Acute Lumbosacral Strain", status: "Available" },
+      { id: "rn-lumbosacral-disc-herniation", name: "Lumbosacral Disc Herniation", status: "Available" },
+      { id: "rn-testicular-torsion", name: "Testicular Torsion", status: "Available" },
+      { id: "rn-septic-arthritis", name: "Septic Arthritis", status: "Available" }
     ]
   },
   {
@@ -2263,7 +2333,13 @@ export const rnSystems = [
       { id: "obstructive-shock-rn", name: "Obstructive Shock (Critical Care)", status: "Available" },
       { id: "mods-organ-dysfunction-rn", name: "MODS: Multiple Organ Dysfunction Syndrome", status: "Available" },
       { id: "burns-critical-care-rn", name: "Burns: Critical Care Management", status: "Available" },
-      { id: "hemodynamic-monitoring-basics-rn", name: "Hemodynamic Monitoring Basics", status: "Available" }
+      { id: "hemodynamic-monitoring-basics-rn", name: "Hemodynamic Monitoring Basics", status: "Available" },
+      { id: "rn-cardiac-dysrhythmias", name: "Cardiac Dysrhythmias", status: "Available" },
+      { id: "rn-ischemia", name: "Ischemia", status: "Available" },
+      { id: "rn-hemorrhage", name: "Hemorrhage", status: "Available" },
+      { id: "rn-aspiration", name: "Aspiration", status: "Available" },
+      { id: "rn-metabolic-alkalosis", name: "Metabolic Alkalosis", status: "Available" },
+      { id: "rn-electrolyte-imbalances", name: "Electrolyte Imbalances", status: "Available" }
     ]
   },
   {
@@ -2400,7 +2476,9 @@ export const rnSystems = [
       { id: "lithium-toxicity-rn", name: "Lithium Toxicity", status: "Available" },
       { id: "digoxin-toxicity-rn", name: "Digoxin Toxicity", status: "Available" },
       { id: "serotonin-syndrome-tox-rn", name: "Serotonin Syndrome (Toxicology)", status: "Available" },
-      { id: "nms-rn", name: "Neuroleptic Malignant Syndrome (NMS)", status: "Available" }
+      { id: "nms-rn", name: "Neuroleptic Malignant Syndrome (NMS)", status: "Available" },
+      { id: "rn-magnesium-toxicity", name: "Magnesium Toxicity", status: "Available" },
+      { id: "rn-medication-extravasation", name: "Medication Extravasation", status: "Available" }
     ]
   },
   {
