@@ -155,6 +155,7 @@ const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard
 const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboard"));
 const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
+const NpExamPrepPillar = lazy(() => import("@/pages/np-exam-prep-pillar"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
 const NpExamHubPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.NpExamHubPage })));
 const AanpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AanpExamPage })));
@@ -650,6 +651,7 @@ function AppRoutes() {
         <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
         <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
         <Route path="/rn/questions">{() => <NursingQuestionsIndexPage tier="rn" />}</Route>
+        <Route path="/np-exam-prep" component={NpExamPrepPillar} />
         <Route path="/np/exams" component={NpExamHubPage} />
         <Route path="/np/aanp-exam" component={AanpExamPage} />
         <Route path="/np/ancc-exam" component={AnccExamPage} />
@@ -672,7 +674,7 @@ function AppRoutes() {
         <Route path="/nursing/nclex-rn-study-guide">{() => <SeoLandingBySlug slug="nursing/nclex-rn-study-guide" />}</Route>
         <Route path="/nursing/nclex-pn-practice-questions">{() => <SeoLandingBySlug slug="nursing/nclex-pn-practice-questions" />}</Route>
         <Route path="/nursing/nclex-pn-flashcards">{() => <SeoLandingBySlug slug="nursing/nclex-pn-flashcards" />}</Route>
-        <Route path="/nursing/np-exam-prep">{() => <SeoLandingBySlug slug="nursing/np-exam-prep" />}</Route>
+        <Route path="/nursing/np-exam-prep">{() => { window.location.replace("/np-exam-prep"); return null; }}</Route>
         <Route path="/nursing" component={NursingAuthorityHub} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/nursing-specialties/:slug" component={NursingSpecialtyDetail} />

@@ -59,7 +59,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award, Sparkles } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
 
@@ -529,6 +529,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             <div className="mb-4">
               <p className="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-2 px-3">NP Exam Preparation</p>
               <div className="flex flex-col gap-1 px-1">
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np-exam-prep")} data-testid="mobile-np-exam-prep">
+                    <Sparkles className="w-4 h-4 text-purple-500" />
+                    NP Exam Prep Hub
+                  </Button>
+                </SheetClose>
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/exams")} data-testid="mobile-np-exam-hub">
                     <GraduationCap className="w-4 h-4 text-purple-500" />

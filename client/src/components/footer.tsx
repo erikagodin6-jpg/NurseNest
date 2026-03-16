@@ -120,6 +120,7 @@ export function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.ecosystem")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+              <li><LocaleLink href="/np-exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-np-exam-prep">NP Exam Prep</LocaleLink></li>
               <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-exam-prep">{t("footer.ecosystemExamPrep")}</LocaleLink></li>
               <li><LocaleLink href="/new-graduate-support" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-new-grad">{t("footer.ecosystemNewGrad")}</LocaleLink></li>
               <li><LocaleLink href="/healthcare-careers" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-jobs">{t("footer.ecosystemCareers")}</LocaleLink></li>

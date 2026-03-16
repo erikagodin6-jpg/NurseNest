@@ -93,9 +93,9 @@ export function NpExamHubPage() {
           <div className="max-w-5xl mx-auto px-4">
             <BreadcrumbNav
               items={[
-                { label: "Home", href: "/" },
-                { label: "NP", href: "/np" },
-                { label: "NP Exam Hub" },
+                { name: "Home", url: "/" },
+                { name: "NP Exam Prep", url: "/np-exam-prep" },
+                { name: "NP Exam Hub", url: "/np/exams" },
               ]}
               className="mb-6 text-white/60"
             />
@@ -287,7 +287,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
         additionalStructuredData={[faqStructuredData, credentialSchema]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "NP Exam Hub", url: "https://www.nursenest.ca/np/exams" },
+          { name: "NP Exam Prep", url: "https://www.nursenest.ca/np-exam-prep" },
           { name: data.title, url: `https://www.nursenest.ca/${data.slug}` },
         ]}
       />
@@ -297,9 +297,9 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
           <div className="max-w-4xl mx-auto px-4">
             <BreadcrumbNav
               items={[
-                { label: "Home", href: "/" },
-                { label: "NP Exam Hub", href: "/np/exams" },
-                { label: data.title },
+                { name: "Home", url: "/" },
+                { name: "NP Exam Prep", url: "/np-exam-prep" },
+                { name: data.title, url: `/${data.slug}` },
               ]}
               className="mb-6 text-white/60"
             />
@@ -517,9 +517,9 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
                   Take Mock Exam <Target className="w-4 h-4" />
                 </Button>
               </LocaleLink>
-              <LocaleLink href="/np/exams" data-testid="link-back-to-hub">
+              <LocaleLink href="/np-exam-prep" data-testid="link-back-to-hub">
                 <Button variant="ghost" className="gap-2 text-gray-600">
-                  All NP Exams
+                  ← NP Exam Prep Hub
                 </Button>
               </LocaleLink>
             </div>
@@ -529,7 +529,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
             <h2 className="text-lg font-bold text-[#2E3A59] mb-4">Related Resources</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
-                { label: "NP Exam Hub", href: "/np/exams", desc: "All exam pathways" },
+                { label: "NP Exam Prep Hub", href: "/np-exam-prep", desc: "All exam pathways" },
                 { label: "NP Test Bank", href: "/np/test-bank", desc: "Practice questions" },
                 { label: "NP Lessons", href: "/lessons?tier=np", desc: "Clinical guides" },
                 { label: "Flashcards", href: "/flashcards", desc: "Quick review" },

@@ -159,7 +159,7 @@ const HUB_CONFIGS: HubConfig[] = [
       { icon: Target, title: "Mock Exam Simulator", description: "Take a 150-question fixed-length mock exam aligned to AANP and ANCC exam blueprints.", href: "/us-np/mock-exam", badge: "Popular" },
       { icon: Award, title: "AANP Certification Exam", description: "Dedicated AANP exam page with blueprint details, domain breakdown, study roadmap, and AANP-filtered practice questions.", href: "/np/aanp-exam", badge: "New" },
       { icon: Award, title: "ANCC Certification Exam", description: "Dedicated ANCC exam page with FNP-BC, PMHNP-BC, and AGPCNP-BC specialties, scoring details, and ANCC-filtered practice.", href: "/np/ancc-exam", badge: "New" },
-      { icon: GraduationCap, title: "NP Exam Hub", description: "Central hub for all NP certification exams including AANP, ANCC, CNPLE, and upcoming Canadian NP pathways.", href: "/np/exams" },
+      { icon: GraduationCap, title: "NP Exam Prep Hub", description: "Central hub for all NP certification exams including AANP, ANCC, CNPLE, and upcoming Canadian NP pathways.", href: "/np-exam-prep" },
       { icon: BookOpen, title: "Practice Questions", description: "Practice with NP-level questions covering advanced assessment, diagnosis, and management.", href: "/test-bank?exam=np" },
       { icon: Layers, title: "Study Guides and Lessons", description: "Review advanced clinical lessons on primary care, acute care, and specialty NP topics.", href: "/lessons?tier=np" },
       { icon: Pill, title: "Pharmacology and Prescribing", description: "Study advanced pharmacology including FDA-approved medications, prescribing authority, and drug interactions.", href: "/medications" },
