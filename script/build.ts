@@ -148,16 +148,18 @@ async function buildAll() {
 
   await rm("dist", { recursive: true, force: true });
 
-  log("building i18n + client (vite) + server (esbuild) in parallel...");
-  await Promise.all([
-    compileI18n(),
-    viteBuild(),
-    buildServer(),
-  ]);
+  log("building i18n...");
+  await compileI18n();
 
-  log("i18n + client + server done");
+  log("building client (vite)...");
+  await viteBuild();
 
-  log("removing bundled assets + building lessons data + copying seed data in parallel...");
+  log("client done — building server (esbuild)...");
+  await buildServer();
+
+  log("server done");
+
+  log("removing bundled assets + building lessons data + copying seed data...");
   const lessonsDir = path.resolve("client/src/data/lessons");
   const npBatchFiles = (await readdir(lessonsDir))
     .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
@@ -167,10 +169,16 @@ async function buildAll() {
   await Promise.all([
     rm("dist/public/videos", { recursive: true, force: true }),
     rm("dist/public/translations", { recursive: true, force: true }),
-    buildLessonsData(),
-    ...npBatchFiles.map((i: number) => buildNpBatch(i)),
     copySeedData(),
   ]);
+
+  log("building lessons data...");
+  await buildLessonsData();
+
+  log("building np batches sequentially...");
+  for (const i of npBatchFiles) {
+    await buildNpBatch(i);
+  }
 
   log(`build complete`);
 }

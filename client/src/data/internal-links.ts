@@ -2,6 +2,8 @@ export interface InternalLink {
   anchor: string;
   target: string;
   reason: string;
+  type?: string;
+  platform?: string;
 }
 
 export const internalLinkMap: Record<string, InternalLink[]> = {
@@ -1440,3 +1442,27 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "New Grad Imaging Career Hub", target: "/new-grad/diagnostic-imaging", reason: "career transition resources for imaging techs", type: "career-to-newgrad", platform: "new-grad" },
   ],
 };
+
+export function getInternalLinksForLesson(lessonId: string): InternalLink[] {
+  return (internalLinkMap[lessonId] ?? []).filter(
+    (link) => !link.platform || link.platform === "nursenest",
+  );
+}
+
+export function getCrossPlatformLinksForLesson(lessonId: string): InternalLink[] {
+  return (internalLinkMap[lessonId] ?? []).filter(
+    (link) => link.platform && link.platform !== "nursenest",
+  );
+}
+
+export function getCrossPlatformLinksForCareer(careerId: string): InternalLink[] {
+  return (internalLinkMap[careerId] ?? []).filter(
+    (link) => link.type?.startsWith("career-to-"),
+  );
+}
+
+export function getCrossPlatformLinksForNewGrad(profession: string): InternalLink[] {
+  return (internalLinkMap[profession] ?? []).filter(
+    (link) => link.type?.includes("newgrad") || link.platform === "new-grad",
+  );
+}
