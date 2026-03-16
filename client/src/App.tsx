@@ -408,6 +408,7 @@ const InternationalNursingMigration = lazy(() => import("@/pages/international-n
 const InternationalNursingExam = lazy(() => import("@/pages/international-nursing-exam"));
 const InternationalNursingComparison = lazy(() => import("@/pages/international-nursing-comparison"));
 const InternationalNursingContent = lazy(() => import("@/pages/international-nursing-content"));
+const InternationalNursingCluster = lazy(() => import("@/pages/international-nursing-cluster"));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -905,6 +906,19 @@ function AppRoutes() {
         <Route path="/nursing-recruitment-agencies-guide" component={InternationalNursingContent} />
         <Route path="/cultural-adjustment-international-nurses" component={InternationalNursingContent} />
         <Route path="/international-nurse-interview-tips" component={InternationalNursingContent} />
+        <Route path="/international-nurses/compare-canada-vs-united-states" component={InternationalNursingComparison} />
+        <Route path="/international-nurses/compare-canada-vs-united-kingdom" component={InternationalNursingComparison} />
+        <Route path="/international-nurses/compare-australia-vs-new-zealand" component={InternationalNursingComparison} />
+        <Route path="/international-nurses/nursing-english-requirements" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/ielts-vs-oet" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/bridging-programs" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/credential-evaluation" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/required-documents" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/common-delays" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/registration-timelines" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/best-countries" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/highest-paying-countries" component={InternationalNursingCluster} />
+        <Route path="/international-nurses/visa-sponsorship-jobs" component={InternationalNursingCluster} />
         <Route path="/international-nurses/:country" component={InternationalNursingCountry} />
 
         <Route path="/medical-imaging/study-plan-generator" component={ImagingStudyPlanGenerator} />
