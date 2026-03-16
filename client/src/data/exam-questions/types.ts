@@ -38,7 +38,7 @@ export interface BowtieQuestion {
 
 export type Difficulty = 1 | 2 | 3;
 export type BloomLevel = "recall" | "understanding" | "application" | "analysis";
-export type BankCourse = "anatomy" | "pre-nursing" | "bls" | "pals" | "acls" | "rn";
+export type BankCourse = "anatomy" | "pre-nursing" | "bls" | "pals" | "acls" | "nrp" | "tncc" | "enpc" | "rn";
 
 export interface BankQuestion {
   id: string;

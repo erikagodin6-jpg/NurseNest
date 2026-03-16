@@ -158,7 +158,39 @@ export default function NursingCertificationsHub() {
         </div>
       </section>
 
-      <section className="py-16" data-testid="section-cross-links">
+      <section className="py-16" data-testid="section-emergency-certs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-emergency-heading">Emergency Certification Prep & Renewal</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Dedicated preparation and renewal guides for the six core emergency certifications.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { slug: "bls", name: "BLS", fullName: "Basic Life Support" },
+              { slug: "acls", name: "ACLS", fullName: "Advanced Cardiovascular Life Support" },
+              { slug: "pals", name: "PALS", fullName: "Pediatric Advanced Life Support" },
+              { slug: "nrp", name: "NRP", fullName: "Neonatal Resuscitation Program" },
+              { slug: "tncc", name: "TNCC", fullName: "Trauma Nursing Core Course" },
+              { slug: "enpc", name: "ENPC", fullName: "Emergency Nursing Pediatric Course" },
+            ].map((cert) => (
+              <div key={cert.slug} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`card-emergency-${cert.slug}`}>
+                <h3 className="font-bold text-gray-900 mb-0.5">{cert.name}</h3>
+                <p className="text-xs text-gray-500 mb-3">{cert.fullName}</p>
+                <div className="flex gap-2">
+                  <Link href={`/certifications/${cert.slug}-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors" data-testid={`link-emergency-prep-${cert.slug}`}>
+                    Prep Guide
+                  </Link>
+                  <Link href={`/certifications/${cert.slug}-renewal-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-emergency-renewal-${cert.slug}`}>
+                    Renewal Prep
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

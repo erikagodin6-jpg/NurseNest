@@ -217,6 +217,8 @@ const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
 const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certification-page"));
 const NewGradCertificationsHub = lazy(() => import("@/pages/newgrad/certifications-hub"));
 const NewGradCertificationDetail = lazy(() => import("@/pages/newgrad/certification-detail"));
+const CertificationPrepPage = lazy(() => import("@/pages/certification-prep-page"));
+const CertificationRenewalPage = lazy(() => import("@/pages/certification-renewal-page"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
@@ -721,6 +723,18 @@ function AppRoutes() {
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
         <Route path="/nursing-certifications-hub">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/study-pathways" component={StudyPathwaysHub} />
+        <Route path="/certifications/bls-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/acls-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/pals-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/nrp-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/tncc-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/enpc-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/bls-renewal-prep" component={CertificationRenewalPage} />
+        <Route path="/certifications/acls-renewal-prep" component={CertificationRenewalPage} />
+        <Route path="/certifications/pals-renewal-prep" component={CertificationRenewalPage} />
+        <Route path="/certifications/nrp-renewal-prep" component={CertificationRenewalPage} />
+        <Route path="/certifications/tncc-renewal-prep" component={CertificationRenewalPage} />
+        <Route path="/certifications/enpc-renewal-prep" component={CertificationRenewalPage} />
         <Route path="/certifications/ccrn-exam-prep">{() => <SeoLandingBySlug slug="certifications/ccrn-exam-prep" />}</Route>
         <Route path="/certifications/cen-exam-prep">{() => <SeoLandingBySlug slug="certifications/cen-exam-prep" />}</Route>
         <Route path="/certifications/tncc-overview">{() => <SeoLandingBySlug slug="certifications/tncc-overview" />}</Route>

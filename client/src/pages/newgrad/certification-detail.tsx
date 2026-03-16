@@ -21,6 +21,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
   pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100", gradientFrom: "from-pink-50", gradientTo: "to-pink-100/30" },
   emerald: { bg: "bg-emerald-50", iconColor: "text-emerald-600", border: "border-emerald-100", gradientFrom: "from-emerald-50", gradientTo: "to-emerald-100/30" },
   rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100", gradientFrom: "from-rose-50", gradientTo: "to-rose-100/30" },
+  violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", gradientFrom: "from-violet-50", gradientTo: "to-violet-100/30" },
 };
 
 function CertificationNotFound() {
@@ -119,7 +120,12 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
               <Link href="/free-practice" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-practice-questions">
                 Practice {cert.name} Questions <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-all-certifications">
+              {["bls", "acls", "pals", "nrp", "tncc", "enpc"].includes(cert.slug) && (
+                <Link href={`/certifications/${cert.slug}-prep`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-full-prep">
+                  Full Prep Guide <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+              <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-all-certifications">
                 All Certifications
               </Link>
             </div>

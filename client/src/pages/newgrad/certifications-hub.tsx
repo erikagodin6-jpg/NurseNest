@@ -142,6 +142,32 @@ export const NEWGRAD_CERTIFICATIONS = [
     ],
   },
   {
+    slug: "enpc",
+    name: "ENPC",
+    fullName: "Emergency Nursing Pediatric Course",
+    org: "ENA",
+    description: "Systematic approach to pediatric emergency care — triage, respiratory emergencies, shock management, trauma assessment, and stabilization of critically ill children.",
+    questionCount: "130+",
+    icon: Baby,
+    color: "violet",
+    topics: [
+      "Pediatric assessment triangle and triage",
+      "Pediatric respiratory emergencies (croup, epiglottitis, asthma, bronchiolitis)",
+      "Pediatric shock recognition and fluid resuscitation",
+      "Pediatric trauma assessment (primary and secondary survey)",
+      "Child maltreatment recognition and reporting",
+      "Pediatric seizure and neurological emergency management",
+      "Neonatal emergencies in the ED setting",
+      "Family-centered care and psychosocial considerations",
+    ],
+    clinicalContext: "ENPC is offered by the Emergency Nurses Association (ENA) for nurses caring for pediatric patients in emergency settings. It is strongly preferred or required for pediatric ED nurses and general ED nurses who see pediatric patients.",
+    faq: [
+      { question: "Who should take ENPC?", answer: "ENPC is designed for emergency nurses, pediatric nurses, and any nurse who may care for acutely ill or injured children. Many emergency departments require or strongly encourage ENPC certification." },
+      { question: "How is ENPC different from PALS?", answer: "PALS focuses on pediatric resuscitation algorithms (cardiac arrest, arrhythmias). ENPC covers the broader scope of pediatric emergency nursing including triage, trauma, medical emergencies, and family-centered care using the nursing process." },
+      { question: "How long is the ENPC course?", answer: "ENPC is a 2-day course (approximately 16 hours) with didactic content, hands-on skills stations, and written/skills testing. Certification is valid for 4 years." },
+    ],
+  },
+  {
     slug: "cen",
     name: "CEN",
     fullName: "Certified Emergency Nurse",
@@ -203,6 +229,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
   pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100", badge: "bg-pink-100 text-pink-700" },
   emerald: { bg: "bg-emerald-50", iconColor: "text-emerald-600", border: "border-emerald-100", badge: "bg-emerald-100 text-emerald-700" },
   rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100", badge: "bg-rose-100 text-rose-700" },
+  violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", badge: "bg-violet-100 text-violet-700" },
 };
 
 const FAQ_DATA = [
@@ -313,15 +340,16 @@ export default function NewGradCertificationsHub() {
       <section className="py-16 bg-gray-50" id="certifications" data-testid="section-certification-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">7 Essential Certifications</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">8 Essential Certifications</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Each certification includes practice questions, study strategies, and everything you need to pass on your first attempt.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {NEWGRAD_CERTIFICATIONS.map((cert) => {
               const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
+              const hasPrepPage = ["bls", "acls", "pals", "nrp", "tncc", "enpc"].includes(cert.slug);
               return (
-                <Link key={cert.slug} href={`/newgrad/certifications/${cert.slug}`} className="group" data-testid={`card-cert-${cert.slug}`}>
-                  <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
+                <div key={cert.slug} className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`} data-testid={`card-cert-${cert.slug}`}>
+                  <Link href={`/newgrad/certifications/${cert.slug}`} className="group">
                     <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                       <cert.icon className={`w-6 h-6 ${colors.iconColor}`} />
                     </div>
@@ -339,8 +367,18 @@ export default function NewGradCertificationsHub() {
                         Study Guide <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                  {hasPrepPage && (
+                    <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                      <Link href={`/certifications/${cert.slug}-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid={`link-prep-${cert.slug}`}>
+                        Prep Guide
+                      </Link>
+                      <Link href={`/certifications/${cert.slug}-renewal-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-renewal-${cert.slug}`}>
+                        Renewal Prep
+                      </Link>
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -357,7 +395,7 @@ export default function NewGradCertificationsHub() {
             {[
               { phase: "Before Day 1", certs: "BLS", desc: "Required before starting any nursing position. Usually completed in nursing school." },
               { phase: "First 90 Days", certs: "ACLS", desc: "Required for most acute care units. Many hospitals offer the course during orientation." },
-              { phase: "First 6 Months", certs: "PALS / NRP / TNCC", desc: "Unit-specific requirements. PALS for peds/ED, NRP for L&D/NICU, TNCC for trauma/ED." },
+              { phase: "First 6 Months", certs: "PALS / NRP / TNCC / ENPC", desc: "Unit-specific requirements. PALS for peds/ED, NRP for L&D/NICU, TNCC for trauma/ED, ENPC for pediatric emergency." },
               { phase: "After 1-2 Years", certs: "CEN / CCRN", desc: "Specialty certifications requiring clinical experience. Demonstrates advanced expertise." },
             ].map((item, i) => (
               <div key={i} className="flex gap-4 items-start bg-white rounded-xl border border-gray-100 p-5" data-testid={`timeline-phase-${i}`}>
