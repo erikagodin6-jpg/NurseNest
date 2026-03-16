@@ -3,7 +3,10 @@ import * as fs from "fs";
 import * as path from "path";
 import { seoTitleMap } from "./seo-title-map";
 import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
-import { buildCanonicalUrl, shouldNoindexForLocale, getIndexableLocalesForPage, SITE_BASE, ALLIED_SITE_BASE } from "@shared/seo-utils";
+import { normalizeCanonicalUrl, isLowValueTranslatedPage, hasTimestampSuffix, LOW_VALUE_TRANSLATED_PATHS } from "@shared/canonical-url";
+
+const SITE_BASE = "https://www.nursenest.ca";
+const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
 
 const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
 
@@ -61,7 +64,7 @@ const NOINDEX_PATHS = new Set([
   "/allied-health/occupational-therapy/dashboard",
 ]);
 
-function isNoindexPath(path: string): boolean {
+export function isNoindexPath(path: string, locale?: string): boolean {
   if (NOINDEX_PATHS.has(path)) return true;
   if (path.startsWith("/admin")) return true;
   if (path.startsWith("/content-editor")) return true;
@@ -75,6 +78,7 @@ function isNoindexPath(path: string): boolean {
   if (path.startsWith("/subscription")) return true;
   if (/^\/allied-health\/[^/]+\/dashboard/.test(path)) return true;
   if (path.startsWith("/allied-health/diagnostic")) return true;
+  if (locale && isLowValueTranslatedPage(path, locale)) return true;
   return false;
 }
 
@@ -1246,12 +1250,11 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
 
   const localePrefix = `/${detectedLocale}`;
   const localeIsIndexable = isLocaleIndexable(detectedLocale);
-  const isNoindexRoute = isNoindexPath(strippedPath);
-  const utilityNoindex = shouldNoindexForLocale(strippedPath, detectedLocale);
-  const noindex = isNoindexRoute || !localeIsIndexable || utilityNoindex;
+  const isNoindexRoute = isNoindexPath(strippedPath, detectedLocale);
+  const noindex = isNoindexRoute || !localeIsIndexable;
 
   const canonicalBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
-  const canonical = buildCanonicalUrl(strippedPath, detectedLocale, canonicalBase);
+  const canonical = normalizeCanonicalUrl(strippedPath, detectedLocale, canonicalBase);
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
@@ -1997,14 +2000,24 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   const hreflangTags: string[] = [];
   const hreflangBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
 
+  const isContentPage = strippedPath.startsWith("/lessons/") ||
+    strippedPath.startsWith("/learn/") ||
+    strippedPath.startsWith("/clinical-clarity/") ||
+    (strippedPath.startsWith("/blog") && strippedPath !== "/blog");
+
   if (!isNoindexRoute) {
-    const hreflangLocales = getIndexableLocalesForPage(strippedPath, indexableLocales);
+    const hreflangLocales = indexableLocales.filter(locale => {
+      if (locale === "en") return true;
+      if (isLowValueTranslatedPage(strippedPath, locale)) return false;
+      return true;
+    });
+
     for (const locale of hreflangLocales) {
       const hreflang = getHreflangCode(locale);
-      const localeUrl = buildCanonicalUrl(strippedPath, locale, hreflangBase);
+      const localeUrl = normalizeCanonicalUrl(strippedPath, locale, hreflangBase);
       hreflangTags.push(`<link rel="alternate" hreflang="${hreflang}" href="${localeUrl}" />`);
     }
-    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${buildCanonicalUrl(strippedPath, "en", hreflangBase)}" />`);
+    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${normalizeCanonicalUrl(strippedPath, "en", hreflangBase)}" />`);
   }
 
   if (hreflangTags.length > 0) {

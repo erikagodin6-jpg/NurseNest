@@ -80,15 +80,27 @@ app.use((req, res, next) => {
   }
 
   const queryStart = cleanUrl.indexOf("?");
-  const pathPart = queryStart >= 0 ? cleanUrl.substring(0, queryStart) : cleanUrl;
+  let pathPart = queryStart >= 0 ? cleanUrl.substring(0, queryStart) : cleanUrl;
   const queryPart = queryStart >= 0 ? cleanUrl.substring(queryStart) : "";
 
+  if (/\/\/+/.test(pathPart)) {
+    pathPart = pathPart.replace(/\/\/+/g, "/");
+    needsRedirect = true;
+  }
+
   if (pathPart.length > 1 && pathPart.endsWith("/")) {
-    cleanUrl = pathPart.replace(/\/+$/, "") + queryPart;
+    pathPart = pathPart.replace(/\/+$/, "");
+    needsRedirect = true;
+  }
+
+  const localeMatch = pathPart.match(/^\/(EN|FR|ES|FIL|HI|ZH|ZH-TW|AR|KO|PT|PA|VI|HT|UR|JA|FA|DE|TH|TR|ID)(\/|$)/i);
+  if (localeMatch && localeMatch[1] !== localeMatch[1].toLowerCase()) {
+    pathPart = "/" + localeMatch[1].toLowerCase() + pathPart.slice(localeMatch[1].length + 1);
     needsRedirect = true;
   }
 
   if (needsRedirect) {
+    cleanUrl = pathPart + queryPart;
     return res.redirect(301, cleanUrl || "/");
   }
   next();
@@ -112,18 +124,13 @@ app.use((req, res, next) => {
   next();
 });
 
+import { hasTimestampSuffix, stripTimestampSuffix } from "@shared/canonical-url";
+
 const LEARN_REDIRECTS: Record<string, string> = {
   "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
   "create-more-posts-about-hyperkalemia": "hyperkalemia-nursing-guide",
   "test-publish-flow-1772145129698": "",
 };
-
-const TIMESTAMP_SUFFIX_RE = /^(.+)-(\d{13})$/;
-
-function stripTimestampSuffix(slug: string): string | null {
-  const m = slug.match(TIMESTAMP_SUFFIX_RE);
-  return m ? m[1] : null;
-}
 
 const LOCALE_PREFIX_RE = /^\/([a-z]{2,3}(?:-[a-z]{2,4})?)\//;
 
@@ -142,19 +149,22 @@ app.use((req, res, next) => {
       }
       return res.redirect(301, `${localePrefix}/blog`);
     }
-    const cleanSlug = stripTimestampSuffix(slug);
-    if (cleanSlug) {
-      return res.redirect(301, `${localePrefix}/learn/${cleanSlug}`);
+    if (hasTimestampSuffix(slug)) {
+      const baseSlug = stripTimestampSuffix(slug);
+      if (baseSlug) {
+        return res.redirect(301, `${localePrefix}/learn/${baseSlug}`);
+      }
+      return res.redirect(301, `${localePrefix}/blog`);
     }
   }
 
   const lessonMatch = req.path.match(/^(?:\/[a-z]{2,3}(?:-[a-z]{2,4})?)?\/lessons\/([^/]+)\/?$/);
   if (lessonMatch) {
     const slug = lessonMatch[1];
-    const cleanSlug = stripTimestampSuffix(slug);
-    if (cleanSlug) {
-      const localeMatch = req.path.match(LOCALE_PREFIX_RE);
-      const localePrefix = localeMatch ? `/${localeMatch[1]}` : "";
+    if (hasTimestampSuffix(slug)) {
+      const cleanSlug = stripTimestampSuffix(slug);
+      const lessonLocaleMatch = req.path.match(LOCALE_PREFIX_RE);
+      const localePrefix = lessonLocaleMatch ? `/${lessonLocaleMatch[1]}` : "";
       return res.redirect(301, `${localePrefix}/lessons/${cleanSlug}`);
     }
   }

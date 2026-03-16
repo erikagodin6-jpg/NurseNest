@@ -1,8 +1,14 @@
+import { normalizeCanonicalUrl } from "@shared/canonical-url";
+
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export interface BreadcrumbItem {
   name: string;
   url: string;
+}
+
+function canonicalUrl(path: string): string {
+  return normalizeCanonicalUrl(path, "en", SITE_DOMAIN);
 }
 
 const MEDICAL_ACRONYMS = new Set([
@@ -156,9 +162,9 @@ export function buildBreadcrumbs(
 
   if (STATIC_ROUTES[cleanPath]) {
     if (SIMULATOR_PATHS.includes(cleanPath)) {
-      items.push({ name: "Simulators", url: `${SITE_DOMAIN}/simulators/clinical-skills` });
+      items.push({ name: "Simulators", url: canonicalUrl("/simulators/clinical-skills") });
     }
-    items.push({ name: STATIC_ROUTES[cleanPath], url: `${SITE_DOMAIN}${cleanPath}` });
+    items.push({ name: STATIC_ROUTES[cleanPath], url: canonicalUrl(cleanPath) });
     return items;
   }
 
@@ -166,20 +172,20 @@ export function buildBreadcrumbs(
     if (cleanPath.startsWith(prefix)) {
       const parentName = STATIC_ROUTES[parentPath];
       if (parentName) {
-        items.push({ name: parentName, url: `${SITE_DOMAIN}${parentPath}` });
+        items.push({ name: parentName, url: canonicalUrl(parentPath) });
       }
 
       const slug = cleanPath.slice(prefix.length);
       const pageName = metadata?.title || formatSegment(slug);
-      items.push({ name: pageName, url: `${SITE_DOMAIN}${cleanPath}` });
+      items.push({ name: pageName, url: canonicalUrl(cleanPath) });
       return items;
     }
   }
 
   if (cleanPath.startsWith("/simulators/") && !STATIC_ROUTES[cleanPath]) {
-    items.push({ name: "Simulators", url: `${SITE_DOMAIN}/simulators/clinical-skills` });
+    items.push({ name: "Simulators", url: canonicalUrl("/simulators/clinical-skills") });
     const sub = cleanPath.slice("/simulators/".length);
-    items.push({ name: formatSegment(sub), url: `${SITE_DOMAIN}${cleanPath}` });
+    items.push({ name: formatSegment(sub), url: canonicalUrl(cleanPath) });
     return items;
   }
 
@@ -188,7 +194,7 @@ export function buildBreadcrumbs(
   for (const seg of segments) {
     path += `/${seg}`;
     const name = STATIC_ROUTES[path] || formatSegment(seg);
-    items.push({ name, url: `${SITE_DOMAIN}${path}` });
+    items.push({ name, url: canonicalUrl(path) });
   }
 
   if (metadata?.title && items.length > 1) {

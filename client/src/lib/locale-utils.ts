@@ -3,6 +3,7 @@ import {
   deLocalizeSlug as _deLocalizeSlug,
   LOCALIZED_SLUGS,
 } from "@shared/localized-slugs";
+import { normalizeCanonicalUrl } from "@shared/canonical-url";
 
 export const SUPPORTED_LOCALES = [
   "en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"
@@ -29,10 +30,8 @@ export function getLocaleFromPath(path: string): { locale: SupportedLocale; path
 export function buildLocalePath(locale: SupportedLocale | string, path: string): string {
   const cleanPath = path.startsWith("/") ? path : "/" + path;
   const localizedPath = localizeSlug(locale, cleanPath);
-  if (locale === DEFAULT_LOCALE) {
-    return `/${locale}${localizedPath === "/" ? "" : localizedPath}`;
-  }
-  return `/${locale}${localizedPath === "/" ? "" : localizedPath}`;
+  const raw = `/${locale}${localizedPath === "/" ? "" : localizedPath}`;
+  return raw.replace(/\/+/g, "/").replace(/\/+$/, "") || "/";
 }
 
 export function localizeSlug(locale: string, englishPath: string): string {
@@ -54,9 +53,8 @@ export function getMainSiteUrl(path: string = "/", locale?: string): string {
   const hashPart = hashIndex >= 0 ? cleanPath.slice(hashIndex) : "";
 
   if (isProduction) {
-    const localePrefix = locale && locale !== "en" ? `/${locale}` : "";
-    const pathSuffix = pathBeforeHash === "/" ? "" : pathBeforeHash;
-    return `https://www.nursenest.ca${localePrefix}${pathSuffix}${hashPart}`;
+    const effectiveLocale = locale || "en";
+    return normalizeCanonicalUrl(pathBeforeHash, effectiveLocale, "https://www.nursenest.ca") + hashPart;
   }
 
   const localeParam = locale && locale !== "en" ? `&locale=${locale}` : "";

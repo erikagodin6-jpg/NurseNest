@@ -2,7 +2,9 @@ import { useEffect, useRef } from "react";
 import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
 import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 import { getLocalizedSEO } from "@/data/seo-metadata";
-import { buildCanonicalUrl, shouldNoindexForLocale, getIndexableLocalesForPage, SITE_BASE } from "@shared/seo-utils";
+import { normalizeCanonicalUrl, isLowValueTranslatedPage } from "@shared/canonical-url";
+
+const SITE_DOMAIN = "https://www.nursenest.ca";
 
 let seoFirstRender = true;
 
@@ -50,7 +52,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
 
     const indexableLocales: string[] = (window as any).__INDEXABLE_LOCALES__ || SUPPORTED_LOCALES;
     const localeNotIndexable = activeLocale !== "en" && !indexableLocales.includes(activeLocale);
-    const utilityPageNoindex = shouldNoindexForLocale(pathWithoutLocale, activeLocale);
+    const utilityPageNoindex = isLowValueTranslatedPage(pathWithoutLocale, activeLocale);
     const shouldNoindexPage = noindex || localeNotIndexable || utilityPageNoindex;
 
     const fullTitle = effectiveTitle.includes("NurseNest") ? effectiveTitle : `${effectiveTitle} | NurseNest`;
@@ -86,18 +88,18 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     setMeta("og:title", fullTitle, true);
     setMeta("og:description", effectiveDescription, true);
     setMeta("og:type", ogType, true);
-    setMeta("og:image", `${SITE_BASE}/opengraph.jpg`, true);
+    setMeta("og:image", `${SITE_DOMAIN}/opengraph.jpg`, true);
     setMeta("og:locale", LOCALE_LANGUAGE_MAP[activeLocale] || "en-CA", true);
     setMeta("twitter:title", fullTitle);
     setMeta("twitter:description", effectiveDescription);
     setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:image", `${SITE_BASE}/opengraph.jpg`);
+    setMeta("twitter:image", `${SITE_DOMAIN}/opengraph.jpg`);
 
     const hreflangLinks: HTMLLinkElement[] = [];
 
     if (canonicalPath) {
       const { pathWithoutLocale: canonicalBase } = getLocaleFromPath(canonicalPath);
-      const canonicalUrl = buildCanonicalUrl(canonicalBase, activeLocale);
+      const canonicalUrl = normalizeCanonicalUrl(canonicalBase, activeLocale, SITE_DOMAIN);
 
       setMeta("og:url", canonicalUrl, true);
 
@@ -123,12 +125,17 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       if (!ssrHreflangsCorrect) {
         existingHreflangs.forEach(el => el.remove());
 
-        const hreflangLocales = getIndexableLocalesForPage(canonicalBase, indexableLocales);
-        for (const locale of hreflangLocales) {
+        const filteredLocales = indexableLocales.filter(locale => {
+          if (locale === "en") return true;
+          if (isLowValueTranslatedPage(canonicalBase, locale)) return false;
+          return true;
+        });
+
+        for (const locale of filteredLocales) {
           const altLink = document.createElement("link");
           altLink.rel = "alternate";
           altLink.hreflang = HREFLANG_MAP[locale] || locale;
-          altLink.href = buildCanonicalUrl(canonicalBase, locale);
+          altLink.href = normalizeCanonicalUrl(canonicalBase, locale, SITE_DOMAIN);
           document.head.appendChild(altLink);
           hreflangLinks.push(altLink);
         }
@@ -136,7 +143,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         const xDefaultLink = document.createElement("link");
         xDefaultLink.rel = "alternate";
         xDefaultLink.hreflang = "x-default";
-        xDefaultLink.href = buildCanonicalUrl(canonicalBase, "en");
+        xDefaultLink.href = normalizeCanonicalUrl(canonicalBase, "en", SITE_DOMAIN);
         document.head.appendChild(xDefaultLink);
         hreflangLinks.push(xDefaultLink);
       }

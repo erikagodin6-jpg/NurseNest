@@ -1,5 +1,4 @@
 import { getIndexableLocales, getHreflangCode } from "../translation-audit";
-import { getIndexableLocalesForPage, buildCanonicalUrl, SITE_BASE } from "@shared/seo-utils";
 
 export const SITEMAP_SPLIT_LIMIT = 5000;
 export const SITEMAP_CACHE_TTL = 3600_000;
@@ -137,9 +136,10 @@ export function simpleUrl(loc: string, lastmod: string, changefreq = "weekly", p
 }
 
 export function localizedUrl(base: string, path: string, priority: string, changefreq: string, locales: string[], lastmod?: string): string {
+  const filteredLocales = locales.filter(locale => !_isLowValueTranslatedPage(path, locale));
+
   const lines: string[] = [];
-  const hreflangLocales = getIndexableLocalesForPage(path, locales);
-  for (const locale of locales) {
+  for (const locale of filteredLocales) {
     const mappedPath = applySlugMapping(path, locale);
     const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
     lines.push(`<url>`);
@@ -147,7 +147,7 @@ export function localizedUrl(base: string, path: string, priority: string, chang
     lines.push(`<priority>${priority}</priority>`);
     lines.push(`<changefreq>${changefreq}</changefreq>`);
     if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
-    for (const alt of hreflangLocales) {
+    for (const alt of filteredLocales) {
       const altMapped = applySlugMapping(path, alt);
       const hreflang = getHreflangCode(alt);
       const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;
@@ -161,16 +161,18 @@ export function localizedUrl(base: string, path: string, priority: string, chang
 }
 
 export function singleLocaleUrl(base: string, path: string, locale: string, allLocales: string[], priority: string, changefreq: string, lastmod?: string): string {
+  if (_isLowValueTranslatedPage(path, locale)) return "";
+
+  const filteredLocales = allLocales.filter(l => !_isLowValueTranslatedPage(path, l));
   const mappedPath = applySlugMapping(path, locale);
   const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
-  const hreflangLocales = getIndexableLocalesForPage(path, allLocales);
   const lines: string[] = [];
   lines.push(`<url>`);
   lines.push(`<loc>${loc}</loc>`);
   lines.push(`<priority>${priority}</priority>`);
   lines.push(`<changefreq>${changefreq}</changefreq>`);
   if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
-  for (const alt of hreflangLocales) {
+  for (const alt of filteredLocales) {
     const altMapped = applySlugMapping(path, alt);
     const hreflang = getHreflangCode(alt);
     const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;
@@ -192,3 +194,249 @@ export function splitIntoChunks<T>(items: T[], chunkSize: number): T[][] {
 }
 
 export { getIndexableLocales, getHreflangCode };
+
+import { isLowValueTranslatedPage as _isLowValueTranslatedPage, hasTimestampSuffix as _hasTimestampSuffix } from "@shared/canonical-url";
+export { _isLowValueTranslatedPage as isLowValueTranslatedPage, _hasTimestampSuffix as hasTimestampSuffix };
+import { isNoindexPath } from "../seo-meta";
+export { isNoindexPath };
+
+export const LEARN_REDIRECTS: Record<string, string> = {
+  "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
+  "create-more-posts-about-hyperkalemia": "hyperkalemia-nursing-guide",
+  "test-publish-flow-1772145129698": "",
+};
+
+export interface StaticRouteDefinition {
+  path: string;
+  priority: string;
+  changefreq: string;
+  multilingual: boolean;
+  lastmod?: string;
+}
+
+export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
+  const multilingualRoutes: Omit<StaticRouteDefinition, "multilingual">[] = [
+    { path: "/", priority: "1.0", changefreq: "weekly", lastmod: today },
+    { path: "/lessons", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/flashcards", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/pricing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/start-free", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/anatomy", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/med-math", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/lab-values", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/si-to-conventional-units-converter", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/canadian-vs-american-lab-values", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/glucose-mmol-l-to-mg-dl", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/creatinine-umol-l-to-mg-dl", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/hemoglobin-g-l-to-g-dl", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/bilirubin-umol-l-to-mg-dl", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/calcium-mmol-l-to-mg-dl", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/urea-to-bun-conversion-nursing", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/cholesterol-triglyceride-unit-conversion", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/kg-to-lb-nursing", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/celsius-to-fahrenheit-nursing", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/mock-exams", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/clinical-clarity", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/blog", priority: "0.7", changefreq: "daily", lastmod: today },
+    { path: "/pre-nursing", priority: "0.6", changefreq: "monthly", lastmod: today },
+    { path: "/question-of-the-day", priority: "0.9", changefreq: "daily", lastmod: today },
+    { path: "/question-bank", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/lectures", priority: "0.7", changefreq: "weekly", lastmod: today },
+    { path: "/nursing", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-specialties", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-certifications", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/study-pathways", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/faq", priority: "0.5", changefreq: "monthly" },
+    { path: "/about", priority: "0.6", changefreq: "monthly" },
+    { path: "/contact", priority: "0.4", changefreq: "monthly" },
+    { path: "/terms", priority: "0.3", changefreq: "yearly" },
+    { path: "/privacy", priority: "0.3", changefreq: "yearly" },
+    { path: "/nclex-rn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/nclex-pn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/rex-pn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/np-exam-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/free-practice", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/glossary", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/medication-mastery", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/exam-prep", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/new-graduate-support", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/healthcare-careers", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/guides", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/guides/complete-guide-to-becoming-a-registered-nurse", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/guides/complete-guide-to-becoming-an-rpn-lvn", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/guides/complete-guide-to-becoming-a-respiratory-therapist", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/guides/complete-guide-to-becoming-a-paramedic", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/guides/complete-guide-to-becoming-a-medical-lab-technologist", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/topics", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/allied-health/careers", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/allied-health/pricing", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-health/rrt", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/paramedic", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/pharmacy-technician", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/mlt", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/imaging", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/social-work", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/psychotherapy", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/addictions", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/allied-health/occupational-therapy", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/pass-nclex-first-time", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/pharmacology", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/rex-pn", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/rex-pn/exam-format", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/rex-pn/test-taking-strategies", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/rex-pn/wellness", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rpn/test-bank", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/rn/test-bank", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/np/test-bank", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/perioperative-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/preoperative-care", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/preoperative-nursing-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/perioperative-nurse-career", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-rn/mock-exam", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/nclex-pn/mock-exam", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/rex-pn/mock-exam", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/canada-np/mock-exam", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/us-np/mock-exam", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/nclex-rn", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/canada-np", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/us-np", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/np/exams", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/np/aanp-exam", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/np/ancc-exam", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/np/upcoming-canada-np-exam", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/how-to-become-a-nurse/rpn", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/how-to-become-a-nurse/rn", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/how-to-become-a-nurse/np", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/medical-imaging", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/blog", priority: "0.8", changefreq: "daily", lastmod: today },
+    { path: "/medical-imaging/canada/lessons", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada/positioning", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada/physics", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada/flashcards", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada/practice-exams", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/canada/exam-simulator", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/lessons", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/positioning", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/physics", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/flashcards", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/practice-exams", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/medical-imaging/usa/exam-simulator", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/radiography-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/radiography-positioning-guide", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/radiography-artifact-recognition", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/hyperkalemia-effects-on-heart", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/hyperkalemia-vs-hypokalemia-cardiac", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/barrel-chest-copd", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/question-bank-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/medication-mastery-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-simulation-practice", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/test-nclex-avec-corrige", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/sepsis-nursing-interventions", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/ventilator-management-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/diabetes-nursing-management", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/fluid-electrolyte-imbalance-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/hemodynamic-monitoring-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/wound-care-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/medication-administration-safety-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/pain-management-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/cardiac-rhythm-interpretation-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/infection-control-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/maternal-newborn-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/pediatric-assessment-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/mental-health-crisis-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/perioperative-care-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/pharmacology-basics-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-clinical-judgment-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-physiology-explained", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/why-burns-cause-hyperkalemia", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/potassium-effects-on-cardiac-conduction", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/metabolic-acidosis-in-aki", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/pyloric-stenosis-metabolic-alkalosis", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/qrs-complex-explained-for-nurses", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/clinical-nursing-skills", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/sterile-technique-nursing", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/wound-irrigation-procedure", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/fluid-status-assessment", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/pain-assessment-scales", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newborn-assessment-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
+  ];
+
+  const enOnlyRoutes: Omit<StaticRouteDefinition, "multilingual">[] = [
+    { path: "/case-simulations", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/first-action-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/safety-hazard-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/iv-complications-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/electrolyte-abg-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/deteriorating-patient-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/blood-transfusion-simulator", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/simulators/clinical-skills", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/simulators/osce", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/simulators/clinical-lab", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/shop", priority: "0.7", changefreq: "weekly", lastmod: today },
+    { path: "/disclaimer", priority: "0.3", changefreq: "yearly" },
+    { path: "/refund-policy", priority: "0.3", changefreq: "yearly" },
+    { path: "/clinical-skills", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/clinical-case-studies", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/for-institutions", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/order-of-the-draw", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/applynest", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/applynest/resume-templates", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/applynest/interview-prep", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/applynest/job-search-guide", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-exam-blueprint", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-rn-exam-blueprint", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-exam-blueprint", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/allied-health-exam-blueprint", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-foundations-of-practice", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-collaborative-practice", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-professional-practice", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-ethical-practice", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-legal-practice", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-safety-and-infection-control", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-health-promotion", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/rexpn-pharmacological-therapies", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-management-of-care", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-safety-and-infection-control", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-health-promotion", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-psychosocial-integrity", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-basic-care-and-comfort", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pharmacology", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-reduction-of-risk", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-physiological-adaptation", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-coordinated-care", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-safety-infection-control", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-health-promotion", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-psychosocial-integrity", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-basic-care", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-pharmacology", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-reduction-of-risk", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-pn-physiological-adaptation", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-respiratory-therapy", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-medical-lab-tech", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-radiography", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-paramedic", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-occupational-therapy", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-social-work", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-pharmacy-tech", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/allied-psychotherapy-addictions", priority: "0.7", changefreq: "monthly", lastmod: today },
+  ];
+
+  return [
+    ...multilingualRoutes.map(r => ({ ...r, multilingual: true })),
+    ...enOnlyRoutes.map(r => ({ ...r, multilingual: false })),
+  ];
+}
+
+export const COMPARE_PAGES = [
+  "uworld-vs-archer-vs-nursenest", "best-uworld-alternatives-nclex",
+  "best-rex-pn-question-bank-canada", "nursenest-vs-uworld",
+  "nursenest-vs-archer", "nursenest-vs-quizlet",
+  "best-nclex-prep-canada", "cheapest-nclex-prep", "rex-pn-practice-questions-free",
+];
+
+export const NURSING_QUESTION_TIERS = ["rpn", "rn", "np"];
