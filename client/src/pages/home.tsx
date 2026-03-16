@@ -37,6 +37,13 @@ const HomeConversionSections = lazy(() => import("@/components/home-conversion-s
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
 const HomeChoosePath = lazy(() => import("@/components/home-choose-path"));
 const HomeCareerCta = lazy(() => import("@/components/home-career-cta"));
+const HeroPlatformStats = lazy(() => import("@/components/hero-platform-stats"));
+const HeroFeaturesGrid = lazy(() => import("@/components/hero-features-grid"));
+const HeroGlobalCoverage = lazy(() => import("@/components/hero-global-coverage"));
+const HeroNursingTiers = lazy(() => import("@/components/hero-nursing-tiers"));
+const HeroCertifications = lazy(() => import("@/components/hero-certifications"));
+const HeroAlliedHealth = lazy(() => import("@/components/hero-allied-health"));
+const HeroExpansionTracker = lazy(() => import("@/components/hero-expansion-tracker"));
 
 const heroCarouselSlides = [
   {
@@ -548,9 +555,51 @@ export default function Home() {
           </Suspense>
         </LazySection>
 
+        <LazySection minHeight="300px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[300px]" />}>
+            <HeroPlatformStats />
+          </Suspense>
+        </LazySection>
+
         <LazySection minHeight="300px" rootMargin="200px">
           <Suspense fallback={<div className="min-h-[300px]" />}>
             <HomeChoosePath />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="400px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[400px]" />}>
+            <HeroFeaturesGrid />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="300px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[300px]" />}>
+            <HeroGlobalCoverage />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="400px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[400px]" />}>
+            <HeroNursingTiers />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="300px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[300px]" />}>
+            <HeroCertifications />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="400px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[400px]" />}>
+            <HeroAlliedHealth />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="300px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[300px]" />}>
+            <HeroExpansionTracker />
           </Suspense>
         </LazySection>
 
