@@ -31,8 +31,48 @@ export interface TranslationAuditResult {
 }
 
 let enKeysCache: string[] | null = null;
+let enValuesCache: Record<string, string> = {};
 let translationKeysCache: Record<string, Set<string>> = {};
 let cacheLoaded = false;
+
+const SCRIPT_LANGS = new Set(["ar", "ur", "fa", "hi", "pa", "zh", "zh-tw", "ko", "ja", "th"]);
+const SKIP_UNTRANSLATED_CHECK = new Set([
+  "NP", "RN", "RPN", "LVN", "NCLEX", "AANP", "ANCC", "FNP-BC",
+  "NurseNest", "QOTD", "NurseNest Pro", "A&P", "IV", "GI",
+  "REX-PN", "NCLEX-PN", "NCLEX-RN", "REx-PN", "Plan:", "Premium", "Blog",
+  "Dashboard", "Flashcards", "Flashcard", "Test Bank", "Mock Exams",
+  "Mock Exam", "Pre-Nursing", "Pathophysiology", "Pharmacology",
+  "Clinical Reasoning", "Allied Health", "Study Coach", "RPN/LVN",
+  "your@email.com", "Subscribe", "Subscribing...", "Error", "Reset",
+  "Customize", "Completed", "In progress", "NurseNest Blog",
+]);
+const HIGH_EN_BORROWING_LANGS = new Set(["tl", "id", "ht"]);
+
+function extractKeyValues(content: string): Record<string, string> {
+  const entries: Record<string, string> = {};
+  const regex = /^\s*"([^"]+)":\s*"((?:[^"\\]|\\.)*)"/gm;
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    entries[match[1]] = match[2].replace(/\\"/g, '"').replace(/\\n/g, '\n');
+  }
+  return entries;
+}
+
+function isActuallyTranslated(enValue: string, langValue: string, langCode: string): boolean {
+  if (enValue !== langValue) {
+    if (SCRIPT_LANGS.has(langCode) && langValue.length > 10) {
+      const nonAsciiRatio = (langValue.match(/[^\x00-\x7F]/g) || []).length / Math.max(langValue.length, 1);
+      if (nonAsciiRatio < 0.1) return false;
+    }
+    return true;
+  }
+  if (SKIP_UNTRANSLATED_CHECK.has(enValue)) return true;
+  if (/^[A-Z]{1,5}$/.test(enValue)) return true;
+  if (/^https?:\/\//.test(enValue)) return true;
+  if (enValue.length <= 3) return true;
+  if (HIGH_EN_BORROWING_LANGS.has(langCode) && enValue.length <= 30) return true;
+  return false;
+}
 
 function loadTranslationKeys(): void {
   if (cacheLoaded) return;
@@ -45,20 +85,15 @@ function loadTranslationKeys(): void {
 
     if (fs.existsSync(filePath)) {
       const content = fs.readFileSync(filePath, "utf-8");
-      const keyRegex = /"([^"]+)":\s*"/g;
-      const keys: string[] = [];
-      let match;
-      while ((match = keyRegex.exec(content)) !== null) {
-        keys.push(match[1]);
-      }
-      enKeysCache = keys;
+      enValuesCache = extractKeyValues(content);
+      enKeysCache = Object.keys(enValuesCache);
     }
   } catch (e) {
     console.error("Failed to load English translation keys:", e);
     enKeysCache = [];
   }
 
-const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
+  const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
   for (const lang of LANG_FILES) {
     try {
       const langPath = path.resolve(__audit_dirname, `../client/src/lib/i18n-${lang}.ts`);
@@ -67,13 +102,15 @@ const LANG_FILES = ["fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko", "pt", "pa
 
       if (fs.existsSync(langFile)) {
         const content = fs.readFileSync(langFile, "utf-8");
-        const keyRegex = /"([^"]+)":\s*"/g;
-        const keys = new Set<string>();
-        let km;
-        while ((km = keyRegex.exec(content)) !== null) {
-          keys.add(km[1]);
+        const langValues = extractKeyValues(content);
+        const translatedKeys = new Set<string>();
+        for (const [key, val] of Object.entries(langValues)) {
+          const enVal = enValuesCache[key];
+          if (!enVal || isActuallyTranslated(enVal, val, lang)) {
+            translatedKeys.add(key);
+          }
         }
-        translationKeysCache[lang] = keys;
+        translationKeysCache[lang] = translatedKeys;
       }
     } catch (e) {
       console.error(`Failed to load translation keys for ${lang}:`, e);
@@ -194,7 +231,7 @@ export function getHreflangCode(locale: string): string {
     en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
     zh: "zh", "zh-tw": "zh-TW", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
     vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
-de: "de", th: "th", tr: "tr", id: "id",
+    de: "de", th: "th", tr: "tr", id: "id",
   };
   return HREFLANG_MAP[locale] || locale;
 }
