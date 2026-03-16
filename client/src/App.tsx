@@ -391,6 +391,8 @@ const ExamBlueprintHub = lazy(() => import("@/pages/exam-blueprint-hub"));
 const ExamBlueprintCategory = lazy(() => import("@/pages/exam-blueprint-category"));
 const TopicClusterPage = lazy(() => import("@/pages/topic-cluster-page"));
 const TopicClusterBySlug = lazy(() => import("@/pages/topic-cluster-page").then(m => ({ default: m.TopicClusterBySlug })));
+const NursingPhysiologyHubPage = lazy(() => import("@/pages/nursing-physiology-hub-page"));
+const ClinicalNursingSkillsHubPage = lazy(() => import("@/pages/clinical-nursing-skills-hub-page"));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -1137,6 +1139,22 @@ function AppRoutes() {
         <Route path="/medication-mastery-nursing">{() => <TopicClusterBySlug slug="medication-mastery-nursing" />}</Route>
         <Route path="/nursing-simulation-practice">{() => <TopicClusterBySlug slug="nursing-simulation-practice" />}</Route>
         <Route path="/test-nclex-avec-corrige">{() => <TopicClusterBySlug slug="test-nclex-avec-corrige" />}</Route>
+
+        {/* Nursing Physiology Hub & Child Pages */}
+        <Route path="/nursing-physiology-explained" component={NursingPhysiologyHubPage} />
+        <Route path="/why-burns-cause-hyperkalemia">{() => <TopicClusterBySlug slug="why-burns-cause-hyperkalemia" />}</Route>
+        <Route path="/potassium-effects-on-cardiac-conduction">{() => <TopicClusterBySlug slug="potassium-effects-on-cardiac-conduction" />}</Route>
+        <Route path="/metabolic-acidosis-in-aki">{() => <TopicClusterBySlug slug="metabolic-acidosis-in-aki" />}</Route>
+        <Route path="/pyloric-stenosis-metabolic-alkalosis">{() => <TopicClusterBySlug slug="pyloric-stenosis-metabolic-alkalosis" />}</Route>
+        <Route path="/qrs-complex-explained-for-nurses">{() => <TopicClusterBySlug slug="qrs-complex-explained-for-nurses" />}</Route>
+
+        {/* Clinical Nursing Skills Hub & Child Pages */}
+        <Route path="/clinical-nursing-skills" component={ClinicalNursingSkillsHubPage} />
+        <Route path="/sterile-technique-nursing">{() => <TopicClusterBySlug slug="sterile-technique-nursing" />}</Route>
+        <Route path="/wound-irrigation-procedure">{() => <TopicClusterBySlug slug="wound-irrigation-procedure" />}</Route>
+        <Route path="/fluid-status-assessment">{() => <TopicClusterBySlug slug="fluid-status-assessment" />}</Route>
+        <Route path="/pain-assessment-scales">{() => <TopicClusterBySlug slug="pain-assessment-scales" />}</Route>
+        <Route path="/newborn-assessment-guide">{() => <TopicClusterBySlug slug="newborn-assessment-guide" />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />

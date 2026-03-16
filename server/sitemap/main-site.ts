@@ -232,6 +232,18 @@ export async function generateMainPages(): Promise<string[]> {
     { path: "/medication-mastery-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/nursing-simulation-practice", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/test-nclex-avec-corrige", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/nursing-physiology-explained", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/why-burns-cause-hyperkalemia", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/potassium-effects-on-cardiac-conduction", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/metabolic-acidosis-in-aki", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/pyloric-stenosis-metabolic-alkalosis", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/qrs-complex-explained-for-nurses", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/clinical-nursing-skills", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/sterile-technique-nursing", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/wound-irrigation-procedure", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/fluid-status-assessment", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/pain-assessment-scales", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
+    { path: "/newborn-assessment-guide", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
   ];
 
   for (const route of staticRoutes) {
