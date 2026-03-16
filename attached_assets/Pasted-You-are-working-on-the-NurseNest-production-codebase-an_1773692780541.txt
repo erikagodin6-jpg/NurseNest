@@ -1,0 +1,493 @@
+You are working on the NurseNest production codebase and deployment environment.
+
+Continue the platform build by implementing a **FULL CODEBASE BACKUP, EXPORT, SNAPSHOT, AND DISASTER-RECOVERY SYSTEM** so the entire site can be safely packaged and saved outside Replit in case of outage, corruption, accidental deletion, failed deployments, or environment issues.
+
+This must cover:
+
+• frontend code
+• backend code
+• database schema
+• environment configuration templates
+• static assets
+• generated content
+• translations
+• scripts
+• admin tools
+• backups of critical metadata
+
+Do NOT explain reasoning.
+Do NOT give partial steps.
+Implement the entire system end-to-end.
+
+────────────────────────
+
+PRIMARY GOAL
+
+Create a robust backup/export system that allows the full NurseNest site to be packaged into external-safe deliverables at any time.
+
+The system must let the owner create:
+
+1. full code backups
+2. database backups
+3. asset backups
+4. deployment-ready export bundles
+5. recovery instructions
+6. restore scripts
+
+This must be designed so the project can be restored outside Replit if necessary.
+
+Store priority in configuration:
+
+ACTIVE_BUILD_PRIORITY = "BACKUP_EXPORT_RECOVERY_SYSTEM"
+
+Expose this constant in the admin dashboard.
+
+────────────────────────
+
+PART 1 — FULL PROJECT EXPORT SYSTEM
+
+Build a one-click project export workflow.
+
+Create a backup/export script that packages the entire project into a timestamped archive.
+
+Required export contents:
+
+• client/
+• server/
+• shared/
+• scripts/
+• public/
+• attached assets used by the site
+• i18n translation files
+• SEO config files
+• routing config
+• theme config
+• content manifests
+• question count manifests
+• lesson manifests
+• flashcard manifests
+• scenario manifests
+• certification manifests
+• admin config
+• package.json
+• package-lock.json or pnpm-lock.yaml or yarn.lock
+• tsconfig files
+• vite config
+• tailwind config
+• postcss config
+• drizzle/prisma/orm schema files if present
+• migration files
+• seed files
+• backup metadata json
+
+Archive naming format:
+
+nursenest-backup-YYYY-MM-DD-HHMMSS.zip
+
+Also optionally support:
+
+.tar.gz
+
+────────────────────────
+
+PART 2 — BACKUP SCRIPT
+
+Create production-ready scripts such as:
+
+npm run backup:full
+npm run backup:code
+npm run backup:db
+npm run backup:assets
+npm run backup:content
+npm run export:deployment
+npm run restore:validate
+
+The full backup script must:
+
+• create a timestamped backup folder
+• copy all critical directories
+• exclude unnecessary junk
+• exclude node_modules
+• exclude transient caches
+• exclude dist build artifacts unless explicitly requested
+• include a machine-readable manifest of included files
+• verify archive integrity after creation
+• output final archive path
+
+────────────────────────
+
+PART 3 — DATABASE BACKUP SYSTEM
+
+Create a dedicated database backup flow.
+
+Support the project’s real database driver and ORM.
+Detect and work with the actual stack in the repo.
+
+Database backup requirements:
+
+• export schema
+• export migrations
+• export seed data
+• export database snapshot where supported
+• export table row counts
+• export generated_questions metadata
+• export question metadata
+• export lessons metadata
+• export user-independent core content
+
+If direct DB dump is available, use it.
+If not, create structured JSON/SQL export scripts.
+
+Required outputs:
+
+/backups/db/schema.sql
+/backups/db/migrations/
+/backups/db/core-content.json
+/backups/db/table-counts.json
+/backups/db/export-summary.json
+
+Do NOT expose secrets in backup files.
+
+────────────────────────
+
+PART 4 — ENVIRONMENT SAFETY
+
+Create environment backup templates without exposing secrets.
+
+Requirements:
+
+• generate .env.example from required keys
+• generate env-schema.json listing required variables
+• generate deployment-readiness checklist
+• do not store secret values in archives unless explicitly stored in a secure private export file excluded from source control by default
+
+Create:
+
+.env.example
+config/env-schema.json
+docs/deployment/recovery-environment-checklist.md
+
+Include keys such as:
+
+DATABASE_URL
+STRIPE_SECRET_KEY
+VITE_STRIPE_PUBLIC_KEY
+PAYPAL_CLIENT_ID
+OPENAI_API_KEY
+SESSION_SECRET
+SMTP settings
+analytics keys
+storage keys
+domain config keys
+
+Use placeholders only unless securely pulling from existing environment into a local private export file that is gitignored.
+
+────────────────────────
+
+PART 5 — STATIC ASSET + CONTENT BACKUP
+
+Back up all important non-code assets.
+
+Must include:
+
+• logos
+• icons
+• hero images
+• generated infographics if stored locally
+• PDF templates
+• uploaded education assets if stored locally
+• translation JSON files
+• sitemap config
+• robots config
+• brand kit assets
+• theme tokens
+• exam blueprints
+• generated structured content manifests
+• blog metadata
+• lesson metadata
+• flashcard metadata
+• OSCE/scenario metadata
+
+Create content indexes so recovery is easier.
+
+Example:
+
+/backups/content/content-index.json
+/backups/assets/asset-index.json
+
+────────────────────────
+
+PART 6 — DEPLOYMENT-READY EXPORT BUNDLE
+
+Create a separate export mode specifically for moving the site to another host.
+
+Command:
+
+npm run export:deployment
+
+This must generate a clean migration/export bundle containing:
+
+• source code
+• package manager lock file
+• database schema and migration files
+• env template
+• deployment instructions
+• required build/start commands
+• domain notes
+• storage requirements
+• third-party integration checklist
+
+Output directory example:
+
+/exports/deployment-ready/nursenest-deployment-export-YYYY-MM-DD-HHMMSS/
+
+Also generate:
+
+DEPLOYMENT_README.md
+
+This file must explain:
+
+• install dependencies
+• set environment variables
+• run migrations
+• seed database if needed
+• build app
+• start production server
+• restore assets
+• restore content manifests
+• verify routes
+• verify payments
+• verify auth
+• verify translations
+
+────────────────────────
+
+PART 7 — RESTORE / DISASTER RECOVERY TOOLING
+
+Create restore validation tooling.
+
+Commands:
+
+npm run restore:validate
+npm run restore:dry-run
+
+These commands must verify that a backup contains:
+
+• required directories
+• required package files
+• required config files
+• required DB schema/migrations
+• required content manifests
+• asset directories
+• env example and recovery docs
+
+Add a dry-run restore script that checks whether the archive is sufficient for rebuilding the project on another machine.
+
+Do not overwrite live files automatically unless explicitly requested by a future admin-only workflow.
+
+────────────────────────
+
+PART 8 — ADMIN BACKUP DASHBOARD
+
+Add backup visibility to the admin panel.
+
+Create an admin backup page showing:
+
+• latest full backup timestamp
+• latest code backup
+• latest DB backup
+• latest content backup
+• latest deployment export
+• archive sizes
+• validation status
+• missing backup warnings
+
+Add admin actions for:
+
+• generate full backup
+• generate deployment export
+• run restore validation
+• download manifest list
+• view backup logs
+
+Do not expose secrets in the admin UI.
+
+────────────────────────
+
+PART 9 — LOGGING + AUDIT TRAIL
+
+Create backup logs.
+
+Each backup job must write:
+
+timestamp
+backup type
+status
+files included count
+archive size
+validation result
+warnings
+errors
+
+Store logs in:
+
+/backups/logs/
+/exports/logs/
+
+Also create:
+
+backup-history.json
+
+────────────────────────
+
+PART 10 — GIT + EXTERNAL STORAGE READINESS
+
+Prepare the project for safe external storage.
+
+Requirements:
+
+• clean .gitignore rules
+• ensure secret files are excluded
+• ensure backup archives are excluded by default unless intentional
+• create a recommended external storage folder structure
+• generate a README for saving backups to:
+  - GitHub private repo
+  - external hard drive
+  - Google Drive
+  - Dropbox
+  - S3-compatible storage if later added
+
+Create:
+
+docs/recovery/external-backup-strategy.md
+
+This file must explain recommended storage redundancy:
+
+• one local copy
+• one cloud copy
+• one versioned code repository copy
+
+────────────────────────
+
+PART 11 — CRITICAL FILE INVENTORY
+
+Generate a critical file inventory for the entire platform.
+
+Categorize:
+
+• core app files
+• auth files
+• billing files
+• question bank files
+• lesson engine files
+• flashcard engine files
+• adaptive engine files
+• tutor engine files
+• scenario engine files
+• translation files
+• SEO files
+• admin files
+
+Output:
+
+/backups/manifests/critical-file-inventory.json
+
+────────────────────────
+
+PART 12 — SCHEDULED SNAPSHOT SUPPORT
+
+If the environment supports scheduled jobs, create automatic backup snapshot support.
+
+Minimum schedules:
+
+daily content snapshot
+weekly full backup
+pre-deploy snapshot
+post-migration snapshot
+
+If native scheduling is not available, create callable scripts and admin triggers so scheduled execution can be added later.
+
+Create:
+
+scripts/backup/run-daily-snapshot.ts
+scripts/backup/run-weekly-full.ts
+scripts/backup/run-predeploy-snapshot.ts
+
+────────────────────────
+
+PART 13 — PRE-DEPLOY SAFETY CHECK
+
+Before deployments, create a safeguard that can optionally generate a snapshot.
+
+Requirements:
+
+• create backup before schema migration
+• create backup before production deploy
+• create backup before mass content generation jobs
+• create backup before translation batch operations
+
+Add script hooks where appropriate.
+
+────────────────────────
+
+PART 14 — CONTENT MANIFEST HARDENING
+
+Because the site contains large educational systems, create restorable manifests for:
+
+• question banks by tier
+• question counts by tier/exam/country/language
+• lessons by topic
+• flashcards by deck
+• mock exams
+• OSCE/case simulations
+• certification banks
+• blog/article slugs
+• route registry
+• localization registry
+
+Output these into structured JSON under:
+
+/backups/manifests/
+
+────────────────────────
+
+PART 15 — SECURITY RULES
+
+Do not place plaintext secrets into public-facing exports.
+Do not leak live credentials into logs.
+Do not expose admin-only storage paths to normal users.
+Validate file paths to prevent unsafe archive behavior.
+Sanitize backup filenames.
+
+────────────────────────
+
+PART 16 — OUTPUT FORMAT
+
+When finished, return:
+
+1. what backup/export/recovery modules were built
+2. scripts created or modified
+3. admin pages or dashboard widgets added
+4. files/manifests produced
+5. any blockers
+6. exact commands available to run backups and exports
+7. recommended next safety/system priority after this
+
+────────────────────────
+
+QUALITY RULES
+
+Do not create fake backups.
+Do not create placeholder scripts that do nothing.
+Do not omit critical project areas.
+Do not package secrets unsafely.
+Do not break production.
+Do not change tier menus or user-facing learning flows unless needed for admin backup access.
+
+Everything must be robust, production-safe, and recovery-focused.
+
+────────────────────────
+
+FINAL EXECUTION
+
+Implement the full Backup / Export / Snapshot / Disaster Recovery System so the entire NurseNest site can be packaged, validated, and stored externally for safe recovery outside Replit if needed.
