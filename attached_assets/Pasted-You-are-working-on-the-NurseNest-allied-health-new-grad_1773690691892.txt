@@ -1,0 +1,315 @@
+You are working on the NurseNest / allied health / new grad ecosystem.
+
+Your task is to determine the highest-impact next build priority based on the current question bank inventory, then implement that priority fully across content, UX, SEO, marketing, admin systems, and visible count displays.
+
+DO NOT give strategy notes back.
+DO NOT ask clarifying questions.
+DO NOT give multiple options.
+Make the decision and execute it.
+
+CURRENT INVENTORY TO USE AS SOURCE OF TRUTH
+
+NURSING TIERS
+RN: ~8,350
+RPN/PN/LVN: ~6,300
+NP: ~4,150
+Pre-Nursing: ~350
+Nursing total: ~19,150
+
+ALLIED HEALTH TIERS
+RRT: ~4,070
+Surgical Technologist: ~3,000
+MLT: ~2,000
+OTA: 900
+PTA: 900
+Pharmacy Technician: ~1,710
+Paramedic: ~1,500
+Imaging / Radiology: ~2,560
+Addictions Counsellor: ~1,000
+Psychotherapist: ~1,000
+Critical Care Cert: ~1,000
+Emergency Nursing Cert: ~1,375
+Perioperative Cert: ~1,000
+Oncology Nursing Cert: ~1,000
+Pediatric Cert: ~1,000
+Social Worker: 50
+Allied Health total: ~24,065
+
+NEW GRAD
+Interview Question Bank: 9 categories
+Focus is career readiness, not clinical exam prep
+
+ADDITIONAL DATABASE
+generated_questions table: 28,436 AI-generated questions
+19,989 MCQ
+8,447 SATA
+These may supplement but should not be used for misleading public static counts unless properly categorized and validated.
+
+KEY DATA ISSUES
+- Social Worker is extremely thin at 50 questions
+- New Grad has minimal bank-style volume
+- question-counts.ts is outdated and inaccurate
+- counting logic is inconsistent because files use mixed schemas:
+  - inline { q:
+  - multi-line q:
+  - "stem":
+  - scenario:
+  - bowtie/CAT variations
+
+PRIMARY DECISION RULE
+
+You must choose the single highest ROI next build priority using this ranking logic:
+
+1. Fix the weakest high-visibility conversion gap first
+2. Prioritize anything that looks thin, untrustworthy, unfinished, or weak in marketing
+3. Prioritize anything that can damage trust if users see very low volume compared with surrounding tiers
+4. Prioritize anything that improves visible authority, SEO scale, and conversion psychology quickly
+5. Prioritize build work that can be reused later across all tiers
+
+Based on the data above, choose the best next priority and build it.
+Do not return alternatives.
+
+EXPECTED DECISION TARGET
+
+The likely best next priority is to fully expand and professionalize the thinnest weak-point tier and the count infrastructure behind it, with special attention to Social Worker first, then shared count-system normalization, then any low-volume allied health tiers that need stronger authority positioning.
+However, do not merely state this — implement it.
+
+YOUR JOB
+
+Execute all of the following in one pass:
+
+PART 1 — BUILD PRIORITY SELECTION
+- Programmatically determine the next priority area from the inventory above
+- Mark it as the active build target
+- Store the decision in a config or admin-facing constant so the team can see what is being worked on next
+
+PART 2 — SOCIAL WORKER TIER EXPANSION
+If Social Worker is chosen as the next priority, fully build it out into a serious, marketable exam-prep vertical.
+Do not leave it as a placeholder.
+Expand it from 50 questions to a credible launch-ready minimum target.
+
+MANDATORY SOCIAL WORKER TARGETS
+- Immediate minimum launch target: 1,000 high-quality questions
+- Stretch target architecture: 2,000+
+- Add multiple exam-style banks, topic banks, and scenario-based sets
+- Add bilingual/multilingual readiness structure matching site standards
+- Add same type of premium bank positioning used on stronger NurseNest hero pages
+
+SOCIAL WORKER CONTENT REQUIREMENTS
+Create or scaffold content architecture covering:
+- ethics and professional boundaries
+- mental health
+- crisis intervention
+- trauma-informed care
+- child and family services
+- case management
+- community practice
+- addictions
+- documentation
+- legislation and consent
+- diversity, equity, inclusion, anti-oppressive practice
+- assessment and intervention planning
+- group work
+- gerontology
+- school/social service systems
+- safeguarding and risk
+- social determinants of health
+- interdisciplinary collaboration
+- communication and interviewing
+- exam-style mixed mock tests
+
+For each category:
+- create a category page
+- create subcategory structure
+- create question bank metadata
+- create SEO headings and intro copy
+- create premium CTA blocks
+- create count display placeholders wired to real counting logic
+- create internal links to related resources, study guides, flashcards, and mock exams if those systems exist
+
+QUESTION MIX REQUIREMENTS
+Use a balanced exam-prep structure:
+- MCQ
+- SATA
+- scenario-based questions
+- case-based critical reasoning
+- prioritization/delegation where relevant
+- applied ethics items
+Do not use only simple recall questions.
+
+PART 3 — COUNTING SYSTEM REBUILD
+Build a universal question counting engine so the public-facing counts become accurate and auto-updating.
+
+MANDATORY COUNT ENGINE REQUIREMENTS
+- Replace outdated hardcoded counts in question-counts.ts
+- Build a normalization layer that counts all supported question schemas
+- Support:
+  - q
+  - stem
+  - scenario
+  - bowtie
+  - CAT item formats
+  - arrays nested in category files
+  - database-backed counts
+- Distinguish:
+  - static file-based question counts
+  - validated database question counts
+  - AI-generated question pools
+- Prevent double counting between static and database content
+- Add per-tier, per-category, and per-format counts
+- Add fallback logging for files that fail schema parsing
+- Generate a nightly or on-build count manifest
+- Expose the manifest to admin and frontend safely
+- Add integrity checks so visible site counts cannot silently go stale again
+
+COUNT DISPLAY RULES
+- Public counts must reflect only validated, user-available inventory
+- Do not publicly inflate counts with uncategorized AI-generated content
+- AI-generated pools may be shown separately in admin as supplemental inventory
+- Round display counts only where that matches marketing style, but maintain exact counts internally
+
+PART 4 — HERO / MARKETING / CONVERSION UPGRADE
+Upgrade the chosen weak tier so it does not look small or untrustworthy.
+
+MANDATORY HERO REQUIREMENTS
+- Add a strong hero section matching the highest-converting NurseNest style
+- Display real question counts prominently
+- Use conversion psychology:
+  - authority
+  - comprehensiveness
+  - exam confidence
+  - organized prep
+  - premium value
+- Add supporting microcopy like:
+  - realistic exam-style questions
+  - scenario-based practice
+  - organized by topic
+  - mock exams
+  - study smarter, not harder
+- Add CTA hierarchy:
+  - start practicing
+  - explore test bank
+  - view mock exams
+  - upgrade for full access
+- Add trust-building content sections:
+  - what is included
+  - who it is for
+  - how the bank is organized
+  - why this is different
+  - FAQ
+
+SEO REQUIREMENTS
+- Create optimized title tags, meta descriptions, H1/H2 structure
+- Add schema where appropriate
+- Add internal linking strategy
+- Add long-tail headings for exam intent
+- Ensure canonical, sitemap, and indexability support
+- Add related blog/study-guide hooks if content systems already exist
+
+PART 5 — LOW-VOLUME TIER WATCHLIST
+After building the main next priority, automatically identify other weak tiers needing expansion next.
+
+Create a ranked watchlist of thin or vulnerable tiers based on:
+- low count
+- weak competitive appearance
+- poor conversion optics
+- limited category depth
+
+This list should likely include:
+- Social Worker
+- OTA
+- PTA
+- New Grad bank-style practice content
+- Pre-Nursing
+- any certification page that looks thin relative to adjacent ones
+
+Store this watchlist for admin visibility.
+
+PART 6 — NEW GRAD POSITIONING FIX
+Do not turn New Grad into a fake clinical exam bank.
+Instead strengthen it as a career-readiness bank product.
+
+Build or scaffold:
+- larger interview bank architecture
+- behavioral interview bank
+- STAR response bank
+- specialty-specific nursing interview sets
+- difficult interviewer question sets
+- new grad confidence drills
+- workplace readiness scenarios
+- prioritization / delegation workplace scenarios
+- shift-report / communication scenarios
+- resume bullet bank
+- cover letter example bank
+- personal statement / scholarship prompt bank if applicable
+
+NEW GRAD PUBLIC POSITIONING
+- do not market it as a clinical licensure bank
+- market it as:
+  - interview prep
+  - job-readiness
+  - transition-to-practice toolkit
+  - career launch bank
+- add visible count systems for scenario sets, interview questions, templates, and drills if available
+
+PART 7 — ADMIN TOOLS
+Build admin support for all of this.
+
+ADMIN REQUIREMENTS
+- dashboard card showing real counts by tier
+- outdated count warning system
+- parsing failure log
+- uncategorized question detector
+- low-volume threshold alerts
+- recommended next-build priority card
+- watchlist table
+- quick links to weak categories needing content
+- optional “publish after validation” flow for newly generated content
+
+PART 8 — UX / PAYWALL / PRODUCT CONSISTENCY
+Ensure the newly expanded tier follows the same premium product architecture as stronger NurseNest tiers.
+
+REQUIREMENTS
+- test bank landing page
+- topic bank pages
+- mock exam pages
+- locked premium sections where appropriate
+- no broken routes
+- no empty pages
+- no misleading counts
+- no content hidden in the wrong navigation
+- no weak placeholder text
+- no duplicate menus
+- no paywall bypass via topic page routing
+
+PART 9 — LANGUAGE STRUCTURE
+Follow the multilingual site architecture already used elsewhere.
+Start with:
+- English
+- French
+- Spanish
+Then ensure the structure can extend to other supported languages.
+Do not translate with broken routing.
+Counts must stay synchronized across languages.
+
+PART 10 — OUTPUT FORMAT
+When finished, return:
+1. what priority was selected
+2. what was built
+3. what files were created or changed
+4. any blockers
+5. next recommended priority after this one
+
+BUILD QUALITY RULES
+- Do not invent inflated public numbers
+- Do not leave partial placeholders if a page is linked publicly
+- Do not create thin pages with no authority
+- Do not break existing navigation
+- Do not create a new menu system unless absolutely necessary
+- Keep design cohesive with NurseNest brand patterns
+- Use premium, polished, conversion-focused copy
+- Make the thin tier feel like a serious destination, not an afterthought
+
+FINAL EXECUTION INSTRUCTION
+
+Choose the highest-impact next build priority from the inventory above and implement it now end-to-end, with Social Worker expansion and count-system rebuilding treated as the default best path unless the codebase proves an even higher ROI weak point.
