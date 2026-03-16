@@ -13,6 +13,12 @@ const CLUSTER_CAREER_MAP: Record<string, string> = {
   mlt: "mlt",
   imaging: "imaging",
   "pharmacy-technician": "pharmacy-tech",
+  "occupational-therapy-assistant": "occupational-therapy-assistant",
+  "physiotherapy-assistant": "physiotherapy-assistant",
+  "surgical-technologist": "surgical-technologist",
+  "radiologic-technologist": "radiologic-technologist",
+  "diagnostic-sonography": "diagnostic-sonography",
+  "cardiac-sonographer": "cardiac-sonographer",
 };
 
 interface ClusterRedirectProps {

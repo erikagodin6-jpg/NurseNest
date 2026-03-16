@@ -503,24 +503,45 @@ export function AlliedRoutes() {
         <Route path="/allied-health/physical-therapy/mock-exam">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="mock-exam" />}</Route>
         <Route path="/allied-health/physical-therapy/study-guide">{() => <ProfessionClusterRedirect profession="physical-therapy" clusterType="study-guide" />}</Route>
 
+        <Route path="/allied-health/imaging/lessons">{() => <ProfessionClusterRedirect profession="imaging" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/imaging/practice-questions">{() => <ProfessionClusterRedirect profession="imaging" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/imaging/mock-exam">{() => <ProfessionClusterRedirect profession="imaging" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/imaging/study-guide">{() => <ProfessionClusterRedirect profession="imaging" clusterType="study-guide" />}</Route>
+
+        <Route path="/allied-health/health-info-mgmt/lessons">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/practice-questions">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/mock-exam">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/study-guide">{() => <ProfessionClusterRedirect profession="health-info-mgmt" clusterType="study-guide" />}</Route>
         <Route path="/allied-health/health-info-mgmt/study">{() => <CareerStudyPage careerSlug="health-info-mgmt" />}</Route>
         <Route path="/allied-health/health-info-mgmt/flashcards">{() => <CareerFlashcardsPage careerSlug="health-info-mgmt" />}</Route>
         <Route path="/allied-health/health-info-mgmt/exams">{() => <CareerExamsPage careerSlug="health-info-mgmt" />}</Route>
         <Route path="/allied-health/health-info-mgmt/career-guide">{() => <CareerGuideSubpage careerSlug="health-info-mgmt" />}</Route>
         <Route path="/allied-health/health-info-mgmt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["health-info-mgmt"]} />}</Route>
 
+        <Route path="/allied-health/occupational-therapy-assistant/lessons">{() => <ProfessionClusterRedirect profession="occupational-therapy-assistant" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/occupational-therapy-assistant/practice-questions">{() => <ProfessionClusterRedirect profession="occupational-therapy-assistant" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/occupational-therapy-assistant/mock-exam">{() => <ProfessionClusterRedirect profession="occupational-therapy-assistant" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/occupational-therapy-assistant/study-guide">{() => <ProfessionClusterRedirect profession="occupational-therapy-assistant" clusterType="study-guide" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant/study">{() => <CareerStudyPage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant/flashcards">{() => <CareerFlashcardsPage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant/exams">{() => <CareerExamsPage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant/career-guide">{() => <CareerGuideSubpage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["occupational-therapy-assistant"]} />}</Route>
 
+        <Route path="/allied-health/physiotherapy-assistant/lessons">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/physiotherapy-assistant/practice-questions">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/physiotherapy-assistant/mock-exam">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/physiotherapy-assistant/study-guide">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="study-guide" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/study">{() => <CareerStudyPage careerSlug="physiotherapy-assistant" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/flashcards">{() => <CareerFlashcardsPage careerSlug="physiotherapy-assistant" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/exams">{() => <CareerExamsPage careerSlug="physiotherapy-assistant" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/career-guide">{() => <CareerGuideSubpage careerSlug="physiotherapy-assistant" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["physiotherapy-assistant"]} />}</Route>
 
+        <Route path="/allied-health/surgical-technologist/lessons">{() => <ProfessionClusterRedirect profession="surgical-technologist" clusterType="lessons" />}</Route>
+        <Route path="/allied-health/surgical-technologist/practice-questions">{() => <ProfessionClusterRedirect profession="surgical-technologist" clusterType="practice-questions" />}</Route>
+        <Route path="/allied-health/surgical-technologist/mock-exam">{() => <ProfessionClusterRedirect profession="surgical-technologist" clusterType="mock-exam" />}</Route>
+        <Route path="/allied-health/surgical-technologist/study-guide">{() => <ProfessionClusterRedirect profession="surgical-technologist" clusterType="study-guide" />}</Route>
         <Route path="/allied-health/surgical-technologist/study">{() => <CareerStudyPage careerSlug="surgical-technologist" />}</Route>
         <Route path="/allied-health/surgical-technologist/flashcards">{() => <CareerFlashcardsPage careerSlug="surgical-technologist" />}</Route>
         <Route path="/allied-health/surgical-technologist/exams">{() => <CareerExamsPage careerSlug="surgical-technologist" />}</Route>

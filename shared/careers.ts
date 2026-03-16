@@ -754,6 +754,9 @@ export const CAREER_SLUG_TO_CANONICAL_ROUTE: Record<string, string> = {
   "occupational-therapy-assistant": "/occupational-therapy-assistant",
   "physiotherapy-assistant": "/physiotherapy-assistant",
   "surgical-technologist": "/surgical-technologist",
+  "radiologic-technologist": "/radiologic-technologist",
+  "diagnostic-sonography": "/diagnostic-sonography",
+  "cardiac-sonographer": "/cardiac-sonographer",
   "nursing": "/nursing",
   "critical-care": "/critical-care",
   "emergency-nursing": "/emergency-nursing",
@@ -767,6 +770,7 @@ const ALLIED_HEALTH_CAREER_SLUGS = new Set([
   "psychotherapist", "social-worker", "addictions-counsellor",
   "occupational-therapy", "physical-therapy", "health-info-mgmt",
   "occupational-therapy-assistant", "physiotherapy-assistant", "surgical-technologist",
+  "radiologic-technologist", "diagnostic-sonography", "cardiac-sonographer",
 ]);
 
 export function getCanonicalRoute(careerSlug: string): string {

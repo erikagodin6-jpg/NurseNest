@@ -104,6 +104,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Emergency Nursing (CEN)", href: "/emergency-nursing", description: "Emergency department nursing certification with respiratory emergency content" },
     ],
     contentClusterBase: "/allied-health/rrt",
+    studyResourceLinks: [
+      { label: "RRT Pharmacology Hub", href: "/allied-health/rrt/pharmacology", desc: "Comprehensive drug guide: bronchodilators, corticosteroids, mucolytics, and 12+ more classes" },
+      { label: "Pharmacology Quick Sheets", href: "/allied-health/rrt/pharmacology/quick-sheets", desc: "Rapid-reference drug cards for TMC & CSE exam review" },
+      { label: "TMC Trap Questions", href: "/allied-health/rrt/pharmacology/traps", desc: "High-yield pharmacology pitfalls the NBRC loves to test" },
+      { label: "Mnemonics & Memory Aids", href: "/allied-health/rrt/pharmacology/mnemonics", desc: "Proven memory techniques for drug classes, doses, and side effects" },
+      { label: "Practice Questions", href: "/allied-health/rrt/practice-questions", desc: "Adaptive question bank covering all NBRC TMC & CSE domains" },
+      { label: "Mock Exams", href: "/allied-health/rrt/mock-exam", desc: "Full-length blueprint-weighted TMC simulations with scoring" },
+    ],
   },
 
   "social-work": {
@@ -160,6 +168,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with DSM-5 and therapeutic communication" },
     ],
     contentClusterBase: "/allied-health/social-work",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/social-work/study-guide", desc: "Structured ASWB study materials across all exam domains" },
+      { label: "Practice Questions", href: "/allied-health/social-work/practice-questions", desc: "Scenario-based ASWB questions with clinical rationales" },
+      { label: "Mock Exams", href: "/allied-health/social-work/mock-exam", desc: "Full-length ASWB simulations with domain-level scoring" },
+      { label: "Lessons", href: "/allied-health/social-work/lessons", desc: "Clinical social work lessons covering DSM-5, ethics, and interventions" },
+    ],
   },
 
   psychotherapy: {
@@ -216,6 +230,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing content with therapeutic communication and psychopharmacology" },
     ],
     contentClusterBase: "/allied-health/psychotherapy",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/psychotherapy/study-guide", desc: "Structured psychotherapy study materials across all modalities" },
+      { label: "Practice Questions", href: "/allied-health/psychotherapy/practice-questions", desc: "Evidence-based therapy scenario questions with rationales" },
+      { label: "Mock Exams", href: "/allied-health/psychotherapy/mock-exam", desc: "Full-length licensing simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/psychotherapy/lessons", desc: "Therapeutic modalities, ethics, and clinical assessment lessons" },
+    ],
   },
 
   addictions: {
@@ -276,6 +296,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Mental Health Nursing", href: "/nursing", description: "Psychiatric nursing with substance use disorder content" },
     ],
     contentClusterBase: "/allied-health/addictions",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/addictions/study-guide", desc: "Structured addiction counseling study materials by domain" },
+      { label: "Practice Questions", href: "/allied-health/addictions/practice-questions", desc: "Scenario-based counseling questions with clinical rationales" },
+      { label: "Mock Exams", href: "/allied-health/addictions/mock-exam", desc: "Full-length certification simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/addictions/lessons", desc: "Pharmacology of addiction, counseling techniques, and ethics lessons" },
+    ],
   },
 
   "occupational-therapy": {
@@ -336,6 +362,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Pediatric Nursing (CPN)", href: "/pediatric-cert", description: "Pediatric development and family-centered care" },
     ],
     contentClusterBase: "/allied-health/occupational-therapy",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/occupational-therapy/study-guide", desc: "NBCOT-aligned OT study materials across all practice domains" },
+      { label: "Practice Questions", href: "/allied-health/occupational-therapy/practice-questions", desc: "Clinical vignette questions with OT-specific rationales" },
+      { label: "Mock Exams", href: "/allied-health/occupational-therapy/mock-exam", desc: "Full-length NBCOT OTR simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/occupational-therapy/lessons", desc: "Evaluation, intervention planning, and frames of reference lessons" },
+    ],
   },
 
   "physical-therapy": {
@@ -396,6 +428,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Sports Medicine Nursing", href: "/nursing", description: "Nursing certification with orthopedic and sports injury content" },
     ],
     contentClusterBase: "/allied-health/physical-therapy",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/physical-therapy/study-guide", desc: "NPTE-aligned PT study materials across all system domains" },
+      { label: "Practice Questions", href: "/allied-health/physical-therapy/practice-questions", desc: "System-based PT questions with differential diagnosis rationales" },
+      { label: "Mock Exams", href: "/allied-health/physical-therapy/mock-exam", desc: "Full-length NPTE simulations with system-level scoring" },
+      { label: "Lessons", href: "/allied-health/physical-therapy/lessons", desc: "Musculoskeletal, neuro, cardiopulmonary, and integumentary lessons" },
+    ],
   },
 
   imaging: {
@@ -456,6 +494,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "MLT Exam Prep", href: "/allied-health/mlt", description: "Medical laboratory technology with related diagnostic testing" },
     ],
     contentClusterBase: "/allied-health/imaging",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/imaging/study-guide", desc: "ARRT-aligned imaging study materials across all content areas" },
+      { label: "Practice Questions", href: "/allied-health/imaging/practice-questions", desc: "Radiography questions with positioning and physics rationales" },
+      { label: "Mock Exams", href: "/allied-health/imaging/mock-exam", desc: "Full-length ARRT simulations with domain-level scoring" },
+      { label: "Lessons", href: "/allied-health/imaging/lessons", desc: "Positioning, radiation safety, image production, and patient care lessons" },
+    ],
   },
 
   "radiologic-technologist": {
@@ -714,6 +758,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy with clinical documentation and coding applications" },
     ],
     contentClusterBase: "/allied-health/health-info-mgmt",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/health-info-mgmt/study-guide", desc: "AHIMA-aligned HIM study materials across all exam domains" },
+      { label: "Practice Questions", href: "/allied-health/health-info-mgmt/practice-questions", desc: "ICD-10 coding and HIPAA scenario questions with rationales" },
+      { label: "Mock Exams", href: "/allied-health/health-info-mgmt/mock-exam", desc: "Full-length RHIT/RHIA simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/health-info-mgmt/lessons", desc: "Medical coding, EHR systems, privacy compliance, and revenue cycle lessons" },
+    ],
   },
 
   "occupational-therapy-assistant": {
@@ -774,6 +824,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Pharmacy Tech Exam Prep", href: "/allied-health/pharmacy-technician", description: "Pharmacy technology certification with medication management knowledge" },
     ],
     contentClusterBase: "/allied-health/occupational-therapy-assistant",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/occupational-therapy-assistant/study-guide", desc: "NBCOT COTA-aligned study materials for OT assistants" },
+      { label: "Practice Questions", href: "/allied-health/occupational-therapy-assistant/practice-questions", desc: "ADL intervention and clinical scenario questions with rationales" },
+      { label: "Mock Exams", href: "/allied-health/occupational-therapy-assistant/mock-exam", desc: "Full-length NBCOT COTA simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/occupational-therapy-assistant/lessons", desc: "ADL training, adaptive equipment, splinting, and documentation lessons" },
+    ],
   },
 
   "physiotherapy-assistant": {
@@ -834,6 +890,12 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Paramedic Exam Prep", href: "/allied-health/paramedic", description: "Emergency medical services with musculoskeletal trauma assessment" },
     ],
     contentClusterBase: "/allied-health/physiotherapy-assistant",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/physiotherapy-assistant/study-guide", desc: "NPTE-PTA-aligned study materials for physical therapist assistants" },
+      { label: "Practice Questions", href: "/allied-health/physiotherapy-assistant/practice-questions", desc: "Modality selection and therapeutic exercise questions with rationales" },
+      { label: "Mock Exams", href: "/allied-health/physiotherapy-assistant/mock-exam", desc: "Full-length NPTE-PTA simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/physiotherapy-assistant/lessons", desc: "Therapeutic exercise, modalities, gait training, and wound care lessons" },
+    ],
   },
 
   "surgical-technologist": {
@@ -894,5 +956,11 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy with airway management and ventilator care in surgical settings" },
     ],
     contentClusterBase: "/allied-health/surgical-technologist",
+    studyResourceLinks: [
+      { label: "Study Guide", href: "/allied-health/surgical-technologist/study-guide", desc: "CST-aligned study materials across all perioperative domains" },
+      { label: "Practice Questions", href: "/allied-health/surgical-technologist/practice-questions", desc: "Sterile technique and instrumentation questions with rationales" },
+      { label: "Mock Exams", href: "/allied-health/surgical-technologist/mock-exam", desc: "Full-length CST/TS-C simulations with domain scoring" },
+      { label: "Lessons", href: "/allied-health/surgical-technologist/lessons", desc: "Sterile technique, instrumentation, anatomy, and surgical procedures" },
+    ],
   },
 };
