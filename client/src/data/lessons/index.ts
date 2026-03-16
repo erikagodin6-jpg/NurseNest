@@ -158,6 +158,10 @@ import { picuLessonsBatch4 } from "./picu-lessons-batch-4";
 import { icuCriticalCareExpansionLessons } from "./icu-critical-care-expansion";
 import { emergencyHemorrhageExpansionLessons } from "./emergency-hemorrhage-expansion";
 import { rrtCardiacExpansionLessons } from "./rrt-cardiac-expansion";
+import { rrtPulmonaryDiseasesLessons } from "./rrt-pulmonary-diseases";
+import { rrtPharmacologyExpandedLessons } from "./rrt-pharmacology-expanded";
+import { rrtNeonatalExpandedLessons } from "./rrt-neonatal-expanded";
+import { rrtCriticalCareAdvancedLessons } from "./rrt-critical-care-advanced";
 
 import { generatedBatch001Lessons } from "./generated-batch-001";
 import { generatedBatch002Lessons } from "./generated-batch-002";
@@ -1014,6 +1018,10 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnArrhythmiasExpansionLessons,
   rnChdAnticoagExpansionLessons,
   rnGiCancerPedsIntegLessons,
+  rrtPulmonaryDiseasesLessons,
+  rrtPharmacologyExpandedLessons,
+  rrtNeonatalExpandedLessons,
+  rrtCriticalCareAdvancedLessons,
 );
 
 
