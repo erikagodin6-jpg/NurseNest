@@ -1,6 +1,7 @@
 import type { CareerQuestion } from "./rrt-questions";
 import type { CareerType } from "@shared/careers";
 import { rrtQuestions } from "./rrt-questions";
+import { rrtQuestionsBatch1 } from "./rrt-questions-batch1";
 import { paramedicQuestions } from "./paramedic-questions";
 import { pharmacyTechQuestions } from "./pharmacy-tech-questions";
 import { pharmacyTechQuestionsExtended } from "./pharmacy-tech-questions-extended";
@@ -14,7 +15,7 @@ import { otaQuestions } from "./ota-questions";
 import { ptaQuestions } from "./pta-questions";
 
 const pools: Record<string, CareerQuestion[]> = {
-  rrt: rrtQuestions,
+  rrt: [...rrtQuestions, ...rrtQuestionsBatch1],
   paramedic: paramedicQuestions,
   pharmacyTech: [...pharmacyTechQuestions, ...pharmacyTechQuestionsExtended, ...pharmacyTechQuestionsBatch2, ...pharmacyTechQuestionsBatch3, ...pharmacyTechQuestionsBatch4, ...pharmacyTechQuestionsPEBC],
   mlt: mltQuestions,

@@ -5,7 +5,7 @@ import type { CareerQuestion } from "./rrt-questions";
 import type { CareerType } from "@shared/careers";
 
 const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
-  rrt: () => import("./rrt-questions").then(m => m.rrtQuestions),
+  rrt: () => Promise.all([import("./rrt-questions").then(m => m.rrtQuestions), import("./rrt-questions-batch1").then(m => m.rrtQuestionsBatch1)]).then(([a, b]) => [...a, ...b]),
   paramedic: () => import("./paramedic-questions").then(m => m.paramedicQuestions),
   pharmacyTech: () => import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
   mlt: () => import("./mlt-questions").then(m => m.mltQuestions),
