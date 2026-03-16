@@ -163,6 +163,22 @@ export const pharmacologyInfectiousPsychLessons: Record<string, LessonContent> =
         sideEffects: "Rifampin: orange discoloration of body fluids, hepatotoxicity, potent CYP450 inducer. Isoniazid: peripheral neuropathy (give pyridoxine/B6), hepatotoxicity. Pyrazinamide: hepatotoxicity, hyperuricemia. Ethambutol: optic neuritis (red-green color discrimination loss).",
         contra: "Active hepatic disease (relative). Ethambutol avoided in young children who cannot report visual changes. Rifampin reduces effectiveness of oral contraceptives, warfarin, and many other drugs.",
         pearl: "All four RIPE drugs are hepatotoxic - monitor LFTs monthly. Give pyridoxine (vitamin B6) with isoniazid to prevent peripheral neuropathy. Rifampin turns urine, tears, sweat, and saliva orange (warn patients - does not stain contact lenses permanently but avoid soft lenses). Directly observed therapy (DOT) is standard of care for TB treatment adherence."
+      },
+      {
+        name: "Erythromycin",
+        type: "Macrolide Antibiotic",
+        action: "Inhibits bacterial protein synthesis by binding the 50S ribosomal subunit. Bacteriostatic. Also has prokinetic effects by acting as a motilin receptor agonist in the GI tract.",
+        sideEffects: "GI distress (nausea, vomiting, diarrhea, abdominal cramping - most common), QT prolongation, hepatotoxicity (cholestatic jaundice), ototoxicity at high doses, phlebitis with IV administration",
+        contra: "Concurrent use with QT-prolonging drugs, hepatic dysfunction, concurrent use with statins (increased rhabdomyolysis risk via CYP3A4 inhibition), concurrent cisapride or pimozide use",
+        pearl: "Erythromycin is a potent CYP3A4 inhibitor with numerous drug interactions (increases levels of warfarin, theophylline, carbamazepine, statins). Used off-label as a prokinetic agent for gastroparesis. IV erythromycin requires slow infusion to reduce phlebitis risk. Often replaced by azithromycin due to fewer GI side effects and drug interactions."
+      },
+      {
+        name: "Botulism Immune Globulin (BIG-IV / BabyBIG)",
+        type: "Human-Derived Immunoglobulin (Passive Immunization)",
+        action: "Provides preformed antibodies against botulinum toxin types A and B, neutralizing circulating toxin before it binds irreversibly to neuromuscular junctions",
+        sideEffects: "Infusion reactions (flushing, chills, fever), rash, mild blood pressure changes, anaphylaxis (rare)",
+        contra: "Known hypersensitivity to human immunoglobulin products, IgA deficiency with anti-IgA antibodies (anaphylaxis risk)",
+        pearl: "BabyBIG is specifically indicated for infant botulism (under 1 year of age) caused by Clostridium botulinum types A and B. Must be administered as early as possible for maximum benefit. Reduces hospital stay and duration of mechanical ventilation. Very expensive and obtained through the California Department of Public Health. Adult botulism is treated with heptavalent botulism antitoxin (HBAT) instead."
       }
     ],
     pearls: [
@@ -410,6 +426,30 @@ export const pharmacologyInfectiousPsychLessons: Record<string, LessonContent> =
         sideEffects: "Buprenorphine: headache, nausea, constipation, precipitated withdrawal if given too early. Methadone: QT prolongation, respiratory depression, sedation. Naltrexone: hepatotoxicity, nausea, precipitated withdrawal if opioids in system.",
         contra: "Naltrexone: active opioid use (precipitates severe withdrawal - must be opioid-free 7-10 days). Methadone: severe respiratory depression risk, QT prolongation. Buprenorphine combined with naloxone (Suboxone) deters IV misuse.",
         pearl: "Buprenorphine must be started when patient is in mild-moderate withdrawal (COWS score 8-12) to avoid precipitated withdrawal. Methadone dispensing is restricted to certified opioid treatment programs (OTPs). Naltrexone available as monthly IM injection (Vivitrol) improving adherence. Medication-assisted treatment (MAT) combined with counseling is the evidence-based standard for OUD."
+      },
+      {
+        name: "Ziprasidone (Geodon)",
+        type: "Atypical (Second-Generation) Antipsychotic",
+        action: "Blocks dopamine D2 and serotonin 5-HT2A receptors with additional serotonin and norepinephrine reuptake inhibition. Used for schizophrenia and acute bipolar mania.",
+        sideEffects: "QT prolongation (highest QT risk among atypical antipsychotics), drowsiness, dizziness, orthostatic hypotension, EPS, nausea, rash",
+        contra: "Known QT prolongation, recent MI, uncompensated heart failure, concurrent use with other QT-prolonging drugs (amiodarone, sotalol, quinidine), hypokalemia or hypomagnesemia",
+        pearl: "Must be taken with food (at least 500 calories) for adequate absorption - bioavailability doubles with food. Carries the highest risk of QT prolongation among atypical antipsychotics - obtain baseline ECG and monitor. Causes the least weight gain and metabolic effects among atypical antipsychotics, making it preferred when metabolic risk is a concern."
+      },
+      {
+        name: "Benztropine (Cogentin)",
+        type: "Anticholinergic / Antiparkinsonian Agent",
+        action: "Blocks muscarinic acetylcholine receptors in the basal ganglia, restoring the dopamine-acetylcholine balance disrupted by dopamine-blocking antipsychotics. Reduces extrapyramidal symptoms (EPS).",
+        sideEffects: "Dry mouth, blurred vision, constipation, urinary retention, tachycardia, confusion and cognitive impairment (especially in elderly), heat intolerance, sedation",
+        contra: "Narrow-angle glaucoma, GI obstruction, urinary retention, myasthenia gravis, tardive dyskinesia (anticholinergics worsen TD), children under 3 years, dementia",
+        pearl: "First-line treatment for acute dystonia (IM/IV) caused by antipsychotics - onset within 15 minutes. Also used for drug-induced parkinsonism and akathisia. Does NOT treat tardive dyskinesia (may worsen it). High anticholinergic burden - avoid in elderly when possible (Beers criteria). Assess for anticholinergic toxicity: 'Hot as a hare, blind as a bat, dry as a bone, red as a beet, mad as a hatter.'"
+      },
+      {
+        name: "Trihexyphenidyl (Artane)",
+        type: "Anticholinergic / Antiparkinsonian Agent",
+        action: "Blocks central muscarinic receptors to reduce cholinergic excess in the striatum, improving the dopamine-acetylcholine imbalance that causes extrapyramidal symptoms and parkinsonian tremor",
+        sideEffects: "Dry mouth, blurred vision, constipation, urinary retention, dizziness, nausea, nervousness, tachycardia, cognitive impairment in elderly",
+        contra: "Narrow-angle glaucoma, GI obstruction, urinary retention, myasthenia gravis, tardive dyskinesia",
+        pearl: "Used for drug-induced EPS and as adjunct therapy in Parkinson disease for tremor control. Similar mechanism and side effect profile to benztropine. Start at low dose and titrate gradually. Not recommended in elderly due to high anticholinergic burden and cognitive effects. If EPS persists despite anticholinergic therapy, consider switching to an atypical antipsychotic with lower EPS risk."
       }
     ],
     pearls: [

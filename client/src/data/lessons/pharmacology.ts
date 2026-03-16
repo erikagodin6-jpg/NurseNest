@@ -50,7 +50,9 @@ export const pharmacologyLessons: Record<string, LessonContent> = {
     },
     medications: [
       { name: "Digoxin", type: "Cardiac Glycoside", action: "Increases contractility", sideEffects: "Nausea/Bradycardia", contra: "Hypokalemia", pearl: "Check apical pulse for 1 min (hold if < 60)." },
-      { name: "Amlodipine", type: "CCB", action: "Vasodilation", sideEffects: "Peripheral edema", contra: "Severe HF", pearl: "Monitor for ankle swelling." }
+      { name: "Amlodipine", type: "CCB", action: "Vasodilation", sideEffects: "Peripheral edema", contra: "Severe HF", pearl: "Monitor for ankle swelling." },
+      { name: "IVIG (Intravenous Immunoglobulin)", type: "Immunoglobulin", action: "Modulates immune response", sideEffects: "Infusion reactions/Anaphylaxis", contra: "IgA deficiency", pearl: "Used in Kawasaki disease, GBS, ITP. Infuse slowly. Delay live vaccines 11 months." },
+      { name: "Cisplatin", type: "Platinum Chemotherapy", action: "Cross-links DNA to stop replication", sideEffects: "Nephrotoxicity/Ototoxicity/Severe N&V", contra: "Renal impairment/Pregnancy", pearl: "Aggressive IV hydration required. Most emetogenic chemo agent." }
     ],
     pearls: ["Hold Beta Blockers if HR < 50 or SBP < 100", "ACE inhibitors can cause life-threatening angioedema", "Potassium levels affect Digoxin toxicity"],
     quiz: [{ question: "Priority assessment before giving Digoxin?", options: ["Temperature", "Apical pulse for 60 seconds", "Weight", "Respiratory rate"], correct: 1, rationale: "Digoxin can slow the heart rate too much; an apical pulse of <60 requires the dose to be held." }]
@@ -86,7 +88,8 @@ export const pharmacologyLessons: Record<string, LessonContent> = {
     },
     medications: [
       { name: "Lispro", type: "Rapid-acting", action: "Bolus insulin", sideEffects: "Hypoglycemia", contra: "Hypoglycemia", pearl: "Give within 15 mins of food." },
-      { name: "Glargine", type: "Long-acting", action: "Basal coverage", sideEffects: "Hypoglycemia", contra: "Hypoglycemia", pearl: "Cannot be mixed with other insulins." }
+      { name: "Glargine", type: "Long-acting", action: "Basal coverage", sideEffects: "Hypoglycemia", contra: "Hypoglycemia", pearl: "Cannot be mixed with other insulins." },
+      { name: "Glyburide (DiaBeta)", type: "Sulfonylurea", action: "Stimulates insulin secretion", sideEffects: "Hypoglycemia/Weight gain", contra: "Type 1 DM/Renal failure", pearl: "Highest hypoglycemia risk among sulfonylureas. Avoid in elderly (Beers criteria)." }
     ],
     pearls: ["Check blood glucose before administration", "Rule of 15 for hypoglycemia", "Rotate injection sites"],
     quiz: [{ question: "When to give rapid-acting insulin?", options: ["30 mins before food", "Within 15 mins of eating", "Only at bedtime", "After exercise"], correct: 1, rationale: "Rapid-acting insulin has a quick onset; food must be available immediately to prevent hypoglycemia." }]

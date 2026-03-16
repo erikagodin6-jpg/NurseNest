@@ -277,6 +277,30 @@ export const pharmacologyCardioRespLessons: Record<string, LessonContent> = {
         sideEffects: "GI upset, myopathy (especially combined with statins), cholelithiasis, elevated liver enzymes, rash, photosensitivity",
         contra: "Severe renal impairment, severe hepatic disease, active gallbladder disease, breastfeeding, concurrent use with strong statins (increased rhabdomyolysis risk)",
         pearl: "Primarily used for severe hypertriglyceridemia (above 500 mg/dL) to prevent pancreatitis. When combining with statins, fenofibrate is preferred over gemfibrozil due to lower rhabdomyolysis risk. Monitor renal function and liver enzymes periodically."
+      },
+      {
+        name: "Nitroglycerin",
+        type: "Vasodilator (Organic Nitrate)",
+        action: "Converted to nitric oxide, which activates guanylate cyclase in vascular smooth muscle, increasing cGMP and causing venodilation (primarily) and arteriolar dilation, reducing preload and myocardial oxygen demand",
+        sideEffects: "Headache (most common), hypotension, reflex tachycardia, dizziness, flushing, tolerance with continuous use",
+        contra: "Concurrent PDE-5 inhibitor use (sildenafil, tadalafil - fatal hypotension), severe hypotension (SBP below 90 mmHg), right ventricular infarction, increased intracranial pressure, hypertrophic obstructive cardiomyopathy",
+        pearl: "Sublingual NTG: place under tongue, may repeat every 5 minutes for up to 3 doses. If no relief after first dose, call 911. IV NTG requires non-PVC tubing (drug adsorbs to PVC). Tolerance develops with continuous use - provide a 10-12 hour nitrate-free interval daily. Headache indicates the drug is working."
+      },
+      {
+        name: "Milrinone (Primacor)",
+        type: "Phosphodiesterase-3 Inhibitor (Inodilator)",
+        action: "Inhibits phosphodiesterase-3 in cardiac and vascular smooth muscle, increasing intracellular cAMP, which enhances cardiac contractility (positive inotropy) and causes vasodilation, reducing both preload and afterload",
+        sideEffects: "Hypotension, ventricular arrhythmias (ventricular tachycardia, ventricular fibrillation), thrombocytopenia, headache, tremor",
+        contra: "Severe aortic or pulmonic stenosis, hypovolemia, hypotension (SBP below 90 mmHg)",
+        pearl: "Used for short-term management of acute decompensated heart failure. IV only - administer via infusion pump with continuous cardiac monitoring. Monitor platelet count (thrombocytopenia risk). Does not require functioning beta receptors (advantage over dobutamine in patients on beta blockers). Often called an 'inodilator' because it increases contractility AND causes vasodilation."
+      },
+      {
+        name: "Dopamine",
+        type: "Vasopressor / Inotrope (Catecholamine)",
+        action: "Dose-dependent receptor activation: low dose (1-5 mcg/kg/min) stimulates dopaminergic receptors causing renal and mesenteric vasodilation; moderate dose (5-10 mcg/kg/min) stimulates beta-1 receptors increasing cardiac contractility and heart rate; high dose (>10 mcg/kg/min) stimulates alpha-1 receptors causing peripheral vasoconstriction",
+        sideEffects: "Tachycardia, arrhythmias, hypertension, tissue necrosis with extravasation, nausea, headache, anginal pain",
+        contra: "Pheochromocytoma, uncorrected tachyarrhythmias, ventricular fibrillation. Use with caution in patients on MAOIs (potentiated effect).",
+        pearl: "Administer via central line when possible - extravasation causes tissue necrosis (treat with phentolamine infiltration). Dose-dependent effects: 'Dopa doses for Dilation, Beta doses for the Beat, Alpha doses for the Arteries.' Titrate to desired hemodynamic effect. Taper gradually - do not abruptly discontinue."
       }
     ],
     pearls: [

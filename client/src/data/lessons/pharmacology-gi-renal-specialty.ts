@@ -191,6 +191,22 @@ export const pharmacologyGiRenalSpecialtyLessons: Record<string, LessonContent> 
         sideEffects: "Hypertension, thromboembolic events, pure red cell aplasia, headache, arthralgia",
         contra: "Uncontrolled hypertension; pure red cell aplasia from prior ESA use",
         pearl: "Black box warning: target hemoglobin 10-11 g/dL; higher targets increase mortality, stroke, and thromboembolic events; monitor iron stores concurrently"
+      },
+      {
+        name: "Sodium Polystyrene Sulfonate (Kayexalate)",
+        type: "Cation Exchange Resin (Potassium Binder)",
+        action: "Exchanges sodium ions for potassium ions in the large intestine, promoting fecal potassium excretion to lower serum potassium levels",
+        sideEffects: "Constipation, nausea, vomiting, hypokalemia (with overuse), hypernatremia, intestinal necrosis (rare but serious, especially with sorbitol), fecal impaction",
+        contra: "Bowel obstruction, neonates with reduced gut motility, post-operative patients (ileus risk), concurrent sorbitol use increases intestinal necrosis risk",
+        pearl: "Onset is slow (hours to days) - NOT appropriate for acute life-threatening hyperkalemia (use calcium gluconate, insulin/dextrose, or albuterol first). Administer orally or rectally. Newer potassium binders (patiromer, sodium zirconium cyclosilicate) have fewer GI side effects. Monitor potassium levels closely to avoid overcorrection."
+      },
+      {
+        name: "Dextrose (D50W / D10W)",
+        type: "Hypertonic Glucose Solution",
+        action: "Provides rapid exogenous glucose to reverse hypoglycemia by directly increasing blood glucose levels; when combined with insulin, drives potassium intracellularly to treat hyperkalemia",
+        sideEffects: "Hyperglycemia, phlebitis and tissue necrosis with extravasation (D50W), fluid overload, hypernatremia",
+        contra: "Hyperglycemia, delirium tremens with dehydration (correct dehydration first), intracranial hemorrhage",
+        pearl: "D50W (50% dextrose): 25-50 mL IV push for severe hypoglycemia in adults - administer via large-bore IV to prevent extravasation. D10W preferred in pediatrics and for maintenance. Always administer thiamine BEFORE dextrose in malnourished or alcoholic patients to prevent Wernicke encephalopathy. When used with insulin for hyperkalemia, give dextrose to prevent hypoglycemia."
       }
     ],
     pearls: [
