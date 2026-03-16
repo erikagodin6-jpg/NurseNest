@@ -21,6 +21,8 @@ export interface ReadinessResult {
     topicCoverage: number;
     practiceExamScore: number;
     timeManagement: number;
+    flashcardRetention?: number;
+    difficultyProgression?: number;
   };
 }
 
@@ -469,12 +471,37 @@ export async function calculateReadiness(userId: string): Promise<ReadinessResul
   const avgTime = profile.avg_time_per_question || 0;
   const timeManagement = avgTime > 0 && avgTime <= 90 ? Math.min(100, Math.round((90 / avgTime) * 80)) : avgTime === 0 ? 0 : 50;
 
+  let flashcardRetention = 0;
+  try {
+    const srResult = await pool.query(
+      `SELECT AVG(CASE WHEN ucs.times_seen > 0 THEN ucs.times_correct::float / ucs.times_seen ELSE 0 END) as avg_retention
+       FROM user_card_stats ucs WHERE ucs.user_id = $1 AND ucs.times_seen > 0`,
+      [userId]
+    );
+    if (srResult.rows[0] && srResult.rows[0].avg_retention) {
+      flashcardRetention = Math.round(parseFloat(srResult.rows[0].avg_retention) * 100);
+    }
+  } catch { flashcardRetention = 0; }
+
+  let difficultyProgression = 0;
+  try {
+    const diffResult = await pool.query(
+      `SELECT AVG(mastery_level) as avg_mastery FROM user_mastery_profiles WHERE user_id = $1 AND total_attempts >= 3`,
+      [userId]
+    );
+    if (diffResult.rows[0] && diffResult.rows[0].avg_mastery) {
+      difficultyProgression = Math.round(parseFloat(diffResult.rows[0].avg_mastery) * 100);
+    }
+  } catch { difficultyProgression = 0; }
+
   const score = Math.round(
-    overallAccuracy * 0.25 +
-    recentPerformance * 0.25 +
-    topicCoverage * 0.2 +
-    practiceExamScore * 0.2 +
-    timeManagement * 0.1
+    overallAccuracy * 0.20 +
+    recentPerformance * 0.20 +
+    topicCoverage * 0.15 +
+    practiceExamScore * 0.20 +
+    timeManagement * 0.05 +
+    flashcardRetention * 0.10 +
+    difficultyProgression * 0.10
   );
 
   const level = getReadinessLevel(score);
@@ -503,7 +530,7 @@ export async function calculateReadiness(userId: string): Promise<ReadinessResul
     score,
     level,
     passProbability,
-    factors: { overallAccuracy, recentPerformance, topicCoverage, practiceExamScore, timeManagement },
+    factors: { overallAccuracy, recentPerformance, topicCoverage, practiceExamScore, timeManagement, flashcardRetention, difficultyProgression },
   };
 }
 

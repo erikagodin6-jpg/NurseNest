@@ -6025,3 +6025,52 @@ export const insertQuestionExplanationSchema = createInsertSchema(questionExplan
 });
 export type QuestionExplanation = typeof questionExplanations.$inferSelect;
 export type InsertQuestionExplanation = z.infer<typeof insertQuestionExplanationSchema>;
+
+export const readinessHistory = pgTable("readiness_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  readinessScore: integer("readiness_score").default(0).notNull(),
+  passProbability: integer("pass_probability").default(0).notNull(),
+  readinessTier: text("readiness_tier").default("early_preparation").notNull(),
+  examType: text("exam_type").default("RN").notNull(),
+  factors: jsonb("factors").default(sql`'{}'::jsonb`),
+  snapshotWeek: text("snapshot_week").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("uq_readiness_history_user_week").on(table.userId, table.snapshotWeek),
+]);
+
+export const insertReadinessHistorySchema = createInsertSchema(readinessHistory).omit({ id: true, createdAt: true });
+export type ReadinessHistory = typeof readinessHistory.$inferSelect;
+export type InsertReadinessHistory = z.infer<typeof insertReadinessHistorySchema>;
+
+export const benchmarkProfiles = pgTable("benchmark_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  examType: text("exam_type").notNull().unique(),
+  totalUsers: integer("total_users").default(0).notNull(),
+  avgReadinessScore: doublePrecision("avg_readiness_score").default(0).notNull(),
+  avgPassProbability: doublePrecision("avg_pass_probability").default(0).notNull(),
+  avgAccuracy: doublePrecision("avg_accuracy").default(0).notNull(),
+  avgQuestionsAnswered: doublePrecision("avg_questions_answered").default(0).notNull(),
+  avgTopicCoverage: doublePrecision("avg_topic_coverage").default(0).notNull(),
+  passingThreshold: integer("passing_threshold").default(65).notNull(),
+  scoreDistribution: jsonb("score_distribution").default(sql`'{}'::jsonb`),
+  percentileBreakpoints: jsonb("percentile_breakpoints").default(sql`'[]'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertBenchmarkProfileSchema = createInsertSchema(benchmarkProfiles).omit({ id: true, updatedAt: true });
+export type BenchmarkProfile = typeof benchmarkProfiles.$inferSelect;
+export type InsertBenchmarkProfile = z.infer<typeof insertBenchmarkProfileSchema>;
+
+export const practiceRecommendations = pgTable("practice_recommendations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  recommendations: jsonb("recommendations").default(sql`'[]'::jsonb`).notNull(),
+  generatedAt: timestamp("generated_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"),
+});
+
+export const insertPracticeRecommendationSchema = createInsertSchema(practiceRecommendations).omit({ id: true, generatedAt: true });
+export type PracticeRecommendation = typeof practiceRecommendations.$inferSelect;
+export type InsertPracticeRecommendation = z.infer<typeof insertPracticeRecommendationSchema>;
