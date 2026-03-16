@@ -27,9 +27,13 @@ import {
   Trophy,
   Info,
   ChevronRight,
+  ChevronDown,
+  BookOpen,
+  HelpCircle,
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -347,6 +351,306 @@ function getCorrectInterventions(reaction: ReactionType): string[] {
 }
 
 const TOTAL_ROUNDS = 10;
+
+const faqItems = [
+  {
+    question: "What is the most dangerous type of blood transfusion reaction?",
+    answer: "An acute hemolytic transfusion reaction (AHTR) is the most dangerous. It occurs when ABO-incompatible blood is transfused, causing rapid intravascular hemolysis. Signs include fever, flank pain, hemoglobinuria (dark urine), hypotension, and DIC. The first nursing action is to stop the transfusion immediately and maintain IV access with normal saline using new tubing."
+  },
+  {
+    question: "How do you differentiate TACO from TRALI in nursing practice?",
+    answer: "TACO (Transfusion-Associated Circulatory Overload) presents with hypertension, JVD, bilateral crackles, and elevated BNP — it is a volume overload problem that responds to diuretics. TRALI (Transfusion-Related Acute Lung Injury) presents with hypotension or normal BP, bilateral infiltrates, severe hypoxemia, and normal BNP — it is a capillary permeability problem where diuretics are not effective and may worsen the condition."
+  },
+  {
+    question: "What blood type is the universal donor for red blood cells?",
+    answer: "O-negative (O-) is the universal RBC donor because O-negative red blood cells lack A, B, and Rh(D) antigens, making them safe for any recipient regardless of blood type. In emergencies when there is no time for crossmatching, O- PRBCs are used. AB plasma is the universal plasma donor because it contains no anti-A or anti-B antibodies."
+  },
+  {
+    question: "What should a nurse do first when a transfusion reaction is suspected?",
+    answer: "The first nursing action for any suspected transfusion reaction is to stop the transfusion immediately. Next, maintain IV access with normal saline using new tubing, assess the patient's vital signs, and notify the provider and blood bank. Never continue a transfusion when a reaction is suspected — even mild allergic reactions require stopping to rule out progression to anaphylaxis."
+  },
+  {
+    question: "How does this blood transfusion simulator help with NCLEX and REx-PN exam preparation?",
+    answer: "This simulator provides hands-on practice with three core transfusion competencies tested on the NCLEX-RN and REx-PN: ABO/Rh compatibility decision-making, clinical recognition of six transfusion reaction types from realistic patient scenarios, and selection of appropriate nursing interventions for each reaction type. The scenarios include exam-trap alerts that highlight common test-question pitfalls."
+  }
+];
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const medicalWebPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "Blood Transfusion Nursing Simulator | Compatibility & Reaction Training",
+  "description": "Interactive blood transfusion simulator for nursing students preparing for NCLEX-RN and REx-PN exams. Practice ABO/Rh compatibility, recognize transfusion reactions, and select appropriate nursing interventions.",
+  "url": "https://www.nursenest.ca/en/blood-transfusion-simulator",
+  "medicalAudience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Nursing Students",
+    "geographicArea": {
+      "@type": "AdministrativeArea",
+      "name": "North America"
+    }
+  },
+  "specialty": {
+    "@type": "MedicalSpecialty",
+    "name": "Hematology"
+  },
+  "about": {
+    "@type": "MedicalCondition",
+    "name": "Blood Transfusion Reactions"
+  },
+  "provider": PARENT_EDUCATIONAL_ORG,
+  "educationalLevel": "Professional",
+  "learningResourceType": "Interactive Simulation",
+  "isAccessibleForFree": false,
+};
+
+function PracticeCaseScenario() {
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  const caseQuestion = {
+    stem: "A nurse is administering a unit of PRBCs to a 67-year-old patient. Thirty minutes into the transfusion, the patient develops chills, a temperature of 39.1\u00b0C, and reports sudden low back pain. The urine in the catheter bag has turned dark red-brown. What is the nurse's FIRST action?",
+    options: [
+      "Administer acetaminophen and diphenhydramine",
+      "Slow the transfusion rate and continue monitoring",
+      "Stop the transfusion immediately and maintain IV access with normal saline",
+      "Obtain a urine sample and send to the lab"
+    ],
+    correctIndex: 2,
+    rationale: "The combination of fever, chills, back pain, and hemoglobinuria (dark red-brown urine) within minutes of transfusion is the hallmark presentation of an acute hemolytic transfusion reaction (AHTR). The FIRST action is always to stop the transfusion immediately to prevent further antigen-antibody destruction. IV access is maintained with NS using new tubing for emergency medications and fluid resuscitation. Administering medications or slowing the rate would allow continued exposure to incompatible blood. Lab specimens are collected after the transfusion is stopped."
+  };
+
+  return (
+    <Card className="border border-gray-100 bg-white" data-testid="card-practice-case">
+      <CardContent className="p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2 mb-2">
+          <BookOpen className="w-5 h-5 text-primary" />
+          <h3 className="text-base font-bold text-gray-900">Practice Case Scenario</h3>
+        </div>
+        <p className="text-sm text-gray-700 leading-relaxed">{caseQuestion.stem}</p>
+        <div className="space-y-2">
+          {caseQuestion.options.map((option, i) => {
+            const isSelected = selectedAnswer === i;
+            const isCorrect = i === caseQuestion.correctIndex;
+            let cls = "border-gray-100 hover:border-primary/30 cursor-pointer";
+            if (showAnswer && isSelected && isCorrect) cls = "border-emerald-300 bg-emerald-50/50";
+            else if (showAnswer && isSelected && !isCorrect) cls = "border-red-300 bg-red-50/50";
+            else if (showAnswer && isCorrect) cls = "border-emerald-200 bg-emerald-50/20";
+            else if (showAnswer) cls = "border-gray-100 opacity-50";
+            else if (isSelected) cls = "border-primary bg-primary/5";
+
+            return (
+              <Card
+                key={i}
+                className={`border-2 transition-all ${cls}`}
+                onClick={() => {
+                  if (!showAnswer) {
+                    setSelectedAnswer(i);
+                    setShowAnswer(true);
+                  }
+                }}
+                data-testid={`card-practice-option-${i}`}
+              >
+                <CardContent className="p-3 flex items-center gap-2">
+                  {showAnswer ? (
+                    isCorrect ? <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" /> : <XCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                  ) : (
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${isSelected ? "border-primary bg-primary" : "border-gray-300"}`} />
+                  )}
+                  <span className="text-sm text-gray-700">{option}</span>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+        {showAnswer && (
+          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+            <CardContent className="p-4">
+              <p className="text-sm font-bold text-gray-900 mb-1">Rationale:</p>
+              <p className="text-sm text-gray-600 leading-relaxed">{caseQuestion.rationale}</p>
+            </CardContent>
+          </Card>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function NclexPracticeQuestion() {
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  const question = {
+    stem: "A nurse is caring for a patient with heart failure who is receiving a second unit of PRBCs. The patient develops progressive dyspnea, bilateral crackles, JVD, and elevated blood pressure. Which transfusion reaction should the nurse suspect, and what is the priority intervention?",
+    options: [
+      "TRALI — administer diuretics and position supine",
+      "Anaphylaxis — administer epinephrine IM",
+      "TACO — stop or slow transfusion, sit upright, administer diuretics as ordered",
+      "Acute hemolytic reaction — check urine for hemoglobinuria"
+    ],
+    correctIndex: 2,
+    rationale: "TACO (Transfusion-Associated Circulatory Overload) presents with signs of fluid overload: hypertension, JVD, bilateral crackles, and dyspnea. Risk factors include CHF, elderly age, and rapid transfusion. The priority is to stop or slow the transfusion, position the patient upright to reduce preload, and administer diuretics as ordered. This is NOT TRALI — TRALI presents with hypotension and no fluid overload signs. The key differentiator is that TACO shows hypertension and responds to diuretics, while TRALI shows hypotension and does not."
+  };
+
+  return (
+    <Card className="border border-gray-100 bg-white" data-testid="card-nclex-question">
+      <CardContent className="p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2 mb-2">
+          <ClipboardCheck className="w-5 h-5 text-primary" />
+          <h3 className="text-base font-bold text-gray-900">NCLEX / REx-PN Style Question</h3>
+        </div>
+        <p className="text-sm text-gray-700 leading-relaxed">{question.stem}</p>
+        <div className="space-y-2">
+          {question.options.map((option, i) => {
+            const isSelected = selectedAnswer === i;
+            const isCorrect = i === question.correctIndex;
+            let cls = "border-gray-100 hover:border-primary/30 cursor-pointer";
+            if (showAnswer && isSelected && isCorrect) cls = "border-emerald-300 bg-emerald-50/50";
+            else if (showAnswer && isSelected && !isCorrect) cls = "border-red-300 bg-red-50/50";
+            else if (showAnswer && isCorrect) cls = "border-emerald-200 bg-emerald-50/20";
+            else if (showAnswer) cls = "border-gray-100 opacity-50";
+            else if (isSelected) cls = "border-primary bg-primary/5";
+
+            return (
+              <Card
+                key={i}
+                className={`border-2 transition-all ${cls}`}
+                onClick={() => {
+                  if (!showAnswer) {
+                    setSelectedAnswer(i);
+                    setShowAnswer(true);
+                  }
+                }}
+                data-testid={`card-nclex-option-${i}`}
+              >
+                <CardContent className="p-3 flex items-center gap-2">
+                  {showAnswer ? (
+                    isCorrect ? <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" /> : <XCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                  ) : (
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${isSelected ? "border-primary bg-primary" : "border-gray-300"}`} />
+                  )}
+                  <span className="text-sm text-gray-700">{option}</span>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+        {showAnswer && (
+          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+            <CardContent className="p-4">
+              <p className="text-sm font-bold text-gray-900 mb-1">Rationale:</p>
+              <p className="text-sm text-gray-600 leading-relaxed">{question.rationale}</p>
+            </CardContent>
+          </Card>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="section-faq">
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h2>
+      <p className="text-gray-600 mb-6">Common questions about blood transfusion nursing, reactions, and exam preparation.</p>
+      <div className="space-y-3">
+        {faqItems.map((item, i) => (
+          <Card key={i} className="border border-gray-100">
+            <CardContent className="p-0">
+              <button
+                className="w-full flex items-center justify-between p-4 text-left"
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                data-testid={`button-faq-${i}`}
+              >
+                <span className="text-sm font-semibold text-gray-900 pr-4">{item.question}</span>
+                <ChevronDown className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${openIndex === i ? "rotate-180" : ""}`} />
+              </button>
+              {openIndex === i && (
+                <div className="px-4 pb-4">
+                  <p className="text-sm text-gray-600 leading-relaxed" data-testid={`text-faq-answer-${i}`}>{item.answer}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SEOEducationalContent() {
+  return (
+    <div className="space-y-10" data-testid="section-educational-content">
+      <section>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Blood Transfusion Nursing Overview</h2>
+        <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
+          <p>
+            Blood transfusion is one of the most critical procedures in nursing practice, requiring meticulous attention to patient safety at every step. Nurses are responsible for verifying patient identity and blood product compatibility, monitoring for adverse reactions, and intervening rapidly when complications arise. Transfusion errors — particularly ABO incompatibility from misidentification — remain a leading cause of preventable hospital deaths.
+          </p>
+          <p>
+            Understanding the immunological basis of blood compatibility is essential for safe practice. The ABO blood group system and the Rh factor determine which blood products a patient can safely receive. Patients with conditions like <LocaleLink href="/lessons/sickle-cell" className="text-primary hover:underline">sickle cell disease</LocaleLink>, <LocaleLink href="/lessons/thalassemia" className="text-primary hover:underline">thalassemia</LocaleLink>, and <LocaleLink href="/lessons/acute-blood-loss" className="text-primary hover:underline">acute blood loss anemia</LocaleLink> frequently require transfusions, making this knowledge vital for <LocaleLink href="/lessons/hematology-rpn" className="text-primary hover:underline">hematology nursing practice</LocaleLink>.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Step-by-Step Blood Transfusion Procedure</h2>
+        <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
+          <p>
+            The blood transfusion procedure follows a standardized protocol designed to maximize patient safety. Before initiating the transfusion, two registered nurses must independently verify the patient's identity using two identifiers, confirm the blood product label matches the patient's blood type and crossmatch, and check the product's expiration date and integrity.
+          </p>
+          <p>
+            Baseline vital signs (temperature, pulse, blood pressure, respiratory rate, and SpO2) are obtained within 30 minutes before starting. The transfusion is initiated slowly for the first 15 minutes — the period when the most severe reactions, including acute hemolytic and anaphylactic reactions, are most likely to occur. The nurse must remain with the patient during this critical window. Vital signs are reassessed at 15 minutes, then at regular intervals throughout the infusion.
+          </p>
+          <p>
+            A unit of PRBCs is typically infused over 2-4 hours and must be completed within 4 hours of removal from controlled storage to prevent bacterial growth. IV access must be through an 18-20 gauge catheter, and blood products are infused only with 0.9% normal saline — never with lactated Ringer's (calcium can cause clotting) or dextrose solutions. Safe <LocaleLink href="/iv-complications-simulator" className="text-primary hover:underline">IV therapy practices</LocaleLink> are critical for preventing complications.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Signs of a Blood Transfusion Reaction</h2>
+        <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
+          <p>
+            Transfusion reactions range from mild allergic responses to life-threatening emergencies. The six major reaction types that nurses must recognize are: acute hemolytic reactions (fever, back pain, hemoglobinuria), febrile non-hemolytic reactions (fever and chills without hemolysis), mild allergic reactions (urticaria and pruritus), anaphylactic reactions (bronchospasm, hypotension, angioedema), TACO (dyspnea, hypertension, JVD, crackles), and TRALI (acute respiratory distress with bilateral infiltrates and hypotension).
+          </p>
+          <p>
+            The most critical skill in transfusion safety is differentiating between reaction types based on clinical presentation. For example, both TACO and TRALI cause respiratory distress, but TACO presents with hypertension and responds to diuretics, while TRALI presents with hypotension and requires supportive respiratory care. Similarly, fever with hemoglobinuria indicates a hemolytic reaction (emergency), while isolated fever without hemoglobinuria suggests a benign febrile non-hemolytic reaction. Nurses working in critical care environments, including those managing <LocaleLink href="/guides/sepsis-nursing-interventions-guide" className="text-primary hover:underline">sepsis</LocaleLink>, must be able to distinguish transfusion-related deterioration from other causes of clinical decline.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Nursing Interventions for Transfusion Reactions</h2>
+        <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
+          <p>
+            The universal first action for any suspected transfusion reaction is to stop the transfusion immediately. This applies regardless of severity — even mild urticaria requires stopping until the reaction is assessed. After stopping, the nurse maintains IV access with normal saline using new tubing, assesses vital signs, notifies the provider and blood bank, and sends the blood bag and tubing for investigation.
+          </p>
+          <p>
+            Reaction-specific interventions vary significantly: acute hemolytic reactions require aggressive IV fluid resuscitation and monitoring of urine output for renal protection; anaphylactic reactions require immediate epinephrine IM (0.3-0.5 mg), airway support, and rapid response activation; TACO is managed with upright positioning, diuretics, and oxygen; and TRALI requires aggressive respiratory support with high-flow oxygen or mechanical ventilation.
+          </p>
+          <p>
+            Patients with chronic transfusion needs — such as those with <LocaleLink href="/lessons/iron-overload" className="text-primary hover:underline">iron overload from repeated transfusions</LocaleLink> — require ongoing monitoring for cumulative complications. Adherence to <LocaleLink href="/safety-hazard-simulator" className="text-primary hover:underline">patient safety protocols</LocaleLink> throughout the transfusion process is the single most effective way to prevent adverse outcomes.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
 
 const tabConfig = [
   { id: "compatibility", label: "ABO & Rh Compatibility", icon: Droplets },
@@ -1017,11 +1321,13 @@ export default function BloodTransfusionSimulatorPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Blood Transfusion Compatibility & Reaction Simulator | NurseNest"
-        description="Master blood transfusion safety with interactive ABO/Rh compatibility challenges, transfusion reaction recognition scenarios, and nursing intervention decision-making. Practice identifying hemolytic, febrile, allergic, anaphylactic, TACO, and TRALI reactions."
-        keywords="blood transfusion nursing, ABO compatibility, Rh factor, transfusion reactions, hemolytic reaction, TACO vs TRALI, nursing simulation, blood bank nursing, transfusion safety"
+        title="Blood Transfusion Nursing Simulator | Compatibility & Reactions"
+        description="Interactive blood transfusion simulator for NCLEX & REx-PN prep. Practice ABO/Rh compatibility, recognize hemolytic, TACO & TRALI reactions, and choose nursing interventions."
+        keywords="blood transfusion nursing, ABO compatibility, Rh factor, transfusion reactions, hemolytic reaction, TACO vs TRALI, nursing simulation, NCLEX blood transfusion, REx-PN transfusion, blood bank nursing, transfusion safety"
         canonicalPath="/blood-transfusion-simulator"
         ogType="website"
+        structuredData={medicalWebPageSchema}
+        additionalStructuredData={[faqPageSchema]}
       />
       <Navigation />
 
@@ -1072,6 +1378,18 @@ export default function BloodTransfusionSimulatorPage() {
               </p>
             </div>
 
+            <div className="mb-10 bg-white border border-gray-100 rounded-2xl p-5 sm:p-6" data-testid="section-seo-intro">
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                Blood transfusion errors are among the most preventable causes of patient harm in hospitals. For nursing students preparing for the <strong>NCLEX-RN</strong> or <strong>REx-PN</strong>, mastering transfusion safety is non-negotiable — exam questions frequently test your ability to match blood types, recognize reactions, and prioritize interventions under pressure.
+              </p>
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                This interactive blood transfusion simulator builds three core competencies: <strong>ABO/Rh compatibility decision-making</strong>, where you determine which donor blood is safe for a given patient; <strong>transfusion reaction recognition</strong>, where you differentiate between hemolytic, febrile, allergic, anaphylactic, TACO, and TRALI reactions based on clinical presentation and vital signs; and <strong>nursing intervention selection</strong>, where you choose the correct actions for each reaction type and learn why incorrect interventions can cause harm.
+              </p>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Each scenario includes detailed clinical rationales and exam-trap alerts that highlight the subtle distinctions examiners use to test your knowledge — such as the critical differences between TACO and TRALI, or why hemoglobinuria distinguishes a hemolytic reaction from a benign febrile response. Whether you are an RPN, RN, or NP student, these scenarios mirror the clinical judgment questions you will encounter on your licensing exam.
+              </p>
+            </div>
+
             <div className="flex gap-1 p-1 bg-gray-100 rounded-xl mb-8 overflow-x-auto" data-testid="tabs-container">
               {tabConfig.map(tab => {
                 const Icon = tab.icon;
@@ -1095,9 +1413,24 @@ export default function BloodTransfusionSimulatorPage() {
             {activeTab === "compatibility" && <CompatibilitySimulator />}
             {activeTab === "reactions" && <ReactionRecognition />}
             {activeTab === "interventions" && <InterventionDecision />}
+
+            <div className="mt-12 space-y-8">
+              <SEOEducationalContent />
+
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Blood Compatibility Chart for Nursing Students</h2>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                  The ABO blood group system classifies blood into four types (A, B, AB, O) based on the presence or absence of A and B antigens on red blood cell surfaces. The Rh system adds a second layer — the D antigen — making each type either positive or negative. Together, these two systems create eight blood types. Compatibility depends on a fundamental rule: a patient must never receive blood containing antigens that their plasma antibodies will attack. Type O- is the universal RBC donor (no antigens), and type AB+ is the universal recipient (no ABO antibodies, Rh+). Understanding this chart is essential for safe transfusion practice and is heavily tested on the NCLEX-RN and REx-PN.
+                </p>
+              </section>
+
+              <PracticeCaseScenario />
+              <NclexPracticeQuestion />
+            </div>
           </div>
         )}
       </main>
+      <FAQSection />
       <section className="max-w-6xl mx-auto px-4 py-12" data-testid="section-related-lessons">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Deepen Your Knowledge</h2>
         <p className="text-gray-600 mb-6">Explore detailed lessons on each type of blood transfusion reaction, compatibility rules, and clinical management.</p>

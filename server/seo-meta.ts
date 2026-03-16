@@ -353,8 +353,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Manage deteriorating patients with staged vital sign changes. Practice ABCs priority, escalation decisions, and time-critical interventions.",
   },
   "/blood-transfusion-simulator": {
-    title: "Blood Transfusion Compatibility & Reactions | NurseNest",
-    description: "Practice ABO/Rh compatibility, recognize transfusion reactions (hemolytic, TACO, TRALI), and choose correct nursing interventions.",
+    title: "Blood Transfusion Nursing Simulator | Compatibility & Reactions",
+    description: "Interactive blood transfusion simulator for NCLEX & REx-PN prep. Practice ABO/Rh compatibility, recognize hemolytic, TACO & TRALI reactions, and choose nursing interventions.",
   },
   "/medication-mastery": {
     title: "Medication Mastery - Drug Mechanisms & Safety | NurseNest",
