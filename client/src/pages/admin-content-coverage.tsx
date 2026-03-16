@@ -285,7 +285,7 @@ export default function AdminContentCoverage() {
     try {
       const res = await adminFetch("/api/admin/content-coverage/auto-fill", {
         method: "POST",
-        body: { types: ["questions", "flashcards", "lessons"], maxPerCategory: 10 },
+        body: { types: ["questions", "flashcards", "lessons"], maxPerCategory: 5 },
       });
       const result = await res.json();
       setGenResults(prev => [{ type: "auto-fill", ...result, time: new Date().toISOString() }, ...prev]);

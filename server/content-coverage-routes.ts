@@ -779,7 +779,25 @@ export function registerContentCoverageRoutes(app: Express): void {
         }
       }
 
-      res.json(results);
+      const allBatches = [...results.questions, ...results.flashcards];
+      const totalInserted = allBatches.reduce((s: number, b: any) => s + (b.inserted || 0), 0);
+      const totalRequested = allBatches.reduce((s: number, b: any) => s + (b.requested || 0), 0);
+      const totalRejected = allBatches.reduce((s: number, b: any) => s + (b.rejected || 0), 0);
+      const errorCount = results.errors.length + allBatches.filter((b: any) => b.failureStage).length;
+      const failureReason = errorCount > 0
+        ? results.errors[0] || allBatches.find((b: any) => b.failureStage)?.failureStage || "unknown"
+        : undefined;
+
+      res.json({
+        ...results,
+        requested: totalRequested,
+        generated: allBatches.reduce((s: number, b: any) => s + (b.generated || 0), 0),
+        validated: allBatches.reduce((s: number, b: any) => s + (b.validated || 0), 0),
+        inserted: totalInserted,
+        rejected: totalRejected,
+        errorCount,
+        failureReason,
+      });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
