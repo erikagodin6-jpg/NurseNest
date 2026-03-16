@@ -37,6 +37,10 @@ export function serveStatic(app: Express) {
     }),
   );
 
+  app.use("/assets/{*path}", (req, res) => {
+    res.status(404).type("text/plain").send("Asset not found");
+  });
+
   app.use("/{*path}", async (req, res) => {
     try {
       const html = cachedIndexHtml || fs.readFileSync(indexHtmlPath, "utf-8");
