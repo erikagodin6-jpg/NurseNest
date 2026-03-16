@@ -243,7 +243,6 @@ const SpecialtyHubBySlug = lazy(() => import("@/pages/specialty-hub-page").then(
 const SpecialtySeoPage = lazy(() => import("@/pages/specialty-seo-page"));
 const SpecialtySeoBySlug = lazy(() => import("@/pages/specialty-seo-page").then(m => ({ default: m.SpecialtySeoBySlug })));
 const NursingCertificationsHub = lazy(() => import("@/pages/nursing-certifications-hub"));
-const CertificationExamPrepHub = lazy(() => import("@/pages/certification-exam-prep-hub"));
 const StudyPathwaysHub = lazy(() => import("@/pages/study-pathways-hub"));
 const NursingHubPage = lazy(() => import("@/pages/nursing-hub-page"));
 const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
@@ -777,7 +776,6 @@ function AppRoutes() {
         <Route path="/certification-exam-prep" component={CertificationExamPrepHub} />
 
         {/* Nursing Content Hub */}
-        <Route path="/certification-exam-prep" component={CertificationExamPrepHub} />
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
         <Route path="/nursing-certifications-hub">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/study-pathways" component={StudyPathwaysHub} />

@@ -469,8 +469,12 @@ async function callProvider(
   });
 
   let modelName = opts.model || provider.models[0] || "gpt-4o-mini";
-  if (provider.providerType === "openai" && !modelName.startsWith("openai/")) {
+  const isReplitProxy = provider.endpointUrl.includes("localhost:1106") || provider.endpointUrl.includes("modelfarm");
+  if (provider.providerType === "openai" && !isReplitProxy && !modelName.startsWith("openai/")) {
     modelName = `openai/${modelName}`;
+  }
+  if (isReplitProxy && modelName.startsWith("openai/")) {
+    modelName = modelName.replace(/^openai\//, "");
   }
 
   const createParams: any = {

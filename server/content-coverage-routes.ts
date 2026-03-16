@@ -269,18 +269,72 @@ function extractNavLessonLinks(data: Record<string, any>): { title: string; slug
   return links;
 }
 
+interface GenerationResult {
+  requested: number;
+  generated: number;
+  validated: number;
+  inserted: number;
+  rejected: number;
+  errors: string[];
+  failureStage?: string;
+  rejectionReasons?: string[];
+}
+
+const DEFAULT_BATCH_SIZE = 5;
+const MAX_BATCH_SIZE = 10;
+
+function parseAIJsonArray(content: string): any[] {
+  const cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/gi, "").trim();
+
+  const arrMatch = cleaned.match(/\[[\s\S]*\]/);
+  if (arrMatch) return JSON.parse(arrMatch[0]);
+
+  const objMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (objMatch) {
+    const obj = JSON.parse(objMatch[0]);
+    return obj.questions || obj.items || obj.flashcards || obj.cards || [obj];
+  }
+
+  return JSON.parse(cleaned);
+}
+
+function validateQuestion(q: any, bodySystem?: string, topic?: string): { valid: boolean; reason?: string } {
+  if (!q || typeof q !== "object") return { valid: false, reason: "not an object" };
+  if (!q.stem || typeof q.stem !== "string") return { valid: false, reason: "missing stem" };
+  if (q.stem.length < 40) return { valid: false, reason: `stem too short (${q.stem.length} chars, need 40+)` };
+  const opts = q.options || [];
+  if (!Array.isArray(opts) || opts.length < 4) return { valid: false, reason: `need 4+ options, got ${opts.length}` };
+  for (let i = 0; i < opts.length; i++) {
+    const o = opts[i];
+    if (!o || typeof o !== "object" || !o.text) return { valid: false, reason: `option ${i} missing text` };
+  }
+  if (!q.correctAnswer) return { valid: false, reason: "missing correctAnswer" };
+  if (!q.rationale || typeof q.rationale !== "string") return { valid: false, reason: "missing rationale" };
+  const qType = (q.questionType || "MCQ").toUpperCase();
+  const supported = ["MCQ", "SATA", "ORDERED", "HOTSPOT", "FILL_IN_BLANK", "MULTIPLE_CHOICE"];
+  if (!supported.includes(qType)) return { valid: false, reason: `unsupported questionType "${q.questionType}"` };
+  return { valid: true };
+}
+
 async function generateQuestionsForGap(params: {
   tier: string;
   bodySystem?: string;
   topic?: string;
   count: number;
   difficulty?: string;
-}): Promise<{ generated: number; accepted: number; errors: string[] }> {
+}): Promise<GenerationResult> {
+  const result: GenerationResult = { requested: 0, generated: 0, validated: 0, inserted: 0, rejected: 0, errors: [], rejectionReasons: [] };
+
   if (getKillSwitch()) {
-    return { generated: 0, accepted: 0, errors: ["AI generation kill switch is active"] };
+    result.errors.push("AI generation kill switch is active");
+    result.failureStage = "preflight";
+    return result;
   }
 
-  const { tier, bodySystem, topic, count, difficulty } = params;
+  const { tier, bodySystem, topic, difficulty } = params;
+  const batchSize = Math.max(1, Math.min(params.count || DEFAULT_BATCH_SIZE, MAX_BATCH_SIZE));
+  result.requested = batchSize;
+
   const tierLabel = tier.toUpperCase();
   const scopeNote = tier === "rpn" ? "Practical nursing scope (LPN/RPN)" : tier === "rn" ? "Registered Nurse scope" : "Nurse Practitioner scope";
   const diffDist = difficulty || "30% easy (difficulty 1-2), 50% moderate (difficulty 3), 20% difficult (difficulty 4-5)";
@@ -289,15 +343,15 @@ async function generateQuestionsForGap(params: {
 Scope: ${scopeNote}
 Target difficulty distribution: ${diffDist}
 
-Output ONLY valid JSON array of question objects. No markdown, no commentary.
-Each question object:
+IMPORTANT: Return ONLY a valid JSON array. No markdown fences, no commentary, no text before or after the array.
+Generate exactly ${batchSize} question objects. Each object must have this exact schema:
 {
   "stem": "clinical vignette with patient demographics, vitals, assessment findings (min 80 chars)",
   "options": [{"label":"A","text":"..."}, {"label":"B","text":"..."}, {"label":"C","text":"..."}, {"label":"D","text":"..."}],
   "correctAnswer": "A",
   "rationale": "detailed explanation (min 150 words) - why correct, why each wrong",
   "clinicalPearl": "exam-relevant insight",
-  "difficulty": 1-5,
+  "difficulty": 3,
   "bodySystem": "${bodySystem || 'appropriate system'}",
   "topic": "${topic || 'appropriate topic'}",
   "subtopic": "specific subtopic",
@@ -305,39 +359,46 @@ Each question object:
   "tags": ["tag1","tag2"]
 }`;
 
-  const userPrompt = `Generate exactly ${count} unique clinical exam questions for ${tierLabel} nursing students.
+  const userPrompt = `Generate exactly ${batchSize} unique clinical exam questions for ${tierLabel} nursing students.
 ${bodySystem ? `Body System: ${bodySystem}` : ""}
 ${topic ? `Topic: ${topic}` : ""}
-Each question must have a distinct clinical scenario. Return ONLY a JSON array.`;
+Each question must have a distinct clinical scenario. Return ONLY a JSON array of ${batchSize} objects.`;
+
+  console.log(`[generator:start] questions tier=${tier} bodySystem=${bodySystem || "any"} topic=${topic || "any"} batchSize=${batchSize}`);
 
   try {
-    const result = await routeAIRequest(systemPrompt, userPrompt, {
+    const aiResult = await routeAIRequest(systemPrompt, userPrompt, {
       model: "gpt-4o-mini",
-      maxTokens: Math.min(count * 1200, 16000),
+      maxTokens: Math.min(batchSize * 1200, 16000),
       temperature: 0.7,
       taskType: "content",
       feature: "coverage-gap-generator",
     });
+    console.log(`[generator:provider_response] content length=${aiResult.content.length} tokens=${aiResult.tokensUsed}`);
 
     let questions: any[] = [];
     try {
-      const arrMatch = result.content.match(/\[[\s\S]*\]/);
-      if (arrMatch) questions = JSON.parse(arrMatch[0]);
-      else {
-        const objMatch = result.content.match(/\{[\s\S]*\}/);
-        if (objMatch) {
-          const obj = JSON.parse(objMatch[0]);
-          questions = obj.questions || obj.items || [obj];
-        }
-      }
-    } catch { return { generated: 0, accepted: 0, errors: ["Failed to parse AI response"] }; }
+      questions = parseAIJsonArray(aiResult.content);
+    } catch (parseErr: any) {
+      console.error(`[generator:parse_error]`, parseErr.message);
+      result.errors.push(`Parse failed: ${parseErr.message}`);
+      result.failureStage = "parse";
+      return result;
+    }
+    result.generated = questions.length;
+    console.log(`[generator:parse_result] parsed ${questions.length} questions`);
 
-    let accepted = 0;
-    const errors: string[] = [];
     for (const q of questions) {
-      if (!q.stem || q.stem.length < 40) continue;
-      const options = q.options || [];
-      if (options.length < 4) continue;
+      const validation = validateQuestion(q, bodySystem, topic);
+      if (!validation.valid) {
+        result.rejected++;
+        result.rejectionReasons!.push(validation.reason || "unknown");
+        console.log(`[generator:validation_reject] ${validation.reason}`);
+        continue;
+      }
+      result.validated++;
+
+      const normalizedType = (q.questionType || "MCQ").toUpperCase() === "MULTIPLE_CHOICE" ? "MCQ" : (q.questionType || "MCQ");
 
       try {
         const insertResult = await pool.query(
@@ -345,22 +406,40 @@ Each question must have a distinct clinical scenario. Return ONLY a JSON array.`
            VALUES ($1, $2, $3, 'draft', $4, $5, $6, $7, $8, $9, $10, $11, $12, 'BOTH', 'nursing', $13)
            ON CONFLICT DO NOTHING`,
           [
-            tier, `${tier.toUpperCase()}-CAT`, q.questionType || "MCQ",
-            q.stem, JSON.stringify(options), JSON.stringify(q.correctAnswer || "A"),
+            tier, `${tier.toUpperCase()}-CAT`, normalizedType,
+            q.stem, JSON.stringify(q.options), JSON.stringify(q.correctAnswer || "A"),
             q.rationale || "", q.difficulty || 3, q.tags || [],
             q.bodySystem || bodySystem || null, q.topic || topic || null,
             q.subtopic || null, q.clinicalPearl || null,
           ]
         );
-        if (insertResult.rowCount && insertResult.rowCount > 0) accepted++;
+        if (insertResult.rowCount && insertResult.rowCount > 0) {
+          result.inserted++;
+        } else {
+          result.rejected++;
+          result.rejectionReasons!.push("duplicate (ON CONFLICT)");
+        }
       } catch (err: any) {
-        if (err.code !== "23505") errors.push(err.message);
+        result.rejected++;
+        result.rejectionReasons!.push(`db_insert: ${err.message}`);
+        if (err.code !== "23505") result.errors.push(`DB: ${err.message}`);
+        console.error(`[generator:db_insert_error]`, err.message);
       }
     }
 
-    return { generated: questions.length, accepted, errors };
+    if (result.failureStage === undefined && result.inserted === 0 && result.validated === 0) {
+      result.failureStage = "validation";
+    } else if (result.failureStage === undefined && result.inserted === 0 && result.validated > 0) {
+      result.failureStage = "db_insert";
+    }
+
+    console.log(`[generator:final_result] requested=${result.requested} generated=${result.generated} validated=${result.validated} inserted=${result.inserted} rejected=${result.rejected}`);
+    return result;
   } catch (err: any) {
-    return { generated: 0, accepted: 0, errors: [err.message] };
+    console.error(`[generator:error]`, err.message);
+    result.errors.push(err.message);
+    result.failureStage = "provider_request";
+    return result;
   }
 }
 
@@ -368,12 +447,18 @@ async function generateFlashcardsForGap(params: {
   tier: string;
   topicTag: string;
   count: number;
-}): Promise<{ generated: number; accepted: number; errors: string[] }> {
+}): Promise<GenerationResult> {
+  const result: GenerationResult = { requested: 0, generated: 0, validated: 0, inserted: 0, rejected: 0, errors: [], rejectionReasons: [] };
+
   if (getKillSwitch()) {
-    return { generated: 0, accepted: 0, errors: ["AI generation kill switch is active"] };
+    result.errors.push("AI generation kill switch is active");
+    result.failureStage = "preflight";
+    return result;
   }
 
-  const { tier, topicTag, count } = params;
+  const { tier, topicTag } = params;
+  const batchSize = Math.max(1, Math.min(params.count || DEFAULT_BATCH_SIZE, MAX_BATCH_SIZE));
+  result.requested = batchSize;
 
   const systemPrompt = `You are a nursing educator creating flashcards for ${tier.toUpperCase()} students.
 Create three types of flashcards:
@@ -381,23 +466,26 @@ Create three types of flashcards:
 2. Clinical Scenario - mini clinical scenario on front, correct action/assessment on back
 3. Exam Recall - high-yield exam fact on front, explanation on back
 
-Output ONLY valid JSON array. Each flashcard:
+IMPORTANT: Return ONLY a valid JSON array. No markdown fences, no commentary.
+Generate exactly ${batchSize} flashcard objects. Each object:
 {
   "front": "question or prompt (concise)",
   "back": "answer with key details (concise but complete)",
-  "cardType": "concept_definition | clinical_scenario | exam_recall",
+  "cardType": "concept_definition",
   "topicTag": "${topicTag}",
-  "difficulty": 1-5,
+  "difficulty": 3,
   "tags": ["tag1"]
 }`;
 
-  const userPrompt = `Generate exactly ${count} unique flashcards about "${topicTag}" for ${tier.toUpperCase()} nursing students.
-Mix all three card types. Return ONLY a JSON array.`;
+  const userPrompt = `Generate exactly ${batchSize} unique flashcards about "${topicTag}" for ${tier.toUpperCase()} nursing students.
+Mix all three card types. Return ONLY a JSON array of ${batchSize} objects.`;
+
+  console.log(`[generator:start] flashcards topic=${topicTag} batchSize=${batchSize}`);
 
   try {
-    const result = await routeAIRequest(systemPrompt, userPrompt, {
+    const aiResult = await routeAIRequest(systemPrompt, userPrompt, {
       model: "gpt-4o-mini",
-      maxTokens: Math.min(count * 500, 8000),
+      maxTokens: Math.min(batchSize * 500, 8000),
       temperature: 0.7,
       taskType: "content",
       feature: "coverage-flashcard-generator",
@@ -405,25 +493,25 @@ Mix all three card types. Return ONLY a JSON array.`;
 
     let cards: any[] = [];
     try {
-      const arrMatch = result.content.match(/\[[\s\S]*\]/);
-      if (arrMatch) cards = JSON.parse(arrMatch[0]);
-      else {
-        const objMatch = result.content.match(/\{[\s\S]*\}/);
-        if (objMatch) {
-          const obj = JSON.parse(objMatch[0]);
-          cards = obj.flashcards || obj.cards || obj.items || [obj];
-        }
-      }
-    } catch { return { generated: 0, accepted: 0, errors: ["Failed to parse AI response"] }; }
+      cards = parseAIJsonArray(aiResult.content);
+    } catch (parseErr: any) {
+      result.errors.push(`Parse failed: ${parseErr.message}`);
+      result.failureStage = "parse";
+      return result;
+    }
+    result.generated = cards.length;
 
-    let accepted = 0;
-    const errors: string[] = [];
     const crypto = await import("crypto");
 
     for (const c of cards) {
-      if (!c.front || !c.back) continue;
-      const hash = crypto.createHash("sha256").update(c.front.toLowerCase().trim()).digest("hex");
+      if (!c || typeof c !== "object" || !c.front || !c.back) {
+        result.rejected++;
+        result.rejectionReasons!.push("missing front or back");
+        continue;
+      }
+      result.validated++;
 
+      const hash = crypto.createHash("sha256").update(c.front.toLowerCase().trim()).digest("hex");
       try {
         const insertResult = await pool.query(
           `INSERT INTO flashcard_bank (tier, topic_tag, front, back, status, content_hash, source_type, difficulty, category)
@@ -431,15 +519,25 @@ Mix all three card types. Return ONLY a JSON array.`;
            ON CONFLICT (content_hash) DO NOTHING`,
           [tier, c.topicTag || topicTag, c.front, c.back, hash, c.difficulty || 3, c.cardType || "concept_definition"]
         );
-        if (insertResult.rowCount && insertResult.rowCount > 0) accepted++;
+        if (insertResult.rowCount && insertResult.rowCount > 0) {
+          result.inserted++;
+        } else {
+          result.rejected++;
+          result.rejectionReasons!.push("duplicate (content_hash)");
+        }
       } catch (err: any) {
-        if (err.code !== "23505") errors.push(err.message);
+        result.rejected++;
+        result.rejectionReasons!.push(`db_insert: ${err.message}`);
+        if (err.code !== "23505") result.errors.push(`DB: ${err.message}`);
       }
     }
 
-    return { generated: cards.length, accepted, errors };
+    console.log(`[generator:final_result] flashcards requested=${result.requested} generated=${result.generated} validated=${result.validated} inserted=${result.inserted} rejected=${result.rejected}`);
+    return result;
   } catch (err: any) {
-    return { generated: 0, accepted: 0, errors: [err.message] };
+    result.errors.push(err.message);
+    result.failureStage = "provider_request";
+    return result;
   }
 }
 
@@ -577,15 +675,13 @@ export function registerContentCoverageRoutes(app: Express): void {
     if (!admin) return;
 
     try {
-      const { tier = "rpn", bodySystem, topic, count = 10 } = req.body;
+      const { tier = "rpn", bodySystem, topic, count = DEFAULT_BATCH_SIZE } = req.body;
       const validTiers = ["rpn", "rn", "np"];
       if (!validTiers.includes(tier)) {
         return res.status(400).json({ error: `tier must be one of: ${validTiers.join(", ")}` });
       }
-      const numCount = Math.floor(Number(count));
-      if (!numCount || numCount < 1 || numCount > 50) {
-        return res.status(400).json({ error: "Count must be between 1 and 50" });
-      }
+      const parsed = Math.floor(Number(count));
+      const numCount = Math.max(1, Math.min(isNaN(parsed) || parsed < 1 ? DEFAULT_BATCH_SIZE : parsed, MAX_BATCH_SIZE));
       const result = await generateQuestionsForGap({ tier, bodySystem, topic, count: numCount });
       res.json(result);
     } catch (err: any) {
@@ -598,14 +694,12 @@ export function registerContentCoverageRoutes(app: Express): void {
     if (!admin) return;
 
     try {
-      const { tier = "rpn", topicTag, count = 10 } = req.body;
+      const { tier = "rpn", topicTag, count = DEFAULT_BATCH_SIZE } = req.body;
       if (!topicTag || typeof topicTag !== "string") {
         return res.status(400).json({ error: "topicTag is required" });
       }
-      const numCount = Math.floor(Number(count));
-      if (!numCount || numCount < 1 || numCount > 50) {
-        return res.status(400).json({ error: "Count must be between 1 and 50" });
-      }
+      const fcParsed = Math.floor(Number(count));
+      const numCount = Math.max(1, Math.min(isNaN(fcParsed) || fcParsed < 1 ? DEFAULT_BATCH_SIZE : fcParsed, MAX_BATCH_SIZE));
       const result = await generateFlashcardsForGap({ tier, topicTag, count: numCount });
       res.json(result);
     } catch (err: any) {
@@ -634,37 +728,54 @@ export function registerContentCoverageRoutes(app: Express): void {
     if (!admin) return;
 
     try {
-      const { types = ["questions", "flashcards"], maxPerCategory = 10 } = req.body;
+      const { types = ["questions", "flashcards"], maxPerCategory = DEFAULT_BATCH_SIZE } = req.body;
+      const batchSize = Math.min(maxPerCategory, MAX_BATCH_SIZE);
       const report = await analyzeCoverage();
       const results: any = { questions: [], flashcards: [], lessons: [], errors: [] };
 
       if (types.includes("questions")) {
-        const gaps = report.nursing.byTier.filter(t => t.status === "red");
+        const gaps = report.nursing.byTier.filter((t: any) => t.status === "red");
         for (const gap of gaps.slice(0, 3)) {
-          const tier = gap.key.toLowerCase();
-          const r = await generateQuestionsForGap({ tier, count: Math.min(maxPerCategory, gap.gap) });
-          results.questions.push({ tier, ...r });
+          try {
+            const tier = gap.key.toLowerCase();
+            const r = await generateQuestionsForGap({ tier, count: batchSize });
+            results.questions.push({ tier, key: gap.key, ...r });
+          } catch (err: any) {
+            results.errors.push(`questions/${gap.key}: ${err.message}`);
+          }
         }
 
-        const systemGaps = report.nursing.byBodySystem.filter(t => t.status === "red");
+        const systemGaps = report.nursing.byBodySystem.filter((t: any) => t.status === "red");
         for (const gap of systemGaps.slice(0, 3)) {
-          const r = await generateQuestionsForGap({ tier: "rn", bodySystem: gap.key, count: Math.min(maxPerCategory, gap.gap) });
-          results.questions.push({ bodySystem: gap.key, ...r });
+          try {
+            const r = await generateQuestionsForGap({ tier: "rn", bodySystem: gap.key, count: batchSize });
+            results.questions.push({ bodySystem: gap.key, key: gap.key, ...r });
+          } catch (err: any) {
+            results.errors.push(`questions/${gap.key}: ${err.message}`);
+          }
         }
       }
 
       if (types.includes("flashcards")) {
-        const fcGaps = report.flashcards.byTopic.filter(t => t.status === "red");
+        const fcGaps = report.flashcards.byTopic.filter((t: any) => t.status === "red");
         for (const gap of fcGaps.slice(0, 3)) {
-          const r = await generateFlashcardsForGap({ tier: "rpn", topicTag: gap.key, count: Math.min(maxPerCategory, gap.gap) });
-          results.flashcards.push({ topic: gap.key, ...r });
+          try {
+            const r = await generateFlashcardsForGap({ tier: "rpn", topicTag: gap.key, count: batchSize });
+            results.flashcards.push({ topic: gap.key, key: gap.key, ...r });
+          } catch (err: any) {
+            results.errors.push(`flashcards/${gap.key}: ${err.message}`);
+          }
         }
       }
 
       if (types.includes("lessons")) {
         for (const missing of report.lessons.missing.slice(0, 3)) {
-          const r = await generateMissingLesson(missing);
-          results.lessons.push({ slug: missing.slug, ...r });
+          try {
+            const r = await generateMissingLesson(missing);
+            results.lessons.push({ slug: missing.slug, ...r });
+          } catch (err: any) {
+            results.errors.push(`lesson/${missing.slug}: ${err.message}`);
+          }
         }
       }
 
