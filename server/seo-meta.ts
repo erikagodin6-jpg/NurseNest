@@ -1907,6 +1907,23 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/medical-imaging", "/pharmacology", "/rex-pn", "/new-grad",
   "/applynest", "/clinical-skills", "/clinical-case-studies", "/for-institutions",
   "/order-of-the-draw", "/test-bank", "/dashboard",
+  "/international-nurses",
+  "/international-nurses/canada", "/international-nurses/united-states",
+  "/international-nurses/united-kingdom", "/international-nurses/australia",
+  "/international-nurses/new-zealand", "/international-nurses/ireland",
+  "/international-nurses/uae", "/international-nurses/saudi-arabia",
+  "/philippines-to-canada", "/india-to-canada", "/philippines-to-usa",
+  "/india-to-uk", "/philippines-to-uk", "/india-to-australia",
+  "/nigeria-to-canada", "/nepal-to-uk",
+  "/nclex-for-international-nurses", "/rex-pn-for-international-nurses",
+  "/ielts-for-nurses", "/oet-for-nurses",
+  "/nursing-credential-assessment-explained", "/how-to-transfer-nursing-license",
+  "/canada-vs-usa-nursing", "/canada-vs-uk-nursing", "/australia-vs-new-zealand-nursing",
+  "/nursing-bridging-programs-explained", "/international-nurse-salary-comparison",
+  "/nursing-visa-sponsorship-guide", "/working-as-a-nurse-in-canada",
+  "/nnas-application-guide", "/cgfns-certification-guide",
+  "/nmc-registration-guide-international-nurses", "/nursing-recruitment-agencies-guide",
+  "/cultural-adjustment-international-nurses", "/international-nurse-interview-tips",
 ]));
 
 const KNOWN_DYNAMIC_PREFIXES = [

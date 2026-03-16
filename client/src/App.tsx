@@ -397,6 +397,12 @@ const TopicClusterPage = lazy(() => import("@/pages/topic-cluster-page"));
 const TopicClusterBySlug = lazy(() => import("@/pages/topic-cluster-page").then(m => ({ default: m.TopicClusterBySlug })));
 const NursingPhysiologyHubPage = lazy(() => import("@/pages/nursing-physiology-hub-page"));
 const ClinicalNursingSkillsHubPage = lazy(() => import("@/pages/clinical-nursing-skills-hub-page"));
+const InternationalNursingHub = lazy(() => import("@/pages/international-nursing-hub"));
+const InternationalNursingCountry = lazy(() => import("@/pages/international-nursing-country"));
+const InternationalNursingMigration = lazy(() => import("@/pages/international-nursing-migration"));
+const InternationalNursingExam = lazy(() => import("@/pages/international-nursing-exam"));
+const InternationalNursingComparison = lazy(() => import("@/pages/international-nursing-comparison"));
+const InternationalNursingContent = lazy(() => import("@/pages/international-nursing-content"));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -850,6 +856,37 @@ function AppRoutes() {
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />
+        {/* International Nursing Hub — specific slugs BEFORE catch-all :country */}
+        <Route path="/international-nurses" component={InternationalNursingHub} />
+        <Route path="/philippines-to-canada" component={InternationalNursingMigration} />
+        <Route path="/india-to-canada" component={InternationalNursingMigration} />
+        <Route path="/philippines-to-usa" component={InternationalNursingMigration} />
+        <Route path="/india-to-uk" component={InternationalNursingMigration} />
+        <Route path="/philippines-to-uk" component={InternationalNursingMigration} />
+        <Route path="/india-to-australia" component={InternationalNursingMigration} />
+        <Route path="/nigeria-to-canada" component={InternationalNursingMigration} />
+        <Route path="/nepal-to-uk" component={InternationalNursingMigration} />
+        <Route path="/nclex-for-international-nurses" component={InternationalNursingExam} />
+        <Route path="/rex-pn-for-international-nurses" component={InternationalNursingExam} />
+        <Route path="/ielts-for-nurses" component={InternationalNursingExam} />
+        <Route path="/oet-for-nurses" component={InternationalNursingExam} />
+        <Route path="/nursing-credential-assessment-explained" component={InternationalNursingExam} />
+        <Route path="/how-to-transfer-nursing-license" component={InternationalNursingExam} />
+        <Route path="/canada-vs-usa-nursing" component={InternationalNursingComparison} />
+        <Route path="/canada-vs-uk-nursing" component={InternationalNursingComparison} />
+        <Route path="/australia-vs-new-zealand-nursing" component={InternationalNursingComparison} />
+        <Route path="/nursing-bridging-programs-explained" component={InternationalNursingContent} />
+        <Route path="/international-nurse-salary-comparison" component={InternationalNursingContent} />
+        <Route path="/nursing-visa-sponsorship-guide" component={InternationalNursingContent} />
+        <Route path="/working-as-a-nurse-in-canada" component={InternationalNursingContent} />
+        <Route path="/nnas-application-guide" component={InternationalNursingContent} />
+        <Route path="/cgfns-certification-guide" component={InternationalNursingContent} />
+        <Route path="/nmc-registration-guide-international-nurses" component={InternationalNursingContent} />
+        <Route path="/nursing-recruitment-agencies-guide" component={InternationalNursingContent} />
+        <Route path="/cultural-adjustment-international-nurses" component={InternationalNursingContent} />
+        <Route path="/international-nurse-interview-tips" component={InternationalNursingContent} />
+        <Route path="/international-nurses/:country" component={InternationalNursingCountry} />
+
         <Route path="/medical-imaging/study-plan-generator" component={ImagingStudyPlanGenerator} />
         <Route path="/radiography-readiness-quiz" component={RadiographyReadinessQuiz} />
         <Route path="/nclex-readiness-score" component={NclexReadinessScore} />

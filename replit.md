@@ -33,6 +33,13 @@ Key architectural components and features:
 - **SEO Infrastructure**: Implements 301 Redirect Middleware, structured data generation (Article, Course, MedicalCondition, FAQ schemas), thin content detection for noindexing, sitemap cleanup, and optimized meta title/description generation.
 - **Hero Page & Marketing Architecture**: Uses a centralized `platform-manifest.ts` for all marketing content, rendered by lazy-loaded React components for performance.
 - **Adaptive Study Engine**: Provides various study modes (`recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`) with distinct routes, supporting free and paid user access.
+- **Free Pass System**: Automatic 1-day free pass for new accounts with fraud detection.
+- **Exam Follow-Up**: Post-exam follow-up system on the dashboard for result reporting and personalized next steps.
+- **Career Question Banks**: Extensive question banks for MLT (Medical Laboratory Technologist), Surgical Technologist, and Respiratory Therapy (RRT) careers, including region-tagged content and calculation-heavy questions.
+- **Herbal Supplements & Medication Safety Module**: Integrates 15 individual herb lessons, a hub overview, a surgery/anesthesia safety lesson, a 75+ question bank, and SEO educational pages.
+- **SI Converter Cluster Pages**: 10 SEO content pages forming an internal linking cluster around an SI ↔ Conventional Units Converter hub, featuring educational content, mini converters, reference tables, and FAQ accordion.
+- **International Nursing Hub**: Comprehensive SEO section at `/international-nurses` targeting internationally educated nurses (IENs). Includes hub page, 8 destination country pages (`/international-nurses/:country`), 8 migration pathway pages (e.g., `/philippines-to-canada`), 6 exam pages (NCLEX, REx-PN, IELTS, OET, credential assessment, license transfer), 3 country comparison pages, and 10 supporting content cluster pages. All pages use config-driven architecture with teal color scheme, FAQ schema, and breadcrumb navigation. Navigation link in ecosystem bar, sitemap entries, and SEO meta paths registered.
+- **SEO Canonical & Indexing Infrastructure**: Shared utility for building canonical URLs, managing indexing policies (`noindex,follow` for utility pages in non-English locales), handling slug generation, and implementing timestamp redirects and hreflang filtering.
 
 ### External Dependencies
 - **Database**: PostgreSQL

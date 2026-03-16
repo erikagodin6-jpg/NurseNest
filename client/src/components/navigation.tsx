@@ -1060,6 +1060,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <span className="hidden sm:inline">{t("nav.ecosystemHealthcareCareers")}</span>
               <span className="sm:hidden">{t("nav.ecosystemCareers")}</span>
             </LocaleLink>
+            <span className="text-white/30 hidden sm:inline">|</span>
+            <LocaleLink href={appendUtmParams("/international-nurses")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-international-nurses" onClick={() => trackCrossSectionClick(getPlatformSection(location), "international_nurses", "International Nurses")}>
+              <Globe className="w-3 h-3" />
+              <span className="hidden sm:inline">International Nurses</span>
+              <span className="sm:hidden">IEN</span>
+            </LocaleLink>
           </div>
         </div>
       </div>
