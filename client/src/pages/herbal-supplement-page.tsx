@@ -222,6 +222,37 @@ export default function HerbalSupplementPage() {
             </div>
           </section>
 
+          <section data-testid="section-pharma-crosslinks">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <Pill className="w-5 h-5 text-emerald-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Pharmacology Resources</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <LocaleLink href="/pharmacology">
+                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-emerald-300 hover:shadow-sm transition-all text-left cursor-pointer" data-testid="link-pharma-hub">
+                  <Pill className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <div>
+                    <p className="font-medium text-gray-900">Pharmacology Crash Course</p>
+                    <p className="text-xs text-gray-500">5-day intensive drug review</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 ml-auto shrink-0" />
+                </div>
+              </LocaleLink>
+              <LocaleLink href="/medication-mastery">
+                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-emerald-300 hover:shadow-sm transition-all text-left cursor-pointer" data-testid="link-med-mastery">
+                  <Stethoscope className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <div>
+                    <p className="font-medium text-gray-900">Medication Mastery</p>
+                    <p className="text-xs text-gray-500">Mechanism-first drug explorer</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 ml-auto shrink-0" />
+                </div>
+              </LocaleLink>
+            </div>
+          </section>
+
           <section className="bg-gradient-to-r from-emerald-800 to-emerald-950 rounded-2xl p-8 text-white text-center" data-testid="section-cta">
             <h2 className="text-2xl font-bold mb-3">Master Herbal Supplement Safety</h2>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">

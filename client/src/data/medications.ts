@@ -127,9 +127,10 @@ const baseMedications: Medication[] = [
       { drug: "NSAIDs / Aspirin", consequence: "Dramatically increased bleeding risk", mechanism: "NSAIDs inhibit platelet function (separate from warfarin's clotting factor effect) and cause GI mucosal damage: dual antiplatelet + anticoagulant creates synergistic hemorrhagic risk" },
       { drug: "Antibiotics (metronidazole, fluconazole, TMP-SMX)", consequence: "Increased INR / bleeding", mechanism: "These drugs inhibit CYP2C9, the primary enzyme metabolizing S-warfarin (the more potent enantiomer), dramatically increasing warfarin plasma levels" },
       { drug: "Vitamin K-rich foods", consequence: "Decreased anticoagulant effect", mechanism: "Dietary vitamin K provides substrate that bypasses the VKORC1 block, allowing clotting factor carboxylation through alternative pathways" },
+      { drug: "Herbal supplements (4 Gs: Ginkgo, Garlic, Ginger, Ginseng)", consequence: "Increased bleeding risk from additive antiplatelet effects", mechanism: "These herbs inhibit platelet aggregation through various mechanisms (PAF antagonism, thromboxane inhibition) creating additive bleeding risk with warfarin's anticoagulant effect. Cranberry inhibits CYP2C9, increasing warfarin levels." },
     ],
     bodySystem: "Hematology",
-    relatedLessons: [{ id: "dvt-pe", title: "DVT / PE" }, { id: "stroke-management", title: "Stroke Management" }],
+    relatedLessons: [{ id: "dvt-pe", title: "DVT / PE" }, { id: "stroke-management", title: "Stroke Management" }, { id: "herbal-supplements-hub", title: "Herbal Supplements & Safety" }],
   },
   {
     id: "lisinopril",

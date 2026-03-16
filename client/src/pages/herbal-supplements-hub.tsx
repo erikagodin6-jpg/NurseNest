@@ -18,6 +18,13 @@ import {
   Scissors,
   Baby,
   Beaker,
+  Activity,
+  Gauge,
+  FileText,
+  Target,
+  Lightbulb,
+  CheckCircle2,
+  Stethoscope,
 } from "lucide-react";
 
 const bleedingRiskHerbs = [
@@ -42,6 +49,13 @@ const cyp450Herbs = [
   { id: "cranberry-supplement", name: "Cranberry", effect: "Inhibits CYP2C9", drugs: "Warfarin (↑INR)" },
   { id: "echinacea-supplement", name: "Echinacea", effect: "Inhibits intestinal CYP3A4", drugs: "Cyclosporine, some statins" },
   { id: "garlic-supplement", name: "Garlic", effect: "Induces CYP3A4 (variable)", drugs: "Saquinavir (↓50%)" },
+];
+
+const bpBloodSugarHerbs = [
+  { id: "ginseng-supplement", name: "Ginseng (Panax ginseng)", effect: "Lowers blood glucose; variable BP effects", risk: "Additive hypoglycemia with insulin/sulfonylureas" },
+  { id: "garlic-supplement", name: "Garlic (Allium sativum)", effect: "Mild BP reduction", risk: "Additive hypotension with antihypertensives" },
+  { id: "ginkgo-biloba", name: "Ginkgo Biloba", effect: "May lower blood pressure", risk: "Additive with antihypertensives" },
+  { id: "evening-primrose-oil", name: "Evening Primrose Oil", effect: "May lower blood pressure", risk: "Monitor BP with antihypertensives" },
 ];
 
 const specialPopulationHerbs = [
@@ -261,6 +275,36 @@ export default function HerbalSupplementsHub() {
             </div>
           </section>
 
+          <section data-testid="section-bp-blood-sugar">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+                <Activity className="w-5 h-5 text-orange-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Blood Pressure & Blood Sugar Effects</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {bpBloodSugarHerbs.map((herb) => (
+                <LocaleLink key={herb.id} href={`/lessons/${herb.id}`}>
+                  <Card className="hover:shadow-md transition-shadow cursor-pointer h-full" data-testid={`card-bp-bs-${herb.id}`}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <Activity className="w-4 h-4 text-orange-500 mt-1 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-gray-900 text-sm">{herb.name}</h3>
+                          <p className="text-xs text-gray-500 mt-0.5">{herb.effect}</p>
+                          <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 text-xs font-medium">
+                            {herb.risk}
+                          </span>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </LocaleLink>
+              ))}
+            </div>
+          </section>
+
           <section data-testid="section-special-populations">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
@@ -319,6 +363,157 @@ export default function HerbalSupplementsHub() {
                 </CardContent>
               </Card>
             </LocaleLink>
+          </section>
+
+          <section data-testid="section-documentation-teaching">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-teal-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Documentation & Patient Teaching</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Card className="border-teal-200" data-testid="card-doc-reconciliation">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <Stethoscope className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-2">Medication Reconciliation</h3>
+                      <ul className="space-y-1.5 text-sm text-gray-600">
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Ask open-ended: "What supplements, vitamins, or herbal products do you take?"</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Include teas, topical products, and homeopathic remedies</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Use culturally sensitive, non-judgmental language</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Screen for the 4 Gs in all pre-op patients</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-teal-200" data-testid="card-doc-documentation">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <FileText className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-2">What to Document</h3>
+                      <ul className="space-y-1.5 text-sm text-gray-600">
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Specific product names, doses, frequency, and formulation</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Reason for use and duration</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Flag identified interactions for prescriber review</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Update medication list at every encounter</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          <section data-testid="section-exam-highyield">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                <Target className="w-5 h-5 text-amber-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">High-Yield Exam Points</h2>
+            </div>
+            <div className="space-y-3">
+              <Card className="border-red-200 bg-red-50/30" data-testid="card-highyield-sjw">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-red-900 text-sm">Exam Trap: St. John's Wort + SSRIs</h3>
+                      <p className="text-xs text-red-800 mt-1">St. John's Wort is the #1 most tested herbal interaction. Combined with SSRIs, SNRIs, triptans, or meperidine, it causes serotonin syndrome (agitation, hyperthermia, clonus). Also reduces effectiveness of ~50% of all drugs through CYP3A4 induction.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-amber-200 bg-amber-50/30" data-testid="card-highyield-4gs">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-amber-900 text-sm">Exam Tip: The 4 Gs Mnemonic</h3>
+                      <p className="text-xs text-amber-800 mt-1">Ginkgo, Garlic, Ginger, Ginseng — all increase bleeding risk. Exam writers love to test a patient on warfarin who is also taking one of these. Correct answer: notify the prescriber about additive bleeding risk.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-blue-200 bg-blue-50/30" data-testid="card-highyield-preop">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-blue-900 text-sm">Common Mistake: Pre-Op Supplement Timing</h3>
+                      <p className="text-xs text-blue-800 mt-1">ASA recommends stopping all herbals 2-3 weeks before surgery. Valerian must be tapered (not stopped abruptly — withdrawal risk). If the question says surgery is tomorrow and the patient just disclosed valerian use, correct answer: notify the surgeon.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="border-purple-200 bg-purple-50/30" data-testid="card-highyield-disclosure">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-purple-900 text-sm">Exam Trap: Patient Non-Disclosure</h3>
+                      <p className="text-xs text-purple-800 mt-1">Over 50% of adults use supplements but fewer than 40% tell their providers. When asked the most effective assessment question, choose the open-ended, non-judgmental one: "What vitamins, supplements, or herbal products do you take?"</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          <section data-testid="section-pharmacology-links">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <Pill className="w-5 h-5 text-emerald-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Related Pharmacology Resources</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <LocaleLink href="/pharmacology">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer h-full" data-testid="link-pharma-hub">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <Pill className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm">Pharmacology Crash Course</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">5-day intensive covering all drug classes</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+              <LocaleLink href="/medication-mastery">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer h-full" data-testid="link-med-mastery">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <Beaker className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm">Medication Mastery</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">Mechanism-first drug explorer</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+              <LocaleLink href="/nclex-pharmacology">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer h-full" data-testid="link-nclex-pharma">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <BookOpen className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm">NCLEX Pharmacology</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">Exam-focused drug review</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+            </div>
           </section>
 
           <section data-testid="section-seo-guides">

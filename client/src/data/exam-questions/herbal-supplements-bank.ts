@@ -791,5 +791,54 @@ export const herbalSupplementsExamQuestions: ExamQuestion[] = [
     a: 1,
     r: "Specific follow-up is essential because 'vitamins' from health food stores often include herbal supplements, botanical extracts, and combination products that can interact with medications. The nurse needs exact product names, doses, and frequency for accurate interaction screening. Generic documentation like 'takes vitamins' provides insufficient safety information.",
     s: "Pharmacology"
+  },
+  {
+    q: "A patient on warfarin has been stable with an INR of 2.5 for months and now reports taking daily garlic supplements for cardiovascular health. The nurse notes new bruising on the patient's forearms. Which mechanism explains the increased bleeding risk?",
+    o: ["Garlic provides vitamin K that antagonizes warfarin", "Garlic inhibits thromboxane synthesis and platelet aggregation, creating additive bleeding risk on top of warfarin's anticoagulant effect", "Garlic induces CYP2C9, accelerating warfarin metabolism", "Garlic has no interaction with warfarin"],
+    a: 1,
+    r: "Garlic inhibits thromboxane synthesis and platelet aggregation through a mechanism separate from warfarin's effect on the coagulation cascade. The pharmacodynamic interaction creates additive bleeding risk: warfarin impairs clot formation via clotting factor depletion while garlic impairs platelet plug formation. The clinical signs of bruising confirm this interaction. The prescriber must be notified immediately.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A patient on insulin glargine for type 2 diabetes starts taking ginseng supplements. The patient reports episodes of shakiness, sweating, and confusion in the afternoon. What should the nurse suspect?",
+    o: ["Ginseng toxicity", "Additive hypoglycemia from ginseng's blood glucose-lowering properties combined with insulin", "Insulin resistance from ginseng", "Unrelated anxiety symptoms"],
+    a: 1,
+    r: "Ginseng has documented hypoglycemic properties that can produce additive blood glucose lowering when combined with insulin. The symptoms described (shakiness, sweating, confusion) are classic signs of hypoglycemia. The nurse should check blood glucose immediately, treat the hypoglycemia, and notify the prescriber about the ginseng use so insulin dosing can be re-evaluated.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A patient taking valerian root nightly for 6 months is admitted for emergency surgery. The anesthesiologist asks about herbal supplement use. Why is the valerian information critical for anesthesia planning?",
+    o: ["Valerian has no relevance to anesthesia", "Valerian is a GABA-A agonist that potentiates anesthetic agents, and chronic use may cause dependence requiring dose adjustment to prevent intraoperative awareness or withdrawal", "Valerian only affects local anesthetics", "Valerian increases blood pressure during surgery"],
+    a: 1,
+    r: "Valerian's GABA-A agonist activity creates two anesthesia concerns: (1) additive CNS depression with anesthetic agents increases risk of excessive sedation and respiratory depression, and (2) chronic use may cause GABA receptor adaptations similar to benzodiazepine dependence. In emergency surgery where tapering is not possible, the anesthesiologist needs to plan for both potentiation and potential withdrawal.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A patient taking kava for anxiety and benzodiazepines for panic disorder is found unresponsive with respiratory rate of 6. Which pharmacodynamic mechanism caused this emergency?",
+    o: ["Serotonin syndrome from kava + benzodiazepines", "Synergistic GABA-A receptor activation producing profound CNS and respiratory depression", "Hepatic failure from kava alone", "Allergic reaction to the combination"],
+    a: 1,
+    r: "Both kava (GABA-A agonist + sodium channel blocker) and benzodiazepines (GABA-A positive allosteric modulators) enhance inhibitory neurotransmission through GABA-A receptors. The synergistic effect produces profound CNS depression including respiratory depression, which can progress to respiratory arrest and death. This pharmacodynamic interaction is well-documented with case reports of coma.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A nurse is preparing a patient for elective knee replacement surgery scheduled in 3 weeks. The patient reports taking ginkgo biloba, fish oil 4g daily, and a daily aspirin. What is the appropriate nursing action?",
+    o: ["No action needed since surgery is still 3 weeks away", "Notify the surgeon immediately so a coordinated discontinuation plan can be created for all three antiplatelet agents", "Tell the patient to stop everything today", "Only the aspirin needs to be addressed; the supplements are safe"],
+    a: 1,
+    r: "All three agents inhibit platelet function through different mechanisms: ginkgo (PAF antagonism), fish oil >3g/day (reduced TXA2), and aspirin (COX inhibition). With surgery in 3 weeks, there is adequate time for proper discontinuation planning, but the surgeon must coordinate the timing. The nurse should notify the surgeon immediately so appropriate stop dates can be set for each agent.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A patient on cyclosporine after kidney transplant asks about taking turmeric supplements for joint pain. Besides the antiplatelet concern, what additional interaction should the nurse address?",
+    o: ["Turmeric has no interaction with cyclosporine", "High-dose turmeric may affect CYP3A4 metabolism and could alter cyclosporine levels, requiring closer drug level monitoring", "Turmeric increases cyclosporine absorption", "Turmeric only interacts with warfarin"],
+    a: 1,
+    r: "High-dose turmeric/curcumin supplements may affect CYP3A4 metabolism, which is the primary pathway for cyclosporine metabolism. Any alteration in cyclosporine levels in a transplant patient is dangerous — too low risks rejection, too high risks nephrotoxicity. The transplant team should be notified before the patient starts any new supplement, and drug level monitoring should be increased.",
+    s: "Pharmacology"
+  },
+  {
+    q: "A patient tells the nurse, 'My neighbor said St. John's Wort is safer than antidepressants because it's natural.' What is the most therapeutic and accurate nursing response?",
+    o: ["Your neighbor is correct; natural products are always safer", "I understand the appeal of natural remedies. However, St. John's Wort is pharmacologically active and has more drug interactions than most antidepressants. It can cause serious reactions including serotonin syndrome. Let's discuss this with your provider.", "You should never listen to neighbors about health advice", "St. John's Wort is completely dangerous and should never be used"],
+    a: 1,
+    r: "The therapeutic response acknowledges the patient's perspective without judgment, then provides accurate information. St. John's Wort induces CYP3A4/CYP2C9/CYP1A2/P-gp (affecting ~50% of medications) and has serotonergic activity (serotonin syndrome risk). Framing it as 'pharmacologically active' rather than 'dangerous' maintains the therapeutic relationship while ensuring informed decision-making.",
+    s: "Pharmacology"
   }
 ];

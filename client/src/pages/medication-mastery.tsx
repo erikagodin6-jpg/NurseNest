@@ -416,6 +416,36 @@ export default function MedicationMasteryPage() {
           </div>
         )}
 
+        <div className="mt-12 p-6 bg-emerald-50 rounded-xl border border-emerald-200" data-testid="section-related-pharma-links">
+          <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-emerald-600" />
+            Related Pharmacology Resources
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <LocaleLink href="/pharmacology">
+              <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-pharma-hub">
+                <Pill className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-sm font-medium text-gray-900">Pharmacology Crash Course</span>
+                <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
+              </div>
+            </LocaleLink>
+            <LocaleLink href="/herbal-supplements">
+              <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-herbal-hub">
+                <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-sm font-medium text-gray-900">Herbal Supplements & Safety</span>
+                <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
+              </div>
+            </LocaleLink>
+            <LocaleLink href="/nclex-pharmacology">
+              <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-nclex-pharma">
+                <Target className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-sm font-medium text-gray-900">NCLEX Pharmacology</span>
+                <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
+              </div>
+            </LocaleLink>
+          </div>
+        </div>
+
         <EducationalIntegrity variant="footer" className="mt-16" />
       </main>
       <AdminEditButton />

@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { LocaleLink } from "@/lib/LocaleLink";
 import {
   Pill,
   BookOpen,
@@ -29,6 +30,12 @@ import {
   Users,
   FileText,
   Target,
+  AlertTriangle,
+  Leaf,
+  Wind,
+  Lightbulb,
+  GraduationCap,
+  Link2,
 } from "lucide-react";
 
 const featureCards = [
@@ -477,6 +484,186 @@ export default function PharmacologyHub() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-white border-t border-gray-100" data-testid="section-pharma-ecosystem">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
+                <Link2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Cross-Profession Pharmacology</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-pharma-ecosystem-heading">
+                Pharmacology Across Disciplines
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Pharmacology knowledge is shared across healthcare professions. Explore pharmacology resources tailored to your specific exam and scope of practice.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <LocaleLink href="/nclex-pharmacology">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-nursing">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+                      <Stethoscope className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Nursing (NCLEX-RN)</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology for RN licensure exams including safe medication administration, drug classes, and nursing considerations.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/nclex-pn-pharmacology">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-rpn">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
+                      <ShieldCheck className="w-6 h-6 text-violet-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Practical Nursing (REx-PN)</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology within the RPN/LPN scope of practice, focused on safe medication administration and patient monitoring.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/np-exam-prep">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-np">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center mb-4">
+                      <HeartPulse className="w-6 h-6 text-rose-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Nurse Practitioner (NP)</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Advanced pharmacology for NP certification including prescribing, pharmacokinetics, and autonomous medication management.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/allied-respiratory-therapy">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-rt">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-cyan-50 flex items-center justify-center mb-4">
+                      <Wind className="w-6 h-6 text-cyan-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Respiratory Therapy</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Respiratory pharmacology including bronchodilators, corticosteroids, mucolytics, and oxygen therapy medications.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/medication-mastery">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-med-mastery">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
+                      <FlaskConical className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Medication Mastery</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Mechanism-first drug explorer. Understand why side effects happen at the receptor level and predict clinical effects from first principles.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/herbal-supplements">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-herbals">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4">
+                      <Leaf className="w-6 h-6 text-green-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Herbal Supplements & Safety</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Herbal supplement interactions, perioperative safety, the 4 Gs bleeding mnemonic, CYP450 interactions, and patient teaching.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+
+              <LocaleLink href="/allied-health">
+                <Card className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full" data-testid="card-ecosystem-allied">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center mb-4">
+                      <Users className="w-6 h-6 text-amber-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">Allied Health Professions</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology resources for pharmacy technicians, paramedics, MLTs, and other allied health professionals.</p>
+                    <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
+                  </CardContent>
+                </Card>
+              </LocaleLink>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100" data-testid="section-pharma-exam-tips">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
+                <GraduationCap className="w-3.5 h-3.5 text-amber-600" />
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Exam Success</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-pharma-exam-heading">
+                High-Yield Exam Content
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Exam writers test pharmacology concepts that prioritize patient safety. Focus on these areas.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <Card className="border-red-200 bg-red-50/50" data-testid="card-safety-alert">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-red-900 mb-2 text-lg">Safety Alerts Exam Writers Love to Test</h3>
+                      <ul className="space-y-2 text-sm text-red-800">
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Hold parameters:</strong> Hold beta-blockers if HR &lt; 60 or SBP &lt; 90. Hold digoxin if HR &lt; 60. Hold ACE inhibitors if potassium &gt; 5.0.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Antidotes:</strong> Naloxone for opioids, protamine for heparin, vitamin K for warfarin, flumazenil for benzodiazepines, calcium gluconate for hyperkalemia.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Never give IV push:</strong> Potassium (fatal arrhythmia), vancomycin (Red Man Syndrome). Heparin: never IM.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Herbal interactions:</strong> St. John's Wort + SSRIs = serotonin syndrome. The 4 Gs + warfarin = bleeding. Kava + alcohol = liver failure.</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-amber-200 bg-amber-50/50" data-testid="card-common-mistakes">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-amber-900 mb-2 text-lg">Common Student Mistakes</h3>
+                      <ul className="space-y-2 text-sm text-amber-800">
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Confusing drug class suffixes:</strong> -olol = beta-blocker, -pril = ACE inhibitor, -sartan = ARB, -statin = HMG-CoA reductase inhibitor, -pam/-lam = benzodiazepine.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Warfarin vs. heparin monitoring:</strong> Warfarin = PT/INR (extrinsic pathway). Heparin = aPTT (intrinsic pathway). Never mix these up.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Assuming "natural" means safe:</strong> Herbal supplements are pharmacologically active and are NOT FDA-regulated. Always assess for interactions.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Forgetting peak/onset times:</strong> IV furosemide works in 5 minutes; PO takes 30-60 minutes. Know when to reassess.</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-emerald-200 bg-emerald-50/50" data-testid="card-exam-traps">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-3">
+                    <Target className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-emerald-900 mb-2 text-lg">Exam Traps: What They Really Want You to Know</h3>
+                      <ul className="space-y-2 text-sm text-emerald-800">
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Priority question pattern:</strong> When asked "what is the FIRST action," think safety. Assess before intervening. Notify provider before acting independently.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Therapeutic vs. toxic:</strong> Questions often test whether you know when a drug level or lab value has crossed from therapeutic to dangerous.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Medication reconciliation:</strong> Expect questions about patients who fail to disclose herbal supplement use. The correct answer involves asking specific, open-ended questions.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Patient teaching:</strong> The best answer is always the one that ensures the patient understands why a medication or precaution is important, not just what to do.</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
