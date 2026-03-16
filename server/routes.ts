@@ -5348,6 +5348,15 @@ Rules:
             return res.status(422).json({ error: `Category "${cat}" is too generic. Please assign a specific body system or topic category.`, code: "LESSON_GENERIC_CATEGORY" });
           }
         }
+        const charCount = bodyText.length;
+        if (charCount < 200 && !contentData.forcePublish) {
+          return res.status(422).json({
+            error: `Lesson content has ${charCount} characters, minimum 200 required for publishing.`,
+            charCount,
+            minimum: 200,
+            code: "LESSON_CONTENT_TOO_SHORT",
+          });
+        }
         if (wc < lessonMinWords && !contentData.forcePublish) {
           return res.status(422).json({
             error: `Lesson has ${wc} words, minimum ${lessonMinWords} required for publishing. Save as draft or use forcePublish to bypass.`,

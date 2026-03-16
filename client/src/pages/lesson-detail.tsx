@@ -260,6 +260,10 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
     const creds = getCredentials();
     if (!creds) { setError("Admin credentials not found"); return; }
     if (!title.trim()) { setError("Title is required"); return; }
+    if (!tier.trim()) { setError("Tier is required (rpn, rn, or np)"); return; }
+    if (!category.trim() || category.toLowerCase() === "general") { setError("A specific body system or category is required"); return; }
+    const totalContent = [pathophysiology, ...riskFactors, ...diagnostics, ...management, ...nursingActions, ...assessmentFindings, ...signsLeft, ...signsRight, ...pearls, lifespanContent].join(" ");
+    if (totalContent.length < 200) { setError("Lesson content must be at least 200 characters. Add more detail to the pathophysiology, risk factors, or other sections."); return; }
     setSaving(true);
     setError("");
     try {
@@ -2461,13 +2465,21 @@ export default function LessonDetail() {
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
           <LocaleLink href="/lessons">
-            <Button variant="ghost" className="mb-4 group">
+            <Button variant="ghost" className="mb-4 group" data-testid="button-back-lessons-coming-soon">
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Lessons
             </Button>
           </LocaleLink>
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found">Lesson Not Found</h1>
-          <p className="text-gray-600">This lesson could not be found. It may still be in development or the URL may be incorrect.</p>
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+            <BookOpen className="w-8 h-8 text-primary" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-coming-soon">Lesson Coming Soon</h1>
+          <p className="text-gray-600 max-w-md mx-auto">This lesson is currently being developed by our clinical education team. Check back soon for comprehensive, exam-ready content.</p>
+          <LocaleLink href="/lessons">
+            <Button className="mt-4 bg-primary hover:bg-primary/90 text-white px-6" data-testid="button-browse-lessons">
+              Browse Available Lessons
+            </Button>
+          </LocaleLink>
         </main>
         <Footer />
       </div>

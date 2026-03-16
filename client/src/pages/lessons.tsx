@@ -4,6 +4,7 @@ import { getAuthHeaders } from "@/lib/queryClient";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { hasLessonContent } from "@/data/lessons/index";
 import { useI18n } from "@/lib/i18n";
 import { getLessonTitle, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { canonicalDisplayName } from "@/lib/canonical-display";
@@ -5025,11 +5026,15 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
   const isAdmin = user?.tier === "admin";
 
   const filteredSystem = useMemo(() => {
-    if (isAdmin) return system;
-    if (!completeLessons || completeLessons.size === 0) return system;
-    const filteredDiseases = system.diseases.filter((d: any) => completeLessons.has(d.id));
-    if (filteredDiseases.length === system.diseases.length) return system;
-    return { ...system, diseases: filteredDiseases };
+    let diseases = system.diseases;
+    if (!isAdmin) {
+      diseases = diseases.filter((d: any) => hasLessonContent(d.id));
+    }
+    if (!isAdmin && completeLessons && completeLessons.size > 0) {
+      diseases = diseases.filter((d: any) => completeLessons.has(d.id));
+    }
+    if (diseases.length === system.diseases.length) return system;
+    return { ...system, diseases };
   }, [system, isAdmin, completeLessons]);
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");

@@ -1061,5 +1061,31 @@ export async function loadNpGeneratedBatches(): Promise<void> {
   return npBatchesLoading;
 }
 
+export function hasLessonContent(lessonId: string): boolean {
+  const lesson = contentMap[lessonId];
+  if (!lesson) return false;
+  const parts: string[] = [];
+  const cellular = typeof lesson.cellular === "string" ? lesson.cellular : lesson.cellular?.content || "";
+  parts.push(cellular);
+  if (lesson.riskFactors) parts.push(...lesson.riskFactors);
+  if (lesson.diagnostics) parts.push(...lesson.diagnostics);
+  if (lesson.management) parts.push(...lesson.management);
+  if (lesson.nursingActions) parts.push(...lesson.nursingActions);
+  if (lesson.assessmentFindings) parts.push(...lesson.assessmentFindings);
+  if (lesson.pearls) parts.push(...lesson.pearls);
+  if (Array.isArray(lesson.signs)) {
+    parts.push(...lesson.signs);
+  } else if (lesson.signs) {
+    parts.push(...(lesson.signs.left || []), ...(lesson.signs.right || []));
+  }
+  if (lesson.lifespan) parts.push(typeof lesson.lifespan === "string" ? lesson.lifespan : lesson.lifespan.content || "");
+  const totalLength = parts.join(" ").trim().length;
+  return totalLength >= 200;
+}
+
+export function filterAvailableLessons<T extends { id: string }>(diseases: T[]): T[] {
+  return diseases.filter((d) => hasLessonContent(d.id));
+}
+
 export const lessonCount = Object.keys(contentMap).length;
 export const questionCount = countQuestions(contentMap);
