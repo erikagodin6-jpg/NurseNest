@@ -7,6 +7,8 @@ export interface CareerQuestion {
     difficulty: number;
     category: string;
     topic: string;
+    regionScope?: string;
+    questionType?: string;
   }
 
   export const rrtQuestions: CareerQuestion[] = [

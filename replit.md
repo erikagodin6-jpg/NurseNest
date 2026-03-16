@@ -33,6 +33,9 @@ Key systems:
 - **Free Pass System**: Automatic 1-day free pass for new accounts with fraud detection.
 - **Exam Follow-Up**: Post-exam follow-up system on the dashboard for result reporting and personalized next steps.
 
+## Career Question Banks
+- **Surgical Technologist**: 1502 questions across 6 files (`client/src/data/career-questions/surgical-technologist-questions*.ts`), covering 8 domains (Sterile Technique, OR Protocols, Instrumentation, Procedures, Positioning, Infection Prevention, Anesthesia, Complications). Region-tagged (US: 125, CA: 108, BOTH: 1269). Also seeded in `exam_questions` DB table with `career_type='surgicalTechnologist'`. Seed script: `script/seed-surgical-tech-questions.ts`.
+
 ## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
