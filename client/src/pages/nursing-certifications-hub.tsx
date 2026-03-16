@@ -315,7 +315,11 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link href="/healthcare-certifications" className="bg-teal-50 rounded-xl p-6 hover:bg-teal-100 transition-colors group" data-testid="link-healthcare-certs">
+              <h3 className="font-semibold text-teal-900 mb-1 group-hover:text-teal-700">Healthcare Certifications Database</h3>
+              <p className="text-sm text-teal-700/70">Detailed guides with eligibility, exam structure, and renewal info for every certification.</p>
+            </Link>
             <Link href="/rn" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-rn-tier">
               <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">RN Exam Prep</h3>
               <p className="text-sm text-blue-700/70">NCLEX-RN preparation with practice questions, lessons, and study guides.</p>

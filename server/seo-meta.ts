@@ -1995,7 +1995,7 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
   "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
   "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
-  "/nursing", "/nursing-specialties", "/nursing-certifications", "/nursing-schools",
+  "/nursing", "/nursing-specialties", "/nursing-certifications", "/healthcare-certifications", "/nursing-schools",
   "/nurse-residency-programs", "/nursing-regulatory-bodies", "/study-pathways",
   "/faq", "/about", "/contact", "/terms", "/privacy",
   "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
@@ -2064,6 +2064,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/allied-pharmacy-", "/allied-psychotherapy-", "/allied-health-exam-",
   "/simulators/",
   "/nursing-licensing-exams/",
+  "/healthcare-certifications/",
 ];
 
 async function isDbContentAvailable(strippedPath: string): Promise<boolean> {
