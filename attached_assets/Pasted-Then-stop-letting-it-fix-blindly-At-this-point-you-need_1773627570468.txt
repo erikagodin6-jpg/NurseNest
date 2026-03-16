@@ -1,0 +1,131 @@
+Then stop letting it “fix” blindly. At this point you need Replit to diagnose and rollback to the last known good render, not keep making random edits.
+What is happening is likely one of these:
+
+a top-level React crash on /en
+broken i18n or locale data for en
+a component imported on the homepage that throws before render
+a bad deploy/build mismatch
+a broken provider, route wrapper, or meta component
+Use this stricter prompt:
+You are no longer allowed to guess or apply broad fixes.
+
+The site is still rendering a blank white page after multiple attempted fixes. Your job now is to perform a forensic render-failure investigation and restore visible rendering on /en with the smallest possible safe change.
+
+NON-NEGOTIABLE RULES
+- Do not redesign anything
+- Do not touch SEO, styling, content, pricing, Stripe, or navigation architecture
+- Do not make bulk edits
+- Do not “improve” unrelated files
+- Do not keep trying speculative fixes
+- If you cannot identify the exact crash source, revert recent changes until the page renders, then isolate the offending commit/file
+- Prioritize restoring visible rendering first
+
+PRIMARY GOAL
+Get /en to render any visible HTML/React content again, then identify the exact file and error that caused the blank screen.
+
+PHASE 1 — HARD DIAGNOSIS
+1. Run the app locally and open /en
+2. Capture:
+   - first browser console error
+   - first terminal/server error
+   - failed network requests
+   - build output errors
+3. Report the FIRST root error only, not downstream noise
+
+PHASE 2 — PROVE WHETHER REACT IS MOUNTING
+Temporarily replace the /en page render path with the simplest possible visible test content while preserving route structure:
+
+Example goal:
+- render a plain div with text like "EN route test"
+- keep the existing route and wrapper as intact as possible
+
+If the simple test content does NOT render:
+- the failure is above the page level (entry file, router, provider, layout, i18n bootstrap, or build issue)
+
+If the simple test content DOES render:
+- the failure is inside the real /en page content tree
+- re-enable sections one at a time until the crash returns
+
+PHASE 3 — BINARY ISOLATION
+If /en test shell renders, reintroduce these one by one and stop at first failure:
+1. layout shell
+2. i18n/locale provider
+3. header/nav
+4. hero
+5. stats/cards
+6. profession sections
+7. FAQ/schema/meta components
+8. footer
+9. analytics/third-party components
+
+Do not re-enable multiple major sections at once.
+
+PHASE 4 — LOCALE-SPECIFIC CHECK
+Because /en is failing, inspect every English locale dependency:
+- translation JSON/object exists
+- no missing required keys used at render time
+- no destructuring from undefined locale objects
+- no Object.keys/Object.entries/map on undefined locale data
+- locale route resolution returns a valid language object
+
+Add only minimal safe fallbacks where needed.
+
+PHASE 5 — TOP-LEVEL CRASH SEARCH
+Inspect these files first:
+- index.html
+- main.tsx/main.jsx
+- App.tsx
+- router file
+- locale/i18n bootstrap files
+- root layout/provider file
+- homepage /en route component
+- any recently edited hero/nav/FAQ/meta component
+
+Look for:
+- undefined property access
+- array.map on undefined
+- bad imports
+- circular imports
+- server code imported into client
+- use of process.env in client
+- window/document/localStorage at module scope
+- invalid schema/meta generation crashing render
+
+PHASE 6 — RECENT-CHANGE ROLLBACK STRATEGY
+If the exact cause is still unclear:
+1. inspect the most recently modified files related to homepage, locale, nav, SEO, and providers
+2. revert only the most recent suspicious changes in small groups
+3. test /en after each revert
+4. once rendering returns, identify the precise offending file/change
+5. reapply safe portions only if confirmed non-breaking
+
+PHASE 7 — MINIMUM RECOVERY REQUIREMENT
+The task is not complete until:
+- /en visibly renders
+- no uncaught console error blocks initial paint
+- homepage returns visible content instead of white screen
+- production build succeeds
+
+PHASE 8 — DEFENSIVE PROTECTION
+After restoring rendering:
+- add null guards for missing arrays/objects
+- add safe fallback for missing locale keys
+- add a minimal error boundary around the main page content if needed
+
+Do not use defensive code as a substitute for finding the real bug.
+
+FINAL OUTPUT
+Return:
+1. exact root cause
+2. exact file(s) changed
+3. whether rollback was required
+4. what was reverted
+5. what minimal fix restored rendering
+6. confirmation that /en now visibly renders
+Also tell Replit this, separately, in one short message:
+Do not attempt another broad auto-fix. First prove whether a plain test component renders on /en. If even that does not render, work upward from App/router/providers instead of editing page content.
+Your best practical move now is:
+force it to test a plain /en component
+if that fails, the issue is global boot/router/provider
+if that works, the issue is inside the homepage tree
+if it still cannot find it, rollback the most recent homepage/locale/provider edits until render returns
