@@ -548,6 +548,136 @@ export default function SIConventionalConverterPage() {
           <FAQSection />
         </section>
 
+        <section className="mb-10" data-testid="section-conversion-guides">
+          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-primary" />
+            In-Depth Conversion Guides
+          </h2>
+          <p className="text-sm text-gray-500 mb-4">Explore detailed educational guides for specific lab value conversions — each with clinical context, reference charts, worked examples, and FAQs for nursing students.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <LocaleLink href="/canadian-vs-american-lab-values">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-canadian-vs-american">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Canadian vs American Lab Values</p>
+                    <p className="text-xs text-gray-500">SI vs conventional units — why they differ and how to convert</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/glucose-mmol-l-to-mg-dl">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-glucose">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Glucose mmol/L ↔ mg/dL</p>
+                    <p className="text-xs text-gray-500">Blood sugar conversion with diabetes thresholds</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/creatinine-umol-l-to-mg-dl">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-creatinine">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Creatinine µmol/L ↔ mg/dL</p>
+                    <p className="text-xs text-gray-500">Renal function context with CKD staging</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/hemoglobin-g-l-to-g-dl">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-hemoglobin">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Hemoglobin g/L ↔ g/dL</p>
+                    <p className="text-xs text-gray-500">Anemia classification and transfusion thresholds</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/bilirubin-umol-l-to-mg-dl">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-bilirubin">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Bilirubin µmol/L ↔ mg/dL</p>
+                    <p className="text-xs text-gray-500">Liver function and neonatal jaundice context</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/calcium-mmol-l-to-mg-dl">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-calcium">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Calcium mmol/L ↔ mg/dL</p>
+                    <p className="text-xs text-gray-500">Hypo/hypercalcemia with corrected calcium formula</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/urea-to-bun-conversion-nursing">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-urea-bun">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Urea to BUN Conversion</p>
+                    <p className="text-xs text-gray-500">Why it's not a simple relabeling — molecular weight matters</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/cholesterol-triglyceride-unit-conversion">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-cholesterol">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Cholesterol & Triglyceride Conversion</p>
+                    <p className="text-xs text-gray-500">Lipid panel conversions with cardiovascular risk context</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/kg-to-lb-nursing">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-kg-lb">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">kg to lb Nursing Conversion</p>
+                    <p className="text-xs text-gray-500">Weight-based medication dosing and safety</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/celsius-to-fahrenheit-nursing">
+              <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-celsius">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">°C to °F Nursing Conversion</p>
+                    <p className="text-xs text-gray-500">Fever thresholds, hypothermia classification, vital signs</p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </CardContent>
+              </Card>
+            </LocaleLink>
+          </div>
+        </section>
+
         <section className="mb-10" data-testid="section-related-tools">
           <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
             <ArrowRight className="w-5 h-5 text-primary" />

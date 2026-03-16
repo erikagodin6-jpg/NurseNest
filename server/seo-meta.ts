@@ -328,6 +328,46 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "SI to Conventional Units Converter — Nursing Lab Value Calculator | NurseNest",
     description: "Free nursing unit converter: convert between SI (Canadian) and conventional (U.S.) units for glucose, creatinine, hemoglobin, cholesterol, BUN, and more. Quick-reference tables and formulas for NCLEX & REx-PN prep.",
   },
+  "/canadian-vs-american-lab-values": {
+    title: "Canadian vs American Lab Values — SI vs Conventional Units Explained | NurseNest",
+    description: "Understand why Canada and the U.S. report lab values differently. Learn the difference between SI units and conventional units, why it matters for nursing exams (NCLEX, REx-PN), and how to convert between systems.",
+  },
+  "/glucose-mmol-l-to-mg-dl": {
+    title: "Glucose mmol/L to mg/dL Conversion — Blood Sugar Unit Calculator | NurseNest",
+    description: "Convert blood glucose between mmol/L (SI/Canadian) and mg/dL (conventional/U.S.). Includes conversion formula, diabetes thresholds, quick-reference chart, and nursing clinical context.",
+  },
+  "/creatinine-umol-l-to-mg-dl": {
+    title: "Creatinine µmol/L to mg/dL Conversion — Renal Function Calculator | NurseNest",
+    description: "Convert creatinine between µmol/L (SI/Canadian) and mg/dL (conventional/U.S.). Includes renal function context, GFR interpretation, CKD staging, and nursing clinical pearls.",
+  },
+  "/hemoglobin-g-l-to-g-dl": {
+    title: "Hemoglobin g/L to g/dL Conversion — Anemia & Transfusion Calculator | NurseNest",
+    description: "Convert hemoglobin between g/L (SI/Canadian) and g/dL (conventional/U.S.). Includes anemia classification, transfusion thresholds, and nursing clinical context for blood transfusion decisions.",
+  },
+  "/bilirubin-umol-l-to-mg-dl": {
+    title: "Bilirubin µmol/L to mg/dL Conversion — Liver & Neonatal Jaundice Calculator | NurseNest",
+    description: "Convert bilirubin between µmol/L (SI/Canadian) and mg/dL (conventional/U.S.). Includes liver function context, neonatal jaundice thresholds, phototherapy guidelines, and nursing clinical pearls.",
+  },
+  "/calcium-mmol-l-to-mg-dl": {
+    title: "Calcium mmol/L to mg/dL Conversion — Hypo/Hypercalcemia Calculator | NurseNest",
+    description: "Convert calcium between mmol/L (SI/Canadian) and mg/dL (conventional/U.S.). Includes hypo/hypercalcemia clinical context, corrected calcium formula, ECG changes, and nursing assessment pearls.",
+  },
+  "/urea-to-bun-conversion-nursing": {
+    title: "Urea to BUN Conversion — Why It's Not a Simple Relabeling | NurseNest",
+    description: "Convert between urea (mmol/L, SI/Canadian) and BUN (mg/dL, conventional/U.S.). Understand why this conversion involves molecular weight, not just unit relabeling. Includes renal nursing context.",
+  },
+  "/cholesterol-triglyceride-unit-conversion": {
+    title: "Cholesterol & Triglyceride mmol/L to mg/dL Conversion — Lipid Panel Calculator | NurseNest",
+    description: "Convert total cholesterol, LDL, HDL, and triglycerides between mmol/L (SI/Canadian) and mg/dL (conventional/U.S.). Includes cardiovascular risk context, target values, and nursing clinical pearls.",
+  },
+  "/kg-to-lb-nursing": {
+    title: "kg to lb Conversion for Nursing — Medication Dosing Weight Calculator | NurseNest",
+    description: "Convert between kilograms and pounds for nursing medication dosing. Includes weight-based dosing examples, pediatric calculations, BMI context, and clinical safety pearls.",
+  },
+  "/celsius-to-fahrenheit-nursing": {
+    title: "Celsius to Fahrenheit Conversion for Nursing — Vital Signs Temperature Calculator | NurseNest",
+    description: "Convert temperature between Celsius and Fahrenheit for nursing vital signs. Includes fever thresholds, hypothermia classification, pediatric considerations, and clinical assessment pearls.",
+  },
   "/clinical-clarity": {
     title: "Clinical Clarity - Why Does This Happen? | NurseNest",
     description: "Understand the 'why' behind clinical phenomena. Evidence-based explanations for pathophysiology concepts nursing students need to know.",

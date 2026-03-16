@@ -64,6 +64,16 @@ Key systems:
 - **Sitemap**: 5 SEO pages + hub registered in `server/sitemap/main-site.ts`
 - **Lesson IDs**: herbal-supplements-hub, st-johns-wort, ginkgo-biloba, garlic-supplement, ginseng-supplement, echinacea-supplement, valerian-root, kava-supplement, saw-palmetto, black-cohosh, evening-primrose-oil, melatonin-supplement, chamomile-supplement, turmeric-curcumin, omega-3-fatty-acids, cranberry-supplement, surgery-anesthesia-herbal-safety, herbal-supplements-question-bank
 
+## SI Converter Cluster Pages
+- **10 SEO content pages** forming an internal linking cluster around the SI ↔ Conventional Units Converter hub (`/si-to-conventional-units-converter`)
+- **Data config**: `client/src/data/conversion-cluster-data.ts` — all page content, FAQs, reference charts, conversion examples, and internal links
+- **Shared component**: `client/src/pages/conversion-cluster-page.tsx` — renders educational content, mini converter, reference table, FAQ accordion, JSON-LD structured data (MedicalWebPage + FAQPage)
+- **Wrapper**: `client/src/pages/conversion-cluster-wrapper.tsx` — resolves URL slug to page data
+- **Slugs**: canadian-vs-american-lab-values, glucose-mmol-l-to-mg-dl, creatinine-umol-l-to-mg-dl, hemoglobin-g-l-to-g-dl, bilirubin-umol-l-to-mg-dl, calcium-mmol-l-to-mg-dl, urea-to-bun-conversion-nursing, cholesterol-triglyceride-unit-conversion, kg-to-lb-nursing, celsius-to-fahrenheit-nursing
+- **SEO meta**: All 10 pages registered in `server/seo-meta.ts`
+- **Sitemap**: All 10 pages registered in `server/sitemap/main-site.ts` with priority 0.7
+- **Internal linking**: Hub page links down to all 10 cluster pages via "In-Depth Conversion Guides" section; each cluster page links back to hub and to related cluster pages
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`

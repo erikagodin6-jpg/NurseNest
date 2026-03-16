@@ -114,6 +114,7 @@ const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
 const LabValuesPage = lazy(() => import("@/pages/lab-values"));
 const SIConventionalConverterPage = lazy(() => import("@/pages/si-conventional-converter"));
+const ConversionClusterWrapper = lazy(() => import("@/pages/conversion-cluster-wrapper"));
 const ContentPage = lazy(() => import("@/pages/content-page"));
 const BlogPage = lazy(() => import("@/pages/blog"));
 const ClinicalClarityIndex = lazy(() => import("@/pages/clinical-clarity"));
@@ -556,6 +557,16 @@ function AppRoutes() {
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
         <Route path="/si-to-conventional-units-converter" component={SIConventionalConverterPage} />
+        <Route path="/canadian-vs-american-lab-values" component={ConversionClusterWrapper} />
+        <Route path="/glucose-mmol-l-to-mg-dl" component={ConversionClusterWrapper} />
+        <Route path="/creatinine-umol-l-to-mg-dl" component={ConversionClusterWrapper} />
+        <Route path="/hemoglobin-g-l-to-g-dl" component={ConversionClusterWrapper} />
+        <Route path="/bilirubin-umol-l-to-mg-dl" component={ConversionClusterWrapper} />
+        <Route path="/calcium-mmol-l-to-mg-dl" component={ConversionClusterWrapper} />
+        <Route path="/urea-to-bun-conversion-nursing" component={ConversionClusterWrapper} />
+        <Route path="/cholesterol-triglyceride-unit-conversion" component={ConversionClusterWrapper} />
+        <Route path="/kg-to-lb-nursing" component={ConversionClusterWrapper} />
+        <Route path="/celsius-to-fahrenheit-nursing" component={ConversionClusterWrapper} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/ai-jobs" component={AdminAiJobs} />
         <Route path="/admin/business-health" component={AdminBusinessHealth} />
