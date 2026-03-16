@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Scale, Globe, GraduationCap,
   DollarSign, Clock, Shield, Briefcase,
@@ -233,6 +234,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export function ComparisonPageBySlug({ slug }: { slug: string }) {
+  const { t } = useI18n();
   const config = COMPARISON_CONFIGS[slug];
   if (!config) return null;
 
@@ -257,7 +259,7 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
           { name: config.title, url: `https://www.nursenest.ca/${config.slug}` },
         ]}
       />
@@ -265,7 +267,7 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BreadcrumbNav items={[
           { name: "Home", url: "https://www.nursenest.ca/" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
           { name: config.title, url: `https://www.nursenest.ca/${config.slug}` },
         ]} />
       </div>
@@ -320,7 +322,7 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
 
       <section className="py-14 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Ready to Choose Your Destination?</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("intlNursing.hub.whyNurseNest")}</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href={`/international-nurses/${config.countryA.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-a">
               {config.countryA.flag} {config.countryA.name} Guide <ArrowRight className="w-4 h-4" />
@@ -335,7 +337,7 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
       {config.faqs.length > 0 && (
         <section className="py-14" data-testid="section-faq">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("intlNursing.country.faqTitle")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

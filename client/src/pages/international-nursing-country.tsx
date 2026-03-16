@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, Globe, GraduationCap, FileText, CheckCircle2,
   ChevronDown, MapPin, Stethoscope, Shield, Clock, DollarSign,
@@ -418,6 +419,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function InternationalNursingCountryPage() {
+  const { t, language } = useI18n();
   const [, params] = useRoute("/international-nurses/:country");
   const country = params?.country || "";
   const config = COUNTRY_CONFIGS[country];
@@ -430,7 +432,7 @@ export default function InternationalNursingCountryPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Country Guide Not Found</h1>
           <p className="text-gray-600 mb-4">The country guide you're looking for doesn't exist.</p>
           <Link href="/international-nurses" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-hub">
-            Back to International Nursing Hub
+            {t("intlNursing.country.backToHub")}
           </Link>
         </div>
         <Footer />
@@ -438,12 +440,15 @@ export default function InternationalNursingCountryPage() {
     );
   }
 
+  const countryKey = config.slug.replace(/-([a-z])/g, (_: string, l: string) => l.toUpperCase());
+  const countryName = t(`intlNursing.countries.${countryKey}`) !== `intlNursing.countries.${countryKey}` ? t(`intlNursing.countries.${countryKey}`) : config.name;
+
   const faqStructuredData = buildFaqStructuredData(config.faqs.map(f => ({ question: f.question, answer: f.answer })));
 
   const howToStructuredData = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": `How to Become a Licensed Nurse in ${config.name}`,
+    "name": t("intlNursing.country.heading", { country: countryName }),
     "description": config.description,
     "step": config.registrationSteps.map((s, i) => ({
       "@type": "HowToStep",
@@ -457,24 +462,24 @@ export default function InternationalNursingCountryPage() {
     <div data-testid={`page-international-nursing-${config.slug}`}>
       <Navigation />
       <SEO
-        title={`Nursing in ${config.name}: Licensing, Exams & Immigration Guide | NurseNest`}
-        description={config.description}
+        title={`${t("intlNursing.country.heading", { country: countryName })} | NurseNest`}
+        description={t("intlNursing.country.metaDesc", { country: countryName })}
         keywords={config.seoKeywords}
         canonicalPath={`/international-nurses/${config.slug}`}
         structuredData={howToStructuredData}
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
-          { name: config.name, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
+          { name: countryName, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
         ]}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BreadcrumbNav items={[
           { name: "Home", url: "https://www.nursenest.ca/" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
-          { name: config.name, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
+          { name: countryName, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
         ]} />
       </div>
 
@@ -483,18 +488,18 @@ export default function InternationalNursingCountryPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-700 mb-4">
-              <span className="text-lg">{config.flag}</span> Nursing in {config.name}
+              <span className="text-lg">{config.flag}</span> {t("intlNursing.country.heading", { country: countryName })}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">
-              How to Become a Licensed Nurse in {config.name}
+              {t("intlNursing.country.heading", { country: countryName })}
             </h1>
             <p className="text-lg text-gray-600 mb-6" data-testid="text-description">{config.description}</p>
             <div className="flex flex-wrap gap-4">
               <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-start-prep">
-                Start Exam Prep <ArrowRight className="w-4 h-4" />
+                {t("intlNursing.country.startPrep")} <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-find-jobs">
-                Find Nursing Jobs in {config.name}
+                {t("intlNursing.hub.startFree")}
               </Link>
             </div>
           </div>
@@ -506,22 +511,22 @@ export default function InternationalNursingCountryPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-gray-50 rounded-xl">
               <Shield className="w-6 h-6 text-teal-500 mx-auto mb-2" />
-              <div className="text-xs text-gray-500">Regulatory Body</div>
+              <div className="text-xs text-gray-500">{t("intlNursing.country.regulatoryBody")}</div>
               <div className="text-sm font-semibold text-gray-900">{config.regulatoryBody}</div>
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-xl">
               <GraduationCap className="w-6 h-6 text-teal-500 mx-auto mb-2" />
-              <div className="text-xs text-gray-500">Required Exams</div>
+              <div className="text-xs text-gray-500">{t("intlNursing.country.requiredExams")}</div>
               <div className="text-sm font-semibold text-gray-900">{config.requiredExams[0]}</div>
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-xl">
               <Clock className="w-6 h-6 text-teal-500 mx-auto mb-2" />
-              <div className="text-xs text-gray-500">Timeline</div>
+              <div className="text-xs text-gray-500">{t("intlNursing.country.timeline")}</div>
               <div className="text-sm font-semibold text-gray-900">{config.timeline.split('.')[0]}</div>
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-xl">
               <DollarSign className="w-6 h-6 text-teal-500 mx-auto mb-2" />
-              <div className="text-xs text-gray-500">Salary Range</div>
+              <div className="text-xs text-gray-500">{t("intlNursing.country.salaryRange")}</div>
               <div className="text-sm font-semibold text-gray-900">{config.salaryRange.split('.')[0]}</div>
             </div>
           </div>
@@ -530,14 +535,14 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14" data-testid="section-regulatory">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Shield className="w-6 h-6 text-teal-500" /> Regulatory Body</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Shield className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.regulatoryBody")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.regulatoryBodyFull}</p>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50" data-testid="section-registration-steps">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3"><FileText className="w-6 h-6 text-teal-500" /> Registration Process</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3"><FileText className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.registrationSteps")}</h2>
           <div className="space-y-4">
             {config.registrationSteps.map((step, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 flex gap-4" data-testid={`step-${i}`}>
@@ -554,14 +559,14 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14" data-testid="section-credential">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Award className="w-6 h-6 text-teal-500" /> Credential Evaluation</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Award className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.credentialAgency")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.credentialAgency}</p>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50" data-testid="section-exams">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><GraduationCap className="w-6 h-6 text-teal-500" /> Required Exams</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><GraduationCap className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.requiredExams")}</h2>
           <div className="space-y-3 mb-6">
             {config.requiredExams.map((exam, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">
@@ -570,7 +575,7 @@ export default function InternationalNursingCountryPage() {
               </div>
             ))}
           </div>
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Languages className="w-5 h-5 text-teal-500" /> Language Proficiency Tests</h3>
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Languages className="w-5 h-5 text-teal-500" /> {t("intlNursing.country.languageTests")}</h3>
           <div className="space-y-2">
             {config.languageTests.map((test, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-3 border border-gray-100">
@@ -584,14 +589,14 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14" data-testid="section-bridging">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><BookOpen className="w-6 h-6 text-teal-500" /> Bridging Programs</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><BookOpen className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.bridgingPrograms")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.bridgingPrograms}</p>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50" data-testid="section-immigration">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Globe className="w-6 h-6 text-teal-500" /> Visa & Immigration Pathways</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Globe className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.visaImmigration")}</h2>
           <div className="space-y-3">
             {config.visaImmigration.map((pathway, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">
@@ -605,9 +610,9 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14" data-testid="section-salary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><DollarSign className="w-6 h-6 text-teal-500" /> Salary Expectations</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><DollarSign className="w-6 h-6 text-teal-500" /> {t("intlNursing.country.salaryRange")}</h2>
           <p className="text-gray-700 leading-relaxed mb-6">{config.salaryRange}</p>
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Building2 className="w-5 h-5 text-teal-500" /> Common Work Settings</h3>
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Building2 className="w-5 h-5 text-teal-500" /> {t("intlNursing.country.workSettings")}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {config.workSettings.map((setting, i) => (
               <div key={i} className="flex items-center gap-2 p-2 text-sm text-gray-700">
@@ -621,7 +626,7 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14 bg-gray-50" data-testid="section-barriers">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> Common Barriers & Challenges</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> {t("intlNursing.country.commonBarriers")}</h2>
           <div className="space-y-3">
             {config.commonBarriers.map((barrier, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">
@@ -636,13 +641,13 @@ export default function InternationalNursingCountryPage() {
       {config.relatedMigrationPaths.length > 0 && (
         <section className="py-14" data-testid="section-migration-paths">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Migration Pathway Guides</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("intlNursing.country.relatedPaths")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {config.relatedMigrationPaths.map(mp => (
                 <Link key={mp.slug} href={`/international-nurses/${mp.slug}`} className="group" data-testid={`link-migration-${mp.slug}`}>
                   <div className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md hover:border-teal-200 transition-all text-center">
                     <h3 className="font-semibold text-gray-900 group-hover:text-teal-700">{mp.label}</h3>
-                    <span className="text-sm text-teal-600">Read Guide →</span>
+                    <span className="text-sm text-teal-600">{t("intlNursing.hub.viewGuide")} →</span>
                   </div>
                 </Link>
               ))}
@@ -653,14 +658,14 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-14 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Ready to Start Your Nursing Career in {config.name}?</h2>
-          <p className="text-teal-100 mb-8">Prepare for your licensing exams with NurseNest or find nursing jobs through ApplyNest.</p>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("intlNursing.hub.whyNurseNest")}</h2>
+          <p className="text-teal-100 mb-8">{t("intlNursing.country.subtitle", { country: countryName })}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-prep">
-              Start Exam Prep <ArrowRight className="w-4 h-4" />
+              {t("intlNursing.country.startPrep")} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-cta-jobs">
-              Find Nursing Jobs <Briefcase className="w-4 h-4" />
+              {t("intlNursing.hub.startFree")} <Briefcase className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -669,7 +674,7 @@ export default function InternationalNursingCountryPage() {
       {config.faqs.length > 0 && (
         <section className="py-14" data-testid="section-faq">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("intlNursing.country.faqTitle")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

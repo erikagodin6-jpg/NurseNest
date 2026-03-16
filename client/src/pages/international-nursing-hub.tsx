@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, Globe, GraduationCap, FileText, CheckCircle2,
   ChevronDown, MapPin, Stethoscope, Shield, BarChart3, Languages,
@@ -105,13 +106,14 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function InternationalNursingHub() {
+  const { t, language } = useI18n();
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA.map(f => ({ question: f.question, answer: f.answer })));
 
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "International Nursing: Complete Guide to Working Abroad as a Nurse",
-    "description": "Comprehensive guide for internationally educated nurses covering licensing, exams, credential evaluation, migration pathways, and job opportunities in Canada, USA, UK, Australia, and more.",
+    "headline": t("intlNursing.hub.title"),
+    "description": t("intlNursing.hub.metaDesc"),
     "author": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
     "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
     "mainEntityOfPage": "https://www.nursenest.ca/international-nurses",
@@ -121,22 +123,22 @@ export default function InternationalNursingHub() {
     <div data-testid="page-international-nursing-hub">
       <Navigation />
       <SEO
-        title="International Nursing: Licensing, Exams & Migration Guides | NurseNest"
-        description="Complete guide for internationally educated nurses. Compare licensing requirements, prepare for NCLEX/IELTS/OET, explore migration pathways, and find nursing jobs in Canada, USA, UK, Australia, and more."
+        title={`${t("intlNursing.hub.title")} | NurseNest`}
+        description={t("intlNursing.hub.metaDesc")}
         keywords="international nursing, internationally educated nurse, IEN, nursing license transfer, NCLEX international, nursing abroad, nurse migration, nursing credential evaluation, IELTS for nurses, OET for nurses"
         canonicalPath="/international-nurses"
         structuredData={articleStructuredData}
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
         ]}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BreadcrumbNav items={[
           { name: "Home", url: "https://www.nursenest.ca/" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
         ]} />
         <TranslationFallbackNotice />
       </div>
@@ -146,20 +148,20 @@ export default function InternationalNursingHub() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-700 mb-4" data-testid="badge-international">
-              <Globe className="w-4 h-4" /> International Nursing
+              <Globe className="w-4 h-4" /> {t("intlNursing.hub.badge")}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">
-              Your Complete Guide to Nursing Abroad
+              {t("intlNursing.hub.heading")}
             </h1>
             <p className="text-lg text-gray-600 mb-6" data-testid="text-subtitle">
-              Whether you're an internationally educated nurse seeking licensure in a new country or exploring where to practice abroad, we've got you covered — licensing guides, exam prep, migration pathways, and job support.
+              {t("intlNursing.hub.subtitle")}
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/international-nurses/canada" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-explore-countries">
-                Explore Licensing Guides <ArrowRight className="w-4 h-4" />
+                {t("intlNursing.hub.ctaExplore")} <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/nclex-for-international-nurses" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-start-prep">
-                Start Exam Prep
+                {t("intlNursing.hub.ctaPrepare")}
               </Link>
             </div>
           </div>
@@ -218,23 +220,27 @@ export default function InternationalNursingHub() {
       <section className="py-16 bg-gray-50" data-testid="section-countries">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-countries-h2">Destination Country Guides</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Explore licensing requirements, exams, credential evaluation, immigration pathways, salary expectations, and more for each country.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-countries-h2">{t("intlNursing.hub.sectionCountries")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("intlNursing.hub.sectionCountriesDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {COUNTRIES.map(c => (
-              <Link key={c.slug} href={`/international-nurses/${c.slug}`} className="group" data-testid={`card-country-${c.slug}`}>
-                <div className={`rounded-xl border p-5 hover:shadow-md transition-all h-full ${c.color}`}>
-                  <div className="text-3xl mb-3">{c.flag}</div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{c.name}</h3>
-                  <p className="text-sm text-gray-600 mb-1">Exam: {c.exam}</p>
-                  <p className="text-xs text-gray-500 mb-3">Regulatory: {c.regBody}</p>
-                  <span className="inline-flex items-center gap-1 text-sm text-teal-600 font-medium group-hover:gap-2 transition-all">
-                    View Guide <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+            {COUNTRIES.map(c => {
+              const countryKey = c.slug.replace(/-([a-z])/g, (_, l) => l.toUpperCase()) as string;
+              const countryName = t(`intlNursing.countries.${countryKey}`) !== `intlNursing.countries.${countryKey}` ? t(`intlNursing.countries.${countryKey}`) : c.name;
+              return (
+                <Link key={c.slug} href={`/international-nurses/${c.slug}`} className="group" data-testid={`card-country-${c.slug}`}>
+                  <div className={`rounded-xl border p-5 hover:shadow-md transition-all h-full ${c.color}`}>
+                    <div className="text-3xl mb-3">{c.flag}</div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{countryName}</h3>
+                    <p className="text-sm text-gray-600 mb-1">{t("intlNursing.hub.exam")}: {c.exam}</p>
+                    <p className="text-xs text-gray-500 mb-3">{t("intlNursing.hub.regBody")}: {c.regBody}</p>
+                    <span className="inline-flex items-center gap-1 text-sm text-teal-600 font-medium group-hover:gap-2 transition-all">
+                      {t("intlNursing.hub.viewGuide")} <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -242,8 +248,8 @@ export default function InternationalNursingHub() {
       <section className="py-16" data-testid="section-migration">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-migration-h2">Migration Pathway Guides</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Step-by-step guides for the most common nurse migration routes — from your home country to your destination.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-migration-h2">{t("intlNursing.hub.sectionMigration")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("intlNursing.hub.sectionMigrationDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {MIGRATION_PATHS.map(m => (
@@ -252,7 +258,7 @@ export default function InternationalNursingHub() {
                   <div className="text-lg mb-2">{m.flag}</div>
                   <h3 className="font-semibold text-gray-900 text-sm">{m.from} → {m.to}</h3>
                   <span className="inline-flex items-center gap-1 text-xs text-teal-600 font-medium mt-2">
-                    Read Guide <ArrowRight className="w-3 h-3" />
+                    {t("intlNursing.hub.viewGuide")} <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
               </Link>
@@ -264,8 +270,8 @@ export default function InternationalNursingHub() {
       <section className="py-16 bg-gray-50" data-testid="section-exams">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-exams-h2">Exam & Credential Guides</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Detailed guides for every exam and credential assessment international nurses need to complete.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-exams-h2">{t("intlNursing.hub.sectionExams")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("intlNursing.hub.sectionExamsDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {EXAM_PAGES.map(e => (
@@ -284,8 +290,8 @@ export default function InternationalNursingHub() {
       <section className="py-16" data-testid="section-comparisons">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-comparisons-h2">Compare Countries</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Not sure where to go? Compare licensing difficulty, salary, exams, and immigration pathways side by side.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-comparisons-h2">{t("intlNursing.hub.sectionComparisons")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("intlNursing.hub.sectionComparisonsDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {COMPARISON_PAGES.map(cp => (
@@ -379,17 +385,17 @@ export default function InternationalNursingHub() {
 
       <section className="py-16 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Your International Nursing Journey?</h2>
-          <p className="text-teal-100 mb-8 max-w-2xl mx-auto">Choose your destination country to see the complete licensing guide, or start preparing for your licensing exams with NurseNest.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("intlNursing.hub.whyNurseNest")}</h2>
+          <p className="text-teal-100 mb-8 max-w-2xl mx-auto">{t("intlNursing.hub.subtitle")}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/international-nurses/canada" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors" data-testid="button-cta-guides">
-              Explore Licensing Guides <ArrowRight className="w-4 h-4" />
+              {t("intlNursing.hub.ctaExplore")} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 transition-colors border border-teal-500" data-testid="button-cta-prep">
-              Start Exam Prep
+              {t("intlNursing.hub.ctaPrepare")}
             </Link>
             <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 transition-colors border border-teal-500" data-testid="button-cta-jobs">
-              Find Nursing Jobs
+              {t("intlNursing.hub.startFree")}
             </Link>
           </div>
         </div>
@@ -398,8 +404,8 @@ export default function InternationalNursingHub() {
       <section className="py-16" data-testid="section-faq">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-h2">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Common questions from internationally educated nurses</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-h2">{t("intlNursing.hub.faqTitle")}</h2>
+            <p className="text-gray-600">{t("intlNursing.hub.sectionResourcesDesc")}</p>
           </div>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (

@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Clock, FileText, Globe,
   GraduationCap, MapPin, AlertTriangle, DollarSign, Briefcase, Shield,
@@ -440,6 +441,7 @@ const DESTINATION_COUNTRY_SLUGS: Record<string, string> = {
 };
 
 export default function InternationalNursingMigrationPage() {
+  const { t } = useI18n();
   const rawPath = window.location.pathname.replace(/\/$/, '');
   const localeStripped = rawPath.replace(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/|$)/, '/');
   const pathSegments = localeStripped.replace(/^\//, '').split('/');
@@ -449,11 +451,12 @@ export default function InternationalNursingMigrationPage() {
   if (!config) return null;
 
   const faqStructuredData = buildFaqStructuredData(config.faqs.map(f => ({ question: f.question, answer: f.answer })));
+  const migrationTitle = t("intlNursing.migration.heading", { from: config.fromCountry, to: config.toCountry });
   const howToStructuredData = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": config.title,
-    "description": config.description,
+    "name": migrationTitle,
+    "description": t("intlNursing.migration.metaDesc", { from: config.fromCountry, to: config.toCountry }),
     "totalTime": `P${parseInt(config.estimatedTimeline)}M`,
     "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": config.estimatedCost },
     "step": config.steps.map((s, i) => ({ "@type": "HowToStep", "position": i + 1, "name": s.step, "text": s.detail })),
@@ -463,24 +466,24 @@ export default function InternationalNursingMigrationPage() {
     <div data-testid={`page-migration-${config.slug}`}>
       <Navigation />
       <SEO
-        title={`${config.title} | NurseNest`}
-        description={config.description}
+        title={`${migrationTitle} | NurseNest`}
+        description={t("intlNursing.migration.metaDesc", { from: config.fromCountry, to: config.toCountry })}
         keywords={config.seoKeywords}
         canonicalPath={`/international-nurses/${config.slug}`}
         structuredData={howToStructuredData}
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
-          { name: `${config.fromCountry} to ${config.toCountry}`, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
+          { name: `${config.fromCountry} → ${config.toCountry}`, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
         ]}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BreadcrumbNav items={[
           { name: "Home", url: "https://www.nursenest.ca/" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
-          { name: `${config.fromCountry} to ${config.toCountry}`, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
+          { name: `${config.fromCountry} → ${config.toCountry}`, url: `https://www.nursenest.ca/international-nurses/${config.slug}` },
         ]} />
       </div>
 
@@ -489,9 +492,9 @@ export default function InternationalNursingMigrationPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-700 mb-4">
-              {config.fromFlag} → {config.toFlag} Migration Guide
+              {config.fromFlag} → {config.toFlag} {t("intlNursing.hub.sectionMigration")}
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">{config.title}</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">{migrationTitle}</h1>
             <p className="text-lg text-gray-600 mb-4">{config.description}</p>
             <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-6">
               <span className="flex items-center gap-1"><Clock className="w-4 h-4 text-teal-500" /> {config.estimatedTimeline}</span>
@@ -499,7 +502,7 @@ export default function InternationalNursingMigrationPage() {
             </div>
             <div className="flex flex-wrap gap-4">
               <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-start-prep">
-                Start Exam Prep <ArrowRight className="w-4 h-4" />
+                {t("intlNursing.country.startPrep")} <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-find-jobs">
                 Find Jobs in {config.toCountry} <Briefcase className="w-4 h-4" />
@@ -511,7 +514,7 @@ export default function InternationalNursingMigrationPage() {
 
       <section className="py-14" data-testid="section-steps">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Step-by-Step Migration Pathway</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("intlNursing.migration.stepsTitle")}</h2>
           <div className="space-y-4">
             {config.steps.map((step, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 flex gap-4" data-testid={`step-${i}`}>
@@ -594,17 +597,17 @@ export default function InternationalNursingMigrationPage() {
 
       <section className="py-14 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Start Your {config.fromCountry} to {config.toCountry} Journey</h2>
-          <p className="text-teal-100 mb-8">Prepare for your licensing exams with NurseNest or find nursing jobs through ApplyNest.</p>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("intlNursing.migration.heading", { from: config.fromCountry, to: config.toCountry })}</h2>
+          <p className="text-teal-100 mb-8">{t("intlNursing.migration.metaDesc", { from: config.fromCountry, to: config.toCountry })}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-prep">
-              Start Exam Prep <ArrowRight className="w-4 h-4" />
+              {t("intlNursing.country.startPrep")} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-cta-jobs">
               Find Nursing Jobs <Briefcase className="w-4 h-4" />
             </Link>
             <Link href="/international-nurses" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-cta-hub">
-              Explore All Guides
+              {t("intlNursing.hub.exploreCountries")}
             </Link>
           </div>
         </div>
@@ -613,7 +616,7 @@ export default function InternationalNursingMigrationPage() {
       {config.faqs.length > 0 && (
         <section className="py-14" data-testid="section-faq">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("intlNursing.country.faqTitle")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

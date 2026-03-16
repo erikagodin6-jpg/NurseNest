@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Clock, BookOpen,
   GraduationCap, Target, AlertTriangle, FileText, Globe, Shield,
@@ -316,6 +317,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function InternationalNursingExamPage() {
+  const { t } = useI18n();
   const rawPath = window.location.pathname.replace(/\/$/, '');
   const localeStripped = rawPath.replace(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/|$)/, '/');
   const slug = localeStripped.replace(/^\//, '');
@@ -344,7 +346,7 @@ export default function InternationalNursingExamPage() {
         additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
           { name: config.title, url: `https://www.nursenest.ca/${config.slug}` },
         ]}
       />
@@ -352,7 +354,7 @@ export default function InternationalNursingExamPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BreadcrumbNav items={[
           { name: "Home", url: "https://www.nursenest.ca/" },
-          { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
+          { name: t("intlNursing.hub.badge"), url: "https://www.nursenest.ca/international-nurses" },
           { name: config.title, url: `https://www.nursenest.ca/${config.slug}` },
         ]} />
       </div>
@@ -445,13 +447,13 @@ export default function InternationalNursingExamPage() {
 
       <section className="py-14 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Ready to Get Started?</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("intlNursing.hub.whyNurseNest")}</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href={config.nursenestLink} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-bottom">
-              {config.nursenestCTA} <ArrowRight className="w-4 h-4" />
+              {t("intlNursing.country.startPrep")} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/international-nurses" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-hub">
-              Explore All Guides
+              {t("intlNursing.hub.exploreCountries")}
             </Link>
           </div>
         </div>
@@ -460,7 +462,7 @@ export default function InternationalNursingExamPage() {
       {config.faqs.length > 0 && (
         <section className="py-14" data-testid="section-faq">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("intlNursing.country.faqTitle")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

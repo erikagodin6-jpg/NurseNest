@@ -192,6 +192,11 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Comprenez les effets de l'hyperkaliémie sur le cœur : ondes T pointues, élargissement du QRS, risque d'arrêt cardiaque et interventions infirmières essentielles. Guide clinique pour la préparation aux examens infirmiers.",
     keywords: "hyperkaliémie effets cœur, hyperkaliémie ECG, ondes T pointues, potassium élevé cœur, hyperkaliémie soins infirmiers, changements ECG hyperkaliémie",
   },
+  "/international-nurses": {
+      title: "Infirmières internationales – Guide de la pratique infirmière à l'étranger | NurseNest",
+      description: "Guide complet pour les infirmières formées à l'international : permis d'exercice, examens, évaluation des diplômes, parcours migratoire et offres d'emploi à travers le monde.",
+      keywords: "infirmières internationales, permis infirmier étranger, migration infirmière, NCLEX international, examen infirmier Canada",
+    },
 };
 
 const spanishMetadata: Record<string, LocalizedSEOEntry> = {
@@ -365,6 +370,11 @@ const spanishMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Descubre nuestros packs de examen imprimibles, guías de estudio y recursos de repaso para la preparación de exámenes de enfermería.",
     keywords: "tienda NurseNest, packs examen enfermería, recursos estudio, guías repaso NCLEX",
   },
+  "/international-nurses": {
+      title: "Enfermeras Internacionales – Guía de Enfermería Global | NurseNest",
+      description: "Guía completa para enfermeras educadas internacionalmente: licencias, exámenes, evaluación de credenciales, rutas migratorias y oportunidades de empleo en todo el mundo.",
+      keywords: "enfermeras internacionales, licencia enfermería extranjera, migración enfermería, NCLEX internacional, examen enfermería Canadá",
+    },
 };
 
 const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
@@ -538,6 +548,11 @@ const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Descubra nossos pacotes de exame imprimíveis, guias de estudo e recursos de revisão para preparação de exames de enfermagem.",
     keywords: "loja NurseNest, pacotes exame enfermagem, recursos estudo, guias revisão NCLEX",
   },
+  "/international-nurses": {
+      title: "Enfermeiros Internacionais – Guia de Enfermagem Global | NurseNest",
+      description: "Guia completo para enfermeiros formados internacionalmente: licenciamento, exames, avaliação de credenciais, rotas migratórias e oportunidades de emprego no mundo.",
+      keywords: "enfermeiros internacionais, licença enfermagem estrangeira, migração enfermagem, NCLEX internacional, exame enfermagem Canadá",
+    },
 };
 
 const vietnameseMetadata: Record<string, LocalizedSEOEntry> = {
@@ -711,6 +726,11 @@ const vietnameseMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Khám phá bộ đề thi in được, hướng dẫn học tập và tài liệu ôn tập cho ôn thi điều dưỡng.",
     keywords: "cửa hàng NurseNest, bộ đề thi điều dưỡng, tài liệu học tập, hướng dẫn ôn tập NCLEX",
   },
+  "/international-nurses": {
+      title: "Điều dưỡng Quốc tế – Hướng dẫn Hành nghề Điều dưỡng Toàn cầu | NurseNest",
+      description: "Hướng dẫn toàn diện cho điều dưỡng viên quốc tế: cấp phép, thi cử, đánh giá bằng cấp, lộ trình di cư và cơ hội việc làm trên toàn thế giới.",
+      keywords: "điều dưỡng quốc tế, giấy phép điều dưỡng nước ngoài, di cư điều dưỡng, NCLEX quốc tế",
+    },
 };
 
 const filipinoMetadata: Record<string, LocalizedSEOEntry> = {
@@ -744,6 +764,11 @@ const filipinoMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Simulan ang iyong NCLEX prep gamit ang libreng practice questions. Detalyadong rationales, clinical reasoning at exam-aligned content. Walang credit card needed.",
     keywords: "libreng NCLEX practice questions, free NCLEX review, free nursing questions",
   },
+  "/international-nurses": {
+      title: "International Nurses – Global Nursing Practice Guide | NurseNest",
+      description: "Komprehensibong gabay para sa mga nurse na may international na edukasyon: licensure, exams, credential evaluation, migration pathways, at job opportunities sa buong mundo.",
+      keywords: "international nurses, foreign nursing license, nursing migration, NCLEX international, nursing exam Canada",
+    },
 };
 
 const traditionalChineseMetadata: Record<string, LocalizedSEOEntry> = {
@@ -777,6 +802,11 @@ const traditionalChineseMetadata: Record<string, LocalizedSEOEntry> = {
     description: "使用免費練習題開始NCLEX準備。詳細解析、臨床推理和考試對齊內容。無需信用卡。",
     keywords: "免費NCLEX練習題, 免費NCLEX複習, 免費護理題目",
   },
+  "/international-nurses": {
+      title: "國際護理師 – 全球護理執業指南 | NurseNest",
+      description: "為國際護理師提供的完整指南：執照、考試、學歷認證、移民途徑和全球就業機會。",
+      keywords: "國際護理師, 海外護理執照, 護理移民, NCLEX國際, 護理考試加拿大",
+    },
 };
 
 const germanMetadata: Record<string, LocalizedSEOEntry> = {
@@ -810,6 +840,11 @@ const germanMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Starten Sie Ihre NCLEX-Vorbereitung mit kostenlosen Übungsfragen. Detaillierte Erklärungen, klinisches Denken und prüfungsrelevante Inhalte. Keine Kreditkarte erforderlich.",
     keywords: "kostenlose NCLEX-Übungsfragen, kostenlose NCLEX-Wiederholung, kostenlose Pflegefragen",
   },
+  "/international-nurses": {
+      title: "Internationale Pflegekräfte – Globaler Pflege-Leitfaden | NurseNest",
+      description: "Umfassender Leitfaden für international ausgebildete Pflegekräfte: Lizenzierung, Prüfungen, Qualifikationsbewertung, Migrationswege und Beschäftigungsmöglichkeiten weltweit.",
+      keywords: "internationale Pflegekräfte, ausländische Pflegelizenz, Pflegemigration, NCLEX international, Pflegeprüfung Kanada",
+    },
 };
 
 const thaiMetadata: Record<string, LocalizedSEOEntry> = {
@@ -843,6 +878,11 @@ const thaiMetadata: Record<string, LocalizedSEOEntry> = {
     description: "เริ่มเตรียมสอบ NCLEX ด้วยคำถามฝึกหัดฟรี คำอธิบายโดยละเอียด การให้เหตุผลทางคลินิก และเนื้อหาตรงตามข้อสอบ ไม่ต้องใช้บัตรเครดิต",
     keywords: "คำถามฝึกหัด NCLEX ฟรี, ทบทวน NCLEX ฟรี, คำถามพยาบาลฟรี",
   },
+  "/international-nurses": {
+      title: "พยาบาลนานาชาติ – คู่มือการพยาบาลระดับโลก | NurseNest",
+      description: "คู่มือฉบับสมบูรณ์สำหรับพยาบาลที่ศึกษาในต่างประเทศ: ใบอนุญาต, การสอบ, การประเมินคุณวุฒิ, เส้นทางการย้ายถิ่นฐาน และโอกาสการจ้างงานทั่วโลก",
+      keywords: "พยาบาลนานาชาติ, ใบอนุญาตพยาบาลต่างประเทศ, การอพยพพยาบาล, NCLEX นานาชาติ",
+    },
 };
 
 const turkishMetadata: Record<string, LocalizedSEOEntry> = {
@@ -876,6 +916,11 @@ const turkishMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Ücretsiz pratik sorular ile NCLEX hazırlığınıza başlayın. Ayrıntılı açıklamalar, klinik muhakeme ve sınava uygun içerik. Kredi kartı gerekmez.",
     keywords: "ücretsiz NCLEX pratik soruları, ücretsiz NCLEX tekrar, ücretsiz hemşirelik soruları",
   },
+  "/international-nurses": {
+      title: "Uluslararası Hemşireler – Küresel Hemşirelik Kılavuzu | NurseNest",
+      description: "Uluslararası eğitimli hemşireler için kapsamlı kılavuz: lisanslama, sınavlar, yeterlilik değerlendirmesi, göç yolları ve dünya genelinde istihdam fırsatları.",
+      keywords: "uluslararası hemşireler, yabancı hemşirelik lisansı, hemşirelik göçü, NCLEX uluslararası, hemşirelik sınavı Kanada",
+    },
 };
 
 const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
@@ -909,6 +954,11 @@ const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Mulai persiapan NCLEX Anda dengan soal latihan gratis. Penjelasan terperinci, penalaran klinis, dan konten sesuai ujian. Tidak perlu kartu kredit.",
     keywords: "soal latihan NCLEX gratis, ulasan NCLEX gratis, soal keperawatan gratis",
   },
+  "/international-nurses": {
+      title: "Perawat Internasional – Panduan Keperawatan Global | NurseNest",
+      description: "Panduan lengkap untuk perawat berpendidikan internasional: lisensi, ujian, evaluasi kredensial, jalur migrasi, dan peluang kerja di seluruh dunia.",
+      keywords: "perawat internasional, lisensi keperawatan asing, migrasi keperawatan, NCLEX internasional, ujian keperawatan Kanada",
+    },
 };
 
 export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {
