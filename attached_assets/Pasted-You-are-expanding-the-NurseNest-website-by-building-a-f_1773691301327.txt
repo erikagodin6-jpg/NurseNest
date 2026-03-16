@@ -1,0 +1,454 @@
+You are expanding the NurseNest website by building a **full International Nursing hub** that supports **multiple languages**, attracts global search traffic, and funnels users into **NurseNest exam prep** and **ApplyNest job opportunities**.
+
+This must be treated as a major multilingual SEO and conversion system, not a small content section.
+
+The goal is to help internationally educated nurses understand how to become licensed, prepare for required exams, compare countries, and eventually find jobs.
+
+Do NOT break the existing site structure.
+
+CRITICAL RULES
+
+Do NOT modify the current navigation structure.
+Do NOT rename the existing exam tier structure (RPN, RN, NP).
+Do NOT remove current lessons or pages.
+Do NOT break multilingual routing.
+Do NOT create duplicate URL structures.
+Do NOT hardcode only one language list.
+Automatically detect and support all site languages, with implementation priority starting with:
+French (fr)
+Spanish (es)
+then Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+then other supported NurseNest languages.
+
+All international nursing pages must support multilingual SEO, translated metadata, hreflang tags, and language switching.
+
+All improvements must be scalable for future countries and future languages.
+
+----------------------------------------------------------------
+
+PRIMARY OBJECTIVE
+
+Build a multilingual International Nursing section that:
+
+1. Attracts international nurses through SEO
+2. Explains licensing and migration pathways clearly
+3. Connects users to NurseNest exam prep
+4. Connects users to ApplyNest job pathways
+5. Supports multiple languages just like the main NurseNest site
+6. Builds long-term passive search traffic and conversions
+
+----------------------------------------------------------------
+
+STEP 1 — CREATE A MAIN INTERNATIONAL NURSING HUB
+
+Create a major hub page:
+
+/international-nurses
+
+This page must include:
+
+Overview of working as a nurse internationally
+Explanation of licensing differences by country
+Exam requirements by destination
+Language testing requirements
+Credential evaluation overview
+Registration and immigration overview
+Links to major destination country pages
+Links to source-country migration pages
+Links to NurseNest exam prep
+Links to ApplyNest jobs
+
+This page must feel like a true pillar page and should be long-form, SEO optimized, and internally linked.
+
+----------------------------------------------------------------
+
+STEP 2 — CREATE DESTINATION COUNTRY PAGES
+
+Create destination pages for the highest-priority countries:
+
+/international-nurses/canada
+/international-nurses/united-states
+/international-nurses/united-kingdom
+/international-nurses/australia
+/international-nurses/new-zealand
+/international-nurses/ireland
+/international-nurses/united-arab-emirates
+/international-nurses/saudi-arabia
+
+Each destination country page must include:
+
+How nursing licensure works in that country
+Regulatory body information
+Credential evaluation requirements
+Required nursing exams
+Language test requirements
+Registration process
+Bridging program overview if relevant
+Visa or immigration overview
+Common timelines
+Salary expectations
+Typical work settings
+Common barriers for international nurses
+Links to related NurseNest exam prep resources
+Links to ApplyNest jobs where relevant
+
+----------------------------------------------------------------
+
+STEP 3 — CREATE SOURCE-COUNTRY MIGRATION GUIDES
+
+Create specific migration pathway pages for high-demand source countries.
+
+Priority pages:
+
+/international-nurses/philippines-to-canada
+/international-nurses/india-to-canada
+/international-nurses/nigeria-to-canada
+/international-nurses/philippines-to-united-states
+/international-nurses/india-to-united-states
+/international-nurses/nigeria-to-united-kingdom
+/international-nurses/india-to-australia
+/international-nurses/philippines-to-new-zealand
+
+Each page must explain:
+
+Step-by-step migration pathway
+Credential evaluation requirements
+Exam requirements
+English or language testing requirements
+Registration steps
+Documentation required
+Common mistakes applicants make
+Estimated time and process flow
+Links to relevant NurseNest prep pages
+Links to ApplyNest jobs or career resources
+
+----------------------------------------------------------------
+
+STEP 4 — CREATE EXAM PAGES FOR INTERNATIONAL NURSES
+
+Create pages specifically designed for internationally educated nurses who need licensing exams.
+
+Examples:
+
+/nclex-for-international-nurses
+/rex-pn-for-international-nurses
+/ielts-for-nurses
+/oet-for-nurses
+/nursing-credential-assessment-explained
+/how-to-transfer-nursing-license
+
+These pages must include:
+
+Who the exam is for
+Why it is required
+How international nurses should prepare
+Common mistakes
+Suggested study plans
+Links to NurseNest question banks, lessons, and study tools
+
+----------------------------------------------------------------
+
+STEP 5 — CREATE COUNTRY COMPARISON PAGES
+
+Create comparison pages such as:
+
+/international-nurses/compare-canada-vs-united-states
+/international-nurses/compare-canada-vs-united-kingdom
+/international-nurses/compare-australia-vs-new-zealand
+
+Each comparison page must compare:
+
+Licensing difficulty
+Exam requirements
+Language requirements
+Salary expectations
+Immigration practicality
+Time to registration
+Job opportunities
+Best fit by user goals
+
+These pages should be strong SEO assets and encourage long session duration.
+
+----------------------------------------------------------------
+
+STEP 6 — CREATE SUPPORTING CONTENT CLUSTERS
+
+Build related supporting pages such as:
+
+/international-nurses/nursing-english-requirements
+/international-nurses/ielts-vs-oet-for-nurses
+/international-nurses/nursing-bridging-programs
+/international-nurses/credential-evaluation-for-nurses
+/international-nurses/required-documents-for-international-nurses
+/international-nurses/common-reasons-nursing-applications-are-delayed
+/international-nurses/how-long-nursing-registration-takes-by-country
+/international-nurses/best-countries-for-international-nurses
+/international-nurses/highest-paying-countries-for-nurses
+/international-nurses/nursing-jobs-with-visa-sponsorship
+
+Each page must connect back into the main international nursing hub.
+
+----------------------------------------------------------------
+
+STEP 7 — MULTILANGUAGE SUPPORT
+
+Implement multilingual support for the entire International Nursing section using the same multilingual infrastructure as the main NurseNest site.
+
+Do NOT rely on a hardcoded language list.
+
+Automatically detect all supported languages from:
+i18n configuration
+locale files
+language folders
+translation JSON files
+routing definitions
+
+Language implementation priority:
+
+Priority 1:
+French (fr)
+Spanish (es)
+
+Priority 2:
+Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+
+Priority 3:
+Any remaining supported NurseNest languages
+
+Every international nursing page must exist in all supported languages where content is available.
+
+Example structure:
+
+/en/international-nurses/canada
+/fr/international-nurses/canada
+/es/international-nurses/canada
+/pt/international-nurses/canada
+/zh/international-nurses/canada
+
+If a translation is not ready yet, use a controlled fallback strategy without breaking the route.
+
+----------------------------------------------------------------
+
+STEP 8 — TRANSLATE ALL CONTENT AND METADATA
+
+Translate all of the following for each supported language:
+
+Page titles
+Meta descriptions
+OpenGraph titles
+OpenGraph descriptions
+Headings
+Body content
+Buttons
+CTAs
+Tables
+Comparison labels
+FAQ sections
+Country names where appropriate in UI
+Hero messaging
+Language-specific notices
+
+Do NOT leave English metadata or English UI fragments on translated pages.
+
+Translations must preserve nursing and licensing terminology accuracy.
+
+----------------------------------------------------------------
+
+STEP 9 — IMPLEMENT HREFLANG TAGS
+
+Add hreflang tags to every international nursing page.
+
+Every page must declare:
+all available language versions
+self-referencing language version
+x-default version
+
+This must be generated dynamically for all current and future languages.
+
+----------------------------------------------------------------
+
+STEP 10 — ENSURE LANGUAGE SWITCHING WORKS
+
+When a user changes language, keep them on the equivalent international nursing page.
+
+Example:
+
+/en/international-nurses/canada
+switch to French
+/fr/international-nurses/canada
+
+If the translation is not ready:
+fallback gracefully to the English page with a clear translated notice
+Do NOT send users to an unrelated page
+Do NOT break the route
+
+----------------------------------------------------------------
+
+STEP 11 — ADD HERO AND CONVERSION ELEMENTS
+
+The International Nursing hub and key country pages must clearly advertise major value points.
+
+Add visible feature/value blocks such as:
+
+International Nursing Pathways Explained
+NCLEX, REx-PN, IELTS, and OET Preparation
+Step-by-Step Licensing Guides
+Country Comparison Tools
+Credential Assessment Guidance
+Job and Career Pathway Support
+Multilingual Learning Support
+
+Add strong CTAs such as:
+
+Start Exam Prep
+Explore Licensing Guides
+Compare Countries
+Find Nursing Jobs
+Study in Your Language
+
+----------------------------------------------------------------
+
+STEP 12 — CONNECT TO NURSENEST AND APPLYNEST
+
+Every international nursing page must internally link to:
+
+Relevant NurseNest lessons
+Relevant NurseNest question banks
+Relevant NurseNest study plans
+Relevant ApplyNest nursing job pages
+Relevant ApplyNest career resources
+
+Examples:
+
+NCLEX content -> NurseNest NCLEX prep
+REx-PN content -> NurseNest REx-PN prep
+Canada job pathway -> ApplyNest Canada nursing jobs
+Resume/job readiness content -> ApplyNest resume/interview tools
+
+This section must act as a top-of-funnel acquisition engine for both platforms.
+
+----------------------------------------------------------------
+
+STEP 13 — ADD STRUCTURED DATA
+
+Add schema where appropriate:
+
+Article schema
+FAQ schema
+Breadcrumb schema
+HowTo schema where useful
+
+Important pages should include FAQ blocks such as:
+
+Can international nurses write the NCLEX?
+How do I become a nurse in Canada from the Philippines?
+What English test do nurses need?
+Which country is easiest for international nurses?
+
+----------------------------------------------------------------
+
+STEP 14 — CREATE SEO-SAFE URL AND CONTENT RULES
+
+Ensure all URLs are clean and consistent.
+
+Do NOT generate timestamp-based slugs.
+Do NOT create duplicate pages.
+Do NOT create thin placeholder pages.
+Do NOT allow incomplete translations to be indexed as full pages.
+
+Only index pages that:
+return HTTP 200
+contain substantial content
+have translated metadata where applicable
+are intended for ranking
+
+----------------------------------------------------------------
+
+STEP 15 — ADD SITEMAP SUPPORT
+
+Update the sitemap logic so that all valid international nursing pages and their language versions are included.
+
+Include only indexable pages.
+Exclude placeholder pages.
+Exclude duplicate pages.
+Ensure all language versions are eligible for discovery.
+
+----------------------------------------------------------------
+
+STEP 16 — BUILD INTERNAL TOPIC CLUSTERS
+
+Create strong topic clusters around:
+
+Nursing licensing
+International exam prep
+English testing for nurses
+Migration pathways
+Country comparison
+Nursing jobs abroad
+
+The main hub page must link to all major pages.
+Country pages must link to exam pages and migration pages.
+Migration pages must link back to country pages and prep resources.
+Comparison pages must link to both country pages.
+
+----------------------------------------------------------------
+
+STEP 17 — ADD FAQ AND TRUST CONTENT
+
+To improve conversions and authority, add trust-building content blocks such as:
+
+Who this section is for
+How NurseNest helps international nurses
+Why multilingual support matters
+Common mistakes international nurses make
+What to do first if you want to work abroad
+
+This content should feel supportive, practical, and conversion-oriented.
+
+----------------------------------------------------------------
+
+STEP 18 — OPTIONAL TOOLS IF FEASIBLE
+
+If feasible within current architecture, add lightweight tools such as:
+
+Country requirement comparison table
+Licensing step checklist
+International nurse readiness checklist
+Exam requirement lookup by destination country
+Language requirement comparison table
+
+These tools should be indexable where appropriate and internally linked.
+
+----------------------------------------------------------------
+
+STEP 19 — FINAL QUALITY REQUIREMENTS
+
+After implementation verify that:
+
+All pages load correctly
+Navigation remains unchanged
+Multilingual routing works
+Language switching works
+Metadata is translated
+Hreflang tags are present
+Sitemaps include the correct pages
+Internal links are working
+Pages connect properly to NurseNest and ApplyNest
+No mixed-language fragments remain on translated pages
+
+----------------------------------------------------------------
+
+FINAL RESULT
+
+The International Nursing section must become a fully multilingual, SEO-optimized, evergreen global resource that:
+
+Attracts internationally educated nurses from search
+Explains nursing pathways clearly
+Supports multiple languages
+Funnels users into NurseNest exam prep
+Funnels users into ApplyNest job opportunities
+Builds long-term passive traffic and revenue for the NurseNest ecosystem
