@@ -1,0 +1,50 @@
+Urgent production fix: NurseNest loads as a blank white page on both desktop and mobile.
+
+Do a production-focused audit and fix only the root cause(s) of the white screen. Do not redesign anything. Do not touch the tiered menus unless they are directly causing the crash.
+
+What this means:
+- The domain resolves, but the frontend is failing to render.
+- Because it happens on desktop and mobile, assume a production app boot/runtime issue rather than device-specific cache.
+- Treat this as a fatal client render problem until proven otherwise.
+
+Required investigation:
+1. Check the live production browser console for fatal runtime errors.
+2. Check the network tab for failed JS, CSS, JSON, locale, font, or API bootstrap requests.
+3. Inspect the main app entry, React root mount, router, locale redirect logic, auth/session bootstrap, theme provider, analytics scripts, and any recent homepage/hero/navigation changes.
+4. Look for:
+   - undefined/null access on initial render
+   - bad imports
+   - lazy-loaded route failures
+   - missing translation files
+   - redirect loops between / and /en
+   - window/document/localStorage usage before safe mount
+   - environment variables missing in production
+   - API bootstrap code that blocks initial render
+   - Suspense fallback never resolving
+5. Confirm whether a single widget/component is crashing the whole app shell.
+
+Required fixes:
+1. Fix the exact root cause with the smallest safe patch.
+2. Add an ErrorBoundary around the main app shell so the site never shows a pure white screen again.
+3. Add fallback UI so if one section fails, the homepage shell still renders.
+4. Add guards for missing data, missing translations, missing env vars, and failed async bootstraps.
+5. Ensure / and /en both load correctly in production.
+6. Ensure mobile and desktop both render the homepage.
+7. Keep all current navigation architecture unless a broken route is the direct cause.
+
+Validation checklist:
+- Homepage loads at /
+- Homepage loads at /en
+- No white screen on desktop
+- No white screen on mobile
+- No fatal console errors
+- No redirect loop
+- No broken root mount
+- Main shell renders even if one child component fails
+
+Output format:
+1. Exact root cause found
+2. Exact files changed
+3. Exact minimal patch applied
+4. Why it failed in production
+5. How the fix was validated
