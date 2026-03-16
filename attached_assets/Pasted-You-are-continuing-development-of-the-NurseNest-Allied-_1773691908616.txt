@@ -1,0 +1,328 @@
+You are continuing development of the NurseNest / Allied Health / New Grad ecosystem.
+
+Major platform milestones already completed:
+
+• Social Worker expansion  
+• OTA/PTA expansion  
+• Allied health tier expansions  
+• Pre-Nursing expansion  
+• New Grad career readiness expansion  
+• Certification exam hub expansion  
+• AI Adaptive Testing Engine  
+
+You must now implement the NEXT highest-impact platform capability.
+
+Do NOT explain reasoning.
+Do NOT give multiple options.
+Automatically select the next priority and implement it.
+
+────────────────────────
+
+CURRENT PLATFORM STATE
+
+NURSING
+RN ~8,350  
+RPN/PN/LVN ~6,300  
+NP ~4,150  
+
+Pre-Nursing expanded  
+
+ALLIED HEALTH
+RRT ~4,070  
+Surgical Technologist ~3,000  
+MLT ~2,000  
+OTA expanded  
+PTA expanded  
+Pharmacy Technician ~1,710  
+Paramedic ~1,500  
+Imaging / Radiology ~2,560  
+Addictions Counsellor ~1,000  
+Psychotherapist ~1,000  
+
+Certification hubs expanded  
+
+NEW GRAD expanded  
+
+Adaptive testing engine deployed  
+
+DATABASE
+AI question generator ~28,436 questions
+
+────────────────────────
+
+NEXT PRIORITY TARGET
+
+The next major capability is a **FULL QUESTION EXPLANATION ENGINE**.
+
+High-quality explanations dramatically improve learning outcomes and increase perceived product value.
+
+Store priority in configuration:
+
+ACTIVE_BUILD_PRIORITY = "QUESTION_EXPLANATION_ENGINE"
+
+Expose this constant in the admin dashboard.
+
+────────────────────────
+
+PART 1 — EXPLANATION SYSTEM
+
+Every question across the platform must support a structured explanation.
+
+Explanation fields:
+
+correct_answer_explanation  
+incorrect_answer_rationale  
+clinical_reasoning  
+key_takeaway  
+
+Optional fields:
+
+mnemonic  
+clinical_pearl  
+reference_source  
+
+────────────────────────
+
+PART 2 — EXPLANATION GENERATION
+
+Build an explanation generator pipeline.
+
+Sources:
+
+existing explanations  
+AI-generated explanations  
+manual expert explanations  
+
+Process:
+
+1. Detect questions missing explanations  
+2. Generate structured explanations  
+3. Store them in the question record  
+4. Flag explanations needing review  
+
+────────────────────────
+
+PART 3 — STRUCTURED EXPLANATION FORMAT
+
+Standardize explanation layout:
+
+Correct Answer Explanation  
+Why the Other Options Are Wrong  
+Clinical Context  
+Key Takeaway  
+
+For scenario questions add:
+
+Step-by-step reasoning  
+Priority framework  
+Clinical decision logic
+
+────────────────────────
+
+PART 4 — EXPLANATION DISPLAY
+
+Upgrade the question UI.
+
+When a user answers a question:
+
+Display:
+
+correct answer explanation  
+option rationales  
+key takeaway  
+
+Optional expandable sections:
+
+clinical pearls  
+related concepts  
+additional reading
+
+────────────────────────
+
+PART 5 — LEARNING MODE
+
+Add a new practice mode:
+
+Learning Mode
+
+Features:
+
+immediate explanations  
+highlighted reasoning  
+step-by-step breakdowns  
+
+Users can toggle:
+
+Exam Mode  
+Learning Mode
+
+────────────────────────
+
+PART 6 — EXPLANATION QUALITY SCORING
+
+Create an internal scoring system.
+
+Metrics:
+
+clarity  
+clinical accuracy  
+depth  
+student usefulness  
+
+Low-scoring explanations are flagged for improvement.
+
+────────────────────────
+
+PART 7 — ADMIN REVIEW SYSTEM
+
+Add admin tools for explanation management.
+
+Admin panel must show:
+
+questions missing explanations  
+low-quality explanations  
+recently generated explanations  
+review queue  
+
+Admins can:
+
+approve  
+edit  
+replace explanations  
+
+────────────────────────
+
+PART 8 — EXPLANATION ANALYTICS
+
+Track explanation engagement.
+
+Metrics:
+
+explanation views  
+time spent reading  
+user feedback rating  
+
+Use this data to improve explanations.
+
+────────────────────────
+
+PART 9 — RELATED CONTENT ENGINE
+
+Each explanation should link to:
+
+related questions  
+study guides  
+flashcards  
+topic pages  
+
+This creates internal knowledge pathways.
+
+────────────────────────
+
+PART 10 — EXPLANATION SEARCH
+
+Create a searchable explanation index.
+
+Users can search concepts like:
+
+“ACE inhibitors”  
+“shock types”  
+“neonatal resuscitation steps”
+
+Search results should surface explanations tied to questions.
+
+────────────────────────
+
+PART 11 — MULTI-LANGUAGE SUPPORT
+
+Explanations must support:
+
+English  
+French  
+Spanish  
+
+Translations should maintain clinical accuracy.
+
+────────────────────────
+
+PART 12 — PAYWALL STRUCTURE
+
+Explanation access tiers:
+
+Free users
+
+limited explanations  
+
+Premium users
+
+full explanations  
+deep reasoning  
+clinical pearls  
+
+────────────────────────
+
+PART 13 — INTERNAL PROMOTION
+
+Promote explanations across the platform.
+
+Add messaging such as:
+
+“Detailed explanations for every question”
+
+Include CTAs on:
+
+RN hero page  
+RPN hero page  
+NP hero page  
+Certification hub  
+
+────────────────────────
+
+PART 14 — ROADMAP GENERATION
+
+After explanation engine deployment, generate the next development roadmap.
+
+Rank opportunities by:
+
+learning impact  
+conversion potential  
+SEO value  
+
+Likely next priorities:
+
+AI Study Guide Generator  
+Smart Flashcard Engine  
+Exam Readiness Predictor  
+Performance Benchmarking  
+
+Store roadmap in admin as:
+
+CONTENT_EXPANSION_ROADMAP
+
+────────────────────────
+
+PART 15 — OUTPUT
+
+Return build summary including:
+
+selected priority  
+explanation modules built  
+questions updated  
+files modified  
+next recommended expansion
+
+────────────────────────
+
+QUALITY RULES
+
+Do not break existing question structures  
+Do not create duplicate explanation fields  
+Do not degrade site performance  
+
+Explanation delivery must be **clear, educational, and clinically accurate**.
+
+────────────────────────
+
+FINAL EXECUTION
+
+Identify the next priority and implement the complete Question Explanation Engine across the platform with structured reasoning, learning mode integration, and admin oversight.

@@ -1,0 +1,280 @@
+You are expanding the NurseNest ecosystem (NurseNest + ApplyNest) to add several high-value passive-traffic and passive-income sections that strengthen the platform’s role as a **complete healthcare education and career ecosystem**.
+
+The goal is to increase organic traffic, improve authority in healthcare education, and create evergreen content sections that naturally funnel users into:
+
+• NurseNest exam preparation
+• NurseNest lessons and question banks
+• ApplyNest job listings
+• ApplyNest career tools
+
+Do NOT break the current site architecture.
+
+CRITICAL RULES
+
+Do NOT modify the existing navigation hierarchy.
+Do NOT rename exam tiers (RPN, RN, NP).
+Do NOT remove existing lessons or content.
+Do NOT create duplicate routes that conflict with current pages.
+All new sections must integrate naturally with the current structure and internal linking system.
+All pages must support multilingual routing using the same translation system already implemented on NurseNest.
+
+Language priority for new content:
+
+French (fr)
+Spanish (es)
+Portuguese (pt)
+Chinese Simplified (zh)
+Arabic (ar)
+Then automatically support all other existing NurseNest languages.
+
+All pages must include translated metadata, hreflang tags, and proper sitemap inclusion.
+
+---
+
+STEP 1 — CREATE A NURSING SCHOOLS DIRECTORY
+
+Create a new section:
+
+/nursing-schools
+
+This section must act as a global directory of nursing education programs.
+
+Create country pages such as:
+
+/nursing-schools/canada
+/nursing-schools/united-states
+/nursing-schools/united-kingdom
+/nursing-schools/australia
+/nursing-schools/philippines
+/nursing-schools/india
+
+Each school listing must include:
+
+school name
+program type (RN, PN, NP, allied health)
+location
+tuition range
+admission requirements
+licensing outcomes
+program duration
+application links
+
+Each page must link to:
+
+NurseNest exam preparation pages
+ApplyNest job pathways
+International nursing licensing guides
+
+---
+
+STEP 2 — CREATE A NURSE RESIDENCY / NEW GRAD PROGRAM DIRECTORY
+
+Create:
+
+/nurse-residency-programs
+
+Subpages:
+
+/nurse-residency-programs/canada
+/nurse-residency-programs/united-states
+/nurse-residency-programs/united-kingdom
+
+Each program listing must include:
+
+hospital or health system
+program length
+specialty focus
+application timeline
+requirements
+location
+
+Each listing must link to ApplyNest job pages and new-grad career resources.
+
+---
+
+STEP 3 — CREATE A GLOBAL NURSING LICENSING EXAM DATABASE
+
+Create a new hub:
+
+/nursing-licensing-exams
+
+Create detailed pages for major exams including:
+
+NCLEX
+REx-PN
+NMC CBT (UK)
+AHPRA nursing exam (Australia)
+Prometric nursing exams (Middle East)
+IELTS for nurses
+OET for nurses
+
+Each page must include:
+
+who the exam is for
+which countries require it
+exam format
+preparation strategies
+links to NurseNest exam prep content and question banks
+
+---
+
+STEP 4 — CREATE A NURSING REGULATORY BODY DIRECTORY
+
+Create:
+
+/nursing-regulatory-bodies
+
+Add pages describing major regulatory organizations:
+
+College of Nurses of Ontario
+US State Boards of Nursing
+NMC United Kingdom
+AHPRA Australia
+Nursing Council New Zealand
+
+Each page must explain:
+
+licensing authority
+registration requirements
+credential recognition
+exam requirements
+links to related NurseNest exam resources
+
+---
+
+STEP 5 — CREATE A GLOBAL NURSE SALARY AND CAREER INFORMATION HUB
+
+Create:
+
+/nurse-salary-guide
+
+Include pages such as:
+
+/nurse-salary-canada
+/nurse-salary-united-states
+/nurse-salary-united-kingdom
+/nurse-salary-australia
+
+Each page must include:
+
+average salaries
+salary by specialty
+salary by experience
+workplace settings
+career outlook
+
+Include comparison tables where appropriate.
+
+---
+
+STEP 6 — CREATE A MEDICAL ABBREVIATIONS AND CLINICAL TERMINOLOGY HUB
+
+Create:
+
+/medical-abbreviations-for-nurses
+
+Add alphabetical index pages covering:
+
+SBAR
+ADPIE
+PRN
+BID
+TID
+STAT
+common charting abbreviations
+
+Each page must include definitions, examples, and clinical usage.
+
+---
+
+STEP 7 — CREATE A CLINICAL SKILLS CHECKLIST LIBRARY
+
+Create:
+
+/nursing-skill-checklists
+
+Add pages such as:
+
+IV insertion checklist
+central line care checklist
+wound dressing checklist
+oxygen therapy setup
+blood transfusion procedure checklist
+
+Each page must include:
+
+step-by-step procedure
+nursing rationale
+safety alerts
+exam preparation notes
+
+---
+
+STEP 8 — ENSURE MULTILANGUAGE SUPPORT
+
+All new pages must automatically support the multilingual infrastructure already used on NurseNest.
+
+Use dynamic language detection from:
+
+i18n configuration
+translation JSON files
+language folders
+routing definitions
+
+Every page must support translated versions with language switching.
+
+Example structure:
+
+/en/nursing-schools/canada
+/fr/nursing-schools/canada
+/es/nursing-schools/canada
+/pt/nursing-schools/canada
+
+Do not leave untranslated metadata or UI fragments.
+
+---
+
+STEP 9 — ADD SEO AND STRUCTURED DATA
+
+All new pages must include:
+
+optimized title tags
+meta descriptions
+structured heading hierarchy
+internal links to NurseNest and ApplyNest pages
+FAQ sections for high-traffic queries
+
+Add schema where appropriate:
+
+Article schema
+FAQ schema
+Breadcrumb schema
+
+---
+
+STEP 10 — FINAL QUALITY VERIFICATION
+
+After implementation verify that:
+
+navigation structure remains unchanged
+multilingual routing works correctly
+hreflang tags exist for translated pages
+metadata is translated
+internal linking connects the ecosystem correctly
+sitemaps include all indexable pages
+no duplicate URLs are created
+
+---
+
+FINAL RESULT
+
+The NurseNest ecosystem should expand into a comprehensive healthcare education and career platform that includes:
+
+nursing education resources
+global licensing information
+exam preparation pathways
+career and salary guidance
+school and residency discovery
+clinical skill resources
+
+while maintaining multilingual support and directing users toward NurseNest learning tools and ApplyNest career opportunities.
