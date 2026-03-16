@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { ExamSessionGuard } from "@/components/exam-session-guard";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -277,6 +278,7 @@ export default function QBankExamPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite">
+      <ExamSessionGuard isActive={phase === "exam"} mode="cat" onSubmitAndExit={submitExam} />
       <Navigation />
       <div className="mx-auto px-4 py-8 max-w-[820px]">
         {phase === "setup" && (

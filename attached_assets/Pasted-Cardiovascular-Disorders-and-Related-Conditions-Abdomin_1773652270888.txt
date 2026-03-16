@@ -1,0 +1,136 @@
+Cardiovascular Disorders and Related Conditions
+Abdominal Aortic Aneurysm
+Myocardial Infarction
+Acute Coronary Syndrome
+Heart Failure
+Pulmonary Edema
+Cardiogenic Shock
+Pericarditis
+Mitral Valve Insufficiency
+Coronary Artery Disease
+Dysrhythmias
+Atrial Fibrillation
+Ventricular Bigeminy
+Cardiac Tamponade
+Hypertensive Encephalopathy
+Hypertension
+Coronary Artery Aneurysm
+Congenital Cardiac Conditions
+Tetralogy of Fallot
+Ventricular Septal Defect
+Pulmonary Stenosis
+Right Ventricular Hypertrophy
+Atrioventricular Canal Defect
+Hematologic Disorders
+Acute Lymphoblastic Leukemia
+Acute Myelogenous Leukemia
+Pancytopenia
+Anemia
+Thrombocytopenia
+Neutropenia
+Sickle Cell Disease
+Vaso-occlusive Crisis
+Sequestration Crisis
+Hyperhemolytic Crisis
+Thalassemia
+Thalassemia Major
+Thalassemia Minor
+Hemophilia
+Pediatric and Genetic Disorders
+Cerebral Palsy
+Kawasaki Disease
+Febrile Seizures
+Wilm’s Tumor (Nephroblastoma)
+Hirschsprung Disease
+Cystic Fibrosis
+Hypertrophic Pyloric Stenosis
+Intussusception
+Cleft Palate
+Tracheoesophageal Fistula
+Esophageal Atresia
+Respiratory Disorders
+Bronchiolitis
+Respiratory Syncytial Virus (RSV) Infection
+Pneumonia
+Acute Otitis Media
+Chronic Obstructive Pulmonary Disease (COPD)
+Chronic Bronchitis
+Emphysema
+Pleurisy
+Aspiration Pneumonia
+Hypoxia
+Gastrointestinal Disorders
+Cholecystitis
+Gallstones (Cholelithiasis)
+Bowel Obstruction
+Mechanical Bowel Obstruction
+Paralytic Ileus
+Appendicitis
+Appendiceal Rupture
+Peritonitis
+Hiatal Hernia
+Inguinal Hernia
+Encopresis
+Functional Fecal Incontinence
+Cirrhosis
+Endocrine and Metabolic Disorders
+Hypoparathyroidism
+Hypocalcemia
+Addison Disease
+Refeeding Syndrome
+Hypokalemia
+Hypophosphatemia
+Hypomagnesemia
+Hyperkalemia
+Hypoglycemia
+Newborn Hypoglycemia
+Neurologic Disorders
+Cauda Equina Syndrome
+Increased Intracranial Pressure
+Seizures
+Sydenham Chorea
+Parkinson Disease
+Neuroleptic Malignant Syndrome
+Infectious Diseases
+Acute Rheumatic Fever
+Streptococcal Infection (Group A Strep)
+Bacterial Meningitis
+Mononucleosis (Epstein-Barr Virus)
+Hepatitis B
+Botulism
+Renal Disorders
+Nephrotic Syndrome
+Acute Kidney Injury
+Obstetric and Gynecologic Conditions
+Placenta Previa
+Placental Abruption
+Eclampsia
+Preeclampsia
+Uterine Rupture
+Ruptured Ectopic Pregnancy
+Menopause
+Morning Sickness
+Psychiatric Disorders
+Antisocial Personality Disorder
+Conversion Disorder
+Toxicity and Drug-Related Conditions
+Lithium Toxicity
+Magnesium Toxicity
+Medication Extravasation
+Musculoskeletal and Spinal Disorders
+Acute Lumbosacral Strain
+Lumbosacral Disc Herniation
+Testicular Torsion
+Septic Arthritis
+Neonatal Conditions
+Neonatal Abstinence Syndrome
+Submersion Injury
+Additional Clinical Conditions / Complications
+Cardiac Dysrhythmias
+Ischemia
+Shock
+Sepsis
+Hemorrhage
+Aspiration
+Metabolic Alkalosis
+Electrolyte Imbalances

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "wouter";
+import { ExamSessionGuard } from "@/components/exam-session-guard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -209,12 +210,19 @@ export default function FreeDemoExam() {
     return <ReportPage catState={catState} answers={answers} timeSpent={timeSpent} questionsAnswered={Object.keys(answers).length} />;
   }
 
+  const handleExamSubmitAndExit = useCallback(() => {
+    setExamFinished(true);
+    clearInterval(timerRef.current);
+    setPhase("report");
+  }, []);
+
   const question = administeredQuestions[currentQ];
   const answeredCount = Object.keys(answers).length;
   const progressPercent = (answeredCount / DEMO_QUESTION_COUNT) * 100;
 
   return (
     <div className="min-h-screen font-['DM_Sans',sans-serif] text-gray-900 select-none" style={{ backgroundColor: WARM_WHITE }}>
+      <ExamSessionGuard isActive={phase === "exam" && !examFinished} mode="cat" onSubmitAndExit={handleExamSubmitAndExit} />
       <div className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-sm" data-testid="demo-exam-top-bar">
         <div className="w-full h-1 bg-gray-100">
           <div

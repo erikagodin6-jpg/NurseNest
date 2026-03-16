@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { useRegion } from "@/allied/use-region";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -1208,6 +1208,7 @@ function UpgradeBanner({ onUpgrade, location }: { onUpgrade: () => void; locatio
 }
 
 export default function MltStudentDashboard() {
+  const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<DashboardTab>(getTabFromPath);
   const { user, effectiveTier } = useAuth();
   const { region, setRegion, regionLabel } = useRegion();
@@ -1222,7 +1223,7 @@ export default function MltStudentDashboard() {
   function handleUpgrade() {
     trackMltUpgradeClick(`dashboard-${activeTab}`);
     trackMltConversionEvent("upgrade_click", effectiveTier);
-    window.location.href = "/pricing";
+    setLocation("/pricing");
   }
 
   const tabs: { id: DashboardTab; label: string; icon: any; path: string }[] = [
@@ -1283,7 +1284,7 @@ export default function MltStudentDashboard() {
               key={tab.id}
               onClick={() => {
                 setActiveTab(tab.id);
-                window.history.pushState(null, "", tab.path);
+                setLocation(tab.path, { replace: true });
               }}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                 activeTab === tab.id

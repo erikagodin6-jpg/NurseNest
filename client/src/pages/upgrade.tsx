@@ -183,7 +183,7 @@ export default function UpgradePage() {
       return res.json();
     },
     onSuccess: () => {
-      window.location.href = "/flashcards";
+      navigate("/flashcards");
     },
   });
 

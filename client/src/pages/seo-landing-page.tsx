@@ -384,7 +384,7 @@ export default function SeoLandingPage({ slug: propSlug }: { slug?: string } = {
           <CardContent className="p-8 text-center">
             <h1 className="text-xl font-bold mb-2" data-testid="heading-error">Page Not Found</h1>
             <p className="text-gray-600 mb-4" data-testid="text-error">{error || "This page could not be found."}</p>
-            <Button onClick={() => window.location.href = "/"} data-testid="button-go-home">Go Home</Button>
+            <Button onClick={() => navigate("/")} data-testid="button-go-home">Go Home</Button>
           </CardContent>
         </Card>
       </div>

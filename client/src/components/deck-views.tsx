@@ -1523,7 +1523,7 @@ export function DeckEditor({
                   <p className="text-sm font-semibold text-amber-800">Free card limit reached (50 cards)</p>
                   <p className="text-xs text-amber-600 mt-0.5">Upgrade your plan to generate unlimited auto-generated flashcards and unlock all premium features.</p>
                 </div>
-                <Button size="sm" className="bg-amber-600 hover:bg-amber-700 shrink-0" onClick={() => window.location.href = "/pricing"} data-testid="button-ai-upgrade">
+                <Button size="sm" className="bg-amber-600 hover:bg-amber-700 shrink-0" onClick={() => setLocation("/pricing")} data-testid="button-ai-upgrade">
                   Upgrade Now
                 </Button>
               </div>

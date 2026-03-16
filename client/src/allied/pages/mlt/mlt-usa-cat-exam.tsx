@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { ExamSessionGuard } from "@/components/exam-session-guard";
 import { Clock, Lock, AlertCircle, Brain, BarChart3 } from "lucide-react";
 
 interface Question {
@@ -186,6 +187,7 @@ export default function MltUsaCatExam() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <ExamSessionGuard isActive={!!sessionId && !!currentQuestion && !loading} mode="cat" onSubmitAndExit={handleComplete} />
       <div className="sticky top-0 z-20 bg-white border-b shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">

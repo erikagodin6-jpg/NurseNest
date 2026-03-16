@@ -176,8 +176,7 @@ function CareerRedirect({ careerSlug, subPath }: { careerSlug?: string; subPath?
   if (!careerSlug) return null;
   const canonical = getCanonicalRoute(careerSlug);
   const target = subPath ? `${canonical}/${subPath}` : canonical;
-  window.location.replace(target);
-  return null;
+  return <Redirect to={target} replace />;
 }
 
 function LoadingFallback() {
@@ -243,7 +242,7 @@ export function AlliedRoutes() {
         <Route path="/admin/allied-content/pharmacy-technician/study-plans" component={PharmtechAdmin} />
         <Route path="/allied-health/pharmacy-technician/study-plan/:planId" component={PharmtechStudyPlan} />
         <Route path="/allied-health/pharmacy-technician/study-plan" component={PharmtechStudyPlan} />
-        <Route path="/allied-health/pharmacy-technician/mock-exams">{() => { window.location.replace("/allied-health/pharmacy-technician/exams"); return null; }}</Route>
+        <Route path="/allied-health/pharmacy-technician/mock-exams">{() => <Redirect to="/allied-health/pharmacy-technician/exams" replace />}</Route>
         <Route path="/allied-health/pharmacy-technician" component={PharmtechHub} />
         <Route path="/allied-health/pharmacy-technician/lessons/:slug" component={PharmtechLessons} />
         <Route path="/allied-health/pharmacy-technician/lessons" component={PharmtechLessons} />
@@ -299,7 +298,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
         <Route path="/admin/mlt/images" component={MltImageLibrary} />
         <Route path="/allied-health/mlt/image-drill" component={MltImageDrill} />
-        <Route path="/allied-health/careers/mlt/image-drill">{() => { window.location.replace("/allied-health/mlt/image-drill"); return null; }}</Route>
+        <Route path="/allied-health/careers/mlt/image-drill">{() => <Redirect to="/allied-health/mlt/image-drill" replace />}</Route>
         <Route path="/allied-health/paramedic/pcp" component={ParamedicPCP} />
         <Route path="/allied-health/paramedic/acp" component={ParamedicACP} />
         <Route path="/allied-health/paramedic/nremt" component={ParamedicNREMT} />
@@ -560,8 +559,8 @@ export function AlliedRoutes() {
 
         <Route path="/allied-health/paramedic/scenarios/:slug" component={ParamedicScenarioPlayer} />
         <Route path="/allied-health/paramedic/scenarios" component={ParamedicScenariosHub} />
-        <Route path="/allied-health/careers/paramedic/scenarios/:slug">{(params) => { window.location.replace(`/allied-health/paramedic/scenarios/${params.slug}`); return null; }}</Route>
-        <Route path="/allied-health/careers/paramedic/scenarios">{() => { window.location.replace("/allied-health/paramedic/scenarios"); return null; }}</Route>
+        <Route path="/allied-health/careers/paramedic/scenarios/:slug">{(params) => <Redirect to={`/allied-health/paramedic/scenarios/${params.slug}`} replace />}</Route>
+        <Route path="/allied-health/careers/paramedic/scenarios">{() => <Redirect to="/allied-health/paramedic/scenarios" replace />}</Route>
 
         <Route path="/allied-health/careers/:careerSlug/mock-exams">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="mock-exams" />}</Route>
         <Route path="/allied-health/careers/:careerSlug/dashboard">{(params) => <CareerRedirect careerSlug={params.careerSlug} subPath="dashboard" />}</Route>
@@ -599,11 +598,11 @@ export function AlliedRoutes() {
         <Route path="/allied-health/health-info-mgmt-encyclopedia/:slug">{() => <EncyclopediaTopicPage profession="health-info-mgmt" />}</Route>
         <Route path="/allied-health/health-info-mgmt-encyclopedia">{() => <EncyclopediaHubPage profession="health-info-mgmt" />}</Route>
 
-        <Route path="/allied-health/respiratory-therapy">{() => { window.location.replace("/allied-health/rrt"); return null; }}</Route>
-        <Route path="/allied-health/medical-lab-tech">{() => { window.location.replace("/allied-health/mlt"); return null; }}</Route>
+        <Route path="/allied-health/respiratory-therapy">{() => <Redirect to="/allied-health/rrt" replace />}</Route>
+        <Route path="/allied-health/medical-lab-tech">{() => <Redirect to="/allied-health/mlt" replace />}</Route>
         <Route path="/allied-health/pharmacy-tech/test-bank">{() => <Redirect to="/allied-health/pharmacy-technician/test-bank" />}</Route>
         <Route path="/allied-health/pharmacy-tech/mock-exams">{() => <Redirect to="/allied-health/pharmacy-technician/mock-exams" />}</Route>
-        <Route path="/allied-health/pharmacy-tech">{() => { window.location.replace("/allied-health/pharmacy-technician"); return null; }}</Route>
+        <Route path="/allied-health/pharmacy-tech">{() => <Redirect to="/allied-health/pharmacy-technician" replace />}</Route>
         <Route path="/account">{() => <AlliedDashboard />}</Route>
 
         <Route path="/allied-health/:professionSlug/:articleSlug" component={AlliedHealthArticlePage} />

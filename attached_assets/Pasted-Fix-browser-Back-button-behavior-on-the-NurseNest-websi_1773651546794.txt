@@ -1,0 +1,181 @@
+Fix browser Back button behavior on the NurseNest website so it works normally across the site, but is intentionally guarded during active CAT exam sessions only.
+
+Goal:
+1. Normal website pages should use standard browser history behavior.
+2. Active CAT exams should block or intercept browser Back/Forward navigation, refresh, and accidental page exit in a controlled way.
+3. Do not change visual design, branding, tiered menus, pricing, content, paywalls, or page layouts unless needed for the exam guard modal.
+
+Context:
+NurseNest is an SPA. Right now browser back behavior needs to work normally on regular pages, but during CAT-style exams we want NCLEX-style protection. The exam experience must preserve timer integrity, adaptive question flow, scoring state, and exam session consistency.
+
+Implement the following exactly:
+
+PART 1 — FIX NORMAL SITE NAVIGATION
+Audit all internal navigation across the app and ensure regular pages use proper router-based navigation and browser history push behavior.
+
+Requirements:
+- Internal navigation on normal pages must use the router correctly.
+- Replace any use of:
+  - window.location
+  - location.href
+  - manual history hacks
+  - preventDefault misuse
+  - forced reloads for internal pages
+- Make clickable cards, buttons, breadcrumbs, menu items, hero CTAs, dropdown items, lesson cards, and pricing links use proper router links or router navigation.
+- Do not use replace navigation except for true redirects.
+- Browser Back/Forward must work properly on:
+  - /en/*
+  - /fr/*
+  - /es/*
+  - nursing pages
+  - allied health pages
+  - new grad pages
+  - lessons
+  - blog/resources
+  - store/products
+  - pricing pages
+- Confirm route changes do not silently reset history or redirect users incorrectly.
+
+PART 2 — EXAM-ONLY NAVIGATION GUARD
+Add a route-aware exam session guard that activates only during active CAT exam sessions.
+
+The guard must apply only when ALL of the following are true:
+- user is currently inside an exam route/page
+- exam session has started
+- exam status is active/in progress
+- exam type is CAT or any exam mode flagged as locked navigation
+
+Outside of active CAT exams, browser back/forward must behave normally.
+
+PART 3 — BACK BUTTON BEHAVIOR DURING ACTIVE CAT EXAM
+When the user presses the browser Back button during an active CAT exam:
+- Do not immediately allow navigation away.
+- Intercept the navigation attempt.
+- Show a modal dialog.
+
+Modal content:
+Title:
+Leave exam?
+
+Body:
+You are currently in an active CAT exam. Leaving this session may submit or end your exam. Your progress, timer, and exam state could be affected.
+
+Buttons:
+- Continue Exam
+- Submit and Exit
+
+Behavior:
+- Continue Exam:
+  - dismiss modal
+  - keep user on current exam screen
+  - preserve timer and question state
+- Submit and Exit:
+  - run the proper exam submit/end flow
+  - save final state safely
+  - navigate to the correct post-exam results/summary/exit page
+  - do not leave the exam in a corrupted or partial state
+
+Important:
+- Do not allow browser Back to reveal prior exam questions or previous adaptive states.
+- Do not allow the user to step backward through question history in CAT mode.
+- Do not rely on brittle hacks that create infinite history loops.
+
+PART 4 — REFRESH / TAB CLOSE / ACCIDENTAL EXIT PROTECTION
+During active CAT exam sessions only:
+- Add beforeunload protection to warn users if they try to:
+  - refresh
+  - close tab
+  - navigate away
+- Show the standard browser warning where supported.
+- Do not enable this warning outside active exams.
+
+PART 5 — TIMER + STATE INTEGRITY
+Ensure exam protection does not break:
+- countdown timer
+- adaptive scoring state
+- current question index
+- answer selection state
+- flagged question state if used
+- exam submission flow
+- autosave/session persistence if already implemented
+
+Requirements:
+- The exam state source of truth must be centralized and reliable.
+- No local UI-only state should be able to recreate prior CAT question access.
+- If session persistence exists, restore only the current valid in-progress exam state, not prior navigable history states.
+- Prevent stale cached route states from reopening older question screens.
+
+PART 6 — ROUTE DESIGN AND IMPLEMENTATION
+Implement this cleanly with a reusable guard, not scattered one-off patches.
+
+Preferred architecture:
+- Create a dedicated exam navigation guard hook/component, for example:
+  - useExamNavigationGuard()
+  - <ExamSessionGuard />
+- It should:
+  - detect active locked exam mode
+  - intercept browser navigation
+  - manage modal visibility
+  - coordinate safe exit/submit flow
+  - attach/remove listeners cleanly
+- Scope this to exam routes only.
+
+If the router supports route blocking APIs, use them properly.
+If not, implement a robust fallback using history/popstate handling without creating broken history behavior for the rest of the site.
+
+PART 7 — EXAM MODES
+Support this logic:
+- CAT exam mode: locked navigation
+- Standard practice mode: optional normal behavior unless explicitly configured otherwise
+- Review mode after exam submission: normal browser back behavior can resume unless there is a reason to restrict it
+
+Make this behavior driven by exam mode/config flags, not hardcoded to one page.
+
+PART 8 — ACCESSIBILITY + UX
+Modal requirements:
+- keyboard accessible
+- focus trapped properly
+- ESC behavior handled intentionally
+- mobile-friendly
+- does not visually clash with existing NurseNest design
+- consistent with current pastel/clinical brand styling if a modal system already exists
+- if no modal system exists, use the app’s existing dialog component library rather than inventing a mismatched pattern
+
+PART 9 — SERVER / SPA SAFETY
+Confirm the server does not cause history problems:
+- Real app routes should serve index.html
+- Missing JS/CSS/assets must return proper 404, never HTML with 200
+- Browser back to older routes must not produce a white screen
+- Do not reintroduce any Vite/manual chunking logic that caused prior React chunk-order crashes
+
+PART 10 — DO NOT BREAK ANYTHING ELSE
+Do not:
+- redesign pages
+- alter menus
+- change tiered menu structure
+- change pricing logic
+- alter translations
+- rewrite copy
+- remove analytics
+- change SEO structure unless necessary for correct route behavior
+- modify paywalls or lesson gating
+
+PART 11 — TESTING CHECKLIST
+After implementation, verify all of the following:
+1. Normal page-to-page browsing works with browser Back/Forward.
+2. Localized routes still work correctly.
+3. Clicking into lessons/products/blog pages and pressing Back returns to the correct previous page.
+4. Starting a CAT exam activates the guard.
+5. Pressing browser Back during active CAT opens the modal instead of leaving immediately.
+6. Continue Exam keeps the user in the exam with intact timer/state.
+7. Submit and Exit safely ends the exam and routes correctly.
+8. Refresh/close-tab warning appears only during active CAT exams.
+9. Review/results pages are stable after submission.
+10. No console errors, no white screen, no broken history loops.
+
+Deliverables:
+- implement the fix in code
+- show exactly which files were changed
+- briefly explain the root cause
+- explain how normal navigation and CAT exam navigation now differ
+- include any edge cases or limitations found
