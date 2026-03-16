@@ -19,7 +19,7 @@ import {
 } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
 import { generateLanguageSitemap } from "./language-sitemaps";
-import { sitemapHealthCheck, sitemapValidate } from "./health";
+import { sitemapHealthCheck, sitemapValidate, seoDebug } from "./health";
 
 interface CacheEntry {
   xml: string;
@@ -476,6 +476,16 @@ const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       sitemapValidate(req, res);
+    } catch (e: any) {
+      res.status(401).json({ error: "Admin authentication required" });
+    }
+  });
+  app.get("/api/seo-debug", async (req, res) => {
+    try {
+      const { requireAdmin } = await import("../admin-auth");
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      seoDebug(req, res);
     } catch (e: any) {
       res.status(401).json({ error: "Admin authentication required" });
     }

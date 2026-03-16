@@ -162,6 +162,28 @@ app.use((req, res, next) => {
   next();
 });
 
+const TIMESTAMP_SLUG_REGEX = /^(.*\/)([\w-]+)-(\d{13,})$/;
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  if (req.path.startsWith("/api") || req.path.startsWith("/assets")) return next();
+  const tsMatch = req.path.match(TIMESTAMP_SLUG_REGEX);
+  if (tsMatch) {
+    const prefix = tsMatch[1];
+    const baseSlug = tsMatch[2];
+    const localeMatch = req.path.match(/^\/([a-z]{2,3}(?:-[a-z]{2})?)\//);
+    const locale = localeMatch ? localeMatch[1] : "en";
+    const cleanPath = prefix + baseSlug;
+    const queryString = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
+    const hasLocalePrefix = cleanPath.startsWith(`/${locale}/`);
+    if (hasLocalePrefix) {
+      return res.redirect(301, cleanPath + queryString);
+    } else {
+      return res.redirect(301, `/${locale}${cleanPath}${queryString}`);
+    }
+  }
+  next();
+});
+
 import { CAREER_SLUG_TO_CANONICAL_ROUTE } from "@shared/careers";
 app.use((req, res, next) => {
   const match = req.path.match(/^\/careers\/([^/]+)(\/.*)?$/);

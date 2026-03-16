@@ -1,4 +1,5 @@
 import { getIndexableLocales, getHreflangCode } from "../translation-audit";
+import { getIndexableLocalesForPage, buildCanonicalUrl, SITE_BASE } from "@shared/seo-utils";
 
 export const SITEMAP_SPLIT_LIMIT = 5000;
 export const SITEMAP_CACHE_TTL = 3600_000;
@@ -137,6 +138,7 @@ export function simpleUrl(loc: string, lastmod: string, changefreq = "weekly", p
 
 export function localizedUrl(base: string, path: string, priority: string, changefreq: string, locales: string[], lastmod?: string): string {
   const lines: string[] = [];
+  const hreflangLocales = getIndexableLocalesForPage(path, locales);
   for (const locale of locales) {
     const mappedPath = applySlugMapping(path, locale);
     const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
@@ -145,7 +147,7 @@ export function localizedUrl(base: string, path: string, priority: string, chang
     lines.push(`<priority>${priority}</priority>`);
     lines.push(`<changefreq>${changefreq}</changefreq>`);
     if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
-    for (const alt of locales) {
+    for (const alt of hreflangLocales) {
       const altMapped = applySlugMapping(path, alt);
       const hreflang = getHreflangCode(alt);
       const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;
@@ -161,13 +163,14 @@ export function localizedUrl(base: string, path: string, priority: string, chang
 export function singleLocaleUrl(base: string, path: string, locale: string, allLocales: string[], priority: string, changefreq: string, lastmod?: string): string {
   const mappedPath = applySlugMapping(path, locale);
   const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
+  const hreflangLocales = getIndexableLocalesForPage(path, allLocales);
   const lines: string[] = [];
   lines.push(`<url>`);
   lines.push(`<loc>${loc}</loc>`);
   lines.push(`<priority>${priority}</priority>`);
   lines.push(`<changefreq>${changefreq}</changefreq>`);
   if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
-  for (const alt of allLocales) {
+  for (const alt of hreflangLocales) {
     const altMapped = applySlugMapping(path, alt);
     const hreflang = getHreflangCode(alt);
     const altHref = `${base}/${alt}${altMapped === "/" ? "" : altMapped}`;

@@ -3,9 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { seoTitleMap } from "./seo-title-map";
 import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
-
-const SITE_BASE = "https://www.nursenest.ca";
-const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
+import { buildCanonicalUrl, shouldNoindexForLocale, getIndexableLocalesForPage, SITE_BASE, ALLIED_SITE_BASE } from "@shared/seo-utils";
 
 const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
 
@@ -1249,11 +1247,11 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   const localePrefix = `/${detectedLocale}`;
   const localeIsIndexable = isLocaleIndexable(detectedLocale);
   const isNoindexRoute = isNoindexPath(strippedPath);
-  const noindex = isNoindexRoute || !localeIsIndexable;
+  const utilityNoindex = shouldNoindexForLocale(strippedPath, detectedLocale);
+  const noindex = isNoindexRoute || !localeIsIndexable || utilityNoindex;
 
   const canonicalBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
-  const selfCanonicalPath = strippedPath === "/" ? localePrefix : `${localePrefix}${strippedPath}`;
-  const canonical = `${canonicalBase}${selfCanonicalPath}`;
+  const canonical = buildCanonicalUrl(strippedPath, detectedLocale, canonicalBase);
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
@@ -2000,12 +1998,13 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   const hreflangBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
 
   if (!isNoindexRoute) {
-    for (const locale of indexableLocales) {
+    const hreflangLocales = getIndexableLocalesForPage(strippedPath, indexableLocales);
+    for (const locale of hreflangLocales) {
       const hreflang = getHreflangCode(locale);
-      const localeUrl = `${hreflangBase}/${locale}${strippedPath === "/" ? "" : strippedPath}`;
+      const localeUrl = buildCanonicalUrl(strippedPath, locale, hreflangBase);
       hreflangTags.push(`<link rel="alternate" hreflang="${hreflang}" href="${localeUrl}" />`);
     }
-    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${hreflangBase}/en${strippedPath === "/" ? "" : strippedPath}" />`);
+    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${buildCanonicalUrl(strippedPath, "en", hreflangBase)}" />`);
   }
 
   if (hreflangTags.length > 0) {

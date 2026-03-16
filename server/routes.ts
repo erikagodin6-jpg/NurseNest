@@ -8482,7 +8482,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { eq } = await import("drizzle-orm");
 
       const existing = await db.select().from(generatedMicroLectures).where(eq(generatedMicroLectures.slug, slug)).limit(1);
-      const finalSlug = existing.length > 0 ? `${slug}-${Date.now()}` : slug;
+      const { generateUniqueSlugSuffix } = await import("@shared/seo-utils");
+      const finalSlug = existing.length > 0 ? `${slug}-${generateUniqueSlugSuffix()}` : slug;
 
       const [lecture] = await db.insert(generatedMicroLectures).values({
         title: parsed.title || topic,
@@ -8568,7 +8569,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { title, type, pageSize, orientation } = req.body;
       if (!title || !type) return res.status(400).json({ error: "Title and type are required" });
-      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now();
+      const { generateUniqueSlugSuffix } = await import("@shared/seo-utils");
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + generateUniqueSlugSuffix();
       const { db } = await import("./storage");
       const { designProjects, designPages } = await import("@shared/schema");
       const [project] = await db.insert(designProjects).values({
@@ -8701,9 +8703,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { topic, citationStyle } = req.body;
       const post = await generateBlogPost(topic, citationStyle || "apa7");
 
-      const safeSlug = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${Date.now()}`;
+      const { generateUniqueSlugSuffix } = await import("@shared/seo-utils");
+      const safeSlug = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${generateUniqueSlugSuffix()}`;
       const isDup = await storage.checkDuplicateSlug(safeSlug);
-      const finalSlug = isDup ? `${safeSlug}-${Date.now()}` : safeSlug;
+      const finalSlug = isDup ? `${safeSlug}-${generateUniqueSlugSuffix()}` : safeSlug;
 
       const created = await storage.createContentItem({
         title: post.title,
@@ -8805,9 +8808,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
         try {
           const post = await generateBlogPost(topicText.trim(), citationStyle || "apa7");
-          const safeSlugBatch = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${Date.now()}`;
+          const { generateUniqueSlugSuffix: genSlugSuffix } = await import("@shared/seo-utils");
+          const safeSlugBatch = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${genSlugSuffix()}`;
           const isDup = await storage.checkDuplicateSlug(safeSlugBatch);
-          const finalSlug = isDup ? `${safeSlugBatch}-${Date.now()}` : safeSlugBatch;
+          const finalSlug = isDup ? `${safeSlugBatch}-${genSlugSuffix()}` : safeSlugBatch;
 
           let scheduledDate: Date;
           const slotInDay = slotCounter % perDay;
@@ -15626,7 +15630,8 @@ Return ONLY valid JSON with this exact structure:
     try {
       const { title, exam, topic, mixedBlueprint, requestedCount, difficulty, distributionJson, canadianContext, editionsJson, price, studyEditionPrice } = req.body;
       if (!title || !topic) return res.status(400).json({ error: "title and topic required" });
-      const slug = (title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 80) + "-" + Date.now().toString(36);
+      const { generateUniqueSlugSuffix: genQbankSlugSuffix } = await import("@shared/seo-utils");
+      const slug = (title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 80) + "-" + genQbankSlugSuffix();
       const draft = await storage.createQbankDraft({
         title, slug, exam: exam || "rex-pn", topic, mixedBlueprint: mixedBlueprint || false,
         requestedCount: requestedCount || 300, difficulty: difficulty || "medium",
@@ -16184,8 +16189,9 @@ Return ONLY valid JSON with this exact structure:
       const recipe = await storage.getQbankRecipe(req.params.id);
       if (!recipe) return res.status(404).json({ error: "Not found" });
 
+      const { generateUniqueSlugSuffix: genRecipeSlugSuffix } = await import("@shared/seo-utils");
       const title = `${recipe.exam.toUpperCase()} ${recipe.topic} ${recipe.requestedCount}Q`;
-      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 80) + "-" + Date.now().toString(36);
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 80) + "-" + genRecipeSlugSuffix();
       const draft = await storage.createQbankDraft({
         title,
         slug,

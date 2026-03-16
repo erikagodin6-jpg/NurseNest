@@ -3,6 +3,7 @@ import { storage } from "../storage";
 import {
   getSiteBase, todayDate, toLastmod, singleLocaleUrl, getIndexableLocales
 } from "./helpers";
+import { isTimestampSlug, getIndexableLocalesForPage } from "@shared/seo-utils";
 
 const LEARN_REDIRECTS: Record<string, string> = {
   "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
@@ -34,6 +35,7 @@ interface StaticRoute {
   priority: string;
   changefreq: string;
   multilingual: boolean;
+  enOnly?: boolean;
   lastmod?: string;
 }
 
@@ -58,11 +60,11 @@ function getStaticRoutes(today: string): StaticRoute[] {
     { path: "/nursing-specialties", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/nursing-certifications", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/study-pathways", priority: "0.8", changefreq: "monthly", lastmod: today },
-    { path: "/faq", priority: "0.5", changefreq: "monthly" },
-    { path: "/about", priority: "0.6", changefreq: "monthly" },
-    { path: "/contact", priority: "0.4", changefreq: "monthly" },
-    { path: "/terms", priority: "0.3", changefreq: "yearly" },
-    { path: "/privacy", priority: "0.3", changefreq: "yearly" },
+    { path: "/faq", priority: "0.5", changefreq: "monthly", enOnly: true },
+    { path: "/about", priority: "0.6", changefreq: "monthly", enOnly: true },
+    { path: "/contact", priority: "0.4", changefreq: "monthly", enOnly: true },
+    { path: "/terms", priority: "0.3", changefreq: "yearly", enOnly: true },
+    { path: "/privacy", priority: "0.3", changefreq: "yearly", enOnly: true },
     { path: "/nclex-rn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/nclex-pn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/rex-pn-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
@@ -177,7 +179,8 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   const staticRoutes = getStaticRoutes(today);
   for (const route of staticRoutes) {
     if (!route.multilingual && targetLocale !== "en") continue;
-    const localesForRoute = route.multilingual ? allLocales : ["en"];
+    if (route.enOnly && targetLocale !== "en") continue;
+    const localesForRoute = route.enOnly ? ["en"] : (route.multilingual ? allLocales : ["en"]);
     urls.push(singleLocaleUrl(base, route.path, targetLocale, localesForRoute, route.priority, route.changefreq, route.lastmod));
   }
 
@@ -322,7 +325,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
-      if (TIMESTAMP_SUFFIX_RE.test(item.slug)) return false;
+      if (isTimestampSlug(item.slug)) return false;
       if (isPlaceholderContent(item.title || "", contentLen)) return false;
       return true;
     });

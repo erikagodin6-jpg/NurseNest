@@ -16,6 +16,7 @@ import {
   generateAlliedTopics, generateAlliedSeoLanding
 } from "./allied-site";
 import { generateNewGradPages } from "./newgrad-site";
+import { isTimestampSlug, NOINDEX_UTILITY_PAGES, buildCanonicalUrl } from "@shared/seo-utils";
 
 interface ValidationResult {
   totalUrls: number;
@@ -307,4 +308,53 @@ export async function sitemapHealthCheck(_req: Request, res: Response) {
   } catch (e: any) {
     res.status(500).json({ status: "error", message: e.message, issues: [e.message] });
   }
+}
+
+export async function seoDebug(req: Request, res: Response) {
+  const path = String(req.query.path || "/");
+  const locale = String(req.query.locale || "en");
+  const base = getSiteBase();
+
+  const canonical = buildCanonicalUrl(path, locale, base);
+  const isUtilityPage = NOINDEX_UTILITY_PAGES.has(path);
+  const utilityNoindex = isUtilityPage && locale !== "en";
+
+  const { isLocaleIndexable, getIndexableLocales, getHreflangCode } = await import("../translation-audit");
+  const localeIndexable = isLocaleIndexable(locale);
+  const indexableLocales = getIndexableLocales();
+
+  const hreflangLocales = isUtilityPage ? ["en"] : indexableLocales;
+
+  const timestampCheck = {
+    isTimestamp: isTimestampSlug(path.split("/").pop() || ""),
+    slug: path.split("/").pop() || "",
+  };
+
+  const allSitemapUrls: string[] = [];
+  try {
+    const generators = [generateMainPages, generateMainBlog];
+    for (const gen of generators) {
+      const urls = await gen();
+      for (const xml of urls) {
+        const locMatches = xml.match(/<loc>([^<]+)<\/loc>/);
+        if (locMatches) allSitemapUrls.push(locMatches[1]);
+      }
+    }
+  } catch {}
+
+  const inSitemap = allSitemapUrls.some(u => u.includes(path));
+
+  res.json({
+    path,
+    locale,
+    canonical,
+    isUtilityPage,
+    utilityNoindex,
+    localeIndexable,
+    shouldNoindex: utilityNoindex || !localeIndexable,
+    hreflangLocales: hreflangLocales.map(l => ({ locale: l, hreflang: getHreflangCode(l) })),
+    timestampCheck,
+    inSitemap,
+    noindexUtilityPages: Array.from(NOINDEX_UTILITY_PAGES),
+  });
 }

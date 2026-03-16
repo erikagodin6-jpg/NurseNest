@@ -4,6 +4,7 @@ import {
   getSiteBase, todayDate, toLastmod, simpleUrl, localizedUrl,
   getIndexableLocales, SITEMAP_SPLIT_LIMIT, splitIntoChunks
 } from "./helpers";
+import { isTimestampSlug } from "@shared/seo-utils";
 
 const LEARN_REDIRECTS: Record<string, string> = {
   "oxygenation-vs-ventilation-critical-differences": "oxygenation-vs-ventilation-clinical-distinction",
@@ -68,11 +69,11 @@ export async function generateMainPages(): Promise<string[]> {
     { path: "/nursing-specialties", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/nursing-certifications", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
     { path: "/study-pathways", priority: "0.8", changefreq: "monthly", localeSet: locales, lastmod: today },
-    { path: "/faq", priority: "0.5", changefreq: "monthly", localeSet: locales },
-    { path: "/about", priority: "0.6", changefreq: "monthly", localeSet: locales },
-    { path: "/contact", priority: "0.4", changefreq: "monthly", localeSet: locales },
-    { path: "/terms", priority: "0.3", changefreq: "yearly", localeSet: locales },
-    { path: "/privacy", priority: "0.3", changefreq: "yearly", localeSet: locales },
+    { path: "/faq", priority: "0.5", changefreq: "monthly", localeSet: enOnly },
+    { path: "/about", priority: "0.6", changefreq: "monthly", localeSet: enOnly },
+    { path: "/contact", priority: "0.4", changefreq: "monthly", localeSet: enOnly },
+    { path: "/terms", priority: "0.3", changefreq: "yearly", localeSet: enOnly },
+    { path: "/privacy", priority: "0.3", changefreq: "yearly", localeSet: enOnly },
     { path: "/nclex-rn-practice-questions", priority: "0.9", changefreq: "weekly", localeSet: locales, lastmod: today },
     { path: "/nclex-pn-practice-questions", priority: "0.9", changefreq: "weekly", localeSet: locales, lastmod: today },
     { path: "/rex-pn-practice-questions", priority: "0.9", changefreq: "weekly", localeSet: locales, lastmod: today },
@@ -476,7 +477,7 @@ export async function generateMainBlog(): Promise<string[]> {
       const contentLen = JSON.stringify(item.content || "").length;
       if (contentLen < 5000) return false;
       if (item.slug in LEARN_REDIRECTS) return false;
-      if (TIMESTAMP_SUFFIX_RE.test(item.slug)) return false;
+      if (isTimestampSlug(item.slug)) return false;
       if (isPlaceholderContent(item.title || "", contentLen)) return false;
       return true;
     });
