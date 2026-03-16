@@ -76,11 +76,8 @@ export default defineConfig({
             if (id.includes("wouter")) {
               return "vendor-router";
             }
-            if (id.includes("react-dom")) {
-              return "vendor-react-dom";
-            }
-            if (id.includes("/react/") || id.includes("/react-is/") || id.includes("react-helmet") || id.includes("scheduler")) {
-              return "vendor-react-core";
+            if (id.includes("react-dom") || id.includes("/react/") || id.includes("/react-is/") || id.includes("react-helmet") || id.includes("scheduler")) {
+              return "vendor-react";
             }
             return "vendor";
           }
