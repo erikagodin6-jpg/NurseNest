@@ -13,6 +13,7 @@ interface ProfessionConfig {
   examNames: string;
   importPath: string;
   exportName: string;
+  additionalImports?: { importPath: string; exportName: string }[];
 }
 
 const PROFESSIONS: ProfessionConfig[] = [
@@ -22,6 +23,9 @@ const PROFESSIONS: ProfessionConfig[] = [
     examNames: "NBRC TMC/CSE, CSRT",
     importPath: "../client/src/data/career-questions/rrt-questions",
     exportName: "rrtQuestions",
+    additionalImports: [
+      { importPath: "../client/src/data/career-questions/rrt-questions-batch1", exportName: "rrtQuestionsBatch1" },
+    ],
   },
   {
     key: "mlt",
@@ -37,6 +41,55 @@ const PROFESSIONS: ProfessionConfig[] = [
     importPath: "../client/src/data/career-questions/imaging-questions",
     exportName: "imagingQuestions",
   },
+  {
+    key: "occupationalTherapy",
+    label: "Occupational Therapy Assistant",
+    examNames: "NBCOT COTA",
+    importPath: "../client/src/data/career-questions/ota-questions",
+    exportName: "otaQuestions",
+  },
+  {
+    key: "physicalTherapy",
+    label: "Physical Therapy Assistant",
+    examNames: "NPTE-PTA, FSBPT",
+    importPath: "../client/src/data/career-questions/pta-questions",
+    exportName: "ptaQuestions",
+  },
+  {
+    key: "surgicalTechnologist",
+    label: "Surgical Technologist",
+    examNames: "CST, NBSTSA",
+    importPath: "../client/src/data/career-questions/surgical-technologist-questions",
+    exportName: "surgicalTechnologistQuestions",
+    additionalImports: [
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-2", exportName: "surgicalTechnologistQuestionsPart2" },
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-3", exportName: "surgicalTechnologistQuestionsPart3" },
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-4", exportName: "surgicalTechnologistQuestionsPart4" },
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-5", exportName: "surgicalTechnologistQuestionsPart5" },
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-6", exportName: "surgicalTechnologistQuestionsPart6" },
+    ],
+  },
+  {
+    key: "healthInfoMgmt",
+    label: "Health Information Management",
+    examNames: "RHIT, RHIA, AHIMA",
+    importPath: "../client/src/data/career-questions/him-questions",
+    exportName: "himQuestions",
+  },
+  {
+    key: "diagnosticSonography",
+    label: "Diagnostic Sonography",
+    examNames: "ARDMS SPI, RDMS",
+    importPath: "../client/src/data/career-questions/sonography-questions",
+    exportName: "sonographyQuestions",
+  },
+  {
+    key: "cardiacSonographer",
+    label: "Cardiac Sonography",
+    examNames: "ARDMS RDCS, CCI RCS",
+    importPath: "../client/src/data/career-questions/cardiac-sonographer-questions",
+    exportName: "cardiacSonographerQuestions",
+  },
 ];
 
 const questionsCache: Record<string, any[]> = {};
@@ -44,7 +97,14 @@ const questionsCache: Record<string, any[]> = {};
 async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
   if (questionsCache[profession.key]) return questionsCache[profession.key];
   const mod = await import(profession.importPath);
-  questionsCache[profession.key] = mod[profession.exportName] as any[];
+  let questions: any[] = mod[profession.exportName] as any[];
+  if (profession.additionalImports) {
+    for (const extra of profession.additionalImports) {
+      const extraMod = await import(extra.importPath);
+      questions = [...questions, ...(extraMod[extra.exportName] as any[])];
+    }
+  }
+  questionsCache[profession.key] = questions;
   return questionsCache[profession.key];
 }
 

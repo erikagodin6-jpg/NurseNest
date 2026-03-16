@@ -8,6 +8,7 @@ import {
 
 interface ProfessionConfig {
   key: string;
+  slug: string;
   label: string;
   shortLabel: string;
   examNames: string;
@@ -22,6 +23,7 @@ interface ProfessionConfig {
 const PROFESSION_CONFIGS: Record<string, ProfessionConfig> = {
   rrt: {
     key: "rrt",
+    slug: "rrt",
     label: "Respiratory Therapy",
     shortLabel: "RRT",
     examNames: "NBRC TMC/CSE and CSRT certification",
@@ -31,6 +33,7 @@ const PROFESSION_CONFIGS: Record<string, ProfessionConfig> = {
   },
   mlt: {
     key: "mlt",
+    slug: "mlt",
     label: "Medical Laboratory Technology",
     shortLabel: "MLT",
     examNames: "ASCP BOC and CSMLS CMLTO certification",
@@ -43,6 +46,7 @@ const PROFESSION_CONFIGS: Record<string, ProfessionConfig> = {
   },
   imaging: {
     key: "imaging",
+    slug: "imaging",
     label: "Medical Imaging",
     shortLabel: "Imaging",
     examNames: "ARRT and CAMRT radiography certification",
@@ -51,6 +55,66 @@ const PROFESSION_CONFIGS: Record<string, ProfessionConfig> = {
     lessonsHref: "/medical-imaging",
     flashcardsHref: "/medical-imaging/canada/flashcards",
     heroGradient: "from-violet-50 via-white to-teal-50",
+  },
+  occupationalTherapy: {
+    key: "occupationalTherapy",
+    slug: "occupational-therapy",
+    label: "Occupational Therapy Assistant",
+    shortLabel: "OTA",
+    examNames: "NBCOT COTA certification",
+    diagnosticHref: "/diagnostic?career=occupationalTherapy",
+    questionsIndexHref: "/allied-health/occupational-therapy/questions",
+    heroGradient: "from-emerald-50 via-white to-green-50",
+  },
+  physicalTherapy: {
+    key: "physicalTherapy",
+    slug: "physical-therapy",
+    label: "Physical Therapy Assistant",
+    shortLabel: "PTA",
+    examNames: "NPTE-PTA and FSBPT certification",
+    diagnosticHref: "/diagnostic?career=physicalTherapy",
+    questionsIndexHref: "/allied-health/physical-therapy/questions",
+    heroGradient: "from-sky-50 via-white to-cyan-50",
+  },
+  surgicalTechnologist: {
+    key: "surgicalTechnologist",
+    slug: "surgical-technologist",
+    label: "Surgical Technologist",
+    shortLabel: "CST",
+    examNames: "NBSTSA CST certification",
+    diagnosticHref: "/diagnostic?career=surgicalTechnologist",
+    questionsIndexHref: "/allied-health/surgical-technologist/questions",
+    heroGradient: "from-red-50 via-white to-rose-50",
+  },
+  healthInfoMgmt: {
+    key: "healthInfoMgmt",
+    slug: "health-info-mgmt",
+    label: "Health Information Management",
+    shortLabel: "HIM",
+    examNames: "RHIT, RHIA, and AHIMA certification",
+    diagnosticHref: "/diagnostic?career=healthInfoMgmt",
+    questionsIndexHref: "/allied-health/health-info-mgmt/questions",
+    heroGradient: "from-violet-50 via-white to-purple-50",
+  },
+  diagnosticSonography: {
+    key: "diagnosticSonography",
+    slug: "diagnostic-sonography",
+    label: "Diagnostic Sonography",
+    shortLabel: "RDMS",
+    examNames: "ARDMS SPI and RDMS certification",
+    diagnosticHref: "/diagnostic?career=diagnosticSonography",
+    questionsIndexHref: "/allied-health/diagnostic-sonography/questions",
+    heroGradient: "from-cyan-50 via-white to-blue-50",
+  },
+  cardiacSonographer: {
+    key: "cardiacSonographer",
+    slug: "cardiac-sonographer",
+    label: "Cardiac Sonography",
+    shortLabel: "RDCS",
+    examNames: "ARDMS RDCS and CCI RCS certification",
+    diagnosticHref: "/diagnostic?career=cardiacSonographer",
+    questionsIndexHref: "/allied-health/cardiac-sonographer/questions",
+    heroGradient: "from-pink-50 via-white to-rose-50",
   },
 };
 
@@ -244,9 +308,9 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: profession.shortLabel, href: `/${profession.key}` },
+    { label: profession.shortLabel, href: `/allied-health/${profession.slug}` },
     { label: "Practice Questions", href: profession.questionsIndexHref },
-    { label: topicTitle, href: `/${profession.key}/questions/${data.topicSlug}` },
+    { label: topicTitle, href: `/allied-health/${profession.slug}/questions/${data.topicSlug}` },
   ];
 
   const structuredData = [
@@ -269,7 +333,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
       educationalLevel: "Professional",
       provider: { "@type": "Organization", name: "NurseNest", url: "https://www.nursenest.ca/allied-health" },
       about: { "@type": "Thing", name: topicTitle },
-      url: `https://www.nursenest.ca/allied-health/${profession.key}/questions/${data.topicSlug}`,
+      url: `https://www.nursenest.ca/allied-health/${profession.slug}/questions/${data.topicSlug}`,
     },
     {
       "@context": "https://schema.org",
@@ -295,7 +359,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
         title={`${topicTitle} — ${profession.shortLabel} Practice Questions | NurseNest`}
         description={`Practice ${data.totalQuestions} ${profession.label} exam questions on ${topicTitle}. Part of ${data.category} with detailed rationales. Free sample questions and full question bank access.`}
         keywords={`${data.topic} ${profession.shortLabel} questions, ${data.topic} practice test, ${data.category} exam questions, ${profession.shortLabel} ${data.topic}`}
-        canonicalPath={`/${profession.key}/questions/${data.topicSlug}`}
+        canonicalPath={`/allied-health/${profession.slug}/questions/${data.topicSlug}`}
         structuredData={structuredData[0]}
         additionalStructuredData={structuredData.slice(1)}
       />
@@ -394,7 +458,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
               {data.relatedTopics.map(rt => (
                 <Link
                   key={rt.topicSlug}
-                  href={`/${profession.key}/questions/${rt.topicSlug}`}
+                  href={`/allied-health/${profession.slug}/questions/${rt.topicSlug}`}
                   className="group flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md hover:border-teal-200 transition-all"
                   data-testid={`link-related-${rt.topicSlug}`}
                 >

@@ -399,6 +399,14 @@ export function AlliedRoutes() {
         <Route path="/allied-health/occupational-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="occupationalTherapy" />}</Route>
         <Route path="/allied-health/physical-therapy/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="physicalTherapy" />}</Route>
         <Route path="/allied-health/physical-therapy/questions">{() => <AlliedQuestionsIndexPage professionKey="physicalTherapy" />}</Route>
+        <Route path="/allied-health/surgical-technologist/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="surgicalTechnologist" />}</Route>
+        <Route path="/allied-health/surgical-technologist/questions">{() => <AlliedQuestionsIndexPage professionKey="surgicalTechnologist" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="healthInfoMgmt" />}</Route>
+        <Route path="/allied-health/health-info-mgmt/questions">{() => <AlliedQuestionsIndexPage professionKey="healthInfoMgmt" />}</Route>
+        <Route path="/allied-health/diagnostic-sonography/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="diagnosticSonography" />}</Route>
+        <Route path="/allied-health/diagnostic-sonography/questions">{() => <AlliedQuestionsIndexPage professionKey="diagnosticSonography" />}</Route>
+        <Route path="/allied-health/cardiac-sonographer/questions/:topicSlug">{() => <AlliedQuestionSeoPage professionKey="cardiacSonographer" />}</Route>
+        <Route path="/allied-health/cardiac-sonographer/questions">{() => <AlliedQuestionsIndexPage professionKey="cardiacSonographer" />}</Route>
         <Route path="/allied-health/paramedic" component={ParamedicLanding} />
         <Route path="/allied-health/mlt/exams" component={MltExamHub} />
         <Route path="/allied-health/mlt/exam/canada_realistic" component={MltCanadaExam} />

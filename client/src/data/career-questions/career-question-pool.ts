@@ -17,6 +17,15 @@ import { mltQuestionsBatch2 } from "./mlt-questions-batch2";
 import { imagingQuestions } from "./imaging-questions";
 import { otaQuestions } from "./ota-questions";
 import { ptaQuestions } from "./pta-questions";
+import { himQuestions } from "./him-questions";
+import { sonographyQuestions } from "./sonography-questions";
+import { cardiacSonographerQuestions } from "./cardiac-sonographer-questions";
+import { surgicalTechnologistQuestions } from "./surgical-technologist-questions";
+import { surgicalTechnologistQuestionsPart2 } from "./surgical-technologist-questions-2";
+import { surgicalTechnologistQuestionsPart3 } from "./surgical-technologist-questions-3";
+import { surgicalTechnologistQuestionsPart4 } from "./surgical-technologist-questions-4";
+import { surgicalTechnologistQuestionsPart5 } from "./surgical-technologist-questions-5";
+import { surgicalTechnologistQuestionsPart6 } from "./surgical-technologist-questions-6";
 
 const pools: Record<string, CareerQuestion[]> = {
   rrt: [...rrtQuestions, ...rrtQuestionsBatch1, ...rrtQuestionsBatch2, ...rrtQuestionsBatch3, ...rrtPharmacologyQuestions],
@@ -25,7 +34,13 @@ const pools: Record<string, CareerQuestion[]> = {
   mlt: [...mltQuestions, ...mltQuestionsBatch2],
   imaging: imagingQuestions,
   occupationalTherapyAssistant: otaQuestions,
+  occupationalTherapy: otaQuestions,
   physiotherapyAssistant: ptaQuestions,
+  physicalTherapy: ptaQuestions,
+  surgicalTechnologist: [...surgicalTechnologistQuestions, ...surgicalTechnologistQuestionsPart2, ...surgicalTechnologistQuestionsPart3, ...surgicalTechnologistQuestionsPart4, ...surgicalTechnologistQuestionsPart5, ...surgicalTechnologistQuestionsPart6],
+  healthInfoMgmt: himQuestions,
+  diagnosticSonography: sonographyQuestions,
+  cardiacSonographer: cardiacSonographerQuestions,
 };
 
 export function getCareerQuestionPool(careerType: CareerType | string): CareerQuestion[] {

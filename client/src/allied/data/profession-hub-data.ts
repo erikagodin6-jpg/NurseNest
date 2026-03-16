@@ -611,7 +611,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length SPI and specialty exam simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master sonographic anatomy, pathology appearances, Doppler criteria, and normal measurement values." },
     ],
-    questionCountDisplay: "Coming Soon",
+    questionCountDisplay: "310+",
     faqs: [
       { q: "What is the ARDMS SPI exam?", a: "The Sonography Principles and Instrumentation (SPI) exam is the prerequisite physics exam required before taking any ARDMS specialty credential. It covers ultrasound physics, transducer technology, Doppler principles, bioeffects, artifacts, and quality assurance. The exam has 110 questions with a 2-hour time limit." },
       { q: "Which ARDMS specialty should I take first?", a: "Most sonographers start with the Abdomen (AB) specialty, as it covers the broadest range of anatomy and is the most commonly tested in clinical practice. OB/GYN is popular for those interested in maternal-fetal medicine, and VT is ideal for vascular lab positions." },
@@ -677,7 +677,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length RDCS simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master echo views, hemodynamic formulas, valve disease criteria, normal values, and pathology recognition." },
     ],
-    questionCountDisplay: "Coming Soon",
+    questionCountDisplay: "310+",
     faqs: [
       { q: "What is the ARDMS RDCS exam?", a: "The Registered Diagnostic Cardiac Sonographer (RDCS) exam is offered by ARDMS with Adult Echocardiography (AE) and Pediatric Echocardiography (PE) specialties. The AE exam tests competency in cardiac anatomy, hemodynamics, valve disease assessment, cardiomyopathies, and echocardiographic techniques. It has 170 questions with a 3-hour time limit." },
       { q: "What's the difference between RDCS and RCS?", a: "Both are recognized credentials for cardiac sonographers. RDCS is issued by ARDMS and requires passing the SPI exam first. RCS is issued by CCI (Cardiovascular Credentialing International) and has its own prerequisite structure. Most employers accept both credentials." },
@@ -743,7 +743,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length RHIT and RHIA simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master coding guidelines, HIPAA regulations, EHR terminology, and revenue cycle concepts with adaptive flashcards." },
     ],
-    questionCountDisplay: "Coming Soon",
+    questionCountDisplay: "310+",
     faqs: [
       { q: "What HIM exams do you cover?", a: "We cover the AHIMA RHIT, RHIA, and CCS certification exams, as well as AAPC CPC content. Our material is organized around the official exam competency domains so you study exactly what's tested." },
       { q: "How are the questions different from other HIM prep?", a: "Each question includes a detailed coding rationale explaining the reasoning — not just which code is correct. We cover ICD-10 Official Guidelines, CPT conventions, HIPAA regulations, and revenue cycle principles in depth." },

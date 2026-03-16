@@ -31,6 +31,11 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./surgical-technologist-questions-5").then(m => m.surgicalTechnologistQuestionsPart5),
     import("./surgical-technologist-questions-6").then(m => m.surgicalTechnologistQuestionsPart6),
   ]).then(parts => parts.flat()),
+  occupationalTherapy: () => import("./ota-questions").then(m => m.otaQuestions),
+  physicalTherapy: () => import("./pta-questions").then(m => m.ptaQuestions),
+  healthInfoMgmt: () => import("./him-questions").then(m => m.himQuestions),
+  diagnosticSonography: () => import("./sonography-questions").then(m => m.sonographyQuestions),
+  cardiacSonographer: () => import("./cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
 };
 
 export async function loadCareerQuestions(careerType: CareerType): Promise<CareerQuestion[]> {

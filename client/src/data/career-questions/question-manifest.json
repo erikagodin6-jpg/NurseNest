@@ -248,6 +248,69 @@
           "surgical-technologist-questions-5.ts",
           "surgical-technologist-questions-6.ts"
         ]
+      },
+      "healthInfoMgmt": {
+        "total": 310,
+        "byCategory": {
+          "ICD-10-CM/PCS Coding": 75,
+          "CPT/HCPCS Coding": 45,
+          "Revenue Cycle Management": 35,
+          "Health Data Analytics": 30,
+          "HIPAA & Compliance": 30,
+          "EHR & Health IT": 30,
+          "Clinical Documentation Improvement": 25,
+          "Quality & Performance Improvement": 20,
+          "Health Information Exchange": 10,
+          "Cancer Registry & Registries": 10
+        },
+        "byFormat": {
+          "MCQ": 310
+        },
+        "files": [
+          "him-questions.ts"
+        ]
+      },
+      "diagnosticSonography": {
+        "total": 310,
+        "byCategory": {
+          "Ultrasound Physics & Instrumentation": 50,
+          "Abdominal Sonography": 55,
+          "Obstetric Sonography": 45,
+          "Gynecologic Sonography": 35,
+          "Vascular Sonography": 35,
+          "Small Parts Sonography": 30,
+          "Musculoskeletal Sonography": 25,
+          "Sonographic Pathology": 20,
+          "Patient Care & Safety": 15
+        },
+        "byFormat": {
+          "MCQ": 310
+        },
+        "files": [
+          "sonography-questions.ts"
+        ]
+      },
+      "cardiacSonographer": {
+        "total": 311,
+        "byCategory": {
+          "Cardiac Anatomy & Physiology": 40,
+          "Standard Echocardiography Views": 35,
+          "Cardiac Hemodynamics & Doppler": 40,
+          "Valvular Heart Disease": 40,
+          "LV Systolic Function": 30,
+          "Diastolic Function": 25,
+          "Congenital Heart Disease": 25,
+          "Cardiomyopathies": 25,
+          "Stress Echocardiography": 20,
+          "TEE & Advanced Imaging": 20,
+          "Pericardial Disease": 11
+        },
+        "byFormat": {
+          "MCQ": 311
+        },
+        "files": [
+          "cardiac-sonographer-questions.ts"
+        ]
       }
     },
     "nursing": {

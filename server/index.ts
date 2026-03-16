@@ -862,6 +862,7 @@ function runDeferredStartupWork() {
       await import("./encyclopedia-seed").then(({ seedEncyclopediaEntries }) => seedEncyclopediaEntries()).catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
       await import("./seed-nursing-content-hub").then(({ seedNursingContentHub }) => seedNursingContentHub(seedPool)).catch((e: any) => console.error("[NursingHubSeed] Failed:", e.message));
       await import("./seed-allied-health-landing-pages").then(({ seedAlliedHealthLandingPages }) => seedAlliedHealthLandingPages()).catch((e: any) => console.error("[AlliedLandingPages] Failed:", e.message));
+      await import("./seeds/seed-allied-health-questions").then(({ seedAlliedHealthQuestions }) => seedAlliedHealthQuestions(seedPool)).catch((e: any) => console.error("[AlliedHealthQuestions] Failed:", e.message));
       await import("./seed-topic-hub-pages").then(({ seedTopicHubPages }) => seedTopicHubPages()).catch((e: any) => console.error("[TopicHubPages] Failed:", e.message));
       await import("./seed-long-form-study-guides").then(({ seedLongFormStudyGuides }) => seedLongFormStudyGuides()).catch((e: any) => console.error("[LongFormGuides] Failed:", e.message));
       await import("./seed-long-tail-educational-pages").then(({ seedLongTailEducationalPages }) => seedLongTailEducationalPages()).catch((e: any) => console.error("[LongTailPages] Failed:", e.message));
