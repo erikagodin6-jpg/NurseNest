@@ -59,14 +59,14 @@ export default function AlliedHomePage() {
   return (
     <div data-testid="allied-home-page">
       <AlliedSEO
-        title="Allied Health Exam Prep - QBanks, Mock Exams & AI Study Tools"
-        description="Prepare for your allied health certification with career-specific test banks, adaptive mock exams, flashcards, AI study tools, and personalized study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
-        keywords="allied health exam prep, RRT exam, paramedic exam, pharmacy tech exam, MLT exam, medical imaging exam, healthcare certification, NBRC, NREMT, PTCB, CSMLS, CAMRT, question bank, mock exam, study tools"
-        canonicalPath="/"
+        title="Allied Health Exam Prep — Practice Questions & Mock Exams | NurseNest"
+        description="Pass your allied health certification exam with 6,500+ practice questions, blueprint-weighted mock exams, flashcards, and AI study tools for RRT, Paramedic, Pharmacy Tech, MLT, and Imaging certifications."
+        keywords="allied health exam prep, RRT practice questions, paramedic exam prep, pharmacy tech PTCB questions, MLT CSMLS exam, ARRT radiography exam, healthcare certification practice test, mock exam, question bank"
+        canonicalPath="/allied-health"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "NurseNest Allied - Healthcare Exam Academy",
+          "name": "NurseNest Allied Health Exam Prep",
           "url": "https://www.nursenest.ca/allied-health"
         }}
       />
@@ -79,10 +79,10 @@ export default function AlliedHomePage() {
               Healthcare Exam Academy
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-hero-title">
-              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Healthcare Certification Exam</span> With Confidence
+              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Certification Exam</span> on the First Attempt
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
-              6,500+ practice questions, blueprint-weighted mock exams, AI study tools, and readiness tracking for RRT, Paramedic, Pharmacy Tech, MLT, and Diagnostic Imaging certifications. Join thousands of students who passed on their first attempt.
+              6,500+ exam-style practice questions with detailed rationales, blueprint-weighted mock exams, and AI-powered study plans for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, PT, and HIM certifications.
             </p>
             <p className="text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 inline-block mb-3" data-testid="text-hero-loss-aversion">
               Don't risk failing your certification exam — start building confidence today
@@ -92,10 +92,10 @@ export default function AlliedHomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
               <Link href="/diagnostic?career=general" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
-                Take a Free Diagnostic <ArrowRight className="w-4 h-4" />
+                Start Free Practice Questions <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/allied-health/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-all border border-teal-200" data-testid="button-view-pricing">
-                Explore Career Paths
+                Browse Exam Prep by Profession
               </Link>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="allied-hero-trust-badges">
@@ -229,7 +229,7 @@ export default function AlliedHomePage() {
           </div>
           <div className="text-center mt-6">
             <Link href="/allied-health" className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700" data-testid="link-all-career-guides">
-              View all career guides <ArrowRight className="w-3.5 h-3.5" />
+              View all exam prep resources <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

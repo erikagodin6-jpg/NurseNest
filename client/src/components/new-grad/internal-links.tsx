@@ -54,12 +54,20 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
     { href: "/blog", label: "Education Blog", category: "NurseNest Resources" },
   ];
 
+  const alliedHealthLinks = [
+    { href: "/allied-health/respiratory-therapy", label: "RRT Exam Prep", category: "Allied Health Exam Prep" },
+    { href: "/allied-health/paramedic", label: "Paramedic Exam Prep", category: "Allied Health Exam Prep" },
+    { href: "/allied-health/medical-laboratory-technologist", label: "MLT Exam Prep", category: "Allied Health Exam Prep" },
+    { href: "/allied-health/radiologic-technologist", label: "Radiography Exam Prep", category: "Allied Health Exam Prep" },
+  ];
+
   const allLinks = [
     ...professionLinks,
     ...skillLinks,
     ...unitLinks,
     ...careerLinks,
     ...nurseNestLinks,
+    ...alliedHealthLinks,
   ].filter(link => link.href !== currentPath);
 
   const grouped = allLinks.reduce((acc, link) => {
@@ -74,6 +82,7 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
     "Unit Guides": Stethoscope,
     "Career Development": TrendingUp,
     "NurseNest Resources": BookOpen,
+    "Allied Health Exam Prep": BookOpen,
   };
 
   return (
@@ -81,7 +90,12 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-lg font-bold text-gray-900 mb-6">Related Resources</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(grouped).slice(0, 3).map(([category, links]) => {
+          {Object.entries(grouped)
+            .sort(([a], [b]) => {
+              const priority = ["Profession Hubs", "Allied Health Exam Prep", "Clinical Skills", "NurseNest Resources", "Unit Guides", "Career Development"];
+              return (priority.indexOf(a) === -1 ? 99 : priority.indexOf(a)) - (priority.indexOf(b) === -1 ? 99 : priority.indexOf(b));
+            })
+            .slice(0, 4).map(([category, links]) => {
             const CatIcon = categoryIcons[category] || BookOpen;
             return (
               <div key={category}>

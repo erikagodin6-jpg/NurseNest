@@ -44,6 +44,7 @@ export interface AlliedHealthProfession {
     keywords: string;
   };
   relatedProfessions: string[];
+  hasStudyContent?: boolean;
 }
 
 export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> = {
@@ -122,9 +123,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "airway-management-techniques", title: "Airway Management Techniques for RRTs", targetKeyword: "airway management techniques" },
     ],
     seo: {
-      title: "Respiratory Therapy Career Guide | How to Become an RRT",
-      description: "Complete guide to respiratory therapy careers. Learn about education, certification (NBRC TMC/CSE, CBRC), salary, job outlook, and study resources for aspiring respiratory therapists.",
-      keywords: "respiratory therapy, RRT, respiratory therapist, NBRC TMC, NBRC CSE, CBRC, ventilator management, ABG interpretation, respiratory therapy career",
+      title: "Respiratory Therapy Practice Questions & Exam Prep | NurseNest",
+      description: "Prepare for the NBRC TMC, CSE, and CBRC exams with 500+ respiratory therapy practice questions, mock exams, ABG interpretation drills, and ventilator management scenarios. Build exam confidence today.",
+      keywords: "respiratory therapy exam prep, RRT practice questions, NBRC TMC questions, NBRC CSE prep, CBRC exam, ABG interpretation practice, ventilator management quiz, respiratory therapist certification",
     },
     relatedProfessions: ["paramedic", "surgical-technologist", "diagnostic-sonography"],
   },
@@ -204,9 +205,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "urinalysis-body-fluids", title: "Urinalysis and Body Fluid Analysis", targetKeyword: "urinalysis body fluids" },
     ],
     seo: {
-      title: "Medical Laboratory Technologist Career Guide | MLT/MLS Certification",
-      description: "Complete guide to medical laboratory technologist careers. Learn about education, certification (CSMLS, ASCP), salary, job outlook, and study resources for aspiring MLTs.",
-      keywords: "medical laboratory technologist, MLT, MLS, CSMLS, ASCP, clinical laboratory, hematology, microbiology, blood banking, lab technologist career",
+      title: "MLT Practice Questions & CSMLS/ASCP Exam Prep | NurseNest",
+      description: "Ace your CSMLS or ASCP certification with MLT practice questions covering hematology, microbiology, blood banking, and clinical chemistry. Mock exams, flashcards, and detailed rationales included.",
+      keywords: "MLT exam prep, CSMLS practice questions, ASCP MLS exam, medical laboratory technologist certification, hematology questions, microbiology quiz, blood banking practice, clinical chemistry exam",
     },
     relatedProfessions: ["respiratory-therapy", "radiologic-technologist", "pharmacy-technician"],
   },
@@ -288,9 +289,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "airway-management-rsi", title: "Advanced Airway Management and RSI", targetKeyword: "airway management RSI paramedic" },
     ],
     seo: {
-      title: "Paramedic Career Guide | How to Become a Paramedic",
-      description: "Complete guide to paramedic careers. Learn about education, certification (NREMT, COPR), salary, job outlook, and study resources for aspiring paramedics.",
-      keywords: "paramedic, EMT, NREMT, paramedic certification, emergency medical services, EMS career, advanced life support, paramedic exam prep",
+      title: "Paramedic Practice Questions & NREMT Exam Prep | NurseNest",
+      description: "Pass your NREMT or COPR paramedic exam with realistic practice questions, ACLS/PALS scenarios, trauma assessment drills, and timed mock exams. Detailed rationales for every question.",
+      keywords: "paramedic exam prep, NREMT practice questions, COPR paramedic exam, paramedic mock exam, ACLS questions, trauma assessment quiz, EMS certification prep, advanced life support practice",
     },
     relatedProfessions: ["respiratory-therapy", "surgical-technologist", "radiologic-technologist"],
   },
@@ -369,9 +370,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "pediatric-imaging-techniques", title: "Pediatric Imaging Techniques and Safety", targetKeyword: "pediatric imaging techniques" },
     ],
     seo: {
-      title: "Radiologic Technologist Career Guide | ARRT Certification",
-      description: "Complete guide to radiologic technologist careers. Learn about education, certification (ARRT, CAMRT), salary, job outlook, and study resources for aspiring rad techs.",
-      keywords: "radiologic technologist, rad tech, ARRT, CAMRT, X-ray technologist, radiography, diagnostic imaging career, radiology certification",
+      title: "Radiography Practice Questions & ARRT/CAMRT Exam Prep | NurseNest",
+      description: "Prepare for the ARRT or CAMRT radiography exam with positioning questions, radiation safety drills, image quality scenarios, and timed mock exams. Exam-aligned content with detailed rationales.",
+      keywords: "ARRT exam prep, CAMRT practice questions, radiography exam, radiologic technologist certification, positioning quiz, radiation safety questions, CT exam prep, diagnostic imaging practice",
     },
     relatedProfessions: ["diagnostic-sonography", "cardiac-sonographer", "medical-laboratory-technologist"],
   },
@@ -450,9 +451,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "small-parts-thyroid-breast", title: "Small Parts Sonography: Thyroid and Breast", targetKeyword: "thyroid breast sonography" },
     ],
     seo: {
-      title: "Diagnostic Medical Sonography Career Guide | ARDMS Certification",
-      description: "Complete guide to diagnostic medical sonography careers. Learn about education, certification (ARDMS), salary, job outlook, and study resources for aspiring sonographers.",
-      keywords: "diagnostic medical sonography, sonographer, ARDMS, RDMS, ultrasound technologist, sonography career, ultrasound certification",
+      title: "Sonography Practice Questions & ARDMS Exam Prep | NurseNest",
+      description: "Pass the ARDMS RDMS and SPI exams with sonography practice questions covering abdominal, OB/GYN, vascular, and physics. Mock exams, flashcards, and case-based scenarios included.",
+      keywords: "ARDMS exam prep, sonography practice questions, RDMS exam, SPI practice test, ultrasound certification, abdominal sonography quiz, OB ultrasound questions, vascular sonography practice",
     },
     relatedProfessions: ["cardiac-sonographer", "radiologic-technologist", "medical-laboratory-technologist"],
   },
@@ -531,9 +532,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "stress-echocardiography-protocols", title: "Stress Echocardiography Protocols", targetKeyword: "stress echocardiography" },
     ],
     seo: {
-      title: "Cardiac Sonographer Career Guide | RDCS Certification",
-      description: "Complete guide to cardiac sonographer careers. Learn about education, certification (ARDMS RDCS, CCI RCS), salary, job outlook, and study resources for aspiring echo techs.",
-      keywords: "cardiac sonographer, echocardiographer, echo tech, RDCS, ARDMS, CCI RCS, echocardiography, cardiac ultrasound career",
+      title: "Cardiac Sonography Practice Questions & RDCS Exam Prep | NurseNest",
+      description: "Prepare for the ARDMS RDCS or CCI RCS exam with echocardiography practice questions, hemodynamics drills, valve assessment scenarios, and timed mock exams. Build exam confidence.",
+      keywords: "RDCS exam prep, cardiac sonography practice questions, echocardiography exam, CCI RCS certification, echo tech practice test, cardiac hemodynamics quiz, valve disease questions, stress echo prep",
     },
     relatedProfessions: ["diagnostic-sonography", "radiologic-technologist", "respiratory-therapy"],
   },
@@ -612,9 +613,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "sensory-processing-interventions", title: "Sensory Processing Interventions in OT", targetKeyword: "sensory processing interventions" },
     ],
     seo: {
-      title: "Occupational Therapy Assistant Career Guide | NBCOT COTA Certification",
-      description: "Complete guide to occupational therapy assistant careers. Learn about education, NBCOT COTA certification, salary, job outlook, and study resources for aspiring OTAs.",
-      keywords: "occupational therapy assistant, OTA, COTA, NBCOT, occupational therapy career, rehabilitation, activities of daily living",
+      title: "OTA Practice Questions & NBCOT COTA Exam Prep | NurseNest",
+      description: "Pass the NBCOT COTA exam with OTA practice questions covering ADLs, cognitive rehabilitation, pediatric milestones, and adaptive equipment. Mock exams and detailed rationales included.",
+      keywords: "NBCOT COTA exam prep, OTA practice questions, occupational therapy assistant certification, ADL assessment quiz, pediatric OT exam, cognitive rehabilitation questions, COTA mock exam",
     },
     relatedProfessions: ["physiotherapy-assistant", "diagnostic-sonography", "pharmacy-technician"],
   },
@@ -693,9 +694,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "wound-care-physical-therapy", title: "Wound Care Principles for Physical Therapy", targetKeyword: "wound care physical therapy" },
     ],
     seo: {
-      title: "Physiotherapy Assistant Career Guide | PTA Certification (NPTE-PTA)",
-      description: "Complete guide to physiotherapy assistant careers. Learn about education, NPTE-PTA certification, salary, job outlook, and study resources for aspiring PTAs.",
-      keywords: "physiotherapy assistant, physical therapy assistant, PTA, NPTE-PTA, FSBPT, physical therapy career, rehabilitation, PTA certification",
+      title: "PTA Practice Questions & NPTE-PTA Exam Prep | NurseNest",
+      description: "Ace the NPTE-PTA exam with physical therapy assistant practice questions, therapeutic exercise scenarios, gait training drills, and timed mock exams. Exam-aligned content with rationales.",
+      keywords: "NPTE-PTA exam prep, PTA practice questions, physical therapy assistant certification, FSBPT exam, therapeutic exercise quiz, gait training questions, musculoskeletal PT exam, rehabilitation practice",
     },
     relatedProfessions: ["occupational-therapy-assistant", "paramedic", "respiratory-therapy"],
   },
@@ -775,9 +776,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "insurance-billing-prescription", title: "Insurance Billing and Prescription Processing", targetKeyword: "pharmacy insurance billing" },
     ],
     seo: {
-      title: "Pharmacy Technician Career Guide | PTCB & PEBC Certification",
-      description: "Complete guide to pharmacy technician careers. Learn about education, certification (PTCB, ExCPT, PEBC), salary, job outlook, and study resources for aspiring pharm techs.",
-      keywords: "pharmacy technician, pharm tech, PTCB, PTCE, ExCPT, PEBC, pharmacy career, pharmacy certification, medication dispensing",
+      title: "Pharmacy Tech Practice Questions & PTCB/PEBC Exam Prep | NurseNest",
+      description: "Pass the PTCB PTCE or PEBC exam with pharmacy technician practice questions covering dosage calculations, drug classifications, sterile compounding, and pharmacy law. Mock exams included.",
+      keywords: "PTCB exam prep, pharmacy technician practice questions, PTCE study guide, PEBC pharmacy exam, dosage calculation quiz, drug classification practice, sterile compounding questions, ExCPT prep",
     },
     relatedProfessions: ["medical-laboratory-technologist", "respiratory-therapy", "surgical-technologist"],
   },
@@ -857,11 +858,12 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "operating-room-safety", title: "Operating Room Safety and Fire Prevention", targetKeyword: "operating room safety" },
     ],
     seo: {
-      title: "Surgical Technologist Career Guide | CST Certification",
-      description: "Complete guide to surgical technologist careers. Learn about education, CST certification (NBSTSA), salary, job outlook, and study resources for aspiring surg techs.",
-      keywords: "surgical technologist, surg tech, scrub tech, CST, NBSTSA, operating room technician, surgical technology career, sterile technique",
+      title: "Surgical Tech Practice Questions & CST Exam Prep | NurseNest",
+      description: "Prepare for the NBSTSA CST exam with surgical technologist practice questions on sterile technique, instrument identification, surgical counts, and OR safety. Content coming soon.",
+      keywords: "CST exam prep, surgical technologist practice questions, NBSTSA certification, sterile technique quiz, surgical instruments identification, scrub tech exam, operating room safety practice",
     },
     relatedProfessions: ["paramedic", "radiologic-technologist", "respiratory-therapy"],
+    hasStudyContent: false,
   },
   "health-information-management": {
     slug: "health-information-management",
@@ -940,9 +942,9 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
       { slug: "ehr-implementation-optimization", title: "EHR Implementation and Optimization Guide", targetKeyword: "EHR implementation optimization" },
     ],
     seo: {
-      title: "Health Information Management Career Guide | RHIT & RHIA Certification",
-      description: "Complete guide to health information management careers. Learn about education, AHIMA certification (RHIT, RHIA, CCS), salary, job outlook, and study resources for aspiring HIM professionals.",
-      keywords: "health information management, HIM, RHIT, RHIA, AHIMA, medical coding, ICD-10, CPT coding, health information technology, EHR, HIPAA, clinical documentation improvement",
+      title: "HIM Practice Questions & RHIT/RHIA Exam Prep | NurseNest",
+      description: "Pass the AHIMA RHIT, RHIA, or CCS exam with health information management practice questions covering ICD-10 coding, HIPAA compliance, CDI, and revenue cycle management. Mock exams included.",
+      keywords: "RHIT exam prep, RHIA practice questions, AHIMA certification, CCS exam prep, ICD-10 coding quiz, HIPAA compliance questions, health information management practice, medical coding exam",
     },
     relatedProfessions: ["medical-laboratory-technologist", "pharmacy-technician", "respiratory-therapy"],
   },

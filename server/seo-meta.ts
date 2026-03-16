@@ -761,8 +761,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Advanced NP certification exam preparation for AANP and ANCC. Practice questions, differential diagnosis cases, pharmacology review, and mock exams.",
   },
   "/newgrad": {
-    title: "New Grad Career Hub | Resources for New Nursing Graduates | NurseNest",
-    description: "Career development resources for new nursing graduates. Interview prep, resume building, salary guides, workplace navigation, and professional development content.",
+    title: "New Grad Career Hub — Interview Prep, Resume Tools & Survival Guides | NurseNest",
+    description: "Launch your nursing career with free survival guides, STAR-framework interview prep, ATS-optimized resume templates, salary negotiation tools, and burnout prevention strategies for new graduate nurses.",
   },
   "/rex-pn": {
     title: "REx-PN Exam Prep Hub | Canadian RPN Exam Review | NurseNest",
@@ -801,8 +801,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Practice clinical decision-making with evidence-based case studies. Complex patient scenarios with diagnostic reasoning and nursing intervention analysis.",
   },
   "/allied-health": {
-    title: "Allied Health Hub | Exam Prep for Healthcare Professionals | NurseNest",
-    description: "Exam preparation and career resources for allied health professionals. Paramedics, respiratory therapists, MLTs, imaging technologists, and more.",
+    title: "Allied Health Exam Prep — Practice Questions & Mock Exams | NurseNest",
+    description: "Pass your allied health certification exam with career-specific practice questions, blueprint-weighted mock exams, flashcards, and AI study tools for RRT, Paramedic, Pharmacy Tech, MLT, and Imaging professionals.",
   },
   "/practice-questions": {
     title: "Nursing Practice Questions | NCLEX & REx-PN Question Bank | NurseNest",
@@ -1582,36 +1582,49 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     };
   }
 
-  const alliedHealthProfessionMatch = cleanPath.match(/^\/allied-health\/(rrt|paramedic|pharmacy-technician|mlt|imaging|social-work|psychotherapy|addictions|occupational-therapy)(\/(.+))?$/);
+  const alliedHealthProfessionMatch = cleanPath.match(/^\/allied-health\/(rrt|respiratory-therapy|paramedic|pharmacy-technician|mlt|medical-laboratory-technologist|imaging|radiologic-technologist|diagnostic-sonography|cardiac-sonographer|social-work|psychotherapy|addictions|occupational-therapy|occupational-therapy-assistant|physiotherapy-assistant|surgical-technologist|health-information-management)(\/(.+))?$/);
   if (alliedHealthProfessionMatch) {
     const profKey = alliedHealthProfessionMatch[1];
     const subPage = alliedHealthProfessionMatch[3] || "";
-    const professionNames: Record<string, string> = {
-      "rrt": "Respiratory Therapy",
-      "paramedic": "Paramedic",
-      "pharmacy-technician": "Pharmacy Technician",
-      "mlt": "Medical Lab Technology",
-      "imaging": "Diagnostic Imaging",
-      "social-work": "Social Work",
-      "psychotherapy": "Psychotherapy",
-      "addictions": "Addictions Counselling",
-      "occupational-therapy": "Occupational Therapy",
+    const professionMeta: Record<string, { title: string; description: string; shortName: string; exams: string }> = {
+      "rrt": { title: "Respiratory Therapy Practice Questions & Exam Prep | NurseNest", description: "Prepare for the NBRC TMC, CSE, and CBRC exams with 500+ respiratory therapy practice questions, mock exams, ABG interpretation drills, and ventilator management scenarios. Build exam confidence today.", shortName: "RRT", exams: "NBRC TMC, CSE & CBRC" },
+      "respiratory-therapy": { title: "Respiratory Therapy Practice Questions & Exam Prep | NurseNest", description: "Prepare for the NBRC TMC, CSE, and CBRC exams with 500+ respiratory therapy practice questions, mock exams, ABG interpretation drills, and ventilator management scenarios. Build exam confidence today.", shortName: "RRT", exams: "NBRC TMC, CSE & CBRC" },
+      "paramedic": { title: "Paramedic Practice Questions & NREMT Exam Prep | NurseNest", description: "Pass your NREMT or COPR paramedic exam with realistic practice questions, ACLS/PALS scenarios, trauma assessment drills, and timed mock exams. Detailed rationales for every question.", shortName: "Paramedic", exams: "NREMT & COPR" },
+      "pharmacy-technician": { title: "Pharmacy Tech Practice Questions & PTCB/PEBC Exam Prep | NurseNest", description: "Pass the PTCB PTCE or PEBC exam with pharmacy technician practice questions covering dosage calculations, drug classifications, sterile compounding, and pharmacy law. Mock exams included.", shortName: "Pharmacy Tech", exams: "PTCB PTCE & PEBC" },
+      "mlt": { title: "MLT Practice Questions & CSMLS/ASCP Exam Prep | NurseNest", description: "Ace your CSMLS or ASCP certification with MLT practice questions covering hematology, microbiology, blood banking, and clinical chemistry. Mock exams, flashcards, and detailed rationales included.", shortName: "MLT", exams: "CSMLS & ASCP" },
+      "medical-laboratory-technologist": { title: "MLT Practice Questions & CSMLS/ASCP Exam Prep | NurseNest", description: "Ace your CSMLS or ASCP certification with MLT practice questions covering hematology, microbiology, blood banking, and clinical chemistry. Mock exams, flashcards, and detailed rationales included.", shortName: "MLT", exams: "CSMLS & ASCP" },
+      "imaging": { title: "Radiography Practice Questions & ARRT/CAMRT Exam Prep | NurseNest", description: "Prepare for the ARRT or CAMRT radiography exam with positioning questions, radiation safety drills, image quality scenarios, and timed mock exams. Exam-aligned content with detailed rationales.", shortName: "Radiography", exams: "ARRT & CAMRT" },
+      "radiologic-technologist": { title: "Radiography Practice Questions & ARRT/CAMRT Exam Prep | NurseNest", description: "Prepare for the ARRT or CAMRT radiography exam with positioning questions, radiation safety drills, image quality scenarios, and timed mock exams. Exam-aligned content with detailed rationales.", shortName: "Radiography", exams: "ARRT & CAMRT" },
+      "diagnostic-sonography": { title: "Sonography Practice Questions & ARDMS Exam Prep | NurseNest", description: "Pass the ARDMS RDMS and SPI exams with sonography practice questions covering abdominal, OB/GYN, vascular, and physics. Mock exams, flashcards, and case-based scenarios included.", shortName: "Sonography", exams: "ARDMS RDMS & SPI" },
+      "cardiac-sonographer": { title: "Cardiac Sonography Practice Questions & RDCS Exam Prep | NurseNest", description: "Prepare for the ARDMS RDCS or CCI RCS exam with echocardiography practice questions, hemodynamics drills, valve assessment scenarios, and timed mock exams. Build exam confidence.", shortName: "Cardiac Sonography", exams: "ARDMS RDCS & CCI RCS" },
+      "social-work": { title: "Social Work Practice Questions & ASWB Exam Prep | NurseNest", description: "Social Work exam preparation — practice questions, mock exams, flashcards, and study guides for ASWB Licensing certification. Build exam confidence with detailed rationales.", shortName: "Social Work", exams: "ASWB Licensing" },
+      "psychotherapy": { title: "Psychotherapy Practice Questions & CRPO/NCE Exam Prep | NurseNest", description: "Psychotherapy exam preparation — practice questions, mock exams, flashcards, and study guides for CRPO & NCE certification. Build exam confidence with detailed rationales.", shortName: "Psychotherapy", exams: "CRPO & NCE" },
+      "addictions": { title: "Addictions Counselling Practice Questions & IC&RC Exam Prep | NurseNest", description: "Addictions Counselling exam preparation — practice questions, mock exams, flashcards, and study guides for IC&RC ADC & CCAC certification. Build exam confidence with detailed rationales.", shortName: "Addictions", exams: "IC&RC ADC & CCAC" },
+      "occupational-therapy": { title: "OT Practice Questions & NBCOT Exam Prep | NurseNest", description: "Occupational Therapy exam preparation — practice questions, mock exams, flashcards, and study guides for NBCOT OTR & NOTCE certification. Build exam confidence with detailed rationales.", shortName: "OT", exams: "NBCOT OTR & NOTCE" },
+      "occupational-therapy-assistant": { title: "OTA Practice Questions & NBCOT COTA Exam Prep | NurseNest", description: "Pass the NBCOT COTA exam with OTA practice questions covering ADLs, cognitive rehabilitation, pediatric milestones, and adaptive equipment. Mock exams and detailed rationales included.", shortName: "OTA", exams: "NBCOT COTA" },
+      "physiotherapy-assistant": { title: "PTA Practice Questions & NPTE-PTA Exam Prep | NurseNest", description: "Ace the NPTE-PTA exam with physical therapy assistant practice questions, therapeutic exercise scenarios, gait training drills, and timed mock exams. Exam-aligned content with rationales.", shortName: "PTA", exams: "NPTE-PTA" },
+      "surgical-technologist": { title: "Surgical Tech Practice Questions & CST Exam Prep | NurseNest", description: "Prepare for the NBSTSA CST exam with surgical technologist practice questions on sterile technique, instrument identification, surgical counts, and OR safety. Content coming soon.", shortName: "Surg Tech", exams: "NBSTSA CST" },
+      "health-information-management": { title: "HIM Practice Questions & RHIT/RHIA Exam Prep | NurseNest", description: "Pass the AHIMA RHIT, RHIA, or CCS exam with health information management practice questions covering ICD-10 coding, HIPAA compliance, CDI, and revenue cycle management. Mock exams included.", shortName: "HIM", exams: "AHIMA RHIT, RHIA & CCS" },
     };
-    const profName = professionNames[profKey] || slugToTitle(profKey);
+    const prof = professionMeta[profKey];
     const subPageTitle = subPage ? ` — ${slugToTitle(subPage.split("/").pop() || subPage)}` : "";
+    const profTitle = prof ? prof.title : `${slugToTitle(profKey)} Practice Questions & Exam Prep | NurseNest`;
+    const profDesc = prof ? prof.description : `${slugToTitle(profKey)} exam preparation — practice questions, mock exams, flashcards, and study guides. Build exam confidence with detailed rationales.`;
+    const profShortName = prof ? prof.shortName : slugToTitle(profKey);
+    const profExams = prof ? prof.exams : "";
     const alliedJsonLd = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "LearningResource",
-      "name": `${profName}${subPageTitle} Exam Prep`,
-      "description": `${profName} exam preparation and career resources${subPageTitle ? ` — ${slugToTitle(subPage.split("/").pop() || "")}` : ""}.`,
+      "name": `${profShortName} Practice Questions & Exam Prep${subPageTitle}`,
+      "description": profDesc,
       "url": canonical,
-      "learningResourceType": "StudyGuide",
+      "learningResourceType": "Quiz",
       "educationalLevel": "Professional",
       "provider": { "@type": "Organization", "name": "NurseNest", "url": SITE_BASE },
     });
     return {
-      title: `${profName}${subPageTitle} | Allied Health Exam Prep | NurseNest`,
-      description: `${profName} exam prep and career resources${subPageTitle}. Practice questions, study guides, flashcards, and mock exams for certification preparation.`,
+      title: subPageTitle ? `${profShortName} Practice Questions & ${profExams} Exam Prep${subPageTitle} | NurseNest` : profTitle,
+      description: profDesc,
       canonical,
       noindex,
       breadcrumbs,
@@ -1637,8 +1650,8 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     const subPath = newGradMatch[1] || "";
     if (!subPath || subPath === "/") {
       return {
-        title: "New Grad Nursing Hub - Career Resources & Transition Guides | NurseNest",
-        description: "Essential resources for new graduate nurses. Career development guides, clinical skills refreshers, unit-specific orientation guides, and transition-to-practice support.",
+        title: "New Grad Nursing Hub — First-Year Survival Guides, Certifications & Career Tools | NurseNest",
+        description: "Launch your nursing career with first-year survival guides, specialty certification prep (ACLS, PALS, CCRN), interview prep, resume templates, and career development tools for new graduate nurses.",
         canonical,
         noindex,
         breadcrumbs,
@@ -1646,8 +1659,8 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     }
     const readable = slugToTitle(subPath.replace(/^\//, "").split("/").pop() || "");
     return {
-      title: `${readable} - New Grad Nursing Resource | NurseNest`,
-      description: `${readable} guide for new graduate nurses. Professional development, clinical skills, and career transition support from NurseNest.`,
+      title: `${readable} — New Grad Nursing Guide | NurseNest`,
+      description: `${readable} — practical guide for new graduate nurses covering clinical skills, professional development, and career transition support.`,
       canonical,
       noindex,
       breadcrumbs,

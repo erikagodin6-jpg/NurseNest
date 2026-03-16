@@ -53,6 +53,16 @@ export function AlliedSEO({ title, description, keywords, canonicalPath, ogType 
     }
 
     document.querySelectorAll('script[id^="allied-structured-data"]').forEach((el) => el.remove());
+    if (canonicalPath?.startsWith("/allied-health") || window.location.pathname.startsWith("/allied-health")) {
+      document.querySelectorAll('script[type="application/ld+json"]:not([id])').forEach((el) => {
+        try {
+          const data = JSON.parse(el.textContent || "");
+          if (data?.["@type"] === "LearningResource" && data?.url?.includes("/allied-health")) {
+            el.remove();
+          }
+        } catch {}
+      });
+    }
 
     const scriptIds: string[] = [];
 

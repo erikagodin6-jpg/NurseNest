@@ -124,9 +124,9 @@ export default function NewGradHub() {
     <div data-testid="new-grad-hub-page">
       <Navigation />
       <SEO
-        title="New Grad Nursing Hub - Your First Year Starts Here | NurseNest"
-        description="Career transition resources for new graduate nurses. Certifications guide, survival guides, interview prep, resume tools, and career development for NICU, PICU, Emergency, Oncology, Critical Care, and more."
-        keywords="new grad nurse, new graduate nurse, nursing certifications, NICU nursing, PICU nursing, emergency nursing, oncology nursing, critical care nursing, new nurse survival guide, first year nurse"
+        title="New Grad Nursing Hub — First-Year Survival Guides, Certifications & Career Tools | NurseNest"
+        description="Launch your nursing career with first-year survival guides, specialty certification prep (ACLS, PALS, CCRN), interview prep, resume templates, and career development tools for new graduate nurses."
+        keywords="new grad nurse survival guide, nursing certifications ACLS PALS CCRN, new graduate nurse first year, nursing specialty career path, new nurse clinical skills, first year nurse tips, nursing career development"
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData, articleStructuredData]}
@@ -155,14 +155,14 @@ export default function NewGradHub() {
               Your First Year as a Nurse <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Starts Here</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
-              Everything you need to launch your nursing career with confidence — from specialty certifications and clinical survival guides to career growth pathways. Built for new graduate nurses navigating their first year.
+              First-year survival guides, specialty certification prep (ACLS, PALS, CCRN), clinical skills references, and career growth tools — everything new graduate nurses need to thrive from day one.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certifications">
-                Explore Certifications <ArrowRight className="w-4 h-4" />
+                Browse Certification Guides <ArrowRight className="w-4 h-4" />
               </a>
               <a href="#survival-guides" onClick={(e) => { e.preventDefault(); document.getElementById('survival-guides')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-survival-guides">
-                New Nurse Survival Guides
+                Read First-Year Survival Guides
               </a>
             </div>
           </div>

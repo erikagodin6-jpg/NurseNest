@@ -60,9 +60,9 @@ export default function NewGradLanding() {
     <div className="min-h-screen bg-gray-50" data-testid="newgrad-landing-page">
       <Navigation />
       <SEO
-        title="New Grad Career Hub | Career Guidance for New Graduate Nurses | NurseNest"
-        description="Comprehensive career hub for new graduate nurses. Free survival guides, interview preparation, resume templates, burnout prevention, salary negotiation, and professional development resources."
-        keywords="new grad nurse career hub, new graduate nursing guide, first year nurse tips, nursing career development, new grad nurse survival guide, nursing interview prep"
+        title="New Grad Career Hub — Interview Prep, Resume Tools & Survival Guides | NurseNest"
+        description="Launch your nursing career with free survival guides, STAR-framework interview prep, ATS-optimized resume templates, salary negotiation tools, and burnout prevention strategies for new graduate nurses."
+        keywords="new grad nurse interview prep, new graduate nurse resume template, first year nurse survival guide, nursing salary negotiation, new grad nurse career tools, nursing career development, STAR interview answers"
         canonicalPath="/newgrad"
         structuredData={faqStructuredData}
         breadcrumbs={[
@@ -81,15 +81,15 @@ export default function NewGradLanding() {
               <GraduationCap className="w-3 h-3 mr-1" /> New Grad Career Hub
             </Badge>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-newgrad-title">
-              Your Complete Career Guide for the First Year of Nursing
+              Navigate Your First Year of Nursing With Confidence
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed mb-8" data-testid="text-newgrad-subtitle">
-              From surviving your first shift to negotiating your salary — evidence-based career guidance, interview prep, and professional development tools designed specifically for new graduate nurses.
+              Free survival guides, 100+ STAR-framework interview questions, ATS-optimized resume templates, salary negotiation scripts, and burnout prevention strategies — built specifically for new graduate nurses in Canada and the US.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/newgrad/guides">
                 <Button size="lg" className="rounded-full gap-2 bg-blue-600 hover:bg-blue-700 px-8" data-testid="button-explore-guides">
-                  <BookOpen className="w-4 h-4" /> Explore Free Guides
+                  <BookOpen className="w-4 h-4" /> Read Free Survival Guides
                 </Button>
               </Link>
               {!hasAccess && (
@@ -107,7 +107,7 @@ export default function NewGradLanding() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="section-guide-cards">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-guides-heading">
-            Free Career Guidance Across 9 Categories
+            9 Free Career Guides for New Graduate Nurses
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Comprehensive, evidence-based content covering every aspect of your transition from nursing student to confident clinician.
@@ -145,7 +145,7 @@ export default function NewGradLanding() {
               <Star className="w-3 h-3 mr-1" /> New Grad Success Toolkit
             </Badge>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-premium-heading">
-              Premium Career Tools for New Graduates
+              Actionable Career Tools for New Graduates
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Go beyond guidance with actionable career tools: resume templates, interview question banks, salary data, and career planning frameworks.
@@ -243,15 +243,15 @@ export default function NewGradLanding() {
       <section className="bg-gradient-to-r from-blue-600 to-indigo-600 py-14" data-testid="section-cta-bottom">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Start Building Your Nursing Career Today
+            Ready to Launch Your Nursing Career?
           </h2>
           <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-            Join thousands of new graduate nurses who use NurseNest to navigate their first year with confidence.
+            Get free survival guides, interview prep, and career tools — or unlock the full Success Toolkit with resume templates, salary data, and career planning frameworks.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/newgrad/guides">
               <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 rounded-full px-8 gap-2" data-testid="button-start-guides">
-                <BookOpen className="w-4 h-4" /> Read Free Guides
+                <BookOpen className="w-4 h-4" /> Read Free Survival Guides
               </Button>
             </Link>
             {!hasAccess && (

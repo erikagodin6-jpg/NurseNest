@@ -52,30 +52,33 @@ export default function AlliedHealthProfessionPage() {
 
   const IconComponent = ICON_MAP[profession.icon] || BookOpen;
   const publishedArticles = Array.isArray(articles) ? articles : [];
+  const showStudyLinks = profession.hasStudyContent !== false;
 
   return (
     <div data-testid={`profession-hub-page-${profession.slug}`}>
       <AlliedSEO
-        title={`${profession.name}: Career Guide, Certification & Exam Prep`}
-        description={`Complete ${profession.name} career guide with education pathways, certification requirements, salary data (${profession.salaryRange}), and exam prep resources for ${profession.examNames.join(", ")}.`}
-        keywords={`${profession.name}, ${profession.shortName} career, ${profession.examNames.join(", ")}, ${profession.shortName} exam prep, ${profession.shortName} salary, ${profession.shortName} certification`}
+        title={profession.seo.title}
+        description={profession.seo.description}
+        keywords={profession.seo.keywords}
         canonicalPath={`/allied-health/${profession.slug}`}
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "EducationalOrganization",
-          "name": `NurseNest ${profession.shortName} Exam Prep`,
-          "description": profession.overview,
+          "@type": "LearningResource",
+          "name": `${profession.shortName} Practice Questions & Exam Prep`,
+          "description": profession.seo.description,
           "url": `https://www.nursenest.ca/allied-health/${profession.slug}`,
-          "sameAs": ["https://www.nursenest.ca"],
-          "educationalCredentialAwarded": profession.examNames.join(", "),
+          "learningResourceType": "Quiz",
+          "educationalLevel": "Professional",
+          "provider": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+          "about": profession.examNames.map(e => ({ "@type": "DefinedTerm", "name": e })),
         }}
         additionalStructuredData={[{
           "@context": "https://schema.org",
           "@type": "FAQPage",
           "mainEntity": [
+            { "@type": "Question", "name": `What exams can I prepare for with ${profession.shortName} study tools?`, "acceptedAnswer": { "@type": "Answer", "text": `NurseNest offers practice questions, mock exams, and flashcards for ${profession.examNames.join(", ")} certification exams. ${profession.certificationOverview}` }},
             { "@type": "Question", "name": `What education do I need to become a ${profession.name.toLowerCase()}?`, "acceptedAnswer": { "@type": "Answer", "text": profession.educationPathways.join(". ") }},
             { "@type": "Question", "name": `What is the salary range for a ${profession.name.toLowerCase()}?`, "acceptedAnswer": { "@type": "Answer", "text": `The salary range for ${profession.name.toLowerCase()} professionals is ${profession.salaryRange}, with a job outlook of ${profession.jobOutlook}.` }},
-            { "@type": "Question", "name": `What certification do I need?`, "acceptedAnswer": { "@type": "Answer", "text": profession.certificationOverview }},
           ]
         }]}
       />
@@ -91,23 +94,34 @@ export default function AlliedHealthProfessionPage() {
                 </div>
                 <div>
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900" data-testid="text-profession-title">
-                    {profession.name}
+                    {profession.shortName} Practice Questions & Exam Prep
                   </h1>
-                  <p className="text-sm text-gray-500">Career Guide & Exam Prep</p>
+                  <p className="text-sm text-gray-500">Prepare for {profession.examNames.join(", ")} certification</p>
                 </div>
               </div>
               <p className="text-base text-gray-600 mb-6 max-w-2xl" data-testid="text-profession-overview">{profession.overview}</p>
+              {showStudyLinks ? (
               <div className="flex flex-wrap gap-3">
                 <Link href={profession.studyResources.questionBanks.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-question-bank">
-                  <BookOpen className="w-4 h-4" /> Test Bank
+                  <BookOpen className="w-4 h-4" /> Start Practice Questions
                 </Link>
                 <Link href={profession.studyResources.mockExams.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-mock-exams">
-                  <FileText className="w-4 h-4" /> Mock Exams
+                  <FileText className="w-4 h-4" /> Take a Mock Exam
                 </Link>
                 <Link href={profession.studyResources.flashcards.link} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-flashcards">
-                  <Layers className="w-4 h-4" /> Flashcards
+                  <Layers className="w-4 h-4" /> Review Flashcards
                 </Link>
               </div>
+              ) : (
+              <div className="flex flex-wrap gap-3">
+                <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-500 rounded-xl text-sm font-semibold" data-testid="badge-coming-soon">
+                  <BookOpen className="w-4 h-4" /> Practice Questions Coming Soon
+                </div>
+                <Link href="/allied-health" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="link-browse-other">
+                  Browse Other Exam Prep <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+              )}
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-6 w-full lg:w-72 flex-shrink-0" data-testid="profession-stats-card">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">At a Glance</h3>
@@ -210,12 +224,13 @@ export default function AlliedHealthProfessionPage() {
               </ul>
             </div>
 
+            {showStudyLinks ? (
             <div className="rounded-2xl p-6" style={{ backgroundColor: profession.colorAccent + "40" }} data-testid="section-study-cta">
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">Start Studying Today</h2>
-              <p className="text-sm text-gray-600 mb-4">Access career-specific study tools designed for {profession.examNames.join(", ")} exam preparation.</p>
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">Start Practicing for Your {profession.examNames[0]} Exam</h2>
+              <p className="text-sm text-gray-600 mb-4">Access exam-aligned practice questions, mock exams, and flashcards designed for {profession.examNames.join(", ")} certification.</p>
               <div className="space-y-2">
                 <Link href={profession.studyResources.questionBanks.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-question-bank">
-                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> Test Bank</div>
+                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> {profession.studyResources.questionBanks.label}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
                 <Link href={profession.studyResources.flashcards.link} className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-flashcards">
@@ -232,6 +247,18 @@ export default function AlliedHealthProfessionPage() {
                 </Link>
               </div>
             </div>
+            ) : (
+            <div className="rounded-2xl p-6" style={{ backgroundColor: profession.colorAccent + "40" }} data-testid="section-study-cta-coming-soon">
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">{profession.shortName} Exam Prep — Coming Soon</h2>
+              <p className="text-sm text-gray-600 mb-4">We're building {profession.examNames.join(" and ")} practice questions, mock exams, and flashcards. In the meantime, explore our other allied health exam prep resources.</p>
+              <div className="space-y-2">
+                <Link href="/allied-health" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-browse-allied">
+                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> Browse Allied Health Exam Prep</div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </div>
+            </div>
+            )}
           </div>
         </div>
       </section>
