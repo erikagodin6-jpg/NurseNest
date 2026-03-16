@@ -9,8 +9,9 @@ import {
   ArrowRight, BookOpen, Globe, GraduationCap, FileText, CheckCircle2,
   ChevronDown, MapPin, Stethoscope, Shield, BarChart3, Languages,
   Award, Briefcase, ClipboardCheck, Scale, HelpCircle, Clock,
-  DollarSign, Heart, Users, Building2,
+  DollarSign, Heart, Users, Building2, Wrench,
 } from "lucide-react";
+import { TranslationFallbackNotice } from "@/components/translation-fallback-notice";
 
 const COUNTRIES = [
   { slug: "canada", name: "Canada", flag: "🇨🇦", exam: "NCLEX-RN", regBody: "NNAS / Provincial Colleges", color: "bg-red-50 border-red-200 text-red-700" },
@@ -137,6 +138,7 @@ export default function InternationalNursingHub() {
           { name: "Home", url: "https://www.nursenest.ca/" },
           { name: "International Nurses", url: "https://www.nursenest.ca/international-nurses" },
         ]} />
+        <TranslationFallbackNotice />
       </div>
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">
@@ -316,6 +318,36 @@ export default function InternationalNursingHub() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-blue-50" data-testid="section-tools">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-4">
+            <Wrench className="w-4 h-4" /> Interactive Tools
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-tools-h2">Compare, Check & Plan</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">Use our interactive tools to compare nursing requirements across countries, check your licensing readiness, and plan your international nursing career.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div className="bg-white rounded-xl p-5 border border-blue-200">
+              <BarChart3 className="w-7 h-7 text-blue-500 mx-auto mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Country Comparison</h3>
+              <p className="text-xs text-gray-500">Compare requirements side by side</p>
+            </div>
+            <div className="bg-white rounded-xl p-5 border border-blue-200">
+              <ClipboardCheck className="w-7 h-7 text-green-500 mx-auto mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Licensing Checklist</h3>
+              <p className="text-xs text-gray-500">Track your licensing progress</p>
+            </div>
+            <div className="bg-white rounded-xl p-5 border border-blue-200">
+              <CheckCircle2 className="w-7 h-7 text-purple-500 mx-auto mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Readiness Assessment</h3>
+              <p className="text-xs text-gray-500">Check if you're ready to start</p>
+            </div>
+          </div>
+          <Link href="/international-nurses/tools" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-tools">
+            Explore Interactive Tools <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 

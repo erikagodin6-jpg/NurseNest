@@ -394,6 +394,7 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/acid-base-disorders-nursing", priority: "0.9", changefreq: "monthly", lastmod: today },
     { path: "/nursing-clinical-assessment-complete-guide", priority: "0.9", changefreq: "monthly", lastmod: today },
     { path: "/international-nurses", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/international-nurses/tools", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/international-nurses/canada", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/international-nurses/united-states", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/international-nurses/united-kingdom", priority: "0.8", changefreq: "monthly", lastmod: today },

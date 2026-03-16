@@ -407,6 +407,7 @@ const InternationalNursingCountry = lazy(() => import("@/pages/international-nur
 const InternationalNursingMigration = lazy(() => import("@/pages/international-nursing-migration"));
 const InternationalNursingExam = lazy(() => import("@/pages/international-nursing-exam"));
 const InternationalNursingComparison = lazy(() => import("@/pages/international-nursing-comparison"));
+const InternationalNursingTools = lazy(() => import("@/pages/international-nursing-tools"));
 const InternationalNursingContent = lazy(() => import("@/pages/international-nursing-content"));
 const InternationalNursingCluster = lazy(() => import("@/pages/international-nursing-cluster"));
 
@@ -871,6 +872,7 @@ function AppRoutes() {
         <Route path="/for-institutions" component={ForInstitutions} />
         {/* International Nursing Hub — specific slugs BEFORE catch-all :country */}
         <Route path="/international-nurses" component={InternationalNursingHub} />
+        <Route path="/international-nurses/tools" component={InternationalNursingTools} />
         <Route path="/international-nurses/philippines-to-canada" component={InternationalNursingMigration} />
         <Route path="/international-nurses/india-to-canada" component={InternationalNursingMigration} />
         <Route path="/international-nurses/philippines-to-usa" component={InternationalNursingMigration} />

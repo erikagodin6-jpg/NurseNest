@@ -7,6 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { nanoid } from "nanoid";
 import { checkContentExists } from "./seo-meta";
+import { deLocalizeSlug } from "@shared/localized-slugs";
 
 const viteLogger = createLogger();
 
@@ -45,10 +46,12 @@ export async function setupVite(server: Server, app: Express) {
     }
 
     const localeMatch = req.path.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
+    const detectedLocale = localeMatch ? localeMatch[1] : "en";
     const strippedPath = localeMatch ? (localeMatch[2] || "/") : req.path;
+    const deLocalizedPath = detectedLocale !== "en" ? deLocalizeSlug(detectedLocale, strippedPath) : strippedPath;
 
     try {
-      const contentExists = await checkContentExists(strippedPath);
+      const contentExists = await checkContentExists(deLocalizedPath);
       if (!contentExists) {
         (req as any).__softStatus = 404;
       }

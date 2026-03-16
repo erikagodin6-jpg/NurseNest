@@ -1907,7 +1907,7 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/medical-imaging", "/pharmacology", "/rex-pn", "/new-grad",
   "/applynest", "/clinical-skills", "/clinical-case-studies", "/for-institutions",
   "/order-of-the-draw", "/test-bank", "/dashboard", "/newgrad",
-  "/international-nurses",
+  "/international-nurses", "/international-nurses/tools",
   "/international-nurses/canada", "/international-nurses/united-states",
   "/international-nurses/united-kingdom", "/international-nurses/australia",
   "/international-nurses/new-zealand", "/international-nurses/ireland",
