@@ -28,8 +28,8 @@ export function serveStatic(app: Express) {
     express.static(distPath, {
       maxAge: "1h",
       setHeaders: (res, filePath) => {
-        if (filePath.endsWith(".html")) {
-          res.setHeader("Cache-Control", "no-cache");
+        if (filePath.endsWith(".html") || filePath.endsWith("sw.js")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         } else if (/\.(gif|png|jpg|jpeg|svg|ico|webp|woff2?)$/i.test(filePath)) {
           res.setHeader("Cache-Control", "public, max-age=604800, immutable");
         }

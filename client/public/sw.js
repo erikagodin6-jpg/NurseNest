@@ -6,12 +6,14 @@ const STATIC_ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    })
-  );
   self.skipWaiting();
+  event.waitUntil(
+    caches.keys().then((names) =>
+      Promise.all(names.map((n) => caches.delete(n)))
+    ).then(() =>
+      caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    )
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -22,15 +24,25 @@ self.addEventListener('activate', (event) => {
           .filter((name) => name !== CACHE_NAME)
           .map((name) => caches.delete(name))
       );
-    })
+    }).then(() => self.clients.claim())
+      .then(() => {
+        return self.clients.matchAll({ type: 'window' }).then((clients) => {
+          clients.forEach((client) => {
+            client.postMessage({ type: 'SW_UPDATED', version: CACHE_NAME });
+          });
+        });
+      })
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+
+  if (url.pathname.startsWith('/assets/')) {
+    return;
+  }
 
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
@@ -54,10 +66,6 @@ self.addEventListener('fetch', (event) => {
         });
       })
     );
-    return;
-  }
-
-  if (url.pathname.startsWith('/assets/')) {
     return;
   }
 
