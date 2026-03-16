@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, Target, GraduationCap,
   CheckCircle2, HelpCircle, ChevronRight, ChevronDown, Award, BarChart3,
-  DollarSign, TrendingUp, Briefcase, Users, ExternalLink
+  DollarSign, TrendingUp, Briefcase, Users, ExternalLink, ClipboardList
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
@@ -142,12 +142,15 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <Link href={`/diagnostic?career=${data.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-start-diagnostic">
-                Start Free Diagnostic <ArrowRight className="w-4 h-4" />
+            <div className="flex flex-wrap gap-3">
+              <Link href={`${data.contentClusterBase}/lessons`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-start-learning">
+                <BookOpen className="w-4 h-4" /> Start Learning
               </Link>
               <Link href={`/qbank?career=${data.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" style={{ color: data.color }} data-testid="button-practice-questions">
-                Practice Questions
+                <Target className="w-4 h-4" /> Practice Questions
+              </Link>
+              <Link href={`${data.contentClusterBase}/study-guide`} className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" style={{ color: data.color }} data-testid="button-view-study-plan">
+                <ClipboardList className="w-4 h-4" /> View Study Plan
               </Link>
             </div>
           </div>
@@ -157,17 +160,17 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div data-testid="stat-lessons">
+              <div className="text-2xl font-bold text-gray-900">{data.studyResourceLinks?.length || data.studyFeatures.length}</div>
+              <div className="text-sm text-gray-500">Lessons</div>
+            </div>
             <div data-testid="stat-questions">
-              <div className="text-2xl font-bold text-gray-900">{getQuestionCountDisplay(data.careerSlug)}</div>
+              <div className="text-2xl font-bold text-gray-900">{(() => { const display = getQuestionCountDisplay(data.careerSlug); return display === "Coming Soon" ? data.questionCountDisplay : display; })()}</div>
               <div className="text-sm text-gray-500">Practice Questions</div>
             </div>
-            <div data-testid="stat-domains">
+            <div data-testid="stat-topics">
               <div className="text-2xl font-bold text-gray-900">{data.domains.length}</div>
-              <div className="text-sm text-gray-500">Exam Domains</div>
-            </div>
-            <div data-testid="stat-exams">
-              <div className="text-2xl font-bold text-gray-900">{data.examInfo.examNames.length}</div>
-              <div className="text-sm text-gray-500">Exam Types</div>
+              <div className="text-sm text-gray-500">Clinical Topics</div>
             </div>
             <div data-testid="stat-features">
               <div className="text-2xl font-bold text-gray-900">{data.studyFeatures.length}</div>
@@ -328,6 +331,26 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
               ))
             )}
           </div>
+          <div className="mt-8" data-testid="section-topic-lessons">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Study by Topic Area</h3>
+            <div className="flex flex-wrap gap-2">
+              {data.domains.map((domain) => {
+                const slug = domain.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+                return (
+                  <Link
+                    key={domain}
+                    href={`${data.contentClusterBase}/lessons?topic=${slug}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium hover:shadow-sm transition-all border border-gray-200 bg-white"
+                    style={{ color: data.color }}
+                    data-testid={`link-topic-${slug}`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    {domain}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -418,12 +441,15 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your {data.shortName} Exam Prep?</h2>
           <p className="text-gray-600 mb-8">Take a free diagnostic to see exactly where you stand, then follow your personalized study plan to exam-day confidence.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href={`/diagnostic?career=${data.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-cta-diagnostic">
-              Start Free Diagnostic <ArrowRight className="w-4 h-4" />
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href={`${data.contentClusterBase}/lessons`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-cta-start-learning">
+              <BookOpen className="w-4 h-4" /> Start Learning
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200 text-gray-700" data-testid="button-cta-pricing">
-              View Pricing
+            <Link href={`/qbank?career=${data.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" style={{ color: data.color }} data-testid="button-cta-practice-questions">
+              <Target className="w-4 h-4" /> Practice Questions
+            </Link>
+            <Link href={`${data.contentClusterBase}/study-guide`} className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" style={{ color: data.color }} data-testid="button-cta-study-plan">
+              <ClipboardList className="w-4 h-4" /> View Study Plan
             </Link>
           </div>
         </div>

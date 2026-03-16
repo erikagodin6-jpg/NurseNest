@@ -51,7 +51,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#2196F3",
     colorAccent: "#E3F2FD",
     seo: {
-      title: "RRT Exam Prep — Respiratory Therapy NBRC TMC & CSE | NurseNest Allied",
+      title: "RRT Exam Prep and Practice Questions — NBRC TMC & CSE | NurseNest Allied",
       description: "Prepare for your respiratory therapy certification with adaptive practice questions, ventilator simulators, ABG interpretation tools, and blueprint-weighted mock exams for NBRC TMC and CSE.",
       keywords: "RRT exam prep, respiratory therapy exam, NBRC TMC practice questions, respiratory therapist study guide, RRT mock exam, CSE exam prep, ventilator management, ABG interpretation, respiratory therapy certification, CBRC exam",
       canonicalPath: "/allied-health/rrt",
@@ -123,7 +123,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#00ACC1",
     colorAccent: "#E0F7FA",
     seo: {
-      title: "Social Work Exam Prep — ASWB Clinical, Masters & Advanced | NurseNest Allied",
+      title: "Social Work Exam Prep and Practice Questions — ASWB Clinical & Masters | NurseNest Allied",
       description: "Prepare for ASWB Clinical, Masters, and Advanced Generalist licensing exams with practice questions, DSM-5 case studies, intervention matching, and ethics scenario drills.",
       keywords: "social work exam prep, ASWB practice questions, LCSW exam prep, social work licensing exam, ASWB clinical exam, MSW exam prep, social work mock exam, DSM-5 practice, social work study guide, ASWB masters exam",
       canonicalPath: "/allied-health/social-work",
@@ -185,7 +185,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#5C6BC0",
     colorAccent: "#E8EAF6",
     seo: {
-      title: "Psychotherapy Exam Prep — CRPO, NCE & Counseling Certification | NurseNest Allied",
+      title: "Psychotherapy Exam Prep and Practice Questions — CRPO & NCE | NurseNest Allied",
       description: "Prepare for the CRPO Registration Exam, National Counselor Examination (NCE), and counseling certification with practice questions, therapeutic modality simulations, and ethics scenario drills.",
       keywords: "psychotherapy exam prep, CRPO registration exam, registered psychotherapist exam, NCE practice questions, counseling certification, psychotherapy study guide, therapeutic modalities, clinical mental health counseling exam, psychotherapy mock exam",
       canonicalPath: "/allied-health/psychotherapy",
@@ -247,7 +247,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#558B2F",
     colorAccent: "#DCEDC8",
     seo: {
-      title: "Addictions Counsellor Exam Prep — IC&RC, CASAC & CCAC Certification | NurseNest Allied",
+      title: "Addictions Counsellor Exam Prep and Practice Questions — IC&RC & CASAC | NurseNest Allied",
       description: "Prepare for addiction counselor certification with practice questions, motivational interviewing simulations, substance identification drills, and co-occurring disorders case studies for IC&RC ADC, CASAC, and CCAC exams.",
       keywords: "addictions counsellor exam prep, IC&RC ADC exam, CASAC certification, addiction counselor practice questions, substance abuse counselor exam, CCAC exam prep, motivational interviewing, relapse prevention, addictions study guide, substance use disorders",
       canonicalPath: "/allied-health/addictions",
@@ -313,7 +313,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#6A1B9A",
     colorAccent: "#E1BEE7",
     seo: {
-      title: "Occupational Therapy Exam Prep — NBCOT OTR & NOTCE Certification | NurseNest Allied",
+      title: "Occupational Therapy Exam Prep and Practice Questions — NBCOT OTR & NOTCE | NurseNest Allied",
       description: "Prepare for NBCOT OTR and NOTCE occupational therapy licensing exams with practice questions, case analysis simulations, SMART goal writing tools, and comprehensive domain coverage.",
       keywords: "occupational therapy exam prep, NBCOT OTR practice questions, OT licensing exam, occupational therapy study guide, NOTCE exam prep, OT mock exam, occupational therapy certification, OTR exam, COTO exam prep, occupational therapy flashcards",
       canonicalPath: "/allied-health/occupational-therapy",
@@ -379,7 +379,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#00695C",
     colorAccent: "#B2DFDB",
     seo: {
-      title: "Physical Therapy Exam Prep — NPTE & PCE Certification | NurseNest Allied",
+      title: "Physical Therapy Exam Prep and Practice Questions — NPTE & PCE | NurseNest Allied",
       description: "Prepare for NPTE and PCE physical therapy licensing exams with practice questions, differential diagnosis training, gait analysis tools, and comprehensive domain coverage.",
       keywords: "physical therapy exam prep, NPTE practice questions, PT licensing exam, physical therapy study guide, PCE exam prep, PT mock exam, physical therapy certification, physiotherapy exam, FSBPT exam prep, physical therapy flashcards",
       canonicalPath: "/allied-health/physical-therapy",
@@ -445,7 +445,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#FF9800",
     colorAccent: "#FFF3E0",
     seo: {
-      title: "Diagnostic Imaging Exam Prep — ARRT & CAMRT Certification | NurseNest Allied",
+      title: "Diagnostic Imaging Exam Prep and Practice Questions — ARRT & CAMRT | NurseNest Allied",
       description: "Prepare for ARRT and CAMRT diagnostic imaging certification exams with practice questions, positioning simulators, radiation physics drills, and blueprint-weighted mock exams.",
       keywords: "diagnostic imaging exam prep, ARRT practice questions, radiography exam, medical imaging certification, CAMRT exam prep, radiology technologist exam, radiographic positioning, radiation safety, X-ray technologist, imaging study guide",
       canonicalPath: "/allied-health/imaging",
@@ -577,7 +577,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#00BCD4",
     colorAccent: "#E0F7FA",
     seo: {
-      title: "Sonographer Exam Prep — ARDMS RDMS & SPI Certification | NurseNest Allied",
+      title: "Sonographer Exam Prep and Practice Questions — ARDMS & SPI | NurseNest Allied",
       description: "Prepare for ARDMS RDMS and Sonography Canada certification with ultrasound physics drills, abdominal pathology trainers, OB measurement practice, and vascular Doppler assessment tools for diagnostic medical sonographers.",
       keywords: "sonographer exam prep, ARDMS RDMS practice questions, SPI exam prep, ultrasound physics, diagnostic medical sonography exam, sonography certification, abdominal sonography, OB ultrasound, vascular sonography, sonographer study guide",
       canonicalPath: "/allied-health/diagnostic-sonography",
@@ -604,7 +604,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Sonographic Pathology Recognition",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "ARDMS-aligned questions with detailed rationales covering SPI physics, abdominal, OB/GYN, and vascular content. Coming soon." },
+      { label: "Adaptive Test Bank", description: "ARDMS-aligned questions with detailed rationales covering SPI physics, abdominal, OB/GYN, and vascular content." },
       { label: "Ultrasound Physics Engine", description: "Interactive physics drills covering frequency, wavelength, attenuation, transducer types, and Doppler equations." },
       { label: "Pathology Recognition Trainer", description: "Identify sonographic appearances of organ pathology, masses, cysts, and abnormal findings across all specialties." },
       { label: "OB Measurement Calculator", description: "Practice biometric measurements (BPD, HC, AC, FL), dating criteria, and growth assessment protocols." },
@@ -643,7 +643,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#E91E63",
     colorAccent: "#FCE4EC",
     seo: {
-      title: "Echo Tech Exam Prep — ARDMS RDCS & CCI RCS Certification | NurseNest Allied",
+      title: "Echo Tech Exam Prep and Practice Questions — ARDMS RDCS & CCI RCS | NurseNest Allied",
       description: "Prepare for ARDMS RDCS and CCI RCS cardiac sonography certification with hemodynamic calculators, valve disease grading tools, echo view trainers, and blueprint-weighted mock exams for echocardiographers.",
       keywords: "echo tech exam prep, ARDMS RDCS practice questions, cardiac sonographer exam, echocardiography certification, CCI RCS exam prep, cardiac ultrasound study guide, echo views, hemodynamic calculations, valvular heart disease, echo tech mock exam",
       canonicalPath: "/allied-health/cardiac-sonographer",
@@ -670,7 +670,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "TEE & Advanced Techniques",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "RDCS-aligned questions with detailed rationales covering cardiac anatomy, hemodynamics, valve disease, and echo techniques. Coming soon." },
+      { label: "Adaptive Test Bank", description: "RDCS-aligned questions with detailed rationales covering cardiac anatomy, hemodynamics, valve disease, and echo techniques." },
       { label: "Echo View Trainer", description: "Interactive guide to standard echocardiographic windows and views with anatomy identification and optimization tips." },
       { label: "Hemodynamic Calculator", description: "Practice Bernoulli equation, continuity equation, PISA method, cardiac output, and pressure gradient calculations." },
       { label: "Valve Disease Grading Tool", description: "Learn stenosis and regurgitation severity criteria for all four cardiac valves with quantitative parameters." },
@@ -709,7 +709,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#3F51B5",
     colorAccent: "#E8EAF6",
     seo: {
-      title: "HIM Exam Prep — AHIMA RHIT, RHIA & CCS Certification | NurseNest Allied",
+      title: "HIM Exam Prep and Practice Questions — AHIMA RHIT, RHIA & CCS | NurseNest Allied",
       description: "Prepare for AHIMA RHIT, RHIA, and CCS certification exams with ICD-10 coding drills, HIPAA scenario simulations, revenue cycle case studies, and blueprint-weighted mock exams.",
       keywords: "HIM exam prep, RHIT practice questions, RHIA exam prep, health information management certification, AHIMA exam, ICD-10 coding, CPT coding, medical coding exam, HIM study guide, CCS certification, HIPAA compliance, EHR management",
       canonicalPath: "/allied-health/health-info-mgmt",
@@ -775,7 +775,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#8BC34A",
     colorAccent: "#F1F8E9",
     seo: {
-      title: "OTA Exam Prep — NBCOT COTA Certification | NurseNest Allied",
+      title: "OTA Exam Prep and Practice Questions — NBCOT COTA | NurseNest Allied",
       description: "Prepare for the NBCOT COTA occupational therapy assistant exam with practice questions, ADL intervention scenarios, splinting guides, and blueprint-weighted mock exams.",
       keywords: "OTA exam prep, NBCOT COTA practice questions, occupational therapy assistant exam, COTA certification, OTA study guide, OTA mock exam, OTA flashcards, certified occupational therapy assistant",
       canonicalPath: "/allied-health/occupational-therapy-assistant",
@@ -841,7 +841,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#009688",
     colorAccent: "#E0F2F1",
     seo: {
-      title: "PTA Exam Prep — NPTE-PTA & Physiotherapy Assistant Certification | NurseNest Allied",
+      title: "PTA Exam Prep and Practice Questions — NPTE-PTA | NurseNest Allied",
       description: "Prepare for the NPTE-PTA (Physical Therapist Assistant) and Canadian physiotherapy assistant exams with practice questions, modality selection drills, gait analysis scenarios, and blueprint-weighted mock exams.",
       keywords: "PTA exam prep, NPTE-PTA practice questions, physical therapist assistant exam, physiotherapy assistant certification, PTA study guide, PTA mock exam, FSBPT PTA, physical therapy assistant flashcards",
       canonicalPath: "/allied-health/physiotherapy-assistant",
@@ -907,7 +907,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#607D8B",
     colorAccent: "#ECEFF1",
     seo: {
-      title: "Surg Tech Exam Prep — CST & TS-C Certification | NurseNest Allied",
+      title: "Surg Tech Exam Prep and Practice Questions — CST & TS-C | NurseNest Allied",
       description: "Prepare for the NBSTSA CST and NCCT TS-C surgical technologist exams with practice questions, instrument identification drills, sterile technique scenarios, and blueprint-weighted mock exams.",
       keywords: "surgical technologist exam prep, CST practice questions, surg tech certification, NBSTSA CST exam, TS-C exam prep, surgical technology study guide, sterile technique, surgical instruments, scrub tech exam",
       canonicalPath: "/allied-health/surgical-technologist",
