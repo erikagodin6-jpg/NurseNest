@@ -1821,7 +1821,13 @@ export const rnSystems = [
       { id: "pancreatitis-management-rn", name: "Pancreatitis", status: "Available" },
       { id: "cirrhosis-management-rn", name: "Cirrhosis & Esophageal Varices", status: "Available" },
       { id: "advanced-abdominal-assessment-for-registered-nurses-rn", name: "Advanced Abdominal Assessment for Registered Nurses", status: "Available" },
-      { id: "congenital-diaphragmatic-hernia-cdh-rn", name: "Congenital Diaphragmatic Hernia (CDH)", status: "Available" }
+      { id: "congenital-diaphragmatic-hernia-cdh-rn", name: "Congenital Diaphragmatic Hernia (CDH)", status: "Available" },
+      { id: "liver-cirrhosis-patho-rn", name: "Liver Cirrhosis: RN Pathophysiology", status: "Available" },
+      { id: "hepatitis-viral-rn", name: "Hepatitis: Viral Types & Liver Function", status: "Available" },
+      { id: "acute-pancreatitis-patho-rn", name: "Acute Pancreatitis: RN Pathophysiology", status: "Available" },
+      { id: "gi-bleeding-assessment-rn", name: "GI Bleeding: Upper vs Lower Assessment", status: "Available" },
+      { id: "bowel-obstruction-patho-rn", name: "Bowel Obstruction: Pathophysiology & Management", status: "Available" },
+      { id: "ibd-crohns-vs-uc-rn", name: "IBD: Crohn Disease vs Ulcerative Colitis", status: "Available" }
     ]
   },
   {
@@ -1937,7 +1943,10 @@ export const rnSystems = [
       { id: "sickle-cell-crisis-rn", name: "Sickle Cell Crisis: Protocol-Based Management", status: "Available" },
       { id: "acute-chest-syndrome-in-sickle-cell-rn", name: "Acute Chest Syndrome in Sickle Cell Disease for Registered Nurses", status: "Available" },
       { id: "acute-hemolytic-transfusion-reaction-for-registered-rn", name: "Acute Hemolytic Transfusion Reaction for Registered Nurses", status: "Available" },
-      { id: "disseminated-intravascular-coagulation-advanced-rn", name: "Disseminated Intravascular Coagulation (Advanced)", status: "Available" }
+      { id: "disseminated-intravascular-coagulation-advanced-rn", name: "Disseminated Intravascular Coagulation (Advanced)", status: "Available" },
+      { id: "cancer-biology-fundamentals-rn", name: "Cancer Biology Fundamentals", status: "Available" },
+      { id: "oncologic-emergencies-rn", name: "Oncologic Emergencies", status: "Available" },
+      { id: "neutropenic-precautions-rn", name: "Neutropenic Precautions & Febrile Neutropenia", status: "Available" }
     ]
   },
   {
@@ -1959,7 +1968,10 @@ export const rnSystems = [
       { id: "toxic-epidermal", name: "Toxic Epidermal Necrolysis", status: "Available" },
       { id: "cataracts", name: "Cataracts", status: "Available" },
       { id: "sjogren-syndrome", name: "Sjogren Syndrome", status: "Available" },
-      { id: "rib-fractures", name: "Rib Fractures", status: "Available" }
+      { id: "rib-fractures", name: "Rib Fractures", status: "Available" },
+      { id: "wound-healing-phases-rn", name: "Wound Healing: Phases & Factors", status: "Available" },
+      { id: "pressure-injuries-staging-rn", name: "Pressure Injuries: Staging & Prevention", status: "Available" },
+      { id: "skin-cancer-assessment-rn", name: "Skin Cancer Assessment: ABCDE & Types", status: "Available" }
     ]
   },
   {
@@ -2038,7 +2050,8 @@ export const rnSystems = [
       { id: "neonatal-sepsis-early-onset-rn", name: "Early-Onset Neonatal Sepsis", status: "Available" },
       { id: "neonatal-respiratory-distress-rn", name: "Neonatal Respiratory Distress Syndrome", status: "Available" },
       { id: "neonatal-necrotizing-enterocolitis-rn", name: "Necrotizing Enterocolitis: Early Detection", status: "Available" },
-      { id: "neonatal-congenital-heart-defects-rn", name: "Congenital Heart Defects: Cyanotic vs. Acyanotic", status: "Available" }
+      { id: "neonatal-congenital-heart-defects-rn", name: "Congenital Heart Defects: Cyanotic vs. Acyanotic", status: "Available" },
+      { id: "low-cardiac-output-peds-rn", name: "Low Cardiac Output Syndrome in Pediatric Patients", status: "Available" }
     ]
   },
   {
@@ -2081,7 +2094,10 @@ export const rnSystems = [
       { id: "chd-overview-rn", name: "Congenital Heart Disease: Overview", status: "Available" },
       { id: "tetralogy-of-fallot-expanded-rn", name: "Tetralogy of Fallot: Expanded RN", status: "Available" },
       { id: "septal-defects-expanded-rn", name: "Septal Defects (VSD/ASD): Expanded RN", status: "Available" },
-      { id: "coarctation-expanded-rn", name: "Coarctation of the Aorta: Expanded RN", status: "Available" }
+      { id: "coarctation-expanded-rn", name: "Coarctation of the Aorta: Expanded RN", status: "Available" },
+      { id: "pediatric-respiratory-distress-rn", name: "Pediatric Respiratory Distress: Croup, Epiglottitis & Bronchiolitis", status: "Available" },
+      { id: "pediatric-fluid-electrolyte-rn", name: "Pediatric Fluid & Electrolyte Management", status: "Available" },
+      { id: "pediatric-seizures-neuro-rn", name: "Pediatric Seizures & Neurologic Emergencies", status: "Available" }
     ]
   },
   {

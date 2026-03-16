@@ -382,6 +382,7 @@ import { rpnContentBatch036Lessons } from "./rpn-content-batch-036";
 import { rnRespiratoryRenalExpansionLessons } from "./rn-respiratory-renal-expansion";
 import { rnArrhythmiasExpansionLessons } from "./rn-arrhythmias-expansion";
 import { rnChdAnticoagExpansionLessons } from "./rn-chd-anticoag-expansion";
+import { rnGiCancerPedsIntegLessons } from "./rn-gi-cancer-peds-integ";
 
 import { npToxicologyContentLessons } from "./np-toxicology-content";
 import { npRareGeneticContentLessons } from "./np-rare-genetic-content";
@@ -988,6 +989,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnShockCriticalCareLessons,
   rnArrhythmiasExpansionLessons,
   rnChdAnticoagExpansionLessons,
+  rnGiCancerPedsIntegLessons,
 );
 
 
