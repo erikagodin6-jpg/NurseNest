@@ -53,7 +53,6 @@ export function clearAdminToken() {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  console.log("[BOOT] STEP 10: AuthProvider render");
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [previewTier, setPreviewTierState] = useState<string | null>(null);

@@ -1,0 +1,68 @@
+Fix the white-screen deployment bug caused by stale hashed asset requests being served HTML instead of 404.
+
+Root cause confirmed
+A missing JavaScript asset under /assets/* is currently being caught by the SPA catch-all route and served index.html with HTTP 200.
+This causes the browser to parse HTML as JavaScript, fail module loading, and leave React unmounted with a white screen.
+
+Current failure chain
+1. Browser caches old entry JS aggressively
+2. New deploy changes hashed chunk filenames
+3. Old cached entry JS requests old chunk URLs
+4. Missing /assets/*.js request hits the catch-all route
+5. Server returns HTML with 200 instead of 404
+6. Browser gets HTML for a JS module request
+7. React app fails to boot
+
+Required fix
+The SPA catch-all route must NOT match asset paths.
+Any missing file under /assets/* must return a true 404 response, never index.html.
+
+What to change
+1. Find the catch-all route, currently something like:
+   app.use("/{*path}", ...)
+   or equivalent SPA fallback middleware
+2. Exclude static asset paths from that fallback, especially:
+   - /assets/*
+   - *.js
+   - *.css
+   - *.map
+   - image/font asset paths if applicable
+3. Ensure static middleware handles asset requests first.
+4. If an asset file is missing, return:
+   - HTTP 404
+   - no HTML app shell
+5. Only serve index.html for real client-side application routes.
+
+Implementation intent
+Use route ordering and/or path guards so:
+- existing files are served normally
+- missing assets return 404
+- actual app routes still fall back to index.html
+
+Example expected behavior
+- /assets/index-newhash.js -> serve JS if file exists
+- /assets/oldhash.js -> 404
+- /en/pricing -> index.html
+- /rn/lessons -> index.html
+- /favicon.ico or other static files -> serve if exists, else 404 as appropriate
+
+Also review caching
+- keep hashed assets cacheable with long immutable caching
+- ensure entry HTML is not cached too aggressively
+- ensure the main HTML document revalidates so clients discover new entry chunks
+
+Validation steps
+1. Build and deploy
+2. Open site normally and verify it loads
+3. Request a fake asset path like:
+   /assets/does-not-exist.js
+   It must return 404, not HTML
+4. Verify response content-type is not text/html for missing JS
+5. Simulate an old hashed chunk request and confirm no white screen occurs
+6. Confirm normal client-side routes still load correctly
+
+Acceptance criteria
+- missing /assets/* files return 404
+- SPA fallback only serves index.html for real app routes
+- no HTML is ever returned for missing JS chunk requests
+- white-screen after deploy is resolved

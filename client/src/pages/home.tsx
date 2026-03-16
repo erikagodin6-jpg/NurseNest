@@ -136,7 +136,6 @@ function formatCount(n: number | undefined): string {
 }
 
 export default function Home() {
-  console.log("[BOOT] STEP 12: Home() render");
   const [, setLocation] = useLocation();
   const { t, language } = useI18n();
   const [email, setEmail] = useState("");

@@ -123,7 +123,6 @@ function getInitialLanguage(): LanguageCode {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  console.log("[BOOT] STEP 8: I18nProvider render, enLoaded=", enLoaded);
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage);
   const [ready, setReady] = useState(enLoaded);
   const [langLoaded, setLangLoaded] = useState<LanguageCode | null>(language === "en" ? "en" : null);
@@ -201,11 +200,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const isTranslationLoaded = ready && (language === "en" || langLoaded === language);
 
-  if (!ready) {
-    console.log("[BOOT] STEP 8b: I18nProvider returning null (not ready)");
-    return null;
-  }
-  console.log("[BOOT] STEP 9: I18nProvider rendering children");
+  if (!ready) return null;
 
   return (
     <I18nContext.Provider value={{ language, setLanguage, t, isTranslationLoaded, isFallback }}>
