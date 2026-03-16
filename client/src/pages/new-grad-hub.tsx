@@ -185,7 +185,7 @@ export default function NewGradHub() {
               <div className="text-sm text-gray-500">Career Guides</div>
             </div>
             <div data-testid="stat-interview-questions">
-              <div className="text-2xl font-bold text-gray-900">100+</div>
+              <div className="text-2xl font-bold text-gray-900">40+</div>
               <div className="text-sm text-gray-500">Interview Questions</div>
             </div>
           </div>

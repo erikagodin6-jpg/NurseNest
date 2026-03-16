@@ -15,9 +15,10 @@ import {
 const CATEGORIES = [
   { icon: Compass, title: "Transition to Practice", desc: "Structured guidance for navigating the shift from student to confident clinical practitioner.", href: "/newgrad/survival-guide", color: "teal", free: true },
   { icon: BookOpen, title: "Comprehensive Guides", desc: "Evidence-based guides covering communication, documentation, shift organization, and career pathways.", href: "/newgrad/guides", color: "blue", free: true },
-  { icon: MessageSquare, title: "Interview Preparation", desc: "100+ behavioral and clinical questions with STAR-format answers and nurse manager insights.", href: "/newgrad/interview", color: "purple", free: false },
-  { icon: FileText, title: "Resume & Cover Letters", desc: "ATS-optimized templates and builders designed specifically for healthcare professionals.", href: "/newgrad/resume", color: "pink", free: false },
+  { icon: MessageSquare, title: "Interview Preparation", desc: "40+ behavioral, STAR-format, specialty-specific (ICU, ER, Peds, L&D), and difficult interviewer questions with expert answers.", href: "/newgrad/interview", color: "purple", free: false },
+  { icon: FileText, title: "Resume, Cover Letters & Statements", desc: "ATS-optimized templates, 30+ resume bullets, specialty cover letter examples, and personal statement prompts.", href: "/newgrad/resume", color: "pink", free: false },
   { icon: Users, title: "Workplace Professionalism", desc: "Navigate preceptor relationships, team dynamics, and workplace culture with confidence.", href: "/newgrad/workplace", color: "emerald", free: true },
+  { icon: ClipboardList, title: "Workplace Readiness Scenarios", desc: "28 real-world scenarios: prioritization, delegation, shift communication, interdisciplinary team, and confidence drills.", href: "/newgrad/scenarios", color: "teal", free: false },
   { icon: LayoutGrid, title: "Unit Organization & Prioritization", desc: "Master shift workflow, time management, and task prioritization strategies for every unit.", href: "/newgrad/guides", color: "indigo", free: true },
   { icon: Flame, title: "Burnout Prevention & Confidence", desc: "Protect your mental health and build sustainable clinical confidence with evidence-based resilience strategies.", href: "/newgrad/burnout", color: "orange", free: true },
   { icon: TrendingUp, title: "Career Development", desc: "Strategic career planning, goal setting, specialty exploration, and professional growth frameworks.", href: "/newgrad/career", color: "indigo", free: true },
@@ -50,8 +51,8 @@ const ICON_BG_MAP: Record<string, string> = {
 };
 
 const PREMIUM_FEATURES = [
-  { icon: FileText, title: "Resume Builder & Templates", desc: "Professional nursing-specific resume and cover letter templates that pass ATS systems." },
-  { icon: MessageSquare, title: "Full Interview Question Bank", desc: "100+ questions with detailed STAR-format answers, tips, and nurse manager insights." },
+  { icon: FileText, title: "Resume Builder & Document Templates", desc: "Professional resume templates, 30+ bullet examples, specialty cover letters, and personal statement prompts." },
+  { icon: MessageSquare, title: "Full Interview Question Bank", desc: "40+ questions across 18 categories with detailed STAR-format answers, specialty banks, and nurse manager insights." },
   { icon: DollarSign, title: "Salary Negotiation Strategies", desc: "Data-driven negotiation guides with scripts and market salary data." },
   { icon: Award, title: "Certification Prep & Career Planning", desc: "ACLS, BLS, PALS, TNCC study tools plus professional portfolio templates." },
 ];
@@ -74,7 +75,7 @@ const ECOSYSTEM_LINKS = [
 const FAQ_DATA = [
   { question: "Is the New Grad Career Hub free?", answer: "Yes, a large portion of the hub is completely free including comprehensive guides, workplace navigation tips, burnout prevention strategies, career development frameworks, and transition-to-practice content. Premium resources like resume templates, the full interview question bank, salary negotiation scripts, and certification prep tools are available with a paid plan." },
   { question: "Who is this hub designed for?", answer: "The New Grad Career Hub is designed for nursing students in their final semester and new graduate nurses in their first 1-2 years of practice. Resources cover RN, RPN, LPN, and NP roles. We also have profession-specific hubs for paramedics, respiratory therapists, MLTs, and other allied health professionals." },
-  { question: "What's included in the premium Success Toolkit?", answer: "The Success Toolkit includes ATS-optimized resume and cover letter templates, 100+ interview questions with detailed STAR-format answers, salary negotiation scripts with market data, certification prep study tools, and professional portfolio templates." },
+  { question: "What's included in the premium Success Toolkit?", answer: "The Success Toolkit includes ATS-optimized resume and cover letter templates with 30+ resume bullet examples, 40+ interview questions across 18 categories with detailed STAR-format answers, 28 workplace readiness scenarios (16 free, 12 premium), personal statement prompts, salary negotiation scripts with market data, certification prep study tools, and professional portfolio templates." },
   { question: "How is this different from exam prep?", answer: "Our exam prep tools (NCLEX, REx-PN) focus on passing your licensing exam. The New Grad Career Hub focuses on everything that comes after: landing your first job, surviving your first year, building clinical confidence, and advancing your career." },
 ];
 
@@ -158,9 +159,9 @@ export default function NewGradHub() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-guides"><div className="text-2xl font-bold text-gray-900">50+</div><div className="text-sm text-gray-500">Free Guides & Lessons</div></div>
-            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">100+</div><div className="text-sm text-gray-500">Interview Questions</div></div>
-            <div data-testid="stat-templates"><div className="text-2xl font-bold text-gray-900">15+</div><div className="text-sm text-gray-500">Resume Templates</div></div>
-            <div data-testid="stat-certifications"><div className="text-2xl font-bold text-gray-900">8</div><div className="text-sm text-gray-500">Certification Prep Guides</div></div>
+            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">40+</div><div className="text-sm text-gray-500">Interview Questions</div></div>
+            <div data-testid="stat-scenarios"><div className="text-2xl font-bold text-gray-900">28</div><div className="text-sm text-gray-500">Workplace Scenarios</div></div>
+            <div data-testid="stat-templates"><div className="text-2xl font-bold text-gray-900">16+</div><div className="text-sm text-gray-500">Resume & Document Templates</div></div>
           </div>
         </div>
       </section>

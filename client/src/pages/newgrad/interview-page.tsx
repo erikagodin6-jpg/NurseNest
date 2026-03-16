@@ -5,47 +5,46 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradAccess } from "./premium-cta";
+import { INTERVIEW_QUESTION_BANK } from "@/data/newgrad/premium-toolkit";
 import {
   ChevronRight, ChevronDown, ArrowRight, MessageSquare, Lock,
-  CheckCircle2, Star, Lightbulb
+  CheckCircle2, Star, Lightbulb, Target, Users, Shield,
+  Stethoscope, Activity, Baby, Heart, AlertTriangle
 } from "lucide-react";
 
 const INTERVIEW_CATEGORIES = [
-  "Behavioral (STAR format)",
-  "Clinical Scenario",
-  "Conflict Resolution",
-  "Time Management",
-  "Teamwork & Delegation",
-  "Patient Safety",
+  { id: "all", label: "All Questions", icon: MessageSquare },
+  { id: "Behavioral (STAR)", label: "Behavioral (STAR)", icon: Star },
+  { id: "Clinical Scenario", label: "Clinical Scenario", icon: Activity },
+  { id: "Conflict Resolution", label: "Conflict Resolution", icon: Users },
+  { id: "Time Management", label: "Time Management", icon: Target },
+  { id: "Teamwork", label: "Teamwork & Delegation", icon: Users },
+  { id: "Patient Safety", label: "Patient Safety", icon: Shield },
+  { id: "Patient Advocacy", label: "Patient Advocacy", icon: Heart },
+  { id: "Cultural Sensitivity", label: "Cultural Sensitivity", icon: Users },
+  { id: "Stress Management", label: "Stress Management", icon: AlertTriangle },
+  { id: "Error Management", label: "Error Management", icon: AlertTriangle },
+  { id: "Prioritization", label: "Prioritization", icon: Target },
+  { id: "Specialty - ICU", label: "ICU Specialty", icon: Activity },
+  { id: "Specialty - ER", label: "ER Specialty", icon: Stethoscope },
+  { id: "Specialty - Med-Surg", label: "Med-Surg Specialty", icon: Stethoscope },
+  { id: "Specialty - Pediatrics", label: "Pediatrics Specialty", icon: Baby },
+  { id: "Specialty - L&D", label: "L&D Specialty", icon: Heart },
+  { id: "Difficult Interviewer", label: "Difficult Interviewer", icon: AlertTriangle },
+  { id: "Confidence Drill", label: "Confidence Drills", icon: Shield },
 ];
 
-const FREE_SAMPLE_QUESTIONS = [
-  {
-    category: "Behavioral (STAR format)",
-    question: "Tell me about a time you had to advocate for a patient.",
-    answer: "During my clinical rotation, I noticed a patient's pain was not being adequately managed. I assessed the patient, documented my findings, and communicated my concerns using SBAR to the charge nurse. I recommended a pain management consultation, which was implemented and resulted in significantly improved patient comfort scores.",
-    tips: "Use the STAR framework: Situation, Task, Action, Result. Focus on patient outcomes and your clinical reasoning.",
-    isPremium: false,
-  },
-  {
-    category: "Clinical Scenario",
-    question: "How would you handle a patient whose condition is rapidly deteriorating?",
-    answer: "I would follow a systematic approach: assess airway, breathing, and circulation; obtain vital signs; call for help using the rapid response system; implement standing orders; and communicate findings using SBAR. I would stay with the patient and document all interventions and responses.",
-    tips: "Demonstrate your ability to stay calm, prioritize, and follow protocols. Mention teamwork and communication.",
-    isPremium: false,
-  },
-  {
-    category: "Conflict Resolution",
-    question: "Describe a time you disagreed with a colleague. How did you handle it?",
-    answer: "During a clinical rotation, I disagreed with a fellow student about patient care priorities. I approached them privately, listened to their perspective, shared my clinical reasoning, and we collaborated on a solution that incorporated both viewpoints. This improved our working relationship and patient care.",
-    tips: "Show emotional maturity, willingness to listen, and focus on patient outcomes rather than being right.",
-    isPremium: false,
-  },
-];
+const FREE_CATEGORIES = new Set([
+  "Patient Advocacy", "Teamwork", "Behavioral (STAR)", "Conflict Resolution",
+  "Time Management", "Patient Safety", "Confidence Drill",
+]);
+
+const totalQuestionCount = INTERVIEW_QUESTION_BANK.length;
 
 export default function InterviewPage() {
   const { hasAccess } = useNewGradAccess();
   const [expandedQ, setExpandedQ] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const { data: dbQuestions = [] } = useQuery({
     queryKey: ["/api/newgrad/interview-questions"],
@@ -55,17 +54,38 @@ export default function InterviewPage() {
     },
   });
 
-  const allQuestions = dbQuestions.length > 0 ? dbQuestions : FREE_SAMPLE_QUESTIONS;
-  const freeQuestions = allQuestions.filter((q: any) => !q.isPremium && !q.is_premium);
-  const premiumQuestions = allQuestions.filter((q: any) => q.isPremium || q.is_premium);
+  const allQuestions = dbQuestions.length > 0
+    ? dbQuestions
+    : INTERVIEW_QUESTION_BANK.map((q) => ({
+        ...q,
+        answer: q.sampleAnswer,
+        isPremium: !FREE_CATEGORIES.has(q.category),
+      }));
+
+  const filteredByCategory = activeCategory === "all"
+    ? allQuestions
+    : allQuestions.filter((q: any) => q.category === activeCategory);
+
+  const freeQuestions = filteredByCategory.filter((q: any) => !q.isPremium && !q.is_premium);
+  const premiumQuestions = filteredByCategory.filter((q: any) => q.isPremium || q.is_premium);
+
+  const uniqueCategories = [...new Set(INTERVIEW_QUESTION_BANK.map((q) => q.category))];
+  const categoriesWithCounts = INTERVIEW_CATEGORIES.filter(
+    (cat) => cat.id === "all" || uniqueCategories.includes(cat.id)
+  ).map((cat) => ({
+    ...cat,
+    count: cat.id === "all"
+      ? allQuestions.length
+      : allQuestions.filter((q: any) => q.category === cat.id).length,
+  }));
 
   return (
     <div data-testid="newgrad-interview-page">
       <Navigation />
       <SEO
-        title="New Grad Nurse Interview Prep - 100+ Questions & STAR Answers | NurseNest"
-        description="Master your nursing interview with 100+ behavioral and clinical questions, STAR-format sample answers, and nurse manager tips. Free sample questions available."
-        keywords="nurse interview questions, new grad nurse interview, nursing behavioral interview, STAR format nursing, nurse interview prep, nursing job interview tips"
+        title={`New Grad Nurse Interview Prep - ${totalQuestionCount}+ Questions, STAR Answers & Specialty Banks | NurseNest`}
+        description={`Master your nursing interview with ${totalQuestionCount}+ behavioral, clinical, and specialty-specific questions. STAR-format sample answers, difficult interviewer prep, confidence drills, and nurse manager tips. Free sample questions available.`}
+        keywords="nurse interview questions, new grad nurse interview, nursing behavioral interview, STAR format nursing, nurse interview prep, nursing job interview tips, ICU interview, ER interview, pediatric interview, difficult interview questions nursing"
         canonicalPath="/newgrad/interview"
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
@@ -90,20 +110,51 @@ export default function InterviewPage() {
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-title">
             Nursing Interview Question Bank
           </h1>
-          <p className="text-lg text-gray-600">
-            Practice with 100+ behavioral and clinical interview questions. Each question includes a detailed STAR-format sample answer and expert tips from nurse managers.
+          <p className="text-lg text-gray-600 mb-6">
+            Practice with {totalQuestionCount}+ behavioral, clinical, and specialty-specific interview questions. Each question includes a detailed STAR-format sample answer and expert tips from nurse managers.
           </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-total-questions">
+              <div className="text-xl font-bold text-purple-700">{totalQuestionCount}+</div>
+              <div className="text-xs text-gray-500">Interview Questions</div>
+            </div>
+            <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-categories">
+              <div className="text-xl font-bold text-purple-700">{uniqueCategories.length}</div>
+              <div className="text-xs text-gray-500">Question Categories</div>
+            </div>
+            <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-specialties">
+              <div className="text-xl font-bold text-purple-700">5</div>
+              <div className="text-xs text-gray-500">Specialty Banks</div>
+            </div>
+            <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-star-answers">
+              <div className="text-xl font-bold text-purple-700">{totalQuestionCount}+</div>
+              <div className="text-xs text-gray-500">STAR Answers</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="py-8 bg-white border-b border-gray-100" data-testid="section-categories">
+      <section className="py-6 bg-white border-b border-gray-100" data-testid="section-categories">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-2">
-            {INTERVIEW_CATEGORIES.map((cat, i) => (
-              <span key={i} className="px-3 py-1.5 text-sm rounded-full bg-purple-50 text-purple-700 font-medium" data-testid={`badge-category-${i}`}>
-                {cat}
-              </span>
-            ))}
+            {categoriesWithCounts.filter((c) => c.count > 0).map((cat) => {
+              const CatIcon = cat.icon;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full font-medium transition-colors ${
+                    activeCategory === cat.id
+                      ? "bg-purple-600 text-white"
+                      : "bg-purple-50 text-purple-700 hover:bg-purple-100"
+                  }`}
+                  data-testid={`badge-category-${cat.id}`}
+                >
+                  <CatIcon className="w-3.5 h-3.5" />
+                  {cat.label} ({cat.count})
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -112,56 +163,110 @@ export default function InterviewPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <CheckCircle2 className="w-5 h-5 text-green-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Free Sample Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {activeCategory === "all" ? "Free Sample Questions" : `${INTERVIEW_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory} — Free Questions`}
+            </h2>
           </div>
-          <div className="space-y-4">
-            {(freeQuestions.length > 0 ? freeQuestions : FREE_SAMPLE_QUESTIONS).map((q: any, i: number) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden" data-testid={`question-free-${i}`}>
-                <button
-                  onClick={() => setExpandedQ(expandedQ === i ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
-                  data-testid={`button-question-${i}`}
-                >
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium mr-2">{q.category}</span>
-                    <span className="font-medium text-gray-900">{q.question}</span>
-                  </div>
-                  <ChevronDown className={`w-5 h-5 text-gray-400 shrink-0 ml-2 transition-transform ${expandedQ === i ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedQ === i && (
-                  <div className="px-6 pb-5 border-t border-gray-100 pt-4">
-                    <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-500" /> Sample Answer
-                      </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">{q.answer || q.sample_answer}</p>
+          {freeQuestions.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <Lock className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+              <p>All questions in this category are premium. Upgrade to access them.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {freeQuestions.map((q: any, i: number) => (
+                <div key={q.id || i} className="bg-white rounded-xl border border-gray-100 overflow-hidden" data-testid={`question-free-${i}`}>
+                  <button
+                    onClick={() => setExpandedQ(expandedQ === i ? null : i)}
+                    className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                    data-testid={`button-question-${i}`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium mr-2">{q.category}</span>
+                      {q.difficulty && (
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium mr-2 ${
+                          q.difficulty === "beginner" ? "bg-green-50 text-green-600" :
+                          q.difficulty === "intermediate" ? "bg-yellow-50 text-yellow-600" :
+                          "bg-red-50 text-red-600"
+                        }`}>
+                          {q.difficulty}
+                        </span>
+                      )}
+                      <span className="font-medium text-gray-900">{q.question}</span>
                     </div>
-                    {(q.tips) && (
-                      <div className="bg-blue-50 rounded-lg p-3">
-                        <h4 className="text-sm font-semibold text-blue-800 mb-1 flex items-center gap-1">
-                          <Lightbulb className="w-4 h-4" /> Expert Tip
+                    <ChevronDown className={`w-5 h-5 text-gray-400 shrink-0 ml-2 transition-transform ${expandedQ === i ? 'rotate-180' : ''}`} />
+                  </button>
+                  {expandedQ === i && (
+                    <div className="px-6 pb-5 border-t border-gray-100 pt-4">
+                      <div className="mb-4">
+                        <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
+                          <Star className="w-4 h-4 text-yellow-500" /> Sample Answer
                         </h4>
-                        <p className="text-sm text-blue-700">{q.tips}</p>
+                        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{q.answer || q.sample_answer || q.sampleAnswer}</p>
                       </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                      {(q.tips) && (
+                        <div className="bg-blue-50 rounded-lg p-3">
+                          <h4 className="text-sm font-semibold text-blue-800 mb-1 flex items-center gap-1">
+                            <Lightbulb className="w-4 h-4" /> Expert Tips
+                          </h4>
+                          {Array.isArray(q.tips) ? (
+                            <ul className="space-y-1">
+                              {q.tips.map((tip: string, j: number) => (
+                                <li key={j} className="text-sm text-blue-700 flex items-start gap-1.5">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
+                                  {tip}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-sm text-blue-700">{q.tips}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {premiumQuestions.length > 0 && hasAccess && (
         <section className="py-16 bg-gray-50" data-testid="section-premium-questions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Full Question Bank</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Premium Question Bank</h2>
             <div className="space-y-3">
               {premiumQuestions.map((q: any, i: number) => (
-                <div key={i} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`question-premium-${i}`}>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium mr-2">{q.category}</span>
-                  <span className="font-medium text-gray-900">{q.question}</span>
-                  <p className="text-sm text-gray-600 mt-2">{q.answer || q.sample_answer}</p>
+                <div key={q.id || i} className="bg-white rounded-xl border border-gray-100 overflow-hidden" data-testid={`question-premium-${i}`}>
+                  <button
+                    onClick={() => setExpandedQ(expandedQ === (i + 10000) ? null : i + 10000)}
+                    className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium mr-2">{q.category}</span>
+                      <span className="font-medium text-gray-900">{q.question}</span>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 text-gray-400 shrink-0 ml-2 transition-transform ${expandedQ === (i + 10000) ? 'rotate-180' : ''}`} />
+                  </button>
+                  {expandedQ === (i + 10000) && (
+                    <div className="px-6 pb-5 border-t border-gray-100 pt-4">
+                      <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{q.answer || q.sample_answer || q.sampleAnswer}</p>
+                      {q.tips && Array.isArray(q.tips) && (
+                        <div className="bg-blue-50 rounded-lg p-3 mt-3">
+                          <h4 className="text-sm font-semibold text-blue-800 mb-1">Expert Tips</h4>
+                          <ul className="space-y-1">
+                            {q.tips.map((tip: string, j: number) => (
+                              <li key={j} className="text-sm text-blue-700 flex items-start gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
+                                {tip}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -183,6 +288,9 @@ export default function InterviewPage() {
                 "Describe a time you received constructive criticism. How did you respond?",
                 "How would you handle a medication error?",
                 "Tell me about a time you worked with a difficult team member",
+                "Why should we hire you over the other 50 new grads who applied?",
+                "How would you approach caring for a patient on multiple vasoactive drips?",
+                "What would you do if you disagreed with a unit policy or protocol?",
               ].map((q, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-3 opacity-75" data-testid={`preview-question-${i}`}>
                   <Lock className="w-4 h-4 text-gray-400 shrink-0" />
@@ -190,29 +298,26 @@ export default function InterviewPage() {
                 </div>
               ))}
             </div>
-            <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock 100+ interview questions with detailed STAR-format answers, nurse manager insights, and category-specific tips. Practice with confidence." />
+            <PremiumUpgradeCTA requiredEntitlement="toolkit" context={`Unlock ${totalQuestionCount}+ interview questions across ${uniqueCategories.length} categories including specialty-specific banks (ICU, ER, Med-Surg, Peds, L&D), difficult interviewer prep, and confidence drills. Each with detailed STAR-format answers and nurse manager insights.`} />
           </div>
         </section>
       )}
 
       <section className="py-12 bg-gradient-to-r from-purple-50 to-indigo-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">More Career Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">More Career Readiness Resources</h2>
           <p className="text-sm text-gray-500 mb-4">
-            Looking for healthcare career-entry support? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-700 font-semibold hover:underline" data-testid="link-applynest-interview">ApplyNest offers admissions guidance and scholarship search tools</a>.
+            Complete your job-readiness toolkit with workplace scenarios, resume templates, and professional development resources.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/newgrad/scenarios" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-scenarios">
+              Workplace Scenarios
+            </Link>
             <Link href="/newgrad/resume" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-resume">
-              Resume Tools
+              Resume & Cover Letters
             </Link>
             <Link href="/newgrad/salary" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-salary">
               Salary Negotiation
-            </Link>
-            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-certifications">
-              Certifications
-            </Link>
-            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-clinical-refs">
-              Clinical References
             </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors" data-testid="link-hub">
               Career Hub <ArrowRight className="w-4 h-4" />
