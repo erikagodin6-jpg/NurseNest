@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { useAuth } from "@/lib/auth";
+import { useNewGradEntitlements } from "./premium-cta";
 import {
   ArrowRight, BookOpen, FileText, Brain, GraduationCap,
   CheckCircle2, ChevronRight, Briefcase, Heart, Shield, Users,
@@ -57,8 +57,7 @@ const TESTIMONIALS = [
 ];
 
 export default function NewGradHub() {
-  const { user } = useAuth();
-  const hasNewGradAccess = user?.tier === "newgrad" || user?.tier === "admin";
+  const { hasAnyPremium: hasNewGradAccess } = useNewGradEntitlements();
 
   return (
     <div data-testid="newgrad-hub-page">

@@ -125,7 +125,7 @@ export default function SalaryPage() {
                 </div>
               ))}
             </div>
-            <PremiumUpgradeCTA context="Unlock negotiation scripts, salary comparison tools, counter-offer templates, and regional salary data to maximize your compensation." />
+            <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock negotiation scripts, salary comparison tools, counter-offer templates, and regional salary data to maximize your compensation." />
           </div>
         </section>
       )}

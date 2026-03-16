@@ -7,9 +7,10 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 import { NEWGRAD_CERTIFICATIONS } from "./certifications-hub";
 import { CERT_PREP_MAP } from "./certification-prep-data";
 import CertificationPrepPage from "./certification-prep-page";
+import { PremiumUpgradeCTA, useNewGradEntitlements } from "./premium-cta";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
-  ClipboardList, Layers, Award, HelpCircle, Clock, Target, Users
+  ClipboardList, Layers, Award, HelpCircle, Clock, Target, Users, Lock
 } from "lucide-react";
 
 const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string; gradientFrom: string; gradientTo: string }> = {
@@ -44,6 +45,8 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
   const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
   const Icon = cert.icon;
   const faqStructuredData = buildFaqStructuredData(cert.faq);
+  const { hasCertPrepAccess, hasFullAccess } = useNewGradEntitlements();
+  const hasAccess = hasCertPrepAccess || hasFullAccess;
 
   const otherCerts = NEWGRAD_CERTIFICATIONS.filter(c => c.slug !== cert.slug).slice(0, 3);
 
@@ -161,44 +164,98 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">Study Resources for {cert.name}</h2>
             <p className="text-gray-600">Everything included to prepare for your {cert.name} certification.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <Link href="/free-practice" className="group" data-testid="card-resource-qbank">
-              <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
-                <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
-                  <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
+          {hasAccess ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <Link href="/free-practice" className="group" data-testid="card-resource-qbank">
+                <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
+                  <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
+                    <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Practice Questions</h3>
+                  <p className="text-sm text-gray-500 mb-3">{cert.questionCount} {cert.name}-aligned questions with detailed rationales.</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
+                    Practice Now <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Practice Questions</h3>
-                <p className="text-sm text-gray-500 mb-3">{cert.questionCount} {cert.name}-aligned questions with detailed rationales.</p>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
-                  Practice Now <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-            </Link>
-            <Link href="/lessons" className="group" data-testid="card-resource-lessons">
-              <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
-                <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
-                  <BookOpen className={`w-6 h-6 ${colors.iconColor}`} />
+              </Link>
+              <Link href="/lessons" className="group" data-testid="card-resource-lessons">
+                <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
+                  <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
+                    <BookOpen className={`w-6 h-6 ${colors.iconColor}`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Lesson Library</h3>
+                  <p className="text-sm text-gray-500 mb-3">In-depth clinical lessons covering {cert.name} exam content.</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
+                    Browse Lessons <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Lesson Library</h3>
-                <p className="text-sm text-gray-500 mb-3">In-depth clinical lessons covering {cert.name} exam content.</p>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
-                  Browse Lessons <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-            </Link>
-            <Link href="/flashcards" className="group" data-testid="card-resource-flashcards">
-              <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
-                <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
-                  <Layers className={`w-6 h-6 ${colors.iconColor}`} />
+              </Link>
+              <Link href="/flashcards" className="group" data-testid="card-resource-flashcards">
+                <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
+                  <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
+                    <Layers className={`w-6 h-6 ${colors.iconColor}`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Flashcard Decks</h3>
+                  <p className="text-sm text-gray-500 mb-3">Spaced-repetition flashcards for {cert.name} algorithms and key concepts.</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
+                    Study Flashcards <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Flashcard Decks</h3>
-                <p className="text-sm text-gray-500 mb-3">Spaced-repetition flashcards for {cert.name} algorithms and key concepts.</p>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
-                  Study Flashcards <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+              </Link>
+            </div>
+          ) : (
+            <div data-testid="section-locked-preview">
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Lock className="w-5 h-5 text-indigo-500" />
+                  <h3 className="text-lg font-bold text-gray-900">Sample {cert.name} Questions</h3>
+                </div>
+                <div className="space-y-3 mb-4">
+                  {cert.topics.slice(0, 5).map((topic, i) => (
+                    <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-3" data-testid={`preview-question-${i}`}>
+                      <span className="text-xs font-semibold text-white bg-blue-500 rounded-full w-6 h-6 flex items-center justify-center shrink-0">{i + 1}</span>
+                      <span className="text-sm text-gray-700">A nurse is managing a patient case involving <span className="font-medium">{topic.toLowerCase()}</span>. Which intervention should the nurse prioritize?</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-3 opacity-50 pointer-events-none">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 p-4 flex items-center gap-3" data-testid={`locked-question-${i}`}>
+                      <Lock className="w-4 h-4 text-gray-400 shrink-0" />
+                      <div className="h-4 bg-gray-200 rounded w-3/4" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </Link>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className={`bg-gray-50 rounded-xl border ${colors.border} p-5 opacity-60`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <ClipboardList className={`w-5 h-5 ${colors.iconColor}`} />
+                    <Lock className="w-3.5 h-3.5 text-gray-400" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Full Question Bank</h3>
+                  <p className="text-xs text-gray-500">{cert.questionCount} questions with rationales</p>
+                </div>
+                <div className={`bg-gray-50 rounded-xl border ${colors.border} p-5 opacity-60`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className={`w-5 h-5 ${colors.iconColor}`} />
+                    <Lock className="w-3.5 h-3.5 text-gray-400" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Mock Exams</h3>
+                  <p className="text-xs text-gray-500">Timed exam simulations</p>
+                </div>
+                <div className={`bg-gray-50 rounded-xl border ${colors.border} p-5 opacity-60`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Layers className={`w-5 h-5 ${colors.iconColor}`} />
+                    <Lock className="w-3.5 h-3.5 text-gray-400" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Flashcard Decks</h3>
+                  <p className="text-xs text-gray-500">Spaced-repetition cards</p>
+                </div>
+              </div>
+              <PremiumUpgradeCTA requiredEntitlement="certification" context={`Unlock the full ${cert.name} question bank with ${cert.questionCount} practice questions, mock exams, flashcard decks, and algorithm reviews.`} />
+            </div>
+          )}
         </div>
       </section>
 

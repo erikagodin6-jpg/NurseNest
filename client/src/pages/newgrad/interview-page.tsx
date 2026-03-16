@@ -190,7 +190,7 @@ export default function InterviewPage() {
                 </div>
               ))}
             </div>
-            <PremiumUpgradeCTA context="Unlock 100+ interview questions with detailed STAR-format answers, nurse manager insights, and category-specific tips. Practice with confidence." />
+            <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock 100+ interview questions with detailed STAR-format answers, nurse manager insights, and category-specific tips. Practice with confidence." />
           </div>
         </section>
       )}

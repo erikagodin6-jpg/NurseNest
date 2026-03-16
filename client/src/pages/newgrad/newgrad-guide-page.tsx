@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { ContentGate } from "@/components/content-gate";
 import { useAuth } from "@/lib/auth";
+import { useNewGradEntitlements } from "./premium-cta";
 import { getNewGradGuideBySlug, type NewGradGuide, type NewGradGuideSection } from "@/data/newgrad/guide-content";
 import { RESUME_TEMPLATES, INTERVIEW_QUESTION_BANK, SALARY_DATA, CAREER_FRAMEWORKS, PORTFOLIO_SECTIONS } from "@/data/newgrad/premium-toolkit";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
@@ -376,8 +377,7 @@ export default function NewGradGuidePage() {
   const slug = location.split("/newgrad/")[1]?.split("/")[0] || "guides";
   const guide = getNewGradGuideBySlug(slug);
   const { effectiveTier, user } = useAuth();
-  const activeTier = effectiveTier || user?.tier || "free";
-  const hasAccess = activeTier === "newgrad" || activeTier === "admin";
+  const { hasAnyPremium: hasAccess } = useNewGradEntitlements();
 
   if (!guide) {
     return (

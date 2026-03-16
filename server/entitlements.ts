@@ -62,9 +62,21 @@ export type Feature =
   | "study_plan"
   | "study_groups"
   | "flashcard_bank"
-  | "flashcard_review";
+  | "flashcard_review"
+  | "newgrad_toolkit"
+  | "newgrad_cert_prep"
+  | "newgrad_full_qbank"
+  | "newgrad_mock_exams"
+  | "newgrad_flashcards"
+  | "newgrad_brain_sheets"
+  | "newgrad_shift_templates"
+  | "newgrad_documentation_cheats"
+  | "newgrad_med_safety"
+  | "newgrad_unit_onboarding"
+  | "newgrad_full_interview_bank"
+  | "newgrad_premium_templates";
 
-export type Tier = "free" | "rpn" | "rn" | "np" | "admin";
+export type Tier = "free" | "rpn" | "rn" | "np" | "new_grad_toolkit" | "certification_prep" | "full_access" | "admin";
 
 const TIER_HIERARCHY: Record<string, number> = {
   free: 0,
@@ -73,6 +85,24 @@ const TIER_HIERARCHY: Record<string, number> = {
   np: 3,
   admin: 4,
 };
+
+const NEWGRAD_TOOLKIT_FEATURES = new Set<Feature>([
+  "newgrad_toolkit",
+  "newgrad_brain_sheets",
+  "newgrad_shift_templates",
+  "newgrad_documentation_cheats",
+  "newgrad_med_safety",
+  "newgrad_unit_onboarding",
+  "newgrad_full_interview_bank",
+  "newgrad_premium_templates",
+]);
+
+const NEWGRAD_CERT_PREP_FEATURES = new Set<Feature>([
+  "newgrad_cert_prep",
+  "newgrad_full_qbank",
+  "newgrad_mock_exams",
+  "newgrad_flashcards",
+]);
 
 const FEATURE_TIERS: Record<Feature, Tier> = {
   lessons_free: "free",
@@ -112,6 +142,18 @@ const FEATURE_TIERS: Record<Feature, Tier> = {
   study_groups: "rpn",
   flashcard_bank: "rpn",
   flashcard_review: "rpn",
+  newgrad_toolkit: "new_grad_toolkit",
+  newgrad_brain_sheets: "new_grad_toolkit",
+  newgrad_shift_templates: "new_grad_toolkit",
+  newgrad_documentation_cheats: "new_grad_toolkit",
+  newgrad_med_safety: "new_grad_toolkit",
+  newgrad_unit_onboarding: "new_grad_toolkit",
+  newgrad_full_interview_bank: "new_grad_toolkit",
+  newgrad_premium_templates: "new_grad_toolkit",
+  newgrad_cert_prep: "certification_prep",
+  newgrad_full_qbank: "certification_prep",
+  newgrad_mock_exams: "certification_prep",
+  newgrad_flashcards: "certification_prep",
 };
 
 export function isActiveTester(user: any): boolean {
@@ -132,6 +174,13 @@ function hasActiveTrialAccess(user: any): boolean {
   return true;
 }
 
+function hasNewGradFeatureAccess(userTier: string, feature: Feature): boolean {
+  if (userTier === "full_access") return true;
+  if (userTier === "new_grad_toolkit" && NEWGRAD_TOOLKIT_FEATURES.has(feature)) return true;
+  if (userTier === "certification_prep" && NEWGRAD_CERT_PREP_FEATURES.has(feature)) return true;
+  return false;
+}
+
 export function checkEntitlement(user: any, feature: Feature): boolean {
   if (!user) return false;
 
@@ -146,6 +195,10 @@ export function checkEntitlement(user: any, feature: Feature): boolean {
 
   if (isActiveTester(user)) return true;
   if (hasActiveTrialAccess(user)) return true;
+
+  if (NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature)) {
+    return hasNewGradFeatureAccess(userTier, feature);
+  }
 
   const userLevel = TIER_HIERARCHY[userTier] ?? 0;
   const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
@@ -183,6 +236,17 @@ export function getUserEntitlements(user: any): Record<Feature, { allowed: boole
       result[feature] = { allowed: true, reason: "trial_access" };
       continue;
     }
+
+    const feat = feature as Feature;
+    if (NEWGRAD_TOOLKIT_FEATURES.has(feat) || NEWGRAD_CERT_PREP_FEATURES.has(feat)) {
+      if (hasNewGradFeatureAccess(userTier, feat)) {
+        result[feature] = { allowed: true, reason: `tier_${userTier}` };
+      } else {
+        result[feature] = { allowed: false, reason: `requires_${requiredTier}` };
+      }
+      continue;
+    }
+
     const userLevel = TIER_HIERARCHY[userTier] ?? 0;
     const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
     if (userLevel >= requiredLevel) {
@@ -210,6 +274,7 @@ export function requireEntitlement(feature: Feature) {
     }
 
     if (!checkEntitlement(user, feature)) {
+      logPaywallAccess(req.path, user, feature, false);
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,
@@ -218,6 +283,7 @@ export function requireEntitlement(feature: Feature) {
       });
     }
 
+    logPaywallAccess(req.path, user, feature, true);
     (req as any).authUser = user;
     next();
   };
@@ -232,7 +298,7 @@ export function requireAnyPremium() {
     }
 
     const userTier = user.tier || "free";
-    const paidTiers = new Set(["rpn", "rn", "np", "admin"]);
+    const paidTiers = new Set(["rpn", "rn", "np", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
 
     if (!paidTiers.has(userTier) && !isActiveTester(user) && !hasActiveTrialAccess(user)) {
       return res.status(403).json({
@@ -255,6 +321,22 @@ export function requireAuthenticated() {
     (req as any).authUser = user;
     next();
   };
+}
+
+function logPaywallAccess(path: string, user: any, feature: string, granted: boolean): void {
+  let safePath = path;
+  try {
+    const qIdx = safePath.indexOf("?");
+    if (qIdx >= 0) safePath = safePath.substring(0, qIdx);
+  } catch {}
+  console.log(`[PaywallAudit] ${JSON.stringify({
+    timestamp: new Date().toISOString(),
+    userId: user?.id || "unknown",
+    tier: user?.tier || "free",
+    feature,
+    resourcePath: safePath,
+    accessGranted: granted,
+  })}`);
 }
 
 export async function handleEntitlementDebug(req: any, res: any): Promise<void> {

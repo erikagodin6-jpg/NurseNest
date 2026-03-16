@@ -117,7 +117,7 @@ export default function GuidesPage() {
       )}
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PremiumUpgradeCTA context="Upgrade to access premium guides with advanced career strategies, detailed clinical scenarios, and exclusive professional development content." />
+        <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Upgrade to access premium guides with advanced career strategies, detailed clinical scenarios, and exclusive professional development content." />
       </div>
 
       <section className="py-12 bg-gradient-to-r from-blue-50 to-indigo-50" data-testid="section-bottom-cta">

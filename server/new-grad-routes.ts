@@ -3,6 +3,20 @@ import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
 import { seedNewGradContent } from "./new-grad-content-seed";
 import { generateNewGradGuide } from "./content-generators";
+import { checkEntitlement, requireEntitlement, type Feature } from "./entitlements";
+import { logPaywallAudit, type PaywallAuditEntry } from "./admin-auth";
+
+function auditNewGradAccess(req: any, user: any, feature: string, granted: boolean) {
+  logPaywallAudit({
+    userId: user?.id ? String(user.id) : "anonymous",
+    role: user?.tier || "anonymous",
+    tier: user?.tier || "free",
+    subscriptionStatus: user?.subscription_status || "none",
+    resourcePath: req.originalUrl || req.url,
+    contentTier: feature,
+    granted,
+  });
+}
 
 export function registerNewGradRoutes(app: Express) {
   app.post("/api/admin/new-grad/seed", async (req, res) => {
@@ -324,8 +338,9 @@ export function registerNewGradRoutes(app: Express) {
   app.get("/api/newgrad/interview-questions", async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
-      const userTier = user?.tier || "free";
-      const hasPremiumAccess = userTier === "newgrad" || userTier === "admin";
+      const hasPremiumAccess = user ? checkEntitlement(user, "newgrad_full_interview_bank") : false;
+
+      auditNewGradAccess(req, user, "newgrad_full_interview_bank", hasPremiumAccess);
 
       const { category } = req.query;
       let query = `SELECT * FROM new_grad_interview_questions WHERE status = 'published'`;
@@ -392,8 +407,9 @@ export function registerNewGradRoutes(app: Express) {
   app.get("/api/newgrad/templates", async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
-      const userTier = user?.tier || "free";
-      const hasPremiumAccess = userTier === "newgrad" || userTier === "admin";
+      const hasPremiumAccess = user ? checkEntitlement(user, "newgrad_premium_templates") : false;
+
+      auditNewGradAccess(req, user, "newgrad_premium_templates", hasPremiumAccess);
 
       const { type } = req.query;
       let query = `SELECT * FROM new_grad_templates WHERE status = 'published'`;
@@ -452,6 +468,65 @@ export function registerNewGradRoutes(app: Express) {
       if (!admin) return;
       await pool.query(`DELETE FROM new_grad_templates WHERE id = $1`, [req.params.id]);
       res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/certification-preview/:certSlug", async (req, res) => {
+    try {
+      const { certSlug } = req.params;
+      const user = await resolveAuthUser(req);
+      const hasFullAccess = user ? checkEntitlement(user, "newgrad_full_qbank") : false;
+
+      auditNewGradAccess(req, user, "newgrad_cert_prep", hasFullAccess);
+
+      const PREVIEW_LIMIT = 5;
+
+      res.json({
+        certification: certSlug,
+        hasFullAccess,
+        previewQuestionCount: PREVIEW_LIMIT,
+        message: hasFullAccess
+          ? "Full access granted to certification content"
+          : `Showing ${PREVIEW_LIMIT} preview questions. Upgrade to Certification Prep for full access.`,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/entitlements", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) {
+        return res.json({
+          tier: "free",
+          hasToolkitAccess: false,
+          hasCertPrepAccess: false,
+          hasFullAccess: false,
+        });
+      }
+
+      const tier = user.tier || "free";
+      res.json({
+        tier,
+        hasToolkitAccess: checkEntitlement(user, "newgrad_toolkit"),
+        hasCertPrepAccess: checkEntitlement(user, "newgrad_cert_prep"),
+        hasFullAccess: tier === "full_access" || tier === "admin",
+        features: {
+          brainSheets: checkEntitlement(user, "newgrad_brain_sheets"),
+          shiftTemplates: checkEntitlement(user, "newgrad_shift_templates"),
+          documentationCheats: checkEntitlement(user, "newgrad_documentation_cheats"),
+          medSafety: checkEntitlement(user, "newgrad_med_safety"),
+          unitOnboarding: checkEntitlement(user, "newgrad_unit_onboarding"),
+          fullInterviewBank: checkEntitlement(user, "newgrad_full_interview_bank"),
+          premiumTemplates: checkEntitlement(user, "newgrad_premium_templates"),
+          fullQbank: checkEntitlement(user, "newgrad_full_qbank"),
+          mockExams: checkEntitlement(user, "newgrad_mock_exams"),
+          flashcards: checkEntitlement(user, "newgrad_flashcards"),
+        },
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

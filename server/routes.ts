@@ -114,8 +114,9 @@ async function saveRevision(contentId: string, existingItem: any, editor: any) {
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
   if (!userTier || userTier === "free") return false;
-  if (userTier === "admin") return true;
-  if (targetTier === "newgrad") return userTier === "newgrad";
+  if (userTier === "admin" || userTier === "full_access") return true;
+  if (targetTier === "new_grad_toolkit") return userTier === "new_grad_toolkit" || userTier === "full_access";
+  if (targetTier === "certification_prep") return userTier === "certification_prep" || userTier === "full_access";
   return userTier === targetTier;
 }
 
@@ -3335,7 +3336,9 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         rn: "NurseNest RN/NCLEX",
         np: "NurseNest NP Advanced",
         allied: "NurseNest Allied Health",
-        newgrad: "NurseNest New Grad Success Toolkit",
+        new_grad_toolkit: "NurseNest New Grad Toolkit",
+        certification_prep: "NurseNest Certification Prep",
+        full_access: "NurseNest Full Access",
         "lab-values": "NurseNest Lab Interpretation Unlimited",
         "med-math": "NurseNest Med Math Unlimited",
         "practice-tools": "NurseNest All Practice Tools",
@@ -17211,7 +17214,7 @@ Return ONLY valid JSON with this exact structure:
           "Career planning frameworks (Clinical Ladder, Advanced Practice, Leadership)",
           "Professional portfolio template with 10 sections",
         ],
-        tier: "newgrad",
+        tiers: ["new_grad_toolkit", "certification_prep", "full_access"],
         pricing: { monthly: "$14.99 USD / $19.99 CAD" },
       });
     } catch (e: any) {
@@ -17225,14 +17228,14 @@ Return ONLY valid JSON with this exact structure:
       if (!admin) return;
       let subscriberCount = 0;
       try {
-        const result = await pool.query("SELECT COUNT(*) as cnt FROM users WHERE tier = 'newgrad'");
+        const result = await pool.query("SELECT COUNT(*) as cnt FROM users WHERE tier IN ('new_grad_toolkit', 'certification_prep', 'full_access')");
         subscriberCount = parseInt(result.rows[0]?.cnt || "0");
       } catch {}
       res.json({
         subscribers: subscriberCount,
         routes: 9,
         guideSlugs: ["guides", "career", "interview", "resume", "workplace", "burnout", "salary", "professional-development"],
-        tier: "newgrad",
+        tiers: ["new_grad_toolkit", "certification_prep", "full_access"],
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });

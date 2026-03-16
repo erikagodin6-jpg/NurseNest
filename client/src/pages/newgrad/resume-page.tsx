@@ -133,7 +133,7 @@ export default function ResumePage() {
                   </div>
                 ))}
               </div>
-              <PremiumUpgradeCTA context="Unlock all resume templates, cover letter frameworks, and portfolio templates. Each template is ATS-tested and designed specifically for new graduate nurses." />
+              <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock all resume templates, cover letter frameworks, and portfolio templates. Each template is ATS-tested and designed specifically for new graduate nurses." />
             </div>
           ) : (
             <p className="text-gray-500 text-center py-8">Templates are being prepared. Check back soon!</p>

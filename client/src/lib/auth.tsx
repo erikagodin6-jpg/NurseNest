@@ -199,6 +199,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user) return false;
     if (isAdmin && !previewTier) return true;
     if (isTester) return true;
+    if (effectiveTier === "full_access") return true;
+    if (requiredTier === "new_grad_toolkit" && (effectiveTier === "new_grad_toolkit" || effectiveTier === "full_access")) return true;
+    if (requiredTier === "certification_prep" && (effectiveTier === "certification_prep" || effectiveTier === "full_access")) return true;
     const hierarchy: Record<string, number> = { free: 0, rpn: 1, rn: 2, np: 3, admin: 4 };
     const userLevel = hierarchy[effectiveTier] ?? 0;
     const requiredLevel = hierarchy[requiredTier] ?? 0;

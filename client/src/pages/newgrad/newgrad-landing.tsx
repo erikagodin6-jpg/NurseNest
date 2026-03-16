@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { ContentGate } from "@/components/content-gate";
 import { useAuth } from "@/lib/auth";
+import { useNewGradEntitlements } from "./premium-cta";
 import { NEWGRAD_GUIDES } from "@/data/newgrad/guide-content";
 import { RESUME_TEMPLATES, INTERVIEW_QUESTION_BANK, CAREER_FRAMEWORKS, SALARY_DATA } from "@/data/newgrad/premium-toolkit";
 import { buildFaqStructuredData } from "@/lib/structured-data";
@@ -51,8 +52,7 @@ const FAQ_DATA = [
 export default function NewGradLanding() {
   const { effectiveTier, user } = useAuth();
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
-  const activeTier = effectiveTier || user?.tier || "free";
-  const hasAccess = activeTier === "newgrad" || activeTier === "admin";
+  const { hasAnyPremium: hasAccess } = useNewGradEntitlements();
 
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 

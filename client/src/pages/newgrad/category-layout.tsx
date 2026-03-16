@@ -133,7 +133,7 @@ export function CategoryPageLayout({
 
       {children}
 
-      <PremiumUpgradeCTA context={premiumContext} />
+      <PremiumUpgradeCTA requiredEntitlement="toolkit" context={premiumContext} />
 
       <section className="py-12 bg-gradient-to-r from-blue-50 to-indigo-50" data-testid="section-category-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">

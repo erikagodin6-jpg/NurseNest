@@ -203,7 +203,7 @@ export function requireAnyPaidTier() {
     }
 
     const userTier = user.tier || "free";
-    const paidTiers = new Set(["rpn", "rn", "np", "allied", "imaging", "newgrad", "admin"]);
+    const paidTiers = new Set(["rpn", "rn", "np", "allied", "imaging", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
 
     if (!paidTiers.has(userTier) && !isActiveTester(user)) {
       logPaywallAudit({
