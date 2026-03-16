@@ -9,6 +9,7 @@ import {
   ArrowRight, BookOpen, Globe, GraduationCap, FileText, CheckCircle2,
   ChevronDown, MapPin, Stethoscope, Shield, BarChart3, Languages,
   Award, Briefcase, ClipboardCheck, Scale, HelpCircle, Clock,
+  DollarSign, Heart, Users, Building2,
 } from "lucide-react";
 
 const COUNTRIES = [
@@ -55,6 +56,19 @@ const FEATURES = [
   { title: "Country Comparisons", desc: "Side-by-side comparison of licensing difficulty, salary, and immigration pathways.", icon: Scale, link: "/canada-vs-usa-nursing" },
   { title: "Credential Guidance", desc: "How to get your nursing credentials evaluated and recognized internationally.", icon: ClipboardCheck, link: "/nursing-credential-assessment-explained" },
   { title: "Job Support", desc: "Find nursing jobs abroad with visa sponsorship through ApplyNest.", icon: Briefcase, link: "/applynest" },
+];
+
+const CONTENT_PAGES = [
+  { slug: "nursing-bridging-programs-explained", title: "Nursing Bridging Programs", desc: "What bridging programs are, who needs them, and how to choose the right one.", icon: BookOpen },
+  { slug: "international-nurse-salary-comparison", title: "Salary Comparison Guide", desc: "Compare nursing salaries across countries with tax and purchasing power analysis.", icon: DollarSign },
+  { slug: "nursing-visa-sponsorship-guide", title: "Visa Sponsorship Guide", desc: "How to find nursing jobs with visa sponsorship and navigate immigration.", icon: Globe },
+  { slug: "working-as-a-nurse-in-canada", title: "Working as a Nurse in Canada", desc: "Real-world insights into the Canadian nursing work environment for IENs.", icon: Heart },
+  { slug: "nnas-application-guide", title: "NNAS Application Guide", desc: "Step-by-step guide to the National Nursing Assessment Service process.", icon: ClipboardCheck },
+  { slug: "cgfns-certification-guide", title: "CGFNS Certification Guide", desc: "Complete guide to CGFNS certification for nurses heading to the United States.", icon: Award },
+  { slug: "nmc-registration-guide-international-nurses", title: "NMC Registration Guide", desc: "How international nurses register with the UK Nursing & Midwifery Council.", icon: Shield },
+  { slug: "nursing-recruitment-agencies-guide", title: "Recruitment Agencies Guide", desc: "How to find and evaluate reputable international nursing recruitment agencies.", icon: Building2 },
+  { slug: "cultural-adjustment-international-nurses", title: "Cultural Adjustment Guide", desc: "Preparing for cultural differences in healthcare settings abroad.", icon: Users },
+  { slug: "international-nurse-interview-tips", title: "Interview Tips for IENs", desc: "Prepare for nursing job interviews in your destination country.", icon: Briefcase },
 ];
 
 const FAQ_DATA = [
@@ -231,7 +245,7 @@ export default function InternationalNursingHub() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {MIGRATION_PATHS.map(m => (
-              <Link key={m.slug} href={`/international-nurses/${m.slug}`} className="group" data-testid={`card-migration-${m.slug}`}>
+              <Link key={m.slug} href={`/${m.slug}`} className="group" data-testid={`card-migration-${m.slug}`}>
                 <div className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md hover:border-teal-200 transition-all h-full">
                   <div className="text-lg mb-2">{m.flag}</div>
                   <h3 className="font-semibold text-gray-900 text-sm">{m.from} → {m.to}</h3>
@@ -278,6 +292,26 @@ export default function InternationalNursingHub() {
                   <Scale className="w-8 h-8 text-teal-500 mx-auto mb-3" />
                   <h3 className="font-bold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">{cp.title}</h3>
                   <p className="text-sm text-gray-500">{cp.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16" data-testid="section-supporting-guides">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-guides-h2">Supporting Guides & Resources</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">In-depth articles on every aspect of the international nursing journey — from bridging programs to salary comparisons.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {CONTENT_PAGES.map(cp => (
+              <Link key={cp.slug} href={`/${cp.slug}`} className="group" data-testid={`card-content-${cp.slug}`}>
+                <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-teal-200 transition-all h-full">
+                  <cp.icon className="w-6 h-6 text-teal-500 mb-3" />
+                  <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors text-sm">{cp.title}</h3>
+                  <p className="text-xs text-gray-500">{cp.desc}</p>
                 </div>
               </Link>
             ))}
