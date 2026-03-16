@@ -1,0 +1,171 @@
+You are updating the NurseNest Content Coverage Analyzer question generator.
+
+Change the generation system so it does NOT try to generate large question sets in one request.
+
+NEW REQUIRED BEHAVIOR
+
+Generate questions in small controlled batches only.
+
+Batch size rules:
+- default batch size: 5 questions
+- optional larger batch size: 10 questions maximum
+- never generate more than 10 questions in a single provider request
+- never try to fill a 500-question gap in one run
+- instead, chip away at gaps gradually through repeated successful small batches
+
+PRIMARY GOALS
+
+1. Make generation more reliable
+2. Reduce provider failures and malformed outputs
+3. Prevent whole-batch rejection
+4. Improve validation success rate
+5. Improve insert success rate
+6. Make the generation log reflect batch-level progress clearly
+
+REQUIRED LOGIC
+
+When a user clicks:
+- Fill Gap
+- Auto-Fill Gaps
+- Generate
+
+the system should:
+
+1. calculate the gap
+2. choose a small batch size of 5 by default
+3. optionally allow 10 max for admin-triggered runs
+4. generate only that batch
+5. validate each item individually
+6. insert valid items individually or in a safe partial batch insert
+7. report accepted/rejected counts
+8. stop gracefully on error without corrupting the queue
+
+EXAMPLE
+
+If topic target is 500 and current count is 17:
+- do NOT request 483 questions
+- request only 5 questions now
+- if successful, allow repeated future runs to continue closing the gap
+
+AUTO-FILL GAPS BEHAVIOR
+
+When Auto-Fill Gaps runs:
+- process topics sequentially, not as one giant generation job
+- for each topic, generate 5 questions only
+- if a topic succeeds, move to next topic
+- if a topic fails, log the failure and continue to the next topic
+- do not let one failed topic stop the whole run
+
+OPTIONAL ADMIN SETTINGS
+
+Add admin controls for:
+- batch size selector: 5 or 10 only
+- max topics per run
+- stop on first error toggle
+- continue on error toggle
+- dry-run validation mode
+
+VALIDATION RULES
+
+Validate each generated question independently.
+Do NOT fail the whole batch if one question is invalid.
+
+For each batch, return:
+- requested
+- generated
+- validated
+- inserted
+- rejected
+- failure stage if any
+
+GENERATION LOG UPGRADE
+
+Update the Generation Log so each entry shows:
+
+- topic name
+- batch size requested
+- generated count
+- validated count
+- inserted count
+- rejected count
+- error count
+- timestamp
+- brief failure reason
+
+Example:
+[questions] Acute Kidney Injury
+Batch Requested: 5
+Generated: 5
+Validated: 4
+Inserted: 4
+Rejected: 1
+Errors: 0
+
+or
+
+[questions] Preeclampsia
+Batch Requested: 5
+Generated: 0
+Validated: 0
+Inserted: 0
+Errors: 1
+Failure Stage: provider_request
+Reason: AI timeout
+
+QUEUE / RETRY LOGIC
+
+Implement safe retry behavior:
+- retry transient provider failures once only
+- do not retry validation failures automatically
+- do not retry malformed topic mapping endlessly
+- mark repeated failures for admin review
+
+DATABASE SAFETY
+
+- support partial acceptance
+- do not roll back valid questions because 1 item failed
+- preserve atomic integrity per inserted item
+- log exact DB failures
+
+PROMPT / PROVIDER SAFETY
+
+Update provider prompts so each request clearly asks for exactly 5 questions unless admin selected 10.
+
+The prompt must explicitly say:
+- return exactly 5 questions
+- return valid JSON only
+- do not include markdown fences
+- use supported schema only
+
+PERFORMANCE RULES
+
+- no oversized payloads
+- no giant multi-topic prompt bodies
+- no giant 50-question generations in one request
+- no blocking UI waiting for huge runs
+- keep generation responsive and reliable
+
+UI RULES
+
+Update the UI labels to make this clear:
+- “Fill Gap” = generate a small batch now
+- “Auto-Fill Gaps” = run small batches across multiple topics
+- show progress as incremental growth, not all-at-once completion
+
+SUCCESS CRITERIA
+
+The fix is successful when:
+- one topic can successfully generate 5 accepted questions
+- Auto-Fill Gaps can process multiple topics in small batches
+- failed topics do not break the entire run
+- generation logs show batch-level results clearly
+- database counts increase correctly after each successful batch
+
+DELIVERABLES
+
+After implementation, report:
+1. where batch size is controlled
+2. what the default batch size is
+3. how partial acceptance works
+4. how failed topics are handled
+5. one successful example run with accepted inserted questions

@@ -1,0 +1,368 @@
+You are debugging the NurseNest Content Coverage Analyzer auto-generation pipeline.
+
+There is a production bug in the question generator.
+
+SYMPTOMS
+
+In the Content Coverage Analyzer, when I click:
+- Fill Gap
+- Auto-Fill Gaps
+- Generate
+
+the UI updates the Generation Log, but every topic fails with:
+
+Generated: 0
+Accepted: 0
+Errors: 1
+
+Examples:
+- Acute Kidney Injury → Generated: 0, Accepted: 0, Errors: 1
+- Multiple Sclerosis Management → Generated: 0, Accepted: 0, Errors: 1
+- Preeclampsia → Generated: 0, Accepted: 0, Errors: 1
+- Pediatrics → Generated: 0, Accepted: 0, Errors: 1
+- Bipolar Disorder → Generated: 0, Accepted: 0, Errors: 1
+- Gastrointestinal → Generated: 0, Accepted: 0, Errors: 1
+- Obsessive-Compulsive Disorder → Generated: 0, Accepted: 0, Errors: 1
+
+This is happening across multiple topics, which strongly suggests a shared backend failure rather than a topic-specific issue.
+
+PRIMARY GOAL
+
+Find the exact root cause of why the generator produces 0 accepted questions and 1 error for every run, then fully fix it so generation works end-to-end.
+
+DO NOT just patch the UI.
+DO NOT suppress the error.
+DO NOT fake successful generation.
+TRACE the real failure and fix it properly.
+
+INVESTIGATION PLAN
+
+Step 1 — trace the full generation flow
+Identify and inspect the exact code path for:
+- Fill Gap button
+- Auto-Fill Gaps button
+- question generation API request
+- backend generation handler
+- AI provider request
+- response parsing
+- validation layer
+- save-to-database layer
+- generation log update layer
+
+Map the full flow:
+frontend button
+→ client action handler
+→ fetch or mutation call
+→ API route
+→ server generation service
+→ AI request
+→ parser
+→ validator
+→ insert service
+→ result aggregation
+→ generation log
+
+Step 2 — add real debug logging
+Add structured server-side logs at every stage with NO sensitive secret leakage.
+
+Log:
+- incoming payload
+- selected tier
+- selected topic
+- requested question count
+- requested formats
+- AI provider/model used
+- raw provider success/failure status
+- raw response shape
+- parsed question count
+- validation pass/fail count
+- DB insert pass/fail count
+- exact caught error stack
+
+Log examples:
+[generator:start]
+[generator:payload]
+[generator:provider_request]
+[generator:provider_response]
+[generator:parse_result]
+[generator:validation_result]
+[generator:db_insert_result]
+[generator:final_result]
+[generator:error]
+
+Make the errors visible in both server logs and the admin Generation Log UI.
+
+Step 3 — verify the API route
+Check whether the frontend is hitting the correct endpoint.
+Verify:
+- correct HTTP method
+- correct route path
+- correct JSON body
+- correct auth/session handling
+- CSRF issues if relevant
+- request not failing silently
+- route not returning 200 with embedded error object
+
+If the route returns success while internal generation fails, fix that contract.
+
+Step 4 — inspect AI provider integration
+Check:
+- API key availability in production environment
+- model name correctness
+- provider SDK import correctness
+- request payload format
+- token limits
+- timeout handling
+- rate limit handling
+- malformed system/user prompt construction
+- invalid JSON mode / schema mode settings
+
+If the provider is failing:
+- surface the real provider error
+- add retry only for transient failures
+- do not retry validation errors endlessly
+
+Step 5 — inspect response parsing
+Most likely failure point:
+AI response is returned, but parser rejects it.
+
+Check whether the system expects:
+- array of questions
+- object with questions array
+- strict JSON only
+- exact field names
+- legacy schema versus new schema mismatch
+
+Validate whether generated fields match the required question schema exactly.
+
+Common failure patterns to check:
+- answerKey vs correctAnswer mismatch
+- options array missing
+- rationale missing
+- category slug invalid
+- tier enum invalid
+- format enum invalid
+- topic field not normalized
+- bodySystem field missing
+- difficulty missing
+- language missing
+- sourceTag missing
+- malformed JSON string instead of object
+- markdown code fences around JSON
+- trailing commas / invalid JSON
+- nested structure not supported by validator
+
+If parser is too brittle, make it robust:
+- strip markdown fences
+- safely parse JSON
+- normalize synonymous field names
+- coerce known legacy structures into current schema
+- reject only truly invalid items, not fixable ones
+
+Step 6 — inspect validation layer
+Check whether every generated item is being rejected by validation.
+
+Audit all required fields and enum values.
+Confirm current database schema and application schema agree.
+
+Specifically inspect:
+- question format enum
+- tier enum
+- profession enum
+- specialty/topic mapping
+- language enum
+- country/exam mapping
+- difficulty enum
+- status/publish state enum
+
+If the validator is using stale enums or stale tier names, update it to match the current platform taxonomy.
+
+Make the validator return a detailed reason per rejected item.
+Examples:
+- missing rationale
+- invalid format enum
+- missing correct answer
+- category not found
+- invalid tier
+- duplicate stem
+- unsupported option structure
+
+Step 7 — inspect database insert step
+If validation passes but accepted remains 0, the insert layer may be failing.
+
+Check:
+- DB connectivity
+- transaction rollback
+- required columns missing
+- not-null constraint failures
+- enum mismatch in DB
+- foreign key/category mapping failure
+- duplicate unique key collisions
+- JSON column shape mismatch
+- publish status default failure
+
+If insert fails, log exact DB error with field names.
+
+Step 8 — inspect category/topic mapping
+The generation is being triggered from “Questions by Specialty/Topic”.
+This means topic normalization may be broken.
+
+Check whether topics like:
+- Acute Kidney Injury
+- Obsessive-Compulsive Disorder
+- Multiple Sclerosis Management
+- Gastrointestinal
+- Pediatrics
+- Preeclampsia
+
+are correctly mapped to:
+- tier
+- category
+- specialty
+- body system
+- exam blueprint area
+- internal slug
+
+If the generator tries to save under a nonexistent slug or wrong taxonomy key, fix the topic mapping layer.
+
+Add a canonical topic normalization function that maps:
+display label
+→ canonical topic key
+→ body system
+→ tier applicability
+→ generation prompt label
+→ DB category ID/slug
+
+Step 9 — inspect question-type compatibility
+If new formats were recently added or planned, verify that generation is not attempting to emit formats the DB cannot store yet.
+
+Check whether the generator prompt includes advanced formats such as:
+- BOW_TIE
+- CASE_STUDY_SERIES
+- MATRIX_SELECT
+- TREND_ANALYSIS
+
+If the backend schema still only supports:
+- MCQ
+- SATA
+- ORDERED
+- HOTSPOT
+- FILL_IN_BLANK
+
+then generation may fail because unsupported format objects are being returned.
+
+If so:
+- either temporarily constrain generated formats to currently supported ones
+- or fully implement storage/validation/render support for the new formats before generation uses them
+
+Do not leave partial support.
+
+Step 10 — fix the admin Generation Log
+The current log only shows:
+Generated: 0, Accepted: 0, Errors: 1
+
+This is not enough.
+
+Upgrade the Generation Log to show:
+- topic
+- tier
+- requested count
+- generated count
+- validated count
+- inserted count
+- rejected count
+- exact failure stage
+- short human-readable error message
+- timestamp
+- expandable detailed diagnostics for admins
+
+Example:
+[questions] Acute Kidney Injury
+Requested: 25
+Generated by AI: 25
+Validated: 0
+Inserted: 0
+Rejected: 25
+Failure Stage: validation
+Error: invalid format enum "MULTIPLE-CHOICE"
+Timestamp: ...
+
+or
+
+Failure Stage: provider_request
+Error: missing AI API key in production
+
+or
+
+Failure Stage: db_insert
+Error: null value in column "rationale"
+
+Step 11 — add fallback resilience
+If one generated item fails validation, do not fail the entire batch.
+Use partial acceptance:
+- validate each item individually
+- accept valid items
+- reject only invalid items
+- report exact counts
+
+This is critical.
+
+Step 12 — add test coverage
+Create automated tests for:
+- generation API route
+- parser normalization
+- validation acceptance/rejection
+- DB insert with generated payload
+- topic normalization
+- generation log summaries
+
+Add fixtures for:
+- MCQ
+- SATA
+- ORDERED
+- HOTSPOT
+- FILL_IN_BLANK
+
+If advanced formats are enabled, also add fixtures for:
+- BOW_TIE
+- CASE_STUDY_SERIES
+- MATRIX_SELECT
+- TREND_ANALYSIS
+
+Step 13 — protect production
+Before deploying:
+- verify no existing questions break
+- verify dashboard totals still calculate correctly
+- verify the Fill Gap button works for a single topic
+- verify Auto-Fill Gaps works for a small batch
+- verify accepted questions actually appear in the correct topic/category after insert
+- verify content counts update correctly after successful generation
+
+EXPECTED ROOT CAUSES TO CHECK FIRST
+Prioritize these because they are the most likely:
+1. AI provider env key/model failure
+2. parser expecting old JSON shape
+3. validator rejecting all generated items
+4. invalid enum value for format/tier/category
+5. DB insert failure due to schema mismatch
+6. topic-to-category mapping failure
+7. partially implemented new question formats causing save failure
+
+IMPLEMENTATION REQUIREMENTS
+- keep existing content intact
+- do not overwrite old questions
+- do not hide errors
+- do not return fake success
+- fix root cause, not symptoms
+- improve admin observability
+- make generation robust and debuggable
+
+FINAL OUTPUT REQUIRED
+After fixing, report:
+1. exact root cause
+2. exact files changed
+3. exact code path fixed
+4. whether the failure was provider, parser, validator, mapping, or DB
+5. one example successful generation run
+6. accepted question count after the fix
+7. any remaining limitations
