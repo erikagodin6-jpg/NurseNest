@@ -37,6 +37,7 @@ export function transformPharmtechQuestion(row: any): any {
     correctAnswer: ANSWER_LETTERS[row.correct_index] || "A",
     rationale: row.rationale || "",
     lessonSlug: row.lesson_slug || null,
+    certContext: row.cert_context || "PTCB",
   };
 }
 
@@ -53,7 +54,8 @@ export async function getAdaptiveQuestion(
   currentDifficulty: number,
   usedIds: string[],
   weakCategories: string[],
-  categoryWeights: Record<string, number> | null
+  categoryWeights: Record<string, number> | null,
+  certContext?: string
 ): Promise<any | null> {
   const params: any[] = [];
   let idx = 1;
@@ -67,6 +69,12 @@ export async function getAdaptiveQuestion(
   let query = `SELECT * FROM pharmtech_questions WHERE published = true AND difficulty = ANY($${idx})`;
   params.push(diffRange);
   idx++;
+
+  if (certContext) {
+    query += ` AND cert_context IN ($${idx}, 'BOTH')`;
+    params.push(certContext);
+    idx++;
+  }
 
   if (usedIds.length > 0) {
     query += ` AND id != ALL($${idx})`;
@@ -88,6 +96,12 @@ export async function getAdaptiveQuestion(
     let fallbackQuery = `SELECT * FROM pharmtech_questions WHERE published = true`;
     const fallbackParams: any[] = [];
     let fIdx = 1;
+
+    if (certContext) {
+      fallbackQuery += ` AND cert_context IN ($${fIdx}, 'BOTH')`;
+      fallbackParams.push(certContext);
+      fIdx++;
+    }
 
     if (usedIds.length > 0) {
       fallbackQuery += ` AND id != ALL($${fIdx})`;

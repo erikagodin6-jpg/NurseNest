@@ -29,6 +29,69 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
         updated_at timestamp NOT NULL DEFAULT now()
       );
 
+      CREATE TABLE IF NOT EXISTS pharmtech_lessons (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug text UNIQUE NOT NULL,
+        title text NOT NULL,
+        category text NOT NULL,
+        summary text,
+        body text,
+        objectives text[] DEFAULT '{}',
+        key_points text[] DEFAULT '{}',
+        common_mistakes text[] DEFAULT '{}',
+        related_deck_slugs text[] DEFAULT '{}',
+        published boolean DEFAULT false,
+        sort_order integer DEFAULT 0,
+        cert_context text DEFAULT 'BOTH'
+      );
+
+      CREATE TABLE IF NOT EXISTS pharmtech_flashcard_decks (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug text UNIQUE NOT NULL,
+        title text NOT NULL,
+        description text,
+        category text,
+        lesson_slug text,
+        card_count integer DEFAULT 0,
+        published boolean DEFAULT false,
+        sort_order integer DEFAULT 0,
+        cert_context text DEFAULT 'BOTH'
+      );
+
+      CREATE TABLE IF NOT EXISTS pharmtech_flashcards (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        deck_id varchar NOT NULL,
+        front text NOT NULL,
+        back text NOT NULL,
+        sort_order integer DEFAULT 0
+      );
+
+      CREATE TABLE IF NOT EXISTS pharmtech_questions (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        external_id text UNIQUE,
+        stem text NOT NULL,
+        options jsonb NOT NULL DEFAULT '[]',
+        correct_index integer NOT NULL DEFAULT 0,
+        rationale text,
+        category text,
+        difficulty integer DEFAULT 3,
+        lesson_slug text,
+        published boolean DEFAULT false,
+        cert_context text DEFAULT 'PTCB'
+      );
+
+      CREATE TABLE IF NOT EXISTS pharmtech_exams (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug text UNIQUE NOT NULL,
+        title text NOT NULL,
+        description text,
+        question_ids text[] DEFAULT '{}',
+        time_limit_minutes integer DEFAULT 60,
+        passing_score integer DEFAULT 70,
+        published boolean DEFAULT false,
+        sort_order integer DEFAULT 0
+      );
+
       CREATE TABLE IF NOT EXISTS pharmtech_adaptive_sessions (
         id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id varchar,
@@ -627,6 +690,10 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
+
+    await client.query(`ALTER TABLE pharmtech_questions ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'PTCB'`);
+    await client.query(`ALTER TABLE pharmtech_lessons ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'BOTH'`);
+    await client.query(`ALTER TABLE pharmtech_flashcard_decks ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'BOTH'`);
 
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");

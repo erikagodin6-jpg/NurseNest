@@ -97,10 +97,13 @@ export function registerPharmtechRoutes(app: Express) {
 
       const category = req.query.category as string | undefined;
       const difficulty = req.query.difficulty ? Number(req.query.difficulty) : undefined;
+      const rawCert = req.query.cert as string | undefined;
+      const cert = rawCert ? rawCert.toUpperCase() : undefined;
       let query = `SELECT * FROM pharmtech_questions WHERE published = true`;
       const params: any[] = [];
       if (category) { params.push(category); query += ` AND category = $${params.length}`; }
       if (difficulty) { params.push(difficulty); query += ` AND difficulty = $${params.length}`; }
+      if (cert) { params.push(cert); query += ` AND cert_context IN ($${params.length}, 'BOTH')`; }
       query += ` ORDER BY category, difficulty`;
       if (!isPro) { query += ` LIMIT ${FREE_LIMIT}`; }
       const { rows } = await pool.query(query, params);
@@ -607,6 +610,7 @@ export function registerPharmtechRoutes(app: Express) {
       const userId = user?.id || null;
 
       const startDifficulty = Math.max(1, Math.min(5, Number(settings?.startDifficulty) || 3));
+      const certContext = settings?.certContext ? String(settings.certContext).toUpperCase() : undefined;
 
       const { rows } = await pool.query(
         `INSERT INTO pharmtech_adaptive_sessions (user_id, settings, status, current_difficulty)
@@ -616,7 +620,7 @@ export function registerPharmtechRoutes(app: Express) {
 
       const session = snakeToCamel(rows[0]);
 
-      const question = await getAdaptiveQuestion(session.id, session.currentDifficulty, [], [], null);
+      const question = await getAdaptiveQuestion(session.id, session.currentDifficulty, [], [], null, certContext);
       if (!question) {
         return res.status(500).json({ error: "No questions available. Please add published questions first." });
       }
@@ -706,7 +710,9 @@ export function registerPharmtechRoutes(app: Express) {
         ]
       );
 
-      const nextQuestion = await getAdaptiveQuestion(sessionId, newDifficulty, usedIds, weakAreas, null);
+      const sessionSettings = session.settings ? (typeof session.settings === 'string' ? JSON.parse(session.settings) : session.settings) : {};
+      const sessionCertContext = sessionSettings?.certContext ? String(sessionSettings.certContext).toUpperCase() : undefined;
+      const nextQuestion = await getAdaptiveQuestion(sessionId, newDifficulty, usedIds, weakAreas, null, sessionCertContext);
 
       res.json({
         isCorrect,

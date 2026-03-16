@@ -459,15 +459,33 @@ const FLASHCARD_DECKS = [
   },
 ];
 
+function validateQuestions(questions: any[]): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  const stems = new Set<string>();
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    if (!q.stem || q.stem.trim().length === 0) errors.push(`Q${i + 1} (${q.externalId}): empty stem`);
+    if (!Array.isArray(q.options) || q.options.length !== 4) errors.push(`Q${i + 1} (${q.externalId}): must have exactly 4 options, found ${q.options?.length}`);
+    if (typeof q.correctIndex !== "number" || q.correctIndex < 0 || q.correctIndex > 3) errors.push(`Q${i + 1} (${q.externalId}): correctIndex ${q.correctIndex} out of range 0-3`);
+    if (!q.rationale || q.rationale.trim().length === 0) errors.push(`Q${i + 1} (${q.externalId}): empty rationale`);
+    if (!q.category || q.category.trim().length === 0) errors.push(`Q${i + 1} (${q.externalId}): empty category`);
+    const normStem = q.stem?.trim().toLowerCase();
+    if (stems.has(normStem)) errors.push(`Q${i + 1} (${q.externalId}): duplicate stem`);
+    else stems.add(normStem);
+  }
+  return { valid: errors.length === 0, errors };
+}
+
 function generateQuestions(): any[] {
   const questions: any[] = [];
   let id = 1;
 
-  const q = (stem: string, options: string[], correctIndex: number, rationale: string, category: string, difficulty: number, lessonSlug?: string) => {
+  const q = (stem: string, options: string[], correctIndex: number, rationale: string, category: string, difficulty: number, lessonSlug?: string, certContext?: string) => {
     questions.push({
       externalId: `ptq-${String(id++).padStart(3, "0")}`,
       stem, options, correctIndex, rationale, category, difficulty,
       lessonSlug: lessonSlug || null,
+      certContext: certContext || "PTCB",
       published: true,
     });
   };
@@ -723,6 +741,48 @@ function generateQuestions(): any[] {
     q(eq.stem, eq.options, eq.correctIndex, eq.rationale, eq.category, eq.difficulty, (eq as any).lessonSlug);
   }
 
+  const pebcQuestions = [
+    { stem: "In Canada, which regulatory body establishes the National Drug Schedules (I, II, III, Unscheduled)?", options: ["Health Canada", "NAPRA", "Canadian Pharmacists Association", "Provincial Colleges of Pharmacy"], correctIndex: 1, rationale: "NAPRA (National Association of Pharmacy Regulatory Authorities) establishes the National Drug Schedules that determine how drugs are sold in Canada. Health Canada approves drugs for market; provincial colleges regulate pharmacy practice.", category: "Regulations/Law", difficulty: 1 },
+    { stem: "What is the DIN (Drug Identification Number) used for in Canadian pharmacy?", options: ["Tracking controlled substances", "Uniquely identifying each drug product sold in Canada", "Billing provincial drug plans", "Registering pharmacy technicians"], correctIndex: 1, rationale: "The DIN is an 8-digit number assigned by Health Canada that uniquely identifies each drug product, including manufacturer, product name, active ingredient, strength, dosage form, and route of administration.", category: "Prescription Processing", difficulty: 1 },
+    { stem: "Under the CDSA, narcotics in Canada (e.g., morphine, oxycodone) are classified under which schedule?", options: ["NAPRA Schedule I", "CDSA Schedule I", "CDSA Schedule IV", "Provincial schedules only"], correctIndex: 1, rationale: "Canada uses the Controlled Drugs and Substances Act (CDSA) with Schedule I for narcotics (morphine, oxycodone, fentanyl). This is distinct from the US DEA scheduling system.", category: "Regulations/Law", difficulty: 2 },
+    { stem: "Which Canadian brand name is used for omeprazole?", options: ["Prilosec", "Losec", "Nexium", "Prevacid"], correctIndex: 1, rationale: "In Canada, the brand name for omeprazole is Losec (AstraZeneca). In the US, it is sold as Prilosec. This difference in brand naming is important for internationally trained pharmacy professionals.", category: "Pharmacology", difficulty: 2 },
+    { stem: "In Canadian pharmacy, what does 'tech-check-tech' allow?", options: ["A technician to counsel patients", "A regulated technician to check another technician's dispensing work", "A technician to prescribe medications", "A technician to administer vaccines"], correctIndex: 1, rationale: "Tech-check-tech allows a regulated pharmacy technician to perform the final product accuracy check on another technician's dispensing work. This frees the pharmacist for clinical activities. Not all provinces have implemented this.", category: "Prescription Processing", difficulty: 2 },
+    { stem: "What is the difference between salbutamol (Canadian name) and albuterol (US name)?", options: ["They are completely different drugs", "They are the same drug with different international names", "Salbutamol is a longer-acting version", "Albuterol is available OTC"], correctIndex: 1, rationale: "Salbutamol (INN/Canadian name) and albuterol (USAN/US name) are the same beta-2 agonist bronchodilator. Canada uses International Nonproprietary Names (INN), while the US uses United States Adopted Names (USAN).", category: "Pharmacology", difficulty: 1 },
+    { stem: "Which federal privacy law governs personal health information in the Canadian private sector?", options: ["HIPAA", "PIPEDA", "PHIPA", "Canada Health Act"], correctIndex: 1, rationale: "PIPEDA (Personal Information Protection and Electronic Documents Act) governs the collection, use, and disclosure of personal information in the Canadian private sector. Provincial privacy laws may also apply.", category: "Regulations/Law", difficulty: 2 },
+    { stem: "A Canadian pharmacy technician discovers a narcotic count discrepancy. What is the first step?", options: ["Adjust the count and continue", "Notify the pharmacist in charge immediately", "Report directly to Health Canada", "Wait until end of shift"], correctIndex: 1, rationale: "Any narcotic discrepancy must be immediately reported to the pharmacist in charge. The pharmacist will investigate, document the discrepancy, and if theft is suspected, report to Health Canada and local law enforcement.", category: "Medication Safety", difficulty: 1 },
+    { stem: "What is Clavulin (Canadian brand) known as in the United States?", options: ["Augmentin", "Unasyn", "Zosyn", "Timentin"], correctIndex: 0, rationale: "Clavulin is the Canadian brand name for amoxicillin/clavulanic acid, known as Augmentin in the US. Knowing Canadian vs US brand names is important for the PEBC exam.", category: "Pharmacology", difficulty: 2 },
+    { stem: "In Canada, what does PEBC stand for?", options: ["Provincial Examining Board of Canada", "Pharmacy Examining Board of Canada", "Pharmaceutical Ethics Board of Canada", "Provincial Education Bureau of Canada"], correctIndex: 1, rationale: "The PEBC (Pharmacy Examining Board of Canada) administers the qualifying examination for pharmacy technicians in Canada. Candidates must pass the MCQ and OSPE components.", category: "Regulations/Law", difficulty: 1 },
+    { stem: "Which organization publishes medication safety alerts and manages incident reporting in Canada?", options: ["Health Canada", "ISMP Canada", "Canadian Pharmacists Association", "NAPRA"], correctIndex: 1, rationale: "ISMP Canada (Institute for Safe Medication Practices Canada) collects and analyzes medication incident reports, publishes safety bulletins, and develops safety recommendations for Canadian healthcare.", category: "Medication Safety", difficulty: 2 },
+    { stem: "What is MedEffect Canada used for?", options: ["Drug pricing", "Adverse drug reaction reporting", "Pharmacy licensing", "Drug procurement"], correctIndex: 1, rationale: "MedEffect Canada is Health Canada's adverse drug reaction (ADR) reporting system, equivalent to the US FDA MedWatch. Healthcare professionals and consumers can report suspected ADRs and health product safety concerns.", category: "Medication Safety", difficulty: 2 },
+    { stem: "A patient in Canada needs naloxone for opioid overdose emergency. How is it typically available?", options: ["Prescription only", "Behind the counter at pharmacies without a prescription in most provinces", "Only through hospitals", "Only through addiction treatment centers"], correctIndex: 1, rationale: "In most Canadian provinces, naloxone is available without a prescription at pharmacies. It was rescheduled to improve accessibility as part of Canada's response to the opioid crisis.", category: "Pharmacology", difficulty: 1 },
+    { stem: "Which Canadian generic manufacturer uses the 'Apo-' prefix?", options: ["Teva Canada", "Apotex Inc.", "Pharmascience", "Sandoz Canada"], correctIndex: 1, rationale: "The 'Apo-' prefix identifies generic products manufactured by Apotex Inc. Other Canadian generic prefixes include 'Teva-' (Teva Canada), 'pms-' (Pharmascience), and 'Sandoz' (Sandoz Canada).", category: "Pharmacology", difficulty: 1 },
+    { stem: "What is the role of CADTH in Canadian pharmacy?", options: ["Manufacturing generic drugs", "Providing evidence-based drug reimbursement recommendations", "Regulating pharmacy practice", "Issuing DINs"], correctIndex: 1, rationale: "CADTH (Canadian Agency for Drugs and Technologies in Health) provides evidence-based recommendations on drug reimbursement through its Common Drug Review process, informing provincial formulary decisions.", category: "Regulations/Law", difficulty: 3 },
+    { stem: "In Canada, benzodiazepines are classified as 'targeted substances' under which CDSA schedule?", options: ["Schedule I", "Schedule II", "Schedule III", "Schedule IV"], correctIndex: 3, rationale: "Benzodiazepines (diazepam, lorazepam, alprazolam) are CDSA Schedule IV targeted substances in Canada. They have specific prescribing and record-keeping requirements distinct from narcotics and controlled drugs.", category: "Regulations/Law", difficulty: 3 },
+    { stem: "What is PrescribeIT used for in Canadian pharmacy?", options: ["Ordering controlled substances", "Electronic prescribing between prescribers and pharmacies", "Patient medication reminders", "Drug recall notifications"], correctIndex: 1, rationale: "PrescribeIT is Canada's national electronic prescribing service that enables prescribers to transmit prescriptions electronically to a patient's pharmacy of choice, improving accuracy and reducing handwriting errors.", category: "Prescription Processing", difficulty: 2 },
+    { stem: "A patient in British Columbia uses PharmaCare. What is PharmaCare?", options: ["A private insurance company", "BC's provincial drug benefit program", "A pharmacy chain", "A medication management app"], correctIndex: 1, rationale: "PharmaCare is British Columbia's provincial drug benefit program. Each Canadian province has its own drug coverage program (ODB in Ontario, RAMQ in Quebec, etc.).", category: "Prescription Processing", difficulty: 1 },
+    { stem: "What is 'medication reconciliation' (MedRec) in Canadian healthcare?", options: ["Returning unused medications", "Comparing a patient's medication orders to all medications they are actually taking", "Billing reconciliation", "Counting controlled substances"], correctIndex: 1, rationale: "Medication reconciliation is a formal process required by Accreditation Canada at transitions of care. It identifies and resolves discrepancies between the patient's actual medication list and current orders.", category: "Medication Safety", difficulty: 1 },
+    { stem: "What is the Canadian equivalent of the US 'Orange Book' for generic interchangeability?", options: ["CPS", "Provincial Interchangeability Formularies", "Health Canada Product Monographs", "Therapeutic Products Directorate database"], correctIndex: 1, rationale: "Provincial Interchangeability Formularies list generic products deemed therapeutically equivalent and interchangeable with brand products, serving a similar purpose to the US FDA Orange Book.", category: "Prescription Processing", difficulty: 3 },
+    { stem: "In Canada, what is the CPS (Compendium of Pharmaceuticals and Specialties)?", options: ["A provincial drug formulary", "A drug information reference published by CPhA", "A government regulation manual", "An insurance billing guide"], correctIndex: 1, rationale: "The CPS is Canada's primary drug information reference, published by the Canadian Pharmacists Association (CPhA). It contains Health Canada-approved product monographs and is widely used in Canadian pharmacy practice.", category: "Prescription Processing", difficulty: 1 },
+    { stem: "How long must a Canadian pharmacy retain narcotic prescription records?", options: ["1 year", "2 years", "5 years", "10 years"], correctIndex: 1, rationale: "Under the Narcotic Control Regulations, Canadian pharmacies must retain narcotic records for a minimum of 2 years. Some provincial regulations may require longer retention. Records must be accessible for inspection by Health Canada.", category: "Regulations/Law", difficulty: 2 },
+    { stem: "What Canadian generic prefix identifies products made by Teva Canada?", options: ["Apo-", "pms-", "Teva-", "Sandoz-"], correctIndex: 2, rationale: "The 'Teva-' prefix (formerly 'ratio-') identifies generic medications manufactured by Teva Canada (formerly ratiopharm). Other prefixes: Apo- (Apotex), pms- (Pharmascience), Sandoz (Sandoz Canada).", category: "Pharmacology", difficulty: 1 },
+    { stem: "What is the brand name for acetaminophen in Canada?", options: ["Tylenol", "Panadol", "Tempra", "Both Tylenol and Tempra are used in Canada"], correctIndex: 3, rationale: "In Canada, acetaminophen is sold under both Tylenol and Tempra brand names. Paracetamol is the international name (INN). Canadian pharmacy technicians should know both common brand names used in the country.", category: "Pharmacology", difficulty: 1 },
+    { stem: "Under Canadian NAPRA scheduling, what are Schedule II drugs?", options: ["Prescription-only drugs", "Drugs kept behind the counter but no prescription required", "OTC drugs on open shelves", "Controlled substances"], correctIndex: 1, rationale: "NAPRA Schedule II drugs require no prescription but must be kept behind the pharmacy counter (behind-the-counter, BTC). They require professional intervention from a pharmacist. Schedule I drugs are prescription-only.", category: "Regulations/Law", difficulty: 2 },
+    { stem: "What is Accreditation Canada's role regarding pharmacy practice?", options: ["Licensing pharmacies", "Setting medication reconciliation standards for healthcare organizations", "Pricing drugs", "Training pharmacy technicians"], correctIndex: 1, rationale: "Accreditation Canada sets Required Organizational Practices (ROPs) including medication reconciliation at transitions of care. Healthcare organizations must comply with these standards to maintain accreditation.", category: "Medication Safety", difficulty: 2 },
+    { stem: "In Canadian pharmacy, what does a 'verbal prescription' require?", options: ["Nothing, verbal prescriptions are not accepted in Canada", "A written prescription within 24 hours", "The pharmacist must receive it, and the technician documents it for pharmacist review", "Only the patient's verbal confirmation"], correctIndex: 2, rationale: "In Canada, verbal (telephone) prescriptions must be received by a pharmacist (not a technician in most jurisdictions). The prescription is documented and kept as a permanent record. Provincial regulations may vary.", category: "Prescription Processing", difficulty: 2 },
+    { stem: "What is the role of the Therapeutic Products Directorate (TPD) in Canada?", options: ["Manufacturing drugs", "Regulating and approving drugs and medical devices before market entry", "Operating pharmacies", "Setting drug prices"], correctIndex: 1, rationale: "The TPD is a branch of Health Canada responsible for pre-market evaluation and post-market surveillance of pharmaceuticals and medical devices. It reviews drug submissions and issues Notices of Compliance (NOC) and DINs.", category: "Regulations/Law", difficulty: 3 },
+    { stem: "A prescription for codeine combination products in Canada requires what specific documentation?", options: ["DEA number", "DIN, prescriber information, and 'N' designation if narcotic", "Only the patient's name", "NAPRA approval number"], correctIndex: 1, rationale: "Canadian prescriptions for narcotic-containing products must include the DIN, complete prescriber information, patient details, and be identified with the narcotic designation. Codeine combination products may be Schedule I (prescription) or available OTC in low doses depending on province.", category: "Prescription Processing", difficulty: 2 },
+    { stem: "What temperature range is considered 'cold' storage for Canadian pharmacy (equivalent to 'refrigerated')?", options: ["0-2°C", "2-8°C", "8-15°C", "15-25°C"], correctIndex: 1, rationale: "In Canadian pharmacy, cold storage (refrigerated) is 2-8°C, matching the international standard. Many drugs including insulins (unopened), vaccines, and reconstituted antibiotics require cold storage. Cool storage is 8-15°C and room temperature is 15-25°C.", category: "Compounding", difficulty: 1 },
+    { stem: "What is the PMPRB in Canadian pharmacy?", options: ["Provincial Medicine Price Review Board", "Patented Medicine Prices Review Board", "Pharmaceutical Marketing Practices Review Board", "Provincial Medication Procurement Review Board"], correctIndex: 1, rationale: "The PMPRB (Patented Medicine Prices Review Board) is a federal quasi-judicial body that ensures patented drug prices in Canada are not excessive. It sets ceiling prices for patented medicines based on international price comparisons.", category: "Regulations/Law", difficulty: 3 },
+    { stem: "In Canada, an Exceptional Access Program (EAP) is used for:", options: ["Emergency dispensing of narcotics", "Requesting coverage for drugs not on the provincial formulary", "Importing drugs from the US", "Training new pharmacy technicians"], correctIndex: 1, rationale: "Exceptional Access Programs (called different names in different provinces, e.g., EAP in Ontario, Special Authorization in BC) allow prescribers to request coverage for drugs not listed on the provincial formulary by providing clinical justification.", category: "Prescription Processing", difficulty: 2 },
+    { stem: "What does GMP stand for in the context of Canadian drug manufacturing?", options: ["General Medical Practice", "Good Manufacturing Practices", "Government Medication Program", "Generic Medicine Protocol"], correctIndex: 1, rationale: "Good Manufacturing Practices (GMP) are a set of guidelines enforced by Health Canada that ensure drugs are consistently produced and controlled according to quality standards. All drug manufacturers in Canada must comply with GMP.", category: "Compounding", difficulty: 1 },
+    { stem: "A patient in Ontario receives medications through the ODB program. What is ODB?", options: ["Ontario Drug Board", "Ontario Drug Benefit", "Ontario Dispensing Bureau", "Ontario Drug Bank"], correctIndex: 1, rationale: "The Ontario Drug Benefit (ODB) program provides drug coverage for eligible residents including seniors (65+), social assistance recipients, and those with high drug costs relative to income through the Trillium Drug Program.", category: "Prescription Processing", difficulty: 1 },
+    { stem: "What is the CDSA Schedule designation for anabolic steroids in Canada?", options: ["Schedule I", "Schedule III", "Schedule IV", "Schedule VI"], correctIndex: 3, rationale: "Anabolic steroids are classified under CDSA Schedule IV (Part IV) in Canada. Unlike in the US where they are Schedule III, Canadian scheduling uses different categories. Precursor chemicals are in Part V.", category: "Regulations/Law", difficulty: 3 },
+  ];
+
+  for (const pq of pebcQuestions) {
+    q(pq.stem, pq.options, pq.correctIndex, pq.rationale, pq.category, pq.difficulty, undefined, "PEBC");
+  }
+
   return questions;
 }
 
@@ -769,19 +829,42 @@ async function seed() {
   }
   console.log(`Inserted ${FLASHCARD_DECKS.length} decks with ${totalCards} flashcards`);
 
+  // Ensure cert_context column exists on pharmtech_questions
+  try {
+    await pool.query(`ALTER TABLE pharmtech_questions ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'PTCB'`);
+    console.log("Ensured cert_context column exists on pharmtech_questions");
+  } catch (e: any) {
+    console.log("cert_context column check:", e.message);
+  }
+
   // Insert questions
   console.log("Inserting questions...");
   const questions = generateQuestions();
+
+  const validation = validateQuestions(questions);
+  if (!validation.valid) {
+    console.error(`Question validation FAILED with ${validation.errors.length} issues:`);
+    for (const err of validation.errors.slice(0, 20)) console.error(`  - ${err}`);
+    if (validation.errors.length > 20) console.error(`  ... and ${validation.errors.length - 20} more`);
+    throw new Error(`Seed aborted: ${validation.errors.length} question validation errors found. Fix errors before seeding.`);
+  } else {
+    console.log("All questions passed validation checks");
+  }
+
   const questionIds: string[] = [];
+  const pebcQuestionIds: string[] = [];
   for (const q of questions) {
     const { rows } = await pool.query(
-      `INSERT INTO pharmtech_questions (external_id, stem, options, correct_index, rationale, category, difficulty, lesson_slug, published)
-       VALUES ($1,$2,$3::jsonb,$4,$5,$6,$7,$8,true) RETURNING id`,
-      [q.externalId, q.stem, JSON.stringify(q.options), q.correctIndex, q.rationale, q.category, q.difficulty, q.lessonSlug]
+      `INSERT INTO pharmtech_questions (external_id, stem, options, correct_index, rationale, category, difficulty, lesson_slug, published, cert_context)
+       VALUES ($1,$2,$3::jsonb,$4,$5,$6,$7,$8,true,$9) RETURNING id`,
+      [q.externalId, q.stem, JSON.stringify(q.options), q.correctIndex, q.rationale, q.category, q.difficulty, q.lessonSlug, q.certContext || "PTCB"]
     );
     questionIds.push(rows[0].id);
+    if (q.certContext === "PEBC") {
+      pebcQuestionIds.push(rows[0].id);
+    }
   }
-  console.log(`Inserted ${questions.length} questions`);
+  console.log(`Inserted ${questions.length} questions (${pebcQuestionIds.length} PEBC, ${questions.length - pebcQuestionIds.length} PTCB)`);
 
   // Create exams
   console.log("Creating exams...");
@@ -792,19 +875,25 @@ async function seed() {
     { slug: "calculations-focus", title: "Dosage Calculations Exam", description: "Focused exam on pharmaceutical calculations, unit conversions, and concentration math.", timeLimitMinutes: 45, passingScore: 70, questionCount: 25 },
     { slug: "law-regulations-focus", title: "Pharmacy Law & Regulations Exam", description: "Focused exam on DEA schedules, HIPAA, controlled substances, and federal pharmacy law.", timeLimitMinutes: 45, passingScore: 70, questionCount: 25 },
     { slug: "sterile-compounding-focus", title: "Sterile Compounding & Safety Exam", description: "Focused exam on USP <797>, aseptic technique, patient safety, and quality assurance.", timeLimitMinutes: 45, passingScore: 70, questionCount: 25 },
+    { slug: "pebc-practice-exam-1", title: "PEBC Practice Exam: Canadian Pharmacy Technician", description: "Practice exam focused on Canadian pharmacy regulations, CDSA, NAPRA scheduling, provincial drug plans, and Canadian brand names. Designed for PEBC exam preparation.", timeLimitMinutes: 90, passingScore: 70, questionCount: Math.min(35, pebcQuestionIds.length), usePebcPool: true },
   ];
 
   // Distribute questions to exams
   const shuffled = fisherYatesShuffle([...questionIds]);
+  const shuffledPebc = fisherYatesShuffle([...pebcQuestionIds]);
   let qIdx = 0;
   for (let i = 0; i < examDefs.length; i++) {
-    const e = examDefs[i];
-    const examQIds = shuffled.slice(qIdx, qIdx + e.questionCount);
-    qIdx += e.questionCount;
-    if (examQIds.length < e.questionCount) {
-      // Wrap around if we run out
-      const remaining = e.questionCount - examQIds.length;
-      examQIds.push(...shuffled.slice(0, remaining));
+    const e = examDefs[i] as any;
+    let examQIds: string[];
+    if (e.usePebcPool && shuffledPebc.length > 0) {
+      examQIds = shuffledPebc.slice(0, e.questionCount);
+    } else {
+      examQIds = shuffled.slice(qIdx, qIdx + e.questionCount);
+      qIdx += e.questionCount;
+      if (examQIds.length < e.questionCount) {
+        const remaining = e.questionCount - examQIds.length;
+        examQIds.push(...shuffled.slice(0, remaining));
+      }
     }
     await pool.query(
       `INSERT INTO pharmtech_exams (slug, title, description, question_ids, time_limit_minutes, passing_score, published, sort_order)
