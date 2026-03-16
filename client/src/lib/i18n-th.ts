@@ -3652,6 +3652,8 @@ const translations: Record<string, string> = {
   "upgrade.verifyFailedDesc": "กรุณาติดต่อฝ่ายสนับสนุนหากปัญหานี้ยังคงอยู่",
   "upgrade.verifying": "กำลังตรวจสอบการอัปเกรด...",
   "upgrade.verifyingDesc": "กรุณารอสักครู่ขณะเราเปิดใช้งานบัญชี Pro ของคุณ",
+  "home.hero.trustQuestionsLabel": "ข้อสอบฝึกหัด",
+  "home.hero.trustFlashcardsLabel": "แฟลชการ์ด",
 };
 
 export default translations;

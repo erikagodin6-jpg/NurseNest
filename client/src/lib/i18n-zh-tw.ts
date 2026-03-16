@@ -3558,7 +3558,9 @@ const translations: Record<string, string> = {
   "upgrade.verifyFailed": "驗證失敗",
   "upgrade.verifyFailedDesc": "Please contact support if this issue persists.",
   "upgrade.verifying": "正在驗證您的升級...",
-  "upgrade.verifyingDesc": "Please wait while we activate your 專業版 account."
+  "upgrade.verifyingDesc": "Please wait while we activate your 專業版 account.",
+  "home.hero.trustQuestionsLabel": "練習題",
+  "home.hero.trustFlashcardsLabel": "閃卡",
 };
 
 export default translations;

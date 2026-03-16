@@ -111,14 +111,23 @@ function computeDistributionNeeds(state: PromptState, remaining: number, targetC
   const needMcq = Math.max(0, targetMcq - (state.byType.MCQ || 0));
   const needSata = Math.max(0, targetSata - (state.byType.SATA || 0));
 
-  const targetMod = Math.round(targetCount * 0.3);
-  const targetHard = Math.round(targetCount * 0.5);
-  const targetVC = targetCount - targetMod - targetHard;
+  const targetMod = Math.round(targetCount * 0.30);
+  const targetHard = Math.round(targetCount * 0.45);
+  const targetVC = Math.round(targetCount * 0.25);
+
+  const currentMod = state.byDifficulty.moderate || 0;
+  const currentHard = state.byDifficulty.hard || 0;
+  const currentVC = state.byDifficulty.very_challenging || 0;
+
+  const needMod = Math.max(0, targetMod - currentMod);
+  const needHard = Math.max(0, targetHard - currentHard);
+  const needVC = Math.max(0, targetVC - currentVC);
 
   const lines = [
     `Distribution needs for this chunk:`,
     `- Type: need ~${needMcq} MCQ and ~${needSata} SATA (${totalSoFar}/${targetCount} done)`,
-    `- Difficulty: need ~${Math.max(0, targetMod - (state.byDifficulty.moderate || 0))} moderate, ~${Math.max(0, targetHard - (state.byDifficulty.hard || 0))} hard, ~${Math.max(0, targetVC - (state.byDifficulty.very_challenging || 0))} very_challenging`,
+    `- Difficulty target: 30% moderate (easy), 45% hard (moderate), 25% very_challenging (hard)`,
+    `- Difficulty needs: ~${needMod} moderate, ~${needHard} hard, ~${needVC} very_challenging`,
   ];
 
   const underrep = VALID_SYSTEMS.filter(s => !state.bySystem[s] || state.bySystem[s] < Math.ceil(targetCount / VALID_SYSTEMS.length));
@@ -127,6 +136,34 @@ function computeDistributionNeeds(state: PromptState, remaining: number, targetC
   }
 
   return lines.join("\n");
+}
+
+function validateDifficultyDistribution(items: any[]): { balanced: boolean; feedback: string } {
+  if (items.length === 0) return { balanced: true, feedback: "" };
+  
+  const counts = { moderate: 0, hard: 0, very_challenging: 0 };
+  for (const item of items) {
+    const d = (item.difficulty || "moderate").toLowerCase();
+    if (d in counts) counts[d as keyof typeof counts]++;
+  }
+  
+  const total = items.length;
+  const modPct = counts.moderate / total;
+  const hardPct = counts.hard / total;
+  const vcPct = counts.very_challenging / total;
+  
+  const driftThreshold = 0.20;
+  const drifted = 
+    Math.abs(modPct - 0.30) > driftThreshold ||
+    Math.abs(hardPct - 0.45) > driftThreshold ||
+    Math.abs(vcPct - 0.25) > driftThreshold;
+  
+  return {
+    balanced: !drifted,
+    feedback: drifted 
+      ? `Difficulty drift detected: moderate=${Math.round(modPct*100)}% (target 30%), hard=${Math.round(hardPct*100)}% (target 45%), very_challenging=${Math.round(vcPct*100)}% (target 25%)`
+      : "",
+  };
 }
 
 function buildChunkPrompt(
@@ -374,6 +411,23 @@ async function generateChunkWithRetry(
     const { valid, invalid } = validateChunk(items, startIdx, existingHashes);
 
     if (valid.length > 0) {
+      const diffCheck = validateDifficultyDistribution(items);
+      if (!diffCheck.balanced) {
+        console.log(`[GenV2] ${diffCheck.feedback}`);
+        await storage.createGenerationEvent({
+          generationId,
+          eventType: "difficulty_drift",
+          payload: { feedback: diffCheck.feedback, itemCount: items.length, attempt: attempt + 1 },
+        });
+
+        if (attempt < maxRetries) {
+          console.log(`[GenV2] Rejecting chunk due to difficulty drift, retrying (attempt ${attempt + 1}/${maxRetries})...`);
+          await new Promise(r => setTimeout(r, 1000));
+          continue;
+        }
+        console.log(`[GenV2] Accepting drifted chunk after exhausting retries`);
+      }
+
       if (valid.length < chunkSize && attempt < maxRetries) {
         console.log(`[GenV2] Attempt ${attempt + 1}: only ${valid.length}/${chunkSize} valid (${invalid.length} invalid). Accepting partial, outer loop will request more.`);
       }

@@ -2324,6 +2324,8 @@ const translations: Record<string, string> = {
     "home.stats.studyPacks": "Mga Study Pack",
     "notFound.description": "Ang pahina na hinahanap mo ay hindi umiiral.",
     "notFound.title": "404 Hindi Nahanap ang Pahina",
+    "home.hero.trustQuestionsLabel": "Mga Tanong sa Pagsasanay",
+    "home.hero.trustFlashcardsLabel": "Mga Flashcard",
 };
 
 export default translations;

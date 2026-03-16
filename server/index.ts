@@ -800,6 +800,20 @@ function runDeferredStartupWork() {
 
     import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
       .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
+
+    const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+    setInterval(async () => {
+      try {
+        const { createDailyJobs, runContinuousImprovementJob } = await import("./content-pipeline");
+        const jobs = await createDailyJobs();
+        if (jobs.length > 0) console.log(`[Pipeline Scheduler] Created ${jobs.length} daily generation jobs`);
+        const improvement = await runContinuousImprovementJob();
+        console.log(`[Pipeline Scheduler] Continuous improvement: ${improvement.weakQuestions.length} weak questions, ${improvement.weakTopics.length} weak topics, ${improvement.generationJobsQueued} jobs queued`);
+      } catch (e: any) {
+        console.error("[Pipeline Scheduler] Error:", e.message);
+      }
+    }, SIX_HOURS_MS);
+    console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
     import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
       const { getDevPool } = await import("./db");

@@ -12446,6 +12446,53 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/pipeline/daily-jobs", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { createDailyJobs } = await import("./content-pipeline");
+      const created = await createDailyJobs(req.body.date);
+      res.json({ created, count: created.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/pipeline/improvement", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { runContinuousImprovementJob } = await import("./content-pipeline");
+      const result = await runContinuousImprovementJob();
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/pipeline/difficulty-distribution", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const tier = (req.query.tier as string) || "rpn";
+      const { getDifficultyDistribution } = await import("./content-pipeline");
+      const dist = await getDifficultyDistribution(tier);
+      const total = dist.easy + dist.moderate + dist.hard;
+      res.json({
+        tier,
+        distribution: dist,
+        percentages: total > 0 ? {
+          easy: Math.round((dist.easy / total) * 100),
+          moderate: Math.round((dist.moderate / total) * 100),
+          hard: Math.round((dist.hard / total) * 100),
+        } : { easy: 0, moderate: 0, hard: 0 },
+        target: { easy: 30, moderate: 45, hard: 25 },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/qbank/review", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

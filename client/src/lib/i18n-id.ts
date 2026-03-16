@@ -3171,4 +3171,6 @@ export default {
   "nav.allied.studyPlan": "Rencana Belajar",
   "nav.allied.caseSims": "Simulasi Kasus",
   "nav.allied.aiTools": "Alat AI",
+  "home.hero.trustQuestionsLabel": "Soal Latihan",
+  "home.hero.trustFlashcardsLabel": "Kartu Flash",
 } as const;

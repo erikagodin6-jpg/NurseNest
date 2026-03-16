@@ -452,22 +452,22 @@ export default function Home() {
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-600" data-testid="hero-trust-indicators">
                   <div className="flex items-center gap-1.5">
                     <Trophy className="w-3.5 h-3.5 shrink-0" />
-                    <span>{t("home.hero.trustPassRate")}</span>
+                    <span data-testid="text-trust-pass-rate">{t("home.hero.trustPassRate")}</span>
                   </div>
                   <span className="hidden sm:inline text-gray-300">·</span>
                   <div className="flex items-center gap-1.5">
                     <HelpCircle className="w-3.5 h-3.5 shrink-0" />
-                    <span>{t("home.hero.trustQuestions")}</span>
+                    <span data-testid="text-trust-questions">{questionCount > 0 ? `${formatCount(questionCount)} ${t("home.hero.trustQuestionsLabel")}` : t("home.hero.trustQuestions")}</span>
                   </div>
                   <span className="hidden sm:inline text-gray-300">·</span>
                   <div className="flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 shrink-0" />
-                    <span>{t("home.hero.trustFlashcards")}</span>
+                    <span data-testid="text-trust-flashcards">{flashcardCount > 0 ? `${formatCount(flashcardCount)} ${t("home.hero.trustFlashcardsLabel")}` : t("home.hero.trustFlashcards")}</span>
                   </div>
                   <span className="hidden sm:inline text-gray-300">·</span>
                   <div className="flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5 shrink-0" />
-                    <span>{t("home.hero.trustStudents")}</span>
+                    <span data-testid="text-trust-students">{t("home.hero.trustStudents")}</span>
                   </div>
                 </div>
 

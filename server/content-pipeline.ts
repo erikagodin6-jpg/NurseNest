@@ -1,15 +1,35 @@
-import { db } from "./storage";
-import { examQuestions, flashcardBank, generationJobs, verificationReports, aiCache } from "@shared/schema";
+import { db, pool } from "./storage";
+import { examQuestions, flashcardBank, generationJobs, verificationReports, aiCache, contentTranslations } from "@shared/schema";
 import { eq, and, sql, inArray, desc } from "drizzle-orm";
 import { fisherYatesShuffle } from "../shared/shuffle";
 import OpenAI from "openai";
 import crypto from "crypto";
 
-const THRESHOLD_COUNT = 4000;
-const HIGH_RATE = 100;
-const LOW_RATE = 25;
+interface TierTarget {
+  min: number;
+  target: number;
+  highRate: number;
+  lowRate: number;
+}
+
+const TIER_TARGETS: Record<string, TierTarget> = {
+  rpn: { min: 1800, target: 2500, highRate: 100, lowRate: 25 },
+  rn: { min: 3000, target: 4500, highRate: 150, lowRate: 30 },
+  np: { min: 1500, target: 2500, highRate: 100, lowRate: 25 },
+};
+
+const ALLIED_TIER_TARGETS: Record<string, TierTarget> = {
+  pharmacyTech: { min: 300, target: 600, highRate: 40, lowRate: 10 },
+  paramedic: { min: 300, target: 600, highRate: 40, lowRate: 10 },
+  mlt: { min: 300, target: 600, highRate: 40, lowRate: 10 },
+  imaging: { min: 300, target: 600, highRate: 40, lowRate: 10 },
+};
+
+const DIFFICULTY_DISTRIBUTION = { easy: 0.30, moderate: 0.45, hard: 0.25 };
+
 const BATCH_SIZE = 20;
 const TIERS = ["rpn", "rn", "np"] as const;
+const ALLIED_TIERS = ["pharmacyTech", "paramedic", "mlt", "imaging"] as const;
 const CONTENT_TYPES = ["exam_questions", "flashcards"] as const;
 
 const BODY_SYSTEMS = [
@@ -20,6 +40,8 @@ const BODY_SYSTEMS = [
 ];
 
 const MAX_TOPIC_WEIGHT = 0.15;
+
+const SUPPORTED_TRANSLATION_LANGS = ["fr", "es"];
 
 function getOpenAI() {
   return new OpenAI({
@@ -43,9 +65,13 @@ export async function computeTargets() {
     currentCount: number;
     rate: number;
     mode: string;
+    tierMin: number;
+    tierTarget: number;
+    isAllied: boolean;
   }> = [];
 
   for (const tier of TIERS) {
+    const tierConfig = TIER_TARGETS[tier];
     const [qCount] = await db
       .select({ count: sql<number>`count(*)::int` })
       .from(examQuestions)
@@ -63,16 +89,45 @@ export async function computeTargets() {
       tier,
       contentType: "exam_questions",
       currentCount: qCurrent,
-      rate: qCurrent < THRESHOLD_COUNT ? HIGH_RATE : LOW_RATE,
-      mode: qCurrent < THRESHOLD_COUNT ? "high_rate" : "low_rate",
+      rate: qCurrent < tierConfig.min ? tierConfig.highRate : (qCurrent < tierConfig.target ? Math.round((tierConfig.highRate + tierConfig.lowRate) / 2) : tierConfig.lowRate),
+      mode: qCurrent < tierConfig.min ? "high_rate" : (qCurrent < tierConfig.target ? "medium_rate" : "low_rate"),
+      tierMin: tierConfig.min,
+      tierTarget: tierConfig.target,
+      isAllied: false,
     });
 
     targets.push({
       tier,
       contentType: "flashcards",
       currentCount: fCurrent,
-      rate: fCurrent < THRESHOLD_COUNT ? HIGH_RATE : LOW_RATE,
-      mode: fCurrent < THRESHOLD_COUNT ? "high_rate" : "low_rate",
+      rate: fCurrent < tierConfig.min ? tierConfig.highRate : tierConfig.lowRate,
+      mode: fCurrent < tierConfig.min ? "high_rate" : "low_rate",
+      tierMin: tierConfig.min,
+      tierTarget: tierConfig.target,
+      isAllied: false,
+    });
+  }
+
+  for (const alliedTier of ALLIED_TIERS) {
+    const tierConfig = ALLIED_TIER_TARGETS[alliedTier];
+    let alliedCount = 0;
+    try {
+      const result = await pool.query(
+        `SELECT COUNT(*)::int as count FROM allied_questions WHERE career_type = $1 AND status IN ('approved', 'published', 'pending')`,
+        [alliedTier]
+      );
+      alliedCount = result.rows[0]?.count ?? 0;
+    } catch { }
+
+    targets.push({
+      tier: alliedTier,
+      contentType: "exam_questions",
+      currentCount: alliedCount,
+      rate: alliedCount < tierConfig.min ? tierConfig.highRate : tierConfig.lowRate,
+      mode: alliedCount < tierConfig.min ? "high_rate" : "low_rate",
+      tierMin: tierConfig.min,
+      tierTarget: tierConfig.target,
+      isAllied: true,
     });
   }
 
@@ -95,12 +150,55 @@ function distributeTopics(count: number): Array<{ system: string; count: number 
   });
 }
 
+export async function getDifficultyDistribution(tier: string): Promise<{ easy: number; moderate: number; hard: number }> {
+  try {
+    const result = await pool.query(
+      `SELECT 
+        COUNT(*) FILTER (WHERE difficulty <= 2) as easy,
+        COUNT(*) FILTER (WHERE difficulty = 3) as moderate,
+        COUNT(*) FILTER (WHERE difficulty >= 4) as hard
+      FROM exam_questions 
+      WHERE tier = $1 AND status IN ('approved', 'published')`,
+      [tier]
+    );
+    const row = result.rows[0] || {};
+    return {
+      easy: Number(row.easy) || 0,
+      moderate: Number(row.moderate) || 0,
+      hard: Number(row.hard) || 0,
+    };
+  } catch {
+    return { easy: 0, moderate: 0, hard: 0 };
+  }
+}
+
+function computeDifficultyBias(dist: { easy: number; moderate: number; hard: number }): string {
+  const total = dist.easy + dist.moderate + dist.hard;
+  if (total === 0) return "Generate a mix: 30% easy (difficulty 1-2), 45% moderate (difficulty 3), 25% hard (difficulty 4-5).";
+
+  const easyPct = dist.easy / total;
+  const modPct = dist.moderate / total;
+  const hardPct = dist.hard / total;
+
+  const needs: string[] = [];
+  if (easyPct < DIFFICULTY_DISTRIBUTION.easy - 0.05) needs.push(`more easy questions (current: ${Math.round(easyPct * 100)}%, target: 30%)`);
+  if (modPct < DIFFICULTY_DISTRIBUTION.moderate - 0.05) needs.push(`more moderate questions (current: ${Math.round(modPct * 100)}%, target: 45%)`);
+  if (hardPct < DIFFICULTY_DISTRIBUTION.hard - 0.05) needs.push(`more hard questions (current: ${Math.round(hardPct * 100)}%, target: 25%)`);
+
+  if (needs.length === 0) return "Maintain balanced difficulty: 30% easy (1-2), 45% moderate (3), 25% hard (4-5).";
+  return `PRIORITY: Generate ${needs.join(", ")}. Target distribution: 30% easy (difficulty 1-2), 45% moderate (difficulty 3), 25% hard (difficulty 4-5).`;
+}
+
 export async function createDailyJobs(date?: string) {
   const runDate = date || todayString();
   const created: string[] = [];
 
-  for (const tier of TIERS) {
+  const allTiers = [...TIERS, ...ALLIED_TIERS];
+
+  for (const tier of allTiers) {
     for (const contentType of CONTENT_TYPES) {
+      if (ALLIED_TIERS.includes(tier as any) && contentType === "flashcards") continue;
+
       const existing = await db
         .select()
         .from(generationJobs)
@@ -115,7 +213,13 @@ export async function createDailyJobs(date?: string) {
       if (existing.length > 0) continue;
 
       const targets = await computeTargets();
-      const target = targets.find((t) => t.tier === tier && t.contentType === contentType)!;
+      const target = targets.find((t) => t.tier === tier && t.contentType === contentType);
+      if (!target) continue;
+
+      if (target.currentCount >= target.tierTarget && target.mode === "low_rate") {
+        continue;
+      }
+
       const topicPlan = distributeTopics(target.rate);
 
       const [job] = await db
@@ -142,15 +246,20 @@ export async function createDailyJobs(date?: string) {
 async function generateExamQuestionsBatch(
   tier: string,
   system: string,
-  count: number
+  count: number,
+  difficultyBias?: string
 ): Promise<Array<{ stem: string; options: any; correctAnswer: any; rationale: string; difficulty: number; topic: string; bodySystem: string }>> {
   const openai = getOpenAI();
   const tierLabel = tier.toUpperCase();
   const scopeNote = tier === "rpn" ? "Practical nursing scope (LPN/RPN)" : tier === "rn" ? "Registered Nurse scope" : "Nurse Practitioner scope with advanced pharmacology and diagnostics";
 
+  const difficultyInstruction = difficultyBias || "Generate a mix: 30% easy (difficulty 1-2), 45% moderate (difficulty 3), 25% hard (difficulty 4-5).";
+
   const prompt = `Generate ${count} unique NCLEX-style multiple-choice exam questions for ${tierLabel} nursing students about the ${system} body system.
 
 Scope: ${scopeNote}
+
+Difficulty distribution: ${difficultyInstruction}
 
 For each question provide:
 - stem: The question text (clinical scenario with patient details)
@@ -163,7 +272,7 @@ For each question provide:
 Return JSON array. Each question must be clinically accurate, unique, and test critical thinking.`;
 
   try {
-    const cacheKey = hashContent(`eq_${tier}_${system}_${count}_${todayString()}`);
+    const cacheKey = hashContent(`eq_${tier}_${system}_${count}_${todayString()}_${difficultyBias || "default"}`);
     const cached = await db.select().from(aiCache).where(eq(aiCache.cacheKey, cacheKey));
     if (cached.length > 0) {
       return cached[0].outputJson as any;
@@ -320,6 +429,118 @@ Return JSON with:
   }
 }
 
+export async function linkQuestionToLesson(questionId: string, topic: string | null, bodySystem: string | null): Promise<string | null> {
+  if (!topic && !bodySystem) return null;
+
+  try {
+    const conditions: string[] = [];
+    const params: any[] = [];
+    let paramIdx = 1;
+
+    if (topic) {
+      conditions.push(`(title ILIKE $${paramIdx} OR slug ILIKE $${paramIdx + 1})`);
+      params.push(`%${topic}%`, `%${topic.toLowerCase().replace(/\s+/g, "-")}%`);
+      paramIdx += 2;
+    }
+    if (bodySystem) {
+      conditions.push(`(title ILIKE $${paramIdx} OR slug ILIKE $${paramIdx + 1})`);
+      params.push(`%${bodySystem}%`, `%${bodySystem.toLowerCase().replace(/[\s/]+/g, "-")}%`);
+      paramIdx += 2;
+    }
+
+    const whereClause = conditions.join(" OR ");
+    const result = await pool.query(
+      `SELECT id, title FROM content_items WHERE status = 'published' AND (${whereClause}) ORDER BY created_at DESC LIMIT 3`,
+      params
+    );
+
+    if (result.rows.length > 0) {
+      const lessonIds = result.rows.map((r: any) => r.id);
+      await pool.query(
+        `UPDATE exam_questions SET related_lesson_ids = $1 WHERE id = $2`,
+        [lessonIds, questionId]
+      );
+      console.log(`[Pipeline] Linked question ${questionId} to ${lessonIds.length} lesson(s): ${result.rows.map((r: any) => r.title).join(", ")}`);
+      return lessonIds[0];
+    }
+
+    await pool.query(
+      `UPDATE exam_questions SET related_lesson_ids = '{}'::text[] WHERE id = $1 AND (related_lesson_ids IS NULL OR related_lesson_ids = '{}'::text[])`,
+      [questionId]
+    );
+    console.log(`[Pipeline] Question ${questionId} has no matching lesson (topic=${topic}, bodySystem=${bodySystem})`);
+    return null;
+  } catch (err: any) {
+    console.error(`[Pipeline] Lesson linking error for ${questionId}:`, err.message);
+    return null;
+  }
+}
+
+export async function translateQuestionFields(questionId: string, stem: string, options: any, rationale: string, distractorRationales: any): Promise<void> {
+  const openai = getOpenAI();
+
+  for (const lang of SUPPORTED_TRANSLATION_LANGS) {
+    try {
+      const langLabel = lang === "fr" ? "French" : "Spanish";
+
+      const translationPrompt = `Translate the following nursing exam question fields into ${langLabel}. Maintain clinical accuracy and medical terminology conventions for ${langLabel}-speaking healthcare contexts.
+
+Stem: ${stem}
+
+Options: ${JSON.stringify(options)}
+
+Rationale: ${rationale}
+
+${distractorRationales ? `Distractor Rationales: ${JSON.stringify(distractorRationales)}` : ""}
+
+Return JSON with:
+- stem: translated stem
+- options: translated options array (same structure)
+- rationale: translated rationale
+${distractorRationales ? '- distractorRationales: translated distractor rationales' : ''}`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: translationPrompt }],
+        response_format: { type: "json_object" },
+        temperature: 0.2,
+        max_tokens: 3000,
+      });
+
+      const translated = JSON.parse(response.choices[0]?.message?.content || "{}");
+
+      const sourceHash = hashContent(stem);
+
+      const fields: Array<{ fieldName: string; text: string }> = [
+        { fieldName: "stem", text: translated.stem || "" },
+        { fieldName: "options", text: JSON.stringify(translated.options || options) },
+        { fieldName: "rationale", text: translated.rationale || "" },
+      ];
+
+      if (translated.distractorRationales) {
+        fields.push({ fieldName: "distractorRationales", text: JSON.stringify(translated.distractorRationales) });
+      }
+
+      for (const field of fields) {
+        if (!field.text) continue;
+        await db.insert(contentTranslations).values({
+          contentType: "exam_question",
+          contentId: questionId,
+          languageCode: lang,
+          fieldName: field.fieldName,
+          translatedText: field.text,
+          translationStatus: "auto",
+          sourceHash,
+        }).onConflictDoNothing();
+      }
+
+      console.log(`[Pipeline] Translated question ${questionId} to ${langLabel}`);
+    } catch (err: any) {
+      console.error(`[Pipeline] Translation error for ${questionId} → ${lang}:`, err.message);
+    }
+  }
+}
+
 export async function runGenerationJob(jobId: string) {
   const [job] = await db.select().from(generationJobs).where(eq(generationJobs.id, jobId));
   if (!job) throw new Error(`Job ${jobId} not found`);
@@ -332,6 +553,9 @@ export async function runGenerationJob(jobId: string) {
   let totalGenerated = 0;
   let totalFailed = 0;
 
+  const diffDist = await getDifficultyDistribution(job.tier);
+  const difficultyBias = computeDifficultyBias(diffDist);
+
   try {
     for (const { system, count } of topicPlan) {
       if (count <= 0) continue;
@@ -341,7 +565,7 @@ export async function runGenerationJob(jobId: string) {
         const batchCount = Math.min(BATCH_SIZE, count - b * BATCH_SIZE);
 
         if (job.contentType === "exam_questions") {
-          const questions = await generateExamQuestionsBatch(job.tier, system, batchCount);
+          const questions = await generateExamQuestionsBatch(job.tier, system, batchCount, difficultyBias);
 
           for (const q of questions) {
             const contentHash = hashContent(q.stem);
@@ -368,7 +592,17 @@ export async function runGenerationJob(jobId: string) {
 
               if (inserted) {
                 totalGenerated++;
-                await verifyItem("exam_question", inserted.id, `${q.stem}\n${JSON.stringify(q.options)}\nAnswer: ${q.correctAnswer}\n${q.rationale}`);
+                const verifyResult = await verifyItem("exam_question", inserted.id, `${q.stem}\n${JSON.stringify(q.options)}\nAnswer: ${q.correctAnswer}\n${q.rationale}`);
+
+                await linkQuestionToLesson(inserted.id, q.topic, q.bodySystem);
+
+                if (verifyResult.verdict === "pass" || verifyResult.verdict === "pass_with_edits") {
+                  try {
+                    await translateQuestionFields(inserted.id, q.stem, q.options, q.rationale, q.distractorRationales || null);
+                  } catch (translationErr: any) {
+                    console.error(`[Pipeline] Translation error for ${inserted.id}:`, translationErr.message);
+                  }
+                }
               }
             } catch (err: any) {
               if (err.code === "23505") continue;
@@ -455,11 +689,180 @@ export async function getPipelineStatus() {
     .where(eq(generationJobs.runDate, todayString()));
 
   return {
-    threshold: THRESHOLD_COUNT,
-    highRate: HIGH_RATE,
-    lowRate: LOW_RATE,
+    tierTargets: TIER_TARGETS,
+    alliedTierTargets: ALLIED_TIER_TARGETS,
+    difficultyDistribution: DIFFICULTY_DISTRIBUTION,
     banks: targets,
     todayJobCount: recentJobs?.count ?? 0,
     nextScheduledRun: "02:00 America/Toronto",
   };
+}
+
+export async function runContinuousImprovementJob(): Promise<{
+  weakQuestions: Array<{ questionId: string; accuracy: number; attempts: number }>;
+  weakTopics: Array<{ topic: string; avgAccuracy: number }>;
+  flaggedQuestions: Array<{ questionId: string }>;
+  generationJobsQueued: number;
+}> {
+  console.log("[Pipeline] Starting continuous improvement analysis...");
+
+  const result = {
+    weakQuestions: [] as Array<{ questionId: string; accuracy: number; attempts: number }>,
+    weakTopics: [] as Array<{ topic: string; avgAccuracy: number }>,
+    flaggedQuestions: [] as Array<{ questionId: string }>,
+    generationJobsQueued: 0,
+  };
+
+  try {
+    const weakQuestionsResult = await pool.query(`
+      WITH answer_data AS (
+        SELECT 
+          (elem->>'questionId')::text as question_id,
+          CASE WHEN (elem->>'isCorrect')::text = 'true' THEN 1 ELSE 0 END as is_correct
+        FROM question_bank_results qbr,
+        LATERAL jsonb_array_elements(COALESCE(qbr.answers, '[]'::jsonb)) as elem
+        WHERE elem->>'questionId' IS NOT NULL
+      ),
+      question_accuracy AS (
+        SELECT 
+          ad.question_id,
+          q.topic,
+          q.body_system,
+          q.tier,
+          COUNT(*) as total_attempts,
+          SUM(ad.is_correct) as correct_count
+        FROM answer_data ad
+        JOIN exam_questions q ON q.id = ad.question_id
+        WHERE q.status = 'published'
+        GROUP BY ad.question_id, q.topic, q.body_system, q.tier
+        HAVING COUNT(*) >= 50
+      )
+      SELECT question_id, topic, body_system, tier,
+             total_attempts, correct_count,
+             ROUND((correct_count::decimal / total_attempts) * 100, 1) as accuracy
+      FROM question_accuracy
+      WHERE (correct_count::decimal / total_attempts) < 0.40
+      ORDER BY accuracy ASC
+      LIMIT 100
+    `);
+
+    for (const row of weakQuestionsResult.rows) {
+      result.weakQuestions.push({
+        questionId: row.question_id,
+        accuracy: Number(row.accuracy),
+        attempts: Number(row.total_attempts),
+      });
+
+      await pool.query(
+        `UPDATE exam_questions SET quality_feedback = jsonb_set(
+          COALESCE(quality_feedback, '{}'::jsonb), 
+          '{lowAccuracyFlag}', 
+          $1::jsonb
+        ) WHERE id = $2`,
+        [JSON.stringify({ accuracy: Number(row.accuracy), attempts: Number(row.total_attempts), flaggedAt: new Date().toISOString() }), row.question_id]
+      );
+    }
+
+    console.log(`[Pipeline] Found ${result.weakQuestions.length} weak questions (<40% accuracy, 50+ attempts)`);
+  } catch (err: any) {
+    console.error("[Pipeline] Weak question analysis error:", err.message);
+  }
+
+  try {
+    const weakTopicsResult = await pool.query(`
+      WITH answer_data AS (
+        SELECT 
+          (elem->>'questionId')::text as question_id,
+          CASE WHEN (elem->>'isCorrect')::text = 'true' THEN 1 ELSE 0 END as is_correct
+        FROM question_bank_results qbr,
+        LATERAL jsonb_array_elements(COALESCE(qbr.answers, '[]'::jsonb)) as elem
+        WHERE elem->>'questionId' IS NOT NULL
+      ),
+      topic_accuracy AS (
+        SELECT 
+          q.topic,
+          q.tier,
+          COUNT(DISTINCT q.id) as question_count,
+          COUNT(*) as total_attempts,
+          SUM(ad.is_correct) as correct_count
+        FROM answer_data ad
+        JOIN exam_questions q ON q.id = ad.question_id
+        WHERE q.status = 'published' AND q.topic IS NOT NULL
+        GROUP BY q.topic, q.tier
+        HAVING COUNT(*) >= 20
+      )
+      SELECT topic, tier, question_count, total_attempts, correct_count,
+             ROUND((correct_count::decimal / NULLIF(total_attempts, 0)) * 100, 1) as avg_accuracy
+      FROM topic_accuracy
+      WHERE (correct_count::decimal / NULLIF(total_attempts, 1)) < 0.50
+      ORDER BY avg_accuracy ASC
+      LIMIT 50
+    `);
+
+    const weakTopicEntries: Array<{ topic: string; tier: string; avgAccuracy: number }> = [];
+    for (const row of weakTopicsResult.rows) {
+      weakTopicEntries.push({
+        topic: row.topic,
+        tier: row.tier,
+        avgAccuracy: Number(row.avg_accuracy),
+      });
+      result.weakTopics.push({
+        topic: row.topic,
+        avgAccuracy: Number(row.avg_accuracy),
+      });
+    }
+
+    console.log(`[Pipeline] Found ${result.weakTopics.length} weak topics (<50% avg accuracy)`);
+
+    let jobsQueued = 0;
+    for (const entry of weakTopicEntries.slice(0, 5)) {
+      try {
+        const existing = await pool.query(
+          `SELECT id FROM generation_jobs WHERE tier = $1 AND run_date = $2 AND status = 'queued'`,
+          [entry.tier, todayString()]
+        );
+
+        if (existing.rows.length < 3) {
+          const topicPlan = [{ system: entry.topic, count: 10 }];
+          await db.insert(generationJobs).values({
+            runDate: todayString(),
+            contentType: "exam_questions",
+            tier: entry.tier,
+            targetCount: 10,
+            generatedCount: 0,
+            mode: "improvement",
+            topicPlanJson: topicPlan,
+            status: "queued",
+          });
+          jobsQueued++;
+        }
+      } catch (err: any) {
+        console.error(`[Pipeline] Failed to queue improvement job for topic ${entry.topic}:`, err.message);
+      }
+    }
+    result.generationJobsQueued = jobsQueued;
+    console.log(`[Pipeline] Queued ${jobsQueued} targeted generation jobs for weak topics`);
+  } catch (err: any) {
+    console.error("[Pipeline] Weak topic analysis error:", err.message);
+  }
+
+  try {
+    const flaggedResult = await pool.query(`
+      SELECT id FROM exam_questions 
+      WHERE quality_feedback IS NOT NULL 
+      AND quality_feedback::text LIKE '%"flagged"%'
+      AND status = 'published'
+      LIMIT 50
+    `);
+
+    for (const row of flaggedResult.rows) {
+      result.flaggedQuestions.push({ questionId: row.id });
+    }
+    console.log(`[Pipeline] Found ${result.flaggedQuestions.length} user-flagged questions`);
+  } catch (err: any) {
+    console.error("[Pipeline] Flagged question scan error:", err.message);
+  }
+
+  console.log("[Pipeline] Continuous improvement analysis complete");
+  return result;
 }
