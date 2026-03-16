@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
-import { Navigation } from "@/components/navigation";
+const LazyNavigation = lazy(() => import("@/components/navigation").then(m => ({ default: m.Navigation })));
 import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 
@@ -25,6 +25,12 @@ import { getEnabledCareers } from "@shared/careers";
 
 import { useQuery } from "@tanstack/react-query";
 import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
+
+function NavPlaceholder() {
+  return (
+    <nav className="h-11 sm:h-16 bg-white/90 backdrop-blur-xl border-b border-transparent sticky top-0 z-50" aria-hidden="true" />
+  );
+}
 
 const HomeConversionSections = lazy(() => import("@/components/home-conversion-sections"));
 const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"));
@@ -318,7 +324,9 @@ export default function Home() {
           }
         ]}
       />
-      <Navigation />
+      <Suspense fallback={<NavPlaceholder />}>
+        <LazyNavigation />
+      </Suspense>
       
       <main className="flex-grow">
         <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero)', paddingBottom: 'var(--space-hero)' }} data-testid="hero-section">
@@ -327,7 +335,7 @@ export default function Home() {
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" />
           </div>
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none md:hidden">
-            <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] rounded-full bg-primary/6 blur-[60px]" />
+            <div className="absolute top-[20%] left-[30%] w-[200px] h-[200px] rounded-full bg-primary/6 blur-[40px]" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

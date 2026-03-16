@@ -993,8 +993,19 @@ input, textarea, [contenteditable="true"], .allow-select {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes pageEnterMobile {
+  from { transform: translateY(8px); }
+  to { transform: translateY(0); }
+}
+
 .animate-page-enter {
   animation: pageEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 767px) {
+  .animate-page-enter {
+    animation: pageEnterMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 @keyframes contentReveal {
