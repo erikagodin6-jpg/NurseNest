@@ -6,6 +6,37 @@ import {
   hasTimestampSuffix, isLowValueTranslatedPage, isNoindexPath
 } from "./helpers";
 
+function isLangLessonThinForSitemap(lesson: any): boolean {
+  const title = (lesson.title || "").toLowerCase();
+  const PLACEHOLDER_MARKERS = [/unable to complete/i, /placeholder/i, /\[draft\]/i, /test publish/i, /coming soon/i];
+  if (PLACEHOLDER_MARKERS.some(p => p.test(title))) return true;
+
+  const definition = lesson.definition || "";
+  const pathophysiology = lesson.pathophysiology || "";
+  const signs = Array.isArray(lesson.signs_symptoms) ? lesson.signs_symptoms : [];
+  const diagnostics = Array.isArray(lesson.diagnostics) ? lesson.diagnostics : [];
+  const treatment = Array.isArray(lesson.treatment) ? lesson.treatment : [];
+  const interventions = Array.isArray(lesson.nursing_interventions) ? lesson.nursing_interventions : [];
+
+  const textContent = [definition, pathophysiology, ...signs, ...diagnostics, ...treatment, ...interventions].join(" ");
+  const wordCount = textContent.split(/\s+/).filter(Boolean).length;
+
+  if (wordCount < 150) return true;
+
+  const filledSections = [
+    definition.length > 20,
+    pathophysiology.length > 20,
+    signs.length >= 2,
+    diagnostics.length >= 1,
+    treatment.length >= 1,
+    interventions.length >= 1,
+  ].filter(Boolean).length;
+
+  if (filledSections < 2) return true;
+
+  return false;
+}
+
 export async function generateLanguageSitemap(targetLocale: string): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
@@ -35,12 +66,15 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
 
   try {
     const result = await pool.query(
-      `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
+      `SELECT slug, updated_at, title, definition, pathophysiology,
+              signs_symptoms, diagnostics, treatment, nursing_interventions
+       FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
     );
     const seenLessonSlugs = new Set<string>();
     for (const lesson of result.rows) {
       if (hasTimestampSuffix(lesson.slug)) continue;
       if (seenLessonSlugs.has(lesson.slug)) continue;
+      if (isLangLessonThinForSitemap(lesson)) continue;
       seenLessonSlugs.add(lesson.slug);
       urls.push(singleLocaleUrl(base, `/lessons/${lesson.slug}`, targetLocale, allLocales, "0.8", "weekly", toLastmod(lesson.updated_at)));
     }

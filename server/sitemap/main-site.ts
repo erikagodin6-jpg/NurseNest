@@ -38,10 +38,13 @@ export async function generateMainLessons(): Promise<string[]> {
 
   try {
     const result = await pool.query(
-      `SELECT slug, updated_at FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
+      `SELECT slug, updated_at, title, definition, pathophysiology,
+              signs_symptoms, diagnostics, treatment, nursing_interventions
+       FROM lessons WHERE status = 'published' ORDER BY updated_at DESC`
     );
     for (const lesson of result.rows) {
       if (hasTimestampSuffix(lesson.slug)) continue;
+      if (isLessonThinForSitemap(lesson)) continue;
       urls.push(localizedUrl(base, `/lessons/${lesson.slug}`, "0.8", "weekly", locales, toLastmod(lesson.updated_at)));
     }
   } catch (e) {
@@ -49,6 +52,44 @@ export async function generateMainLessons(): Promise<string[]> {
   }
 
   return urls;
+}
+
+function isLessonThinForSitemap(lesson: any): boolean {
+  const title = (lesson.title || "").toLowerCase();
+  const PLACEHOLDER_MARKERS = [/unable to complete/i, /placeholder/i, /\[draft\]/i, /test publish/i, /coming soon/i];
+  if (PLACEHOLDER_MARKERS.some(p => p.test(title))) return true;
+
+  const definition = lesson.definition || "";
+  const pathophysiology = lesson.pathophysiology || "";
+  const signs = Array.isArray(lesson.signs_symptoms) ? lesson.signs_symptoms : [];
+  const diagnostics = Array.isArray(lesson.diagnostics) ? lesson.diagnostics : [];
+  const treatment = Array.isArray(lesson.treatment) ? lesson.treatment : [];
+  const interventions = Array.isArray(lesson.nursing_interventions) ? lesson.nursing_interventions : [];
+
+  const textContent = [
+    definition,
+    pathophysiology,
+    ...signs,
+    ...diagnostics,
+    ...treatment,
+    ...interventions,
+  ].join(" ");
+  const wordCount = textContent.split(/\s+/).filter(Boolean).length;
+
+  if (wordCount < 150) return true;
+
+  const filledSections = [
+    definition.length > 20,
+    pathophysiology.length > 20,
+    signs.length >= 2,
+    diagnostics.length >= 1,
+    treatment.length >= 1,
+    interventions.length >= 1,
+  ].filter(Boolean).length;
+
+  if (filledSections < 2) return true;
+
+  return false;
 }
 
 export async function generateMainQuestions(): Promise<string[]> {

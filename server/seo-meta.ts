@@ -1951,6 +1951,13 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
     meta.noindex = true;
   }
 
+  if (detectedLocale !== "en" && strippedPath.startsWith("/lessons/")) {
+    const { isLocaleIndexable } = await import("./translation-audit");
+    if (!isLocaleIndexable(detectedLocale)) {
+      meta.noindex = true;
+    }
+  }
+
   const contentData = await fetchContentForPath(strippedPath);
   if (contentData) {
     if (contentData.summary) {
@@ -1976,6 +1983,10 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
       PLACEHOLDER_CONTENT_MARKERS.some(p => p.test(textContent.substring(0, 500)));
 
     if (isPlaceholderPage) {
+      meta.noindex = true;
+    }
+
+    if (isLesson && wordCount < 300) {
       meta.noindex = true;
     }
 

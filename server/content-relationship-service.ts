@@ -34,7 +34,7 @@ function extractKeyTerms(text: string): string[] {
 
 export async function findRelatedContent(
   context: ContentContext,
-  limit: number = 8
+  limit: number = 12
 ): Promise<RelatedContentItem[]> {
   const results: RelatedContentItem[] = [];
   const seenSlugs = new Set<string>();
@@ -53,16 +53,25 @@ export async function findRelatedContent(
 
   if (context.contentType !== "lesson") {
     try {
-      const lessonResults = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, Math.min(3, limit));
+      const lessonResults = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, Math.min(4, limit));
       results.push(...lessonResults);
     } catch (e) {
       console.error("Related content: lessons query error:", e);
     }
   }
 
+  if (context.contentType === "lesson") {
+    try {
+      const peerLessons = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, Math.min(3, limit));
+      results.push(...peerLessons);
+    } catch (e) {
+      console.error("Related content: peer lessons query error:", e);
+    }
+  }
+
   if (context.contentType !== "blog") {
     try {
-      const blogResults = await findRelatedBlog(context, bodySystem, keyTerms, seenSlugs, Math.min(2, limit));
+      const blogResults = await findRelatedBlog(context, bodySystem, keyTerms, seenSlugs, Math.min(3, limit));
       results.push(...blogResults);
     } catch (e) {
       console.error("Related content: blog query error:", e);
@@ -88,10 +97,17 @@ export async function findRelatedContent(
   }
 
   try {
-    const clarityResults = await findRelatedClinicalClarity(bodySystem, keyTerms, seenSlugs, Math.min(1, limit));
+    const clarityResults = await findRelatedClinicalClarity(bodySystem, keyTerms, seenSlugs, Math.min(2, limit));
     results.push(...clarityResults);
   } catch (e) {
     console.error("Related content: clinical clarity error:", e);
+  }
+
+  try {
+    const glossaryResults = await findRelatedGlossary(bodySystem, keyTerms, seenSlugs, Math.min(2, limit));
+    results.push(...glossaryResults);
+  } catch (e) {
+    console.error("Related content: glossary error:", e);
   }
 
   return results.slice(0, limit);
@@ -331,6 +347,51 @@ async function findRelatedExamContent(
       }
     } catch (e) {
       console.error("Related content: exam question keyword query error:", e);
+    }
+  }
+
+  return items.slice(0, limit);
+}
+
+const GLOSSARY_TERMS: Record<string, string[]> = {
+  cardiac: ["cardiac-output", "stroke-volume", "preload", "afterload", "myocardial-infarction", "heart-failure", "atrial-fibrillation", "sinus-rhythm"],
+  respiratory: ["alveoli", "diaphragm", "pneumothorax", "copd", "asthma", "atelectasis", "pleural-effusion", "mechanical-ventilation"],
+  renal: ["nephron", "glomerular-filtration-rate", "acute-kidney-injury", "creatinine", "bun"],
+  endocrine: ["diabetic-ketoacidosis", "siadh", "diabetes-insipidus", "hypothyroidism", "hyperthyroidism"],
+  neurological: ["glasgow-coma-scale", "cerebral-perfusion-pressure", "myelin-sheath", "stroke", "increased-intracranial-pressure", "meningitis"],
+  hematology: ["hemoglobin", "hematocrit", "platelet-count", "wbc-count", "dic", "hemostasis"],
+  pharmacology: ["epinephrine", "warfarin", "heparin", "digoxin", "insulin", "morphine", "naloxone", "dopamine", "furosemide"],
+  electrolyte: ["potassium", "sodium", "calcium", "magnesium", "metabolic-acidosis", "metabolic-alkalosis", "respiratory-acidosis", "respiratory-alkalosis"],
+};
+
+async function findRelatedGlossary(
+  bodySystem: string,
+  keyTerms: string[],
+  seenSlugs: Set<string>,
+  limit: number
+): Promise<RelatedContentItem[]> {
+  const items: RelatedContentItem[] = [];
+  const matchedSlugs: string[] = [];
+
+  for (const [system, terms] of Object.entries(GLOSSARY_TERMS)) {
+    if (bodySystem && (bodySystem.includes(system) || system.includes(bodySystem))) {
+      matchedSlugs.push(...terms);
+    } else if (keyTerms.some(t => system.includes(t) || terms.some(slug => slug.includes(t)))) {
+      matchedSlugs.push(...terms);
+    }
+  }
+
+  for (const slug of matchedSlugs.slice(0, limit)) {
+    if (!seenSlugs.has(`glossary-${slug}`)) {
+      seenSlugs.add(`glossary-${slug}`);
+      const title = slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      items.push({
+        type: "glossary" as any,
+        title,
+        slug,
+        href: `/glossary/${slug}`,
+        description: `Definition and clinical significance of ${title.toLowerCase()}`,
+      });
     }
   }
 

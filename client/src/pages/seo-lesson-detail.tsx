@@ -55,11 +55,23 @@ function buildFAQSD(lesson: any) {
   if (Array.isArray(lesson.signsSymptoms) && lesson.signsSymptoms.length > 0) {
     faqs.push({ question: `What are the signs and symptoms of ${displayTitle}?`, answer: lesson.signsSymptoms.slice(0, 5).join(", ") });
   }
+  if (Array.isArray(lesson.diagnostics) && lesson.diagnostics.length > 0 && faqs.length < 5) {
+    faqs.push({ question: `How is ${displayTitle} diagnosed?`, answer: `Key diagnostic findings include: ${lesson.diagnostics.slice(0, 4).join("; ")}.` });
+  }
+  if (Array.isArray(lesson.treatment) && lesson.treatment.length > 0 && faqs.length < 5) {
+    faqs.push({ question: `What is the treatment for ${displayTitle}?`, answer: `Treatment approaches include: ${lesson.treatment.slice(0, 4).join("; ")}.` });
+  }
+  if (Array.isArray(lesson.nursingInterventions) && lesson.nursingInterventions.length > 0 && faqs.length < 5) {
+    faqs.push({ question: `What are the key nursing interventions for ${displayTitle}?`, answer: `Priority nursing interventions: ${lesson.nursingInterventions.slice(0, 4).join("; ")}.` });
+  }
+  if (Array.isArray(lesson.complications) && lesson.complications.length > 0 && faqs.length < 5) {
+    faqs.push({ question: `What are the complications of ${displayTitle}?`, answer: `Potential complications include: ${lesson.complications.slice(0, 4).join("; ")}.` });
+  }
   if (faqs.length === 0) return null;
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map(f => ({
+    "mainEntity": faqs.slice(0, 5).map(f => ({
       "@type": "Question",
       "name": f.question,
       "acceptedAnswer": { "@type": "Answer", "text": f.answer },
@@ -189,7 +201,17 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
   const seoTitle = lesson.seoTitle || `${displayTitle} - NurseNest Nursing Lesson`;
   const seoDesc = lesson.seoDescription || lesson.summary || `Learn about ${displayTitle}: pathophysiology, signs & symptoms, diagnostics, treatment, and nursing interventions.`;
 
-  const isThin = !lesson.definition && (!lesson.signsSymptoms || lesson.signsSymptoms.length === 0) && (!lesson.treatment || lesson.treatment.length === 0);
+  const lessonWordCount = [
+    lesson.definition || "",
+    lesson.pathophysiology || "",
+    ...(lesson.signsSymptoms || []),
+    ...(lesson.diagnostics || []),
+    ...(lesson.treatment || []),
+    ...(lesson.nursingInterventions || []),
+    ...(lesson.complications || []),
+    ...(lesson.clinicalPearls || []),
+  ].join(" ").split(/\s+/).filter(Boolean).length;
+  const isThin = lessonWordCount < 150 || (!lesson.definition && (!lesson.signsSymptoms || lesson.signsSymptoms.length === 0) && (!lesson.treatment || lesson.treatment.length === 0));
 
   const structuredData = [
     buildMedicalConditionSD(lesson),

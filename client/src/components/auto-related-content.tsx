@@ -62,7 +62,7 @@ export function AutoRelatedContent({
   tags,
   profession,
   tier,
-  limit = 6,
+  limit = 9,
   className = "",
   sectionTitle = "Explore Related Content",
 }: AutoRelatedContentProps) {

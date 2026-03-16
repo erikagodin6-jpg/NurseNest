@@ -1159,6 +1159,10 @@ function AppRoutes() {
         <Route path="/fluid-status-assessment">{() => <TopicClusterBySlug slug="fluid-status-assessment" />}</Route>
         <Route path="/pain-assessment-scales">{() => <TopicClusterBySlug slug="pain-assessment-scales" />}</Route>
         <Route path="/newborn-assessment-guide">{() => <TopicClusterBySlug slug="newborn-assessment-guide" />}</Route>
+        <Route path="/neurological-assessment-nursing">{() => <TopicClusterBySlug slug="neurological-assessment-nursing" />}</Route>
+        <Route path="/respiratory-assessment-nursing">{() => <TopicClusterBySlug slug="respiratory-assessment-nursing" />}</Route>
+        <Route path="/critical-care-nursing-essentials">{() => <TopicClusterBySlug slug="critical-care-nursing-essentials" />}</Route>
+        <Route path="/acid-base-balance-nursing">{() => <TopicClusterBySlug slug="acid-base-balance-nursing" />}</Route>
 
         {/* Exam Prep Cornerstone Pages */}
         <Route path="/nclex-question-bank">{() => <ExamPrepCornerstonePage slug="nclex-question-bank" />}</Route>
