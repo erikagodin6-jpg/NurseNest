@@ -9,6 +9,11 @@ export interface CareerQuestion {
     topic: string;
     regionScope?: string;
     questionType?: string;
+    distractorExplanations?: string[];
+    clinicalConcept?: string;
+    examTip?: string;
+    safetyPearl?: string;
+    pharmacologyCategory?: string;
   }
 
   export const rrtQuestions: CareerQuestion[] = [

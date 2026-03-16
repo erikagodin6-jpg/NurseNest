@@ -58,6 +58,7 @@ const MltExamHub = lazy(() => import("./pages/mlt/mlt-exam-hub"));
 const MltCanadaExam = lazy(() => import("./pages/mlt/mlt-canada-exam"));
 const MltUsaCatExam = lazy(() => import("./pages/mlt/mlt-usa-cat-exam"));
 const MltAdaptivePractice = lazy(() => import("./pages/mlt/mlt-adaptive-practice"));
+const RrtPharmacologyQBank = lazy(() => import("./pages/rrt-pharmacology-qbank"));
 const MltPracticeExam = lazy(() => import("./pages/mlt/mlt-practice-exam"));
 const MltExamResults = lazy(() => import("./pages/mlt/mlt-exam-results"));
 const MltExamHistory = lazy(() => import("./pages/mlt/mlt-exam-history"));
@@ -451,6 +452,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/cardiac-sonographer/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} careerGuide={IMAGING_CAREER_DATA["cardiac-sonographer"].careerGuide} />}</Route>
         <Route path="/allied-health/cardiac-sonographer">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["cardiac-sonographer"]} />}</Route>
 
+        <Route path="/allied-health/rrt/pharmacology-qbank" component={RrtPharmacologyQBank} />
         <Route path="/allied-health/rrt/pharmacology/quick-sheets" component={RrtPharmQuickSheets} />
         <Route path="/allied-health/rrt/pharmacology/traps" component={RrtPharmTraps} />
         <Route path="/allied-health/rrt/pharmacology/mnemonics" component={RrtPharmMnemonics} />
