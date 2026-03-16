@@ -12,6 +12,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { useRegion } from "@/allied/use-region";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
+import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 import { buildJobPostingStructuredData, buildJobTrainingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
 const FEATURES = [
@@ -49,7 +50,7 @@ const GENERIC_FAQ_DATA = [
   },
   {
     q: "How many questions are available?",
-    a: "We currently have 500+ exam-authentic questions per career path, with a roadmap to 4,000+ questions. New questions are added regularly and mapped to the latest exam blueprints."
+    a: "Our question bank varies by career path — from 400+ to 1,500+ exam-authentic questions depending on the specialty, with new questions added regularly and mapped to the latest exam blueprints."
   },
   {
     q: "Can I try it before I pay?",
@@ -215,7 +216,7 @@ export default function CareerLandingPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-questions">
-              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalQuestions || "500+"}</div>
+              <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalQuestions || getQuestionCountDisplay(career.slug)}</div>
               <div className="text-sm text-gray-500">Practice Questions</div>
             </div>
             <div data-testid="stat-lessons">

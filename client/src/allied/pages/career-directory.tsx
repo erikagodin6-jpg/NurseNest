@@ -81,7 +81,7 @@ export default function CareerDirectoryPage() {
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
-                  <span className="flex items-center gap-1"><BookOpen className="w-4 h-4 text-teal-500" /> 500+ Questions</span>
+                  <span className="flex items-center gap-1"><BookOpen className="w-4 h-4 text-teal-500" /> Practice Questions</span>
                   <span className="flex items-center gap-1"><FileText className="w-4 h-4 text-teal-500" /> Mock Exams</span>
                   <span className="flex items-center gap-1"><Brain className="w-4 h-4 text-teal-500" /> Flashcards</span>
                   <span className="flex items-center gap-1"><Wrench className="w-4 h-4 text-teal-500" /> AI Tools</span>

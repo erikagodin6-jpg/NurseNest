@@ -113,7 +113,7 @@ const FAQ_DATA = [
   },
   {
     q: "How many practice questions should I do before the PTCB exam?",
-    a: "Most successful candidates complete 300-500 practice questions before their exam. Focus on quality over quantity — review every rationale carefully, even for questions you answer correctly. Our platform provides 500+ exam-authentic questions with detailed explanations to help you understand the reasoning behind each answer."
+    a: "Most successful candidates complete 300-500 practice questions before their exam. Focus on quality over quantity — review every rationale carefully, even for questions you answer correctly. Our platform provides 1,500+ exam-authentic questions with detailed explanations to help you understand the reasoning behind each answer."
   },
   {
     q: "Are practice exam questions the same as the real PTCB exam?",
@@ -383,7 +383,7 @@ export default function PharmtechPracticeExamSeo() {
               ))}
             </div>
             <div className="text-center mt-10">
-              <p className="text-gray-600 mb-4">Ready for more? Access our full question bank with 500+ exam-authentic questions.</p>
+              <p className="text-gray-600 mb-4">Ready for more? Access our full question bank with 1,500+ exam-authentic questions.</p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-more-questions">
                   <BookOpen className="w-4 h-4" /> Start 10-Question Quiz
@@ -400,7 +400,7 @@ export default function PharmtechPracticeExamSeo() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">Why Students Choose NurseNest Allied</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: BookOpen, title: "500+ Questions", desc: "Exam-authentic questions mapped to the PTCB and ExCPT blueprints" },
+              { icon: BookOpen, title: "1,500+ Questions", desc: "Exam-authentic questions mapped to the PTCB and ExCPT blueprints" },
               { icon: Lightbulb, title: "Detailed Rationales", desc: "600+ word explanations teaching the clinical reasoning behind each answer" },
               { icon: BarChart3, title: "Performance Analytics", desc: "Track your scores by domain and identify weak areas automatically" },
               { icon: Clock, title: "Adaptive Engine", desc: "CAT-style difficulty adjustment simulating real exam conditions" },
@@ -475,7 +475,7 @@ export default function PharmtechPracticeExamSeo() {
                 <BookOpen className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
                   <p className="font-medium text-gray-900 text-sm">Test Bank</p>
-                  <p className="text-xs text-gray-500">500+ questions with rationales</p>
+                  <p className="text-xs text-gray-500">1,500+ questions with rationales</p>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-lessons">

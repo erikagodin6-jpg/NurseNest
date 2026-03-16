@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
 interface SEOPageConfig {
   slug: string;
@@ -26,7 +27,7 @@ const SEO_PAGES: SEOPageConfig[] = [
     careerSlug: "pharmacy-tech",
     pageType: "practice-questions",
     title: "Pharmacy Technician Practice Questions | PTCB & ExCPT Prep",
-    metaDescription: "Master pharmacy technician certification with 500+ exam-authentic practice questions. 600+ word rationales, adaptive CAT simulation, and weak-area targeting.",
+    metaDescription: "Master pharmacy technician certification with 1,500+ exam-authentic practice questions. 600+ word rationales, adaptive CAT simulation, and weak-area targeting.",
     h1: "Pharmacy Technician Practice Questions",
     heroSubtitle: "Exam-authentic PTCB and ExCPT practice questions with 600+ word rationales that teach you the reasoning behind every answer — not just the correct choice.",
     sections: [
@@ -44,11 +45,11 @@ const SEO_PAGES: SEOPageConfig[] = [
       },
       {
         heading: "4,000+ Question Roadmap",
-        content: "We currently offer 500+ exam-authentic pharmacy technician questions with new questions added regularly. Our roadmap targets 4,000+ questions covering every domain, drug class, and calculation type tested on the PTCB, ExCPT, and PEBC Qualifying exams. Early adopters get access to the full library as it grows — at today's price."
+        content: "We currently offer 1,500+ exam-authentic pharmacy technician questions with new questions added regularly. Our roadmap targets 4,000+ questions covering every domain, drug class, and calculation type tested on the PTCB, ExCPT, and PEBC Qualifying exams. Early adopters get access to the full library as it grows — at today's price."
       }
     ],
     faqs: [
-      { q: "How many pharmacy technician practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the PTCB and ExCPT blueprints, with new questions added weekly. Our roadmap targets 4,000+ questions across all pharmacy domains." },
+      { q: "How many pharmacy technician practice questions are available?", a: "We currently have 1,500+ exam-authentic questions mapped to the PTCB and ExCPT blueprints, with new questions added regularly. Our roadmap targets 4,000+ questions across all pharmacy domains." },
       { q: "Are the questions aligned with the PTCB exam?", a: "Yes. Every question is mapped to the official PTCB Content Outline, covering all four knowledge areas: Medications, Federal Requirements, Patient Safety and Quality Assurance, and Order Entry and Processing." },
       { q: "What makes the rationales different from other question banks?", a: "Each rationale is 600+ words and teaches you the clinical reasoning — not just 'A is correct because B is wrong.' You'll understand drug mechanisms, calculation methods, and regulatory logic at a deeper level." },
       { q: "Can I practice dosage calculations specifically?", a: "Absolutely. Our question bank includes dedicated dosage calculation questions covering ratios, proportions, dilutions, compounding math, and day supply calculations — all with step-by-step solutions." },
@@ -213,7 +214,7 @@ const SEO_PAGES: SEOPageConfig[] = [
     ],
     faqs: [
       { q: "How does the study plan work?", a: "Complete the diagnostic assessment, and the platform creates a personalized schedule targeting your weak domains first. It adjusts daily based on your progress and time until your exam." },
-      { q: "What study materials are included?", a: "Pro includes the full question bank (500+ questions), flashcards, mock exams, ABG engine, ventilator simulator, case simulations, and personalized study planner — everything in one platform." },
+      { q: "What study materials are included?", a: "Pro includes the full question bank (500+ questions), flashcards, mock exams, ABG engine, ventilator simulator, case simulations, and personalized study planner — everything you need in one platform." },
       { q: "Can I use the ABG engine for unlimited practice?", a: "Yes. Pro members get unlimited access to the ABG Interpretation Engine, with auto-generated cases covering simple disorders, mixed acid-base problems, and compensation analysis." },
       { q: "How long should I study for the NBRC TMC?", a: "Most students use our platform for 6-10 weeks before the TMC exam. The study planner optimizes your schedule based on your starting level and exam date." },
       { q: "Is the study guide mobile-friendly?", a: "Absolutely. Study on any device — phone, tablet, or computer. Your progress syncs across all devices automatically." }
@@ -562,7 +563,7 @@ const SEO_PAGES: SEOPageConfig[] = [
     careerSlug: "occupational-therapy",
     pageType: "practice-questions",
     title: "Occupational Therapy Practice Questions | NBCOT OTR & NOTCE Prep",
-    metaDescription: "Master occupational therapy certification with 500+ NBCOT OTR and NOTCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting.",
+    metaDescription: "Master occupational therapy certification with 400+ NBCOT OTR and NOTCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting.",
     h1: "Occupational Therapy Practice Questions",
     heroSubtitle: "Exam-authentic NBCOT OTR and NOTCE practice questions with clinical case vignettes, detailed rationales covering evaluation, intervention planning, and professional practice across all OT domains.",
     sections: [
@@ -584,7 +585,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       }
     ],
     faqs: [
-      { q: "How many OT practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the NBCOT OTR and NOTCE blueprints, with new questions added regularly. Questions cover all OT practice domains including pediatrics, adult rehabilitation, mental health, and geriatrics." },
+      { q: "How many OT practice questions are available?", a: "We currently have 400+ exam-authentic questions mapped to the NBCOT OTR and NOTCE blueprints, with new questions added regularly. Questions cover all OT practice domains including pediatrics, adult rehabilitation, mental health, and geriatrics." },
       { q: "Are the questions aligned with the NBCOT exam?", a: "Yes. Every question is mapped to the official NBCOT OTR examination content outline, covering Evaluation & Assessment, Intervention Planning, Intervention Implementation, and Service Management domains." },
       { q: "Do you cover pediatric OT questions?", a: "Extensively. Our question bank includes questions on developmental milestones, sensory processing disorders, school-based OT, early intervention, play-based assessment, and pediatric intervention techniques — each with detailed clinical rationales." },
       { q: "What about the NOTCE exam for Canada?", a: "Yes. Our question bank includes content aligned with the NOTCE (National Occupational Therapy Certification Examination) administered by CAOT, covering Canadian practice standards and regulatory frameworks." },
@@ -631,7 +632,7 @@ const SEO_PAGES: SEOPageConfig[] = [
     careerSlug: "physical-therapy",
     pageType: "practice-questions",
     title: "Physical Therapy Practice Questions | NPTE & PCE Exam Prep",
-    metaDescription: "Master physical therapy certification with 500+ NPTE and PCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting across all PT domains.",
+    metaDescription: "Master physical therapy certification with 400+ NPTE and PCE practice questions. Clinical case vignettes, detailed rationales, and adaptive weak-area targeting across all PT domains.",
     h1: "Physical Therapy Practice Questions",
     heroSubtitle: "Exam-authentic NPTE and PCE practice questions with clinical case vignettes, detailed rationales covering musculoskeletal, neuromuscular, cardiovascular, and integumentary systems.",
     sections: [
@@ -653,7 +654,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       }
     ],
     faqs: [
-      { q: "How many PT practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the NPTE and PCE blueprints, with new questions added regularly. Questions cover all body systems and practice settings including outpatient, inpatient, and home health." },
+      { q: "How many PT practice questions are available?", a: "We currently have 400+ exam-authentic questions mapped to the NPTE and PCE blueprints, with new questions added regularly. Questions cover all body systems and practice settings including outpatient, inpatient, and home health." },
       { q: "Are the questions aligned with the NPTE exam?", a: "Yes. Every question is mapped to the official NPTE content outline published by the FSBPT, covering all system categories and non-system categories including safety, professional practice, and research." },
       { q: "Do you cover orthopedic and sports PT?", a: "Extensively. Our musculoskeletal section includes questions on special tests, manual therapy techniques, therapeutic exercise progression, post-surgical rehabilitation protocols, and sports-specific return-to-play criteria — each with detailed biomechanical rationales." },
       { q: "What about the PCE exam for Canada?", a: "Yes. Our question bank includes content aligned with the Physiotherapy Competency Examination (PCE) administered by the Canadian Alliance of Physiotherapy Regulators, covering Canadian practice standards and SI units." },
@@ -689,7 +690,7 @@ const SEO_PAGES: SEOPageConfig[] = [
     ],
     faqs: [
       { q: "How does the study plan work?", a: "After completing the diagnostic assessment, the platform creates a personalized study schedule. It prioritizes your weakest systems, allocates study time based on NPTE content weighting and your exam date, and adjusts daily as your performance improves." },
-      { q: "What study materials are included?", a: "Pro members get access to the full question bank (500+ questions), flashcards, mock exams, clinical case simulations, biomechanics tools, personalized study planner, and all interactive tools — everything you need in one platform." },
+      { q: "What study materials are included?", a: "Pro members get access to the full question bank (400+ questions), flashcards, mock exams, clinical case simulations, biomechanics tools, personalized study planner, and all interactive tools — everything you need in one platform." },
       { q: "How are the flashcards organized?", a: "Flashcards are organized by body system and topic — special tests, manual therapy techniques, neurological assessments, conditions, interventions, and pharmacology. The spaced repetition algorithm optimizes your review schedule automatically." },
       { q: "Can I study on my phone?", a: "Yes! NurseNest Allied is fully responsive and works on any device. Study on your phone during breaks, on your tablet at home, or on your computer at your desk." },
       { q: "How long should I study before taking the NPTE?", a: "Most students use our platform for 8-16 weeks before their exam. The study planner creates an optimized schedule based on your timeline, starting knowledge level, and target score." }
@@ -894,7 +895,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       },
       {
         heading: "Study Resources for Occupational Therapy Exam Success",
-        content: "NurseNest Allied provides a comprehensive study ecosystem designed specifically for occupational therapy certification. Our adaptive test bank contains 500+ NBCOT-aligned questions with detailed clinical rationales covering evaluation, intervention planning, implementation, and professional practice across pediatric, adult, and geriatric populations. The Case Analysis Simulator presents OT-specific patient vignettes requiring clinical reasoning through the occupational therapy process — from referral and evaluation through goal setting, intervention, and discharge planning. The SMART Goal Writer provides structured practice in writing measurable, occupation-focused treatment goals with feedback on specificity, measurability, and clinical relevance. The Activity Analysis Tool helps you break down activities into component performance skills and client factors, then grade and adapt interventions for therapeutic benefit. Blueprint-weighted mock exams simulate the real NBCOT OTR experience including clinical simulation test items with domain-level scoring. Spaced repetition flashcards reinforce assessment tools, frames of reference, intervention techniques, developmental milestones, and key terminology."
+        content: "NurseNest Allied provides a comprehensive study ecosystem designed specifically for occupational therapy certification. Our adaptive test bank contains 400+ NBCOT-aligned questions with detailed clinical rationales covering evaluation, intervention planning, implementation, and professional practice across pediatric, adult, and geriatric populations. The Case Analysis Simulator presents OT-specific patient vignettes requiring clinical reasoning through the occupational therapy process — from referral and evaluation through goal setting, intervention, and discharge planning. The SMART Goal Writer provides structured practice in writing measurable, occupation-focused treatment goals with feedback on specificity, measurability, and clinical relevance. The Activity Analysis Tool helps you break down activities into component performance skills and client factors, then grade and adapt interventions for therapeutic benefit. Blueprint-weighted mock exams simulate the real NBCOT OTR experience including clinical simulation test items with domain-level scoring. Spaced repetition flashcards reinforce assessment tools, frames of reference, intervention techniques, developmental milestones, and key terminology."
       },
       {
         heading: "Internal Resources for OT Exam Preparation",
@@ -937,7 +938,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       },
       {
         heading: "Study Resources for Physical Therapy Exam Success",
-        content: "NurseNest Allied provides a comprehensive study platform built specifically for physical therapy certification. Our adaptive test bank contains 500+ NPTE-aligned questions with detailed clinical rationales covering all body systems and non-system content — each rationale explains the biomechanical, physiological, or clinical reasoning behind the correct answer and why each distractor is incorrect. The Differential Diagnosis Trainer presents realistic patient presentations requiring you to distinguish between similar musculoskeletal and neurological conditions — a skill heavily tested on the NPTE. The Gait Analysis Simulator lets you identify gait deviations, correlate findings with clinical diagnoses, and select appropriate interventions. The Manual Therapy Reference provides an interactive guide to joint mobilization grades, soft tissue techniques, and evidence-based therapeutic interventions. Blueprint-weighted mock exams simulate the real NPTE experience with 250 questions, realistic timing, and system-level scoring. Spaced repetition flashcards reinforce anatomy, special tests, exercise progressions, pharmacology, and clinical outcome measures at scientifically optimized intervals."
+        content: "NurseNest Allied provides a comprehensive study platform built specifically for physical therapy certification. Our adaptive test bank contains 400+ NPTE-aligned questions with detailed clinical rationales covering all body systems and non-system content — each rationale explains the biomechanical, physiological, or clinical reasoning behind the correct answer and why each distractor is incorrect. The Differential Diagnosis Trainer presents realistic patient presentations requiring you to distinguish between similar musculoskeletal and neurological conditions — a skill heavily tested on the NPTE. The Gait Analysis Simulator lets you identify gait deviations, correlate findings with clinical diagnoses, and select appropriate interventions. The Manual Therapy Reference provides an interactive guide to joint mobilization grades, soft tissue techniques, and evidence-based therapeutic interventions. Blueprint-weighted mock exams simulate the real NPTE experience with 250 questions, realistic timing, and system-level scoring. Spaced repetition flashcards reinforce anatomy, special tests, exercise progressions, pharmacology, and clinical outcome measures at scientifically optimized intervals."
       },
       {
         heading: "Internal Resources for PT Exam Preparation",
@@ -1157,7 +1158,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: BookOpen, label: "500+ Questions", sub: "Exam-authentic" },
+              { icon: BookOpen, label: `${getQuestionCountDisplay(page.careerSlug)} Questions`, sub: "Exam-authentic" },
               { icon: Target, label: "Weak-Area Focus", sub: "Domain targeting" },
               { icon: BarChart3, label: "Performance", sub: "Detailed analytics" },
               { icon: Clock, label: "CAT Engine", sub: "Adaptive difficulty" },

@@ -147,7 +147,7 @@ export default function MltLandingPage() {
               Pass Your MLT / MLS Certification Exam With Confidence
             </h1>
             <p className="text-lg text-gray-600 mb-4" data-testid="text-mlt-description">
-              1,000+ practice questions across all 16 laboratory disciplines, blueprint-weighted mock exams, and adaptive study tools
+              500+ practice questions across all 16 laboratory disciplines, blueprint-weighted mock exams, and adaptive study tools
               for CSMLS (Canada) and ASCP (USA) certification. Don't risk failing your lab certification exam — start targeted prep today.
             </p>
             <p className="text-sm text-gray-500 italic mb-6" data-testid="text-mlt-future-self">

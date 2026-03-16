@@ -9,6 +9,7 @@ import {
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { getTotalAlliedHealthDisplay } from "@/data/career-questions/question-counts";
 
 const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.rrt, Icon: Wind },
@@ -24,7 +25,7 @@ const ALLIED_CAREERS = [
 ];
 
 const STATS = [
-  { label: "Practice Questions", value: "6,500+", icon: BookOpen },
+  { label: "Practice Questions", value: getTotalAlliedHealthDisplay(), icon: BookOpen },
   { label: "Career Verticals", value: "10", icon: TrendingUp },
   { label: "AI Study Tools", value: "10+", icon: Brain },
   { label: "Mock Exam Modes", value: "3", icon: FileText },
@@ -60,7 +61,7 @@ export default function AlliedHomePage() {
     <div data-testid="allied-home-page">
       <AlliedSEO
         title="Allied Health Exam Prep — Practice Questions & Mock Exams | NurseNest"
-        description="Pass your allied health certification exam with 6,500+ practice questions, blueprint-weighted mock exams, flashcards, and AI study tools for RRT, Paramedic, Pharmacy Tech, MLT, and Imaging certifications."
+        description={`Pass your allied health certification exam with ${getTotalAlliedHealthDisplay()} practice questions, blueprint-weighted mock exams, flashcards, and AI study tools for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, and PT certifications.`}
         keywords="allied health exam prep, RRT practice questions, paramedic exam prep, pharmacy tech PTCB questions, MLT CSMLS exam, ARRT radiography exam, healthcare certification practice test, mock exam, question bank"
         canonicalPath="/allied-health"
         structuredData={{
@@ -82,7 +83,7 @@ export default function AlliedHomePage() {
               Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Certification Exam</span> on the First Attempt
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
-              6,500+ exam-style practice questions with detailed rationales, blueprint-weighted mock exams, and AI-powered study plans for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, PT, and HIM certifications.
+              {getTotalAlliedHealthDisplay()} exam-style practice questions with detailed rationales, blueprint-weighted mock exams, and AI-powered study plans for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, PT, and more certifications.
             </p>
             <p className="text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 inline-block mb-3" data-testid="text-hero-loss-aversion">
               Don't risk failing your certification exam — start building confidence today

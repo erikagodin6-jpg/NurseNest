@@ -34,6 +34,7 @@ export interface ProfessionHubData {
   jobOutlook: string;
   domains: string[];
   studyFeatures: { label: string; description: string }[];
+  questionCountDisplay: string;
   faqs: ProfessionFAQ[];
   crossLinks: CrossLink[];
   contentClusterBase: string;
@@ -87,6 +88,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Spaced Repetition Flashcards", description: "Master ventilator settings, drug dosages, and pulmonary function values with adaptive flashcards." },
       { label: "Clinical Simulation Scenarios", description: "Unfolding CSE-style cases testing clinical decision-making from assessment to outcome." },
     ],
+    questionCountDisplay: "500+",
     faqs: [
       { q: "What is the NBRC TMC exam?", a: "The Therapist Multiple-Choice (TMC) Examination is the primary certification exam for respiratory therapists in the United States. It consists of 160 questions (100 scored, 60 pretest) covering patient data evaluation, equipment manipulation, therapeutic procedures, and clinical judgment. Passing at the high cut-score earns the RRT credential." },
       { q: "How is the CSE different from the TMC?", a: "The Clinical Simulation Exam (CSE) tests clinical decision-making through branching patient scenarios. You manage patients from initial assessment through treatment, monitoring, and outcome evaluation. It evaluates your ability to apply knowledge in realistic clinical situations — not just recall facts." },
@@ -135,13 +137,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Crisis Intervention",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "500+ ASWB-aligned questions with detailed clinical rationales covering all exam content areas." },
+      { label: "Adaptive Test Bank", description: "ASWB-aligned questions with detailed clinical rationales covering all exam content areas. Question bank expanding regularly." },
       { label: "DSM-5 Diagnosis Simulator", description: "Practice differential diagnosis using DSM-5 criteria with realistic case vignettes." },
       { label: "Intervention Matching Engine", description: "Match evidence-based interventions (CBT, DBT, MI, EMDR) to client presentations." },
       { label: "Ethics Scenario Drills", description: "Navigate complex ethical dilemmas in social work practice with NASW Code of Ethics alignment." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length ASWB simulations with domain-level scoring and performance analytics." },
       { label: "Personalized Study Plan", description: "Adaptive daily study schedule targeting your weakest content areas first." },
     ],
+    questionCountDisplay: "25",
     faqs: [
       { q: "What ASWB exam levels do you cover?", a: "We cover all four ASWB exam levels: Bachelors, Masters, Advanced Generalist, and Clinical. Content is organized by exam level so you study exactly what's tested at your certification stage." },
       { q: "How are the questions different from other social work prep?", a: "Each question includes a detailed clinical rationale explaining the social work reasoning — not just which answer is correct. We cover DSM-5 diagnosis, evidence-based interventions, ethical decision-making, and cultural competence in depth." },
@@ -197,6 +200,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length exam simulations for CRPO, NCE, and CMHCE with domain-level analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master therapeutic techniques, ethical principles, and psychopathology criteria with adaptive flashcards." },
     ],
+    questionCountDisplay: "500+",
     faqs: [
       { q: "What exams do you prepare for?", a: "We cover the CRPO Registration Exam (Canada/Ontario), the National Counselor Examination (NCE), the Clinical Mental Health Counseling Examination (CMHCE), and the Canadian Certified Counsellor (CCC) Exam. Content adapts to your target certification." },
       { q: "What therapeutic modalities are covered?", a: "We cover all major evidence-based modalities: Cognitive Behavioral Therapy (CBT), Dialectical Behavior Therapy (DBT), Eye Movement Desensitization and Reprocessing (EMDR), Motivational Interviewing (MI), Psychodynamic Therapy, Person-Centered Therapy, Solution-Focused Brief Therapy, Narrative Therapy, and Emotion-Focused Therapy." },
@@ -256,6 +260,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length IC&RC ADC simulations with domain-level scoring and performance analytics." },
       { label: "Relapse Prevention Planning", description: "Build comprehensive relapse prevention plans using evidence-based models (Gorski, Marlatt)." },
     ],
+    questionCountDisplay: "500+",
     faqs: [
       { q: "What addiction counselor exams do you cover?", a: "We cover the IC&RC ADC (international standard), CASAC (New York), CCAC (Canada), and other state/provincial addiction counselor certification exams. Content is organized around the 8 IC&RC performance domains that most jurisdictions follow." },
       { q: "How are the questions different from other prep materials?", a: "Each question includes a detailed clinical rationale explaining the addiction counseling reasoning — covering pharmacology, screening tools (CAGE, AUDIT, DAST), treatment modalities, motivational interviewing principles, and ethical decision-making." },
@@ -308,13 +313,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Evidence-Based Practice",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "500+ NBCOT-aligned questions with detailed clinical rationales covering all OT practice domains." },
+      { label: "Adaptive Test Bank", description: "400+ NBCOT-aligned questions with detailed clinical rationales covering all OT practice domains." },
       { label: "Case Analysis Simulator", description: "Practice clinical reasoning with OT-specific patient vignettes across pediatric, adult, and geriatric populations." },
       { label: "SMART Goal Writer", description: "Practice writing measurable, occupation-focused treatment goals for OT interventions." },
       { label: "Activity Analysis Tool", description: "Break down activities into component skills and grade interventions for therapeutic benefit." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length NBCOT OTR simulations with domain-level scoring and clinical simulation items." },
       { label: "Spaced Repetition Flashcards", description: "Master assessment tools, frames of reference, intervention techniques, and developmental milestones." },
     ],
+    questionCountDisplay: "400+",
     faqs: [
       { q: "What OT exams do you cover?", a: "We cover the NBCOT OTR exam (United States) and the NOTCE exam (Canada). Content is organized to cover both exam blueprints, with country-specific regulatory and practice standards." },
       { q: "How are the questions different from other OT prep?", a: "Each question includes a detailed clinical rationale explaining the occupational therapy reasoning — not just which answer is correct. We cover evaluation, intervention planning, clinical reasoning, and professional practice in depth." },
@@ -367,13 +373,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Evidence-Based Practice",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "500+ NPTE-aligned questions with detailed clinical rationales covering all PT system domains." },
+      { label: "Adaptive Test Bank", description: "400+ NPTE-aligned questions with detailed clinical rationales covering all PT system domains." },
       { label: "Differential Diagnosis Trainer", description: "Practice differential diagnosis with realistic patient presentations across musculoskeletal and neurological conditions." },
       { label: "Gait Analysis Simulator", description: "Analyze gait patterns, identify deviations, and correlate findings with clinical diagnoses." },
       { label: "Manual Therapy Reference", description: "Interactive guide to joint mobilization grades, soft tissue techniques, and therapeutic interventions." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length NPTE simulations with system-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master anatomy, special tests, exercise progressions, and clinical outcome measures." },
     ],
+    questionCountDisplay: "400+",
     faqs: [
       { q: "What PT exams do you cover?", a: "We cover the NPTE (United States) and the PCE (Canada). Content is organized to cover both exam blueprints, with country-specific clinical standards and regulatory requirements." },
       { q: "How are the questions different from other PT prep?", a: "Each question includes a detailed clinical rationale explaining the physical therapy reasoning — not just which answer is correct. We cover evaluation, differential diagnosis, intervention selection, and professional practice in depth." },
@@ -433,6 +440,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length ARRT simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master anatomy landmarks, positioning criteria, exposure techniques, and radiation safety standards." },
     ],
+    questionCountDisplay: "500+",
     faqs: [
       { q: "What imaging exams do you cover?", a: "We cover the ARRT Radiography exam (United States) and the CAMRT certification exam (Canada). Content is organized to cover both exam blueprints, with country-specific regulatory standards and clinical practices." },
       { q: "How are the questions different from other imaging prep?", a: "Each question includes a detailed clinical rationale explaining the imaging reasoning — covering positioning criteria, exposure factors, radiation safety principles, and patient care considerations in depth." },
@@ -492,6 +500,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length ARRT simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master anatomy landmarks, positioning criteria, exposure techniques, and radiation safety standards." },
     ],
+    questionCountDisplay: "500+",
     faqs: [
       { q: "What is the ARRT Radiography exam?", a: "The ARRT Radiography exam is the primary certification exam for radiologic technologists in the United States. It consists of 220 questions (200 scored + 20 pilot) and covers radiation protection, equipment operation, image acquisition, imaging procedures, and patient care. Passing the exam earns the R.T.(R)(ARRT) credential." },
       { q: "How is the CAMRT exam different from the ARRT?", a: "The CAMRT certification exam is the Canadian equivalent, administered by the Canadian Association of Medical Radiation Technologists. While content areas are similar, the CAMRT exam includes Canadian regulatory standards, scope of practice, and clinical guidelines." },
@@ -550,13 +559,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Sonographic Pathology Recognition",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "500+ ARDMS-aligned questions with detailed rationales covering SPI physics, abdominal, OB/GYN, and vascular content." },
+      { label: "Adaptive Test Bank", description: "ARDMS-aligned questions with detailed rationales covering SPI physics, abdominal, OB/GYN, and vascular content. Coming soon." },
       { label: "Ultrasound Physics Engine", description: "Interactive physics drills covering frequency, wavelength, attenuation, transducer types, and Doppler equations." },
       { label: "Pathology Recognition Trainer", description: "Identify sonographic appearances of organ pathology, masses, cysts, and abnormal findings across all specialties." },
       { label: "OB Measurement Calculator", description: "Practice biometric measurements (BPD, HC, AC, FL), dating criteria, and growth assessment protocols." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length SPI and specialty exam simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master sonographic anatomy, pathology appearances, Doppler criteria, and normal measurement values." },
     ],
+    questionCountDisplay: "Coming Soon",
     faqs: [
       { q: "What is the ARDMS SPI exam?", a: "The Sonography Principles and Instrumentation (SPI) exam is the prerequisite physics exam required before taking any ARDMS specialty credential. It covers ultrasound physics, transducer technology, Doppler principles, bioeffects, artifacts, and quality assurance. The exam has 110 questions with a 2-hour time limit." },
       { q: "Which ARDMS specialty should I take first?", a: "Most sonographers start with the Abdomen (AB) specialty, as it covers the broadest range of anatomy and is the most commonly tested in clinical practice. OB/GYN is popular for those interested in maternal-fetal medicine, and VT is ideal for vascular lab positions." },
@@ -615,13 +625,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "TEE & Advanced Techniques",
     ],
     studyFeatures: [
-      { label: "Adaptive Test Bank", description: "500+ RDCS-aligned questions with detailed rationales covering cardiac anatomy, hemodynamics, valve disease, and echo techniques." },
+      { label: "Adaptive Test Bank", description: "RDCS-aligned questions with detailed rationales covering cardiac anatomy, hemodynamics, valve disease, and echo techniques. Coming soon." },
       { label: "Echo View Trainer", description: "Interactive guide to standard echocardiographic windows and views with anatomy identification and optimization tips." },
       { label: "Hemodynamic Calculator", description: "Practice Bernoulli equation, continuity equation, PISA method, cardiac output, and pressure gradient calculations." },
       { label: "Valve Disease Grading Tool", description: "Learn stenosis and regurgitation severity criteria for all four cardiac valves with quantitative parameters." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length RDCS simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master echo views, hemodynamic formulas, valve disease criteria, normal values, and pathology recognition." },
     ],
+    questionCountDisplay: "Coming Soon",
     faqs: [
       { q: "What is the ARDMS RDCS exam?", a: "The Registered Diagnostic Cardiac Sonographer (RDCS) exam is offered by ARDMS with Adult Echocardiography (AE) and Pediatric Echocardiography (PE) specialties. The AE exam tests competency in cardiac anatomy, hemodynamics, valve disease assessment, cardiomyopathies, and echocardiographic techniques. It has 170 questions with a 3-hour time limit." },
       { q: "What's the difference between RDCS and RCS?", a: "Both are recognized credentials for cardiac sonographers. RDCS is issued by ARDMS and requires passing the SPI exam first. RCS is issued by CCI (Cardiovascular Credentialing International) and has its own prerequisite structure. Most employers accept both credentials." },
@@ -687,6 +698,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length RHIT and RHIA simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master coding guidelines, HIPAA regulations, EHR terminology, and revenue cycle concepts with adaptive flashcards." },
     ],
+    questionCountDisplay: "Coming Soon",
     faqs: [
       { q: "What HIM exams do you cover?", a: "We cover the AHIMA RHIT, RHIA, and CCS certification exams, as well as AAPC CPC content. Our material is organized around the official exam competency domains so you study exactly what's tested." },
       { q: "How are the questions different from other HIM prep?", a: "Each question includes a detailed coding rationale explaining the reasoning — not just which code is correct. We cover ICD-10 Official Guidelines, CPT conventions, HIPAA regulations, and revenue cycle principles in depth." },
@@ -739,13 +751,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Group Facilitation",
     ],
     studyFeatures: [
-      { label: "COTA Practice Questions", description: "500+ NBCOT COTA-aligned questions with detailed rationales covering all exam domains at the assistant level." },
+      { label: "COTA Practice Questions", description: "400+ NBCOT COTA-aligned questions with detailed rationales covering all exam domains at the assistant level." },
       { label: "ADL Intervention Scenarios", description: "Practice selecting and implementing ADL interventions for diverse patient populations with realistic case vignettes." },
       { label: "Adaptive Equipment Guide", description: "Master adaptive equipment selection, training techniques, and environmental modification strategies." },
       { label: "Splinting & Orthotics Drill", description: "Interactive splint fabrication scenarios covering resting hand, wrist cock-up, and thumb spica splints." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length NBCOT COTA simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master OT terminology, developmental milestones, and intervention techniques with adaptive flashcards." },
     ],
+    questionCountDisplay: "400+",
     faqs: [
       { q: "What is the difference between the COTA and OTR exams?", a: "The NBCOT COTA exam is for Occupational Therapy Assistants who hold an associate degree, while the OTR exam is for Occupational Therapists who hold a master's or doctoral degree. The COTA exam focuses on intervention implementation and clinical skills under supervision, whereas the OTR exam emphasizes evaluation, treatment planning, and independent clinical decision-making." },
       { q: "What does the NBCOT COTA exam cover?", a: "The exam covers four main domains: acquiring knowledge for intervention implementation, applying knowledge to select interventions, using clinical reasoning to implement evidence-based interventions, and managing and adapting practice. Questions test ADL training, adaptive equipment, pediatric and geriatric OT, psychosocial interventions, and documentation." },
@@ -798,13 +811,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Safety & Body Mechanics",
     ],
     studyFeatures: [
-      { label: "NPTE-PTA Practice Questions", description: "500+ NPTE-PTA-aligned questions with detailed rationales covering all exam content areas at the assistant level." },
+      { label: "NPTE-PTA Practice Questions", description: "400+ NPTE-PTA-aligned questions with detailed rationales covering all exam content areas at the assistant level." },
       { label: "Modality Selection Trainer", description: "Practice selecting appropriate physical agents (ultrasound, e-stim, iontophoresis) for specific clinical scenarios." },
       { label: "Gait Deviation Analysis", description: "Identify gait deviations, determine underlying causes, and select corrective interventions and assistive devices." },
       { label: "Therapeutic Exercise Library", description: "Comprehensive exercise database with indications, contraindications, and progression protocols for common diagnoses." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length NPTE-PTA simulations with domain-level scoring and adaptive difficulty." },
       { label: "Spaced Repetition Flashcards", description: "Master special tests, ROM norms, manual muscle testing grades, and modality parameters with adaptive flashcards." },
     ],
+    questionCountDisplay: "400+",
     faqs: [
       { q: "What is the difference between the NPTE-PTA and NPTE-PT?", a: "The NPTE-PTA is for Physical Therapist Assistants (associate degree), while the NPTE-PT is for Physical Therapists (doctoral degree). The PTA exam focuses on intervention implementation, data collection, and clinical skills within the plan of care. The PT exam covers evaluation, diagnosis, prognosis, and independent clinical decision-making." },
       { q: "Does this cover both US and Canadian PTA/Physiotherapy Assistant content?", a: "Yes. Our content serves both US Physical Therapist Assistant students preparing for the NPTE-PTA and Canadian Physiotherapy Assistant students. We use dual terminology (Physical Therapist Assistant / Physiotherapy Assistant) and include content relevant to both regulatory systems." },
@@ -857,13 +871,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Emergency Situations in the OR",
     ],
     studyFeatures: [
-      { label: "CST Practice Questions", description: "500+ CST/TS-C-aligned questions with detailed rationales covering pre-operative, intra-operative, and post-operative care." },
+      { label: "CST Practice Questions", description: "1,500+ CST/TS-C-aligned questions with detailed rationales covering pre-operative, intra-operative, and post-operative care." },
       { label: "Instrument Identification Drill", description: "Visual instrument identification practice covering clamps, retractors, forceps, scissors, and specialty instruments." },
       { label: "Sterile Field Scenarios", description: "Navigate complex sterile technique situations — identify contamination, correct technique, and manage breaks in sterility." },
       { label: "Surgical Procedure Walkthroughs", description: "Step-by-step walkthroughs of common procedures with instrument setups, patient positioning, and expected sequences." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length CST and TS-C simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master surgical instruments, suture materials, sterilization parameters, and anatomy with adaptive flashcards." },
     ],
+    questionCountDisplay: "1,500+",
     faqs: [
       { q: "What is the difference between the CST and TS-C exams?", a: "The CST (Certified Surgical Technologist) is awarded by the NBSTSA and is the most widely recognized credential. The TS-C (Tech in Surgery – Certified) is awarded by the NCCT as an alternative pathway. Both test similar content areas, but the CST is accepted in more states and is preferred by most employers." },
       { q: "What topics are covered on the CST exam?", a: "The CST exam covers three main domains: pre-operative preparation (patient care, equipment, room setup), intra-operative procedures (sterile technique, instrumentation, surgical procedures, counts), and post-operative procedures (wound closure, specimen handling, room turnover). It also covers anatomy, microbiology, and pharmacology relevant to the surgical setting." },

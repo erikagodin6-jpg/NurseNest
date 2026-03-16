@@ -859,11 +859,11 @@ export const ALLIED_HEALTH_PROFESSIONS: Record<string, AlliedHealthProfession> =
     ],
     seo: {
       title: "Surgical Tech Practice Questions & CST Exam Prep | NurseNest",
-      description: "Prepare for the NBSTSA CST exam with surgical technologist practice questions on sterile technique, instrument identification, surgical counts, and OR safety. Content coming soon.",
+      description: "Prepare for the NBSTSA CST exam with 1,500+ surgical technologist practice questions on sterile technique, instrument identification, surgical counts, and OR safety.",
       keywords: "CST exam prep, surgical technologist practice questions, NBSTSA certification, sterile technique quiz, surgical instruments identification, scrub tech exam, operating room safety practice",
     },
     relatedProfessions: ["paramedic", "radiologic-technologist", "respiratory-therapy"],
-    hasStudyContent: false,
+    hasStudyContent: true,
   },
   "health-information-management": {
     slug: "health-information-management",
