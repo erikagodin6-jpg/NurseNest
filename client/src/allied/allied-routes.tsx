@@ -77,6 +77,10 @@ const PharmtechDrugClassesHub = lazy(() => import("./pages/pharmtech-drug-classe
 const PharmtechDrugClassDetail = lazy(() => import("./pages/pharmtech-drug-classes").then(m => ({ default: m.PharmtechDrugClassDetail })));
 const RrtPharmacologyHub = lazy(() => import("./pages/rrt-pharmacology-hub"));
 const RrtPharmacologyTopicPage = lazy(() => import("./pages/rrt-pharmacology-topic").then(m => ({ default: m.RrtPharmacologyTopicPage })));
+const RrtPharmQuickSheets = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmQuickSheets })));
+const RrtPharmTraps = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmTraps })));
+const RrtPharmMnemonics = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmMnemonics })));
+const RrtPharmOneMinuteReview = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmOneMinuteReview })));
 const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-exam-seo"));
 const PharmtechAdaptivePractice = lazy(() => import("./pages/pharmtech-adaptive-practice"));
 const PharmtechStudyPlan = lazy(() => import("./pages/pharmtech-study-plan"));
@@ -447,6 +451,10 @@ export function AlliedRoutes() {
         <Route path="/allied-health/cardiac-sonographer/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} careerGuide={IMAGING_CAREER_DATA["cardiac-sonographer"].careerGuide} />}</Route>
         <Route path="/allied-health/cardiac-sonographer">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["cardiac-sonographer"]} />}</Route>
 
+        <Route path="/allied-health/rrt/pharmacology/quick-sheets" component={RrtPharmQuickSheets} />
+        <Route path="/allied-health/rrt/pharmacology/traps" component={RrtPharmTraps} />
+        <Route path="/allied-health/rrt/pharmacology/mnemonics" component={RrtPharmMnemonics} />
+        <Route path="/allied-health/rrt/pharmacology/one-minute-review" component={RrtPharmOneMinuteReview} />
         <Route path="/allied-health/rrt/pharmacology/:slug" component={RrtPharmacologyTopicPage} />
         <Route path="/allied-health/rrt/pharmacology" component={RrtPharmacologyHub} />
         <Route path="/allied-health/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>

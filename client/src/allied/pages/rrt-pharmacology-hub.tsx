@@ -4,7 +4,7 @@ import {
   Wind, Shield, Droplets, Syringe, Zap, Heart, AlertTriangle, Moon,
   Gauge, Pill, Baby, Monitor, Settings, ShieldAlert, Beaker,
   ChevronRight, ArrowRight, BookOpen, Brain, FileText, Star,
-  Lock, CheckCircle2, GraduationCap, Sparkles
+  Lock, CheckCircle2, GraduationCap, Sparkles, Clock
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { RRT_PHARMACOLOGY_PREVIEWS } from "@/data/lessons/rrt-pharmacology-previews";
@@ -208,6 +208,52 @@ export default function RrtPharmacologyHub() {
         })}
       </section>
 
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-indigo-50 via-blue-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-2">
+            <Brain className="w-5 h-5 text-indigo-500" />
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-study-tools-heading">Pharmacology Study Tools</h2>
+          </div>
+          <p className="text-gray-500 mb-8">Interactive study aids designed for rapid review and exam-day readiness.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { title: "Quick Sheets", desc: "High-yield side effects, bronchodilator vs controller comparison, and delivery device charts", href: "/allied-health/rrt/pharmacology/quick-sheets", icon: "Zap", color: "blue" },
+              { title: "TMC Traps", desc: "18 commonly tested exam pitfalls with wrong vs correct answers and explanations", href: "/allied-health/rrt/pharmacology/traps", icon: "AlertTriangle", color: "red" },
+              { title: "Mnemonics", desc: "12 proven memory aids including SLUDGE, MUDPILES, B2 SHAKES, and BRAND", href: "/allied-health/rrt/pharmacology/mnemonics", icon: "Brain", color: "purple" },
+              { title: "One-Minute Review", desc: "16 rapid-fire drug cards with key facts, dosages, and exam tips", href: "/allied-health/rrt/pharmacology/one-minute-review", icon: "Clock", color: "amber" },
+            ].map(tool => {
+              const colorClasses: Record<string, { bg: string; text: string; border: string; badge: string }> = {
+                blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-200", badge: "bg-blue-100 text-blue-700" },
+                red: { bg: "bg-red-50", text: "text-red-600", border: "border-red-200", badge: "bg-red-100 text-red-700" },
+                purple: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-200", badge: "bg-purple-100 text-purple-700" },
+                amber: { bg: "bg-amber-50", text: "text-amber-600", border: "border-amber-200", badge: "bg-amber-100 text-amber-700" },
+              };
+              const c = colorClasses[tool.color];
+              const IconMap: Record<string, any> = { Zap, AlertTriangle, Brain, Clock };
+              const ToolIcon = IconMap[tool.icon] || BookOpen;
+              return (
+                <Link
+                  key={tool.title}
+                  href={tool.href}
+                  className={`group bg-white rounded-2xl border ${c.border} p-6 hover:shadow-lg transition-all`}
+                  data-testid={`card-study-tool-${tool.title.toLowerCase().replace(/\s+/g, "-")}`}
+                >
+                  <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <ToolIcon className={`w-5 h-5 ${c.text}`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{tool.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed mb-3">{tool.desc}</p>
+                  <div className="flex items-center gap-1 text-xs font-medium">
+                    <span className={`px-2 py-0.5 rounded ${c.badge}`}>Free Preview</span>
+                    <ArrowRight className={`w-3.5 h-3.5 ${c.text} ml-auto group-hover:translate-x-1 transition-transform`} />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-gray-50 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center" data-testid="text-study-approach">How to Study Respiratory Pharmacology</h2>
@@ -236,9 +282,9 @@ export default function RrtPharmacologyHub() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Related RRT Study Resources</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
+              { label: "Pharm Flashcards", href: "/allied-health/rrt/flashcards", icon: Brain },
               { label: "RRT Question Bank", href: "/allied-health/qbank?career=rrt", icon: BookOpen },
               { label: "RRT Mock Exams", href: "/allied-health/rrt/mock-exams", icon: FileText },
-              { label: "RRT Flashcards", href: "/allied-health/rrt/flashcards", icon: Brain },
               { label: "RRT Study Plan", href: "/allied-health/rrt/study-plan", icon: GraduationCap },
             ].map(resource => (
               <Link key={resource.label} href={resource.href} className="group flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/40 transition-all" data-testid={`link-resource-${resource.label.toLowerCase().replace(/\s+/g, "-")}`}>
