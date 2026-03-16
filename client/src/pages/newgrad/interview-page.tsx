@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradAccess } from "./premium-cta";
 import { INTERVIEW_QUESTION_BANK } from "@/data/newgrad/premium-toolkit";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, ChevronDown, ArrowRight, MessageSquare, Lock,
   CheckCircle2, Star, Lightbulb, Target, Users, Shield,
@@ -43,6 +44,7 @@ const totalQuestionCount = INTERVIEW_QUESTION_BANK.length;
 
 export default function InterviewPage() {
   const { hasAccess } = useNewGradAccess();
+  const { t } = useI18n();
   const [expandedQ, setExpandedQ] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
@@ -83,14 +85,14 @@ export default function InterviewPage() {
     <div data-testid="newgrad-interview-page">
       <Navigation />
       <SEO
-        title={`New Grad Nurse Interview Prep - ${totalQuestionCount}+ Questions, STAR Answers & Specialty Banks | NurseNest`}
-        description={`Master your nursing interview with ${totalQuestionCount}+ behavioral, clinical, and specialty-specific questions. STAR-format sample answers, difficult interviewer prep, confidence drills, and nurse manager tips. Free sample questions available.`}
+        title={t("newGrad.interview.seoTitle")}
+        description={t("newGrad.interview.seoDescription")}
         keywords="nurse interview questions, new grad nurse interview, nursing behavioral interview, STAR format nursing, nurse interview prep, nursing job interview tips, ICU interview, ER interview, pediatric interview, difficult interview questions nursing"
         canonicalPath="/newgrad/interview"
         breadcrumbs={[
-          { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "New Grad Career Hub", url: "https://www.nursenest.ca/newgrad" },
-          { name: "Interview Prep", url: "https://www.nursenest.ca/newgrad/interview" },
+          { name: t("newGrad.common.home"), url: "https://www.nursenest.ca" },
+          { name: t("newGrad.common.newGradCareerHub"), url: "https://www.nursenest.ca/newgrad" },
+          { name: t("newGrad.common.interviewPrep"), url: "https://www.nursenest.ca/newgrad/interview" },
         ]}
       />
 
@@ -98,20 +100,20 @@ export default function InterviewPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-indigo-50/30 to-white" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("newGrad.common.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("newGrad.common.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-purple-700 font-medium">Interview Prep</span>
+            <span className="text-purple-700 font-medium">{t("newGrad.common.interviewPrep")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-purple-100 text-purple-700">
-            <MessageSquare className="w-4 h-4" /> Interview Preparation
+            <MessageSquare className="w-4 h-4" /> {t("newGrad.interview.badge")}
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-title">
-            Nursing Interview Question Bank
+            {t("newGrad.interview.title")}
           </h1>
           <p className="text-lg text-gray-600 mb-6">
-            Practice with {totalQuestionCount}+ behavioral, clinical, and specialty-specific interview questions. Each question includes a detailed STAR-format sample answer and expert tips from nurse managers.
+            {t("newGrad.interview.subtitle")}
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-total-questions">
@@ -164,7 +166,7 @@ export default function InterviewPage() {
           <div className="flex items-center gap-2 mb-6">
             <CheckCircle2 className="w-5 h-5 text-green-500" />
             <h2 className="text-2xl font-bold text-gray-900">
-              {activeCategory === "all" ? "Free Sample Questions" : `${INTERVIEW_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory} — Free Questions`}
+              {activeCategory === "all" ? t("newGrad.interview.freeSampleTitle") : `${INTERVIEW_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory} — Free Questions`}
             </h2>
           </div>
           {freeQuestions.length === 0 ? (
@@ -200,14 +202,14 @@ export default function InterviewPage() {
                     <div className="px-6 pb-5 border-t border-gray-100 pt-4">
                       <div className="mb-4">
                         <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-500" /> Sample Answer
+                          <Star className="w-4 h-4 text-yellow-500" /> {t("newGrad.common.sampleAnswer")}
                         </h4>
                         <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{q.answer || q.sample_answer || q.sampleAnswer}</p>
                       </div>
                       {(q.tips) && (
                         <div className="bg-blue-50 rounded-lg p-3">
                           <h4 className="text-sm font-semibold text-blue-800 mb-1 flex items-center gap-1">
-                            <Lightbulb className="w-4 h-4" /> Expert Tips
+                            <Lightbulb className="w-4 h-4" /> {t("newGrad.common.expertTip")}
                           </h4>
                           {Array.isArray(q.tips) ? (
                             <ul className="space-y-1">
@@ -235,7 +237,7 @@ export default function InterviewPage() {
       {premiumQuestions.length > 0 && hasAccess && (
         <section className="py-16 bg-gray-50" data-testid="section-premium-questions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Premium Question Bank</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("newGrad.interview.fullBankTitle")}</h2>
             <div className="space-y-3">
               {premiumQuestions.map((q: any, i: number) => (
                 <div key={q.id || i} className="bg-white rounded-xl border border-gray-100 overflow-hidden" data-testid={`question-premium-${i}`}>
@@ -254,7 +256,7 @@ export default function InterviewPage() {
                       <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{q.answer || q.sample_answer || q.sampleAnswer}</p>
                       {q.tips && Array.isArray(q.tips) && (
                         <div className="bg-blue-50 rounded-lg p-3 mt-3">
-                          <h4 className="text-sm font-semibold text-blue-800 mb-1">Expert Tips</h4>
+                          <h4 className="text-sm font-semibold text-blue-800 mb-1">{t("newGrad.common.expertTip")}</h4>
                           <ul className="space-y-1">
                             {q.tips.map((tip: string, j: number) => (
                               <li key={j} className="text-sm text-blue-700 flex items-start gap-1.5">
@@ -279,7 +281,7 @@ export default function InterviewPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 mb-6">
               <Lock className="w-5 h-5 text-indigo-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Premium Question Bank Preview</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("newGrad.interview.premiumPreviewTitle")}</h2>
             </div>
             <div className="space-y-3 mb-6">
               {[
@@ -305,22 +307,28 @@ export default function InterviewPage() {
 
       <section className="py-12 bg-gradient-to-r from-purple-50 to-indigo-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">More Career Readiness Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("newGrad.common.moreCareerResources")}</h2>
           <p className="text-sm text-gray-500 mb-4">
-            Complete your job-readiness toolkit with workplace scenarios, resume templates, and professional development resources.
+            {t("newGrad.interview.applynestNote")} <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-700 font-semibold hover:underline" data-testid="link-applynest-interview">{t("newGrad.interview.applynestLink")}</a>.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/scenarios" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-scenarios">
               Workplace Scenarios
             </Link>
             <Link href="/newgrad/resume" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-resume">
-              Resume & Cover Letters
+              {t("newGrad.common.resumeTools")}
             </Link>
             <Link href="/newgrad/salary" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-salary">
-              Salary Negotiation
+              {t("newGrad.common.salaryNegotiation")}
+            </Link>
+            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-certifications">
+              {t("newGrad.common.certifications")}
+            </Link>
+            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="link-clinical-refs">
+              {t("newGrad.common.clinicalReferences")}
             </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors" data-testid="link-hub">
-              Career Hub <ArrowRight className="w-4 h-4" />
+              {t("newGrad.common.careerHub")} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

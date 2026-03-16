@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { useQuery } from "@tanstack/react-query";
+import { useI18n } from "@/lib/i18n";
 import { Sparkles, Lock, ArrowRight, CheckCircle2, Shield } from "lucide-react";
 
 type NewGradEntitlements = {
@@ -77,6 +78,7 @@ export function useNewGradEntitlements() {
 
 export function PremiumUpgradeCTA({ context, requiredEntitlement }: { context?: string; requiredEntitlement?: "toolkit" | "certification" }) {
   const { hasToolkitAccess, hasCertPrepAccess, hasFullAccess } = useNewGradEntitlements();
+  const { t } = useI18n();
 
   if (hasFullAccess) return null;
   if (requiredEntitlement === "toolkit" && hasToolkitAccess) return null;
@@ -87,16 +89,16 @@ export function PremiumUpgradeCTA({ context, requiredEntitlement }: { context?: 
   const isCert = requiredEntitlement === "certification";
 
   const title = isCert
-    ? "Unlock Certification Prep"
+    ? t("newGrad.premiumCta.unlockCertPrep")
     : isToolkit
-    ? "Unlock the New Grad Success Toolkit"
-    : "Unlock Premium New Grad Resources";
+    ? t("newGrad.premiumCta.unlockToolkit")
+    : t("newGrad.premiumCta.unlockPremium");
 
   const features = isCert
-    ? ["Full Question Banks", "Mock Exams", "Flashcard Decks", "Algorithm Reviews"]
+    ? [t("newGrad.premiumCta.certFeature1"), t("newGrad.premiumCta.certFeature2"), t("newGrad.premiumCta.certFeature3"), t("newGrad.premiumCta.certFeature4")]
     : isToolkit
-    ? ["Brain Sheets", "Shift Templates", "Documentation Cheat Sheets", "Full Interview Bank"]
-    : ["Resume Builder & Templates", "Full Interview Bank", "Certification Prep", "Career Frameworks"];
+    ? [t("newGrad.premiumCta.toolkitFeature1"), t("newGrad.premiumCta.toolkitFeature2"), t("newGrad.premiumCta.toolkitFeature3"), t("newGrad.premiumCta.toolkitFeature4")]
+    : [t("newGrad.premiumCta.generalFeature1"), t("newGrad.premiumCta.generalFeature2"), t("newGrad.premiumCta.generalFeature3"), t("newGrad.premiumCta.generalFeature4")];
 
   return (
     <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 rounded-2xl border border-indigo-100 p-8 my-8" data-testid="premium-upgrade-cta">
@@ -107,7 +109,7 @@ export function PremiumUpgradeCTA({ context, requiredEntitlement }: { context?: 
         <div className="flex-1">
           <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
           <p className="text-sm text-gray-600 mb-4">
-            {context || "Get full access to premium resources designed specifically for new graduate nurses."}
+            {context || t("newGrad.premiumCta.defaultDesc")}
           </p>
           <div className="flex flex-wrap gap-3 mb-4">
             {features.map((item, i) => (
@@ -117,7 +119,7 @@ export function PremiumUpgradeCTA({ context, requiredEntitlement }: { context?: 
             ))}
           </div>
           <Link href="/subscribe/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors text-sm" data-testid="button-premium-upgrade">
-            <Lock className="w-3.5 h-3.5" /> Upgrade Now <ArrowRight className="w-3.5 h-3.5" />
+            <Lock className="w-3.5 h-3.5" /> {t("newGrad.common.upgradeNow")} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>

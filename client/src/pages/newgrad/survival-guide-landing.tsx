@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import {
   SURVIVAL_GUIDE_CATEGORIES,
   CLINICAL_REFERENCE_LESSONS,
@@ -72,28 +73,34 @@ function getGuideSectionsForCategory(categoryId: SurvivalGuideCategory): GuideSe
   return items;
 }
 
-const BENEFITS = [
-  { icon: Shield, title: "Evidence-Based", desc: "Every guide is grounded in current clinical evidence and best practices." },
-  { icon: Brain, title: "Exam-Aligned", desc: "Flashcards and exam tips aligned with NCLEX and certification exams." },
-  { icon: Heart, title: "Built for New Grads", desc: "Written specifically for nurses in their first 1-2 years of practice." },
-  { icon: BookOpen, title: "Quick Reference", desc: "Summary boxes on every page for fast bedside access." },
-];
-
 const TOTAL_FLASHCARDS = CLINICAL_REFERENCE_LESSONS.reduce((sum, l) => sum + l.flashcards.length, 0);
 
 export default function SurvivalGuideLanding() {
+  const { t } = useI18n();
+
+  const BENEFITS = [
+    { icon: Shield, titleKey: "newGrad.survivalGuide.benefit1Title", descKey: "newGrad.survivalGuide.benefit1Desc" },
+    { icon: Brain, titleKey: "newGrad.survivalGuide.benefit2Title", descKey: "newGrad.survivalGuide.benefit2Desc" },
+    { icon: Heart, titleKey: "newGrad.survivalGuide.benefit3Title", descKey: "newGrad.survivalGuide.benefit3Desc" },
+    { icon: BookOpen, titleKey: "newGrad.survivalGuide.benefit4Title", descKey: "newGrad.survivalGuide.benefit4Desc" },
+  ];
+
+  const heroSubtitle = t("newGrad.survivalGuide.heroSubtitle")
+    .replace("{{lessonCount}}", String(CLINICAL_REFERENCE_LESSONS.length))
+    .replace("{{flashcardCount}}", String(TOTAL_FLASHCARDS));
+
   return (
     <div className="min-h-screen bg-gray-50" data-testid="survival-guide-landing">
       <Navigation />
       <SEO
-        title="New Grad Survival Guide - Clinical References & Career Resources | NurseNest"
-        description="The complete survival guide for new graduate nurses. Four categories covering clinical emergencies, shift survival, communication & documentation, and professional growth with flashcards and quick reference guides."
+        title={t("newGrad.survivalGuide.seoTitle")}
+        description={t("newGrad.survivalGuide.seoDescription")}
         keywords="new grad nurse survival guide, new nurse survival guide, first year nurse tips, clinical reference nursing, new graduate nursing guide"
         canonicalPath="/newgrad/survival-guide"
         breadcrumbs={[
-          { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "New Grad Career Hub", url: "https://www.nursenest.ca/newgrad" },
-          { name: "Survival Guide", url: "https://www.nursenest.ca/newgrad/survival-guide" },
+          { name: t("newGrad.common.home"), url: "https://www.nursenest.ca" },
+          { name: t("newGrad.common.newGradCareerHub"), url: "https://www.nursenest.ca/newgrad" },
+          { name: t("newGrad.common.survivalGuide"), url: "https://www.nursenest.ca/newgrad/survival-guide" },
         ]}
       />
 
@@ -103,29 +110,29 @@ export default function SurvivalGuideLanding() {
         <div className="absolute bottom-10 left-10 w-60 h-60 bg-blue-100/20 rounded-full blur-3xl" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("newGrad.common.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("newGrad.common.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-emerald-700 font-medium">Survival Guide</span>
+            <span className="text-emerald-700 font-medium">{t("newGrad.common.survivalGuide")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-emerald-100 text-emerald-700" data-testid="badge-survival-guide">
               <GraduationCap className="w-4 h-4" />
-              New Grad Survival Guide
+              {t("newGrad.survivalGuide.badge")}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-hero-title">
-              Your Complete <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Survival Guide</span> for the First Year
+              {t("newGrad.survivalGuide.heroTitle1")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">{t("newGrad.survivalGuide.heroTitle2")}</span> {t("newGrad.survivalGuide.heroTitle3")}
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
-              Everything new graduate nurses need to navigate their first year with confidence. {CLINICAL_REFERENCE_LESSONS.length} clinical reference lessons, {TOTAL_FLASHCARDS}+ flashcards, and practical guides organized into four clear categories.
+              {heroSubtitle}
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#categories" onClick={(e) => { e.preventDefault(); document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-explore-categories">
-                Explore Categories <ArrowRight className="w-4 h-4" />
+                {t("newGrad.survivalGuide.exploreCategories")} <ArrowRight className="w-4 h-4" />
               </a>
               <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors border border-emerald-200" data-testid="button-clinical-refs">
-                Clinical References
+                {t("newGrad.common.clinicalReferences")}
               </Link>
             </div>
           </div>
@@ -137,19 +144,19 @@ export default function SurvivalGuideLanding() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-lessons">
               <div className="text-2xl font-bold text-gray-900">{CLINICAL_REFERENCE_LESSONS.length}</div>
-              <div className="text-sm text-gray-500">Clinical Lessons</div>
+              <div className="text-sm text-gray-500">{t("newGrad.survivalGuide.statLessons")}</div>
             </div>
             <div data-testid="stat-flashcards">
               <div className="text-2xl font-bold text-gray-900">{TOTAL_FLASHCARDS}+</div>
-              <div className="text-sm text-gray-500">Flashcards</div>
+              <div className="text-sm text-gray-500">{t("newGrad.survivalGuide.statFlashcards")}</div>
             </div>
             <div data-testid="stat-categories">
               <div className="text-2xl font-bold text-gray-900">4</div>
-              <div className="text-sm text-gray-500">Learning Categories</div>
+              <div className="text-sm text-gray-500">{t("newGrad.survivalGuide.statCategories")}</div>
             </div>
             <div data-testid="stat-guide-sections">
               <div className="text-2xl font-bold text-gray-900">10+</div>
-              <div className="text-sm text-gray-500">Survival Guide Sections</div>
+              <div className="text-sm text-gray-500">{t("newGrad.survivalGuide.statSections")}</div>
             </div>
           </div>
         </div>
@@ -158,8 +165,8 @@ export default function SurvivalGuideLanding() {
       <section className="py-16 bg-white" data-testid="section-how-it-helps">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-benefits-title">How This Guide Helps You</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Designed specifically for the unique challenges new graduate nurses face during their transition to practice.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-benefits-title">{t("newGrad.survivalGuide.benefitsTitle")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("newGrad.survivalGuide.benefitsDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {BENEFITS.map((b, i) => {
@@ -169,8 +176,8 @@ export default function SurvivalGuideLanding() {
                   <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mx-auto mb-3">
                     <BIcon className="w-6 h-6 text-emerald-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{b.title}</h3>
-                  <p className="text-sm text-gray-500">{b.desc}</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t(b.titleKey)}</h3>
+                  <p className="text-sm text-gray-500">{t(b.descKey)}</p>
                 </div>
               );
             })}
@@ -181,8 +188,8 @@ export default function SurvivalGuideLanding() {
       <section className="py-16 bg-gray-50" id="categories" data-testid="section-categories">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-categories-title">Four Categories, One Complete Guide</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Content is organized into four intuitive categories so you can quickly find what you need, whether you're preparing for a shift or reviewing after a clinical experience.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-categories-title">{t("newGrad.survivalGuide.categoriesTitle")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("newGrad.survivalGuide.categoriesDesc")}</p>
           </div>
           <div className="space-y-8">
             {SURVIVAL_GUIDE_CATEGORIES.map((cat) => {
@@ -210,7 +217,7 @@ export default function SurvivalGuideLanding() {
                             )}
                             {totalFlashcards > 0 && (
                               <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full" style={{ backgroundColor: cat.colorAccent, color: cat.color }}>
-                                <Zap className="w-3 h-3" /> {totalFlashcards} flashcards
+                                <Zap className="w-3 h-3" /> {totalFlashcards} {t("newGrad.survivalGuide.flashcards")}
                               </span>
                             )}
                             {guideSections.length > 0 && (
@@ -225,7 +232,7 @@ export default function SurvivalGuideLanding() {
 
                     {clinicalLessons.length > 0 && (
                       <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">Clinical Reference Lessons</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">{t("newGrad.survivalGuide.clinicalLessons")}</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {clinicalLessons.map((lesson) => (
                             <Link key={lesson.slug} href={`/newgrad/clinical-references/${lesson.slug}`} className="group" data-testid={`link-lesson-${lesson.slug}`}>
@@ -233,7 +240,7 @@ export default function SurvivalGuideLanding() {
                                 <AlertTriangle className="w-4 h-4 shrink-0" style={{ color: lesson.color }} />
                                 <div className="flex-1 min-w-0">
                                   <span className="text-sm font-medium text-gray-900 group-hover:text-blue-700 block truncate">{lesson.title}</span>
-                                  <span className="text-xs text-gray-500">{lesson.flashcards.length} flashcards</span>
+                                  <span className="text-xs text-gray-500">{lesson.flashcards.length} {t("newGrad.survivalGuide.flashcards")}</span>
                                 </div>
                                 <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 shrink-0" />
                               </div>
@@ -245,7 +252,7 @@ export default function SurvivalGuideLanding() {
 
                     {guideSections.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">Guide Sections</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">{t("newGrad.survivalGuide.guideSections")}</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {guideSections.map((section) => (
                             <Link key={section.id} href={`/newgrad/${section.guideSlug}`} className="group" data-testid={`link-section-${section.id}`}>
@@ -269,52 +276,20 @@ export default function SurvivalGuideLanding() {
         </div>
       </section>
 
-      <section className="py-16 bg-white" data-testid="section-whats-included">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What's Included in Every Lesson</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each clinical reference lesson follows a structured format designed for quick learning and bedside access.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon: BookOpen, title: "Key Concepts", desc: "Core knowledge organized into expandable sections with detailed explanations." },
-              { icon: Lightbulb, title: "Clinical Pearls", desc: "Practical wisdom from experienced nurses that textbooks don't teach." },
-              { icon: AlertTriangle, title: "Red Flags", desc: "Critical warning signs and when to escalate care immediately." },
-              { icon: GraduationCap, title: "Exam Tips", desc: "High-yield content aligned with NCLEX and certification exams." },
-              { icon: Zap, title: "Interactive Flashcards", desc: "Flip-card study tools with questions across assessment, management, and more." },
-              { icon: CheckCircle2, title: "Quick Reference Summary", desc: "At-a-glance summary box with the most critical information for bedside use." },
-            ].map((item, i) => {
-              const ItemIcon = item.icon;
-              return (
-                <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl" data-testid={`card-included-${i}`}>
-                  <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                    <ItemIcon className="w-4.5 h-4.5 text-emerald-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-0.5">{item.title}</h3>
-                    <p className="text-xs text-gray-500">{item.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock premium brain sheets, shift templates, documentation guides, and the full interview question bank to accelerate your new grad career." />
       </div>
 
       <section className="py-16 bg-gradient-to-r from-emerald-600 to-blue-600" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Build Your Clinical Confidence?</h2>
-          <p className="text-emerald-100 mb-8">Start with any category that matches where you are in your first year. All content is free and designed specifically for new graduate nurses.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("newGrad.clinicalRef.buildConfidence")}</h2>
+          <p className="text-emerald-100 mb-8">{t("newGrad.clinicalRef.buildConfidenceDesc")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors" data-testid="button-bottom-clinical">
-              Browse Clinical References
+              {t("newGrad.common.clinicalReferences")}
             </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-400 transition-colors border border-emerald-400" data-testid="button-bottom-hub">
-              Career Hub <ArrowRight className="w-4 h-4" />
+              {t("newGrad.common.careerHub")} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
@@ -59,9 +60,9 @@ export const NEWGRAD_CERTIFICATIONS = [
     ],
     clinicalContext: "BLS is the most fundamental certification for all healthcare providers. Every hospital requires current BLS certification for all nursing staff, regardless of unit or specialty. It must be renewed every 2 years.",
     faq: [
-      { question: "Do I need BLS before starting my nursing job?", answer: "Yes. BLS (Basic Life Support) for Healthcare Providers is universally required before your first day on any nursing unit. Most nursing programs include BLS certification before graduation." },
-      { question: "What is the difference between BLS and CPR?", answer: "BLS for Healthcare Providers is more comprehensive than basic CPR. It includes two-rescuer CPR, bag-valve-mask ventilation, team dynamics, and special situations. It's designed specifically for healthcare professionals." },
-      { question: "How often does BLS need to be renewed?", answer: "BLS certification is valid for 2 years. Many hospitals offer on-site renewal courses. Some now accept HeartCode BLS (online + skills session) for renewal." },
+      { question: "Is BLS required before starting work?", answer: "Yes. BLS is universally required before your first day on any nursing unit. Most nursing programs include BLS certification as part of the curriculum, so you likely already have it." },
+      { question: "How often does BLS need to be renewed?", answer: "BLS certification is valid for 2 years. Most hospitals track renewal dates and require you to recertify before expiration. Renewal courses are shorter than initial certification." },
+      { question: "AHA vs Red Cross BLS — does it matter?", answer: "Most hospitals accept AHA (American Heart Association) BLS for Healthcare Providers. Some also accept Red Cross BLS/CPR for Healthcare Providers. Check with your employer's education department for their specific requirements." },
     ],
   },
   {
@@ -69,51 +70,25 @@ export const NEWGRAD_CERTIFICATIONS = [
     name: "PALS",
     fullName: "Pediatric Advanced Life Support",
     org: "AHA",
-    description: "Systematic approach to pediatric emergencies — recognition of respiratory distress, shock management, and pediatric resuscitation algorithms.",
+    description: "Pediatric emergency assessment, recognition of respiratory failure, shock management, and pediatric resuscitation algorithms.",
     questionCount: "180+",
     icon: Baby,
     color: "sky",
     topics: [
       "Pediatric assessment triangle (PAT)",
-      "Pediatric respiratory distress vs. failure recognition",
+      "Recognition of respiratory distress vs failure",
       "Pediatric shock recognition and fluid resuscitation",
       "Pediatric cardiac arrest algorithms",
-      "Weight-based medication dosing (Broselow tape)",
-      "Pediatric bradycardia and tachycardia management",
-      "Post-resuscitation care in pediatrics",
-      "Effective team communication in pediatric emergencies",
+      "Bradycardia and tachycardia management in children",
+      "Post-resuscitation care for pediatric patients",
+      "Pediatric pharmacology and weight-based dosing",
+      "Effective team dynamics in pediatric emergencies",
     ],
-    clinicalContext: "PALS is required for nurses working in pediatric units (PICU, NICU, pediatric ED, pediatric med-surg) and emergency departments. Many hospitals require it within 6 months of starting in these units.",
+    clinicalContext: "PALS is required for nurses in pediatric units, pediatric ICU, pediatric emergency departments, and many general emergency departments. It's typically required within 6 months of hire for applicable units.",
     faq: [
-      { question: "Which units require PALS certification?", answer: "PALS is required in pediatric ICU, NICU, pediatric emergency, pediatric med-surg, and general emergency departments. Labor & delivery units often require it as well." },
-      { question: "Is PALS harder than ACLS?", answer: "Many nurses find PALS more challenging because pediatric physiology, weight-based dosing, and age-specific parameters add complexity. The systematic approach (assess-categorize-decide-act) helps organize the content." },
-      { question: "Can I take PALS without ACLS?", answer: "Yes, PALS and ACLS are independent certifications. However, BLS is a prerequisite for both. Having ACLS knowledge helps because many concepts overlap." },
-    ],
-  },
-  {
-    slug: "tncc",
-    name: "TNCC",
-    fullName: "Trauma Nursing Core Course",
-    org: "ENA",
-    description: "Systematic trauma assessment, life-threatening injury recognition, and evidence-based trauma interventions using the nursing process.",
-    questionCount: "150+",
-    icon: Zap,
-    color: "orange",
-    topics: [
-      "Systematic trauma assessment (primary & secondary survey)",
-      "Airway management in trauma patients",
-      "Hemorrhage control and massive transfusion protocols",
-      "Thoracic, abdominal, and pelvic trauma",
-      "Traumatic brain injury assessment and management",
-      "Spinal cord injury immobilization and assessment",
-      "Musculoskeletal trauma and compartment syndrome",
-      "Special populations (pediatric, geriatric, obstetric trauma)",
-    ],
-    clinicalContext: "TNCC is the gold standard trauma nursing certification offered by the Emergency Nurses Association (ENA). Required or strongly preferred for emergency department and trauma center nurses.",
-    faq: [
-      { question: "Is TNCC required for ER nurses?", answer: "Many Level I and Level II trauma centers require TNCC within the first year of hire. Even if not required, it significantly strengthens your trauma assessment and intervention skills." },
-      { question: "How is TNCC different from ACLS?", answer: "ACLS focuses on cardiac emergencies and resuscitation algorithms. TNCC focuses specifically on trauma assessment and management using the Trauma Nursing Process (assessment, diagnosis, planning, implementation, evaluation)." },
-      { question: "How long is the TNCC course?", answer: "TNCC is a 2-day course (approximately 16 hours) with both didactic and hands-on psychomotor skills testing. You must pass a written exam and demonstrate competency in trauma assessment stations." },
+      { question: "Do I need PALS for the ER?", answer: "Most emergency departments require PALS certification, usually within 6 months of hire. Even if your ED primarily sees adult patients, pediatric emergencies can present at any time." },
+      { question: "Is PALS harder than ACLS?", answer: "Many nurses find PALS more challenging because pediatric assessments require different parameters and weight-based calculations. However, the course structure is similar to ACLS with extensive practice scenarios." },
+      { question: "Can I take PALS before working in pediatrics?", answer: "Yes. PALS is open to all healthcare providers. Taking it proactively shows initiative and can make you a more competitive candidate for pediatric positions." },
     ],
   },
   {
@@ -121,25 +96,51 @@ export const NEWGRAD_CERTIFICATIONS = [
     name: "NRP",
     fullName: "Neonatal Resuscitation Program",
     org: "AAP",
-    description: "Evidence-based neonatal resuscitation — initial steps, positive pressure ventilation, chest compressions, and medication administration for newborns.",
+    description: "Neonatal stabilization, resuscitation decision-making, positive pressure ventilation, and advanced neonatal interventions.",
     questionCount: "120+",
     icon: Baby,
     color: "pink",
     topics: [
-      "Initial steps of neonatal resuscitation (warm, dry, stimulate)",
+      "Initial steps of neonatal resuscitation",
       "Positive pressure ventilation (PPV) technique",
-      "Corrective steps for ventilation (MR SOPA)",
-      "Chest compressions in neonates (3:1 ratio)",
-      "Epinephrine and volume expansion administration",
-      "Laryngeal mask airway and intubation",
-      "Umbilical venous catheter insertion",
-      "Post-resuscitation care and monitoring",
+      "Chest compressions in neonates",
+      "Endotracheal intubation and laryngeal mask airway",
+      "Umbilical venous catheterization",
+      "Medication administration in neonatal resuscitation",
+      "Special considerations (meconium, preterm infants)",
+      "Post-resuscitation care and team debriefing",
     ],
-    clinicalContext: "NRP is required for all nurses working in labor & delivery, NICU, newborn nursery, and postpartum units. It's administered by the American Academy of Pediatrics and renewed every 2 years.",
+    clinicalContext: "NRP is required for nurses working in Labor & Delivery, NICU, newborn nursery, and some emergency departments. The AAP (American Academy of Pediatrics) oversees this certification.",
     faq: [
-      { question: "Which nurses need NRP certification?", answer: "NRP is required for labor & delivery, NICU, newborn nursery, and postpartum nurses. Some emergency departments also require it. It's essential for any nurse who may be present at a delivery." },
-      { question: "Is NRP difficult?", answer: "NRP focuses on a systematic algorithm that builds step by step. The online exam must be completed before the hands-on skills session. Most nurses pass with adequate preparation using the NRP textbook and online modules." },
-      { question: "How often is NRP renewed?", answer: "NRP certification is valid for 2 years. Renewal requires completing the updated online exam and demonstrating skills competency. Many hospitals offer on-site renewal courses." },
+      { question: "Is NRP required for L&D nurses?", answer: "Yes. NRP is universally required for nurses working in labor and delivery, NICU, and newborn nursery. Most hospitals require completion within the first 90 days of hire." },
+      { question: "How is NRP different from PALS?", answer: "NRP focuses specifically on newborn resuscitation (first minutes to hours of life), while PALS covers pediatric emergencies for children beyond the neonatal period. Different algorithms and interventions apply." },
+      { question: "How often is NRP renewed?", answer: "NRP certification is valid for 2 years. The renewal process includes an online exam and hands-on skills evaluation. Many hospitals offer NRP courses in-house." },
+    ],
+  },
+  {
+    slug: "tncc",
+    name: "TNCC",
+    fullName: "Trauma Nursing Core Course",
+    org: "ENA",
+    description: "Systematic trauma assessment, primary and secondary surveys, hemorrhage control, and multi-system trauma management.",
+    questionCount: "160+",
+    icon: Zap,
+    color: "orange",
+    topics: [
+      "Primary survey (ABCDE) and rapid assessment",
+      "Secondary survey and head-to-toe assessment",
+      "Hemorrhage recognition and massive transfusion protocols",
+      "Traumatic brain injury assessment and management",
+      "Spinal cord injury stabilization",
+      "Thoracic and abdominal trauma",
+      "Musculoskeletal trauma and compartment syndrome",
+      "Burns, blast injuries, and special populations",
+    ],
+    clinicalContext: "TNCC from the Emergency Nurses Association (ENA) is required or strongly encouraged for ER nurses, especially in trauma centers. It's typically required within 6 months of hire for emergency department nurses.",
+    faq: [
+      { question: "Is TNCC required for ER nurses?", answer: "Most trauma centers and many emergency departments require TNCC. Level I and II trauma centers almost universally require it. Some hospitals require it within 6-12 months of hire." },
+      { question: "What's the TNCC course format?", answer: "TNCC is a 2-day course (approximately 16 hours) that includes lectures, skill stations, and a written exam. You must pass both the written test and demonstrate competency in trauma assessment scenarios." },
+      { question: "How does TNCC compare to ATLS?", answer: "TNCC is designed for nurses while ATLS (Advanced Trauma Life Support) is for physicians. Both use systematic assessment approaches, but TNCC focuses on nursing-specific interventions and assessment skills." },
     ],
   },
   {
@@ -147,25 +148,25 @@ export const NEWGRAD_CERTIFICATIONS = [
     name: "ENPC",
     fullName: "Emergency Nursing Pediatric Course",
     org: "ENA",
-    description: "Systematic approach to pediatric emergency care — triage, respiratory emergencies, shock management, trauma assessment, and stabilization of critically ill children.",
-    questionCount: "130+",
-    icon: Baby,
-    color: "violet",
+    description: "Pediatric emergency assessment, triage, stabilization, and family-centered care in the emergency setting.",
+    questionCount: "140+",
+    icon: Stethoscope,
+    color: "emerald",
     topics: [
       "Pediatric assessment triangle and triage",
-      "Pediatric respiratory emergencies (croup, epiglottitis, asthma, bronchiolitis)",
-      "Pediatric shock recognition and fluid resuscitation",
-      "Pediatric trauma assessment (primary and secondary survey)",
+      "Respiratory emergencies in children",
+      "Pediatric shock and fluid resuscitation",
+      "Pediatric trauma assessment",
       "Child maltreatment recognition and reporting",
-      "Pediatric seizure and neurological emergency management",
-      "Neonatal emergencies in the ED setting",
+      "Toxicological emergencies in children",
+      "Neonatal emergencies presenting to the ED",
       "Family-centered care and psychosocial considerations",
     ],
-    clinicalContext: "ENPC is offered by the Emergency Nurses Association (ENA) for nurses caring for pediatric patients in emergency settings. It is strongly preferred or required for pediatric ED nurses and general ED nurses who see pediatric patients.",
+    clinicalContext: "ENPC is offered by the Emergency Nurses Association (ENA) and complements PALS for nurses working in emergency departments that see pediatric patients. It focuses on the emergency nursing perspective of pediatric care.",
     faq: [
-      { question: "Who should take ENPC?", answer: "ENPC is designed for emergency nurses, pediatric nurses, and any nurse who may care for acutely ill or injured children. Many emergency departments require or strongly encourage ENPC certification." },
-      { question: "How is ENPC different from PALS?", answer: "PALS focuses on pediatric resuscitation algorithms (cardiac arrest, arrhythmias). ENPC covers the broader scope of pediatric emergency nursing including triage, trauma, medical emergencies, and family-centered care using the nursing process." },
-      { question: "How long is the ENPC course?", answer: "ENPC is a 2-day course (approximately 16 hours) with didactic content, hands-on skills stations, and written/skills testing. Certification is valid for 4 years." },
+      { question: "Do I need both PALS and ENPC?", answer: "Many EDs require PALS and recommend ENPC. PALS focuses on algorithms and medical management, while ENPC focuses on nursing assessment, triage, and family-centered care specific to the emergency setting." },
+      { question: "Is ENPC required for pediatric ED nurses?", answer: "Most pediatric emergency departments require or strongly recommend ENPC. General EDs that see pediatric patients also increasingly require it, especially in larger systems." },
+      { question: "What's the ENPC course format?", answer: "ENPC is a 2-day course with lectures, skill stations, and written evaluation. It covers pediatric-specific triage, assessment, and emergency nursing interventions." },
     ],
   },
   {
@@ -173,25 +174,25 @@ export const NEWGRAD_CERTIFICATIONS = [
     name: "CEN",
     fullName: "Certified Emergency Nurse",
     org: "BCEN",
-    description: "Comprehensive emergency nursing certification covering triage, trauma, cardiac emergencies, and the full spectrum of ED patient presentations.",
+    description: "Comprehensive emergency nursing certification — triage, trauma, cardiac emergencies, and the full spectrum of emergency care.",
     questionCount: "250+",
-    icon: Stethoscope,
-    color: "emerald",
+    icon: Scissors,
+    color: "violet",
     topics: [
-      "Emergency triage systems (ESI 5-level triage)",
-      "Cardiovascular emergencies (ACS, aortic emergencies, dysrhythmias)",
+      "Cardiovascular emergencies (ACS, dysrhythmias, heart failure)",
+      "Respiratory emergencies (PE, pneumothorax, asthma)",
       "Neurological emergencies (stroke, seizures, TBI)",
-      "Respiratory emergencies (PE, pneumothorax, status asthmaticus)",
       "Gastrointestinal and genitourinary emergencies",
-      "Toxicological emergencies and substance overdose",
-      "Environmental emergencies (hypothermia, heat stroke, envenomation)",
-      "Psychosocial and mental health emergencies",
+      "Orthopedic and wound emergencies",
+      "Toxicological emergencies and substance abuse",
+      "Environmental emergencies (heat stroke, hypothermia, bites)",
+      "Professional issues (triage, disaster preparedness, legal/ethical)",
     ],
-    clinicalContext: "The CEN is the premier emergency nursing certification from the Board of Certification for Emergency Nursing (BCEN). It requires 2 years of ED experience and demonstrates specialized emergency nursing expertise.",
+    clinicalContext: "The CEN from the Board of Certification for Emergency Nursing (BCEN) requires a minimum of 2 years of emergency nursing experience. It's a knowledge-based exam (not a course) that demonstrates ER expertise.",
     faq: [
-      { question: "How much experience do I need for CEN?", answer: "BCEN recommends 2 years of emergency nursing experience before attempting the CEN exam. The exam tests applied clinical knowledge across all emergency nursing domains." },
-      { question: "What is the CEN exam format?", answer: "The CEN exam consists of 175 multiple-choice questions (150 scored + 25 pretest) with a 3-hour time limit. It covers cardiovascular, respiratory, neurological, GI/GU, psychosocial, and professional practice domains." },
-      { question: "Does CEN increase salary?", answer: "Yes. Many hospitals offer certification pay differentials ranging from $1,000-$5,000 annually for CEN certification. It also strengthens your resume for leadership and educator positions." },
+      { question: "When can I sit for the CEN?", answer: "BCEN recommends 2 years of emergency nursing experience, though there is no strict hour requirement. Most nurses feel ready after 2-3 years of full-time ER work." },
+      { question: "How hard is the CEN exam?", answer: "The CEN has a pass rate of approximately 60-70% for first-time test-takers. It's a 175-question computer-based exam covering all aspects of emergency nursing. Thorough preparation is essential." },
+      { question: "Is CEN worth getting?", answer: "CEN certification demonstrates emergency nursing expertise, typically increases salary ($2,000-$5,000 annually), is often required for clinical ladder advancement, and can make you more competitive for leadership positions." },
     ],
   },
   {
@@ -233,30 +234,40 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
   violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", badge: "bg-violet-100 text-violet-700" },
 };
 
-const FAQ_DATA = [
-  { question: "Which certifications should I get first as a new grad?", answer: "BLS is universally required before your first day. ACLS is typically required within 90 days for acute care nurses. After that, pursue certifications based on your unit: PALS for pediatric/ED settings, NRP for L&D/NICU, TNCC for trauma/ED, and CCRN/CEN after gaining experience in ICU or ER." },
-  { question: "Does my hospital pay for certification courses?", answer: "Many hospitals cover certification course fees, especially for required certifications like BLS, ACLS, and PALS. Some offer tuition reimbursement for optional certifications like CCRN and CEN. Check with your nurse educator or HR department about certification support programs." },
-  { question: "How long does it take to prepare for these certifications?", answer: "BLS requires minimal preparation (1-day course). ACLS and PALS courses are 2 days with pre-course study. TNCC is a 2-day course. CCRN and CEN require 6-12 weeks of dedicated study because they are comprehensive knowledge-based exams." },
-  { question: "Are these certifications recognized in Canada?", answer: "BLS, ACLS, PALS, and NRP are recognized across North America. The Heart & Stroke Foundation of Canada offers equivalent courses. CCRN and CEN are American certifications but are recognized by many Canadian employers. CNA offers Canada-specific specialty certifications." },
-  { question: "Do certifications increase my salary?", answer: "Yes. Most hospitals offer certification pay differentials. BLS and ACLS are baseline requirements. CCRN and CEN typically command the highest premiums ($2,000-$10,000 annually). Certifications also strengthen your position for clinical ladder advancement and leadership roles." },
-  { question: "Can I take ACLS and PALS online?", answer: "The AHA offers HeartCode ACLS and HeartCode PALS which include online learning and testing components. However, you still need to complete an in-person skills session with an AHA instructor to receive certification." },
-];
-
-const WHY_CERTIFY = [
-  { icon: ShieldCheck, title: "Hospital Requirement", desc: "Most acute care units require certifications within 90 days of hire" },
-  { icon: DollarSign, title: "Salary Increase", desc: "Certified nurses earn $2,000-$10,000 more annually" },
-  { icon: TrendingUp, title: "Career Advancement", desc: "Required for clinical ladder promotion and leadership roles" },
-  { icon: Clock, title: "Clinical Confidence", desc: "Evidence-based protocols for managing emergencies independently" },
-];
-
 export default function NewGradCertificationsHub() {
-  const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
+  const { t } = useI18n();
+
+  const WHY_CERTIFY = [
+    { icon: ShieldCheck, titleKey: "newGrad.certs.why1Title", descKey: "newGrad.certs.why1Desc" },
+    { icon: DollarSign, titleKey: "newGrad.certs.why2Title", descKey: "newGrad.certs.why2Desc" },
+    { icon: TrendingUp, titleKey: "newGrad.certs.why3Title", descKey: "newGrad.certs.why3Desc" },
+    { icon: Clock, titleKey: "newGrad.certs.why4Title", descKey: "newGrad.certs.why4Desc" },
+  ];
+
+  const FAQ_DATA = [
+    { questionKey: "newGrad.certs.faq1Q", answerKey: "newGrad.certs.faq1A" },
+    { questionKey: "newGrad.certs.faq2Q", answerKey: "newGrad.certs.faq2A" },
+    { questionKey: "newGrad.certs.faq3Q", answerKey: "newGrad.certs.faq3A" },
+    { questionKey: "newGrad.certs.faq4Q", answerKey: "newGrad.certs.faq4A" },
+    { questionKey: "newGrad.certs.faq5Q", answerKey: "newGrad.certs.faq5A" },
+    { questionKey: "newGrad.certs.faq6Q", answerKey: "newGrad.certs.faq6A" },
+  ];
+
+  const TIMELINE = [
+    { phaseKey: "newGrad.certs.phase1", certsKey: "newGrad.certs.phase1Certs", descKey: "newGrad.certs.phase1Desc" },
+    { phaseKey: "newGrad.certs.phase2", certsKey: "newGrad.certs.phase2Certs", descKey: "newGrad.certs.phase2Desc" },
+    { phaseKey: "newGrad.certs.phase3", certsKey: "newGrad.certs.phase3Certs", descKey: "newGrad.certs.phase3Desc" },
+    { phaseKey: "newGrad.certs.phase4", certsKey: "newGrad.certs.phase4Certs", descKey: "newGrad.certs.phase4Desc" },
+  ];
+
+  const faqForStructuredData = FAQ_DATA.map(f => ({ question: t(f.questionKey), answer: t(f.answerKey) }));
+  const faqStructuredData = buildFaqStructuredData(faqForStructuredData);
 
   const courseStructuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "New Grad Nursing Certifications",
-    "description": "Essential hospital certifications for new graduate nurses including ACLS, BLS, PALS, TNCC, NRP, CEN, and CCRN.",
+    "description": t("newGrad.certs.seoDescription"),
     "numberOfItems": NEWGRAD_CERTIFICATIONS.length,
     "itemListElement": NEWGRAD_CERTIFICATIONS.map((cert, i) => ({
       "@type": "ListItem",
@@ -276,15 +287,15 @@ export default function NewGradCertificationsHub() {
     <div data-testid="page-newgrad-certifications-hub">
       <Navigation />
       <SEO
-        title="New Grad Certifications: ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN | NurseNest"
-        description="Essential hospital certifications for new graduate nurses. Comprehensive prep guides for ACLS, BLS, PALS, TNCC, NRP, CEN, and CCRN with practice questions, study resources, and exam tips."
+        title={t("newGrad.certs.seoTitle")}
+        description={t("newGrad.certs.seoDescription")}
         keywords="new grad certifications, ACLS certification, BLS certification, PALS certification, TNCC certification, NRP certification, CEN certification, CCRN certification, new nurse certifications, hospital certifications nursing"
         canonicalPath="/newgrad/certifications"
         structuredData={courseStructuredData}
         breadcrumbs={[
-          { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "New Grad Hub", url: "https://www.nursenest.ca/new-grad" },
-          { name: "Certifications", url: "https://www.nursenest.ca/newgrad/certifications" },
+          { name: t("newGrad.common.home"), url: "https://www.nursenest.ca" },
+          { name: t("newGrad.common.newGradHub"), url: "https://www.nursenest.ca/new-grad" },
+          { name: t("newGrad.common.certifications"), url: "https://www.nursenest.ca/newgrad/certifications" },
         ]}
         additionalStructuredData={[faqStructuredData]}
       />
@@ -293,28 +304,28 @@ export default function NewGradCertificationsHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("newGrad.common.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("newGrad.common.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-blue-700 font-medium">Certifications</span>
+            <span className="text-blue-700 font-medium">{t("newGrad.common.certifications")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-4" data-testid="badge-certifications">
-              <GraduationCap className="w-4 h-4" /> New Graduate Certifications
+              <GraduationCap className="w-4 h-4" /> {t("newGrad.certs.badge")}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
-              Hospital Certifications for New Graduate Nurses
+              {t("newGrad.certs.title")}
             </h1>
             <p className="text-lg text-gray-600 mb-8" data-testid="text-page-subtitle">
-              Everything you need to prepare for the certifications hospitals require in your first year. Practice questions, study guides, and exam strategies for ACLS, BLS, PALS, TNCC, NRP, CEN, and CCRN.
+              {t("newGrad.certs.subtitle")}
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certs">
-                Explore Certifications <ArrowRight className="w-4 h-4" />
+                {t("newGrad.certs.exploreCerts")} <ArrowRight className="w-4 h-4" />
               </a>
               <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-new-grad-hub">
-                New Grad Hub
+                {t("newGrad.common.newGradHub")}
               </Link>
             </div>
           </div>
@@ -323,15 +334,15 @@ export default function NewGradCertificationsHub() {
 
       <section className="py-16" data-testid="section-why-certify">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-why-heading">Why Certifications Matter for New Grads</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-why-heading">{t("newGrad.certs.whyTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {WHY_CERTIFY.map((item, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 text-center" data-testid={`card-why-${i}`}>
                 <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
                   <item.icon className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-                <p className="text-sm text-gray-500">{item.desc}</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{t(item.titleKey)}</h3>
+                <p className="text-sm text-gray-500">{t(item.descKey)}</p>
               </div>
             ))}
           </div>
@@ -341,8 +352,8 @@ export default function NewGradCertificationsHub() {
       <section className="py-16 bg-gray-50" id="certifications" data-testid="section-certification-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">8 Essential Certifications</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each certification includes practice questions, study strategies, and everything you need to pass on your first attempt.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">{t("newGrad.certs.gridTitle")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("newGrad.certs.gridDesc")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {NEWGRAD_CERTIFICATIONS.map((cert) => {
@@ -363,19 +374,19 @@ export default function NewGradCertificationsHub() {
                     <p className="text-sm font-medium text-gray-700 mb-1">{cert.fullName}</p>
                     <p className="text-sm text-gray-500 mb-3 line-clamp-2">{cert.description}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400">{cert.questionCount} questions</span>
+                      <span className="text-xs text-gray-400">{cert.questionCount} {t("newGrad.common.questions")}</span>
                       <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
-                        Study Guide <ArrowRight className="w-3.5 h-3.5" />
+                        {t("newGrad.common.studyGuide")} <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </Link>
                   {hasPrepPage && (
                     <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
                       <Link href={`/certifications/${cert.slug}-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid={`link-prep-${cert.slug}`}>
-                        Prep Guide
+                        {t("newGrad.common.prepGuide")}
                       </Link>
                       <Link href={`/certifications/${cert.slug}-renewal-prep`} className="flex-1 text-center text-xs font-medium px-2 py-1.5 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid={`link-renewal-${cert.slug}`}>
-                        Renewal Prep
+                        {t("newGrad.common.renewalPrep")}
                       </Link>
                     </div>
                   )}
@@ -389,23 +400,18 @@ export default function NewGradCertificationsHub() {
       <section className="py-16" data-testid="section-timeline">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-timeline-heading">Certification Timeline for New Grads</h2>
-            <p className="text-gray-600">When to pursue each certification during your first years of nursing.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-timeline-heading">{t("newGrad.certs.timelineTitle")}</h2>
+            <p className="text-gray-600">{t("newGrad.certs.timelineDesc")}</p>
           </div>
           <div className="space-y-4">
-            {[
-              { phase: "Before Day 1", certs: "BLS", desc: "Required before starting any nursing position. Usually completed in nursing school." },
-              { phase: "First 90 Days", certs: "ACLS", desc: "Required for most acute care units. Many hospitals offer the course during orientation." },
-              { phase: "First 6 Months", certs: "PALS / NRP / TNCC / ENPC", desc: "Unit-specific requirements. PALS for peds/ED, NRP for L&D/NICU, TNCC for trauma/ED, ENPC for pediatric emergency." },
-              { phase: "After 1-2 Years", certs: "CEN / CCRN", desc: "Specialty certifications requiring clinical experience. Demonstrates advanced expertise." },
-            ].map((item, i) => (
+            {TIMELINE.map((item, i) => (
               <div key={i} className="flex gap-4 items-start bg-white rounded-xl border border-gray-100 p-5" data-testid={`timeline-phase-${i}`}>
                 <div className="w-32 shrink-0">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700">{item.phase}</span>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700">{t(item.phaseKey)}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{item.certs}</h3>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
+                  <h3 className="font-semibold text-gray-900">{t(item.certsKey)}</h3>
+                  <p className="text-sm text-gray-500">{t(item.descKey)}</p>
                 </div>
               </div>
             ))}
@@ -415,23 +421,23 @@ export default function NewGradCertificationsHub() {
 
       <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">{t("newGrad.certs.relatedTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-nursing-certs">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">All Nursing Certifications Hub</h3>
-              <p className="text-sm text-emerald-700/70">Complete certification hub with prep guides, renewal resources, and specialty certifications (CCRN, CEN, CMSRN, CNOR, and more).</p>
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">{t("newGrad.certs.relatedNursingCerts")}</h3>
+              <p className="text-sm text-emerald-700/70">{t("newGrad.certs.relatedNursingCertsDesc")}</p>
             </Link>
             <Link href="/newgrad/guides" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-guides">
-              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">New Grad Survival Guides</h3>
-              <p className="text-sm text-violet-700/70">First-year roadmap, shift organization, charting tips, and more.</p>
+              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">{t("newGrad.certs.relatedGuides")}</h3>
+              <p className="text-sm text-violet-700/70">{t("newGrad.certs.relatedGuidesDesc")}</p>
             </Link>
             <Link href="/free-practice" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-test-bank">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">Practice Questions</h3>
-              <p className="text-sm text-blue-700/70">Thousands of practice questions with detailed rationales for certification prep.</p>
+              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">{t("newGrad.certs.relatedPractice")}</h3>
+              <p className="text-sm text-blue-700/70">{t("newGrad.certs.relatedPracticeDesc")}</p>
             </Link>
             <Link href="/flashcards" className="bg-amber-50 rounded-xl p-6 hover:bg-amber-100 transition-colors group" data-testid="link-flashcards">
-              <h3 className="font-semibold text-amber-900 mb-1 group-hover:text-amber-700">Flashcard Decks</h3>
-              <p className="text-sm text-amber-700/70">Spaced-repetition flashcards for medications, algorithms, and key concepts.</p>
+              <h3 className="font-semibold text-amber-900 mb-1 group-hover:text-amber-700">{t("newGrad.certs.relatedFlashcards")}</h3>
+              <p className="text-sm text-amber-700/70">{t("newGrad.certs.relatedFlashcardsDesc")}</p>
             </Link>
           </div>
         </div>
@@ -443,10 +449,10 @@ export default function NewGradCertificationsHub() {
 
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Certification FAQs</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">{t("newGrad.certs.faqTitle")}</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
-              <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
+              <FAQItem key={i} question={t(faq.questionKey)} answer={t(faq.answerKey)} index={i} />
             ))}
           </div>
         </div>
@@ -455,17 +461,17 @@ export default function NewGradCertificationsHub() {
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" data-testid="text-cta-heading">
-            Start Your Certification Journey
+            {t("newGrad.certs.ctaTitle")}
           </h2>
           <p className="text-blue-100 mb-8 text-lg">
-            Practice questions, flashcards, and study tools for every certification you need in your first year.
+            {t("newGrad.certs.ctaDesc")}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/free-practice" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
-              Practice Questions <ArrowRight className="w-4 h-4" />
+              {t("newGrad.common.practiceQuestions")} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/subscribe/newgrad" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-pricing">
-              View Pricing
+              {t("newGrad.common.viewPricing")}
             </Link>
           </div>
         </div>

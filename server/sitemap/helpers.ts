@@ -429,6 +429,18 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/nursing-recruitment-agencies-guide", priority: "0.7", changefreq: "monthly", lastmod: today },
     { path: "/cultural-adjustment-international-nurses", priority: "0.7", changefreq: "monthly", lastmod: today },
     { path: "/international-nurse-interview-tips", priority: "0.7", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/newgrad/interview", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/resume", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/salary", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/career", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/workplace", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/burnout", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/professional-development", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/guides", priority: "0.8", changefreq: "weekly", lastmod: today },
+    { path: "/newgrad/clinical-references", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/certifications", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/newgrad/survival-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
   ];
 
   const enOnlyRoutes: Omit<StaticRouteDefinition, "multilingual">[] = [

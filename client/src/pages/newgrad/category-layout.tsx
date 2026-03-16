@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import { ChevronRight, ArrowRight, type LucideIcon } from "lucide-react";
 
 const COLOR_GRADIENTS: Record<string, string> = {
@@ -42,6 +43,8 @@ export function CategoryPageLayout({
   title, subtitle, icon: Icon, color, seoTitle, seoDescription, seoKeywords,
   canonicalPath, sections, tips, mistakes, premiumContext, children,
 }: CategoryPageProps) {
+  const { t } = useI18n();
+
   return (
     <div data-testid={`newgrad-category-${canonicalPath.split('/').pop()}`}>
       <Navigation />
@@ -51,8 +54,8 @@ export function CategoryPageLayout({
         keywords={seoKeywords}
         canonicalPath={canonicalPath}
         breadcrumbs={[
-          { name: "Home", url: "https://www.nursenest.ca" },
-          { name: "New Grad Career Hub", url: "https://www.nursenest.ca/newgrad" },
+          { name: t("newGrad.common.home"), url: "https://www.nursenest.ca" },
+          { name: t("newGrad.common.newGradCareerHub"), url: "https://www.nursenest.ca/newgrad" },
           { name: title, url: `https://www.nursenest.ca${canonicalPath}` },
         ]}
       />
@@ -61,9 +64,9 @@ export function CategoryPageLayout({
         <div className={`absolute inset-0 bg-gradient-to-br ${COLOR_GRADIENTS[color] || COLOR_GRADIENTS.blue}`} />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("newGrad.common.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("newGrad.common.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{title}</span>
           </div>
@@ -102,7 +105,7 @@ export function CategoryPageLayout({
       {tips && tips.length > 0 && (
         <section className="py-16 bg-gray-50" data-testid="section-tips">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Practical Tips</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("newGrad.common.practicalTips")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {tips.map((tip, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`tip-${i}`}>
@@ -118,7 +121,7 @@ export function CategoryPageLayout({
       {mistakes && mistakes.length > 0 && (
         <section className="py-16" data-testid="section-mistakes">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Common Mistakes to Avoid</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("newGrad.common.commonMistakes")}</h2>
             <div className="space-y-3">
               {mistakes.map((m, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`mistake-${i}`}>
@@ -137,17 +140,17 @@ export function CategoryPageLayout({
 
       <section className="py-12 bg-gradient-to-r from-blue-50 to-indigo-50" data-testid="section-category-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Explore More Career Resources</h2>
-          <p className="text-gray-600 mb-6">Browse our complete library of new grad career development resources.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("newGrad.common.exploreMoreCareerResources")}</h2>
+          <p className="text-gray-600 mb-6">{t("newGrad.common.browseLibrary")}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="link-clinical-refs">
-              Clinical References
+              {t("newGrad.common.clinicalReferences")}
             </Link>
             <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="link-certifications">
-              Certifications
+              {t("newGrad.common.certifications")}
             </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="button-back-to-hub">
-              Back to Career Hub <ArrowRight className="w-4 h-4" />
+              {t("newGrad.common.backToCareerHub")} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
