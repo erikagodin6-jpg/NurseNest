@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, X, Smartphone } from "lucide-react";
+import { shouldShowPopup, suppressPopup } from "@/lib/popup-suppression";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -21,6 +22,8 @@ export function PWAInstallPrompt() {
     setIsStandalone(!!standalone);
 
     if (standalone) return;
+
+    if (!shouldShowPopup("pwa_install")) return;
 
     const dismissed = localStorage.getItem("nursenest-pwa-dismissed");
     if (dismissed) {
@@ -60,6 +63,7 @@ export function PWAInstallPrompt() {
 
   const handleDismiss = () => {
     setShowBanner(false);
+    suppressPopup("pwa_install");
     localStorage.setItem("nursenest-pwa-dismissed", Date.now().toString());
   };
 

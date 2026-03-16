@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth";
+import { shouldShowPopup, suppressPopup } from "@/lib/popup-suppression";
 
 const STORAGE_KEY = "nursenest-exit-intent-shown";
+const POPUP_ID = "exit_intent";
 const DELAY_MS = 15000;
 
 export function useExitIntent() {
@@ -16,6 +18,7 @@ export function useExitIntent() {
     const alreadyShown = sessionStorage.getItem(STORAGE_KEY);
     const permanentlyDismissed = localStorage.getItem(STORAGE_KEY);
     if (alreadyShown || permanentlyDismissed) return;
+    if (!shouldShowPopup(POPUP_ID)) return;
 
     const delayTimer = setTimeout(() => {
       readyRef.current = true;
@@ -67,10 +70,15 @@ export function useExitIntent() {
     setShowModal(false);
   }
 
+  function dismissForToday() {
+    setShowModal(false);
+    suppressPopup(POPUP_ID);
+  }
+
   function dismissPermanently() {
     setShowModal(false);
     localStorage.setItem(STORAGE_KEY, "1");
   }
 
-  return { showModal, dismiss, dismissPermanently };
+  return { showModal, dismiss, dismissForToday, dismissPermanently };
 }

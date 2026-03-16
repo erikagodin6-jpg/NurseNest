@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { X, TrendingUp, Brain, Sparkles, BookOpen, Target } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { shouldShowPopup, suppressPopup } from "@/lib/popup-suppression";
 
 type MilestoneType = "lessons_completed" | "test_score" | "study_streak" | "first_lesson" | "deep_engagement";
 
@@ -118,15 +121,19 @@ function getActiveMilestone(): MilestoneConfig | null {
   return null;
 }
 
+const UPGRADE_PROMPT_POPUP_ID = "upgrade_prompt";
+
 export function UpgradePrompt() {
   const [visible, setVisible] = useState(false);
   const [milestone, setMilestone] = useState<MilestoneConfig | null>(null);
+  const [dontShowToday, setDontShowToday] = useState(false);
   const [, navigate] = useLocation();
   const { user } = useAuth();
 
   useEffect(() => {
     if (!user) return;
     if (user.tier !== "free") return;
+    if (!shouldShowPopup(UPGRADE_PROMPT_POPUP_ID)) return;
 
     const timer = setTimeout(() => {
       const active = getActiveMilestone();
@@ -145,6 +152,9 @@ export function UpgradePrompt() {
 
   const handleDismiss = () => {
     localStorage.setItem(getMilestoneKey(milestone.type), "true");
+    if (dontShowToday) {
+      suppressPopup(UPGRADE_PROMPT_POPUP_ID);
+    }
     setVisible(false);
   };
 
@@ -173,14 +183,28 @@ export function UpgradePrompt() {
                 </button>
               </div>
               <p className="text-xs text-gray-500 leading-relaxed mt-2">{milestone.message}</p>
-              <Button
-                size="sm"
-                className="mt-3 rounded-full text-xs h-8 px-4"
-                onClick={handleCta}
-                data-testid="button-upgrade-cta"
-              >
-                {milestone.cta}
-              </Button>
+              <div className="flex items-center gap-4 mt-3">
+                <Button
+                  size="sm"
+                  className="rounded-full text-xs h-8 px-4"
+                  onClick={handleCta}
+                  data-testid="button-upgrade-cta"
+                >
+                  {milestone.cta}
+                </Button>
+                <div className="flex items-center gap-1.5">
+                  <Checkbox
+                    id="prompt-dont-show-today"
+                    checked={dontShowToday}
+                    onCheckedChange={(checked) => setDontShowToday(checked === true)}
+                    className="h-3.5 w-3.5"
+                    data-testid="checkbox-prompt-dont-show-today"
+                  />
+                  <Label htmlFor="prompt-dont-show-today" className="text-[10px] text-gray-400 cursor-pointer whitespace-nowrap">
+                    Not today
+                  </Label>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>

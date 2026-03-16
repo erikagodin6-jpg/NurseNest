@@ -1,10 +1,13 @@
 import { useState, useCallback } from "react";
 import { UpgradeModal } from "@/components/upgrade-modal";
+import { shouldShowPopup } from "@/lib/popup-suppression";
 
 const RATE_LIMIT_KEY = "last_upgrade_modal";
+const POPUP_ID = "upgrade_modal";
 
 function canShowModal(): boolean {
   try {
+    if (!shouldShowPopup(POPUP_ID)) return false;
     const last = localStorage.getItem(RATE_LIMIT_KEY);
     if (!last) return true;
     const lastDate = new Date(last).toDateString();

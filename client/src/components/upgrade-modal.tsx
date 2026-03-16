@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import {
   Dialog,
@@ -8,6 +8,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   BarChart3,
   Target,
@@ -18,6 +20,7 @@ import {
   Check,
   ArrowRight,
 } from "lucide-react";
+import { suppressPopup } from "@/lib/popup-suppression";
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -72,20 +75,25 @@ function logUpgradeEvent(eventType: string, trigger: string) {
 
 export function UpgradeModal({ isOpen, onClose, trigger, tier }: UpgradeModalProps) {
   const [, navigate] = useLocation();
+  const [dontShowToday, setDontShowToday] = useState(false);
   const copy = TRIGGER_COPY[trigger] || DEFAULT_COPY;
 
   const pricingPath = tier ? `/pricing/${tier}` : "/pricing";
 
   useEffect(() => {
     if (isOpen) {
+      setDontShowToday(false);
       logUpgradeEvent("upgrade_modal_shown", trigger);
     }
   }, [isOpen, trigger]);
 
   const handleClose = useCallback(() => {
     logUpgradeEvent("upgrade_dismissed", trigger);
+    if (dontShowToday) {
+      suppressPopup("upgrade_modal");
+    }
     onClose();
-  }, [onClose, trigger]);
+  }, [onClose, trigger, dontShowToday]);
 
   const handleCtaClick = useCallback(() => {
     logUpgradeEvent("upgrade_clicked", trigger);
@@ -188,8 +196,20 @@ export function UpgradeModal({ isOpen, onClose, trigger, tier }: UpgradeModalPro
             </button>
           </div>
 
+          <div className="flex items-center justify-center gap-2 border-t pt-3">
+            <Checkbox
+              id="upgrade-dont-show-today"
+              checked={dontShowToday}
+              onCheckedChange={(checked) => setDontShowToday(checked === true)}
+              data-testid="checkbox-upgrade-dont-show-today"
+            />
+            <Label htmlFor="upgrade-dont-show-today" className="text-xs text-gray-400 cursor-pointer">
+              Don't show again today
+            </Label>
+          </div>
+
           <p
-            className="text-[10px] text-gray-400 leading-relaxed text-center border-t pt-3"
+            className="text-[10px] text-gray-400 leading-relaxed text-center pt-2"
             data-testid="text-disclaimer"
           >
             Predictions are coaching estimates based on your performance and do not represent official exam scoring.

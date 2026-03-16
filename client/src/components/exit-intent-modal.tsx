@@ -104,11 +104,12 @@ const CATEGORY_LABELS: Record<SubscriptionCategory, string> = {
 };
 
 export function ExitIntentModal() {
-  const { showModal, dismiss, dismissPermanently } = useExitIntent();
+  const { showModal, dismiss, dismissForToday, dismissPermanently } = useExitIntent();
   const [location] = useLocation();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [dontShowToday, setDontShowToday] = useState(false);
 
   const section = detectSection(location);
   const config = SECTION_CONFIGS[section] || SECTION_CONFIGS.default;
@@ -154,7 +155,7 @@ export function ExitIntentModal() {
   }
 
   return (
-    <Dialog open={showModal} onOpenChange={(open) => { if (!open) dismiss(); }}>
+    <Dialog open={showModal} onOpenChange={(open) => { if (!open) { dontShowToday ? dismissForToday() : dismiss(); } }}>
       <DialogContent
         className="sm:max-w-md p-0 overflow-hidden"
         data-testid="exit-intent-modal"
@@ -187,7 +188,7 @@ export function ExitIntentModal() {
               <Button
                 variant="outline"
                 className="mt-2"
-                onClick={dismiss}
+                onClick={() => { dontShowToday ? dismissForToday() : dismiss(); }}
                 data-testid="button-exit-intent-close-success"
               >
                 Continue Browsing
@@ -262,6 +263,18 @@ export function ExitIntentModal() {
                   )}
                 </Button>
               </form>
+
+              <div className="flex items-center justify-center gap-2 py-1">
+                <Checkbox
+                  id="exit-dont-show-today"
+                  checked={dontShowToday}
+                  onCheckedChange={(checked) => setDontShowToday(checked === true)}
+                  data-testid="checkbox-exit-dont-show-today"
+                />
+                <Label htmlFor="exit-dont-show-today" className="text-xs text-gray-400 cursor-pointer">
+                  Don't show again today
+                </Label>
+              </div>
 
               <button
                 className="w-full text-center text-xs text-gray-400 hover:text-gray-600 transition-colors py-1"

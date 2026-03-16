@@ -99,6 +99,14 @@ Key architectural components and features:
   - `hero-expansion-tracker.tsx` — question bank growth tracker with progress bars
 - All components are integrated into `client/src/pages/home.tsx` using `LazySection + Suspense` for performance
 
+## Popup Suppression System
+- **Utility**: `client/src/lib/popup-suppression.ts` — `shouldShowPopup(id)`, `suppressPopup(id)`, `clearPopupSuppression(id)`
+- **Mechanism**: localStorage-based 24-hour suppression per popup ID
+- **Integrated popups**: exit_intent, upgrade_modal, upgrade_prompt, pwa_install
+- **Excluded (forceShow/critical)**: exam-followup-modal (clinical), exam-session-guard (safety)
+- **UI**: "Don't show again today" checkbox in exit-intent and upgrade modals; "Not today" in upgrade prompt toast
+- **PWA**: Layered — 24h suppression + existing 7-day dismiss both apply
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`
