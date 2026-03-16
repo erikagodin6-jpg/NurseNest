@@ -114,6 +114,8 @@ import { socialWorkerLessons } from "./social-worker-lessons";
 import { psychotherapistLessons } from "./psychotherapist-lessons";
 import { addictionsCounsellorLessons } from "./addictions-counsellor-lessons";
 import { occupationalTherapyLessons } from "./occupational-therapy-lessons";
+import { otaCoreLessons } from "./ota-core-lessons";
+import { ptaCoreLessons } from "./pta-core-lessons";
 import { paramedicLessonsExpanded } from "./paramedic-lessons-expanded";
 import { rrtLessonsExpanded } from "./rrt-lessons-expanded";
 import { rrtLessonsExpanded2 } from "./rrt-lessons-expanded-2";
@@ -740,6 +742,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   psychotherapistLessons,
   addictionsCounsellorLessons,
   occupationalTherapyLessons,
+  otaCoreLessons,
+  ptaCoreLessons,
   paramedicLessonsExpanded,
   rrtLessonsExpanded,
   rrtLessonsExpanded2,
