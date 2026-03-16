@@ -5973,6 +5973,7 @@ export const problemReports = pgTable("problem_reports", {
   browserInfo: text("browser_info"),
   locale: text("locale"),
   tier: text("tier"),
+  screenshotUrl: text("screenshot_url"),
   status: text("status").default("new").notNull(),
   adminNotes: text("admin_notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),

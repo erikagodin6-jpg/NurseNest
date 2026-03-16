@@ -21133,6 +21133,65 @@ Rules:
     });
   }
 
+  const CRITICAL_PROBLEM_TYPES = ["wrong_answer", "broken_link", "technical_problem"];
+
+  function notifyCriticalReport(report: any) {
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@nursenest.ca";
+    const isCriticalType = CRITICAL_PROBLEM_TYPES.includes(report.problemType);
+    const isHighSeverity = report.severity === "high";
+    if (!isCriticalType && !isHighSeverity) return;
+
+    const reason = isHighSeverity ? "high severity" : `critical type: ${report.problemType}`;
+    console.log(`[CRITICAL REPORT ALERT] To: ${adminEmail}`);
+    console.log(`  Subject: Critical Issue Report - ${report.problemType}`);
+    console.log(`  Report ID: ${report.id}`);
+    console.log(`  Reason: ${reason}`);
+    console.log(`  Page: ${report.pageUrl}`);
+    console.log(`  Description: ${report.description?.substring(0, 200)}`);
+    console.log(`  Severity: ${report.severity}`);
+
+    if (process.env.SMTP_HOST || process.env.SENDGRID_API_KEY) {
+      console.log(`  [EMAIL] Would send email notification to ${adminEmail}`);
+    }
+  }
+
+  const problemReportUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (_r: any, file: any, cb: any) => {
+      if (file.mimetype.startsWith("image/")) cb(null, true);
+      else cb(new Error("Only image files are allowed"));
+    },
+  }).single("screenshot");
+
+  app.post("/api/problem-reports/upload-screenshot", (req, res) => {
+    problemReportUpload(req, res, async (err: any) => {
+      try {
+        if (err) return res.status(400).json({ error: err.message });
+        const file = (req as any).file;
+        if (!file) return res.status(400).json({ error: "No file provided" });
+
+        const objectStorageService = new (await import("./replit_integrations/object_storage/objectStorage")).ObjectStorageService();
+        const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+
+        const uploadRes = await fetch(uploadURL, {
+          method: "PUT",
+          headers: { "Content-Type": file.mimetype },
+          body: file.buffer,
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error("Failed to upload screenshot to storage");
+        }
+
+        const objectPath = objectStorageService.normalizeObjectEntityPath(uploadURL);
+        res.json({ screenshotUrl: objectPath });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
+  });
+
   const problemReportLimiter = rateLimit({ windowMs: 60 * 1000, max: 5, message: { error: "Too many reports. Please try again later." } });
   app.post("/api/problem-reports", problemReportLimiter, async (req, res) => {
     try {
@@ -21140,7 +21199,7 @@ Rules:
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid report data", details: parsed.error.issues });
       }
-      const validTypes = ["broken_link", "empty_lesson", "wrong_answer", "typo", "layout", "exam_wont_start", "flashcards_broken", "payment", "translation", "other"];
+      const validTypes = ["incorrect_info", "question_error", "explanation_unclear", "broken_link", "translation_issue", "technical_problem", "typo_grammar", "other"];
       if (!validTypes.includes(parsed.data.problemType)) {
         return res.status(400).json({ error: "Invalid problem type" });
       }
@@ -21148,12 +21207,13 @@ Rules:
       if (parsed.data.severity && !validSeverities.includes(parsed.data.severity)) {
         return res.status(400).json({ error: "Invalid severity" });
       }
-      if (parsed.data.description.length > 2000) {
-        return res.status(400).json({ error: "Description too long (max 2000 chars)" });
+      if (parsed.data.description.length > 1000) {
+        return res.status(400).json({ error: "Description too long (max 1000 chars)" });
       }
       const authUser = await resolveAuthUser(req);
       const reportData = { ...parsed.data, userId: authUser?.id || null, tier: authUser?.tier || null };
       const report = await storage.createProblemReport(reportData);
+      notifyCriticalReport(report);
       res.status(201).json(report);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

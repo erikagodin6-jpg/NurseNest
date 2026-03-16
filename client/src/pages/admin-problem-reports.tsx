@@ -19,11 +19,19 @@ import {
 import {
   Bug, Filter, RefreshCw, ExternalLink, X, Save,
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle2,
-  Clock, XCircle, Eye,
+  Clock, XCircle, Eye, Image as ImageIcon,
 } from "lucide-react";
 
 const PROBLEM_TYPE_LABELS: Record<string, string> = {
-  broken_link: "Broken link / 404",
+  incorrect_info: "Incorrect information",
+  question_error: "Question error",
+  explanation_unclear: "Explanation unclear",
+  broken_link: "Broken link",
+  translation_issue: "Translation issue",
+  technical_problem: "Technical problem",
+  typo_grammar: "Typo or grammar mistake",
+  other: "Other",
+  broken_link_legacy: "Broken link / 404",
   empty_lesson: "Empty lesson / missing content",
   wrong_answer: "Wrong answer / rationale issue",
   typo: "Typo / grammar",
@@ -32,7 +40,6 @@ const PROBLEM_TYPE_LABELS: Record<string, string> = {
   flashcards_broken: "Flashcards missing / broken",
   payment: "Payment / subscription issue",
   translation: "Translation issue",
-  other: "Other",
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: typeof Clock }> = {
@@ -285,6 +292,12 @@ export default function AdminProblemReportsPage() {
                               <Badge className={statusCfg.color} data-testid={`badge-status-${report.id}`}>{statusCfg.label}</Badge>
                               <Badge variant="outline">{PROBLEM_TYPE_LABELS[report.problemType] || report.problemType}</Badge>
                               <Badge className={severityCfg.color}>{severityCfg.label}</Badge>
+                              {report.screenshotUrl && (
+                                <Badge variant="outline" className="gap-1">
+                                  <ImageIcon className="w-3 h-3" />
+                                  Screenshot
+                                </Badge>
+                              )}
                             </div>
                             <p className="text-sm text-gray-700 line-clamp-2 mt-1" data-testid={`text-description-${report.id}`}>{report.description}</p>
                             <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
@@ -341,6 +354,26 @@ export default function AdminProblemReportsPage() {
                       <span className="font-medium text-muted-foreground">Description</span>
                       <p className="whitespace-pre-wrap">{selectedReport.description}</p>
                     </div>
+
+                    {selectedReport.screenshotUrl && (
+                      <div>
+                        <span className="font-medium text-muted-foreground">Screenshot</span>
+                        <a
+                          href={`/api/object-storage${selectedReport.screenshotUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block mt-1"
+                          data-testid="link-screenshot"
+                        >
+                          <img
+                            src={`/api/object-storage${selectedReport.screenshotUrl}`}
+                            alt="Report screenshot"
+                            className="max-w-full max-h-48 rounded border cursor-pointer hover:opacity-80 transition-opacity"
+                            data-testid="img-report-screenshot"
+                          />
+                        </a>
+                      </div>
+                    )}
 
                     <div>
                       <span className="font-medium text-muted-foreground">Page URL</span>

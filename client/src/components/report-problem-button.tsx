@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useI18n } from "@/lib/i18n";
 import { getPlatformSection } from "@shared/platform-sections";
-import { Bug, X, Send, ChevronDown } from "lucide-react";
+import { Bug, X, Send, ChevronDown, ImagePlus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -26,23 +27,23 @@ import {
 } from "@/components/ui/select";
 
 const PROBLEM_TYPES = [
-  { value: "broken_link", label: "Broken link / 404" },
-  { value: "empty_lesson", label: "Empty lesson / missing content" },
-  { value: "wrong_answer", label: "Wrong answer / rationale issue" },
-  { value: "typo", label: "Typo / grammar" },
-  { value: "layout", label: "Page layout problem" },
-  { value: "exam_wont_start", label: "Exam won't start" },
-  { value: "flashcards_broken", label: "Flashcards missing / broken" },
-  { value: "payment", label: "Payment / subscription issue" },
-  { value: "translation", label: "Translation issue" },
-  { value: "other", label: "Other" },
+  { value: "incorrect_info", labelKey: "report.type.incorrectInfo" },
+  { value: "question_error", labelKey: "report.type.questionError" },
+  { value: "explanation_unclear", labelKey: "report.type.explanationUnclear" },
+  { value: "broken_link", labelKey: "report.type.brokenLink" },
+  { value: "translation_issue", labelKey: "report.type.translationIssue" },
+  { value: "technical_problem", labelKey: "report.type.technicalProblem" },
+  { value: "typo_grammar", labelKey: "report.type.typoGrammar" },
+  { value: "other", labelKey: "report.type.other" },
 ] as const;
 
 const SEVERITY_OPTIONS = [
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
+  { value: "low", labelKey: "report.severity.low" },
+  { value: "medium", labelKey: "report.severity.medium" },
+  { value: "high", labelKey: "report.severity.high" },
 ] as const;
+
+const DESCRIPTION_MAX_LENGTH = 1000;
 
 function gtagEvent(eventName: string, params: Record<string, any>) {
   if (typeof window !== "undefined" && (window as any).gtag) {
@@ -59,11 +60,11 @@ function getDeviceType(): string {
 
 function detectProblemType(path: string): string {
   const lower = path.toLowerCase();
-  if (lower.includes("/flashcard")) return "flashcards_broken";
-  if (lower.includes("/lesson")) return "empty_lesson";
-  if (lower.includes("/exam") || lower.includes("/mock-exam") || lower.includes("/cat-exam")) return "exam_wont_start";
-  if (lower.includes("/pricing") || lower.includes("/subscription") || lower.includes("/checkout")) return "payment";
-  if (lower.includes("/question-bank") || lower.includes("/qbank")) return "wrong_answer";
+  if (lower.includes("/flashcard")) return "incorrect_info";
+  if (lower.includes("/lesson")) return "incorrect_info";
+  if (lower.includes("/exam") || lower.includes("/mock-exam") || lower.includes("/cat-exam")) return "question_error";
+  if (lower.includes("/pricing") || lower.includes("/subscription") || lower.includes("/checkout")) return "technical_problem";
+  if (lower.includes("/question-bank") || lower.includes("/qbank")) return "question_error";
   return "other";
 }
 
@@ -87,14 +88,18 @@ export function ReportProblemButton() {
   const [location] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useI18n();
   const isMobile = useIsMobile();
   const [submitting, setSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [problemType, setProblemType] = useState("other");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [severity, setSeverity] = useState("medium");
   const [contactPermission, setContactPermission] = useState(false);
+  const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+  const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
 
   const hiddenPaths = ["/admin", "/login", "/register"];
   const isHidden = hiddenPaths.some((p) => location.startsWith(p)) || /^\/[a-z]{2}(-[a-z]{2})?\/admin/i.test(location);
@@ -105,6 +110,8 @@ export function ReportProblemButton() {
       setDescription("");
       setSeverity("medium");
       setContactPermission(false);
+      setScreenshotFile(null);
+      setScreenshotPreview(null);
       if (user?.email) setEmail(user.email);
     }
   }, [open, location, user]);
@@ -120,10 +127,55 @@ export function ReportProblemButton() {
     });
   };
 
+  const handleScreenshotSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast({ title: t("report.screenshotError"), variant: "destructive" });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: t("report.screenshotTooLarge"), variant: "destructive" });
+      return;
+    }
+    setScreenshotFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setScreenshotPreview(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const removeScreenshot = () => {
+    setScreenshotFile(null);
+    setScreenshotPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    if (val.length <= DESCRIPTION_MAX_LENGTH) {
+      setDescription(val);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!description.trim()) return;
     setSubmitting(true);
     try {
+      let screenshotUrl: string | null = null;
+
+      if (screenshotFile) {
+        const formData = new FormData();
+        formData.append("screenshot", screenshotFile);
+        const uploadRes = await fetch("/api/problem-reports/upload-screenshot", {
+          method: "POST",
+          body: formData,
+        });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          screenshotUrl = uploadData.screenshotUrl;
+        }
+      }
+
       const body = {
         pageUrl: window.location.href,
         pageTitle: document.title,
@@ -138,6 +190,7 @@ export function ReportProblemButton() {
         deviceType: getDeviceType(),
         browserInfo: navigator.userAgent.substring(0, 200),
         locale: navigator.language || null,
+        screenshotUrl,
       };
 
       const res = await fetch("/api/problem-reports", {
@@ -155,10 +208,13 @@ export function ReportProblemButton() {
         event_category: "engagement",
       });
 
-      toast({ title: "Thanks — your report has been sent", description: "We'll look into this as soon as possible." });
+      toast({
+        title: t("report.successTitle"),
+        description: t("report.successDescription"),
+      });
       setOpen(false);
     } catch {
-      toast({ title: "Failed to submit report", description: "Please try again.", variant: "destructive" });
+      toast({ title: t("report.errorTitle"), description: t("report.errorDescription"), variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -173,11 +229,11 @@ export function ReportProblemButton() {
             ? "bottom-20 right-3 w-10 h-10 justify-center"
             : "bottom-6 right-6 px-3 py-2.5"
         }`}
-        aria-label="Report a Problem"
+        aria-label={t("report.buttonLabel")}
         data-testid="button-report-problem"
       >
         <Bug className={isMobile ? "w-4 h-4" : "w-4 h-4"} />
-        {!isMobile && <span className="text-xs font-medium">Report a Problem</span>}
+        {!isMobile && <span className="text-xs font-medium">{t("report.buttonLabel")}</span>}
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -185,24 +241,24 @@ export function ReportProblemButton() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Bug className="w-5 h-5 text-primary" />
-              Report a Problem
+              {t("report.title")}
             </DialogTitle>
             <DialogDescription>
-              Help us improve by reporting issues you find on this page.
+              {t("report.subtitle")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 mt-2">
             <div>
-              <Label htmlFor="problem-type">Problem Type</Label>
+              <Label htmlFor="problem-type">{t("report.problemTypeLabel")}</Label>
               <Select value={problemType} onValueChange={setProblemType}>
                 <SelectTrigger id="problem-type" data-testid="select-problem-type">
-                  <SelectValue placeholder="Select problem type" />
+                  <SelectValue placeholder={t("report.problemTypePlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
-                  {PROBLEM_TYPES.map((t) => (
-                    <SelectItem key={t.value} value={t.value} data-testid={`option-problem-type-${t.value}`}>
-                      {t.label}
+                  {PROBLEM_TYPES.map((pt) => (
+                    <SelectItem key={pt.value} value={pt.value} data-testid={`option-problem-type-${pt.value}`}>
+                      {t(pt.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -210,24 +266,73 @@ export function ReportProblemButton() {
             </div>
 
             <div>
-              <Label htmlFor="description">Description *</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="description">{t("report.descriptionLabel")} *</Label>
+                <span className={`text-xs ${description.length >= DESCRIPTION_MAX_LENGTH ? "text-red-500 font-medium" : "text-muted-foreground"}`} data-testid="text-char-counter">
+                  {description.length}/{DESCRIPTION_MAX_LENGTH}
+                </span>
+              </div>
               <Textarea
                 id="description"
-                placeholder="Describe the problem you encountered..."
+                placeholder={t("report.descriptionPlaceholder")}
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={handleDescriptionChange}
                 rows={3}
+                maxLength={DESCRIPTION_MAX_LENGTH}
                 required
                 data-testid="input-description"
               />
             </div>
 
             <div>
-              <Label htmlFor="email">Email (optional)</Label>
+              <Label>{t("report.screenshotLabel")}</Label>
+              <div className="mt-1">
+                {screenshotPreview ? (
+                  <div className="relative inline-block">
+                    <img
+                      src={screenshotPreview}
+                      alt="Screenshot preview"
+                      className="max-h-32 rounded border"
+                      data-testid="img-screenshot-preview"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeScreenshot}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      data-testid="button-remove-screenshot"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    data-testid="button-attach-screenshot"
+                  >
+                    <ImagePlus className="w-4 h-4 mr-2" />
+                    {t("report.attachScreenshot")}
+                  </Button>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleScreenshotSelect}
+                  className="hidden"
+                  data-testid="input-screenshot-file"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="email">{t("report.emailLabel")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="your@email.com"
+                placeholder={t("report.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 data-testid="input-email"
@@ -235,7 +340,7 @@ export function ReportProblemButton() {
             </div>
 
             <div>
-              <Label htmlFor="severity">Severity</Label>
+              <Label htmlFor="severity">{t("report.severityLabel")}</Label>
               <Select value={severity} onValueChange={setSeverity}>
                 <SelectTrigger id="severity" data-testid="select-severity">
                   <SelectValue />
@@ -243,7 +348,7 @@ export function ReportProblemButton() {
                 <SelectContent>
                   {SEVERITY_OPTIONS.map((s) => (
                     <SelectItem key={s.value} value={s.value} data-testid={`option-severity-${s.value}`}>
-                      {s.label}
+                      {t(s.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -258,12 +363,12 @@ export function ReportProblemButton() {
                 data-testid="checkbox-contact-permission"
               />
               <Label htmlFor="contact" className="text-sm text-muted-foreground cursor-pointer">
-                You may contact me about this issue
+                {t("report.contactPermission")}
               </Label>
             </div>
 
             <div className="text-xs text-muted-foreground bg-muted/50 rounded p-2">
-              Page: {location}
+              {t("report.pageInfo")}: {location}
             </div>
 
             <Button
@@ -272,10 +377,10 @@ export function ReportProblemButton() {
               className="w-full"
               data-testid="button-submit-report"
             >
-              {submitting ? "Submitting..." : (
+              {submitting ? t("report.submitting") : (
                 <>
                   <Send className="w-4 h-4 mr-2" />
-                  Submit Report
+                  {t("report.submitButton")}
                 </>
               )}
             </Button>

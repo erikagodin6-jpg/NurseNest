@@ -2206,10 +2206,10 @@ export class DatabaseStorage implements IStorage {
 
   async createProblemReport(data: InsertProblemReport): Promise<ProblemReport> {
     const r = await pool.query(
-      `INSERT INTO problem_reports (page_url, page_title, site_section, content_id, user_id, problem_type, description, email, severity, contact_permission, device_type, browser_info, locale, tier)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      `INSERT INTO problem_reports (page_url, page_title, site_section, content_id, user_id, problem_type, description, email, severity, contact_permission, device_type, browser_info, locale, tier, screenshot_url)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
        RETURNING *`,
-      [data.pageUrl, data.pageTitle ?? null, data.siteSection ?? null, data.contentId ?? null, data.userId ?? null, data.problemType, data.description, data.email ?? null, data.severity ?? "medium", data.contactPermission ?? false, data.deviceType ?? null, data.browserInfo ?? null, data.locale ?? null, data.tier ?? null]
+      [data.pageUrl, data.pageTitle ?? null, data.siteSection ?? null, data.contentId ?? null, data.userId ?? null, data.problemType, data.description, data.email ?? null, data.severity ?? "medium", data.contactPermission ?? false, data.deviceType ?? null, data.browserInfo ?? null, data.locale ?? null, data.tier ?? null, data.screenshotUrl ?? null]
     );
     return snakeToCamel(r.rows[0]);
   }
