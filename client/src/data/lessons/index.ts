@@ -96,6 +96,7 @@ import { pharmacologyInfectiousPsychLessons } from "./pharmacology-infectious-ps
 import { pharmacologyGiRenalSpecialtyLessons } from "./pharmacology-gi-renal-specialty";
 import { npPathoExpansionLessons } from "./np-patho-expansion";
 import { npGeneratedBatch7 } from "./np-generated-batch-7";
+import { npCurriculumBatch1 } from "./np-curriculum-batch-1";
 
 import { rpnPathoCardiovascularLessons } from "./rpn-patho-cardiovascular";
 import { rpnPathoHematologyEndocrineLessons } from "./rpn-patho-hematology-endocrine";
@@ -1007,6 +1008,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   npAssessmentContentBLessons,
   npAssessmentContentCLessons,
   npGeneratedBatch7,
+  npCurriculumBatch1,
   rnRespiratoryRenalExpansionLessons,
   rnShockCriticalCareLessons,
   rnArrhythmiasExpansionLessons,
