@@ -159,18 +159,21 @@ async function buildAll() {
 
   log("server done");
 
-  log("removing bundled assets + building lessons data + copying seed data...");
+  log("removing bundled assets...");
+  await Promise.all([
+    rm("dist/public/videos", { recursive: true, force: true }),
+    rm("dist/public/translations", { recursive: true, force: true }),
+  ]);
+
   const lessonsDir = path.resolve("client/src/data/lessons");
   const npBatchFiles = (await readdir(lessonsDir))
     .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
     .map((f: string) => parseInt(f.match(/np-generated-batch-(\d+)\.ts/)![1], 10))
     .sort((a: number, b: number) => a - b);
   log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
-  await Promise.all([
-    rm("dist/public/videos", { recursive: true, force: true }),
-    rm("dist/public/translations", { recursive: true, force: true }),
-    copySeedData(),
-  ]);
+
+  log("copying seed data...");
+  await copySeedData();
 
   log("building lessons data...");
   await buildLessonsData();
