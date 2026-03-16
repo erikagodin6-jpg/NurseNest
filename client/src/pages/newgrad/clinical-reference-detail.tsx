@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { PremiumUpgradeCTA } from "./premium-cta";
 import { getClinicalReferenceBySlug, getClinicalReferenceBySlugList, getCategoryInfo, type ClinicalReferenceLesson, type ClinicalFlashcard } from "@/data/newgrad/clinical-reference-content";
 import {
   ArrowRight, BookOpen, Thermometer, Droplets, HeartPulse, Monitor,
@@ -399,6 +400,10 @@ export default function ClinicalReferenceDetail() {
           </div>
         </div>
       </main>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock premium brain sheets, documentation templates, and the full clinical toolkit for new graduate nurses." />
+      </div>
 
       <Footer />
     </div>

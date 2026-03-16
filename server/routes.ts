@@ -114,10 +114,12 @@ async function saveRevision(contentId: string, existingItem: any, editor: any) {
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
   if (!userTier || userTier === "free") return false;
-  if (userTier === "admin" || userTier === "full_access") return true;
-  if (targetTier === "new_grad_toolkit") return userTier === "new_grad_toolkit" || userTier === "full_access";
-  if (targetTier === "certification_prep") return userTier === "certification_prep" || userTier === "full_access";
-  return userTier === targetTier;
+  const effectiveUser = userTier === "newgrad" ? "new_grad_toolkit" : userTier;
+  const effectiveTarget = targetTier === "newgrad" ? "new_grad_toolkit" : targetTier;
+  if (effectiveUser === "admin" || effectiveUser === "full_access") return true;
+  if (effectiveTarget === "new_grad_toolkit") return effectiveUser === "new_grad_toolkit" || effectiveUser === "certification_prep" || effectiveUser === "full_access";
+  if (effectiveTarget === "certification_prep") return effectiveUser === "certification_prep" || effectiveUser === "full_access";
+  return effectiveUser === effectiveTarget;
 }
 
 async function extractUserTier(req: Request): Promise<string | null> {

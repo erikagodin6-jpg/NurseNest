@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { PremiumUpgradeCTA } from "./premium-cta";
 import { CLINICAL_REFERENCE_LESSONS } from "@/data/newgrad/clinical-reference-content";
 import {
   ArrowRight, BookOpen, Thermometer, Droplets, HeartPulse, Monitor,
@@ -97,6 +98,10 @@ export default function ClinicalReferencesPage() {
           })}
         </div>
       </section>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Access premium brain sheets, shift templates, and the full clinical resource library with your New Grad Toolkit subscription." />
+      </div>
 
       <section className="bg-gradient-to-r from-red-600 to-orange-600 py-14" data-testid="section-clinical-cta">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

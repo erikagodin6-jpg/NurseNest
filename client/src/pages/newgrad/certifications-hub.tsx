@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { PremiumUpgradeCTA } from "./premium-cta";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
@@ -436,6 +437,10 @@ export default function NewGradCertificationsHub() {
         </div>
       </section>
 
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PremiumUpgradeCTA requiredEntitlement="certification" context="Unlock the full certification prep suite with practice question banks, mock exams, flashcard decks, and algorithm reviews for all nursing certifications." />
+      </div>
+
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Certification FAQs</h2>
@@ -459,7 +464,7 @@ export default function NewGradCertificationsHub() {
             <Link href="/free-practice" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
               Practice Questions <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-pricing">
+            <Link href="/subscribe/newgrad" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-pricing">
               View Pricing
             </Link>
           </div>

@@ -89,7 +89,7 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
-  async function getGuideBySlug(slug: string, res: any) {
+  async function getGuideBySlug(slug: string, req: any, res: any) {
     const result = await pool.query(
       `SELECT g.*, 
         COALESCE(
@@ -103,13 +103,38 @@ export function registerNewGradRoutes(app: Express) {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Guide not found" });
     }
-    res.json(result.rows[0]);
+
+    const guide = result.rows[0];
+    if (guide.is_premium) {
+      const user = await resolveAuthUser(req);
+      const hasAccess = user ? checkEntitlement(user, "newgrad_toolkit") : false;
+      auditNewGradAccess(req, user, "newgrad_toolkit", hasAccess);
+
+      if (!hasAccess) {
+        return res.status(403).json({
+          error: "Premium feature - upgrade required",
+          upgradeRequired: true,
+          feature: "newgrad_toolkit",
+          requiredTier: "new_grad_toolkit",
+          guide: {
+            id: guide.id,
+            title: guide.title,
+            slug: guide.slug,
+            summary: guide.summary,
+            profession: guide.profession,
+            guide_type: guide.guide_type,
+          },
+        });
+      }
+    }
+
+    res.json(guide);
   }
 
   app.get("/api/new-grad/guides/by-slug/:part1/:part2/:part3", async (req, res) => {
     try {
       const slug = `${req.params.part1}/${req.params.part2}/${req.params.part3}`;
-      await getGuideBySlug(slug, res);
+      await getGuideBySlug(slug, req, res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -118,7 +143,7 @@ export function registerNewGradRoutes(app: Express) {
   app.get("/api/new-grad/guides/by-slug/:part1/:part2", async (req, res) => {
     try {
       const slug = `${req.params.part1}/${req.params.part2}`;
-      await getGuideBySlug(slug, res);
+      await getGuideBySlug(slug, req, res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -127,6 +152,9 @@ export function registerNewGradRoutes(app: Express) {
   app.get("/api/new-grad/guides", async (req, res) => {
     try {
       const { profession, guideType, status } = req.query;
+      const user = await resolveAuthUser(req);
+      const hasToolkitAccess = user ? checkEntitlement(user, "newgrad_toolkit") : false;
+
       let query = `SELECT * FROM new_grad_guides WHERE 1=1`;
       const params: any[] = [];
 
@@ -147,7 +175,27 @@ export function registerNewGradRoutes(app: Express) {
 
       query += ` ORDER BY created_at DESC`;
       const result = await pool.query(query, params);
-      res.json(result.rows);
+
+      const guides = result.rows.map((guide: any) => {
+        if (guide.is_premium && !hasToolkitAccess) {
+          return {
+            id: guide.id,
+            title: guide.title,
+            slug: guide.slug,
+            summary: guide.summary,
+            profession: guide.profession,
+            guide_type: guide.guide_type,
+            category: guide.category,
+            seo_title: guide.seo_title,
+            seo_description: guide.seo_description,
+            is_premium: true,
+            locked: true,
+          };
+        }
+        return guide;
+      });
+
+      res.json(guides);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -157,7 +205,7 @@ export function registerNewGradRoutes(app: Express) {
     try {
       const slug = String(req.query.slug || "");
       if (!slug) return res.status(400).json({ error: "slug query parameter required" });
-      await getGuideBySlug(slug, res);
+      await getGuideBySlug(slug, req, res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -342,7 +390,17 @@ export function registerNewGradRoutes(app: Express) {
 
       auditNewGradAccess(req, user, "newgrad_full_interview_bank", hasPremiumAccess);
 
-      const { category } = req.query;
+      const { category, premium } = req.query;
+
+      if (premium === "true" && !hasPremiumAccess) {
+        return res.status(403).json({
+          error: "Premium feature - upgrade required",
+          upgradeRequired: true,
+          feature: "newgrad_full_interview_bank",
+          requiredTier: "new_grad_toolkit",
+        });
+      }
+
       let query = `SELECT * FROM new_grad_interview_questions WHERE status = 'published'`;
       const params: any[] = [];
       if (!hasPremiumAccess) {
@@ -411,7 +469,17 @@ export function registerNewGradRoutes(app: Express) {
 
       auditNewGradAccess(req, user, "newgrad_premium_templates", hasPremiumAccess);
 
-      const { type } = req.query;
+      const { type, premium } = req.query;
+
+      if (premium === "true" && !hasPremiumAccess) {
+        return res.status(403).json({
+          error: "Premium feature - upgrade required",
+          upgradeRequired: true,
+          feature: "newgrad_premium_templates",
+          requiredTier: "new_grad_toolkit",
+        });
+      }
+
       let query = `SELECT * FROM new_grad_templates WHERE status = 'published'`;
       const params: any[] = [];
       if (!hasPremiumAccess) {
@@ -491,6 +559,66 @@ export function registerNewGradRoutes(app: Express) {
           ? "Full access granted to certification content"
           : `Showing ${PREVIEW_LIMIT} preview questions. Upgrade to Certification Prep for full access.`,
       });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/certification-full/:certSlug", requireEntitlement("newgrad_full_qbank"), async (req, res) => {
+    try {
+      const { certSlug } = req.params;
+
+      const questionsResult = await pool.query(
+        `SELECT * FROM new_grad_interview_questions WHERE status = 'published' AND category = $1 ORDER BY sort_order ASC, created_at DESC`,
+        [certSlug]
+      );
+
+      const templatesResult = await pool.query(
+        `SELECT * FROM new_grad_templates WHERE status = 'published' AND category = $1 ORDER BY created_at DESC`,
+        [certSlug]
+      );
+
+      res.json({
+        certification: certSlug,
+        hasFullAccess: true,
+        questions: questionsResult.rows,
+        templates: templatesResult.rows,
+        message: "Full access granted to certification content",
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/premium/interview-questions", requireEntitlement("newgrad_full_interview_bank"), async (req, res) => {
+    try {
+      const { category } = req.query;
+      let query = `SELECT * FROM new_grad_interview_questions WHERE status = 'published'`;
+      const params: any[] = [];
+      if (category) {
+        params.push(category);
+        query += ` AND category = $${params.length}`;
+      }
+      query += ` ORDER BY sort_order ASC, created_at DESC`;
+      const result = await pool.query(query, params);
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/newgrad/premium/templates", requireEntitlement("newgrad_premium_templates"), async (req, res) => {
+    try {
+      const { type } = req.query;
+      let query = `SELECT * FROM new_grad_templates WHERE status = 'published'`;
+      const params: any[] = [];
+      if (type) {
+        params.push(type);
+        query += ` AND template_type = $${params.length}`;
+      }
+      query += ` ORDER BY created_at DESC`;
+      const result = await pool.query(query, params);
+      res.json(result.rows);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

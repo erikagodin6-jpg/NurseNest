@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { ContentGate } from "@/components/content-gate";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import type { CertPrepContent } from "./certification-prep-data";
 import {
@@ -277,22 +278,24 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-flashcards-heading">{cert.name} Flashcard Decks</h2>
             <p className="text-gray-600">Spaced-repetition flashcards for {cert.name} algorithms and key concepts.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {cert.recommendedFlashcards.map((res, i) => (
-              <Link key={i} href={res.link} className="group" data-testid={`card-flashcard-${i}`}>
-                <div className={`bg-white rounded-xl border ${colors.border} p-5 hover:shadow-md transition-all h-full`}>
-                  <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
-                    <Layers className={`w-5 h-5 ${colors.iconColor}`} />
+          <ContentGate visibility="preview" requiredTier="newgrad" featureName="certification flashcard decks">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {cert.recommendedFlashcards.map((res, i) => (
+                <Link key={i} href={res.link} className="group" data-testid={`card-flashcard-${i}`}>
+                  <div className={`bg-white rounded-xl border ${colors.border} p-5 hover:shadow-md transition-all h-full`}>
+                    <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
+                      <Layers className={`w-5 h-5 ${colors.iconColor}`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">{res.title}</h3>
+                    <p className="text-xs text-gray-500 mb-2">{res.description}</p>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                      Study Flashcards <ArrowRight className="w-3 h-3" />
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">{res.title}</h3>
-                  <p className="text-xs text-gray-500 mb-2">{res.description}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
-                    Study Flashcards <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          </ContentGate>
         </div>
       </section>
 
@@ -327,6 +330,7 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mock-heading">{cert.name} Mock Exams</h2>
             <p className="text-gray-600">Timed practice exams to simulate the {cert.name} testing experience.</p>
           </div>
+          <ContentGate visibility="preview" requiredTier="newgrad" featureName="certification mock exams">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {cert.recommendedMockExams.map((res, i) => (
               <Link key={i} href={res.link} className="group" data-testid={`card-mock-exam-${i}`}>
@@ -343,6 +347,7 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
               </Link>
             ))}
           </div>
+          </ContentGate>
         </div>
       </section>
 
@@ -376,7 +381,7 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
             Get unlimited access to {cert.name} practice questions, flashcards, mock exams, and study tools with a NurseNest subscription.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-gray-900 rounded-xl font-bold hover:bg-gray-100 transition-colors shadow-lg" data-testid="button-cta-pricing">
+            <Link href="/subscribe/newgrad" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-gray-900 rounded-xl font-bold hover:bg-gray-100 transition-colors shadow-lg" data-testid="button-cta-pricing">
               View Plans & Pricing <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="/free-practice" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/20 text-white rounded-xl font-semibold hover:bg-white/30 transition-colors border border-white/30" data-testid="button-cta-free-practice">

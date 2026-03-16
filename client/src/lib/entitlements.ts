@@ -47,9 +47,27 @@ export type Feature =
   | "pass_probability_model"
   | "intelligent_recommendations"
   | "unlimited_mock_exams"
-  | "ai_study_coach";
+  | "ai_study_coach"
+  | "mock_exams"
+  | "study_sessions"
+  | "study_plan"
+  | "study_groups"
+  | "flashcard_bank"
+  | "flashcard_review"
+  | "newgrad_toolkit"
+  | "newgrad_cert_prep"
+  | "newgrad_full_qbank"
+  | "newgrad_mock_exams"
+  | "newgrad_flashcards"
+  | "newgrad_brain_sheets"
+  | "newgrad_shift_templates"
+  | "newgrad_documentation_cheats"
+  | "newgrad_med_safety"
+  | "newgrad_unit_onboarding"
+  | "newgrad_full_interview_bank"
+  | "newgrad_premium_templates";
 
-export type Tier = "free" | "rpn" | "rn" | "np" | "admin";
+export type Tier = "free" | "rpn" | "rn" | "np" | "newgrad" | "new_grad_toolkit" | "certification_prep" | "full_access" | "admin";
 
 export type SpecialtyRole =
   | "critical_care_rn"
@@ -94,13 +112,31 @@ export const SPECIALTY_FEATURE_MAP: Record<SpecialtyRole, Feature> = {
   palliative_rn: "lessons_palliative",
 };
 
-const TIER_HIERARCHY: Record<Tier, number> = {
+const TIER_HIERARCHY: Record<string, number> = {
   free: 0,
   rpn: 1,
   rn: 2,
   np: 3,
   admin: 4,
 };
+
+const NEWGRAD_TOOLKIT_FEATURES = new Set<Feature>([
+  "newgrad_toolkit",
+  "newgrad_brain_sheets",
+  "newgrad_shift_templates",
+  "newgrad_documentation_cheats",
+  "newgrad_med_safety",
+  "newgrad_unit_onboarding",
+  "newgrad_full_interview_bank",
+  "newgrad_premium_templates",
+]);
+
+const NEWGRAD_CERT_PREP_FEATURES = new Set<Feature>([
+  "newgrad_cert_prep",
+  "newgrad_full_qbank",
+  "newgrad_mock_exams",
+  "newgrad_flashcards",
+]);
 
 const FEATURE_TIERS: Record<Feature, Tier> = {
   lessons_free: "free",
@@ -134,6 +170,24 @@ const FEATURE_TIERS: Record<Feature, Tier> = {
   intelligent_recommendations: "rpn",
   unlimited_mock_exams: "rpn",
   ai_study_coach: "rpn",
+  mock_exams: "rpn",
+  study_sessions: "rpn",
+  study_plan: "rpn",
+  study_groups: "rpn",
+  flashcard_bank: "rpn",
+  flashcard_review: "rpn",
+  newgrad_toolkit: "new_grad_toolkit",
+  newgrad_brain_sheets: "new_grad_toolkit",
+  newgrad_shift_templates: "new_grad_toolkit",
+  newgrad_documentation_cheats: "new_grad_toolkit",
+  newgrad_med_safety: "new_grad_toolkit",
+  newgrad_unit_onboarding: "new_grad_toolkit",
+  newgrad_full_interview_bank: "new_grad_toolkit",
+  newgrad_premium_templates: "new_grad_toolkit",
+  newgrad_cert_prep: "certification_prep",
+  newgrad_full_qbank: "certification_prep",
+  newgrad_mock_exams: "certification_prep",
+  newgrad_flashcards: "certification_prep",
 };
 
 const FEATURE_UPGRADE_MESSAGES: Partial<Record<Feature, string>> = {
@@ -151,13 +205,36 @@ const FEATURE_UPGRADE_MESSAGES: Partial<Record<Feature, string>> = {
   lessons_obstetrics: "Upgrade to unlock Obstetric nursing certification prep content.",
   lessons_oncology: "Upgrade to unlock Oncology nursing certification prep content.",
   lessons_palliative: "Upgrade to unlock Palliative Care certification prep content.",
+  newgrad_toolkit: "Upgrade to unlock the New Grad Success Toolkit with brain sheets, shift templates, and more.",
+  newgrad_brain_sheets: "Upgrade to unlock printable brain sheets for clinical organization.",
+  newgrad_shift_templates: "Upgrade to unlock shift organization templates.",
+  newgrad_documentation_cheats: "Upgrade to unlock documentation cheat sheets.",
+  newgrad_med_safety: "Upgrade to unlock medication safety guides.",
+  newgrad_unit_onboarding: "Upgrade to unlock unit onboarding checklists.",
+  newgrad_full_interview_bank: "Upgrade to unlock the full interview question bank with 100+ questions and STAR answers.",
+  newgrad_premium_templates: "Upgrade to unlock premium resume and cover letter templates.",
+  newgrad_cert_prep: "Upgrade to unlock certification preparation resources.",
+  newgrad_full_qbank: "Upgrade to unlock the full certification question bank.",
+  newgrad_mock_exams: "Upgrade to unlock certification mock exams.",
+  newgrad_flashcards: "Upgrade to unlock certification flashcard decks.",
 };
+
+function normalizeNewGradTier(tier: string): string {
+  return tier === "newgrad" ? "new_grad_toolkit" : tier;
+}
 
 export function canAccessFeature(userTier: string | null | undefined, feature: Feature): boolean {
   const requiredTier = FEATURE_TIERS[feature];
   if (!requiredTier || requiredTier === "free") return true;
   if (!userTier || userTier === "free") return false;
   if (userTier === "admin") return true;
+
+  const effectiveTier = normalizeNewGradTier(userTier);
+
+  if (isNewGradFeature(feature)) {
+    return hasNewGradFeatureAccess(effectiveTier, feature);
+  }
+
   if (SPECIALTY_ROLES.includes(userTier as SpecialtyRole)) {
     const specialtyFeature = SPECIALTY_FEATURE_MAP[userTier as SpecialtyRole];
     if (feature === specialtyFeature) return true;
@@ -168,6 +245,32 @@ export function canAccessFeature(userTier: string | null | undefined, feature: F
   const userLevel = TIER_HIERARCHY[userTier as Tier] ?? 0;
   const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
   return userLevel >= requiredLevel;
+}
+
+function isNewGradFeature(feature: Feature): boolean {
+  return NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature);
+}
+
+function hasNewGradFeatureAccess(userTier: string, feature: Feature): boolean {
+  if (userTier === "full_access") return true;
+  if (userTier === "certification_prep") {
+    return NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature);
+  }
+  if (userTier === "new_grad_toolkit") {
+    return NEWGRAD_TOOLKIT_FEATURES.has(feature);
+  }
+  return false;
+}
+
+export function isNewGradTier(tier: string | null | undefined): boolean {
+  return tier === "newgrad" || tier === "new_grad_toolkit" || tier === "certification_prep" || tier === "full_access";
+}
+
+export function getNewGradUpgradePath(feature?: Feature): string {
+  if (feature && NEWGRAD_CERT_PREP_FEATURES.has(feature)) {
+    return "/subscribe/newgrad?plan=certification_prep";
+  }
+  return "/subscribe/newgrad";
 }
 
 export function getRequiredTier(feature: Feature): Tier {
@@ -224,4 +327,22 @@ export const FEATURE_LABELS: Record<Feature, string> = {
   intelligent_recommendations: "Intelligent Recommendations",
   unlimited_mock_exams: "Unlimited Mock Exams",
   ai_study_coach: "AI Study Coach",
+  mock_exams: "Mock Exams",
+  study_sessions: "Study Sessions",
+  study_plan: "Study Plan",
+  study_groups: "Study Groups",
+  flashcard_bank: "Flashcard Bank",
+  flashcard_review: "Flashcard Review",
+  newgrad_toolkit: "New Grad Success Toolkit",
+  newgrad_brain_sheets: "Brain Sheets",
+  newgrad_shift_templates: "Shift Templates",
+  newgrad_documentation_cheats: "Documentation Cheat Sheets",
+  newgrad_med_safety: "Medication Safety Guides",
+  newgrad_unit_onboarding: "Unit Onboarding Checklists",
+  newgrad_full_interview_bank: "Full Interview Question Bank",
+  newgrad_premium_templates: "Premium Resume & Cover Letter Templates",
+  newgrad_cert_prep: "Certification Prep",
+  newgrad_full_qbank: "Full Certification Question Bank",
+  newgrad_mock_exams: "Certification Mock Exams",
+  newgrad_flashcards: "Certification Flashcards",
 };

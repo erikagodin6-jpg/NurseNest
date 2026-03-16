@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { PremiumUpgradeCTA } from "./premium-cta";
 import {
   SURVIVAL_GUIDE_CATEGORIES,
   CLINICAL_REFERENCE_LESSONS,
@@ -299,6 +300,10 @@ export default function SurvivalGuideLanding() {
           </div>
         </div>
       </section>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PremiumUpgradeCTA requiredEntitlement="toolkit" context="Unlock premium brain sheets, shift templates, documentation guides, and the full interview question bank to accelerate your new grad career." />
+      </div>
 
       <section className="py-16 bg-gradient-to-r from-emerald-600 to-blue-600" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">

@@ -77,7 +77,7 @@ export type Feature =
   | "newgrad_premium_templates"
   | "rrt_pharmacology";
 
-export type Tier = "free" | "rpn" | "rn" | "np" | "new_grad_toolkit" | "certification_prep" | "full_access" | "admin";
+export type Tier = "free" | "rpn" | "rn" | "np" | "newgrad" | "new_grad_toolkit" | "certification_prep" | "full_access" | "admin";
 
 const TIER_HIERARCHY: Record<string, number> = {
   free: 0,
@@ -176,10 +176,19 @@ function hasActiveTrialAccess(user: any): boolean {
   return true;
 }
 
+function normalizeNewGradTier(tier: string): string {
+  return tier === "newgrad" ? "new_grad_toolkit" : tier;
+}
+
 function hasNewGradFeatureAccess(userTier: string, feature: Feature): boolean {
-  if (userTier === "full_access") return true;
-  if (userTier === "new_grad_toolkit" && NEWGRAD_TOOLKIT_FEATURES.has(feature)) return true;
-  if (userTier === "certification_prep" && NEWGRAD_CERT_PREP_FEATURES.has(feature)) return true;
+  const effective = normalizeNewGradTier(userTier);
+  if (effective === "full_access") return true;
+  if (effective === "certification_prep") {
+    return NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature);
+  }
+  if (effective === "new_grad_toolkit") {
+    return NEWGRAD_TOOLKIT_FEATURES.has(feature);
+  }
   return false;
 }
 
@@ -300,7 +309,7 @@ export function requireAnyPremium() {
     }
 
     const userTier = user.tier || "free";
-    const paidTiers = new Set(["rpn", "rn", "np", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
+    const paidTiers = new Set(["rpn", "rn", "np", "newgrad", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
 
     if (!paidTiers.has(userTier) && !isActiveTester(user) && !hasActiveTrialAccess(user)) {
       return res.status(403).json({

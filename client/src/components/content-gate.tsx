@@ -27,25 +27,39 @@ export function ContentGate({
 
   const tierHierarchy: Record<string, number> = {
     free: 0,
-    newgrad: 1,
     rpn: 1,
     rn: 2,
     np: 3,
     admin: 99,
   };
 
-  const isolatedTiers = new Set(["newgrad", "rpn"]);
+  const newgradTiers = new Set(["newgrad", "new_grad_toolkit", "certification_prep", "full_access"]);
+  const newgradHierarchy: Record<string, number> = {
+    newgrad: 1,
+    new_grad_toolkit: 1,
+    certification_prep: 2,
+    full_access: 3,
+  };
+
+  const isolatedTiers = new Set(["rpn"]);
 
   const activeTier = effectiveTier || user?.tier || "free";
-  const userTierLevel = tierHierarchy[activeTier] || 0;
-  const requiredLevel = tierHierarchy[requiredTier] || 1;
 
   let hasAccess: boolean;
   if (activeTier === "admin") {
     hasAccess = true;
+  } else if (newgradTiers.has(requiredTier)) {
+    const normalizedRequired = requiredTier === "newgrad" ? "new_grad_toolkit" : requiredTier;
+    const userNewGradLevel = newgradHierarchy[activeTier] ?? 0;
+    const requiredNewGradLevel = newgradHierarchy[normalizedRequired] ?? 1;
+    hasAccess = userNewGradLevel >= requiredNewGradLevel;
   } else if (isolatedTiers.has(requiredTier)) {
+    const userTierLevel = tierHierarchy[activeTier] || 0;
+    const requiredLevel = tierHierarchy[requiredTier] || 1;
     hasAccess = activeTier === requiredTier || userTierLevel > requiredLevel;
   } else {
+    const userTierLevel = tierHierarchy[activeTier] || 0;
+    const requiredLevel = tierHierarchy[requiredTier] || 1;
     hasAccess = userTierLevel >= requiredLevel;
   }
 
@@ -55,15 +69,7 @@ export function ContentGate({
 
   if (visibility === "preview") {
     return (
-      <div className="relative overflow-visible" data-testid="container-preview-content">
-        <div
-          className="relative transition-all duration-700 blur-[2px] opacity-70 pointer-events-none select-none overflow-hidden max-h-[300px]"
-          aria-hidden="true"
-        >
-          {children}
-        </div>
-        
-        {/* Schema.org Paywall Indicator */}
+      <div className="relative overflow-hidden" data-testid="container-preview-content">
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -77,13 +83,21 @@ export function ContentGate({
           })}
         </script>
 
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/95 to-transparent h-64 flex flex-col items-center justify-end pb-8 pt-20 px-6 z-20">
+        <div
+          className="relative max-h-[200px] overflow-hidden blur-[2px] opacity-60 pointer-events-none select-none"
+          aria-hidden="true"
+          data-nosnippet=""
+        >
+          {children}
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/95 to-transparent h-48 flex flex-col items-center justify-end pb-8 pt-16 px-6 z-20">
           <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 shadow-sm border border-primary/10 rotate-3">
             <Eye className="w-6 h-6 text-primary" />
           </div>
-          <h4 className="text-lg font-bold text-gray-900 mb-1">Unlock Complete Lesson</h4>
+          <h4 className="text-lg font-bold text-gray-900 mb-1">Premium Content</h4>
           <p className="text-sm text-gray-500 mb-6 text-center max-w-xs leading-relaxed">
-            Gain full access to detailed pathophysiology, nursing interventions, and exam pearls.
+            Unlock {featureName} with a {getTierLabel(requiredTier)} subscription.
           </p>
           <LocaleLink href={getTierPricingPath(requiredTier)}>
             <Button size="lg" className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-8 shadow-lg shadow-primary/20" data-testid="button-unlock-preview">

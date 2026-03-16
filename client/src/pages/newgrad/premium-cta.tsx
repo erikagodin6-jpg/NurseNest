@@ -116,7 +116,7 @@ export function PremiumUpgradeCTA({ context, requiredEntitlement }: { context?: 
               </span>
             ))}
           </div>
-          <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors text-sm" data-testid="button-premium-upgrade">
+          <Link href="/subscribe/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors text-sm" data-testid="button-premium-upgrade">
             <Lock className="w-3.5 h-3.5" /> Upgrade Now <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
