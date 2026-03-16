@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { nanoid } from "nanoid";
+import { checkContentExists } from "./seo-meta";
 
 const viteLogger = createLogger();
 
@@ -30,6 +31,40 @@ export async function setupVite(server: Server, app: Express) {
     appType: "custom",
   });
 
+  app.use(async (req, res, next) => {
+    if (
+      req.path.startsWith("/api") ||
+      req.path.startsWith("/assets") ||
+      req.path.startsWith("/vite-hmr") ||
+      req.path.startsWith("/@") ||
+      req.path.startsWith("/src") ||
+      req.path.startsWith("/node_modules") ||
+      /\.\w{2,5}($|\?)/.test(req.path)
+    ) {
+      return next();
+    }
+
+    const localeMatch = req.path.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
+    const strippedPath = localeMatch ? (localeMatch[2] || "/") : req.path;
+
+    try {
+      const contentExists = await checkContentExists(strippedPath);
+      if (!contentExists) {
+        (req as any).__softStatus = 404;
+      }
+    } catch {}
+
+    const origWriteHead = res.writeHead.bind(res);
+    (res as any).writeHead = function(statusCode: number, ...args: any[]) {
+      if ((req as any).__softStatus === 404 && statusCode === 200) {
+        return origWriteHead(404, ...args);
+      }
+      return origWriteHead(statusCode, ...args);
+    };
+
+    next();
+  });
+
   app.use(vite.middlewares);
 
   app.use("/{*path}", async (req, res, next) => {
@@ -44,14 +79,15 @@ export async function setupVite(server: Server, app: Express) {
         "index.html",
       );
 
-      // always reload the index.html file from disk incase it changes
+      const statusCode = (req as any).__softStatus || 200;
+
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      res.status(statusCode).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);

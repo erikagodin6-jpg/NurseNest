@@ -1,9 +1,19 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { injectMeta } from "./seo-meta";
+import { injectMeta, checkContentExists } from "./seo-meta";
 
 let cachedIndexHtml: string | null = null;
+
+const SUPPORTED_LOCALES = new Set(["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"]);
+
+function extractLocaleAndPath(reqPath: string): { locale: string; strippedPath: string } {
+  const localeMatch = reqPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
+  if (localeMatch) {
+    return { locale: localeMatch[1], strippedPath: localeMatch[2] || "/" };
+  }
+  return { locale: "en", strippedPath: reqPath };
+}
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
@@ -53,10 +63,15 @@ export function serveStatic(app: Express) {
   app.use("/{*path}", async (req, res) => {
     try {
       const html = cachedIndexHtml || fs.readFileSync(indexHtmlPath, "utf-8");
+      const { strippedPath } = extractLocaleAndPath(req.path);
+
+      const contentExists = await checkContentExists(strippedPath);
+      const statusCode = contentExists ? 200 : 404;
+
       const injected = await injectMeta(html, req.path, { isAllied: !!(req as any).isAllied });
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.status(200).send(injected);
+      res.status(statusCode).send(injected);
     } catch (err) {
       console.error("SEO meta injection error:", err);
       res.setHeader("Cache-Control", "no-cache");

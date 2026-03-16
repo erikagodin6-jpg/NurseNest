@@ -260,7 +260,7 @@ export async function generateMainBlog(): Promise<string[]> {
     });
     for (const post of blogPosts) {
       const lastmod = post.updatedAt ? toLastmod(post.updatedAt) : (post.publishedAt ? toLastmod(post.publishedAt) : today);
-      urls.push(localizedUrl(base, `/learn/${post.slug}`, "0.6", "weekly", locales, lastmod));
+      urls.push(localizedUrl(base, `/learn/${post.slug}`, "0.6", "weekly", enOnly, lastmod));
     }
   } catch {}
 

@@ -1251,10 +1251,23 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   const localePrefix = `/${detectedLocale}`;
   const localeIsIndexable = isLocaleIndexable(detectedLocale);
   const isNoindexRoute = isNoindexPath(strippedPath, detectedLocale);
-  const noindex = isNoindexRoute || !localeIsIndexable;
+
+  const isUntranslatedContentPage = detectedLocale !== "en" && (
+    strippedPath.startsWith("/learn/") ||
+    (strippedPath.startsWith("/blog/") && strippedPath !== "/blog") ||
+    (strippedPath.startsWith("/clinical-clarity/") && strippedPath !== "/clinical-clarity")
+  );
+
+  const noindex = isNoindexRoute || !localeIsIndexable || isUntranslatedContentPage;
 
   const canonicalBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
-  const canonical = normalizeCanonicalUrl(strippedPath, detectedLocale, canonicalBase);
+  let canonical: string;
+  if (isUntranslatedContentPage) {
+    const enCanonicalPath = strippedPath === "/" ? "/en" : `/en${strippedPath}`;
+    canonical = `${canonicalBase}${enCanonicalPath}`;
+  } else {
+    canonical = normalizeCanonicalUrl(strippedPath, detectedLocale, canonicalBase);
+  }
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
   cleanPath = strippedPath;
@@ -1767,11 +1780,129 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   };
 }
 
+const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
+  "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
+  "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
+  "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
+  "/nursing", "/nursing-specialties", "/nursing-certifications", "/study-pathways",
+  "/faq", "/about", "/contact", "/terms", "/privacy",
+  "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
+  "/rex-pn-practice-questions", "/np-exam-practice-questions",
+  "/free-practice", "/practice-questions", "/glossary", "/medication-mastery",
+  "/exam-prep", "/new-graduate-support", "/healthcare-careers", "/guides",
+  "/topics", "/allied-health", "/case-simulations", "/shop",
+  "/perioperative-nursing", "/preoperative-care", "/preoperative-nursing-guide",
+  "/perioperative-nurse-career", "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
+  "/medical-imaging", "/pharmacology", "/rex-pn", "/new-grad",
+  "/applynest", "/clinical-skills", "/clinical-case-studies", "/for-institutions",
+  "/order-of-the-draw", "/test-bank", "/dashboard",
+]));
+
+const KNOWN_DYNAMIC_PREFIXES = [
+  "/lessons/", "/learn/", "/blog/", "/clinical-clarity/", "/glossary/",
+  "/rpn/questions", "/rn/questions", "/np/questions",
+  "/conditions/", "/medications/", "/lab-values/",
+  "/how-to-become-", "/career-development/", "/new-grad/",
+  "/compare/", "/topics/", "/guides/",
+  "/allied-health/", "/flashcards/deck/",
+  "/medical-imaging/", "/practice-questions/",
+  "/mock-exams/", "/applynest/",
+  "/perioperative-", "/preoperative-",
+  "/nclex-rn/", "/nclex-pn/", "/rex-pn/", "/canada-np/", "/us-np/",
+  "/rpn/", "/rn/", "/np/",
+  "/radiography-", "/hyperkalemia-", "/barrel-chest-",
+  "/question-bank-", "/medication-mastery-", "/nursing-simulation-",
+  "/nursing/", "/paramedic/", "/respiratory-therapy/", "/mlt/", "/imaging/",
+  "/sepsis-", "/ventilator-", "/diabetes-", "/fluid-", "/hemodynamic-",
+  "/wound-care-", "/medication-admin", "/pain-management-", "/cardiac-rhythm-",
+  "/infection-control-", "/maternal-", "/pediatric-", "/mental-health-",
+  "/perioperative-care-", "/pharmacology-basics-", "/nclex-clinical-",
+  "/si-to-", "/canadian-vs-", "/glucose-", "/creatinine-", "/hemoglobin-",
+  "/bilirubin-", "/calcium-", "/urea-", "/cholesterol-", "/kg-to-",
+  "/celsius-", "/test-nclex-", "/pass-nclex-",
+  "/rexpn-", "/nclex-management-", "/nclex-safety-", "/nclex-health-",
+  "/nclex-psychosocial-", "/nclex-basic-", "/nclex-pharmacology",
+  "/nclex-reduction-", "/nclex-physiological-", "/nclex-pn-",
+  "/allied-respiratory-", "/allied-medical-", "/allied-radiography",
+  "/allied-paramedic", "/allied-occupational-", "/allied-social-",
+  "/allied-pharmacy-", "/allied-psychotherapy-", "/allied-health-exam-",
+  "/simulators/",
+];
+
+async function isDbContentAvailable(strippedPath: string): Promise<boolean> {
+  const learnMatch = strippedPath.match(/^\/learn\/(.+)$/);
+  if (learnMatch) {
+    try {
+      const result = await pool.query(
+        "SELECT 1 FROM content_items WHERE slug = $1 AND status = 'published' LIMIT 1",
+        [learnMatch[1]]
+      );
+      return result.rows.length > 0;
+    } catch { return false; }
+  }
+
+  const lessonMatch = strippedPath.match(/^\/lessons\/(.+)$/);
+  if (lessonMatch) {
+    const data = getLessonSeoData();
+    if (data[lessonMatch[1]]) return true;
+    try {
+      const result = await pool.query(
+        "SELECT 1 FROM lessons WHERE slug = $1 AND status = 'published' LIMIT 1",
+        [lessonMatch[1]]
+      );
+      return result.rows.length > 0;
+    } catch { return false; }
+  }
+
+  const blogMatch = strippedPath.match(/^\/blog\/(.+)$/);
+  const clarityMatch = strippedPath.match(/^\/clinical-clarity\/(.+)$/);
+  const slug = blogMatch?.[1] || clarityMatch?.[1];
+  if (slug) {
+    try {
+      const result = await pool.query(
+        "SELECT 1 FROM content_items WHERE slug = $1 AND status = 'published' LIMIT 1",
+        [slug]
+      );
+      return result.rows.length > 0;
+    } catch { return false; }
+  }
+
+  return true;
+}
+
+export async function checkContentExists(strippedPath: string): Promise<boolean> {
+  if (strippedPath === "/" || strippedPath === "") return true;
+
+  if (KNOWN_STATIC_PATHS.has(strippedPath)) return true;
+
+  for (const prefix of KNOWN_DYNAMIC_PREFIXES) {
+    if (strippedPath.startsWith(prefix) || strippedPath === prefix.replace(/\/$/, "")) {
+      const needsDbCheck = strippedPath.startsWith("/learn/") ||
+        strippedPath.startsWith("/lessons/") ||
+        (strippedPath.startsWith("/blog/") && strippedPath !== "/blog") ||
+        (strippedPath.startsWith("/clinical-clarity/") && strippedPath !== "/clinical-clarity");
+      if (needsDbCheck) {
+        return isDbContentAvailable(strippedPath);
+      }
+      return true;
+    }
+  }
+
+  if (isNoindexPath(strippedPath)) return true;
+
+  return false;
+}
+
 export async function injectMeta(html: string, pathname: string, options?: { isAllied?: boolean }): Promise<string> {
 const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname, options);
+
+  const contentExists = await checkContentExists(strippedPath);
+  if (!contentExists) {
+    meta.noindex = true;
+  }
 
   html = html.replace(
     /<html\s+lang="[^"]*"/,

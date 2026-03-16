@@ -80,6 +80,13 @@ Key architectural components and features:
 - **Sitemap Cleanup**: `server/sitemap/main-site.ts` and `server/sitemap/language-sitemaps.ts` filter out timestamp-suffix duplicate slugs and thin content from lesson and blog sitemaps.
 - **Meta Optimization**: `generateLessonSeoTitle()` and `generateLessonSeoDescription()` in `client/src/lib/seo-utils.ts` produce exam-relevance-focused titles and descriptions.
 
+## SEO Soft 404 Fix
+- **Server-side status codes**: Both `server/vite.ts` (dev) and `server/static.ts` (prod) now return HTTP 404 for unknown/non-existent pages instead of always returning 200
+- **Content existence check**: `checkContentExists()` in `server/seo-meta.ts` validates paths against known static routes, dynamic prefix routes with DB verification for `/learn/`, `/lessons/`, `/blog/`, `/clinical-clarity/` slugs
+- **Untranslated content**: Non-English locale paths for `/learn/`, `/blog/`, `/clinical-clarity/` pages get `noindex, follow` robots tag and canonical URL pointing to the English version
+- **Sitemap cleanup**: Language sitemaps (`server/sitemap/language-sitemaps.ts`) only include `/learn/` and `/blog/` URLs for the English locale; non-English locale sitemaps exclude these untranslated pages
+- **Neurovascular assessment**: `/learn/neurovascular-assessment-explained-clearly` seeded in `content_items` table with comprehensive 6 P's nursing assessment content (~13K chars)
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`
