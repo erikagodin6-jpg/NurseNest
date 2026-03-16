@@ -398,6 +398,13 @@ import { rpnContentBatch033Lessons } from "./rpn-content-batch-033";
 import { rpnContentBatch034Lessons } from "./rpn-content-batch-034";
 import { rpnContentBatch035Lessons } from "./rpn-content-batch-035";
 import { rpnContentBatch036Lessons } from "./rpn-content-batch-036";
+import { rpnContentBatch037Lessons } from "./rpn-content-batch-037";
+import { rpnContentBatch038Lessons } from "./rpn-content-batch-038";
+import { rpnContentBatch039Lessons } from "./rpn-content-batch-039";
+import { rpnContentBatch040Lessons } from "./rpn-content-batch-040";
+import { rpnContentBatch041Lessons } from "./rpn-content-batch-041";
+import { rpnContentBatch042Lessons } from "./rpn-content-batch-042";
+import { rpnContentBatch043Lessons } from "./rpn-content-batch-043";
 import { rnRespiratoryRenalExpansionLessons } from "./rn-respiratory-renal-expansion";
 import { rnArrhythmiasExpansionLessons } from "./rn-arrhythmias-expansion";
 import { rnChdAnticoagExpansionLessons } from "./rn-chd-anticoag-expansion";
@@ -1040,6 +1047,13 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rnHeentExpansionLessons,
   rnSafetyForensicExpansionLessons,
   rnInfectionControlExpansionLessons,
+  rpnContentBatch037Lessons,
+  rpnContentBatch038Lessons,
+  rpnContentBatch039Lessons,
+  rpnContentBatch040Lessons,
+  rpnContentBatch041Lessons,
+  rpnContentBatch042Lessons,
+  rpnContentBatch043Lessons,
 );
 
 

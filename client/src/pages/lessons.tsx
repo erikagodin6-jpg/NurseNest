@@ -580,7 +580,13 @@ export const rpnSystems = [
       { id: "vaccination-immunity", name: "Vaccination and Herd Immunity", status: "Available" },
       { id: "autoimmune-basics", name: "Autoimmune Disorders Overview", status: "Available" },
       { id: "inflammation-response", name: "Inflammatory Response", status: "Available" },
-      { id: "complement-system", name: "Complement System", status: "Available" }
+      { id: "complement-system", name: "Complement System", status: "Available" },
+      { id: "hiv-immune-basics-rpn", name: "HIV & Immune System Basics", status: "Available" },
+      { id: "transplant-rejection-basics-rpn", name: "Transplant Rejection Basics", status: "Available" },
+      { id: "allergy-hypersensitivity-types-rpn", name: "Allergy & Hypersensitivity Types", status: "Available" },
+      { id: "lupus-basics-rpn", name: "Lupus (SLE) Basics", status: "Available" },
+      { id: "immunodeficiency-basics-rpn", name: "Immunodeficiency Basics", status: "Available" },
+      { id: "gvhd-basics-rpn", name: "Graft-vs-Host Disease Basics", status: "Available" }
     ]
   },
   {
@@ -956,7 +962,13 @@ export const rpnSystems = [
       { id: "phimosis-rpn", name: "Phimosis", status: "Available" },
       { id: "priapism-rpn", name: "Priapism", status: "Available" },
       { id: "prostatitis-rpn", name: "Prostatitis", status: "Available" },
-      { id: "urethritis-rpn", name: "Urethritis", status: "Available" }
+      { id: "urethritis-rpn", name: "Urethritis", status: "Available" },
+      { id: "testicular-cancer-rpn", name: "Testicular Cancer", status: "Available" },
+      { id: "erectile-dysfunction-rpn", name: "Erectile Dysfunction", status: "Available" },
+      { id: "epididymitis-rpn", name: "Epididymitis", status: "Available" },
+      { id: "testicular-torsion-rpn", name: "Testicular Torsion", status: "Available" },
+      { id: "hydrocele-rpn", name: "Hydrocele", status: "Available" },
+      { id: "varicocele-rpn", name: "Varicocele", status: "Available" }
     ]
   },
   {
@@ -970,6 +982,16 @@ export const rpnSystems = [
       { id: "therapeutic-diets", name: "Therapeutic Diets", status: "Available" },
       { id: "fluid-electrolyte-basics", name: "Fluid and Electrolyte Basics", status: "Available" },
       { id: "dehydration-basics", name: "Dehydration Recognition", status: "Available" },
+      { id: "vitamin-deficiency-syndromes-rpn", name: "Vitamin Deficiency Syndromes", status: "Available" },
+      { id: "malnutrition-assessment-rpn", name: "Malnutrition Assessment", status: "Available" },
+      { id: "enteral-nutrition-management-rpn", name: "Enteral Nutrition Management", status: "Available" },
+      { id: "parenteral-nutrition-basics-rpn", name: "Parenteral Nutrition Basics", status: "Available" },
+      { id: "diabetic-diet-management-rpn", name: "Diabetic Diet Management", status: "Available" },
+      { id: "renal-diet-principles-rpn", name: "Renal Diet Principles", status: "Available" },
+      { id: "cardiac-diet-management-rpn", name: "Cardiac Diet Management", status: "Available" },
+      { id: "dysphagia-diet-modifications-rpn", name: "Dysphagia Diet Modifications", status: "Available" },
+      { id: "pediatric-nutrition-needs-rpn", name: "Pediatric Nutrition Needs", status: "Available" },
+      { id: "obesity-assessment-management-rpn", name: "Obesity Assessment & Management", status: "Available" },
     ]
   },
   {
@@ -983,6 +1005,17 @@ export const rpnSystems = [
       { id: "ppe-basics", name: "PPE: Donning and Doffing", status: "Available" },
       { id: "isolation-precautions-rpn", name: "Isolation Precautions Overview", status: "Available" },
       { id: "sterile-technique", name: "Sterile Technique and Asepsis", status: "Available" },
+      { id: "chain-of-infection-rpn", name: "Chain of Infection", status: "Available" },
+      { id: "standard-precautions-rpn", name: "Standard Precautions", status: "Available" },
+      { id: "airborne-precautions-rpn", name: "Airborne Precautions", status: "Available" },
+      { id: "droplet-precautions-rpn", name: "Droplet Precautions", status: "Available" },
+      { id: "contact-precautions-rpn", name: "Contact Precautions", status: "Available" },
+      { id: "surgical-site-infection-prevention-rpn", name: "Surgical Site Infection Prevention", status: "Available" },
+      { id: "needlestick-prevention-rpn", name: "Needlestick Prevention", status: "Available" },
+      { id: "biofilm-device-infections-rpn", name: "Biofilm & Device Infections", status: "Available" },
+      { id: "environmental-disinfection-rpn", name: "Environmental Disinfection", status: "Available" },
+      { id: "outbreak-management-rpn", name: "Outbreak Management", status: "Available" },
+      { id: "bloodborne-pathogen-safety-rpn", name: "Bloodborne Pathogen Safety", status: "Available" },
     ]
   },
   {
@@ -1103,7 +1136,14 @@ export const rpnSystems = [
       { id: "masd-rpn", name: "Moisture-Associated Skin Damage", status: "Available" },
       { id: "surgical-wound-care-rpn", name: "Surgical Wound Care", status: "Available" },
       { id: "dressing-types-rpn", name: "Wound Dressing Types and Selection", status: "Available" },
-      { id: "wound-irrigation-rpn", name: "Wound Irrigation", status: "Available" }
+      { id: "wound-irrigation-rpn", name: "Wound Irrigation", status: "Available" },
+      { id: "pressure-injury-staging-rpn", name: "Pressure Injury Staging", status: "Available" },
+      { id: "diabetic-foot-care-rpn", name: "Diabetic Foot Care", status: "Available" },
+      { id: "burn-wound-care-rpn", name: "Burn Wound Care", status: "Available" },
+      { id: "venous-ulcer-care-rpn", name: "Venous Ulcer Care", status: "Available" },
+      { id: "arterial-ulcer-care-rpn", name: "Arterial Ulcer Care", status: "Available" },
+      { id: "dehiscence-evisceration-rpn", name: "Dehiscence & Evisceration", status: "Available" },
+      { id: "wound-infection-management-rpn", name: "Wound Infection Management", status: "Available" }
     ]
   },
   {
@@ -1120,6 +1160,12 @@ export const rpnSystems = [
       { id: "epidural-analgesia-rpn", name: "Epidural Analgesia Basics", status: "Available" },
       { id: "neonatal-pain-rpn", name: "Neonatal Pain Recognition", status: "Available" },
       { id: "opioid-safety-rpn", name: "Opioid Safety and Monitoring", status: "Available" },
+      { id: "multimodal-analgesia-rpn", name: "Multimodal Analgesia", status: "Available" },
+      { id: "neuropathic-pain-management-rpn", name: "Neuropathic Pain Management", status: "Available" },
+      { id: "chronic-pain-syndromes-rpn", name: "Chronic Pain Syndromes", status: "Available" },
+      { id: "pain-in-elderly-rpn", name: "Pain in the Elderly", status: "Available" },
+      { id: "regional-anesthesia-awareness-rpn", name: "Regional Anesthesia Awareness", status: "Available" },
+      { id: "opioid-equivalency-rpn", name: "Opioid Equivalency", status: "Available" },
     ]
   },
   {
@@ -1137,6 +1183,12 @@ export const rpnSystems = [
       { id: "dnr-directives-rpn", name: "DNR and Advance Directives", status: "Available" },
       { id: "family-support-eol-rpn", name: "Family Support at End of Life", status: "Available" },
       { id: "postmortem-care-rpn", name: "Postmortem Care", status: "Available" },
+      { id: "dyspnea-eol-management-rpn", name: "Dyspnea EOL Management", status: "Available" },
+      { id: "pain-management-eol-rpn", name: "Pain Management at End of Life", status: "Available" },
+      { id: "nausea-eol-management-rpn", name: "Nausea EOL Management", status: "Available" },
+      { id: "terminal-delirium-rpn", name: "Terminal Delirium", status: "Available" },
+      { id: "spiritual-care-palliative-rpn", name: "Spiritual Care in Palliative", status: "Available" },
+      { id: "pediatric-palliative-care-rpn", name: "Pediatric Palliative Care", status: "Available" },
     ]
   },
   {
@@ -1153,6 +1205,13 @@ export const rpnSystems = [
       { id: "screening-programs-rpn", name: "Screening Programs", status: "Available" },
       { id: "community-resources-rpn", name: "Community Resources and Referrals", status: "Available" },
       { id: "discharge-planning-rpn", name: "Discharge Planning", status: "Available" },
+      { id: "epidemiology-basics-rpn", name: "Epidemiology Basics", status: "Available" },
+      { id: "immunization-schedules-rpn", name: "Immunization Schedules", status: "Available" },
+      { id: "occupational-health-nursing-rpn", name: "Occupational Health Nursing", status: "Available" },
+      { id: "school-health-nursing-rpn", name: "School Health Nursing", status: "Available" },
+      { id: "disaster-preparedness-rpn", name: "Disaster Preparedness", status: "Available" },
+      { id: "chronic-disease-management-rpn", name: "Chronic Disease Management", status: "Available" },
+      { id: "telehealth-nursing-rpn", name: "Telehealth Nursing", status: "Available" },
     ]
   },
   {
@@ -1191,7 +1250,15 @@ export const rpnSystems = [
       { id: "carbon-monoxide-poisoning-rpn", name: "Carbon Monoxide Poisoning", status: "Available" },
       { id: "heat-stroke-rpn", name: "Heat Stroke", status: "Available" },
       { id: "hypothermia-rpn", name: "Hypothermia", status: "Available" },
-      { id: "anaphylaxis-basics-rpn", name: "Anaphylaxis Basics", status: "Available" }
+      { id: "anaphylaxis-basics-rpn", name: "Anaphylaxis Basics", status: "Available" },
+      { id: "organophosphate-poisoning-rpn", name: "Organophosphate Poisoning", status: "Available" },
+      { id: "lead-poisoning-adult-rpn", name: "Lead Poisoning (Adult)", status: "Available" },
+      { id: "iron-toxicity-rpn", name: "Iron Toxicity", status: "Available" },
+      { id: "salicylate-toxicity-rpn", name: "Salicylate Toxicity", status: "Available" },
+      { id: "alcohol-poisoning-rpn", name: "Alcohol Poisoning", status: "Available" },
+      { id: "snake-bite-management-rpn", name: "Snake Bite Management", status: "Available" },
+      { id: "insect-sting-allergy-rpn", name: "Insect Sting Allergy", status: "Available" },
+      { id: "frostbite-care-rpn", name: "Frostbite Care", status: "Available" }
     ]
   },
   {
@@ -1204,7 +1271,18 @@ export const rpnSystems = [
       { id: "hypovolemic-shock-basics-rpn", name: "Hypovolemic Shock Basics", status: "Available" },
       { id: "neurogenic-shock-basics-rpn", name: "Neurogenic Shock Basics", status: "Available" },
       { id: "acute-transfusion-reaction-rpn", name: "Acute Transfusion Reaction", status: "Available" },
-      { id: "malignant-hyperthermia-rpn", name: "Malignant Hyperthermia", status: "Available" }
+      { id: "malignant-hyperthermia-rpn", name: "Malignant Hyperthermia", status: "Available" },
+      { id: "septic-shock-basics-rpn", name: "Septic Shock Basics", status: "Available" },
+      { id: "anaphylactic-shock-basics-rpn", name: "Anaphylactic Shock Basics", status: "Available" },
+      { id: "respiratory-failure-basics-rpn", name: "Respiratory Failure Basics", status: "Available" },
+      { id: "mechanical-ventilation-awareness-rpn", name: "Mechanical Ventilation Awareness", status: "Available" },
+      { id: "arterial-line-awareness-rpn", name: "Arterial Line Awareness", status: "Available" },
+      { id: "central-line-awareness-rpn", name: "Central Line Awareness", status: "Available" },
+      { id: "rapid-response-activation-rpn", name: "Rapid Response Activation", status: "Available" },
+      { id: "early-warning-scores-rpn", name: "Early Warning Scores", status: "Available" },
+      { id: "post-cardiac-arrest-care-rpn", name: "Post-Cardiac Arrest Care", status: "Available" },
+      { id: "status-epilepticus-basics-rpn", name: "Status Epilepticus Basics", status: "Available" },
+      { id: "ards-basics-rpn", name: "ARDS Basics", status: "Available" }
     ]
   },
   {
@@ -1222,6 +1300,12 @@ export const rpnSystems = [
       { id: "legal-edge-rpn", name: "Legal Edge Cases", status: "Available" },
       { id: "nursing-calc-rpn", name: "Nursing Calculations", status: "Available" },
       { id: "therapeutic-comm-rpn", name: "Therapeutic Communication", status: "Available" },
+      { id: "evidence-based-practice-rpn", name: "Evidence-Based Practice", status: "Available" },
+      { id: "time-management-nursing-rpn", name: "Time Management in Nursing", status: "Available" },
+      { id: "conflict-resolution-nursing-rpn", name: "Conflict Resolution in Nursing", status: "Available" },
+      { id: "interprofessional-collaboration-rpn", name: "Interprofessional Collaboration", status: "Available" },
+      { id: "quality-improvement-basics-rpn", name: "Quality Improvement Basics", status: "Available" },
+      { id: "continuing-education-rpn", name: "Continuing Education", status: "Available" },
     ]
   }
 ];
