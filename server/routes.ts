@@ -213,6 +213,18 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
+  const MIGRATION_REDIRECT_SLUGS = [
+    "philippines-to-canada", "india-to-canada", "philippines-to-usa",
+    "india-to-uk", "philippines-to-uk", "india-to-australia",
+    "nigeria-to-canada", "nepal-to-uk",
+  ];
+  for (const slug of MIGRATION_REDIRECT_SLUGS) {
+    app.get(`/:locale/${slug}`, (req, res) => {
+      const locale = req.params.locale || "en";
+      res.redirect(301, `/${locale}/international-nurses/${slug}`);
+    });
+  }
+
   app.post("/api/boot-beacon", (req, res) => {
     const { step, detail } = req.body || {};
     console.log(`[BOOT-BEACON] Step ${step}: ${detail || ""}`);

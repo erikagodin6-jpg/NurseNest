@@ -862,14 +862,22 @@ function AppRoutes() {
         <Route path="/for-institutions" component={ForInstitutions} />
         {/* International Nursing Hub — specific slugs BEFORE catch-all :country */}
         <Route path="/international-nurses" component={InternationalNursingHub} />
-        <Route path="/philippines-to-canada" component={InternationalNursingMigration} />
-        <Route path="/india-to-canada" component={InternationalNursingMigration} />
-        <Route path="/philippines-to-usa" component={InternationalNursingMigration} />
-        <Route path="/india-to-uk" component={InternationalNursingMigration} />
-        <Route path="/philippines-to-uk" component={InternationalNursingMigration} />
-        <Route path="/india-to-australia" component={InternationalNursingMigration} />
-        <Route path="/nigeria-to-canada" component={InternationalNursingMigration} />
-        <Route path="/nepal-to-uk" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/philippines-to-canada" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/india-to-canada" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/philippines-to-usa" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/india-to-uk" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/philippines-to-uk" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/india-to-australia" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/nigeria-to-canada" component={InternationalNursingMigration} />
+        <Route path="/international-nurses/nepal-to-uk" component={InternationalNursingMigration} />
+        <Route path="/philippines-to-canada">{() => <Redirect to="/international-nurses/philippines-to-canada" />}</Route>
+        <Route path="/india-to-canada">{() => <Redirect to="/international-nurses/india-to-canada" />}</Route>
+        <Route path="/philippines-to-usa">{() => <Redirect to="/international-nurses/philippines-to-usa" />}</Route>
+        <Route path="/india-to-uk">{() => <Redirect to="/international-nurses/india-to-uk" />}</Route>
+        <Route path="/philippines-to-uk">{() => <Redirect to="/international-nurses/philippines-to-uk" />}</Route>
+        <Route path="/india-to-australia">{() => <Redirect to="/international-nurses/india-to-australia" />}</Route>
+        <Route path="/nigeria-to-canada">{() => <Redirect to="/international-nurses/nigeria-to-canada" />}</Route>
+        <Route path="/nepal-to-uk">{() => <Redirect to="/international-nurses/nepal-to-uk" />}</Route>
         <Route path="/nclex-for-international-nurses" component={InternationalNursingExam} />
         <Route path="/rex-pn-for-international-nurses" component={InternationalNursingExam} />
         <Route path="/ielts-for-nurses" component={InternationalNursingExam} />

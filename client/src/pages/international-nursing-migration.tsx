@@ -428,10 +428,22 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
   );
 }
 
+const DESTINATION_COUNTRY_SLUGS: Record<string, string> = {
+  "Canada": "canada",
+  "United States": "united-states",
+  "United Kingdom": "united-kingdom",
+  "Australia": "australia",
+  "New Zealand": "new-zealand",
+  "Ireland": "ireland",
+  "UAE": "uae",
+  "Saudi Arabia": "saudi-arabia",
+};
+
 export default function InternationalNursingMigrationPage() {
   const rawPath = window.location.pathname.replace(/\/$/, '');
   const localeStripped = rawPath.replace(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/|$)/, '/');
-  const slug = localeStripped.replace(/^\//, '');
+  const pathSegments = localeStripped.replace(/^\//, '').split('/');
+  const slug = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : pathSegments[0];
   const config = MIGRATION_CONFIGS[slug];
 
   if (!config) return null;
@@ -488,6 +500,9 @@ export default function InternationalNursingMigrationPage() {
             <div className="flex flex-wrap gap-4">
               <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-start-prep">
                 Start Exam Prep <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors border border-teal-200" data-testid="button-find-jobs">
+                Find Jobs in {config.toCountry} <Briefcase className="w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -565,13 +580,28 @@ export default function InternationalNursingMigrationPage() {
         </div>
       </section>
 
+      {DESTINATION_COUNTRY_SLUGS[config.toCountry] && (
+        <section className="py-14 bg-gray-50" data-testid="section-destination-country">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-xl font-bold text-gray-900 mb-3">Learn More About Nursing in {config.toCountry}</h2>
+            <p className="text-gray-600 mb-6">Read our comprehensive licensing guide for {config.toCountry} covering registration, exams, visa pathways, and salary expectations.</p>
+            <Link href={`/international-nurses/${DESTINATION_COUNTRY_SLUGS[config.toCountry]}`} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="link-destination-country">
+              {config.toFlag} Nursing in {config.toCountry} Guide <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
+      )}
+
       <section className="py-14 bg-teal-600" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Start Your {config.fromCountry} to {config.toCountry} Journey</h2>
-          <p className="text-teal-100 mb-8">Prepare for your licensing exams with NurseNest or explore other migration pathways.</p>
+          <p className="text-teal-100 mb-8">Prepare for your licensing exams with NurseNest or find nursing jobs through ApplyNest.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-prep">
               Start Exam Prep <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/applynest" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-cta-jobs">
+              Find Nursing Jobs <Briefcase className="w-4 h-4" />
             </Link>
             <Link href="/international-nurses" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-700 text-white rounded-xl font-semibold hover:bg-teal-800 border border-teal-500" data-testid="button-cta-hub">
               Explore All Guides
