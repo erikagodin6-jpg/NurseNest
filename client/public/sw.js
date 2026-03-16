@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nursenest-v5';
+const CACHE_NAME = 'nursenest-v6';
 const STATIC_ASSETS = [
   '/favicon.svg',
   '/favicon.gif',
