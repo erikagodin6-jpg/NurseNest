@@ -38,3 +38,8 @@ Key systems:
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Object Storage**: Replit Object Storage (Google Cloud Storage)
+
+## Critical Build Notes
+- **DO NOT use manual chunk splitting (`manualChunks`) in vite.config.ts.** React 19 uses an `Activity` export that causes module initialization race conditions when React, ReactDOM, and dependent libraries (Radix UI, etc.) are split into separate vendor chunks. Vite's default code splitting handles initialization order correctly.
+- **Build command**: `npm run build` — outputs to `dist/public` for client, `dist/index.cjs` for server.
+- **Deployment**: build: `["npm","run","build"]`, run: `["node","./dist/index.cjs"]`
