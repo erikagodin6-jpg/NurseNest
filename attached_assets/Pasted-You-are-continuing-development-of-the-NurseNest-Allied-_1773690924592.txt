@@ -1,0 +1,341 @@
+You are continuing development of the NurseNest / Allied Health / New Grad ecosystem.
+
+Two major expansion priorities have already been completed. You must now determine and execute the NEXT highest-impact build priority in the platform roadmap.
+
+Do not explain your reasoning.
+Do not provide multiple options.
+Select the next priority automatically and implement it fully.
+
+CURRENT PLATFORM INVENTORY
+
+NURSING
+RN: ~8,350
+RPN/PN/LVN: ~6,300
+NP: ~4,150
+Pre-Nursing: ~350
+
+ALLIED HEALTH
+RRT: ~4,070
+Surgical Technologist: ~3,000
+MLT: ~2,000
+OTA: ~900
+PTA: ~900
+Pharmacy Technician: ~1,710
+Paramedic: ~1,500
+Imaging / Radiology: ~2,560
+Addictions Counsellor: ~1,000
+Psychotherapist: ~1,000
+Critical Care Cert: ~1,000
+Emergency Nursing Cert: ~1,375
+Perioperative Cert: ~1,000
+Oncology Nursing Cert: ~1,000
+Pediatric Cert: ~1,000
+Social Worker: expanded
+
+NEW GRAD
+Interview bank + career readiness content
+
+DATABASE
+AI Question Generator:
+~28,436 questions (MCQ + SATA)
+
+PRIORITY SELECTION RULES
+
+Select the next build priority using these rules:
+
+1. Focus on tiers under 1,200 questions
+2. Prioritize professions that are closely related (can reuse architecture)
+3. Prioritize tiers with strong SEO potential
+4. Prioritize tiers with professional licensing exams
+5. Prioritize tiers that can convert to premium exam prep
+6. Prioritize tiers that strengthen the Allied Health hub authority
+
+The next most logical build priority will likely be a dual-tier expansion because some professions naturally pair together.
+
+Most likely candidates:
+OTA + PTA
+Pre-Nursing
+New Grad expansion
+Addictions Counsellor
+Psychotherapist
+
+Automatically select the highest ROI option and execute it.
+
+────────────────────────────────
+
+PART 1 — PRIORITY SELECTION
+
+Determine the next development priority.
+
+Store it in configuration:
+
+ACTIVE_BUILD_PRIORITY
+
+Expose this constant in the admin dashboard.
+
+If two professions share nearly identical educational frameworks (such as OTA + PTA), treat them as a paired expansion priority.
+
+────────────────────────────────
+
+PART 2 — OTA / PTA DUAL EXPANSION (if selected)
+
+If OTA and PTA are chosen, build them together using shared architecture.
+
+Target question volume:
+
+OTA target: 2,000+
+PTA target: 2,000+
+
+Shared content architecture must include:
+
+• anatomy and physiology
+• musculoskeletal system
+• neurological conditions
+• rehabilitation principles
+• patient mobility
+• therapeutic exercises
+• assistive devices
+• patient safety
+• infection prevention
+• documentation
+• professional ethics
+• patient communication
+• interdisciplinary collaboration
+• clinical case scenarios
+• rehabilitation planning
+• patient education
+• geriatric rehabilitation
+• pediatric rehabilitation
+• neurological rehab
+• orthopedic rehab
+
+Each category must support:
+
+MCQ
+SATA
+clinical scenario questions
+clinical reasoning questions
+patient safety decisions
+rehabilitation planning cases
+
+────────────────────────────────
+
+PART 3 — MOCK EXAMS
+
+Create mock exams for each profession.
+
+OTA:
+
+3 full mock exams
+100–120 questions each
+
+PTA:
+
+3 full mock exams
+100–120 questions each
+
+Mock exams must include:
+
+mixed categories
+timed testing
+scoring reports
+topic performance breakdown
+
+────────────────────────────────
+
+PART 4 — HERO PAGE AUTHORITY
+
+Upgrade OTA and PTA hero pages to high-authority exam prep pages.
+
+Hero must include:
+
+large visible question counts
+mock exam counts
+topic bank counts
+conversion CTAs
+
+Hero messaging must emphasize:
+
+exam readiness
+realistic clinical scenarios
+organized topic banks
+practice exams
+confidence building
+
+Add sections:
+
+What’s included
+Who this is for
+How the bank works
+Practice strategy
+Frequently asked questions
+
+────────────────────────────────
+
+PART 5 — SEO STRUCTURE
+
+For both professions implement:
+
+optimized page titles
+long-tail exam keywords
+meta descriptions
+structured headings
+FAQ schema
+internal linking
+
+Add supporting internal links from:
+
+Allied Health hub
+Rehabilitation content pages
+Related professions
+Study guide articles
+Certification resources
+
+────────────────────────────────
+
+PART 6 — QUESTION BANK STRUCTURE
+
+Create a structured bank system.
+
+Each profession must have:
+
+Topic Banks
+Category Banks
+Mixed Practice Banks
+Mock Exams
+Scenario Banks
+
+Questions must support formats:
+
+MCQ
+SATA
+clinical cases
+patient prioritization
+rehabilitation planning
+documentation decisions
+
+────────────────────────────────
+
+PART 7 — QUESTION COUNT DISPLAY
+
+Integrate OTA and PTA into the universal counting system.
+
+Display on hero pages:
+
+Total Questions
+Mock Exams
+Scenario Questions
+Topic Banks
+
+Counts must pull from the counting manifest.
+
+────────────────────────────────
+
+PART 8 — ADMIN SUPPORT
+
+Add OTA/PTA visibility to admin dashboard.
+
+Admin must show:
+
+question counts by tier
+category counts
+uncategorized questions
+AI-generated inventory
+content gap detection
+priority recommendations
+
+────────────────────────────────
+
+PART 9 — PAYWALL CONSISTENCY
+
+Ensure OTA and PTA follow the premium architecture used across NurseNest.
+
+Requirements:
+
+free preview questions
+premium full banks
+locked mock exams
+upgrade CTAs
+no paywall bypass routes
+
+────────────────────────────────
+
+PART 10 — MULTI-LANGUAGE
+
+Ensure OTA and PTA support:
+
+English
+French
+Spanish
+
+Routing must follow the existing multilingual architecture.
+
+Counts must remain synchronized across languages.
+
+────────────────────────────────
+
+PART 11 — INTERNAL AUTHORITY NETWORK
+
+Strengthen the Allied Health ecosystem by adding internal links between:
+
+OTA
+PTA
+RRT
+MLT
+Paramedic
+Imaging
+
+Add cross-profession study suggestions where relevant.
+
+────────────────────────────────
+
+PART 12 — NEXT BUILD WATCHLIST
+
+After completing this priority, generate a ranked roadmap of the next weak tiers.
+
+Rank by:
+
+question volume
+SEO potential
+conversion opportunity
+content depth
+
+Likely next priorities after OTA/PTA:
+
+Pre-Nursing expansion
+New Grad interview bank expansion
+Addictions Counsellor
+Psychotherapist
+Certification exam banks
+
+Store this roadmap in admin as:
+
+CONTENT_EXPANSION_ROADMAP
+
+────────────────────────────────
+
+PART 13 — OUTPUT
+
+Return a build summary including:
+
+selected priority tier(s)
+question targets achieved
+category architecture created
+mock exams created
+files modified
+next expansion recommendation
+
+────────────────────────────────
+
+QUALITY RULES
+
+Do not inflate counts.
+Do not create thin pages.
+Do not leave empty routes.
+Do not break navigation.
+Do not modify the tier menu structure.
+Ensure OTA/PTA appear as authoritative exam prep programs.
+
+FINAL EXECUTION
+
+Identify the next priority tier(s) and implement the full expansion with exam-prep authority, SEO optimization, structured question banks, and monetization readiness.
