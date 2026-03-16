@@ -49,9 +49,11 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
     }));
 
   const nurseNestLinks = [
+    { href: "/newgrad", label: "New Grad Career Hub", category: "NurseNest Resources" },
+    { href: "/newgrad/certifications", label: "Certification Prep", category: "NurseNest Resources" },
+    { href: "/newgrad/clinical-references", label: "Clinical References", category: "NurseNest Resources" },
     { href: "/mock-exams", label: "Practice Exams", category: "NurseNest Resources" },
     { href: "/flashcards", label: "Flashcards", category: "NurseNest Resources" },
-    { href: "/blog", label: "Education Blog", category: "NurseNest Resources" },
   ];
 
   const alliedHealthLinks = [

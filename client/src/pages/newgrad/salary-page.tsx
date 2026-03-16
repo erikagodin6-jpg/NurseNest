@@ -140,6 +140,12 @@ export default function SalaryPage() {
             <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-green-700 rounded-xl font-semibold hover:bg-green-50 transition-colors border border-green-200" data-testid="link-interview">
               Interview Prep
             </Link>
+            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-green-700 rounded-xl font-semibold hover:bg-green-50 transition-colors border border-green-200" data-testid="link-certifications">
+              Certifications
+            </Link>
+            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-green-700 rounded-xl font-semibold hover:bg-green-50 transition-colors border border-green-200" data-testid="link-clinical-refs">
+              Clinical References
+            </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors" data-testid="link-hub">
               Career Hub <ArrowRight className="w-4 h-4" />
             </Link>

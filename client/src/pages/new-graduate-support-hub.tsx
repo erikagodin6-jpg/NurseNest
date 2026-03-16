@@ -103,9 +103,9 @@ export default function NewGraduateSupportHub() {
     <div className="min-h-screen bg-background" data-testid="new-graduate-support-hub-page">
       <Navigation />
       <SEO
-        title="New Graduate Support Hub: Career Launch Resources for Healthcare Professionals | NurseNest"
-        description="Central hub for new graduate healthcare professionals. Interview prep with STAR framework answers, ATS-optimized resume builder, cover letter generator, first 90 days roadmap, and clinical confidence tools for nursing and allied health graduates."
-        keywords="new grad nurse, new graduate healthcare, nursing interview prep, healthcare resume builder, first year nurse guide, clinical confidence, career transition healthcare, STAR interview framework, new grad paramedic, new grad respiratory therapist"
+        title="New Graduate Support Hub: Career Launch & First-Year Resources for Healthcare Professionals | NurseNest"
+        description="Central hub for new graduate healthcare professionals. Interview prep with STAR framework answers, ATS-optimized resume builder, cover letter generator, first 90 days roadmap, clinical confidence tools, and certification prep for nursing, paramedic, and allied health graduates."
+        keywords="new grad nurse, new graduate healthcare, nursing interview prep, healthcare resume builder, first year nurse guide, clinical confidence, career transition healthcare, STAR interview framework, new grad paramedic, new grad respiratory therapist, new grad certification prep"
         canonicalPath="/new-graduate-support"
         structuredData={collectionStructuredData}
         additionalStructuredData={[faqStructuredData]}
@@ -288,7 +288,7 @@ export default function NewGraduateSupportHub() {
               Start with the readiness quiz to identify your strengths and gaps, then use the career tools and exam prep resources to build confidence for your transition.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <LocaleLink href="/new-grad">
+              <LocaleLink href="/newgrad">
                 <Button className="bg-white text-indigo-700 hover:bg-indigo-50 px-6 py-2.5 font-semibold" data-testid="button-new-grad-explore">
                   Explore Full New Grad Hub
                   <ArrowRight className="w-4 h-4 ml-2" />

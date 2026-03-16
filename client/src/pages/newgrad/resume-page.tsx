@@ -154,6 +154,12 @@ export default function ResumePage() {
             <Link href="/newgrad/salary" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-pink-700 rounded-xl font-semibold hover:bg-pink-50 transition-colors border border-pink-200" data-testid="link-salary">
               Salary Negotiation
             </Link>
+            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-pink-700 rounded-xl font-semibold hover:bg-pink-50 transition-colors border border-pink-200" data-testid="link-certifications">
+              Certifications
+            </Link>
+            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-pink-700 rounded-xl font-semibold hover:bg-pink-50 transition-colors border border-pink-200" data-testid="link-clinical-refs">
+              Clinical References
+            </Link>
             <Link href="/newgrad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-600 text-white rounded-xl font-semibold hover:bg-pink-700 transition-colors" data-testid="link-hub">
               Career Hub <ArrowRight className="w-4 h-4" />
             </Link>

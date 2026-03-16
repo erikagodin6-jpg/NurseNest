@@ -139,9 +139,17 @@ export function CategoryPageLayout({
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-3">Explore More Career Resources</h2>
           <p className="text-gray-600 mb-6">Browse our complete library of new grad career development resources.</p>
-          <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="button-back-to-hub">
-            Back to Career Hub <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="link-clinical-refs">
+              Clinical References
+            </Link>
+            <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="link-certifications">
+              Certifications
+            </Link>
+            <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="button-back-to-hub">
+              Back to Career Hub <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
