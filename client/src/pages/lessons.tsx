@@ -3106,7 +3106,9 @@ export const npSystems = [
       { id: "ischemic-heart-disease-patho-np", name: "Ischemic Heart Disease: O2 Supply-Demand Mismatch", status: "Available" },
       { id: "hf-mechanisms-np", name: "Heart Failure Mechanisms: HFrEF vs HFpEF", status: "Available" },
       { id: "arrhythmogenesis-np", name: "Arrhythmogenesis: Automaticity & Reentry", status: "Available" },
-      { id: "valvular-disease-mechanisms-np", name: "Valvular Disease Mechanisms: Pressure vs Volume Overload", status: "Available" }
+      { id: "valvular-disease-mechanisms-np", name: "Valvular Disease Mechanisms: Pressure vs Volume Overload", status: "Available" },
+      { id: "cv-patho-atherosclerosis-np", name: "Atherosclerosis: Endothelial Dysfunction & Plaque Rupture", status: "Available" },
+      { id: "cv-patho-raas-pathology-np", name: "RAAS Pathology: Aldosterone Escape & End-Organ Damage", status: "Available" }
     ]
   },
   {
@@ -3120,7 +3122,10 @@ export const npSystems = [
       { id: "asthma-pathophysiology-np", name: "Asthma Pathophysiology: Airway Hyperresponsiveness", status: "Available" },
       { id: "copd-pathophysiology-np", name: "COPD Pathophysiology: V/Q Mismatch", status: "Available" },
       { id: "pneumonia-gas-exchange-np", name: "Pneumonia & Gas Exchange: Consolidation & Diffusion", status: "Available" },
-      { id: "pe-pathophysiology-np", name: "Pulmonary Embolism: Vascular Obstruction & Dead Space", status: "Available" }
+      { id: "pe-pathophysiology-np", name: "Pulmonary Embolism: Vascular Obstruction & Dead Space", status: "Available" },
+      { id: "resp-patho-airway-remodeling-np", name: "Airway Remodeling: Chronic Asthma & Fibrotic Changes", status: "Available" },
+      { id: "resp-patho-gas-exchange-np", name: "Gas Exchange Failure: Shunt vs Dead Space Physiology", status: "Available" },
+      { id: "resp-patho-surfactant-alveolar-np", name: "Surfactant & Alveolar Mechanics: Surface Tension Regulation", status: "Available" }
     ]
   },
   {
@@ -3133,7 +3138,11 @@ export const npSystems = [
       { id: "ischemic-stroke-cascade-np", name: "Ischemic Stroke Cascade: Energy Failure & Excitotoxicity", status: "Available" },
       { id: "seizure-physiology-np", name: "Seizure Physiology: Neuronal Hyperexcitability", status: "Available" },
       { id: "neurodegeneration-np", name: "Neurodegeneration: Dopamine Depletion & Amyloid/Tau", status: "Available" },
-      { id: "peripheral-neuropathy-patho-np", name: "Peripheral Neuropathy: Demyelination vs Axonal Injury", status: "Available" }
+      { id: "peripheral-neuropathy-patho-np", name: "Peripheral Neuropathy: Demyelination vs Axonal Injury", status: "Available" },
+      { id: "neuro-patho-bbb-disruption-np", name: "Blood-Brain Barrier Disruption: Neuroinflammation & Edema", status: "Available" },
+      { id: "neuro-patho-cerebral-edema-np", name: "Cerebral Edema: Cytotoxic vs Vasogenic Mechanisms", status: "Available" },
+      { id: "neuro-patho-demyelination-np", name: "Demyelination: Autoimmune & Metabolic Mechanisms", status: "Available" },
+      { id: "neuro-patho-neurotransmitter-np", name: "Neurotransmitter Imbalance: Excitotoxicity & Receptor Signaling", status: "Available" }
     ]
   },
   {
@@ -3147,7 +3156,10 @@ export const npSystems = [
       { id: "dka-hhs-patho-np", name: "DKA vs HHS: Ketogenesis & Osmotic Diuresis", status: "Available" },
       { id: "thyroid-disorders-patho-np", name: "Thyroid Disorders: Hyperthyroidism & Autoimmune Thyroiditis", status: "Available" },
       { id: "adrenal-disorders-patho-np", name: "Adrenal Disorders: Cortisol Excess & Deficiency", status: "Available" },
-      { id: "pcos-pathophysiology-np", name: "PCOS: Hyperandrogenism & Insulin Resistance", status: "Available" }
+      { id: "pcos-pathophysiology-np", name: "PCOS: Hyperandrogenism & Insulin Resistance", status: "Available" },
+      { id: "endo-patho-insulin-resistance-np", name: "Insulin Resistance: Molecular Signaling & Beta-Cell Exhaustion", status: "Available" },
+      { id: "endo-patho-thyroid-autoimmunity-np", name: "Thyroid Autoimmunity: Hashimoto & Graves Immunopathology", status: "Available" },
+      { id: "endo-patho-adrenal-axis-np", name: "HPA Axis Dysregulation: Cushing & Addison Pathogenesis", status: "Available" }
     ]
   },
   {
@@ -3159,7 +3171,9 @@ export const npSystems = [
     diseases: [
       { id: "aki-mechanisms-np", name: "AKI Mechanisms: Prerenal vs Intrinsic vs Postrenal", status: "Available" },
       { id: "ckd-progression-patho-np", name: "CKD Progression: Nephron Loss & RAAS Overactivation", status: "Available" },
-      { id: "proteinuria-mechanisms-np", name: "Proteinuria Mechanisms: Glomerular Injury", status: "Available" }
+      { id: "proteinuria-mechanisms-np", name: "Proteinuria Mechanisms: Glomerular Injury", status: "Available" },
+      { id: "renal-patho-gfr-autoregulation-np", name: "GFR Autoregulation: Tubuloglomerular Feedback & Myogenic Response", status: "Available" },
+      { id: "renal-patho-proteinuria-np", name: "Proteinuria & Podocyte Injury: Glomerular Barrier Dysfunction", status: "Available" }
     ]
   },
   {
@@ -3172,7 +3186,10 @@ export const npSystems = [
       { id: "gerd-mechanisms-np", name: "GERD Mechanisms: LES Dysfunction", status: "Available" },
       { id: "peptic-ulcer-patho-np", name: "Peptic Ulcer Disease: Mucosal Barrier Breakdown", status: "Available" },
       { id: "cirrhosis-patho-np", name: "Cirrhosis: Portal Hypertension & Ascites Formation", status: "Available" },
-      { id: "pancreatitis-patho-np", name: "Pancreatitis: Autodigestion Cascade", status: "Available" }
+      { id: "pancreatitis-patho-np", name: "Pancreatitis: Autodigestion Cascade", status: "Available" },
+      { id: "gi-patho-hepatic-encephalopathy-np", name: "Hepatic Encephalopathy: Ammonia Neurotoxicity & Astrocyte Swelling", status: "Available" },
+      { id: "gi-patho-ibd-mucosal-immune-np", name: "IBD: Mucosal Immune Dysregulation in Crohn's vs UC", status: "Available" },
+      { id: "gi-patho-acute-liver-failure-np", name: "Acute Liver Failure: Acetaminophen Toxicity & Coagulopathy", status: "Available" }
     ]
   },
   {
@@ -3184,7 +3201,9 @@ export const npSystems = [
     diseases: [
       { id: "anemia-mechanisms-np", name: "Anemia Mechanisms: Production vs Destruction vs Loss", status: "Available" },
       { id: "coagulation-disorders-patho-np", name: "Coagulation Disorders: Platelet & Clotting Factor", status: "Available" },
-      { id: "thromboembolism-patho-np", name: "Thromboembolism: Virchow's Triad", status: "Available" }
+      { id: "thromboembolism-patho-np", name: "Thromboembolism: Virchow's Triad", status: "Available" },
+      { id: "heme-patho-dic-pathogenesis-np", name: "DIC: Simultaneous Thrombosis & Hemorrhage Pathogenesis", status: "Available" },
+      { id: "heme-patho-sickle-cell-vasocclusion-np", name: "Sickle Cell Disease: Vaso-Occlusive Crisis & Hydroxyurea", status: "Available" }
     ]
   },
   {
@@ -3195,7 +3214,9 @@ export const npSystems = [
     bgColor: "bg-amber-50",
     diseases: [
       { id: "sepsis-cascade-patho-np", name: "Sepsis Cascade: Cytokine Storm & Capillary Leak", status: "Available" },
-      { id: "host-pathogen-interaction-np", name: "Host–Pathogen Interaction: Immune Evasion", status: "Available" }
+      { id: "host-pathogen-interaction-np", name: "Host–Pathogen Interaction: Immune Evasion", status: "Available" },
+      { id: "infectious-patho-antibiotic-resistance-np", name: "Antimicrobial Resistance: MRSA, ESBL & CRE Mechanisms", status: "Available" },
+      { id: "infectious-patho-viral-replication-np", name: "Viral Pathogenesis: Replication Cycles & Antiviral Targets", status: "Available" }
     ]
   },
   {
@@ -3228,7 +3249,9 @@ export const npSystems = [
     bgColor: "bg-violet-50",
     diseases: [
       { id: "depression-neurobiology-np", name: "Depression Neurobiology: Monoamine Hypothesis & HPA Axis", status: "Available" },
-      { id: "anxiety-disorders-patho-np", name: "Anxiety Disorders: Amygdala Dysregulation", status: "Available" }
+      { id: "anxiety-disorders-patho-np", name: "Anxiety Disorders: Amygdala Dysregulation", status: "Available" },
+      { id: "psych-patho-schizophrenia-dopamine-np", name: "Schizophrenia Neurobiology: Dopamine Hypothesis & Glutamate Theory", status: "Available" },
+      { id: "psych-patho-substance-use-neuroscience-np", name: "Substance Use Disorders: Reward Circuitry & MAT", status: "Available" }
     ]
   },
   {
@@ -3244,7 +3267,8 @@ export const npSystems = [
       { id: "metabolic-syndrome-np", name: "Metabolic Syndrome", status: "Available" },
       { id: "aging-physiology-changes-np", name: "Aging Physiology: Pharmacokinetic & Organ Reserve Changes", status: "Available" },
       { id: "orthostatic-hypotension-syndromes-np", name: "Orthostatic Hypotension Syndromes: Autonomic Failure & Shy-Drager", status: "Available" },
-      { id: "osa-pathophysiology-deep-np", name: "OSA Pathophysiology Deep Dive: Upper Airway Collapse & CV Risk", status: "Available" }
+      { id: "osa-pathophysiology-deep-np", name: "OSA Pathophysiology Deep Dive: Upper Airway Collapse & CV Risk", status: "Available" },
+      { id: "cross-system-sepsis-cascade-np", name: "Sepsis: SOFA Score & Surviving Sepsis Campaign Guidelines", status: "Available" }
     ]
   },
   {
@@ -3271,7 +3295,9 @@ export const npSystems = [
       { id: "hyperlipidemia-criteria-np", name: "Hyperlipidemia: LDL Thresholds & ASCVD Risk", status: "Available" },
       { id: "hf-diagnostic-criteria-np", name: "Heart Failure: Symptoms, EF & BNP Interpretation", status: "Available" },
       { id: "afib-diagnostic-criteria-np", name: "Atrial Fibrillation: ECG Confirmation", status: "Available" },
-      { id: "acs-diagnostic-criteria-np", name: "ACS: Troponin Rise/Fall & ECG Changes", status: "Available" }
+      { id: "acs-diagnostic-criteria-np", name: "ACS: Troponin Rise/Fall & ECG Changes", status: "Available" },
+      { id: "valve-disease-diagnostic-criteria-np", name: "Valvular Disease: Murmur Grading & Echocardiographic Criteria", status: "Available" },
+      { id: "pvd-diagnostic-criteria-np", name: "PVD: ABI Interpretation & Duplex Ultrasound Criteria", status: "Available" }
     ]
   },
   {
@@ -3284,7 +3310,8 @@ export const npSystems = [
       { id: "asthma-diagnostic-criteria-np", name: "Asthma: Spirometry & Reversibility Criteria", status: "Available" },
       { id: "copd-diagnostic-criteria-np", name: "COPD: FEV1/FVC Threshold & GOLD Staging", status: "Available" },
       { id: "pneumonia-diagnostic-criteria-np", name: "Pneumonia: Clinical + Imaging Requirements", status: "Available" },
-      { id: "pe-diagnostic-criteria-np", name: "PE: Wells Criteria & D-Dimer Interpretation", status: "Available" }
+      { id: "pe-diagnostic-criteria-np", name: "PE: Wells Criteria & D-Dimer Interpretation", status: "Available" },
+      { id: "pleural-effusion-diagnostic-criteria-np", name: "Pleural Effusion: Light's Criteria & Thoracentesis Indications", status: "Available" }
     ]
   },
   {
@@ -3297,7 +3324,8 @@ export const npSystems = [
       { id: "stroke-diagnostic-criteria-np", name: "Stroke: Clinical Diagnosis & Imaging Confirmation", status: "Available" },
       { id: "migraine-diagnostic-criteria-np", name: "Migraine: ICHD Diagnostic Features", status: "Available" },
       { id: "epilepsy-diagnostic-criteria-np", name: "Epilepsy: Unprovoked Seizure Recurrence Definition", status: "Available" },
-      { id: "dementia-diagnostic-criteria-np", name: "Dementia: Cognitive Decline & Reversible Causes", status: "Available" }
+      { id: "dementia-diagnostic-criteria-np", name: "Dementia: Cognitive Decline & Reversible Causes", status: "Available" },
+      { id: "ms-diagnostic-criteria-np", name: "Multiple Sclerosis: McDonald Criteria & MRI Findings", status: "Available" }
     ]
   },
   {
@@ -3311,7 +3339,8 @@ export const npSystems = [
       { id: "prediabetes-criteria-np", name: "Prediabetes: Lab Cutoffs", status: "Available" },
       { id: "hypothyroidism-criteria-np", name: "Hypothyroidism: TSH & Free T4 Interpretation", status: "Available" },
       { id: "hyperthyroidism-criteria-np", name: "Hyperthyroidism: Suppressed TSH & T4/T3", status: "Available" },
-      { id: "pcos-rotterdam-criteria-np", name: "PCOS: Rotterdam Criteria", status: "Available" }
+      { id: "pcos-rotterdam-criteria-np", name: "PCOS: Rotterdam Criteria", status: "Available" },
+      { id: "cushings-diagnostic-criteria-np", name: "Cushing Syndrome: Diagnostic Algorithm & Confirmatory Testing", status: "Available" }
     ]
   },
   {
@@ -3347,7 +3376,8 @@ export const npSystems = [
     diseases: [
       { id: "iron-deficiency-anemia-criteria-np", name: "Iron Deficiency Anemia: Ferritin & Microcytosis", status: "Available" },
       { id: "b12-deficiency-criteria-np", name: "B12 Deficiency: Lab Thresholds & Clinical Signs", status: "Available" },
-      { id: "dvt-diagnostic-criteria-np", name: "DVT: Wells Criteria & Imaging Confirmation", status: "Available" }
+      { id: "dvt-diagnostic-criteria-np", name: "DVT: Wells Criteria & Imaging Confirmation", status: "Available" },
+      { id: "dvt-pe-diagnostic-criteria-np", name: "DVT/PE: Combined Diagnostic Algorithm & Anticoagulation", status: "Available" }
     ]
   },
   {
@@ -3483,7 +3513,8 @@ export const npSystems = [
       { id: "smart-therapy-np", name: "SMART Therapy Concept", status: "Available" },
       { id: "copd-lama-laba-ics-np", name: "COPD: LAMA vs LABA vs ICS Combinations", status: "Available" },
       { id: "copd-exacerbation-rx-np", name: "COPD Exacerbation Prescribing", status: "Available" },
-      { id: "pneumonia-outpatient-abx-np", name: "Pneumonia Outpatient: Antibiotic Selection & Allergy", status: "Available" }
+      { id: "pneumonia-outpatient-abx-np", name: "Pneumonia Outpatient: Antibiotic Selection & Allergy", status: "Available" },
+      { id: "resp-rx-biologics-severe-asthma-np", name: "Biologic Therapy for Severe Asthma: Anti-IgE, Anti-IL5, Anti-IL4R", status: "Available" }
     ]
   },
   {
@@ -3520,7 +3551,8 @@ export const npSystems = [
       { id: "insulin-types-titration-np", name: "Insulin Types & Titration Basics", status: "Available" },
       { id: "levothyroxine-dosing-np", name: "Levothyroxine Dosing & TSH Monitoring", status: "Available" },
       { id: "bisphosphonate-prescribing-np", name: "Bisphosphonate Prescribing", status: "Available" },
-      { id: "calcium-vitamin-d-logic-np", name: "Calcium/Vitamin D Logic", status: "Available" }
+      { id: "calcium-vitamin-d-logic-np", name: "Calcium/Vitamin D Logic", status: "Available" },
+      { id: "endo-rx-sglt2-inhibitors-np", name: "SGLT2 Inhibitors: Mechanism, CV/Renal Benefits & Prescribing", status: "Available" }
     ]
   },
   {
@@ -3532,7 +3564,12 @@ export const npSystems = [
     diseases: [
       { id: "hyperkalemia-mgmt-rx-np", name: "Hyperkalemia Management Prescribing", status: "Available" },
       { id: "diuretic-selection-logic-np", name: "Diuretic Selection Logic", status: "Available" },
-      { id: "ckd-medication-adjustments-np", name: "CKD Medication Adjustments", status: "Available" }
+      { id: "ckd-medication-adjustments-np", name: "CKD Medication Adjustments", status: "Available" },
+      { id: "renal-rx-potassium-management-np", name: "Potassium Management Protocols: IV & Oral Replacement", status: "Available" },
+      { id: "renal-rx-diuretic-management-np", name: "Diuretic Management: Loop vs Thiazide Resistance", status: "Available" },
+      { id: "renal-rx-phosphate-binders-ckd-np", name: "CKD-MBD: Phosphate Binder Selection & Calcium Balance", status: "Available" },
+      { id: "renal-rx-ckd-anemia-epo-np", name: "CKD Anemia: ESA Prescribing & Iron Supplementation", status: "Available" },
+      { id: "renal-rx-acid-base-correction-np", name: "Metabolic Acidosis Correction: Bicarbonate Therapy", status: "Available" }
     ]
   },
   {
@@ -3545,7 +3582,10 @@ export const npSystems = [
       { id: "ppi-h2-blocker-logic-np", name: "PPI vs H2 Blocker Selection", status: "Available" },
       { id: "ibs-therapies-rx-np", name: "IBS Therapies: Selection & Logic", status: "Available" },
       { id: "h-pylori-regimens-np", name: "H. pylori Regimens", status: "Available" },
-      { id: "hepatitis-treatment-overview-np", name: "Hepatitis Treatment Overview", status: "Available" }
+      { id: "hepatitis-treatment-overview-np", name: "Hepatitis Treatment Overview", status: "Available" },
+      { id: "gi-rx-ppi-stewardship-np", name: "PPI Stewardship: Long-Term Risks & Deprescribing", status: "Available" },
+      { id: "gi-rx-h-pylori-eradication-np", name: "H. pylori Eradication: Triple & Quadruple Therapy", status: "Available" },
+      { id: "gi-rx-antiemetics-np", name: "Antiemetic Prescribing: Receptor-Based Selection", status: "Available" }
     ]
   },
   {
@@ -3582,7 +3622,9 @@ export const npSystems = [
     diseases: [
       { id: "beers-criteria-prescribing-np", name: "Beers Criteria: Prescribing Application", status: "Available" },
       { id: "fall-risk-meds-np", name: "Fall-Risk Medications", status: "Available" },
-      { id: "deprescribing-strategies-np", name: "Deprescribing Strategies", status: "Available" }
+      { id: "deprescribing-strategies-np", name: "Deprescribing Strategies", status: "Available" },
+      { id: "geriatrics-beers-criteria-np", name: "Beers Criteria Deep Dive: High-Risk Medications in Elderly", status: "Available" },
+      { id: "geriatrics-delirium-prevention-np", name: "Delirium Prevention: Non-Pharmacological & Pharmacological Strategies", status: "Available" }
     ]
   },
   {
@@ -4096,7 +4138,8 @@ export const npSystems = [
       { id: "risk-benefit-reasoning-np", name: "Risk vs Benefit Reasoning", status: "Available" },
       { id: "differential-diagnosis-narrowing-np", name: "Differential Diagnosis Narrowing", status: "Available" },
       { id: "next-best-step-np", name: "Next Best Step Decisions", status: "Available" },
-      { id: "health-promotion-np", name: "Health Promotion", status: "Available" }
+      { id: "health-promotion-np", name: "Health Promotion", status: "Available" },
+      { id: "hy-exam-first-worst-presentations-np", name: "First & Worst Emergency Presentations: Red Flag Recognition", status: "Available" }
     ]
   },
   {

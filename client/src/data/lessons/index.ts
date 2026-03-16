@@ -97,6 +97,11 @@ import { pharmacologyGiRenalSpecialtyLessons } from "./pharmacology-gi-renal-spe
 import { npPathoExpansionLessons } from "./np-patho-expansion";
 import { npGeneratedBatch7 } from "./np-generated-batch-7";
 import { npCurriculumBatch1 } from "./np-curriculum-batch-1";
+import { npContentExpansionPathoLessons } from "./np-content-expansion-patho";
+import { npContentExpansionPatho2Lessons } from "./np-content-expansion-patho-2";
+import { npContentExpansionDxLessons } from "./np-content-expansion-dx";
+import { npContentExpansionRxLessons } from "./np-content-expansion-rx";
+import { npContentExpansionMiscLessons } from "./np-content-expansion-misc";
 
 import { rpnPathoCardiovascularLessons } from "./rpn-patho-cardiovascular";
 import { rpnPathoHematologyEndocrineLessons } from "./rpn-patho-hematology-endocrine";
@@ -1030,6 +1035,11 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   npAssessmentContentCLessons,
   npGeneratedBatch7,
   npCurriculumBatch1,
+  npContentExpansionPathoLessons,
+  npContentExpansionPatho2Lessons,
+  npContentExpansionDxLessons,
+  npContentExpansionRxLessons,
+  npContentExpansionMiscLessons,
   rnRespiratoryRenalExpansionLessons,
   rnShockCriticalCareLessons,
   rnArrhythmiasExpansionLessons,
