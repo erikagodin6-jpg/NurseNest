@@ -237,6 +237,7 @@ const SpecialtyHubBySlug = lazy(() => import("@/pages/specialty-hub-page").then(
 const SpecialtySeoPage = lazy(() => import("@/pages/specialty-seo-page"));
 const SpecialtySeoBySlug = lazy(() => import("@/pages/specialty-seo-page").then(m => ({ default: m.SpecialtySeoBySlug })));
 const NursingCertificationsHub = lazy(() => import("@/pages/nursing-certifications-hub"));
+const CertificationExamPrepHub = lazy(() => import("@/pages/certification-exam-prep-hub"));
 const StudyPathwaysHub = lazy(() => import("@/pages/study-pathways-hub"));
 const NursingHubPage = lazy(() => import("@/pages/nursing-hub-page"));
 const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
@@ -763,6 +764,7 @@ function AppRoutes() {
         <Route path="/certification-exam-prep" component={CertificationExamPrepHub} />
 
         {/* Nursing Content Hub */}
+        <Route path="/certification-exam-prep" component={CertificationExamPrepHub} />
         <Route path="/nursing-certifications" component={NursingCertificationsHub} />
         <Route path="/nursing-certifications-hub">{() => <Redirect to="/newgrad/certifications" />}</Route>
         <Route path="/study-pathways" component={StudyPathwaysHub} />
@@ -772,6 +774,11 @@ function AppRoutes() {
         <Route path="/certifications/nrp-prep" component={CertificationPrepPage} />
         <Route path="/certifications/tncc-prep" component={CertificationPrepPage} />
         <Route path="/certifications/enpc-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/ccrn-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/emergency-nursing-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/oncology-nursing-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/pediatric-nursing-prep" component={CertificationPrepPage} />
+        <Route path="/certifications/perioperative-nursing-prep" component={CertificationPrepPage} />
         <Route path="/certifications/bls-renewal-prep" component={CertificationRenewalPage} />
         <Route path="/certifications/acls-renewal-prep" component={CertificationRenewalPage} />
         <Route path="/certifications/pals-renewal-prep" component={CertificationRenewalPage} />

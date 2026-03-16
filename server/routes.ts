@@ -68,7 +68,7 @@ import { registerPremiumStudyRoutes } from "./premium-study-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
-import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
+import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
 import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
@@ -2847,7 +2847,7 @@ Keep responses concise and actionable.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      res.json({ ...getAiConfig(), ACTIVE_BUILD_PRIORITY: "QUESTION_EXPLANATION_ENGINE" });
+      res.json({ ...getAiConfig(), ACTIVE_BUILD_PRIORITY });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

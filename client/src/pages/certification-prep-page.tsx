@@ -16,10 +16,15 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
   orange: { bg: "bg-orange-50", iconColor: "text-orange-600", border: "border-orange-100", gradientFrom: "from-orange-50", gradientTo: "to-orange-100/30", badgeBg: "bg-orange-100", badgeText: "text-orange-700", btnBg: "bg-orange-600", btnHover: "hover:bg-orange-700" },
   pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100", gradientFrom: "from-pink-50", gradientTo: "to-pink-100/30", badgeBg: "bg-pink-100", badgeText: "text-pink-700", btnBg: "bg-pink-600", btnHover: "hover:bg-pink-700" },
   violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", gradientFrom: "from-violet-50", gradientTo: "to-violet-100/30", badgeBg: "bg-violet-100", badgeText: "text-violet-700", btnBg: "bg-violet-600", btnHover: "hover:bg-violet-700" },
+  rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100", gradientFrom: "from-rose-50", gradientTo: "to-rose-100/30", badgeBg: "bg-rose-100", badgeText: "text-rose-700", btnBg: "bg-rose-600", btnHover: "hover:bg-rose-700" },
+  amber: { bg: "bg-amber-50", iconColor: "text-amber-600", border: "border-amber-100", gradientFrom: "from-amber-50", gradientTo: "to-amber-100/30", badgeBg: "bg-amber-100", badgeText: "text-amber-700", btnBg: "bg-amber-600", btnHover: "hover:bg-amber-700" },
+  purple: { bg: "bg-purple-50", iconColor: "text-purple-600", border: "border-purple-100", gradientFrom: "from-purple-50", gradientTo: "to-purple-100/30", badgeBg: "bg-purple-100", badgeText: "text-purple-700", btnBg: "bg-purple-600", btnHover: "hover:bg-purple-700" },
+  teal: { bg: "bg-teal-50", iconColor: "text-teal-600", border: "border-teal-100", gradientFrom: "from-teal-50", gradientTo: "to-teal-100/30", badgeBg: "bg-teal-100", badgeText: "text-teal-700", btnBg: "bg-teal-600", btnHover: "hover:bg-teal-700" },
+  indigo: { bg: "bg-indigo-50", iconColor: "text-indigo-600", border: "border-indigo-100", gradientFrom: "from-indigo-50", gradientTo: "to-indigo-100/30", badgeBg: "bg-indigo-100", badgeText: "text-indigo-700", btnBg: "bg-indigo-600", btnHover: "hover:bg-indigo-700" },
 };
 
 function extractCertSlug(pathname: string): string {
-  const match = pathname.match(/\/certifications\/([a-z]+)-prep/);
+  const match = pathname.match(/\/certifications\/([a-z-]+)-prep/);
   return match ? match[1] : "";
 }
 
@@ -322,7 +327,7 @@ export default function CertificationPrepPage() {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {["bls", "acls", "pals", "nrp", "tncc", "enpc"].filter(s => s !== certSlug).map(slug => {
+            {["bls", "acls", "pals", "nrp", "tncc", "enpc", "ccrn", "emergency-nursing", "oncology-nursing", "pediatric-nursing", "perioperative-nursing"].filter(s => s !== certSlug).slice(0, 10).map(slug => {
               const rel = CERT_PREP_CONTENT[slug];
               if (!rel) return null;
               return (

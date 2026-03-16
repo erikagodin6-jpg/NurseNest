@@ -1,3 +1,5 @@
+export const ACTIVE_BUILD_PRIORITY = "CERTIFICATION_EXAM_EXPANSION";
+
 const ENABLE_AI_AUTOGEN = process.env.ENABLE_AI_AUTOGEN === "true";
 const MAX_AI_ITEMS_PER_DAY = parseInt(process.env.MAX_AI_ITEMS_PER_DAY || "200", 10);
 const MAX_AI_TOKENS_PER_DAY = parseInt(process.env.MAX_AI_TOKENS_PER_DAY || "300000", 10);

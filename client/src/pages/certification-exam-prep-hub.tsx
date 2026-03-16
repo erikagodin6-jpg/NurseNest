@@ -1,178 +1,179 @@
 import { Link } from "wouter";
-import { SEO } from "@/components/seo";
+import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData } from "@/lib/structured-data";
+import { SEO } from "@/components/seo";
 import {
-  CERTIFICATION_EXAM_CONFIGS,
-  getCertTotalQuestions,
-  getCertTotalMockExams,
-  getCertCount,
-  PRACTICE_MODES,
-} from "@/data/certification-exam-data";
-import {
-  ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
-  Target, TrendingUp, Clock, GraduationCap, Lock, Crown,
-  Activity, Heart, Baby, Zap, Stethoscope, Ribbon, Scissors,
-  ClipboardList, GitBranch, Shuffle, Timer, BarChart3
+  ArrowRight, Award, BookOpen, ChevronRight, ChevronDown,
+  GraduationCap, Target, Brain, BarChart3, Clock,
+  Activity, Heart, Baby, Zap, Shield, Stethoscope,
+  Scissors, Ribbon, Users, Play, ClipboardList, Layers,
+  FileText, Timer, Shuffle, ListOrdered
 } from "lucide-react";
 
-const CERT_ICON_MAP: Record<string, typeof Activity> = {
-  bls: Activity, acls: Heart, pals: Baby, nrp: Baby,
-  tncc: Zap, enpc: Baby, ccrn: Activity, cen: Stethoscope,
-  ocn: Ribbon, cnor: Scissors, cpn: Baby,
-};
+import { BLS_BANK, ACLS_BANK, PALS_BANK, NRP_BANK, TNCC_BANK, ENPC_BANK } from "@/data/exam-questions/certification-banks";
+import { CCRN_BANK, EMERGENCY_NURSING_BANK, ONCOLOGY_NURSING_BANK, PEDIATRIC_NURSING_BANK, PERIOPERATIVE_NURSING_BANK } from "@/data/exam-questions/cert-banks-expanded";
 
-const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string; badge: string }> = {
-  blue: { bg: "bg-blue-50", iconColor: "text-blue-600", border: "border-blue-100", badge: "bg-blue-100 text-blue-700" },
-  red: { bg: "bg-red-50", iconColor: "text-red-600", border: "border-red-100", badge: "bg-red-100 text-red-700" },
-  sky: { bg: "bg-sky-50", iconColor: "text-sky-600", border: "border-sky-100", badge: "bg-sky-100 text-sky-700" },
-  pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100", badge: "bg-pink-100 text-pink-700" },
-  orange: { bg: "bg-orange-50", iconColor: "text-orange-600", border: "border-orange-100", badge: "bg-orange-100 text-orange-700" },
-  violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", badge: "bg-violet-100 text-violet-700" },
-  rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100", badge: "bg-rose-100 text-rose-700" },
-  purple: { bg: "bg-purple-50", iconColor: "text-purple-600", border: "border-purple-100", badge: "bg-purple-100 text-purple-700" },
-  indigo: { bg: "bg-indigo-50", iconColor: "text-indigo-600", border: "border-indigo-100", badge: "bg-indigo-100 text-indigo-700" },
-};
-
-const PRACTICE_MODE_ICONS: Record<string, typeof BookOpen> = {
-  "topic-practice": BookOpen,
-  "algorithm-scenarios": GitBranch,
-  "mixed-practice": Shuffle,
-  "full-mock-exam": Timer,
-};
-
-const HUB_FAQ = [
-  { question: "How many certification practice questions are available?", answer: `NurseNest offers ${getCertTotalQuestions().toLocaleString()}+ practice questions across ${getCertCount()} nursing certifications. Each certification has 1,500+ questions covering multiple question types: MCQ, SATA, scenario-based, clinical prioritization, and algorithm decision.` },
-  { question: "What certifications are covered?", answer: "We cover 11 nursing certifications: BLS, ACLS, PALS, NRP, TNCC, ENPC (life support and emergency), plus CCRN, CEN, OCN, CNOR, and CPN (specialty certifications). Each has dedicated question banks, mock exams, and topic-specific practice." },
-  { question: "Are there free sample questions?", answer: "Yes. Each certification offers free sample questions so you can evaluate the quality and difficulty before upgrading. Full question banks and mock exams are available with a premium subscription." },
-  { question: "How do the mock exams work?", answer: "Each certification has 3 full-length mock exams (100-150 questions each) with timed mode, randomized question selection, and detailed performance breakdown by topic. Results show your strengths and weaknesses to guide further study." },
-  { question: "What practice modes are available?", answer: "Four practice modes: Topic Practice (focus on specific areas), Algorithm Scenarios (algorithm-based decisions), Mixed Practice (randomized questions), and Full Mock Exams (timed certification simulations)." },
-  { question: "Can I track my progress across certifications?", answer: "Yes. Your performance is tracked across all practice sessions and mock exams. You can view accuracy by topic, identify weak areas, and monitor your readiness score for each certification." },
+const CERT_CONFIGS = [
+  { id: "bls", name: "BLS", fullName: "Basic Life Support", org: "AHA", icon: Activity, color: "blue", bank: BLS_BANK, mockExams: 3, prepSlug: "bls-prep" },
+  { id: "acls", name: "ACLS", fullName: "Advanced Cardiovascular Life Support", org: "AHA", icon: Heart, color: "red", bank: ACLS_BANK, mockExams: 3, prepSlug: "acls-prep" },
+  { id: "pals", name: "PALS", fullName: "Pediatric Advanced Life Support", org: "AHA", icon: Baby, color: "sky", bank: PALS_BANK, mockExams: 3, prepSlug: "pals-prep" },
+  { id: "nrp", name: "NRP", fullName: "Neonatal Resuscitation Program", org: "AAP", icon: Baby, color: "pink", bank: NRP_BANK, mockExams: 3, prepSlug: "nrp-prep" },
+  { id: "tncc", name: "TNCC", fullName: "Trauma Nursing Core Course", org: "ENA", icon: Zap, color: "orange", bank: TNCC_BANK, mockExams: 3, prepSlug: "tncc-prep" },
+  { id: "enpc", name: "ENPC", fullName: "Emergency Nursing Pediatric Course", org: "ENA", icon: Baby, color: "violet", bank: ENPC_BANK, mockExams: 3, prepSlug: "enpc-prep" },
+  { id: "ccrn", name: "CCRN", fullName: "Critical-Care Registered Nurse", org: "AACN", icon: Activity, color: "rose", bank: CCRN_BANK, mockExams: 3, prepSlug: "ccrn-prep" },
+  { id: "emergency-nursing", name: "CEN", fullName: "Certified Emergency Nurse", org: "BCEN", icon: Stethoscope, color: "amber", bank: EMERGENCY_NURSING_BANK, mockExams: 3, prepSlug: "emergency-nursing-prep" },
+  { id: "oncology-nursing", name: "OCN", fullName: "Oncology Certified Nurse", org: "ONCC", icon: Ribbon, color: "purple", bank: ONCOLOGY_NURSING_BANK, mockExams: 3, prepSlug: "oncology-nursing-prep" },
+  { id: "pediatric-nursing", name: "CPN", fullName: "Certified Pediatric Nurse", org: "PNCB", icon: Baby, color: "teal", bank: PEDIATRIC_NURSING_BANK, mockExams: 3, prepSlug: "pediatric-nursing-prep" },
+  { id: "perioperative-nursing", name: "CNOR", fullName: "Certified Perioperative Nurse", org: "CCI", icon: Scissors, color: "indigo", bank: PERIOPERATIVE_NURSING_BANK, mockExams: 3, prepSlug: "perioperative-nursing-prep" },
 ];
 
-const AUTHORITY_STATS = [
-  { icon: ClipboardList, label: "Practice Questions", value: getCertTotalQuestions().toLocaleString() + "+" },
-  { icon: Award, label: "Mock Exams", value: getCertTotalMockExams().toString() },
-  { icon: ShieldCheck, label: "Certifications", value: getCertCount().toString() },
-  { icon: BarChart3, label: "Practice Modes", value: "4" },
+const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string; badge: string; badgeText: string }> = {
+  blue: { bg: "bg-blue-50", iconColor: "text-blue-600", border: "border-blue-100", badge: "bg-blue-100", badgeText: "text-blue-700" },
+  red: { bg: "bg-red-50", iconColor: "text-red-600", border: "border-red-100", badge: "bg-red-100", badgeText: "text-red-700" },
+  sky: { bg: "bg-sky-50", iconColor: "text-sky-600", border: "border-sky-100", badge: "bg-sky-100", badgeText: "text-sky-700" },
+  pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100", badge: "bg-pink-100", badgeText: "text-pink-700" },
+  orange: { bg: "bg-orange-50", iconColor: "text-orange-600", border: "border-orange-100", badge: "bg-orange-100", badgeText: "text-orange-700" },
+  violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100", badge: "bg-violet-100", badgeText: "text-violet-700" },
+  rose: { bg: "bg-rose-50", iconColor: "text-rose-600", border: "border-rose-100", badge: "bg-rose-100", badgeText: "text-rose-700" },
+  amber: { bg: "bg-amber-50", iconColor: "text-amber-600", border: "border-amber-100", badge: "bg-amber-100", badgeText: "text-amber-700" },
+  purple: { bg: "bg-purple-50", iconColor: "text-purple-600", border: "border-purple-100", badge: "bg-purple-100", badgeText: "text-purple-700" },
+  teal: { bg: "bg-teal-50", iconColor: "text-teal-600", border: "border-teal-100", badge: "bg-teal-100", badgeText: "text-teal-700" },
+  indigo: { bg: "bg-indigo-50", iconColor: "text-indigo-600", border: "border-indigo-100", badge: "bg-indigo-100", badgeText: "text-indigo-700" },
+};
+
+const PRACTICE_MODES = [
+  { id: "topic", name: "Topic Practice", desc: "Focus on specific certification domains and topic areas", icon: BookOpen, color: "blue" },
+  { id: "algorithm", name: "Algorithm Scenarios", desc: "Practice clinical decision-making with algorithm-based questions", icon: ListOrdered, color: "emerald" },
+  { id: "mixed", name: "Mixed Practice", desc: "Randomized questions across all topics for comprehensive review", icon: Shuffle, color: "purple" },
+  { id: "mock", name: "Full Mock Exams", desc: "Timed, full-length exams simulating the real certification test", icon: Timer, color: "rose" },
+];
+
+const FAQ_DATA = [
+  { q: "How many certification practice questions are available?", a: "Our certification exam prep hub includes thousands of practice questions across 11 nursing certifications. Each certification features multiple question types including MCQ, select-all-that-apply, ordered response, and clinical scenario questions." },
+  { q: "What certifications does this prep hub cover?", a: "We cover BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN (Emergency Nursing), OCN (Oncology Nursing), CPN (Pediatric Nursing), and CNOR (Perioperative Nursing) — the most in-demand nursing certifications." },
+  { q: "How do the mock exams work?", a: "Each certification has 3 full mock exams with 100-150 questions each. Exams feature timed mode, randomized question selection, performance breakdown by topic, and detailed answer rationales. You can review your results and identify weak areas after completion." },
+  { q: "What are the four practice modes?", a: "Topic Practice lets you focus on specific domains. Algorithm Scenarios tests clinical decision-making. Mixed Practice randomizes across all topics. Full Mock Exams simulate the real test with timing and scoring." },
+  { q: "Can I filter questions by certification?", a: "Yes, all practice modes support certification filtering. You can focus on a single certification or practice across multiple certifications to build cross-cutting clinical knowledge." },
+  { q: "How should I prepare for my certification exam?", a: "Start with Topic Practice to build foundational knowledge in each domain. Progress to Algorithm Scenarios for clinical decision-making skills. Use Mixed Practice for comprehensive review. Finish with Full Mock Exams to simulate test-day conditions and identify remaining weak areas." },
 ];
 
 export default function CertificationExamPrepHub() {
-  const faqStructuredData = buildFaqStructuredData(HUB_FAQ);
-  const totalQuestions = getCertTotalQuestions();
-  const totalMockExams = getCertTotalMockExams();
-  const certCount = getCertCount();
-  const certs = Object.values(CERTIFICATION_EXAM_CONFIGS);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [selectedMode, setSelectedMode] = useState<string | null>(null);
+
+  const totalQuestions = CERT_CONFIGS.reduce((sum, c) => sum + c.bank.length, 0);
+  const totalMockExams = CERT_CONFIGS.reduce((sum, c) => sum + c.mockExams, 0);
+  const totalCertifications = CERT_CONFIGS.length;
 
   return (
     <div data-testid="page-certification-exam-prep-hub">
       <Navigation />
       <SEO
-        title={`Certification Exam Prep: ${totalQuestions.toLocaleString()}+ Practice Questions for ${certCount} Nursing Certifications | NurseNest`}
-        description={`Prepare for nursing certifications with ${totalQuestions.toLocaleString()}+ practice questions, ${totalMockExams} mock exams, and 4 practice modes. BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CNOR, CPN exam prep.`}
-        keywords="certification exam prep, nursing certification practice questions, BLS practice test, ACLS exam prep, PALS practice questions, CCRN mock exam, CEN certification prep, nursing exam bank"
+        title="Certification Exam Prep Hub | Practice Questions & Mock Exams | NurseNest"
+        description="Comprehensive nursing certification exam preparation. Practice questions, mock exams, and study tools for BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CPN, and CNOR certifications."
+        keywords="certification exam prep, nursing certification practice questions, ACLS mock exam, BLS practice test, CCRN study guide, CEN exam prep, nursing mock exams, certification question bank"
         canonicalPath="/certification-exam-prep"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "Nursing Certification Exam Prep Hub",
-          "description": `Comprehensive exam preparation for ${certCount} nursing certifications with ${totalQuestions.toLocaleString()}+ practice questions and ${totalMockExams} mock exams.`,
-          "provider": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
-        }}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: "Certification Exam Prep", url: "https://www.nursenest.ca/certification-exam-prep" },
         ]}
-        additionalStructuredData={[faqStructuredData]}
       />
 
-      <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white" />
+      <section className="relative py-16 sm:py-24 overflow-hidden" data-testid="section-hero">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-blue-50/50 to-white" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-emerald-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-emerald-700 font-medium">Certification Exam Prep</span>
+            <span className="text-indigo-700 font-medium">Certification Exam Prep</span>
           </div>
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700 mb-4" data-testid="badge-hub">
-              <Award className="w-4 h-4" /> Exam Prep Hub
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700 mb-4" data-testid="badge-hub">
+              <GraduationCap className="w-4 h-4" /> Certification Exam Prep Hub
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
-              Nursing Certification Exam Prep
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-hub-title">
+              Advance Your Nursing Career with Certification Exam Prep
             </h1>
-            <p className="text-lg text-gray-600 mb-8" data-testid="text-page-subtitle">
-              {totalQuestions.toLocaleString()}+ practice questions, {totalMockExams} mock exams, and 4 practice modes across {certCount} nursing certifications. Master BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CNOR, and CPN with exam-aligned question banks.
+            <p className="text-lg text-gray-600 mb-8" data-testid="text-hub-subtitle">
+              Prepare for certification exams with realistic scenario questions, organized topic banks, and full-length mock exams across 11 nursing certifications.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-explore-certs">
+              <Link href="#certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors shadow-lg" data-testid="button-explore-certs">
                 Explore Certifications <ArrowRight className="w-4 h-4" />
-              </a>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors border border-emerald-200" data-testid="button-view-plans">
-                <Crown className="w-4 h-4" /> View Plans
+              </Link>
+              <Link href="#practice-modes" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-practice-modes">
+                <Play className="w-4 h-4" /> Start Practicing
               </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="py-12 bg-white" data-testid="section-stats">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {AUTHORITY_STATS.map((stat, i) => (
-              <div key={i} className="bg-gradient-to-br from-emerald-50 to-teal-50/50 rounded-xl border border-emerald-100 p-5 text-center" data-testid={`stat-card-${i}`}>
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mx-auto mb-2">
-                  <stat.icon className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div className="text-2xl font-bold text-gray-900" data-testid={`stat-value-${i}`}>{stat.value}</div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12" data-testid="hero-stats">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 text-center" data-testid="stat-total-questions">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <ClipboardList className="w-6 h-6 text-blue-600" />
               </div>
-            ))}
+              <p className="text-3xl font-bold text-gray-900">{totalQuestions.toLocaleString()}+</p>
+              <p className="text-sm text-gray-500">Certification Questions</p>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 text-center" data-testid="stat-mock-exams">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <FileText className="w-6 h-6 text-emerald-600" />
+              </div>
+              <p className="text-3xl font-bold text-gray-900">{totalMockExams}</p>
+              <p className="text-sm text-gray-500">Practice Exams</p>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 text-center" data-testid="stat-certifications">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Award className="w-6 h-6 text-purple-600" />
+              </div>
+              <p className="text-3xl font-bold text-gray-900">{totalCertifications}</p>
+              <p className="text-sm text-gray-500">Certifications Covered</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50" id="certifications" data-testid="section-certifications">
+      <section id="certifications" className="py-16 bg-white" data-testid="section-certifications">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-certs-heading">{certCount} Certification Exam Banks</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each certification features dedicated question banks, topic-specific practice, and full-length mock exams aligned to the official exam blueprint.</p>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-certs-heading">
+              11 Nursing Certifications
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Comprehensive question banks, mock exams, and study tools for every major nursing certification.
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {certs.map((cert) => {
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {CERT_CONFIGS.map((cert) => {
               const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
-              const Icon = CERT_ICON_MAP[cert.slug] || Award;
+              const Icon = cert.icon;
               return (
-                <Link key={cert.slug} href={`/certification-exam-prep/${cert.slug}`} className="group" data-testid={`card-cert-${cert.slug}`}>
-                  <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
-                    <div className="flex items-start gap-4 mb-4">
+                <Link key={cert.id} href={`/certifications/${cert.prepSlug}`} className="group" data-testid={`card-cert-${cert.id}`}>
+                  <div className={`bg-white rounded-2xl border ${colors.border} p-6 hover:shadow-lg transition-all h-full`}>
+                    <div className="flex items-start gap-4">
                       <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center flex-shrink-0`}>
                         <Icon className={`w-6 h-6 ${colors.iconColor}`} />
                       </div>
-                      <div>
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-gray-900 text-lg group-hover:text-emerald-700 transition-colors" data-testid={`text-cert-name-${cert.slug}`}>{cert.name}</h3>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{cert.org}</span>
+                          <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{cert.name}</h3>
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${colors.badge} ${colors.badgeText}`}>{cert.org}</span>
                         </div>
-                        <p className="text-sm text-gray-500">{cert.fullName}</p>
+                        <p className="text-sm text-gray-500 mb-3">{cert.fullName}</p>
+                        <div className="flex items-center gap-3 text-xs text-gray-400">
+                          <span className="flex items-center gap-1">
+                            <ClipboardList className="w-3 h-3" /> {cert.bank.length} questions
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <FileText className="w-3 h-3" /> {cert.mockExams} mock exams
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-gray-400 mb-4">
-                      <span className="flex items-center gap-1"><ClipboardList className="w-3.5 h-3.5" /> {cert.totalQuestions.toLocaleString()}+ questions</span>
-                      <span className="flex items-center gap-1"><Award className="w-3.5 h-3.5" /> {cert.mockExams.length} mock exams</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {cert.topicBanks.slice(0, 3).map((bank) => (
-                        <span key={bank.slug} className={`text-xs px-2 py-0.5 rounded-full ${colors.bg} ${colors.iconColor}`}>{bank.name}</span>
-                      ))}
-                      {cert.topicBanks.length > 3 && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-gray-50 text-gray-400">+{cert.topicBanks.length - 3} more</span>
-                      )}
-                    </div>
-                    <span className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 group-hover:gap-2 transition-all">
-                      Start Practicing <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
                   </div>
                 </Link>
               );
@@ -181,89 +182,157 @@ export default function CertificationExamPrepHub() {
         </div>
       </section>
 
-      <section className="py-16 bg-white" data-testid="section-practice-modes">
+      <section id="practice-modes" className="py-16 bg-gray-50" data-testid="section-practice-modes">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-modes-heading">4 Practice Modes</h2>
-            <p className="text-gray-600">Choose the study approach that matches your preparation strategy.</p>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-modes-heading">
+              Four Practice Modes
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Choose the practice mode that matches your study strategy. Filter by certification for focused preparation.
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {PRACTICE_MODES.map((mode) => {
-              const Icon = PRACTICE_MODE_ICONS[mode.id] || BookOpen;
+              const Icon = mode.icon;
+              const isSelected = selectedMode === mode.id;
               return (
-                <div key={mode.id} className="bg-white rounded-xl border border-emerald-100 p-5 text-center hover:shadow-md transition-all" data-testid={`card-mode-${mode.id}`}>
-                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                    <Icon className="w-6 h-6 text-emerald-600" />
+                <button
+                  key={mode.id}
+                  onClick={() => setSelectedMode(isSelected ? null : mode.id)}
+                  className={`text-left bg-white rounded-2xl border p-6 hover:shadow-md transition-all ${
+                    isSelected ? "border-indigo-300 ring-2 ring-indigo-100" : "border-gray-100"
+                  }`}
+                  data-testid={`card-mode-${mode.id}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl bg-${mode.color}-50 flex items-center justify-center flex-shrink-0`}>
+                      <Icon className={`w-6 h-6 text-${mode.color}-600`} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1">{mode.name}</h3>
+                      <p className="text-sm text-gray-500">{mode.desc}</p>
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{mode.name}</h3>
-                  <p className="text-xs text-gray-500">{mode.description}</p>
-                </div>
+                  {isSelected && (
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <p className="text-xs text-gray-400 mb-2 font-medium uppercase">Filter by certification:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {CERT_CONFIGS.map((cert) => (
+                          <Link
+                            key={cert.id}
+                            href={`/certifications/${cert.prepSlug}`}
+                            className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 hover:bg-indigo-100 hover:text-indigo-700 transition-colors"
+                            data-testid={`filter-${mode.id}-${cert.id}`}
+                          >
+                            {cert.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </button>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50" data-testid="section-premium-cta">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-8 sm:p-10 text-center">
-            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center mx-auto mb-4">
-              <Crown className="w-7 h-7 text-white" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3" data-testid="text-premium-heading">Unlock All Certification Exam Banks</h2>
-            <p className="text-emerald-100 mb-6 max-w-xl mx-auto">
-              Get full access to {totalQuestions.toLocaleString()}+ practice questions, {totalMockExams} mock exams, performance analytics, and all 4 practice modes with a NurseNest premium subscription.
+      <section className="py-16 bg-white" data-testid="section-mock-exams">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-mock-heading">
+              Full Mock Exam Simulations
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Each certification features 3 timed mock exams with 100-150 questions, randomized selection, performance breakdown, and algorithm review.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center mb-6">
-              <div className="flex items-center gap-2 text-sm text-emerald-100">
-                <ShieldCheck className="w-4 h-4" /> Free sample questions
-              </div>
-              <div className="flex items-center gap-2 text-sm text-emerald-100">
-                <Target className="w-4 h-4" /> Performance tracking
-              </div>
-              <div className="flex items-center gap-2 text-sm text-emerald-100">
-                <TrendingUp className="w-4 h-4" /> Weak area detection
-              </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {CERT_CONFIGS.map((cert) => {
+              const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
+              return (
+                <Link key={cert.id} href={`/certifications/${cert.prepSlug}`} className="group" data-testid={`mock-card-${cert.id}`}>
+                  <div className={`bg-white rounded-xl border ${colors.border} p-4 hover:shadow-md transition-all text-center h-full`}>
+                    <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mx-auto mb-2`}>
+                      <Play className={`w-5 h-5 ${colors.iconColor}`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-700 transition-colors">{cert.name}</h3>
+                    <p className="text-xs text-gray-400 mt-1">{cert.mockExams} exams</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-timed">
+              <Timer className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900 text-sm">Timed Mode</h4>
+              <p className="text-xs text-gray-500">Real exam time pressure</p>
             </div>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-emerald-700 rounded-xl font-bold hover:bg-emerald-50 transition-colors shadow-lg" data-testid="button-upgrade-cta">
-              View Plans <ArrowRight className="w-4 h-4" />
+            <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-randomized">
+              <Shuffle className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900 text-sm">Randomized</h4>
+              <p className="text-xs text-gray-500">Different questions each time</p>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-breakdown">
+              <BarChart3 className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900 text-sm">Performance Breakdown</h4>
+              <p className="text-xs text-gray-500">Topic-by-topic analysis</p>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-algorithm">
+              <Brain className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900 text-sm">Algorithm Review</h4>
+              <p className="text-xs text-gray-500">Step-by-step rationales</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-br from-indigo-600 to-blue-700" data-testid="section-cta">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" data-testid="text-cta-heading">
+            Prepare for Your Certification Exam Today
+          </h2>
+          <p className="text-blue-100 mb-8 text-lg">
+            Practice with realistic scenario questions, organized topic banks, and timed mock exams. Advance your nursing career with confidence.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-indigo-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-pricing">
+              Get Full Access <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-500 text-white rounded-xl font-semibold hover:bg-indigo-400 transition-colors border border-indigo-400" data-testid="button-cta-cert-hub">
+              Certification Guides
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white" data-testid="section-cross-links">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-cert-guides">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Certification Guides</h3>
-              <p className="text-sm text-emerald-700">Comprehensive prep guides and renewal resources for each certification.</p>
-            </Link>
-            <Link href="/free-practice" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-practice">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">NCLEX Practice Questions</h3>
-              <p className="text-sm text-blue-700">Thousands of NCLEX-aligned practice questions with rationales.</p>
-            </Link>
-            <Link href="/newgrad/certifications" className="bg-indigo-50 rounded-xl p-6 hover:bg-indigo-100 transition-colors group" data-testid="link-newgrad">
-              <h3 className="font-semibold text-indigo-900 mb-1 group-hover:text-indigo-700">New Grad Certification Timeline</h3>
-              <p className="text-sm text-indigo-700">Which certifications to get first in your nursing career.</p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gray-50" data-testid="section-faq">
+      <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {HUB_FAQ.map((faq, i) => (
-              <details key={i} className="bg-white rounded-xl border border-gray-100 p-5 group" data-testid={`faq-item-${i}`}>
-                <summary className="font-semibold text-gray-900 cursor-pointer list-none flex items-center justify-between">
-                  {faq.question}
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-open:rotate-90 transition-transform" />
-                </summary>
-                <p className="text-sm text-gray-600 mt-3 leading-relaxed">{faq.answer}</p>
-              </details>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-3">
+            {FAQ_DATA.map((faq, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden" data-testid={`faq-item-${i}`}>
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-5 text-left"
+                  data-testid={`button-faq-${i}`}
+                >
+                  <span className="font-semibold text-gray-900 text-sm pr-4">{faq.q}</span>
+                  <ChevronDown className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${expandedFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                {expandedFaq === i && (
+                  <div className="px-5 pb-5">
+                    <p className="text-sm text-gray-600">{faq.a}</p>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </div>
