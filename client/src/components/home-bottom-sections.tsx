@@ -1273,6 +1273,42 @@ export function HomeBottomSections({
                   {t("home.faq.a10")}
                 </AccordionContent>
               </AccordionItem>
+
+              <AccordionItem value="faq-11" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  {t("home.faq.q11")}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  {t("home.faq.a11")}
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-12" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  {t("home.faq.q12")}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  {t("home.faq.a12")}
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-13" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  {t("home.faq.q13")}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  {t("home.faq.a13")}
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-14" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  {t("home.faq.q14")}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  {t("home.faq.a14")}
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
 
             <div className="text-center mt-8">

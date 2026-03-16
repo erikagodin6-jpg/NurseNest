@@ -261,10 +261,10 @@ function DynamicTrustCounters({
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-trust-counters-heading"
           >
-            Built for serious exam preparation
+            Built for Serious Healthcare Exam Preparation
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
-            A growing library of questions, flashcards, lessons, and study tools — all in one place.
+            A growing library of questions, flashcards, lessons, and study tools for nursing, NP, allied health, and certification exams — all in one place.
           </p>
         </div>
 
@@ -331,12 +331,12 @@ function ConversionProofBlock({
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-conversion-proof-heading"
           >
-            Thousands of questions. Thousands of flashcards. One place to study smarter.
+            Thousands of questions. Thousands of flashcards. One platform for every healthcare exam.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg leading-relaxed">
             Stop juggling scattered resources. NurseNest brings {formatMarketingCount(questions)} exam-style questions,
             {" "}{formatMarketingCount(flashcards)} flashcards across {formatMarketingCount(decks)} decks, adaptive CAT exams,
-            clinical images, and detailed rationales into a single study environment.
+            clinical images, and detailed rationales into a single study environment — covering nursing, NP certification, allied health, and more.
           </p>
         </div>
 
@@ -345,37 +345,37 @@ function ConversionProofBlock({
             {
               icon: Target,
               title: "Exam-Ready Questions",
-              desc: "Realistic questions across RPN, RN, and NP scopes with step-by-step rationales that teach you how to think — not just what to memorize.",
+              desc: "Realistic questions across nursing, NP, and allied health scopes with step-by-step rationales that teach you how to think — not just what to memorize.",
               accent: "from-blue-500 to-indigo-600",
             },
             {
               icon: Layers,
               title: "Flashcards & Decks",
-              desc: "Organized flashcard decks for pharmacology, pathophysiology, clinical concepts, and more — built for spaced repetition and active recall.",
+              desc: "Organized flashcard decks for pharmacology, pathophysiology, clinical concepts, and allied health topics — built for spaced repetition and active recall.",
               accent: "from-amber-500 to-orange-600",
             },
             {
               icon: Brain,
               title: "Adaptive CAT Exams",
-              desc: "Computer-adaptive testing that mirrors real licensure exams. Questions adjust to your performance in real time.",
+              desc: "Computer-adaptive testing that mirrors real licensure and certification exams. Questions adjust to your performance in real time.",
               accent: "from-violet-500 to-purple-600",
             },
             {
               icon: ImageIcon,
               title: "Clinical Images & Visuals",
-              desc: "Visual learning resources including clinical images, diagrams, and illustrated rationales for hands-on readiness.",
+              desc: "Visual learning resources including clinical images, diagrams, and illustrated rationales for hands-on readiness across all disciplines.",
               accent: "from-teal-500 to-emerald-600",
             },
             {
               icon: BookOpen,
               title: "Lessons & Rationales",
-              desc: "In-depth clinical lessons organized by body system — each with pre-tests, post-tests, and detailed explanations.",
+              desc: "In-depth clinical lessons organized by body system and discipline — each with pre-tests, post-tests, and detailed explanations.",
               accent: "from-rose-500 to-pink-600",
             },
             {
               icon: GraduationCap,
-              title: "Multi-Tier Coverage",
-              desc: "Purpose-built content for every nursing level — practical nursing, registered nursing, and nurse practitioner certification.",
+              title: "Multi-Discipline Coverage",
+              desc: "Purpose-built content for every healthcare path — practical nursing, registered nursing, nurse practitioner, respiratory therapy, paramedics, and more.",
               accent: "from-indigo-500 to-blue-600",
             },
           ].map((item) => (
@@ -433,8 +433,8 @@ function CompetitivePositioningSection({
       icon: Layers,
     },
     {
-      feature: "Multi-Tier Support",
-      ours: "Dedicated content for RPN, RN, and NP levels",
+      feature: "Multi-Discipline Support",
+      ours: "Dedicated content for RPN, RN, NP, and allied health professions",
       typical: "One-size-fits-all content for a single exam",
       icon: Users,
     },
@@ -445,8 +445,8 @@ function CompetitivePositioningSection({
       icon: Zap,
     },
     {
-      feature: "Allied & Imaging Categories",
-      ours: "Expanding into allied health disciplines",
+      feature: "Allied Health & Beyond",
+      ours: "Full allied health coverage: RT, MLT, paramedic, imaging, social work, OT/PT",
       typical: "Nursing-only with no expansion path",
       icon: Activity,
     },
@@ -475,10 +475,10 @@ function CompetitivePositioningSection({
             style={{ fontSize: 'var(--text-section)' }}
             data-testid="text-competitive-heading"
           >
-            More content. More tools. One subscription.
+            More content. More disciplines. One subscription.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto text-base lg:text-lg">
-            Most study platforms focus on one thing. NurseNest combines questions, flashcards, CAT exams, lessons, and analytics into a single study ecosystem.
+            Most study platforms cover one exam. NurseNest combines questions, flashcards, CAT exams, lessons, and analytics for nursing, NP, and allied health into a single study ecosystem.
           </p>
         </div>
 
@@ -562,7 +562,7 @@ function HowItWorksSection() {
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">
             Three Steps to Exam Readiness
           </h2>
-          <p className="text-base lg:text-lg text-gray-500">A proven system to prepare you for nursing licensure.</p>
+          <p className="text-base lg:text-lg text-gray-500">A proven system to prepare you for nursing, NP, and allied health certification exams.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-10">
           {steps.map((item, i) => (
@@ -636,7 +636,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
             Everything You Need to Pass
           </h2>
           <p className="text-base lg:text-lg text-gray-500 max-w-3xl mx-auto">
-            A complete exam prep toolkit built specifically for nursing students.
+            A complete exam prep toolkit built for nursing, NP, and allied health students.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">

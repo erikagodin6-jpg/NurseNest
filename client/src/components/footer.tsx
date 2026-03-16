@@ -36,6 +36,13 @@ export function Footer() {
               <li><LocaleLink href="/osce-skills" className="hover:text-primary transition-colors" data-testid="link-footer-osce-skills">OSCE Skills Practice</LocaleLink></li>
               <li><LocaleLink href="/clinical-skills" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-skills">Clinical Skills Guides</LocaleLink></li>
             </ul>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">NP Certification Prep</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+              <li><LocaleLink href="/np-exam-practice-questions" className="hover:text-primary transition-colors" data-testid="link-footer-np-exam-prep">NP Exam Prep Hub</LocaleLink></li>
+              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-exam-prep">Nursing Exam Prep Hub</LocaleLink></li>
+              <li><LocaleLink href="/nclex-rn" className="hover:text-primary transition-colors" data-testid="link-footer-nclex-rn">NCLEX-RN Prep</LocaleLink></li>
+              <li><LocaleLink href="/rex-pn" className="hover:text-primary transition-colors" data-testid="link-footer-rex-pn">REx-PN / NCLEX-PN Prep</LocaleLink></li>
+            </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("footer.resources")}</h3>

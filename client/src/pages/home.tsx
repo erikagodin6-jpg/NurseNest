@@ -222,16 +222,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 animate-page-enter">
       <SEO
-        title={`NurseNest - Nursing Exam Prep | NCLEX & ${examLabel} Test Bank, Clinical Simulations & Flashcards`}
-        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
-        keywords={`nursing exam prep, NCLEX practice questions, ${examLabel} exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program`}
+        title={`NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certifications | ${examLabel} & NCLEX Test Bank`}
+        description={`Prepare for nursing, NP certification, and allied health exams with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} lessons. Built for ${rpnLabel}, RN, NP, allied health students, and new graduates in Canada and the US. Start free.`}
+        keywords={`healthcare exam prep, nursing exam prep, NCLEX practice questions, ${examLabel} exam preparation, nursing question bank, clinical simulations, pharmacology flashcards, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, allied health exam prep, respiratory therapy RRT exam, paramedic NREMT exam prep, MLT exam prep, pharmacy technician PTCB, diagnostic imaging exam, social work ASWB exam, occupational therapy NBCOT, new grad nurse resources, nursing specialty certification, CCRN exam prep, CEN exam prep, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment, nursing study tools, nursing board exam prep, pre-nursing program`}
         canonicalPath="/"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "NurseNest",
           "url": "https://www.nursenest.ca/en",
-          "description": `Comprehensive nursing exam preparation platform with ${formatCount(questionCount)} practice questions, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations. New content added weekly.`,
+          "description": `Comprehensive healthcare exam preparation platform with ${formatCount(questionCount)} practice questions, clinical case simulations, and ${formatCount(lessonCount)} lessons for nursing, NP, and allied health exams. New content added weekly.`,
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://www.nursenest.ca/lessons?q={search_term_string}",
@@ -253,6 +253,10 @@ export default function Home() {
               { "@type": "Question", "name": t("home.faq.q8"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a8") } },
               { "@type": "Question", "name": t("home.faq.q9"), "acceptedAnswer": { "@type": "Answer", "text": `${t("home.faq.a9prefix")} ${t("home.faq.a9suffix")}` } },
               { "@type": "Question", "name": t("home.faq.q10"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a10") } },
+              { "@type": "Question", "name": t("home.faq.q11"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a11") } },
+              { "@type": "Question", "name": t("home.faq.q12"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a12") } },
+              { "@type": "Question", "name": t("home.faq.q13"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a13") } },
+              { "@type": "Question", "name": t("home.faq.q14"), "acceptedAnswer": { "@type": "Answer", "text": t("home.faq.a14") } },
             ]
           },
           {
@@ -261,7 +265,7 @@ export default function Home() {
             "name": "NurseNest",
             "url": "https://www.nursenest.ca/en",
             "description": "Premier nursing and allied health education platform for RPN/LVN, RN/NCLEX, NP, RRT, MLT, paramedic, social work, psychotherapy, addictions counselling, and occupational therapy students.",
-            "educationalCredentialAwarded": "Nursing & Allied Health Exam Preparation",
+            "educationalCredentialAwarded": "Healthcare Exam Preparation — Nursing, NP, Allied Health & Certifications",
             "sameAs": [
               "https://www.instagram.com/nursenest.ca",
               "https://www.tiktok.com/@nursenest.ca",
@@ -468,11 +472,11 @@ export default function Home() {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Practice realistic exam questions with detailed rationales</span>
+                      <span>Practice exam questions for nursing, NP, and allied health</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Learn with structured clinical lessons by body system</span>
+                      <span>Clinical lessons, flashcards, mock exams, and case simulations</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
