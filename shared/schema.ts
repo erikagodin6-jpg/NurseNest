@@ -5989,3 +5989,29 @@ export const insertProblemReportSchema = createInsertSchema(problemReports).omit
 });
 export type ProblemReport = typeof problemReports.$inferSelect;
 export type InsertProblemReport = z.infer<typeof insertProblemReportSchema>;
+
+export const questionExplanations = pgTable("question_explanations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  questionSource: text("question_source").notNull(),
+  correctAnswerExplanation: text("correct_answer_explanation").notNull(),
+  incorrectAnswerRationale: jsonb("incorrect_answer_rationale").default(sql`'{}'::jsonb`),
+  clinicalReasoning: text("clinical_reasoning"),
+  keyTakeaway: text("key_takeaway"),
+  mnemonic: text("mnemonic"),
+  clinicalPearl: text("clinical_pearl"),
+  referenceSource: text("reference_source"),
+  qualityScore: jsonb("quality_score").default(sql`'{}'::jsonb`),
+  reviewStatus: text("review_status").default("pending").notNull(),
+  generatedBy: text("generated_by").default("manual").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertQuestionExplanationSchema = createInsertSchema(questionExplanations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type QuestionExplanation = typeof questionExplanations.$inferSelect;
+export type InsertQuestionExplanation = z.infer<typeof insertQuestionExplanationSchema>;

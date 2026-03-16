@@ -2847,7 +2847,7 @@ Keep responses concise and actionable.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      res.json(getAiConfig());
+      res.json({ ...getAiConfig(), ACTIVE_BUILD_PRIORITY: "QUESTION_EXPLANATION_ENGINE" });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -21316,7 +21316,304 @@ Rules:
     }
   });
 
+  // --------------------
+  // Question Explanations Engine
+  // --------------------
+  app.get("/api/explanations/stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const stats = await storage.getExplanationStats();
+      const missingCounts: Record<string, number> = {};
+      for (const source of ["exam_questions", "allied_questions", "imaging_questions"]) {
+        const missing = await storage.listMissingExplanations(source, 1);
+        const totalR = await pool.query(
+          source === "imaging_questions"
+            ? `SELECT COUNT(*)::int as count FROM imaging_questions`
+            : `SELECT COUNT(*)::int as count FROM ${source}`
+        );
+        const total = totalR.rows[0]?.count || 0;
+        const existing = stats.find(s => s.source === source);
+        missingCounts[source] = total - (existing?.total || 0);
+      }
+      res.json({ bySource: stats, missing: missingCounts });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/explanations/generate-batch", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { source, batchSize = 5 } = req.body;
+      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
+      if (!source || !validSources.includes(source)) {
+        return res.status(400).json({ error: "Valid source required: exam_questions, allied_questions, or imaging_questions" });
+      }
+      const limit = Math.min(Number(batchSize) || 5, 20);
+      const missing = await storage.listMissingExplanations(source, limit);
+      if (missing.length === 0) {
+        return res.json({ generated: 0, message: "No questions missing explanations for this source" });
+      }
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const results: any[] = [];
+      for (const q of missing) {
+        try {
+          const optionsText = Array.isArray(q.options)
+            ? q.options.map((o: any, i: number) => `${o.key || String.fromCharCode(65 + i)}) ${o.text || o}`).join("\n")
+            : JSON.stringify(q.options);
+
+          const response = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: `You are a nursing education expert. Generate a structured explanation for a clinical question. Return ONLY valid JSON with these fields:
+- correct_answer_explanation: detailed explanation of why the correct answer is right (2-4 sentences)
+- incorrect_answer_rationale: object keyed by option letter/number with explanation of why each wrong answer is incorrect
+- clinical_reasoning: step-by-step clinical reasoning process (2-3 sentences)
+- key_takeaway: one-sentence key learning point
+- mnemonic: optional memory aid (or null)
+- clinical_pearl: practical clinical insight (1-2 sentences)
+- reference_source: relevant clinical reference or guideline`
+              },
+              {
+                role: "user",
+                content: `Question: ${q.stem}\n\nOptions:\n${optionsText}\n\nCorrect Answer: ${JSON.stringify(q.correctAnswer)}`
+              }
+            ],
+            temperature: 0.4,
+            max_tokens: 1500,
+            response_format: { type: "json_object" },
+          });
+
+          const content = response.choices[0]?.message?.content;
+          if (!content) continue;
+
+          const parsed = JSON.parse(content);
+          const qualityScore = scoreExplanationQuality(parsed);
+
+          const explanation = await storage.upsertExplanation({
+            questionId: q.id,
+            questionSource: source,
+            correctAnswerExplanation: parsed.correct_answer_explanation || "",
+            incorrectAnswerRationale: parsed.incorrect_answer_rationale || {},
+            clinicalReasoning: parsed.clinical_reasoning || null,
+            keyTakeaway: parsed.key_takeaway || null,
+            mnemonic: parsed.mnemonic || null,
+            clinicalPearl: parsed.clinical_pearl || null,
+            referenceSource: parsed.reference_source || null,
+            qualityScore,
+            reviewStatus: "pending",
+            generatedBy: "ai",
+          });
+          results.push(explanation);
+          recordAiUsage(1, response.usage?.total_tokens || 0);
+        } catch (err: any) {
+          console.error(`[Explanation Gen] Failed for question ${q.id}:`, err.message);
+          results.push({ questionId: q.id, error: err.message });
+        }
+      }
+
+      res.json({ generated: results.filter((r: any) => !r.error).length, failed: results.filter((r: any) => r.error).length, results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/explanations/:id/review", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status } = req.body;
+      if (!["pending", "approved", "flagged"].includes(status)) {
+        return res.status(400).json({ error: "Status must be pending, approved, or flagged" });
+      }
+      const updated = await storage.updateReviewStatus(req.params.id, status);
+      res.json(updated);
+    } catch (e: any) {
+      if (e.message === "Explanation not found") return res.status(404).json({ error: e.message });
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/explanations/low-quality", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const threshold = Number(req.query.threshold) || 50;
+      const explanations = await storage.listLowQualityExplanations(threshold);
+      res.json(explanations);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/explanations/:source/:questionId", async (req, res) => {
+    try {
+      const { source, questionId } = req.params;
+      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
+      if (!validSources.includes(source)) {
+        return res.status(400).json({ error: "Invalid question source" });
+      }
+      const explanation = await storage.getExplanation(questionId, source);
+      if (!explanation) {
+        return res.status(404).json({ error: "Explanation not found" });
+      }
+      res.json(explanation);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/explanations/migrate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      let migrated = 0;
+
+      const examR = await pool.query(
+        `SELECT id, rationale, distractor_rationales, clinical_pearl, memory_hook FROM exam_questions WHERE rationale IS NOT NULL`
+      );
+      for (const row of examR.rows) {
+        const existing = await storage.getExplanation(row.id, "exam_questions");
+        if (existing) continue;
+        const qualityScore = scoreExplanationQuality({
+          correct_answer_explanation: row.rationale || "",
+          incorrect_answer_rationale: row.distractor_rationales || {},
+          clinical_pearl: row.clinical_pearl || null,
+        });
+        await storage.upsertExplanation({
+          questionId: row.id,
+          questionSource: "exam_questions",
+          correctAnswerExplanation: row.rationale || "",
+          incorrectAnswerRationale: row.distractor_rationales || {},
+          clinicalReasoning: null,
+          keyTakeaway: null,
+          mnemonic: row.memory_hook || null,
+          clinicalPearl: row.clinical_pearl || null,
+          referenceSource: null,
+          qualityScore,
+          reviewStatus: "pending",
+          generatedBy: "migrated",
+        });
+        migrated++;
+      }
+
+      const alliedR = await pool.query(
+        `SELECT id, rationale_long, distractor_rationales, clinical_pearls, safety_note FROM allied_questions WHERE rationale_long IS NOT NULL`
+      );
+      for (const row of alliedR.rows) {
+        const existing = await storage.getExplanation(row.id, "allied_questions");
+        if (existing) continue;
+        const pearls = Array.isArray(row.clinical_pearls) ? row.clinical_pearls.join("; ") : (typeof row.clinical_pearls === "string" ? row.clinical_pearls : null);
+        const qualityScore = scoreExplanationQuality({
+          correct_answer_explanation: row.rationale_long || "",
+          incorrect_answer_rationale: row.distractor_rationales || {},
+          clinical_pearl: pearls,
+        });
+        await storage.upsertExplanation({
+          questionId: row.id,
+          questionSource: "allied_questions",
+          correctAnswerExplanation: row.rationale_long || "",
+          incorrectAnswerRationale: row.distractor_rationales || {},
+          clinicalReasoning: null,
+          keyTakeaway: row.safety_note || null,
+          mnemonic: null,
+          clinicalPearl: pearls,
+          referenceSource: null,
+          qualityScore,
+          reviewStatus: "pending",
+          generatedBy: "migrated",
+        });
+        migrated++;
+      }
+
+      const imagingR = await pool.query(
+        `SELECT id, rationale, clinical_pearls FROM imaging_questions WHERE rationale IS NOT NULL`
+      );
+      for (const row of imagingR.rows) {
+        const existing = await storage.getExplanation(row.id, "imaging_questions");
+        if (existing) continue;
+        const qualityScore = scoreExplanationQuality({
+          correct_answer_explanation: row.rationale || "",
+          incorrect_answer_rationale: {},
+          clinical_pearl: row.clinical_pearls || null,
+        });
+        await storage.upsertExplanation({
+          questionId: row.id,
+          questionSource: "imaging_questions",
+          correctAnswerExplanation: row.rationale || "",
+          incorrectAnswerRationale: {},
+          clinicalReasoning: null,
+          keyTakeaway: null,
+          mnemonic: null,
+          clinicalPearl: row.clinical_pearls || null,
+          referenceSource: null,
+          qualityScore,
+          reviewStatus: "pending",
+          generatedBy: "migrated",
+        });
+        migrated++;
+      }
+
+      res.json({ migrated });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
+}
+
+function scoreExplanationQuality(explanation: any): { clarity: number; accuracy: number; depth: number; usefulness: number; composite: number } {
+  let clarity = 0;
+  let accuracy = 0;
+  let depth = 0;
+  let usefulness = 0;
+
+  const correctExp = explanation.correct_answer_explanation || "";
+  const wordCount = correctExp.split(/\s+/).filter(Boolean).length;
+
+  if (wordCount >= 20) clarity += 25;
+  else if (wordCount >= 10) clarity += 15;
+  else if (wordCount > 0) clarity += 5;
+
+  const clinicalTerms = /\b(mg\/dL|mmHg|mEq\/L|pH|mmol|mcg|IV|PO|IM|subQ|BID|TID|QID|PRN|stat|contraindicated|pathophysiology|hemodynamic|pharmacokinetic|metabolism|excretion|half-life|bioavailability|therapeutic|adverse|toxicity)\b/gi;
+  const termMatches = correctExp.match(clinicalTerms);
+  if (termMatches && termMatches.length >= 3) accuracy += 25;
+  else if (termMatches && termMatches.length >= 1) accuracy += 15;
+  else accuracy += 5;
+
+  const distractorRationale = explanation.incorrect_answer_rationale || {};
+  const distractorKeys = Object.keys(distractorRationale);
+  if (distractorKeys.length >= 3) depth += 25;
+  else if (distractorKeys.length >= 1) depth += 15;
+  else depth += 5;
+
+  let fieldCount = 0;
+  if (explanation.clinical_reasoning) fieldCount++;
+  if (explanation.key_takeaway) fieldCount++;
+  if (explanation.mnemonic) fieldCount++;
+  if (explanation.clinical_pearl) fieldCount++;
+  if (explanation.reference_source) fieldCount++;
+  if (fieldCount >= 4) usefulness += 25;
+  else if (fieldCount >= 2) usefulness += 15;
+  else usefulness += 5;
+
+  const composite = clarity + accuracy + depth + usefulness;
+  return { clarity, accuracy, depth, usefulness, composite };
 }
 
 function computeLanguageRoiScore(

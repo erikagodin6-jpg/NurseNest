@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -318,6 +318,13 @@ export interface IStorage {
   createProblemReport(data: InsertProblemReport): Promise<ProblemReport>;
   getProblemReports(filters?: { problemType?: string; siteSection?: string; status?: string; tier?: string; startDate?: string; endDate?: string }): Promise<ProblemReport[]>;
   updateProblemReport(id: string, updates: { status?: string; adminNotes?: string }): Promise<ProblemReport>;
+
+  getExplanation(questionId: string, source: string): Promise<QuestionExplanation | undefined>;
+  upsertExplanation(data: InsertQuestionExplanation): Promise<QuestionExplanation>;
+  listMissingExplanations(source: string, limit: number): Promise<{ id: string; stem: string; options: any; correctAnswer: any }[]>;
+  listLowQualityExplanations(threshold: number): Promise<QuestionExplanation[]>;
+  updateReviewStatus(id: string, status: string): Promise<QuestionExplanation>;
+  getExplanationStats(): Promise<{ source: string; total: number; pending: number; approved: number; flagged: number; avgQuality: number }[]>;
 }
 
 import { getDevPool } from "./db";
@@ -2239,6 +2246,71 @@ export class DatabaseStorage implements IStorage {
     const r = await pool.query(`UPDATE problem_reports SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`, params);
     if (r.rows.length === 0) throw new Error("Problem report not found");
     return snakeToCamel(r.rows[0]);
+  }
+
+  async getExplanation(questionId: string, source: string): Promise<QuestionExplanation | undefined> {
+    const r = await pool.query(
+      `SELECT * FROM question_explanations WHERE question_id = $1 AND question_source = $2`,
+      [questionId, source]
+    );
+    return r.rows.length > 0 ? snakeToCamel(r.rows[0]) : undefined;
+  }
+
+  async upsertExplanation(data: InsertQuestionExplanation): Promise<QuestionExplanation> {
+    const r = await pool.query(
+      `INSERT INTO question_explanations (question_id, question_source, correct_answer_explanation, incorrect_answer_rationale, clinical_reasoning, key_takeaway, mnemonic, clinical_pearl, reference_source, quality_score, review_status, generated_by)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       ON CONFLICT (question_id, question_source)
+       DO UPDATE SET correct_answer_explanation = $3, incorrect_answer_rationale = $4, clinical_reasoning = $5, key_takeaway = $6, mnemonic = $7, clinical_pearl = $8, reference_source = $9, quality_score = $10, review_status = $11, generated_by = $12, updated_at = NOW()
+       RETURNING *`,
+      [data.questionId, data.questionSource, data.correctAnswerExplanation, JSON.stringify(data.incorrectAnswerRationale ?? {}), data.clinicalReasoning ?? null, data.keyTakeaway ?? null, data.mnemonic ?? null, data.clinicalPearl ?? null, data.referenceSource ?? null, JSON.stringify(data.qualityScore ?? {}), data.reviewStatus ?? "pending", data.generatedBy ?? "manual"]
+    );
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async listMissingExplanations(source: string, limit: number): Promise<{ id: string; stem: string; options: any; correctAnswer: any }[]> {
+    let query = "";
+    if (source === "exam_questions") {
+      query = `SELECT eq.id, eq.stem, eq.options, eq.correct_answer FROM exam_questions eq LEFT JOIN question_explanations qe ON eq.id = qe.question_id AND qe.question_source = 'exam_questions' WHERE qe.id IS NULL LIMIT $1`;
+    } else if (source === "allied_questions") {
+      query = `SELECT aq.id, aq.stem, aq.options, aq.correct_answer::text FROM allied_questions aq LEFT JOIN question_explanations qe ON aq.id = qe.question_id AND qe.question_source = 'allied_questions' WHERE qe.id IS NULL LIMIT $1`;
+    } else if (source === "imaging_questions") {
+      query = `SELECT iq.id, iq.question as stem, json_build_array(json_build_object('key','A','text',iq.option_a), json_build_object('key','B','text',iq.option_b), json_build_object('key','C','text',iq.option_c), json_build_object('key','D','text',iq.option_d)) as options, iq.correct_answer FROM imaging_questions iq LEFT JOIN question_explanations qe ON iq.id = qe.question_id AND qe.question_source = 'imaging_questions' WHERE qe.id IS NULL LIMIT $1`;
+    } else {
+      return [];
+    }
+    const r = await pool.query(query, [limit]);
+    return r.rows.map(snakeToCamel);
+  }
+
+  async listLowQualityExplanations(threshold: number): Promise<QuestionExplanation[]> {
+    const r = await pool.query(
+      `SELECT * FROM question_explanations WHERE COALESCE((quality_score->>'composite')::int, 0) < $1 ORDER BY COALESCE((quality_score->>'composite')::int, 0) ASC LIMIT 100`,
+      [threshold]
+    );
+    return r.rows.map(snakeToCamel);
+  }
+
+  async updateReviewStatus(id: string, status: string): Promise<QuestionExplanation> {
+    const r = await pool.query(
+      `UPDATE question_explanations SET review_status = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
+      [status, id]
+    );
+    if (r.rows.length === 0) throw new Error("Explanation not found");
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async getExplanationStats(): Promise<{ source: string; total: number; pending: number; approved: number; flagged: number; avgQuality: number }[]> {
+    const r = await pool.query(
+      `SELECT question_source as source,
+        COUNT(*)::int as total,
+        COUNT(*) FILTER (WHERE review_status = 'pending')::int as pending,
+        COUNT(*) FILTER (WHERE review_status = 'approved')::int as approved,
+        COUNT(*) FILTER (WHERE review_status = 'flagged')::int as flagged,
+        COALESCE(AVG(COALESCE((quality_score->>'composite')::int, 0)), 0)::int as avg_quality
+       FROM question_explanations GROUP BY question_source`
+    );
+    return r.rows.map(snakeToCamel);
   }
 }
 
