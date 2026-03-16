@@ -1,0 +1,162 @@
+You are working on the **NurseNest production codebase**.
+
+Your task is to implement a **high-authority competitive differentiation section** across the site that clearly communicates **why NurseNest is superior to other nursing exam prep platforms**.
+
+This must appear in:
+
+• Home page hero supporting section
+• Sales pages for each exam tier (RPN, RN, NP)
+• Question bank landing pages
+• Certification prep pages
+• Pricing page
+• Footer “Why NurseNest” link
+
+The messaging must position NurseNest as a **modern clinical learning system**, not just another question bank.
+
+Do NOT name competitors directly.
+
+---
+
+PRIMARY VALUE PROPOSITION
+
+Headline:
+
+Why NurseNest Works Better
+
+Subheadline:
+
+"NurseNest uses a structured clinical learning system designed around how healthcare licensing exams actually test knowledge."
+
+---
+
+CORE DIFFERENTIATORS
+
+Create a **6-block feature section** explaining the advantages.
+
+Block 1 — Clinical Judgment Training
+Most study platforms rely on simple multiple-choice questions.
+NurseNest includes modern exam formats such as bow-tie questions, case studies, SATA, drag-and-drop, matrix questions, and clinical decision scenarios that mirror real licensing exams.
+
+Block 2 — Massive Question Bank
+Thousands of questions across nursing specialties including cardiology, respiratory, pharmacology, maternal-child, mental health, and critical care.
+
+Block 3 — Exam Blueprint Alignment
+Content is mapped to official exam structures including:
+
+• NCLEX-RN
+• REx-PN
+• AANP
+• ANCC
+• Nursing certification exams
+
+This ensures students study material that actually appears on licensing exams.
+
+Block 4 — Active Recall Learning System
+Instead of passive reading, NurseNest uses active recall and scenario-based testing to strengthen memory retention.
+
+Block 5 — Multi-Tier Healthcare Platform
+One platform supports:
+
+• Practical Nurses (RPN/LPN)
+• Registered Nurses (RN)
+• Nurse Practitioners (NP)
+• Allied Health Professionals
+• New Graduate Healthcare Workers
+
+Block 6 — Real-World Clinical Scenarios
+Questions are based on realistic patient cases designed to build clinical reasoning, prioritization skills, and safe patient care decisions.
+
+---
+
+RETENTION-BASED LEARNING MESSAGE
+
+Add a section titled:
+
+Study Smarter, Not Harder
+
+Content:
+
+"Our learning system uses proven cognitive science techniques including active recall, spaced repetition, and exam-style clinical scenarios to dramatically improve retention compared to traditional study guides."
+
+---
+
+COMPARISON SECTION
+
+Create a visual comparison table.
+
+Column 1: Typical Study Platforms
+Column 2: NurseNest
+
+Typical Platforms:
+
+• Mostly passive reading
+• Limited question formats
+• Small question banks
+• Not aligned with exam blueprints
+• No clinical reasoning training
+
+NurseNest:
+
+• Active recall learning system
+• NGN-style question formats
+• Thousands of practice questions
+• Blueprint-aligned content
+• Clinical decision-making training
+
+---
+
+SOCIAL TRUST INDICATORS
+
+Add credibility badges:
+
+Built for Healthcare Students
+Exam-Focused Learning
+Clinical Scenario Training
+Modern NGN Question Types
+
+---
+
+SEO KEYWORDS
+
+Ensure content naturally includes:
+
+nursing exam prep
+NCLEX preparation
+REx-PN exam prep
+nursing practice questions
+clinical judgment exam prep
+nurse practitioner exam prep
+healthcare exam study platform
+
+---
+
+CTA BLOCK
+
+End section with:
+
+Start Studying the Smarter Way
+
+Buttons:
+
+Explore Practice Questions
+Start Your Study Plan
+
+---
+
+SCALING REQUIREMENT
+
+Apply this differentiation messaging to:
+
+• RPN exam pages
+• RN exam pages
+• NP exam pages
+• certification prep pages
+• allied health pages
+
+Each page should reinforce that NurseNest is **a clinical learning system rather than just a study guide**.
+
+---
+
+FINAL GOAL
+
+Position NurseNest as a **premium, modern healthcare exam preparation platform that delivers stronger retention, better clinical reasoning skills, and exam-ready confidence compared to traditional study resources**.
