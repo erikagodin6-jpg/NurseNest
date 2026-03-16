@@ -209,11 +209,11 @@ export function NpExamHubPage() {
             <h2 className="text-lg font-bold text-[#2E3A59] mb-4">Quick Access</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
-                { icon: Target, label: "NP Practice Questions", href: "/free-practice", desc: "Browse NP question bank" },
+                { icon: Target, label: "NP Practice Questions", href: "/np-exam-practice-questions", desc: "Browse NP question bank" },
                 { icon: Stethoscope, label: "NP Mock Exams", href: "/mock-exams", desc: "Full-length practice exams" },
                 { icon: BookOpen, label: "NP Lessons", href: "/lessons?tier=np", desc: "Clinical study guides" },
                 { icon: Layers, label: "NP Flashcards", href: "/flashcards", desc: "High-yield review cards" },
-                { icon: Pill, label: "Pharmacology", href: "/medications", desc: "NP prescribing review" },
+                { icon: Pill, label: "Pharmacology", href: "/medication-mastery", desc: "NP prescribing review" },
                 { icon: BarChart, label: "Analytics", href: "/reports", desc: "Performance tracking" },
               ].map((link, i) => (
                 <LocaleLink key={i} href={link.href} data-testid={`link-quick-${i}`}>
@@ -501,13 +501,44 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
             </div>
           </section>
 
+          {(data.examCode === "AANP" || data.examCode === "ANCC") && (
+            <section className="bg-white border border-gray-200 rounded-xl p-6" data-testid="section-compare-exams">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
+                  <Star className="w-5 h-5 text-[#BFA6F6]" />
+                </div>
+                <h2 className="text-2xl font-bold text-[#2E3A59]">
+                  {data.examCode === "AANP" ? "Considering the ANCC Instead?" : "Considering the AANP Instead?"}
+                </h2>
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                {data.examCode === "AANP"
+                  ? "The ANCC certification exam includes more questions about professional role, research methodology, and evidence-based practice. It is often preferred by academic medical centers and VA hospitals. Both certifications carry equal weight for licensure."
+                  : "The AANP certification exam focuses more heavily on clinical management scenarios and diagnosis. It is a strong choice for NPs who prefer patient-centered, scenario-based questions. Both certifications carry equal weight for licensure."
+                }
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <LocaleLink href={data.examCode === "AANP" ? "/np/ancc-exam" : "/np/aanp-exam"} data-testid="link-compare-other-exam">
+                  <Button variant="outline" className="gap-2">
+                    View {data.examCode === "AANP" ? "ANCC" : "AANP"} Exam Details <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </LocaleLink>
+                <LocaleLink href="/np-exam-prep#section-aanp-vs-ancc" data-testid="link-full-comparison">
+                  <Button variant="ghost" className="gap-2 text-[#BFA6F6]">
+                    Full AANP vs ANCC Comparison
+                  </Button>
+                </LocaleLink>
+              </div>
+            </section>
+          )}
+
           <section className="bg-gradient-to-r from-[#BFA6F6]/10 to-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-2xl p-8 text-center" data-testid="section-cta">
             <h2 className="text-2xl font-bold text-[#2E3A59] mb-3">Start Your {data.title} Preparation</h2>
             <p className="text-gray-600 mb-6 max-w-lg mx-auto">
               Access {data.examCode === "UPCOMING_CANADA_NP" ? "Canadian NP" : data.examCode}-specific practice questions, mock exams with domain analytics, and personalized study recommendations.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <LocaleLink href="/test-bank?exam=np" data-testid="link-start-practice">
+              <LocaleLink href="/np-exam-practice-questions" data-testid="link-start-practice">
                 <Button className="bg-[#BFA6F6] hover:bg-[#a88de8] text-white gap-2">
                   Practice Questions <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -530,11 +561,11 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
                 { label: "NP Exam Prep Hub", href: "/np-exam-prep", desc: "All exam pathways" },
-                { label: "NP Test Bank", href: "/np/test-bank", desc: "Practice questions" },
+                { label: "NP Practice Questions", href: "/np-exam-practice-questions", desc: "Exam-specific questions" },
                 { label: "NP Lessons", href: "/lessons?tier=np", desc: "Clinical guides" },
                 { label: "Flashcards", href: "/flashcards", desc: "Quick review" },
                 { label: "Mock Exams", href: "/mock-exams", desc: "Timed practice" },
-                { label: "Pharmacology", href: "/medications", desc: "Drug review" },
+                { label: "Pharmacology", href: "/medication-mastery", desc: "Drug review" },
               ].map((link, i) => (
                 <LocaleLink key={i} href={link.href} data-testid={`link-resource-${i}`}>
                   <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-[#BFA6F6]/40 hover:shadow-sm transition-all group">

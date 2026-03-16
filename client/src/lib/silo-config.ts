@@ -57,12 +57,14 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       {
         title: "Pharmacology",
         lessons: [
+          "iv-therapy", "medication-administration-safety",
           "rn-testbank-pharmacology",
         ],
       },
       {
         title: "Maternal-Child",
         lessons: [
+          "preeclampsia-management", "postpartum-hemorrhage-rn", "gestational-diabetes-rn",
           "rn-testbank-maternal-child",
         ],
       },
@@ -74,7 +76,6 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       { label: "Clinical Lessons", href: "/lessons" },
       { label: "Flashcard Study Decks", href: "/flashcards" },
       { label: "Printable Exam Packs", href: "/shop" },
-      { label: "Free Practice Questions", href: "/free-practice" },
       { label: "Lab Values Reference", href: "/lab-values" },
       { label: "Med Math Calculator", href: "/med-math" },
       { label: "Clinical Case Simulations", href: "/case-simulations" },
@@ -110,6 +111,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       {
         title: "Respiratory",
         lessons: [
+          "copd-basics-rpn", "asthma-basics-rpn", "pneumonia-basics-rpn",
           "rpn-testbank-respiratory",
         ],
       },
@@ -140,7 +142,6 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       { label: "Clinical Lessons", href: "/lessons" },
       { label: "Flashcard Study Decks", href: "/flashcards" },
       { label: "Printable Study Packs", href: "/shop" },
-      { label: "Free Practice Questions", href: "/free-practice" },
       { label: "Lab Values Reference", href: "/lab-values" },
       { label: "Med Math Calculator", href: "/med-math" },
       { label: "Medication Mastery Engine", href: "/medication-mastery" },
@@ -171,6 +172,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       {
         title: "Respiratory",
         lessons: [
+          "copd-basics-rpn", "asthma-basics-rpn", "pneumonia-basics-rpn",
           "rpn-testbank-respiratory",
         ],
       },
@@ -201,7 +203,6 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       { label: "Clinical Lessons", href: "/lessons" },
       { label: "Flashcard Study Decks", href: "/flashcards" },
       { label: "Printable Exam Packs", href: "/shop" },
-      { label: "Free Practice Questions", href: "/free-practice" },
       { label: "Lab Values Reference", href: "/lab-values" },
       { label: "Med Math Calculator", href: "/med-math" },
       { label: "Medication Mastery Engine", href: "/medication-mastery" },
@@ -274,7 +275,7 @@ export const SILO_CONFIGS: Record<string, SiloConfig> = {
       { label: "NP Clinical Lessons", href: "/lessons" },
       { label: "Study Flashcards", href: "/flashcards" },
       { label: "NP Study Packs", href: "/shop" },
-      { label: "Free Practice Questions", href: "/free-practice" },
+      { label: "NP Exam Prep Hub", href: "/np-exam-prep" },
       { label: "Lab Values Reference", href: "/lab-values" },
       { label: "Clinical Case Simulations", href: "/case-simulations" },
       { label: "Medication Mastery Engine", href: "/medication-mastery" },

@@ -383,6 +383,96 @@ export default function NpExamPrepPillarPage() {
             </div>
           </section>
 
+          <section className="mb-20" data-testid="section-aanp-vs-ancc">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">AANP vs ANCC: Which NP Certification Should You Choose?</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Both certifications are accepted nationwide, but they differ in exam format, content emphasis, and scoring. Here is what you need to know to make the right choice.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white border-2 border-blue-200 rounded-2xl p-6" data-testid="aanp-comparison-detail">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <Award className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-blue-700">AANP Certification</h3>
+                </div>
+                <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                  <p><strong>Best for:</strong> Clinically strong test-takers who prefer scenario-based questions and clinical management decision-making.</p>
+                  <p><strong>Exam focus:</strong> The AANP places heavy emphasis on clinical assessment and management (approximately 80% of the exam). Questions are predominantly clinical scenarios requiring you to identify diagnoses, order tests, and select treatments.</p>
+                  <p><strong>Format:</strong> 150 questions (135 scored), 4 hours. Passing score: 500/800.</p>
+                  <p><strong>Ideal if:</strong> Your NP program emphasized hands-on clinical rotations, you prefer patient-centered questions, and your employer does not specify a certifying body.</p>
+                </div>
+                <LocaleLink href="/np/aanp-exam" className="mt-4 block">
+                  <Button variant="outline" className="w-full border-blue-200 text-blue-700 gap-2 hover:bg-blue-50">
+                    Full AANP Exam Guide <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </LocaleLink>
+              </div>
+
+              <div className="bg-white border-2 border-indigo-200 rounded-2xl p-6" data-testid="ancc-comparison-detail">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+                    <Award className="w-5 h-5 text-indigo-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-indigo-700">ANCC Certification</h3>
+                </div>
+                <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                  <p><strong>Best for:</strong> NPs who are strong in research, evidence-based practice, and healthcare systems in addition to clinical knowledge.</p>
+                  <p><strong>Exam focus:</strong> The ANCC allocates 20-25% of questions to professional role, research methodology, and healthcare policy. The remaining 75-80% covers clinical content similar to the AANP.</p>
+                  <p><strong>Format:</strong> 175 questions (150 scored), 3.5 hours. Passing score: 350/500.</p>
+                  <p><strong>Ideal if:</strong> You plan to work at academic medical centers or VA hospitals (which often prefer ANCC), or your program heavily covered research and EBP.</p>
+                </div>
+                <LocaleLink href="/np/ancc-exam" className="mt-4 block">
+                  <Button variant="outline" className="w-full border-indigo-200 text-indigo-700 gap-2 hover:bg-indigo-50">
+                    Full ANCC Exam Guide <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </LocaleLink>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-2xl p-6" data-testid="section-bottom-line">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                  <CheckCircle className="w-5 h-5 text-emerald-500" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-[#2E3A59] mb-2">The Bottom Line</h3>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    Both AANP and ANCC certifications carry equal weight for NP licensure and prescriptive authority across all 50 states. Neither is objectively harder — the best choice depends on your personal strengths, program emphasis, and employer preference. Many NPs hold both certifications. If you are unsure, check with your program advisor and potential employers before deciding.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mb-20" data-testid="section-np-study-tools">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">NP Exam Prep Study Tools</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Everything you need for a complete NP certification exam preparation. All tools are aligned to AANP, ANCC, and CNPLE exam blueprints.</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { icon: Target, label: "NP Practice Questions", href: "/np-exam-practice-questions", desc: "Exam-specific question banks with rationales" },
+                { icon: Clock, label: "NP Mock Exams", href: "/mock-exams", desc: "Full-length timed practice exams" },
+                { icon: BookOpen, label: "NP Clinical Lessons", href: "/lessons?tier=np", desc: "179+ body-system study guides" },
+                { icon: Brain, label: "NP Flashcards", href: "/flashcards", desc: "High-yield review cards" },
+                { icon: Shield, label: "Pharmacology Review", href: "/medication-mastery", desc: "NP prescribing and drug review" },
+                { icon: BarChart, label: "Performance Analytics", href: "/reports", desc: "Domain-specific readiness tracking" },
+              ].map((tool, i) => (
+                <LocaleLink key={i} href={tool.href} data-testid={`link-study-tool-${i}`}>
+                  <div className="bg-white border border-gray-200 rounded-xl p-5 hover:border-[#BFA6F6]/40 hover:shadow-md transition-all group h-full">
+                    <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center mb-3">
+                      <tool.icon className="w-5 h-5 text-[#BFA6F6]" />
+                    </div>
+                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors mb-1">{tool.label}</p>
+                    <p className="text-xs text-gray-500">{tool.desc}</p>
+                  </div>
+                </LocaleLink>
+              ))}
+            </div>
+          </section>
+
           <section className="mb-20" data-testid="section-pillar-faq">
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">NP Exam Prep: Frequently Asked Questions</h2>

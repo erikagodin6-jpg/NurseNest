@@ -106,8 +106,8 @@ const EXAM_DATA: Record<ExamType, {
     features: [
       { icon: Target, title: "NP Test Bank", desc: "Advanced practice-level questions covering diagnosis, management, and prescribing at the NP scope.", href: "/free-practice", cta: "Browse Questions" },
       { icon: Stethoscope, title: "Timed Mock Exams", desc: "Full-length NP certification practice exams with performance analytics.", href: "/mock-exams", cta: "Start Mock Exam" },
-      { icon: FileText, title: "NP Study Packs", desc: "Comprehensive exam prep PDFs covering clinical management and pharmacology.", href: "/shop", cta: "View Study Packs" },
-      { icon: Layers, title: "Clinical Lessons", desc: "179+ NP-scope pathophysiology lessons covering all major body systems.", href: "/lessons", cta: "Browse Lessons" },
+      { icon: FileText, title: "NP Exam Prep Hub", desc: "Compare AANP vs ANCC vs CNPLE exams and choose your certification pathway.", href: "/np-exam-prep", cta: "View Exam Hub" },
+      { icon: Layers, title: "Clinical Lessons", desc: "179+ NP-scope pathophysiology lessons covering all major body systems.", href: "/lessons?tier=np", cta: "Browse Lessons" },
     ],
     faqs: [
       { q: "Which NP certification exams does NurseNest cover?", a: "NurseNest covers content for AANP and ANCC certification exams, including FNP-BC (Family), AGPCNP-BC (Adult-Gerontology Primary Care), AGACNP-BC (Adult-Gerontology Acute Care), PMHNP-BC (Psychiatric Mental Health), and PNP-BC (Pediatric)." },
