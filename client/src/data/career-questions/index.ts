@@ -9,6 +9,7 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./rrt-questions").then(m => m.rrtQuestions),
     import("./rrt-questions-batch1").then(m => m.rrtQuestionsBatch1),
     import("./rrt-questions-batch2").then(m => m.rrtQuestionsBatch2),
+    import("./rrt-questions-batch3").then(m => m.rrtQuestionsBatch3),
   ]).then(parts => parts.flat()),
   paramedic: () => import("./paramedic-questions").then(m => m.paramedicQuestions),
   pharmacyTech: () => import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
