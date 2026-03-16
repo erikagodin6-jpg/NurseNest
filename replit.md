@@ -38,6 +38,7 @@ Key systems:
 
 ## Career Question Banks
 - **Surgical Technologist**: 1502 questions across 6 files (`client/src/data/career-questions/surgical-technologist-questions*.ts`), covering 8 domains (Sterile Technique, OR Protocols, Instrumentation, Procedures, Positioning, Infection Prevention, Anesthesia, Complications). Region-tagged (US: 125, CA: 108, BOTH: 1269). Also seeded in `exam_questions` DB table with `career_type='surgicalTechnologist'`. Seed script: `script/seed-surgical-tech-questions.ts`.
+- **Respiratory Therapy (RRT)**: 1010 questions across 2 files (`rrt-questions.ts` batch 1: 510, `rrt-questions-batch2.ts` batch 2: 500). Batch 2 covers 4 categories with 125 questions each: Airway Management (rrt-511 to rrt-635), Respiratory Pharmacology (rrt-636 to rrt-760), Pulmonary Diagnostics (rrt-761 to rrt-885), Neonatal/Pediatric Respiratory Care (rrt-886 to rrt-1010). Registered in both `index.ts` (Promise.all lazy loader) and `career-question-pool.ts` (spread into pool).
 
 ## External Dependencies
 - **Database**: PostgreSQL
