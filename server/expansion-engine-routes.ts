@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
 import { runExpansionForTier, runFullExpansion, getExpansionStatus, runCriticalCareSubspecialty, runFullCriticalCareExpansion, getCriticalCareExpansionStatus, runProceduralSurgicalSubspecialty, runFullProceduralSurgicalExpansion, getProceduralSurgicalExpansionStatus, checkAutoGenerationTriggers, runAutoTriggeredExpansions } from "./qbank-expansion-engine";
+import { runRNBatch2Expansion, runRNBatch2Category, getBatch2Categories, getRNBatch2Status } from "./rn-batch2-expansion-engine";
 
 const activeExpansions = new Map<string, { status: string; summary?: any; error?: string }>();
 
@@ -325,6 +326,97 @@ export function registerExpansionEngineRoutes(app: Express) {
       }).catch((err) => {
         console.error("[Auto-Trigger] Error:", err);
         activeExpansions.set("auto-trigger", { status: "failed", error: err.message });
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/expansion-engine/rn-batch2/start", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      if (activeExpansions.has("rn-batch2-full") && activeExpansions.get("rn-batch2-full")?.status === "running") {
+        return res.status(409).json({ error: "RN Batch 2 expansion is already running" });
+      }
+
+      activeExpansions.set("rn-batch2-full", { status: "running" });
+      res.json({
+        ok: true,
+        message: "Started RN Batch 2 expansion: 510 questions across 7 categories (Maternal/Newborn, Pediatrics, Mental Health, Leadership/Delegation, Critical Care, Community Health, Emergency Nursing)",
+        categories: getBatch2Categories(),
+      });
+
+      runRNBatch2Expansion((progress) => {
+        console.log(`[RN-Batch2 Route] Progress: batch ${progress.batchNumber} (${progress.category}), ${progress.questionsGenerated} questions`);
+      }).then((summary) => {
+        activeExpansions.set("rn-batch2-full", { status: "complete", summary });
+      }).catch((err) => {
+        console.error(`[RN-Batch2 Route] Error:`, err);
+        activeExpansions.set("rn-batch2-full", { status: "failed", error: err.message });
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/expansion-engine/rn-batch2/start-category", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { category, targetCount } = req.body;
+      const validCategories = getBatch2Categories().map(c => c.name);
+
+      if (!category || !validCategories.includes(category)) {
+        return res.status(400).json({ error: `Invalid category. Must be one of: ${validCategories.join(", ")}` });
+      }
+
+      const count = targetCount ? parseInt(targetCount) : undefined;
+      if (count !== undefined && (isNaN(count) || count < 1 || count > 500)) {
+        return res.status(400).json({ error: "targetCount must be between 1 and 500" });
+      }
+
+      const key = `rn-batch2-${category.toLowerCase().replace(/[\s/]+/g, "-")}`;
+      if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
+        return res.status(409).json({ error: `RN Batch 2 expansion for ${category} is already running` });
+      }
+
+      activeExpansions.set(key, { status: "running" });
+      res.json({ ok: true, message: `Started RN Batch 2 ${category} expansion for ${count || "default"} questions`, key });
+
+      runRNBatch2Category(category, count, (progress) => {
+        console.log(`[RN-Batch2 Route] Progress: batch ${progress.batchNumber} (${progress.category}), ${progress.questionsGenerated} questions`);
+      }).then((summary) => {
+        activeExpansions.set(key, { status: "complete", summary });
+      }).catch((err) => {
+        console.error(`[RN-Batch2 Route] Error:`, err);
+        activeExpansions.set(key, { status: "failed", error: err.message });
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/expansion-engine/rn-batch2/status", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const dbStatus = await getRNBatch2Status();
+      const runningJobs: Record<string, any> = {};
+
+      activeExpansions.forEach((val, key) => {
+        if (key.startsWith("rn-batch2")) {
+          runningJobs[key] = val;
+        }
+      });
+
+      res.json({
+        ...dbStatus,
+        categories: getBatch2Categories(),
+        activeJobs: runningJobs,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });

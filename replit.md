@@ -107,6 +107,16 @@ Key architectural components and features:
 - **UI**: "Don't show again today" checkbox in exit-intent and upgrade modals; "Not today" in upgrade prompt toast
 - **PWA**: Layered — 24h suppression + existing 7-day dismiss both apply
 
+## RN Question Bank Expansion — Batch 2
+- **Engine**: `server/rn-batch2-expansion-engine.ts` — Dedicated expansion engine for 7 RN categories
+- **Categories**: Maternal/Newborn (~100), Pediatrics (~100), Mental Health (~80), Leadership/Delegation (~80), Critical Care (~50), Community Health (~50), Emergency Nursing (~50)
+- **Total target**: 510 questions with companion flashcards, image matching, and lesson links
+- **API Routes** (admin-only, in `server/expansion-engine-routes.ts`):
+  - `POST /api/admin/expansion-engine/rn-batch2/start` — Run full batch 2 expansion
+  - `POST /api/admin/expansion-engine/rn-batch2/start-category` — Run single category (`{ category, targetCount }`)
+  - `GET /api/admin/expansion-engine/rn-batch2/status` — Check batch 2 status and counts
+- **Features**: AI-generated via OpenAI, duplicate detection (stem hash + similarity check), auto-tagging, image matching, lesson link injection, flashcard bank companion cards
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`
