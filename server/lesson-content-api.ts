@@ -110,12 +110,57 @@ function deriveCategory(lesson: any): string {
   return "General";
 }
 
+function isLessonIncomplete(id: string, lesson: any): boolean {
+  const cellularContent = lesson.cellular?.content || "";
+  if (typeof cellularContent === "string" && cellularContent.includes("[WRITE YOUR")) return true;
+  if (typeof cellularContent === "string" && cellularContent.length < 50) return true;
+
+  const title = lesson.title || "";
+  const titleLower = typeof title === "string" ? title.toLowerCase() : "";
+  if (!titleLower || titleLower === "untitled" || titleLower === "draft") return true;
+
+  const placeholderMarkers = [
+    "lorem ipsum",
+    "coming soon",
+    "tbd",
+    "[draft]",
+    "[placeholder",
+    "[write your",
+  ];
+  const fullText = [cellularContent, ...(lesson.riskFactors || []), ...(lesson.nursingActions || []), ...(lesson.pearls || [])].join(" ").toLowerCase();
+  for (const marker of placeholderMarkers) {
+    if (fullText.includes(marker)) return true;
+  }
+
+  const templatePatterns = [
+    /is a clinical topic requiring comprehensive nursing knowledge/i,
+    /Follow evidence-based guidelines for managing/i,
+    /-related pathology or predisposing conditions/i,
+    /-related parameters within expected range/i,
+    /Nurses caring for patients with conditions related to/i,
+    /requires thorough understanding of the underlying pathophysiology and clinical assessment skills/i,
+    /Worsening .+-related symptoms beyond baseline/i,
+    /History of .+ or related conditions/i,
+    /Trending data over time is more valuable than any single assessment point in/i,
+    /Perform comprehensive assessment specific to .+ at prescribed intervals/i,
+    /Monitor and document clinical parameters relevant to/i,
+    /Condition-specific assessment findings related to/i,
+    /Implement treatment protocol specific to/i,
+  ];
+  for (const pattern of templatePatterns) {
+    if (pattern.test(fullText)) return true;
+  }
+
+  if (isPlaceholder(lesson)) return true;
+
+  return false;
+}
+
 async function buildMetadata(): Promise<LessonMeta[]> {
   if (metadataCache) return metadataCache;
   const data = await loadLessonData();
   metadataCache = Object.entries(data).map(([id, lesson]: [string, any]) => {
-    const cellularContent = lesson.cellular?.content || "";
-    const isPlaceholder = typeof cellularContent === "string" && cellularContent.includes("[WRITE YOUR");
+    const incomplete = isLessonIncomplete(id, lesson);
     return {
       id,
       title: typeof lesson.title === "object" ? (lesson.title.en || lesson.title) : (lesson.title || id),
@@ -126,7 +171,7 @@ async function buildMetadata(): Promise<LessonMeta[]> {
       hasPostTest: Array.isArray(lesson.postTest) && lesson.postTest.length > 0,
       medCount: Array.isArray(lesson.medications) ? lesson.medications.length : 0,
       image: lesson.image,
-      isComplete: !isPlaceholder,
+      isComplete: !incomplete,
     };
   });
   return metadataCache;
@@ -226,7 +271,9 @@ export function setupLessonContentRoutes(app: Express): void {
         return res.json(previewSet);
       }
       const allowed = getAllowedLessonTiers(userTier);
-      const filtered = allMeta.filter(m => allowed.includes(m.tier));
+      const filtered = userTier === "admin"
+        ? allMeta.filter(m => allowed.includes(m.tier))
+        : allMeta.filter(m => allowed.includes(m.tier) && m.isComplete);
       console.log(`[LessonAPI] meta: tier=${userTier}, total=${allMeta.length}, filtered=${filtered.length}`);
       res.setHeader("Cache-Control", "private, max-age=60");
       res.json(filtered);
@@ -266,9 +313,14 @@ export function setupLessonContentRoutes(app: Express): void {
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
+
+      const userTier = await extractLessonUserTier(req);
+      if (userTier !== "admin" && isLessonIncomplete(slug, lesson)) {
+        return res.status(404).json({ error: "Lesson not found" });
+      }
+
       const lessonTier = deriveTier(slug);
       const user = await resolveAuthUser(req as any);
-      const userTier = await extractLessonUserTier(req);
       const userId = user ? String(user.id) : "anonymous";
       const subscriptionStatus = user?.subscription_status || (userTier === "free" ? "none" : "active");
 
@@ -385,7 +437,7 @@ export function setupLessonContentRoutes(app: Express): void {
       if (userTier === "free" || !userTier) {
         allowedMeta = meta.filter(m => m.isComplete).slice(0, FREE_LESSON_PREVIEW_LIMIT);
       } else {
-        allowedMeta = meta.filter((m) => allowed.includes(m.tier));
+        allowedMeta = meta.filter((m) => allowed.includes(m.tier) && m.isComplete);
       }
       const results = allowedMeta
         .filter((m) => {
