@@ -1177,19 +1177,14 @@ function LocaleRouter() {
     return <Redirect to={redirectTarget} />;
   }
 
-  const needsDelocalization = locale === "fr" || locale === "es" || locale === "pt" || locale === "de" || locale === "th" || locale === "zh" || locale === "zh-tw" || locale === "id";
-
-  if (needsDelocalization) {
-    return (
-      <Router base={`/${locale}`} hook={() => useDelocalizedLocation(locale)}>
-        <AppRoutes />
-      </Router>
-    );
-  }
-
   return (
     <Router base={`/${locale}`}>
-      <AppRoutes />
+      <Suspense fallback={<div style={{padding:"40px",fontFamily:"sans-serif"}}>Loading...</div>}>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route>{() => <div style={{padding:"40px"}}>Page found - router works</div>}</Route>
+        </Switch>
+      </Suspense>
     </Router>
   );
 }
@@ -1261,12 +1256,7 @@ function App() {
               <ParamedicRegionProvider>
               <SiteImagesProvider>
                 <TooltipProvider>
-                  <Toaster />
-                  <PreviewBanner />
-                  <PageTracker />
-                  <CopyProtection />
                   <LocaleRouter />
-                  <DeferredShellComponents />
                 </TooltipProvider>
               </SiteImagesProvider>
               </ParamedicRegionProvider>
