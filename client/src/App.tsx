@@ -291,6 +291,7 @@ const MedicationPage = lazy(() => import("@/pages/medication-page"));
 const HerbalSupplementsHub = lazy(() => import("@/pages/herbal-supplements-hub"));
 const HerbalSupplementPage = lazy(() => import("@/pages/herbal-supplement-page"));
 const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
+const NursingPhysiologyHub = lazy(() => import("@/pages/nursing-physiology-hub"));
 const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
 const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingCanada })));
 const MedicalImagingUSAPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingUSA })));
@@ -1170,10 +1171,20 @@ function AppRoutes() {
         <Route path="/nursing-clinical-scenarios">{() => <ExamPrepCornerstonePage slug="nursing-clinical-scenarios" />}</Route>
         <Route path="/nursing-exam-preparation">{() => <ExamPrepCornerstonePage slug="nursing-exam-preparation" />}</Route>
 
+        {/* Exam Prep Topic Clusters (alternate slugs) */}
+        <Route path="/nclex-question-bank-guide">{() => <TopicClusterBySlug slug="nclex-question-bank-guide" />}</Route>
+        <Route path="/rex-pn-exam-prep-guide">{() => <TopicClusterBySlug slug="rex-pn-exam-prep-guide" />}</Route>
+        <Route path="/nursing-clinical-scenarios-guide">{() => <TopicClusterBySlug slug="nursing-clinical-scenarios-guide" />}</Route>
+
         {/* Authority Guide Pages */}
         <Route path="/electrolytes-nursing-exam-guide">{() => <AuthorityGuidePage slug="electrolytes-nursing-exam-guide" />}</Route>
         <Route path="/acid-base-disorders-nursing-guide">{() => <AuthorityGuidePage slug="acid-base-disorders-nursing-guide" />}</Route>
         <Route path="/nursing-clinical-assessment-guide">{() => <AuthorityGuidePage slug="nursing-clinical-assessment-guide" />}</Route>
+
+        {/* Long-form Cornerstone Study Guides (topic cluster format) */}
+        <Route path="/lab-values-complete-nursing-guide">{() => <TopicClusterBySlug slug="lab-values-complete-nursing-guide" />}</Route>
+        <Route path="/acid-base-disorders-nursing">{() => <TopicClusterBySlug slug="acid-base-disorders-nursing" />}</Route>
+        <Route path="/nursing-clinical-assessment-complete-guide">{() => <TopicClusterBySlug slug="nursing-clinical-assessment-complete-guide" />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />

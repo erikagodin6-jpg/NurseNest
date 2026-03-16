@@ -11543,5 +11543,101 @@
   "nursing-exam-prep": {
     "title": "Préparation aux examens infirmiers",
     "overview": "Préparez-vous aux examens infirmiers NCLEX-RN, NCLEX-PN, REx-PN et aux certifications NP avec des ressources complètes incluant des questions pratique, des examens simulés adaptatifs, des cartes mémoire pharmacologie et des leçons de pathophysiologie structurées par système corporel."
+  },
+  "nursing-physiology-explained": {
+    "title": "Physiologie infirmière expliquée",
+    "overview": "Explorez les sujets de physiopathologie clinique expliqués clairement pour les étudiants en soins infirmiers. Brûlures et hyperkaliémie, conduction cardiaque, troubles acido-basiques, sténose pylorique et interprétation de l'ECG."
+  },
+  "why-burns-cause-hyperkalemia": {
+    "title": "Pourquoi les brûlures causent l'hyperkaliémie",
+    "overview": "Découvrez comment les lésions thermiques libèrent le potassium intracellulaire par destruction cellulaire, activation du SRAA et déplacements liquidiens."
+  },
+  "potassium-effects-on-cardiac-conduction": {
+    "title": "Effets du potassium sur la conduction cardiaque",
+    "overview": "Comprenez comment les niveaux de potassium affectent le potentiel de repos membranaire, les potentiels d'action et les tracés ECG en hypo/hyperkaliémie."
+  },
+  "metabolic-acidosis-in-aki": {
+    "title": "Acidose métabolique dans l'insuffisance rénale aiguë",
+    "overview": "Apprenez pourquoi l'insuffisance rénale aiguë altère l'excrétion des ions hydrogène et la régénération du bicarbonate, entraînant une acidose métabolique."
+  },
+  "pyloric-stenosis-metabolic-alkalosis": {
+    "title": "Sténose pylorique et alcalose métabolique",
+    "overview": "Découvrez la physiopathologie reliant les vomissements en jet, la perte d'HCl et l'alcalose métabolique hypochlorémique chez les nourrissons."
+  },
+  "qrs-complex-explained-for-nurses": {
+    "title": "Le complexe QRS expliqué pour les infirmières",
+    "overview": "Maîtrisez la dépolarisation ventriculaire, les blocs de branche et la signification clinique des complexes QRS larges vs étroits."
+  },
+  "nclex-question-bank-guide": {
+    "title": "Guide de banque de questions NCLEX",
+    "overview": "Guide complet de banque de questions NCLEX avec questions pratiques, stratégies d'étude, conseils de jugement clinique et techniques de passation d'examen."
+  },
+  "rex-pn-exam-prep-guide": {
+    "title": "Guide de préparation à l'examen REx-PN",
+    "overview": "Guide complet de préparation à l'examen REx-PN pour les infirmières auxiliaires canadiennes. Stratégies d'étude, types de questions et scénarios pratiques."
+  },
+  "nursing-clinical-scenarios-guide": {
+    "title": "Guide de scénarios cliniques infirmiers",
+    "overview": "Pratiquez des scénarios cliniques infirmiers avec des études de cas réalistes. Développez la pensée critique et le jugement clinique."
+  },
+  "lab-values-complete-nursing-guide": {
+    "title": "Valeurs de laboratoire pour infirmières : Guide complet",
+    "overview": "Référence complète des valeurs de laboratoire couvrant FSC, BMP, CMP, coagulation, bilan hépatique, marqueurs cardiaques et fonction thyroïdienne."
+  },
+  "electrolytes-nursing-exam-guide": {
+    "title": "Électrolytes pour les examens infirmiers",
+    "overview": "Maîtrisez les déséquilibres électrolytiques pour les examens infirmiers. Sodium, potassium, calcium, magnésium, phosphore et chlorure."
+  },
+  "acid-base-disorders-nursing": {
+    "title": "Troubles acido-basiques expliqués",
+    "overview": "Comprenez les troubles acido-basiques et l'interprétation des gaz artériels pour la pratique infirmière. Acidose et alcalose métaboliques et respiratoires."
+  },
+  "nursing-clinical-assessment-complete-guide": {
+    "title": "Évaluation clinique infirmière : Guide complet",
+    "overview": "Guide complet d'évaluation clinique couvrant l'examen physique de la tête aux pieds, les signes vitaux, l'évaluation neurologique et cardiovasculaire."
+  },
+  "calcium-lab-value": {
+    "title": "Calcium — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire du calcium pour les examens infirmiers. Plages normales, causes élevées/basses, signification clinique et interventions infirmières."
+  },
+  "magnesium-lab-value": {
+    "title": "Magnésium — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire du magnésium pour les examens infirmiers. Plages normales, causes élevées/basses et interventions infirmières."
+  },
+  "bicarbonate-lab-value": {
+    "title": "Bicarbonate — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire du bicarbonate (HCO3) pour les examens infirmiers. Équilibre acido-basique et interventions infirmières."
+  },
+  "bun-lab-value": {
+    "title": "Azote uréique sanguin (BUN) — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire du BUN pour les examens infirmiers. Fonction rénale, causes élevées/basses et interventions infirmières."
+  },
+  "hemoglobin-lab-value": {
+    "title": "Hémoglobine — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire de l'hémoglobine pour les examens infirmiers. Anémie, transfusion sanguine et interventions infirmières."
+  },
+  "wbc-lab-value": {
+    "title": "Globules blancs (GB) — Valeur de laboratoire",
+    "overview": "Interprétation de la valeur de laboratoire des globules blancs pour les examens infirmiers. Infection, leucocytose, leucopénie et interventions infirmières."
+  },
+  "sterile-technique-nursing": {
+    "title": "Technique stérile en soins infirmiers",
+    "overview": "Guide complet de la technique stérile pour les infirmières. Création du champ stérile, enfilage des gants, prévention de la contamination et meilleures pratiques."
+  },
+  "wound-irrigation-procedure": {
+    "title": "Procédure d'irrigation des plaies",
+    "overview": "Guide étape par étape de l'irrigation des plaies pour les infirmières. Sélection de la solution, technique de pression, évaluation et documentation."
+  },
+  "fluid-status-assessment": {
+    "title": "Évaluation de l'état hydrique",
+    "overview": "Guide complet d'évaluation de l'état hydrique pour les infirmières. Surcharge liquidienne, déshydratation, bilan entrées-sorties et interventions."
+  },
+  "pain-assessment-scales": {
+    "title": "Échelles d'évaluation de la douleur",
+    "overview": "Guide des échelles d'évaluation de la douleur pour les infirmières. Échelles numériques, visuelles analogiques, FLACC, Wong-Baker et évaluation pédiatrique."
+  },
+  "newborn-assessment-guide": {
+    "title": "Guide d'évaluation du nouveau-né",
+    "overview": "Guide complet d'évaluation du nouveau-né. Score d'Apgar, examen physique, réflexes primitifs, signes vitaux et dépistage néonatal."
   }
 }

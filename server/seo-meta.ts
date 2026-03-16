@@ -1043,6 +1043,58 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Blood Bank Antibody ID: Panel Interpretation Guide | NurseNest",
     description: "Master blood bank antibody identification and panel interpretation for ASCP MLT exam. Rule-out methodology, multiple antibodies, and clinical significance.",
   },
+  "/nursing-physiology-explained": {
+    title: "Nursing Physiology Explained — Clinical Pathophysiology for Nurses | NurseNest",
+    description: "Explore nursing pathophysiology topics explained clearly for students. Burns and hyperkalemia, cardiac conduction, acid-base disorders, pyloric stenosis, and ECG interpretation.",
+  },
+  "/why-burns-cause-hyperkalemia": {
+    title: "Why Burns Cause Hyperkalemia — Pathophysiology Explained | NurseNest",
+    description: "Understand how thermal injury causes hyperkalemia through cellular destruction, potassium release, RAAS activation, and fluid shifts. Essential nursing pathophysiology for NCLEX prep.",
+  },
+  "/potassium-effects-on-cardiac-conduction": {
+    title: "Potassium Effects on Cardiac Conduction — ECG Changes Explained | NurseNest",
+    description: "Learn how potassium levels affect resting membrane potential, action potentials, and ECG patterns. Understand hypo- and hyperkalemia cardiac effects for nursing exams.",
+  },
+  "/metabolic-acidosis-in-aki": {
+    title: "Metabolic Acidosis in AKI — Pathophysiology for Nurses | NurseNest",
+    description: "Explore why acute kidney injury causes metabolic acidosis through impaired hydrogen ion excretion and bicarbonate regeneration. Nursing interventions and ABG interpretation.",
+  },
+  "/pyloric-stenosis-metabolic-alkalosis": {
+    title: "Pyloric Stenosis & Metabolic Alkalosis — Pediatric Pathophysiology | NurseNest",
+    description: "Discover the pathophysiology linking pyloric stenosis to hypochloremic metabolic alkalosis. Projectile vomiting, HCl loss, electrolyte imbalances, and nursing assessment.",
+  },
+  "/qrs-complex-explained-for-nurses": {
+    title: "QRS Complex Explained for Nurses — ECG Interpretation Guide | NurseNest",
+    description: "Master ventricular depolarization, bundle branch blocks, and the clinical significance of wide vs narrow QRS complexes. ECG interpretation skills for nursing practice.",
+  },
+  "/nclex-question-bank-guide": {
+    title: "NCLEX Question Bank Guide — Best Practice Questions & Study Strategy | NurseNest",
+    description: "Comprehensive NCLEX question bank guide with practice questions, study strategies, clinical judgment tips, and test-taking techniques for nursing students.",
+  },
+  "/rex-pn-exam-prep-guide": {
+    title: "REx-PN Exam Prep Guide — Canadian Practical Nursing Exam | NurseNest",
+    description: "Complete REx-PN exam preparation guide for Canadian practical nurses. Study strategies, question types, competency categories, and practice scenarios.",
+  },
+  "/nursing-clinical-scenarios-guide": {
+    title: "Nursing Clinical Scenarios Guide — Case Studies for Exam Prep | NurseNest",
+    description: "Practice nursing clinical scenarios with realistic case studies. Develop critical thinking and clinical judgment skills for NCLEX, REx-PN, and clinical practice.",
+  },
+  "/lab-values-complete-nursing-guide": {
+    title: "Lab Values for Nurses: Complete Reference Guide | NurseNest",
+    description: "Comprehensive nursing lab values reference covering CBC, BMP, CMP, coagulation, liver panel, cardiac markers, and thyroid function. Normal ranges, critical values, and clinical significance.",
+  },
+  "/electrolytes-nursing-exam-guide": {
+    title: "Electrolytes for Nursing Exams — Complete Study Guide | NurseNest",
+    description: "Master electrolyte imbalances for nursing exams. Sodium, potassium, calcium, magnesium, phosphorus, and chloride — normal ranges, symptoms, causes, and nursing interventions.",
+  },
+  "/acid-base-disorders-nursing": {
+    title: "Acid-Base Disorders Explained — ABG Interpretation for Nurses | NurseNest",
+    description: "Understand acid-base disorders and ABG interpretation for nursing practice. Metabolic and respiratory acidosis/alkalosis, compensation, and clinical nursing interventions.",
+  },
+  "/nursing-clinical-assessment-complete-guide": {
+    title: "Nursing Clinical Assessment: Complete Head-to-Toe Guide | NurseNest",
+    description: "Comprehensive nursing clinical assessment guide covering head-to-toe examination, vital signs, neurological assessment, cardiovascular assessment, and documentation.",
+  },
 };
 
 function escapeHtml(str: string): string {
@@ -1665,12 +1717,43 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   if (labValueMatch) {
     const slug = labValueMatch[1];
     const readable = slugToTitle(slug);
+    const labFaqJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": `What is the normal range for ${readable.toLowerCase()}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `The normal range for ${readable.toLowerCase()} varies by laboratory. Consult your institution's reference ranges and clinical context for accurate interpretation.`,
+          },
+        },
+        {
+          "@type": "Question",
+          "name": `What causes high ${readable.toLowerCase()} levels?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `Elevated ${readable.toLowerCase()} can result from various clinical conditions. Review the clinical significance section for common causes of high values.`,
+          },
+        },
+        {
+          "@type": "Question",
+          "name": `What nursing interventions are needed for abnormal ${readable.toLowerCase()}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `Nursing interventions for abnormal ${readable.toLowerCase()} depend on whether values are high or low, the underlying cause, and the patient's clinical presentation.`,
+          },
+        },
+      ],
+    });
     return {
       title: `${readable} - Lab Value Interpretation | Normal Range & Clinical Significance | NurseNest`,
       description: `Master ${readable.toLowerCase()} lab value interpretation for nursing exams. Normal ranges, high/low causes, clinical significance, and nursing interventions for NCLEX, NCLEX-PN, and REx-PN prep.`,
       canonical,
       noindex,
       breadcrumbs,
+      jsonLd: labFaqJsonLd,
     };
   }
 
