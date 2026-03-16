@@ -33,8 +33,10 @@ import {
   BookOpen,
   CheckCircle2,
   XCircle,
+  Sparkles,
 } from "lucide-react";
 import { ExamCalculator } from "@/components/exam-calculator";
+import { ExplanationPanel, type ExplanationData } from "@/components/explanation-panel";
 
 export interface ExamQuestion {
   question: string;
@@ -75,6 +77,9 @@ export interface ExamConsoleLayoutProps {
   questionStatuses?: AnswerStatus[];
   onNavigateToQuestion?: (index: number) => void;
   children?: React.ReactNode;
+  explanationData?: ExplanationData;
+  isLearningMode?: boolean;
+  onToggleLearningMode?: () => void;
 }
 
 function ExhibitViewer({ images }: { images: ExhibitImage[] }) {
@@ -299,6 +304,9 @@ export default function ExamConsoleLayout({
   questionStatuses = [],
   onNavigateToQuestion,
   children,
+  explanationData,
+  isLearningMode = false,
+  onToggleLearningMode,
 }: ExamConsoleLayoutProps) {
   const [struckOptions, setStruckOptions] = useState<Set<number>>(new Set());
   const [highlightMode, setHighlightMode] = useState(false);
@@ -437,6 +445,18 @@ export default function ExamConsoleLayout({
               {timerSeconds !== undefined ? formatTimer(timerSeconds) : "--:--"}
             </span>
           </div>
+          {onToggleLearningMode && (
+            <Button
+              variant={isLearningMode ? "default" : "ghost"}
+              size="sm"
+              onClick={onToggleLearningMode}
+              className={`h-8 gap-1 text-xs ${isLearningMode ? "bg-emerald-500 hover:bg-emerald-600 text-white" : "text-gray-500"}`}
+              data-testid="button-toggle-learning-mode"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{isLearningMode ? "Learning" : "Exam"}</span>
+            </Button>
+          )}
         </div>
 
         <div className="flex items-center gap-3 flex-1 justify-center">
@@ -654,22 +674,31 @@ export default function ExamConsoleLayout({
               </div>
             </div>
 
-            {showExplanation && explanation && (
+            {showExplanation && (explanationData || explanation) && (
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
                 <div className="p-3 md:p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
-                      <BookOpen className="w-3.5 h-3.5 text-violet-600" />
-                    </div>
-                    <h4 className="font-bold text-slate-800 text-base">
-                      Explanation
-                    </h4>
-                  </div>
-                  <div className="text-[15px] text-slate-700 leading-relaxed space-y-2" style={{ lineHeight: '1.7' }}>
-                    {explanation.split(/\n\n+/).filter(Boolean).map((para, i) => (
-                      <p key={i}>{para}</p>
-                    ))}
-                  </div>
+                  {explanationData ? (
+                    <ExplanationPanel
+                      data={explanationData}
+                      isLearningMode={isLearningMode}
+                    />
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
+                          <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+                        </div>
+                        <h4 className="font-bold text-slate-800 text-base">
+                          Explanation
+                        </h4>
+                      </div>
+                      <div className="text-[15px] text-slate-700 leading-relaxed space-y-2" style={{ lineHeight: '1.7' }}>
+                        {explanation!.split(/\n\n+/).filter(Boolean).map((para, i) => (
+                          <p key={i}>{para}</p>
+                        ))}
+                      </div>
+                    </>
+                  )}
                   {(() => {
                     const img = question.image || (explanationContext ? getQuestionImage(explanationContext) : undefined);
                     return img ? (
@@ -678,21 +707,6 @@ export default function ExamConsoleLayout({
                       </div>
                     ) : null;
                   })()}
-                  {explanationContext && (
-                    <div className="mt-3 pt-2 border-t border-slate-100">
-                      <a
-                        href={(() => {
-                          const searchTerm = encodeURIComponent(explanationContext.subtopic || explanationContext.topic || explanationContext.bodySystem || "");
-                          return searchTerm ? `/lessons?search=${searchTerm}` : "/lessons";
-                        })()}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                        data-testid="link-study-topic"
-                      >
-                        <BookOpen className="h-3.5 w-3.5" />
-                        Study This Topic: {explanationContext.subtopic || explanationContext.topic || explanationContext.bodySystem || "Lessons"}
-                      </a>
-                    </div>
-                  )}
                 </div>
               </div>
             )}

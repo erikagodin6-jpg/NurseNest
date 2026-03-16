@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
+import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
 const clusterData: Record<string, {
   title: string;
@@ -1074,6 +1075,9 @@ function HubPage() {
             slug="np-exam"
             source="nursing"
           />
+        </div>
+        <div className="mb-8">
+          <ExplanationPromoBanner variant="compact" />
         </div>
         <EndOfContentLeadCapture
           leadMagnetType="mock_exam"

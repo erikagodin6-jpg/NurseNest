@@ -15,6 +15,7 @@ import {
   Lightbulb,
   Brain,
 } from "lucide-react";
+import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
 interface ScreenshotSources {
   srcSet: string;
@@ -413,6 +414,10 @@ export function HeroProofShowcase() {
           From readiness analytics to NGN case studies, NurseNest shows students exactly what to
           study next.
         </p>
+
+        <div className="max-w-3xl mx-auto mt-10">
+          <ExplanationPromoBanner variant="compact" />
+        </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
           {socialProofCards.map((card) => (

@@ -5,6 +5,7 @@ import {
 import { AlliedSEO } from "@/allied/allied-seo";
 import { CAREER_SUBPAGE_DATA } from "@/allied/data/career-subpage-data";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
+import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
 const ICON_MAP: Record<string, any> = {
   FileText, Target, Zap, Code,
@@ -126,6 +127,12 @@ export default function CareerExamsPage({ careerSlug }: CareerExamsPageProps) {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-10 border-t border-gray-100">
+        <div className="max-w-3xl mx-auto px-4">
+          <ExplanationPromoBanner variant="compact" />
         </div>
       </section>
 

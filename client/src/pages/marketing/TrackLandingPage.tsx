@@ -36,6 +36,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { useState, useEffect } from "react";
 import { useRegion } from "@/hooks/use-region";
+import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
 const iconMap: Record<string, LucideIcon> = {
   FlaskConical,
@@ -132,6 +133,12 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
       )}
 
       <SolutionSection copy={copy} colors={colors} />
+
+      <section className="py-10" data-testid="section-explanation-promo">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <ExplanationPromoBanner />
+        </div>
+      </section>
 
       {copy.featureCards && copy.featureCards.length > 0 && (
         <FeatureCardsSection cards={copy.featureCards.map(c => ({ ...c, description: r(c.description) }))} label={label} colors={colors} />

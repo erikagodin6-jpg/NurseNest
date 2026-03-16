@@ -9,11 +9,12 @@ import { RelatedResources } from "@/components/related-resources";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { fetchFilterOptions, type FilterOptions } from "@/lib/qbank-api";
-import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, Lightbulb, Crosshair, BookOpen, Bookmark, Clock, GraduationCap, PenLine, BarChart3 } from "lucide-react";
+import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, BookOpen, Clock, GraduationCap, PenLine, BarChart3, Sparkles } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
+import { ExplanationPanel, type ExplanationData } from "@/components/explanation-panel";
 import { useLocation } from "wouter";
 import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
@@ -23,20 +24,13 @@ import { useI18n } from "@/lib/i18n";
 import {
   AnswerOption,
   ResultHeader,
-  RationaleSection,
-  CollapsibleRationaleSection,
-  DistractorCard,
   PremiumBadge,
   StudyProgressBar,
-  StudyPageShell,
-  PostAnswerReviewLayout,
-  RationaleText,
-  StudyTopicLink,
 } from "@/components/premium-study";
 
 const FREE_PREVIEW_COUNT = 3;
 
-type QBankMode = "study" | "exam";
+type QBankMode = "study" | "exam" | "learning";
 
 interface ExamSessionState {
   questions: PooledQuestion[];
@@ -185,6 +179,13 @@ export default function QuestionBank() {
     }
     if (revealed) return;
     setSelectedAnswer(idx);
+    if (mode === "learning") {
+      setRevealed(true);
+      setStats(prev => ({
+        correct: prev.correct + (idx === question?.correct ? 1 : 0),
+        total: prev.total + 1,
+      }));
+    }
   };
 
   const handleCheck = () => {
@@ -306,7 +307,8 @@ export default function QuestionBank() {
     };
   }, [examSession?.submitted]);
 
-  const isCorrect = mode === "study" ? selectedAnswer === question?.correct : false;
+  const isStudyOrLearning = mode === "study" || mode === "learning";
+  const isCorrect = isStudyOrLearning ? selectedAnswer === question?.correct : false;
   const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
   const qbTierConfig = getTierConfig(effectiveTier);
   const qbTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
@@ -543,6 +545,15 @@ export default function QuestionBank() {
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={() => { setMode("learning"); setExamSession(null); }}
+                className={`rounded-xl gap-1.5 px-5 transition-all duration-200 ${mode === "learning" ? "bg-emerald-50 text-emerald-700 shadow-sm font-semibold border border-emerald-200/60" : "text-gray-500 hover:text-gray-700"}`}
+                data-testid="button-mode-learning"
+              >
+                <Sparkles className="h-4 w-4" /> Learning Mode
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setMode("exam")}
                 className={`rounded-xl gap-1.5 px-5 transition-all duration-200 ${mode === "exam" ? "bg-white text-gray-900 shadow-sm font-semibold" : "text-gray-500 hover:text-gray-700"}`}
                 data-testid="button-mode-exam"
@@ -680,7 +691,7 @@ export default function QuestionBank() {
             </div>
 
             <div className="ml-auto flex items-center gap-4">
-              {stats.total > 0 && mode === "study" && (
+              {stats.total > 0 && isStudyOrLearning && (
                 <div className="flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1 text-gray-700">
                     <Target className="h-4 w-4 text-gray-500" />
@@ -742,7 +753,7 @@ export default function QuestionBank() {
             </Card>
           )}
 
-          {mode === "study" && (
+          {isStudyOrLearning && (
             <>
               {loadingQuestions ? (
                 <Card className="premium-card border-0 shadow-md bg-white">
@@ -839,103 +850,49 @@ export default function QuestionBank() {
                         </Button>
                       ) : (
                         <>
-                          <PostAnswerReviewLayout
-                            questionColumn={
-                              <>
-                                <ResultHeader
-                                  isCorrect={isCorrect}
-                                  correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`}
-                                  data-testid="section-result-header"
-                                />
-
-                                {revealed && question.difficulty && (
-                                  <div className="flex items-center gap-2 text-xs text-gray-400 flex-wrap">
-                                    <PremiumBadge variant="difficulty">{t("qbank.difficulty")}: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
-                                    {question.frameworkUsed && <PremiumBadge>{t("qbank.framework")}: {question.frameworkUsed}</PremiumBadge>}
-                                    {question.questionType && <PremiumBadge>{t("qbank.type")}: {question.questionType}</PremiumBadge>}
-                                  </div>
-                                )}
-
-                                <RationaleSection
-                                  icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                                  title={t("qbank.whyOtherWrong")}
-                                  variant="distractor"
-                                  data-testid="section-distractor-rationales"
-                                >
-                                  <div className="space-y-2">
-                                    {question.options.map((opt, idx) => {
-                                      if (idx === question.correct) return null;
-                                      const key = String.fromCharCode(65 + idx);
-                                      const rationale = question.distractorRationales?.[key] || question.distractorRationales?.[key.toLowerCase()] || question.distractorRationales?.[String(idx)];
-                                      const fallback = `This option is incorrect. The correct answer is ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]} — ${question.rationale?.slice(0, 120) || "review the explanation for details"}.`;
-                                      return <DistractorCard key={idx} letter={key} text={opt} rationale={rationale || fallback} />;
-                                    })}
-                                  </div>
-                                </RationaleSection>
-                              </>
-                            }
-                            rationaleColumn={
-                              <>
-                                <RationaleSection
-                                  icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-                                  title={t("qbank.whyCorrect")}
-                                  data-testid="section-rationale"
-                                >
-                                  <div data-testid="text-qb-rationale">
-                                    <RationaleText text={question.rationale} />
-                                  </div>
-                                </RationaleSection>
-
-                                {question.clinicalPearl && (
-                                  <CollapsibleRationaleSection
-                                    icon={<Lightbulb className="h-4 w-4 text-violet-600" />}
-                                    title={t("qbank.clinicalPearl")}
-                                    variant="pearl"
-                                    data-testid="section-clinical-pearl"
-                                  >
-                                    <p>{question.clinicalPearl}</p>
-                                  </CollapsibleRationaleSection>
-                                )}
-
-                                {question.examStrategy && (
-                                  <CollapsibleRationaleSection
-                                    icon={<Crosshair className="h-4 w-4 text-blue-600" />}
-                                    title={t("qbank.examStrategy")}
-                                    variant="strategy"
-                                    data-testid="section-exam-strategy"
-                                  >
-                                    <p>{question.examStrategy}</p>
-                                  </CollapsibleRationaleSection>
-                                )}
-
-                                {question.memoryHook && (
-                                  <CollapsibleRationaleSection
-                                    icon={<Bookmark className="h-4 w-4 text-amber-600" />}
-                                    title={t("qbank.memoryHook")}
-                                    variant="memory"
-                                    data-testid="section-memory-hook"
-                                  >
-                                    <p className="font-medium italic">{question.memoryHook}</p>
-                                  </CollapsibleRationaleSection>
-                                )}
-
-                                <StudyTopicLink
-                                  topic={question.topic}
-                                  subtopic={question.subtopic}
-                                  bodySystem={question.bodySystem}
-                                />
-
-                                {user && question && selectedAnswer !== null && (
-                                  <InlineConfidenceRating
-                                    questionId={`qb-${question.tier}-${currentIndex}`}
-                                    wasCorrect={isCorrect}
-                                    topic={question.bodySystem}
-                                    bodySystem={question.bodySystem}
-                                  />
-                                )}
-                              </>
-                            }
+                          <ResultHeader
+                            isCorrect={isCorrect}
+                            correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`}
+                            data-testid="section-result-header"
                           />
+
+                          {revealed && question.difficulty && (
+                            <div className="flex items-center gap-2 text-xs text-gray-400 flex-wrap mb-3">
+                              <PremiumBadge variant="difficulty">{t("qbank.difficulty")}: {DIFFICULTY_LABELS[question.difficulty] || question.difficulty}</PremiumBadge>
+                              {question.frameworkUsed && <PremiumBadge>{t("qbank.framework")}: {question.frameworkUsed}</PremiumBadge>}
+                              {question.questionType && <PremiumBadge>{t("qbank.type")}: {question.questionType}</PremiumBadge>}
+                            </div>
+                          )}
+
+                          <ExplanationPanel
+                            data={{
+                              rationale: question.rationale,
+                              correctAnswerIndex: question.correct,
+                              correctAnswerText: question.options[question.correct],
+                              options: question.options,
+                              distractorRationales: question.distractorRationales,
+                              clinicalPearl: question.clinicalPearl,
+                              examStrategy: question.examStrategy,
+                              memoryHook: question.memoryHook,
+                              frameworkUsed: question.frameworkUsed,
+                              clinicalTrap: question.clinicalTrap,
+                              scenario: question.scenario,
+                              topic: question.topic,
+                              subtopic: question.subtopic,
+                              bodySystem: question.bodySystem,
+                              questionType: question.questionType,
+                            }}
+                            isLearningMode={mode === "learning"}
+                          />
+
+                          {user && question && selectedAnswer !== null && (
+                            <InlineConfidenceRating
+                              questionId={`qb-${question.tier}-${currentIndex}`}
+                              wasCorrect={isCorrect}
+                              topic={question.bodySystem}
+                              bodySystem={question.bodySystem}
+                            />
+                          )}
 
                           <div className="flex gap-3 pt-2">
                             <Button variant="outline" onClick={handlePrev} className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50" data-testid="button-prev">
