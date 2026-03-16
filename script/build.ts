@@ -1,7 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
-import { existsSync, readdirSync, readFileSync, writeFileSync, copyFileSync, unlinkSync, mkdirSync } from "fs";
+import { rm, readFile, readdir, readFile as readFileAsync, writeFile, copyFile, unlink, mkdir } from "fs/promises";
+import { existsSync } from "fs";
 import { gzipSync } from "zlib";
 import { compileI18n } from "./compile-i18n";
 import path from "path";
@@ -114,26 +114,32 @@ async function buildServer() {
   });
 }
 
-function copySeedData() {
+async function copySeedData() {
   if (!existsSync("server/seed-data")) return;
-  mkdirSync("dist/seed-data", { recursive: true });
-  for (const f of readdirSync("server/seed-data")) {
-    if (f.endsWith(".ts")) continue;
-    const src = `server/seed-data/${f}`;
-    const dst = `dist/seed-data/${f}`;
-    copyFileSync(src, dst);
-    if (f.endsWith(".json")) {
-      try {
-        const data = JSON.parse(readFileSync(dst, "utf-8"));
-        const minified = JSON.stringify(data);
-        writeFileSync(dst, minified);
-        if (minified.length > 500_000) {
-          writeFileSync(dst + ".gz", gzipSync(Buffer.from(minified)));
-          unlinkSync(dst);
+  await mkdir("dist/seed-data", { recursive: true });
+  const files = await readdir("server/seed-data");
+  await Promise.all(
+    files
+      .filter((f) => !f.endsWith(".ts"))
+      .map(async (f) => {
+        const src = `server/seed-data/${f}`;
+        const dst = `dist/seed-data/${f}`;
+        await copyFile(src, dst);
+        if (f.endsWith(".json")) {
+          try {
+            const raw = await readFileAsync(dst, "utf-8");
+            const data = JSON.parse(raw);
+            const minified = JSON.stringify(data);
+            if (minified.length > 500_000) {
+              await writeFile(dst + ".gz", gzipSync(Buffer.from(minified)));
+              await unlink(dst);
+            } else {
+              await writeFile(dst, minified);
+            }
+          } catch {}
         }
-      } catch {}
-    }
-  }
+      })
+  );
 }
 
 async function buildAll() {
@@ -142,25 +148,19 @@ async function buildAll() {
 
   await rm("dist", { recursive: true, force: true });
 
-  log("compiling i18n...");
-  await compileI18n();
-
-  log("building client (vite) + server (esbuild) in parallel...");
+  log("building i18n + client (vite) + server (esbuild) in parallel...");
   await Promise.all([
+    compileI18n(),
     viteBuild(),
     buildServer(),
   ]);
 
-  log("client + server done");
+  log("i18n + client + server done");
 
-  log("removing bundled assets served from object storage...");
+  log("removing bundled assets + building lessons data + copying seed data in parallel...");
   await Promise.all([
     rm("dist/public/videos", { recursive: true, force: true }),
     rm("dist/public/translations", { recursive: true, force: true }),
-  ]);
-
-  log("building lessons data + NP batches (7 bundles in parallel)...");
-  await Promise.all([
     buildLessonsData(),
     buildNpBatch(1),
     buildNpBatch(2),
@@ -168,10 +168,8 @@ async function buildAll() {
     buildNpBatch(4),
     buildNpBatch(5),
     buildNpBatch(6),
+    copySeedData(),
   ]);
-
-  log("copying seed data...");
-  copySeedData();
 
   log(`build complete`);
 }

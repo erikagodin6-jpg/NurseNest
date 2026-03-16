@@ -568,85 +568,74 @@ app.use((req, res, next) => {
   registerScenarioRoutes(app);
   registerParamedicBulkUploadRoutes(app);
 
-  const { registerScheduleRoutes } = await import("./qbank-scheduler");
+  const [
+    { registerScheduleRoutes },
+    { setupAiOpsRoutes },
+    { loadProviders },
+    { setupQBankGenerator },
+    { setupContentExpansionRoutes },
+    { setupClinicalVignetteRoutes },
+    { setupTrialRoutes },
+    { setupTrialSubscriptionRoutes },
+    { setupStudyPathRoutes },
+    jobQueue,
+    { setupAutopilotRoutes },
+    { setupContentCoverageRoutes },
+    { setupLessonContentRoutes },
+    { setupSeoEngineRoutes },
+    { setupContentGrowthRoutes },
+    { registerNursingContentHubRoutes },
+    { registerSeoContentRoutes },
+    { registerParamedicSeoRoutes },
+    { setupQBankRoutes },
+    { loadStripePrices },
+  ] = await Promise.all([
+    import("./qbank-scheduler"),
+    import("./ai-ops-routes"),
+    import("./ai-provider-router"),
+    import("./qbank-generator"),
+    import("./content-expansion-job"),
+    import("./clinical-vignette-generator"),
+    import("./trial"),
+    import("./trial-subscription"),
+    import("./study-path"),
+    import("./job-queue"),
+    import("./autopilot"),
+    import("./content-coverage"),
+    import("./lesson-content-api"),
+    import("./seo-engine"),
+    import("./content-growth-routes"),
+    import("./nursing-content-hub"),
+    import("./seo-content-pages"),
+    import("./paramedic-seo"),
+    import("./qbank-api"),
+    import("./stripe-pricing"),
+  ]);
+
   registerScheduleRoutes(app);
-
-  const { setupAiOpsRoutes } = await import("./ai-ops-routes");
   setupAiOpsRoutes(app);
-
-  const { loadProviders } = await import("./ai-provider-router");
   loadProviders().catch(err => console.error("[AIRouter] Init failed:", err.message));
-
-  const { setupQBankGenerator } = await import("./qbank-generator");
   setupQBankGenerator(app);
-
-  const { setupContentExpansionRoutes } = await import("./content-expansion-job");
   setupContentExpansionRoutes(app);
-
-  const { setupClinicalVignetteRoutes } = await import("./clinical-vignette-generator");
   setupClinicalVignetteRoutes(app);
-
-  const { setupTrialRoutes } = await import("./trial");
   setupTrialRoutes(app);
-
-  const { setupTrialSubscriptionRoutes } = await import("./trial-subscription");
   setupTrialSubscriptionRoutes(app);
-
-  const { setupStudyPathRoutes } = await import("./study-path");
   setupStudyPathRoutes(app);
-
-  const { setupJobQueueRoutes, startJobQueueWorker } = await import("./job-queue");
-  setupJobQueueRoutes(app);
-
-  const { setupAutopilotRoutes } = await import("./autopilot");
+  jobQueue.setupJobQueueRoutes(app);
   setupAutopilotRoutes(app);
-
-  const { setupContentCoverageRoutes } = await import("./content-coverage");
   setupContentCoverageRoutes(app);
-
-  startJobQueueWorker();
-
-  const { setupLessonContentRoutes } = await import("./lesson-content-api");
+  jobQueue.startJobQueueWorker();
   setupLessonContentRoutes(app);
-
-  const { setupSeoEngineRoutes } = await import("./seo-engine");
   setupSeoEngineRoutes(app);
-
-  const { setupContentGrowthRoutes } = await import("./content-growth-routes");
   setupContentGrowthRoutes(app);
-
-  const { registerNursingContentHubRoutes } = await import("./nursing-content-hub");
   registerNursingContentHubRoutes(app);
-
-  const { registerSeoContentRoutes } = await import("./seo-content-pages");
   registerSeoContentRoutes(app);
-
-  const { registerParamedicSeoRoutes } = await import("./paramedic-seo");
   registerParamedicSeoRoutes(app);
-
-  const { setupQBankRoutes } = await import("./qbank-api");
   setupQBankRoutes(app);
-
-  const { loadStripePrices } = await import("./stripe-pricing");
   loadStripePrices();
 
-  const { validateStripeConnection } = await import("./stripeClient");
-  const stripeValid = await validateStripeConnection();
-  if (!stripeValid) {
-    console.error("[STARTUP] WARNING: Stripe connection validation failed — checkout will not work until the key is fixed");
-  }
-
-  // Seed/upsert pricing plans from pricing-config.ts on startup
-  const { seedPricingPlans } = await import("./seed-pricing-plans");
-  await seedPricingPlans();
-
-  const { validateSchemaAtStartup } = await import("./schema-validation");
-  await validateSchemaAtStartup();
-
-  // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
-  // Central error handler
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
     const status = err?.status || err?.statusCode || 500;
     const message = err?.message || "Internal Server Error";
@@ -663,7 +652,6 @@ app.use((req, res, next) => {
     }),
   );
 
-  // Vite dev / static prod
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -708,9 +696,45 @@ app.use((req, res, next) => {
     console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
     console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
-    // AI schedulers disabled — all AI generation is now admin-triggered via /admin/ai-jobs
-    // import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
-    // import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
+    runDeferredStartupWork();
+  });
+
+  setInterval(async () => {
+    try {
+      const count = await storage.publishScheduledContent();
+      if (count > 0) log(`Scheduler: auto-published ${count} content item(s)`);
+    } catch (err: any) {
+      console.error("Scheduler error:", err?.message || err);
+    }
+  }, 60_000);
+})();
+
+function runDeferredStartupWork() {
+  setImmediate(async () => {
+    try {
+      const { validateStripeConnection } = await import("./stripeClient");
+      const stripeValid = await validateStripeConnection();
+      if (!stripeValid) {
+        console.error("[STARTUP] WARNING: Stripe connection validation failed — checkout will not work until the key is fixed");
+      }
+    } catch (e: any) {
+      console.error("[Deferred Startup] Stripe validation error:", e.message);
+    }
+
+    try {
+      const { seedPricingPlans } = await import("./seed-pricing-plans");
+      await seedPricingPlans();
+    } catch (e: any) {
+      console.error("[Deferred Startup] Pricing plan seed error:", e.message);
+    }
+
+    try {
+      const { validateSchemaAtStartup } = await import("./schema-validation");
+      await validateSchemaAtStartup();
+    } catch (e: any) {
+      console.error("[Deferred Startup] Schema validation error:", e.message);
+    }
+
     import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
       .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
     import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
@@ -797,14 +821,4 @@ app.use((req, res, next) => {
       }
     }).catch((e: any) => console.error("[ExamSeed] Import failed:", e.message));
   });
-
-  // Scheduler loop
-  setInterval(async () => {
-    try {
-      const count = await storage.publishScheduledContent();
-      if (count > 0) log(`Scheduler: auto-published ${count} content item(s)`);
-    } catch (err: any) {
-      console.error("Scheduler error:", err?.message || err);
-    }
-  }, 60_000);
-})();
+}
