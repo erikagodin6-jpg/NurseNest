@@ -126,6 +126,27 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="root" class="h-full"></div>
+    <script>
+    window.__bootErrors = [];
+    window.addEventListener('error', function(e) {
+      window.__bootErrors.push(e.message + ' at ' + (e.filename||'') + ':' + (e.lineno||''));
+      try {
+        var b = new Blob([JSON.stringify({step:'JS_ERROR', detail: e.message + ' | ' + (e.filename||'') + ':' + (e.lineno||'')})], {type:'application/json'});
+        navigator.sendBeacon('/api/boot-beacon', b);
+      } catch(x){}
+      var r = document.getElementById('root');
+      if (r && !r.children.length) {
+        r.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h1 style="color:#dc2626">Page failed to load</h1><p>' + e.message + '</p><p>' + (e.filename||'') + ':' + (e.lineno||'') + '</p><button onclick="location.reload()" style="margin-top:12px;padding:8px 24px;background:#7c3aed;color:white;border:none;border-radius:6px;cursor:pointer">Reload</button></div>';
+      }
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      var msg = e.reason ? (e.reason.message || String(e.reason)) : 'Unknown';
+      try {
+        var b = new Blob([JSON.stringify({step:'UNHANDLED_REJECTION', detail: msg})], {type:'application/json'});
+        navigator.sendBeacon('/api/boot-beacon', b);
+      } catch(x){}
+    });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
       window.addEventListener('load', function() {

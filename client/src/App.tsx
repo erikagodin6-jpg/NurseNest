@@ -1165,6 +1165,7 @@ function useDelocalizedLocation(locale: string): [string, typeof wouterNavigate]
 }
 
 function LocaleRouter() {
+  console.log("[BOOT] STEP 11: LocaleRouter render");
   const [location] = useLocation();
   const { locale } = getLocaleFromPath(location);
   const segments = location.split("/").filter(Boolean);
@@ -1249,6 +1250,7 @@ function DeferredShellComponents() {
 }
 
 function App() {
+  console.log("[BOOT] STEP 7: App() render called");
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>

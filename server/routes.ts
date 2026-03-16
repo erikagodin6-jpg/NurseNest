@@ -210,6 +210,12 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
+  app.post("/api/boot-beacon", (req, res) => {
+    const { step, detail } = req.body || {};
+    console.log(`[BOOT-BEACON] Step ${step}: ${detail || ""}`);
+    res.status(204).end();
+  });
+
   app.get("/api/admin/entitlement-debug", async (req, res) => {
     await handleEntitlementDebug(req, res);
   });

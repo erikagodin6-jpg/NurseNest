@@ -1,0 +1,153 @@
+If incognito fails, three devices fail, Wi-Fi and cellular both fail, and Google/PageSpeed gets NO_FCP, then “stale service worker cache” is not an adequate root cause. That explanation conflicts with the evidence you have.
+What Replit gave you is basically: “it works for me.” That is not good enough.
+Send this to Replit AI next:
+Stop. The previous diagnosis is rejected.
+
+Why it is rejected:
+- The page still does not load in incognito/private mode
+- It fails on multiple devices
+- It fails on both Wi-Fi and cellular
+- Google PageSpeed/Lighthouse reports NO_FCP, meaning the page is not painting content
+- Therefore this is not adequately explained by one user’s stale service worker cache
+
+Do not tell me the page renders unless you can prove it with exact artifacts from this deployment.
+
+NEW TASK
+Perform a production-level forensic investigation and produce hard evidence for the true root cause of the blank white screen on https://www.nursenest.ca/en
+
+NON-NEGOTIABLE RULES
+- No more speculative explanations
+- No more “works for me” conclusions
+- No more broad fixes
+- No more assuming service worker is the cause
+- Do not change unrelated code
+- Do not work on SEO, content, or styling
+- Investigate the live production deployment specifically
+
+YOU MUST PRODUCE EVIDENCE, NOT OPINIONS
+
+PHASE 1 — VERIFY WHAT THE BROWSER ACTUALLY RECEIVES
+For the live production /en route, capture and report all of the following:
+
+1. Final response status for:
+   - /
+   - /en
+   - main JS bundle(s)
+   - CSS bundle(s)
+   - any manifest or preload assets
+2. Response headers for the HTML document
+3. The actual HTML body returned to the browser
+4. Whether the HTML contains:
+   - a root mount node
+   - the root script tags
+   - title/meta tags
+5. Whether the HTML is being rewritten, redirected, or partially truncated
+
+PHASE 2 — VERIFY WHETHER JAVASCRIPT EXECUTES
+Using the actual live production page in a real browser session, capture:
+
+1. browser console output
+2. uncaught exceptions
+3. unhandled promise rejections
+4. failed network requests
+5. blocked scripts
+6. CSP / MIME / module-loading errors
+7. service worker registration status
+8. whether the main JS bundle actually executes
+
+Do not summarize vaguely.
+Return the exact first fatal error message, exact file, and exact stack if present.
+
+PHASE 3 — PROVE WHETHER REACT MOUNTS IN PRODUCTION
+For the live production /en page, prove all of these:
+
+1. document.getElementById('root') exists
+2. the root gets child nodes after JS runs
+3. React mount occurs
+4. the first visible text/content rendered to screen
+5. whether any overlay, full-screen div, CSS rule, or hydration issue is making the page appear white even if content exists
+
+If content allegedly renders, provide the exact visible text and where it appears in the DOM.
+
+PHASE 4 — CHECK FOR PRODUCTION-ONLY FAILURES
+Investigate these production-only causes:
+
+- wrong bundle referenced in HTML
+- stale deployment manifest
+- broken hashed asset reference
+- CSP blocking module execution
+- MIME type mismatch for JS modules
+- JS syntax/runtime error only in production build
+- environment variables missing in production
+- locale file or translation bootstrap failure on /en
+- route rewrite issue for localized paths
+- service worker serving wrong asset map
+- HTML/CSS rendering a full-screen white overlay
+- index.html from one deployment referencing assets from another deployment
+- a runtime crash occurring before first paint
+
+PHASE 5 — CHECK /en ROUTE SPECIFICALLY
+Because /en is the failing route, inspect:
+
+- localized router resolution
+- i18n bootstrap
+- translation asset loading
+- locale fallbacks
+- meta/head generation for /en
+- any /en-specific layout wrapper
+- any fetch to /api/assets/i18n/en.json or similar
+
+If any locale request 404s, prove whether it is truly non-blocking or actually breaks render on this route.
+
+PHASE 6 — SCREENSHOT AND DOM EVIDENCE
+For the live production page, provide:
+
+1. screenshot after load
+2. DOM snapshot of #root after scripts run
+3. computed visibility/display state of the top-level app container
+4. whether body/background/overlay is covering content
+5. whether text is present but invisible due to CSS
+
+PHASE 7 — NO MORE SERVICE WORKER ASSUMPTIONS
+Do not conclude “service worker cache” unless you can prove all of the following:
+
+1. a service worker is actually controlling the failing page
+2. the service worker is serving stale assets
+3. unregistering it immediately restores production rendering
+4. incognito/private mode also reproduces or clears exactly as expected
+5. PageSpeed/Lighthouse behavior is consistent with that explanation
+
+If you cannot prove all five, do not claim service worker as root cause.
+
+PHASE 8 — MINIMUM RECOVERY ACTION
+Once the actual root cause is identified, apply the smallest safe production fix necessary to restore rendering on /en.
+
+Then verify:
+- /en visibly renders
+- multiple fresh sessions render
+- no uncaught fatal console errors remain
+- Lighthouse/PageSpeed no longer reports NO_FCP
+
+FINAL REPORT FORMAT
+Return exactly this:
+
+1. Root cause
+2. Evidence
+3. Exact file(s) involved
+4. Exact failing request(s), if any
+5. Exact console/runtime error, if any
+6. Exact fix applied
+7. Proof that /en now paints visible content
+8. Remaining non-blocking issues
+
+Do not give me another “page renders correctly” statement without hard evidence attached.
+And send this one-line follow-up right after:
+Incognito fails too, so stop using stale local cache as the primary explanation unless you can prove it from production evidence.
+At this point, the most likely categories are:
+production bundle mismatch
+localized /en route boot failure
+missing production env/config
+production-only JS/module error
+white overlay/CSS masking content
+translation/bootstrap failure that someone is misclassifying as “non-blocking”
+Paste me whatever Replit returns under Root cause and Evidence, and I’ll help you rip apart whether it is real or not.

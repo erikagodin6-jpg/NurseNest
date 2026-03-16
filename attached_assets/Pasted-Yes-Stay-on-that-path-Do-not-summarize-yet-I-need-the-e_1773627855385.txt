@@ -1,0 +1,65 @@
+Yes. Stay on that path.
+
+Do not summarize yet. I need the exact first fatal error in the production boot path.
+
+Your next task is to trace the real production client boot sequence step by step and stop at the first failure.
+
+Do this in order:
+
+1. Confirm the production HTML contains:
+   - <div id="root"></div>
+   - the production JS entry script tag(s)
+
+2. Trace the production boot chain:
+   - main.tsx/main.jsx
+   - ReactDOM.createRoot(...)
+   - App
+   - router/provider wrappers
+   - locale/i18n bootstrap
+   - /en route component
+   - first homepage section rendered
+
+3. For each step, prove whether execution reaches it.
+   Add temporary console markers if needed, such as:
+   - BOOT STEP 1 main entry reached
+   - BOOT STEP 2 root element found
+   - BOOT STEP 3 createRoot called
+   - BOOT STEP 4 App render entered
+   - BOOT STEP 5 router entered
+   - BOOT STEP 6 i18n initialized
+   - BOOT STEP 7 /en page component entered
+   - BOOT STEP 8 hero rendered
+
+4. Stop at the FIRST missing marker or first thrown exception.
+   I do not want downstream symptoms.
+   I want the exact first break.
+
+5. Check specifically for production-only boot failures:
+   - missing import / bad export
+   - process.env used in client instead of import.meta.env
+   - locale object undefined on /en
+   - array.map / Object.entries / destructuring on undefined
+   - window/document/localStorage access at module scope
+   - module script MIME/CSP error
+   - route wrapper or meta component throwing before render
+   - translation file fetch failing and not being handled safely
+
+6. If needed, temporarily replace the /en page body with a literal div saying:
+   EN ROUTE TEST
+   while keeping the same production route.
+   Then reintroduce pieces one at a time until the crash returns.
+
+7. Report back only with:
+   - exact first failing file
+   - exact line or code path
+   - exact error message
+   - whether the failure occurs before App, inside App, inside router/provider, or inside the /en page tree
+
+Do not give me another “likely” explanation.
+I need the first fatal production boot error.
+What I think is most likely now, in order:
+/en locale bootstrap is throwing.
+A top-level homepage component is reading undefined data.
+A production env var or import path is wrong.
+A wrapper like head/meta, analytics, or a provider is crashing before visible render.
+Paste me the exact first failing file and error once Replit finds it.
