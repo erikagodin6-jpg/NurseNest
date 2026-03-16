@@ -234,6 +234,10 @@ const NurseResidencyHub = lazy(() => import("@/pages/nurse-residency-hub"));
 const NurseResidencyCountry = lazy(() => import("@/pages/nurse-residency-country"));
 const NursingRegulatoryHub = lazy(() => import("@/pages/nursing-regulatory-hub"));
 const NursingRegulatoryDetail = lazy(() => import("@/pages/nursing-regulatory-detail"));
+const NursingLicensingExamsHub = lazy(() => import("@/pages/nursing-licensing-exams-hub"));
+const LicensingExamDetail = lazy(() => import("@/pages/licensing-exam-detail"));
+const NurseSalaryGuideHub = lazy(() => import("@/pages/nurse-salary-guide-hub"));
+const NurseSalaryCountryPage = lazy(() => import("@/pages/nurse-salary-country"));
 const TrackLandingPage = lazy(() => import("@/pages/marketing/TrackLandingPage"));
 const NclexLandingPage = lazy(() => import("@/pages/marketing/NclexLandingPage"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
@@ -723,6 +727,13 @@ function AppRoutes() {
         <Route path="/nurse-residency-programs" component={NurseResidencyHub} />
         <Route path="/nursing-regulatory-bodies/:slug" component={NursingRegulatoryDetail} />
         <Route path="/nursing-regulatory-bodies" component={NursingRegulatoryHub} />
+        <Route path="/nursing-licensing-exams/:slug" component={LicensingExamDetail} />
+        <Route path="/nursing-licensing-exams" component={NursingLicensingExamsHub} />
+        <Route path="/nurse-salary-guide" component={NurseSalaryGuideHub} />
+        <Route path="/nurse-salary-canada" component={NurseSalaryCountryPage} />
+        <Route path="/nurse-salary-united-states" component={NurseSalaryCountryPage} />
+        <Route path="/nurse-salary-united-kingdom" component={NurseSalaryCountryPage} />
+        <Route path="/nurse-salary-australia" component={NurseSalaryCountryPage} />
         <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/nursing-specialties/:slug" component={NursingSpecialtyDetail} />
 

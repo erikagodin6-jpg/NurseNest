@@ -843,6 +843,30 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Regulatory Bodies Directory – Licensing & Registration Guide | NurseNest",
     description: "Complete directory of nursing regulatory bodies worldwide. Understand licensing requirements, registration processes, and credential recognition.",
   },
+  "/nursing-licensing-exams": {
+    title: "Nursing Licensing Exams Database – NCLEX, REx-PN, NMC CBT, AHPRA & More | NurseNest",
+    description: "Comprehensive database of nursing licensing examinations worldwide. Compare exam formats, requirements, and preparation strategies for NCLEX, REx-PN, NMC CBT, AHPRA, Prometric, IELTS, and OET.",
+  },
+  "/nurse-salary-guide": {
+    title: "Nurse Salary Guide: Compare Nursing Salaries by Country | NurseNest",
+    description: "Comprehensive nurse salary guide comparing nursing salaries, benefits, and career outlook across Canada, United States, United Kingdom, and Australia.",
+  },
+  "/nurse-salary-canada": {
+    title: "Nurse Salary in Canada: Average Pay, Specialties & Career Outlook | NurseNest",
+    description: "Complete guide to nursing salaries in Canada including average pay by province, specialty, and experience level. RN, RPN, and NP salary data.",
+  },
+  "/nurse-salary-united-states": {
+    title: "Nurse Salary in the United States: Average Pay, Specialties & Outlook | NurseNest",
+    description: "Complete guide to nursing salaries in the US including average pay by state, specialty, and experience level. RN, LPN, NP, and CRNA salary data.",
+  },
+  "/nurse-salary-united-kingdom": {
+    title: "Nurse Salary in the United Kingdom: NHS Pay Bands & Career Guide | NurseNest",
+    description: "Complete guide to nursing salaries in the UK including NHS pay bands, specialty pay, London weighting, and career progression from Band 5 to Band 8.",
+  },
+  "/nurse-salary-australia": {
+    title: "Nurse Salary in Australia: Average Pay, Specialties & Career Outlook | NurseNest",
+    description: "Complete guide to nursing salaries in Australia including average pay by state, specialty, and experience level. Penalty rates and enterprise bargaining explained.",
+  },
   "/rpn": {
     title: "RPN / LVN Track | NCLEX-PN & REx-PN Exam Prep | NurseNest",
     description: "Comprehensive RPN/LVN exam preparation. Practice questions, flashcards, mock exams, and study resources tailored for NCLEX-PN and REx-PN certification exams.",
@@ -1920,6 +1944,22 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     };
   }
 
+  const licensingExamMatch = cleanPath.match(/^\/nursing-licensing-exams\/(.+)$/);
+  if (licensingExamMatch) {
+    const examName = slugToTitle(licensingExamMatch[1]);
+    return {
+      title: `${examName} Exam Guide: Format, Requirements & Preparation | NurseNest`,
+      description: `Complete guide to the ${examName} nursing exam. Exam format, eligibility requirements, preparation strategies, costs, and frequently asked questions.`,
+      canonical,
+      noindex,
+      breadcrumbs: [
+        { name: "Home", url: SITE_BASE },
+        { name: "Nursing Licensing Exams", url: `${SITE_BASE}/nursing-licensing-exams` },
+        { name: examName, url: `${SITE_BASE}/nursing-licensing-exams/${licensingExamMatch[1]}` },
+      ],
+    };
+  }
+
   const newGradMatch = cleanPath.match(/^\/new-grad(\/.*)?$/);
   if (newGradMatch) {
     const subPath = newGradMatch[1] || "";
@@ -1989,6 +2029,9 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/nnas-application-guide", "/cgfns-certification-guide",
   "/nmc-registration-guide-international-nurses", "/nursing-recruitment-agencies-guide",
   "/cultural-adjustment-international-nurses", "/international-nurse-interview-tips",
+  "/nursing-licensing-exams", "/nurse-salary-guide",
+  "/nurse-salary-canada", "/nurse-salary-united-states",
+  "/nurse-salary-united-kingdom", "/nurse-salary-australia",
 ]));
 
 const KNOWN_DYNAMIC_PREFIXES = [
@@ -2020,6 +2063,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/allied-paramedic", "/allied-occupational-", "/allied-social-",
   "/allied-pharmacy-", "/allied-psychotherapy-", "/allied-health-exam-",
   "/simulators/",
+  "/nursing-licensing-exams/",
 ];
 
 async function isDbContentAvailable(strippedPath: string): Promise<boolean> {
