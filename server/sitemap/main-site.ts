@@ -597,6 +597,18 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/lab-values/${l}`, "0.8", "monthly", locales, today));
   }
 
+  const seoHerbalPages = [
+    "herbal-supplements-that-interact-with-medications",
+    "herbal-supplements-nurses-should-ask-patients-about",
+    "common-herbal-supplement-drug-interactions",
+    "patient-teaching-about-herbal-supplements",
+    "herbal-supplements-that-increase-bleeding-risk",
+  ];
+  urls.push(localizedUrl(base, "/herbal-supplements", "0.8", "monthly", locales, today));
+  for (const h of seoHerbalPages) {
+    urls.push(localizedUrl(base, `/herbal-supplements/${h}`, "0.8", "monthly", locales, today));
+  }
+
   return urls;
 }
 

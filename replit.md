@@ -51,6 +51,17 @@ Key systems:
 - **Build command**: `npm run build` — outputs to `dist/public` for client, `dist/index.cjs` for server.
 - **Deployment**: build: `["npm","run","build"]`, run: `["node","./dist/index.cjs"]`
 
+## Herbal Supplements & Medication Safety Module
+- **15 individual herb lessons** + 1 hub overview + 1 surgery/anesthesia safety lesson in `client/src/data/lessons/herbal-supplements.ts`
+- **75+ question bank** in `client/src/data/lessons/herbal-supplements-questions.ts`
+- **5 SEO educational pages** in `client/src/data/seo-herbal-supplements.ts` with `SeoHerbalPage` interface
+- **Hub page component**: `client/src/pages/herbal-supplements-hub.tsx` — organized by interaction category (bleeding risk, CNS depressants, CYP450, special populations)
+- **SEO page component**: `client/src/pages/herbal-supplement-page.tsx` — renders SEO herbal guides with FAQ structured data
+- **Routes**: `/herbal-supplements` (hub), `/herbal-supplements/:slug` (SEO pages), individual lessons via `/lessons/:id`
+- **Navigation**: All 15 herbs + hub + question bank listed in pharmacology-rn section of lessons.tsx
+- **Sitemap**: 5 SEO pages + hub registered in `server/sitemap/main-site.ts`
+- **Lesson IDs**: herbal-supplements-hub, st-johns-wort, ginkgo-biloba, garlic-supplement, ginseng-supplement, echinacea-supplement, valerian-root, kava-supplement, saw-palmetto, black-cohosh, evening-primrose-oil, melatonin-supplement, chamomile-supplement, turmeric-curcumin, omega-3-fatty-acids, cranberry-supplement, surgery-anesthesia-herbal-safety, herbal-supplements-question-bank
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`

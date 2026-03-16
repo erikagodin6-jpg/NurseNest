@@ -284,6 +284,8 @@ const ConditionPage = lazy(() => import("@/pages/condition-page"));
 const TopicsIndex = lazy(() => import("@/pages/topics"));
 const TopicDetail = lazy(() => import("@/pages/topic-detail"));
 const MedicationPage = lazy(() => import("@/pages/medication-page"));
+const HerbalSupplementsHub = lazy(() => import("@/pages/herbal-supplements-hub"));
+const HerbalSupplementPage = lazy(() => import("@/pages/herbal-supplement-page"));
 const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
 const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
 const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingCanada })));
@@ -980,6 +982,8 @@ function AppRoutes() {
         <Route path="/topics/:slug" component={TopicDetail} />
         <Route path="/conditions/:slug" component={ConditionPage} />
         <Route path="/medications/:slug" component={MedicationPage} />
+        <Route path="/herbal-supplements/:slug" component={HerbalSupplementPage} />
+        <Route path="/herbal-supplements" component={HerbalSupplementsHub} />
         <Route path="/lab-values/:slug" component={LabValuePage} />
         <Route path="/nclex-rn-practice-questions" component={NclexRnPracticePage} />
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />

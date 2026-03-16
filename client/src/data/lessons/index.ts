@@ -410,6 +410,8 @@ import { npAssessmentContentALessons } from "./np-assessment-content-a";
 import { npAssessmentContentBLessons } from "./np-assessment-content-b";
 import { npAssessmentContentCLessons } from "./np-assessment-content-c";
 import { rnPathoEndocrineHemeMskLessons } from "./rn-patho-endocrine-heme-msk";
+import { herbalSupplementsLessons } from "./herbal-supplements";
+import { herbalSupplementsQuestionBank } from "./herbal-supplements-questions";
 
 export type { LessonContent } from "./types";
 
@@ -1026,6 +1028,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rrtCriticalCareAdvancedLessons,
   dmsSonographyUsLessons,
   dmsSonographyCaLessons,
+  herbalSupplementsLessons,
+  herbalSupplementsQuestionBank,
 );
 
 
