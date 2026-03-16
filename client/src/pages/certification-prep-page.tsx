@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { CERT_PREP_CONTENT } from "@/data/certification-prep-content";
+import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useAuth } from "@/lib/auth";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award, Target, Users, Calendar,
-  Brain, BarChart3, Play, RefreshCw, Zap, Shield
+  Brain, BarChart3, Play, RefreshCw, Zap, Shield, Lock,
+  HelpCircle, ChevronDown
 } from "lucide-react";
 
 const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string; gradientFrom: string; gradientTo: string; badgeBg: string; badgeText: string; btnBg: string; btnHover: string }> = {
@@ -23,15 +27,52 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
   indigo: { bg: "bg-indigo-50", iconColor: "text-indigo-600", border: "border-indigo-100", gradientFrom: "from-indigo-50", gradientTo: "to-indigo-100/30", badgeBg: "bg-indigo-100", badgeText: "text-indigo-700", btnBg: "bg-indigo-600", btnHover: "hover:bg-indigo-700" },
 };
 
+const FREE_SAMPLE_COUNT = 3;
+
 function extractCertSlug(pathname: string): string {
   const match = pathname.match(/\/certifications\/([a-z-]+)-prep/);
   return match ? match[1] : "";
+}
+
+function PremiumLockOverlay({ certName }: { certName: string }) {
+  return (
+    <div className="relative" data-testid="paywall-overlay">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white z-10 flex flex-col items-center justify-end pb-8">
+        <div className="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-6 max-w-sm text-center" data-testid="paywall-card">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-50 flex items-center justify-center mb-4">
+            <Lock className="w-7 h-7 text-blue-600" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock Full {certName} Question Bank</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Get unlimited access to all {certName} practice questions, mock exams, and performance analytics with a NurseNest subscription.
+          </p>
+          <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-md" data-testid="button-paywall-upgrade">
+            Upgrade to Premium <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+      <div className="filter blur-sm pointer-events-none select-none">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-60">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-3" />
+              <div className="h-3 bg-gray-100 rounded w-full mb-2" />
+              <div className="h-3 bg-gray-100 rounded w-5/6" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function CertificationPrepPage() {
   const [location] = useLocation();
   const certSlug = extractCertSlug(location);
   const content = CERT_PREP_CONTENT[certSlug];
+  const { user, hasAccess } = useAuth();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const hasPremium = hasAccess("certification_prep");
 
   if (!content) {
     return (
@@ -52,6 +93,7 @@ export default function CertificationPrepPage() {
   }
 
   const colors = COLOR_MAP[content.color] || COLOR_MAP.blue;
+  const faqStructuredData = content.faqs?.length ? buildFaqStructuredData(content.faqs) : null;
 
   return (
     <div data-testid={`page-cert-prep-${certSlug}`}>
@@ -61,11 +103,22 @@ export default function CertificationPrepPage() {
         description={content.seo.description}
         keywords={content.seo.keywords}
         canonicalPath={`/certifications/${certSlug}-prep`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": `${content.certName} Certification Prep`,
+          "description": content.seo.description,
+          "provider": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+          "url": `https://www.nursenest.ca/certifications/${certSlug}-prep`,
+          "educationalLevel": "Professional",
+          "about": { "@type": "Thing", "name": content.fullName },
+        }}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: "Nursing Certifications", url: "https://www.nursenest.ca/nursing-certifications" },
           { name: `${content.certName} Prep`, url: `https://www.nursenest.ca/certifications/${certSlug}-prep` },
         ]}
+        additionalStructuredData={faqStructuredData ? [faqStructuredData] : undefined}
       />
 
       <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">
@@ -195,7 +248,7 @@ export default function CertificationPrepPage() {
             <p className="text-gray-600">Targeted lessons to build your {content.certName} knowledge.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {content.recommendedLessons.map((lesson, i) => (
+            {content.recommendedLessons.slice(0, hasPremium ? undefined : FREE_SAMPLE_COUNT).map((lesson, i) => (
               <Link key={i} href={`/lessons/${lesson.slug}`} className="group" data-testid={`card-lesson-${i}`}>
                 <div className={`bg-white rounded-xl border ${colors.border} p-5 hover:shadow-md transition-all h-full`}>
                   <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
@@ -207,6 +260,11 @@ export default function CertificationPrepPage() {
               </Link>
             ))}
           </div>
+          {!hasPremium && content.recommendedLessons.length > FREE_SAMPLE_COUNT && (
+            <div className="mt-6">
+              <PremiumLockOverlay certName={content.certName} />
+            </div>
+          )}
         </div>
       </section>
 
@@ -245,25 +303,64 @@ export default function CertificationPrepPage() {
                 <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Question Bank</h3>
-                <p className="text-sm text-gray-500 mb-3">Practice with MCQs, select-all-that-apply, and clinical scenario questions tagged to {content.certName} domains.</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">Free Sample Questions</h3>
+                  <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Free</span>
+                </div>
+                <p className="text-sm text-gray-500 mb-3">Try sample {content.certName} practice questions — no account required.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                   Start Practicing <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </Link>
-            <div className={`bg-white rounded-xl border ${colors.border} p-6`} data-testid="card-exam-sim">
-              <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
-                <Play className={`w-6 h-6 ${colors.iconColor}`} />
+
+            {hasPremium ? (
+              <div className={`bg-white rounded-xl border ${colors.border} p-6`} data-testid="card-exam-sim">
+                <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
+                  <Play className={`w-6 h-6 ${colors.iconColor}`} />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">{content.practiceExam.title}</h3>
+                <p className="text-sm text-gray-500 mb-3">{content.practiceExam.description}</p>
+                <div className="flex items-center gap-4 text-xs text-gray-400">
+                  <span>{content.practiceExam.questionCount} questions</span>
+                  <span>{content.practiceExam.timeMinutes} minutes</span>
+                </div>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">{content.practiceExam.title}</h3>
-              <p className="text-sm text-gray-500 mb-3">{content.practiceExam.description}</p>
-              <div className="flex items-center gap-4 text-xs text-gray-400">
-                <span>{content.practiceExam.questionCount} questions</span>
-                <span>{content.practiceExam.timeMinutes} minutes</span>
+            ) : (
+              <div className={`bg-white rounded-xl border-2 border-blue-200 p-6 relative overflow-hidden`} data-testid="card-exam-sim-locked">
+                <div className="absolute top-3 right-3">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full">
+                    <Lock className="w-3 h-3" /> Premium
+                  </span>
+                </div>
+                <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
+                  <Play className={`w-6 h-6 ${colors.iconColor}`} />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">{content.practiceExam.title}</h3>
+                <p className="text-sm text-gray-500 mb-3">{content.practiceExam.description}</p>
+                <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
+                  <span>{content.practiceExam.questionCount} questions</span>
+                  <span>{content.practiceExam.timeMinutes} minutes</span>
+                </div>
+                <Link href="/pricing" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg font-semibold hover:bg-blue-700 transition-colors" data-testid="button-unlock-exam">
+                  Unlock Mock Exam <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
-            </div>
+            )}
           </div>
+
+          {!hasPremium && (
+            <div className="mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-center gap-3" data-testid="banner-upgrade-qbank">
+              <Zap className="w-5 h-5 text-amber-600 shrink-0" />
+              <p className="text-sm text-amber-800">
+                Free sample questions available above.{" "}
+                <Link href="/pricing" className="underline font-semibold hover:text-amber-900">
+                  Upgrade to Premium
+                </Link>{" "}
+                for full {content.certName} question bank access with {content.practiceExam.questionCount}+ questions and mock exams.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -298,6 +395,39 @@ export default function CertificationPrepPage() {
           </div>
         </div>
       </section>
+
+      {content.faqs?.length > 0 && (
+        <section className="py-16 bg-white" data-testid="section-faq">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <HelpCircle className={`w-6 h-6 ${colors.iconColor}`} />
+                <h2 className="text-2xl font-bold text-gray-900" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+              </div>
+              <p className="text-gray-600">Common questions about {content.certName} certification and exam prep.</p>
+            </div>
+            <div className="space-y-3">
+              {content.faqs.map((faq, i) => (
+                <div key={i} className={`bg-white rounded-xl border ${colors.border} overflow-hidden`} data-testid={`faq-item-${i}`}>
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full text-left px-6 py-4 flex items-center justify-between gap-3 hover:bg-gray-50 transition-colors"
+                    data-testid={`button-faq-toggle-${i}`}
+                  >
+                    <span className="font-semibold text-gray-900 text-sm">{faq.question}</span>
+                    <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform shrink-0 ${openFaq === i ? "rotate-180" : ""}`} />
+                  </button>
+                  {openFaq === i && (
+                    <div className="px-6 pb-4">
+                      <p className="text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

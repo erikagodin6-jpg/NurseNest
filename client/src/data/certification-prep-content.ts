@@ -14,6 +14,7 @@ export interface CertPrepContent {
   flashcardDecks: { title: string; cardCount: number; description: string }[];
   practiceExam: { title: string; questionCount: number; timeMinutes: number; description: string };
   seo: { title: string; description: string; keywords: string };
+  faqs: { question: string; answer: string }[];
 }
 
 export interface CertRenewalContent {
@@ -106,6 +107,13 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
       description: "Comprehensive BLS certification preparation for healthcare providers. Master high-quality CPR, AED operation, bag-valve-mask ventilation, and team dynamics with practice questions and study guides.",
       keywords: "BLS certification prep, BLS practice questions, BLS study guide, basic life support, AHA BLS, high-quality CPR, AED training, healthcare provider BLS, BLS exam prep",
     },
+    faqs: [
+      { question: "How long does BLS certification last?", answer: "BLS certification through the American Heart Association is valid for 2 years. You must complete a renewal course before your certification expires to maintain current status." },
+      { question: "What is the compression rate for high-quality CPR?", answer: "The AHA recommends a compression rate of 100-120 compressions per minute for adults, children, and infants, with a depth of at least 2 inches for adults, about 2 inches for children, and 1.5 inches for infants." },
+      { question: "Do I need BLS before ACLS?", answer: "Yes. BLS is a prerequisite for ACLS, PALS, and other advanced certifications. You must hold a current BLS Provider card before enrolling in advanced courses." },
+      { question: "What is the pass rate for the BLS exam?", answer: "The BLS provider exam has a high pass rate for healthcare professionals who complete the course. The written exam requires a score of 84% or higher to pass, and you must also demonstrate skills competency." },
+      { question: "Can I take BLS online?", answer: "The AHA offers a blended learning option where you complete the cognitive portion online, then attend an in-person skills session. Fully online BLS courses are not accepted by most healthcare employers." },
+    ],
   },
 
   acls: {
@@ -182,6 +190,13 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
       description: "Master ACLS cardiac arrest algorithms, ECG interpretation, ACS management, and stroke protocols. Practice questions, pharmacology review, and megacode preparation for healthcare providers.",
       keywords: "ACLS certification prep, ACLS practice questions, ACLS algorithms, cardiac arrest management, ACLS pharmacology, ACLS megacode, VF pVT PEA asystole, ACLS study guide, AHA ACLS",
     },
+    faqs: [
+      { question: "What are the ACLS cardiac arrest algorithms?", answer: "ACLS covers four main cardiac arrest algorithms: VF/pVT (shockable rhythms treated with defibrillation and epinephrine/amiodarone), PEA (non-shockable, treat reversible causes — H's and T's), asystole (non-shockable, confirm in two leads), and post-cardiac arrest care." },
+      { question: "How often do you need to renew ACLS?", answer: "ACLS certification is valid for 2 years. The AHA offers both in-person renewal courses and a HeartCode ACLS blended learning option with an in-person skills session." },
+      { question: "What is the first drug given in ACLS?", answer: "Epinephrine 1 mg IV/IO is the first-line vasopressor in all cardiac arrest rhythms. For VF/pVT, it is given after the second shock. For PEA/asystole, it is given as soon as IV/IO access is established." },
+      { question: "Do nurses need ACLS certification?", answer: "ACLS is required for nurses working in acute care settings including ICU, ED, telemetry, cardiac catheterization lab, and PACU. It is highly recommended for med-surg nurses and is often required within 90 days of hire." },
+      { question: "What does the ACLS megacode test involve?", answer: "The megacode is a practical skills test where you manage a simulated cardiac arrest scenario, demonstrating proper algorithm application, rhythm recognition, defibrillation, medication administration, and team leadership." },
+    ],
   },
 
   pals: {
@@ -258,6 +273,13 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
       description: "Master PALS pediatric assessment, respiratory distress management, shock recognition, and cardiac arrest algorithms. Weight-based dosing practice, Broselow tape review, and megacode preparation.",
       keywords: "PALS certification prep, PALS practice questions, pediatric assessment triangle, PALS algorithms, weight-based dosing, Broselow tape, pediatric resuscitation, PALS study guide, AHA PALS",
     },
+    faqs: [
+      { question: "What is the Pediatric Assessment Triangle in PALS?", answer: "The Pediatric Assessment Triangle (PAT) is a rapid visual assessment tool using three components: Appearance (tone, interactiveness, consolability, look/gaze, speech/cry), Work of Breathing (abnormal positioning, retractions, audible airway sounds), and Circulation to Skin (pallor, mottling, cyanosis)." },
+      { question: "How is PALS different from BLS?", answer: "PALS builds on BLS skills with advanced interventions for pediatric patients including systematic assessment, recognition and treatment of respiratory emergencies and shock, cardiac arrest algorithms with weight-based medication dosing, and post-resuscitation stabilization." },
+      { question: "Who needs PALS certification?", answer: "PALS is required for nurses and providers working in pediatric units, PICUs, pediatric EDs, and labor & delivery. It is strongly recommended for any healthcare professional who may encounter critically ill children." },
+      { question: "What is the Broselow tape used for in PALS?", answer: "The Broselow tape is a color-coded, length-based tool used to estimate a child's weight for calculating medication doses, equipment sizes, and fluid volumes during pediatric emergencies when an actual weight cannot be obtained." },
+      { question: "How long is PALS certification valid?", answer: "PALS certification is valid for 2 years. Renewal requires completing an AHA PALS renewal course, which includes updated guidelines and skills testing." },
+    ],
   },
 
   nrp: {
@@ -332,6 +354,13 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
       description: "Master NRP neonatal resuscitation: initial steps, PPV, MR SOPA corrective steps, chest compressions with 3:1 ratio, epinephrine dosing, and UVC access for delivery room readiness.",
       keywords: "NRP certification prep, NRP practice questions, neonatal resuscitation, MR SOPA, PPV newborn, NRP algorithm, delivery room resuscitation, AAP NRP, NRP study guide",
     },
+    faqs: [
+      { question: "What does MR SOPA stand for in NRP?", answer: "MR SOPA is a mnemonic for corrective steps when positive pressure ventilation is not effective: Mask adjustment, Reposition the airway, Suction the mouth and nose, Open the mouth, Pressure increase, and Alternative airway (LMA or intubation)." },
+      { question: "What is the compression-to-ventilation ratio in NRP?", answer: "NRP uses a 3:1 compression-to-ventilation ratio (3 compressions followed by 1 ventilation), unlike the 30:2 or 15:2 ratios used in adult and pediatric BLS. This delivers 90 compressions and 30 breaths per minute." },
+      { question: "Who needs NRP certification?", answer: "NRP is required for healthcare providers who participate in neonatal resuscitation, including labor and delivery nurses, NICU nurses, neonatologists, pediatricians, nurse midwives, respiratory therapists, and anesthesiologists covering deliveries." },
+      { question: "When do you start chest compressions in NRP?", answer: "Chest compressions are initiated in NRP when the heart rate remains below 60 bpm despite 30 seconds of effective positive pressure ventilation (with corrective steps if needed). Compressions are performed using the two-thumb encircling technique." },
+      { question: "How often is NRP renewed?", answer: "NRP certification is valid for 2 years. The 8th edition of NRP emphasizes practice and debriefing. Renewal courses focus on simulation-based learning and updated evidence-based guidelines." },
+    ],
   },
 
   tncc: {
@@ -406,8 +435,15 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
     seo: {
       title: "TNCC Certification Prep | Trauma Nursing Core Course Study Guide | NurseNest",
       description: "Master TNCC trauma nursing assessment: primary and secondary survey, hemorrhage control, massive transfusion, spinal stabilization, TBI management, and musculoskeletal trauma. ENA TNCC exam prep.",
-      keywords: "TNCC certification prep, TNCC practice questions, trauma nursing assessment, primary survey, hemorrhage control, massive transfusion, compartment syndrome, ENA TNCC, trauma nursing study guide",
+      keywords: "TNCC certification prep, TNCC practice questions, TNCC practice test, trauma nursing assessment, primary survey, hemorrhage control, massive transfusion, compartment syndrome, ENA TNCC, trauma nursing study guide",
     },
+    faqs: [
+      { question: "What does TNCC stand for?", answer: "TNCC stands for Trauma Nursing Core Course. It is a standardized trauma nursing education program developed by the Emergency Nurses Association (ENA) that teaches systematic trauma assessment and evidence-based trauma care." },
+      { question: "How long is TNCC certification valid?", answer: "TNCC certification is valid for 4 years, longer than most life support certifications. Renewal requires completing a provider renewal course that covers updated trauma care guidelines." },
+      { question: "What is the primary survey in TNCC?", answer: "The TNCC primary survey follows the ABCDE format: Airway with cervical spine stabilization, Breathing and ventilation, Circulation with hemorrhage control, Disability (neurological status), and Exposure/Environmental control. It identifies and addresses immediately life-threatening conditions." },
+      { question: "Is TNCC required for emergency nurses?", answer: "TNCC is required or strongly preferred for nurses working in emergency departments, trauma centers, and flight nursing. Many Level I and II trauma centers require TNCC within the first year of employment." },
+      { question: "What is massive transfusion protocol in TNCC?", answer: "Massive transfusion protocol (MTP) involves rapid administration of blood products in a balanced ratio (typically 1:1:1 of packed RBCs, plasma, and platelets) for patients with life-threatening hemorrhage, with goals of preventing coagulopathy and maintaining hemostasis." },
+    ],
   },
 
   enpc: {
@@ -482,8 +518,15 @@ export const CERT_PREP_CONTENT: Record<string, CertPrepContent> = {
     seo: {
       title: "ENPC Certification Prep | Emergency Nursing Pediatric Course Study Guide | NurseNest",
       description: "Master ENPC pediatric emergency nursing: triage, respiratory emergencies (croup, bronchiolitis), pediatric trauma, child maltreatment recognition, and family-centered care. ENA ENPC exam prep.",
-      keywords: "ENPC certification prep, ENPC practice questions, pediatric emergency nursing, pediatric triage, croup epiglottitis bronchiolitis, child maltreatment, ENA ENPC, pediatric trauma, family-centered care",
+      keywords: "ENPC certification prep, ENPC practice questions, ENPC exam prep, pediatric emergency nursing, pediatric triage, croup epiglottitis bronchiolitis, child maltreatment, ENA ENPC, pediatric trauma, family-centered care",
     },
+    faqs: [
+      { question: "What does ENPC stand for?", answer: "ENPC stands for Emergency Nursing Pediatric Course. It is a standardized pediatric emergency nursing education program developed by the Emergency Nurses Association (ENA) that covers triage, respiratory emergencies, trauma, child maltreatment, and family-centered care." },
+      { question: "How long is ENPC certification valid?", answer: "ENPC certification is valid for 4 years. Renewal requires completing an ENA-approved ENPC renewal course that includes updated pediatric emergency nursing guidelines and skills verification." },
+      { question: "What is the difference between PALS and ENPC?", answer: "PALS (AHA) focuses on resuscitation algorithms and acute interventions for critically ill children. ENPC (ENA) covers broader emergency nursing topics including triage, injury prevention, child maltreatment recognition, and family-centered care. Many ED nurses hold both certifications." },
+      { question: "Who should get ENPC certified?", answer: "ENPC is designed for emergency nurses who care for pediatric patients. It is required or strongly preferred by many pediatric emergency departments and general EDs that see pediatric patients. It is also valuable for urgent care and triage nurses." },
+      { question: "What pediatric conditions does ENPC cover?", answer: "ENPC covers respiratory emergencies (croup, epiglottitis, bronchiolitis, asthma), pediatric trauma assessment, child maltreatment and abuse recognition, toxicological emergencies, environmental injuries, and mental health emergencies in children and adolescents." },
+    ],
   },
 
   ccrn: {

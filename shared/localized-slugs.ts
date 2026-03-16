@@ -29,6 +29,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-united-states": "salaire-infirmier-etats-unis",
     "nurse-salary-united-kingdom": "salaire-infirmier-royaume-uni",
     "nurse-salary-australia": "salaire-infirmier-australie",
+    "nursing-certifications": "certifications-infirmieres",
+    "certifications": "certifications",
   },
   es: {
     "pricing": "precios",
@@ -56,6 +58,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-united-states": "salario-enfermeria-estados-unidos",
     "nurse-salary-united-kingdom": "salario-enfermeria-reino-unido",
     "nurse-salary-australia": "salario-enfermeria-australia",
+    "nursing-certifications": "certificaciones-enfermeria",
+    "certifications": "certificaciones",
   },
   zh: {
     "pricing": "jiage",

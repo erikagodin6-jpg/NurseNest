@@ -14,6 +14,8 @@ const ROUTE_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/nous-joindre",
     "/faq": "/foire-aux-questions",
     "/blog": "/blogue",
+    "/nursing-certifications": "/certifications-infirmieres",
+    "/certifications": "/certifications",
   },
   es: {
     "/pricing": "/precios",
@@ -25,6 +27,8 @@ const ROUTE_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/contacto",
     "/faq": "/preguntas-frecuentes",
     "/blog": "/blog",
+    "/nursing-certifications": "/certificaciones-enfermeria",
+    "/certifications": "/certificaciones",
   },
   pt: {
     "/pricing": "/precos",

@@ -9,7 +9,7 @@ import { getSpecialtyBySlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/d
 import {
   ArrowRight, BookOpen, FileText, HelpCircle, ChevronRight,
   Check, Layers, ClipboardList, GraduationCap, Stethoscope,
-  ChevronDown, Activity
+  ChevronDown, Activity, Award
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
@@ -279,6 +279,70 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
           </div>
         </div>
       </section>
+
+      {(() => {
+        const certMap: Record<string, { slug: string; name: string; label: string }[]> = {
+          "icu": [
+            { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+            { slug: "bls", name: "BLS", label: "Basic Life Support" },
+          ],
+          "emergency-nursing": [
+            { slug: "tncc", name: "TNCC", label: "Trauma Nursing Core Course" },
+            { slug: "enpc", name: "ENPC", label: "Emergency Nursing Pediatric Course" },
+            { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+          ],
+          "nicu": [
+            { slug: "nrp", name: "NRP", label: "Neonatal Resuscitation Program" },
+            { slug: "pals", name: "PALS", label: "Pediatric Advanced Life Support" },
+          ],
+          "pediatric-icu": [
+            { slug: "pals", name: "PALS", label: "Pediatric Advanced Life Support" },
+            { slug: "enpc", name: "ENPC", label: "Emergency Nursing Pediatric Course" },
+          ],
+          "med-surg": [
+            { slug: "bls", name: "BLS", label: "Basic Life Support" },
+            { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+          ],
+        };
+        const relevantCerts = certMap[specialty.slug] || [];
+        if (relevantCerts.length === 0) return null;
+        return (
+          <section className="py-16 bg-white" data-testid="section-cert-cross-promo">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center gap-2 mb-6">
+                <GraduationCap className="w-5 h-5 text-amber-600" />
+                <h2 className="text-xl font-bold text-gray-900">Related Certification Prep</h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relevantCerts.map(cert => (
+                  <Link
+                    key={cert.slug}
+                    href={`/certifications/${cert.slug}-prep`}
+                    className="flex items-center gap-3 bg-amber-50 rounded-xl border border-amber-100 p-4 hover:shadow-md hover:border-amber-300 transition-all group"
+                    data-testid={`link-cert-${cert.slug}`}
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                      <Award className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 transition-colors">{cert.name} Prep Guide</h3>
+                      <p className="text-xs text-gray-500">{cert.label}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-amber-500 flex-shrink-0 ml-auto" />
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/nursing-certifications"
+                className="inline-flex items-center gap-1 text-sm font-medium text-amber-700 hover:text-amber-800 mt-4"
+                data-testid="link-all-certs-from-specialty"
+              >
+                View all certification prep guides <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </section>
+        );
+      })()}
 
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

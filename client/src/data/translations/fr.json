@@ -11639,5 +11639,31 @@
   "newborn-assessment-guide": {
     "title": "Guide d'évaluation du nouveau-né",
     "overview": "Guide complet d'évaluation du nouveau-né. Score d'Apgar, examen physique, réflexes primitifs, signes vitaux et dépistage néonatal."
-  }
+  },
+  "cert.hub.title": "Guide des certifications infirmières",
+  "cert.hub.description": "Guide complet des certifications infirmières.",
+  "cert.prep.badge": "Préparation à la certification",
+  "cert.prep.start_practice": "Commencer les questions pratiques",
+  "cert.prep.renewal_prep": "Préparation au renouvellement",
+  "cert.prep.study_roadmap": "Plan d'étude",
+  "cert.prep.recommended_lessons": "Leçons recommandées NurseNest",
+  "cert.prep.flashcard_decks": "Jeux de cartes mémoire",
+  "cert.prep.practice_questions": "Questions pratiques",
+  "cert.prep.free_sample": "Questions d'exemple gratuites",
+  "cert.prep.free_badge": "Gratuit",
+  "cert.prep.question_bank": "Banque de questions",
+  "cert.prep.mock_exam": "Examen simulé",
+  "cert.prep.unlock_mock_exam": "Débloquer l'examen simulé",
+  "cert.prep.performance_analytics": "Analyses de performance",
+  "cert.prep.accuracy_tracking": "Suivi de la précision",
+  "cert.prep.weak_area_detection": "Détection des points faibles",
+  "cert.prep.exam_readiness": "Score de préparation à l'examen",
+  "cert.prep.faq_heading": "Questions fréquemment posées",
+  "cert.prep.ready_to_pass": "Prêt à réussir {{certName}} ?",
+  "cert.prep.view_plans": "Voir les plans",
+  "cert.prep.related_prep": "Préparations de certification connexes",
+  "cert.prep.back_to_hub": "← Retour au centre de certification",
+  "cert.prep.upgrade_premium": "Passer à Premium",
+  "cert.prep.unlock_full_bank": "Débloquer la banque complète {{certName}}",
+  "cert.prep.premium_badge": "Premium"
 }

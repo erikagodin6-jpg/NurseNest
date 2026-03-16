@@ -315,18 +315,30 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/newgrad/certifications" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-newgrad-hub">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">New Grad Certification Guide</h3>
-              <p className="text-sm text-blue-700/70">Certification timeline and study strategies for new graduate nurses.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Link href="/rn" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-rn-tier">
+              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">RN Exam Prep</h3>
+              <p className="text-sm text-blue-700/70">NCLEX-RN preparation with practice questions, lessons, and study guides.</p>
             </Link>
-            <Link href="/nursing-specialties" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-specialties">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Nursing Specialties</h3>
-              <p className="text-sm text-emerald-700/70">Explore career guides for critical care, emergency, pediatric, oncology, and more.</p>
+            <Link href="/np" className="bg-indigo-50 rounded-xl p-6 hover:bg-indigo-100 transition-colors group" data-testid="link-np-tier">
+              <h3 className="font-semibold text-indigo-900 mb-1 group-hover:text-indigo-700">NP Exam Prep</h3>
+              <p className="text-sm text-indigo-700/70">Nurse Practitioner certification exam preparation and study resources.</p>
             </Link>
-            <Link href="/study-pathways" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-pathways">
-              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">Study Pathways</h3>
-              <p className="text-sm text-violet-700/70">Structured study plans to master your specialty and prepare for exams.</p>
+            <Link href="/emergency-nursing-specialty" className="bg-orange-50 rounded-xl p-6 hover:bg-orange-100 transition-colors group" data-testid="link-emergency-nursing">
+              <h3 className="font-semibold text-orange-900 mb-1 group-hover:text-orange-700">Emergency Nursing</h3>
+              <p className="text-sm text-orange-700/70">Emergency department nursing resources — TNCC, ENPC, and CEN prep.</p>
+            </Link>
+            <Link href="/critical-care-specialty" className="bg-red-50 rounded-xl p-6 hover:bg-red-100 transition-colors group" data-testid="link-critical-care">
+              <h3 className="font-semibold text-red-900 mb-1 group-hover:text-red-700">Critical Care Nursing</h3>
+              <p className="text-sm text-red-700/70">ICU nursing resources — CCRN prep, hemodynamic monitoring, and ventilator management.</p>
+            </Link>
+            <Link href="/guides" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-study-guides">
+              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">Study Guides</h3>
+              <p className="text-sm text-violet-700/70">Comprehensive study guides for ICU, trauma, and specialty nursing topics.</p>
+            </Link>
+            <Link href="/newgrad/certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-newgrad-hub">
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">New Grad Certification Guide</h3>
+              <p className="text-sm text-emerald-700/70">Certification timeline and study strategies for new graduate nurses.</p>
             </Link>
           </div>
         </div>

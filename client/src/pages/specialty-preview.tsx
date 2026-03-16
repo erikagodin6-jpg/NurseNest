@@ -9,7 +9,7 @@ import { useAuth } from "@/lib/auth";
 import {
   CheckCircle2, XCircle, Lock, ArrowRight, BookOpen,
   Stethoscope, FileText, Brain, Shield, Star, Eye,
-  ChevronRight, Loader2, Layers,
+  ChevronRight, Loader2, Layers, Award, GraduationCap,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -1040,6 +1040,68 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
             </div>
           </section>
         )}
+
+        {(() => {
+          const certMap: Record<string, { slug: string; name: string; label: string }[]> = {
+            "icu": [
+              { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+              { slug: "bls", name: "BLS", label: "Basic Life Support" },
+            ],
+            "emergency-nursing": [
+              { slug: "tncc", name: "TNCC", label: "Trauma Nursing Core Course" },
+              { slug: "enpc", name: "ENPC", label: "Emergency Nursing Pediatric Course" },
+              { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+            ],
+            "nicu": [
+              { slug: "nrp", name: "NRP", label: "Neonatal Resuscitation Program" },
+              { slug: "pals", name: "PALS", label: "Pediatric Advanced Life Support" },
+            ],
+            "pediatric-icu": [
+              { slug: "pals", name: "PALS", label: "Pediatric Advanced Life Support" },
+              { slug: "enpc", name: "ENPC", label: "Emergency Nursing Pediatric Course" },
+            ],
+            "med-surg": [
+              { slug: "bls", name: "BLS", label: "Basic Life Support" },
+              { slug: "acls", name: "ACLS", label: "Advanced Cardiovascular Life Support" },
+            ],
+          };
+          const relevantCerts = certMap[data.slug] || [];
+          if (relevantCerts.length === 0) return null;
+          return (
+            <section className="mt-10 mb-10 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-6" data-testid="section-cert-cross-promo">
+              <div className="flex items-center gap-2 mb-4">
+                <GraduationCap className="w-5 h-5 text-amber-600" />
+                <h2 className="text-lg font-bold text-gray-900">Related Certification Prep</h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {relevantCerts.map(cert => (
+                  <Link
+                    key={cert.slug}
+                    href={`/certifications/${cert.slug}-prep`}
+                    className="flex items-center gap-3 bg-white rounded-xl border border-amber-100 p-4 hover:shadow-md hover:border-amber-300 transition-all group"
+                    data-testid={`link-cert-${cert.slug}`}
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
+                      <Award className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-amber-700 transition-colors">{cert.name} Prep Guide</h3>
+                      <p className="text-xs text-gray-500">{cert.label}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-amber-500 flex-shrink-0 ml-auto" />
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/nursing-certifications"
+                className="inline-flex items-center gap-1 text-sm font-medium text-amber-700 hover:text-amber-800 mt-3"
+                data-testid="link-all-certs-from-specialty"
+              >
+                View all certification prep guides <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </section>
+          );
+        })()}
 
         <section className="py-12 bg-gradient-to-br from-teal-50 to-blue-50 rounded-2xl border border-gray-100 text-center px-6" data-testid="section-final-cta">
           <Star className="w-10 h-10 mx-auto mb-3 text-yellow-400" />
