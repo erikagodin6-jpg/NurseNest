@@ -87,6 +87,18 @@ Key architectural components and features:
 - **Sitemap cleanup**: Language sitemaps (`server/sitemap/language-sitemaps.ts`) only include `/learn/` and `/blog/` URLs for the English locale; non-English locale sitemaps exclude these untranslated pages
 - **Neurovascular assessment**: `/learn/neurovascular-assessment-explained-clearly` seeded in `content_items` table with comprehensive 6 P's nursing assessment content (~13K chars)
 
+## Hero Page & Marketing Architecture
+- **Platform Manifest**: `shared/platform-manifest.ts` — central data source for all marketing content (nursing tiers, certifications, allied health careers, supported countries/languages, platform features)
+- **Hero Components** (all lazy-loaded from `client/src/components/`):
+  - `hero-platform-stats.tsx` — 8-stat grid (questions, flashcards, lessons, exams, countries, languages)
+  - `hero-features-grid.tsx` — 10-feature grid using PLATFORM_FEATURES from manifest
+  - `hero-global-coverage.tsx` — country flags + language tags panels
+  - `hero-nursing-tiers.tsx` — 3-column tier cards (RPN/RN/NP) with live progress bars from platform-proof API
+  - `hero-certifications.tsx` — certification prep cards grid (BLS, ACLS, PALS, etc.)
+  - `hero-allied-health.tsx` — pre-nursing, new grad, and allied health career cards
+  - `hero-expansion-tracker.tsx` — question bank growth tracker with progress bars
+- All components are integrated into `client/src/pages/home.tsx` using `LazySection + Suspense` for performance
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`

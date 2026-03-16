@@ -72,14 +72,14 @@ export default function HeroGlobalCoverage() {
                 </span>
               ))}
             </div>
-            <a
+            <Link
               href="/languages"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary mt-5 hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary mt-5 hover:underline no-underline"
               data-testid="link-view-all-languages"
             >
               View all languages
               <span>&rarr;</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
