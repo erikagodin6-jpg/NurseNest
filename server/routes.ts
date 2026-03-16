@@ -438,6 +438,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerAlliedArticleRoutes } = await import("./allied-article-routes");
   registerAlliedArticleRoutes(app);
 
+  const { registerRrtPharmacologyRoutes } = await import("./rrt-pharmacology-api");
+  registerRrtPharmacologyRoutes(app);
+
   const { registerBusinessHealthRoutes } = await import("./business-health-routes");
   registerBusinessHealthRoutes(app);
 

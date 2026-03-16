@@ -100,6 +100,18 @@ export async function generateAlliedTools(): Promise<string[]> {
   }
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/practice-exam-questions`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
 
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/rrt/pharmacology`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+  const rrtPharmacologySlugs = [
+    "bronchodilators", "corticosteroids", "mucolytics", "aerosolized-anti-infectives",
+    "adrenergic-medications", "diuretics-cardiopulmonary", "emergency-medications",
+    "sedation-paralytics", "inhaled-delivery-devices", "side-effects-contraindications",
+    "pediatric-neonatal-pharmacology", "ventilator-linked-pharmacology",
+    "surfactant-therapy", "leukotriene-modifiers", "aerosol-delivery-during-ventilation",
+  ];
+  for (const slug of rrtPharmacologySlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/rrt/pharmacology/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
   return urls;
 }
 

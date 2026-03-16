@@ -98,6 +98,7 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "Is there a free trial?", a: "Yes! Take our free 15-question diagnostic to assess your readiness across all respiratory therapy domains. You also get 5 free practice questions with full rationales to experience the depth of our content." },
     ],
     crossLinks: [
+      { label: "RRT Pharmacology Guide", href: "/allied-health/rrt/pharmacology", description: "Comprehensive respiratory pharmacology study guide covering bronchodilators, corticosteroids, mucolytics, and more" },
       { label: "Paramedic Airway Management", href: "/allied-health/paramedic", description: "Related airway management and ventilation content for paramedic students" },
       { label: "Critical Care Nursing (CCRN)", href: "/critical-care", description: "ICU nursing certification covering ventilator management and hemodynamic monitoring" },
       { label: "Emergency Nursing (CEN)", href: "/emergency-nursing", description: "Emergency department nursing certification with respiratory emergency content" },

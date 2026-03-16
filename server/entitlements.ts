@@ -74,7 +74,8 @@ export type Feature =
   | "newgrad_med_safety"
   | "newgrad_unit_onboarding"
   | "newgrad_full_interview_bank"
-  | "newgrad_premium_templates";
+  | "newgrad_premium_templates"
+  | "rrt_pharmacology";
 
 export type Tier = "free" | "rpn" | "rn" | "np" | "new_grad_toolkit" | "certification_prep" | "full_access" | "admin";
 
@@ -150,6 +151,7 @@ const FEATURE_TIERS: Record<Feature, Tier> = {
   newgrad_unit_onboarding: "new_grad_toolkit",
   newgrad_full_interview_bank: "new_grad_toolkit",
   newgrad_premium_templates: "new_grad_toolkit",
+  rrt_pharmacology: "rpn",
   newgrad_cert_prep: "certification_prep",
   newgrad_full_qbank: "certification_prep",
   newgrad_mock_exams: "certification_prep",

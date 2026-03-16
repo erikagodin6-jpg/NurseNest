@@ -75,6 +75,8 @@ const PharmtechAdmin = lazy(() => import("./pages/pharmtech-admin"));
 const PharmtechReview = lazy(() => import("./pages/pharmtech-review"));
 const PharmtechDrugClassesHub = lazy(() => import("./pages/pharmtech-drug-classes"));
 const PharmtechDrugClassDetail = lazy(() => import("./pages/pharmtech-drug-classes").then(m => ({ default: m.PharmtechDrugClassDetail })));
+const RrtPharmacologyHub = lazy(() => import("./pages/rrt-pharmacology-hub"));
+const RrtPharmacologyTopicPage = lazy(() => import("./pages/rrt-pharmacology-topic").then(m => ({ default: m.RrtPharmacologyTopicPage })));
 const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-exam-seo"));
 const PharmtechAdaptivePractice = lazy(() => import("./pages/pharmtech-adaptive-practice"));
 const PharmtechStudyPlan = lazy(() => import("./pages/pharmtech-study-plan"));
@@ -445,6 +447,8 @@ export function AlliedRoutes() {
         <Route path="/allied-health/cardiac-sonographer/career-guide">{() => <CareerCareerGuidePage hubData={PROFESSION_HUB_DATA["cardiac-sonographer"]} careerGuide={IMAGING_CAREER_DATA["cardiac-sonographer"].careerGuide} />}</Route>
         <Route path="/allied-health/cardiac-sonographer">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["cardiac-sonographer"]} />}</Route>
 
+        <Route path="/allied-health/rrt/pharmacology/:slug" component={RrtPharmacologyTopicPage} />
+        <Route path="/allied-health/rrt/pharmacology" component={RrtPharmacologyHub} />
         <Route path="/allied-health/rrt">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["rrt"]} />}</Route>
         <Route path="/allied-health/imaging">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["imaging"]} />}</Route>
         <Route path="/allied-health/social-work">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["social-work"]} />}</Route>
