@@ -1,0 +1,163 @@
+You are updating the NurseNest nursing certification section on the published site.
+
+Your task is to add separate certification pages and links for BLS, ACLS, and PALS.
+
+Do not create a new site tier.
+Do not break the existing nursing navigation.
+Add these as separate certification pages within the existing nursing certification structure only.
+
+PRIMARY GOAL
+
+Create distinct, SEO-friendly, user-facing pages for:
+
+BLS Certification Prep
+ACLS Certification Prep
+PALS Certification Prep
+
+These must be separate because they represent different learner intent, different content depth, and different clinical focus.
+
+CONTENT DIFFERENTIATION RULES
+
+BLS page:
+focus on foundational life support for healthcare providers
+CPR
+AED
+adult, child, infant basic life support
+team basics
+airway basics
+high-quality compressions
+basic rescue breathing
+
+ACLS page:
+focus on advanced adult cardiovascular emergency care
+must build on BLS knowledge
+include advanced algorithms
+rhythm recognition
+adult cardiac arrest
+post-cardiac arrest care
+stroke and ACS overview where appropriate
+team dynamics in advanced resuscitation
+
+PALS page:
+focus on pediatric advanced life support
+pediatric assessment
+respiratory emergencies
+shock
+pediatric arrhythmias
+pediatric arrest management
+weight-based and pediatric clinical thinking where appropriate
+
+DO NOT MIX THEM
+
+Do not put ACLS content on the BLS page.
+Do not put PALS pediatric content into ACLS except where absolutely necessary for comparison.
+Do not make one generic CPR page and reuse it for all three.
+
+SITE STRUCTURE TO BUILD
+
+Create or update a certification hub section with links to:
+
+BLS Certification Prep
+ACLS Certification Prep
+PALS Certification Prep
+
+Each must have its own route, own SEO metadata, own content, and own linked study resources.
+
+PAGE REQUIREMENTS
+
+Each page must include:
+
+Hero section
+What the certification is
+Who it is for
+Key topics covered
+Study roadmap
+Recommended NurseNest lessons
+Recommended flashcards
+Recommended practice questions
+Recommended mock exams
+Subscription CTA
+Performance analytics CTA
+
+QUESTION BANK REQUIREMENTS
+
+Create separate tagged pools for:
+
+BLS_BANK
+ACLS_BANK
+PALS_BANK
+
+Also create a shared resuscitation core pool if useful:
+
+RESUSCITATION_CORE_BANK
+
+Question tagging examples:
+
+certification: BLS
+certification: ACLS
+certification: PALS
+domain: airway
+domain: rhythm_recognition
+domain: pediatric_assessment
+difficulty: easy
+difficulty: moderate
+difficulty: hard
+
+QUESTION TYPES
+
+multiple choice
+select all that apply
+clinical scenario
+algorithm sequencing
+rhythm recognition where relevant
+pediatric scenario questions for PALS
+adult emergency scenarios for ACLS
+
+DUPLICATE RULE
+
+Before creating pages or questions, scan:
+
+existing certification pages
+existing lesson content
+existing question bank
+existing CAT exams
+existing practice exams
+existing slugs and routes
+
+If a page already exists:
+do not create a duplicate
+expand and improve the existing page instead
+
+If questions already exist:
+reuse through tagging where appropriate
+rewrite only if needed
+avoid duplicate question wording
+
+PUBLISHING RULE
+
+Do not publish any page until all of the following are complete:
+
+page content
+working internal links
+SEO metadata
+question bank mapping
+practice exam mapping
+no broken routes
+
+Once validated, deploy to the published site.
+
+SEO REQUIREMENTS
+
+Optimize separately for:
+BLS practice questions
+BLS certification prep
+ACLS practice test
+ACLS algorithms review
+PALS practice questions
+PALS certification prep
+
+Create unique title tags, meta descriptions, headings, and on-page copy for each page.
+
+FINAL GOAL
+
+Build three distinct certification prep pages for BLS, ACLS, and PALS that improve SEO, support dedicated question banks, and guide users into the correct learning path on NurseNest without creating duplicate pages or broken links.
