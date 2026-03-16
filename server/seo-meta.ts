@@ -4,6 +4,7 @@ import * as path from "path";
 import { seoTitleMap } from "./seo-title-map";
 import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
 import { normalizeCanonicalUrl, isLowValueTranslatedPage, hasTimestampSuffix, LOW_VALUE_TRANSLATED_PATHS } from "@shared/canonical-url";
+import { deLocalizeSlug, localizeSlug } from "@shared/localized-slugs";
 
 const SITE_BASE = "https://www.nursenest.ca";
 const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
@@ -351,8 +352,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Practice medication math and dosage calculations with randomized problems and step-by-step solutions. Essential for nursing exam preparation.",
   },
   "/lab-values": {
-    title: "Lab Values Interpretation - Abnormal Clinical Findings | NurseNest",
-    description: "Master abnormal lab value interpretation with cluster-based scenarios. Practice identifying critical values and clinical correlations for nursing exams.",
+    title: "Lab Values Interpretation — Abnormal Clinical Findings and Nursing Actions | NurseNest",
+    description: "Master abnormal lab value interpretation with cluster-based scenarios. Practice identifying critical values, clinical correlations, and priority nursing interventions for NCLEX, REx-PN, and nursing exam preparation.",
   },
   "/si-to-conventional-units-converter": {
     title: "SI to Conventional Units Converter — Nursing Lab Value Calculator | NurseNest",
@@ -727,8 +728,16 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Complete addictions counselor exam preparation for IC&RC ADC, CASAC, and CCAC certification. Practice questions, motivational interviewing simulations, substance identification drills, and mock exams.",
   },
   "/nursing-exam-prep": {
-    title: "Nursing Exam Prep | NCLEX-RN, NCLEX-PN, REx-PN & NP | NurseNest",
-    description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 4,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons.",
+    title: "Nursing Exam Prep — NCLEX-RN, NCLEX-PN, REx-PN & NP Certification Review | NurseNest",
+    description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 4,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons. Start your clinical review today.",
+  },
+  "/hyperkalemia-effects-on-heart": {
+    title: "Hyperkalemia Effects on the Heart — Nursing Physiology and ECG Changes | NurseNest",
+    description: "Understand how hyperkalemia affects the heart: peaked T waves, widened QRS, cardiac arrest risk, and essential nursing interventions. Clinical guide for NCLEX, REx-PN, and nursing exam preparation.",
+  },
+  "/nursing-simulation-practice": {
+    title: "Nursing Simulation Practice — Clinical Scenarios and Skills Training | NurseNest",
+    description: "Enhance clinical competence with nursing simulation practice. Interactive patient scenarios, SBAR communication drills, clinical judgment exercises, and structured debriefing for nursing students preparing for exams.",
   },
   "/nursing/top-100-nclex-practice-questions": {
     title: "Top 100 NCLEX Practice Questions (2025) — Free Study Guide | NurseNest",
@@ -1182,6 +1191,24 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
 }
 
 const LOCALE_META_OVERRIDES: Record<string, Record<string, { title: string; description: string }>> = {
+  "fr": {
+    "/lab-values": {
+      title: "Valeurs de Laboratoire — Interprétation Clinique Infirmière | NurseNest",
+      description: "Maîtrisez l'interprétation des valeurs de laboratoire anormales avec des scénarios cliniques. Plages normales, signification clinique et actions infirmières pour la préparation aux examens NCLEX et REx-PN.",
+    },
+    "/nursing-exam-prep": {
+      title: "Préparation Examen NCLEX — Révision Complète NCLEX-RN, NCLEX-PN et REx-PN | NurseNest",
+      description: "Préparez votre examen NCLEX-RN, NCLEX-PN ou REx-PN avec des ressources complètes. 4 000+ questions pratique, examens simulés adaptatifs, cartes mémoire pharmacologie et leçons de pathophysiologie. Commencez votre révision clinique.",
+    },
+    "/nursing-simulation-practice": {
+      title: "Simulation Clinique Infirmière — Scénarios de Pratique et Formation | NurseNest",
+      description: "Améliorez vos compétences cliniques avec des simulations infirmières interactives. Scénarios patients, communication SBAR, jugement clinique et débriefing structuré pour la préparation aux examens infirmiers.",
+    },
+    "/hyperkalemia-effects-on-heart": {
+      title: "Hyperkaliémie et Effets sur le Cœur — Physiologie Infirmière et Changements ECG | NurseNest",
+      description: "Comprenez les effets de l'hyperkaliémie sur le cœur : ondes T pointues, élargissement du QRS, risque d'arrêt cardiaque et interventions infirmières essentielles. Guide clinique pour la préparation NCLEX et REx-PN.",
+    },
+  },
   "zh-tw": {
     "/": {
       title: "NurseNest - NCLEX與REx-PN考試準備 | 護理題庫、模擬與閃卡",
@@ -1270,7 +1297,8 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
   }
 
   const breadcrumbs = buildBreadcrumbs(strippedPath);
-  cleanPath = strippedPath;
+  const deLocalizedPath = detectedLocale !== "en" ? deLocalizeSlug(detectedLocale, strippedPath) : strippedPath;
+  cleanPath = deLocalizedPath;
 
   const localizedPage = getLocalizedStaticPage(cleanPath, detectedLocale);
   if (localizedPage) {
@@ -1899,7 +1927,8 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname, options);
 
-  const contentExists = await checkContentExists(strippedPath);
+  const deLocalizedStrippedPath = detectedLocale !== "en" ? deLocalizeSlug(detectedLocale, strippedPath) : strippedPath;
+  const contentExists = await checkContentExists(deLocalizedStrippedPath);
   if (!contentExists) {
     meta.noindex = true;
   }
@@ -2127,28 +2156,31 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   }
 
   const indexableLocales = getIndexableLocales();
-  const isNoindexRoute = isNoindexPath(strippedPath);
+  const englishPath = deLocalizedStrippedPath;
+  const isNoindexRoute = isNoindexPath(englishPath);
   const hreflangTags: string[] = [];
   const hreflangBase = options?.isAllied ? ALLIED_SITE_BASE : SITE_BASE;
 
-  const isContentPage = strippedPath.startsWith("/lessons/") ||
-    strippedPath.startsWith("/learn/") ||
-    strippedPath.startsWith("/clinical-clarity/") ||
-    (strippedPath.startsWith("/blog") && strippedPath !== "/blog");
+  const isContentPage = englishPath.startsWith("/lessons/") ||
+    englishPath.startsWith("/learn/") ||
+    englishPath.startsWith("/clinical-clarity/") ||
+    (englishPath.startsWith("/blog") && englishPath !== "/blog");
 
   if (!isNoindexRoute) {
     const hreflangLocales = indexableLocales.filter(locale => {
       if (locale === "en") return true;
-      if (isLowValueTranslatedPage(strippedPath, locale)) return false;
+      if (isLowValueTranslatedPage(englishPath, locale)) return false;
       return true;
     });
 
     for (const locale of hreflangLocales) {
       const hreflang = getHreflangCode(locale);
-      const localeUrl = normalizeCanonicalUrl(strippedPath, locale, hreflangBase);
+      const localizedPath = localizeSlug(locale, englishPath);
+      const localeUrl = normalizeCanonicalUrl(localizedPath, locale, hreflangBase);
       hreflangTags.push(`<link rel="alternate" hreflang="${hreflang}" href="${localeUrl}" />`);
     }
-    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${normalizeCanonicalUrl(strippedPath, "en", hreflangBase)}" />`);
+    const enPath = localizeSlug("en", englishPath);
+    hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${normalizeCanonicalUrl(enPath, "en", hreflangBase)}" />`);
   }
 
   if (hreflangTags.length > 0) {

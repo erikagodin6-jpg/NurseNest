@@ -93,9 +93,9 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
     keywords: "calculs médicaments infirmier, mathématiques médicales, dosage médicaments, calcul perfusion, math infirmière",
   },
   "/lab-values": {
-    title: "Valeurs de Laboratoire – Interprétation Infirmière | NurseNest",
-    description: "Maîtrisez l'interprétation des valeurs de laboratoire. Plages normales, signification clinique des résultats anormaux et actions infirmières correspondantes.",
-    keywords: "valeurs laboratoire infirmier, interprétation résultats labo, valeurs normales, analyse sanguine infirmière",
+    title: "Valeurs de Laboratoire — Interprétation Clinique Infirmière | NurseNest",
+    description: "Maîtrisez l'interprétation des valeurs de laboratoire anormales avec des scénarios cliniques. Plages normales, signification clinique et actions infirmières pour la préparation NCLEX et REx-PN.",
+    keywords: "valeurs laboratoire infirmier, interprétation résultats labo, valeurs normales, analyse sanguine infirmière, valeurs labo NCLEX",
   },
   "/question-of-the-day": {
     title: "Question du Jour – Raisonnement Clinique Quotidien | NurseNest",
@@ -176,6 +176,21 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
     title: "Boutique – Ressources d'Étude & Packs d'Examen | NurseNest",
     description: "Découvrez nos packs d'examen imprimables, guides d'étude et ressources de révision pour la préparation aux examens infirmiers.",
     keywords: "boutique NurseNest, packs examen infirmier, ressources étude, guides révision NCLEX",
+  },
+  "/nursing-exam-prep": {
+    title: "Préparation Examen NCLEX – Révision Complète Infirmière | NurseNest",
+    description: "Préparez votre examen NCLEX-RN, NCLEX-PN ou REx-PN avec des ressources complètes : questions pratique, examens simulés, cartes mémoire pharmacologie et leçons de pathophysiologie. Commencez votre révision dès maintenant.",
+    keywords: "préparation examen NCLEX, révision NCLEX-RN, préparation NCLEX-PN, REx-PN préparation, examen infirmier Canada, questions NCLEX français",
+  },
+  "/nursing-simulation-practice": {
+    title: "Simulation Clinique Infirmière – Scénarios de Pratique | NurseNest",
+    description: "Améliorez vos compétences cliniques avec des simulations infirmières interactives. Scénarios patients, prise de décision clinique, communication SBAR et débriefing structuré pour étudiants en soins infirmiers.",
+    keywords: "simulation clinique infirmière, simulation soins infirmiers, pratique scénarios patients, compétences cliniques infirmières, SBAR infirmier, jugement clinique",
+  },
+  "/hyperkalemia-effects-on-heart": {
+    title: "Hyperkaliémie et Effets sur le Cœur — Physiologie Infirmière et Changements ECG | NurseNest",
+    description: "Comprenez les effets de l'hyperkaliémie sur le cœur : ondes T pointues, élargissement du QRS, risque d'arrêt cardiaque et interventions infirmières essentielles. Guide clinique pour la préparation aux examens infirmiers.",
+    keywords: "hyperkaliémie effets cœur, hyperkaliémie ECG, ondes T pointues, potassium élevé cœur, hyperkaliémie soins infirmiers, changements ECG hyperkaliémie",
   },
 };
 

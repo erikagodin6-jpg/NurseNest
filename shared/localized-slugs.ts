@@ -15,6 +15,9 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "topics": "sujets",
     "guides": "guides",
     "test-nclex-avec-corrige": "test-nclex-avec-corrige",
+    "nursing-exam-prep": "examen-nclex",
+    "nursing-simulation-practice": "simulation-nursing",
+    "hyperkalemia-effects-on-heart": "hyperkalemie-coeur",
   },
   es: {
     "pricing": "precios",

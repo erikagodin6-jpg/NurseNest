@@ -11517,5 +11517,31 @@
       "Check for concurrent oral thrush (white patches on buccal mucosa/tongue). If present, treat both simultaneously to prevent reinfection cycle via GI tract.",
       "Teach parents: Apply antifungal cream FIRST, then barrier cream (zinc oxide) on top if needed. Do NOT use cornstarch (promotes fungal growth). Avoid baby powder (aspiration risk)."
     ]
+  },
+  "hyperkalemia-effects-on-heart": {
+    "title": "Effets de l'hyperkaliémie sur le cœur",
+    "overview": "L'hyperkaliémie — un taux de potassium sérique supérieur à 5,0 mEq/L — est l'un des déséquilibres électrolytiques les plus dangereux en raison de ses effets directs et potentiellement mortels sur la conduction cardiaque. Les infirmières doivent reconnaître les changements ECG progressifs et intervenir rapidement pour prévenir l'arrêt cardiaque. Ce guide couvre la physiopathologie des effets cardiaques de l'hyperkaliémie, la progression caractéristique de l'ECG et les interventions infirmières fondées sur les données probantes.",
+    "clinicalPearls": [
+      "Surveillance cardiaque continue lorsque K+ dépasse 5,5 mEq/L",
+      "Le gluconate de calcium stabilise la membrane cardiaque mais ne diminue PAS le potassium",
+      "L'insuline et le dextrose déplacent le K+ dans les cellules — surveiller la glycémie pendant 4 à 6 heures",
+      "Le kayexalate élimine le K+ par le tractus GI — surveiller la constipation",
+      "Le bicarbonate de sodium IV est envisagé en cas d'acidose métabolique concomitante"
+    ]
+  },
+  "nursing-simulation-practice": {
+    "title": "Pratique de simulation infirmière",
+    "overview": "La simulation infirmière offre un environnement sûr et contrôlé pour pratiquer la prise de décision clinique, les compétences techniques et la communication interprofessionnelle sans risque pour les vrais patients. Que ce soit avec des mannequins haute-fidélité, des patients standardisés ou des simulations virtuelles, l'apprentissage par simulation comble le fossé entre la théorie en classe et la pratique clinique.",
+    "clinicalPearls": [
+      "Approche systématique ABCDE dans chaque simulation",
+      "Appliquer le modèle de jugement clinique NCSBN",
+      "Communication structurée SBAR pour chaque notification au médecin",
+      "Le débriefing est la composante la plus importante de la simulation",
+      "Jusqu'à 50 % des heures cliniques peuvent être remplacées par une simulation de qualité"
+    ]
+  },
+  "nursing-exam-prep": {
+    "title": "Préparation aux examens infirmiers",
+    "overview": "Préparez-vous aux examens infirmiers NCLEX-RN, NCLEX-PN, REx-PN et aux certifications NP avec des ressources complètes incluant des questions pratique, des examens simulés adaptatifs, des cartes mémoire pharmacologie et des leçons de pathophysiologie structurées par système corporel."
   }
 }

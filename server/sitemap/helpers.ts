@@ -25,6 +25,9 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/contact": "/nous-joindre",
     "/faq": "/foire-aux-questions",
     "/blog": "/blogue",
+    "/nursing-exam-prep": "/examen-nclex",
+    "/nursing-simulation-practice": "/simulation-nursing",
+    "/hyperkalemia-effects-on-heart": "/hyperkalemie-coeur",
   },
   es: {
     "/pricing": "/precios",
@@ -330,6 +333,7 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/radiography-practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/radiography-positioning-guide", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/radiography-artifact-recognition", priority: "0.9", changefreq: "weekly", lastmod: today },
+    { path: "/nursing-exam-prep", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/hyperkalemia-effects-on-heart", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/hyperkalemia-vs-hypokalemia-cardiac", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/barrel-chest-copd", priority: "0.8", changefreq: "monthly", lastmod: today },
