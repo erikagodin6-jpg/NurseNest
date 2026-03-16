@@ -810,6 +810,20 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         migrationTimestamp = lastStartupMigrationTimestamp;
       } catch {}
 
+      const explanationCoverage = await pool.query(`
+        SELECT question_source as source,
+          COUNT(*)::int as total,
+          COUNT(*) FILTER (WHERE review_status = 'approved')::int as approved,
+          COUNT(*) FILTER (WHERE review_status = 'pending')::int as pending,
+          COUNT(*) FILTER (WHERE review_status = 'flagged')::int as flagged,
+          COALESCE(AVG(COALESCE((quality_score->>'composite')::int, 0)), 0)::int as avg_quality
+        FROM question_explanations GROUP BY question_source
+      `).catch(() => ({ rows: [] }));
+
+      const explanationTotals = await pool.query(`
+        SELECT COUNT(*)::int as total FROM question_explanations
+      `).catch(() => ({ rows: [{ total: 0 }] }));
+
       res.json({
         environment: process.env.NODE_ENV || "development",
         databaseStatus: dbStatus,
@@ -820,6 +834,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         seedFiles: seedFileExists,
         lastStartupMigrationTimestamp: migrationTimestamp,
         serverTime: new Date().toISOString(),
+        explanationCoverage: explanationCoverage.rows,
+        totalExplanations: explanationTotals.rows[0]?.total || 0,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -21569,6 +21585,303 @@ Rules:
       }
 
       res.json({ migrated });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Admin Explanation Dashboard & Review Queue
+  // --------------------
+  app.get("/api/admin/explanations/dashboard", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const stats = await storage.getExplanationStats();
+      const missingCounts: Record<string, number> = {};
+      const totalsBySource: Record<string, number> = {};
+
+      for (const source of ["exam_questions", "allied_questions", "imaging_questions"]) {
+        const totalR = await pool.query(
+          source === "imaging_questions"
+            ? `SELECT COUNT(*)::int as count FROM imaging_questions`
+            : `SELECT COUNT(*)::int as count FROM ${source}`
+        );
+        const total = totalR.rows[0]?.count || 0;
+        totalsBySource[source] = total;
+        const existing = stats.find(s => s.source === source);
+        missingCounts[source] = total - (existing?.total || 0);
+      }
+
+      const qualityDistR = await pool.query(`
+        SELECT
+          CASE
+            WHEN COALESCE((quality_score->>'composite')::int, 0) >= 80 THEN 'excellent'
+            WHEN COALESCE((quality_score->>'composite')::int, 0) >= 60 THEN 'good'
+            WHEN COALESCE((quality_score->>'composite')::int, 0) >= 40 THEN 'fair'
+            ELSE 'poor'
+          END as quality_bracket,
+          COUNT(*)::int as count
+        FROM question_explanations
+        GROUP BY quality_bracket
+      `);
+
+      const recentR = await pool.query(
+        `SELECT * FROM question_explanations ORDER BY created_at DESC LIMIT 10`
+      );
+
+      const totalExplanations = stats.reduce((s, r) => s + r.total, 0);
+      const totalQuestions = Object.values(totalsBySource).reduce((s, v) => s + v, 0);
+      const coveragePercent = totalQuestions > 0 ? Math.round((totalExplanations / totalQuestions) * 100) : 0;
+
+      res.json({
+        bySource: stats,
+        missing: missingCounts,
+        totalsBySource,
+        qualityDistribution: qualityDistR.rows,
+        recentExplanations: recentR.rows.map((r: any) => {
+          const result: any = {};
+          for (const [key, value] of Object.entries(r)) {
+            const camelKey = key.replace(/_([a-z])/g, (_: string, c: string) => c.toUpperCase());
+            result[camelKey] = value;
+          }
+          return result;
+        }),
+        coveragePercent,
+        totalExplanations,
+        totalQuestions,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/explanations/review-queue", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const validStatuses = ["pending", "approved", "flagged"];
+      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
+      const validGenerators = ["ai", "manual", "migrated"];
+
+      const filters: any = {};
+      if (req.query.status) {
+        const s = req.query.status as string;
+        if (validStatuses.includes(s)) filters.status = s;
+      }
+      if (req.query.source) {
+        const s = req.query.source as string;
+        if (validSources.includes(s)) filters.source = s;
+      }
+      if (req.query.generatedBy) {
+        const s = req.query.generatedBy as string;
+        if (validGenerators.includes(s)) filters.generatedBy = s;
+      }
+      if (req.query.minQuality) {
+        const n = Number(req.query.minQuality);
+        if (!isNaN(n) && n >= 0) filters.minQuality = n;
+      }
+      if (req.query.maxQuality) {
+        const n = Number(req.query.maxQuality);
+        if (!isNaN(n) && n >= 0) filters.maxQuality = n;
+      }
+      if (req.query.limit) {
+        const n = Number(req.query.limit);
+        if (!isNaN(n) && n > 0) filters.limit = Math.min(n, 100);
+      }
+      if (req.query.offset) {
+        const n = Number(req.query.offset);
+        if (!isNaN(n) && n >= 0) filters.offset = n;
+      }
+
+      const result = await storage.listExplanations(filters);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/explanations/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const allowedFields = ["correctAnswerExplanation", "incorrectAnswerRationale", "clinicalReasoning", "keyTakeaway", "mnemonic", "clinicalPearl", "referenceSource", "reviewStatus", "relatedContent"];
+      const updates: any = {};
+      for (const field of allowedFields) {
+        if (req.body[field] !== undefined) updates[field] = req.body[field];
+      }
+
+      if (updates.reviewStatus && !["pending", "approved", "flagged"].includes(updates.reviewStatus)) {
+        return res.status(400).json({ error: "reviewStatus must be pending, approved, or flagged" });
+      }
+
+      if (updates.correctAnswerExplanation !== undefined && typeof updates.correctAnswerExplanation !== "string") {
+        return res.status(400).json({ error: "correctAnswerExplanation must be a string" });
+      }
+
+      if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: "No valid fields to update" });
+      }
+
+      const updated = await storage.updateExplanation(req.params.id, updates);
+      res.json(updated);
+    } catch (e: any) {
+      if (e.message === "Explanation not found") return res.status(404).json({ error: e.message });
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/explanations/:id/related", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const explanation = await storage.getExplanationById(req.params.id);
+      if (!explanation) return res.status(404).json({ error: "Explanation not found" });
+
+      const related = await storage.getRelatedContentForExplanation(explanation.questionId, explanation.questionSource);
+      res.json(related);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/explanations/:id/link-related", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const explanation = await storage.getExplanationById(req.params.id);
+      if (!explanation) return res.status(404).json({ error: "Explanation not found" });
+
+      const related = await storage.getRelatedContentForExplanation(explanation.questionId, explanation.questionSource);
+      const updated = await storage.updateExplanation(req.params.id, { relatedContent: related });
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/content-expansion-roadmap", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { CONTENT_EXPANSION_ROADMAP } = await import("../shared/schema");
+      res.json({ roadmap: CONTENT_EXPANSION_ROADMAP });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/explanations/batch-generate-by-career", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { source, careerType, batchSize = 5 } = req.body;
+      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
+      if (!source || !validSources.includes(source)) {
+        return res.status(400).json({ error: "Valid source required" });
+      }
+
+      const limit = Math.min(Number(batchSize) || 5, 20);
+
+      let careerFilter = "";
+      const params: any[] = [limit];
+      if (careerType && source === "exam_questions") {
+        careerFilter = ` AND eq.career_type = $2`;
+        params.push(careerType);
+      } else if (careerType && source === "allied_questions") {
+        careerFilter = ` AND aq.career_type = $2`;
+        params.push(careerType);
+      }
+
+      let query = "";
+      if (source === "exam_questions") {
+        query = `SELECT eq.id, eq.stem, eq.options, eq.correct_answer FROM exam_questions eq LEFT JOIN question_explanations qe ON eq.id = qe.question_id AND qe.question_source = 'exam_questions' WHERE qe.id IS NULL${careerFilter} LIMIT $1`;
+      } else if (source === "allied_questions") {
+        query = `SELECT aq.id, aq.stem, aq.options, aq.correct_answer::text FROM allied_questions aq LEFT JOIN question_explanations qe ON aq.id = qe.question_id AND qe.question_source = 'allied_questions' WHERE qe.id IS NULL${careerFilter} LIMIT $1`;
+      } else {
+        query = `SELECT iq.id, iq.question as stem, json_build_array(json_build_object('key','A','text',iq.option_a), json_build_object('key','B','text',iq.option_b), json_build_object('key','C','text',iq.option_c), json_build_object('key','D','text',iq.option_d)) as options, iq.correct_answer FROM imaging_questions iq LEFT JOIN question_explanations qe ON iq.id = qe.question_id AND qe.question_source = 'imaging_questions' WHERE qe.id IS NULL LIMIT $1`;
+      }
+
+      const missing = await pool.query(query, params);
+      if (missing.rows.length === 0) {
+        return res.json({ generated: 0, message: "No questions missing explanations for this source/career type" });
+      }
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const results: any[] = [];
+      for (const q of missing.rows) {
+        try {
+          const optionsText = Array.isArray(q.options)
+            ? q.options.map((o: any, i: number) => `${o.key || String.fromCharCode(65 + i)}) ${o.text || o}`).join("\n")
+            : JSON.stringify(q.options);
+
+          const response = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: `You are a nursing education expert. Generate a structured explanation for a clinical question. Return ONLY valid JSON with these fields:
+- correct_answer_explanation: detailed explanation of why the correct answer is right (2-4 sentences)
+- incorrect_answer_rationale: object keyed by option letter/number with explanation of why each wrong answer is incorrect
+- clinical_reasoning: step-by-step clinical reasoning process (2-3 sentences)
+- key_takeaway: one-sentence key learning point
+- mnemonic: optional memory aid (or null)
+- clinical_pearl: practical clinical insight (1-2 sentences)
+- reference_source: relevant clinical reference or guideline`
+              },
+              {
+                role: "user",
+                content: `Question: ${q.stem}\n\nOptions:\n${optionsText}\n\nCorrect Answer: ${JSON.stringify(q.correct_answer)}`
+              }
+            ],
+            temperature: 0.4,
+            max_tokens: 1500,
+            response_format: { type: "json_object" },
+          });
+
+          const content = response.choices[0]?.message?.content;
+          if (!content) continue;
+
+          const parsed = JSON.parse(content);
+          const qualityScore = scoreExplanationQuality(parsed);
+
+          const explanation = await storage.upsertExplanation({
+            questionId: q.id,
+            questionSource: source,
+            correctAnswerExplanation: parsed.correct_answer_explanation || "",
+            incorrectAnswerRationale: parsed.incorrect_answer_rationale || {},
+            clinicalReasoning: parsed.clinical_reasoning || null,
+            keyTakeaway: parsed.key_takeaway || null,
+            mnemonic: parsed.mnemonic || null,
+            clinicalPearl: parsed.clinical_pearl || null,
+            referenceSource: parsed.reference_source || null,
+            qualityScore,
+            reviewStatus: "pending",
+            generatedBy: "ai",
+          });
+          results.push(explanation);
+          recordAiUsage(1, response.usage?.total_tokens || 0);
+        } catch (err: any) {
+          results.push({ questionId: q.id, error: err.message });
+        }
+      }
+
+      res.json({ generated: results.filter((r: any) => !r.error).length, failed: results.filter((r: any) => r.error).length, results });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

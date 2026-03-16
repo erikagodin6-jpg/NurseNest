@@ -6004,9 +6004,19 @@ export const questionExplanations = pgTable("question_explanations", {
   qualityScore: jsonb("quality_score").default(sql`'{}'::jsonb`),
   reviewStatus: text("review_status").default("pending").notNull(),
   generatedBy: text("generated_by").default("manual").notNull(),
+  relatedContent: jsonb("related_content").default(sql`'{}'::jsonb`),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const CONTENT_EXPANSION_ROADMAP = [
+  { id: 1, title: "AI Study Guide Generator", description: "Auto-generate comprehensive study guides from lesson content and question banks", priority: "high", status: "planned" },
+  { id: 2, title: "Smart Flashcard Engine", description: "AI-powered flashcard generation with spaced repetition optimization", priority: "high", status: "planned" },
+  { id: 3, title: "Exam Readiness Predictor", description: "ML model to predict exam readiness based on study patterns and scores", priority: "medium", status: "planned" },
+  { id: 4, title: "Performance Benchmarking", description: "Compare student performance against cohort averages and national benchmarks", priority: "medium", status: "planned" },
+  { id: 5, title: "Adaptive Learning Paths", description: "Personalized study paths based on weakness analysis and learning style", priority: "low", status: "future" },
+  { id: 6, title: "Clinical Scenario Simulator", description: "Interactive patient scenarios with branching decision trees", priority: "low", status: "future" },
+] as const;
 
 export const insertQuestionExplanationSchema = createInsertSchema(questionExplanations).omit({
   id: true,

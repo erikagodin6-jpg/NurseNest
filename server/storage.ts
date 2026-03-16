@@ -325,6 +325,10 @@ export interface IStorage {
   listLowQualityExplanations(threshold: number): Promise<QuestionExplanation[]>;
   updateReviewStatus(id: string, status: string): Promise<QuestionExplanation>;
   getExplanationStats(): Promise<{ source: string; total: number; pending: number; approved: number; flagged: number; avgQuality: number }[]>;
+  listExplanations(filters: { status?: string; source?: string; minQuality?: number; maxQuality?: number; generatedBy?: string; limit?: number; offset?: number }): Promise<{ rows: QuestionExplanation[]; total: number }>;
+  updateExplanation(id: string, updates: Partial<{ correctAnswerExplanation: string; incorrectAnswerRationale: any; clinicalReasoning: string | null; keyTakeaway: string | null; mnemonic: string | null; clinicalPearl: string | null; referenceSource: string | null; reviewStatus: string; relatedContent: any }>): Promise<QuestionExplanation>;
+  getExplanationById(id: string): Promise<QuestionExplanation | undefined>;
+  getRelatedContentForExplanation(questionId: string, source: string): Promise<{ relatedQuestions: any[]; relatedLessons: any[]; relatedFlashcards: any[] }>;
 }
 
 import { getDevPool } from "./db";
@@ -2311,6 +2315,152 @@ export class DatabaseStorage implements IStorage {
        FROM question_explanations GROUP BY question_source`
     );
     return r.rows.map(snakeToCamel);
+  }
+
+  async listExplanations(filters: { status?: string; source?: string; minQuality?: number; maxQuality?: number; generatedBy?: string; limit?: number; offset?: number }): Promise<{ rows: QuestionExplanation[]; total: number }> {
+    const conditions: string[] = [];
+    const params: any[] = [];
+    let idx = 1;
+
+    if (filters.status) {
+      conditions.push(`review_status = $${idx++}`);
+      params.push(filters.status);
+    }
+    if (filters.source) {
+      conditions.push(`question_source = $${idx++}`);
+      params.push(filters.source);
+    }
+    if (filters.minQuality !== undefined) {
+      conditions.push(`COALESCE((quality_score->>'composite')::int, 0) >= $${idx++}`);
+      params.push(filters.minQuality);
+    }
+    if (filters.maxQuality !== undefined) {
+      conditions.push(`COALESCE((quality_score->>'composite')::int, 0) <= $${idx++}`);
+      params.push(filters.maxQuality);
+    }
+    if (filters.generatedBy) {
+      conditions.push(`generated_by = $${idx++}`);
+      params.push(filters.generatedBy);
+    }
+
+    const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const limit = Math.min(filters.limit || 50, 100);
+    const offset = filters.offset || 0;
+
+    const countR = await pool.query(`SELECT COUNT(*)::int as total FROM question_explanations ${where}`, params);
+    const total = countR.rows[0]?.total || 0;
+
+    const dataR = await pool.query(
+      `SELECT * FROM question_explanations ${where} ORDER BY updated_at DESC LIMIT $${idx++} OFFSET $${idx++}`,
+      [...params, limit, offset]
+    );
+
+    return { rows: dataR.rows.map(snakeToCamel), total };
+  }
+
+  async updateExplanation(id: string, updates: Partial<{ correctAnswerExplanation: string; incorrectAnswerRationale: any; clinicalReasoning: string | null; keyTakeaway: string | null; mnemonic: string | null; clinicalPearl: string | null; referenceSource: string | null; reviewStatus: string; relatedContent: any }>): Promise<QuestionExplanation> {
+    const sets: string[] = [];
+    const params: any[] = [];
+    let idx = 1;
+
+    const fieldMap: Record<string, string> = {
+      correctAnswerExplanation: "correct_answer_explanation",
+      incorrectAnswerRationale: "incorrect_answer_rationale",
+      clinicalReasoning: "clinical_reasoning",
+      keyTakeaway: "key_takeaway",
+      mnemonic: "mnemonic",
+      clinicalPearl: "clinical_pearl",
+      referenceSource: "reference_source",
+      reviewStatus: "review_status",
+      relatedContent: "related_content",
+    };
+
+    for (const [key, value] of Object.entries(updates)) {
+      const col = fieldMap[key];
+      if (!col) continue;
+      if (key === "incorrectAnswerRationale" || key === "relatedContent") {
+        sets.push(`${col} = $${idx++}`);
+        params.push(JSON.stringify(value));
+      } else {
+        sets.push(`${col} = $${idx++}`);
+        params.push(value);
+      }
+    }
+
+    if (sets.length === 0) throw new Error("No valid fields to update");
+
+    sets.push("updated_at = NOW()");
+    params.push(id);
+
+    const r = await pool.query(
+      `UPDATE question_explanations SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`,
+      params
+    );
+    if (r.rows.length === 0) throw new Error("Explanation not found");
+    return snakeToCamel(r.rows[0]);
+  }
+
+  async getExplanationById(id: string): Promise<QuestionExplanation | undefined> {
+    const r = await pool.query(`SELECT * FROM question_explanations WHERE id = $1`, [id]);
+    return r.rows.length > 0 ? snakeToCamel(r.rows[0]) : undefined;
+  }
+
+  async getRelatedContentForExplanation(questionId: string, source: string): Promise<{ relatedQuestions: any[]; relatedLessons: any[]; relatedFlashcards: any[] }> {
+    let topic: string | null = null;
+    let subtopic: string | null = null;
+
+    if (source === "exam_questions") {
+      const r = await pool.query(`SELECT topic, subtopic, body_system FROM exam_questions WHERE id = $1`, [questionId]);
+      if (r.rows[0]) { topic = r.rows[0].topic; subtopic = r.rows[0].subtopic; }
+    } else if (source === "allied_questions") {
+      const r = await pool.query(`SELECT blueprint_category as topic, subtopic FROM allied_questions WHERE id = $1`, [questionId]);
+      if (r.rows[0]) { topic = r.rows[0].topic; subtopic = r.rows[0].subtopic; }
+    } else if (source === "imaging_questions") {
+      const r = await pool.query(`SELECT topic FROM imaging_questions WHERE id = $1`, [questionId]);
+      if (r.rows[0]) { topic = r.rows[0].topic; }
+    }
+
+    if (!topic) return { relatedQuestions: [], relatedLessons: [], relatedFlashcards: [] };
+
+    let relatedQuestionsR: { rows: any[] } = { rows: [] };
+    if (source === "exam_questions") {
+      relatedQuestionsR = await pool.query(
+        `SELECT eq.id, eq.stem, eq.topic, eq.subtopic FROM exam_questions eq
+         WHERE eq.topic = $1 AND eq.id != $2 LIMIT 5`,
+        [topic, questionId]
+      ).catch(() => ({ rows: [] }));
+    } else if (source === "allied_questions") {
+      relatedQuestionsR = await pool.query(
+        `SELECT aq.id, aq.stem, aq.blueprint_category as topic, aq.subtopic FROM allied_questions aq
+         WHERE aq.blueprint_category = $1 AND aq.id != $2 LIMIT 5`,
+        [topic, questionId]
+      ).catch(() => ({ rows: [] }));
+    } else if (source === "imaging_questions") {
+      relatedQuestionsR = await pool.query(
+        `SELECT iq.id, iq.question as stem, iq.topic FROM imaging_questions iq
+         WHERE iq.topic = $1 AND iq.id != $2 LIMIT 5`,
+        [topic, questionId]
+      ).catch(() => ({ rows: [] }));
+    }
+
+    const relatedLessonsR = await pool.query(
+      `SELECT id, title, slug, category FROM content_items
+       WHERE status = 'published' AND (category ILIKE '%' || $1 || '%' OR title ILIKE '%' || $1 || '%')
+       LIMIT 5`,
+      [topic]
+    ).catch(() => ({ rows: [] }));
+
+    const relatedFlashcardsR = await pool.query(
+      `SELECT id, front, topic, subtopic FROM flashcard_bank
+       WHERE topic = $1 AND status = 'published' LIMIT 5`,
+      [topic]
+    ).catch(() => ({ rows: [] }));
+
+    return {
+      relatedQuestions: relatedQuestionsR.rows.map(snakeToCamel),
+      relatedLessons: relatedLessonsR.rows.map(snakeToCamel),
+      relatedFlashcards: relatedFlashcardsR.rows.map(snakeToCamel),
+    };
   }
 }
 

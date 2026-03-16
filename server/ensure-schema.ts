@@ -695,6 +695,29 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE pharmtech_lessons ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'BOTH'`);
     await client.query(`ALTER TABLE pharmtech_flashcard_decks ADD COLUMN IF NOT EXISTS cert_context text DEFAULT 'BOTH'`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS question_explanations (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        question_id VARCHAR NOT NULL,
+        question_source TEXT NOT NULL,
+        correct_answer_explanation TEXT NOT NULL,
+        incorrect_answer_rationale JSONB DEFAULT '{}'::jsonb,
+        clinical_reasoning TEXT,
+        key_takeaway TEXT,
+        mnemonic TEXT,
+        clinical_pearl TEXT,
+        reference_source TEXT,
+        quality_score JSONB DEFAULT '{}'::jsonb,
+        review_status TEXT NOT NULL DEFAULT 'pending',
+        generated_by TEXT NOT NULL DEFAULT 'manual',
+        related_content JSONB DEFAULT '{}'::jsonb,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        UNIQUE(question_id, question_source)
+      )
+    `);
+    await client.query(`ALTER TABLE question_explanations ADD COLUMN IF NOT EXISTS related_content JSONB DEFAULT '{}'::jsonb`);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 
