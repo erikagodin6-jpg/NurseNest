@@ -44,9 +44,14 @@ export default defineConfig({
     chunkSizeWarningLimit: 2000,
     cssMinify: "esbuild",
     minify: "esbuild",
+    modulePreload: false,
     rollupOptions: {
       output: {
         manualChunks: undefined,
+      },
+      treeshake: {
+        moduleSideEffects: false,
+        preset: "smallest",
       },
     },
   },
