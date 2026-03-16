@@ -1,0 +1,799 @@
+You are working on the NurseNest production codebase.
+
+Your task is to execute a **FULL HIGH-END GLOBAL EXPANSION** of the NurseNest educational ecosystem, with **nursing tiers first and highest priority**, followed by allied health, certification, pre-nursing, and career-readiness content.
+
+Do NOT explain reasoning.
+Do NOT give options.
+Do NOT ask clarifying questions.
+Do NOT build a partial prototype.
+Implement the expansion architecture, content plan, metadata structure, admin tools, SEO structure, counting system support, and rollout order end-to-end.
+
+The goal is to position NurseNest as the **largest, strongest, most credible multilingual nursing exam-prep and healthcare career-prep platform** in this category.
+
+────────────────────────
+
+PRIMARY EXECUTION RULE
+
+Build in this exact priority order:
+
+1. Nursing core tiers first
+   - RPN / PN / LVN
+   - RN
+   - NP
+
+2. Then nursing certifications
+3. Then pre-nursing
+4. Then new grad
+5. Then allied health careers
+6. Then remaining therapy / counselling / social-care careers
+
+The nursing tiers are the flagship product and must receive the deepest content, strongest authority signals, best UX, strongest SEO, and highest question volumes.
+
+────────────────────────
+
+GLOBAL EXPANSION OBJECTIVE
+
+Expand all major:
+
+• tiers
+• careers
+• exams
+• countries
+• languages
+• topic banks
+• mock exams
+• scenario banks
+• adaptive pools
+• study guides
+• explanations
+• flashcards
+• AI tutor coverage
+• case simulations
+
+This must use one unified architecture so the whole system remains scalable, filterable, countable, and monetizable.
+
+────────────────────────
+
+SECTION 1 — REQUIRED HIGH-END TARGETS
+
+Use the HIGH END of the platform targets, not the minimum.
+
+A. NURSING CORE TIERS
+
+RPN / PN / LVN
+Target total: 12,000+ validated questions
+
+RN
+Target total: 18,000+ validated questions
+
+NP
+Target total: 15,000+ validated questions
+
+B. CERTIFICATION BANKS
+
+Each major certification:
+Target total: 1,500–3,500+ each depending on market size
+
+C. PRE-NURSING
+
+Target total: 5,000+ questions
+
+D. NEW GRAD
+
+Target total: 3,000+ career-readiness scenario and interview items
+
+E. ALLIED HEALTH / CAREER TIERS
+
+Major careers:
+Target total: 3,000–5,000+ each
+
+Mid-size careers:
+Target total: 2,000–3,500+ each
+
+Smaller but marketable careers:
+Absolute floor: 1,500+
+Preferred target: 2,000–3,000+
+
+Do not leave any career looking weak or abandoned.
+
+────────────────────────
+
+SECTION 2 — NURSING FIRST: CORE TIER EXPANSION
+
+These are the highest-priority flagship products and must be built first.
+
+PART A — RPN / PN / LVN
+
+Create a full high-authority expansion for:
+
+Canada:
+• REx-PN
+• Canadian practical nursing prep
+
+United States:
+• NCLEX-PN
+• PN / LVN licensing prep
+
+Additional country-ready positioning:
+• PN/LVN international bridging content where relevant
+
+Target:
+12,000+ validated questions total
+
+Per major exam / region:
+• REx-PN: 4,000–5,500
+• NCLEX-PN: 4,000–5,500
+• Canada mixed PN prep: 2,500–3,500
+• US mixed PN/LVN prep: 2,500–3,500
+
+PART B — RN
+
+Create a full high-authority expansion for:
+
+Canada:
+• Canadian RN licensing prep
+• NCLEX-RN for Canadian learners
+
+United States:
+• NCLEX-RN
+
+United Kingdom:
+• NMC CBT
+• NMC OSCE support pages and scenario linking
+
+Australia:
+• AHPRA RN prep / Australian RN exam-aligned prep
+
+New Zealand:
+• RN international / competency-aligned prep pages where relevant
+
+Ireland:
+• RN registration / adaptation support-aligned prep pages where relevant
+
+India:
+• RN bridge / exam-aligned prep pages where relevant
+
+Philippines:
+• RN exam-aligned prep / international NCLEX pathway pages where relevant
+
+Gulf countries:
+• Saudi Arabia
+• UAE
+Create international RN prep landing pages where market demand and SEO relevance support them
+
+Target:
+18,000+ validated questions total
+
+Per major exam / region:
+• NCLEX-RN: 6,000–8,000
+• Canada RN prep: 4,000–5,000
+• UK NMC CBT: 2,500–4,000
+• Australia RN prep: 2,500–4,000
+• Other country/bridge/international banks: scalable and blueprint-based, not thin placeholders
+
+PART C — NP
+
+Create a full high-authority expansion for:
+
+United States:
+• AANP FNP
+• ANCC FNP
+• AGNP
+• ACNP
+• other key NP specialties already supported or planned
+
+Canada:
+• Canadian NP prep pages and specialty-aligned topic architecture where relevant
+
+Additional international NP visibility pages where clinically and commercially appropriate
+
+Target:
+15,000+ validated questions total
+
+Per major NP exam:
+• AANP FNP: 3,500–5,000
+• ANCC FNP: 3,500–5,000
+• AGNP: 2,500–4,500
+• ACNP: 2,500–4,500
+• other NP specialty banks: 2,000–3,500+
+
+NP must feel advanced, premium, and academically rigorous.
+
+────────────────────────
+
+SECTION 3 — REQUIRED NURSING TOPIC ARCHITECTURE
+
+Apply this across nursing tiers, adapted by scope and exam blueprint.
+
+Every core nursing exam bank must be organized into strong topic banks with real depth.
+
+MANDATORY CORE TOPICS
+
+• Foundations of Nursing
+• Nursing Process
+• Health Assessment
+• Communication and Therapeutic Relationships
+• Documentation and Informatics
+• Ethics and Legal Nursing
+• Patient Safety
+• Infection Prevention and Control
+• Pharmacology
+• Medication Administration
+• Dosage Calculations
+• Fluid and Electrolytes
+• Acid-Base Balance
+• Lab Values and Diagnostics
+• Medical-Surgical Nursing
+• Cardiovascular
+• Respiratory
+• Neurological
+• Endocrine
+• Renal / Urinary
+• Gastrointestinal
+• Hepatic / Biliary
+• Hematology
+• Immunology
+• Oncology
+• Musculoskeletal
+• Integumentary / Wound Care
+• Pain Management
+• Perioperative Care
+• Emergency Nursing
+• Critical Care Concepts
+• Mental Health / Psychiatric Nursing
+• Maternal / Obstetric Nursing
+• Newborn / Neonatal Care
+• Pediatric Nursing
+• Adolescent Health
+• Geriatric Nursing
+• Community Health
+• Population Health
+• Home Care
+• Long-Term Care
+• Leadership and Management
+• Delegation and Supervision
+• Prioritization
+• Triage
+• Disaster / Emergency Preparedness
+• Cultural Safety / Cultural Competence
+• Indigenous health considerations where regionally relevant
+• Evidence-Based Practice
+• Professional Standards and Scope of Practice
+
+NP-ONLY ADVANCED TOPICS
+
+• Advanced Pathophysiology
+• Advanced Pharmacology
+• Advanced Health Assessment
+• Diagnostic Reasoning
+• Differential Diagnosis
+• Clinical Decision-Making
+• Primary Care Management
+• Chronic Disease Management
+• Preventive Care
+• Women’s Health
+• Men’s Health
+• Pediatric Primary Care
+• Older Adult Primary Care
+• Mental Health Management
+• Interpretation of Diagnostics
+• Evidence Appraisal
+• Prescribing Principles
+• Specialty management modules as applicable
+
+Each major topic must have:
+• category page
+• subcategory structure
+• question banks
+• mock exam references
+• lesson links
+• flashcard links
+• explanation coverage
+• tutor context coverage
+• SEO copy
+• internal linking
+• real count display
+
+────────────────────────
+
+SECTION 4 — REQUIRED QUESTION FORMAT MIX
+
+Every tier and exam must use a strong mix of question types.
+
+MANDATORY QUESTION TYPES
+
+• standard MCQ
+• SATA
+• bowtie / matrix / drag-style structured logic where system supports it
+• scenario-based questions
+• case-based clinical reasoning
+• prioritization questions
+• delegation questions
+• medication safety questions
+• dosage calculation questions where relevant
+• chart / lab / vitals interpretation
+• communication and ethics scenarios
+• progressive unfolding case questions
+
+Do NOT overbuild only recall questions.
+Ensure a credible cognitive ladder from recall to advanced reasoning.
+
+────────────────────────
+
+SECTION 5 — EXAM-SPECIFIC BANK STRUCTURE
+
+For each major exam, build:
+
+• topic banks
+• subtopic banks
+• mixed practice banks
+• exam-blueprint weighted mixed banks
+• full mock exams
+• adaptive practice pools
+• scenario collections
+• difficult questions bank
+• rapid review bank
+• weak-topic remediation banks
+
+Every exam page must look like a complete product, not a simple tag page.
+
+────────────────────────
+
+SECTION 6 — HIGH-END MOCK EXAM REQUIREMENTS
+
+Each major exam must have:
+
+Minimum:
+• 5 full mock exams
+
+Preferred:
+• 6–10 for flagship nursing exams
+
+Each mock exam must include:
+• 100–150 questions
+• mixed categories
+• realistic blueprint weighting
+• scenario questions
+• moderate and difficult items
+• score reports
+• topic breakdown
+• readiness integration
+• explanation integration
+
+For flagship exams such as NCLEX-RN, NCLEX-PN, REx-PN, AANP FNP, ANCC FNP:
+build the highest-depth mock exam system.
+
+────────────────────────
+
+SECTION 7 — COUNTRIES TO SUPPORT
+
+Add structured country support and metadata.
+
+PRIMARY COUNTRIES / REGIONS
+
+• Canada
+• United States
+• United Kingdom
+• Australia
+• New Zealand
+• Ireland
+• India
+• Philippines
+• Saudi Arabia
+• UAE
+
+Add metadata fields such as:
+• country_code
+• region_code
+• exam_type
+• licensing_body
+• scope_variant
+• language_code
+
+Where country-specific adaptation matters, support:
+• lab units
+• medication naming differences
+• scope-of-practice differences
+• legal / regulatory wording
+• terminology differences
+• documentation conventions
+
+Examples:
+• mg/dL vs mmol/L
+• acetaminophen vs paracetamol
+• province/state/national regulator language differences
+
+Do not create fake precision where true country-specific alignment is not available.
+Use region-aware adaptation with clear metadata.
+
+────────────────────────
+
+SECTION 8 — LANGUAGES TO SUPPORT
+
+Priority languages for the entire system:
+
+• English
+• French
+• Spanish
+• Portuguese
+• Tagalog
+• Hindi
+• Arabic
+
+These must be supported first on the nursing flagship content.
+
+Language expansion order:
+1. English
+2. French
+3. Spanish
+4. Portuguese
+5. Tagalog
+6. Hindi
+7. Arabic
+
+Requirements:
+• identical metadata schema across languages
+• synchronized counts logic
+• translation-safe routing
+• no broken duplicated routes
+• maintain clinical accuracy
+• preserve adaptive calibration across translated versions
+• preserve answer mapping integrity
+• preserve explanation structure
+• preserve study guide structure
+• preserve flashcard deck structure
+• preserve tutor context structure
+
+Do not translate into low-quality broken phrasing.
+Use language-ready architecture with review support.
+
+────────────────────────
+
+SECTION 9 — ALLIED HEALTH / CAREERS TO EXPAND AFTER NURSING
+
+After the nursing flagship tiers are expanded, continue into allied health and healthcare-adjacent careers.
+
+MAJOR ALLIED HEALTH CAREERS
+Target 3,000–5,000+ each
+
+• RRT
+• Surgical Technologist
+• MLT
+• Imaging / Radiology
+• Pharmacy Technician
+• Paramedic
+
+MID-SIZE / EXPANDABLE CAREERS
+Target 2,000–3,500+
+
+• OTA
+• PTA
+• Social Worker
+• Addictions Counsellor
+• Psychotherapist
+
+CERTIFICATION / SPECIALTY BANKS
+Target 1,500–3,500+ each depending on demand
+
+• BLS
+• ACLS
+• PALS
+• NRP
+• TNCC
+• ENPC
+• Critical Care
+• Emergency Nursing
+• Oncology Nursing
+• Pediatric Nursing
+• Perioperative Nursing
+
+PRE-NURSING
+Target 5,000+
+
+NEW GRAD
+Target 3,000+ scenario / interview / transition items
+
+Do not start with these until the nursing flagship tiers are clearly dominant.
+
+────────────────────────
+
+SECTION 10 — REQUIRED PER-CAREER / PER-EXAM DEPTH RULES
+
+No career or exam page may look thin.
+
+Use these minimum content standards:
+
+For a flagship exam:
+• 2,500 minimum visible validated questions before strong public marketing
+• preferred 4,000–8,000+
+
+For a mid-size exam/career:
+• 1,500 minimum visible validated questions
+• preferred 2,000–4,000+
+
+For a smaller but saleable niche:
+• 1,200 absolute floor
+• preferred 1,500–3,000+
+
+Per category inside a strong tier:
+• 100–250+ questions minimum for most core categories
+• flagship categories should be deeper
+
+Per mock exam count:
+• 5 minimum for major exams
+• more for flagship nursing products
+
+Per hero page:
+• visible counts
+• mock exam counts
+• topic bank counts
+• language support counts
+• country support counts where applicable
+
+────────────────────────
+
+SECTION 11 — UNIFIED QUESTION SCHEMA
+
+Standardize all questions into a unified schema that supports every system already built.
+
+Required fields:
+
+id
+tier
+career
+country_code
+region_code
+exam_type
+licensing_body
+language_code
+topic
+subcategory
+difficulty_level
+cognitive_level
+question_format
+stem
+options
+correct_answer
+correct_answer_explanation
+incorrect_answer_rationale
+clinical_reasoning
+key_takeaway
+is_scenario
+is_mock_exam_eligible
+is_adaptive_eligible
+is_flashcard_source
+is_study_guide_linked
+is_tutor_ready
+status
+
+Optional fields:
+mnemonic
+clinical_pearl
+reference_source
+lab_unit_variant
+medication_naming_variant
+case_context
+vitals
+labs
+images
+scenario_id
+blueprint_weight
+
+Do not allow fragmented schemas across tiers.
+
+────────────────────────
+
+SECTION 12 — COUNTING, MANIFESTS, AND VALIDATION
+
+Update the counting system so the platform can show exact and marketable counts for:
+
+• tier
+• career
+• exam
+• country
+• language
+• topic
+• subtopic
+• mock exams
+• scenario banks
+• adaptive pools
+
+Public counts must only show:
+• validated
+• user-available
+• non-duplicate inventory
+
+Do NOT inflate counts with uncategorized AI junk.
+AI-generated pools can be tracked separately in admin until validated.
+
+Create manifests for:
+• total questions by tier
+• total by exam
+• total by country
+• total by language
+• total by topic
+• total by format
+• mock exam inventory
+• scenario inventory
+• lesson coverage
+• flashcard deck coverage
+• explanation coverage
+
+────────────────────────
+
+SECTION 13 — SEO LANDING PAGE SYSTEM
+
+Create high-authority SEO landing pages for:
+
+• every flagship exam
+• major country + exam combinations
+• major language + exam combinations where appropriate
+• nursing topic hubs
+• country-specific nursing prep pages
+• international nurse prep pages
+• certification exam pages
+• allied health exam pages after nursing build is solid
+
+Examples:
+• /rn/nclex-rn-practice-questions
+• /rpn/rex-pn-practice-questions
+• /np/aanp-fnp-practice-questions
+• /rn/canada-rn-practice-questions
+• /rn/uk-nmc-cbt-practice-questions
+• /rn/french-nclex-rn-practice-questions
+• /rpn/spanish-nclex-pn-practice-questions
+
+Each page must contain:
+• strong hero
+• real counts
+• exam overview
+• what is included
+• who it is for
+• topic bank links
+• mock exam links
+• FAQ
+• internal links
+• CTA hierarchy
+• structured metadata
+• schema markup where appropriate
+
+────────────────────────
+
+SECTION 14 — UX / PRODUCT / PAYWALL CONSISTENCY
+
+Every new bank must follow the premium NurseNest product architecture.
+
+Required:
+• free preview content
+• premium full banks
+• premium mock exams
+• adaptive practice integration
+• explanation integration
+• study guide integration
+• flashcard links
+• tutor access hooks
+• scenario links where relevant
+• no broken routes
+• no empty pages
+• no placeholder pages
+• no paywall bypass via subpages
+• no duplicate menu clutter
+• no rogue navigation
+
+Nursing flagship tiers must have the strongest and most polished experience.
+
+────────────────────────
+
+SECTION 15 — ADMIN EXPANSION TOOLS
+
+Add admin controls to manage the expansion safely.
+
+Admin must support:
+• question import
+• bulk categorization
+• language status tracking
+• country mapping
+• exam mapping
+• validation status
+• duplicate detection
+• thin-bank detection
+• low-count warnings
+• translation review flags
+• content coverage dashboard
+• blueprint weighting dashboard
+• mock exam inventory dashboard
+• weak topic alerts
+• next-priority roadmap panel
+
+Admin must clearly show nursing-first build progress.
+
+────────────────────────
+
+SECTION 16 — ROLLOUT STRATEGY INSIDE THE CODEBASE
+
+Implement the rollout in phases, but build the architecture for the full plan now.
+
+PHASE 1
+Nursing flagship infrastructure
+• RPN / PN / LVN
+• RN
+• NP
+
+PHASE 2
+Nursing certification expansion
+
+PHASE 3
+Pre-Nursing and New Grad
+
+PHASE 4
+Major allied health careers
+
+PHASE 5
+Mid-size and niche healthcare careers
+
+Create a roadmap constant and progress tracker in admin:
+GLOBAL_CONTENT_EXPANSION_ROADMAP
+
+Mark:
+• completed
+• in progress
+• queued
+• blocked
+
+────────────────────────
+
+SECTION 17 — INTEGRATION WITH EXISTING SYSTEMS
+
+Ensure all expanded content works with:
+• adaptive testing engine
+• explanation engine
+• study guide engine
+• flashcard engine
+• exam readiness predictor
+• AI tutoring assistant
+• OSCE/case simulation engine where relevant
+
+Each question bank and topic bank must be linkable into the broader learning ecosystem.
+
+────────────────────────
+
+SECTION 18 — QUALITY RULES
+
+Do not create thin banks.
+Do not inflate counts with junk.
+Do not break navigation.
+Do not create duplicate public routes.
+Do not create misleading country claims.
+Do not leave untranslated broken content live.
+Do not publish low-quality machine translation without review support.
+Do not build low-depth category shells with no meaningful substance.
+
+The platform must feel:
+• premium
+• authoritative
+• globally scalable
+• academically serious
+• clinically credible
+• conversion-focused
+
+────────────────────────
+
+SECTION 19 — OUTPUT FORMAT
+
+When finished, return:
+
+1. nursing tiers expanded first and what was built
+2. exams covered
+3. countries supported
+4. languages supported
+5. allied health / certification / pre-nursing / new grad phases scaffolded
+6. files created or modified
+7. updated count targets by tier / exam / country / language
+8. blockers
+9. next queued phase after nursing flagship rollout
+
+────────────────────────
+
+FINAL EXECUTION
+
+Implement the full high-end global content expansion plan for all topics, all major exams, all major countries, all priority languages, and all careers — starting with the nursing tiers first as the flagship core of NurseNest, then cascading through certifications, pre-nursing, new grad, and allied health using a unified premium architecture.
