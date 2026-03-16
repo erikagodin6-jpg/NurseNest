@@ -364,6 +364,13 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/fluid-status-assessment", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/pain-assessment-scales", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/newborn-assessment-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nclex-question-bank", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/rex-pn-exam-prep", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-clinical-scenarios", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-exam-preparation", priority: "0.9", changefreq: "monthly", lastmod: today },
+    { path: "/electrolytes-nursing-exam-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/acid-base-disorders-nursing-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-clinical-assessment-guide", priority: "0.8", changefreq: "monthly", lastmod: today },
   ];
 
   const enOnlyRoutes: Omit<StaticRouteDefinition, "multilingual">[] = [

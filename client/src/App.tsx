@@ -343,6 +343,8 @@ const DemoStreakAnalytics = lazy(() => import("@/pages/demo-streak-analytics"));
 const DemoSessionComparison = lazy(() => import("@/pages/demo-session-comparison"));
 const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
+const ExamPrepCornerstonePage = lazy(() => import("@/pages/exam-prep-cornerstone-pages"));
+const AuthorityGuidePage = lazy(() => import("@/pages/authority-guide-pages"));
 const ParamedicPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.ParamedicPracticeQuestions })));
 const RrtPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.RrtPracticeQuestions })));
 const MltPracticeQuestionsPage = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.MltPracticeQuestions })));
@@ -1155,6 +1157,17 @@ function AppRoutes() {
         <Route path="/fluid-status-assessment">{() => <TopicClusterBySlug slug="fluid-status-assessment" />}</Route>
         <Route path="/pain-assessment-scales">{() => <TopicClusterBySlug slug="pain-assessment-scales" />}</Route>
         <Route path="/newborn-assessment-guide">{() => <TopicClusterBySlug slug="newborn-assessment-guide" />}</Route>
+
+        {/* Exam Prep Cornerstone Pages */}
+        <Route path="/nclex-question-bank">{() => <ExamPrepCornerstonePage slug="nclex-question-bank" />}</Route>
+        <Route path="/rex-pn-exam-prep">{() => <ExamPrepCornerstonePage slug="rex-pn-exam-prep" />}</Route>
+        <Route path="/nursing-clinical-scenarios">{() => <ExamPrepCornerstonePage slug="nursing-clinical-scenarios" />}</Route>
+        <Route path="/nursing-exam-preparation">{() => <ExamPrepCornerstonePage slug="nursing-exam-preparation" />}</Route>
+
+        {/* Authority Guide Pages */}
+        <Route path="/electrolytes-nursing-exam-guide">{() => <AuthorityGuidePage slug="electrolytes-nursing-exam-guide" />}</Route>
+        <Route path="/acid-base-disorders-nursing-guide">{() => <AuthorityGuidePage slug="acid-base-disorders-nursing-guide" />}</Route>
+        <Route path="/nursing-clinical-assessment-guide">{() => <AuthorityGuidePage slug="nursing-clinical-assessment-guide" />}</Route>
 
         {/* Career Guide Pages - "How to become a..." */}
         <Route path="/how-to-become-a-paramedic" component={CareerGuidePage} />
