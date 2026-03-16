@@ -1,0 +1,259 @@
+You are working on the NurseNest production codebase.
+
+Create a new educational calculator and reference tool for nursing learners:
+
+Canadian to American Units Conversion Calculator
+
+PRIMARY GOAL
+
+Build a clean, accurate, nursing-focused conversion tool that helps users convert common Canadian units and lab values to American units and vice versa.
+
+This tool should support:
+- nursing students
+- RPN learners
+- RN learners
+- NP learners
+- NCLEX users studying Canadian content
+- Canadian learners reviewing American resources
+
+This is both a usability feature and an SEO opportunity.
+
+DO NOT:
+- break existing navigation
+- create messy duplicate menu items
+- add random unsupported conversions
+- make it look like a generic engineering calculator
+- remove existing med math tools
+- break translations
+- break mobile layout
+
+BUILD THIS AS A NURSING-SPECIFIC TOOL
+
+FEATURE NAME
+
+Canadian ↔ American Nursing Units Converter
+
+SECONDARY LABEL
+
+Convert common nursing lab values, medication units, and clinical measurements between Canadian SI units and U.S. conventional units.
+
+CORE UX REQUIREMENTS
+
+Create:
+1. interactive unit conversion calculator
+2. quick-reference conversion tables
+3. educational explanations for common nursing use cases
+4. mobile-friendly card layout
+5. SEO-friendly page structure
+
+PAGE GOALS
+
+The page should help users:
+- convert lab values between SI and conventional units
+- understand when Canada and the U.S. use different unit systems
+- reduce confusion during exam prep
+- quickly compare values for pharmacology, med-surg, critical care, and general nursing
+
+CONVERSION CATEGORIES
+
+Build the tool with category tabs or grouped sections for the most clinically relevant conversions.
+
+Include these categories:
+
+1. GLUCOSE
+Examples:
+- mmol/L ↔ mg/dL
+
+2. CHOLESTEROL / LIPIDS
+Examples:
+- mmol/L ↔ mg/dL
+
+3. CREATININE
+Examples:
+- µmol/L ↔ mg/dL
+
+4. UREA / BUN
+Examples:
+- mmol/L urea ↔ mg/dL BUN
+Make sure the conversion reflects the actual relationship, not just direct number swapping.
+
+5. HEMOGLOBIN
+Examples:
+- g/L ↔ g/dL
+
+6. CALCIUM
+Examples:
+- mmol/L ↔ mg/dL
+
+7. BILIRUBIN
+Examples:
+- µmol/L ↔ mg/dL
+
+8. WEIGHT
+Examples:
+- kg ↔ lb
+
+9. HEIGHT
+Examples:
+- cm ↔ inches
+- cm ↔ feet/inches display output
+
+10. TEMPERATURE
+Examples:
+- Celsius ↔ Fahrenheit
+
+11. VOLUME
+Examples:
+- mL ↔ oz for practical nursing reference if appropriate
+
+12. OPTIONAL COMMON CLINICAL CONVERSIONS
+If already supported cleanly, also include:
+- mmol/L potassium reference display
+- sodium reference display
+- medication mcg ↔ mg
+- mg ↔ g
+These should only be included where clinically appropriate and unambiguous.
+
+CALCULATOR BEHAVIOR
+
+For each conversion:
+- user enters a value
+- user chooses direction of conversion
+- tool returns converted value instantly
+- show rounded result plus a more precise result where appropriate
+- show unit labels clearly
+- prevent invalid inputs
+- support decimal values
+- include reset/clear action
+
+QUICK REFERENCE TABLES
+
+Under the calculator, add quick-reference tables for the most-used conversions:
+- glucose
+- creatinine
+- hemoglobin
+- temperature
+- weight
+
+These should be easy to scan on mobile.
+
+EDUCATIONAL CONTENT
+
+Add short nursing-focused explanatory content:
+- why Canada often uses SI units
+- why many U.S. nursing resources use conventional units
+- why this matters for exam prep and patient safety
+- reminder to always verify institutional standards and provider orders
+
+Add a short section:
+Common Nursing Examples
+
+Examples:
+- blood glucose comparison
+- creatinine interpretation
+- hemoglobin comparison
+- converting patient weight from kg to lb for medication context
+
+SEO STRUCTURE
+
+Create a strong SEO structure for the page.
+
+Suggested page title:
+Canadian to American Nursing Units Converter | Lab Values, Weight, Temperature & More
+
+Suggested meta description:
+Convert common Canadian and American nursing units including glucose, creatinine, hemoglobin, weight, and temperature with this nursing-focused SI to U.S. units calculator.
+
+Suggested H1:
+Canadian ↔ American Nursing Units Converter
+
+Add H2 sections such as:
+- Convert Canadian SI Units to American Units
+- Common Nursing Lab Value Conversions
+- Why Canadian and U.S. Nursing Units Differ
+- Quick Reference Conversion Charts
+
+MARKETING / CONVERSION
+
+Add a small section promoting NurseNest value:
+- built for nursing students
+- supports Canadian and U.S. study resources
+- useful for RPN, RN, and NP learners
+- helpful for NCLEX and Canadian exam prep
+
+Include subtle CTA buttons such as:
+- Practice Med Math
+- Explore Nursing Lessons
+- Study Lab Values
+
+DESIGN REQUIREMENTS
+
+Use the existing NurseNest visual style.
+Keep it:
+- clean
+- pastel/clinical
+- easy to scan
+- not cluttered
+- consistent with existing med math and simulator pages
+
+Do not create a harsh, corporate, or generic calculator appearance.
+
+TECHNICAL REQUIREMENTS
+
+- mobile responsive
+- accessible labels
+- keyboard friendly
+- fast rendering
+- easy to extend with more conversions later
+- reusable conversion config structure if possible
+- safe numeric formatting
+
+TRANSLATION / LOCALIZATION
+
+Do not break the translation system.
+If the project supports localization:
+- structure labels for translation
+- keep units themselves technically correct
+- do not translate scientific unit abbreviations incorrectly
+
+INTERNAL LINKING
+
+Link this page appropriately from:
+- med math page
+- lab values related pages
+- pharmacology pages where relevant
+- nursing resources pages if applicable
+
+Also add contextual internal links from this conversion page to:
+- med math
+- pharmacology
+- lab values lessons
+- NCLEX / REx-PN study content
+
+SAFETY / ACCURACY RULE
+
+This is a nursing education tool.
+All formulas must be accurate.
+Do not guess conversion factors.
+Centralize conversion constants in a clean configuration file or utility module so they can be reviewed and maintained easily.
+
+FINAL VERIFICATION
+
+After building, verify:
+- all formulas are accurate
+- results display correctly
+- unit labels are correct
+- mobile view is clean
+- page fits NurseNest design
+- translations still work
+- internal links work
+- no existing pages are broken
+
+FINAL REPORT
+
+Provide:
+- route created
+- conversions included
+- formulas used
+- internal links added
+- any follow-up suggestions for expanding the tool

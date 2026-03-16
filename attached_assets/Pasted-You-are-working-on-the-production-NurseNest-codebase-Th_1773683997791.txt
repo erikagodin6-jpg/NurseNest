@@ -1,0 +1,316 @@
+You are working on the production NurseNest codebase.
+
+The page
+`/en/blood-transfusion-simulator`
+is already receiving impressions in Google Search Console.
+
+The simulator, lessons, activities, and compatibility chart already exist on this page.
+The goal is **NOT to redesign or remove existing components**, but to **strengthen SEO, marketing, internal linking, and search intent coverage** so the page converts impressions into clicks and rankings.
+
+This is an **SEO optimization task**, not a structural rebuild.
+
+IMPORTANT RULES
+
+Do NOT remove:
+
+* the blood transfusion simulator
+* compatibility chart
+* practice activities
+* lessons already on the page
+* navigation structure
+* tier system
+* translation system
+* paywalls
+
+Do NOT create duplicate pages.
+
+The goal is to turn this page into a **high-authority educational + simulation hub** while keeping the existing components intact.
+
+---
+
+PRIMARY OBJECTIVE
+
+Improve the SEO strength of the page so it can rank for queries such as:
+
+blood transfusion nursing
+blood transfusion reaction nursing
+blood transfusion compatibility chart
+blood transfusion procedure nursing
+NCLEX blood transfusion questions
+REx-PN blood transfusion
+blood transfusion simulation nursing
+transfusion reaction nursing interventions
+
+The page should target **students, nursing exam preparation, and nursing education.**
+
+---
+
+STEP 1 — AUDIT THE CURRENT PAGE
+
+Analyze the page and confirm the following components exist and render correctly:
+
+• simulator functionality
+• compatibility chart
+• educational lessons
+• practice activities
+• navigation links
+• translations
+• SEO metadata
+
+Do NOT remove or relocate working elements.
+
+Instead, improve surrounding SEO structure.
+
+---
+
+STEP 2 — IMPROVE PAGE TITLE
+
+Replace the existing title with a stronger SEO title:
+
+Blood Transfusion Nursing Simulator | Compatibility Chart & Reaction Training for NCLEX and REx-PN
+
+Ensure the title length is under 60 characters when possible.
+
+---
+
+STEP 3 — IMPROVE META DESCRIPTION
+
+Create a compelling meta description that encourages clicks:
+
+Example structure:
+
+Practice blood transfusion compatibility, recognize transfusion reactions, and learn safe blood administration with this interactive nursing simulator designed for NCLEX and REx-PN exam preparation.
+
+Limit to ~155 characters.
+
+---
+
+STEP 4 — ADD SEO INTRODUCTION ABOVE THE TOOL
+
+Add a short educational introduction above the simulator explaining:
+
+• why blood transfusion safety is critical
+• what the simulator teaches
+• who the tool is for (nursing students, RPN, RN, NCLEX learners)
+• what users will practice on the page
+
+Target length:
+
+150–250 words.
+
+This helps Google understand the page before the interactive component.
+
+---
+
+STEP 5 — ADD STRUCTURED EDUCATIONAL SECTIONS BELOW THE TOOL
+
+Add SEO content blocks AFTER the simulator and lessons.
+
+These sections should expand on the topics already present on the page.
+
+Create sections using this structure:
+
+H2 — Blood Transfusion Nursing Overview
+Explain why transfusions are performed and common blood products.
+
+H2 — Step-by-Step Blood Transfusion Procedure
+Explain the nursing workflow including:
+
+• order verification
+• patient identification
+• baseline vitals
+• two-nurse verification
+• slow initiation
+• monitoring first 15 minutes
+• documentation
+
+H2 — Signs of a Blood Transfusion Reaction
+Explain symptoms such as:
+
+• fever
+• chills
+• dyspnea
+• hypotension
+• flank pain
+• hemoglobinuria
+
+H2 — Nursing Interventions for Transfusion Reactions
+
+Explain key steps:
+
+1 stop transfusion
+2 maintain IV line with saline
+3 notify provider
+4 verify blood product
+5 send blood for testing
+6 monitor patient
+
+These sections should complement the existing lessons without duplicating them.
+
+---
+
+STEP 6 — ENHANCE THE COMPATIBILITY CHART SECTION
+
+The compatibility chart already exists.
+
+Improve the section by:
+
+• adding an H2 heading: "Blood Compatibility Chart for Nursing Students"
+• adding a short explanation of ABO and Rh compatibility
+• describing which blood types can donate and receive
+• explaining why incompatibility causes hemolytic reactions
+
+Keep the existing chart intact.
+
+---
+
+STEP 7 — ADD A PRACTICE CASE SCENARIO
+
+Add a small interactive case scenario below the simulator.
+
+Example structure:
+
+A patient receiving packed red blood cells develops chills and fever 10 minutes after transfusion.
+
+Ask the learner:
+
+• What is the nurse's first action?
+• What reaction might be occurring?
+
+Then show the correct intervention.
+
+This improves engagement and SEO.
+
+---
+
+STEP 8 — ADD EXAM STYLE QUESTION
+
+Add a small NCLEX / REx-PN practice question section.
+
+Example structure:
+
+Question
+A nurse is monitoring a patient receiving packed RBCs. The patient develops chills and flank pain. What is the nurse's first action?
+
+A administer acetaminophen
+B stop the transfusion
+C increase the infusion rate
+D document findings
+
+Correct answer: Stop the transfusion.
+
+Do not create a full question bank here. Only add a single example question to improve exam relevance.
+
+---
+
+STEP 9 — ADD INTERNAL LINKS
+
+Add internal links to related NurseNest lessons if they exist.
+
+Examples:
+
+• hematology lessons
+• shock lessons
+• sepsis lessons
+• IV therapy lessons
+• patient safety lessons
+• fluid and electrolyte lessons
+
+Use anchor text like:
+
+"Learn more about nursing interventions for shock."
+
+This improves SEO authority.
+
+---
+
+STEP 10 — ADD FAQ SCHEMA
+
+Create a small FAQ section at the bottom of the page.
+
+Suggested questions:
+
+• What are the signs of a blood transfusion reaction?
+• How long does a blood transfusion take?
+• What blood types are compatible?
+• What should a nurse do if a transfusion reaction occurs?
+
+Mark this section using structured data (FAQ schema).
+
+---
+
+STEP 11 — ADD STRUCTURED DATA
+
+Add structured data to the page using JSON-LD.
+
+Recommended schema types:
+
+EducationalApplication
+MedicalWebPage
+FAQPage
+
+Do not break existing metadata.
+
+---
+
+STEP 12 — IMPROVE INTERNAL LINKING ACROSS THE SITE
+
+Link to this page from related lessons across the site when appropriate.
+
+Examples:
+
+• hematology pages
+• anemia lessons
+• IV therapy lessons
+• critical care lessons
+• patient safety lessons
+
+Use contextual anchors like:
+
+"Practice transfusion compatibility with the NurseNest Blood Transfusion Simulator."
+
+---
+
+STEP 13 — VERIFY PAGE LENGTH
+
+Ensure the page contains approximately:
+
+1,500 – 2,500 words total
+
+This includes:
+
+• existing lessons
+• simulator explanations
+• added SEO content
+• FAQs
+
+Do NOT add filler text.
+
+All content must remain educational and clinically accurate.
+
+---
+
+STEP 14 — PRODUCTION VERIFICATION
+
+Confirm the following after updates:
+
+• simulator still works
+• compatibility chart still works
+• activities still work
+• lessons remain accessible
+• no broken internal links
+• no translation issues
+• page renders correctly on mobile
+• page loads correctly on production site
+
+---
+
+FINAL REPORT
+
+After completing updates, provide:
+
+• summary of SEO improvements implemented
+• new metadata
+• sections added
+• internal links created
+• schema added

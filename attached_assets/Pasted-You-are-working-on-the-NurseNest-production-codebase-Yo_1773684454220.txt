@@ -1,0 +1,329 @@
+You are working on the NurseNest production codebase.
+
+You have already built or are building a FREE public page for:
+
+Canadian SI Units ↔ U.S. Conventional Units Converter for Nursing
+
+Now create the supporting SEO content cluster around that page so it can gain more authority, rank for more searches, and internally reinforce NurseNest’s med math and lab values ecosystem.
+
+This is an SEO content architecture task.
+
+PRIMARY GOAL
+
+Create high-value supporting pages that:
+- target long-tail nursing search queries
+- support the main SI ↔ conventional converter page
+- improve internal linking
+- increase topical authority for lab values, med math, and nursing exam prep
+- remain useful, accurate, and free for SEO purposes
+
+IMPORTANT RULES
+
+Do NOT:
+- create thin pages
+- create doorway pages
+- duplicate the exact same content across pages
+- break navigation
+- break translations
+- break routing
+- stuff keywords unnaturally
+- make these pages feel spammy
+- gate these SEO pages behind a paywall
+
+These should be real educational pages with strong search intent coverage.
+
+MAIN HUB PAGE TO SUPPORT
+
+The main hub page is the free converter:
+- Canadian SI Units ↔ U.S. Conventional Units Converter for Nursing
+
+All supporting pages should internally link to this hub using descriptive anchor text.
+
+CONTENT CLUSTER PAGES TO CREATE
+
+Create the following pages if they do not already exist.
+
+1. Canadian vs American Lab Values for Nursing Students
+Purpose:
+- broad educational page explaining the difference between SI units and conventional units
+- top-of-funnel search capture
+- strong internal link to the converter
+
+Suggested URL:
+`/en/canadian-vs-american-lab-values`
+
+Suggested H1:
+Canadian vs American Lab Values for Nursing Students
+
+Core content:
+- what SI units are
+- what conventional units are
+- why Canada and the U.S. report many labs differently
+- why this matters in nursing school, NCLEX prep, REx-PN prep, and clinical placements
+- common examples: glucose, creatinine, hemoglobin, bilirubin, calcium, cholesterol
+- internal links to the converter and related lessons
+
+2. Glucose mmol/L to mg/dL Conversion for Nursing
+Purpose:
+- capture one of the most common search intents
+- support diabetes, med-surg, pharmacology, and lab value learning
+
+Suggested URL:
+`/en/glucose-mmol-l-to-mg-dl`
+
+Suggested H1:
+Glucose mmol/L to mg/dL Conversion for Nursing Students
+
+Core content:
+- explain SI vs conventional glucose units
+- common blood sugar examples
+- hypo/hyperglycemia interpretation notes
+- quick reference chart
+- mini calculator or embedded calculator if clean
+- link back to full converter
+- link to diabetes / endocrine / med math pages where relevant
+
+3. Creatinine µmol/L to mg/dL Conversion for Nursing
+Suggested URL:
+`/en/creatinine-umol-l-to-mg-dl`
+
+Suggested H1:
+Creatinine µmol/L to mg/dL Conversion for Nursing Students
+
+Core content:
+- explain why creatinine appears differently in Canada vs U.S. resources
+- kidney function context
+- quick reference chart
+- educational interpretation context
+- link to renal lessons and full converter
+
+4. Hemoglobin g/L to g/dL Conversion for Nursing
+Suggested URL:
+`/en/hemoglobin-g-l-to-g-dl`
+
+Suggested H1:
+Hemoglobin g/L to g/dL Conversion for Nursing Students
+
+Core content:
+- explain Canadian SI vs U.S. conventional hemoglobin reporting
+- common anemia / blood loss / transfusion learning context
+- quick reference table
+- link to blood transfusion simulator if relevant
+- link to full converter
+
+5. Bilirubin µmol/L to mg/dL Conversion for Nursing
+Suggested URL:
+`/en/bilirubin-umol-l-to-mg-dl`
+
+Suggested H1:
+Bilirubin µmol/L to mg/dL Conversion for Nursing Students
+
+Core content:
+- explain bilirubin unit differences
+- liver / neonatal / jaundice context if relevant
+- quick reference table
+- link back to full converter
+
+6. Calcium mmol/L to mg/dL Conversion for Nursing
+Suggested URL:
+`/en/calcium-mmol-l-to-mg-dl`
+
+Suggested H1:
+Calcium mmol/L to mg/dL Conversion for Nursing Students
+
+Core content:
+- explain calcium unit differences
+- clinical context: hypo/hypercalcemia
+- quick reference chart
+- link to med-surg / endocrine / lab values content
+- link back to full converter
+
+7. Urea mmol/L to BUN mg/dL Conversion for Nursing
+Suggested URL:
+`/en/urea-to-bun-conversion-nursing`
+
+Suggested H1:
+Urea mmol/L to BUN mg/dL Conversion for Nursing Students
+
+Core content:
+- clearly explain that urea and BUN are related but not simply relabeled
+- explain why Canada often uses urea and the U.S. often uses BUN
+- quick reference chart
+- renal context
+- link back to full converter
+
+8. Cholesterol and Triglyceride Unit Conversion for Nursing
+Suggested URL:
+`/en/cholesterol-triglyceride-unit-conversion`
+
+Suggested H1:
+Cholesterol and Triglyceride Unit Conversion for Nursing Students
+
+Core content:
+- total cholesterol mmol/L ↔ mg/dL
+- LDL mmol/L ↔ mg/dL
+- HDL mmol/L ↔ mg/dL
+- triglycerides mmol/L ↔ mg/dL
+- cardiovascular context
+- quick reference tables
+- link back to converter
+
+9. kg to lb Nursing Conversion Chart
+Suggested URL:
+`/en/kg-to-lb-nursing`
+
+Suggested H1:
+kg to lb Conversion for Nursing Students
+
+Core content:
+- explain why nurses often need kg and lb familiarity
+- medication context
+- dosage calculation context
+- quick chart
+- internal link to med math page
+- internal link to full converter
+
+10. Celsius to Fahrenheit Nursing Conversion Chart
+Suggested URL:
+`/en/celsius-to-fahrenheit-nursing`
+
+Suggested H1:
+Celsius to Fahrenheit Conversion for Nursing Students
+
+Core content:
+- vital signs / fever interpretation context
+- quick temperature chart
+- internal link to full converter
+
+PAGE QUALITY REQUIREMENTS
+
+Each page must:
+- be educational and genuinely useful
+- have unique content
+- have a clear purpose
+- contain at least one quick reference chart
+- contain nursing context, not just raw formulas
+- link to the main converter page
+- link to at least 1–3 relevant NurseNest internal pages
+- be mobile-friendly
+- be indexable
+- not be thin
+
+Do not create copy-paste clones with only the analyte changed.
+
+SEO STRUCTURE REQUIREMENTS
+
+For every page:
+- unique title tag
+- unique meta description
+- proper H1
+- clean H2 structure
+- internal links
+- descriptive anchor text
+- canonical tag
+- inclusion in sitemap if appropriate
+
+Use descriptive titles such as:
+- Glucose mmol/L to mg/dL Conversion for Nursing Students
+- Creatinine µmol/L to mg/dL Conversion for Nursing Students
+
+Do not use vague titles like “Unit Converter Page 1”.
+
+ON-PAGE CONTENT TEMPLATE
+
+For each cluster page, use a consistent high-quality structure:
+
+1. Short intro
+2. What this conversion means
+3. Formula or explanation
+4. Quick reference conversion chart
+5. Common nursing examples
+6. Why this matters for nursing students
+7. Internal links to related content
+8. FAQ section if useful
+9. CTA to full SI ↔ conventional converter
+
+MARKETING REQUIREMENTS
+
+Keep these pages educational first, but include subtle conversion-oriented messaging such as:
+- built for nursing students
+- useful for Canadian and U.S. study resources
+- helpful for RPN, RN, NP, and NCLEX prep
+- quick way to reduce confusion and study faster
+
+Do not make the pages feel sales-heavy.
+
+INTERNAL LINKING STRATEGY
+
+Each cluster page must link:
+- up to the main converter hub
+- sideways to related cluster pages where natural
+- to relevant NurseNest pages such as med math, pharmacology, lab values, blood transfusion, endocrine, renal, or med-surg content
+
+The main converter hub should also link back to these cluster pages where appropriate.
+
+Create a strong internal web, not isolated pages.
+
+STRUCTURED DATA
+
+Where appropriate, add JSON-LD such as:
+- MedicalWebPage
+- FAQPage
+
+Only if it accurately matches visible content.
+
+ACCURACY RULE
+
+All formulas and charts must be accurate.
+Do not guess conversion constants.
+Use centralized conversion logic/config where relevant.
+Keep analyte-specific conversions clearly labeled.
+
+FREE / SEO RULE
+
+All of these pages should remain:
+- free
+- public
+- crawlable
+- indexable
+- accessible without login
+
+These are top-of-funnel authority pages and should not be paywalled.
+
+DESIGN REQUIREMENTS
+
+Use existing NurseNest styling.
+Keep pages:
+- clean
+- soft clinical
+- easy to scan
+- mobile responsive
+- not cluttered
+- consistent with med math and educational pages
+
+TRANSLATION / LOCALIZATION
+
+Do not break the translation system.
+Structure strings for localization where appropriate.
+Do not incorrectly translate scientific units.
+
+FINAL IMPLEMENTATION TASKS
+
+1. Build the cluster pages
+2. Add internal links between them and the main converter page
+3. Add links from med math and relevant lesson pages where appropriate
+4. Update sitemap if appropriate
+5. Verify titles, metadata, canonical tags, and mobile rendering
+6. Confirm no thin/duplicate content issues
+
+FINAL REPORT
+
+Provide:
+- all routes created
+- title tags used
+- meta descriptions used
+- internal linking map
+- which pages link to the main converter hub
+- which related NurseNest pages were linked
+- confirmation that all pages are free and indexable
+- any suggested next cluster pages for future SEO growth

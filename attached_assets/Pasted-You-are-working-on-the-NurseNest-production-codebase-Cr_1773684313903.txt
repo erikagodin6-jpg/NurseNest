@@ -1,0 +1,430 @@
+You are working on the NurseNest production codebase.
+
+Create a new FREE, public, indexable SEO page and calculator for nursing learners:
+
+Canadian SI Units ↔ American Conventional Units Converter
+
+IMPORTANT TERMINOLOGY
+
+Use the correct naming throughout the page:
+
+- Canada commonly uses SI units (Système International / metric-style laboratory reporting)
+- The United States commonly uses conventional units (also called U.S. conventional units or American conventional units)
+
+The page should clearly explain that this tool converts between:
+- Canadian SI units
+and
+- American / U.S. conventional units
+
+Do not use vague wording like “Canadian units” and “American units” without also labeling them correctly as SI units and conventional units.
+
+PRIMARY GOAL
+
+Build a clinically useful, nursing-focused, free converter that helps users convert common lab values and measurements between Canadian SI units and U.S. conventional units.
+
+This should be a true educational SEO asset and should remain FREE for traffic, discoverability, backlinks, and top-of-funnel growth.
+
+This page should be:
+- public
+- indexable
+- crawlable
+- linked internally
+- accessible without login
+- not paywalled
+- optimized for organic search
+
+DO NOT:
+- hide this behind premium access
+- noindex the page
+- block it in robots
+- create duplicate thin pages for each lab unless there is already a content-cluster strategy
+- break existing navigation
+- create messy duplicate menu items
+- remove existing med math tools
+- break translations
+- break mobile layout
+
+SEO / PRODUCT STRATEGY
+
+Treat this as a major SEO page.
+The page should target searches such as:
+- SI to conventional units nursing
+- conventional to SI units nursing
+- Canadian to American lab values
+- Canadian to American nursing units
+- glucose mmol/L to mg/dL
+- creatinine umol/L to mg/dL
+- hemoglobin g/L to g/dL
+- bilirubin umol/L to mg/dL
+- calcium mmol/L to mg/dL
+- BUN to urea conversion
+- kg to lb nursing
+- celsius to fahrenheit nursing
+
+This should function as:
+1. an interactive nursing converter
+2. a quick reference chart hub
+3. a med math / lab values support page
+4. a strong internal-link destination from med math, pharmacology, and lab values pages
+
+ROUTE / URL
+
+Use a clean SEO-friendly URL such as:
+`/en/si-to-conventional-units-converter`
+or
+`/en/nursing-lab-values-converter`
+
+Prefer the stronger SEO version if consistent with site architecture.
+
+PAGE TITLE
+
+Use an SEO title such as:
+Canadian SI Units ↔ U.S. Conventional Units Converter for Nursing | Lab Values, Weight & Temperature
+
+META DESCRIPTION
+
+Create a strong meta description such as:
+Convert Canadian SI units to U.S. conventional units for common nursing lab values and measurements, including glucose, creatinine, hemoglobin, bilirubin, weight, and temperature.
+
+H1
+
+Canadian SI Units ↔ U.S. Conventional Units Converter for Nursing
+
+HERO SUBTEXT
+
+Add a strong intro explaining:
+- Canada commonly uses SI units
+- the U.S. commonly uses conventional units
+- nursing students often switch between Canadian and American textbooks, prep resources, lab references, and exam material
+- this creates confusion in clinical learning and test prep
+- this tool helps reduce errors and improve confidence
+
+Add a short marketing line such as:
+Built for RPN, RN, and NP learners using Canadian and U.S. nursing resources.
+
+FREE ACCESS RULE
+
+This page must be fully free and visible for SEO purposes.
+Do not gate the calculator, the tables, or the educational explanations.
+You may include subtle internal CTAs to paid NurseNest products, but the converter itself must remain fully accessible.
+
+PAGE STRUCTURE
+
+Build the page with these sections:
+
+1. Hero
+2. Interactive converter
+3. Category tabs or grouped conversion cards
+4. Quick reference conversion tables
+5. Educational explanations
+6. Common nursing examples
+7. FAQ section
+8. Internal links to related NurseNest content
+9. Subtle CTA to explore Med Math / Lab Values / Lessons
+
+CONVERSION COVERAGE
+
+Go through all common nursing-relevant laboratory and clinical unit conversions and include them in a structured, comprehensive way.
+
+Do NOT include obscure, irrelevant, or highly specialized conversions unless clearly useful for nursing learners.
+
+Use grouped categories.
+
+CATEGORY 1 — GLUCOSE
+Include:
+- mmol/L ↔ mg/dL
+
+CATEGORY 2 — CREATININE
+Include:
+- µmol/L ↔ mg/dL
+
+CATEGORY 3 — UREA / BUN
+Explain clearly that:
+- Canada often reports urea in mmol/L
+- the U.S. commonly reports BUN in mg/dL
+- this is not a simple same-substance relabeling and must use the correct relationship
+
+Include:
+- urea mmol/L ↔ BUN mg/dL
+
+CATEGORY 4 — CALCIUM
+Include:
+- mmol/L ↔ mg/dL
+
+CATEGORY 5 — BILIRUBIN
+Include:
+- µmol/L ↔ mg/dL
+
+CATEGORY 6 — HEMOGLOBIN
+Include:
+- g/L ↔ g/dL
+
+CATEGORY 7 — CHOLESTEROL / LIPIDS
+Include:
+- total cholesterol mmol/L ↔ mg/dL
+- LDL mmol/L ↔ mg/dL
+- HDL mmol/L ↔ mg/dL
+- triglycerides mmol/L ↔ mg/dL
+
+CATEGORY 8 — LACTATE
+Include:
+- mmol/L ↔ mg/dL if clinically appropriate and accurate
+
+CATEGORY 9 — PHOSPHATE / PHOSPHORUS
+Include:
+- mmol/L ↔ mg/dL if accurate and clearly labeled
+
+CATEGORY 10 — MAGNESIUM
+Include:
+- mmol/L ↔ mg/dL if accurate and clearly labeled
+
+CATEGORY 11 — WEIGHT
+Include:
+- kg ↔ lb
+
+CATEGORY 12 — HEIGHT
+Include:
+- cm ↔ inches
+- cm ↔ feet + inches
+- feet/inches ↔ cm if possible
+
+CATEGORY 13 — TEMPERATURE
+Include:
+- Celsius ↔ Fahrenheit
+
+CATEGORY 14 — VOLUME / DOSING SUPPORT
+Include only if clean and useful:
+- mL ↔ oz
+- mcg ↔ mg
+- mg ↔ g
+
+CATEGORY 15 — OPTIONAL COMMON CLINICAL DISPLAY REFERENCES
+For common labs that are often compared but do not necessarily need direct conversion calculations, consider adding quick reference ranges or educational notes where appropriate:
+- sodium
+- potassium
+- chloride
+- INR
+- platelets
+- WBC
+- hematocrit
+
+Only include direct conversions where units truly differ in a meaningful and accurate way.
+Do not fake conversions for labs typically reported the same way.
+
+LAB COVERAGE RULE
+
+Review all common nursing-relevant labs and include:
+- every common conversion that is accurate and practical
+- clear exclusions for labs that do not need conversion
+- proper labeling when the analyte name differs between Canadian and U.S. reporting conventions
+
+The goal is comprehensive nursing utility, not random quantity.
+
+CALCULATOR UX
+
+For each supported conversion:
+- allow user input
+- allow switching conversion direction
+- display result instantly
+- show rounded output
+- optionally show more precise output underneath
+- label units clearly
+- support decimals
+- prevent invalid input
+- add reset / clear
+
+Use a reusable conversion configuration structure so more analytes can be added later.
+
+QUICK REFERENCE TABLES
+
+Add mobile-friendly quick reference tables for the highest-need items:
+
+- glucose
+- creatinine
+- urea / BUN
+- hemoglobin
+- bilirubin
+- calcium
+- cholesterol
+- triglycerides
+- kg / lb
+- Celsius / Fahrenheit
+
+Include a set of common values students would actually search or compare.
+
+EDUCATIONAL CONTENT
+
+Add a strong educational section:
+
+H2 — What Are SI Units and Conventional Units in Nursing?
+
+Explain:
+- SI units are common in Canadian healthcare and lab reporting
+- conventional units are common in American healthcare resources
+- nursing students often encounter both
+- incorrect interpretation can lead to clinical misunderstanding
+
+H2 — Why This Matters for Nursing Students
+
+Explain:
+- exam prep
+- clinical placements
+- studying from U.S. NCLEX resources while training in Canada
+- reading pharmacology, med-surg, and lab value references
+
+H2 — Common Nursing Examples
+
+Include examples such as:
+- converting blood glucose from mmol/L to mg/dL
+- comparing creatinine values in SI and conventional units
+- interpreting hemoglobin values between g/L and g/dL
+- converting kg to lb for medication context
+- converting Celsius to Fahrenheit for chart interpretation
+
+H2 — Important Safety Note
+
+State clearly:
+This tool is for nursing education and study support. Always follow institutional policies, local lab reporting standards, and provider orders in clinical practice.
+
+FAQ SECTION
+
+Add a real FAQ section with questions such as:
+- What are SI units in Canadian nursing?
+- What are conventional units in U.S. nursing?
+- How do you convert glucose from mmol/L to mg/dL?
+- Why is creatinine reported differently in Canada and the U.S.?
+- Is BUN the same as urea?
+- Why do nursing students need to know both SI and conventional units?
+
+You may add FAQ structured data, but do not rely on it as the main SEO strategy.
+The page should stand on its own with strong visible content.
+
+STRUCTURED DATA
+
+Add JSON-LD where appropriate.
+Possible schema:
+- MedicalWebPage
+- EducationalApplication
+- FAQPage
+
+Do not spam schema.
+Ensure schema matches visible page content.
+
+MARKETING / CONVERSION
+
+Add a subtle promotional section near the bottom:
+
+Continue Studying With NurseNest
+
+Include links to:
+- Med Math
+- Lab Values lessons
+- Pharmacology
+- Practice questions
+- Nursing lessons
+
+Use helpful copy such as:
+- Practice more nursing calculations
+- Review common lab values
+- Strengthen medication safety skills
+- Study smarter for RPN, RN, and NCLEX prep
+
+Do not make the page feel sales-heavy.
+SEO and usefulness come first.
+
+DESIGN REQUIREMENTS
+
+Match existing NurseNest style:
+- soft clinical aesthetic
+- clean cards
+- easy scanning
+- strong headings
+- mobile friendly
+- not cluttered
+- not generic
+
+TECHNICAL REQUIREMENTS
+
+- mobile responsive
+- accessible form labels
+- keyboard friendly
+- fast rendering
+- clean reusable conversion logic
+- centralized formula constants
+- safe numeric formatting
+- no hydration issues
+- no broken locale behavior
+
+TRANSLATION / LOCALIZATION
+
+Do not break the translation system.
+Structure all human-readable labels for localization.
+Do not incorrectly translate scientific unit abbreviations.
+Units such as mmol/L, mg/dL, g/L, g/dL, µmol/L, kg, lb, °C, °F should remain technically correct.
+
+ACCURACY RULE
+
+This is a nursing education tool.
+All formulas must be accurate.
+Do not guess.
+Centralize all conversion constants in a clean config or utility file for maintainability and review.
+Where conversions are analyte-specific, label them clearly.
+Do not apply one analyte’s conversion factor to another.
+
+INTERNAL LINKING
+
+Link to this page from:
+- Med Math page
+- lab values pages
+- pharmacology pages where relevant
+- nursing resources page if applicable
+
+Also add internal links from this new page to:
+- Med Math
+- lab values lessons
+- pharmacology
+- relevant nursing study hubs
+
+Use descriptive anchor text, not generic “click here”.
+
+INDEXING / SEO CHECKLIST
+
+Verify that:
+- page is indexable
+- canonical is correct
+- title is unique and descriptive
+- meta description is present
+- page has crawlable internal links
+- page is included in sitemap if appropriate
+- no accidental noindex / disallow exists
+- mobile rendering is strong
+- content is helpful and not thin
+
+FINAL VERIFICATION
+
+After building, verify:
+- all formulas are accurate
+- unit labels are correct
+- all common nursing-relevant conversions are included
+- exclusions are intentional and explained
+- mobile layout is clean
+- page is free and public
+- page fits NurseNest design
+- translations still work
+- internal links work
+- sitemap / metadata are correct
+- no existing pages are broken
+
+FINAL REPORT
+
+Provide:
+- route created
+- exact conversions included
+- formulas/constants used
+- which labs were included
+- which labs were intentionally excluded and why
+- metadata added
+- schema added
+- internal links added
+- confirmation that page is free and indexable
+- suggestions for follow-up SEO cluster pages that could support this converter

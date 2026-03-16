@@ -1,0 +1,207 @@
+There are STILL empty lessons showing across the RPN, RN, and NP tiers and this must be fixed cleanly, thoroughly, and permanently.
+
+You are working on the live NurseNest codebase.
+
+PRIMARY GOAL
+Audit the entire nursing lesson system for the RPN, RN, and NP tiers and remove or repair every empty lesson so users never see placeholder lessons, blank lessons, broken lessons, or lesson cards that lead to thin/empty pages.
+
+This is not a cosmetic fix.
+This is a content integrity, UX, SEO, trust, and production quality fix.
+
+DO NOT:
+- create a new navigation structure
+- change the tiered menu system
+- move lessons into random new categories
+- add duplicate lessons
+- leave lessons published if they have no real content
+- create fake filler text
+- create “coming soon” pages in the live learning flow
+- break existing paywalls
+- break translations
+- break published production routes
+- change the nursing tier hierarchy
+- rename sections unless absolutely required for an actual bug fix
+
+INSTRUCTIONS
+
+1. FULL LESSON AUDIT ACROSS ALL NURSING TIERS
+Run a full audit of all lesson sources and render paths for:
+- RPN
+- RN
+- NP
+
+Audit all of the following:
+- lesson index pages
+- body system/category pages
+- lesson cards
+- featured lesson sections
+- search results
+- related lesson sections
+- sitemap-generated lesson URLs
+- static/seeded/admin-generated lesson records
+- CMS/database/API content feeding these tiers
+- locale-based lesson paths if the system is localized
+
+Find every nursing lesson that is:
+- empty
+- nearly empty
+- missing title/body integrity
+- missing structured content blocks
+- missing slug target
+- unpublished but still visible
+- draft but accidentally exposed
+- pointing to a 404
+- pointing to a placeholder object
+- visible in UI even though content is incomplete
+- visible in search or related content despite being incomplete
+- rendering blank because of mapping or hydration issues
+
+2. DEFINE “EMPTY LESSON” STRICTLY
+A lesson must be treated as empty if ANY of the following are true:
+- no substantive body content
+- only a title or heading with no real lesson body
+- a one-line stub
+- placeholder text such as lorem ipsum, TBD, draft, coming soon, placeholder, temp, etc.
+- missing key sections users would expect from a usable lesson
+- broken content mapping causing blank render
+- content exists in admin/database but does not render on the published site
+- slug resolves but page is blank or too thin to be useful
+- lesson card exists but clicking it leads to empty, broken, or partial content
+
+3. FIX STRATEGY
+For every empty lesson in RPN, RN, or NP, do ONE of these only:
+
+A. If real content already exists elsewhere and mapping is broken:
+- reconnect the lesson to the correct source
+- ensure the correct content renders on the published site
+- ensure the correct tier/category relationship is preserved
+
+B. If the lesson is incomplete and should not yet be public:
+- fully remove it from all public lesson listings
+- remove it from search/discovery surfaces
+- remove it from related lesson carousels
+- exclude it from sitemap output if appropriate
+- ensure direct access does not expose a thin public lesson
+
+C. If the lesson was intended to exist and enough source content already exists to finish it properly:
+- complete the lesson with real cohesive educational content
+- keep it in the correct nursing tier and category only
+- keep naming and formatting consistent with existing strong NurseNest lessons
+
+Do not randomly invent lesson placement.
+Do not guess at tier placement.
+Do not create duplicate versions of the same lesson across tiers unless that is already part of the intended architecture.
+
+4. TIER-SPECIFIC CONTENT QUALITY RULE
+Any lesson that remains public must be fully usable and appropriately written for its tier.
+
+RPN lessons should remain practical, foundational, safe, and exam-relevant for practical nursing learners.
+
+RN lessons should be more in-depth than RPN, with stronger emphasis on clinical judgment, broader assessment, prioritization, pathophysiology, and nursing management.
+
+NP lessons should be clearly more advanced, with expanded diagnostic reasoning, advanced assessment, management thinking, differential-style framing where appropriate, and advanced practice relevance.
+
+Any lesson that remains public should include, where appropriate for that topic:
+- clear overview
+- key concepts
+- pathophysiology or foundational explanation
+- signs and symptoms or assessment findings
+- nursing considerations
+- interventions/priorities/management
+- safety considerations
+- exam relevance where appropriate
+- consistent formatting with existing good NurseNest lessons
+
+Do not overbuild lower tiers to advanced levels.
+Do not underbuild higher tiers into thin content.
+
+5. UI / ROUTING / UX RULES
+Make sure:
+- no lesson card links to a blank page
+- no lesson page renders with empty content blocks
+- no duplicate lesson titles appear unless intentionally different by tier
+- no orphaned lessons remain in RPN, RN, or NP pages
+- no empty lesson appears in category tabs, featured rows, most tested sections, or search
+- browser navigation still works correctly
+- lesson routes resolve correctly in production
+- no lesson URL returns a white/blank render state
+- no hidden draft content leaks through public routes
+
+6. PAYWALL / ACCESS CONTROL
+Do not accidentally expose premium lesson content.
+
+If a lesson is premium:
+- keep gating intact
+- keep preview behavior consistent
+- do not allow bypass through related links, category pages, search, or empty stubs
+
+If an empty premium lesson exists, either:
+- connect the real premium content properly, or
+- hide/remove it until complete
+
+Check this for all three nursing tiers.
+
+7. SEO RULES
+Do not leave thin/empty lesson pages indexable.
+
+For any lesson removed from public access:
+- remove from sitemap if needed
+- clean internal links pointing to it
+- avoid indexable thin content
+- preserve proper canonical behavior
+
+For valid public lessons:
+- ensure title, route integrity, metadata, and canonical behavior remain correct
+
+8. TRANSLATION / LOCALIZATION SAFETY
+Do not break locale handling.
+
+If the lesson system is shared across locales:
+- preserve translation structure
+- do not create broken localized routes
+- ensure removing an empty lesson does not leave dangling translated links
+- ensure lesson cards and search surfaces stay in sync across locales
+
+9. ADMIN / CONTENT PIPELINE HARDENING
+After fixing the current empty lessons, add guardrails so this cannot happen again.
+
+Implement validation so lessons cannot appear publicly in RPN, RN, or NP unless minimum required fields are present, including:
+- valid title
+- valid slug
+- substantive body content
+- correct category assignment
+- correct tier assignment
+- explicit publish status
+- no placeholder markers
+- no null/empty render blocks
+
+If possible, add a safe filter in the public query layer so incomplete lessons are automatically excluded from public rendering even if they exist in admin.
+
+10. PRODUCTION VERIFICATION
+After fixes, verify all of the following for RPN, RN, and NP:
+- landing pages show no empty lesson cards
+- category/system pages show no empty lessons
+- direct lesson URLs do not show blank pages
+- search does not surface empty lessons
+- related lesson sections do not surface empty lessons
+- featured sections do not surface empty lessons
+- published site matches the corrected state, not just local/admin state
+
+11. FINAL OUTPUT REQUIRED
+When done, provide:
+- complete list of empty lessons found in RPN
+- complete list of empty lessons found in RN
+- complete list of empty lessons found in NP
+- whether each lesson was repaired, hidden, or removed
+- any broken mappings fixed
+- any validation rules added to prevent recurrence
+- any remaining content gaps that still need manual lesson writing
+- any routes or search surfaces that were exposing incomplete content
+
+IMPORTANT
+This must be a precise cleanup.
+Do not take liberties.
+Do not redesign the site.
+Do not touch the tiered menu architecture.
+Do not create new menu buckets.
+Only fix the empty lesson problem thoroughly and safely across RPN, RN, and NP, and make sure the published site reflects the fix.

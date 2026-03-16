@@ -1,0 +1,171 @@
+There are STILL empty lessons showing on the RPN tier and this must be fixed cleanly and permanently.
+
+You are working on the live NurseNest codebase.
+
+PRIMARY GOAL
+Audit the entire RPN tier and remove or repair every empty lesson so users never see placeholder lessons, blank lessons, broken lessons, or lesson cards that lead to thin/empty pages.
+
+This is not a cosmetic fix.
+This is a data integrity, UX, SEO, and trust fix.
+
+DO NOT:
+- create a new navigation structure
+- change the tiered menu system
+- move lessons into random new categories
+- add duplicate lessons
+- leave lessons published if they have no real content
+- create fake filler text
+- create “coming soon” pages in the live learning flow
+- break existing paywalls
+- break translations
+- break published production routes
+
+INSTRUCTIONS
+
+1. FULL RPN LESSON AUDIT
+Run a full audit of all RPN lesson sources and all RPN lesson render paths, including:
+- lesson index pages
+- system/category pages
+- lesson cards
+- featured lesson sections
+- search results
+- related lesson sections
+- sitemap-generated lesson URLs
+- any seeded/static/admin-generated lesson records
+- any CMS/database/API content feeding the RPN tier
+
+Find every RPN lesson that is:
+- empty
+- nearly empty
+- missing title/body mismatch
+- missing structured content blocks
+- missing slug target
+- unpublished but still visible
+- draft but accidentally exposed
+- pointing to a 404
+- pointing to a placeholder object
+- showing in UI even though content is incomplete
+
+2. DEFINE “EMPTY LESSON” STRICTLY
+A lesson must be considered empty if ANY of the following are true:
+- no substantive body content
+- body contains only title, heading, or one-line stub
+- placeholder text like lorem ipsum, “coming soon,” “TBD,” “draft,” etc.
+- missing lesson sections users would expect
+- missing key educational content while still visible publicly
+- broken content mapping causing blank render
+- content exists in admin but is not actually rendering on published site
+- slug resolves but lesson body is blank or thin
+
+3. FIX STRATEGY
+For each empty RPN lesson, do ONE of these only:
+A. If real content already exists elsewhere in the codebase/admin/database and mapping is broken:
+- reconnect it properly
+- ensure the correct content renders on the published site
+
+B. If the lesson is incomplete and should not yet be public:
+- fully remove it from all public lesson listings
+- remove it from search/discovery surfaces
+- remove it from related lesson carousels
+- exclude it from sitemap output if appropriate
+- ensure direct access does not expose a thin public lesson
+
+C. If the lesson was intended to exist and enough source content is available:
+- complete the lesson properly with real cohesive educational content
+- keep it in the correct RPN category only
+- keep naming consistent with existing NurseNest style
+
+Do not guess randomly. Use the safest production-quality fix for each lesson.
+
+4. RPN CONTENT QUALITY RULE
+Any RPN lesson that remains public must be fully usable and cohesive.
+It should include, where appropriate for that topic:
+- clear overview
+- key concepts
+- pathophysiology or foundational explanation at RPN level
+- signs/symptoms or assessment cues
+- nursing considerations
+- interventions/priorities
+- safety considerations
+- exam relevance where appropriate
+- consistent formatting with existing good NurseNest lessons
+
+Do not overbuild to RN/NP complexity.
+Keep it appropriate for practical nursing learners.
+
+5. UI / ROUTING / UX RULES
+Make sure:
+- no lesson card links to a blank page
+- no lesson page renders with empty content blocks
+- no duplicate lesson titles appear
+- no orphaned lessons remain in RPN pages
+- no empty lesson appears in category tabs, “most tested,” “featured,” or search
+- browser navigation still works correctly
+- lesson routes resolve correctly in production
+- no lesson URL returns a white/blank render state
+
+6. PAYWALL / ACCESS CONTROL
+Do not accidentally expose premium lesson content.
+If a lesson is premium:
+- keep gating intact
+- keep preview behavior consistent
+- do not allow bypass through related links, category pages, or empty stubs
+
+If an empty premium lesson exists, either:
+- connect the real premium content properly, or
+- hide/remove it until it is complete
+
+7. SEO RULES
+Do not let thin/empty lesson pages remain indexable.
+For any lesson removed from public access:
+- remove from sitemap if needed
+- avoid indexable thin content
+- clean internal links pointing to it
+
+For valid public lessons:
+- ensure title, canonical behavior, and route integrity remain correct
+
+8. TRANSLATION / LOCALIZATION SAFETY
+Do not break locale handling.
+If the lesson system is shared across locales:
+- preserve translation structure
+- do not generate broken localized routes
+- ensure removing an empty lesson in RPN does not create dangling translated lesson links
+
+9. ADMIN / CONTENT PIPELINE HARDENING
+After fixing current empty lessons, add guardrails so this does not happen again.
+
+Implement validation so lessons cannot appear publicly in RPN unless minimum required fields are present, such as:
+- valid title
+- valid slug
+- substantive body content
+- correct category/tier assignment
+- publish status explicitly enabled
+- no placeholder markers
+
+If possible, add a safe filter in the public query layer so incomplete lessons are automatically excluded from public rendering.
+
+10. PRODUCTION VERIFICATION
+After fixes, verify all of the following:
+- RPN landing page shows no empty lesson cards
+- RPN category/system pages show no empty lessons
+- direct lesson URLs do not show blank pages
+- search does not surface empty RPN lessons
+- related lesson sections do not surface empty RPN lessons
+- published site matches the corrected state, not just local/admin state
+
+11. FINAL OUTPUT REQUIRED
+When done, provide:
+- list of empty RPN lessons found
+- whether each was repaired, hidden, or removed
+- any broken mappings fixed
+- any validation rules added to prevent recurrence
+- any remaining high-risk content issues still needing manual content creation
+
+IMPORTANT
+This must be a precise cleanup.
+Do not take liberties.
+Do not redesign the site.
+Do not touch the tiered menu architecture.
+Do not create new menu buckets.
+Only fix the empty RPN lesson problem thoroughly and safely.
