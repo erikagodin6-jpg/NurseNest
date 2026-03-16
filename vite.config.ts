@@ -49,10 +49,6 @@ export default defineConfig({
       output: {
         manualChunks: undefined,
       },
-      treeshake: {
-        moduleSideEffects: false,
-        preset: "smallest",
-      },
     },
   },
   server: {
