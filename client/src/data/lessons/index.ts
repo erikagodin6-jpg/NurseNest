@@ -122,6 +122,7 @@ import { rrtLessonsExpanded } from "./rrt-lessons-expanded";
 import { rrtLessonsExpanded2 } from "./rrt-lessons-expanded-2";
 import { rrtLessonsExpanded3 } from "./rrt-lessons-expanded-3";
 import { mltLessonsExpanded } from "./mlt-lessons-expanded";
+import { mltLessonsExpanded2 } from "./mlt-lessons-expanded-2";
 
 import { rrtCardiacCriticalCareLessons } from "./rrt-cardiac-critical-care";
 import { paramedicCardiacCriticalCareLessons } from "./paramedic-cardiac-critical-care";
@@ -767,6 +768,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rrtLessonsExpanded2,
   rrtLessonsExpanded3,
   mltLessonsExpanded,
+  mltLessonsExpanded2,
   rrtCardiacCriticalCareLessons,
   paramedicCardiacCriticalCareLessons,
   imagingCardiacLessons,

@@ -11,6 +11,7 @@ import { pharmacyTechQuestionsBatch3 } from "./pharmacy-tech-questions-batch3";
 import { pharmacyTechQuestionsBatch4 } from "./pharmacy-tech-questions-batch4";
 import { pharmacyTechQuestionsPEBC } from "./pharmacy-tech-questions-pebc";
 import { mltQuestions } from "./mlt-questions";
+import { mltQuestionsBatch2 } from "./mlt-questions-batch2";
 import { imagingQuestions } from "./imaging-questions";
 import { otaQuestions } from "./ota-questions";
 import { ptaQuestions } from "./pta-questions";
@@ -19,7 +20,7 @@ const pools: Record<string, CareerQuestion[]> = {
   rrt: [...rrtQuestions, ...rrtQuestionsBatch1, ...rrtPharmacologyQuestions],
   paramedic: paramedicQuestions,
   pharmacyTech: [...pharmacyTechQuestions, ...pharmacyTechQuestionsExtended, ...pharmacyTechQuestionsBatch2, ...pharmacyTechQuestionsBatch3, ...pharmacyTechQuestionsBatch4, ...pharmacyTechQuestionsPEBC],
-  mlt: mltQuestions,
+  mlt: [...mltQuestions, ...mltQuestionsBatch2],
   imaging: imagingQuestions,
   occupationalTherapyAssistant: otaQuestions,
   physiotherapyAssistant: ptaQuestions,
