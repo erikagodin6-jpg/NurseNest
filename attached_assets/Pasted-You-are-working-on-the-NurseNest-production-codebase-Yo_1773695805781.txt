@@ -1,0 +1,257 @@
+You are working on the **NurseNest production codebase**.
+
+Your task is to **expand the question bank across ALL nursing tiers (RPN, RN, NP)** by increasing the number of **advanced exam-style question types used on modern nursing licensing exams**.
+
+These must mirror the **Next Generation NCLEX (NGN), REx-PN, and advanced NP board exams**.
+
+This task must **NOT replace existing questions** — it must **add additional questions to expand the bank**.
+
+Questions must be **distributed across all nursing specialties, systems, and exam categories** already present in the NurseNest taxonomy.
+
+---
+
+PRIMARY GOAL
+
+Increase the number of **advanced item types** so the platform mirrors real nursing exams.
+
+Each tier must contain large volumes of:
+
+• Bow-Tie Questions
+• Select-All-That-Apply (SATA)
+• Case Study Series
+• Drag-and-Drop / Ordered Response
+• Matrix / Multiple Response Grid
+• Highlight Text Questions
+• Drop-Down Clinical Judgment Questions
+• Trend Interpretation Questions
+• Standalone MCQs
+• Image-Based Clinical Questions
+
+---
+
+TARGET DISTRIBUTION
+
+Implement the following **minimum counts per tier**.
+
+RPN TIER (REx-PN style)
+
+MCQ: 3,000
+SATA: 1,200
+Bow Tie: 600
+Case Study Series: 400
+Drag and Drop: 400
+Matrix/Grid: 300
+Highlight Text: 300
+Trend Interpretation: 300
+Image Based: 300
+
+TOTAL TARGET: ~6,800 questions
+
+---
+
+RN TIER (NCLEX-RN + NGN)
+
+MCQ: 5,000
+SATA: 2,000
+Bow Tie: 1,200
+Case Study Series: 800
+Drag and Drop: 700
+Matrix/Grid: 600
+Highlight Text: 600
+Trend Interpretation: 600
+Image Based: 600
+
+TOTAL TARGET: ~11,500 questions
+
+---
+
+NP TIER (AANP / ANCC style)
+
+MCQ: 6,000
+SATA: 2,500
+Bow Tie: 1,500
+Case Study Series: 1,200
+Drag and Drop: 800
+Matrix/Grid: 700
+Highlight Text: 700
+Trend Interpretation: 700
+Image Based: 700
+
+TOTAL TARGET: ~14,800 questions
+
+---
+
+BOW-TIE QUESTION STRUCTURE
+
+Each Bow-Tie question must include:
+
+Clinical Scenario
+Patient Data
+3 Columns:
+
+1. Condition / Diagnosis
+2. Actions / Interventions
+3. Parameters to Monitor
+
+Example:
+
+Condition:
+• Hypovolemia
+• Sepsis
+• Pulmonary embolism
+• Anaphylaxis
+
+Actions:
+• Start IV fluids
+• Administer oxygen
+• Administer epinephrine
+• Elevate legs
+
+Parameters:
+• Blood pressure
+• Oxygen saturation
+• Urine output
+• Lactate
+
+---
+
+SATA QUESTION REQUIREMENTS
+
+All SATA questions must:
+
+• include 5–8 options
+• contain 2–5 correct answers
+• require clinical reasoning
+• avoid obvious distractors
+
+Topics should include:
+
+• pharmacology
+• prioritization
+• safety
+• pathophysiology
+• nursing interventions
+• lab interpretation
+• herbal / naturopathic medication interactions
+
+---
+
+CASE STUDY STRUCTURE
+
+Case studies must contain:
+
+Patient profile
+Assessment findings
+Vital signs
+Lab results
+Medication list
+
+Followed by **4–6 sequential questions** including:
+
+• SATA
+• Bow Tie
+• Matrix
+• MCQ
+
+---
+
+CONTENT DISTRIBUTION
+
+Questions must be evenly distributed across:
+
+Cardiology
+Respiratory
+Neurology
+Endocrine
+Renal
+GI
+Hematology
+Immunology
+Infectious Disease
+Maternal Newborn
+Pediatrics
+Mental Health
+Pharmacology
+Critical Care
+Emergency Nursing
+Community Health
+Geriatrics
+
+---
+
+NP-LEVEL ADDITIONS
+
+NP tier must include:
+
+Advanced differential diagnosis
+Diagnostic interpretation
+Treatment planning
+Primary care management
+Specialty pharmacology
+Evidence-based guidelines
+
+---
+
+IMAGE-BASED QUESTIONS
+
+Include:
+
+ECG interpretation
+X-ray findings
+Skin conditions
+Wound staging
+Medication identification
+Anatomy diagrams
+
+---
+
+EXAM ALIGNMENT
+
+All questions must align with:
+
+REx-PN blueprint
+NCLEX Client Needs categories
+NGN Clinical Judgment model
+NP exam domains (AANP / ANCC)
+
+---
+
+ADMIN SYSTEM REQUIREMENTS
+
+The admin question generator must support:
+
+questionType field:
+
+mcq
+sata
+bow_tie
+case_study
+drag_drop
+matrix
+highlight
+trend
+image
+
+Each question must include:
+
+difficulty
+system
+examBlueprintCategory
+rationale
+references
+
+---
+
+AI CONTENT GENERATION
+
+If AI generation is used:
+
+1. Validate clinical accuracy
+2. Ensure rationales explain WHY answers are correct
+3. Include evidence-based nursing references
+
+---
+
+FINAL GOAL
+
+Transform NurseNest into a **large-scale nursing exam bank with thousands of advanced clinical judgment questions**, matching the format and difficulty of modern nursing licensing and certification exams.
