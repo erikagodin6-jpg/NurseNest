@@ -5026,7 +5026,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
 
   const filteredSystem = useMemo(() => {
     if (isAdmin) return system;
-    if (!completeLessons || completeLessons.size === 0) return { ...system, diseases: [] };
+    if (!completeLessons || completeLessons.size === 0) return system;
     const filteredDiseases = system.diseases.filter((d: any) => completeLessons.has(d.id));
     if (filteredDiseases.length === system.diseases.length) return system;
     return { ...system, diseases: filteredDiseases };

@@ -278,7 +278,7 @@ export default function QBankExamPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite">
-      <ExamSessionGuard isActive={phase === "exam"} mode="cat" onSubmitAndExit={submitExam} />
+      <ExamSessionGuard isActive={phase === "exam"} mode="standard" onSubmitAndExit={submitExam} />
       <Navigation />
       <div className="mx-auto px-4 py-8 max-w-[820px]">
         {phase === "setup" && (

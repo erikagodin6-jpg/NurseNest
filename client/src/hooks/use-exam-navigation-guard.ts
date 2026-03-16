@@ -10,7 +10,7 @@ interface ExamGuardOptions {
 
 export function useExamNavigationGuard({ isActive, mode, onSubmitAndExit }: ExamGuardOptions) {
   const [showLeaveModal, setShowLeaveModal] = useState(false);
-  const isGuarded = isActive && mode === "cat";
+  const isGuarded = isActive && (mode === "cat" || mode === "standard");
   const guardedRef = useRef(isGuarded);
   guardedRef.current = isGuarded;
   const pushCountRef = useRef(0);

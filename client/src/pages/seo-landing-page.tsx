@@ -340,7 +340,7 @@ function BreadcrumbNav({ breadcrumbs, slug }: { breadcrumbs: BreadcrumbItem[]; s
 }
 
 export default function SeoLandingPage({ slug: propSlug }: { slug?: string } = {}) {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const [page, setPage] = useState<SeoLandingPageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
