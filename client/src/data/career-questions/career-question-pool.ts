@@ -26,6 +26,24 @@ import { surgicalTechnologistQuestionsPart3 } from "./surgical-technologist-ques
 import { surgicalTechnologistQuestionsPart4 } from "./surgical-technologist-questions-4";
 import { surgicalTechnologistQuestionsPart5 } from "./surgical-technologist-questions-5";
 import { surgicalTechnologistQuestionsPart6 } from "./surgical-technologist-questions-6";
+import { ptaQuestionsBatch1 } from "./pta-questions-batch1";
+import { ptaQuestionsBatch2 } from "./pta-questions-batch2";
+import { ptaQuestionsBatch3 } from "./pta-questions-batch3";
+import { ptaQuestionsBatch4 } from "./pta-questions-batch4";
+import { ptaQuestionsBatch5 } from "./pta-questions-batch5";
+import { ptaQuestionsBatch6 } from "./pta-questions-batch6";
+import { ptaQuestionsBatch7 } from "./pta-questions-batch7";
+import { ptaQuestionsBatch8 } from "./pta-questions-batch8";
+import { ptaQuestionsBatch9 } from "./pta-questions-batch9";
+import { ptaQuestionsBatch10 } from "./pta-questions-batch10";
+import { ptaQuestionsBatch11 } from "./pta-questions-batch11";
+import { ptaQuestionsBatch12 } from "./pta-questions-batch12";
+import { ptaQuestionsBatch13 } from "./pta-questions-batch13";
+import { ptaQuestionsBatch14 } from "./pta-questions-batch14";
+import { ptaQuestionsBatch15 } from "./pta-questions-batch15";
+import { ptaQuestionsBatch16 } from "./pta-questions-batch16";
+import { ptaQuestionsBatch17 } from "./pta-questions-batch17";
+import { ptaQuestionsBatch18 } from "./pta-questions-batch18";
 
 const pools: Record<string, CareerQuestion[]> = {
   rrt: [...rrtQuestions, ...rrtQuestionsBatch1, ...rrtQuestionsBatch2, ...rrtQuestionsBatch3, ...rrtPharmacologyQuestions],
@@ -35,8 +53,8 @@ const pools: Record<string, CareerQuestion[]> = {
   imaging: imagingQuestions,
   occupationalTherapyAssistant: otaQuestions,
   occupationalTherapy: otaQuestions,
-  physiotherapyAssistant: ptaQuestions,
-  physicalTherapy: ptaQuestions,
+  physiotherapyAssistant: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],
+  physicalTherapy: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],
   surgicalTechnologist: [...surgicalTechnologistQuestions, ...surgicalTechnologistQuestionsPart2, ...surgicalTechnologistQuestionsPart3, ...surgicalTechnologistQuestionsPart4, ...surgicalTechnologistQuestionsPart5, ...surgicalTechnologistQuestionsPart6],
   healthInfoMgmt: himQuestions,
   diagnosticSonography: sonographyQuestions,

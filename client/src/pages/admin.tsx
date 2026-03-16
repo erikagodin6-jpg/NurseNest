@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { NEXT_BUILD_PRIORITY, BUILD_PRIORITY_META } from "@shared/tier-config";
+import { getQuestionCount } from "@/data/career-questions/question-counts";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -1629,6 +1631,36 @@ export default function AdminPage() {
               {/* Overview Tab */}
               {activeTab === "overview" && (
                 <div className="space-y-6">
+                  <Card className="border-2 border-teal-300 bg-gradient-to-r from-teal-50 to-emerald-50" data-testid="card-build-priority">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+                            <Zap className="w-5 h-5 text-teal-600" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold text-teal-800">NEXT_BUILD_PRIORITY: {NEXT_BUILD_PRIORITY.toUpperCase()}</div>
+                            <div className="text-xs text-teal-600">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].label} — Full Tier Expansion</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs">
+                          <div className="text-center">
+                            <div className="font-bold text-teal-700">{getQuestionCount(BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].slug).toLocaleString()}</div>
+                            <div className="text-teal-500">Questions</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-bold text-teal-700">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].targetCategories}</div>
+                            <div className="text-teal-500">Domains</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-bold text-teal-700">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].targetMockExams}</div>
+                            <div className="text-teal-500">Mock Exams</div>
+                          </div>
+                          <Badge className="bg-teal-200 text-teal-800 border-teal-300">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].status === "in-progress" ? "In Progress" : "Complete"}</Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="section-kpi">
                     {[
                       { label: "Total Users", value: data.overview.totalUsers, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T21:03:16.466Z",
+  "generatedAt": "2026-03-16T22:10:57.224Z",
   "version": 1,
   "static": {
     "alliedHealth": {
@@ -149,18 +149,52 @@
         ]
       },
       "physiotherapyAssistant": {
-        "total": 900,
+        "total": 2002,
         "byCategory": {
-          "Clinical Scenarios": 297,
-          "Therapeutic Intervention": 287,
-          "Safety": 149,
-          "Patient Care Planning": 167
+          "Musculoskeletal Rehabilitation": 350,
+          "Neurological Rehabilitation": 200,
+          "Cardiopulmonary Physical Therapy": 75,
+          "Pediatric Rehabilitation": 95,
+          "Geriatric Rehabilitation": 90,
+          "Therapeutic Modalities": 60,
+          "Gait Training & Assistive Devices": 100,
+          "Patient Safety & Body Mechanics": 100,
+          "Documentation & Communication": 50,
+          "Ethics & Professional Practice": 80,
+          "Integumentary & Wound Care": 57,
+          "Prosthetics & Orthotics": 65,
+          "Biomechanics & Kinesiology": 61,
+          "Pain Management": 60,
+          "Evidence-Based Practice": 60,
+          "Therapeutic Exercise": 186,
+          "Data Collection & Measurement": 55,
+          "Patient Education & Home Programs": 60,
+          "Pharmacology for PTAs": 56,
+          "Clinical Prioritization & Workflow": 42
         },
         "byFormat": {
-          "MCQ": 900
+          "MCQ": 2002
         },
         "files": [
-          "pta-questions.ts"
+          "pta-questions.ts",
+          "pta-questions-batch1.ts",
+          "pta-questions-batch2.ts",
+          "pta-questions-batch3.ts",
+          "pta-questions-batch4.ts",
+          "pta-questions-batch5.ts",
+          "pta-questions-batch6.ts",
+          "pta-questions-batch7.ts",
+          "pta-questions-batch8.ts",
+          "pta-questions-batch9.ts",
+          "pta-questions-batch10.ts",
+          "pta-questions-batch11.ts",
+          "pta-questions-batch12.ts",
+          "pta-questions-batch13.ts",
+          "pta-questions-batch14.ts",
+          "pta-questions-batch15.ts",
+          "pta-questions-batch16.ts",
+          "pta-questions-batch17.ts",
+          "pta-questions-batch18.ts"
         ]
       },
       "psychotherapist": {
@@ -1054,7 +1088,8 @@
     "nursingStatic": 6139,
     "nursingCertStatic": 2500,
     "databaseGenerated": 29311,
-    "publicTotal": 12846
+    "publicTotal": 20087,
+    "alliedHealthTotal": 11448
   },
   "integrity": {
     "fileCount": 225,

@@ -90,7 +90,7 @@ export const ALLIED_HEALTH_CAREERS: AlliedCareerGoal[] = [
   { label: "Pharmacy Technician", goalQuestions: 4000, route: "/allied-health/pharmacy-tech", tier: "major" },
   { label: "Paramedic", goalQuestions: 4000, route: "/allied-health/paramedic", tier: "major" },
   { label: "OTA", goalQuestions: 2500, route: "/allied-health/occupational-therapy-assistant", tier: "mid" },
-  { label: "PTA", goalQuestions: 2500, route: "/allied-health/physiotherapy-assistant", tier: "mid" },
+  { label: "PTA", goalQuestions: 2500, route: "/allied-health/physiotherapy-assistant", tier: "major" },
   { label: "Social Worker", goalQuestions: 3500, route: "/allied-health/social-work", tier: "mid" },
   { label: "Addictions Counsellor", goalQuestions: 2000, route: "/allied-health/addictions-counsellor", tier: "mid" },
   { label: "Psychotherapist", goalQuestions: 2000, route: "/allied-health/psychotherapy", tier: "mid" },

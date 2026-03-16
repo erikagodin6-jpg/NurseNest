@@ -1,5 +1,18 @@
 import { type Region, getPracticalNurseExamName } from "./constants";
 
+export const NEXT_BUILD_PRIORITY = "pta" as const;
+
+export const BUILD_PRIORITY_META = {
+  pta: {
+    label: "Physical Therapist Assistant (PTA)",
+    slug: "physiotherapy-assistant",
+    targetQuestions: 2500,
+    targetMockExams: 5,
+    targetCategories: 20,
+    status: "in-progress" as const,
+  },
+} as const;
+
 export type ExamTier = "free" | "rpn" | "rn" | "np" | "allied" | "newgrad" | "admin";
 
 export interface TierDifficultyDistribution {

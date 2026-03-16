@@ -97,6 +97,7 @@ const CareerCareerGuidePage = lazy(() => import("./components/career-career-guid
 import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
 const MltSEOPage = lazy(() => import("./pages/mlt-seo-pages").then(m => ({ default: m.MltSEOPage })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
+const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
 const UnderservedSEOPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.UnderservedSEOPage })));
 const OTQuestionBankPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.OTQuestionBankPage })));
@@ -536,6 +537,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/occupational-therapy-assistant/career-guide">{() => <CareerGuideSubpage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["occupational-therapy-assistant"]} />}</Route>
 
+        <Route path="/allied-health/physiotherapy-assistant/topic/:slug">{() => <Suspense fallback={<div />}><PtaTopicBankPage /></Suspense>}</Route>
         <Route path="/allied-health/physiotherapy-assistant/lessons">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="lessons" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/practice-questions">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="practice-questions" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/mock-exam">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="mock-exam" />}</Route>
