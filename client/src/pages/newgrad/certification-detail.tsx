@@ -84,7 +84,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">New Grad Hub</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href="/newgrad/certifications" className="hover:text-blue-600">Certifications</Link>
             <ChevronRight className="w-3.5 h-3.5" />

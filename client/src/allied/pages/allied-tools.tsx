@@ -46,8 +46,8 @@ export default function AlliedToolsPage() {
           <span className="text-teal-700 font-medium">AI Tools</span>
         </div>
         <ComingSoonFallback
-          title={`${career.shortName} AI Tools Coming Soon`}
-          description={`Interactive AI-powered study tools for ${career.shortName} exam preparation are being developed. Check back soon for calculators, simulators, and practice engines.`}
+          title={`${career.shortName} AI Tools — In Development`}
+          description={`Interactive AI-powered study tools for ${career.shortName} exam preparation are being developed by our team of certified professionals.`}
           careerSlug={career.slug}
         />
       </div>
@@ -107,7 +107,7 @@ export default function AlliedToolsPage() {
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-900 mb-1">{tool.name}</h3>
                 <p className="text-sm text-gray-500 mb-4">{tool.description}</p>
-                <span className="text-xs text-gray-400 font-medium">Coming Soon</span>
+                <span className="text-xs text-gray-400 font-medium">In Development</span>
               </div>
             </div>
           </div>

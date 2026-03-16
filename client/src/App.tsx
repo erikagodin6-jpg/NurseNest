@@ -186,7 +186,7 @@ const ApplyNestInterviewPrep = lazy(() => import("@/pages/applynest-interview-pr
 const ApplyNestJobSearchGuide = lazy(() => import("@/pages/applynest-job-search-guide"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
-const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
+const NewGradHub = lazy(() => import("@/pages/newgrad/newgrad-hub"));
 const NewGradProfessionHub = lazy(() => import("@/pages/new-grad/profession-hub-page"));
 const FirstYearGuidePage = lazy(() => import("@/pages/new-grad/first-year-guide-page"));
 const ClinicalSkillsGuidePage = lazy(() => import("@/pages/new-grad/clinical-skills-guide-page"));
@@ -592,7 +592,7 @@ function AppRoutes() {
         <Route path="/newgrad/burnout" component={NewGradBurnoutPage} />
         <Route path="/newgrad/salary" component={NewGradSalaryPage} />
         <Route path="/newgrad/professional-development" component={NewGradProfDevPage} />
-        <Route path="/newgrad"><Redirect to="/new-grad" /></Route>
+        <Route path="/newgrad" component={NewGradHub} />
         <Route path="/new-grad/faq" component={NewGradFAQPage} />
         <Route path="/new-grad/first-year-nurse-survival-guide">{() => <SeoLandingBySlug slug="new-grad/first-year-nurse-survival-guide" />}</Route>
         <Route path="/new-grad/new-nurse-orientation-tips">{() => <SeoLandingBySlug slug="new-grad/new-nurse-orientation-tips" />}</Route>
@@ -604,7 +604,7 @@ function AppRoutes() {
           }
           return <NewGradProfessionHub />;
         }}</Route>
-        <Route path="/new-grad" component={NewGradHub} />
+        <Route path="/new-grad">{() => <Redirect to="/newgrad" />}</Route>
         <Route path="/exam-prep" component={ExamPrepHub} />
         <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
         <Route path="/healthcare-careers" component={HealthcareCareersHub} />

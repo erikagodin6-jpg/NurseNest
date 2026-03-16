@@ -62,8 +62,8 @@ export default function AlliedMockExamsPage() {
           <span className="text-teal-700 font-medium">Mock Exams</span>
         </div>
         <ComingSoonFallback
-          title={`${career.shortName} Mock Exams Coming Soon`}
-          description={`Blueprint-weighted mock exams for ${career.shortName} certification are being developed by our team. Check back soon for full-length practice tests.`}
+          title={`${career.shortName} Mock Exams — In Development`}
+          description={`Blueprint-weighted mock exams for ${career.shortName} certification are being developed by our team of certified professionals.`}
           careerSlug={career.slug}
         />
       </div>

@@ -50,7 +50,7 @@ export default function CareerFlashcardsIndexPage({ hubData, flashcardDecks }: C
   const faqStructuredData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": hubData.faqs.slice(0, 3).map(faq => ({
+    "mainEntity": (hubData.faqs || []).slice(0, 3).map(faq => ({
       "@type": "Question",
       "name": faq.q,
       "acceptedAnswer": { "@type": "Answer", "text": faq.a },
@@ -167,8 +167,8 @@ function DeckCard({ deck, color, colorAccent, featured }: { deck: FlashcardDeck;
         <Layers className="w-3 h-3" /> {deck.cardCount} cards
       </div>
       <div className="mt-3 pt-3 border-t border-gray-50">
-        <span className="text-xs font-medium flex items-center gap-1 cursor-default" style={{ color }}>
-          Coming Soon <ArrowRight className="w-3 h-3" />
+        <span className="text-xs text-gray-400 font-medium">
+          {deck.cardCount} cards
         </span>
       </div>
     </div>

@@ -90,7 +90,7 @@ export default function CareerStudyPage({ careerSlug }: CareerStudyPageProps) {
                 <h3 className="font-semibold text-gray-900 mb-2">{topic.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{topic.description}</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium mt-3 group-hover:gap-2 transition-all" style={{ color: hubData.color }}>
-                  Coming Soon <ArrowRight className="w-3.5 h-3.5" />
+                  View Details <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
             );

@@ -285,7 +285,7 @@ export default function AlliedHealthProfessionPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm">Articles for {profession.shortName} are coming soon. Check back later for in-depth guides and resources.</p>
+              <p className="text-gray-500 text-sm">In-depth articles and guides for {profession.shortName} are currently being developed by our team of certified professionals.</p>
               <Link href="/allied-health" className="inline-flex items-center gap-2 mt-4 text-teal-600 text-sm font-medium hover:text-teal-700" data-testid="link-browse-professions">
                 Browse All Professions <ArrowRight className="w-3.5 h-3.5" />
               </Link>

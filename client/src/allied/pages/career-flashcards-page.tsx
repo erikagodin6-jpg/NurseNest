@@ -99,7 +99,7 @@ export default function CareerFlashcardsPage({ careerSlug }: CareerFlashcardsPag
                 <h3 className="font-semibold text-gray-900 mb-2">{deck.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed mb-3">{deck.description}</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium group-hover:gap-2 transition-all" style={{ color: hubData.color }}>
-                  Coming Soon <ArrowRight className="w-3.5 h-3.5" />
+                  View Details <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
             );

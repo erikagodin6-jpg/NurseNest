@@ -250,8 +250,8 @@ export default function NewGradHub() {
             <Link href="/newgrad/guides" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors" data-testid="button-bottom-guides">
               Browse Free Guides
             </Link>
-            <Link href="/new-grad" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-bottom-profession-hub">
-              Profession-Specific Hub <ArrowRight className="w-4 h-4" />
+            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-bottom-clinical-references">
+              Clinical References <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

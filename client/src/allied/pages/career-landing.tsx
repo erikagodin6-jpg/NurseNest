@@ -79,7 +79,7 @@ export default function CareerLandingPage() {
     );
   }
 
-  const faqItems = hubData?.faq.map(f => ({ q: f.question, a: f.answer })) || GENERIC_FAQ_DATA;
+  const faqItems = hubData?.faq?.map(f => ({ q: f.question, a: f.answer })) || GENERIC_FAQ_DATA;
 
   return (
     <div data-testid={`career-landing-${career.slug}`}>

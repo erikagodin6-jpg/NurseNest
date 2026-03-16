@@ -119,8 +119,8 @@ export default function AlliedFlashcardsPage() {
             <span className="text-primary font-medium">Flashcards</span>
           </div>
           <ComingSoonFallback
-            title={`${career.shortName} Flashcards Coming Soon`}
-            description={`Spaced repetition flashcard decks for ${career.shortName} exam preparation are being developed by our team of certified professionals. Check back soon for updates.`}
+            title={`${career.shortName} Flashcards — In Development`}
+            description={`Spaced repetition flashcard decks for ${career.shortName} exam preparation are being developed by our team of certified professionals.`}
             careerSlug={career.slug}
           />
         </div>

@@ -53,7 +53,7 @@ export default function CareerStudyIndexPage({ hubData, studyTopics, featuredTop
   const faqStructuredData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": hubData.faqs.slice(0, 3).map(faq => ({
+    "mainEntity": (hubData.faqs || []).slice(0, 3).map(faq => ({
       "@type": "Question",
       "name": faq.q,
       "acceptedAnswer": { "@type": "Answer", "text": faq.a },
@@ -193,8 +193,8 @@ function TopicCard({ topic, color, colorAccent, basePath, featured }: { topic: S
         {topic.topicCount && <span className="flex items-center gap-1"><BarChart3 className="w-3 h-3" /> {topic.topicCount} concepts</span>}
       </div>
       <div className="mt-3 pt-3 border-t border-gray-50">
-        <span className="text-xs font-medium flex items-center gap-1 cursor-default" style={{ color }}>
-          Coming Soon <ArrowRight className="w-3 h-3" />
+        <span className="text-xs text-gray-400 font-medium">
+          {topic.topicCount ? `${topic.topicCount} concepts` : topic.estimatedTime}
         </span>
       </div>
     </div>

@@ -93,7 +93,7 @@ export default function CareerExamsPage({ careerSlug }: CareerExamsPageProps) {
                   </div>
                   <div className="flex-shrink-0 self-center">
                     <span className="inline-flex items-center gap-1 text-sm font-medium group-hover:gap-2 transition-all" style={{ color: hubData.color }}>
-                      Coming Soon <ArrowRight className="w-4 h-4" />
+                      View Details <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
                 </div>

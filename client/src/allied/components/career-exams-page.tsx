@@ -206,8 +206,8 @@ function ExamCard({ entry, color, colorAccent }: { entry: ExamEntry; color: stri
             <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {entry.timeLimit}</span>
           </div>
         </div>
-        <span className="text-xs font-medium flex items-center gap-1 cursor-default whitespace-nowrap mt-1" style={{ color }}>
-          Coming Soon <ArrowRight className="w-3 h-3" />
+        <span className="text-xs text-gray-400 font-medium whitespace-nowrap mt-1">
+          {entry.questionCount} questions
         </span>
       </div>
     </div>
