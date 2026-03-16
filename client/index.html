@@ -98,27 +98,28 @@
   <body class="h-full">
     <script>
     (function(){
-      var REQUIRED='nursenest-v6';
-      if(!('serviceWorker' in navigator))return;
-      if(sessionStorage.getItem('sw_purged'))return;
-      function purge(reg){
-        sessionStorage.setItem('sw_purged','1');
-        caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})});
-        reg.unregister().then(function(){location.reload()});
+      var REQUIRED='nursenest-v7';
+      if(sessionStorage.getItem('sw_purged_v7'))return;
+      if('caches' in window){
+        caches.keys().then(function(n){
+          if(n.length>0){
+            sessionStorage.setItem('sw_purged_v7','1');
+            n.forEach(function(k){caches.delete(k)});
+            if('serviceWorker' in navigator){
+              navigator.serviceWorker.getRegistrations().then(function(regs){
+                Promise.all(regs.map(function(r){return r.unregister()})).then(function(){location.reload()});
+              });
+            } else { location.reload(); }
+          }
+        });
       }
-      navigator.serviceWorker.getRegistration().then(function(reg){
-        if(!reg)return;
-        var sw=reg.active||reg.waiting||reg.installing;
-        if(!sw)return;
-        var ch=new MessageChannel();
-        var timeout=setTimeout(function(){purge(reg)},2000);
-        ch.port1.onmessage=function(e){
-          clearTimeout(timeout);
-          if(e.data&&e.data.version===REQUIRED)return;
-          purge(reg);
-        };
-        sw.postMessage({type:'VERSION_CHECK'},[ch.port2]);
-      }).catch(function(){});
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistration().then(function(reg){
+          if(!reg)return;
+          sessionStorage.setItem('sw_purged_v7','1');
+          reg.unregister().then(function(){location.reload()});
+        }).catch(function(){});
+      }
     })();
     </script>
     <!-- Google Tag Manager (noscript) -->
@@ -128,23 +129,43 @@
     <div id="root" class="h-full"></div>
     <script>
     window.__bootErrors = [];
+    function nnNukeAndReload() {
+      if (sessionStorage.getItem('nn_recovering')) return;
+      sessionStorage.setItem('nn_recovering', '1');
+      var p = [];
+      if ('caches' in window) {
+        p.push(caches.keys().then(function(names) {
+          return Promise.all(names.map(function(n) { return caches.delete(n); }));
+        }));
+      }
+      if ('serviceWorker' in navigator) {
+        p.push(navigator.serviceWorker.getRegistrations().then(function(regs) {
+          return Promise.all(regs.map(function(r) { return r.unregister(); }));
+        }));
+      }
+      Promise.all(p).then(function() {
+        location.reload();
+      }).catch(function() {
+        location.reload();
+      });
+    }
     window.addEventListener('error', function(e) {
       window.__bootErrors.push(e.message + ' at ' + (e.filename||'') + ':' + (e.lineno||''));
-      try {
-        var b = new Blob([JSON.stringify({step:'JS_ERROR', detail: e.message + ' | ' + (e.filename||'') + ':' + (e.lineno||'')})], {type:'application/json'});
-        navigator.sendBeacon('/api/boot-beacon', b);
-      } catch(x){}
+      var isAssetError = (e.filename || '').indexOf('/assets/') !== -1;
+      if (isAssetError) {
+        nnNukeAndReload();
+        return;
+      }
       var r = document.getElementById('root');
       if (r && !r.children.length) {
-        r.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h1 style="color:#dc2626">Page failed to load</h1><p>' + e.message + '</p><p>' + (e.filename||'') + ':' + (e.lineno||'') + '</p><button onclick="location.reload()" style="margin-top:12px;padding:8px 24px;background:#7c3aed;color:white;border:none;border-radius:6px;cursor:pointer">Reload</button></div>';
+        r.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h1 style="color:#dc2626">Page failed to load</h1><p>' + e.message + '</p><button onclick="sessionStorage.removeItem(\'nn_recovering\');location.reload()" style="margin-top:12px;padding:8px 24px;background:#7c3aed;color:white;border:none;border-radius:6px;cursor:pointer">Reload</button></div>';
       }
     });
     window.addEventListener('unhandledrejection', function(e) {
       var msg = e.reason ? (e.reason.message || String(e.reason)) : 'Unknown';
-      try {
-        var b = new Blob([JSON.stringify({step:'UNHANDLED_REJECTION', detail: msg})], {type:'application/json'});
-        navigator.sendBeacon('/api/boot-beacon', b);
-      } catch(x){}
+      if (msg.indexOf('/assets/') !== -1 || msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('Load failed') !== -1) {
+        nnNukeAndReload();
+      }
     });
     </script>
     <script type="module" src="/src/main.tsx"></script>
