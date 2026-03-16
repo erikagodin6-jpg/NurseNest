@@ -98,27 +98,24 @@
   <body class="h-full">
     <script>
     (function(){
-      var REQUIRED='nursenest-v7';
-      if(sessionStorage.getItem('sw_purged_v7'))return;
+      if(sessionStorage.getItem('sw_purged_v8'))return;
+      var needsReload=false;
+      var tasks=[];
       if('caches' in window){
-        caches.keys().then(function(n){
-          if(n.length>0){
-            sessionStorage.setItem('sw_purged_v7','1');
-            n.forEach(function(k){caches.delete(k)});
-            if('serviceWorker' in navigator){
-              navigator.serviceWorker.getRegistrations().then(function(regs){
-                Promise.all(regs.map(function(r){return r.unregister()})).then(function(){location.reload()});
-              });
-            } else { location.reload(); }
-          }
-        });
+        tasks.push(caches.keys().then(function(n){
+          if(n.length>0){needsReload=true;return Promise.all(n.map(function(k){return caches.delete(k)}));}
+        }));
       }
       if('serviceWorker' in navigator){
-        navigator.serviceWorker.getRegistration().then(function(reg){
-          if(!reg)return;
-          sessionStorage.setItem('sw_purged_v7','1');
-          reg.unregister().then(function(){location.reload()});
-        }).catch(function(){});
+        tasks.push(navigator.serviceWorker.getRegistrations().then(function(regs){
+          if(regs.length>0){needsReload=true;return Promise.all(regs.map(function(r){return r.unregister()}));}
+        }));
+      }
+      if(tasks.length>0){
+        Promise.all(tasks).then(function(){
+          sessionStorage.setItem('sw_purged_v8','1');
+          if(needsReload)location.reload();
+        }).catch(function(){sessionStorage.setItem('sw_purged_v8','1');});
       }
     })();
     </script>
@@ -129,42 +126,26 @@
     <div id="root" class="h-full"></div>
     <script>
     window.__bootErrors = [];
-    function nnNukeAndReload() {
-      if (sessionStorage.getItem('nn_recovering')) return;
-      sessionStorage.setItem('nn_recovering', '1');
-      var p = [];
-      if ('caches' in window) {
-        p.push(caches.keys().then(function(names) {
-          return Promise.all(names.map(function(n) { return caches.delete(n); }));
-        }));
-      }
-      if ('serviceWorker' in navigator) {
-        p.push(navigator.serviceWorker.getRegistrations().then(function(regs) {
-          return Promise.all(regs.map(function(r) { return r.unregister(); }));
-        }));
-      }
-      Promise.all(p).then(function() {
-        location.reload();
-      }).catch(function() {
-        location.reload();
-      });
+    window.__reactRendered = false;
+    setTimeout(function() {
+      if (window.__reactRendered) return;
+      var r = document.getElementById('root');
+      if (r && r.children.length > 0) { window.__reactRendered = true; return; }
+      var errs = window.__bootErrors.length > 0 ? window.__bootErrors.join('; ') : 'No JavaScript errors detected';
+      r.innerHTML = '<div style="padding:40px;font-family:sans-serif;max-width:500px;margin:0 auto"><h1 style="color:#7c3aed;font-size:20px">NurseNest is loading...</h1><p style="color:#64748b;margin:12px 0">If this message persists, your browser may have outdated cached files.</p><p style="color:#94a3b8;font-size:13px;margin:8px 0">Debug: '+errs+'</p><button onclick="clearAndReload()" style="margin-top:12px;padding:10px 28px;background:#7c3aed;color:white;border:none;border-radius:8px;cursor:pointer;font-size:15px">Clear Cache and Reload</button></div>';
+    }, 8000);
+    function clearAndReload() {
+      var p=[];
+      if('caches' in window)p.push(caches.keys().then(function(n){return Promise.all(n.map(function(k){return caches.delete(k)}))}));
+      if('serviceWorker' in navigator)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(reg){return reg.unregister()}))}));
+      sessionStorage.clear();
+      Promise.all(p).then(function(){location.href=location.pathname+'?_cb='+Date.now()}).catch(function(){location.href=location.pathname+'?_cb='+Date.now()});
     }
     window.addEventListener('error', function(e) {
       window.__bootErrors.push(e.message + ' at ' + (e.filename||'') + ':' + (e.lineno||''));
-      var isAssetError = (e.filename || '').indexOf('/assets/') !== -1;
-      if (isAssetError) {
-        nnNukeAndReload();
-        return;
-      }
       var r = document.getElementById('root');
       if (r && !r.children.length) {
-        r.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h1 style="color:#dc2626">Page failed to load</h1><p>' + e.message + '</p><button onclick="sessionStorage.removeItem(\'nn_recovering\');location.reload()" style="margin-top:12px;padding:8px 24px;background:#7c3aed;color:white;border:none;border-radius:6px;cursor:pointer">Reload</button></div>';
-      }
-    });
-    window.addEventListener('unhandledrejection', function(e) {
-      var msg = e.reason ? (e.reason.message || String(e.reason)) : 'Unknown';
-      if (msg.indexOf('/assets/') !== -1 || msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('Load failed') !== -1) {
-        nnNukeAndReload();
+        r.innerHTML = '<div style="padding:40px;font-family:sans-serif"><h1 style="color:#dc2626">Page failed to load</h1><p>' + e.message + '</p><button onclick="clearAndReload()" style="margin-top:12px;padding:8px 24px;background:#7c3aed;color:white;border:none;border-radius:6px;cursor:pointer">Clear Cache and Reload</button></div>';
       }
     });
     </script>

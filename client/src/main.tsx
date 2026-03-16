@@ -9,3 +9,4 @@ if ('serviceWorker' in navigator) {
 }
 
 createRoot(document.getElementById("root")!).render(<App />);
+(window as any).__reactRendered = true;
