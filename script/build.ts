@@ -151,20 +151,7 @@ async function buildAll() {
   log("building i18n...");
   await compileI18n();
 
-  log("building client (vite)...");
-  await viteBuild();
-
-  log("client done — building server (esbuild)...");
-  await buildServer();
-
-  log("server done");
-
-  log("removing bundled assets...");
-  await Promise.all([
-    rm("dist/public/videos", { recursive: true, force: true }),
-    rm("dist/public/translations", { recursive: true, force: true }),
-  ]);
-
+  log("building client + server in parallel...");
   const lessonsDir = path.resolve("client/src/data/lessons");
   const npBatchFiles = (await readdir(lessonsDir))
     .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
@@ -172,16 +159,24 @@ async function buildAll() {
     .sort((a: number, b: number) => a - b);
   log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
 
-  log("copying seed data...");
-  await copySeedData();
+  await Promise.all([
+    viteBuild().then(() => log("client done")),
+    buildServer().then(() => log("server done")),
+    buildLessonsData().then(async () => {
+      log("lessons data done");
+      for (const i of npBatchFiles) {
+        await buildNpBatch(i);
+      }
+      log("np batches done");
+    }),
+    copySeedData().then(() => log("seed data done")),
+  ]);
 
-  log("building lessons data...");
-  await buildLessonsData();
-
-  log("building np batches sequentially...");
-  for (const i of npBatchFiles) {
-    await buildNpBatch(i);
-  }
+  log("removing bundled assets...");
+  await Promise.all([
+    rm("dist/public/videos", { recursive: true, force: true }),
+    rm("dist/public/translations", { recursive: true, force: true }),
+  ]);
 
   log(`build complete`);
 }
