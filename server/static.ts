@@ -38,6 +38,15 @@ export function serveStatic(app: Express) {
   );
 
   app.use("/assets/{*path}", (req, res) => {
+    if (req.path.endsWith(".js")) {
+      res.status(200).type("text/javascript").send(
+        `if(!sessionStorage.getItem("_nnr")){sessionStorage.setItem("_nnr","1");` +
+        `if(typeof caches!=="undefined")caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})});` +
+        `if(navigator.serviceWorker)navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(w){w.unregister()})});` +
+        `setTimeout(function(){location.href=location.pathname+"?_r="+Date.now()},100)}`
+      );
+      return;
+    }
     res.status(404).type("text/plain").send("Asset not found");
   });
 
