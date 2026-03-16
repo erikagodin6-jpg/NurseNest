@@ -4697,11 +4697,8 @@ export const rnFlashcards: FlashcardData[] = [
   ...rnPathoCardioNeuroFlashcards,
   ...rnRespRenalFlashcards,
   ...rnRespRenalFlashcardsBatch2,
-<<<<<<< HEAD
   ...rnPathoExpansionFlashcards,
   ...rnShockCriticalFlashcards,
   ...rnArrhythmiasChdAnticoagFlashcards,
-=======
   ...rnGiCancerPedsIntegFlashcards,
->>>>>>> 0c49018b (Add new nursing education content for various RN topics)
 ];
