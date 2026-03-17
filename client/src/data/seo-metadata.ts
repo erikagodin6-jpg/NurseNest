@@ -112,6 +112,16 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Consultez notre glossaire complet de termes infirmiers et médicaux. Définitions claires pour la terminologie utilisée en soins infirmiers et aux examens.",
     keywords: "glossaire infirmier, terminologie médicale, définitions soins infirmiers, vocabulaire infirmier",
   },
+  "/medical-abbreviations-for-nurses": {
+    title: "Abréviations Médicales pour Infirmières – Guide Terminologie Clinique | NurseNest",
+    description: "Guide complet des abréviations médicales et de la terminologie clinique pour infirmières. Apprenez SBAR, ADPIE, PRN, BID, TID, STAT et les abréviations de documentation avec définitions, exemples cliniques et conseils NCLEX.",
+    keywords: "abréviations médicales infirmière, abréviations soins infirmiers, SBAR, ADPIE, PRN, STAT, NPO, terminologie clinique, abréviations documentation, abréviations NCLEX",
+  },
+  "/nursing-skill-checklists": {
+    title: "Listes de Vérification Compétences Infirmières – Guides de Procédures Cliniques | NurseNest",
+    description: "Listes de vérification étape par étape pour l'insertion IV, soins de cathéter central, changement de pansement, oxygénothérapie et transfusion sanguine. Comprend la justification infirmière, les alertes de sécurité et les notes d'examen NCLEX.",
+    keywords: "listes vérification compétences infirmières, procédures cliniques, insertion IV, soins cathéter central, pansement, oxygénothérapie, transfusion sanguine, NCLEX",
+  },
   "/practice-questions": {
     title: "Questions Pratique Gratuites – Révision Infirmière | NurseNest",
     description: "Accédez à des questions pratique gratuites pour la révision infirmière. Contenu aligné sur les examens avec justifications détaillées pour chaque réponse.",
@@ -320,6 +330,16 @@ const spanishMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Consulta nuestro glosario completo de términos de enfermería y medicina. Definiciones claras para la terminología utilizada en enfermería y exámenes.",
     keywords: "glosario enfermería, terminología médica, definiciones enfermería, vocabulario enfermería",
   },
+  "/medical-abbreviations-for-nurses": {
+    title: "Abreviaturas Médicas para Enfermería – Guía de Terminología Clínica | NurseNest",
+    description: "Guía completa de abreviaturas médicas y terminología clínica para enfermería. Aprende SBAR, ADPIE, PRN, BID, TID, STAT y abreviaturas de documentación con definiciones, ejemplos clínicos y consejos NCLEX.",
+    keywords: "abreviaturas médicas enfermería, abreviaturas de enfermería, SBAR, ADPIE, PRN, STAT, NPO, terminología clínica, abreviaturas documentación, abreviaturas NCLEX",
+  },
+  "/nursing-skill-checklists": {
+    title: "Listas de Verificación de Habilidades de Enfermería – Guías de Procedimientos Clínicos | NurseNest",
+    description: "Listas de verificación paso a paso para inserción IV, cuidado de catéter central, cambio de vendaje, oxigenoterapia y transfusión sanguínea. Incluye justificación de enfermería, alertas de seguridad y notas de examen NCLEX.",
+    keywords: "listas verificación habilidades enfermería, procedimientos clínicos, inserción IV, cuidado catéter central, vendaje, oxigenoterapia, transfusión sanguínea, NCLEX",
+  },
   "/practice-questions": {
     title: "Preguntas Práctica Gratuitas – Repaso Enfermería | NurseNest",
     description: "Accede a preguntas práctica gratuitas para el repaso de enfermería. Contenido alineado con exámenes con justificaciones detalladas para cada respuesta.",
@@ -512,6 +532,16 @@ const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
     title: "Glossário de Enfermagem – Terminologia Médica | NurseNest",
     description: "Consulte nosso glossário completo de termos de enfermagem e medicina. Definições claras para a terminologia usada em enfermagem e exames.",
     keywords: "glossário enfermagem, terminologia médica, definições enfermagem, vocabulário enfermagem",
+  },
+  "/medical-abbreviations-for-nurses": {
+    title: "Abreviaturas Médicas para Enfermagem – Guia de Terminologia Clínica | NurseNest",
+    description: "Guia completo de abreviaturas médicas e terminologia clínica para enfermagem. Aprenda SBAR, ADPIE, PRN, BID, TID, STAT e abreviaturas de documentação com definições, exemplos clínicos e dicas NCLEX.",
+    keywords: "abreviaturas médicas enfermagem, abreviaturas de enfermagem, SBAR, ADPIE, PRN, STAT, NPO, terminologia clínica, abreviaturas documentação, abreviaturas NCLEX",
+  },
+  "/nursing-skill-checklists": {
+    title: "Listas de Verificação de Habilidades de Enfermagem – Guias de Procedimentos Clínicos | NurseNest",
+    description: "Listas de verificação passo a passo para inserção de cateter IV, cuidados com cateter central, troca de curativo, oxigenoterapia e transfusão sanguínea. Inclui justificativa de enfermagem, alertas de segurança e notas de exame NCLEX.",
+    keywords: "listas verificação habilidades enfermagem, procedimentos clínicos, inserção IV, cuidados cateter central, curativo, oxigenoterapia, transfusão sanguínea, NCLEX",
   },
   "/practice-questions": {
     title: "Questões Práticas Gratuitas – Revisão de Enfermagem | NurseNest",

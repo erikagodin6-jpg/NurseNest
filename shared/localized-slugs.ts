@@ -34,6 +34,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "certifications": "certifications",
     "healthcare-careers": "carrieres-sante",
     "healthcare-certifications": "certifications-sante",
+    "medical-abbreviations-for-nurses": "abreviations-medicales-infirmiere",
+    "nursing-skill-checklists": "listes-verification-competences-infirmieres",
   },
   es: {
     "pricing": "precios",
@@ -66,6 +68,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "certifications": "certificaciones",
     "healthcare-careers": "carreras-salud",
     "healthcare-certifications": "certificaciones-salud",
+    "medical-abbreviations-for-nurses": "abreviaturas-medicas-enfermeria",
+    "nursing-skill-checklists": "listas-verificacion-habilidades-enfermeria",
   },
   zh: {
     "pricing": "jiage",
@@ -88,6 +92,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-residency-programs": "hushi-zhuyuan-xiangmu",
     "nursing-regulatory-bodies": "huli-jianguan-jigou",
     "nursing-licensing-exams": "huli-zhizhao-kaoshi",
+    "medical-abbreviations-for-nurses": "yixue-suoxie-hushi",
+    "nursing-skill-checklists": "huli-jineng-jiancha",
     "nurse-salary-guide": "hushi-xinzi-zhinan",
     "nurse-salary-canada": "hushi-xinzi-jianada",
     "nurse-salary-united-states": "hushi-xinzi-meiguo",
@@ -142,6 +148,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-australia": "rawatib-altamrid-ostralya",
     "healthcare-careers": "mihan-riaaya-sihhiya",
     "healthcare-certifications": "shahadat-riaaya-sihhiya",
+    "medical-abbreviations-for-nurses": "ikhtisarat-tibbiya-tamrid",
+    "nursing-skill-checklists": "qawaaim-maharat-altamrid",
   },
   hi: {
     "pricing": "mulya",
@@ -364,6 +372,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-regulatory-bodies": "orgaos-reguladores-enfermagem",
     "healthcare-careers": "carreiras-saude",
     "healthcare-certifications": "certificacoes-saude",
+    "medical-abbreviations-for-nurses": "abreviaturas-medicas-enfermagem",
+    "nursing-skill-checklists": "listas-verificacao-habilidades-enfermagem",
   },
   th: {
     "pricing": "rakha",

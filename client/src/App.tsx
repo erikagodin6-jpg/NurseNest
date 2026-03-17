@@ -188,6 +188,10 @@ const RexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").the
 const NpExamPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NpExamPractice })));
 const NursingExamPrepPage = lazy(() => import("@/pages/allied-exam-prep-landing").then(m => ({ default: m.NursingExamPrep })));
 const GlossaryPage = lazy(() => import("@/pages/glossary"));
+const MedicalAbbreviationsHub = lazy(() => import("@/pages/medical-abbreviations-hub"));
+const MedicalAbbreviationDetail = lazy(() => import("@/pages/medical-abbreviation-detail"));
+const NursingSkillChecklistsHub = lazy(() => import("@/pages/nursing-skill-checklists-hub"));
+const NursingSkillChecklistDetail = lazy(() => import("@/pages/nursing-skill-checklist-detail"));
 const ApplyNestLanding = lazy(() => import("@/pages/applynest-landing"));
 const ApplyNestCareerPage = lazy(() => import("@/pages/applynest-career"));
 const ApplyNestResumeTemplates = lazy(() => import("@/pages/applynest-resume-templates"));
@@ -1138,6 +1142,10 @@ function AppRoutes() {
         <Route path="/offline-study" component={OfflineStudyPage} />
         <Route path="/glossary/:term" component={GlossaryPage} />
         <Route path="/glossary" component={GlossaryPage} />
+        <Route path="/medical-abbreviations-for-nurses/:slug" component={MedicalAbbreviationDetail} />
+        <Route path="/medical-abbreviations-for-nurses" component={MedicalAbbreviationsHub} />
+        <Route path="/nursing-skill-checklists/:slug" component={NursingSkillChecklistDetail} />
+        <Route path="/nursing-skill-checklists" component={NursingSkillChecklistsHub} />
 
         <Route path="/encyclopedia/:profession/:slug" component={EncyclopediaEntry} />
         <Route path="/encyclopedia" component={EncyclopediaLanding} />

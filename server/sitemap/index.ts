@@ -8,6 +8,7 @@ import {
 import {
   generateMainPages, generateMainLessons, generateMainQuestions,
   generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
+  generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
   generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
   generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
   generateSeoContentPages
@@ -65,6 +66,8 @@ const mainSitemapDefs: SitemapDef[] = [
   { name: "flashcards", generator: generateMainFlashcards },
   { name: "specialties", generator: generateMainSpecialties },
   { name: "glossary", generator: generateMainGlossary },
+  { name: "medical-abbreviations", generator: generateMainMedicalAbbreviations },
+  { name: "nursing-skill-checklists", generator: generateMainNursingSkillChecklists },
   { name: "clinical-clarity", generator: generateMainClinicalClarity },
   { name: "blog", generator: generateMainBlog },
   { name: "medical-imaging", generator: generateMainMedicalImaging },

@@ -248,6 +248,40 @@ export async function generateMainGlossary(): Promise<string[]> {
   return urls;
 }
 
+export async function generateMainMedicalAbbreviations(): Promise<string[]> {
+  const base = getSiteBase();
+  const today = todayDate();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  const abbreviationSlugs = [
+    "sbar","adpie","prn","bid","tid","stat","npo","i-o","vs","wnl",
+    "sob","abg","bmp","cbc","ac","pc","hs","rom","adl","dnr",
+    "dx","tx","hx","qd","spo2",
+  ];
+  for (const slug of abbreviationSlugs) {
+    urls.push(localizedUrl(base, `/medical-abbreviations-for-nurses/${slug}`, "0.5", "monthly", locales, today));
+  }
+
+  return urls;
+}
+
+export async function generateMainNursingSkillChecklists(): Promise<string[]> {
+  const base = getSiteBase();
+  const today = todayDate();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  const checklistSlugs = [
+    "iv-insertion","central-line-care","wound-dressing","oxygen-therapy-setup","blood-transfusion",
+  ];
+  for (const slug of checklistSlugs) {
+    urls.push(localizedUrl(base, `/nursing-skill-checklists/${slug}`, "0.6", "monthly", locales, today));
+  }
+
+  return urls;
+}
+
 export async function generateMainClinicalClarity(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();

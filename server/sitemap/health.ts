@@ -6,6 +6,7 @@ import {
 import {
   generateMainPages, generateMainLessons, generateMainQuestions,
   generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
+  generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
   generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
   generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
   generateSeoContentPages
@@ -42,6 +43,7 @@ export async function sitemapValidate(req: Request, res: Response) {
       const generators = [
         generateMainPages, generateMainLessons, generateMainQuestions,
         generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
+        generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
         generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
         generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
         generateSeoContentPages,
@@ -188,6 +190,8 @@ export async function sitemapHealthCheck(_req: Request, res: Response) {
       { name: "flashcards", fn: generateMainFlashcards },
       { name: "specialties", fn: generateMainSpecialties },
       { name: "glossary", fn: generateMainGlossary },
+      { name: "medical-abbreviations", fn: generateMainMedicalAbbreviations },
+      { name: "nursing-skill-checklists", fn: generateMainNursingSkillChecklists },
       { name: "clinical-clarity", fn: generateMainClinicalClarity },
       { name: "blog", fn: generateMainBlog },
       { name: "medical-imaging", fn: generateMainMedicalImaging },

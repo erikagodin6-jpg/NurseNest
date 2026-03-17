@@ -302,6 +302,8 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/free-practice", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/practice-questions", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/glossary", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/medical-abbreviations-for-nurses", priority: "0.8", changefreq: "monthly", lastmod: today },
+    { path: "/nursing-skill-checklists", priority: "0.8", changefreq: "monthly", lastmod: today },
     { path: "/medication-mastery", priority: "0.7", changefreq: "monthly", lastmod: today },
     { path: "/exam-prep", priority: "0.9", changefreq: "weekly", lastmod: today },
     { path: "/new-graduate-support", priority: "0.9", changefreq: "weekly", lastmod: today },
