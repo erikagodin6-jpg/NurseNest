@@ -12654,6 +12654,58 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/np-specialty/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { examTypes } = req.body;
+      const { startNpSpecialtyGeneration } = await import("./scripts/generate-np-specialty-questions");
+      const results = await startNpSpecialtyGeneration(examTypes || undefined);
+      await logAudit(req, admin, "np-specialty-generation", "bulk", "generate", null, { examTypes, results });
+      res.json({ message: "NP specialty generation started", runs: results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/np-specialty/bulk-publish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { bulkPublishNpQuestions } = await import("./scripts/generate-np-specialty-questions");
+      const result = await bulkPublishNpQuestions();
+      await logAudit(req, admin, "np-specialty-generation", "bulk-publish", "publish", null, result);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/np-specialty/validate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { validateNpQuestions } = await import("./scripts/generate-np-specialty-questions");
+      const result = await validateNpQuestions();
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/np-specialty/deduplicate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { deduplicateNpQuestions } = await import("./scripts/generate-np-specialty-questions");
+      const result = await deduplicateNpQuestions();
+      await logAudit(req, admin, "np-specialty-generation", "deduplicate", "deduplicate", null, result);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/admin/bulk-orchestrator/start", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

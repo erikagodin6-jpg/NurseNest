@@ -66,7 +66,7 @@ const HIGH_END_TARGETS: Record<string, number> = {
 const TIER_EXAM_MAP: Record<string, string[]> = {
   rpn: ["REx-PN", "NCLEX-PN"],
   rn: ["NCLEX-RN", "NMC-CBT", "AHPRA"],
-  np: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP", "CNPE"],
+  np: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP", "CNPE", "AGNP", "ACNP"],
 };
 
 const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
@@ -138,6 +138,13 @@ const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
     "Crisis Intervention": 0.15,
     "Professional Practice": 0.05,
   },
+  "AGPCNP": {
+    "Chronic Disease Management": 0.30,
+    "Health Promotion & Disease Prevention": 0.20,
+    "Geriatric Syndromes & Aging": 0.20,
+    "Clinical Assessment & Diagnosis": 0.20,
+    "Professional Role & Policy": 0.10,
+  },
   "PNP": {
     "Pediatric Health Assessment": 0.25,
     "Growth & Developmental Milestones": 0.20,
@@ -197,6 +204,24 @@ const CORE_TOPICS: Record<string, string[]> = {
 };
 
 const NP_SPECIALTY_TOPICS: Record<string, string[]> = {
+  "AANP-FNP": [
+    "Primary Care Across the Lifespan", "Chronic Disease Management", "Health Promotion & Disease Prevention",
+    "Differential Diagnosis", "Pharmacotherapeutics & Prescribing", "Cardiovascular Primary Care",
+    "Respiratory Primary Care", "Endocrine & Metabolic Disorders", "GI & Hepatic Management",
+    "Musculoskeletal Assessment", "Dermatological Conditions", "Neurological Assessment",
+    "Infectious Disease Management", "Mental Health in Primary Care", "Pediatric Primary Care",
+    "Geriatric Primary Care", "Women's Health Screening", "Men's Health",
+    "Evidence-Based Practice", "Professional Role & Ethics",
+  ],
+  "ANCC-FNP": [
+    "Clinical Knowledge & Assessment", "Evidence-Based Practice Frameworks", "Interprofessional Collaboration",
+    "Healthcare Policy & Systems", "Quality Improvement", "Differential Diagnosis",
+    "Pharmacotherapeutics", "Chronic Disease Management", "Cardiovascular Disorders",
+    "Respiratory Disorders", "Endocrine Management", "GI & Hepatic Disorders",
+    "Musculoskeletal Conditions", "Neurological Conditions", "Infectious Disease",
+    "Mental Health Assessment", "Research Methodology", "Health Promotion",
+    "Professional Role Development", "Pediatric & Geriatric Primary Care",
+  ],
   "PMHNP": [
     "Psychopharmacology", "Psychiatric Assessment & DSM-5", "Mood Disorders",
     "Anxiety & Trauma-Related Disorders", "Psychotic Disorders", "Substance Use Disorders",
@@ -254,6 +279,15 @@ const NP_SPECIALTY_TOPICS: Record<string, string[]> = {
     "Quality Improvement & Patient Safety", "Interprofessional Collaboration",
     "Role Development & Professional Practice",
   ],
+  "AGPCNP": [
+    "Adult Health Assessment", "Geriatric Syndromes", "Polypharmacy Management",
+    "Chronic Disease Management", "Cardiovascular Disease in Adults", "Diabetes & Metabolic Syndrome",
+    "COPD & Respiratory Disease", "Hypertension Management", "Heart Failure Management",
+    "Osteoporosis & Falls Prevention", "Dementia & Cognitive Decline", "Depression in Older Adults",
+    "Cancer Screening & Prevention", "Renal Disease in Aging", "Arthritis & Pain Management",
+    "Thyroid Disorders", "Age-Specific Screening Guidelines", "Palliative & End-of-Life Care",
+    "Health Promotion for Aging Populations", "Interprofessional Geriatric Care",
+  ],
   "AGACNP": [
     "Complex Acute Care Management", "Critical Care & ICU Management",
     "Hemodynamic Monitoring & Interpretation", "Ventilator Management",
@@ -263,6 +297,28 @@ const NP_SPECIALTY_TOPICS: Record<string, string[]> = {
     "Procedural Skills & Diagnostics", "Pharmacotherapeutics in Acute Care",
     "Trauma Assessment & Stabilization", "End-of-Life Care in Acute Settings",
     "Rapid Response & Deteriorating Patients",
+  ],
+  "AGNP": [
+    "Adult Health Assessment", "Geriatric Syndromes", "Chronic Disease Management",
+    "Cardiovascular Disease in Adults", "Diabetes & Metabolic Syndrome", "Polypharmacy Management",
+    "COPD & Respiratory Disease", "Hypertension Management", "Heart Failure Management",
+    "Osteoporosis & Falls Prevention", "Dementia & Cognitive Decline", "Depression in Older Adults",
+    "Cancer Screening & Prevention", "Renal Disease in Aging", "Palliative & End-of-Life Care",
+  ],
+  "ACNP": [
+    "Critical Care Management", "Hemodynamic Monitoring", "Mechanical Ventilation",
+    "Vasoactive Medication Management", "Acute Coronary Syndrome", "Sepsis & Septic Shock",
+    "Acute Respiratory Failure", "Stroke & Neurological Emergencies", "Acute Kidney Injury",
+    "Post-Surgical Management", "Trauma in Adult Populations", "Multi-Organ Dysfunction",
+    "ICU Pharmacology", "Rapid Clinical Deterioration", "Advanced Diagnostic Interpretation",
+  ],
+  "CNPE": [
+    "Health Assessment & Diagnosis", "Therapeutic Management", "Health Promotion & Prevention",
+    "Professional Role & Accountability", "System Navigation & Collaboration",
+    "Indigenous Health", "Interprofessional Collaboration", "Canadian Prescribing Guidelines",
+    "Chronic Disease Management", "Mental Health Assessment", "Pediatric & Maternal Health",
+    "Geriatric Care", "Emergency & Urgent Care", "Pharmacology & Prescribing",
+    "Evidence-Based Practice",
   ],
 };
 
@@ -750,7 +806,7 @@ async function executePipelineRun(runId: string): Promise<void> {
 
   const topics = config.topic
     ? [config.topic]
-    : (config.tier === "np" && config.examType && NP_SPECIALTY_TOPICS[config.examType]
+    : (config.examType && NP_SPECIALTY_TOPICS[config.examType]
       ? NP_SPECIALTY_TOPICS[config.examType]
       : (CORE_TOPICS[config.tier] || CORE_TOPICS.rpn));
 
@@ -906,7 +962,7 @@ export async function listPipelineRunsFromDB(limit: number = 50): Promise<any[]>
   return result.rows;
 }
 
-export { HIGH_END_TARGETS, TIER_EXAM_MAP, CORE_TOPICS, BLUEPRINT_WEIGHTS, FORMAT_TYPES, DEFAULT_FORMAT_MIX, NP_FORMAT_MIX, COGNITIVE_LEVELS, DEFAULT_COGNITIVE_DISTRIBUTION, NP_SPECIALTY_TOPICS };
+export { HIGH_END_TARGETS, TIER_EXAM_MAP, CORE_TOPICS, NP_SPECIALTY_TOPICS, BLUEPRINT_WEIGHTS, FORMAT_TYPES, DEFAULT_FORMAT_MIX, NP_FORMAT_MIX, COGNITIVE_LEVELS, DEFAULT_COGNITIVE_DISTRIBUTION };
 
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
