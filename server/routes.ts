@@ -12654,6 +12654,143 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/bulk-orchestrator/start", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { tier } = req.body;
+      if (!tier || (tier !== "rpn" && tier !== "rn")) {
+        return res.status(400).json({ error: "tier must be 'rpn' or 'rn'" });
+      }
+      const { startBulkOrchestration } = await import("./bulk-orchestrator");
+      const status = await startBulkOrchestration(tier);
+      await logAudit(req, admin, "bulk-orchestrator", status.id, "start", null, { tier });
+      res.json(status);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/bulk-orchestrator/status/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { getOrchestrationStatus } = await import("./bulk-orchestrator");
+      const status = getOrchestrationStatus(req.params.id);
+      if (!status) return res.status(404).json({ error: "Orchestration not found" });
+      res.json(status);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/bulk-orchestrator/list", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { listOrchestrations } = await import("./bulk-orchestrator");
+      res.json(listOrchestrations());
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/bulk-orchestrator/pause/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { pauseOrchestration } = await import("./bulk-orchestrator");
+      const success = pauseOrchestration(req.params.id);
+      await logAudit(req, admin, "bulk-orchestrator", req.params.id, "pause", null, {});
+      res.json({ success });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/bulk-orchestrator/validation/:tier", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const tier = req.params.tier;
+      if (tier !== "rpn" && tier !== "rn") {
+        return res.status(400).json({ error: "tier must be 'rpn' or 'rn'" });
+      }
+      const { runValidationReport } = await import("./bulk-orchestrator");
+      const report = await runValidationReport(tier);
+      res.json(report);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/bulk-orchestrator/smoke-check/:tier", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const tier = req.params.tier;
+      if (tier !== "rpn" && tier !== "rn") {
+        return res.status(400).json({ error: "tier must be 'rpn' or 'rn'" });
+      }
+
+      const checks: { check: string; pass: boolean; detail: string }[] = [];
+
+      const totalQ = await pool.query(
+        `SELECT COUNT(*)::int as count FROM exam_questions WHERE tier = $1 AND status = 'published'`, [tier]
+      );
+      const total = totalQ.rows[0]?.count || 0;
+      const minTarget = tier === "rpn" ? 8000 : 12000;
+      checks.push({ check: "total_published", pass: total >= minTarget, detail: `${total}/${minTarget}` });
+
+      const examQ = await pool.query(
+        `SELECT exam, COUNT(*)::int as count FROM exam_questions WHERE tier = $1 AND status = 'published' GROUP BY exam`, [tier]
+      );
+      const minPerExam = tier === "rpn" ? 2000 : 4000;
+      for (const r of examQ.rows) {
+        checks.push({ check: `exam_${r.exam}`, pass: r.count >= minPerExam, detail: `${r.count}/${minPerExam} questions` });
+      }
+
+      const minPerBS = tier === "rpn" ? 200 : 300;
+      const bsQ = await pool.query(
+        `SELECT body_system, COUNT(*)::int as count FROM exam_questions WHERE tier = $1 AND status = 'published' AND body_system IS NOT NULL GROUP BY body_system ORDER BY count ASC LIMIT 5`, [tier]
+      );
+      for (const r of bsQ.rows) {
+        checks.push({ check: `body_system_${r.body_system}`, pass: r.count >= minPerBS, detail: `${r.count}/${minPerBS} questions` });
+      }
+
+      const formatQ = await pool.query(
+        `SELECT question_format, COUNT(*)::int as count FROM exam_questions WHERE tier = $1 AND status = 'published' AND question_format IS NOT NULL GROUP BY question_format`, [tier]
+      );
+      const formats = formatQ.rows.map((r: any) => r.question_format);
+      const requiredFormats = ["MCQ", "SATA", "bowtie", "ordered-response", "cloze-dropdown", "safety-infection-control"];
+      for (const f of requiredFormats) {
+        const found = formatQ.rows.find((r: any) => r.question_format === f);
+        checks.push({ check: `format_${f}`, pass: !!found, detail: found ? `${found.count} questions` : "missing" });
+      }
+
+      const fcQ = await pool.query(
+        `SELECT COUNT(*)::int as count FROM flashcard_bank WHERE tier = $1 AND status = 'published'`, [tier]
+      );
+      checks.push({ check: "flashcards_published", pass: (fcQ.rows[0]?.count || 0) > 0, detail: `${fcQ.rows[0]?.count || 0} flashcards` });
+
+      const sampleQ = await pool.query(
+        `SELECT id, stem, options, correct_answer, rationale, question_format FROM exam_questions WHERE tier = $1 AND status = 'published' ORDER BY RANDOM() LIMIT 3`, [tier]
+      );
+      const sampleChecks = sampleQ.rows.map((q: any) => {
+        const opts = typeof q.options === "string" ? JSON.parse(q.options) : q.options;
+        const ca = typeof q.correct_answer === "string" ? JSON.parse(q.correct_answer) : q.correct_answer;
+        const renderable = q.stem?.length > 20 && Array.isArray(opts) && opts.length >= 4 && Array.isArray(ca) && ca.length > 0 && q.rationale?.length > 20;
+        return { id: q.id, format: q.question_format, renderable, stemLen: q.stem?.length, optionCount: opts?.length, hasRationale: !!q.rationale };
+      });
+      checks.push({ check: "sample_renderability", pass: sampleChecks.every((s: any) => s.renderable), detail: JSON.stringify(sampleChecks) });
+
+      const allPass = checks.every(c => c.pass);
+      res.json({ tier, allPass, checks });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/qbank/review", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

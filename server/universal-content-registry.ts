@@ -132,10 +132,10 @@ export const LESSON_SECTIONS = [
 ] as const;
 
 export const GENERATION_DEFAULTS = {
-  batchSize: { default: 5, max: 10 },
+  batchSize: { default: 10, max: 25 },
   dailyCaps: {
-    questions: 100,
-    flashcards: 200,
+    questions: 2000,
+    flashcards: 2000,
     lessons: 20,
     blog_articles: 10,
   },

@@ -13,8 +13,8 @@ interface TierTarget {
 }
 
 const TIER_TARGETS: Record<string, TierTarget> = {
-  rpn: { min: 1800, target: 2500, highRate: 100, lowRate: 25 },
-  rn: { min: 3000, target: 4500, highRate: 150, lowRate: 30 },
+  rpn: { min: 8000, target: 12000, highRate: 500, lowRate: 50 },
+  rn: { min: 12000, target: 18000, highRate: 750, lowRate: 75 },
   np: { min: 1500, target: 2500, highRate: 100, lowRate: 25 },
 };
 
@@ -570,13 +570,16 @@ export async function runGenerationJob(jobId: string) {
           for (const q of questions) {
             const contentHash = hashContent(q.stem);
             try {
+              const hasMinQuality = q.stem?.length >= 40 && q.rationale?.length >= 50 && Array.isArray(q.options) && q.options.length >= 4;
+              const initialStatus = hasMinQuality ? "published" : "needs_review";
+
               const [inserted] = await db
                 .insert(examQuestions)
                 .values({
                   tier: job.tier,
                   exam: `${job.tier.toUpperCase()}-CAT`,
                   questionType: "multiple_choice",
-                  status: "needs_review",
+                  status: initialStatus,
                   stem: q.stem,
                   options: q.options,
                   correctAnswer: q.correctAnswer,
@@ -586,6 +589,7 @@ export async function runGenerationJob(jobId: string) {
                   topic: q.topic,
                   stemHash: contentHash,
                   regionScope: "BOTH",
+                  publishedAt: hasMinQuality ? new Date() : null,
                 })
                 .onConflictDoNothing()
                 .returning();
@@ -593,6 +597,10 @@ export async function runGenerationJob(jobId: string) {
               if (inserted) {
                 totalGenerated++;
                 const verifyResult = await verifyItem("exam_question", inserted.id, `${q.stem}\n${JSON.stringify(q.options)}\nAnswer: ${q.correctAnswer}\n${q.rationale}`);
+
+                if (verifyResult.verdict === "fail") {
+                  await db.update(examQuestions).set({ status: "needs_review", publishedAt: null }).where(eq(examQuestions.id, inserted.id));
+                }
 
                 await linkQuestionToLesson(inserted.id, q.topic, q.bodySystem);
 
@@ -616,6 +624,9 @@ export async function runGenerationJob(jobId: string) {
           for (const f of flashcards) {
             const contentHash = hashContent(f.front);
             try {
+              const hasMinQuality = f.front?.length >= 10 && f.back?.length >= 20;
+              const fcStatus = hasMinQuality ? "published" : "needs_review";
+
               const [inserted] = await db
                 .insert(flashcardBank)
                 .values({
@@ -623,7 +634,7 @@ export async function runGenerationJob(jobId: string) {
                   topicTag: f.topicTag,
                   front: f.front,
                   back: f.back,
-                  status: "needs_review",
+                  status: fcStatus,
                   contentHash,
                 })
                 .onConflictDoNothing()
@@ -631,7 +642,10 @@ export async function runGenerationJob(jobId: string) {
 
               if (inserted) {
                 totalGenerated++;
-                await verifyItem("flashcard", inserted.id, `Front: ${f.front}\nBack: ${f.back}`);
+                const verifyResult = await verifyItem("flashcard", inserted.id, `Front: ${f.front}\nBack: ${f.back}`);
+                if (verifyResult.verdict === "fail") {
+                  await db.update(flashcardBank).set({ status: "needs_review" }).where(eq(flashcardBank.id, inserted.id));
+                }
               }
             } catch (err: any) {
               if (err.code === "23505") continue;

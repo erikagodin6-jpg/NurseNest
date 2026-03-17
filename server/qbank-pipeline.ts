@@ -53,11 +53,13 @@ interface GeneratedQuestionRecord {
   qualityScores: any;
   qualityScore: number;
   careerType: string;
+  cognitiveLevel: string;
+  questionFormat: string;
 }
 
 const HIGH_END_TARGETS: Record<string, number> = {
-  rpn: 12000,
-  rn: 18000,
+  rpn: 8000,
+  rn: 12000,
   np: 15000,
 };
 
@@ -167,18 +169,22 @@ const CORE_TOPICS: Record<string, string[]> = {
 const FORMAT_TYPES = [
   "MCQ", "SATA", "bowtie", "scenario-based", "prioritization",
   "delegation", "dosage-calculation", "lab-interpretation", "progressive-unfolding",
+  "ordered-response", "cloze-dropdown", "safety-infection-control",
 ] as const;
 
 const DEFAULT_FORMAT_MIX: Record<string, number> = {
-  MCQ: 40,
-  SATA: 15,
-  "scenario-based": 15,
-  prioritization: 10,
+  MCQ: 35,
+  SATA: 13,
+  "scenario-based": 13,
+  prioritization: 8,
   delegation: 5,
-  "dosage-calculation": 5,
-  "lab-interpretation": 5,
+  "dosage-calculation": 4,
+  "lab-interpretation": 4,
   bowtie: 3,
-  "progressive-unfolding": 2,
+  "progressive-unfolding": 3,
+  "ordered-response": 5,
+  "cloze-dropdown": 4,
+  "safety-infection-control": 3,
 };
 
 const NP_FORMAT_MIX: Record<string, number> = {
@@ -383,7 +389,7 @@ OUTPUT FORMAT: Return a JSON object with "questions" array. Each question object
 {
   "stem": "Clinical scenario and question (min 80 chars)",
   "scenario": "Extended clinical context if applicable",
-  "questionFormat": "MCQ|SATA|bowtie|scenario-based|prioritization|delegation|dosage-calculation|lab-interpretation|progressive-unfolding",
+  "questionFormat": "MCQ|SATA|bowtie|scenario-based|prioritization|delegation|dosage-calculation|lab-interpretation|progressive-unfolding|ordered-response|cloze-dropdown|safety-infection-control",
   "cognitiveLevel": "recall|application|analysis|synthesis",
   "difficulty": 1-5,
   "blueprintDomain": "matching domain from blueprint weights",
@@ -410,6 +416,9 @@ delegation: 4 options about appropriate delegation.
 dosage-calculation: 4 options with numeric calculations.
 lab-interpretation: 4 options interpreting lab values.
 progressive-unfolding: multi-part question, 4 options per part.
+ordered-response: 4-6 items that must be ranked in correct sequence.
+cloze-dropdown: fill-in-the-blank with dropdown selections, 4 options per blank.
+safety-infection-control: 4 options focused on safety protocols, infection control, PPE, or sterile technique.
 
 Return EXACTLY ${batchSize} questions. JSON only.`;
 
@@ -503,14 +512,14 @@ function mapToExamQuestion(raw: any, config: PipelineConfig): GeneratedQuestionR
     tier: config.tier,
     exam: config.examType,
     questionType: raw.questionFormat || raw.questionType || "MCQ",
-    status: "needs_review",
+    status: "published",
     stem: raw.stem,
     options: JSON.stringify(options),
     correctAnswer: JSON.stringify(Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer]),
     rationale: raw.rationale || "",
     difficulty: difficultyNum,
     tags: Array.isArray(raw.tags) ? raw.tags : [],
-    bodySystem: raw.blueprintDomain || raw.bodySystem || "",
+    bodySystem: config.topic || raw.bodySystem || raw.blueprintDomain || "",
     topic: raw.topic || config.topic || "",
     subtopic: raw.subtopic || config.subtopic || "",
     regionScope: config.countryCode || "BOTH",
@@ -531,6 +540,8 @@ function mapToExamQuestion(raw: any, config: PipelineConfig): GeneratedQuestionR
     }),
     qualityScore: 0,
     careerType: "nursing",
+    cognitiveLevel: raw.cognitiveLevel || "application",
+    questionFormat: raw.questionFormat || raw.questionType || "MCQ",
   };
 }
 
@@ -706,9 +717,7 @@ async function executePipelineRun(runId: string): Promise<void> {
         const record = mapToExamQuestion(q, batchConfig);
         record.qualityScore = validation.qualityScore;
 
-        if (validation.qualityScore < 60) {
-          record.status = "flagged";
-        }
+        record.status = validation.qualityScore >= 60 ? "published" : "needs_review";
 
         validQuestions.push(record);
         existingHashes.add(stemHash);
@@ -718,8 +727,8 @@ async function executePipelineRun(runId: string): Promise<void> {
       if (validQuestions.length > 0) {
         for (const vq of validQuestions) {
           await pool.query(
-            `INSERT INTO exam_questions (id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, stem_hash, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, quality_scores, quality_score, career_type, created_at, updated_at)
-             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, NOW(), NOW())`,
+            `INSERT INTO exam_questions (id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, stem_hash, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, quality_scores, quality_score, career_type, cognitive_level, question_format, published_at, created_at, updated_at)
+             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, CASE WHEN $4 = 'published' THEN NOW() ELSE NULL END, NOW(), NOW())`,
             [
               vq.tier, vq.exam, vq.questionType, vq.status, vq.stem,
               vq.options, vq.correctAnswer, vq.rationale, vq.difficulty,
@@ -727,6 +736,7 @@ async function executePipelineRun(runId: string): Promise<void> {
               vq.stemHash, vq.scenario, vq.clinicalPearl, vq.examStrategy,
               vq.memoryHook, vq.frameworkUsed, vq.clinicalTrap,
               vq.distractorRationales, vq.qualityScores, vq.qualityScore, vq.careerType,
+              vq.cognitiveLevel || "application", vq.questionFormat || vq.questionType,
             ]
           );
         }
