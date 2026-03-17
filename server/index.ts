@@ -639,6 +639,7 @@ app.use((req, res, next) => {
     { setupAiOpsRoutes },
     { loadProviders },
     { setupQBankGenerator },
+    { setupBulkGeneratorRoutes },
     { setupContentExpansionRoutes },
     { setupClinicalVignetteRoutes },
     { setupTrialRoutes },
@@ -660,6 +661,7 @@ app.use((req, res, next) => {
     import("./ai-ops-routes"),
     import("./ai-provider-router"),
     import("./qbank-generator"),
+    import("./bulk-question-generator"),
     import("./content-expansion-job"),
     import("./clinical-vignette-generator"),
     import("./trial"),
@@ -682,6 +684,7 @@ app.use((req, res, next) => {
   setupAiOpsRoutes(app);
   loadProviders().catch(err => console.error("[AIRouter] Init failed:", err.message));
   setupQBankGenerator(app);
+  setupBulkGeneratorRoutes(app);
   setupContentExpansionRoutes(app);
   setupClinicalVignetteRoutes(app);
   setupTrialRoutes(app);

@@ -382,12 +382,14 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
   const dbTarget = "development";
   console.log(`[QBank Ingest] Run ${runId}: ingesting ${questions.length} questions → targeting ${dbTarget.toUpperCase()} database`);
 
-  const isNursingBatch = isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1";
+  const isCertification = templateKey === "certification_v1";
+  const isNursingBatch = isNursing || templateKey === "cnpe_v1" || templateKey === "np_us_v1" || isCertification;
   const careerMap: Record<string, string> = {
     mlt: "mlt", pharm_tech: "pharmacyTech", paramedic: "paramedic",
     rrt: "rrt", imaging: "imaging", ot: "ot", pt: "pt",
     psychotherapist: "psychotherapist", social_worker: "socialWorker",
     addictions_worker: "addictionsWorker", peds_nursing: "peds_nursing",
+    sonographer: "sonographer", him: "him", ota: "ota", pta: "pta",
   };
   const specialtyKey = isAllied ? (careerMap[variant.variantKey] || variant.variantKey) : undefined;
 
@@ -407,8 +409,9 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
     const qualityScoreNum = qr ? qr.overallScore : null;
 
     if (isNursingBatch) {
-      const tier = variant.examKey.includes("PN") ? "rpn" : "rn";
-      const region = variant.region === "Canada" ? "CAN" : "US";
+      const certTier = isCertification ? "certification" : undefined;
+      const tier = certTier || (variant.examKey.includes("PN") ? "rpn" : "rn");
+      const region = variant.region === "Canada" ? "CAN" : (variant.region === "BOTH" ? "BOTH" : "US");
       await pool.query(
         `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish && qStatus !== "needs_revision" ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, quality_scores, quality_feedback, quality_score)
          VALUES ($1, $2, $3, $4, ${autoPublish && qStatus !== "needs_revision" ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'nursing', $15, $16, $17)`,
