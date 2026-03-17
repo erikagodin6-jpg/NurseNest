@@ -1,0 +1,150 @@
+You are fixing a translation (i18n) rendering bug in the NurseNest production codebase.
+
+PROBLEM
+
+On the homepage hero feature strip, translation keys are being displayed instead of actual text:
+
+- hero.featureStrip.activeRecall
+- hero.featureStrip.spacedRepetition
+- hero.featureStrip.clinicalDecision
+- hero.featureStrip.examBlueprint
+
+This indicates the translation system is not resolving keys correctly for this component.
+
+GOAL
+
+Ensure all hero feature strip labels render correct human-readable text across all supported languages, with proper fallbacks and no raw keys visible in production.
+
+DO NOT:
+- do not hardcode strings directly into JSX unless as a fallback
+- do not break existing i18n system
+- do not create duplicate translation structures
+- do not leave any visible translation keys in UI
+
+--------------------------------------------------
+PART 1 — IDENTIFY ROOT CAUSE
+--------------------------------------------------
+
+Audit the hero feature strip component.
+
+Check:
+- which translation hook is used (e.g. useTranslation)
+- which namespace is being loaded (e.g. 'home', 'common', etc.)
+- whether the featureStrip keys exist in the loaded namespace
+- whether the namespace is missing or not loaded on this page
+- whether keys exist in locale JSON files
+- whether keys are nested incorrectly
+- whether there is a mismatch in key naming
+
+Common causes:
+- wrong namespace passed to useTranslation()
+- namespace not loaded for this route
+- keys exist in JSON but under a different path
+- typo or casing mismatch
+- async loading issue where t() runs before translations are ready
+
+--------------------------------------------------
+PART 2 — FIX TRANSLATION KEYS
+--------------------------------------------------
+
+Ensure these keys exist in the correct namespace:
+
+hero.featureStrip.activeRecall
+hero.featureStrip.spacedRepetition
+hero.featureStrip.clinicalDecision
+hero.featureStrip.examBlueprint
+
+Add to English locale:
+
+activeRecall:
+Active Recall Learning
+
+spacedRepetition:
+Spaced Repetition
+
+clinicalDecision:
+Clinical Decision Training
+
+examBlueprint:
+Exam Blueprint Alignment
+
+Ensure proper nesting:
+
+hero:
+  featureStrip:
+    activeRecall: "Active Recall Learning"
+    spacedRepetition: "Spaced Repetition"
+    clinicalDecision: "Clinical Decision Training"
+    examBlueprint: "Exam Blueprint Alignment"
+
+--------------------------------------------------
+PART 3 — FIX COMPONENT IMPLEMENTATION
+--------------------------------------------------
+
+Update component so it correctly references translation:
+
+Example:
+
+const { t } = useTranslation('home')
+
+t('hero.featureStrip.activeRecall')
+
+Ensure:
+- correct namespace is used
+- component is wrapped in i18n provider
+- translations are loaded before render
+
+If namespace is missing:
+- add it to page-level loader or i18n config
+
+--------------------------------------------------
+PART 4 — ADD SAFE FALLBACKS
+--------------------------------------------------
+
+Prevent raw keys from ever appearing again.
+
+Wrap translation calls with fallback:
+
+t('hero.featureStrip.activeRecall') || 'Active Recall Learning'
+
+OR use i18n defaultValue pattern if supported
+
+--------------------------------------------------
+PART 5 — VERIFY ALL LANGUAGES
+--------------------------------------------------
+
+Check:
+- English works
+- French, Spanish, etc. do not break
+- missing translations fall back to English
+- no key strings appear in UI
+
+--------------------------------------------------
+PART 6 — GLOBAL PREVENTION FIX
+--------------------------------------------------
+
+Add a global safeguard:
+
+If a translation key is missing:
+- log warning in console (dev only)
+- return readable fallback instead of key string
+
+--------------------------------------------------
+PART 7 — QA CHECKLIST
+--------------------------------------------------
+
+After fix:
+- feature strip shows proper labels
+- no "hero.featureStrip.*" visible anywhere
+- no hydration errors
+- no console i18n warnings
+- page still loads fast
+- mobile layout unchanged
+
+--------------------------------------------------
+DELIVERABLE
+
+Commit a clean fix so:
+- all hero feature strip text renders correctly
+- translation system is stable
+- no raw keys appear anywhere in production
