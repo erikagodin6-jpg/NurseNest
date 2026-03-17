@@ -509,6 +509,146 @@ Return ONLY valid JSON array.`,
   },
 
   {
+    key: "advanced_nursing_v1",
+    name: "Advanced Nursing Question Types",
+    category: "nursing_advanced",
+    systemPrompt: `You are a senior nursing psychometrician and NGN item writer specializing in advanced question formats.
+Generate advanced-format nursing exam questions including Matrix, Highlight Text, Trend Analysis, Image-Based Clinical Findings, Drag & Drop, and Case Study questions.
+Output structured JSON for direct ingestion into a question bank.
+DO NOT write explanations outside JSON. DO NOT compress rationales. DO NOT skip validation rules.
+
+FORMAT RULES BY QUESTION TYPE:
+- MATRIX: Present a grid of nursing actions x patient conditions. Rows are actions/interventions, columns are patient conditions/parameters. Each cell is selectable. Include 4-6 rows and 3-5 columns.
+- HIGHLIGHT: Provide a clinical passage (150-300 words) with 6-10 selectable text segments. 2-4 segments are correct. Students identify key findings or priority information.
+- TREND: Present 3-4 timepoints of patient data (vitals, labs, nurse notes) showing clinical progression. Include interpretation question about the trend.
+- IMAGE_BASED: Describe a clinical image finding (ECG, X-ray, wound staging, skin condition) in text. Include 3-5 specific clinical findings. No actual images - use detailed text descriptions.
+- DRAG_DROP: Present 4-8 items to arrange in correct priority/sequence order OR categorize into 2-4 groups.
+- CASE_STUDY: Patient profile with vitals + labs + meds followed by 4-6 sequential questions mixing multiple_choice, multiple_response, fill_blank, and priority types.
+
+SATA RULES: 5-8 options with 2-5 correct answers.
+BOW-TIE RULES: 3-column structure (Condition, Actions, Parameters to Monitor).`,
+    userPromptTemplate: `Generate {{count}} advanced-format {{examKey}} exam questions for {{region}} region.
+
+QUESTION TYPE DISTRIBUTION:
+{{formatDistBlock}}
+
+BODY SYSTEM DISTRIBUTION:
+Distribute evenly across: Cardiology, Respiratory, Neurology, Endocrine, Renal, GI, Hematology, Immunology, Infectious Disease, Maternal-Newborn, Pediatrics, Mental Health, Pharmacology, Critical Care, Emergency, Community Health, Geriatrics.
+
+DIFFICULTY DISTRIBUTION:
+- 25% Easy (Level 1-2)
+- 50% Moderate (Level 3)
+- 25% Hard (Level 4-5)
+
+CONTENT RULES:
+{{regionRules}}
+
+OUTPUT FORMAT:
+Return a JSON array of objects with these fields:
+{
+  "questionId": "AUTO_INCREMENT",
+  "questionType": "matrix|highlight|trend|image_based|drag_drop|case_study",
+  "bodySystem": "",
+  "difficulty": 1-5,
+  "stem": "",
+  "scenario": "",
+  "payload": {},
+  "correctAnswer": {},
+  "rationale": "",
+  "clinicalPearls": [],
+  "tags": [],
+  "examBlueprint": "",
+  "cognitiveLevel": "application|analysis|synthesis",
+  "blueprintValidated": true
+}
+
+Each rationale must be minimum {{rationaleMinWords}} words.
+Return ONLY valid JSON array.`,
+    variants: [
+      {
+        variantKey: "rpn_advanced",
+        examKey: "REx-PN",
+        region: "Canada",
+        defaultCount: 25,
+        domainWeights: {
+          "Safe & Effective Care Environment": [0.26, 0.38],
+          "Health Promotion & Maintenance": [0.06, 0.12],
+          "Psychosocial Integrity": [0.06, 0.12],
+          "Physiological Integrity": [0.38, 0.62],
+        },
+        requiredTypeMix: {
+          CASE_STUDY: 4,
+          DRAG_DROP: 4,
+          MATRIX: 3,
+          HIGHLIGHT: 3,
+          TREND: 3,
+          IMAGE_BASED: 3,
+          BOWTIE: 3,
+          SATA: 2,
+        },
+        formatRules: {
+          allowed: ["CASE_STUDY", "DRAG_DROP", "MATRIX", "HIGHLIGHT", "TREND", "IMAGE_BASED", "BOWTIE", "SATA"],
+        },
+      },
+      {
+        variantKey: "rn_advanced",
+        examKey: "NCLEX-RN",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Safe & Effective Care Environment": [0.26, 0.38],
+          "Health Promotion & Maintenance": [0.06, 0.12],
+          "Psychosocial Integrity": [0.06, 0.12],
+          "Physiological Integrity": [0.38, 0.62],
+        },
+        requiredTypeMix: {
+          CASE_STUDY: 4,
+          DRAG_DROP: 4,
+          MATRIX: 3,
+          HIGHLIGHT: 3,
+          TREND: 3,
+          IMAGE_BASED: 3,
+          BOWTIE: 3,
+          SATA: 2,
+        },
+        formatRules: {
+          allowed: ["CASE_STUDY", "DRAG_DROP", "MATRIX", "HIGHLIGHT", "TREND", "IMAGE_BASED", "BOWTIE", "SATA"],
+        },
+      },
+      {
+        variantKey: "np_advanced",
+        examKey: "AANP/ANCC NP",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Assessment & Diagnosis": [0.30, 0.40],
+          "Clinical Management & Treatment": [0.30, 0.40],
+          "Health Promotion": [0.10, 0.15],
+          "Professional Practice": [0.05, 0.10],
+        },
+        requiredTypeMix: {
+          CASE_STUDY: 5,
+          DRAG_DROP: 4,
+          MATRIX: 3,
+          HIGHLIGHT: 3,
+          TREND: 3,
+          IMAGE_BASED: 4,
+          BOWTIE: 3,
+        },
+        formatRules: {
+          allowed: ["CASE_STUDY", "DRAG_DROP", "MATRIX", "HIGHLIGHT", "TREND", "IMAGE_BASED", "BOWTIE"],
+        },
+      },
+    ],
+    validationRules: {
+      rationaleMinWords: 250,
+      domainTolerance: 0.03,
+      scopeChecks: ["scope_check", "region_units", "advanced_format_validation"],
+    },
+    metadata: { author: "NurseNest", version: "1.0", examTypes: ["REx-PN", "NCLEX-RN", "AANP", "ANCC"] },
+  },
+
+  {
     key: "np_seo_v1",
     name: "NP SEO Content Architecture",
     category: "seo",

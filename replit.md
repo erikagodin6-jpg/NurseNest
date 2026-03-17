@@ -1,5 +1,5 @@
 ### Overview
-NurseNest is an adaptive learning platform for nursing and allied health students across 17 career verticals. It provides comprehensive learning resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform utilizes AI for content generation to enhance clinical reasoning, nursing knowledge, and critical thinking, aiming to improve patient care outcomes. NurseNest aspires to be a market-leading, region-aware, and adaptive learning solution, transforming nursing education through technology to meet the significant market demand for flexible, high-quality educational tools.
+NurseNest is an adaptive learning platform designed for nursing and allied health students across 17 specializations. It offers extensive learning resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform leverages AI for content generation to foster clinical reasoning, nursing knowledge, and critical thinking, ultimately aiming to enhance patient care outcomes. NurseNest's vision is to be a leading, region-aware, and adaptive learning solution that revolutionizes nursing education through technology, addressing the significant market demand for flexible, high-quality educational tools.
 
 ### User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -13,7 +13,7 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 - Copy protection: content cannot be easily copied/screenshotted.
 
 ### System Architecture
-NurseNest is built with a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) and an Express 5 backend on Node.js (TypeScript), using Vite for tooling. TanStack React Query manages server state via a RESTful API. The UI/UX features 24 themes, semantic CSS tokens, DM Sans typography, and interactive components. The database is PostgreSQL with Drizzle ORM.
+NurseNest is architected with a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) and an Express 5 backend on Node.js (TypeScript), utilizing Vite for tooling. Server state is managed by TanStack React Query via a RESTful API. The user interface features 24 themes, semantic CSS tokens, DM Sans typography, and interactive components. The data layer uses PostgreSQL with Drizzle ORM.
 
 Core functionalities include a database-driven subscription model with regional pricing (CAD/USD), tier-based plans, Stripe-based lifetime purchases, and free trial usage caps. It offers interactive learning modules, a mock exam engine with stratified random sampling, and an admin dashboard. AI integrations, routed through a centralized AI Provider Router, power blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is organized by body system, and supports NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is managed by user tier.
 
@@ -37,7 +37,7 @@ Key architectural components and features:
 - **Exam Follow-Up**: Post-exam follow-up system on the dashboard for result reporting and personalized next steps.
 - **Certification Exam Prep Hub**: Comprehensive preparation for 11 nursing certifications, including 17,000+ practice questions, 33 mock exams, four practice modes, timed exam engine, and premium paywall gating.
 - **Career Question Banks**: Extensive question banks for MLT, Surgical Technologist, and Respiratory Therapy.
-- **Question Generation Pipeline**: Industrial-strength pipeline for scaling question banks, blueprint-weighted, with duplicate detection and quality scoring.
+- **Question Generation Pipeline**: Industrial-strength pipeline for scaling question banks, blueprint-weighted, with duplicate detection and quality scoring. Supports 9 question types: MCQ, SATA, Bow-Tie, Matrix, Highlight, Trend, Image-Based, Drag & Drop, and Case Study across RPN (~6,800), RN (~12,100), and NP (~14,800) tiers distributed across 17 body systems (~33,700 total pre-seeded questions). Advanced question renderers in `client/src/components/advanced-question-renderers.tsx`. Question data in `client/src/data/exam-questions/*-advanced-*.ts` with aggregation index at `advanced-questions-index.ts`.
 - **International Nursing Hub**: SEO section targeting internationally educated nurses (IENs) with country, pathway, and exam pages.
 - **SEO Canonical & Indexing Infrastructure**: Shared utility for building canonical URLs, managing indexing policies, slug generation, timestamp redirects, and hreflang filtering.
 - **Popup Suppression System**: LocalStorage-based 24-hour suppression for modals and toasts.

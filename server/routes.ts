@@ -10890,12 +10890,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const existing = await storage.getQuestionTypeRegistry();
       if (existing.length === 0) {
         const exams = [
-          { exam: "rex-pn", types: ["mcq", "sata", "ordered-response", "case-study"] },
-          { exam: "nclex-rn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in", "hotspot", "exhibit", "bowtie"] },
-          { exam: "np-canada", types: ["mcq", "sata", "case-study", "exhibit"] },
-          { exam: "nclex-pn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in"] },
-          { exam: "aanp", types: ["mcq", "case-study", "exhibit"] },
-          { exam: "ancc", types: ["mcq", "case-study", "exhibit"] },
+          { exam: "rex-pn", types: ["mcq", "sata", "ordered-response", "case-study", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
+          { exam: "nclex-rn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in", "hotspot", "exhibit", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
+          { exam: "np-canada", types: ["mcq", "sata", "case-study", "exhibit", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
+          { exam: "nclex-pn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
+          { exam: "aanp", types: ["mcq", "case-study", "exhibit", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
+          { exam: "ancc", types: ["mcq", "case-study", "exhibit", "bowtie", "matrix", "highlight", "trend", "image_based", "drag_drop"] },
         ];
         const displayNames: Record<string, string> = {
           mcq: "Single Best Answer MCQ",
@@ -10907,6 +10907,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           exhibit: "Exhibit / Chart Interpretation",
           bowtie: "Bow-Tie / Triage",
           matrix: "Matrix / Grid",
+          highlight: "Highlight Text",
+          trend: "Trend / Time-Series",
+          image_based: "Image-Based / Clinical Finding",
+          drag_drop: "Drag & Drop / Ordering",
         };
         for (const { exam, types } of exams) {
           for (const qt of types) {

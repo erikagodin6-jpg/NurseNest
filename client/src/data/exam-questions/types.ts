@@ -1,4 +1,4 @@
-export type QuestionType = "mcq" | "sata" | "ordered" | "fill-in-blank" | "hot-spot" | "bowtie";
+export type QuestionType = "mcq" | "sata" | "ordered" | "fill-in-blank" | "hot-spot" | "bowtie" | "matrix" | "highlight" | "trend" | "image_based" | "drag_drop" | "case_study";
 
 export interface ExamQuestion {
   q: string;
@@ -35,6 +35,125 @@ export interface BowtieQuestion {
   bodySystem: string;
   tier: string;
 }
+
+export interface MatrixQuestion {
+  id: string;
+  stem: string;
+  scenario?: string;
+  rows: { id: string; label: string }[];
+  columns: { id: string; label: string }[];
+  correctCells: Record<string, string[]>;
+  selectionMode: "single" | "multi";
+  rationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export interface HighlightQuestion {
+  id: string;
+  stem: string;
+  passage: string;
+  highlightSpans: {
+    spanId: string;
+    start: number;
+    end: number;
+    text: string;
+  }[];
+  correctSpanIds: string[];
+  maxSelections: number;
+  rationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export interface TrendQuestion {
+  id: string;
+  stem: string;
+  scenario?: string;
+  timepoints: {
+    timeLabel: string;
+    vitals?: Record<string, string>;
+    labs?: Record<string, string>;
+    nurseNotes?: string;
+    medications?: string[];
+  }[];
+  interpretationQuestion: string;
+  options: string[];
+  correctAnswer: number;
+  rationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export interface ImageBasedQuestion {
+  id: string;
+  stem: string;
+  imageDescription: string;
+  imageType: "ecg" | "xray" | "wound" | "skin" | "lab_result" | "assessment" | "other";
+  clinicalFindings: string[];
+  options: string[];
+  correctAnswer: number;
+  rationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export interface DragDropQuestion {
+  id: string;
+  stem: string;
+  scenario?: string;
+  items: { id: string; label: string }[];
+  correctOrder: string[];
+  categories?: { id: string; label: string }[];
+  correctCategorization?: Record<string, string[]>;
+  mode: "order" | "categorize";
+  rationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export interface CaseStudySubQuestion {
+  id: string;
+  questionType: "multiple_choice" | "multiple_response" | "fill_blank" | "priority" | "matrix" | "highlight";
+  questionText: string;
+  answerOptions?: string[];
+  correctAnswer: number | number[] | string | Record<string, string[]>;
+  rationale: string;
+  points: number;
+}
+
+export interface CaseStudyQuestion {
+  id: string;
+  patientProfile: {
+    name: string;
+    age: number;
+    gender: string;
+    chiefComplaint: string;
+    history: string;
+  };
+  vitals?: Record<string, string>;
+  labs?: Record<string, string>;
+  medications?: string[];
+  nurseNotes?: string;
+  questions: CaseStudySubQuestion[];
+  overallRationale: string;
+  bodySystem: string;
+  tier: string;
+  difficulty: Difficulty;
+  tags?: string[];
+}
+
+export type AdvancedQuestion = MatrixQuestion | HighlightQuestion | TrendQuestion | ImageBasedQuestion | DragDropQuestion | CaseStudyQuestion;
 
 export type Difficulty = 1 | 2 | 3;
 export type BloomLevel = "recall" | "understanding" | "application" | "analysis";

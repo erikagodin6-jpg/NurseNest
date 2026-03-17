@@ -53,6 +53,29 @@ const TIER_EXAMS: Record<string, string[]> = {
   np: ["AANP-FNP", "ANCC-FNP", "AGNP", "ACNP", "CNPE", "PMHNP"],
 };
 
+const QUESTION_TYPES = [
+  { value: "", label: "All Types" },
+  { value: "mcq", label: "MCQ - Single Best Answer" },
+  { value: "sata", label: "SATA - Select All That Apply" },
+  { value: "bowtie", label: "Bow-Tie / Triage" },
+  { value: "matrix", label: "Matrix / Grid" },
+  { value: "highlight", label: "Highlight Text" },
+  { value: "trend", label: "Trend / Time-Series" },
+  { value: "image_based", label: "Image-Based / Clinical Finding" },
+  { value: "drag_drop", label: "Drag & Drop / Ordering" },
+  { value: "case_study", label: "Case Study / Vignette" },
+  { value: "ordered", label: "Ordered Response" },
+  { value: "fill-in-blank", label: "Fill-in / Short Answer" },
+  { value: "hot-spot", label: "Hotspot / Image-Based" },
+];
+
+const BODY_SYSTEMS = [
+  "Cardiology", "Respiratory", "Neurology", "Endocrine", "Renal", "GI",
+  "Hematology", "Immunology", "Infectious Disease", "Maternal-Newborn",
+  "Pediatrics", "Mental Health", "Pharmacology", "Critical Care",
+  "Emergency", "Community Health", "Geriatrics",
+];
+
 const TIER_LABELS: Record<string, string> = {
   rpn: "RPN / PN / LVN",
   rn: "RN",
@@ -86,6 +109,8 @@ export default function AdminQBankPipeline() {
   const [formSubtopic, setFormSubtopic] = useState("");
   const [formTargetCount, setFormTargetCount] = useState(100);
   const [formCountry, setFormCountry] = useState("CA");
+  const [formQuestionType, setFormQuestionType] = useState("");
+  const [formBodySystem, setFormBodySystem] = useState("");
 
   const fetchProgress = useCallback(async () => {
     setLoading(true);
@@ -129,6 +154,8 @@ export default function AdminQBankPipeline() {
           subtopic: formSubtopic || undefined,
           targetCount: formTargetCount,
           countryCode: formCountry,
+          questionType: formQuestionType || undefined,
+          bodySystem: formBodySystem || undefined,
         }),
       });
       if (res.ok) {
@@ -288,6 +315,33 @@ export default function AdminQBankPipeline() {
               </select>
             </div>
             <div>
+              <label className="text-sm font-medium">Question Type</label>
+              <select
+                className="w-full mt-1 border rounded-md p-2 text-sm"
+                value={formQuestionType}
+                onChange={e => setFormQuestionType(e.target.value)}
+                data-testid="select-question-type"
+              >
+                {QUESTION_TYPES.map(qt => (
+                  <option key={qt.value} value={qt.value}>{qt.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium">Body System</label>
+              <select
+                className="w-full mt-1 border rounded-md p-2 text-sm"
+                value={formBodySystem}
+                onChange={e => setFormBodySystem(e.target.value)}
+                data-testid="select-body-system"
+              >
+                <option value="">All Systems</option>
+                {BODY_SYSTEMS.map(sys => (
+                  <option key={sys} value={sys}>{sys}</option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label className="text-sm font-medium">Topic (optional)</label>
               <Input
                 placeholder="e.g. Cardiac, Pharmacology"
@@ -327,6 +381,8 @@ export default function AdminQBankPipeline() {
             </Button>
             <span className="text-xs text-muted-foreground">
               Will generate {formTargetCount} {formExam} questions for {TIER_LABELS[formTier] || formTier}
+              {formQuestionType ? ` (${QUESTION_TYPES.find(t => t.value === formQuestionType)?.label || formQuestionType})` : ""}
+              {formBodySystem ? ` - ${formBodySystem}` : ""}
               {formTopic ? ` on "${formTopic}"` : " across all topics"}
             </span>
           </div>
@@ -430,6 +486,46 @@ export default function AdminQBankPipeline() {
           </CardContent>
         </Card>
       )}
+      <Card data-testid="card-advanced-question-types">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Target className="w-4 h-4" />
+            Advanced Question Type Targets
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { tier: "RPN", targets: { MCQ: 3000, SATA: 1200, "Bow-Tie": 600, "Case Study": 400, "Drag-Drop": 400, Matrix: 300, Highlight: 300, Trend: 300, "Image-Based": 300 }, total: 6800 },
+              { tier: "RN", targets: { MCQ: 5000, SATA: 2000, "Bow-Tie": 1200, "Case Study": 800, "Drag-Drop": 700, Matrix: 600, Highlight: 600, Trend: 600, "Image-Based": 600 }, total: 12100 },
+              { tier: "NP", targets: { MCQ: 6000, SATA: 2500, "Bow-Tie": 1500, "Case Study": 1200, "Drag-Drop": 800, Matrix: 700, Highlight: 700, Trend: 700, "Image-Based": 700 }, total: 14800 },
+            ].map(({ tier, targets, total }) => (
+              <div key={tier} data-testid={`card-type-targets-${tier.toLowerCase()}`}>
+                <h4 className="font-medium text-sm mb-2">{tier} - Type Distribution ({total.toLocaleString()} total)</h4>
+                <div className="space-y-1">
+                  {Object.entries(targets).map(([type, count]) => {
+                    const pct = ((count / total) * 100).toFixed(0);
+                    return (
+                      <div key={type} className="flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground">{type}</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 bg-gray-100 rounded-full h-1.5">
+                            <div className="h-1.5 rounded-full bg-blue-500" style={{ width: `${pct}%` }} />
+                          </div>
+                          <span className="font-medium w-12 text-right">{count.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 pt-4 border-t text-xs text-muted-foreground">
+            Total across all tiers: 33,700 questions covering 17 body systems
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
