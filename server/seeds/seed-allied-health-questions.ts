@@ -127,6 +127,10 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/surgical-technologist-questions-5").then(m => m.surgicalTechnologistQuestionsPart5),
         import("../../client/src/data/career-questions/surgical-technologist-questions-6").then(m => m.surgicalTechnologistQuestionsPart6),
         import("../../client/src/data/career-questions/surgical-technologist-questions-7").then(m => m.surgicalTechnologistQuestionsPart7),
+        import("../../client/src/data/career-questions/surgical-technologist-questions-8").then(m => m.surgicalTechnologistQuestionsPart8),
+        import("../../client/src/data/career-questions/surgical-technologist-questions-9").then(m => m.surgicalTechnologistQuestionsPart9),
+        import("../../client/src/data/career-questions/surgical-technologist-questions-10").then(m => m.surgicalTechnologistQuestionsPart10),
+        import("../../client/src/data/career-questions/surgical-technologist-questions-11").then(m => m.surgicalTechnologistQuestionsPart11),
       ]);
       return parts.flat();
     },
@@ -196,6 +200,11 @@ const SEED_CONFIGS: SeedConfig[] = [
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/imaging-questions").then(m => m.imagingQuestions),
         import("../../client/src/data/career-questions/imaging-questions-expansion").then(m => m.imagingQuestionsExpansion),
+        import("../../client/src/data/career-questions/imaging-questions-batch2").then(m => m.imagingQuestionsBatch2),
+        import("../../client/src/data/career-questions/imaging-questions-batch3").then(m => m.imagingQuestionsBatch3),
+        import("../../client/src/data/career-questions/imaging-questions-batch4").then(m => m.imagingQuestionsBatch4),
+        import("../../client/src/data/career-questions/imaging-questions-batch5").then(m => m.imagingQuestionsBatch5),
+        import("../../client/src/data/career-questions/imaging-questions-batch6").then(m => m.imagingQuestionsBatch6),
       ]);
       return parts.flat();
     },
@@ -243,6 +252,11 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/pharmacy-tech-questions-batch2").then(m => m.pharmacyTechQuestionsBatch2),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-batch3").then(m => m.pharmacyTechQuestionsBatch3),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-batch4").then(m => m.pharmacyTechQuestionsBatch4 as any),
+        import("../../client/src/data/career-questions/pharmacy-tech-questions-batch5").then(m => m.pharmacyTechQuestionsBatch5),
+        import("../../client/src/data/career-questions/pharmacy-tech-questions-batch6").then(m => m.pharmacyTechQuestionsBatch6),
+        import("../../client/src/data/career-questions/pharmacy-tech-questions-batch7").then(m => m.pharmacyTechQuestionsBatch7),
+        import("../../client/src/data/career-questions/pharmacy-tech-questions-batch8").then(m => m.pharmacyTechQuestionsBatch8),
+        import("../../client/src/data/career-questions/pharmacy-tech-questions-batch9").then(m => m.pharmacyTechQuestionsBatch9),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-extended").then(m => m.pharmacyTechQuestionsExtended),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-pebc").then(m => m.pharmacyTechQuestionsPEBC as any),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-expansion").then(m => m.pharmacyTechQuestionsExpansion),
