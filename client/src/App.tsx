@@ -18,6 +18,7 @@ const TesterBanner = lazy(() => import("@/components/tester-banner").then(m => (
 const UpgradePrompt = lazy(() => import("@/components/upgrade-prompt").then(m => ({ default: m.UpgradePrompt })));
 const PWAInstallPrompt = lazy(() => import("@/components/pwa-install-prompt").then(m => ({ default: m.PWAInstallPrompt })));
 const ExitIntentModal = lazy(() => import("@/components/exit-intent-modal").then(m => ({ default: m.ExitIntentModal })));
+const StickyCtaBar = lazy(() => import("@/components/sticky-cta-bar").then(m => ({ default: m.StickyCtaBar })));
 const MobileBottomNav = lazy(() => import("@/components/mobile-study-shell").then(m => ({ default: m.MobileBottomNav })));
 const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker"));
 const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
@@ -1649,6 +1650,7 @@ function App() {
                 <TooltipProvider>
                   <Toaster />
                   <PreviewBanner />
+                  <Suspense fallback={null}><StickyCtaBar /></Suspense>
                   <PageTracker />
                   <CopyProtection />
                   <LocaleRouter />
