@@ -82,6 +82,7 @@ const PROFESSIONS: ProfessionConfig[] = [
       { importPath: "../client/src/data/career-questions/surgical-technologist-questions-4", exportName: "surgicalTechnologistQuestionsPart4" },
       { importPath: "../client/src/data/career-questions/surgical-technologist-questions-5", exportName: "surgicalTechnologistQuestionsPart5" },
       { importPath: "../client/src/data/career-questions/surgical-technologist-questions-6", exportName: "surgicalTechnologistQuestionsPart6" },
+      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-7", exportName: "surgicalTechnologistQuestionsPart7" },
     ],
   },
   {

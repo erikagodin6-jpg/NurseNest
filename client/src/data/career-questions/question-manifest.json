@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T23:48:26.686Z",
+  "generatedAt": "2026-03-17T21:07:33.201Z",
   "version": 1,
   "static": {
     "alliedHealth": {
@@ -415,7 +415,7 @@
         ]
       },
       "surgicalTechnologist": {
-        "total": 1502,
+        "total": 1592,
         "byCategory": {
           "Sterile Technique & Asepsis": 172,
           "Operating Room Protocols": 188,
@@ -438,7 +438,8 @@
           "surgical-technologist-questions-3.ts",
           "surgical-technologist-questions-4.ts",
           "surgical-technologist-questions-5.ts",
-          "surgical-technologist-questions-6.ts"
+          "surgical-technologist-questions-6.ts",
+          "surgical-technologist-questions-7.ts"
         ]
       }
     },

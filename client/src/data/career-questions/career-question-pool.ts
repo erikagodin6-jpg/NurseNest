@@ -35,6 +35,7 @@ import { surgicalTechnologistQuestionsPart3 } from "./surgical-technologist-ques
 import { surgicalTechnologistQuestionsPart4 } from "./surgical-technologist-questions-4";
 import { surgicalTechnologistQuestionsPart5 } from "./surgical-technologist-questions-5";
 import { surgicalTechnologistQuestionsPart6 } from "./surgical-technologist-questions-6";
+import { surgicalTechnologistQuestionsPart7 } from "./surgical-technologist-questions-7";
 import { ptaQuestionsBatch1 } from "./pta-questions-batch1";
 import { ptaQuestionsBatch2 } from "./pta-questions-batch2";
 import { ptaQuestionsBatch3 } from "./pta-questions-batch3";
@@ -64,7 +65,7 @@ const pools: Record<string, CareerQuestion[]> = {
   occupationalTherapy: otaQuestions,
   physiotherapyAssistant: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],
   physicalTherapy: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],
-  surgicalTechnologist: [...surgicalTechnologistQuestions, ...surgicalTechnologistQuestionsPart2, ...surgicalTechnologistQuestionsPart3, ...surgicalTechnologistQuestionsPart4, ...surgicalTechnologistQuestionsPart5, ...surgicalTechnologistQuestionsPart6],
+  surgicalTechnologist: [...surgicalTechnologistQuestions, ...surgicalTechnologistQuestionsPart2, ...surgicalTechnologistQuestionsPart3, ...surgicalTechnologistQuestionsPart4, ...surgicalTechnologistQuestionsPart5, ...surgicalTechnologistQuestionsPart6, ...surgicalTechnologistQuestionsPart7],
   healthInfoMgmt: himQuestions,
   diagnosticSonography: sonographyQuestions,
   cardiacSonographer: cardiacSonographerQuestions,
