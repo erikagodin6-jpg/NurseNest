@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
-import { AutoRelatedContent } from "@/components/auto-related-content";
+import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
 import {
   Pill,
@@ -278,7 +278,8 @@ export default function ClinicalMedicationPage() {
             pageUrl={`https://www.nursenest.ca/meds/${page.slug}`}
           />
 
-          <AutoRelatedContent slug={page.slug} contentType="lesson" title={page.title} bodySystem={page.bodySystem} category={page.category} />
+          <AutoRelatedContent slug={page.slug} contentType="medication" title={page.title} bodySystem={page.bodySystem} category={page.category} />
+          <YouMayAlsoLike slug={page.slug} contentType="medication" title={page.title} bodySystem={page.bodySystem} category={page.category} />
         </div>
       </main>
       <Footer />

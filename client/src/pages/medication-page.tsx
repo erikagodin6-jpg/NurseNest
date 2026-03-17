@@ -3,6 +3,7 @@ import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
+import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -382,6 +383,9 @@ export default function MedicationPage() {
                 ))}
             </div>
           </section>
+
+          <AutoRelatedContent slug={med.slug} contentType="medication" title={med.genericName} category={med.drugClass} />
+          <YouMayAlsoLike slug={med.slug} contentType="medication" title={med.genericName} category={med.drugClass} />
         </div>
       </main>
 

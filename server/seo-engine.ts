@@ -1345,7 +1345,7 @@ export function setupSeoEngineRoutes(app: Express): void {
   app.get("/api/related-content", async (req: Request, res: Response) => {
     try {
       const slug = String(req.query.slug || "");
-      const contentType = String(req.query.contentType || "lesson") as "lesson" | "blog" | "flashcard-deck" | "exam-prep" | "allied-article" | "new-grad-guide";
+      const contentType = String(req.query.contentType || "lesson") as any;
       const title = String(req.query.title || "");
       const bodySystem = String(req.query.bodySystem || "");
       const category = String(req.query.category || "");
@@ -1365,6 +1365,33 @@ export function setupSeoEngineRoutes(app: Express): void {
       res.json({ related });
     } catch (err: any) {
       console.error("Related content API error:", err);
+      res.json({ related: [] });
+    }
+  });
+
+  app.get("/api/you-may-also-like", async (req: Request, res: Response) => {
+    try {
+      const slug = String(req.query.slug || "");
+      const contentType = String(req.query.contentType || "lesson") as any;
+      const title = String(req.query.title || "");
+      const bodySystem = String(req.query.bodySystem || "");
+      const category = String(req.query.category || "");
+      const tags = req.query.tags ? String(req.query.tags).split(",").filter(Boolean) : [];
+      const profession = String(req.query.profession || "");
+      const tier = String(req.query.tier || "rn");
+      const limit = Math.min(parseInt(String(req.query.limit || "5")), 8);
+
+      if (!slug) return res.json({ related: [] });
+
+      const { findYouMayAlsoLike } = await import("./content-relationship-service");
+      const related = await findYouMayAlsoLike(
+        { slug, contentType, title, bodySystem, category, tags, profession, tier },
+        limit
+      );
+
+      res.json({ related });
+    } catch (err: any) {
+      console.error("You may also like API error:", err);
       res.json({ related: [] });
     }
   });

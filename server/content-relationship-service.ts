@@ -1,7 +1,7 @@
 import { pool } from "./storage";
 
 export interface RelatedContentItem {
-  type: "lesson" | "blog" | "flashcard" | "exam-question" | "clinical-clarity" | "glossary";
+  type: "lesson" | "blog" | "flashcard" | "exam-question" | "clinical-clarity" | "glossary" | "medication" | "lab-value" | "condition";
   title: string;
   slug: string;
   href: string;
@@ -13,7 +13,7 @@ export interface RelatedContentItem {
 
 interface ContentContext {
   slug: string;
-  contentType: "lesson" | "blog" | "flashcard-deck" | "exam-prep" | "allied-article" | "new-grad-guide";
+  contentType: "lesson" | "blog" | "flashcard-deck" | "exam-prep" | "allied-article" | "new-grad-guide" | "medication" | "lab-value" | "condition" | "comparison" | "specialty-hub";
   title?: string;
   bodySystem?: string;
   category?: string;
@@ -21,6 +21,71 @@ interface ContentContext {
   profession?: string;
   tier?: string;
 }
+
+const CLINICAL_SYNONYMS: Record<string, string[]> = {
+  "mi": ["myocardial infarction", "heart attack", "stemi", "nstemi"],
+  "myocardial infarction": ["mi", "heart attack", "stemi", "nstemi"],
+  "heart attack": ["mi", "myocardial infarction"],
+  "htn": ["hypertension", "high blood pressure"],
+  "hypertension": ["htn", "high blood pressure"],
+  "chf": ["congestive heart failure", "heart failure", "hf"],
+  "heart failure": ["chf", "congestive heart failure", "hf"],
+  "copd": ["chronic obstructive pulmonary disease"],
+  "chronic obstructive pulmonary disease": ["copd"],
+  "dm": ["diabetes mellitus", "diabetes", "type 2 diabetes"],
+  "diabetes": ["dm", "diabetes mellitus", "type 2 diabetes", "t2dm"],
+  "dka": ["diabetic ketoacidosis"],
+  "diabetic ketoacidosis": ["dka"],
+  "aki": ["acute kidney injury", "acute renal failure", "arf"],
+  "acute kidney injury": ["aki", "acute renal failure", "arf"],
+  "ckd": ["chronic kidney disease", "chronic renal failure"],
+  "chronic kidney disease": ["ckd", "chronic renal failure"],
+  "dvt": ["deep vein thrombosis"],
+  "deep vein thrombosis": ["dvt"],
+  "pe": ["pulmonary embolism"],
+  "pulmonary embolism": ["pe"],
+  "afib": ["atrial fibrillation", "a-fib", "af"],
+  "atrial fibrillation": ["afib", "a-fib", "af"],
+  "cva": ["cerebrovascular accident", "stroke"],
+  "stroke": ["cva", "cerebrovascular accident"],
+  "siadh": ["syndrome of inappropriate antidiuretic hormone"],
+  "bun": ["blood urea nitrogen"],
+  "inr": ["international normalized ratio", "prothrombin time"],
+  "pt": ["prothrombin time", "inr"],
+  "aptt": ["activated partial thromboplastin time", "ptt"],
+  "cbc": ["complete blood count"],
+  "abg": ["arterial blood gas"],
+  "ace inhibitor": ["acei", "angiotensin converting enzyme inhibitor", "lisinopril", "enalapril", "ramipril"],
+  "arb": ["angiotensin receptor blocker", "losartan", "valsartan"],
+  "nsaid": ["nonsteroidal anti inflammatory", "ibuprofen", "naproxen"],
+  "gfr": ["glomerular filtration rate", "egfr"],
+  "bp": ["blood pressure"],
+  "hr": ["heart rate"],
+  "rr": ["respiratory rate"],
+  "wbc": ["white blood cell", "white blood cells", "leukocyte"],
+  "rbc": ["red blood cell", "red blood cells", "erythrocyte"],
+  "hgb": ["hemoglobin"],
+  "hemoglobin": ["hgb", "hb"],
+  "hct": ["hematocrit"],
+  "hematocrit": ["hct"],
+  "potassium": ["k+", "k"],
+  "sodium": ["na+", "na"],
+  "calcium": ["ca2+", "ca"],
+  "magnesium": ["mg2+", "mg"],
+};
+
+const BODY_SYSTEM_MAP: Record<string, string[]> = {
+  cardiovascular: ["cardiac", "heart", "vascular", "circulatory", "coronary", "arrhythmia", "hypertension", "hypotension"],
+  respiratory: ["pulmonary", "lung", "airway", "breathing", "ventilation", "oxygenation"],
+  renal: ["kidney", "urinary", "nephro", "dialysis", "urine"],
+  endocrine: ["diabetes", "thyroid", "adrenal", "pituitary", "hormone", "insulin", "glucose"],
+  neurological: ["neuro", "brain", "nervous", "spinal", "cerebral", "seizure", "stroke"],
+  gastrointestinal: ["gi", "digestive", "liver", "hepatic", "pancreas", "bowel", "stomach", "intestinal"],
+  hematology: ["blood", "coagulation", "anemia", "platelet", "clotting", "transfusion"],
+  musculoskeletal: ["bone", "joint", "muscle", "orthopedic", "fracture"],
+  integumentary: ["skin", "wound", "burn", "derma"],
+  immune: ["infection", "immunity", "autoimmune", "sepsis", "inflammatory"],
+};
 
 function normalizeForMatching(text: string): string {
   return (text || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -32,6 +97,75 @@ function extractKeyTerms(text: string): string[] {
   return normalized.split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
 }
 
+function expandWithSynonyms(terms: string[]): string[] {
+  const expanded = new Set(terms);
+  for (const term of terms) {
+    const synonyms = CLINICAL_SYNONYMS[term];
+    if (synonyms) {
+      for (const syn of synonyms) {
+        expanded.add(syn);
+      }
+    }
+    for (const [key, syns] of Object.entries(CLINICAL_SYNONYMS)) {
+      if (syns.includes(term) && !expanded.has(key)) {
+        expanded.add(key);
+      }
+    }
+  }
+  return Array.from(expanded);
+}
+
+function resolveBodySystem(bodySystem: string, keyTerms: string[]): string[] {
+  const systems: string[] = [];
+  if (bodySystem) systems.push(bodySystem);
+  for (const [system, aliases] of Object.entries(BODY_SYSTEM_MAP)) {
+    if (bodySystem && (bodySystem.includes(system) || system.includes(bodySystem) || aliases.some(a => bodySystem.includes(a)))) {
+      if (!systems.includes(system)) systems.push(system);
+    }
+    if (keyTerms.some(t => system.includes(t) || aliases.some(a => a.includes(t) || t.includes(a)))) {
+      if (!systems.includes(system)) systems.push(system);
+    }
+  }
+  return systems;
+}
+
+let _medicationCache: any[] | null = null;
+let _labValueCache: any[] | null = null;
+let _conditionCache: any[] | null = null;
+
+async function getMedications(): Promise<any[]> {
+  if (_medicationCache) return _medicationCache;
+  try {
+    const { seoMedications } = await import("../client/src/data/seo-medications");
+    _medicationCache = seoMedications || [];
+    return _medicationCache;
+  } catch {
+    return [];
+  }
+}
+
+async function getLabValues(): Promise<any[]> {
+  if (_labValueCache) return _labValueCache;
+  try {
+    const { seoLabValues } = await import("../client/src/data/seo-lab-values");
+    _labValueCache = seoLabValues || [];
+    return _labValueCache;
+  } catch {
+    return [];
+  }
+}
+
+async function getConditions(): Promise<any[]> {
+  if (_conditionCache) return _conditionCache;
+  try {
+    const { seoConditions } = await import("../client/src/data/seo-conditions");
+    _conditionCache = seoConditions || [];
+    return _conditionCache;
+  } catch {
+    return [];
+  }
+}
+
 export async function findRelatedContent(
   context: ContentContext,
   limit: number = 12
@@ -40,16 +174,18 @@ export async function findRelatedContent(
   const seenSlugs = new Set<string>();
   seenSlugs.add(context.slug);
 
-  const keyTerms = [
+  const rawKeyTerms = [
     ...extractKeyTerms(context.title || ""),
     ...extractKeyTerms(context.category || ""),
     ...(context.tags || []).map(t => normalizeForMatching(t)).filter(Boolean),
   ];
   if (context.profession) {
     const profTerm = normalizeForMatching(context.profession);
-    if (profTerm && !keyTerms.includes(profTerm)) keyTerms.push(profTerm);
+    if (profTerm && !rawKeyTerms.includes(profTerm)) rawKeyTerms.push(profTerm);
   }
+  const keyTerms = expandWithSynonyms(rawKeyTerms);
   const bodySystem = normalizeForMatching(context.bodySystem || "");
+  const bodySystems = resolveBodySystem(bodySystem, keyTerms);
 
   if (context.contentType !== "lesson") {
     try {
@@ -66,6 +202,68 @@ export async function findRelatedContent(
       results.push(...peerLessons);
     } catch (e) {
       console.error("Related content: peer lessons query error:", e);
+    }
+  }
+
+  if (context.contentType !== "medication") {
+    try {
+      const medResults = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...medResults);
+    } catch (e) {
+      console.error("Related content: medications error:", e);
+    }
+  }
+
+  if (context.contentType !== "lab-value") {
+    try {
+      const labResults = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...labResults);
+    } catch (e) {
+      console.error("Related content: lab values error:", e);
+    }
+  }
+
+  if (context.contentType !== "condition") {
+    try {
+      const condResults = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...condResults);
+    } catch (e) {
+      console.error("Related content: conditions error:", e);
+    }
+  }
+
+  if (context.contentType === "medication") {
+    try {
+      const condResults = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(3, limit));
+      results.push(...condResults);
+      const labResults = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...labResults);
+    } catch (e) {
+      console.error("Related content: medication cross-type error:", e);
+    }
+  }
+
+  if (context.contentType === "lab-value") {
+    try {
+      const condResults = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...condResults);
+      const medResults = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...medResults);
+    } catch (e) {
+      console.error("Related content: lab-value cross-type error:", e);
+    }
+  }
+
+  if (context.contentType === "condition") {
+    try {
+      const medResults = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(3, limit));
+      results.push(...medResults);
+      const labResults = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...labResults);
+      const peerConds = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, Math.min(2, limit));
+      results.push(...peerConds);
+    } catch (e) {
+      console.error("Related content: condition cross-type error:", e);
     }
   }
 
@@ -120,6 +318,219 @@ export async function findRelatedContent(
   return results.slice(0, limit);
 }
 
+export async function findYouMayAlsoLike(
+  context: ContentContext,
+  limit: number = 5
+): Promise<RelatedContentItem[]> {
+  const results: RelatedContentItem[] = [];
+  const seenSlugs = new Set<string>();
+  seenSlugs.add(context.slug);
+
+  const rawKeyTerms = [
+    ...extractKeyTerms(context.title || ""),
+    ...extractKeyTerms(context.category || ""),
+    ...(context.tags || []).map(t => normalizeForMatching(t)).filter(Boolean),
+  ];
+  const keyTerms = expandWithSynonyms(rawKeyTerms);
+  const bodySystem = normalizeForMatching(context.bodySystem || "");
+  const bodySystems = resolveBodySystem(bodySystem, keyTerms);
+
+  const contentType = context.contentType;
+
+  if (contentType === "medication") {
+    const conds = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, 2);
+    results.push(...conds);
+    const labs = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...labs);
+    const lessons = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...lessons);
+    const exams = await findRelatedExamContent(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...exams);
+  } else if (contentType === "lab-value") {
+    const conds = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, 2);
+    results.push(...conds);
+    const meds = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...meds);
+    const lessons = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...lessons);
+    const exams = await findRelatedExamContent(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...exams);
+  } else if (contentType === "condition") {
+    const meds = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, 2);
+    results.push(...meds);
+    const labs = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...labs);
+    const lessons = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...lessons);
+    const exams = await findRelatedExamContent(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...exams);
+  } else {
+    const meds = await findRelatedMedications(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...meds);
+    const labs = await findRelatedLabValues(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...labs);
+    const conds = await findRelatedConditions(bodySystem, bodySystems, keyTerms, seenSlugs, 1);
+    results.push(...conds);
+    const lessons = await findRelatedLessons(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...lessons);
+    const exams = await findRelatedExamContent(context, bodySystem, keyTerms, seenSlugs, 1);
+    results.push(...exams);
+  }
+
+  return results.slice(0, limit);
+}
+
+async function findRelatedMedications(
+  bodySystem: string,
+  bodySystems: string[],
+  keyTerms: string[],
+  seenSlugs: Set<string>,
+  limit: number
+): Promise<RelatedContentItem[]> {
+  const items: RelatedContentItem[] = [];
+  const medications = await getMedications();
+
+  for (const med of medications) {
+    if (items.length >= limit) break;
+    if (seenSlugs.has(med.slug)) continue;
+
+    const medNorm = normalizeForMatching(med.genericName);
+    const medClass = normalizeForMatching(med.drugClass);
+    const medIndications = (med.indications || []).map((i: string) => normalizeForMatching(i));
+    const medKeywords = (med.targetKeywords || []).map((k: string) => normalizeForMatching(k));
+    const brandNorms = (med.brandNames || []).map((b: string) => normalizeForMatching(b));
+
+    let score = 0;
+    for (const term of keyTerms) {
+      if (medNorm.includes(term) || term.includes(medNorm)) score += 5;
+      if (brandNorms.some(b => b.includes(term) || term.includes(b))) score += 4;
+      if (medClass.includes(term)) score += 3;
+      if (medIndications.some(i => i.includes(term))) score += 2;
+      if (medKeywords.some(k => k.includes(term))) score += 1;
+    }
+
+    for (const sys of bodySystems) {
+      if (medClass.includes(sys) || medIndications.some(i => i.includes(sys))) score += 2;
+    }
+
+    if (score >= 3) {
+      seenSlugs.add(med.slug);
+      items.push({
+        type: "medication",
+        title: `${med.genericName} (${med.brandNames[0] || med.drugClass})`,
+        slug: med.slug,
+        href: `/medications/${med.slug}`,
+        description: `${med.drugClass} - pharmacology guide`,
+        bodySystem,
+      });
+    }
+  }
+
+  return items.slice(0, limit);
+}
+
+async function findRelatedLabValues(
+  bodySystem: string,
+  bodySystems: string[],
+  keyTerms: string[],
+  seenSlugs: Set<string>,
+  limit: number
+): Promise<RelatedContentItem[]> {
+  const items: RelatedContentItem[] = [];
+  const labValues = await getLabValues();
+
+  for (const lab of labValues) {
+    if (items.length >= limit) break;
+    if (seenSlugs.has(lab.slug)) continue;
+
+    const labNorm = normalizeForMatching(lab.name);
+    const labFull = normalizeForMatching(lab.fullName);
+    const labOverview = normalizeForMatching(lab.overview);
+    const labKeywords = normalizeForMatching(lab.keywords || "");
+    const relatedSlugs = lab.relatedLabSlugs || [];
+
+    let score = 0;
+    for (const term of keyTerms) {
+      if (labNorm.includes(term) || term.includes(labNorm)) score += 5;
+      if (labFull.includes(term)) score += 4;
+      if (labKeywords.includes(term)) score += 2;
+      if (labOverview.includes(term)) score += 1;
+    }
+
+    for (const sys of bodySystems) {
+      if (labOverview.includes(sys) || labKeywords.includes(sys)) score += 2;
+    }
+
+    if (keyTerms.some(t => relatedSlugs.includes(t))) score += 3;
+
+    if (score >= 3) {
+      seenSlugs.add(lab.slug);
+      items.push({
+        type: "lab-value",
+        title: `${lab.name} Lab Values`,
+        slug: lab.slug,
+        href: `/lab-values/${lab.slug}`,
+        description: `Normal range: ${lab.normalRange.value} ${lab.normalRange.unit}`,
+        bodySystem,
+      });
+    }
+  }
+
+  return items.slice(0, limit);
+}
+
+async function findRelatedConditions(
+  bodySystem: string,
+  bodySystems: string[],
+  keyTerms: string[],
+  seenSlugs: Set<string>,
+  limit: number
+): Promise<RelatedContentItem[]> {
+  const items: RelatedContentItem[] = [];
+  const conditions = await getConditions();
+
+  for (const cond of conditions) {
+    if (items.length >= limit) break;
+    if (seenSlugs.has(cond.slug)) continue;
+
+    const condNorm = normalizeForMatching(cond.name);
+    const condBody = normalizeForMatching(cond.bodySystem);
+    const condKeywords = normalizeForMatching(cond.keywords || "");
+    const condOverview = normalizeForMatching(cond.overview);
+    const condMeds = (cond.medications || []).map((m: any) => normalizeForMatching(m.name));
+    const relatedConds = cond.relatedConditions || [];
+
+    let score = 0;
+    for (const term of keyTerms) {
+      if (condNorm.includes(term) || term.includes(condNorm)) score += 5;
+      if (condBody.includes(term)) score += 3;
+      if (condKeywords.includes(term)) score += 2;
+      if (condMeds.some((m: string) => m.includes(term) || term.includes(m))) score += 3;
+      if (condOverview.includes(term)) score += 1;
+    }
+
+    for (const sys of bodySystems) {
+      if (condBody.includes(sys)) score += 3;
+    }
+
+    if (keyTerms.some(t => relatedConds.includes(t))) score += 3;
+
+    if (score >= 3) {
+      seenSlugs.add(cond.slug);
+      items.push({
+        type: "condition",
+        title: cond.name,
+        slug: cond.slug,
+        href: `/conditions/${cond.slug}`,
+        description: `${cond.bodySystem} - nursing study guide`,
+        bodySystem: cond.bodySystem,
+      });
+    }
+  }
+
+  return items.slice(0, limit);
+}
+
 async function findRelatedLessons(
   context: ContentContext,
   bodySystem: string,
@@ -163,7 +574,7 @@ async function findRelatedLessons(
 
   if (items.length < limit && keyTerms.length > 0) {
     try {
-      const patterns = keyTerms.slice(0, 5).map(t => `%${t}%`);
+      const patterns = keyTerms.slice(0, 10).map(t => `%${t}%`);
       const result = await pool.query(
         `SELECT slug, title, body_system, category, updated_at
          FROM lessons
@@ -209,7 +620,7 @@ async function findRelatedBlog(
   if (keyTerms.length === 0) return items;
 
   try {
-    const patterns = keyTerms.slice(0, 5).map(t => `%${t}%`);
+    const patterns = keyTerms.slice(0, 10).map(t => `%${t}%`);
     const result = await pool.query(
       `SELECT slug, title, category, body_system, summary, updated_at
        FROM content_items
@@ -255,7 +666,7 @@ async function findRelatedFlashcards(
   if (keyTerms.length === 0) return items;
 
   try {
-    const patterns = keyTerms.slice(0, 5).map(t => `%${t}%`);
+    const patterns = keyTerms.slice(0, 10).map(t => `%${t}%`);
     const result = await pool.query(
       `SELECT slug, title, description, updated_at
        FROM flashcard_decks
@@ -329,7 +740,7 @@ async function findRelatedExamContent(
 
   if (items.length < limit && keyTerms.length > 0) {
     try {
-      const patterns = keyTerms.slice(0, 5).map(t => `%${t}%`);
+      const patterns = keyTerms.slice(0, 10).map(t => `%${t}%`);
       const result = await pool.query(
         `SELECT DISTINCT topic
          FROM exam_questions

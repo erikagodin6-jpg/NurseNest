@@ -201,19 +201,40 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     }
   } catch {}
 
-  const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
-  for (const c of seoConditions) {
-    urls.push(singleLocaleUrl(base, `/conditions/${c}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+  try {
+    const { seoConditions: condData } = await import("../../client/src/data/seo-conditions");
+    for (const c of condData) {
+      urls.push(singleLocaleUrl(base, `/conditions/${c.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
+  } catch {
+    const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
+    for (const c of seoConditions) {
+      urls.push(singleLocaleUrl(base, `/conditions/${c}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
   }
 
-  const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
-  for (const m of seoMedications) {
-    urls.push(singleLocaleUrl(base, `/medications/${m}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+  try {
+    const { seoMedications: medData } = await import("../../client/src/data/seo-medications");
+    for (const m of medData) {
+      urls.push(singleLocaleUrl(base, `/medications/${m.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
+  } catch {
+    const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
+    for (const m of seoMedications) {
+      urls.push(singleLocaleUrl(base, `/medications/${m}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
   }
 
-  const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr", "calcium", "magnesium", "bicarbonate", "bun", "hemoglobin", "white-blood-cells"];
-  for (const l of seoLabValues) {
-    urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+  try {
+    const { seoLabValues: labData } = await import("../../client/src/data/seo-lab-values");
+    for (const l of labData) {
+      urls.push(singleLocaleUrl(base, `/lab-values/${l.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
+  } catch {
+    const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr", "calcium", "magnesium", "bicarbonate", "bun", "hemoglobin", "white-blood-cells"];
+    for (const l of seoLabValues) {
+      urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, indexableLocales, "0.8", "monthly", today));
+    }
   }
 
   const newGradPages = [

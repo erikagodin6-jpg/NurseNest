@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
+import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { getLabValueBySlug, getAllLabValueSlugs, type LabValuePracticeQuestion } from "@/data/seo-lab-values";
 import { LocaleLink } from "@/lib/LocaleLink";
 import {
@@ -450,6 +451,9 @@ export default function LabValuePage() {
               </LocaleLink>
             </div>
           </section>
+
+          <AutoRelatedContent slug={labData.slug} contentType="lab-value" title={labData.name} category={labData.fullName} />
+          <YouMayAlsoLike slug={labData.slug} contentType="lab-value" title={labData.name} category={labData.fullName} />
 
           <section className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="section-cta">
             <h2 className="text-2xl font-bold mb-3">Master Lab Values for Your Nursing Exam</h2>

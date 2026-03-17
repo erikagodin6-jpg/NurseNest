@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
+import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { getConditionBySlug, getAllConditionSlugs, type ConditionPageData } from "@/data/seo-conditions";
 import { getCrossProfessionByConditionSlug } from "@/data/cross-profession-conditions";
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -552,6 +553,9 @@ export default function ConditionPage() {
               </div>
             </section>
           )}
+
+          <AutoRelatedContent slug={condition.slug} contentType="condition" title={condition.name} bodySystem={condition.bodySystem} category={condition.bodySystem} />
+          <YouMayAlsoLike slug={condition.slug} contentType="condition" title={condition.name} bodySystem={condition.bodySystem} category={condition.bodySystem} />
         </div>
       </div>
     </>

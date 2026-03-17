@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { getSpecialtyBySlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/data/specialty-hub-data";
 import {
@@ -343,6 +344,13 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
           </section>
         );
       })()}
+
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AutoRelatedContent slug={specialty.slug} contentType="specialty-hub" title={specialty.name} category={specialty.name} />
+          <YouMayAlsoLike slug={specialty.slug} contentType="specialty-hub" title={specialty.name} category={specialty.name} />
+        </div>
+      </section>
 
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
