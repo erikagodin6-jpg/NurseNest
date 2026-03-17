@@ -31,9 +31,23 @@ Key architectural features include:
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended with international fields; `shared/country-adaptation.ts` maps country codes to lab unit systems, medication naming, licensing bodies, and exam types. API endpoints support filtering by country, language, and licensing body.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization layer for the content generator, ensuring all generated content adheres to a canonical taxonomy. Includes topic normalization with synonym mapping and fuzzy matching.
 
+### Admin Purchase Notifications
+Real-time email (Resend) and SMS (Twilio) alerts on purchase events. Triggered from Stripe webhook handler in `server/index.ts`. Core files:
+- `server/admin-notifications.ts` — notification engine with per-channel dedup, email templates, SMS formatting
+- `server/notification-routes.ts` — admin-protected API routes (GET/PUT settings, POST test, GET log)
+- `server/resend-client.ts` — Resend integration client
+- `server/twilio-client.ts` — Twilio integration client
+- `client/src/pages/admin-notifications.tsx` — admin settings UI at `/admin/notifications`
+- `notification_log` table in DB for delivery tracking
+
+Events: new_subscription, subscription_cancelled, payment_failed, lifetime_purchase, trial_started.
+Default recipients: erikagodin6@gmail.com (email), +16132198982 (SMS). Configurable via admin settings.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Object Storage**: Replit Object Storage (Google Cloud Storage)
+- **Email**: Resend (transactional email via Replit integration)
+- **SMS**: Twilio (SMS via Replit integration)
