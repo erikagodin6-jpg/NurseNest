@@ -549,6 +549,36 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/rex-pn/strategy/${slug}`, "0.7", "monthly", locales, today));
   }
 
+  const nclexRnCategoryPages = ["practice-questions", "ngn", "prioritization-and-delegation", "pharmacology", "adult-health", "maternal-child", "mental-health", "exam-strategy", "top-conditions", "lab-values", "medications"];
+  for (const slug of nclexRnCategoryPages) {
+    urls.push(localizedUrl(base, `/nclex-rn/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const nclexRnConditionPages = ["heart-failure", "diabetes-dka-hhs", "copd", "pneumonia", "sepsis", "hypertension", "mi-acs", "stroke"];
+  for (const slug of nclexRnConditionPages) {
+    urls.push(localizedUrl(base, `/nclex-rn/conditions/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const nclexRnMedicationPages = ["insulin-types", "furosemide", "warfarin", "heparin", "metformin", "lisinopril", "metoprolol", "digoxin"];
+  for (const slug of nclexRnMedicationPages) {
+    urls.push(localizedUrl(base, `/nclex-rn/medications/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const nclexRnLabValuePages = ["potassium", "sodium", "abgs", "bnp", "troponin", "a1c"];
+  for (const slug of nclexRnLabValuePages) {
+    urls.push(localizedUrl(base, `/nclex-rn/lab-values/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const nclexRnComparisonPages = ["dka-vs-hhs", "viral-vs-bacterial-pneumonia", "iron-deficiency-vs-b12-deficiency", "stable-vs-unstable-angina"];
+  for (const slug of nclexRnComparisonPages) {
+    urls.push(localizedUrl(base, `/nclex-rn/compare/${slug}`, "0.7", "monthly", locales, today));
+  }
+
+  const nclexRnStrategyPages = ["how-to-study-for-nclex-rn", "prioritization-tips", "clinical-judgment-framework", "ngn-question-strategy"];
+  for (const slug of nclexRnStrategyPages) {
+    urls.push(localizedUrl(base, `/nclex-rn/strategy/${slug}`, "0.7", "monthly", locales, today));
+  }
+
   return urls;
 }
 

@@ -352,6 +352,12 @@ const RexPnMedicationTemplate = lazy(() => import("@/pages/rex-pn-content-hub").
 const RexPnLabValueTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnLabValueTemplate })));
 const RexPnComparisonTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnComparisonTemplate })));
 const RexPnStrategyTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnStrategyTemplate })));
+const NclexRnCategoryTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnCategoryTemplate })));
+const NclexRnConditionTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnConditionTemplate })));
+const NclexRnMedicationTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnMedicationTemplate })));
+const NclexRnLabValueTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnLabValueTemplate })));
+const NclexRnComparisonTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnComparisonTemplate })));
+const NclexRnStrategyTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnStrategyTemplate })));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
@@ -967,6 +973,22 @@ function AppRoutes() {
         <Route path="/compare/uworld-alternative-nursing">{() => <SeoLandingBySlug slug="compare/uworld-alternative-nursing" />}</Route>
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
+        <Route path="/nclex-rn/conditions/:slug" component={NclexRnConditionTemplate} />
+        <Route path="/nclex-rn/medications/:slug" component={NclexRnMedicationTemplate} />
+        <Route path="/nclex-rn/lab-values/:slug" component={NclexRnLabValueTemplate} />
+        <Route path="/nclex-rn/compare/:slug" component={NclexRnComparisonTemplate} />
+        <Route path="/nclex-rn/strategy/:slug" component={NclexRnStrategyTemplate} />
+        <Route path="/nclex-rn/practice-questions">{() => <NclexRnCategoryTemplate params={{ slug: "practice-questions" }} />}</Route>
+        <Route path="/nclex-rn/ngn">{() => <NclexRnCategoryTemplate params={{ slug: "ngn" }} />}</Route>
+        <Route path="/nclex-rn/prioritization-and-delegation">{() => <NclexRnCategoryTemplate params={{ slug: "prioritization-and-delegation" }} />}</Route>
+        <Route path="/nclex-rn/pharmacology">{() => <NclexRnCategoryTemplate params={{ slug: "pharmacology" }} />}</Route>
+        <Route path="/nclex-rn/adult-health">{() => <NclexRnCategoryTemplate params={{ slug: "adult-health" }} />}</Route>
+        <Route path="/nclex-rn/maternal-child">{() => <NclexRnCategoryTemplate params={{ slug: "maternal-child" }} />}</Route>
+        <Route path="/nclex-rn/mental-health">{() => <NclexRnCategoryTemplate params={{ slug: "mental-health" }} />}</Route>
+        <Route path="/nclex-rn/exam-strategy">{() => <NclexRnCategoryTemplate params={{ slug: "exam-strategy" }} />}</Route>
+        <Route path="/nclex-rn/top-conditions">{() => <NclexRnCategoryTemplate params={{ slug: "top-conditions" }} />}</Route>
+        <Route path="/nclex-rn/lab-values">{() => <NclexRnCategoryTemplate params={{ slug: "lab-values" }} />}</Route>
+        <Route path="/nclex-rn/medications">{() => <NclexRnCategoryTemplate params={{ slug: "medications" }} />}</Route>
         <Route path="/nclex-rn/*" component={SeoHubPage} />
         <Route path="/np-exam-prep/*" component={SeoHubPage} />
         <Route path="/np-exam/*" component={SeoHubPage} />
