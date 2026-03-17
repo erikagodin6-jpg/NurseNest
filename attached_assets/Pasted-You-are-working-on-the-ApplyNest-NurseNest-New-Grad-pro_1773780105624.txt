@@ -1,0 +1,371 @@
+You are working on the ApplyNest / NurseNest New Grad production system.
+
+Your task is to build a COMPLETE NEW GRAD CAREER + JOB + APPLICATION + SEO + CONVERSION ENGINE.
+
+This system must:
+• generate high-quality career and job-prep content for new graduates (especially healthcare)
+• create SEO-optimized pages that rank on Google
+• drive traffic through programmatic SEO (jobs, resumes, interviews, personal statements)
+• convert users into paid tools/services (resume builder, interview prep, premium templates)
+• integrate cleanly into the platform (no broken routes, no duplication, no empty content)
+
+This is a TRAFFIC ENGINE + CAREER SYSTEM + REVENUE ENGINE.
+
+=====================================
+PRIMARY OBJECTIVES
+=====================================
+
+1. Help new grads GET HIRED (core value proposition)
+2. Generate high-ranking SEO content (jobs, resumes, interviews)
+3. Build conversion funnels into ApplyNest tools
+4. Create strong internal linking between career tools
+5. Maintain multilingual support and clean architecture
+
+=====================================
+PHASE 1 — CORE PAGE STRUCTURE
+=====================================
+
+Build structured hubs:
+
+• /new-grad
+• /resumes-cover-letters
+• /interview-prep
+• /jobs
+• /personal-statements
+• /resources
+
+Each must act as a mini SEO hub + conversion page.
+
+-------------------------------------
+HUB PURPOSES
+-------------------------------------
+
+RESUMES:
+• resume builder
+• ATS optimization
+• templates
+
+INTERVIEW:
+• interview questions
+• answers
+• mock interviews
+
+JOBS:
+• job listings
+• job search filters
+• employer connections
+
+PERSONAL STATEMENTS:
+• school applications
+• scholarships
+
+RESOURCES:
+• career guides
+• checklists
+• tips
+
+=====================================
+PHASE 2 — SEO CONTENT CLUSTERS
+=====================================
+
+Build 4 major clusters:
+
+1. Resume & Cover Letter (HIGH CONVERSION)
+2. Interview Prep (HIGH TRAFFIC + CONVERSION)
+3. Job Search (SEO + monetization)
+4. Career Guides (LONG-TAIL TRAFFIC)
+
+-------------------------------------
+CLUSTER A — RESUME PAGES
+-------------------------------------
+
+Examples:
+
+• New Grad Nursing Resume Example
+• Healthcare Resume Templates
+• ATS Resume Tips for New Graduates
+• Cover Letter Examples Healthcare
+• Resume Mistakes to Avoid
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• real examples/templates
+• step-by-step instructions
+• ATS optimization tips
+• formatting guidance
+• downloadable or copyable content
+
+• CTA:
+  “Build Your Resume Now”
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• new grad resume example
+• nursing resume template
+• healthcare resume tips
+
+=====================================
+CLUSTER B — INTERVIEW PREP
+=====================================
+
+Examples:
+
+• Top Nursing Interview Questions
+• Behavioral Interview Questions Healthcare
+• Tell Me About Yourself (Best Answer)
+• STAR Method Explained
+• Common Interview Mistakes
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• real question examples
+• strong sample answers
+• frameworks (STAR)
+• tips and strategies
+
+• CTA:
+  “Practice Your Interview”
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• nursing interview questions
+• healthcare interview answers
+• STAR method examples
+
+=====================================
+CLUSTER C — JOB SEARCH
+=====================================
+
+Examples:
+
+• New Grad Nursing Jobs
+• Entry-Level Healthcare Jobs
+• How to Find Your First Job
+• Job Application Tips
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• job search strategies
+• filtering options
+• application tips
+• links to job board
+
+• CTA:
+  “Browse Jobs”
+  “Apply Now”
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• new grad nurse jobs
+• entry level healthcare jobs
+• how to get a job after nursing school
+
+=====================================
+CLUSTER D — CAREER GUIDES
+=====================================
+
+Examples:
+
+• What to Expect in Your First Nursing Job
+• Transition from Student to Nurse
+• Time Management for New Nurses
+• Clinical Confidence Tips
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• real-world advice
+• actionable steps
+• transition support
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• new grad nurse tips
+• first nursing job advice
+
+=====================================
+PHASE 3 — CONVERSION SYSTEM
+=====================================
+
+Each page must include:
+
+1. PRIMARY CTA ABOVE FOLD
+• Build Resume
+• Practice Interview
+• Browse Jobs
+
+2. MID-PAGE CTA
+• “Get Hired Faster with ApplyNest Tools”
+
+3. END CTA
+• “Start Your Career Journey Today”
+
+4. MICROCOPY
+• “Built for new grad healthcare professionals”
+• “Free tools to get started”
+
+-------------------------------------
+FUNNEL FLOW
+-------------------------------------
+
+SEO PAGE → TOOL → SIGNUP → PREMIUM
+
+=====================================
+PHASE 4 — INTERNAL LINKING
+=====================================
+
+Automatically connect:
+
+• resumes → interviews → jobs
+• jobs → resumes → interview prep
+• interview → resume → job listings
+
+Ensure:
+• no orphan pages
+• no broken links
+• strong funnel flow
+
+=====================================
+PHASE 5 — SEO STRATEGY
+=====================================
+
+Target keywords:
+
+• new grad nurse jobs
+• resume examples healthcare
+• interview questions nursing
+• how to get hired after nursing school
+• entry level healthcare jobs
+
+Each page must:
+• target UNIQUE keywords
+• avoid duplication
+• avoid cannibalization
+
+=====================================
+PHASE 6 — MULTI-LANGUAGE SUPPORT
+=====================================
+
+All content must:
+
+• integrate with i18n system
+• translate:
+  - headings
+  - CTAs
+  - metadata
+
+• support:
+  /en/
+  /fr/
+  /es/
+
+• include hreflang
+• no untranslated keys
+
+=====================================
+PHASE 7 — TRAFFIC GROWTH FEATURES
+=====================================
+
+Add:
+
+• FAQ sections
+• “Related resources” blocks
+• breadcrumb navigation
+• schema markup:
+  - FAQ
+  - Article
+  - JobPosting (for jobs)
+
+• blog-style pages:
+  “How I Got My First Nursing Job”
+  “Top Resume Tips for New Grads”
+  “Interview Mistakes to Avoid”
+
+=====================================
+PHASE 8 — JOB BOARD INTEGRATION
+=====================================
+
+Ensure:
+
+• job listings are searchable
+• filters exist:
+  - location
+  - profession
+  - experience level
+
+• integrate job scraping if enabled
+• link job posts to resume + interview tools
+
+=====================================
+PHASE 9 — PERFORMANCE
+=====================================
+
+Ensure:
+
+• fast load times
+• optimized job listings
+• lazy loading
+
+=====================================
+PHASE 10 — QUALITY CONTROL
+=====================================
+
+DO NOT publish if missing:
+
+• SEO metadata
+• structured content
+• internal links
+• CTAs
+
+Prevent:
+• duplicate pages
+• empty pages
+• broken routes
+
+=====================================
+PHASE 11 — PUBLISHING + INTEGRATION
+=====================================
+
+Ensure:
+
+• content is saved to database
+• appears in correct sections
+• shows on live site
+• connects to ApplyNest tools
+• connects to pricing
+• does NOT create duplicate menus or routes
+
+=====================================
+SUCCESS CRITERIA
+=====================================
+
+System is complete ONLY if:
+
+• high-quality new grad career content exists
+• SEO pages are live and indexable
+• job/resume/interview pages rank potential is high
+• internal linking is strong
+• multilingual support works
+• users convert into tools and premium services
+• no broken links or empty pages exist
+
+=====================================
+
+This system must function as a HIGH-TRAFFIC SEO ENGINE + CAREER PLATFORM + REVENUE SYSTEM for new graduates.
+
+Build it cleanly, thoroughly, and production-ready.

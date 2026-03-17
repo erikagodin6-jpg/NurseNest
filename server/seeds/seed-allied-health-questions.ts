@@ -126,6 +126,7 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/surgical-technologist-questions-4").then(m => m.surgicalTechnologistQuestionsPart4),
         import("../../client/src/data/career-questions/surgical-technologist-questions-5").then(m => m.surgicalTechnologistQuestionsPart5),
         import("../../client/src/data/career-questions/surgical-technologist-questions-6").then(m => m.surgicalTechnologistQuestionsPart6),
+        import("../../client/src/data/career-questions/surgical-technologist-questions-7").then(m => m.surgicalTechnologistQuestionsPart7),
       ]);
       return parts.flat();
     },

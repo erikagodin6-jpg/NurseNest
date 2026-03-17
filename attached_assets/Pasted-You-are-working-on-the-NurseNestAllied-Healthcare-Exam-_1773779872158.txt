@@ -1,0 +1,342 @@
+You are working on the NurseNestAllied / Healthcare Exam Academy production system.
+
+Your task is to build a COMPLETE RADIOLOGY & MEDICAL IMAGING (Radiologic Technologist / X-Ray / CT / MRI / ARRT-aligned) QUESTION + CONTENT + SEO + CONVERSION ENGINE.
+
+This system must:
+• generate high-quality radiology exam questions (ARRT + CAMRT aligned)
+• include deep clinical + imaging-based rationales
+• create SEO-optimized pages that rank on Google
+• drive traffic through programmatic SEO (high-volume imaging queries)
+• convert users into paid subscribers
+• integrate cleanly into the platform (no broken routes, no duplication, no empty content)
+
+This is a TRAFFIC ENGINE + EDUCATION SYSTEM + REVENUE ENGINE.
+
+=====================================
+PRIMARY OBJECTIVES
+=====================================
+
+1. Generate radiology exam-level questions
+2. Build SEO clusters for imaging topics
+3. Capture high-volume search traffic (X-ray, CT, MRI basics)
+4. Convert users into question bank subscribers
+5. Maintain multilingual support and clean architecture
+
+=====================================
+PHASE 1 — QUESTION GENERATION
+=====================================
+
+Generate questions across ALL major radiology domains:
+
+• X-ray Imaging Fundamentals
+• CT Imaging
+• MRI Principles
+• Radiation Physics
+• Radiation Protection & Safety
+• Image Quality & Artifacts
+• Positioning Techniques
+• Contrast Media & Reactions
+• Anatomy in Imaging
+• Pathology Recognition
+• Equipment & Technology
+• Fluoroscopy
+• Mammography (if applicable)
+
+-------------------------------------
+QUESTION TYPES REQUIRED
+-------------------------------------
+
+• multiple choice (4–5 options)
+• select all that apply
+• image-based scenarios (describe findings if no images)
+• positioning scenarios
+• artifact identification questions
+• case-based clinical imaging scenarios
+
+-------------------------------------
+EACH QUESTION MUST INCLUDE
+-------------------------------------
+
+• realistic imaging scenario
+• modality (X-ray, CT, MRI, etc.)
+• correct answer
+• detailed rationale for CORRECT answer
+• detailed rationale for EACH incorrect answer
+• imaging interpretation explanation
+• physics explanation when relevant
+• exam strategy tip (why tested)
+• difficulty level (easy, moderate, hard)
+• topic + subtopic tags
+
+NO shallow explanations.
+NO missing rationale.
+
+=====================================
+PHASE 2 — HIGH-TRAFFIC SEO CLUSTERS
+=====================================
+
+Build 3 major SEO clusters:
+
+1. Imaging Basics (HIGH TRAFFIC)
+2. Radiation & Safety (EXAM + SEO)
+3. Anatomy & Positioning (HIGH CONVERSION)
+
+-------------------------------------
+CLUSTER A — IMAGING BASICS
+-------------------------------------
+
+Pages:
+
+• X-ray vs CT vs MRI Explained
+• How X-rays Work
+• CT Scan Basics
+• MRI Basics Explained
+• Contrast Media Explained
+• Imaging Artifacts Explained
+
+Each page must include:
+• simple + clinical explanation
+• comparisons between modalities
+• use cases
+• pros/cons
+• exam tips
+• embedded questions
+
+-------------------------------------
+CLUSTER B — RADIATION & SAFETY
+-------------------------------------
+
+Pages:
+
+• Radiation Dose Explained
+• ALARA Principle
+• Radiation Protection Techniques
+• Scatter Radiation
+• Inverse Square Law
+• Shielding and Exposure Limits
+
+Include:
+• formulas where relevant
+• clinical safety applications
+• regulatory considerations
+• exam traps
+
+-------------------------------------
+CLUSTER C — ANATOMY & POSITIONING
+-------------------------------------
+
+Pages:
+
+• Chest X-ray Positioning
+• Abdomen Imaging Basics
+• Skull Imaging Views
+• Spine Imaging Positions
+• Extremity Positioning
+• Cross-sectional Anatomy (CT/MRI)
+
+Include:
+• positioning steps
+• what structures should be visible
+• common errors
+• correction techniques
+
+=====================================
+PHASE 3 — PAGE STRUCTURE (ALL PAGES)
+=====================================
+
+Each page MUST include:
+
+• SEO title (keyword optimized)
+• meta description
+• H1 heading
+• structured H2/H3 sections
+
+• strong intro matching search intent
+
+• educational content:
+  - definitions
+  - step-by-step explanation
+  - clinical relevance
+  - comparisons where relevant
+
+• embedded questions (3–5 free)
+• locked premium questions below
+
+• internal links to:
+  - related imaging topics
+  - question banks
+  - career pages
+  - pricing
+
+=====================================
+PHASE 4 — CONVERSION SYSTEM
+=====================================
+
+On ALL pages:
+
+1. FREE PREVIEW
+• 3–5 questions visible
+
+2. LOCKED CONTENT
+• blurred questions below
+
+CTA:
+• “Unlock Full Radiology Question Bank”
+• “Get 500+ ARRT Practice Questions”
+
+3. MID-PAGE CTA
+• “Master Imaging Concepts with Practice Questions”
+
+4. END CTA
+• “Start Practicing Now”
+
+5. MICROCOPY
+• “Built for ARRT & CAMRT Exams”
+• “No signup required to preview”
+
+=====================================
+PHASE 5 — INTERNAL LINKING ENGINE
+=====================================
+
+Automatically connect:
+
+• X-ray → CT → MRI
+• imaging → anatomy → positioning
+• physics → radiation → safety
+• artifacts → image quality → troubleshooting
+
+Ensure:
+• no orphan pages
+• no broken links
+• strong cluster structure
+
+=====================================
+PHASE 6 — SEO STRATEGY
+=====================================
+
+Target keywords:
+
+• radiology practice questions
+• ARRT exam prep
+• X-ray vs CT vs MRI
+• how X-rays work
+• CT scan explained
+• MRI basics
+• radiation safety radiology
+• imaging positioning techniques
+
+Each page must:
+• target a UNIQUE keyword
+• avoid duplication
+• avoid cannibalization
+
+=====================================
+PHASE 7 — MULTI-LANGUAGE SUPPORT
+=====================================
+
+All content must:
+
+• integrate with i18n system
+• translate:
+  - headings
+  - CTAs
+  - metadata
+
+• support:
+  /en/
+  /fr/
+  /es/
+
+• include hreflang tags
+• no untranslated keys
+
+=====================================
+PHASE 8 — TRAFFIC GROWTH FEATURES
+=====================================
+
+Add:
+
+• FAQ sections (for featured snippets)
+• “Related topics” blocks
+• breadcrumb navigation
+• schema markup:
+  - FAQ
+  - Article
+  - Educational
+
+• blog-style pages:
+  “How to Pass the ARRT Exam”
+  “Top 50 Radiology Questions”
+  “Common Imaging Mistakes”
+
+=====================================
+PHASE 9 — IMAGE + VISUAL STRATEGY
+=====================================
+
+Where applicable:
+
+• include diagrams (or placeholders)
+• label anatomy clearly
+• show positioning visuals (future-ready)
+• optimize images for fast loading
+
+=====================================
+PHASE 10 — PERFORMANCE
+=====================================
+
+Ensure:
+
+• fast page load
+• lazy loading for images/components
+• no blocking scripts
+
+=====================================
+PHASE 11 — QUALITY CONTROL
+=====================================
+
+DO NOT publish if missing:
+
+• rationale
+• SEO metadata
+• structured headings
+• internal links
+• CTAs
+
+Prevent:
+• duplicate pages
+• repeated content
+• empty pages
+
+=====================================
+PHASE 12 — PUBLISHING + INTEGRATION
+=====================================
+
+Ensure:
+
+• content is saved to database
+• appears in Radiology categories
+• shows on live site
+• connects to career pages
+• connects to pricing system
+• does NOT create duplicate menus or routes
+
+=====================================
+SUCCESS CRITERIA
+=====================================
+
+System is complete ONLY if:
+
+• high-quality radiology questions exist with full rationales
+• SEO pages are live and indexable
+• imaging content ranks for high-traffic keywords
+• internal linking is strong
+• multilingual support works
+• users convert from free → paid
+• no broken links or empty pages exist
+• content is clinically accurate and exam-ready
+
+=====================================
+
+This system must function as a HIGH-TRAFFIC SEO ENGINE + EDUCATION PLATFORM + REVENUE SYSTEM for radiology and imaging content.
+
+Build it cleanly, thoroughly, and production-ready.

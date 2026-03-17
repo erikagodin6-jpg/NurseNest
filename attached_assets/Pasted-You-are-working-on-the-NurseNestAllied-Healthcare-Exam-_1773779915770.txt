@@ -1,0 +1,378 @@
+You are working on the NurseNestAllied / Healthcare Exam Academy production system.
+
+Your task is to build a COMPLETE PHARMACY TECHNICIAN (CPhT / PTCB / PEBC / NHA-aligned) QUESTION + CONTENT + SEO + CONVERSION ENGINE.
+
+This system must:
+• generate high-quality pharmacy technician exam questions
+• include deep pharmacology + calculation + workflow rationales
+• create SEO-optimized pages that rank on Google
+• drive traffic through programmatic SEO (medications, calculations, sig codes, law)
+• convert users into paid subscribers
+• integrate cleanly into the platform (no broken routes, no duplication, no empty content)
+
+This is a TRAFFIC ENGINE + EDUCATION SYSTEM + REVENUE ENGINE.
+
+=====================================
+PRIMARY OBJECTIVES
+=====================================
+
+1. Generate CPhT exam-level questions (PTCB, PEBC, NHA)
+2. Build high-volume SEO clusters (medications, calculations, sig codes, law)
+3. Capture search traffic from medication lookups and calculation queries
+4. Funnel users into question banks
+5. Maintain multilingual support and clean architecture
+
+=====================================
+PHASE 1 — QUESTION GENERATION
+=====================================
+
+Generate questions across ALL major pharmacy tech domains:
+
+• Pharmacology (drug classes, indications, side effects)
+• Top 200 Medications
+• Dosage Calculations
+• IV Flow Rates
+• Conversions (mg, mL, kg, lbs)
+• Prescription Interpretation (Sig Codes)
+• Pharmacy Law & Ethics (US + Canada)
+• Sterile & Non-Sterile Compounding
+• Medication Safety
+• Inventory & Workflow
+• Insurance & Billing Basics
+
+-------------------------------------
+QUESTION TYPES REQUIRED
+-------------------------------------
+
+• multiple choice (4–5 options)
+• select all that apply
+• calculation questions (step-by-step)
+• prescription interpretation scenarios
+• case-based medication scenarios
+
+-------------------------------------
+EACH QUESTION MUST INCLUDE
+-------------------------------------
+
+• realistic pharmacy scenario
+• correct answer
+• detailed rationale for CORRECT answer
+• detailed rationale for EACH incorrect answer
+• step-by-step calculation when applicable
+• pharmacology explanation (mechanism, use, safety)
+• exam strategy tip (why tested)
+• difficulty level (easy, moderate, hard)
+• topic + subtopic tags
+
+NO missing rationale.
+NO shallow explanations.
+
+=====================================
+PHASE 2 — HIGH-TRAFFIC SEO CLUSTERS
+=====================================
+
+Build 4 major clusters:
+
+1. Medication Pages (HIGHEST TRAFFIC)
+2. Pharmacy Calculations (HIGH SEARCH INTENT)
+3. Sig Codes & Prescription Reading (VERY HIGH CONVERSION)
+4. Pharmacy Law & Safety (EXAM + SEO)
+
+-------------------------------------
+CLUSTER A — MEDICATION PAGES
+-------------------------------------
+
+Examples:
+
+• Metformin Uses, Side Effects, and Nursing/Pharmacy Considerations
+• Lisinopril Explained
+• Atorvastatin Side Effects
+• Insulin Types Explained
+• Amoxicillin Uses
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• drug class
+• mechanism of action
+• indications
+• side effects
+• adverse effects
+• contraindications
+• interactions (including herbal supplements)
+• patient counseling points
+• exam tips
+
+• embedded questions
+• internal links to related drugs/classes
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• “metformin side effects”
+• “lisinopril what is it used for”
+• “insulin types chart”
+• “atorvastatin side effects”
+
+=====================================
+CLUSTER B — CALCULATIONS (HIGH CONVERSION)
+=====================================
+
+Examples:
+
+• Dosage Calculations for Pharmacy Technicians
+• IV Flow Rate Calculations
+• Unit Conversions (mg to g, lb to kg)
+• Alligation Method Explained
+• Ratio and Proportion Calculations
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• formulas
+• step-by-step examples
+• practice problems
+• common mistakes
+• exam shortcuts
+
+• embedded calculation questions
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• pharmacy calculations practice
+• dosage calculations pharmacy tech
+• IV flow rate formula
+• mg to mL conversion
+
+=====================================
+CLUSTER C — SIG CODES & PRESCRIPTIONS
+=====================================
+
+Examples:
+
+• Sig Codes List Explained
+• How to Read a Prescription
+• Common Pharmacy Abbreviations
+• Rx Label Interpretation
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• abbreviations and meanings
+• examples of prescriptions
+• translation into plain language
+• safety considerations
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• sig codes list
+• pharmacy abbreviations
+• how to read prescriptions
+
+=====================================
+CLUSTER D — LAW & SAFETY
+=====================================
+
+Examples:
+
+• Controlled Drug Schedules
+• Pharmacy Law Basics
+• Medication Error Prevention
+• High-Alert Medications
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• regulations (US + Canada differences)
+• safety protocols
+• real-world scenarios
+• exam traps
+
+=====================================
+PHASE 3 — PAGE STRUCTURE
+=====================================
+
+Each page MUST include:
+
+• SEO title
+• meta description
+• H1 heading
+• structured H2/H3 sections
+• strong intro matching search intent
+
+• embedded 3–5 FREE questions
+• locked premium questions below
+
+• internal links to:
+  - related topics
+  - medications
+  - calculations
+  - pricing
+
+=====================================
+PHASE 4 — CONVERSION SYSTEM
+=====================================
+
+On ALL pages:
+
+1. FREE QUESTIONS
+• 3–5 visible
+
+2. LOCKED QUESTIONS
+• blurred content
+
+CTA:
+• “Unlock Full Pharmacy Tech Question Bank”
+• “Get 500+ Practice Questions”
+
+3. MID-PAGE CTA
+• “Master Pharmacy Tech Exams Faster”
+
+4. END CTA
+• “Start Practicing Now”
+
+5. MICROCOPY
+• “Built for PTCB, PEBC, and NHA exams”
+• “No signup required to preview”
+
+=====================================
+PHASE 5 — INTERNAL LINKING ENGINE
+=====================================
+
+Automatically connect:
+
+• medications → classes → interactions
+• calculations → IV → conversions
+• sig codes → prescriptions → safety
+• law → controlled substances → dispensing
+
+Ensure:
+• no orphan pages
+• no broken links
+• strong clusters
+
+=====================================
+PHASE 6 — SEO STRATEGY
+=====================================
+
+Target keywords:
+
+• pharmacy technician practice questions
+• PTCB exam prep
+• PEBC pharmacy tech exam
+• top 200 drugs list
+• pharmacy calculations practice
+• sig codes list
+
+Each page must:
+• target a UNIQUE keyword
+• avoid duplication
+• avoid cannibalization
+
+=====================================
+PHASE 7 — MULTI-LANGUAGE SUPPORT
+=====================================
+
+All content must:
+
+• integrate with i18n system
+• translate:
+  - headings
+  - CTAs
+  - metadata
+
+• support:
+  /en/
+  /fr/
+  /es/
+
+• include hreflang tags
+• no untranslated keys
+
+=====================================
+PHASE 8 — TRAFFIC GROWTH FEATURES
+=====================================
+
+Add:
+
+• FAQ sections
+• “Related topics” blocks
+• breadcrumb navigation
+• schema markup:
+  - FAQ
+  - Article
+  - Educational
+
+• blog-style pages:
+  “How to Pass the Pharmacy Tech Exam”
+  “Top 200 Drugs You Must Know”
+  “Common Calculation Mistakes”
+
+=====================================
+PHASE 9 — PERFORMANCE
+=====================================
+
+Ensure:
+
+• fast load times
+• lazy loading
+• optimized content rendering
+
+=====================================
+PHASE 10 — QUALITY CONTROL
+=====================================
+
+DO NOT publish if missing:
+
+• rationale
+• SEO metadata
+• internal links
+• CTAs
+
+Prevent:
+• duplicate questions
+• repeated content
+• empty pages
+
+=====================================
+PHASE 11 — PUBLISHING + INTEGRATION
+=====================================
+
+Ensure:
+
+• content is saved to database
+• appears in Pharmacy Tech categories
+• shows on live site
+• connects to career pages
+• connects to pricing system
+• does NOT create duplicate menus or routes
+
+=====================================
+SUCCESS CRITERIA
+=====================================
+
+System is complete ONLY if:
+
+• high-quality pharmacy tech questions exist with full rationales
+• SEO pages are live and indexable
+• medication and calculation pages rank potential is high
+• internal linking is strong
+• multilingual support works
+• users convert from free → paid
+• no broken links or empty pages exist
+• content is exam-ready and clinically accurate
+
+=====================================
+
+This system must function as a HIGH-TRAFFIC SEO ENGINE + EDUCATION PLATFORM + REVENUE SYSTEM for pharmacy technician content.
+
+Build it cleanly, thoroughly, and production-ready.

@@ -1,0 +1,391 @@
+You are working on the NurseNestAllied / Healthcare Exam Academy production system.
+
+Your task is to build a COMPLETE PARAMEDIC / EMS (EMT-B, AEMT, Paramedic, NREMT-aligned) QUESTION + CONTENT + SEO + CONVERSION ENGINE.
+
+This system must:
+• generate high-quality EMS exam questions (NREMT, Canadian PCP/ACP aligned)
+• include deep clinical reasoning + prehospital decision-making rationales
+• create SEO-optimized pages that rank on Google
+• drive traffic through programmatic SEO (symptoms, emergencies, protocols)
+• convert users into paid subscribers
+• integrate cleanly into the platform (no broken routes, no duplication, no empty content)
+
+This is a TRAFFIC ENGINE + EDUCATION SYSTEM + REVENUE ENGINE.
+
+=====================================
+PRIMARY OBJECTIVES
+=====================================
+
+1. Generate paramedic/EMS exam-level questions
+2. Build high-volume SEO clusters (emergencies, assessments, medications)
+3. Capture search traffic for symptoms + emergency care
+4. Funnel users into EMS question banks
+5. Maintain multilingual support and clean architecture
+
+=====================================
+PHASE 1 — QUESTION GENERATION
+=====================================
+
+Generate questions across ALL EMS domains:
+
+• Airway & Respiratory Emergencies
+• Cardiac Emergencies (ACS, arrhythmias)
+• Shock & Trauma
+• Neurological Emergencies (stroke, seizures)
+• Medical Emergencies (diabetes, sepsis)
+• Obstetrics & Pediatrics
+• Pharmacology (EMS medications)
+• Patient Assessment & Primary Survey
+• ECG Interpretation
+• Protocol-Based Decision Making
+• Scene Safety & Triage
+• Mass Casualty Incidents
+
+-------------------------------------
+QUESTION TYPES REQUIRED
+-------------------------------------
+
+• multiple choice (4–5 options)
+• select all that apply
+• scenario-based field cases
+• ECG interpretation questions
+• “what is your next action” questions
+• prioritization and triage scenarios
+
+-------------------------------------
+EACH QUESTION MUST INCLUDE
+-------------------------------------
+
+• realistic prehospital scenario
+• correct answer
+• detailed rationale for CORRECT answer
+• detailed rationale for EACH incorrect answer
+• step-by-step clinical reasoning
+• protocol-based explanation (where applicable)
+• exam strategy tip (why tested)
+• difficulty level (easy, moderate, hard)
+• topic + subtopic tags
+
+NO shallow explanations.
+NO missing rationale.
+
+=====================================
+PHASE 2 — HIGH-TRAFFIC SEO CLUSTERS
+=====================================
+
+Build 4 major clusters:
+
+1. Emergency Conditions (HIGHEST TRAFFIC)
+2. Patient Assessment & Protocols (HIGH CONVERSION)
+3. Medications (HIGH SEO + PRACTICAL)
+4. ECG & Cardiac Interpretation (HIGH VALUE)
+
+-------------------------------------
+CLUSTER A — EMERGENCY CONDITIONS
+-------------------------------------
+
+Pages:
+
+• Chest Pain Assessment (EMS)
+• Shortness of Breath Causes & Treatment
+• Stroke Recognition & Management
+• Seizure Management
+• Hypoglycemia vs Hyperglycemia
+• Trauma Assessment & Management
+• Shock Types Explained
+• Anaphylaxis Emergency Treatment
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• signs and symptoms
+• assessment steps (primary + secondary survey)
+• differential considerations
+• interventions (BLS + ALS)
+• transport decisions
+• red flags
+• exam tips
+
+• embedded EMS questions
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• chest pain EMS assessment
+• stroke symptoms paramedic
+• trauma primary survey
+• shock types explained
+
+=====================================
+CLUSTER B — ASSESSMENT & PROTOCOLS
+=====================================
+
+Pages:
+
+• Primary Survey (ABCDE)
+• Secondary Assessment
+• SAMPLE History
+• OPQRST Assessment
+• Triage Systems (START, etc.)
+• Scene Safety
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• step-by-step frameworks
+• what to do first
+• prioritization logic
+• common mistakes
+• exam traps
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• primary survey ABCDE
+• SAMPLE history paramedic
+• OPQRST meaning EMS
+
+=====================================
+CLUSTER C — EMS MEDICATIONS
+=====================================
+
+Pages:
+
+• Epinephrine Uses EMS
+• Nitroglycerin Explained
+• Albuterol Indications
+• Naloxone Administration
+• Aspirin in ACS
+• Dextrose Administration
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• indications
+• contraindications
+• dosage (adult/pediatric)
+• administration routes
+• side effects
+• clinical scenarios
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• epinephrine dose EMS
+• nitroglycerin contraindications
+• naloxone how it works
+
+=====================================
+CLUSTER D — ECG & CARDIAC
+=====================================
+
+Pages:
+
+• Basic ECG Interpretation
+• Sinus Rhythm vs Arrhythmias
+• STEMI Recognition
+• Tachycardia vs Bradycardia
+• Heart Blocks Explained
+
+-------------------------------------
+EACH PAGE MUST INCLUDE
+-------------------------------------
+
+• rhythm characteristics
+• identification steps
+• clinical implications
+• treatment priorities
+
+-------------------------------------
+SEO TARGETS
+-------------------------------------
+
+• ECG interpretation basics
+• STEMI vs NSTEMI
+• heart block types explained
+
+=====================================
+PHASE 3 — PAGE STRUCTURE
+=====================================
+
+Each page MUST include:
+
+• SEO title
+• meta description
+• H1 heading
+• structured H2/H3 sections
+• strong intro matching search intent
+
+• embedded 3–5 FREE questions
+• locked premium questions below
+
+• internal links to:
+  - related emergencies
+  - medications
+  - protocols
+  - pricing
+
+=====================================
+PHASE 4 — CONVERSION SYSTEM
+=====================================
+
+On ALL pages:
+
+1. FREE QUESTIONS
+• 3–5 visible
+
+2. LOCKED QUESTIONS
+• blurred content
+
+CTA:
+• “Unlock Full Paramedic Question Bank”
+• “Get 500+ EMS Practice Questions”
+
+3. MID-PAGE CTA
+• “Master EMS Exams Faster”
+
+4. END CTA
+• “Start Practicing Now”
+
+5. MICROCOPY
+• “Built for NREMT & Paramedic Exams”
+• “No signup required to preview”
+
+=====================================
+PHASE 5 — INTERNAL LINKING ENGINE
+=====================================
+
+Automatically connect:
+
+• symptoms → emergencies → medications
+• ECG → cardiac → medications
+• trauma → shock → interventions
+• assessment → protocols → treatment
+
+Ensure:
+• no orphan pages
+• no broken links
+• strong clusters
+
+=====================================
+PHASE 6 — SEO STRATEGY
+=====================================
+
+Target keywords:
+
+• paramedic practice questions
+• NREMT exam prep
+• EMT questions and answers
+• EMS protocols explained
+• ECG paramedic interpretation
+• trauma assessment EMS
+
+Each page must:
+• target a UNIQUE keyword
+• avoid duplication
+• avoid cannibalization
+
+=====================================
+PHASE 7 — MULTI-LANGUAGE SUPPORT
+=====================================
+
+All content must:
+
+• integrate with i18n system
+• translate:
+  - headings
+  - CTAs
+  - metadata
+
+• support:
+  /en/
+  /fr/
+  /es/
+
+• include hreflang tags
+• no untranslated keys
+
+=====================================
+PHASE 8 — TRAFFIC GROWTH FEATURES
+=====================================
+
+Add:
+
+• FAQ sections
+• “Related topics” blocks
+• breadcrumb navigation
+• schema markup:
+  - FAQ
+  - Article
+  - Educational
+
+• blog-style pages:
+  “How to Pass the Paramedic Exam”
+  “Top 50 EMS Questions”
+  “Common EMS Mistakes”
+
+=====================================
+PHASE 9 — PERFORMANCE
+=====================================
+
+Ensure:
+
+• fast load times
+• lazy loading
+• optimized rendering
+
+=====================================
+PHASE 10 — QUALITY CONTROL
+=====================================
+
+DO NOT publish if missing:
+
+• rationale
+• SEO metadata
+• internal links
+• CTAs
+
+Prevent:
+• duplicate questions
+• repeated content
+• empty pages
+
+=====================================
+PHASE 11 — PUBLISHING + INTEGRATION
+=====================================
+
+Ensure:
+
+• content is saved to database
+• appears in EMS categories
+• shows on live site
+• connects to career pages
+• connects to pricing system
+• does NOT create duplicate menus or routes
+
+=====================================
+SUCCESS CRITERIA
+=====================================
+
+System is complete ONLY if:
+
+• high-quality EMS questions exist with full rationales
+• SEO pages are live and indexable
+• emergency + protocol pages rank potential is high
+• internal linking is strong
+• multilingual support works
+• users convert from free → paid
+• no broken links or empty pages exist
+• content is clinically accurate and exam-ready
+
+=====================================
+
+This system must function as a HIGH-TRAFFIC SEO ENGINE + EDUCATION PLATFORM + REVENUE SYSTEM for paramedic and EMS content.
+
+Build it cleanly, thoroughly, and production-ready.

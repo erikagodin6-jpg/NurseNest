@@ -954,6 +954,210 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "Is there a free trial for PT exam prep?", a: "Yes! Take our free diagnostic assessment to evaluate your readiness across all PT body systems, plus access free practice questions with detailed clinical and biomechanical rationales." }
     ]
   },
+  {
+    slug: "surgical-technologist-practice-questions",
+    careerSlug: "surgical-technologist",
+    pageType: "practice-questions",
+    title: "Surgical Tech Practice Questions | CST & CSFA Exam Prep",
+    metaDescription: "Master surgical technology certification with 1,500+ NBSTSA CST exam-authentic practice questions. Deep clinical rationales on sterile technique, instrument ID, surgical procedures, and OR safety.",
+    h1: "Surgical Technologist Practice Questions",
+    heroSubtitle: "Exam-authentic NBSTSA CST and CSFA practice questions with detailed clinical rationales covering sterile technique, instrument identification, surgical procedures, patient positioning, and intraoperative monitoring.",
+    sections: [
+      {
+        heading: "Why Our Surgical Tech Questions Are Different",
+        content: "Most question banks give you a one-line explanation. NurseNest Allied provides detailed clinical rationales for every surgical technologist question — covering the reasoning behind sterile technique decisions, instrument selection, wound closure choices, and patient safety protocols. Each rationale walks you through the surgical workflow context so you understand not just the correct answer, but why every other option is wrong. Our questions are mapped to the official NBSTSA CST exam blueprint, ensuring you study exactly what is tested on certification day."
+      },
+      {
+        heading: "Complete CST Domain Coverage",
+        content: "Our question bank covers every domain tested on the NBSTSA CST exam: Preoperative Preparation (patient assessment, room setup, instrument preparation), Intraoperative Procedures (passing instruments, maintaining the sterile field, surgical counts, specimen handling), Postoperative Procedures (wound closure, dressing application, instrument processing), Administrative and Personnel (OR scheduling, case carts, documentation), and Equipment Sterilization and Maintenance (autoclaving, chemical sterilization, biological indicators). Each domain includes questions at increasing difficulty levels to build your clinical reasoning."
+      },
+      {
+        heading: "Adaptive CAT-Style Question Engine",
+        content: "Real certification exams challenge you at your current level. Our adaptive engine adjusts question difficulty based on your performance in real-time. When you consistently answer sterile technique questions correctly, the system presents more complex intraoperative scenarios. When you struggle with instrument identification, it provides targeted reinforcement. This personalized approach means every practice session maximizes your learning efficiency and builds confidence for exam day."
+      },
+      {
+        heading: "Surgical Specialty Coverage",
+        content: "The CST exam tests knowledge across multiple surgical specialties. Our question bank includes questions on General Surgery (appendectomy, cholecystectomy, hernia repair), Orthopedic Surgery (total joint replacement, fracture fixation, arthroscopy), Neurosurgery (craniotomy, laminectomy, VP shunt), Cardiovascular Surgery (CABG, valve replacement), OB/GYN Surgery (C-section, hysterectomy, laparoscopy), Ophthalmic Surgery (cataract extraction, corneal transplant), and Plastic/Reconstructive Surgery (skin grafts, flaps, breast reconstruction)."
+      }
+    ],
+    faqs: [
+      { q: "How many surgical tech practice questions are available?", a: "We currently have 1,500+ exam-authentic questions mapped to the NBSTSA CST blueprint, with new questions added regularly. Our roadmap targets 3,000+ questions across all surgical specialties and CST domains." },
+      { q: "Are the questions aligned with the NBSTSA CST exam?", a: "Yes. Every question is mapped to the official NBSTSA Certified Surgical Technologist examination content outline, covering all tested domains including preoperative preparation, intraoperative procedures, and sterile processing." },
+      { q: "Do you cover instrument identification?", a: "Extensively. Our question bank includes hundreds of questions on surgical instrument identification, classification (cutting, clamping, retracting, grasping), and proper usage across all surgical specialties — from hemostats and retractors to specialty instruments for orthopedic and neurosurgery cases." },
+      { q: "What about the CSFA certification?", a: "Yes, we include questions relevant to the Certified Surgical First Assistant (CSFA) credential, covering advanced topics like tissue handling, hemostasis techniques, wound closure, and first-assisting responsibilities." },
+      { q: "Is there a free trial?", a: "Yes! Take our free 15-question diagnostic assessment to see your readiness score across all CST domains and get free practice questions to experience our rationale quality firsthand." },
+      { q: "How does the adaptive engine work?", a: "Our CAT-style engine adjusts question difficulty based on your performance in real-time. It tracks accuracy across all CST domains and prioritizes areas where you need the most practice — ensuring efficient, targeted exam preparation." }
+    ]
+  },
+  {
+    slug: "surgical-technologist-mock-exam",
+    careerSlug: "surgical-technologist",
+    pageType: "mock-exam",
+    title: "Surgical Tech Mock Exam | Full-Length NBSTSA CST Practice Test",
+    metaDescription: "Take a full-length surgical technologist mock exam with NBSTSA CST blueprint weighting. Timed practice with domain-level scoring and detailed performance analytics.",
+    h1: "Surgical Technologist Mock Exam",
+    heroSubtitle: "Full-length, blueprint-weighted mock exams that simulate the real NBSTSA CST testing experience — including timed sections, domain-level scoring, and comprehensive performance analytics.",
+    sections: [
+      {
+        heading: "Realistic NBSTSA CST Mock Exam Experience",
+        content: "Our surgical technologist mock exams replicate the real NBSTSA CST testing environment. Each exam features 175 questions (matching the actual exam format), is timed to match real exam conditions, and follows the official blueprint weighting across all CST domains. You will experience the same question distribution and time pressure as the actual certification exam — so nothing surprises you on test day."
+      },
+      {
+        heading: "Detailed Domain-Level Analytics",
+        content: "After completing a mock exam, you receive a comprehensive performance report with your score breakdown by CST domain: Preoperative Preparation, Intraoperative Procedures, Postoperative Procedures, Administrative & Personnel, and Equipment Sterilization & Maintenance. See exactly where your strengths and weaknesses lie, and get personalized study recommendations for your remaining preparation time."
+      },
+      {
+        heading: "Blueprint-Weighted Question Distribution",
+        content: "Every mock exam follows the official NBSTSA CST exam blueprint weighting. Intraoperative Procedures make up the largest portion, followed by Preoperative Preparation, Postoperative Procedures, and Administrative domains — exactly as they appear on the real exam. This ensures your practice experience accurately reflects actual testing conditions."
+      }
+    ],
+    faqs: [
+      { q: "How long is the surgical tech mock exam?", a: "Our full-length mock exam mirrors the NBSTSA CST format with 175 questions in a timed session. We also offer shorter 50-question focused practice exams for targeted domain review." },
+      { q: "Can I retake the mock exam?", a: "Pro members get unlimited mock exam attempts with different question sets each time. Free users can take one mock exam to experience the format and receive a readiness score." },
+      { q: "How is the mock exam scored?", a: "You receive a scaled score similar to the actual NBSTSA scoring method, plus a domain-level breakdown showing your strengths and weaknesses across all five CST content areas." },
+      { q: "What domains are covered?", a: "All five NBSTSA CST domains: Preoperative Preparation (patient and OR setup), Intraoperative Procedures (sterile field management, surgical counts, specimen handling), Postoperative Procedures (wound closure, instrument processing), Administrative & Personnel, and Equipment Sterilization & Maintenance." },
+      { q: "What happens after I complete the exam?", a: "You get a detailed results page showing your overall score, domain breakdown, time analysis, question-by-question review with rationales, and personalized recommendations for what to study next." }
+    ]
+  },
+  {
+    slug: "surgical-technologist-study-guide",
+    careerSlug: "surgical-technologist",
+    pageType: "study-guide",
+    title: "Surgical Tech Study Guide | Complete NBSTSA CST Exam Prep",
+    metaDescription: "Comprehensive surgical technologist study guide with personalized study plans, flashcards, instrument identification drills, and surgical case simulations. Everything to pass the CST.",
+    h1: "Surgical Technologist Study Guide",
+    heroSubtitle: "A complete, adaptive study system covering every NBSTSA CST domain — from sterile technique and instrument identification to surgical procedures, patient positioning, and pharmacology.",
+    sections: [
+      {
+        heading: "Personalized Study Plans",
+        content: "Our platform analyzes your diagnostic results and ongoing performance to create a day-by-day study plan tailored to your exam timeline and weak areas. Whether you have 3 weeks or 3 months until your CST exam, the study planner adapts to ensure you cover every domain with appropriate depth — prioritizing high-weight domains like intraoperative procedures and sterile technique."
+      },
+      {
+        heading: "Comprehensive CST Domain Coverage",
+        content: "Our study materials cover every NBSTSA CST domain in depth: Surgical Asepsis and Sterile Technique (gowning, gloving, draping, maintaining the sterile field), Instrument Identification (classification, proper names, specialty instruments), Surgical Procedures by specialty (general, orthopedic, neuro, cardiac, OB/GYN, ophthalmic), Patient Positioning (supine, prone, lateral, lithotomy, Trendelenburg), Surgical Pharmacology (local anesthetics, hemostatic agents, irrigation solutions), Wound Healing (phases, closure techniques, suture materials), and Equipment Sterilization (steam, EtO, Sterrad, biological indicators)."
+      },
+      {
+        heading: "Spaced Repetition Flashcards",
+        content: "Master surgical instruments, suture materials, anatomy, and pharmacology with our spaced repetition flashcard system. Cards automatically resurface at optimal intervals based on how well you know each concept — ensuring long-term retention of instrument names, surgical procedures, sterile technique principles, and OR safety protocols."
+      },
+      {
+        heading: "Surgical Case Simulations",
+        content: "Go beyond memorization with unfolding surgical case simulations that mirror real OR scenarios. Practice setting up for specific procedures, anticipating surgeon needs, managing surgical counts, handling specimens, and responding to intraoperative complications — building the clinical judgment and situational awareness tested on the CST exam."
+      }
+    ],
+    faqs: [
+      { q: "How does the study plan work?", a: "After you complete the diagnostic assessment, the platform creates a personalized study schedule. It prioritizes your weakest CST domains, allocates study time based on your exam date, and adjusts daily as your performance improves." },
+      { q: "What study materials are included?", a: "Pro members get access to the full question bank (1,500+ questions), flashcards, mock exams, surgical case simulations, instrument identification drills, personalized study planner, and all interactive tools. Everything you need in one platform." },
+      { q: "How are the flashcards organized?", a: "Flashcards are organized by CST domain and topic — surgical instruments, suture materials, anatomy by surgical specialty, pharmacology, sterile technique principles, and OR safety. The spaced repetition algorithm ensures efficient review." },
+      { q: "Can I study on my phone?", a: "Yes! NurseNest Allied is fully responsive and works on any device. Study surgical instruments during clinical breaks, review pharmacology on your commute, or take practice questions at your desk." },
+      { q: "How long should I study before taking the CST exam?", a: "Most students use our platform for 6-10 weeks before their CST exam. The study planner creates an optimized schedule based on your diagnostic results, timeline, and domain performance." }
+    ]
+  },
+  {
+    slug: "surgical-technologist-certification-guide",
+    careerSlug: "surgical-technologist",
+    pageType: "certification-guide",
+    title: "CST Certification Guide | How to Become a Certified Surgical Technologist",
+    metaDescription: "Complete guide to NBSTSA CST certification: exam format, eligibility, study strategies, and career outlook. Everything you need to become a Certified Surgical Technologist.",
+    h1: "CST Certification Guide",
+    heroSubtitle: "Everything you need to know about becoming a Certified Surgical Technologist — from NBSTSA exam eligibility and format to study strategies, career outlook, and salary expectations.",
+    sections: [
+      {
+        heading: "NBSTSA CST Exam Overview",
+        content: "The Certified Surgical Technologist (CST) exam is administered by the National Board of Surgical Technology and Surgical Assisting (NBSTSA). The exam consists of 175 multiple-choice questions covering five content areas: Preoperative Preparation (approximately 20%), Intraoperative Procedures (approximately 40%), Postoperative Procedures (approximately 13%), Administrative and Personnel (approximately 7%), and Equipment Sterilization and Maintenance (approximately 20%). The exam is computer-based with a time limit of 4 hours."
+      },
+      {
+        heading: "Eligibility Requirements",
+        content: "To sit for the CST exam, candidates must graduate from a CAAHEP-accredited surgical technology program (Associate degree or Certificate). Programs include didactic instruction in anatomy, physiology, microbiology, pharmacology, and surgical technology, plus extensive clinical rotations in operating rooms across multiple surgical specialties. Some programs offer accelerated 12-month certificate tracks, while most associate degree programs take 2 years to complete."
+      },
+      {
+        heading: "Career Outlook and Salary",
+        content: "The Bureau of Labor Statistics projects 5% growth for surgical technologists through 2032, roughly average for all occupations. The median annual salary is $56,350, with the top 10% earning over $72,000. Surgical techs with specialized skills (cardiac, neuro, robotics) or CSFA certification command higher salaries. Employment is concentrated in hospitals (66%), ambulatory surgical centers (20%), and physician offices (7%). Demand is growing with the aging population and increased outpatient surgery volume."
+      },
+      {
+        heading: "Study Strategy for the CST Exam",
+        content: "Successful CST candidates typically study 6-10 weeks before the exam. Focus your preparation on the highest-weighted domain first — Intraoperative Procedures (40% of the exam). Master surgical counts, sterile field management, specimen handling, and instrument passing. Next, cover Equipment Sterilization & Maintenance (20%) and Preoperative Preparation (20%). Use practice questions with detailed rationales to reinforce your understanding, and take multiple full-length mock exams to build stamina and time management skills."
+      },
+      {
+        heading: "CSFA Certification for Surgical First Assistants",
+        content: "The Certified Surgical First Assistant (CSFA) credential is an advanced certification for surgical technologists who perform first-assisting duties. CSFA candidates must hold an active CST credential and complete an accredited surgical first assistant program. The CSFA exam covers additional content areas including tissue handling, hemostasis, wound exposure, suturing techniques, and providing exposure through retraction and sponging. CSFA-certified professionals earn significantly higher salaries and have expanded scope of practice."
+      }
+    ],
+    faqs: [
+      { q: "How many questions are on the CST exam?", a: "The NBSTSA CST exam has 175 multiple-choice questions. The exam is computer-based with a 4-hour time limit. All questions are weighted equally, and there is no penalty for guessing." },
+      { q: "What is the passing score for the CST exam?", a: "The NBSTSA uses a scaled scoring method. The passing score is determined through psychometric analysis and may vary slightly between exam versions. Focus on thorough preparation rather than targeting a specific number of correct answers." },
+      { q: "How much does the CST exam cost?", a: "The CST exam fee is approximately $265 for first-time candidates. Re-examination fees apply for retakes. Check the NBSTSA website for current pricing and any additional administrative fees." },
+      { q: "Can I take the CST exam without a degree?", a: "No. You must graduate from a CAAHEP-accredited surgical technology program to be eligible for the CST exam. Programs range from 12-month certificates to 2-year associate degrees." },
+      { q: "What is the difference between CST and TS-C?", a: "The CST (Certified Surgical Technologist) is offered by NBSTSA, while the TS-C (Tech in Surgery - Certified) is offered by NCCT. CST is more widely recognized and preferred by most employers. Both demonstrate entry-level competency in surgical technology." },
+      { q: "How often do I need to recertify?", a: "CST certification must be renewed every 4 years. You can recertify by either retaking the exam or completing continuing education credits (60 CE credits over the 4-year cycle) through NBSTSA-approved providers." }
+    ]
+  },
+  {
+    slug: "surgical-technologist-sterile-technique-guide",
+    careerSlug: "surgical-technologist",
+    pageType: "study-guide",
+    title: "Sterile Technique Guide for Surgical Technologists | CST Exam Prep",
+    metaDescription: "Master surgical asepsis and sterile technique for the NBSTSA CST exam. Covers gowning, gloving, draping, sterile field management, and contamination protocols.",
+    h1: "Sterile Technique Guide for Surgical Technologists",
+    heroSubtitle: "Master the principles of surgical asepsis and sterile technique — the foundation of every surgical procedure and a heavily tested domain on the NBSTSA CST exam.",
+    sections: [
+      {
+        heading: "Principles of Surgical Asepsis",
+        content: "Surgical asepsis is the cornerstone of perioperative practice. The CST exam heavily tests your understanding of these principles: A sterile field is created and maintained for every invasive procedure. Only sterile items may be placed on a sterile field. A sterile person touches only sterile items or areas. Movement around the sterile field must not compromise sterility. Items of doubtful sterility are considered unsterile. The sterile field is created as close to the time of use as possible. Sterile areas are continuously monitored. All personnel moving within or around a sterile field must do so in a manner to maintain the integrity of the sterile field."
+      },
+      {
+        heading: "Gowning and Gloving Techniques",
+        content: "The CST exam tests both open and closed gloving techniques. Closed gloving is the preferred method when gowning for a procedure — the hands remain inside the gown sleeves while donning gloves, reducing contamination risk. Open gloving is used when only the hands need to be sterile (e.g., urinary catheterization). Know the sequence: surgical hand scrub, drying, gowning (self or assisted), then closed gloving. For assisted gowning and gloving of other team members, the scrubbed person presents the gown by its interior and holds the glove open with fingers under the cuff."
+      },
+      {
+        heading: "Draping Principles and Technique",
+        content: "Draping creates the sterile field around the operative site. Key principles: Drape from the operative site outward. Handle drapes as little as possible. Cuff drapes over gloved hands to protect from contamination. Once placed, do not readjust drapes — if a drape is placed incorrectly, discard it and use a new one. Never reach across an unsterile area to drape. The incise drape (adhesive drape applied directly to the patient's skin) creates an additional barrier. Fenestrated drapes are used when a single drape with an opening is needed to expose the surgical site."
+      },
+      {
+        heading: "Breaks in Sterile Technique",
+        content: "Knowing how to identify and respond to sterile technique breaks is critical for both the CST exam and clinical practice. Common breaks include: contaminated glove touch (re-glove immediately), splash contamination on gown (change gown and re-glove), dropped item (discard or re-sterilize), unsterile person reaching over the sterile field (assess contamination, replace affected items), and a non-scrubbed person backing into the sterile field. The surgical technologist is responsible for monitoring and calling attention to any breaks in sterile technique — even if the break involves a surgeon or senior team member."
+      }
+    ],
+    faqs: [
+      { q: "How much of the CST exam covers sterile technique?", a: "Sterile technique concepts appear across multiple CST domains, particularly in Preoperative Preparation (20%) and Intraoperative Procedures (40%). Combined, sterile technique knowledge accounts for roughly 30-40% of exam content when including sterilization and maintenance." },
+      { q: "What is the most common sterile technique error?", a: "The most commonly tested break in sterile technique is a team member reaching across the sterile field or turning their back to it. Always face the sterile field and pass behind (not in front of) scrubbed team members." },
+      { q: "What is the difference between surgical asepsis and medical asepsis?", a: "Medical asepsis (clean technique) reduces the number and spread of microorganisms. Surgical asepsis (sterile technique) eliminates ALL microorganisms from the surgical field. The CST exam focuses on surgical asepsis since surgical technologists work in the sterile environment." },
+      { q: "When should I change gloves during a procedure?", a: "Change gloves immediately if a perforation is detected, after contact with unsterile surfaces, before handling implants, and when moving between contaminated and clean portions of a procedure. Double gloving is standard for orthopedic procedures and cases involving bone cement." }
+    ]
+  },
+  {
+    slug: "surgical-instruments-identification-guide",
+    careerSlug: "surgical-technologist",
+    pageType: "study-guide",
+    title: "Surgical Instruments Identification Guide | CST Exam Prep",
+    metaDescription: "Complete surgical instruments identification guide for CST exam prep. Learn instrument classification, names, usage, and specialty instruments for every surgical specialty.",
+    h1: "Surgical Instruments Identification Guide",
+    heroSubtitle: "Master surgical instrument identification, classification, and usage — one of the most heavily tested topics on the NBSTSA CST exam and essential knowledge for every scrub tech.",
+    sections: [
+      {
+        heading: "Instrument Classification System",
+        content: "Surgical instruments are classified by their function: Cutting and Dissecting (scalpels, scissors, curettes, rongeurs), Clamping and Occluding (hemostats, Kocher clamps, bulldog clamps, vascular clamps), Grasping and Holding (tissue forceps, Allis clamps, Babcock clamps, towel clips, tenaculums), Retracting and Exposing (Richardsons, Army-Navy, Deaver, self-retaining Balfour and Weitlaner), Suturing and Stapling (needle holders, staplers, ligating clips), and Suctioning (Yankauer, Poole, Frazier). Knowing the classification helps you anticipate what the surgeon needs and organize your back table efficiently."
+      },
+      {
+        heading: "General Surgery Instruments",
+        content: "Core instruments every CST candidate must know: #3 and #7 scalpel handles (for #10, #15, #11, #12 blades), Mayo scissors (curved for tissue, straight for suture), Metzenbaum scissors (delicate tissue dissection), Kelly and Crile hemostats, Kocher clamps (toothed for fascia), Russian forceps (tissue with traction), DeBakey forceps (atraumatic vascular), Adson forceps (skin closure), needle holders (Mayo-Hegar, Castroviejo for fine work), and self-retaining retractors (Balfour for abdominal, Weitlaner for superficial). Know each instrument by sight, name, and primary use."
+      },
+      {
+        heading: "Specialty Instruments by Service",
+        content: "Orthopedic: power saws (oscillating, reciprocating, sagittal), bone reduction clamps, periosteal elevators (Cobb, Key), rongeurs, curettes, pin and wire drivers. Neurosurgery: Kerrison rongeurs, Penfield dissectors (#1-5), Leksell rongeurs, Gigli saw, craniotome, Raney clips. Cardiovascular: DeBakey forceps, Satinsky clamps, bulldog clamps, aortic punch, sternal saw, internal paddles. OB/GYN: tenaculum, uterine sounds, dilators (Hegar, Pratt), curettes (sharp, blunt), Heaney clamps. Ophthalmic: Castroviejo needle holder, speculum, Bishop-Harmon forceps, Westcott scissors."
+      },
+      {
+        heading: "Instrument Care and Processing",
+        content: "The CST exam tests instrument processing knowledge: Decontamination (manual or automated washing), inspection (checking for damage, alignment, sharpness), packaging (wrapping or container systems), sterilization (steam autoclave at 250-270 F, EtO gas for heat-sensitive items, hydrogen peroxide plasma/Sterrad), and storage (clean, dry, limited traffic area). Know sterilization parameters: 250 F at 15 PSI for 30 minutes (gravity), 270 F at 27 PSI for 4 minutes (prevacuum). Biological indicators (Geobacillus stearothermophilus for steam) are the gold standard for sterilization verification."
+      }
+    ],
+    faqs: [
+      { q: "How many instruments do I need to know for the CST exam?", a: "There is no fixed number, but you should be able to identify and describe the function of at least 200-300 instruments across all surgical specialties. Focus on the most commonly used instruments in each specialty and understand their classification." },
+      { q: "What is the best way to learn instrument identification?", a: "Use our flashcard system with instrument images and descriptions. Group instruments by classification (cutting, clamping, grasping, retracting) and by surgical specialty. Handle real instruments during clinical rotations whenever possible — tactile learning reinforces visual identification." },
+      { q: "Are power instruments tested on the CST exam?", a: "Yes. Questions cover power drills, saws (oscillating, reciprocating, sagittal), dermatomes, and electrosurgical units (ESU/Bovie). Know safety protocols for each power instrument, including proper grounding for ESU and irrigation during powered bone cutting." },
+      { q: "What about robotic surgery instruments?", a: "Robotic-assisted surgery (da Vinci system) is increasingly tested. Know the basic components (surgeon console, patient-side cart, EndoWrist instruments), the surgical technologist's role in robotic cases (docking, instrument exchange), and safety considerations." }
+    ]
+  },
 ];
 
 const RELATED_LINKS: Record<string, { label: string; href: string }[]> = {
@@ -1011,6 +1215,16 @@ const RELATED_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: "Top 200 Drugs Flashcards", href: "/allied-health/pharmacy-technician-top-200-drugs-flashcards" },
     { label: "Pharmacy Tech Flashcards", href: "/allied-health/pharmacy-technician/flashcards" },
     { label: "RRT Certification Guide", href: "/respiratory-therapy-certification-guide" },
+  ],
+  "surgical-technologist": [
+    { label: "Surg Tech Practice Questions", href: "/allied-health/surgical-technologist-practice-questions" },
+    { label: "Surg Tech Mock Exam", href: "/allied-health/surgical-technologist-mock-exam" },
+    { label: "Surg Tech Study Guide", href: "/allied-health/surgical-technologist-study-guide" },
+    { label: "CST Certification Guide", href: "/allied-health/surgical-technologist-certification-guide" },
+    { label: "Sterile Technique Guide", href: "/allied-health/surgical-technologist-sterile-technique-guide" },
+    { label: "Instrument Identification", href: "/allied-health/surgical-instruments-identification-guide" },
+    { label: "Surg Tech Flashcards", href: "/allied-health/surgical-technologist/flashcards" },
+    { label: "Surg Tech Question Bank", href: "/allied-health/surgical-technologist/exams" },
   ],
 };
 

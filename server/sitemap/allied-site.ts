@@ -215,6 +215,8 @@ export async function generateAlliedSeoLanding(): Promise<string[]> {
     "psychotherapist-exam-prep", "psychotherapist-career-guide", "psychotherapist-study-guide", "psychotherapist-practice-questions",
     "addictions-counsellor-exam-prep", "addictions-counsellor-career-guide", "addictions-counsellor-study-guide", "addictions-counsellor-practice-questions",
     "occupational-therapy-exam-prep", "occupational-therapy-career-guide", "occupational-therapy-study-guide", "occupational-therapy-practice-questions",
+    "surgical-technologist-practice-questions", "surgical-technologist-mock-exam", "surgical-technologist-study-guide",
+    "surgical-technologist-certification-guide", "surgical-technologist-sterile-technique-guide", "surgical-instruments-identification-guide",
   ];
   for (const page of seoLandingPages) {
     urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));

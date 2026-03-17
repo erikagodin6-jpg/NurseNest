@@ -128,6 +128,7 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./surgical-technologist-questions-4").then(m => m.surgicalTechnologistQuestionsPart4),
     import("./surgical-technologist-questions-5").then(m => m.surgicalTechnologistQuestionsPart5),
     import("./surgical-technologist-questions-6").then(m => m.surgicalTechnologistQuestionsPart6),
+    import("./surgical-technologist-questions-7").then(m => m.surgicalTechnologistQuestionsPart7),
   ]).then(parts => parts.flat()),
   occupationalTherapyAssistant: () => Promise.all([
     import("./ota-questions").then(m => m.otaQuestions),

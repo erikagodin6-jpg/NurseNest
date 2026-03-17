@@ -650,6 +650,13 @@ export function AlliedRoutes() {
         <Route path="/allied-health/occupational-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="occupational-therapy-certification-guide" />}</Route>
         <Route path="/allied-health/physical-therapy-certification-guide">{() => <AlliedSeoLanding pageSlug="physical-therapy-certification-guide" />}</Route>
 
+        <Route path="/allied-health/surgical-technologist-practice-questions">{() => <AlliedSeoLanding pageSlug="surgical-technologist-practice-questions" />}</Route>
+        <Route path="/allied-health/surgical-technologist-mock-exam">{() => <AlliedSeoLanding pageSlug="surgical-technologist-mock-exam" />}</Route>
+        <Route path="/allied-health/surgical-technologist-study-guide">{() => <AlliedSeoLanding pageSlug="surgical-technologist-study-guide" />}</Route>
+        <Route path="/allied-health/surgical-technologist-certification-guide">{() => <AlliedSeoLanding pageSlug="surgical-technologist-certification-guide" />}</Route>
+        <Route path="/allied-health/surgical-technologist-sterile-technique-guide">{() => <AlliedSeoLanding pageSlug="surgical-technologist-sterile-technique-guide" />}</Route>
+        <Route path="/allied-health/surgical-instruments-identification-guide">{() => <AlliedSeoLanding pageSlug="surgical-instruments-identification-guide" />}</Route>
+
         <Route path="/allied-health/health-info-mgmt-exam-prep">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-exam-prep" />}</Route>
         <Route path="/allied-health/health-info-mgmt-practice-questions">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-practice-questions" />}</Route>
         <Route path="/allied-health/health-info-mgmt-study-guide">{() => <AlliedSeoLanding pageSlug="health-info-mgmt-study-guide" />}</Route>
