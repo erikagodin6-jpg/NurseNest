@@ -44,6 +44,11 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/ota-questions-batch8").then(m => m.otaQuestionsBatch8),
         import("../../client/src/data/career-questions/ota-questions-batch9").then(m => m.otaQuestionsBatch9),
         import("../../client/src/data/career-questions/ota-questions-batch10").then(m => m.otaQuestionsBatch10),
+        import("../../client/src/data/career-questions/ota-questions-batch11").then(m => m.otaQuestionsBatch11),
+        import("../../client/src/data/career-questions/ota-questions-batch12").then(m => m.otaQuestionsBatch12),
+        import("../../client/src/data/career-questions/ota-questions-batch13").then(m => m.otaQuestionsBatch13),
+        import("../../client/src/data/career-questions/ota-questions-batch14").then(m => m.otaQuestionsBatch14),
+        import("../../client/src/data/career-questions/ota-questions-batch15").then(m => m.otaQuestionsBatch15),
         import("../../client/src/data/career-questions/ota-questions-expansion").then(m => m.otaQuestionsExpansion),
       ]);
       return parts.flat();
@@ -84,6 +89,11 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/pta-questions-batch16").then(m => m.ptaQuestionsBatch16),
         import("../../client/src/data/career-questions/pta-questions-batch17").then(m => m.ptaQuestionsBatch17),
         import("../../client/src/data/career-questions/pta-questions-batch18").then(m => m.ptaQuestionsBatch18),
+        import("../../client/src/data/career-questions/pta-questions-batch19").then(m => m.ptaQuestionsBatch19),
+        import("../../client/src/data/career-questions/pta-questions-batch20").then(m => m.ptaQuestionsBatch20),
+        import("../../client/src/data/career-questions/pta-questions-batch21").then(m => m.ptaQuestionsBatch21),
+        import("../../client/src/data/career-questions/pta-questions-batch22").then(m => m.ptaQuestionsBatch22),
+        import("../../client/src/data/career-questions/pta-questions-batch23").then(m => m.ptaQuestionsBatch23),
         import("../../client/src/data/career-questions/pta-questions-expansion").then(m => m.ptaQuestionsExpansion),
       ]);
       return parts.flat();
@@ -196,6 +206,42 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/mlt-questions").then(m => m.mltQuestions),
         import("../../client/src/data/career-questions/mlt-questions-batch2").then(m => m.mltQuestionsBatch2),
         import("../../client/src/data/career-questions/mlt-questions-expansion").then(m => m.mltQuestionsExpansion),
+      ]);
+      return parts.flat();
+    },
+  },
+  {
+    careerType: "socialWorker",
+    examTag: "ASWB Clinical",
+    importFn: async () => {
+      const parts = await Promise.all([
+        import("../../client/src/data/career-questions/social-worker-questions").then(m => m.socialWorkerQuestions),
+        import("../../client/src/data/career-questions/social-worker-questions-batch2").then(m => m.socialWorkerQuestionsBatch2),
+        import("../../client/src/data/career-questions/social-worker-questions-batch3").then(m => m.socialWorkerQuestionsBatch3),
+        import("../../client/src/data/career-questions/social-worker-questions-batch4").then(m => m.socialWorkerQuestionsBatch4),
+        import("../../client/src/data/career-questions/social-worker-questions-batch5").then(m => m.socialWorkerQuestionsBatch5),
+        import("../../client/src/data/career-questions/social-worker-questions-batch6").then(m => m.socialWorkerQuestionsBatch6),
+        import("../../client/src/data/career-questions/social-worker-questions-batch7").then(m => m.socialWorkerQuestionsBatch7),
+        import("../../client/src/data/career-questions/social-worker-questions-batch8").then(m => m.socialWorkerQuestionsBatch8),
+        import("../../client/src/data/career-questions/social-worker-questions-batch9").then(m => m.socialWorkerQuestionsBatch9),
+        import("../../client/src/data/career-questions/social-worker-questions-batch10").then(m => m.socialWorkerQuestionsBatch10),
+        import("../../client/src/data/career-questions/social-worker-questions-batch11").then(m => m.socialWorkerQuestionsBatch11),
+        import("../../client/src/data/career-questions/social-worker-questions-batch12").then(m => m.socialWorkerQuestionsBatch12),
+        import("../../client/src/data/career-questions/social-worker-questions-batch13").then(m => m.socialWorkerQuestionsBatch13),
+        import("../../client/src/data/career-questions/social-worker-questions-batch14").then(m => m.socialWorkerQuestionsBatch14),
+        import("../../client/src/data/career-questions/social-worker-questions-batch15").then(m => m.socialWorkerQuestionsBatch15),
+        import("../../client/src/data/career-questions/social-worker-questions-batch16").then(m => m.socialWorkerQuestionsBatch16),
+        import("../../client/src/data/career-questions/social-worker-questions-batch17").then(m => m.socialWorkerQuestionsBatch17),
+        import("../../client/src/data/career-questions/social-worker-questions-batch18").then(m => m.socialWorkerQuestionsBatch18),
+        import("../../client/src/data/career-questions/social-worker-questions-batch19").then(m => m.socialWorkerQuestionsBatch19),
+        import("../../client/src/data/career-questions/social-worker-questions-batch20").then(m => m.socialWorkerQuestionsBatch20),
+        import("../../client/src/data/career-questions/social-worker-questions-batch21").then(m => m.socialWorkerQuestionsBatch21),
+        import("../../client/src/data/career-questions/social-worker-questions-batch22").then(m => m.socialWorkerQuestionsBatch22),
+        import("../../client/src/data/career-questions/social-worker-questions-batch23").then(m => m.socialWorkerQuestionsBatch23),
+        import("../../client/src/data/career-questions/social-worker-questions-batch24").then(m => m.socialWorkerQuestionsBatch24),
+        import("../../client/src/data/career-questions/social-worker-questions-batch25").then(m => m.socialWorkerQuestionsBatch25),
+        import("../../client/src/data/career-questions/social-worker-questions-batch26").then(m => m.socialWorkerQuestionsBatch26),
+        import("../../client/src/data/career-questions/social-worker-questions-batch27").then(m => m.socialWorkerQuestionsBatch27),
       ]);
       return parts.flat();
     },
