@@ -9,7 +9,12 @@ export type NGNQuestionType =
   | "MULTI_RESPONSE_GROUPING"
   | "TREND"
   | "HIGHLIGHT_TEXT"
-  | "BOWTIE";
+  | "BOWTIE"
+  | "CASE_STUDY_SERIES"
+  | "LAB_INTERPRETATION"
+  | "IMAGE_HOTSPOT"
+  | "CALCULATION_NUMERIC"
+  | "MATCHING_GRID";
 
 export interface DragDropClozePayload {
   textTemplate: string;
@@ -171,6 +176,110 @@ export interface BowtieCorrectResponse {
   correctMonitors: string[];
 }
 
+export interface CaseStudyTab {
+  id: string;
+  label: string;
+  content: string;
+  vitals?: Record<string, string>;
+  labs?: Record<string, string>;
+  meds?: string[];
+}
+
+export interface CaseStudySubQuestion {
+  id: string;
+  questionType: NGNQuestionType;
+  stem: string;
+  itemPayload: NGNItemPayload;
+  correctResponse: NGNCorrectResponse;
+  scoringRule: ScoringRule;
+}
+
+export interface CaseStudySeriesPayload {
+  patientSummary: string;
+  tabs: CaseStudyTab[];
+  subQuestions: CaseStudySubQuestion[];
+}
+
+export interface CaseStudySeriesResponse {
+  subResponses: Record<string, NGNUserResponse>;
+}
+
+export interface CaseStudySeriesCorrectResponse {
+  subResponses: Record<string, NGNCorrectResponse>;
+}
+
+export interface LabValue {
+  id: string;
+  name: string;
+  value: string;
+  unit: string;
+  normalRangeLow: number;
+  normalRangeHigh: number;
+  normalRangeDisplay: string;
+  isAbnormal: boolean;
+  flag?: "HIGH" | "LOW" | "CRITICAL_HIGH" | "CRITICAL_LOW";
+}
+
+export interface LabInterpretationPayload {
+  panelName: string;
+  labValues: LabValue[];
+  embeddedQuestion: {
+    questionType: "MCQ_SINGLE" | "SATA";
+    stem: string;
+    options: { id: string; label: string }[];
+    selectCount?: number;
+  };
+}
+
+export interface LabInterpretationResponse {
+  selectedOptionIds: string[];
+}
+
+export interface ImageHotspotRegion {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  shape: "rect" | "circle" | "ellipse";
+  label?: string;
+}
+
+export interface ImageHotspotPayload {
+  imageUrl: string;
+  imageAlt: string;
+  regions: ImageHotspotRegion[];
+  maxSelections: number;
+}
+
+export interface ImageHotspotResponse {
+  selectedRegionIds: string[];
+}
+
+export interface CalculationNumericPayload {
+  problemStatement: string;
+  expectedAnswer: number;
+  tolerance: number;
+  unit: string;
+  availableUnits?: string[];
+  formula?: string;
+}
+
+export interface CalculationNumericResponse {
+  numericAnswer: number | null;
+  selectedUnit: string;
+}
+
+export interface MatchingGridPayload {
+  columnA: { id: string; label: string }[];
+  columnB: { id: string; label: string }[];
+  allowReuse: boolean;
+}
+
+export interface MatchingGridResponse {
+  matches: Record<string, string>;
+}
+
 export type NGNItemPayload =
   | DragDropClozePayload
   | DragDropRationalePayload
@@ -182,7 +291,12 @@ export type NGNItemPayload =
   | MultiResponseGroupingPayload
   | TrendPayload
   | HighlightTextPayload
-  | BowtiePayload;
+  | BowtiePayload
+  | CaseStudySeriesPayload
+  | LabInterpretationPayload
+  | ImageHotspotPayload
+  | CalculationNumericPayload
+  | MatchingGridPayload;
 
 export type NGNUserResponse =
   | DragDropClozeResponse
@@ -195,7 +309,12 @@ export type NGNUserResponse =
   | MultiResponseGroupingResponse
   | TrendResponse
   | HighlightTextResponse
-  | BowtieResponse;
+  | BowtieResponse
+  | CaseStudySeriesResponse
+  | LabInterpretationResponse
+  | ImageHotspotResponse
+  | CalculationNumericResponse
+  | MatchingGridResponse;
 
 export type NGNCorrectResponse =
   | DragDropClozeResponse
@@ -208,7 +327,12 @@ export type NGNCorrectResponse =
   | MultiResponseGroupingResponse
   | TrendResponse
   | HighlightTextResponse
-  | BowtieCorrectResponse;
+  | BowtieCorrectResponse
+  | CaseStudySeriesCorrectResponse
+  | LabInterpretationResponse
+  | ImageHotspotResponse
+  | CalculationNumericResponse
+  | MatchingGridResponse;
 
 export interface ScoringRule {
   type: "allOrNothing" | "partialCredit" | "dichotomous" | "+/-";

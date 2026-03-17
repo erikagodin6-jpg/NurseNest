@@ -82,6 +82,27 @@ export function computeAbilityEstimate(responses: QuestionResponse[]): AbilityEs
   return { ability, confidenceInterval, trajectory, stabilityIndex, questionCount: responses.length, earlyStop, antiGamingFlags };
 }
 
+export const NGN_FORMAT_TYPES = [
+  "DRAG_DROP_CLOZE",
+  "DRAG_DROP_RATIONALE",
+  "DROPDOWN_CLOZE",
+  "DROPDOWN_RATIONALE",
+  "DROPDOWN_TABLE",
+  "MATRIX_SINGLE",
+  "MATRIX_MULTI",
+  "MULTI_RESPONSE_GROUPING",
+  "TREND",
+  "HIGHLIGHT_TEXT",
+  "BOWTIE",
+  "CASE_STUDY_SERIES",
+  "LAB_INTERPRETATION",
+  "IMAGE_HOTSPOT",
+  "CALCULATION_NUMERIC",
+  "MATCHING_GRID",
+] as const;
+
+export type NGNFormatType = typeof NGN_FORMAT_TYPES[number];
+
 export interface CandidateItem {
   id: string;
   difficulty: number;
@@ -90,6 +111,7 @@ export interface CandidateItem {
   attemptCount: number;
   exposureCount: number;
   isCaseSet: boolean;
+  formatType?: string;
 }
 
 export function selectNextItem(
@@ -98,9 +120,12 @@ export function selectNextItem(
   answeredCategories: Record<string, number>,
   blueprintWeights: Record<string, number>,
   totalAnswered: number,
-  lastCaseSetIndex: number
+  lastCaseSetIndex: number,
+  answeredFormats?: Record<string, number>
 ): CandidateItem | null {
   if (candidates.length === 0) return null;
+
+  const formatCounts = answeredFormats || {};
 
   const scored = candidates.map(item => {
     const abilityNorm = Math.abs(currentAbility);
@@ -121,7 +146,16 @@ export function selectNextItem(
       caseBonus = 0.2;
     }
 
-    const score = proximityScore * 0.4 + blueprintBalance * 0.3 + discWeight * 0.2 - exposurePenalty * 0.1 + caseBonus;
+    let formatDiversityBonus = 0;
+    if (item.formatType && totalAnswered > 0) {
+      const formatCount = formatCounts[item.formatType] || 0;
+      const avgPerFormat = totalAnswered / NGN_FORMAT_TYPES.length;
+      if (formatCount < avgPerFormat) {
+        formatDiversityBonus = 0.15 * Math.max(0, 1 - formatCount / Math.max(avgPerFormat, 1));
+      }
+    }
+
+    const score = proximityScore * 0.35 + blueprintBalance * 0.25 + discWeight * 0.15 - exposurePenalty * 0.1 + caseBonus + formatDiversityBonus;
 
     return { item, score };
   });

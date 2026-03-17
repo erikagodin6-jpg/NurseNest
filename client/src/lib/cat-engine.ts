@@ -26,6 +26,7 @@ export interface CATState {
   abilityHistory: number[];
   bodySystemsSeen: Record<string, number>;
   domainCoverage: Record<string, DomainCoverage>;
+  formatTypesSeen: Record<string, number>;
 }
 
 export interface DomainBand {
@@ -73,6 +74,7 @@ export function initCAT(blueprint?: ExamBlueprint): CATState {
     abilityHistory: [0],
     bodySystemsSeen: {},
     domainCoverage,
+    formatTypesSeen: {},
   };
 }
 
@@ -135,8 +137,20 @@ export function selectNextItem(
       }
     }
 
+    let formatBonus = 0;
+    if (item.questionType && totalSeen > 0) {
+      const formatCount = state.formatTypesSeen[item.questionType] || 0;
+      const distinctFormats = Math.max(1, Object.keys(state.formatTypesSeen).length);
+      const avgPerFormat = totalSeen / distinctFormats;
+      if (formatCount < avgPerFormat * 0.5) {
+        formatBonus = -0.15;
+      } else if (formatCount > avgPerFormat * 2 && totalSeen > 10) {
+        formatBonus = 0.2;
+      }
+    }
+
     const jitter = Math.random() * 0.2;
-    return { item, score: dist + diversityBonus + domainBonus + jitter };
+    return { item, score: dist + diversityBonus + domainBonus + formatBonus + jitter };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -190,6 +204,11 @@ export function updateAbility(
     newDomainCoverage[domainName] = dc;
   }
 
+  const newFormatTypesSeen = { ...state.formatTypesSeen };
+  if (item.questionType) {
+    newFormatTypesSeen[item.questionType] = (newFormatTypesSeen[item.questionType] || 0) + 1;
+  }
+
   return {
     abilityEstimate: newTheta,
     standardError: newSE,
@@ -198,6 +217,7 @@ export function updateAbility(
     abilityHistory: [...state.abilityHistory, newTheta],
     bodySystemsSeen: newSystemsSeen,
     domainCoverage: newDomainCoverage,
+    formatTypesSeen: newFormatTypesSeen,
   };
 }
 

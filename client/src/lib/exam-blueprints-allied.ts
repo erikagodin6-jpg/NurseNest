@@ -68,6 +68,10 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "MATCHING",
       "DATA_TABLE_INTERPRETATION",
       "MATRIX_SINGLE",
+      "CASE_STUDY_SERIES",
+      "LAB_INTERPRETATION",
+      "CALCULATION_NUMERIC",
+      "MATCHING_GRID",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 10,
@@ -104,6 +108,9 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "MATCHING",
       "PRIORITIZATION",
+      "CALCULATION_NUMERIC",
+      "MATCHING_GRID",
+      "CASE_STUDY_SERIES",
     ],
     questionTypesRequiredMin: {
       NUMERIC_ENTRY: 18,
@@ -139,6 +146,9 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "PRIORITIZATION",
       "NUMERIC_ENTRY",
+      "CASE_STUDY_SERIES",
+      "CALCULATION_NUMERIC",
+      "IMAGE_HOTSPOT",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 25,
@@ -174,6 +184,9 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "NUMERIC_ENTRY",
       "DATA_INTERPRETATION",
+      "CASE_STUDY_SERIES",
+      "LAB_INTERPRETATION",
+      "CALCULATION_NUMERIC",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 10,
@@ -312,6 +325,10 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "CALCULATION",
       "MATCHING",
+      "IMAGE_HOTSPOT",
+      "CALCULATION_NUMERIC",
+      "MATCHING_GRID",
+      "CASE_STUDY_SERIES",
     ],
     questionTypesRequiredMin: {
       MCQ_SINGLE: 10,
@@ -462,7 +479,7 @@ export function validateExamBlueprint(
   const fv = blueprint.formatValidation;
 
   if (fv.minCaseClusterPercent != null) {
-    const clusterCount = typeCounts["CASE_BASED_CLUSTER"] || 0;
+    const clusterCount = (typeCounts["CASE_BASED_CLUSTER"] || 0) + (typeCounts["CASE_STUDY_SERIES"] || 0);
     const clusterPercent = total > 0 ? (clusterCount / total) * 100 : 0;
     if (clusterPercent < fv.minCaseClusterPercent) {
       errors.push(
@@ -473,7 +490,7 @@ export function validateExamBlueprint(
 
   if (fv.minCalculationQuestions != null) {
     const calcCount =
-      (typeCounts["NUMERIC_ENTRY"] || 0) + (typeCounts["CALCULATION"] || 0);
+      (typeCounts["NUMERIC_ENTRY"] || 0) + (typeCounts["CALCULATION"] || 0) + (typeCounts["CALCULATION_NUMERIC"] || 0);
     if (calcCount < fv.minCalculationQuestions) {
       errors.push(
         `Calculation questions: ${calcCount} is below required minimum of ${fv.minCalculationQuestions}`

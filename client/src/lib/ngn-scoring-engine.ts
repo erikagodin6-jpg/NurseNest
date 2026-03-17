@@ -27,6 +27,17 @@ import type {
   BowtiePayload,
   DragDropRationalePayload,
   DropdownRationalePayload,
+  CaseStudySeriesPayload,
+  CaseStudySeriesResponse,
+  CaseStudySeriesCorrectResponse,
+  LabInterpretationPayload,
+  LabInterpretationResponse,
+  ImageHotspotPayload,
+  ImageHotspotResponse,
+  CalculationNumericPayload,
+  CalculationNumericResponse,
+  MatchingGridPayload,
+  MatchingGridResponse,
 } from "./ngn-question-types";
 
 export interface ScoringBreakdownItem {
@@ -325,6 +336,142 @@ function scoreBowtie(
   return finalizeScore(breakdown, rule);
 }
 
+function scoreCaseStudySeries(
+  user: CaseStudySeriesResponse,
+  correct: CaseStudySeriesCorrectResponse,
+  payload: CaseStudySeriesPayload,
+  rule: ScoringRule
+): ScoringResult {
+  const breakdown: ScoringBreakdownItem[] = [];
+  for (const subQ of payload.subQuestions) {
+    const subUser = user.subResponses[subQ.id];
+    const subCorrect = correct.subResponses[subQ.id];
+    if (!subUser || !subCorrect) {
+      breakdown.push({
+        itemId: `sub-${subQ.id}`,
+        earned: 0,
+        max: subQ.scoringRule.perItemPoints,
+        correct: false,
+      });
+      continue;
+    }
+    const subResult = scoreNGNQuestion(
+      subQ.questionType,
+      subUser,
+      subCorrect,
+      subQ.scoringRule,
+      subQ.itemPayload
+    );
+    for (const b of subResult.breakdown) {
+      breakdown.push({
+        ...b,
+        itemId: `sub-${subQ.id}-${b.itemId}`,
+      });
+    }
+  }
+  return finalizeScore(breakdown, rule);
+}
+
+function scoreLabInterpretation(
+  user: LabInterpretationResponse,
+  correct: LabInterpretationResponse,
+  rule: ScoringRule
+): ScoringResult {
+  const breakdown: ScoringBreakdownItem[] = [];
+  correct.selectedOptionIds.forEach((optId, i) => {
+    const isCorrect = user.selectedOptionIds.includes(optId);
+    breakdown.push({
+      itemId: `lab-opt-${i}`,
+      earned: isCorrect ? rule.perItemPoints : 0,
+      max: rule.perItemPoints,
+      correct: isCorrect,
+    });
+  });
+  const extras = user.selectedOptionIds.filter(
+    (id) => !correct.selectedOptionIds.includes(id)
+  );
+  extras.forEach((_, i) => {
+    breakdown.push({
+      itemId: `lab-extra-${i}`,
+      earned: 0,
+      max: 0,
+      correct: false,
+    });
+  });
+  return finalizeScore(breakdown, rule);
+}
+
+function scoreImageHotspot(
+  user: ImageHotspotResponse,
+  correct: ImageHotspotResponse,
+  rule: ScoringRule
+): ScoringResult {
+  const breakdown: ScoringBreakdownItem[] = [];
+  correct.selectedRegionIds.forEach((regionId, i) => {
+    const isCorrect = user.selectedRegionIds.includes(regionId);
+    breakdown.push({
+      itemId: `region-${regionId}`,
+      earned: isCorrect ? rule.perItemPoints : 0,
+      max: rule.perItemPoints,
+      correct: isCorrect,
+    });
+  });
+  const extras = user.selectedRegionIds.filter(
+    (id) => !correct.selectedRegionIds.includes(id)
+  );
+  extras.forEach((id) => {
+    breakdown.push({
+      itemId: `extra-region-${id}`,
+      earned: 0,
+      max: 0,
+      correct: false,
+    });
+  });
+  return finalizeScore(breakdown, rule);
+}
+
+function scoreCalculationNumeric(
+  user: CalculationNumericResponse,
+  correct: CalculationNumericResponse,
+  payload: CalculationNumericPayload,
+  rule: ScoringRule
+): ScoringResult {
+  const userVal = user.numericAnswer;
+  const correctVal = payload.expectedAnswer;
+  const tolerance = payload.tolerance;
+  const isCorrect =
+    userVal !== null &&
+    user.selectedUnit === payload.unit &&
+    Math.abs(userVal - correctVal) <= tolerance;
+  const breakdown: ScoringBreakdownItem[] = [
+    {
+      itemId: "calculation",
+      earned: isCorrect ? rule.perItemPoints : 0,
+      max: rule.perItemPoints,
+      correct: isCorrect,
+    },
+  ];
+  return finalizeScore(breakdown, rule);
+}
+
+function scoreMatchingGrid(
+  user: MatchingGridResponse,
+  correct: MatchingGridResponse,
+  rule: ScoringRule
+): ScoringResult {
+  const keys = Object.keys(correct.matches);
+  const breakdown: ScoringBreakdownItem[] = keys.map((key) => {
+    const isCorrect = user.matches[key] === correct.matches[key];
+    return {
+      itemId: `match-${key}`,
+      earned: isCorrect ? rule.perItemPoints : 0,
+      max: rule.perItemPoints,
+      correct: isCorrect,
+    };
+  });
+  return finalizeScore(breakdown, rule);
+}
+
 function finalizeScore(
   breakdown: ScoringBreakdownItem[],
   rule: ScoringRule
@@ -415,6 +562,38 @@ export function scoreNGNQuestion(
       return scoreBowtie(
         userResponse as BowtieResponse,
         correctResponse as BowtieCorrectResponse,
+        scoringRule
+      );
+    case "CASE_STUDY_SERIES":
+      return scoreCaseStudySeries(
+        userResponse as CaseStudySeriesResponse,
+        correctResponse as CaseStudySeriesCorrectResponse,
+        itemPayload as CaseStudySeriesPayload,
+        scoringRule
+      );
+    case "LAB_INTERPRETATION":
+      return scoreLabInterpretation(
+        userResponse as LabInterpretationResponse,
+        correctResponse as LabInterpretationResponse,
+        scoringRule
+      );
+    case "IMAGE_HOTSPOT":
+      return scoreImageHotspot(
+        userResponse as ImageHotspotResponse,
+        correctResponse as ImageHotspotResponse,
+        scoringRule
+      );
+    case "CALCULATION_NUMERIC":
+      return scoreCalculationNumeric(
+        userResponse as CalculationNumericResponse,
+        correctResponse as CalculationNumericResponse,
+        itemPayload as CalculationNumericPayload,
+        scoringRule
+      );
+    case "MATCHING_GRID":
+      return scoreMatchingGrid(
+        userResponse as MatchingGridResponse,
+        correctResponse as MatchingGridResponse,
         scoringRule
       );
     default:
@@ -568,6 +747,63 @@ export function validateCompletion(
         missingItems.push(
           `monitors (need ${payload.slots.monitorCount}, have ${response.selectedMonitors.length})`
         );
+      }
+      break;
+    }
+    case "CASE_STUDY_SERIES": {
+      const payload = itemPayload as CaseStudySeriesPayload;
+      const response = userResponse as CaseStudySeriesResponse;
+      for (const subQ of payload.subQuestions) {
+        const subResp = response.subResponses[subQ.id];
+        if (!subResp) {
+          missingItems.push(`sub-question-${subQ.id}`);
+        } else {
+          const sub = validateCompletion(subQ.questionType, subQ.itemPayload, subResp);
+          missingItems.push(...sub.missingItems.map((m) => `sub-${subQ.id}-${m}`));
+        }
+      }
+      break;
+    }
+    case "LAB_INTERPRETATION": {
+      const payload = itemPayload as LabInterpretationPayload;
+      const response = userResponse as LabInterpretationResponse;
+      const needed = payload.embeddedQuestion.selectCount || 1;
+      if (response.selectedOptionIds.length < needed) {
+        missingItems.push(
+          `lab-selection (need ${needed}, have ${response.selectedOptionIds.length})`
+        );
+      }
+      break;
+    }
+    case "IMAGE_HOTSPOT": {
+      const payload = itemPayload as ImageHotspotPayload;
+      const response = userResponse as ImageHotspotResponse;
+      if (response.selectedRegionIds.length === 0) {
+        missingItems.push("hotspot-selection");
+      } else if (response.selectedRegionIds.length < payload.maxSelections) {
+        missingItems.push(
+          `hotspot-selection (need ${payload.maxSelections}, have ${response.selectedRegionIds.length})`
+        );
+      }
+      break;
+    }
+    case "CALCULATION_NUMERIC": {
+      const response = userResponse as CalculationNumericResponse;
+      if (response.numericAnswer === null || response.numericAnswer === undefined) {
+        missingItems.push("numeric-answer");
+      }
+      if (!response.selectedUnit) {
+        missingItems.push("unit-selection");
+      }
+      break;
+    }
+    case "MATCHING_GRID": {
+      const payload = itemPayload as MatchingGridPayload;
+      const response = userResponse as MatchingGridResponse;
+      for (const item of payload.columnA) {
+        if (!response.matches[item.id]) {
+          missingItems.push(`match-${item.id}`);
+        }
       }
       break;
     }

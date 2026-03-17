@@ -37,6 +37,8 @@ import {
 } from "lucide-react";
 import { ExamCalculator } from "@/components/exam-calculator";
 import { ExplanationPanel, type ExplanationData } from "@/components/explanation-panel";
+import { NGNQuestionDispatcher } from "@/components/ngn-renderers/ngn-question-dispatcher";
+import type { NGNQuestionType, NGNItemPayload, NGNUserResponse } from "@/lib/ngn-question-types";
 
 export interface ExamQuestion {
   question: string;
@@ -80,6 +82,10 @@ export interface ExamConsoleLayoutProps {
   explanationData?: ExplanationData;
   isLearningMode?: boolean;
   onToggleLearningMode?: () => void;
+  ngnQuestionType?: NGNQuestionType;
+  ngnPayload?: NGNItemPayload;
+  ngnResponse?: NGNUserResponse;
+  onNgnResponseChange?: (response: NGNUserResponse) => void;
 }
 
 function ExhibitViewer({ images }: { images: ExhibitImage[] }) {
@@ -307,6 +313,10 @@ export default function ExamConsoleLayout({
   explanationData,
   isLearningMode = false,
   onToggleLearningMode,
+  ngnQuestionType,
+  ngnPayload,
+  ngnResponse,
+  onNgnResponseChange,
 }: ExamConsoleLayoutProps) {
   const [struckOptions, setStruckOptions] = useState<Set<number>>(new Set());
   const [highlightMode, setHighlightMode] = useState(false);
@@ -708,6 +718,18 @@ export default function ExamConsoleLayout({
                     ) : null;
                   })()}
                 </div>
+              </div>
+            )}
+
+            {ngnQuestionType && ngnPayload && ngnResponse && onNgnResponseChange && (
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden p-5 md:p-7" data-testid="ngn-question-renderer">
+                <NGNQuestionDispatcher
+                  questionType={ngnQuestionType}
+                  payload={ngnPayload}
+                  response={ngnResponse}
+                  onResponseChange={onNgnResponseChange}
+                  disabled={showExplanation}
+                />
               </div>
             )}
 
