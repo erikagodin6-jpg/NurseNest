@@ -206,11 +206,29 @@ const sampleQuestions = [
   },
 ];
 
-export function buildQuestionPoolServer() {
+export function buildQuestionPoolServer(recentBodySystems?: string[]) {
+  const recentSet = new Set(recentBodySystems || []);
+
+  if (recentSet.size > 0 && recentSet.size < getAllBodySystems().length) {
+    const unrecentQuestions = sampleQuestions.filter(q => !recentSet.has(q.bodySystem));
+    if (unrecentQuestions.length > 0) {
+      const now = new Date();
+      const dayOfYear = Math.floor(
+        (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
+      );
+      const index = dayOfYear % unrecentQuestions.length;
+      return unrecentQuestions[index];
+    }
+  }
+
   const now = new Date();
   const dayOfYear = Math.floor(
     (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
   );
   const index = dayOfYear % sampleQuestions.length;
   return sampleQuestions[index];
+}
+
+function getAllBodySystems(): string[] {
+  return [...new Set(sampleQuestions.map(q => q.bodySystem))];
 }

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type QotdUserAnswer, type InsertQotdUserAnswer, type QotdStreak, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, qotdUserAnswers, qotdStreaks, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -65,6 +65,12 @@ export interface IStorage {
   getQotdByDate(date: string): Promise<QotdHistory | undefined>;
   createQotd(data: Partial<QotdHistory>): Promise<QotdHistory>;
   getRecentQotd(limit?: number): Promise<QotdHistory[]>;
+  getQotdUserAnswer(userId: string, questionDate: string): Promise<QotdUserAnswer | undefined>;
+  createQotdUserAnswer(data: InsertQotdUserAnswer): Promise<QotdUserAnswer>;
+  recordQotdAnswer(data: InsertQotdUserAnswer, isCorrect: boolean): Promise<{ answer: QotdUserAnswer; streak: QotdStreak }>;
+  getQotdUserHistory(userId: string, limit?: number): Promise<QotdUserAnswer[]>;
+  getQotdStreak(userId: string): Promise<QotdStreak | undefined>;
+  upsertQotdStreak(userId: string, isCorrect: boolean, answerDate: string): Promise<QotdStreak>;
   createEmailSubscriber(data: InsertEmailSubscriber): Promise<EmailSubscriber>;
   getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined>;
   updateEmailSubscriber(email: string, updates: Partial<InsertEmailSubscriber>): Promise<EmailSubscriber | undefined>;
@@ -770,6 +776,110 @@ export class DatabaseStorage implements IStorage {
 
   async getRecentQotd(limit = 30): Promise<QotdHistory[]> {
     return db.select().from(qotdHistory).orderBy(desc(qotdHistory.questionDate)).limit(limit);
+  }
+
+  async getQotdUserAnswer(userId: string, questionDate: string): Promise<QotdUserAnswer | undefined> {
+    const [row] = await db.select().from(qotdUserAnswers)
+      .where(and(eq(qotdUserAnswers.userId, userId), eq(qotdUserAnswers.questionDate, questionDate)));
+    return row;
+  }
+
+  async createQotdUserAnswer(data: InsertQotdUserAnswer): Promise<QotdUserAnswer> {
+    const [created] = await db.insert(qotdUserAnswers).values(data).returning();
+    return created;
+  }
+
+  async recordQotdAnswer(data: InsertQotdUserAnswer, isCorrect: boolean): Promise<{ answer: QotdUserAnswer; streak: QotdStreak }> {
+    return await db.transaction(async (tx) => {
+      const existing = await tx.select().from(qotdUserAnswers)
+        .where(and(eq(qotdUserAnswers.userId, data.userId), eq(qotdUserAnswers.questionDate, data.questionDate)));
+      if (existing.length > 0) {
+        throw new Error("Already answered today's question");
+      }
+      const [answer] = await tx.insert(qotdUserAnswers).values(data).returning();
+
+      const [streakRow] = await tx.select().from(qotdStreaks).where(eq(qotdStreaks.userId, data.userId));
+      let streak: QotdStreak;
+      if (!streakRow) {
+        const [created] = await tx.insert(qotdStreaks).values({
+          userId: data.userId,
+          currentStreak: 1,
+          longestStreak: 1,
+          totalAnswered: 1,
+          totalCorrect: isCorrect ? 1 : 0,
+          lastAnswerDate: data.questionDate,
+        }).returning();
+        streak = created;
+      } else {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split("T")[0];
+        let newStreak = streakRow.currentStreak;
+        if (streakRow.lastAnswerDate === yesterdayStr) {
+          newStreak = streakRow.currentStreak + 1;
+        } else if (streakRow.lastAnswerDate !== data.questionDate) {
+          newStreak = 1;
+        }
+        const newLongest = Math.max(streakRow.longestStreak, newStreak);
+        const [updated] = await tx.update(qotdStreaks).set({
+          currentStreak: newStreak,
+          longestStreak: newLongest,
+          totalAnswered: streakRow.totalAnswered + 1,
+          totalCorrect: streakRow.totalCorrect + (isCorrect ? 1 : 0),
+          lastAnswerDate: data.questionDate,
+        }).where(eq(qotdStreaks.userId, data.userId)).returning();
+        streak = updated;
+      }
+      return { answer, streak };
+    });
+  }
+
+  async getQotdUserHistory(userId: string, limit = 30): Promise<QotdUserAnswer[]> {
+    return db.select().from(qotdUserAnswers)
+      .where(eq(qotdUserAnswers.userId, userId))
+      .orderBy(desc(qotdUserAnswers.questionDate))
+      .limit(limit);
+  }
+
+  async getQotdStreak(userId: string): Promise<QotdStreak | undefined> {
+    const [row] = await db.select().from(qotdStreaks).where(eq(qotdStreaks.userId, userId));
+    return row;
+  }
+
+  async upsertQotdStreak(userId: string, isCorrect: boolean, answerDate: string): Promise<QotdStreak> {
+    const existing = await this.getQotdStreak(userId);
+    if (!existing) {
+      const [created] = await db.insert(qotdStreaks).values({
+        userId,
+        currentStreak: 1,
+        longestStreak: 1,
+        totalAnswered: 1,
+        totalCorrect: isCorrect ? 1 : 0,
+        lastAnswerDate: answerDate,
+      }).returning();
+      return created;
+    }
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+    let newStreak = existing.currentStreak;
+    if (existing.lastAnswerDate === yesterdayStr) {
+      newStreak = existing.currentStreak + 1;
+    } else if (existing.lastAnswerDate !== answerDate) {
+      newStreak = 1;
+    }
+
+    const newLongest = Math.max(existing.longestStreak, newStreak);
+    const [updated] = await db.update(qotdStreaks).set({
+      currentStreak: newStreak,
+      longestStreak: newLongest,
+      totalAnswered: existing.totalAnswered + 1,
+      totalCorrect: existing.totalCorrect + (isCorrect ? 1 : 0),
+      lastAnswerDate: answerDate,
+    }).where(eq(qotdStreaks.userId, userId)).returning();
+    return updated;
   }
 
   async createEmailSubscriber(data: InsertEmailSubscriber): Promise<EmailSubscriber> {

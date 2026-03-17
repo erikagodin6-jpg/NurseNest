@@ -45,6 +45,7 @@ const WIDGET_ICONS: Record<string, any> = {
   quick_links: Target,
   exam_stats: Award,
   study_streak: Flame,
+  qotd_teaser: Target,
   flashcard_review: Brain,
   clinical_tools: Stethoscope,
   recommended: Sparkles,
@@ -73,6 +74,7 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   quick_links: QuickLinksWidget,
   exam_stats: ExamStatsWidget,
   study_streak: StudyStreakWidget,
+  qotd_teaser: QotdTeaserWidget,
   flashcard_review: FlashcardReviewWidget,
   clinical_tools: ClinicalToolsWidget,
   recommended: RecommendedWidget,
@@ -101,6 +103,7 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   quick_links: { label: "dashboard.widget.quickLinks", desc: "dashboard.widget.quickLinksDesc" },
   exam_stats: { label: "dashboard.widget.examStats", desc: "dashboard.widget.examStatsDesc" },
   study_streak: { label: "dashboard.widget.studyStreak", desc: "dashboard.widget.studyStreakDesc" },
+  qotd_teaser: { label: "Question of the Day", desc: "Daily practice question with streak tracking" },
   flashcard_review: { label: "dashboard.widget.flashcardReview", desc: "dashboard.widget.flashcardReviewDesc" },
   clinical_tools: { label: "dashboard.widget.clinicalTools", desc: "dashboard.widget.clinicalToolsDesc" },
   recommended: { label: "dashboard.widget.recommended", desc: "dashboard.widget.recommendedDesc" },
@@ -138,8 +141,9 @@ const PREMIUM_WIDGET_MESSAGE_KEYS: Record<string, string> = {
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "progress", position: 0, visible: true },
-  { widgetType: "recommended", position: 1, visible: true },
-  { widgetType: "adaptive_engine", position: 2, visible: true },
+  { widgetType: "qotd_teaser", position: 1, visible: true },
+  { widgetType: "recommended", position: 2, visible: true },
+  { widgetType: "adaptive_engine", position: 3, visible: true },
   { widgetType: "recent_lessons", position: 3, visible: true },
   { widgetType: "quick_links", position: 4, visible: true },
   { widgetType: "exam_stats", position: 5, visible: true },
@@ -318,7 +322,7 @@ export default function DashboardPage() {
   const WIDGET_SECTIONS: Record<string, { labelKey: string; types: Set<string> }> = {
     post_exam: { labelKey: "dashboard.sectionPostExam", types: new Set(["post_exam_new_grad", "post_exam_recovery", "post_exam_pending", "post_exam_postponed"]) },
     progress: { labelKey: "dashboard.sectionProgress", types: new Set(["progress", "exam_stats", "performance_overview"]) },
-    study: { labelKey: "dashboard.sectionStudyTools", types: new Set(["quick_links", "quick_study", "flashcard_review", "review_due", "recent_lessons", "bookmarks_preview"]) },
+    study: { labelKey: "dashboard.sectionStudyTools", types: new Set(["quick_links", "quick_study", "flashcard_review", "review_due", "recent_lessons", "bookmarks_preview", "qotd_teaser"]) },
     smart: { labelKey: "dashboard.sectionSmartInsights", types: new Set(["recommended", "adaptive_engine", "ai_study_coach", "intelligent_recommendations", "topic_mastery", "clinical_tools"]) },
   };
 
@@ -1839,6 +1843,77 @@ function PerformanceOverviewWidget({ user }: { user: any }) {
       <Button size="sm" variant="outline" className="w-full gap-1.5" onClick={() => navigate("/performance-analytics")} data-testid="button-full-analytics">
         <BarChart3 className="h-4 w-4" /> Full Analytics Dashboard
       </Button>
+    </div>
+  );
+}
+
+function QotdTeaserWidget({ user }: { user: any }) {
+  const [, navigate] = useLocation();
+  const [qotd, setQotd] = useState<any>(null);
+  const [streak, setStreak] = useState<any>(null);
+  const [answered, setAnswered] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/qotd/today")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => setQotd(data))
+      .catch(() => {});
+
+    if (user?.id) {
+      fetch("/api/qotd/streak", { headers: { Authorization: `Bearer ${user.id}` } })
+        .then((r) => r.ok ? r.json() : null)
+        .then((data) => { if (data) setStreak(data); })
+        .catch(() => {});
+
+      fetch("/api/qotd/my-answer", { headers: { Authorization: `Bearer ${user.id}` } })
+        .then((r) => r.ok ? r.json() : null)
+        .then((data) => { if (data?.answer) setAnswered(true); })
+        .catch(() => {});
+    }
+  }, [user?.id]);
+
+  return (
+    <div data-testid="widget-content-qotd">
+      {streak && streak.currentStreak > 0 && (
+        <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100">
+          <Flame className="h-5 w-5 text-orange-500" />
+          <span className="text-sm font-semibold text-orange-700" data-testid="text-qotd-widget-streak">
+            {streak.currentStreak}-day streak!
+          </span>
+          {streak.totalAnswered > 0 && (
+            <span className="text-xs text-muted-foreground ml-auto">
+              {Math.round((streak.totalCorrect / streak.totalAnswered) * 100)}% accuracy
+            </span>
+          )}
+        </div>
+      )}
+      {qotd ? (
+        <div>
+          <p className="text-sm line-clamp-2 mb-3" data-testid="text-qotd-widget-question">
+            {qotd.question}
+          </p>
+          <Button
+            size="sm"
+            className="w-full gap-1.5"
+            onClick={() => navigate("/question-of-the-day")}
+            data-testid="button-qotd-widget-answer"
+          >
+            {answered ? (
+              <>
+                <CheckCircle2 className="h-4 w-4" /> View Today's Answer
+              </>
+            ) : (
+              <>
+                <ArrowRight className="h-4 w-4" /> Answer Today's Question
+              </>
+            )}
+          </Button>
+        </div>
+      ) : (
+        <div className="text-center py-4">
+          <p className="text-sm text-muted-foreground">Loading today's question...</p>
+        </div>
+      )}
     </div>
   );
 }

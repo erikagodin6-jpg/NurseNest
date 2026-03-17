@@ -350,6 +350,40 @@ export const qotdHistory = pgTable("qotd_history", {
 
 export type QotdHistory = typeof qotdHistory.$inferSelect;
 
+export const qotdUserAnswers = pgTable("qotd_user_answers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  questionDate: text("question_date").notNull(),
+  selectedIndex: integer("selected_index").notNull(),
+  isCorrect: boolean("is_correct").notNull(),
+  answeredAt: timestamp("answered_at").defaultNow().notNull(),
+});
+
+export const insertQotdUserAnswerSchema = createInsertSchema(qotdUserAnswers).omit({
+  id: true,
+  answeredAt: true,
+});
+
+export type QotdUserAnswer = typeof qotdUserAnswers.$inferSelect;
+export type InsertQotdUserAnswer = z.infer<typeof insertQotdUserAnswerSchema>;
+
+export const qotdStreaks = pgTable("qotd_streaks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  currentStreak: integer("current_streak").notNull().default(0),
+  longestStreak: integer("longest_streak").notNull().default(0),
+  totalAnswered: integer("total_answered").notNull().default(0),
+  totalCorrect: integer("total_correct").notNull().default(0),
+  lastAnswerDate: text("last_answer_date"),
+});
+
+export const insertQotdStreakSchema = createInsertSchema(qotdStreaks).omit({
+  id: true,
+});
+
+export type QotdStreak = typeof qotdStreaks.$inferSelect;
+export type InsertQotdStreak = z.infer<typeof insertQotdStreakSchema>;
+
 export const SUBSCRIPTION_CATEGORIES = ["exam_prep", "new_grad_tips", "job_alerts", "general"] as const;
 export type SubscriptionCategory = typeof SUBSCRIPTION_CATEGORIES[number];
 
@@ -363,6 +397,7 @@ export const emailSubscribers = pgTable("email_subscribers", {
   leadMagnetType: text("lead_magnet_type"),
   professionContext: text("profession_context"),
   categories: text("categories").array().default(sql`'{"general"}'::text[]`),
+  dailyQuestionOptIn: boolean("daily_question_opt_in").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

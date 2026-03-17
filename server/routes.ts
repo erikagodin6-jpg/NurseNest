@@ -10049,8 +10049,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const today = new Date().toISOString().split("T")[0];
       let qotd = await storage.getQotdByDate(today);
       if (!qotd) {
+        const recent = await storage.getRecentQotd(7);
+        const recentBodySystems = recent.map(q => q.bodySystem).filter(Boolean) as string[];
         const { buildQuestionPoolServer } = await import("./qotd-engine");
-        const question = buildQuestionPoolServer();
+        const question = buildQuestionPoolServer(recentBodySystems);
         if (question) {
           qotd = await storage.createQotd({
             questionDate: today,
@@ -10083,6 +10085,87 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/qotd/answer", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) {
+        return res.status(401).json({ error: "Login required to track answers" });
+      }
+      const { selectedIndex } = req.body;
+      if (typeof selectedIndex !== "number" || !Number.isInteger(selectedIndex) || selectedIndex < 0) {
+        return res.status(400).json({ error: "selectedIndex must be a non-negative integer" });
+      }
+      const today = new Date().toISOString().split("T")[0];
+      const qotd = await storage.getQotdByDate(today);
+      if (!qotd) {
+        return res.status(404).json({ error: "No question available today" });
+      }
+      const options = qotd.options as string[];
+      if (selectedIndex >= options.length) {
+        return res.status(400).json({ error: "selectedIndex out of range" });
+      }
+      const isCorrect = selectedIndex === qotd.correctIndex;
+      try {
+        const { answer, streak } = await storage.recordQotdAnswer({
+          userId: user.id,
+          questionDate: today,
+          selectedIndex,
+          isCorrect,
+        }, isCorrect);
+        res.json({ answer, streak, isCorrect });
+      } catch (txErr: any) {
+        if (txErr.message === "Already answered today's question") {
+          const existing = await storage.getQotdUserAnswer(user.id, today);
+          return res.status(409).json({ error: "Already answered today", answer: existing });
+        }
+        throw txErr;
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/qotd/streak", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) {
+        return res.status(401).json({ error: "Login required" });
+      }
+      const streak = await storage.getQotdStreak(user.id);
+      res.json(streak || { currentStreak: 0, longestStreak: 0, totalAnswered: 0, totalCorrect: 0, lastAnswerDate: null });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/qotd/history", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) {
+        return res.status(401).json({ error: "Login required" });
+      }
+      const limit = parseInt(req.query.limit as string) || 30;
+      const history = await storage.getQotdUserHistory(user.id, limit);
+      res.json(history);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/qotd/my-answer", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (!user) {
+        return res.json({ answer: null });
+      }
+      const today = new Date().toISOString().split("T")[0];
+      const answer = await storage.getQotdUserAnswer(user.id, today);
+      res.json({ answer: answer || null });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/qotd/archive", async (_req, res) => {
     try {
       const limit = parseInt(_req.query.limit as string) || 30;
@@ -10109,7 +10192,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/subscribe", async (req, res) => {
     try {
-      const { email, tier, source, frequency, leadMagnetType, professionContext, categories } = req.body;
+      const { email, tier, source, frequency, leadMagnetType, professionContext, categories, dailyQuestionOptIn } = req.body;
       if (!email || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email required" });
       }
@@ -10120,12 +10203,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         ? categories.filter((c: string) => VALID_CATEGORIES.includes(c))
         : ["general"];
       const finalCategories = validatedCategories.length > 0 ? validatedCategories : ["general"];
+      const dailyOptIn = dailyQuestionOptIn === true;
 
       const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
       if (existing) {
         const mergedCategories = Array.from(new Set([...(existing.categories || []), ...finalCategories]));
         await storage.updateEmailSubscriber(existing.email, {
           categories: mergedCategories,
+          ...(dailyOptIn ? { dailyQuestionOptIn: true } : {}),
           ...(validatedLeadMagnet && !existing.leadMagnetType ? { leadMagnetType: validatedLeadMagnet } : {}),
           ...(validatedProfession && !existing.professionContext ? { professionContext: validatedProfession } : {}),
         });
@@ -10139,6 +10224,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         verified: false,
         frequency: freq,
         categories: finalCategories,
+        dailyQuestionOptIn: dailyOptIn,
         ...(validatedLeadMagnet ? { leadMagnetType: validatedLeadMagnet } : {}),
         ...(validatedProfession ? { professionContext: validatedProfession } : {}),
       });

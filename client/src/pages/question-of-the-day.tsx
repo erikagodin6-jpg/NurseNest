@@ -1,6 +1,6 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,18 +9,51 @@ import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { CheckCircle2, XCircle, Calendar, BookOpen, Stethoscope, Brain, ArrowRight, Mail, Trophy, Sparkles, Clock } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { CheckCircle2, XCircle, Calendar, BookOpen, Stethoscope, Brain, ArrowRight, Mail, Trophy, Sparkles, Clock, Flame, Target, BarChart3 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { QuestionComments } from "@/components/question-comments";
 
 const siteUrl = "https://www.nursenest.ca";
 
+function StreakBanner({ streak }: { streak: { currentStreak: number; longestStreak: number; totalAnswered: number; totalCorrect: number } }) {
+  const accuracy = streak.totalAnswered > 0 ? Math.round((streak.totalCorrect / streak.totalAnswered) * 100) : 0;
+
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6" data-testid="streak-banner">
+      <Card className="text-center p-3 border-orange-200 bg-orange-50 dark:bg-orange-950/20">
+        <Flame className="h-5 w-5 mx-auto mb-1 text-orange-500" />
+        <div className="text-xl font-bold text-orange-600" data-testid="text-current-streak">{streak.currentStreak}</div>
+        <div className="text-xs text-muted-foreground">Day Streak</div>
+      </Card>
+      <Card className="text-center p-3">
+        <Trophy className="h-5 w-5 mx-auto mb-1 text-yellow-500" />
+        <div className="text-xl font-bold" data-testid="text-longest-streak">{streak.longestStreak}</div>
+        <div className="text-xs text-muted-foreground">Best Streak</div>
+      </Card>
+      <Card className="text-center p-3">
+        <Target className="h-5 w-5 mx-auto mb-1 text-blue-500" />
+        <div className="text-xl font-bold" data-testid="text-total-answered">{streak.totalAnswered}</div>
+        <div className="text-xs text-muted-foreground">Answered</div>
+      </Card>
+      <Card className="text-center p-3">
+        <BarChart3 className="h-5 w-5 mx-auto mb-1 text-green-500" />
+        <div className="text-xl font-bold" data-testid="text-accuracy">{accuracy}%</div>
+        <div className="text-xs text-muted-foreground">Accuracy</div>
+      </Card>
+    </div>
+  );
+}
+
 export default function QuestionOfTheDay() {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [email, setEmail] = useState("");
+  const [dailyOptIn, setDailyOptIn] = useState(true);
 
   const { data: qotd, isLoading } = useQuery({
     queryKey: ["/api/qotd/today"],
@@ -31,17 +64,75 @@ export default function QuestionOfTheDay() {
     },
   });
 
+  const { data: streakData } = useQuery({
+    queryKey: ["/api/qotd/streak", user?.id],
+    queryFn: async () => {
+      const res = await fetch("/api/qotd/streak", {
+        headers: user ? { Authorization: `Bearer ${user.id}` } : {},
+      });
+      if (!res.ok) return null;
+      return res.json();
+    },
+    enabled: !!user,
+  });
+
+  const { data: myAnswer } = useQuery({
+    queryKey: ["/api/qotd/my-answer", user?.id],
+    queryFn: async () => {
+      const res = await fetch("/api/qotd/my-answer", {
+        headers: user ? { Authorization: `Bearer ${user.id}` } : {},
+      });
+      if (!res.ok) return null;
+      return res.json();
+    },
+    enabled: !!user,
+  });
+
+  useEffect(() => {
+    if (myAnswer?.answer && qotd) {
+      setSelectedAnswer(myAnswer.answer.selectedIndex);
+      setRevealed(true);
+    }
+  }, [myAnswer, qotd]);
+
+  const answerMutation = useMutation({
+    mutationFn: async (selectedIndex: number) => {
+      const res = await fetch("/api/qotd/answer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(user ? { Authorization: `Bearer ${user.id}` } : {}),
+        },
+        body: JSON.stringify({ selectedIndex }),
+      });
+      if (res.status === 409) {
+        return (await res.json());
+      }
+      if (!res.ok) throw new Error("Failed to submit answer");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/qotd/streak", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["/api/qotd/my-answer", user?.id] });
+    },
+  });
+
   const subscribeMutation = useMutation({
     mutationFn: async (email: string) => {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "qotd", tier: "general" }),
+        body: JSON.stringify({
+          email,
+          source: "qotd",
+          tier: "general",
+          dailyQuestionOptIn: dailyOptIn,
+        }),
       });
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: "Subscribed!", description: "You will receive daily nursing questions in your inbox." });
+      toast({ title: "Subscribed!", description: dailyOptIn ? "You will receive daily nursing questions in your inbox." : "You've been subscribed successfully." });
       setEmail("");
     },
     onError: () => {
@@ -57,6 +148,9 @@ export default function QuestionOfTheDay() {
   const handleReveal = () => {
     if (selectedAnswer === null) return;
     setRevealed(true);
+    if (user) {
+      answerMutation.mutate(selectedAnswer);
+    }
   };
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -111,6 +205,17 @@ export default function QuestionOfTheDay() {
               Challenge yourself with a new clinical question every day. Build your exam readiness one question at a time.
             </p>
           </div>
+
+          {user && streakData && streakData.totalAnswered > 0 && (
+            <StreakBanner streak={streakData} />
+          )}
+
+          {user && streakData && streakData.currentStreak > 0 && (
+            <div className="flex items-center justify-center gap-2 mb-4 text-orange-600 font-semibold" data-testid="text-streak-message">
+              <Flame className="h-5 w-5" />
+              <span>{streakData.currentStreak}-day streak! Keep it going!</span>
+            </div>
+          )}
 
           {isLoading ? (
             <Card className="animate-pulse">
@@ -210,6 +315,20 @@ export default function QuestionOfTheDay() {
                         <p className="text-sm leading-relaxed" data-testid="text-rationale">{qotd.rationale}</p>
                       </div>
 
+                      {!user && (
+                        <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 text-center" data-testid="card-login-prompt">
+                          <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
+                            <Flame className="h-4 w-4 inline mr-1" />
+                            Log in to track your streak and answer history!
+                          </p>
+                          <LocaleLink href="/login">
+                            <Button variant="outline" size="sm" data-testid="link-login-streak">
+                              Log In to Start Your Streak
+                            </Button>
+                          </LocaleLink>
+                        </div>
+                      )}
+
                       {qotd.lessonId && (
                         <LocaleLink href={`/lessons/${qotd.lessonId}`}>
                           <Button variant="outline" className="w-full" data-testid="link-related-lesson">
@@ -235,23 +354,35 @@ export default function QuestionOfTheDay() {
                   <p className="text-sm text-muted-foreground mb-4">
                     Never miss a question. Subscribe for free daily nursing practice questions with detailed rationales delivered to your email.
                   </p>
-                  <form onSubmit={handleSubscribe} className="flex gap-2">
-                    <Input
-                      data-testid="input-email"
-                      type="email"
-                      placeholder="your.email@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="flex-1"
-                    />
-                    <Button
-                      type="submit"
-                      data-testid="button-subscribe"
-                      disabled={subscribeMutation.isPending}
-                    >
-                      {subscribeMutation.isPending ? "..." : "Subscribe"}
-                    </Button>
+                  <form onSubmit={handleSubscribe} className="space-y-3">
+                    <div className="flex gap-2">
+                      <Input
+                        data-testid="input-email"
+                        type="email"
+                        placeholder="your.email@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="flex-1"
+                      />
+                      <Button
+                        type="submit"
+                        data-testid="button-subscribe"
+                        disabled={subscribeMutation.isPending}
+                      >
+                        {subscribeMutation.isPending ? "..." : "Subscribe"}
+                      </Button>
+                    </div>
+                    <label className="flex items-center gap-2 text-sm cursor-pointer" data-testid="label-daily-optin">
+                      <input
+                        type="checkbox"
+                        checked={dailyOptIn}
+                        onChange={(e) => setDailyOptIn(e.target.checked)}
+                        className="rounded border-gray-300"
+                        data-testid="checkbox-daily-optin"
+                      />
+                      <span className="text-muted-foreground">Send me a daily question email</span>
+                    </label>
                   </form>
                 </CardContent>
               </Card>
