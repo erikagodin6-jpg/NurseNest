@@ -293,9 +293,11 @@ async function seedMockExams() {
 
           const q = generateQuestion(specialty, section, topicIdx, qIndex, difficulty, style);
 
+          const cogLevel = difficulty <= 2 ? "recall" : difficulty === 3 ? "application" : "analysis";
+
           const result = await pool.query(
-            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, career_type, region_scope)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, career_type, region_scope, language_code, question_format, cognitive_level, is_scenario, is_mock_exam_eligible, is_adaptive_eligible)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
              RETURNING id`,
             [
               "all",
@@ -313,6 +315,12 @@ async function seedMockExams() {
               q.subtopic,
               specialty,
               "BOTH",
+              "en",
+              style,
+              cogLevel,
+              style === "case-based",
+              true,
+              true,
             ]
           );
 

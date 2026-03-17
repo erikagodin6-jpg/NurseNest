@@ -419,9 +419,14 @@ export function registerQuestionImportRoutes(app: Express) {
 
           const correctAnswerArr = (row.correct_answer || "A").split(",").map((a: string) => a.trim());
 
+          const regionVal = row.country === "CA" ? "CAN" : row.country === "US" ? "US" : "BOTH";
+          const countryVal = row.country === "CA" ? "CA" : row.country === "US" ? "US" : null;
+          const diffVal = row.difficulty || 3;
+          const cogLevel = diffVal <= 2 ? "recall" : diffVal === 3 ? "application" : "analysis";
+
           const insertResult = await pool.query(
-            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, stem_hash, career_type)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, stem_hash, career_type, country_code, language_code, question_format, cognitive_level)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
              RETURNING id`,
             [
               "free",
@@ -432,14 +437,18 @@ export function registerQuestionImportRoutes(app: Express) {
               JSON.stringify(options),
               JSON.stringify(correctAnswerArr),
               row.rationale || "",
-              row.difficulty || 3,
+              diffVal,
               row.tags ? `{${row.tags.split(",").map((t: string) => `"${t.trim()}"`).join(",")}}` : "{}",
               row.topic || null,
               row.topic || null,
               row.subtopic || null,
-              row.country === "CA" ? "CA" : row.country === "US" ? "US" : "BOTH",
+              regionVal,
               stemHash,
               row.profession || imp.profession_slug || "nursing",
+              countryVal,
+              "en",
+              row.question_type || "single_best_answer",
+              cogLevel,
             ]
           );
 

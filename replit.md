@@ -107,6 +107,12 @@ Key architectural components and features:
 - **Hreflang**: Configured in `server/translation-audit.ts` getHreflangCode() for all 20 languages
 - **High-EN-borrowing languages**: Filipino (tl), Indonesian (id), Haitian Creole (ht) have relaxed untranslated detection thresholds
 
+## Unified Question Schema & Country Adaptation
+- **exam_questions table** extended with international/global fields: `country_code`, `region_code`, `licensing_body`, `language_code`, `cognitive_level`, `question_format`, `is_scenario`, `is_mock_exam_eligible`, `is_adaptive_eligible`, `is_flashcard_source`, `is_study_guide_linked`, `is_tutor_ready`, `correct_answer_explanation`, `incorrect_answer_rationale`, `clinical_reasoning`, `key_takeaway`, `mnemonic`, `reference_source`, `lab_unit_variant`, `medication_naming_variant`, `case_context`, `vitals`, `labs`, `images`, `scenario_id`, `blueprint_weight`
+- **Country Adaptation Constants**: `shared/country-adaptation.ts` maps country codes (CA, US, GB, AU) to lab unit systems, medication naming conventions, licensing bodies, exam types, and lab reference ranges
+- **API Filtering**: QBank endpoints (`/api/qbank`, `/api/qbank/filters`) support `country_code`, `language_code`, `licensing_body` query params
+- **Admin endpoints**: GET/PATCH `/api/admin/qbank/question/:id` expose all unified schema fields
+
 ## Adaptive Study Engine
 - Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
 - Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`

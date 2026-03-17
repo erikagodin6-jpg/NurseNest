@@ -53,8 +53,11 @@ export function setupQBankRoutes(app: Express) {
       const search = req.query.search as string;
       const statusFilter = req.query.status as string;
       const userRegion = user.region || "US";
+      const countryCode = req.query.country_code as string;
+      const languageCode = req.query.language_code as string;
+      const licensingBody = req.query.licensing_body as string;
 
-      let query = `SELECT id, tier, exam, question_type, stem, options, body_system, topic, difficulty, region_scope, status
+      let query = `SELECT id, tier, exam, question_type, stem, options, body_system, topic, difficulty, region_scope, status, country_code, language_code, licensing_body, cognitive_level, question_format
                    FROM exam_questions
                    WHERE tier = $1`;
       const params: any[] = [queryTier];
@@ -107,6 +110,24 @@ export function setupQBankRoutes(app: Express) {
         const regionVal = regionMap[country.toLowerCase()] || country.toUpperCase();
         query += ` AND (region_scope = $${paramIdx} OR region_scope = 'BOTH' OR region_scope IS NULL)`;
         params.push(regionVal);
+        paramIdx++;
+      }
+
+      if (countryCode) {
+        query += ` AND country_code = $${paramIdx}`;
+        params.push(countryCode.toUpperCase());
+        paramIdx++;
+      }
+
+      if (languageCode) {
+        query += ` AND language_code = $${paramIdx}`;
+        params.push(languageCode.toLowerCase());
+        paramIdx++;
+      }
+
+      if (licensingBody) {
+        query += ` AND licensing_body = $${paramIdx}`;
+        params.push(licensingBody);
         paramIdx++;
       }
 
@@ -173,6 +194,11 @@ export function setupQBankRoutes(app: Express) {
           topic: row.topic,
           difficulty: row.difficulty,
           regionScope: row.region_scope,
+          countryCode: row.country_code,
+          languageCode: row.language_code,
+          licensingBody: row.licensing_body,
+          cognitiveLevel: row.cognitive_level,
+          questionFormat: row.question_format,
         })),
         total: parseInt(countResult.rows[0].count),
         limit,
@@ -529,7 +555,11 @@ export function setupQBankRoutes(app: Express) {
       if (!admin) return;
 
       const result = await pool.query(
-        `SELECT id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, body_system, topic, subtopic, region_scope, created_at, published_at
+        `SELECT id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, body_system, topic, subtopic, region_scope, created_at, published_at,
+                country_code, region_code, licensing_body, language_code, cognitive_level, question_format,
+                is_scenario, is_mock_exam_eligible, is_adaptive_eligible, is_flashcard_source, is_study_guide_linked, is_tutor_ready,
+                correct_answer_explanation, incorrect_answer_rationale, clinical_reasoning, key_takeaway, mnemonic, reference_source,
+                lab_unit_variant, medication_naming_variant, case_context, vitals, labs, images, scenario_id, blueprint_weight
          FROM exam_questions WHERE id = $1`,
         [req.params.id]
       );
@@ -568,6 +598,32 @@ export function setupQBankRoutes(app: Express) {
         regionScope: row.region_scope,
         createdAt: row.created_at,
         publishedAt: row.published_at,
+        countryCode: row.country_code,
+        regionCode: row.region_code,
+        licensingBody: row.licensing_body,
+        languageCode: row.language_code,
+        cognitiveLevel: row.cognitive_level,
+        questionFormat: row.question_format,
+        isScenario: row.is_scenario,
+        isMockExamEligible: row.is_mock_exam_eligible,
+        isAdaptiveEligible: row.is_adaptive_eligible,
+        isFlashcardSource: row.is_flashcard_source,
+        isStudyGuideLinked: row.is_study_guide_linked,
+        isTutorReady: row.is_tutor_ready,
+        correctAnswerExplanation: row.correct_answer_explanation,
+        incorrectAnswerRationale: row.incorrect_answer_rationale,
+        clinicalReasoning: row.clinical_reasoning,
+        keyTakeaway: row.key_takeaway,
+        mnemonic: row.mnemonic,
+        referenceSource: row.reference_source,
+        labUnitVariant: row.lab_unit_variant,
+        medicationNamingVariant: row.medication_naming_variant,
+        caseContext: row.case_context,
+        vitals: row.vitals,
+        labs: row.labs,
+        images: row.images,
+        scenarioId: row.scenario_id,
+        blueprintWeight: row.blueprint_weight,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -579,7 +635,11 @@ export function setupQBankRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { stem, options, correctAnswer, rationale, difficulty, bodySystem, topic, subtopic, exam, regionScope, status } = req.body;
+      const { stem, options, correctAnswer, rationale, difficulty, bodySystem, topic, subtopic, exam, regionScope, status,
+              countryCode, regionCode, licensingBody, languageCode, cognitiveLevel, questionFormat,
+              isScenario, isMockExamEligible, isAdaptiveEligible, isFlashcardSource, isStudyGuideLinked, isTutorReady,
+              correctAnswerExplanation, incorrectAnswerRationale, clinicalReasoning, keyTakeaway, mnemonic, referenceSource,
+              labUnitVariant, medicationNamingVariant, caseContext, vitals, labs, images, scenarioId, blueprintWeight } = req.body;
       const updates: string[] = [];
       const params: any[] = [];
       let idx = 1;
@@ -594,6 +654,32 @@ export function setupQBankRoutes(app: Express) {
       if (subtopic !== undefined) { updates.push(`subtopic = $${idx++}`); params.push(subtopic); }
       if (exam !== undefined) { updates.push(`exam = $${idx++}`); params.push(exam); }
       if (regionScope !== undefined) { updates.push(`region_scope = $${idx++}`); params.push(regionScope); }
+      if (countryCode !== undefined) { updates.push(`country_code = $${idx++}`); params.push(countryCode); }
+      if (regionCode !== undefined) { updates.push(`region_code = $${idx++}`); params.push(regionCode); }
+      if (licensingBody !== undefined) { updates.push(`licensing_body = $${idx++}`); params.push(licensingBody); }
+      if (languageCode !== undefined) { updates.push(`language_code = $${idx++}`); params.push(languageCode); }
+      if (cognitiveLevel !== undefined) { updates.push(`cognitive_level = $${idx++}`); params.push(cognitiveLevel); }
+      if (questionFormat !== undefined) { updates.push(`question_format = $${idx++}`); params.push(questionFormat); }
+      if (isScenario !== undefined) { updates.push(`is_scenario = $${idx++}`); params.push(isScenario); }
+      if (isMockExamEligible !== undefined) { updates.push(`is_mock_exam_eligible = $${idx++}`); params.push(isMockExamEligible); }
+      if (isAdaptiveEligible !== undefined) { updates.push(`is_adaptive_eligible = $${idx++}`); params.push(isAdaptiveEligible); }
+      if (isFlashcardSource !== undefined) { updates.push(`is_flashcard_source = $${idx++}`); params.push(isFlashcardSource); }
+      if (isStudyGuideLinked !== undefined) { updates.push(`is_study_guide_linked = $${idx++}`); params.push(isStudyGuideLinked); }
+      if (isTutorReady !== undefined) { updates.push(`is_tutor_ready = $${idx++}`); params.push(isTutorReady); }
+      if (correctAnswerExplanation !== undefined) { updates.push(`correct_answer_explanation = $${idx++}`); params.push(correctAnswerExplanation); }
+      if (incorrectAnswerRationale !== undefined) { updates.push(`incorrect_answer_rationale = $${idx++}`); params.push(JSON.stringify(incorrectAnswerRationale)); }
+      if (clinicalReasoning !== undefined) { updates.push(`clinical_reasoning = $${idx++}`); params.push(clinicalReasoning); }
+      if (keyTakeaway !== undefined) { updates.push(`key_takeaway = $${idx++}`); params.push(keyTakeaway); }
+      if (mnemonic !== undefined) { updates.push(`mnemonic = $${idx++}`); params.push(mnemonic); }
+      if (referenceSource !== undefined) { updates.push(`reference_source = $${idx++}`); params.push(referenceSource); }
+      if (labUnitVariant !== undefined) { updates.push(`lab_unit_variant = $${idx++}`); params.push(labUnitVariant); }
+      if (medicationNamingVariant !== undefined) { updates.push(`medication_naming_variant = $${idx++}`); params.push(medicationNamingVariant); }
+      if (caseContext !== undefined) { updates.push(`case_context = $${idx++}`); params.push(caseContext); }
+      if (vitals !== undefined) { updates.push(`vitals = $${idx++}`); params.push(JSON.stringify(vitals)); }
+      if (labs !== undefined) { updates.push(`labs = $${idx++}`); params.push(JSON.stringify(labs)); }
+      if (images !== undefined) { updates.push(`images = $${idx++}`); params.push(JSON.stringify(images)); }
+      if (scenarioId !== undefined) { updates.push(`scenario_id = $${idx++}`); params.push(scenarioId); }
+      if (blueprintWeight !== undefined) { updates.push(`blueprint_weight = $${idx++}`); params.push(blueprintWeight); }
       if (status !== undefined) {
         updates.push(`status = $${idx++}`); params.push(status);
         if (status === "published") {
@@ -720,7 +806,7 @@ export function setupQBankRoutes(app: Express) {
         queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
-      const [bodySystems, difficulties, exams, topics] = await Promise.all([
+      const [bodySystems, difficulties, exams, topics, countryCodes, languageCodes, licensingBodies] = await Promise.all([
         pool.query(
           `SELECT DISTINCT body_system FROM exam_questions WHERE tier = $1 AND status = 'published' AND body_system IS NOT NULL ORDER BY body_system`,
           [queryTier]
@@ -737,6 +823,18 @@ export function setupQBankRoutes(app: Express) {
           `SELECT DISTINCT topic FROM exam_questions WHERE tier = $1 AND status = 'published' AND topic IS NOT NULL ORDER BY topic LIMIT 50`,
           [queryTier]
         ),
+        pool.query(
+          `SELECT DISTINCT country_code FROM exam_questions WHERE tier = $1 AND status = 'published' AND country_code IS NOT NULL ORDER BY country_code`,
+          [queryTier]
+        ),
+        pool.query(
+          `SELECT DISTINCT language_code FROM exam_questions WHERE tier = $1 AND status = 'published' AND language_code IS NOT NULL ORDER BY language_code`,
+          [queryTier]
+        ),
+        pool.query(
+          `SELECT DISTINCT licensing_body FROM exam_questions WHERE tier = $1 AND status = 'published' AND licensing_body IS NOT NULL ORDER BY licensing_body`,
+          [queryTier]
+        ),
       ]);
 
       const diffLabels: Record<number, string> = { 1: "Very Easy", 2: "Easy", 3: "Moderate", 4: "Hard", 5: "Very Hard" };
@@ -746,6 +844,9 @@ export function setupQBankRoutes(app: Express) {
         difficulties: difficulties.rows.map((r: any) => ({ value: r.difficulty, label: diffLabels[r.difficulty] || `Level ${r.difficulty}` })),
         exams: exams.rows.map((r: any) => r.exam),
         topics: topics.rows.map((r: any) => r.topic),
+        countryCodes: countryCodes.rows.map((r: any) => r.country_code),
+        languageCodes: languageCodes.rows.map((r: any) => r.language_code),
+        licensingBodies: licensingBodies.rows.map((r: any) => r.licensing_body),
         tier: queryTier,
       });
     } catch (e: any) {
