@@ -6,7 +6,8 @@ import {
   Lock, Star, Calendar, UserCheck
 } from "lucide-react";
 import { useState } from "react";
-import { MedicalReviewBadge } from "@/components/medical-review-badge";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { type ProfessionHubData } from "@/allied/data/profession-hub-data";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
@@ -581,8 +582,18 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         </div>
       </section>
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <MedicalReviewBadge />
+        <div className="grid sm:grid-cols-2 gap-6">
+          <MedicalReviewBadge />
+          <MedicalReferences lessonId={data.professionSlug} pageType="allied-health" />
+        </div>
       </div>
+
+      <MedicalReviewJsonLd
+        title={data.seo.title}
+        slug={data.professionSlug}
+        description={data.seo.description}
+        pageUrl={`https://www.nursenest.ca${data.seo.canonicalPath}`}
+      />
     </div>
   );
 }

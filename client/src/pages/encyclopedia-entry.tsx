@@ -7,6 +7,8 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import {
   BookOpen, ChevronDown, ChevronRight, AlertTriangle, Lightbulb,
   Stethoscope, Heart, Brain, FileText, Shield, Activity, ClipboardList,
@@ -384,6 +386,18 @@ export default function EncyclopediaEntryPage() {
                   </div>
                 </section>
               )}
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-10">
+                <MedicalReviewBadge />
+                <MedicalReferences lessonId={entry.slug} pageType="encyclopedia" />
+              </div>
+
+              <MedicalReviewJsonLd
+                title={entry.title}
+                slug={entry.slug}
+                description={entry.seoDescription || entry.overview?.slice(0, 160) || ""}
+                pageUrl={`https://www.nursenest.ca/encyclopedia/${entry.profession}/${entry.slug}`}
+              />
 
               <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 sm:p-8 mb-10" data-testid="section-cta">
                 <h3 className="text-lg font-bold text-gray-900 mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>

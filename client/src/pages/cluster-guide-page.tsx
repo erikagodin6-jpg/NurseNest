@@ -7,6 +7,8 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import {
   BookOpen, ChevronDown, ArrowRight, ArrowLeft, HelpCircle,
   FileText, Layers, Star,
@@ -279,6 +281,18 @@ export default function ClusterGuidePage() {
                 </div>
               </section>
             )}
+
+            <div className="mt-10 grid sm:grid-cols-2 gap-4 mb-12">
+              <MedicalReviewBadge />
+              <MedicalReferences lessonId={page.slug} pageType="critical-care" />
+            </div>
+
+            <MedicalReviewJsonLd
+              title={page.title}
+              slug={page.slug}
+              description={page.metaDescription}
+              pageUrl={`https://www.nursenest.ca/guides/${page.parentSlug}/${page.slug}`}
+            />
 
             <section className="mb-12" data-testid="section-cluster-back-to-hub">
               <LocaleLink href={`/guides/${page.parentSlug}`}>

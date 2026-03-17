@@ -6,6 +6,8 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { getSpecialtyBySeoSlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/data/specialty-hub-data";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, ChevronDown,
   ClipboardList, Layers, GraduationCap, FileText, HelpCircle,
@@ -307,6 +309,22 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
           </div>
         </div>
       </section>
+
+      <section className="py-12 bg-white border-t border-gray-100" data-testid="section-eeat">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid sm:grid-cols-2 gap-6">
+            <MedicalReviewBadge />
+            <MedicalReferences lessonId={specialty.slug} pageType="specialty" />
+          </div>
+        </div>
+      </section>
+
+      <MedicalReviewJsonLd
+        title={`${specialty.name} Complete Study Guide`}
+        slug={specialty.seoSlug}
+        description={seoDescription}
+        pageUrl={`https://www.nursenest.ca/${specialty.seoSlug}`}
+      />
 
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

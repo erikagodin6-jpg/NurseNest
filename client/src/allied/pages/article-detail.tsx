@@ -4,6 +4,8 @@ import { ChevronRight, ArrowRight, Loader2, BookOpen, FileText, Brain, Target, Z
 import { AlliedSEO } from "@/allied/allied-seo";
 import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
@@ -237,6 +239,19 @@ export default function ArticleDetailPage() {
                   </div>
                 </div>
               )}
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                <MedicalReviewBadge lastUpdated={article.updatedAt} />
+                <MedicalReferences lessonId={`${profSlug}-${articleSlug}`} pageType="allied-health" />
+              </div>
+
+              <MedicalReviewJsonLd
+                title={article.title}
+                slug={articleSlug}
+                lastUpdated={article.updatedAt}
+                description={article.metaDescription || ""}
+                pageUrl={`https://www.nursenest.ca/allied-health/${profSlug}/${articleSlug}`}
+              />
 
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50/50 rounded-2xl border border-teal-100 p-6 sm:p-8" data-testid="section-cta">
                 <h2 className="text-xl font-bold text-gray-900 mb-3">Ready to Start Studying?</h2>

@@ -3,7 +3,7 @@ import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { MedicalReviewBadge } from "@/components/medical-review-badge";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -266,9 +266,17 @@ export default function ClinicalMedicationPage() {
 
           {refs.length > 0 && (
             <section className="mb-8" data-testid="section-references">
-              <MedicalReferences lessonId={`${page.title} pharmacology ${page.bodySystem || ""}`} />
+              <MedicalReferences lessonId={`${page.title} pharmacology ${page.bodySystem || ""}`} pageType="medication" />
             </section>
           )}
+
+          <MedicalReviewJsonLd
+            title={page.title}
+            slug={page.slug}
+            lastUpdated={page.lastReviewedAt}
+            description={page.metaDescription || page.summary}
+            pageUrl={`https://www.nursenest.ca/meds/${page.slug}`}
+          />
 
           <AutoRelatedContent slug={page.slug} contentType="lesson" title={page.title} bodySystem={page.bodySystem} category={page.category} />
         </div>
