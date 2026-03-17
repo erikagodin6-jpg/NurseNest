@@ -811,6 +811,7 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
   }
 
   await ensureProgrammaticPages(pool);
+  await ensureNotificationTables(pool);
 }
 
 async function runCanonicalMigrationIfNeeded(pool: pg.Pool): Promise<void> {
@@ -1037,4 +1038,32 @@ async function canonicalizeImageCaptions(pool: pg.Pool): Promise<void> {
   } catch (e: any) {
     console.warn("[SchemaSync] Image caption cleanup error:", e.message);
   }
+}
+
+async function ensureNotificationTables(pool: pg.Pool): Promise<void> {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS notification_log (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      event_type text NOT NULL,
+      channel text NOT NULL,
+      recipient text NOT NULL,
+      subject text,
+      body text,
+      status text NOT NULL DEFAULT 'pending',
+      error_message text,
+      stripe_event_id text,
+      metadata jsonb DEFAULT '{}'::jsonb,
+      created_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_notification_log_event_type ON notification_log(event_type)
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_notification_log_created_at ON notification_log(created_at)
+  `);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_notification_log_stripe_event ON notification_log(stripe_event_id)
+  `);
 }

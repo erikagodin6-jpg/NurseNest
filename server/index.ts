@@ -11,6 +11,8 @@ import { registerMassExpansionRoutes } from "./mass-expansion-routes";
 import { registerSocialContentRoutes } from "./social-content-automation";
 import { registerScenarioRoutes } from "./allied-scenarios";
 import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
+import { registerNotificationRoutes } from "./notification-routes";
+import { sendAdminNotification } from "./admin-notifications";
 import { serveStatic } from "./static";
 
 import { runMigrations } from "stripe-replit-sync";
@@ -336,6 +338,17 @@ app.post(
               await storage.updateUserTier(meta.userId, meta.tier);
             }
             console.log(`[Webhook] Lifetime purchase completed: user ${meta.userId}, tier ${isAdmin ? 'admin (preserved)' : meta.tier}`);
+            const { getDevPool } = await import("./db");
+            sendAdminNotification(getDevPool(), {
+              event: "lifetime_purchase",
+              stripeEventId: evt.id,
+              userId: meta.userId,
+              userName: existingUser?.name || existingUser?.username || meta.userId,
+              userEmail: existingUser?.email || "",
+              tier: meta.tier,
+              amount: (evt.data.object.amount_total / 100).toFixed(2),
+              currency: evt.data.object.currency || "cad",
+            }).catch((e: any) => console.error("[Notifications] lifetime_purchase error:", e.message));
           }
         }
 
@@ -359,6 +372,18 @@ app.post(
               });
             }
             console.log(`[Webhook] Subscription activated: user ${meta.userId}, tier ${isAdmin ? 'admin (preserved)' : meta.tier}, sub ${subscriptionId}`);
+            const { getDevPool } = await import("./db");
+            sendAdminNotification(getDevPool(), {
+              event: "new_subscription",
+              stripeEventId: evt.id,
+              userId: meta.userId,
+              userName: existingUser?.name || existingUser?.username || meta.userId,
+              userEmail: existingUser?.email || "",
+              tier: meta.tier,
+              subscriptionId: subscriptionId || "",
+              amount: session.amount_total ? (session.amount_total / 100).toFixed(2) : undefined,
+              currency: session.currency || "cad",
+            }).catch((e: any) => console.error("[Notifications] new_subscription error:", e.message));
           }
         }
 
@@ -386,6 +411,16 @@ app.post(
             } else if (status === "canceled" || status === "unpaid") {
               await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", ...(isAdmin ? {} : { tier: "free" }) });
               console.log(`[Webhook] Subscription ${status}: user ${userId} ${isAdmin ? '(admin preserved)' : 'downgraded to free'}`);
+              const { getDevPool } = await import("./db");
+              sendAdminNotification(getDevPool(), {
+                event: "subscription_cancelled",
+                stripeEventId: evt.id,
+                userId,
+                userName: existingUser?.name || existingUser?.username || userId,
+                userEmail: existingUser?.email || "",
+                tier: tier || existingUser?.tier || "",
+                details: `Subscription ${status}`,
+              }).catch((e: any) => console.error("[Notifications] subscription_cancelled error:", e.message));
             }
           }
         }
@@ -404,6 +439,16 @@ app.post(
             const isAdmin = existingUser?.tier === "admin";
             await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", ...(isAdmin ? {} : { tier: "free" }) });
             console.log(`[Webhook] Subscription deleted: user ${userId} ${isAdmin ? '(admin preserved)' : 'downgraded to free'}`);
+            const { getDevPool } = await import("./db");
+            sendAdminNotification(getDevPool(), {
+              event: "subscription_cancelled",
+              stripeEventId: evt.id,
+              userId,
+              userName: existingUser?.name || existingUser?.username || userId,
+              userEmail: existingUser?.email || "",
+              tier: sub?.metadata?.tier || existingUser?.tier || "",
+              details: "Subscription deleted by Stripe",
+            }).catch((e: any) => console.error("[Notifications] subscription_cancelled error:", e.message));
           }
         }
 
@@ -421,6 +466,18 @@ app.post(
               const userId = result.rows[0].id;
               await storage.updateUserStripeInfo(userId, { subscriptionStatus: "past_due" });
               console.log(`Invoice payment failed for user ${userId} (customer ${customerId})`);
+              const user = await storage.getUser(userId);
+              sendAdminNotification(dbPool, {
+                event: "payment_failed",
+                stripeEventId: evt.id,
+                userId,
+                userName: user?.name || user?.username || userId,
+                userEmail: user?.email || "",
+                tier: user?.tier || "",
+                amount: invoice.amount_due ? (invoice.amount_due / 100).toFixed(2) : undefined,
+                currency: invoice.currency || "cad",
+                details: `Invoice ${invoice.id || "unknown"} payment failed`,
+              }).catch((e: any) => console.error("[Notifications] payment_failed error:", e.message));
             }
           }
         }
@@ -643,6 +700,9 @@ app.use((req, res, next) => {
 
   const { setupSeoRedirects } = await import("./seo-redirects");
   setupSeoRedirects(app);
+
+  const { getDevPool } = await import("./db");
+  registerNotificationRoutes(app, getDevPool());
 
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);

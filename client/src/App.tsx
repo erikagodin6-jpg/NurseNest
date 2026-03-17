@@ -282,6 +282,7 @@ const AdminAiOps = lazy(() => import("@/pages/admin-ai-ops"));
 const AdminContentExpansion = lazy(() => import("@/pages/admin-content-expansion"));
 const AdminContentIntegrity = lazy(() => import("@/pages/admin-content-integrity"));
 const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
+const AdminNotifications = lazy(() => import("@/pages/admin-notifications"));
 const StudyCoachingDashboard = lazy(() => import("@/pages/study-coaching-dashboard"));
 const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
 const AdminSeoAutopilot = lazy(() => import("@/pages/admin-seo-autopilot"));
@@ -641,6 +642,7 @@ function AppRoutes() {
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
+        <Route path="/admin/notifications" component={AdminNotifications} />
         <Route path="/study/:mode" component={AdaptiveStudyPage} />
         <Route path="/study" component={AdaptiveStudyPage} />
         <Route path="/qbank/exam" component={QBankExamPage} />

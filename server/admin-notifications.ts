@@ -1,0 +1,292 @@
+import { getResendClient } from "./resend-client";
+import { getTwilioClient, getTwilioFromPhoneNumber } from "./twilio-client";
+
+const ADMIN_EMAIL = "erikagodin6@gmail.com";
+const ADMIN_PHONE = "+16132198982";
+
+interface NotificationSettings {
+  emailEnabled: boolean;
+  smsEnabled: boolean;
+  adminEmail: string;
+  adminPhone: string;
+  notifyOnNewSubscription: boolean;
+  notifyOnCancellation: boolean;
+  notifyOnPaymentFailed: boolean;
+  notifyOnLifetimePurchase: boolean;
+  notifyOnTrialStart: boolean;
+}
+
+const DEFAULT_SETTINGS: NotificationSettings = {
+  emailEnabled: true,
+  smsEnabled: true,
+  adminEmail: ADMIN_EMAIL,
+  adminPhone: ADMIN_PHONE,
+  notifyOnNewSubscription: true,
+  notifyOnCancellation: true,
+  notifyOnPaymentFailed: true,
+  notifyOnLifetimePurchase: true,
+  notifyOnTrialStart: true,
+};
+
+export async function getNotificationSettings(pool: any): Promise<NotificationSettings> {
+  try {
+    const result = await pool.query(
+      `SELECT value FROM admin_settings WHERE key = 'notification_settings'`
+    );
+    if (result.rows.length > 0) {
+      return { ...DEFAULT_SETTINGS, ...JSON.parse(result.rows[0].value) };
+    }
+  } catch (e: any) {
+    console.warn("[Notifications] Failed to load settings:", e.message);
+  }
+  return DEFAULT_SETTINGS;
+}
+
+export async function saveNotificationSettings(pool: any, settings: Partial<NotificationSettings>): Promise<NotificationSettings> {
+  const current = await getNotificationSettings(pool);
+  const merged = { ...current, ...settings };
+  await pool.query(
+    `INSERT INTO admin_settings (key, value, updated_at) VALUES ('notification_settings', $1, NOW())
+     ON CONFLICT (key) DO UPDATE SET value = $1, updated_at = NOW()`,
+    [JSON.stringify(merged)]
+  );
+  return merged;
+}
+
+type NotificationEvent =
+  | "new_subscription"
+  | "subscription_cancelled"
+  | "payment_failed"
+  | "lifetime_purchase"
+  | "trial_started"
+  | "test";
+
+interface NotificationPayload {
+  event: NotificationEvent;
+  stripeEventId?: string;
+  userId?: string;
+  userEmail?: string;
+  userName?: string;
+  tier?: string;
+  amount?: string;
+  currency?: string;
+  subscriptionId?: string;
+  details?: string;
+}
+
+function shouldNotify(settings: NotificationSettings, event: NotificationEvent): boolean {
+  switch (event) {
+    case "new_subscription": return settings.notifyOnNewSubscription;
+    case "subscription_cancelled": return settings.notifyOnCancellation;
+    case "payment_failed": return settings.notifyOnPaymentFailed;
+    case "lifetime_purchase": return settings.notifyOnLifetimePurchase;
+    case "trial_started": return settings.notifyOnTrialStart;
+    case "test": return true;
+    default: return false;
+  }
+}
+
+function formatEventTitle(event: NotificationEvent): string {
+  switch (event) {
+    case "new_subscription": return "New Subscription";
+    case "subscription_cancelled": return "Subscription Cancelled";
+    case "payment_failed": return "Payment Failed";
+    case "lifetime_purchase": return "Lifetime Purchase";
+    case "trial_started": return "New Trial Started";
+    case "test": return "Test Notification";
+    default: return "Notification";
+  }
+}
+
+function formatEmailBody(payload: NotificationPayload): string {
+  const title = formatEventTitle(payload.event);
+  const time = new Date().toLocaleString("en-CA", { timeZone: "America/Toronto" });
+
+  let details = "";
+  if (payload.userName) details += `<tr><td style="padding:4px 8px;color:#64748b;">Student</td><td style="padding:4px 8px;">${payload.userName}</td></tr>`;
+  if (payload.userEmail) details += `<tr><td style="padding:4px 8px;color:#64748b;">Email</td><td style="padding:4px 8px;">${payload.userEmail}</td></tr>`;
+  if (payload.tier) details += `<tr><td style="padding:4px 8px;color:#64748b;">Tier</td><td style="padding:4px 8px;">${payload.tier.toUpperCase()}</td></tr>`;
+  if (payload.amount) details += `<tr><td style="padding:4px 8px;color:#64748b;">Amount</td><td style="padding:4px 8px;">$${payload.amount} ${payload.currency?.toUpperCase() || "CAD"}</td></tr>`;
+  if (payload.subscriptionId) details += `<tr><td style="padding:4px 8px;color:#64748b;">Subscription</td><td style="padding:4px 8px;font-size:12px;">${payload.subscriptionId}</td></tr>`;
+  if (payload.details) details += `<tr><td style="padding:4px 8px;color:#64748b;">Details</td><td style="padding:4px 8px;">${payload.details}</td></tr>`;
+
+  const eventColors: Record<string, string> = {
+    new_subscription: "#10b981",
+    lifetime_purchase: "#8b5cf6",
+    trial_started: "#3b82f6",
+    subscription_cancelled: "#f59e0b",
+    payment_failed: "#ef4444",
+    test: "#6366f1",
+  };
+  const color = eventColors[payload.event] || "#6366f1";
+
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:20px;background:#f8fafc;">
+  <div style="max-width:480px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+    <div style="background:${color};padding:20px 24px;">
+      <h1 style="margin:0;color:white;font-size:18px;">NurseNest</h1>
+      <p style="margin:4px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">${title}</p>
+    </div>
+    <div style="padding:24px;">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <tr><td style="padding:4px 8px;color:#64748b;">Time</td><td style="padding:4px 8px;">${time}</td></tr>
+        ${details}
+      </table>
+    </div>
+    <div style="padding:12px 24px;background:#f8fafc;text-align:center;">
+      <a href="https://nursenest.ca/admin" style="color:${color};font-size:13px;text-decoration:none;">View Admin Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+function formatSmsBody(payload: NotificationPayload): string {
+  const title = formatEventTitle(payload.event);
+  const parts = [`NurseNest: ${title}`];
+  if (payload.userName) parts.push(`Student: ${payload.userName}`);
+  if (payload.tier) parts.push(`Tier: ${payload.tier.toUpperCase()}`);
+  if (payload.amount) parts.push(`Amount: $${payload.amount} ${payload.currency?.toUpperCase() || "CAD"}`);
+  if (payload.details) parts.push(payload.details);
+  return parts.join("\n");
+}
+
+async function logNotification(
+  pool: any,
+  payload: NotificationPayload,
+  channel: "email" | "sms",
+  recipient: string,
+  subject: string,
+  body: string,
+  status: "sent" | "failed",
+  errorMessage?: string
+) {
+  try {
+    await pool.query(
+      `INSERT INTO notification_log (event_type, channel, recipient, subject, body, status, error_message, stripe_event_id, metadata)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        payload.event,
+        channel,
+        recipient,
+        subject,
+        body.substring(0, 2000),
+        status,
+        errorMessage || null,
+        payload.stripeEventId || null,
+        JSON.stringify({ userId: payload.userId, tier: payload.tier }),
+      ]
+    );
+  } catch (e: any) {
+    console.error("[Notifications] Failed to log notification:", e.message);
+  }
+}
+
+async function isDuplicateForChannel(pool: any, stripeEventId: string, channel: "email" | "sms"): Promise<boolean> {
+  if (!stripeEventId) return false;
+  try {
+    const result = await pool.query(
+      `SELECT 1 FROM notification_log WHERE stripe_event_id = $1 AND channel = $2 AND status = 'sent' LIMIT 1`,
+      [stripeEventId, channel]
+    );
+    return result.rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+async function sendEmail(pool: any, settings: NotificationSettings, payload: NotificationPayload): Promise<void> {
+  if (!settings.emailEnabled) return;
+  if (payload.stripeEventId && await isDuplicateForChannel(pool, payload.stripeEventId, "email")) {
+    console.log(`[Notifications] Skipping duplicate email for ${payload.stripeEventId}`);
+    return;
+  }
+  const subject = `NurseNest: ${formatEventTitle(payload.event)}`;
+  const html = formatEmailBody(payload);
+  const to = settings.adminEmail;
+
+  try {
+    const { client, fromEmail } = await getResendClient();
+    await client.emails.send({
+      from: fromEmail || "NurseNest <notifications@nursenest.ca>",
+      to: [to],
+      subject,
+      html,
+    });
+    console.log(`[Notifications] Email sent: ${payload.event} -> ${to}`);
+    await logNotification(pool, payload, "email", to, subject, html, "sent");
+  } catch (e: any) {
+    console.error(`[Notifications] Email failed: ${e.message}`);
+    await logNotification(pool, payload, "email", to, subject, html, "failed", e.message);
+  }
+}
+
+async function sendSms(pool: any, settings: NotificationSettings, payload: NotificationPayload): Promise<void> {
+  if (!settings.smsEnabled) return;
+  if (payload.stripeEventId && await isDuplicateForChannel(pool, payload.stripeEventId, "sms")) {
+    console.log(`[Notifications] Skipping duplicate SMS for ${payload.stripeEventId}`);
+    return;
+  }
+  const body = formatSmsBody(payload);
+  const to = settings.adminPhone;
+
+  try {
+    const twilioClient = await getTwilioClient();
+    const fromNumber = await getTwilioFromPhoneNumber();
+    await twilioClient.messages.create({
+      body,
+      to,
+      from: fromNumber,
+    });
+    console.log(`[Notifications] SMS sent: ${payload.event} -> ${to}`);
+    await logNotification(pool, payload, "sms", to, "", body, "sent");
+  } catch (e: any) {
+    console.error(`[Notifications] SMS failed: ${e.message}`);
+    await logNotification(pool, payload, "sms", to, "", body, "failed", e.message);
+  }
+}
+
+export async function sendAdminNotification(pool: any, payload: NotificationPayload): Promise<void> {
+  try {
+    const settings = await getNotificationSettings(pool);
+    if (!shouldNotify(settings, payload.event)) {
+      console.log(`[Notifications] Event ${payload.event} disabled, skipping`);
+      return;
+    }
+
+    await Promise.allSettled([
+      sendEmail(pool, settings, payload),
+      sendSms(pool, settings, payload),
+    ]);
+  } catch (e: any) {
+    console.error(`[Notifications] Error sending notification:`, e.message);
+  }
+}
+
+export async function sendTestNotification(pool: any, channel?: "email" | "sms"): Promise<{ success: boolean; error?: string }> {
+  const settings = await getNotificationSettings(pool);
+  const payload: NotificationPayload = {
+    event: "test",
+    userName: "Test Student",
+    userEmail: "test@example.com",
+    tier: "RN",
+    amount: "29.99",
+    currency: "CAD",
+    details: "This is a test notification from NurseNest admin.",
+  };
+
+  try {
+    if (!channel || channel === "email") {
+      await sendEmail(pool, { ...settings, emailEnabled: true }, payload);
+    }
+    if (!channel || channel === "sms") {
+      await sendSms(pool, { ...settings, smsEnabled: true }, payload);
+    }
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, error: e.message };
+  }
+}
