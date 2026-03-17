@@ -11,6 +11,12 @@ import {
   AANP_PAGE_DATA,
   ANCC_PAGE_DATA,
   UPCOMING_CANADA_NP_DATA,
+  AGPCNP_PAGE_DATA,
+  AGACNP_PAGE_DATA,
+  PMHNP_PAGE_DATA,
+  PNP_PAGE_DATA,
+  WHNP_PAGE_DATA,
+  ENP_PAGE_DATA,
   NP_LESSON_DOMAIN_MAP,
   type NpExamPageData,
 } from "@/lib/np-exam-ecosystem";
@@ -614,6 +620,30 @@ export function AnccExamPage() {
 
 export function UpcomingCanadaNpExamPage() {
   return <NpExamDetailPage data={UPCOMING_CANADA_NP_DATA} />;
+}
+
+export function AgpcnpExamPage() {
+  return <NpExamDetailPage data={AGPCNP_PAGE_DATA} />;
+}
+
+export function AgacnpExamPage() {
+  return <NpExamDetailPage data={AGACNP_PAGE_DATA} />;
+}
+
+export function PmhnpExamPage() {
+  return <NpExamDetailPage data={PMHNP_PAGE_DATA} />;
+}
+
+export function PnpExamPage() {
+  return <NpExamDetailPage data={PNP_PAGE_DATA} />;
+}
+
+export function WhnpExamPage() {
+  return <NpExamDetailPage data={WHNP_PAGE_DATA} />;
+}
+
+export function EnpExamPage() {
+  return <NpExamDetailPage data={ENP_PAGE_DATA} />;
 }
 
 export default NpExamHubPage;

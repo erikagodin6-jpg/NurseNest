@@ -167,6 +167,12 @@ const NpExamHubPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ de
 const AanpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AanpExamPage })));
 const AnccExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AnccExamPage })));
 const UpcomingCanadaNpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.UpcomingCanadaNpExamPage })));
+const AgpcnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AgpcnpExamPage })));
+const AgacnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AgacnpExamPage })));
+const PmhnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.PmhnpExamPage })));
+const PnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.PnpExamPage })));
+const WhnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.WhnpExamPage })));
+const EnpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.EnpExamPage })));
 const ShopPage = lazy(() => import("@/pages/shop"));
 const ShopProductPage = lazy(() => import("@/pages/shop-product"));
 const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
@@ -742,6 +748,12 @@ function AppRoutes() {
         <Route path="/np/aanp-exam" component={AanpExamPage} />
         <Route path="/np/ancc-exam" component={AnccExamPage} />
         <Route path="/np/upcoming-canada-np-exam" component={UpcomingCanadaNpExamPage} />
+        <Route path="/np/agpcnp-exam" component={AgpcnpExamPage} />
+        <Route path="/np/agacnp-exam" component={AgacnpExamPage} />
+        <Route path="/np/pmhnp-exam" component={PmhnpExamPage} />
+        <Route path="/np/pnp-exam" component={PnpExamPage} />
+        <Route path="/np/whnp-exam" component={WhnpExamPage} />
+        <Route path="/np/enp-exam" component={EnpExamPage} />
         <Route path="/np/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="np" />}</Route>
         <Route path="/np/questions">{() => <NursingQuestionsIndexPage tier="np" />}</Route>
         <Route path="/career-journey/:slug" component={ProfessionCareerJourney} />

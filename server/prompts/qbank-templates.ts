@@ -545,7 +545,7 @@ Return ONLY valid JSON array.`,
     variants: [
       {
         variantKey: "aanp_fnp",
-        examKey: "AANP FNP",
+        examKey: "AANP-FNP",
         region: "US",
         defaultCount: 25,
         domainWeights: {
@@ -558,7 +558,7 @@ Return ONLY valid JSON array.`,
       },
       {
         variantKey: "ancc_fnp",
-        examKey: "ANCC FNP",
+        examKey: "ANCC-FNP",
         region: "US",
         defaultCount: 25,
         domainWeights: {
@@ -582,6 +582,52 @@ Return ONLY valid JSON array.`,
           "Acute Episodic Care": [0.15, 0.25],
           "Palliative & End-of-Life": [0.10, 0.15],
           "Health Promotion": [0.10, 0.15],
+        },
+        requiredTypeMix: { MCQ_SINGLE: 25 },
+        formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
+      },
+      {
+        variantKey: "agpcnp_aanp",
+        examKey: "AGPCNP-AANP",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Adult/Geriatric Disease Management": [0.30, 0.40],
+          "Chronic Illness Management": [0.20, 0.30],
+          "Acute Episodic Care": [0.15, 0.25],
+          "Health Promotion": [0.08, 0.12],
+          "Professional Practice": [0.08, 0.12],
+        },
+        requiredTypeMix: { MCQ_SINGLE: 25 },
+        formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
+      },
+      {
+        variantKey: "agpcnp_ancc",
+        examKey: "AGPCNP-ANCC",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Adult/Geriatric Disease Management": [0.28, 0.35],
+          "Chronic Illness Management": [0.18, 0.25],
+          "Acute Episodic Care": [0.15, 0.22],
+          "Health Promotion": [0.08, 0.12],
+          "Professional Practice": [0.08, 0.12],
+          "Research & Evidence": [0.05, 0.10],
+        },
+        requiredTypeMix: { MCQ_SINGLE: 25 },
+        formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
+      },
+      {
+        variantKey: "agacnp",
+        examKey: "AGACNP",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Complex Acute Care": [0.30, 0.40],
+          "Critical Care Management": [0.20, 0.30],
+          "Diagnostic Reasoning": [0.15, 0.25],
+          "Procedural Knowledge": [0.08, 0.15],
+          "Professional Practice": [0.05, 0.10],
         },
         requiredTypeMix: { MCQ_SINGLE: 25 },
         formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
@@ -661,13 +707,28 @@ Return ONLY valid JSON array.`,
         requiredTypeMix: { MCQ_SINGLE: 25 },
         formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
       },
+      {
+        variantKey: "enp",
+        examKey: "ENP",
+        region: "US",
+        defaultCount: 25,
+        domainWeights: {
+          "Emergency Assessment & Triage": [0.25, 0.35],
+          "Acute Care Management": [0.20, 0.30],
+          "Trauma & Resuscitation": [0.15, 0.25],
+          "Procedural Skills": [0.10, 0.20],
+          "Professional Practice": [0.05, 0.10],
+        },
+        requiredTypeMix: { MCQ_SINGLE: 25 },
+        formatRules: { allowed: ["MCQ_SINGLE"], prohibited: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE"] },
+      },
     ],
     validationRules: {
       rationaleMinWords: 250,
       domainTolerance: 0.03,
       scopeChecks: ["np_scope", "us_units", "no_ngn_formats"],
     },
-    metadata: { author: "NurseNest", version: "1.0", country: "US", examTypes: ["AANP FNP", "ANCC FNP", "AGNP", "PMHNP", "ACNP", "PNP", "NNP", "WHNP"] },
+    metadata: { author: "NurseNest", version: "1.0", country: "US", examTypes: ["AANP-FNP", "ANCC-FNP", "AGNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "ACNP", "PNP", "NNP", "WHNP", "ENP"] },
   },
 
   {
@@ -1005,7 +1066,7 @@ Return ONLY valid JSON.`,
       },
       {
         variantKey: "aanp_silo",
-        examKey: "AANP FNP",
+        examKey: "AANP-FNP",
         region: "US",
         defaultCount: 1,
         domainWeights: {},
@@ -1014,7 +1075,7 @@ Return ONLY valid JSON.`,
       },
       {
         variantKey: "ancc_silo",
-        examKey: "ANCC FNP",
+        examKey: "ANCC-FNP",
         region: "US",
         defaultCount: 1,
         domainWeights: {},
@@ -1139,10 +1200,15 @@ export async function renderPromptForVariant(
   }
 
   let examSpecificRules = "";
-  if (variant.examKey === "AANP FNP") examSpecificRules = "Clinical focus only. No professional role theory. Heavy diagnosis and management.";
-  else if (variant.examKey === "ANCC FNP") examSpecificRules = "Clinical + professional practice. Include Medicare/insurance considerations.";
-  else if (variant.examKey === "AGNP") examSpecificRules = "Adult/geriatric disease management focus. Include chronic illness and palliative care.";
-  else if (variant.examKey === "PMHNP") examSpecificRules = "Psychiatric assessment and psychopharmacology focus. Include crisis intervention.";
+  if (variant.examKey === "AANP-FNP" || variant.examKey === "AANP FNP") examSpecificRules = "Clinical focus only. No professional role theory. Heavy diagnosis and management.";
+  else if (variant.examKey === "ANCC-FNP" || variant.examKey === "ANCC FNP") examSpecificRules = "Clinical + professional practice. Include Medicare/insurance considerations.";
+  else if (variant.examKey === "AGNP" || variant.examKey === "AGPCNP-AANP") examSpecificRules = "Adult/geriatric primary care disease management focus (AANP pathway). Include chronic illness management, health promotion across the lifespan, and palliative care. Population: adults 13+ through older adults. Clinical management-heavy, no professional role theory.";
+  else if (variant.examKey === "AGPCNP-ANCC") examSpecificRules = "Adult/geriatric primary care disease management focus (ANCC pathway). Include chronic illness management, health promotion, palliative care, research and evidence-based practice. Population: adults 13+ through older adults.";
+  else if (variant.examKey === "AGACNP" || variant.examKey === "ACNP") examSpecificRules = "Complex acute and critical care management focus. Include hemodynamic monitoring, ventilator management, procedural skills, and transitional care. Population: acutely ill adults.";
+  else if (variant.examKey === "PMHNP") examSpecificRules = "Psychiatric assessment and psychopharmacology focus. Include crisis intervention, therapy modalities, substance use disorders, and lifespan psychiatric care.";
+  else if (variant.examKey === "PNP") examSpecificRules = "Pediatric primary care focus. Include developmental milestones, growth assessment, immunization schedules, common childhood illnesses, and family-centered care. Population: birth through young adulthood.";
+  else if (variant.examKey === "WHNP") examSpecificRules = "Women's health focus. Include gynecologic health, obstetric care, contraception management, menopause, reproductive health, and primary care of women across the lifespan.";
+  else if (variant.examKey === "ENP") examSpecificRules = "Emergency care focus. Include triage, acute injury management, trauma and resuscitation, procedural skills, toxicology, and rapid clinical decision-making in emergency settings.";
 
   const labRef = variant.region === "Canada" ? "CAN" : "US";
 

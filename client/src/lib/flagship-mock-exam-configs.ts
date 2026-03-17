@@ -733,5 +733,5 @@ export function getMockExamTemplate(templateId: string): MockExamTemplate | unde
   return FLAGSHIP_MOCK_EXAM_TEMPLATES.find(t => t.templateId === templateId);
 }
 
-export const FLAGSHIP_EXAM_CODES = ["NCLEX-RN", "NCLEX-PN", "REX-PN", "AANP", "ANCC", "AGNP", "ACNP"] as const;
+export const FLAGSHIP_EXAM_CODES = ["NCLEX-RN", "NCLEX-PN", "REX-PN", "AANP", "ANCC", "AGNP", "ACNP", "AGPCNP", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP"] as const;
 export type FlagshipExamCode = typeof FLAGSHIP_EXAM_CODES[number];

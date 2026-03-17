@@ -96,7 +96,7 @@ const tierData: Record<string, {
   np: {
     name: "NP Advanced",
     tagline: "Master-level preparation for Nurse Practitioner certification exams",
-    examNames: ["AANP", "ANCC FNP", "AGPCNP", "PMHNP"],
+    examNames: ["AANP-FNP", "ANCC-FNP", "AGPCNP", "PMHNP"],
     heroColor: "from-purple-600 to-violet-600",
     prices: {
       monthly: { CAD: 49.99, USD: 36.99 },

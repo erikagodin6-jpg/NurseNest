@@ -41,7 +41,7 @@ export const NURSING_TIERS: Record<string, TierGoal> = {
     label: "Nurse Practitioner (NP)",
     shortLabel: "NP",
     goalQuestions: 15000,
-    exams: ["AANP FNP", "ANCC FNP", "AGNP", "ACNP", "PMHNP", "PNP", "NNP", "ENP"],
+    exams: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP", "CNPE"],
     countries: ["Canada", "United States"],
     route: "/np-exam-practice-questions",
   },

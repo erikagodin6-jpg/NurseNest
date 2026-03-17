@@ -146,9 +146,20 @@ const EXAM_CODE_TO_TIER_MAP: Record<string, string> = {
   "NCLEX-PN": "rpn",
   "REX-PN": "rpn",
   "AANP": "np",
+  "AANP-FNP": "np",
   "ANCC": "np",
+  "ANCC-FNP": "np",
   "AGNP": "np",
   "ACNP": "np",
+  "AGPCNP": "np",
+  "AGPCNP-AANP": "np",
+  "AGPCNP-ANCC": "np",
+  "AGACNP": "np",
+  "PMHNP": "np",
+  "PNP": "np",
+  "WHNP": "np",
+  "ENP": "np",
+  "CNPE": "np",
 };
 
 function mapBodySystemToDomain(bodySystem: string, tier: string, examCode?: string): string {

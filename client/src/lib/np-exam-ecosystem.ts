@@ -11,44 +11,51 @@ export const NP_QUESTION_POOLS = {
   },
   AANP_BANK: {
     id: "AANP_BANK",
-    label: "AANP Question Bank",
-    description: "AANP-specific certification exam questions",
-    examFilter: "AANP",
+    label: "AANP-FNP Question Bank",
+    description: "AANP-FNP certification exam questions",
+    examFilter: "AANP-FNP",
     region: "US" as const,
   },
   ANCC_BANK: {
     id: "ANCC_BANK",
-    label: "ANCC Question Bank",
-    description: "ANCC-specific certification exam questions",
-    examFilter: "ANCC",
+    label: "ANCC-FNP Question Bank",
+    description: "ANCC-FNP certification exam questions",
+    examFilter: "ANCC-FNP",
     region: "US" as const,
   },
   CANADA_NP_BANK: {
     id: "CANADA_NP_BANK",
     label: "Canadian NP Question Bank",
-    description: "Canadian NP licensing exam questions (CNPLE)",
-    examFilter: "CNPLE",
+    description: "Canadian NP licensing exam questions (CNPE)",
+    examFilter: "CNPE",
     region: "CA" as const,
   },
   AANP_FNP_BANK: {
     id: "AANP_FNP_BANK",
-    label: "AANP FNP Question Bank",
+    label: "AANP-FNP Question Bank",
     description: "AANP Family Nurse Practitioner certification questions",
     examFilter: "AANP-FNP",
     region: "US" as const,
   },
   ANCC_FNP_BANK: {
     id: "ANCC_FNP_BANK",
-    label: "ANCC FNP Question Bank",
+    label: "ANCC-FNP Question Bank",
     description: "ANCC Family Nurse Practitioner Board Certification questions",
     examFilter: "ANCC-FNP",
     region: "US" as const,
   },
-  AGPCNP_BANK: {
-    id: "AGPCNP_BANK",
-    label: "AGPCNP Question Bank",
-    description: "Adult-Gerontology Primary Care NP certification questions",
-    examFilter: "AGPCNP",
+  AGPCNP_AANP_BANK: {
+    id: "AGPCNP_AANP_BANK",
+    label: "AGPCNP (AANP) Question Bank",
+    description: "Adult-Gerontology Primary Care NP exam questions (AANP pathway)",
+    examFilter: "AGPCNP-AANP",
+    region: "US" as const,
+  },
+  AGPCNP_ANCC_BANK: {
+    id: "AGPCNP_ANCC_BANK",
+    label: "AGPCNP (ANCC) Question Bank",
+    description: "Adult-Gerontology Primary Care NP exam questions (ANCC pathway)",
+    examFilter: "AGPCNP-ANCC",
     region: "US" as const,
   },
   AGACNP_BANK: {
@@ -89,7 +96,7 @@ export const NP_QUESTION_POOLS = {
 } as const;
 
 export const NP_EXAM_TAGS = {
-  exam: ["AANP", "ANCC", "CANADA_NP", "AANP-FNP", "ANCC-FNP", "AGPCNP", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP"] as const,
+  exam: ["AANP-FNP", "ANCC-FNP", "CNPE", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP"] as const,
   domain: [
     "Health Assessment",
     "Diagnosis",
@@ -222,7 +229,7 @@ export function getQuestionPoolForExam(examCode: NpExamCode): string {
     case "UPCOMING_CANADA_NP": return "CANADA_NP_BANK";
     case "AANP-FNP": return "AANP_FNP_BANK";
     case "ANCC-FNP": return "ANCC_FNP_BANK";
-    case "AGPCNP": return "AGPCNP_BANK";
+    case "AGPCNP": return "AGPCNP_AANP_BANK";
     case "AGACNP": return "AGACNP_BANK";
     case "PMHNP": return "PMHNP_BANK";
     case "PNP": return "PNP_BANK";
@@ -234,13 +241,13 @@ export function getQuestionPoolForExam(examCode: NpExamCode): string {
 
 export function getExamFilterParams(examCode: NpExamCode): { exam?: string; region?: string } {
   switch (examCode) {
-    case "AANP": return { exam: "AANP", region: "US" };
-    case "ANCC": return { exam: "ANCC", region: "US" };
-    case "CNPLE": return { exam: "CNPLE", region: "CA" };
-    case "UPCOMING_CANADA_NP": return { region: "CA" };
+    case "AANP": return { exam: "AANP-FNP", region: "US" };
+    case "ANCC": return { exam: "ANCC-FNP", region: "US" };
+    case "CNPLE": return { exam: "CNPE", region: "CA" };
+    case "UPCOMING_CANADA_NP": return { exam: "CNPE", region: "CA" };
     case "AANP-FNP": return { exam: "AANP-FNP", region: "US" };
     case "ANCC-FNP": return { exam: "ANCC-FNP", region: "US" };
-    case "AGPCNP": return { exam: "AGPCNP", region: "US" };
+    case "AGPCNP": return { exam: "AGPCNP-AANP", region: "US" };
     case "AGACNP": return { exam: "AGACNP", region: "US" };
     case "PMHNP": return { exam: "PMHNP", region: "US" };
     case "PNP": return { exam: "PNP", region: "US" };
@@ -388,6 +395,216 @@ export const UPCOMING_CANADA_NP_DATA: NpExamPageData = {
   keywords: ["Canadian NP exam changes", "CNPLE updates", "upcoming NP exam Canada", "Canadian nurse practitioner licensing exam", "NP exam Canada 2025 2026", "CCRNR NP exam", "Canadian NP certification changes"],
 };
 
+export const AGPCNP_PAGE_DATA: NpExamPageData = {
+  examCode: "AGPCNP",
+  slug: "np/agpcnp-exam",
+  title: "AGPCNP Certification Exam",
+  seoTitle: "AGPCNP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Adult-Gerontology Primary Care NP (AGPCNP) exam preparation with practice questions, study guides, and domain-specific analytics.",
+  h1: "AGPCNP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Adult-Gerontology Primary Care Nurse Practitioner (AGPCNP) certification is offered by both AANP and ANCC. NurseNest provides comprehensive AGPCNP-aligned preparation tools including practice questions mapped to exam blueprints and detailed performance analytics.",
+  overview: "The AGPCNP certification exam evaluates competency in managing primary care for adults from adolescence through older adulthood. It covers chronic disease management, acute episodic care, health promotion, and disease prevention across the adult-geriatric lifespan.",
+  whoIsItFor: "The AGPCNP certification is for nurse practitioners who have completed an accredited Adult-Gerontology Primary Care NP program. Candidates must hold a current RN license and have completed the required clinical hours focused on adult and geriatric primary care populations.",
+  formatExplanation: "The AGPCNP exam format varies by certifying body. AANP: 150 questions (135 scored), 4 hours. ANCC: 175 questions (150 scored), 3.5 hours. Both use multiple-choice format with one best answer.",
+  scoringInfo: "AANP uses a 200-800 scale with 500 passing. ANCC uses a 100-500 scale with 350 passing. Both use criterion-referenced scoring methods.",
+  studyRoadmap: [
+    { phase: "Foundation Review", weeks: "Weeks 1-3", description: "Review adult and geriatric pathophysiology, chronic disease management, and health promotion across the lifespan." },
+    { phase: "Clinical Application", weeks: "Weeks 4-6", description: "Complete AGPCNP-filtered practice questions focusing on chronic illness management, acute episodic care, and pharmacology." },
+    { phase: "Domain Deep Dive", weeks: "Weeks 7-9", description: "Target weak domains. Focus on adult/geriatric disease management and palliative care which comprise the majority of the exam." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take full-length AGPCNP mock exams under timed conditions. Review performance by domain and focus on high-yield geriatric topics." },
+  ],
+  examStrategy: [
+    "Focus on chronic disease management across the adult lifespan",
+    "Know geriatric-specific considerations: polypharmacy, fall risk, cognitive screening",
+    "Understand age-appropriate screening guidelines and preventive care",
+    "Review pharmacology with attention to age-related pharmacokinetic changes",
+    "Practice clinical reasoning for multi-morbidity scenarios",
+    "Budget time appropriately based on your certifying body's exam format",
+  ],
+  faqs: [
+    { q: "What is the difference between AGPCNP-AANP and AGPCNP-ANCC?", a: "Both certify the same specialty. AANP focuses more on clinical management while ANCC includes professional role and research questions. Both are accepted for licensure nationwide." },
+    { q: "What population does the AGPCNP serve?", a: "The AGPCNP serves adults from adolescence (13+) through older adulthood in primary care settings." },
+    { q: "How does AGPCNP differ from AGACNP?", a: "AGPCNP focuses on primary care and chronic disease management. AGACNP focuses on acute and critical care of adults in hospital settings." },
+  ],
+  keywords: ["AGPCNP exam prep", "AGPCNP certification", "adult-gerontology primary care NP", "AGPCNP practice questions", "AGPCNP study guide"],
+};
+
+export const AGACNP_PAGE_DATA: NpExamPageData = {
+  examCode: "AGACNP",
+  slug: "np/agacnp-exam",
+  title: "AGACNP Certification Exam",
+  seoTitle: "AGACNP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Adult-Gerontology Acute Care NP (AGACNP) exam preparation with practice questions, study guides, and domain-specific analytics.",
+  h1: "AGACNP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Adult-Gerontology Acute Care Nurse Practitioner (AGACNP) certification evaluates competency in managing complex, acutely ill adult patients. NurseNest provides comprehensive AGACNP-aligned preparation with critical care-focused practice questions and performance analytics.",
+  overview: "The AGACNP certification exam assesses advanced practice competency in complex acute care, critical care management, diagnostic reasoning, and procedural skills for adult patients in acute care settings including ICU, emergency departments, and specialty units.",
+  whoIsItFor: "The AGACNP certification is for nurse practitioners who have completed an accredited Adult-Gerontology Acute Care NP program with clinical hours in acute and critical care settings.",
+  formatExplanation: "The AGACNP exam is offered by ANCC. It contains 175 questions (150 scored, 25 pretest), with 3.5 hours to complete. Questions emphasize complex clinical scenarios in acute care settings.",
+  scoringInfo: "The ANCC AGACNP exam uses a 100-500 scale with a passing score of 350. Scores are criterion-referenced.",
+  studyRoadmap: [
+    { phase: "Critical Care Foundation", weeks: "Weeks 1-3", description: "Review advanced pathophysiology, hemodynamics, ventilator management, and critical care pharmacology." },
+    { phase: "Clinical Scenarios", weeks: "Weeks 4-6", description: "Complete AGACNP practice questions focusing on complex acute presentations and multi-system management." },
+    { phase: "Procedural & Diagnostic Focus", weeks: "Weeks 7-9", description: "Study diagnostic reasoning, procedural skills, and lab interpretation in acute care contexts." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take timed mock exams. Focus on transitional care and complex decision-making scenarios." },
+  ],
+  examStrategy: [
+    "Prioritize patient safety and hemodynamic stability in acute scenarios",
+    "Know ventilator modes, settings, and troubleshooting",
+    "Understand critical lab values and their clinical significance",
+    "Review procedural knowledge: central lines, intubation, chest tubes",
+    "Practice rapid clinical decision-making for deteriorating patients",
+    "Focus on evidence-based guidelines for sepsis, stroke, and MI management",
+  ],
+  faqs: [
+    { q: "What settings do AGACNPs practice in?", a: "AGACNPs practice in ICUs, emergency departments, specialty acute care units, surgical services, and hospitalist programs." },
+    { q: "How does AGACNP differ from AGPCNP?", a: "AGACNP focuses on acute and critical care of adults in hospital settings, while AGPCNP focuses on primary care and chronic disease management in outpatient settings." },
+    { q: "Is the AGACNP exam only offered by ANCC?", a: "Yes, the AGACNP-BC certification is offered exclusively by ANCC." },
+  ],
+  keywords: ["AGACNP exam prep", "AGACNP certification", "acute care NP exam", "AGACNP practice questions", "AGACNP study guide"],
+};
+
+export const PMHNP_PAGE_DATA: NpExamPageData = {
+  examCode: "PMHNP",
+  slug: "np/pmhnp-exam",
+  title: "PMHNP Certification Exam",
+  seoTitle: "PMHNP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Psychiatric-Mental Health NP (PMHNP) exam preparation with practice questions, psychopharmacology review, and domain-specific analytics.",
+  h1: "PMHNP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Psychiatric-Mental Health Nurse Practitioner (PMHNP) certification is offered by ANCC. NurseNest provides PMHNP-aligned preparation tools including psychopharmacology-focused practice questions, therapy modality review, and crisis intervention scenarios.",
+  overview: "The PMHNP certification exam evaluates competency in psychiatric assessment, psychopharmacology, therapy modalities, crisis intervention, and professional practice across the lifespan. The exam emphasizes clinical reasoning in psychiatric care.",
+  whoIsItFor: "The PMHNP certification is for nurse practitioners who have completed an accredited Psychiatric-Mental Health NP program with clinical hours in psychiatric and mental health settings across the lifespan.",
+  formatExplanation: "The PMHNP-BC exam is offered by ANCC with 175 questions (150 scored, 25 pretest), 3.5 hours to complete. Questions emphasize psychiatric clinical scenarios and psychopharmacology decision-making.",
+  scoringInfo: "The ANCC PMHNP exam uses a 100-500 scale with a passing score of 350. Criterion-referenced scoring is used.",
+  studyRoadmap: [
+    { phase: "Psychiatric Foundations", weeks: "Weeks 1-3", description: "Review psychopathology, DSM-5 diagnostic criteria, and psychiatric assessment frameworks across the lifespan." },
+    { phase: "Psychopharmacology", weeks: "Weeks 4-6", description: "Deep dive into psychotropic medications: mechanisms, side effects, interactions, and monitoring. This domain comprises 30% of the exam." },
+    { phase: "Therapy & Crisis", weeks: "Weeks 7-9", description: "Study evidence-based therapy modalities, crisis intervention, suicide risk assessment, and substance use disorders." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take PMHNP mock exams. Focus on complex psychiatric scenarios requiring integrated pharmacological and therapeutic reasoning." },
+  ],
+  examStrategy: [
+    "Master psychopharmacology — it is the highest-weighted domain",
+    "Know DSM-5 diagnostic criteria for major psychiatric disorders",
+    "Understand suicide and violence risk assessment frameworks",
+    "Review therapy modalities: CBT, DBT, motivational interviewing",
+    "Practice lifespan psychiatric care — pediatric, adult, and geriatric presentations",
+    "Know controlled substance prescribing regulations and monitoring requirements",
+  ],
+  faqs: [
+    { q: "What is the most important domain for the PMHNP exam?", a: "Psychiatric Assessment and Psychopharmacology are the two highest-weighted domains, together comprising approximately 60% of the exam." },
+    { q: "Does the PMHNP exam cover therapy modalities?", a: "Yes. The exam includes questions on evidence-based therapy modalities such as CBT, DBT, and motivational interviewing, though pharmacology is more heavily weighted." },
+    { q: "Is the PMHNP certification lifespan or adult-only?", a: "The PMHNP-BC certification is a lifespan certification, covering psychiatric care from childhood through older adulthood." },
+  ],
+  keywords: ["PMHNP exam prep", "PMHNP certification", "psychiatric NP exam", "PMHNP practice questions", "PMHNP psychopharmacology", "PMHNP study guide"],
+};
+
+export const PNP_PAGE_DATA: NpExamPageData = {
+  examCode: "PNP",
+  slug: "np/pnp-exam",
+  title: "PNP Certification Exam",
+  seoTitle: "PNP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Pediatric NP (PNP) exam preparation with practice questions, developmental milestones review, and domain-specific analytics.",
+  h1: "PNP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Pediatric Nurse Practitioner (PNP) certification evaluates competency in pediatric primary care. NurseNest provides PNP-aligned preparation tools including pediatric-focused practice questions, developmental assessment review, and performance analytics.",
+  overview: "The PNP certification exam assesses advanced practice competency in pediatric assessment, growth and development, pediatric disease management, pediatric pharmacology, and family-centered care from birth through young adulthood.",
+  whoIsItFor: "The PNP certification is for nurse practitioners who have completed an accredited Pediatric NP program with clinical hours focused on pediatric populations from birth through young adulthood.",
+  formatExplanation: "The PNP-BC exam is offered by ANCC and PNCB. PNCB: 200 questions, 4 hours. ANCC: 175 questions, 3.5 hours. Both use multiple-choice format.",
+  scoringInfo: "PNCB uses a pass/fail result with scaled scoring. ANCC uses a 100-500 scale with 350 passing score.",
+  studyRoadmap: [
+    { phase: "Pediatric Foundations", weeks: "Weeks 1-3", description: "Review developmental milestones, growth assessment, immunization schedules, and well-child visit guidelines." },
+    { phase: "Disease Management", weeks: "Weeks 4-6", description: "Complete PNP practice questions covering common childhood illnesses, acute and chronic pediatric conditions." },
+    { phase: "Pharmacology & Family Care", weeks: "Weeks 7-9", description: "Focus on weight-based dosing, pediatric-specific medications, and family-centered care approaches." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take PNP mock exams. Review developmental screening tools and anticipatory guidance." },
+  ],
+  examStrategy: [
+    "Know developmental milestones by age — this is heavily tested",
+    "Master immunization schedules and catch-up schedules",
+    "Understand weight-based medication dosing calculations",
+    "Review common pediatric emergencies and red flag symptoms",
+    "Practice family-centered communication and anticipatory guidance",
+    "Know age-appropriate screening and preventive care guidelines",
+  ],
+  faqs: [
+    { q: "What age range does the PNP cover?", a: "The PNP-PC (Primary Care) covers birth through young adulthood (typically 21 years)." },
+    { q: "What is the difference between PNP-PC and PNP-AC?", a: "PNP-PC focuses on primary care pediatrics. PNP-AC focuses on acute care pediatric settings such as PICU and pediatric emergency." },
+    { q: "Which certifying bodies offer PNP certification?", a: "Both ANCC (PNP-BC) and PNCB (CPNP-PC/CPNP-AC) offer pediatric NP certification." },
+  ],
+  keywords: ["PNP exam prep", "PNP certification", "pediatric NP exam", "PNP practice questions", "PNP study guide", "CPNP exam"],
+};
+
+export const WHNP_PAGE_DATA: NpExamPageData = {
+  examCode: "WHNP",
+  slug: "np/whnp-exam",
+  title: "WHNP Certification Exam",
+  seoTitle: "WHNP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Women's Health NP (WHNP) exam preparation with practice questions, obstetric and gynecologic review, and domain-specific analytics.",
+  h1: "WHNP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Women's Health Nurse Practitioner (WHNP) certification evaluates competency in gynecologic health, obstetric care, and primary care of women. NurseNest provides WHNP-aligned preparation tools including specialty-focused practice questions and performance analytics.",
+  overview: "The WHNP certification exam covers gynecologic health, obstetric care, contraception management, menopause, reproductive health, and primary care of women across the lifespan. It emphasizes clinical reasoning specific to women's health.",
+  whoIsItFor: "The WHNP certification is for nurse practitioners who have completed an accredited Women's Health NP program with clinical hours in obstetric, gynecologic, and women's primary care settings.",
+  formatExplanation: "The WHNP-BC exam is offered by NCC. It contains approximately 175 questions with 3 hours to complete. Questions emphasize clinical scenarios in women's health settings.",
+  scoringInfo: "NCC uses a scaled scoring system. The passing standard is determined by criterion-referenced methods.",
+  studyRoadmap: [
+    { phase: "Gynecologic Foundation", weeks: "Weeks 1-3", description: "Review gynecologic health, cervical screening guidelines, STI management, and common gynecologic conditions." },
+    { phase: "Obstetric Care", weeks: "Weeks 4-6", description: "Study prenatal care, labor and delivery complications, postpartum management, and high-risk pregnancy scenarios." },
+    { phase: "Reproductive & Primary Care", weeks: "Weeks 7-9", description: "Focus on contraception counseling, menopause management, infertility workup, and primary care of women." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take WHNP mock exams. Review high-yield obstetric and gynecologic clinical scenarios." },
+  ],
+  examStrategy: [
+    "Master prenatal care guidelines and screening timelines",
+    "Know contraception options, contraindications, and counseling",
+    "Understand cervical cancer screening guidelines and HPV management",
+    "Review menopause management including HRT indications and contraindications",
+    "Practice clinical reasoning for obstetric emergencies",
+    "Know STI screening, diagnosis, and treatment guidelines",
+  ],
+  faqs: [
+    { q: "What does the WHNP certification cover?", a: "The WHNP covers gynecologic health, obstetric care, contraception, menopause, reproductive health, and primary care of women across the lifespan." },
+    { q: "Which organization certifies WHNPs?", a: "The National Certification Corporation (NCC) offers the WHNP-BC certification." },
+    { q: "Can WHNPs provide primary care?", a: "Yes. WHNPs are trained to provide primary care to women, including health promotion, disease prevention, and management of common health conditions." },
+  ],
+  keywords: ["WHNP exam prep", "WHNP certification", "women's health NP exam", "WHNP practice questions", "WHNP study guide"],
+};
+
+export const ENP_PAGE_DATA: NpExamPageData = {
+  examCode: "ENP",
+  slug: "np/enp-exam",
+  title: "ENP Certification Exam",
+  seoTitle: "ENP Certification Exam Prep: Practice Questions & Study Guide | NurseNest",
+  seoDescription: "Complete Emergency NP (ENP) exam preparation with practice questions, trauma and triage review, and domain-specific analytics.",
+  h1: "ENP Certification Exam: Complete Preparation Guide",
+  region: "US",
+  heroIntro: "The Emergency Nurse Practitioner (ENP) certification evaluates competency in emergency assessment, triage, acute care management, and trauma. NurseNest provides ENP-aligned preparation tools including emergency-focused practice questions and performance analytics.",
+  overview: "The ENP certification exam assesses competency in emergency assessment and triage, acute care management, trauma and resuscitation, procedural skills, and professional practice in emergency care settings.",
+  whoIsItFor: "The ENP certification is for nurse practitioners who have completed an ENP-focused NP program or have significant clinical experience in emergency care settings. Certification is offered by AANP.",
+  formatExplanation: "The ENP-C exam is offered by AANP with 150 questions (135 scored, 15 pretest), 4 hours to complete. Questions emphasize emergency clinical scenarios and rapid decision-making.",
+  scoringInfo: "The AANP ENP exam uses a 200-800 scale with 500 passing. Scaled scoring ensures consistency across exam forms.",
+  studyRoadmap: [
+    { phase: "Emergency Foundations", weeks: "Weeks 1-3", description: "Review triage systems, emergency assessment frameworks, and acute presentation management." },
+    { phase: "Trauma & Resuscitation", weeks: "Weeks 4-6", description: "Study trauma assessment, resuscitation protocols, airway management, and emergency procedures." },
+    { phase: "Acute Care Management", weeks: "Weeks 7-9", description: "Focus on chest pain, stroke, sepsis, toxicology, and other common emergency presentations." },
+    { phase: "Exam Readiness", weeks: "Weeks 10-12", description: "Take ENP mock exams. Practice rapid clinical decision-making under time pressure." },
+  ],
+  examStrategy: [
+    "Prioritize life threats — ABCs always come first",
+    "Know triage systems and severity classification",
+    "Master common emergency presentations: chest pain, stroke, sepsis",
+    "Review procedural skills: suturing, splinting, wound management",
+    "Understand toxicology management for common poisonings and overdoses",
+    "Practice rapid clinical decision-making with time constraints",
+  ],
+  faqs: [
+    { q: "What is the ENP certification?", a: "The ENP-C (Emergency Nurse Practitioner - Certified) is offered by AANP for NPs specializing in emergency care." },
+    { q: "What settings do ENPs practice in?", a: "ENPs practice in emergency departments, urgent care centers, and freestanding emergency centers." },
+    { q: "Is the ENP certification different from FNP working in the ED?", a: "Yes. The ENP certification specifically validates emergency care competency, while FNP is a generalist certification. Some states require ENP certification for independent emergency practice." },
+  ],
+  keywords: ["ENP exam prep", "ENP certification", "emergency NP exam", "ENP practice questions", "ENP study guide", "ENP-C exam"],
+};
+
 export const NP_EXAM_HUB_CARDS = [
   {
     examCode: "AANP" as NpExamCode,
@@ -408,6 +625,66 @@ export const NP_EXAM_HUB_CARDS = [
     href: "/np/ancc-exam",
     badge: "US Certification",
     color: "indigo",
+  },
+  {
+    examCode: "AGPCNP" as NpExamCode,
+    title: "AGPCNP Certification",
+    subtitle: "Adult-Gerontology Primary Care NP",
+    description: "Primary care certification for adult and geriatric populations. Covers chronic disease management, health promotion, and acute episodic care across the adult lifespan.",
+    region: "US" as const,
+    href: "/np/agpcnp-exam",
+    badge: "US Certification",
+    color: "teal",
+  },
+  {
+    examCode: "AGACNP" as NpExamCode,
+    title: "AGACNP Certification",
+    subtitle: "Adult-Gerontology Acute Care NP",
+    description: "Acute care certification for complex, critically ill adult patients. Covers ICU management, procedural skills, and diagnostic reasoning in hospital settings.",
+    region: "US" as const,
+    href: "/np/agacnp-exam",
+    badge: "US Certification",
+    color: "orange",
+  },
+  {
+    examCode: "PMHNP" as NpExamCode,
+    title: "PMHNP Certification",
+    subtitle: "Psychiatric-Mental Health NP",
+    description: "Psychiatric certification covering psychopharmacology, therapy modalities, crisis intervention, and lifespan psychiatric care.",
+    region: "US" as const,
+    href: "/np/pmhnp-exam",
+    badge: "US Certification",
+    color: "purple",
+  },
+  {
+    examCode: "PNP" as NpExamCode,
+    title: "PNP Certification",
+    subtitle: "Pediatric Nurse Practitioner",
+    description: "Pediatric primary care certification covering developmental milestones, growth assessment, immunizations, and family-centered care from birth through young adulthood.",
+    region: "US" as const,
+    href: "/np/pnp-exam",
+    badge: "US Certification",
+    color: "green",
+  },
+  {
+    examCode: "WHNP" as NpExamCode,
+    title: "WHNP Certification",
+    subtitle: "Women's Health Nurse Practitioner",
+    description: "Women's health certification covering gynecologic health, obstetric care, contraception, menopause, and primary care of women across the lifespan.",
+    region: "US" as const,
+    href: "/np/whnp-exam",
+    badge: "US Certification",
+    color: "pink",
+  },
+  {
+    examCode: "ENP" as NpExamCode,
+    title: "ENP Certification",
+    subtitle: "Emergency Nurse Practitioner",
+    description: "Emergency care certification covering triage, trauma, resuscitation, acute management, and procedural skills in emergency settings.",
+    region: "US" as const,
+    href: "/np/enp-exam",
+    badge: "US Certification",
+    color: "red",
   },
   {
     examCode: "CNPLE" as NpExamCode,

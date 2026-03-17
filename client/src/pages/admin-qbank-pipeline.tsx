@@ -50,7 +50,7 @@ interface PipelineRun {
 const TIER_EXAMS: Record<string, string[]> = {
   rpn: ["REx-PN", "NCLEX-PN"],
   rn: ["NCLEX-RN", "NMC-CBT", "AHPRA"],
-  np: ["AANP-FNP", "ANCC-FNP", "AGNP", "ACNP", "CNPE", "PMHNP"],
+  np: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP", "CNPE"],
 };
 
 const QUESTION_TYPES = [

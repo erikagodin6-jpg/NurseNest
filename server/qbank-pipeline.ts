@@ -102,14 +102,22 @@ const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
     "Research & Evidence": 0.08,
     "Role & Policy": 0.08,
   },
-  "AGNP": {
+  "AGPCNP-AANP": {
     "Adult/Geriatric Disease Management": 0.35,
     "Chronic Illness Management": 0.25,
     "Acute Episodic Care": 0.20,
-    "Palliative & End-of-Life": 0.10,
     "Health Promotion": 0.10,
+    "Professional Practice": 0.10,
   },
-  "ACNP": {
+  "AGPCNP-ANCC": {
+    "Adult/Geriatric Disease Management": 0.30,
+    "Chronic Illness Management": 0.22,
+    "Acute Episodic Care": 0.18,
+    "Health Promotion": 0.10,
+    "Professional Practice": 0.10,
+    "Research & Evidence": 0.10,
+  },
+  "AGACNP": {
     "Complex Acute Care": 0.35,
     "Critical Care Management": 0.25,
     "Diagnostic Reasoning": 0.20,
@@ -129,27 +137,6 @@ const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
     "Therapy Modalities": 0.20,
     "Crisis Intervention": 0.15,
     "Professional Practice": 0.05,
-  },
-  "AGPCNP-AANP": {
-    "Assessment & Diagnosis": 0.36,
-    "Clinical Management & Treatment": 0.36,
-    "Health Promotion & Disease Prevention": 0.14,
-    "Professional Practice": 0.14,
-  },
-  "AGPCNP-ANCC": {
-    "Assessment & Diagnosis": 0.30,
-    "Clinical Management & Treatment": 0.30,
-    "Health Promotion & Disease Prevention": 0.12,
-    "Professional Practice": 0.10,
-    "Research & Evidence-Based Practice": 0.10,
-    "Role & Policy": 0.08,
-  },
-  "AGACNP": {
-    "Complex Acute & Critical Care": 0.35,
-    "Diagnostic Reasoning & Procedures": 0.25,
-    "Chronic Disease in Acute Settings": 0.15,
-    "Pharmacotherapeutics": 0.15,
-    "Professional Practice & Systems": 0.10,
   },
   "PNP": {
     "Pediatric Health Assessment": 0.25,
