@@ -4332,7 +4332,6 @@ const enTranslations: Record<string, string> = {
   "home.heroFeatures.areaPharmacology": "Pharmacology",
   "home.heroFeatures.areaPrioritization": "Prioritization",
   "home.heroFeatures.explore": "Explore",
-  "hero.badge.evidenceBased": "Evidence-Based",
   "intlNursing.hub.title": "International Nurses",
   "intlNursing.hub.metaDesc": "Comprehensive resources for internationally educated nurses — country-specific licensing guides, credential evaluation, exam prep, and career pathways.",
   "intlNursing.hub.badge": "International Nurses",
