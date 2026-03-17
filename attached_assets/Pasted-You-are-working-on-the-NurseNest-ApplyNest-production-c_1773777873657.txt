@@ -1,0 +1,295 @@
+You are working on the NurseNest + ApplyNest production codebase.
+
+Your task is to design and implement a COMPLETE SEO + CONVERSION + CONTENT + MONETIZATION SYSTEM that transforms the platform into a high-traffic, high-converting medical education ecosystem.
+
+This is NOT a basic feature task.
+This is a full growth engine build.
+
+The system must:
+• generate massive organic traffic (programmatic SEO)
+• convert users into subscribers
+• increase engagement and retention
+• maintain medical accuracy and E-E-A-T standards
+• integrate cleanly into the existing architecture
+• NOT break existing UI, routes, or data structures
+
+-------------------------------------
+PRIMARY OBJECTIVES
+-------------------------------------
+
+1. Build a scalable PROGRAMMATIC SEO ENGINE
+2. Build a high-converting USER FUNNEL
+3. Strengthen MEDICAL AUTHORITY (E-E-A-T)
+4. Implement INTERNAL LINKING AUTOMATION
+5. Add USER ENGAGEMENT + UGC FEATURES
+6. Improve TECHNICAL SEO + STRUCTURED DATA
+7. Support MULTI-LANGUAGE SEO
+8. Ensure everything is PUBLISHED, INDEXABLE, and CONNECTED
+
+-------------------------------------
+PHASE 1 — PROGRAMMATIC SEO ENGINE
+-------------------------------------
+
+Create dynamic page generation for the following categories:
+
+A. CONDITION PAGES
+Examples:
+• Heart Failure Nursing Interventions
+• DKA vs HHS
+• COPD Exacerbation Nursing Management
+
+Each page MUST include:
+• SEO title + meta description
+• H1, H2, H3 structured headings
+• pathophysiology (deep, clinical)
+• signs/symptoms
+• lab values (with ranges CA + US)
+• medications + mechanisms
+• nursing interventions (priority-based)
+• complications
+• NCLEX/REx-PN/NP exam insights
+• 5–10 embedded practice questions
+• internal links to related topics
+• medically reviewed section
+• references (CDC, WHO, PubMed)
+
+B. SYMPTOM PAGES
+Examples:
+• Chest Pain Nursing Assessment
+• Shortness of Breath Causes
+• Hyperkalemia Symptoms Nursing
+
+Include:
+• differential diagnoses
+• red flags
+• assessment steps
+• clinical decision-making
+
+C. EXAM BLUEPRINT PAGES
+Examples:
+• NCLEX Cardiac Questions
+• REx-PN Pharmacology Practice
+• NP Primary Care Exam Questions
+
+Include:
+• categorized question banks
+• exam strategy
+• difficulty tiers
+• performance tracking hooks
+
+D. MEDICATION PAGES
+• nursing considerations
+• side effects
+• patient teaching
+• exam tips
+
+E. LAB VALUE PAGES
+• normal ranges (CA/US)
+• interpretation
+• clinical significance
+
+F. COMPARISON PAGES
+Examples:
+• DKA vs HHS
+• Crohn’s vs UC
+• Stable vs Unstable Angina
+
+-------------------------------------
+PHASE 2 — CONTENT GENERATION RULES
+-------------------------------------
+
+ALL generated content must:
+• be clinically accurate
+• include deep rationale (not surface-level)
+• include both correct AND incorrect answer explanations
+• align with:
+  - NCLEX
+  - REx-PN
+  - NP exams
+• include Canadian + US variations where relevant
+• include herbal/supplement interactions where applicable
+• be structured for both learning + SEO
+
+NO empty pages are allowed.
+NO placeholder content.
+
+-------------------------------------
+PHASE 3 — CONVERSION SYSTEM
+-------------------------------------
+
+Implement a complete funnel:
+
+A. FREE → PAID MODEL
+
+• Show limited free questions (3–5)
+• Lock remaining questions
+• Blur locked content
+• CTA:
+  “Unlock Full Test Bank”
+
+B. CTA SYSTEM (GLOBAL)
+
+Add:
+• sticky header CTA
+• inline CTAs after sections
+• end-of-page conversion block
+
+Examples:
+• Start Free Practice
+• Unlock 500 Questions
+• Get Exam Ready
+
+C. EMAIL CAPTURE SYSTEM
+
+Offer:
+• Free study pack (questions + cheat sheets)
+
+Implement:
+• email capture modal
+• backend storage
+• tagging (RN, RPN, NP, etc.)
+
+D. DAILY QUESTION SYSTEM
+
+• send daily practice questions (future-ready)
+• link back to site
+
+-------------------------------------
+PHASE 4 — INTERNAL LINKING ENGINE
+-------------------------------------
+
+Automatically link:
+
+• condition → related conditions
+• condition → questions
+• condition → medications
+• condition → labs
+
+Implement:
+• keyword-based linking
+• related content blocks
+• “You may also like” sections
+
+-------------------------------------
+PHASE 5 — E-E-A-T + MEDICAL AUTHORITY
+-------------------------------------
+
+Add to EVERY page:
+
+• “Medically reviewed by Registered Nurse”
+• author section (RN credentials)
+• references section (authoritative sources)
+• last updated date
+
+-------------------------------------
+PHASE 6 — USER ENGAGEMENT FEATURES
+-------------------------------------
+
+Implement:
+
+A. Question Feedback
+• “Was this helpful?”
+• thumbs up/down
+
+B. Report Issue Button
+• on every page + question
+• stores reports in admin dashboard
+
+C. Comments System (lightweight)
+• optional discussion per question
+
+-------------------------------------
+PHASE 7 — TECHNICAL SEO
+-------------------------------------
+
+Implement:
+
+• schema markup:
+  - Article
+  - FAQ
+  - MedicalWebPage
+• sitemap updates (auto-include generated pages)
+• clean URL structure:
+  /nclex/cardiac/heart-failure
+• canonical tags
+• hreflang for languages
+
+-------------------------------------
+PHASE 8 — MULTI-LANGUAGE SYSTEM
+-------------------------------------
+
+Extend all new content to:
+
+• French
+• Spanish
+• + existing languages
+
+Ensure:
+• proper URL structure (/fr/, /es/)
+• translated SEO metadata
+• no duplicate content issues
+
+-------------------------------------
+PHASE 9 — PERFORMANCE + UX
+-------------------------------------
+
+Ensure:
+
+• no layout shifts
+• fast load times
+• lazy loading for heavy content
+• no broken links
+• mobile optimization
+
+-------------------------------------
+PHASE 10 — ADMIN + PUBLISHING
+-------------------------------------
+
+Ensure all generated content:
+
+• is saved to database
+• appears in correct categories
+• is published (not draft)
+• shows on live site
+• does NOT create duplicate menus or routes
+
+-------------------------------------
+CONSTRAINTS
+-------------------------------------
+
+• DO NOT break existing features
+• DO NOT duplicate routes
+• DO NOT create messy navigation
+• DO NOT leave orphan pages
+• DO NOT generate low-quality content
+
+-------------------------------------
+FINAL OUTPUT REQUIREMENTS
+-------------------------------------
+
+After implementation, provide:
+
+1. All systems built and integrated
+2. Example generated pages for each category
+3. Confirmation pages are indexed and accessible
+4. Confirmation CTAs and funnels are working
+5. Any improvements made to existing architecture
+
+-------------------------------------
+SUCCESS CRITERIA
+-------------------------------------
+
+The system is successful if:
+
+• pages are generated at scale
+• content is high-quality and exam-ready
+• internal linking is active
+• users can convert (free → paid)
+• pages are SEO-optimized and indexable
+• no empty lessons exist anywhere
+• the platform feels cohesive, not fragmented
+
+-------------------------------------
+
+This is a FULL growth system build.
+Execute thoroughly, cleanly, and with production-level quality.

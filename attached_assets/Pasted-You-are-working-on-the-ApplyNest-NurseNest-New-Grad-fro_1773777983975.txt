@@ -1,0 +1,129 @@
+You are working on the ApplyNest / NurseNest New Grad frontend.
+
+Redesign and rebuild the HERO SECTION for the New Grad homepage to maximize CONVERSIONS into:
+
+• resume builder
+• interview prep
+• job applications
+• career resources
+
+-------------------------------------
+PRIMARY GOAL
+-------------------------------------
+
+Position the platform as:
+THE COMPLETE SYSTEM to help healthcare graduates get hired.
+
+-------------------------------------
+HERO STRUCTURE
+-------------------------------------
+
+1. TOP BADGE
+Display:
+“Built for New Grad Nurses & Healthcare Professionals”
+
+2. MAIN HEADLINE
+Use:
+“Land Your First Healthcare Job Faster”
+
+3. SUBHEADLINE (VERY IMPORTANT)
+Include:
+• resumes
+• interviews
+• job search
+• career prep
+
+Example:
+“AI-powered resumes, interview prep, and job tools designed to help new grads stand out and get hired.”
+
+4. TRUST INDICATORS
+Add:
+• Resume Builder
+• Interview Prep
+• Job Listings
+• Application Tracking
+• Career Resources
+
+5. PRIMARY CTA
+Button:
+“Build Your Resume”
+
+6. SECONDARY CTA
+Button:
+“Browse Jobs”
+
+-------------------------------------
+HIGH-CONVERSION BLOCK (CRITICAL)
+-------------------------------------
+
+Add below CTAs:
+
+“Everything you need to get hired in one place”
+
+Include 3 feature cards:
+• Resume Builder (ATS-optimized)
+• Interview Prep (common questions + answers)
+• Job Board (healthcare-specific)
+
+-------------------------------------
+SOCIAL PROOF (IF AVAILABLE)
+-------------------------------------
+
+Add:
+• “Trusted by nursing students and new grads”
+• or placeholder for future testimonials
+
+-------------------------------------
+SEO REQUIREMENTS
+-------------------------------------
+
+Include keywords:
+• new grad nurse jobs
+• nursing resume help
+• healthcare interview prep
+• entry-level healthcare jobs
+
+Add:
+• H1, H2 structure
+• meta title + description
+
+-------------------------------------
+CONVERSION OPTIMIZATION
+-------------------------------------
+
+• urgency messaging:
+“Your first job starts here”
+
+• microcopy:
+“Free tools to get started”
+
+-------------------------------------
+DESIGN REQUIREMENTS
+-------------------------------------
+
+• match ApplyNest style
+• clean, professional, slightly more “career-focused” than NurseNest
+• mobile optimized
+• fast loading
+
+-------------------------------------
+INTEGRATION REQUIREMENTS
+-------------------------------------
+
+• link to:
+  /resumes-cover-letters
+  /interview-prep
+  /jobs
+  /resources
+
+• ensure no broken links
+• ensure routing works
+
+-------------------------------------
+SUCCESS CRITERIA
+-------------------------------------
+
+• user immediately understands value
+• strong conversion into resume + jobs
+• reduced bounce rate
+• improved engagement
