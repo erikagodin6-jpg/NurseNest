@@ -1,0 +1,200 @@
+You are performing a full root-cause debug and stabilization pass on a production React + Vite codebase that is intermittently crashing with:
+
+ReferenceError: Cannot access 'Jh' before initialization
+
+This is a bundled/minified symbol name, so the real bug is in the source code. Do NOT assume any variable is literally named Jh.
+
+MISSION
+Find the exact root cause, permanently fix it, and proactively eliminate similar initialization-order and circular-import failures across the codebase.
+
+PRIMARY OBJECTIVES
+
+1. Reproduce the crash reliably
+2. Map the minified runtime error back to source
+3. Identify the exact file(s) and dependency chain causing the issue
+4. Fix the root cause cleanly
+5. Scan the rest of the app for similar risks
+6. Harden the app so future failures are easier to diagnose
+7. Confirm the site loads correctly in dev and production after the fix
+
+MANDATORY DEBUG WORKFLOW
+
+PHASE 1 — REPRODUCE AND TRACE
+
+- Run the app in development mode
+- Run the production build and preview mode
+- Reproduce the failing route/page/component
+- Inspect:
+  - browser console
+  - network tab
+  - terminal logs
+  - Vite build output
+  - source maps if available
+- Use stack traces and source maps to map the minified symbol back to the real source file and line
+- Identify whether the crash occurs:
+  - on first render
+  - during route load
+  - during module import
+  - during hydration
+  - after a conditional render path
+  - only on certain pages
+
+PHASE 2 — ROOT CAUSE INVESTIGATION
+
+Systematically audit for Temporal Dead Zone and module initialization problems, including:
+
+A. USE-BEFORE-INITIALIZATION
+- const/let/function expressions referenced before declaration
+- destructured values used before assignment
+- hooks, callbacks, memoized values, or config objects referenced before they exist
+- default exports depending on values declared later
+- top-level arrays/objects referencing symbols declared underneath
+
+B. CIRCULAR IMPORTS
+Search for:
+- page imports layout, layout imports page
+- route config imports page, page imports route config
+- component imports shared config, shared config imports component
+- i18n imports UI config, UI config imports i18n
+- theme imports constants, constants import theme
+- barrel/index.ts files re-exporting modules that import each other
+- utility/helper files importing from feature files instead of pure shared modules
+- store/provider/context files with bidirectional imports
+- content generator/admin/editor files importing each other recursively
+
+C. HIGH-RISK AREAS TO AUDIT FIRST
+Prioritize all recently changed or frequently failing areas:
+- hero page
+- pricing page
+- allied health pages
+- new grad pages
+- international pages
+- AI generator/content builder
+- translation/i18n system
+- route definitions
+- layout, navbar, footer
+- admin dashboards
+- shared constants/config/theme/feature flags
+- any index.ts barrel export files
+- dynamic imports / lazy-loaded route files
+
+PHASE 3 — FIX STRATEGY
+
+Fix the root cause using best-practice architecture, not hacks.
+
+Allowed fixes:
+- reorder declarations so dependencies are initialized first
+- convert top-level computed constants into functions/getters/factories when needed
+- move shared constants/types/helpers into dependency-free modules
+- break circular imports by introducing dedicated shared modules
+- replace problematic barrel exports with direct imports
+- split large files with mixed responsibilities
+- remove eager top-level execution when it should be lazily evaluated
+- isolate route metadata from rendered component modules
+- isolate i18n keys/config from components
+- isolate static content/config from runtime hooks/providers
+
+Forbidden fixes:
+- suppressing the error without solving it
+- wrapping everything in try/catch
+- removing functionality unnecessarily
+- random renaming without understanding the dependency chain
+- telling me to clear cache as the solution
+- disabling source maps or hiding the crash
+
+PHASE 4 — GLOBAL STABILITY SWEEP
+
+After the immediate fix, scan the codebase for related patterns and clean them up proactively.
+
+Specifically:
+- find all circular imports
+- identify all barrel files that may cause cycles
+- identify all top-level computed exports that depend on imported runtime values
+- identify all config files importing from rendered UI code
+- identify route/config/theme/i18n cross-dependencies
+- identify components that import from parent feature entrypoints instead of leaf modules
+
+Refactor those areas so the dependency graph is cleaner and acyclic.
+
+PHASE 5 — HARDENING
+
+Improve diagnostics and resilience:
+
+1. Error handling
+- improve the error boundary
+- show a more useful message in development
+- log route/component context
+- log module stack if available
+- keep production UX clean but still capture enough metadata for diagnosis
+
+2. Import discipline
+- reduce barrel exports where risky
+- enforce import direction:
+  - shared base modules should not import feature UI modules
+  - config should not import rendered components
+  - route metadata should not depend on route component execution
+
+3. Build confidence
+- verify all main public pages load
+- verify admin pages still load
+- verify navigation works
+- verify translations still work
+- verify pricing pages still work
+- verify no blank-screen crash remains
+- verify production build succeeds
+- verify preview works
+- verify no new console errors appear
+
+IMPLEMENTATION REQUIREMENTS
+
+- Be extremely methodical
+- Do not stop at the first symptom
+- Trace the full dependency chain
+- Document the exact import loop or initialization sequence that caused the crash
+- Use direct imports where safer than barrel exports
+- Prefer small, dependency-clean shared modules for constants/types/helpers
+- Preserve existing UI/UX and site content
+- Do not break publishing, admin, pricing, study, allied health, new grad, or multilingual features
+
+DELIVERABLES REQUIRED
+
+When done, provide a concise but precise report with:
+
+1. Exact root cause
+   - real file(s)
+   - real symbol(s)
+   - exact dependency/initialization chain
+
+2. Exact code changes made
+   - files changed
+   - what was moved/reordered/refactored
+   - why the fix works
+
+3. Stability improvements completed
+   - circular imports removed
+   - barrel files reduced/replaced
+   - lazy initialization changes
+   - error boundary improvements
+
+4. Verification results
+   - dev mode works
+   - production build works
+   - preview works
+   - affected pages load correctly
+   - no remaining blank-screen issue
+   - any remaining risks
+
+5. Optional follow-up recommendations
+   - ESLint/import-cycle protections
+   - architecture guardrails
+   - file organization improvements
+
+SUCCESS CRITERIA
+
+This task is only complete if:
+- the crash is gone
+- the affected page loads normally
+- the underlying source bug is identified
+- similar import/init risks were also cleaned up
+- the production build is stable
+- the result is a permanent fix, not a temporary workaround

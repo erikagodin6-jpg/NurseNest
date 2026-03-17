@@ -1,0 +1,75 @@
+You are debugging a production React/Vite application that is failing to load with this runtime error:
+
+ReferenceError: Cannot access 'Jh' before initialization
+
+This is a bundled/minified variable name, so do NOT assume the real variable is literally called Jh.
+Your task is to find and fix the true source code causing this error.
+
+GOAL
+Identify the exact file, component, hook, utility, or import chain causing the temporal dead zone / initialization-order failure and fix it safely without breaking existing features.
+
+REQUIRED DEBUG PROCESS
+
+1. Reproduce the failure in dev and production build modes.
+   - Run the app locally
+   - Run production build
+   - Inspect browser console, terminal logs, and stack traces
+   - Generate source-mapped stack trace if possible so the minified symbol maps back to the real file and line
+
+2. Search the entire codebase for likely causes:
+   - variables/constants/functions used before declaration
+   - circular imports between components/hooks/utils/config files
+   - top-level code that references imported values before module initialization completes
+   - cases like:
+     const x = y
+     const y = ...
+   - mutually dependent modules importing each other
+   - hook/helper definitions referenced before initialization
+   - exported const values depending on another exported const from a circular module
+   - route config importing pages that also import the route config
+   - translation/config/theme files importing from each other
+   - barrel index.ts files causing circular import chains
+
+3. Check recent work first, especially:
+   - hero page
+   - pricing page
+   - allied health pages
+   - AI/content generator components
+   - translation/i18n files
+   - shared layout/navbar/footer/route files
+   - any new utility or constants files
+
+4. Fix the root cause, not the symptom.
+   Acceptable fixes include:
+   - reordering declarations
+   - converting problematic top-level const initialization into lazy functions
+   - breaking circular imports by moving shared constants/types/helpers into a separate dependency-free module
+   - removing barrel exports that create import cycles
+   - changing eager module execution to local function execution where appropriate
+
+5. After fixing:
+   - verify the failing page loads correctly
+   - verify navigation still works
+   - verify no white screen remains
+   - verify build succeeds
+   - verify there are no new console errors
+   - verify mobile and desktop rendering both work
+
+6. Add defensive protection:
+   - improve the error boundary / load failure UI
+   - make it show the actual file/component stack in development
+   - log enough metadata to diagnose future crashes faster
+
+OUTPUT REQUIRED
+Provide:
+- exact root cause
+- exact files changed
+- before/after explanation
+- confirmation that the affected page now loads
+- any other fragile circular-import areas you found and cleaned up
+
+IMPORTANT
+Do not just tell me to clear cache.
+Do not apply superficial hacks.
+Do not suppress the error.
+Find the real source and permanently fix it.
