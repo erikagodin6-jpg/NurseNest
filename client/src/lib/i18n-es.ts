@@ -4582,6 +4582,7 @@ const translations: Record<string, string> = {
   "home.heroFeatures.areaPharmacology": "Pharmacology",
   "home.heroFeatures.areaPrioritization": "Prioritization",
   "home.heroFeatures.explore": "Explore",
+  "hero.badge.evidenceBased": "Evidence-Based",
 };
 
 export default translations;
