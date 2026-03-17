@@ -6478,3 +6478,37 @@ export const questionCommentVotes = pgTable("question_comment_votes", {
 });
 
 export type QuestionCommentVote = typeof questionCommentVotes.$inferSelect;
+
+export const CLINICAL_SEO_PAGE_TYPES = ["condition", "symptom", "medication", "lab-value", "comparison"] as const;
+export type ClinicalSeoPageType = typeof CLINICAL_SEO_PAGE_TYPES[number];
+
+export const clinicalSeoPages = pgTable("clinical_seo_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageType: text("page_type").notNull(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: text("canonical_url"),
+  bodySystem: text("body_system"),
+  category: text("category"),
+  summary: text("summary"),
+  data: jsonb("data").default(sql`'{}'::jsonb`),
+  practiceQuestions: jsonb("practice_questions").default(sql`'[]'::jsonb`),
+  references: jsonb("references").default(sql`'[]'::jsonb`),
+  relatedSlugs: text("related_slugs").array().default(sql`'{}'::text[]`),
+  seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  status: text("status").default("draft"),
+  publishedAt: timestamp("published_at"),
+  lastReviewedAt: timestamp("last_reviewed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertClinicalSeoPageSchema = createInsertSchema(clinicalSeoPages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ClinicalSeoPage = typeof clinicalSeoPages.$inferSelect;
+export type InsertClinicalSeoPage = z.infer<typeof insertClinicalSeoPageSchema>;

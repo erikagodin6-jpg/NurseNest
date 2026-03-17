@@ -648,3 +648,38 @@ export async function generateMainProgrammatic(): Promise<string[]> {
 
   return urls;
 }
+
+const CLINICAL_SEO_ROUTE_MAP: Record<string, (slug: string) => string> = {
+  condition: (slug) => `/nclex/clinical/${slug}`,
+  symptom: (slug) => `/symptoms/${slug}`,
+  medication: (slug) => `/meds/${slug}`,
+  "lab-value": (slug) => `/labs/${slug}`,
+  comparison: (slug) => `/clinical-compare/${slug}`,
+};
+
+export async function generateClinicalSeoPages(): Promise<string[]> {
+  const base = getSiteBase();
+  const today = todayDate();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  try {
+    const result = await pool.query(
+      `SELECT slug, page_type, body_system, updated_at FROM clinical_seo_pages WHERE status = 'published' ORDER BY updated_at DESC`
+    );
+    for (const row of result.rows) {
+      const routeFn = CLINICAL_SEO_ROUTE_MAP[row.page_type];
+      if (!routeFn) continue;
+      let path = routeFn(row.slug);
+      if (row.page_type === "condition" && row.body_system) {
+        const system = row.body_system.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        path = `/nclex/${system}/${row.slug}`;
+      }
+      urls.push(localizedUrl(base, path, "0.8", "weekly", locales, toLastmod(row.updated_at) || today));
+    }
+  } catch (e) {
+    console.error("Sitemap: clinical SEO pages error:", e);
+  }
+
+  return urls;
+}

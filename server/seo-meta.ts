@@ -2328,6 +2328,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/perioperative-", "/preoperative-",
   "/nclex-rn/", "/nclex-pn/", "/rex-pn/", "/canada-np/", "/us-np/",
   "/rpn/", "/rn/", "/np/",
+  "/nclex/", "/symptoms/", "/meds/", "/labs/", "/clinical-compare/",
   "/radiography-", "/hyperkalemia-", "/barrel-chest-",
   "/question-bank-", "/medication-mastery-", "/nursing-simulation-",
   "/nursing/", "/paramedic/", "/respiratory-therapy/", "/mlt/", "/imaging/",

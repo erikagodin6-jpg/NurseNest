@@ -832,6 +832,7 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
 
   await ensureProgrammaticPages(pool);
   await ensureNotificationTables(pool);
+  await ensureClinicalSeoPages(pool);
 }
 
 async function runCanonicalMigrationIfNeeded(pool: pg.Pool): Promise<void> {
@@ -1086,4 +1087,34 @@ async function ensureNotificationTables(pool: pg.Pool): Promise<void> {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_notification_log_stripe_event ON notification_log(stripe_event_id)
   `);
+}
+
+async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS clinical_seo_pages (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      page_type text NOT NULL,
+      slug text NOT NULL UNIQUE,
+      title text NOT NULL,
+      meta_title text,
+      meta_description text,
+      canonical_url text,
+      body_system text,
+      category text,
+      summary text,
+      data jsonb DEFAULT '{}'::jsonb,
+      practice_questions jsonb DEFAULT '[]'::jsonb,
+      "references" jsonb DEFAULT '[]'::jsonb,
+      related_slugs text[] DEFAULT '{}'::text[],
+      seo_keywords text[] DEFAULT '{}'::text[],
+      status text DEFAULT 'draft',
+      published_at timestamptz,
+      last_reviewed_at timestamptz,
+      created_at timestamptz DEFAULT NOW() NOT NULL,
+      updated_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_type ON clinical_seo_pages(page_type)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_status ON clinical_seo_pages(status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_body_system ON clinical_seo_pages(body_system)`);
 }

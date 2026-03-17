@@ -231,6 +231,11 @@ const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard
 const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboard"));
 const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
+const ClinicalConditionPage = lazy(() => import("@/pages/clinical-seo/condition-page"));
+const ClinicalSymptomPage = lazy(() => import("@/pages/clinical-seo/symptom-page"));
+const ClinicalMedicationPage = lazy(() => import("@/pages/clinical-seo/medication-page"));
+const ClinicalLabValuePage = lazy(() => import("@/pages/clinical-seo/lab-value-page"));
+const ClinicalSeoComparisonPage = lazy(() => import("@/pages/clinical-seo/comparison-page"));
 const NpExamPrepPillar = lazy(() => import("@/pages/np-exam-prep-pillar"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
 const SeoHubPage = lazy(() => import("@/pages/seo-hub-page"));
@@ -1287,6 +1292,11 @@ function AppRoutes() {
         <Route path="/allied-psychotherapy-addictions" component={ExamBlueprintCategory} />
         <Route path="/topics" component={TopicsIndex} />
         <Route path="/topics/:slug" component={TopicDetail} />
+        <Route path="/nclex/:system/:slug" component={ClinicalConditionPage} />
+        <Route path="/symptoms/:slug" component={ClinicalSymptomPage} />
+        <Route path="/meds/:slug" component={ClinicalMedicationPage} />
+        <Route path="/labs/:slug" component={ClinicalLabValuePage} />
+        <Route path="/clinical-compare/:slug" component={ClinicalSeoComparisonPage} />
         <Route path="/conditions/:slug" component={ConditionPage} />
         <Route path="/medications/:slug" component={MedicationPage} />
         <Route path="/herbal-supplements/:slug" component={HerbalSupplementPage} />

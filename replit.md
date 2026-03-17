@@ -53,6 +53,23 @@ Admin-only content audit system at `server/content-audit-report.ts` with two end
 - `POST /api/admin/content-audit/fix-quality` — Atomically marks published questions with missing required fields (rationale, body_system, exam) as draft using a DB transaction.
 Both endpoints require admin authentication via `requireAdmin`.
 
+### Clinical SEO Pages
+Database-driven clinical content pages for SEO with 5 content types (26 seeded pages total):
+- **Conditions** (`/nclex/:system/:slug`): 6 pages — heart failure, MI, pneumonia, diabetes type 2, CKD, COPD
+- **Symptoms** (`/symptoms/:slug`): 5 pages — chest pain, dyspnea, edema, hypotension, altered LOC
+- **Medications** (`/meds/:slug`): 5 pages — metoprolol, lisinopril, warfarin, furosemide, insulin
+- **Lab Values** (`/labs/:slug`): 5 pages — potassium, sodium, troponin, HbA1c, creatinine
+- **Comparisons** (`/clinical-compare/:slug`): 5 pages — DKA vs HHS, left vs right HF, T1 vs T2 DM, Crohn's vs UC, delirium vs dementia
+
+Key files:
+- `shared/schema.ts` — `clinicalSeoPages` table definition
+- `server/ensure-schema.ts` — `ensureClinicalSeoPages()` migration
+- `server/clinical-seo-routes.ts` — API routes + seed data
+- `client/src/pages/clinical-seo/` — 5 page template components
+- `server/sitemap/main-site.ts` — `generateClinicalSeoPages()` for sitemap
+
+Each page includes: MedicalReviewBadge, MedicalReferences, AutoRelatedContent, MedicalWebPage + FAQPage JSON-LD structured data, interactive practice questions, breadcrumb navigation, and canonical URLs.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
