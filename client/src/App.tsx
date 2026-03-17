@@ -325,7 +325,6 @@ const AdminEnvironmentAudit = lazy(() => import("@/pages/admin-environment-audit
 const AdminEnvironmentDiagnostic = lazy(() => import("@/pages/admin-environment-diagnostic"));
 const AdminRnLessonAudit = lazy(() => import("@/pages/admin-rn-lesson-audit"));
 const AdminDemoProgress = lazy(() => import("@/pages/admin-demo-progress"));
-const AdminBackups = lazy(() => import("@/pages/admin-backups"));
 const ImagingLessonsPage = lazy(() => import("@/pages/imaging-lessons"));
 const ImagingPositioningPage = lazy(() => import("@/pages/imaging-positioning"));
 const ImagingPositioningDetailPage = lazy(() => import("@/pages/imaging-positioning-detail"));
@@ -436,6 +435,11 @@ const InternationalNursingComparison = lazy(() => import("@/pages/international-
 const InternationalNursingTools = lazy(() => import("@/pages/international-nursing-tools"));
 const InternationalNursingContent = lazy(() => import("@/pages/international-nursing-content"));
 const InternationalNursingCluster = lazy(() => import("@/pages/international-nursing-cluster"));
+const HealthcarePolicyHub = lazy(() => import("@/pages/healthcare-policy-hub"));
+const LicensingPolicyChanges = lazy(() => import("@/pages/healthcare-policy-pages").then(m => ({ default: m.LicensingPolicyChanges })));
+const InternationalNursingRecruitmentPolicy = lazy(() => import("@/pages/healthcare-policy-pages").then(m => ({ default: m.InternationalNursingRecruitment })));
+const ExamFormatUpdates = lazy(() => import("@/pages/healthcare-policy-pages").then(m => ({ default: m.ExamFormatUpdates })));
+const RegulatoryChanges = lazy(() => import("@/pages/healthcare-policy-pages").then(m => ({ default: m.RegulatoryChanges })));
 
 function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
   const { user, isLoading, hasAccess } = useAuth();
@@ -901,7 +905,6 @@ function AppRoutes() {
         <Route path="/admin/environment-diagnostic" component={AdminEnvironmentDiagnostic} />
         <Route path="/admin/rn-lesson-audit" component={AdminRnLessonAudit} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
-        <Route path="/admin/backups" component={AdminBackups} />
         <Route path="/admin/mock-results" component={AdminMockResults} />
         <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
         <Route path="/admin/demo-screenshot-studio" component={DemoScreenshotStudio} />
@@ -920,6 +923,11 @@ function AppRoutes() {
         <Route path="/admin/case-studies" component={AdminCaseStudiesPage} />
         <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
         <Route path="/for-institutions" component={ForInstitutions} />
+        <Route path="/healthcare-policy-and-updates/licensing-policy-changes" component={LicensingPolicyChanges} />
+        <Route path="/healthcare-policy-and-updates/international-nursing-recruitment" component={InternationalNursingRecruitmentPolicy} />
+        <Route path="/healthcare-policy-and-updates/exam-format-updates" component={ExamFormatUpdates} />
+        <Route path="/healthcare-policy-and-updates/regulatory-changes-affecting-nurses" component={RegulatoryChanges} />
+        <Route path="/healthcare-policy-and-updates" component={HealthcarePolicyHub} />
         {/* International Nursing Hub — specific slugs BEFORE catch-all :country */}
         <Route path="/international-nurses" component={InternationalNursingHub} />
         <Route path="/international-nurses/tools" component={InternationalNursingTools} />

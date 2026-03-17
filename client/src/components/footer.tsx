@@ -99,6 +99,14 @@ export function Footer() {
               <li><LocaleLink href="/electrolyte-abg-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-electrolyte-sim">Electrolyte &amp; ABG Simulator</LocaleLink></li>
               <li><LocaleLink href="/safety-hazard-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-safety-sim">Safety Hazard Simulator</LocaleLink></li>
             </ul>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">Healthcare Policy</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+              <li><LocaleLink href="/healthcare-policy-and-updates" className="hover:text-primary transition-colors" data-testid="link-footer-policy-hub">Policy & Updates Hub</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/licensing-policy-changes" className="hover:text-primary transition-colors" data-testid="link-footer-licensing-policy">Licensing Policy Changes</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/international-nursing-recruitment" className="hover:text-primary transition-colors" data-testid="link-footer-intl-recruitment">International Recruitment</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/exam-format-updates" className="hover:text-primary transition-colors" data-testid="link-footer-exam-updates">Exam Format Updates</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/regulatory-changes-affecting-nurses" className="hover:text-primary transition-colors" data-testid="link-footer-regulatory-changes">Regulatory Changes</LocaleLink></li>
+            </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/new-grad#career-tools" className="hover:text-primary transition-colors" data-testid="link-footer-applynest">{t("footer.applyNest")}</LocaleLink></li>
