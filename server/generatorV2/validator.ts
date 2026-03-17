@@ -1,7 +1,7 @@
-const VALID_SYSTEMS = [
-  "Cardiac", "Respiratory", "Neuro", "Renal", "Endocrine", "GI",
-  "Hematology", "Immune", "Integumentary", "MSK", "Reproductive", "Multi-system",
-];
+import { VALID_BODY_SYSTEMS } from "./taxonomyRegistry";
+import { normalizeSystem, normalizeTopic, type NormalizationResult } from "./topicNormalizer";
+
+const VALID_SYSTEMS = [...VALID_BODY_SYSTEMS];
 
 const VALID_DIFFICULTIES = ["moderate", "hard", "very_challenging"];
 
@@ -89,6 +89,7 @@ export interface ValidationResult {
     hash: string;
     topic?: string;
     tags?: string[];
+    taxonomyMapping?: NormalizationResult;
   } | null;
 }
 
@@ -177,13 +178,11 @@ export function validateQuestion(
     errors.push(`Invalid difficulty "${raw.difficulty}"`);
   }
 
-  let system = raw.system || raw.category || "Multi-system";
-  if (!VALID_SYSTEMS.includes(system)) {
-    const match = VALID_SYSTEMS.find(
-      (s) => s.toLowerCase() === system.toLowerCase(),
-    );
-    system = match || "Multi-system";
-  }
+  const rawSystemInput = raw.system || raw.category || "Multi-system";
+  const rawTopicInput = raw.topic || "";
+  const taxonomyResult = normalizeTopic(rawTopicInput, rawSystemInput);
+  let system = taxonomyResult.canonicalSystem;
+  const canonicalTopic = taxonomyResult.canonicalTopic;
 
   if (!Array.isArray(raw.choices) || raw.choices.length < 4) {
     errors.push(`Choices must be an array with >= 4 items, got ${Array.isArray(raw.choices) ? raw.choices.length : "none"}`);
@@ -272,8 +271,9 @@ export function validateQuestion(
       },
       examPearl: sanitizeField(examPearl),
       hash,
-      topic: raw.topic || undefined,
+      topic: canonicalTopic || raw.topic || undefined,
       tags: Array.isArray(raw.tags) ? raw.tags : undefined,
+      taxonomyMapping: taxonomyResult,
     },
   };
 }

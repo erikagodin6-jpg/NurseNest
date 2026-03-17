@@ -351,6 +351,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentSecurityRoutes } = await import("./content-security-routes");
   registerContentSecurityRoutes(app);
 
+  const { registerTaxonomyRoutes } = await import("./taxonomy-routes");
+  registerTaxonomyRoutes(app);
+
   const { registerTranslationAuditRoutes } = await import("./translation-audit-routes");
   registerTranslationAuditRoutes(app);
 

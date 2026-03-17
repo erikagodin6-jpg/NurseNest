@@ -1,11 +1,9 @@
 import { storage } from "../storage";
 import { validateChunk, extractJsonFromResponse, type ValidationResult } from "./validator";
 import { runPreflightChecks } from "../environment-write-service";
+import { VALID_BODY_SYSTEMS } from "./taxonomyRegistry";
 
-const VALID_SYSTEMS = [
-  "Cardiac", "Respiratory", "Neuro", "Renal", "Endocrine", "GI",
-  "Hematology", "Immune", "Integumentary", "MSK", "Reproductive", "Multi-system",
-];
+const VALID_SYSTEMS = [...VALID_BODY_SYSTEMS];
 
 const TIER_PROMPT_BASES: Record<string, string> = {
   rpn: `You are a senior REx-PN (Canadian Practical Nurse Registration Exam) item writer for NurseNest.
@@ -549,6 +547,8 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
 
     await storage.createGeneratedQuestionsBulk(toSave);
 
+    const taxonomyMappings: Array<{ original: string; canonical: string; method: string; confidence: number; fallback: boolean }> = [];
+
     for (const v of valid) {
       existingHashes.add(v.normalized!.hash);
       state.byType[v.normalized!.type] = (state.byType[v.normalized!.type] || 0) + 1;
@@ -561,6 +561,34 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
       state.lastHashes.push(v.normalized!.hash);
       if (state.lastHashes.length > 30) state.lastHashes = state.lastHashes.slice(-20);
       maxIdx = Math.max(maxIdx, v.normalized!.idx);
+
+      const tm = v.normalized!.taxonomyMapping;
+      if (tm) {
+        taxonomyMappings.push({
+          original: tm.originalTopic || tm.originalSystem,
+          canonical: tm.canonicalTopic,
+          method: tm.method,
+          confidence: tm.confidence,
+          fallback: tm.fallbackApplied,
+        });
+
+        if (tm.fallbackApplied || tm.confidence < 0.7) {
+          try {
+            await storage.createTaxonomyReviewEntry({
+              originalTopic: tm.originalTopic,
+              originalSystem: tm.originalSystem,
+              suggestedTopic: tm.canonicalTopic,
+              suggestedSystem: tm.canonicalSystem,
+              confidence: tm.confidence,
+              matchMethod: tm.method,
+              bodySystem: tm.canonicalSystem,
+              generationId,
+            });
+          } catch (e) {
+            console.warn(`[GenV2] Failed to log taxonomy review entry:`, e);
+          }
+        }
+      }
     }
 
     currentCount += valid.length;
@@ -568,7 +596,20 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     await storage.createGenerationEvent({
       generationId,
       eventType: "chunk_saved",
-      payload: { savedCount: valid.length, invalidCount: invalid.length, totalCount: currentCount, topicDistribution: state.byTopic },
+      payload: {
+        savedCount: valid.length,
+        invalidCount: invalid.length,
+        totalCount: currentCount,
+        topicDistribution: state.byTopic,
+        taxonomySummary: {
+          totalMapped: taxonomyMappings.length,
+          fallbacks: taxonomyMappings.filter(m => m.fallback).length,
+          fuzzyMatches: taxonomyMappings.filter(m => m.method === "fuzzy").length,
+          synonymMatches: taxonomyMappings.filter(m => m.method === "synonym").length,
+          exactMatches: taxonomyMappings.filter(m => m.method === "exact").length,
+          mappings: taxonomyMappings.slice(0, 10),
+        },
+      },
     });
 
     await storage.updateProductGeneration(generationId, {

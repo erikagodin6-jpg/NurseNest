@@ -1,4 +1,5 @@
 import { storage } from "../storage";
+import { normalizeTopic } from "./topicNormalizer";
 
 const SECTION_KEYS = [
   "objectives", "pathophysiology", "signs_symptoms", "assessment",
@@ -38,11 +39,43 @@ export async function generateContentBlocks(
   region: string,
   sections: string[] = SECTION_KEYS,
 ): Promise<void> {
+  const taxonomyResult = normalizeTopic(topic, "Multi-system");
+  const canonicalTopic = taxonomyResult.canonicalTopic;
+  const originalTopic = topic;
+  topic = canonicalTopic;
+
   await storage.createGenerationEvent({
     generationId,
     eventType: "content_generation_started",
-    payload: { topic, sections },
+    payload: {
+      topic: canonicalTopic,
+      originalTopic,
+      sections,
+      taxonomyMapping: {
+        method: taxonomyResult.method,
+        confidence: taxonomyResult.confidence,
+        fallbackApplied: taxonomyResult.fallbackApplied,
+        canonicalSystem: taxonomyResult.canonicalSystem,
+      },
+    },
   });
+
+  if (taxonomyResult.fallbackApplied || taxonomyResult.confidence < 0.7) {
+    try {
+      await storage.createTaxonomyReviewEntry({
+        originalTopic: originalTopic,
+        originalSystem: "Multi-system",
+        suggestedTopic: canonicalTopic,
+        suggestedSystem: taxonomyResult.canonicalSystem,
+        confidence: taxonomyResult.confidence,
+        matchMethod: taxonomyResult.method,
+        bodySystem: taxonomyResult.canonicalSystem,
+        generationId,
+      });
+    } catch (e) {
+      console.warn(`[GenV2 Content] Failed to log taxonomy review entry:`, e);
+    }
+  }
 
   const regionNote = region === "CA"
     ? "Canadian context: SI units (mmol/L, umol/L, Celsius, kg), Canadian drug names, RPN scope."

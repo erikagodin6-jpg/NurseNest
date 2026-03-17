@@ -6132,3 +6132,26 @@ export const tutorConversations = pgTable("tutor_conversations", {
 export const insertTutorConversationSchema = createInsertSchema(tutorConversations).omit({ id: true, createdAt: true, updatedAt: true });
 export type TutorConversation = typeof tutorConversations.$inferSelect;
 export type InsertTutorConversation = z.infer<typeof insertTutorConversationSchema>;
+
+export const taxonomyReviewQueue = pgTable("taxonomy_review_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  originalTopic: text("original_topic").notNull(),
+  originalSystem: text("original_system"),
+  suggestedTopic: text("suggested_topic"),
+  suggestedSystem: text("suggested_system"),
+  confidence: doublePrecision("confidence").default(0),
+  matchMethod: text("match_method"),
+  bodySystem: text("body_system"),
+  tier: text("tier"),
+  generationId: varchar("generation_id"),
+  status: text("status").default("pending"),
+  resolvedTopic: text("resolved_topic"),
+  resolvedSystem: text("resolved_system"),
+  resolvedBy: varchar("resolved_by"),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTaxonomyReviewSchema = createInsertSchema(taxonomyReviewQueue).omit({ id: true, createdAt: true });
+export type TaxonomyReviewEntry = typeof taxonomyReviewQueue.$inferSelect;
+export type InsertTaxonomyReviewEntry = z.infer<typeof insertTaxonomyReviewSchema>;

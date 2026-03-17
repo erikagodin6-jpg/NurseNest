@@ -174,6 +174,10 @@ export interface IStorage {
   createGenerationEvent(data: { generationId: string; eventType: string; payload?: any }): Promise<void>;
   getGenerationEvents(generationId: string): Promise<any[]>;
 
+  createTaxonomyReviewEntry(data: any): Promise<any>;
+  listTaxonomyReviewQueue(filters?: { status?: string; system?: string }): Promise<any[]>;
+  resolveTaxonomyReviewEntry(id: string, data: { resolvedTopic: string; resolvedSystem: string; resolvedBy: string }): Promise<any>;
+
   getAllImagingQuestions(filters?: { country?: string; examType?: string; topic?: string; difficulty?: string; status?: string }): Promise<ImagingQuestion[]>;
   getImagingQuestion(id: string): Promise<ImagingQuestion | undefined>;
   createImagingQuestion(q: InsertImagingQuestion): Promise<ImagingQuestion>;
@@ -1282,6 +1286,42 @@ export class DatabaseStorage implements IStorage {
   }
   async getGenerationEvents(generationId: string): Promise<any[]> {
     return db.select().from(generationEvents).where(eq(generationEvents.generationId, generationId)).orderBy(desc(generationEvents.createdAt));
+  }
+
+  async createTaxonomyReviewEntry(data: any): Promise<any> {
+    const result = await pool.query(
+      `INSERT INTO taxonomy_review_queue (id, original_topic, original_system, suggested_topic, suggested_system, confidence, match_method, body_system, tier, generation_id, status, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, 'pending', NOW())
+       RETURNING *`,
+      [data.originalTopic, data.originalSystem || null, data.suggestedTopic || null, data.suggestedSystem || null, data.confidence || 0, data.matchMethod || null, data.bodySystem || null, data.tier || null, data.generationId || null]
+    );
+    return result.rows[0];
+  }
+
+  async listTaxonomyReviewQueue(filters?: { status?: string; system?: string }): Promise<any[]> {
+    let query = `SELECT * FROM taxonomy_review_queue`;
+    const conditions: string[] = [];
+    const params: any[] = [];
+    if (filters?.status) {
+      params.push(filters.status);
+      conditions.push(`status = $${params.length}`);
+    }
+    if (filters?.system) {
+      params.push(filters.system);
+      conditions.push(`(body_system = $${params.length} OR suggested_system = $${params.length})`);
+    }
+    if (conditions.length > 0) query += ` WHERE ${conditions.join(" AND ")}`;
+    query += ` ORDER BY created_at DESC LIMIT 500`;
+    const result = await pool.query(query, params);
+    return result.rows;
+  }
+
+  async resolveTaxonomyReviewEntry(id: string, data: { resolvedTopic: string; resolvedSystem: string; resolvedBy: string }): Promise<any> {
+    const result = await pool.query(
+      `UPDATE taxonomy_review_queue SET status = 'resolved', resolved_topic = $2, resolved_system = $3, resolved_by = $4, resolved_at = NOW() WHERE id = $1 RETURNING *`,
+      [id, data.resolvedTopic, data.resolvedSystem, data.resolvedBy]
+    );
+    return result.rows[0];
   }
 
   async createContentBlock(data: { generationId: string; sectionKey: string; blocks: any }): Promise<any> {
