@@ -1,0 +1,312 @@
+Design and implement a **production-grade, strictly enforced multilingual content architecture** for NurseNest.
+
+This is a **core system-level refactor**, not a patch. The solution must be scalable, enforceable, and safe for all current and future languages.
+
+The system must support:
+
+* fully localized questions
+* fully localized answer options
+* fully localized rationales (correct + incorrect)
+* multilingual lessons and explanations
+* multilingual CAT exam content
+* multilingual flashcards
+* multilingual AI-generated content
+* version tracking + invalidation when source language changes
+* translation completeness auditing
+* strict language isolation at read-time (no mixed-language rendering)
+
+---
+
+## CRITICAL ENFORCEMENT RULES
+
+* No content may render unless it exists in the selected language
+* No silent fallback to English (unless explicitly enabled via admin override)
+* Stale translations MUST NOT render in strict mode
+* Missing translations MUST be treated as system-level errors (not ignored)
+* All reads must be language-scoped
+
+---
+
+## ANTI-PATTERNS (DO NOT IMPLEMENT)
+
+The following are explicitly forbidden:
+
+* storing translations as JSON blobs inside a single column
+* using fallback chains like: fr → en automatically
+* mixing multiple languages in one record
+* storing only English and translating at render time
+* duplicating entire tables per language
+* loosely typed “translations” fields without validation
+* allowing partial translation records to render
+
+---
+
+1. SOURCE-OF-TRUTH ARCHITECTURE
+
+---
+
+Implement a strict separation:
+
+A. Base Tables (language-agnostic)
+
+* contain shared metadata only
+* no user-facing text
+
+B. Translation Tables (language-specific)
+
+* contain ALL user-facing text
+* must include:
+
+  * locale (required)
+  * source_version or source_hash
+  * translation_status
+  * timestamps (created_at, updated_at, translated_at, reviewed_at)
+
+---
+
+2. REQUIRED CONTENT COVERAGE
+
+---
+
+The schema MUST support:
+
+* questions
+* answer choices
+* rationales (correct + incorrect)
+* lessons
+* case studies
+* CAT exam nodes/items
+* flashcards
+* blogs (optional but recommended)
+* career guides (optional but recommended)
+
+---
+
+3. QUESTION MODEL (STRICT)
+
+---
+
+Support ALL of the following as translatable:
+
+* stem
+* scenario
+* exhibits (text-based)
+* answer choices
+* correct answer mapping (non-text, stored in base)
+* rationale for correct answer
+* rationale for EACH incorrect answer
+* hints
+* clinical pearls
+* labels/tags shown to users
+
+NO rationale may exist outside translation tables.
+
+---
+
+4. LANGUAGE ISOLATION (HARD REQUIREMENT)
+
+---
+
+* All read queries MUST include locale
+* No cross-language joins that mix content
+* If translation missing:
+  → return null OR controlled error
+  → do NOT fallback silently
+
+---
+
+5. VERSIONING + INVALIDATION
+
+---
+
+When source language (e.g., English) changes:
+
+* increment version OR regenerate source_hash
+* mark ALL translations as:
+  → stale
+
+Each translation record must store:
+
+* source_version OR source_hash
+* translation_status
+* translated_at
+* reviewed_at
+
+Strict mode:
+
+* stale content MUST NOT render
+
+---
+
+6. TRANSLATION STATUS SYSTEM
+
+---
+
+Implement ENUM:
+
+* missing
+* draft
+* machine_translated
+* human_review_needed
+* reviewed
+* approved
+* stale
+* rejected
+
+Only:
+→ approved (and optionally reviewed) can render in production
+
+---
+
+7. ADMIN + AUDIT SUPPORT
+
+---
+
+Admin must be able to:
+
+* view translation completeness %
+* view missing translations by language
+* view stale translations
+* filter by:
+
+  * content type
+  * language
+  * status
+* edit per language
+* bulk update statuses
+
+---
+
+8. INDEXING + PERFORMANCE
+
+---
+
+Add indexes for:
+
+* (content_id, locale)
+* (locale, translation_status)
+* (translation_status = 'stale')
+* (published, locale)
+* CAT exam query optimization
+
+Ensure:
+
+* no N+1 translation queries
+* efficient joins for large question banks
+
+---
+
+9. MIGRATION PLAN (ZERO DATA LOSS)
+
+---
+
+Must:
+
+* preserve all production data
+* backfill English content into:
+
+  * base + translation tables
+* migrate:
+
+  * questions
+  * answer choices
+  * rationales (CRITICAL)
+* maintain compatibility with existing APIs during transition
+* allow phased rollout
+
+Migration must be:
+
+* reversible (rollback-safe)
+* validated before deployment
+
+---
+
+10. TRANSLATION COMPLETENESS LOGIC
+
+---
+
+For each content item:
+
+* calculate:
+  % of required fields translated per language
+
+* block publishing if:
+  required fields incomplete
+
+* expose completeness in admin
+
+---
+
+11. READ/WRITE CONTRACT (STRICT)
+
+---
+
+READ:
+
+* must require locale
+* must filter by:
+
+  * locale
+  * approved status
+  * non-stale
+
+WRITE:
+
+* must:
+
+  * create/update base record
+  * create/update translation record
+  * update source_version/hash if source changes
+  * mark other languages stale if source updated
+
+---
+
+12. EXTENSIBILITY
+
+---
+
+The schema must:
+
+* support unlimited languages without schema changes
+* support future content types
+* support AI-generated content without redesign
+* support terminology enforcement layer
+
+---
+
+## DELIVERABLES (MANDATORY)
+
+Return:
+
+1. Full schema design (tables + relationships)
+2. Exact SQL migrations (up/down)
+3. ORM model definitions
+4. Index definitions
+5. Sample queries:
+
+   * fetch localized question with answers + rationales
+   * fetch CAT exam set
+   * fetch lesson
+6. Write flow:
+
+   * create/update content
+   * update translations
+7. Translation completeness logic
+8. Stale translation invalidation logic
+9. Admin-facing fields and filters
+10. Rollout plan (phased + safe)
+11. Risks + mitigations
+
+---
+
+## FINAL EXPECTATION
+
+This system must guarantee:
+
+→ strict language isolation
+→ zero mixed-language rendering
+→ zero silent fallback
+→ safe scaling to millions of multilingual content items
+→ compatibility with AI-generated pipelines
+
+Anything less is considered a failed implementation.
