@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { ArrowLeft, CheckCircle, AlertTriangle, XCircle, AlertOctagon, Filter, ExternalLink, RefreshCw } from "lucide-react";
+import {
+  ArrowLeft, CheckCircle, AlertTriangle, XCircle, AlertOctagon,
+  Filter, ExternalLink, RefreshCw, Download, Wand2, Image,
+  BookOpen, FileWarning, Eye,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -47,6 +51,45 @@ interface TierMessagingAudit {
   overall: "pass" | "fail" | "warn";
 }
 
+interface ContentIntegrityOverview {
+  rationales: {
+    missingCount: number;
+    byTier: Record<string, number>;
+    byIssue: Record<string, number>;
+    severity: string;
+  };
+  images: {
+    requiredMissing: number;
+    requiredFormats: Record<string, number>;
+    recommendedMissing: number;
+    recommendedFormats: Record<string, number>;
+    optionalMissing: number;
+    optionalFormats: Record<string, number>;
+  };
+  flashcardGaps: {
+    totalGaps: number;
+    affectedTiers: Record<string, number>;
+    topPriority: Array<{ tier: string; topic: string; questionCount: number; flashcardCount: number; gap: number }>;
+  };
+  generatedAt: string;
+}
+
+interface RationaleAudit {
+  total: number;
+  byTier: Record<string, number>;
+  byIssue: Record<string, number>;
+  questions: Array<{
+    id: string;
+    tier: string;
+    stem: string;
+    questionType: string;
+    rationale: string | null;
+    rationaleIssue: string;
+    topic: string | null;
+    bodySystem: string | null;
+  }>;
+}
+
 const TIER_LABELS: Record<string, string> = {
   free: "Free",
   rpn: "RPN",
@@ -80,6 +123,15 @@ const OVERALL_COLOR: Record<string, string> = {
   warn: "text-amber-500",
 };
 
+function getHeaders() {
+  const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+  return {
+    "Content-Type": "application/json",
+    "x-username": creds.username || "",
+    "x-password": creds.password || "",
+  };
+}
+
 export default function AdminContentAudit() {
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(true);
@@ -92,25 +144,75 @@ export default function AdminContentAudit() {
   const [remediating, setRemediating] = useState(false);
   const [remediationResult, setRemediationResult] = useState<{ repaired: number; alreadyOk: number; totalNpLessons: number } | null>(null);
 
+  const [integrity, setIntegrity] = useState<ContentIntegrityOverview | null>(null);
+  const [integrityLoading, setIntegrityLoading] = useState(true);
+  const [rationaleAudit, setRationaleAudit] = useState<RationaleAudit | null>(null);
+  const [rationaleFilter, setRationaleFilter] = useState("all");
+  const [generating, setGenerating] = useState(false);
+  const [genResult, setGenResult] = useState<{ scanned: number; fixed: number; failed: number; skipped: number } | null>(null);
+  const [activeTab, setActiveTab] = useState<"overview" | "rationales" | "images" | "flashcards" | "lessons">("overview");
+
+  const fetchIntegrity = async () => {
+    setIntegrityLoading(true);
+    try {
+      const res = await fetch("/api/admin/content-integrity/overview", { headers: getHeaders() });
+      if (res.ok) {
+        const data = await res.json();
+        setIntegrity(data);
+      }
+    } catch {} finally {
+      setIntegrityLoading(false);
+    }
+  };
+
+  const fetchRationaleAudit = async () => {
+    try {
+      const res = await fetch("/api/admin/rationale-audit", { headers: getHeaders() });
+      if (res.ok) {
+        const data = await res.json();
+        setRationaleAudit(data);
+      }
+    } catch {}
+  };
+
+  const generateRationales = async (questionIds?: string[]) => {
+    setGenerating(true);
+    setGenResult(null);
+    try {
+      const res = await fetch("/api/admin/rationale-audit/generate", {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify({ questionIds, batchSize: 5 }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setGenResult(data);
+        fetchRationaleAudit();
+        fetchIntegrity();
+      }
+    } catch {} finally {
+      setGenerating(false);
+    }
+  };
+
+  const exportRationaleIssues = () => {
+    const headers = getHeaders();
+    window.open(`/api/admin/content-integrity/export-rationale-issues?username=${encodeURIComponent(headers["x-username"])}&password=${encodeURIComponent(headers["x-password"])}`);
+  };
+
   const runRemediation = async () => {
     setRemediating(true);
     try {
-      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
       const res = await fetch("/api/admin/remediate-np-content", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-username": creds.username || "",
-          "x-admin-password": creds.password || "",
-        },
+        headers: getHeaders(),
       });
       if (res.ok) {
         const data = await res.json();
         setRemediationResult(data);
         fetchAudit();
       }
-    } catch {
-    } finally {
+    } catch {} finally {
       setRemediating(false);
     }
   };
@@ -118,11 +220,7 @@ export default function AdminContentAudit() {
   const fetchAudit = async () => {
     setLoading(true);
     try {
-      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-      const headers = {
-        "x-admin-username": creds.username || "",
-        "x-admin-password": creds.password || "",
-      };
+      const headers = getHeaders();
       const [auditRes, messagingRes] = await Promise.all([
         fetch("/api/admin/content-audit", { headers }),
         fetch("/api/admin/tier-messaging-audit", { headers }),
@@ -136,13 +234,16 @@ export default function AdminContentAudit() {
         const msgData = await messagingRes.json();
         setMessagingAudit(msgData.tiers || []);
       }
-    } catch {
-    } finally {
+    } catch {} finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchAudit(); }, []);
+  useEffect(() => {
+    fetchAudit();
+    fetchIntegrity();
+    fetchRationaleAudit();
+  }, []);
 
   const filteredLessons = lessons.filter(l => {
     if (tierFilter !== "all" && l.tier !== tierFilter) return false;
@@ -154,239 +255,630 @@ export default function AdminContentAudit() {
     return true;
   });
 
+  const filteredRationales = rationaleAudit?.questions.filter(q => {
+    if (rationaleFilter === "all") return true;
+    return q.rationaleIssue === rationaleFilter;
+  }) || [];
+
+  const tabs = [
+    { id: "overview" as const, label: "Overview" },
+    { id: "rationales" as const, label: `Rationales${integrity?.rationales.missingCount ? ` (${integrity.rationales.missingCount})` : ""}` },
+    { id: "images" as const, label: "Images" },
+    { id: "flashcards" as const, label: "Flashcard Gaps" },
+    { id: "lessons" as const, label: "Lessons" },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-6">
           <Button variant="ghost" size="sm" onClick={() => setLocation("/admin")} data-testid="button-back-admin">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Admin
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-audit-title">Content Audit Panel</h1>
-            <p className="text-sm text-gray-500">Lesson completeness by tier with status badges and quick filters</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-audit-title">Content Integrity Audit</h1>
+            <p className="text-sm text-gray-500">Rationale coverage, image audit, flashcard gaps, and lesson completeness</p>
           </div>
-          <Button variant="outline" size="sm" onClick={fetchAudit} disabled={loading} data-testid="button-refresh-audit">
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+          <Button variant="outline" size="sm" onClick={() => { fetchAudit(); fetchIntegrity(); fetchRationaleAudit(); }} disabled={loading || integrityLoading} data-testid="button-refresh-audit">
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading || integrityLoading ? "animate-spin" : ""}`} />
             Refresh
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {summary.map(s => {
-            const pct = s.total > 0 ? Math.round((s.complete / s.total) * 100) : 0;
-            return (
-              <Card key={s.tier} className="border-none shadow-sm" data-testid={`summary-card-${s.tier}`}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base font-semibold flex items-center justify-between">
-                    <span>{TIER_LABELS[s.tier] || s.tier}</span>
-                    {TIER_EXAM_LABELS[s.tier] && (
-                      <Badge variant="secondary" className="text-[10px]">{TIER_EXAM_LABELS[s.tier]}</Badge>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{s.total}</div>
-                  <div className="text-sm text-gray-500 mb-3">Total Lessons</div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
-                    <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                      <span className="text-gray-600">Complete: {s.complete}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-amber-500" />
-                      <span className="text-gray-600">Partial: {s.partial}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-red-500" />
-                      <span className="text-gray-600">Empty: {s.empty}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-red-800" />
-                      <span className="text-gray-600">Broken: {s.broken}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="flex gap-1 mb-6 border-b">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === tab.id
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+              data-testid={`tab-${tab.id}`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        <Card className="border-none shadow-sm mb-8" data-testid="tier-messaging-audit">
-          <CardHeader>
-            <CardTitle className="text-base">Tier Landing Page Messaging Audit</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {messagingAudit.length === 0 ? (
-              <div className="text-center py-6 text-gray-400 text-sm">Loading messaging audit...</div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {messagingAudit.map(audit => {
-                  const OverallIcon = OVERALL_ICON[audit.overall] || CheckCircle;
-                  const overallColor = OVERALL_COLOR[audit.overall] || "text-gray-500";
-                  return (
-                    <div key={audit.tier} className="p-4 rounded-xl bg-gray-50 border border-gray-100" data-testid={`messaging-audit-${audit.tier}`}>
-                      <div className="flex items-center gap-2 mb-3">
-                        <OverallIcon className={`w-4 h-4 ${overallColor}`} />
-                        <span className="text-sm font-semibold">{TIER_LABELS[audit.tier] || audit.tier}</span>
-                        <Badge variant={audit.overall === "pass" ? "secondary" : "destructive"} className="text-[10px] ml-auto">
-                          {audit.overall.toUpperCase()}
-                        </Badge>
+        {activeTab === "overview" && (
+          <div className="space-y-6">
+            {integrityLoading ? (
+              <div className="text-center py-12 text-gray-400">
+                <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2" />
+                Loading content integrity data...
+              </div>
+            ) : integrity && (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Card className="border-none shadow-sm" data-testid="card-missing-rationales">
+                    <CardContent className="pt-5 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2.5 rounded-lg ${integrity.rationales.missingCount > 0 ? "bg-red-100" : "bg-emerald-100"}`}>
+                          <FileWarning className={`w-5 h-5 ${integrity.rationales.missingCount > 0 ? "text-red-600" : "text-emerald-600"}`} />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold" data-testid="text-missing-rationale-count">{integrity.rationales.missingCount}</p>
+                          <p className="text-xs text-gray-500">Missing Rationales</p>
+                        </div>
                       </div>
-                      <p className="text-xs text-gray-600 mb-2">
-                        Expected exam label: <span className="font-medium">{TIER_EXAM_LABELS[audit.tier]}</span>
+                      {integrity.rationales.missingCount > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-1">
+                          {Object.entries(integrity.rationales.byTier).map(([tier, count]) => (
+                            <Badge key={tier} variant="secondary" className="text-[10px]">
+                              {(TIER_LABELS[tier] || tier).toUpperCase()}: {count}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-none shadow-sm" data-testid="card-required-images">
+                    <CardContent className="pt-5 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2.5 rounded-lg ${integrity.images.requiredMissing > 0 ? "bg-amber-100" : "bg-emerald-100"}`}>
+                          <Image className={`w-5 h-5 ${integrity.images.requiredMissing > 0 ? "text-amber-600" : "text-emerald-600"}`} />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold" data-testid="text-required-images-count">{integrity.images.requiredMissing}</p>
+                          <p className="text-xs text-gray-500">Missing Required Images</p>
+                        </div>
+                      </div>
+                      {integrity.images.requiredMissing > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-1">
+                          {Object.entries(integrity.images.requiredFormats).map(([fmt, count]) => (
+                            <Badge key={fmt} variant="destructive" className="text-[10px]">
+                              {fmt}: {count}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-none shadow-sm" data-testid="card-optional-images">
+                    <CardContent className="pt-5 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-lg bg-blue-100">
+                          <Image className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold" data-testid="text-optional-images-count">{integrity.images.optionalMissing}</p>
+                          <p className="text-xs text-gray-500">Optional Images (Info)</p>
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2">Text-only formats, images not required</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-none shadow-sm" data-testid="card-flashcard-gaps">
+                    <CardContent className="pt-5 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2.5 rounded-lg ${integrity.flashcardGaps.totalGaps > 0 ? "bg-orange-100" : "bg-emerald-100"}`}>
+                          <BookOpen className={`w-5 h-5 ${integrity.flashcardGaps.totalGaps > 0 ? "text-orange-600" : "text-emerald-600"}`} />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold" data-testid="text-flashcard-gap-count">{integrity.flashcardGaps.totalGaps}</p>
+                          <p className="text-xs text-gray-500">Flashcard Coverage Gaps</p>
+                        </div>
+                      </div>
+                      {Object.keys(integrity.flashcardGaps.affectedTiers).length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-1">
+                          {Object.entries(integrity.flashcardGaps.affectedTiers).map(([tier, count]) => (
+                            <Badge key={tier} variant="secondary" className="text-[10px]">
+                              {(TIER_LABELS[tier] || tier).toUpperCase()}: {count} topics
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {summary.map(s => {
+                    const pct = s.total > 0 ? Math.round((s.complete / s.total) * 100) : 0;
+                    return (
+                      <Card key={s.tier} className="border-none shadow-sm" data-testid={`summary-card-${s.tier}`}>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-base font-semibold flex items-center justify-between">
+                            <span>{TIER_LABELS[s.tier] || s.tier}</span>
+                            {TIER_EXAM_LABELS[s.tier] && (
+                              <Badge variant="secondary" className="text-[10px]">{TIER_EXAM_LABELS[s.tier]}</Badge>
+                            )}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-3xl font-bold text-gray-900 mb-1">{s.total}</div>
+                          <div className="text-sm text-gray-500 mb-3">Total Lessons</div>
+                          <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
+                            <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                              <span className="text-gray-600">Complete: {s.complete}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-amber-500" />
+                              <span className="text-gray-600">Partial: {s.partial}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-red-500" />
+                              <span className="text-gray-600">Empty: {s.empty}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-red-800" />
+                              <span className="text-gray-600">Broken: {s.broken}</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {activeTab === "rationales" && (
+          <div className="space-y-6">
+            <Card className="border-none shadow-sm" data-testid="rationale-remediation-card">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">Missing Rationales</CardTitle>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={exportRationaleIssues} data-testid="button-export-rationales">
+                      <Download className="w-4 h-4 mr-1" />
+                      Export CSV
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => generateRationales()}
+                      disabled={generating}
+                      data-testid="button-generate-rationales"
+                    >
+                      <Wand2 className={`w-4 h-4 mr-1 ${generating ? "animate-spin" : ""}`} />
+                      {generating ? "Generating..." : "Auto-Generate Rationales"}
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {genResult && (
+                  <div className="mb-4 p-3 rounded-lg bg-blue-50 border border-blue-200 text-sm" data-testid="gen-result-banner">
+                    <span className="font-medium">Generation Result:</span>{" "}
+                    <span className="text-emerald-600 font-medium">{genResult.fixed} fixed</span>,{" "}
+                    <span className="text-red-600 font-medium">{genResult.failed} failed</span>,{" "}
+                    <span className="text-gray-600">{genResult.skipped} skipped</span>{" "}
+                    out of {genResult.scanned} scanned
+                  </div>
+                )}
+
+                {integrity && integrity.rationales.missingCount > 0 && (
+                  <div className="mb-4 grid grid-cols-3 gap-3">
+                    {Object.entries(integrity.rationales.byIssue).map(([issue, count]) => (
+                      <div key={issue} className="p-3 rounded-lg bg-gray-50 border">
+                        <p className="text-lg font-bold">{count}</p>
+                        <p className="text-xs text-gray-500 capitalize">{issue}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 mb-4">
+                  <Filter className="w-4 h-4 text-gray-400" />
+                  <Select value={rationaleFilter} onValueChange={setRationaleFilter}>
+                    <SelectTrigger className="w-40 h-8 text-xs" data-testid="select-rationale-filter">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Issues</SelectItem>
+                      <SelectItem value="missing">Missing</SelectItem>
+                      <SelectItem value="placeholder">Placeholder</SelectItem>
+                      <SelectItem value="short">Short</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <span className="text-xs text-gray-400">{filteredRationales.length} questions</span>
+                </div>
+
+                {rationaleAudit === null ? (
+                  <div className="text-center py-8 text-gray-400 text-sm">Loading rationale audit data...</div>
+                ) : filteredRationales.length === 0 ? (
+                  <div className="text-center py-8" data-testid="text-no-rationale-issues">
+                    <CheckCircle className="w-10 h-10 mx-auto mb-2 text-emerald-500" />
+                    <p className="font-medium text-gray-700">All rationales are valid</p>
+                    <p className="text-sm text-gray-500">No published questions have missing or invalid rationales</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1 max-h-[500px] overflow-y-auto">
+                    <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b sticky top-0 bg-white">
+                      <div className="col-span-4">Stem</div>
+                      <div className="col-span-1">Tier</div>
+                      <div className="col-span-1">Type</div>
+                      <div className="col-span-2">Issue</div>
+                      <div className="col-span-2">Topic</div>
+                      <div className="col-span-2">Actions</div>
+                    </div>
+                    {filteredRationales.slice(0, 100).map(q => (
+                      <div key={q.id} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg" data-testid={`rationale-row-${q.id}`}>
+                        <div className="col-span-4 truncate text-xs text-gray-700">{q.stem}</div>
+                        <div className="col-span-1">
+                          <Badge variant="outline" className="text-[10px]">{(TIER_LABELS[q.tier] || q.tier).toUpperCase()}</Badge>
+                        </div>
+                        <div className="col-span-1 text-[10px] text-gray-500">{q.questionType}</div>
+                        <div className="col-span-2">
+                          <Badge variant={q.rationaleIssue === "missing" ? "destructive" : "secondary"} className="text-[10px]">
+                            {q.rationaleIssue}
+                          </Badge>
+                        </div>
+                        <div className="col-span-2 text-[10px] text-gray-500 truncate">{q.topic || "-"}</div>
+                        <div className="col-span-2 flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 px-2 text-[10px]"
+                            onClick={() => generateRationales([q.id])}
+                            disabled={generating}
+                            data-testid={`button-gen-${q.id}`}
+                          >
+                            <Wand2 className="w-3 h-3 mr-1" />
+                            Fix
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredRationales.length > 100 && (
+                      <p className="text-center text-xs text-gray-400 py-2">Showing first 100 of {filteredRationales.length}</p>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {activeTab === "images" && (
+          <div className="space-y-6">
+            <Card className="border-none shadow-sm" data-testid="image-audit-card">
+              <CardHeader>
+                <CardTitle className="text-base">Image Audit</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {integrity ? (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="p-4 rounded-lg border border-red-200 bg-red-50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Image className="w-5 h-5 text-red-600" />
+                          <span className="font-semibold text-red-800">Required (High)</span>
+                        </div>
+                        <p className="text-2xl font-bold text-red-700 mb-2" data-testid="text-required-image-detail">{integrity.images.requiredMissing}</p>
+                        <p className="text-xs text-red-600 mb-3">Image-dependent formats (HOTSPOT, INSTRUMENT_ID, etc.)</p>
+                        {Object.keys(integrity.images.requiredFormats).length > 0 && (
+                          <div className="space-y-1">
+                            {Object.entries(integrity.images.requiredFormats).map(([fmt, count]) => (
+                              <div key={fmt} className="flex justify-between text-xs">
+                                <span className="text-red-700">{fmt}</span>
+                                <span className="font-medium text-red-800">{count}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {integrity.images.requiredMissing === 0 && (
+                          <div className="flex items-center gap-1 text-emerald-600 text-xs">
+                            <CheckCircle className="w-3 h-3" />
+                            All clear
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="p-4 rounded-lg border border-amber-200 bg-amber-50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Image className="w-5 h-5 text-amber-600" />
+                          <span className="font-semibold text-amber-800">Recommended (Low)</span>
+                        </div>
+                        <p className="text-2xl font-bold text-amber-700 mb-2" data-testid="text-recommended-image-detail">{integrity.images.recommendedMissing || 0}</p>
+                        <p className="text-xs text-amber-600 mb-3">Non-standard formats that could benefit from images</p>
+                        {integrity.images.recommendedFormats && Object.keys(integrity.images.recommendedFormats).length > 0 && (
+                          <div className="space-y-1">
+                            {Object.entries(integrity.images.recommendedFormats).slice(0, 10).map(([fmt, count]) => (
+                              <div key={fmt} className="flex justify-between text-xs">
+                                <span className="text-amber-700">{fmt}</span>
+                                <span className="font-medium text-amber-800">{count}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="p-4 rounded-lg border border-blue-200 bg-blue-50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Image className="w-5 h-5 text-blue-600" />
+                          <span className="font-semibold text-blue-800">Optional (Info)</span>
+                        </div>
+                        <p className="text-2xl font-bold text-blue-700 mb-2" data-testid="text-optional-image-detail">{integrity.images.optionalMissing}</p>
+                        <p className="text-xs text-blue-600 mb-3">Text-only formats (MCQ, SATA, etc.) — images optional</p>
+                        {Object.keys(integrity.images.optionalFormats).length > 0 && (
+                          <div className="space-y-1">
+                            {Object.entries(integrity.images.optionalFormats).slice(0, 10).map(([fmt, count]) => (
+                              <div key={fmt} className="flex justify-between text-xs">
+                                <span className="text-blue-700">{fmt}</span>
+                                <span className="font-medium text-blue-800">{count}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-400">Loading image audit...</div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {activeTab === "flashcards" && (
+          <div className="space-y-6">
+            <Card className="border-none shadow-sm" data-testid="flashcard-gap-card">
+              <CardHeader>
+                <CardTitle className="text-base">Flashcard Coverage Gaps</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {integrity ? (
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg bg-orange-50 border border-orange-200">
+                      <p className="text-sm text-orange-800 mb-2">
+                        <span className="font-bold">{integrity.flashcardGaps.totalGaps}</span> topics with published questions have zero flashcard coverage.
+                        Flashcard generation for these topics is queued for the next remediation phase.
                       </p>
-                      <div className="space-y-1.5">
-                        {audit.checks.map((check, idx) => {
-                          const CheckIcon = check.status === "pass" ? CheckCircle : check.status === "fail" ? XCircle : AlertTriangle;
-                          const checkColor = check.status === "pass" ? "text-emerald-500" : check.status === "fail" ? "text-red-500" : "text-amber-500";
-                          return (
-                            <div key={idx} className="flex items-start gap-1.5">
-                              <CheckIcon className={`w-3 h-3 mt-0.5 shrink-0 ${checkColor}`} />
-                              <div>
-                                <span className="text-[11px] font-medium text-gray-700">{check.component}</span>
-                                <span className="text-[10px] text-gray-500 block">{check.detail}</span>
+                      {Object.keys(integrity.flashcardGaps.affectedTiers).length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {Object.entries(integrity.flashcardGaps.affectedTiers).map(([tier, count]) => (
+                            <Badge key={tier} variant="secondary" className="text-xs">
+                              {(TIER_LABELS[tier] || tier).toUpperCase()}: {count} topics
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {integrity.flashcardGaps.topPriority.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-3 text-gray-700">Top Priority Gaps (by question count)</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b">
+                            <div className="col-span-2">Tier</div>
+                            <div className="col-span-5">Topic</div>
+                            <div className="col-span-2">Questions</div>
+                            <div className="col-span-3">Flashcards</div>
+                          </div>
+                          {integrity.flashcardGaps.topPriority.map((gap, idx) => (
+                            <div key={idx} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg" data-testid={`flashcard-gap-row-${idx}`}>
+                              <div className="col-span-2">
+                                <Badge variant="outline" className="text-[10px]">{(TIER_LABELS[gap.tier] || gap.tier).toUpperCase()}</Badge>
+                              </div>
+                              <div className="col-span-5 text-xs text-gray-700 truncate">{gap.topic}</div>
+                              <div className="col-span-2 text-xs text-gray-500">{gap.questionCount}</div>
+                              <div className="col-span-3">
+                                <Badge variant="destructive" className="text-[10px]">0 cards</Badge>
                               </div>
                             </div>
-                          );
-                        })}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-400">Loading flashcard gap analysis...</div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-        <Card className="border-none shadow-sm mb-8" data-testid="np-remediation-card">
-          <CardHeader>
-            <CardTitle className="text-base">NP Content Remediation</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-gray-600 mb-4">
-              Scan NP tier lessons in the database and repair any that have incomplete, broken, or placeholder content.
-            </p>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={runRemediation}
-                disabled={remediating}
-                data-testid="button-remediate-np"
-              >
-                <RefreshCw className={`w-4 h-4 mr-2 ${remediating ? "animate-spin" : ""}`} />
-                {remediating ? "Remediating..." : "Run NP Remediation"}
-              </Button>
-              {remediationResult && (
-                <div className="text-sm text-gray-700">
-                  <span className="font-medium">{remediationResult.totalNpLessons}</span> NP lessons scanned,{" "}
-                  <span className="font-medium text-emerald-600">{remediationResult.repaired}</span> repaired,{" "}
-                  <span className="font-medium">{remediationResult.alreadyOk}</span> already OK
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        {activeTab === "lessons" && (
+          <div className="space-y-6">
+            <Card className="border-none shadow-sm mb-8" data-testid="tier-messaging-audit">
+              <CardHeader>
+                <CardTitle className="text-base">Tier Landing Page Messaging Audit</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {messagingAudit.length === 0 ? (
+                  <div className="text-center py-6 text-gray-400 text-sm">Loading messaging audit...</div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {messagingAudit.map(audit => {
+                      const OverallIcon = OVERALL_ICON[audit.overall] || CheckCircle;
+                      const overallColor = OVERALL_COLOR[audit.overall] || "text-gray-500";
+                      return (
+                        <div key={audit.tier} className="p-4 rounded-xl bg-gray-50 border border-gray-100" data-testid={`messaging-audit-${audit.tier}`}>
+                          <div className="flex items-center gap-2 mb-3">
+                            <OverallIcon className={`w-4 h-4 ${overallColor}`} />
+                            <span className="text-sm font-semibold">{TIER_LABELS[audit.tier] || audit.tier}</span>
+                            <Badge variant={audit.overall === "pass" ? "secondary" : "destructive"} className="text-[10px] ml-auto">
+                              {audit.overall.toUpperCase()}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-gray-600 mb-2">
+                            Expected exam label: <span className="font-medium">{TIER_EXAM_LABELS[audit.tier]}</span>
+                          </p>
+                          <div className="space-y-1.5">
+                            {audit.checks.map((check, idx) => {
+                              const CheckIcon = check.status === "pass" ? CheckCircle : check.status === "fail" ? XCircle : AlertTriangle;
+                              const checkColor = check.status === "pass" ? "text-emerald-500" : check.status === "fail" ? "text-red-500" : "text-amber-500";
+                              return (
+                                <div key={idx} className="flex items-start gap-1.5">
+                                  <CheckIcon className={`w-3 h-3 mt-0.5 shrink-0 ${checkColor}`} />
+                                  <div>
+                                    <span className="text-[11px] font-medium text-gray-700">{check.component}</span>
+                                    <span className="text-[10px] text-gray-500 block">{check.detail}</span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
-        <Card className="border-none shadow-sm">
-          <CardHeader>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <CardTitle className="text-base flex-1">Lesson Details ({filteredLessons.length})</CardTitle>
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="flex items-center gap-1">
-                  <Filter className="w-4 h-4 text-gray-400" />
-                </div>
-                <Select value={tierFilter} onValueChange={setTierFilter}>
-                  <SelectTrigger className="w-28 h-8 text-xs" data-testid="select-tier-filter">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Tiers</SelectItem>
-                    <SelectItem value="free">Free</SelectItem>
-                    <SelectItem value="rpn">RPN</SelectItem>
-                    <SelectItem value="rn">RN</SelectItem>
-                    <SelectItem value="np">NP</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-32 h-8 text-xs" data-testid="select-status-filter">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="complete">Complete</SelectItem>
-                    <SelectItem value="partial">Partial</SelectItem>
-                    <SelectItem value="empty">Empty</SelectItem>
-                    <SelectItem value="broken">Broken</SelectItem>
-                    <SelectItem value="placeholder">Placeholder</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input
-                  placeholder="Search lessons..."
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="w-48 h-8 text-xs"
-                  data-testid="input-search-lessons"
-                />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="text-center py-12 text-gray-400">Loading audit data...</div>
-            ) : filteredLessons.length === 0 ? (
-              <div className="text-center py-12 text-gray-400">No lessons match current filters</div>
-            ) : (
-              <div className="space-y-1">
-                <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b">
-                  <div className="col-span-4">Title</div>
-                  <div className="col-span-1">Tier</div>
-                  <div className="col-span-2">Status</div>
-                  <div className="col-span-1">Blocks</div>
-                  <div className="col-span-1">Length</div>
-                  <div className="col-span-2">Updated</div>
-                  <div className="col-span-1">Action</div>
-                </div>
-                {filteredLessons.map(l => {
-                  const cfg = STATUS_CONFIG[l.completeness] || STATUS_CONFIG.empty;
-                  const StatusIcon = cfg.icon;
-                  return (
-                    <div key={l.id} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg transition-colors" data-testid={`audit-row-${l.id}`}>
-                      <div className="col-span-4 truncate text-sm font-medium text-gray-800">{l.title}</div>
-                      <div className="col-span-1">
-                        <Badge variant="outline" className="text-[10px]">{TIER_LABELS[l.tier] || l.tier}</Badge>
-                      </div>
-                      <div className="col-span-2">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${cfg.bg} ${cfg.color}`}>
-                          <StatusIcon className="w-3 h-3" />
-                          {l.completeness}
-                        </span>
-                      </div>
-                      <div className="col-span-1 text-xs text-gray-500">{l.blockCount}</div>
-                      <div className="col-span-1 text-xs text-gray-500">{l.contentLength > 1000 ? `${Math.round(l.contentLength / 1000)}k` : l.contentLength}</div>
-                      <div className="col-span-2 text-xs text-gray-400">{l.updatedAt ? new Date(l.updatedAt).toLocaleDateString() : "-"}</div>
-                      <div className="col-span-1">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 w-6 p-0"
-                          onClick={() => setLocation(`/admin/content-manager?edit=${l.id}`)}
-                          data-testid={`button-edit-${l.id}`}
-                        >
-                          <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      </div>
+            <Card className="border-none shadow-sm mb-8" data-testid="np-remediation-card">
+              <CardHeader>
+                <CardTitle className="text-base">NP Content Remediation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">
+                  Scan NP tier lessons in the database and repair any that have incomplete, broken, or placeholder content.
+                </p>
+                <div className="flex items-center gap-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={runRemediation}
+                    disabled={remediating}
+                    data-testid="button-remediate-np"
+                  >
+                    <RefreshCw className={`w-4 h-4 mr-2 ${remediating ? "animate-spin" : ""}`} />
+                    {remediating ? "Remediating..." : "Run NP Remediation"}
+                  </Button>
+                  {remediationResult && (
+                    <div className="text-sm text-gray-700">
+                      <span className="font-medium">{remediationResult.totalNpLessons}</span> NP lessons scanned,{" "}
+                      <span className="font-medium text-emerald-600">{remediationResult.repaired}</span> repaired,{" "}
+                      <span className="font-medium">{remediationResult.alreadyOk}</span> already OK
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-sm">
+              <CardHeader>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                  <CardTitle className="text-base flex-1">Lesson Details ({filteredLessons.length})</CardTitle>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex items-center gap-1">
+                      <Filter className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <Select value={tierFilter} onValueChange={setTierFilter}>
+                      <SelectTrigger className="w-28 h-8 text-xs" data-testid="select-tier-filter">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Tiers</SelectItem>
+                        <SelectItem value="free">Free</SelectItem>
+                        <SelectItem value="rpn">RPN</SelectItem>
+                        <SelectItem value="rn">RN</SelectItem>
+                        <SelectItem value="np">NP</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="w-32 h-8 text-xs" data-testid="select-status-filter">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="complete">Complete</SelectItem>
+                        <SelectItem value="partial">Partial</SelectItem>
+                        <SelectItem value="empty">Empty</SelectItem>
+                        <SelectItem value="broken">Broken</SelectItem>
+                        <SelectItem value="placeholder">Placeholder</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      placeholder="Search lessons..."
+                      value={searchQuery}
+                      onChange={e => setSearchQuery(e.target.value)}
+                      className="w-48 h-8 text-xs"
+                      data-testid="input-search-lessons"
+                    />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="text-center py-12 text-gray-400">Loading audit data...</div>
+                ) : filteredLessons.length === 0 ? (
+                  <div className="text-center py-12 text-gray-400">No lessons match current filters</div>
+                ) : (
+                  <div className="space-y-1">
+                    <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b">
+                      <div className="col-span-4">Title</div>
+                      <div className="col-span-1">Tier</div>
+                      <div className="col-span-2">Status</div>
+                      <div className="col-span-1">Blocks</div>
+                      <div className="col-span-1">Length</div>
+                      <div className="col-span-2">Updated</div>
+                      <div className="col-span-1">Action</div>
+                    </div>
+                    {filteredLessons.map(l => {
+                      const cfg = STATUS_CONFIG[l.completeness] || STATUS_CONFIG.empty;
+                      const StatusIcon = cfg.icon;
+                      return (
+                        <div key={l.id} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg transition-colors" data-testid={`audit-row-${l.id}`}>
+                          <div className="col-span-4 truncate text-sm font-medium text-gray-800">{l.title}</div>
+                          <div className="col-span-1">
+                            <Badge variant="outline" className="text-[10px]">{TIER_LABELS[l.tier] || l.tier}</Badge>
+                          </div>
+                          <div className="col-span-2">
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${cfg.bg} ${cfg.color}`}>
+                              <StatusIcon className="w-3 h-3" />
+                              {l.completeness}
+                            </span>
+                          </div>
+                          <div className="col-span-1 text-xs text-gray-500">{l.blockCount}</div>
+                          <div className="col-span-1 text-xs text-gray-500">{l.contentLength > 1000 ? `${Math.round(l.contentLength / 1000)}k` : l.contentLength}</div>
+                          <div className="col-span-2 text-xs text-gray-400">{l.updatedAt ? new Date(l.updatedAt).toLocaleDateString() : "-"}</div>
+                          <div className="col-span-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0"
+                              onClick={() => setLocation(`/admin/content-manager?edit=${l.id}`)}
+                              data-testid={`button-edit-${l.id}`}
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );

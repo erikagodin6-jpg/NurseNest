@@ -477,6 +477,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentHealthRoutes } = await import("./content-health-routes");
   registerContentHealthRoutes(app);
 
+  const { registerRationaleRemediationRoutes } = await import("./rationale-remediation");
+  registerRationaleRemediationRoutes(app);
+
   const { registerSeoPerformanceRoutes } = await import("./seo-performance-routes");
   registerSeoPerformanceRoutes(app);
 
@@ -12808,11 +12811,29 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (difficulty !== undefined) { sets.push(`difficulty = $${idx++}`); params.push(difficulty); }
       if (tags !== undefined) { sets.push(`tags = $${idx++}`); params.push(tags); }
       if (status !== undefined) {
-        sets.push(`status = $${idx++}`);
-        params.push(status);
         if (status === "published") {
+          const { isValidRationale } = await import("./rationale-remediation");
+          const effectiveRationale = rationale !== undefined ? rationale : undefined;
+          if (effectiveRationale !== undefined) {
+            if (!isValidRationale(effectiveRationale)) {
+              return res.status(422).json({
+                error: "Cannot publish: question has missing or invalid rationale",
+                code: "RATIONALE_REQUIRED",
+              });
+            }
+          } else {
+            const existing = await pool.query(`SELECT rationale FROM exam_questions WHERE id = $1`, [req.params.id]);
+            if (existing.rows.length && !isValidRationale(existing.rows[0].rationale)) {
+              return res.status(422).json({
+                error: "Cannot publish: question has missing or invalid rationale",
+                code: "RATIONALE_REQUIRED",
+              });
+            }
+          }
           sets.push(`published_at = COALESCE(published_at, NOW())`);
         }
+        sets.push(`status = $${idx++}`);
+        params.push(status);
       }
 
       params.push(req.params.id);
@@ -12863,13 +12884,39 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { ids } = req.body;
       if (!ids?.length) return res.status(400).json({ error: "ids required" });
-      const result = await pool.query(
-        `UPDATE exam_questions SET status = 'published', published_at = COALESCE(published_at, NOW()), updated_at = NOW()
-         WHERE id = ANY($1) AND status != 'published'`,
+
+      const { isValidRationale } = await import("./rationale-remediation");
+      const checkResult = await pool.query(
+        `SELECT id, rationale FROM exam_questions WHERE id = ANY($1) AND status != 'published'`,
         [ids]
       );
+      const blocked: string[] = [];
+      const eligible: string[] = [];
+      for (const row of checkResult.rows) {
+        if (!isValidRationale(row.rationale)) {
+          blocked.push(row.id);
+        } else {
+          eligible.push(row.id);
+        }
+      }
+
+      let publishedCount = 0;
+      if (eligible.length > 0) {
+        const result = await pool.query(
+          `UPDATE exam_questions SET status = 'published', published_at = COALESCE(published_at, NOW()), updated_at = NOW()
+           WHERE id = ANY($1) AND status != 'published'`,
+          [eligible]
+        );
+        publishedCount = result.rowCount || 0;
+      }
+
       heroStatsCache = null;
-      res.json({ published: result.rowCount });
+      res.json({
+        published: publishedCount,
+        blocked: blocked.length,
+        blockedIds: blocked,
+        blockedReason: blocked.length > 0 ? "Questions with missing or invalid rationales cannot be published" : undefined,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
