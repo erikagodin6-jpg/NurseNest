@@ -1,0 +1,360 @@
+You are repairing and restoring the NurseNest content generation system.
+
+IMPORTANT PRINCIPLE
+
+The original content generator was excellent and must be restored.  
+Do NOT replace it with a new generator.  
+Do NOT remove it.  
+Do NOT hide it.  
+Fix the underlying bug and restore the previous generator as the primary content generation tool.
+
+The generator must also correctly publish content to the live production database and appear on the published site in the correct existing locations without creating duplicate structures or messy navigation.
+
+------------------------------------------------
+CURRENT PROBLEMS
+------------------------------------------------
+
+1. The original content generator disappeared or was replaced.
+2. The Content Coverage Analyzer generator produces errors:
+   Generated: 0
+   Accepted: 0
+   Errors: 1
+3. The generator must produce questions in small reliable batches.
+4. Generated content must appear on the live published site automatically.
+5. Generated content must go into the correct existing tiers, topics, and categories.
+
+------------------------------------------------
+PRIMARY GOALS
+------------------------------------------------
+
+1. Restore the original content generator interface and workflow.
+2. Fix the generation pipeline so content actually generates successfully.
+3. Generate questions in small batches (5–10 max).
+4. Ensure generated content is saved correctly in the production database.
+5. Ensure generated content automatically appears on the published site.
+6. Ensure generated content is placed in the correct existing content locations.
+7. Prevent the system from creating duplicate categories, menus, or taxonomy chaos.
+
+------------------------------------------------
+RULES
+------------------------------------------------
+
+Do NOT:
+- delete the original generator
+- replace the generator with a simplified version
+- create new categories automatically
+- create new menu sections
+- create new navigation groups
+- create duplicate taxonomy entries
+- insert content into incorrect tiers
+- publish content to orphan locations
+
+All generated content must use the existing taxonomy.
+
+------------------------------------------------
+STEP 1 — FIND AND RESTORE THE ORIGINAL GENERATOR
+------------------------------------------------
+
+Locate the previous generator system:
+
+Possible locations:
+- admin content generator
+- AI generator
+- bulk question generator
+- generation studio
+- AI builder
+- admin question builder
+
+Restore:
+- route
+- UI component
+- navigation entry
+- API connections
+- prompt templates
+- generation controls
+- editing workflow
+- preview functionality
+- save/publish logic
+
+If the generator was removed, restore it from Git history.
+
+Do not rebuild it from scratch unless absolutely necessary.
+
+------------------------------------------------
+STEP 2 — FIX THE GENERATION PIPELINE
+------------------------------------------------
+
+Trace the full generation path.
+
+Flow:
+
+Generator UI
+→ API request
+→ backend generation route
+→ AI provider request
+→ response parsing
+→ validation
+→ database insert
+→ publish state
+→ analytics update
+
+Add logging to detect failures:
+
+generator:start  
+generator:payload  
+generator:provider_request  
+generator:provider_response  
+generator:parse_result  
+generator:validation_result  
+generator:db_insert_result  
+generator:publish_result  
+generator:error  
+
+Investigate likely failure causes:
+
+AI provider error  
+invalid JSON response  
+schema mismatch  
+invalid enum values  
+missing required fields  
+validation rejection  
+database insert failure  
+topic/category mismatch  
+unsupported question format  
+
+Fix the root cause.
+
+------------------------------------------------
+STEP 3 — GENERATION BATCH SIZE
+------------------------------------------------
+
+The generator must create questions in small reliable batches.
+
+Default batch size: 5 questions  
+Maximum batch size: 10 questions  
+
+Never request more than 10 questions in a single generation call.
+
+Example:
+
+If a topic gap is 500 questions:
+generate only 5 per run
+repeat runs gradually fill the gap.
+
+------------------------------------------------
+STEP 4 — VALIDATION AND PARTIAL ACCEPTANCE
+------------------------------------------------
+
+Each generated question must be validated individually.
+
+Do NOT reject the entire batch if one item fails.
+
+Example:
+
+Batch size: 5  
+Generated: 5  
+Valid: 4  
+Rejected: 1  
+
+Insert the 4 valid questions.
+
+Log the rejected item with reason.
+
+------------------------------------------------
+STEP 5 — DATABASE INSERTION
+------------------------------------------------
+
+Generated questions must be saved into the **same production database tables used by the live site**.
+
+Do NOT create temporary storage tables.
+
+Ensure each question includes:
+
+tier  
+topic  
+body system  
+category  
+format  
+question text  
+answer options  
+correct answer  
+rationale  
+difficulty  
+language  
+publish status  
+
+Map fields correctly to the existing schema.
+
+------------------------------------------------
+STEP 6 — AUTOMATIC PUBLISHING
+------------------------------------------------
+
+After insertion:
+
+Generated questions must automatically:
+
+appear on the published site  
+be visible in the question banks  
+be available in quizzes/tests  
+be included in analytics counts  
+be accessible through search/filter  
+
+Use the existing publish workflow.
+
+Do NOT require manual database migration.
+
+------------------------------------------------
+STEP 7 — CONTENT PLACEMENT RULES
+------------------------------------------------
+
+Generated questions must be inserted into the correct existing locations.
+
+Correct placement means:
+
+existing tier  
+existing category  
+existing topic  
+existing body system  
+existing exam blueprint area  
+
+Examples:
+
+RN questions → RN question bank  
+NP questions → NP question bank  
+RPN questions → RPN question bank  
+
+Cardiology questions → cardiovascular category  
+
+DO NOT create:
+
+new categories  
+duplicate topics  
+new menu sections  
+extra navigation layers  
+
+Use the canonical taxonomy already used by the site.
+
+------------------------------------------------
+STEP 8 — TAXONOMY NORMALIZATION
+------------------------------------------------
+
+Ensure topics are normalized before insertion.
+
+Example mapping:
+
+"Acute Kidney Injury" → renal/urinary → nephrology topic  
+"Preeclampsia" → maternal/newborn → obstetrics  
+"Obsessive Compulsive Disorder" → mental health → psychiatry  
+
+Use existing category slugs.
+
+If a topic does not match an existing category, map it to the closest existing one rather than creating a new category.
+
+------------------------------------------------
+STEP 9 — CONTENT GENERATOR FEATURES
+------------------------------------------------
+
+Preserve the strengths of the original generator.
+
+Maintain:
+
+topic selection  
+tier selection  
+batch size control  
+question format selection  
+rationale generation  
+preview before publish  
+editing workflow  
+clean success/error logs  
+
+Do not degrade the UX.
+
+------------------------------------------------
+STEP 10 — CONTENT COVERAGE ANALYZER
+------------------------------------------------
+
+The Content Coverage Analyzer should remain as:
+
+gap monitoring dashboard  
+auto-fill trigger  
+content health analyzer  
+
+But it should not replace the main content generator.
+
+Architecture:
+
+Content Generator = creation studio  
+Coverage Analyzer = monitoring tool
+
+------------------------------------------------
+STEP 11 — GENERATION LOG IMPROVEMENTS
+------------------------------------------------
+
+Update the Generation Log to show:
+
+topic  
+tier  
+batch requested  
+generated count  
+validated count  
+inserted count  
+rejected count  
+failure stage  
+error message  
+timestamp  
+
+Example:
+
+[questions] Acute Kidney Injury  
+Batch: 5  
+Generated: 5  
+Validated: 5  
+Inserted: 5  
+Rejected: 0  
+
+------------------------------------------------
+STEP 12 — TESTING
+------------------------------------------------
+
+After restoration, test generation:
+
+Acute Kidney Injury → 5 questions  
+Preeclampsia → 5 questions  
+Obsessive-Compulsive Disorder → 5 questions  
+
+Verify:
+
+questions generate successfully  
+questions are inserted into the production database  
+questions appear in the correct question bank  
+questions appear on the published site  
+analytics counts update correctly  
+
+------------------------------------------------
+SUCCESS CRITERIA
+------------------------------------------------
+
+The system is fixed only when:
+
+the original generator is restored  
+generation works again  
+batches generate successfully  
+questions are inserted into the production database  
+questions appear on the published site automatically  
+questions appear in the correct existing categories  
+no duplicate categories are created  
+no messy navigation structures appear  
+
+------------------------------------------------
+FINAL REPORT
+------------------------------------------------
+
+Provide:
+
+root cause of generator disappearance  
+root cause of generation failure  
+files restored or modified  
+routes restored  
+database insertion verification  
+example successful generation run  
+confirmation that content appears correctly on the published site
