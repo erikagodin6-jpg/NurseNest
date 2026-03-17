@@ -447,6 +447,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentMetricsRoutes } = await import("./content-metrics-routes");
   registerContentMetricsRoutes(app);
 
+  const { registerContentGapRepairRoutes } = await import("./content-gap-repair-routes");
+  registerContentGapRepairRoutes(app);
+
   const { registerContentCoverageRoutes } = await import("./content-coverage-routes");
   registerContentCoverageRoutes(app);
 
