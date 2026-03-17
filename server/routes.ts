@@ -480,6 +480,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerExamQuestionTranslationRoutes } = await import("./exam-question-translation-routes");
   registerExamQuestionTranslationRoutes(app);
 
+  const { registerBackupRoutes } = await import("./backup-routes");
+  registerBackupRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);

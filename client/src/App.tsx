@@ -320,6 +320,7 @@ const AdminEnvironmentAudit = lazy(() => import("@/pages/admin-environment-audit
 const AdminEnvironmentDiagnostic = lazy(() => import("@/pages/admin-environment-diagnostic"));
 const AdminRnLessonAudit = lazy(() => import("@/pages/admin-rn-lesson-audit"));
 const AdminDemoProgress = lazy(() => import("@/pages/admin-demo-progress"));
+const AdminBackups = lazy(() => import("@/pages/admin-backups"));
 const ImagingLessonsPage = lazy(() => import("@/pages/imaging-lessons"));
 const ImagingPositioningPage = lazy(() => import("@/pages/imaging-positioning"));
 const ImagingPositioningDetailPage = lazy(() => import("@/pages/imaging-positioning-detail"));
@@ -890,6 +891,7 @@ function AppRoutes() {
         <Route path="/admin/environment-diagnostic" component={AdminEnvironmentDiagnostic} />
         <Route path="/admin/rn-lesson-audit" component={AdminRnLessonAudit} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
+        <Route path="/admin/backups" component={AdminBackups} />
         <Route path="/admin/mock-results" component={AdminMockResults} />
         <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
         <Route path="/admin/demo-screenshot-studio" component={DemoScreenshotStudio} />
