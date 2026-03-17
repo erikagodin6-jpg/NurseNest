@@ -197,8 +197,8 @@ export function AlliedNavigation() {
               </Link>
 
               <div className="relative" onMouseEnter={() => setCareerDropdownOpen(true)} onMouseLeave={() => setCareerDropdownOpen(false)}>
-                <button className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 flex items-center gap-1 max-w-[160px] whitespace-nowrap" data-testid="button-career-dropdown">
-                  <span className="truncate">{imagingCareerLabel || (currentCareer ? currentCareer.shortName : "Study")}</span>
+                <button className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:text-teal-700 hover:bg-teal-50/50 inline-flex items-center gap-1.5 whitespace-nowrap" data-testid="button-career-dropdown">
+                  <span className="inline-block max-w-[120px] truncate min-w-0">{imagingCareerLabel || (currentCareer ? currentCareer.shortName : "Study")}</span>
                   <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" />
                 </button>
                 {careerDropdownOpen && (
