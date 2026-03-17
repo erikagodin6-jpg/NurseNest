@@ -2,6 +2,7 @@ export const VALID_TIERS = [
   "free", "rpn", "rn", "np", "pre_nursing", "rn_international",
   "np_fnp", "np_agnp", "np_pmhnp", "np_pnp", "np_nnp", "np_whnp", "np_cnpe",
   "np_agacnp", "np_enp", "np_agpcnp",
+  "np_aanp_fnp", "np_ancc_fnp",
   "respiratory_therapy", "medical_lab_tech", "paramedic", "radiologic_tech",
   "diagnostic_sonography", "cardiac_sonographer", "occupational_therapy_asst",
   "physical_therapy_asst", "pharmacy_tech", "surgical_tech", "dental_hygienist",

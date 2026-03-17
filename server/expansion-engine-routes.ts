@@ -422,4 +422,35 @@ export function registerExpansionEngineRoutes(app: Express) {
       res.status(500).json({ error: e.message });
     }
   });
+
+  app.post("/api/admin/expansion-engine/massive-expansion", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const key = "massive-nursing-expansion";
+    if (activeExpansions.has(key) && activeExpansions.get(key)?.status === "running") {
+      return res.status(409).json({ error: "Massive expansion is already running" });
+    }
+
+    activeExpansions.set(key, { status: "running" });
+    res.json({ status: "started", message: "Massive nursing question bank expansion started" });
+
+    try {
+      const { runNursingQuestionExpansion } = await import("./nursing-question-seeder");
+      const result = await runNursingQuestionExpansion();
+      activeExpansions.set(key, { status: "complete", summary: result });
+    } catch (e: any) {
+      activeExpansions.set(key, { status: "failed", error: e.message });
+      console.error("[MassiveExpansion] Failed:", e.message);
+    }
+  });
+
+  app.get("/api/admin/expansion-engine/massive-expansion/status", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const key = "massive-nursing-expansion";
+    const status = activeExpansions.get(key) || { status: "not_started" };
+    res.json(status);
+  });
 }
