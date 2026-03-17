@@ -1441,6 +1441,66 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "Stroke Lesson – CT/MRI Findings", target: "/lessons/stroke", reason: "neuroimaging in stroke diagnosis", type: "career-to-lesson", platform: "nursenest" },
     { anchor: "New Grad Imaging Career Hub", target: "/new-grad/diagnostic-imaging", reason: "career transition resources for imaging techs", type: "career-to-newgrad", platform: "new-grad" },
   ],
+  "diabetic-ketoacidosis": [
+    { anchor: "DKA vs HHS Comparison", target: "/clinical-comparisons/dka-vs-hhs", reason: "clinical comparison" },
+    { anchor: "Type 1 vs Type 2 Diabetes", target: "/clinical-comparisons/type-1-vs-type-2-diabetes", reason: "related comparison" },
+  ],
+  "dka": [
+    { anchor: "DKA vs HHS Comparison", target: "/clinical-comparisons/dka-vs-hhs", reason: "clinical comparison" },
+    { anchor: "Hyperkalemia Assessment", target: "/symptoms/hyperkalemia", reason: "electrolyte complication" },
+  ],
+  "crohns-disease": [
+    { anchor: "Crohn's vs Ulcerative Colitis", target: "/clinical-comparisons/crohns-vs-ulcerative-colitis", reason: "clinical comparison" },
+    { anchor: "Abdominal Pain Assessment", target: "/symptoms/abdominal-pain", reason: "symptom assessment" },
+  ],
+  "ulcerative-colitis": [
+    { anchor: "UC vs Crohn's Comparison", target: "/clinical-comparisons/ulcerative-colitis-vs-crohns-disease", reason: "clinical comparison" },
+    { anchor: "Abdominal Pain Assessment", target: "/symptoms/abdominal-pain", reason: "symptom assessment" },
+  ],
+  "angina": [
+    { anchor: "Stable vs Unstable Angina", target: "/clinical-comparisons/stable-vs-unstable-angina", reason: "clinical comparison" },
+    { anchor: "Chest Pain Assessment", target: "/symptoms/chest-pain", reason: "symptom assessment" },
+  ],
+  "diabetes-mellitus": [
+    { anchor: "Type 1 vs Type 2 Diabetes", target: "/clinical-comparisons/type-1-vs-type-2-diabetes", reason: "clinical comparison" },
+    { anchor: "DKA vs HHS Comparison", target: "/clinical-comparisons/dka-vs-hhs", reason: "complication comparison" },
+  ],
+  "deep-vein-thrombosis": [
+    { anchor: "DVT vs PE Comparison", target: "/clinical-comparisons/dvt-vs-pe", reason: "clinical comparison" },
+    { anchor: "Edema Assessment", target: "/symptoms/edema", reason: "symptom assessment" },
+  ],
+  "pulmonary-embolism": [
+    { anchor: "DVT vs PE Comparison", target: "/clinical-comparisons/dvt-vs-pe", reason: "clinical comparison" },
+    { anchor: "Chest Pain Assessment", target: "/symptoms/chest-pain", reason: "symptom assessment" },
+    { anchor: "Shortness of Breath Assessment", target: "/symptoms/shortness-of-breath", reason: "symptom assessment" },
+  ],
+  "addisons-disease": [
+    { anchor: "Addison's vs Cushing's Comparison", target: "/clinical-comparisons/addisons-vs-cushings", reason: "clinical comparison" },
+    { anchor: "Hypotension Assessment", target: "/symptoms/hypotension", reason: "symptom assessment" },
+  ],
+  "cushings-syndrome": [
+    { anchor: "Addison's vs Cushing's Comparison", target: "/clinical-comparisons/addisons-vs-cushings", reason: "clinical comparison" },
+  ],
+  "hypothyroidism": [
+    { anchor: "Hypothyroid vs Hyperthyroid Comparison", target: "/clinical-comparisons/hypothyroid-vs-hyperthyroid", reason: "clinical comparison" },
+  ],
+  "hyperthyroidism": [
+    { anchor: "Hypothyroid vs Hyperthyroid Comparison", target: "/clinical-comparisons/hypothyroid-vs-hyperthyroid", reason: "clinical comparison" },
+    { anchor: "Tachycardia Assessment", target: "/symptoms/tachycardia", reason: "symptom assessment" },
+  ],
+  "preeclampsia": [
+    { anchor: "Preeclampsia vs Eclampsia Comparison", target: "/clinical-comparisons/preeclampsia-vs-eclampsia", reason: "clinical comparison" },
+  ],
+  "chest-pain-assessment": [
+    { anchor: "Chest Pain Symptom Assessment", target: "/symptoms/chest-pain", reason: "symptom assessment" },
+    { anchor: "Stable vs Unstable Angina", target: "/clinical-comparisons/stable-vs-unstable-angina", reason: "related comparison" },
+    { anchor: "DVT vs PE Comparison", target: "/clinical-comparisons/dvt-vs-pe", reason: "related comparison" },
+  ],
+  "dyspnea-assessment": [
+    { anchor: "Shortness of Breath Assessment", target: "/symptoms/shortness-of-breath", reason: "symptom assessment" },
+    { anchor: "Dyspnea on Exertion Assessment", target: "/symptoms/dyspnea", reason: "related symptom" },
+    { anchor: "Left vs Right Heart Failure", target: "/clinical-comparisons/left-vs-right-heart-failure", reason: "related comparison" },
+  ],
 };
 
 export function getInternalLinksForLesson(lessonId: string): InternalLink[] {

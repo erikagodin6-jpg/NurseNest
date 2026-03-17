@@ -489,6 +489,24 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/lab-values/${l}`, "0.8", "monthly", locales, today));
   }
 
+  const seoClinicalComparisons = [
+    "dka-vs-hhs", "crohns-vs-ulcerative-colitis", "stable-vs-unstable-angina",
+    "type-1-vs-type-2-diabetes", "left-vs-right-heart-failure", "dvt-vs-pe",
+    "addisons-vs-cushings", "hypothyroid-vs-hyperthyroid",
+    "ulcerative-colitis-vs-crohns-disease", "preeclampsia-vs-eclampsia",
+  ];
+  for (const c of seoClinicalComparisons) {
+    urls.push(localizedUrl(base, `/clinical-comparisons/${c}`, "0.8", "monthly", locales, today));
+  }
+
+  const seoSymptomAssessments = [
+    "chest-pain", "shortness-of-breath", "hyperkalemia", "altered-level-of-consciousness",
+    "abdominal-pain", "fever", "edema", "tachycardia", "hypotension", "dyspnea",
+  ];
+  for (const s of seoSymptomAssessments) {
+    urls.push(localizedUrl(base, `/symptoms/${s}`, "0.8", "monthly", locales, today));
+  }
+
   const seoHerbalPages = [
     "herbal-supplements-that-interact-with-medications",
     "herbal-supplements-nurses-should-ask-patients-about",

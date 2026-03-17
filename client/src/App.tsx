@@ -404,6 +404,8 @@ const MedicationPage = lazy(() => import("@/pages/medication-page"));
 const HerbalSupplementsHub = lazy(() => import("@/pages/herbal-supplements-hub"));
 const HerbalSupplementPage = lazy(() => import("@/pages/herbal-supplement-page"));
 const LabValuePage = lazy(() => import("@/pages/lab-value-page"));
+const ClinicalComparisonPage = lazy(() => import("@/pages/clinical-comparison-page"));
+const SymptomAssessmentPage = lazy(() => import("@/pages/symptom-assessment-page"));
 const NursingPhysiologyHub = lazy(() => import("@/pages/nursing-physiology-hub"));
 const MedicalImagingHub = lazy(() => import("@/pages/medical-imaging-hub"));
 const MedicalImagingCanadaPage = lazy(() => import("@/pages/medical-imaging-country").then(m => ({ default: m.MedicalImagingCanada })));
@@ -1279,6 +1281,8 @@ function AppRoutes() {
         <Route path="/herbal-supplements/:slug" component={HerbalSupplementPage} />
         <Route path="/herbal-supplements" component={HerbalSupplementsHub} />
         <Route path="/lab-values/:slug" component={LabValuePage} />
+        <Route path="/clinical-comparisons/:slug" component={ClinicalComparisonPage} />
+        <Route path="/symptoms/:slug" component={SymptomAssessmentPage} />
         <Route path="/nclex-rn-practice-questions" component={NclexRnPracticePage} />
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />

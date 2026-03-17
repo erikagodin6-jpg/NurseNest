@@ -2041,6 +2041,32 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
     };
   }
 
+  const clinicalComparisonMatch = cleanPath.match(/^\/clinical-comparisons\/(.+)$/);
+  if (clinicalComparisonMatch) {
+    const slug = clinicalComparisonMatch[1];
+    const readable = slugToTitle(slug);
+    return {
+      title: `${readable} - Clinical Comparison | Side-by-Side Nursing Guide | NurseNest`,
+      description: `Compare ${readable.toLowerCase()} side-by-side: pathophysiology, signs and symptoms, lab values, nursing interventions, and NCLEX exam tips for nursing students.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
+  const symptomMatch = cleanPath.match(/^\/symptoms\/(.+)$/);
+  if (symptomMatch) {
+    const slug = symptomMatch[1];
+    const readable = slugToTitle(slug);
+    return {
+      title: `${readable} - Nursing Assessment | Differential Diagnosis & Red Flags | NurseNest`,
+      description: `Complete ${readable.toLowerCase()} nursing assessment guide: differential diagnoses, red flags, assessment steps, clinical decision-making, and NCLEX practice questions.`,
+      canonical,
+      noindex,
+      breadcrumbs,
+    };
+  }
+
   const careerMatch = cleanPath.match(/^\/career-development\/(.+)$/);
   const newGradCareerMatch = cleanPath.match(/^\/new-grad\/career\/(.+)$/);
   if (careerMatch || newGradCareerMatch) {
@@ -2293,6 +2319,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/lessons/", "/learn/", "/blog/", "/clinical-clarity/", "/glossary/",
   "/rpn/questions", "/rn/questions", "/np/questions",
   "/conditions/", "/medications/", "/lab-values/",
+  "/clinical-comparisons/", "/symptoms/",
   "/how-to-become-", "/career-development/", "/new-grad/",
   "/compare/", "/topics/", "/guides/", "/newgrad/", "/healthcare-careers/", "/healthcare-policy-and-updates/",
   "/allied-health/", "/flashcards/deck/",
