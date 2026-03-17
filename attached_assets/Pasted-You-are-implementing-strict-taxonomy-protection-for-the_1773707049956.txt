@@ -1,0 +1,277 @@
+You are implementing strict taxonomy protection for the NurseNest content generation system.
+
+The content generator must NEVER create new categories, topics, menu items, navigation groups, or taxonomy structures automatically.
+
+All generated content must map only to the existing canonical taxonomy used by the production site.
+
+This rule is critical for preventing content structure chaos, SEO dilution, and navigation duplication.
+
+------------------------------------------------
+PRIMARY GOAL
+------------------------------------------------
+
+Protect the existing content structure while allowing the generator to safely publish new questions, flashcards, and lessons.
+
+Generated content must only attach to existing:
+
+tiers
+categories
+topics
+body systems
+exam blueprint sections
+navigation groups
+
+------------------------------------------------
+STRICT TAXONOMY RULE
+------------------------------------------------
+
+The generator is NOT allowed to create:
+
+new categories  
+new topics  
+new body systems  
+new navigation menu items  
+new site sections  
+new URL slugs  
+new content groupings  
+
+If the generator encounters a topic that does not exactly match an existing taxonomy node, it must map it to the closest existing node.
+
+Under no circumstance should the generator automatically insert new taxonomy records.
+
+------------------------------------------------
+CANONICAL TAXONOMY SOURCES
+------------------------------------------------
+
+The generator must load the canonical taxonomy from the production database before generating content.
+
+Examples of existing taxonomy structures include:
+
+TIERS
+Pre-Nursing
+RPN / LVN
+RN
+RN International
+Nurse Practitioner
+
+NP specialties:
+Family NP
+Adult-Gerontology NP
+Acute Care NP
+Pediatric NP
+Psychiatric NP
+Women's Health NP
+Neonatal NP
+
+BODY SYSTEMS
+Cardiovascular
+Respiratory
+Neurological
+Gastrointestinal
+Renal / Urinary
+Endocrine
+Musculoskeletal
+Integumentary
+Hematologic
+Immunologic
+Reproductive
+Mental Health
+Pediatrics
+Maternal / Newborn
+
+TOPICS
+Each body system already has approved topics.
+
+Example:
+Cardiovascular
+- Heart Failure
+- Hypertension
+- Acute Coronary Syndrome
+- Arrhythmias
+- Cardiomyopathy
+
+Mental Health
+- Anxiety Disorders
+- Bipolar Disorder
+- Schizophrenia
+- Obsessive Compulsive Disorder
+- Depression
+
+The generator must map generated content to these approved topics.
+
+------------------------------------------------
+TOPIC NORMALIZATION SYSTEM
+------------------------------------------------
+
+Implement a topic normalization layer before saving generated content.
+
+Example mappings:
+
+"AKI" → Acute Kidney Injury  
+"OCD" → Obsessive Compulsive Disorder  
+"Heart attack" → Acute Coronary Syndrome  
+"High blood pressure" → Hypertension  
+"Pregnancy hypertension" → Preeclampsia  
+
+Normalization rules must map variations to the canonical topic slug.
+
+If a synonym appears that does not exist in the taxonomy:
+
+1. attempt synonym matching
+2. attempt fuzzy matching
+3. fallback to the parent body system category
+
+Example:
+
+If topic "Renal failure management" appears
+→ map to Acute Kidney Injury
+
+------------------------------------------------
+FAIL-SAFE RULE
+------------------------------------------------
+
+If a generated topic cannot be mapped to an existing taxonomy node:
+
+DO NOT CREATE A NEW ONE.
+
+Instead:
+
+fallback to the parent body system category.
+
+Example:
+
+unknown cardiology topic
+→ assign to Cardiovascular general category.
+
+Log the event for admin review.
+
+------------------------------------------------
+ADMIN REVIEW QUEUE
+------------------------------------------------
+
+Create a taxonomy review queue for unmapped topics.
+
+Log entries should include:
+
+generated topic text
+suggested mapping
+confidence score
+timestamp
+
+Admins can then manually approve new taxonomy entries later if needed.
+
+------------------------------------------------
+NAVIGATION PROTECTION
+------------------------------------------------
+
+The generator must never modify:
+
+main navigation
+tier menus
+study menus
+practice menus
+store navigation
+SEO URL structure
+
+Content insertion must be invisible to navigation structure.
+
+Only content counts should increase.
+
+------------------------------------------------
+DATABASE PROTECTION
+------------------------------------------------
+
+Add a validation layer before insertion.
+
+Checks must verify:
+
+tier exists  
+category exists  
+topic exists  
+body system exists  
+
+If any of these do not exist, the insert must fail or fallback to a safe parent category.
+
+Do not allow automatic schema expansion.
+
+------------------------------------------------
+CONTENT INSERTION TARGETS
+------------------------------------------------
+
+Generated content must insert into the correct existing tables used by the published site.
+
+Examples:
+
+questions table  
+flashcards table  
+lesson content table  
+
+Content must inherit the correct:
+
+tier id  
+category id  
+topic slug  
+body system id  
+difficulty level  
+language  
+
+------------------------------------------------
+GENERATOR SAFETY CHECK
+------------------------------------------------
+
+Before every generation run:
+
+load canonical taxonomy
+validate generation target
+lock taxonomy structure
+
+Then generate content.
+
+------------------------------------------------
+LOGGING
+------------------------------------------------
+
+Every generation run should log:
+
+topic requested
+canonical topic used
+tier
+category
+body system
+batch size
+questions generated
+questions inserted
+fallback mapping used (if any)
+
+------------------------------------------------
+TESTING
+------------------------------------------------
+
+Test generation with the following topics:
+
+Acute Kidney Injury  
+Preeclampsia  
+Obsessive Compulsive Disorder  
+Heart Failure  
+Multiple Sclerosis  
+
+Verify:
+
+content inserted correctly  
+no new categories created  
+navigation unchanged  
+taxonomy tables unchanged  
+questions appear in correct topic banks.
+
+------------------------------------------------
+SUCCESS CRITERIA
+------------------------------------------------
+
+The system is successful when:
+
+content generation works  
+questions publish correctly  
+taxonomy remains unchanged  
+no duplicate categories exist  
+navigation structure remains clean  
+content counts increase without structural changes.
