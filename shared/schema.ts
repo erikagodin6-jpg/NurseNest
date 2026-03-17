@@ -967,6 +967,28 @@ export type TranslationJob = typeof translationJobs.$inferSelect;
 export const insertTranslationJobSchema = createInsertSchema(translationJobs).omit({ id: true, createdAt: true, completedAt: true });
 export type InsertTranslationJob = z.infer<typeof insertTranslationJobSchema>;
 
+export const translationBatchRuns = pgTable("translation_batch_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  targetLanguages: jsonb("target_languages").notNull().default(sql`'[]'::jsonb`),
+  filterTier: text("filter_tier"),
+  filterExam: text("filter_exam"),
+  filterBodySystem: text("filter_body_system"),
+  totalQuestions: integer("total_questions").default(0),
+  translatedCount: integer("translated_count").default(0),
+  skippedCount: integer("skipped_count").default(0),
+  failedCount: integer("failed_count").default(0),
+  status: text("status").default("pending"),
+  lastProcessedOffset: integer("last_processed_offset").default(0),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  qualityReport: jsonb("quality_report").default(sql`'{}'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export type TranslationBatchRun = typeof translationBatchRuns.$inferSelect;
+export const insertTranslationBatchRunSchema = createInsertSchema(translationBatchRuns).omit({ id: true, startedAt: true, completedAt: true });
+export type InsertTranslationBatchRun = z.infer<typeof insertTranslationBatchRunSchema>;
+
 export const languagePriority = pgTable("language_priority", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   languageCode: text("language_code").notNull().unique(),

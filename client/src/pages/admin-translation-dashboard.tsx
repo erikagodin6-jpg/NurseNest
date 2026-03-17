@@ -12,7 +12,7 @@ import {
   Globe, AlertTriangle, CheckCircle2, Languages, Search,
   RefreshCw, Download, Eye, ChevronDown, ChevronUp,
   Filter, BarChart3, Play, FileText, Shield, XCircle,
-  ArrowLeft, X, MapPin, ExternalLink
+  ArrowLeft, X, MapPin, ExternalLink, BookOpen, Loader2
 } from "lucide-react";
 
 const LOCALES = [
@@ -109,7 +109,7 @@ type AuditDetail = AuditItem & {
 export default function AdminTranslationDashboard() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
-  const [activeTab, setActiveTab] = useState<"overview" | "audits" | "detail">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "audits" | "detail" | "exam_questions">("overview");
   const [audits, setAudits] = useState<AuditItem[]>([]);
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [total, setTotal] = useState(0);
@@ -326,6 +326,7 @@ export default function AdminTranslationDashboard() {
               {([
                 { key: "overview", label: "Overview", icon: BarChart3 },
                 { key: "audits", label: "Audit Results", icon: FileText },
+                { key: "exam_questions", label: "Exam Questions", icon: BookOpen },
               ] as const).map(tab => (
                 <button
                   key={tab.key}
@@ -357,6 +358,10 @@ export default function AdminTranslationDashboard() {
                   <Play className="w-4 h-4 mr-2" /> Run First Audit
                 </Button>
               </div>
+            )}
+
+            {activeTab === "exam_questions" && (
+              <ExamQuestionCoverageTab />
             )}
 
             {activeTab === "audits" && (
@@ -965,6 +970,494 @@ function StatusCard({ label, count, color, testId }: { label: string; count: num
         <p className="text-xs text-gray-500">{label}</p>
         <p className="text-lg font-bold">{count}</p>
       </div>
+    </div>
+  );
+}
+
+type ExamCoverageData = {
+  totalQuestions: number;
+  totalLanguages: number;
+  overallPercentage: number;
+  languages: {
+    language: string;
+    languageName: string;
+    totalQuestions: number;
+    translatedQuestions: number;
+    percentage: number;
+    fieldBreakdown: Record<string, number>;
+  }[];
+  tierBreakdown: { tier: string; total: number; withTranslations: number; percentage: number }[];
+  examBreakdown: { exam: string; total: number; withTranslations: number; percentage: number }[];
+  filters: { tier: string | null; exam: string | null; bodySystem: string | null };
+};
+
+type ExamFilters = {
+  tiers: string[];
+  exams: string[];
+  bodySystems: string[];
+  languages: { code: string; name: string }[];
+};
+
+type BatchRun = {
+  id: string;
+  target_languages: string[];
+  filter_tier: string | null;
+  filter_exam: string | null;
+  filter_body_system: string | null;
+  total_questions: number;
+  translated_count: number;
+  skipped_count: number;
+  failed_count: number;
+  status: string;
+  last_processed_offset: number;
+  started_at: string;
+  completed_at: string | null;
+};
+
+function ExamQuestionCoverageTab() {
+  const [coverage, setCoverage] = useState<ExamCoverageData | null>(null);
+  const [filters, setFilters] = useState<ExamFilters | null>(null);
+  const [batchRuns, setBatchRuns] = useState<BatchRun[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [translating, setTranslating] = useState(false);
+  const [translateResult, setTranslateResult] = useState<any>(null);
+
+  const [filterTier, setFilterTier] = useState("");
+  const [filterExam, setFilterExam] = useState("");
+  const [filterBodySystem, setFilterBodySystem] = useState("");
+
+  const [translateLangs, setTranslateLangs] = useState<string[]>([]);
+  const [translateTier, setTranslateTier] = useState("");
+  const [translateExam, setTranslateExam] = useState("");
+  const [translateBodySystem, setTranslateBodySystem] = useState("");
+  const [translateBatchSize, setTranslateBatchSize] = useState(10);
+
+  const fetchCoverage = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filterTier) params.set("tier", filterTier);
+      if (filterExam) params.set("exam", filterExam);
+      if (filterBodySystem) params.set("bodySystem", filterBodySystem);
+
+      const res = await adminFetch(`/api/admin/exam-questions/translation-coverage?${params}`);
+      if (res.ok) setCoverage(await res.json());
+    } catch (e) { console.error(e); }
+    setLoading(false);
+  }, [filterTier, filterExam, filterBodySystem]);
+
+  const fetchFilters = useCallback(async () => {
+    try {
+      const res = await adminFetch("/api/admin/exam-questions/translation-filters");
+      if (res.ok) setFilters(await res.json());
+    } catch (e) { console.error(e); }
+  }, []);
+
+  const fetchBatchRuns = useCallback(async () => {
+    try {
+      const res = await adminFetch("/api/admin/exam-questions/translation-batch-runs");
+      if (res.ok) {
+        const data = await res.json();
+        setBatchRuns(data.runs || []);
+      }
+    } catch (e) { console.error(e); }
+  }, []);
+
+  useEffect(() => {
+    fetchCoverage();
+    fetchFilters();
+    fetchBatchRuns();
+  }, [fetchCoverage, fetchFilters, fetchBatchRuns]);
+
+  const startBatchTranslation = async () => {
+    setTranslating(true);
+    setTranslateResult(null);
+    try {
+      const body: any = { batchSize: translateBatchSize };
+      if (translateLangs.length > 0) body.languages = translateLangs;
+      if (translateTier) body.tier = translateTier;
+      if (translateExam) body.exam = translateExam;
+      if (translateBodySystem) body.bodySystem = translateBodySystem;
+
+      const res = await adminFetch("/api/admin/exam-questions/translate-batch", {
+        method: "POST",
+        body,
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setTranslateResult(result);
+        fetchCoverage();
+        fetchBatchRuns();
+      }
+    } catch (e) { console.error(e); }
+    setTranslating(false);
+  };
+
+  const resumeBatchRun = async (runId: string) => {
+    setTranslating(true);
+    setTranslateResult(null);
+    try {
+      const res = await adminFetch("/api/admin/exam-questions/translate-batch", {
+        method: "POST",
+        body: { resumeFromRunId: runId, batchSize: translateBatchSize },
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setTranslateResult(result);
+        fetchCoverage();
+        fetchBatchRuns();
+      }
+    } catch (e) { console.error(e); }
+    setTranslating(false);
+  };
+
+  const priorityLangs = ["fr", "es", "ar", "hi", "tl", "zh", "pt"];
+
+  return (
+    <div className="space-y-6">
+      {coverage && (
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard label="Total Questions" value={coverage.totalQuestions} icon={<BookOpen className="w-5 h-5 text-blue-500" />} testId="stat-exam-total" />
+            <StatCard label="Languages" value={coverage.totalLanguages} icon={<Languages className="w-5 h-5 text-indigo-500" />} testId="stat-exam-langs" />
+            <StatCard label="Overall Coverage" value={`${coverage.overallPercentage}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-exam-coverage" />
+            <StatCard label="Priority Languages" value={`${priorityLangs.length}`} icon={<Globe className="w-5 h-5 text-amber-500" />} testId="stat-exam-priority" />
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Tier</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterTier} onChange={e => setFilterTier(e.target.value)} data-testid="filter-exam-tier">
+                <option value="">All Tiers</option>
+                {(filters?.tiers || []).map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Exam</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterExam} onChange={e => setFilterExam(e.target.value)} data-testid="filter-exam-exam">
+                <option value="">All Exams</option>
+                {(filters?.exams || []).map(e => <option key={e} value={e}>{e}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Body System</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterBodySystem} onChange={e => setFilterBodySystem(e.target.value)} data-testid="filter-exam-body-system">
+                <option value="">All Systems</option>
+                {(filters?.bodySystems || []).map(b => <option key={b} value={b}>{b}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Languages className="w-5 h-5" /> Per-Language Coverage</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b text-left">
+                      <th className="py-2 px-3">Language</th>
+                      <th className="py-2 px-3 text-center">Total</th>
+                      <th className="py-2 px-3 text-center">Translated</th>
+                      <th className="py-2 px-3 text-center">Coverage</th>
+                      <th className="py-2 px-3">Progress</th>
+                      <th className="py-2 px-3 text-center">Priority</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coverage.languages.map(lang => {
+                      const locale = LOCALES.find(l => l.code === lang.language);
+                      const isPriority = priorityLangs.includes(lang.language);
+                      return (
+                        <tr key={lang.language} className="border-b hover:bg-gray-50" data-testid={`row-exam-lang-${lang.language}`}>
+                          <td className="py-2 px-3 font-medium">
+                            <span className="mr-2">{locale?.flag || "🌐"}</span>
+                            {lang.languageName}
+                          </td>
+                          <td className="py-2 px-3 text-center">{lang.totalQuestions}</td>
+                          <td className="py-2 px-3 text-center font-medium">{lang.translatedQuestions}</td>
+                          <td className="py-2 px-3 text-center font-bold">{lang.percentage}%</td>
+                          <td className="py-2 px-3">
+                            <div className="flex items-center gap-2">
+                              <div className="w-24 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className={`h-2 rounded-full transition-all ${
+                                    lang.percentage >= 95 ? "bg-green-500" : lang.percentage >= 50 ? "bg-yellow-500" : "bg-red-500"
+                                  }`}
+                                  style={{ width: `${Math.min(100, lang.percentage)}%` }}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-2 px-3 text-center">
+                            {isPriority ? (
+                              <Badge className="text-xs bg-blue-100 text-blue-700 border-blue-200">Priority</Badge>
+                            ) : (
+                              <span className="text-gray-400 text-xs">-</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {coverage.tierBreakdown.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Per-Tier Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {coverage.tierBreakdown.map(t => (
+                    <div key={t.tier} className="p-4 border rounded-lg" data-testid={`card-tier-${t.tier}`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-sm">{t.tier}</span>
+                        <Badge variant="outline" className="text-xs">{t.total} questions</Badge>
+                      </div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${t.percentage >= 95 ? "bg-green-500" : t.percentage >= 50 ? "bg-yellow-500" : "bg-red-500"}`}
+                            style={{ width: `${Math.min(100, t.percentage)}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium w-10 text-right">{t.percentage}%</span>
+                      </div>
+                      <p className="text-xs text-gray-500">{t.withTranslations} of {t.total} have translations</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {coverage.examBreakdown.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Per-Exam Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {coverage.examBreakdown.map(e => (
+                    <div key={e.exam} className="p-4 border rounded-lg" data-testid={`card-exam-${e.exam}`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-sm truncate max-w-[150px]" title={e.exam}>{e.exam}</span>
+                        <Badge variant="outline" className="text-xs">{e.total}</Badge>
+                      </div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${e.percentage >= 95 ? "bg-green-500" : e.percentage >= 50 ? "bg-yellow-500" : "bg-red-500"}`}
+                            style={{ width: `${Math.min(100, e.percentage)}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium w-10 text-right">{e.percentage}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </>
+      )}
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Play className="w-5 h-5" /> Start Batch Translation</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Target Languages</label>
+              <select
+                className="w-full border rounded-md px-2 py-1.5 text-sm"
+                multiple
+                size={4}
+                value={translateLangs}
+                onChange={e => setTranslateLangs(Array.from(e.target.selectedOptions, o => o.value))}
+                data-testid="select-translate-langs"
+              >
+                {(filters?.languages || []).map(l => (
+                  <option key={l.code} value={l.code}>
+                    {priorityLangs.includes(l.code) ? "★ " : ""}{l.name}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-400 mt-1">
+                {translateLangs.length === 0 ? "All 7 priority languages" : `${translateLangs.length} selected`}
+              </p>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Tier Filter</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateTier} onChange={e => setTranslateTier(e.target.value)} data-testid="select-translate-tier">
+                <option value="">All Tiers</option>
+                {(filters?.tiers || []).map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Exam Filter</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateExam} onChange={e => setTranslateExam(e.target.value)} data-testid="select-translate-exam">
+                <option value="">All Exams</option>
+                {(filters?.exams || []).map(ex => <option key={ex} value={ex}>{ex}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Body System Filter</label>
+              <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateBodySystem} onChange={e => setTranslateBodySystem(e.target.value)} data-testid="select-translate-body-system">
+                <option value="">All Systems</option>
+                {(filters?.bodySystems || []).map(b => <option key={b} value={b}>{b}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 block mb-1">Batch Size</label>
+              <Input
+                type="number"
+                min={1}
+                max={25}
+                value={translateBatchSize}
+                onChange={e => setTranslateBatchSize(Number(e.target.value))}
+                className="text-sm"
+                data-testid="input-batch-size"
+              />
+            </div>
+          </div>
+          <Button
+            onClick={startBatchTranslation}
+            disabled={translating}
+            className="bg-blue-600 hover:bg-blue-700"
+            data-testid="button-start-batch"
+          >
+            {translating ? (
+              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Translating...</>
+            ) : (
+              <><Play className="w-4 h-4 mr-2" /> Start Batch Translation</>
+            )}
+          </Button>
+
+          {translateResult && (
+            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg" data-testid="text-translate-result">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle2 className="w-5 h-5 text-green-600" />
+                <span className="font-medium text-green-800">Batch Complete</span>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-600">Translated:</span>{" "}
+                  <span className="font-bold text-green-700">{translateResult.batchTranslated || translateResult.totalTranslated || 0}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Skipped:</span>{" "}
+                  <span className="font-bold text-gray-500">{translateResult.batchSkipped || translateResult.totalSkipped || 0}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Failed:</span>{" "}
+                  <span className="font-bold text-red-600">{translateResult.batchFailed || 0}</span>
+                </div>
+              </div>
+              {!translateResult.done && translateResult.runId && (
+                <div className="mt-3">
+                  <Button size="sm" variant="outline" onClick={() => resumeBatchRun(translateResult.runId)} disabled={translating} data-testid="button-resume-batch">
+                    <Play className="w-3 h-3 mr-1" /> Continue Next Batch
+                  </Button>
+                </div>
+              )}
+              {translateResult.qualityIssues?.length > 0 && (
+                <div className="mt-3">
+                  <p className="text-xs font-medium text-amber-700 mb-1">Quality Issues:</p>
+                  <ul className="text-xs text-amber-600 space-y-0.5">
+                    {translateResult.qualityIssues.slice(0, 5).map((issue: string, i: number) => (
+                      <li key={i}>• {issue}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {batchRuns.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Batch Runs</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-left">
+                    <th className="py-2 px-3">Started</th>
+                    <th className="py-2 px-3">Status</th>
+                    <th className="py-2 px-3 text-center">Languages</th>
+                    <th className="py-2 px-3">Filters</th>
+                    <th className="py-2 px-3 text-center">Progress</th>
+                    <th className="py-2 px-3 text-center">Translated</th>
+                    <th className="py-2 px-3 text-center">Failed</th>
+                    <th className="py-2 px-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {batchRuns.map(run => (
+                    <tr key={run.id} className="border-b hover:bg-gray-50" data-testid={`row-batch-${run.id}`}>
+                      <td className="py-2 px-3 text-xs">
+                        {new Date(run.started_at).toLocaleString()}
+                      </td>
+                      <td className="py-2 px-3">
+                        <Badge className={`text-xs ${
+                          run.status === "completed" ? "bg-green-100 text-green-700" :
+                          run.status === "running" ? "bg-blue-100 text-blue-700" :
+                          run.status === "failed" ? "bg-red-100 text-red-700" :
+                          "bg-gray-100 text-gray-700"
+                        }`}>
+                          {run.status}
+                        </Badge>
+                      </td>
+                      <td className="py-2 px-3 text-center text-xs">
+                        {Array.isArray(run.target_languages) ? run.target_languages.length : 0}
+                      </td>
+                      <td className="py-2 px-3 text-xs">
+                        {[run.filter_tier, run.filter_exam, run.filter_body_system].filter(Boolean).join(", ") || "All"}
+                      </td>
+                      <td className="py-2 px-3 text-center text-xs">
+                        {run.last_processed_offset}/{run.total_questions}
+                      </td>
+                      <td className="py-2 px-3 text-center font-medium text-green-600">
+                        {run.translated_count}
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        {run.failed_count > 0 ? (
+                          <span className="text-red-600 font-medium">{run.failed_count}</span>
+                        ) : (
+                          <span className="text-gray-400">0</span>
+                        )}
+                      </td>
+                      <td className="py-2 px-3">
+                        {run.status === "running" && (
+                          <Button size="sm" variant="ghost" onClick={() => resumeBatchRun(run.id)} disabled={translating} data-testid={`button-resume-${run.id}`}>
+                            <Play className="w-3 h-3 mr-1" /> Resume
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {loading && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        </div>
+      )}
     </div>
   );
 }

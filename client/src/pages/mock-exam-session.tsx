@@ -405,6 +405,20 @@ export default function MockExamSession() {
     if (t.clinicalPearl) (translated as any).clinicalPearl = t.clinicalPearl;
     if (t.examStrategy) (translated as any).examStrategy = t.examStrategy;
     if (t.memoryHook) (translated as any).memoryHook = t.memoryHook;
+    if (t.correctAnswerExplanation) (translated as any).correctAnswerExplanation = t.correctAnswerExplanation;
+    if (t.clinicalReasoning) (translated as any).clinicalReasoning = t.clinicalReasoning;
+    if (t.keyTakeaway) (translated as any).keyTakeaway = t.keyTakeaway;
+    if (t.mnemonic) (translated as any).mnemonic = t.mnemonic;
+    if (t.distractorRationales) {
+      try {
+        (translated as any).distractorRationales = JSON.parse(t.distractorRationales);
+      } catch {}
+    }
+    if (t.incorrectAnswerRationale) {
+      try {
+        (translated as any).incorrectAnswerRationale = JSON.parse(t.incorrectAnswerRationale);
+      } catch {}
+    }
     return translated;
   }, [language, translationMap]);
 
