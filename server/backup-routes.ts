@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { requireAdmin } from "./admin-auth";
 
-const ROOT = path.resolve(import.meta.dirname, "..");
+const ROOT = path.resolve(process.cwd());
 
 export function registerBackupRoutes(app: Express) {
   app.post("/api/admin/backup/full", async (req, res) => {
