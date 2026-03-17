@@ -6179,3 +6179,95 @@ export const mockExamTemplates = pgTable("mock_exam_templates", {
 export const insertMockExamTemplateSchema = createInsertSchema(mockExamTemplates).omit({ id: true, createdAt: true, updatedAt: true });
 export type MockExamTemplate = typeof mockExamTemplates.$inferSelect;
 export type InsertMockExamTemplate = z.infer<typeof insertMockExamTemplateSchema>;
+
+export const integrityScanRuns = pgTable("integrity_scan_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scanType: text("scan_type").notNull(),
+  status: text("status").notNull().default("queued"),
+  contentTypes: text("content_types").array().default(sql`'{}'::text[]`),
+  tiers: text("tiers").array().default(sql`'{}'::text[]`),
+  totalRecords: integer("total_records").default(0),
+  scannedRecords: integer("scanned_records").default(0),
+  issuesFound: integer("issues_found").default(0),
+  issuesBySeverity: jsonb("issues_by_severity").default(sql`'{}'::jsonb`),
+  issuesByType: jsonb("issues_by_type").default(sql`'{}'::jsonb`),
+  autoFixable: integer("auto_fixable").default(0),
+  repairsAttempted: integer("repairs_attempted").default(0),
+  repairsSucceeded: integer("repairs_succeeded").default(0),
+  error: text("error"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertIntegrityScanRunSchema = createInsertSchema(integrityScanRuns).omit({ id: true, createdAt: true });
+export type IntegrityScanRun = typeof integrityScanRuns.$inferSelect;
+export type InsertIntegrityScanRun = z.infer<typeof insertIntegrityScanRunSchema>;
+
+export const contentHealthRecords = pgTable("content_health_records", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scanRunId: varchar("scan_run_id"),
+  contentType: text("content_type").notNull(),
+  contentId: varchar("content_id").notNull(),
+  contentTitle: text("content_title"),
+  tier: text("tier"),
+  issueType: text("issue_type").notNull(),
+  severity: text("severity").notNull().default("medium"),
+  description: text("description").notNull(),
+  field: text("field"),
+  currentValue: text("current_value"),
+  autoFixable: boolean("auto_fixable").default(false),
+  repairStatus: text("repair_status").default("pending"),
+  repairAction: text("repair_action"),
+  detectedAt: timestamp("detected_at").defaultNow().notNull(),
+  repairedAt: timestamp("repaired_at"),
+});
+
+export const insertContentHealthRecordSchema = createInsertSchema(contentHealthRecords).omit({ id: true, detectedAt: true });
+export type ContentHealthRecord = typeof contentHealthRecords.$inferSelect;
+export type InsertContentHealthRecord = z.infer<typeof insertContentHealthRecordSchema>;
+
+export const contentRepairLog = pgTable("content_repair_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  healthRecordId: varchar("health_record_id"),
+  scanRunId: varchar("scan_run_id"),
+  contentType: text("content_type").notNull(),
+  contentId: varchar("content_id").notNull(),
+  repairType: text("repair_type").notNull(),
+  field: text("field").notNull(),
+  beforeValue: text("before_value"),
+  afterValue: text("after_value"),
+  repairMethod: text("repair_method").notNull(),
+  status: text("status").notNull().default("applied"),
+  rolledBack: boolean("rolled_back").default(false),
+  rolledBackAt: timestamp("rolled_back_at"),
+  rolledBackBy: varchar("rolled_back_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentRepairLogSchema = createInsertSchema(contentRepairLog).omit({ id: true, createdAt: true });
+export type ContentRepairLogEntry = typeof contentRepairLog.$inferSelect;
+export type InsertContentRepairLogEntry = z.infer<typeof insertContentRepairLogSchema>;
+
+export const manualReviewQueue = pgTable("manual_review_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  healthRecordId: varchar("health_record_id"),
+  scanRunId: varchar("scan_run_id"),
+  contentType: text("content_type").notNull(),
+  contentId: varchar("content_id").notNull(),
+  contentTitle: text("content_title"),
+  issueType: text("issue_type").notNull(),
+  severity: text("severity").notNull().default("medium"),
+  description: text("description").notNull(),
+  suggestedFix: text("suggested_fix"),
+  suggestedValue: text("suggested_value"),
+  status: text("status").notNull().default("pending"),
+  reviewedBy: varchar("reviewed_by"),
+  reviewedAt: timestamp("reviewed_at"),
+  reviewNotes: text("review_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertManualReviewQueueSchema = createInsertSchema(manualReviewQueue).omit({ id: true, createdAt: true });
+export type ManualReviewQueueItem = typeof manualReviewQueue.$inferSelect;
+export type InsertManualReviewQueueItem = z.infer<typeof insertManualReviewQueueSchema>;
