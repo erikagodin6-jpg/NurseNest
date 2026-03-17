@@ -8,6 +8,8 @@ import { Footer } from "@/components/footer";
 import { DifferentiatorCTA, TrustBadges } from "@/components/competitive-differentiation";
 import { RelatedResources } from "@/components/related-resources";
 import { SEO } from "@/components/seo";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import { fetchFilterOptions, type FilterOptions } from "@/lib/qbank-api";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown, BookOpen, Clock, GraduationCap, PenLine, BarChart3, Sparkles } from "lucide-react";
@@ -943,6 +945,18 @@ export default function QuestionBank() {
       </main>
 
       <div className="max-w-5xl mx-auto px-4 pb-8">
+        <div className="mt-6 grid sm:grid-cols-2 gap-4">
+          <MedicalReviewBadge />
+          <MedicalReferences lessonId="nursing-practice-questions" />
+        </div>
+
+        <MedicalReviewJsonLd
+          title="Nursing Practice Questions & Test Bank"
+          slug="test-bank"
+          description="Evidence-based nursing practice questions with detailed clinical rationales for NCLEX-RN, REx-PN, and NP exam preparation."
+          pageUrl="https://www.nursenest.ca/test-bank"
+        />
+
         <div className="mb-8" data-testid="qbank-social-proof">
           <SocialProofBar />
         </div>

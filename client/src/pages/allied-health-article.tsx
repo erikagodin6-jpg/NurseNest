@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAlliedHealthProfession } from "@/allied/data/allied-health-professions";
 import { ChevronRight, Clock, ArrowRight, BookOpen, Calendar } from "lucide-react";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 
 function setArticleMetaTags(article: any, professionName: string) {
   document.title = (article.metaTitle || article.title) + " | NurseNest";
@@ -257,6 +259,21 @@ export default function AlliedHealthArticlePage() {
           </div>
         )}
       </article>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-4">
+        <div className="mt-10 grid sm:grid-cols-2 gap-4">
+          <MedicalReviewBadge lastUpdated={article.updatedAt || article.publishedAt || undefined} />
+          <MedicalReferences lessonId={article.slug || params.articleSlug || ""} />
+        </div>
+
+        <MedicalReviewJsonLd
+          title={article.title}
+          slug={article.slug || params.articleSlug || ""}
+          lastUpdated={article.updatedAt || article.publishedAt || undefined}
+          description={article.metaDescription || ""}
+          pageUrl={`https://www.nursenest.ca/allied-health/${article.slug}`}
+        />
+      </div>
 
       {relatedArticles.length > 0 && (
         <section className="bg-gray-50 py-12" data-testid="related-articles-section">

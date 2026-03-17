@@ -3,6 +3,8 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { useState } from "react";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import {
   BookOpen, ChevronRight, ChevronDown, Target, Award, CheckCircle2,
   ArrowRight, HelpCircle, FileText, Brain, Lightbulb, ListChecks
@@ -363,6 +365,18 @@ export default function AuthorityContentPage() {
                 ))}
               </div>
             </section>
+
+            <div className="mt-10 grid sm:grid-cols-2 gap-4">
+              <MedicalReviewBadge />
+              <MedicalReferences lessonId={slug} />
+            </div>
+
+            <MedicalReviewJsonLd
+              title={pageData.metaTitle}
+              slug={slug}
+              description={pageData.metaDescription}
+              pageUrl={`https://www.nursenest.ca${pageData.canonicalPath}`}
+            />
 
             <div className="bg-gradient-to-r rounded-xl p-8 text-center" style={{ background: `linear-gradient(135deg, ${pageData.colorAccent}, ${pageData.color}15)` }} data-testid="section-cta-bottom">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Test Your Knowledge?</h3>

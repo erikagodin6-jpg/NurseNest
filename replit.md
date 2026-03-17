@@ -1,7 +1,7 @@
 ### Overview
 NurseNest is an adaptive learning platform for nursing and allied health students across 17 career verticals. It provides comprehensive learning resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform utilizes AI for content generation to enhance clinical reasoning, nursing knowledge, and critical thinking, aiming to improve patient care outcomes. NurseNest aspires to be a market-leading, region-aware, and adaptive learning solution, transforming nursing education through technology to meet the significant market demand for flexible, high-quality educational tools.
 
-### User Preferences
+## User Preferences
 - Preferred communication style: Simple, everyday language.
 - Admin account: user "erikanim" has tier="admin" with full content access bypass.
 - Copyright must show current year dynamically (uses `new Date().getFullYear()`).
@@ -15,7 +15,7 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 ### System Architecture
 NurseNest is built with a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) and an Express 5 backend on Node.js (TypeScript), using Vite for tooling. TanStack React Query manages server state via a RESTful API. The UI/UX features 24 themes, semantic CSS tokens, DM Sans typography, and interactive components. The database is PostgreSQL with Drizzle ORM.
 
-Core functionalities include a database-driven subscription model with regional pricing, tier-based plans, Stripe-based lifetime purchases, and free trial usage caps. It offers interactive learning modules, a mock exam engine with stratified random sampling, and an admin dashboard. AI integrations, routed through a centralized AI Provider Router, power blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is organized by body system, and supports NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is managed by user tier.
+Core functionalities include a database-driven subscription model with regional pricing (CAD/USD), tier-based plans, Stripe-based lifetime purchases, and free trial usage caps. It offers interactive learning modules, a mock exam engine with stratified random sampling, and an admin dashboard. AI integrations, routed through a centralized AI Provider Router, power blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is organized by body system, and supports NGN question types, partial credit scoring, and a Spaced Repetition System. Content access is managed by user tier.
 
 Key architectural components and features:
 - **Learning & Exam Preparation**: Includes Flashcards, Test Bank, Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, Mock Exam Engine (CAT & Practice modes), and an Adaptive Learning Engine.
@@ -28,7 +28,7 @@ Key architectural components and features:
 - **Offline Capabilities**: IndexedDB-based Offline Study System for question packs and flashcards.
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields; `shared/country-adaptation.ts` maps country codes to lab units, medication naming, licensing bodies, and exam types.
 - **Question Generation Pipeline**: Industrial-strength pipeline for scaling question banks to 12K RPN / 18K RN / 15K NP, supporting various formats and cognitive levels, blueprint-weighted, with duplicate detection and quality scoring. Key files: `server/qbank-pipeline.ts`, `client/src/pages/admin-qbank-pipeline.tsx`.
-- **E-E-A-T Trust Signals**: `MedicalReviewBadge` and `MedicalReferences` components provide reviewer credentials, last-reviewed dates, editorial statements, and topic-aware citations on key content pages. `MedicalReviewJsonLd` renders structured data for medical web pages.
+- **E-E-A-T Trust Signals**: `MedicalReviewBadge` (reviewer bio, credentials, role, LinkedIn, last-reviewed date, link to /medical-review-team) and `MedicalReferences` (topic-aware citations from WHO, CDC, NIH, RNAO + specialty-specific refs) on all educational pages (lessons, topic clusters, SEO landing pages, content pages, authority content, allied health articles, flashcard decks, question bank). `MedicalReviewJsonLd` renders MedicalWebPage JSON-LD on all educational pages. Dedicated `/medical-review-team` page with reviewer credentials, review process, and evidence-based commitment statement. Footer links to the medical review team page.
 - **Adaptive Study Engine**: Provides various study modes (`recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`) with distinct routes, supporting free and paid user access.
 - **Free Pass System**: Automatic 1-day free pass for new accounts with fraud detection.
 - **Exam Follow-Up**: Post-exam follow-up system on the dashboard for result reporting and personalized next steps.
@@ -55,7 +55,7 @@ Key architectural components and features:
 - **Clinical Skills Checklist Library**: Evergreen SEO reference at `/nursing-skill-checklists` with 5 procedure checklists (IV insertion, central line care, wound dressing, oxygen therapy, blood transfusion). Hub page with category filters and procedure grid. Detail pages with step-by-step procedures, safety alerts, rationale, equipment lists, complications, documentation requirements, exam notes, HowTo schema. Data file: `client/src/data/nursing-skill-checklists.ts`. Pages: `client/src/pages/nursing-skill-checklists-hub.tsx`, `client/src/pages/nursing-skill-checklist-detail.tsx`.
 - **Healthcare Policy & Updates Hub**: Hub page at `/healthcare-policy-and-updates` with 4 policy category cards, FAQ section with structured data, cross-links, and CTA sections. 4 evergreen policy sub-pages: `/licensing-policy-changes`, `/international-nursing-recruitment`, `/exam-format-updates`, `/regulatory-changes-affecting-nurses`. Each page includes SEO metadata, Article + FAQ structured data, breadcrumbs, and cross-links to NurseNest resources. Routes registered in App.tsx with lazy imports, sitemap entries in helpers.ts. Footer updated with Healthcare Policy section linking all 5 pages. Key files: `client/src/pages/healthcare-policy-hub.tsx`, `client/src/pages/healthcare-policy-pages.tsx`.
 
-### External Dependencies
+## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe, PayPal SDK

@@ -3,6 +3,8 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -449,6 +451,18 @@ export default function SeoLandingPage({ slug: propSlug }: { slug?: string } = {
           <InternalLinksBlock links={page.internalLinks} />
 
           <RelatedGuidesBlock links={page.relatedLinks} />
+
+          <div className="mt-10 grid sm:grid-cols-2 gap-4">
+            <MedicalReviewBadge />
+            <MedicalReferences lessonId={page.slug} />
+          </div>
+
+          <MedicalReviewJsonLd
+            title={page.metaTitle}
+            slug={page.slug}
+            description={page.metaDescription}
+            pageUrl={`https://www.nursenest.ca/${page.slug}`}
+          />
 
           <CTABlock page={page} />
         </div>

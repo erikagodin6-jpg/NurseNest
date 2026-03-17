@@ -13,6 +13,8 @@ import {
   type TopicCluster,
 } from "@shared/topic-cluster-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import {
   BookOpen, ChevronDown, ArrowRight, HelpCircle,
   Stethoscope, Activity, FileText, Brain, Pill,
@@ -421,6 +423,18 @@ export default function TopicClusterPage() {
               </div>
             </section>
 
+            <div className="mt-10 grid sm:grid-cols-2 gap-4">
+              <MedicalReviewBadge />
+              <MedicalReferences lessonId={topic.slug} />
+            </div>
+
+            <MedicalReviewJsonLd
+              title={topic.title}
+              slug={topic.slug}
+              description={topic.metaDescription}
+              pageUrl={`https://www.nursenest.ca/${topic.slug}`}
+            />
+
             <div className="mb-12">
               <EndOfContentLeadCapture leadMagnetType="study_guide" source="topic_cluster" />
             </div>
@@ -714,6 +728,18 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
                 ))}
               </div>
             </section>
+
+            <div className="mt-10 grid sm:grid-cols-2 gap-4">
+              <MedicalReviewBadge />
+              <MedicalReferences lessonId={topic.slug} />
+            </div>
+
+            <MedicalReviewJsonLd
+              title={topic.title}
+              slug={topic.slug}
+              description={topic.metaDescription}
+              pageUrl={`https://www.nursenest.ca/${topic.slug}`}
+            />
 
             <div className="mb-12">
               <EndOfContentLeadCapture leadMagnetType="study_guide" source="topic_cluster" />

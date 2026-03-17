@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { CiteThisPage } from "@/components/cite-this-page";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 import {
@@ -951,6 +953,19 @@ export default function ContentPage() {
             slug={slug || ""}
             source="nursing"
             className="border-t border-gray-200"
+          />
+
+          <div className="mt-10 grid sm:grid-cols-2 gap-4">
+            <MedicalReviewBadge lastUpdated={contentItem!.updatedAt as unknown as string || undefined} />
+            <MedicalReferences lessonId={slug || ""} />
+          </div>
+
+          <MedicalReviewJsonLd
+            title={contentItem!.title}
+            slug={slug || ""}
+            lastUpdated={contentItem!.updatedAt as unknown as string || undefined}
+            description={contentItem!.summary || undefined}
+            pageUrl={`https://www.nursenest.ca/learn/${slug}`}
           />
 
           <BlogInlineLeadCapture professionContext={contentItem?.category || "nursing"} />

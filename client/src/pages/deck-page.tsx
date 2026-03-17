@@ -12,6 +12,8 @@ import { BookOpen, Copy, Check, ArrowLeft, Layers, Share2, Globe, Lock, Crown } 
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { AutoRelatedContent } from "@/components/auto-related-content";
+import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 
 export default function DeckPage() {
   const params = useParams<{ slug: string }>();
@@ -280,6 +282,22 @@ export default function DeckPage() {
             title={deck.title || ""}
             className="mt-8 pt-8 border-t border-gray-200"
             sectionTitle="Related Lessons & Practice"
+          />
+        )}
+
+        {deck && (
+          <div className="mt-10 grid sm:grid-cols-2 gap-4">
+            <MedicalReviewBadge />
+            <MedicalReferences lessonId={params.slug || ""} />
+          </div>
+        )}
+
+        {deck && (
+          <MedicalReviewJsonLd
+            title={deck.title || ""}
+            slug={params.slug || ""}
+            description={deck.description || `Flashcard deck: ${deck.title}`}
+            pageUrl={`https://www.nursenest.ca/flashcards/deck/${params.slug}`}
           />
         )}
 

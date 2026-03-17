@@ -130,6 +130,7 @@ const MockExamSession = lazy(() => import("@/pages/mock-exam-session"));
 const MockExamReport = lazy(() => import("@/pages/mock-exam-report"));
 const ContactPage = lazy(() => import("@/pages/contact"));
 const AboutPage = lazy(() => import("@/pages/about"));
+const MedicalReviewTeamPage = lazy(() => import("@/pages/medical-review-team"));
 const FeedbackPage = lazy(() => import("@/pages/feedback"));
 const QuestionOfTheDay = lazy(() => import("@/pages/question-of-the-day"));
 const QuestionBank = lazy(() => import("@/pages/question-bank"));
@@ -1073,6 +1074,7 @@ function AppRoutes() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/why-nursenest" component={WhyNurseNestPage} />
+        <Route path="/medical-review-team" component={MedicalReviewTeamPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/bookmarks" component={BookmarksPage} />
         <Route path="/practice" component={CustomPracticePage} />
