@@ -1,0 +1,354 @@
+You are upgrading the NurseNest content generation system.
+
+The current generator works primarily for nursing content, but it must now support ALL platform content types across ALL sites while maintaining a clean taxonomy and publishing structure.
+
+The generator must support:
+
+1. Nursing question banks
+2. Allied health question banks
+3. New Grad career content
+4. Certification exam prep
+5. Flashcards
+6. Study lessons
+7. SEO blog articles
+
+All generated content must publish correctly to the production database and appear on the live published site in the correct existing locations without creating duplicate menus, categories, or navigation clutter.
+
+------------------------------------------------
+PRIMARY GOALS
+------------------------------------------------
+
+1. Expand the generator to support Nursing, Allied Health, and New Grad content.
+2. Generate exam-style questions for each tier.
+3. Generate high-quality rationales for all questions.
+4. Generate SEO blog content for Allied Health and New Grad sections.
+5. Ensure all content is published correctly on the live site.
+6. Prevent the generator from creating new taxonomy structures automatically.
+
+------------------------------------------------
+SUPPORTED CONTENT TYPES
+------------------------------------------------
+
+The generator must support the following content types:
+
+QUESTIONS
+FLASHCARDS
+LESSONS
+BLOG ARTICLES
+
+Each content type must follow the existing database schema used by the published site.
+
+------------------------------------------------
+QUESTION BANK GENERATION
+------------------------------------------------
+
+The generator must produce exam-style questions for:
+
+NURSING TIERS
+- Pre-Nursing
+- RPN / LVN
+- RN
+- RN International
+- Nurse Practitioner
+
+NP SPECIALTIES
+- Family NP
+- Adult-Gerontology NP
+- Acute Care NP
+- Pediatric NP
+- Psychiatric NP
+- Women’s Health NP
+- Neonatal NP
+
+ALLIED HEALTH TIERS
+- Respiratory Therapist
+- Pharmacy Technician
+- Medical Laboratory Technician
+- Radiologic Technologist
+- Diagnostic Sonographer
+- Cardiac Sonographer
+- Paramedic
+- Occupational Therapy Assistant
+- Physical Therapy Assistant
+- Health Information Management
+- Psychotherapist
+- Addictions Counsellor
+- Social Worker
+
+CERTIFICATION PREP
+- Critical Care Nursing
+- Emergency Nursing
+- Perioperative Nursing
+- Oncology Nursing
+- Pediatric Certification
+- ACLS
+- PALS
+- BLS
+- NRP
+- TNCC
+- ENPC
+
+------------------------------------------------
+QUESTION QUALITY REQUIREMENTS
+------------------------------------------------
+
+Every generated question must include:
+
+question stem  
+answer options  
+correct answer  
+detailed rationale  
+
+Rationales must:
+
+- explain why the correct answer is correct
+- explain why distractors are incorrect when relevant
+- match the learner level
+- reflect clinical reasoning
+- reinforce exam preparation
+
+No question may publish without a rationale.
+
+------------------------------------------------
+QUESTION FORMATS
+------------------------------------------------
+
+Supported formats include:
+
+MCQ  
+SATA  
+ORDERED / prioritization  
+HOTSPOT (image-based where applicable)  
+SCENARIO / CASE questions  
+
+If advanced formats such as BOW_TIE or CASE_SERIES are supported by the system, the generator may include them.
+
+------------------------------------------------
+GENERATION BATCH RULES
+------------------------------------------------
+
+Questions must generate in small batches.
+
+Default batch size: 5  
+Maximum batch size: 10  
+
+Never generate massive batches in one request.
+
+------------------------------------------------
+TAXONOMY RULES
+------------------------------------------------
+
+The generator must NOT create:
+
+new categories  
+new topics  
+new navigation items  
+new menu sections  
+
+All generated content must map to the existing canonical taxonomy.
+
+If a topic does not match exactly:
+
+1. normalize synonyms
+2. fuzzy match to an existing topic
+3. fallback to parent body system category
+
+Never auto-create taxonomy entries.
+
+------------------------------------------------
+PUBLISHING REQUIREMENTS
+------------------------------------------------
+
+All generated content must:
+
+save into the production database  
+publish to the live site automatically  
+appear in the correct question banks  
+appear in the correct study categories  
+update analytics counts  
+
+Generated content must never appear in orphan locations.
+
+------------------------------------------------
+ALLIED HEALTH BLOG GENERATOR
+------------------------------------------------
+
+Create a blog generator similar to the existing nursing blog generator.
+
+Purpose:
+SEO traffic for allied health careers and exam preparation.
+
+Example topics:
+
+Respiratory Therapist Career Guide  
+How to Become a Medical Laboratory Technologist  
+Radiologic Technologist Exam Prep  
+Paramedic Certification Preparation  
+Sonography Career Path  
+Pharmacy Technician Study Guide  
+
+Each blog must include:
+
+SEO title  
+meta description  
+H1 heading  
+structured H2 sections  
+clinical explanations  
+career insights  
+exam preparation tips  
+internal links to study resources  
+references when appropriate
+
+Blogs must publish into the existing Allied Health blog structure.
+
+------------------------------------------------
+NEW GRAD BLOG GENERATOR
+------------------------------------------------
+
+Create a blog generator for the New Grad section to support SEO.
+
+Example topics:
+
+How to Prepare for Your First Nursing Job  
+Top Interview Questions for New Grad Nurses  
+New Grad Resume Tips for Healthcare Jobs  
+Common Mistakes New Grad Nurses Make  
+How to Transition from Student to Registered Nurse  
+
+Blogs must include:
+
+SEO title  
+meta description  
+structured headings  
+career guidance  
+interview tips  
+resume advice  
+internal links to ApplyNest resources
+
+Blogs must publish in the existing New Grad blog section.
+
+------------------------------------------------
+SEO OPTIMIZATION
+------------------------------------------------
+
+All blog content must:
+
+follow SEO best practices  
+include internal links to study content  
+include internal links to related articles  
+include schema-friendly heading structure  
+avoid thin content  
+
+Blog articles should aim for 1,200–2,000 words.
+
+------------------------------------------------
+FLASHCARD GENERATION
+------------------------------------------------
+
+Flashcards should be generated from existing questions and lessons.
+
+Flashcards must include:
+
+front concept  
+back explanation  
+topic mapping  
+tier mapping  
+
+Flashcards must publish into the flashcard system used by the site.
+
+------------------------------------------------
+LESSON GENERATION
+------------------------------------------------
+
+Lessons must support exam preparation.
+
+Each lesson should include:
+
+definition  
+pathophysiology  
+risk factors  
+clinical manifestations  
+diagnostics  
+treatment  
+nursing interventions  
+exam tips  
+
+Lessons must publish into the existing lesson structure.
+
+------------------------------------------------
+GENERATION GOVERNOR
+------------------------------------------------
+
+Apply the smart governor rules:
+
+daily generation caps  
+duplicate detection  
+taxonomy protection  
+quality scoring  
+provider failure protection  
+
+Do not allow uncontrolled generation.
+
+------------------------------------------------
+GENERATION LOGGING
+------------------------------------------------
+
+Every generation run must log:
+
+topic  
+tier  
+content type  
+batch size  
+generated count  
+validated count  
+inserted count  
+rejected count  
+error messages  
+
+------------------------------------------------
+TESTING
+------------------------------------------------
+
+Test generation for:
+
+Acute Kidney Injury questions  
+Preeclampsia questions  
+Respiratory Therapist exam questions  
+Paramedic exam questions  
+New Grad interview blog article  
+Allied Health career blog article  
+
+Verify:
+
+content generates successfully  
+content inserts into the production database  
+content appears correctly on the live site  
+no new taxonomy entries created  
+navigation remains clean  
+
+------------------------------------------------
+SUCCESS CRITERIA
+------------------------------------------------
+
+The upgrade is successful when:
+
+the generator supports nursing, allied health, and new grad content  
+questions include high-quality rationales  
+blogs generate for allied health and new grad sections  
+content publishes automatically to the live site  
+content appears in correct existing locations  
+taxonomy remains clean and unchanged  
+generation remains controlled and reliable
+
+------------------------------------------------
+FINAL REPORT
+------------------------------------------------
+
+After implementation, report:
+
+supported content types  
+supported tiers  
+generation limits  
+taxonomy protection logic  
+publishing verification  
+example successful generation runs
