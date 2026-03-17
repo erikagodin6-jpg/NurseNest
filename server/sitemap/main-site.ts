@@ -501,6 +501,36 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/herbal-supplements/${h}`, "0.8", "monthly", locales, today));
   }
 
+  const rexPnCategoryPages = ["practice-questions", "fundamentals", "pharmacology", "safety-and-infection-control", "clinical-judgment", "exam-tips", "study-plan"];
+  for (const slug of rexPnCategoryPages) {
+    urls.push(localizedUrl(base, `/rex-pn/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const rexPnConditionPages = ["heart-failure", "diabetes-dka-hhs", "copd", "pneumonia", "sepsis", "hypertension", "mi-acs", "stroke"];
+  for (const slug of rexPnConditionPages) {
+    urls.push(localizedUrl(base, `/rex-pn/conditions/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const rexPnMedicationPages = ["furosemide"];
+  for (const slug of rexPnMedicationPages) {
+    urls.push(localizedUrl(base, `/rex-pn/medications/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const rexPnLabValuePages = ["potassium", "sodium", "abgs"];
+  for (const slug of rexPnLabValuePages) {
+    urls.push(localizedUrl(base, `/rex-pn/lab-values/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const rexPnComparisonPages = ["dka-vs-hhs", "crohns-vs-uc", "stable-vs-unstable-angina"];
+  for (const slug of rexPnComparisonPages) {
+    urls.push(localizedUrl(base, `/rex-pn/compare/${slug}`, "0.7", "monthly", locales, today));
+  }
+
+  const rexPnStrategyPages = ["how-to-pass-rex-pn", "pharmacology-fundamentals"];
+  for (const slug of rexPnStrategyPages) {
+    urls.push(localizedUrl(base, `/rex-pn/strategy/${slug}`, "0.7", "monthly", locales, today));
+  }
+
   return urls;
 }
 

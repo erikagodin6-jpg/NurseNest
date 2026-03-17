@@ -111,6 +111,44 @@ const subPages = [
   { title: "Practice Tests", href: "/rex-pn/practice-tests", description: "Full-length CAT simulations and domain-specific question sets" },
 ];
 
+const contentHubPages = [
+  { title: "Practice Questions", href: "/rex-pn/practice-questions", description: "CAT-style questions with rationales across all content domains", icon: Target },
+  { title: "Fundamentals of Nursing", href: "/rex-pn/fundamentals", description: "Vital signs, asepsis, therapeutic communication, medication safety", icon: BookOpen },
+  { title: "Pharmacology Review", href: "/rex-pn/pharmacology", description: "Drug classifications, mechanisms, side effects, dosage calculations", icon: Shield },
+  { title: "Safety & Infection Control", href: "/rex-pn/safety-and-infection-control", description: "Isolation precautions, fall prevention, restraints, infection prevention", icon: AlertCircle },
+  { title: "Clinical Judgment", href: "/rex-pn/clinical-judgment", description: "NCSBN CJMM framework, prioritization, clinical decision-making", icon: Brain },
+  { title: "Exam Tips", href: "/rex-pn/exam-tips", description: "CAT strategies, time management, test-day preparation tips", icon: GraduationCap },
+  { title: "10-Week Study Plan", href: "/rex-pn/study-plan", description: "Structured weekly goals covering all content domains", icon: Layers },
+];
+
+const conditionGuides = [
+  { title: "Heart Failure", href: "/rex-pn/conditions/heart-failure" },
+  { title: "Diabetes, DKA & HHS", href: "/rex-pn/conditions/diabetes-dka-hhs" },
+  { title: "COPD", href: "/rex-pn/conditions/copd" },
+  { title: "Pneumonia", href: "/rex-pn/conditions/pneumonia" },
+  { title: "Sepsis", href: "/rex-pn/conditions/sepsis" },
+  { title: "Hypertension", href: "/rex-pn/conditions/hypertension" },
+  { title: "MI / ACS", href: "/rex-pn/conditions/mi-acs" },
+  { title: "Stroke (CVA)", href: "/rex-pn/conditions/stroke" },
+];
+
+const labValueGuides = [
+  { title: "Potassium (K+)", href: "/rex-pn/lab-values/potassium" },
+  { title: "Sodium (Na+)", href: "/rex-pn/lab-values/sodium" },
+  { title: "ABG Interpretation", href: "/rex-pn/lab-values/abgs" },
+];
+
+const comparisonGuides = [
+  { title: "DKA vs HHS", href: "/rex-pn/compare/dka-vs-hhs" },
+  { title: "Crohn's vs Ulcerative Colitis", href: "/rex-pn/compare/crohns-vs-uc" },
+  { title: "Stable vs Unstable Angina", href: "/rex-pn/compare/stable-vs-unstable-angina" },
+];
+
+const strategyGuides = [
+  { title: "How to Pass the REx-PN", href: "/rex-pn/strategy/how-to-pass-rex-pn" },
+  { title: "Pharmacology Fundamentals", href: "/rex-pn/strategy/pharmacology-fundamentals" },
+];
+
 export default function RexPnHub() {
   const [, setLocation] = useLocation();
 
@@ -361,6 +399,111 @@ export default function RexPnHub() {
                   </div>
                 </LocaleLink>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-gray-50 border-t border-gray-100" data-testid="section-content-hub">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-4">
+                <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+                <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Study Guides</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-content-hub-heading">
+                REx-PN Content Library
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                In-depth study guides covering clinical conditions, pharmacology, lab values, and exam strategies.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+              {contentHubPages.map((page, i) => (
+                <LocaleLink key={i} href={page.href}>
+                  <Card className="h-full border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group" data-testid={`card-content-hub-${i}`}>
+                    <CardContent className="p-6">
+                      <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-4">
+                        <page.icon className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">{page.title}</h3>
+                      <p className="text-sm text-gray-600 leading-relaxed">{page.description}</p>
+                    </CardContent>
+                  </Card>
+                </LocaleLink>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-condition-guides">
+                <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                  <Stethoscope className="w-5 h-5 text-red-500" />
+                  Condition Study Guides
+                </h3>
+                <div className="space-y-2">
+                  {conditionGuides.map((guide, i) => (
+                    <LocaleLink key={i} href={guide.href}>
+                      <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer" data-testid={`link-condition-${i}`}>
+                        <span className="text-sm font-medium text-gray-700 group-hover:text-primary">{guide.title}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                      </div>
+                    </LocaleLink>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-lab-guides">
+                  <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-blue-500" />
+                    Lab Value Guides
+                  </h3>
+                  <div className="space-y-2">
+                    {labValueGuides.map((guide, i) => (
+                      <LocaleLink key={i} href={guide.href}>
+                        <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer" data-testid={`link-lab-${i}`}>
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-primary">{guide.title}</span>
+                          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-comparison-guides">
+                  <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                    <Scale className="w-5 h-5 text-purple-500" />
+                    Clinical Comparisons
+                  </h3>
+                  <div className="space-y-2">
+                    {comparisonGuides.map((guide, i) => (
+                      <LocaleLink key={i} href={guide.href}>
+                        <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer" data-testid={`link-comparison-${i}`}>
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-primary">{guide.title}</span>
+                          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-strategy-guides">
+                  <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                    <GraduationCap className="w-5 h-5 text-amber-500" />
+                    Exam Strategies
+                  </h3>
+                  <div className="space-y-2">
+                    {strategyGuides.map((guide, i) => (
+                      <LocaleLink key={i} href={guide.href}>
+                        <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer" data-testid={`link-strategy-${i}`}>
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-primary">{guide.title}</span>
+                          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

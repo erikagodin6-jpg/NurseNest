@@ -340,6 +340,12 @@ const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
 const RexPnExamFormat = lazy(() => import("@/pages/rex-pn-exam-format"));
 const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
 const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
+const RexPnCategoryTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnCategoryTemplate })));
+const RexPnConditionTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnConditionTemplate })));
+const RexPnMedicationTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnMedicationTemplate })));
+const RexPnLabValueTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnLabValueTemplate })));
+const RexPnComparisonTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnComparisonTemplate })));
+const RexPnStrategyTemplate = lazy(() => import("@/pages/rex-pn-content-hub").then(m => ({ default: m.RexPnStrategyTemplate })));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
@@ -963,6 +969,18 @@ function AppRoutes() {
         <Route path="/rex-pn/wellness" component={RexPnWellness} />
         <Route path="/rex-pn/practice-tests" component={MockExamsPage} />
         <Route path="/rex-pn/mock-exam" component={ExamLandingPage} />
+        <Route path="/rex-pn/conditions/:slug" component={RexPnConditionTemplate} />
+        <Route path="/rex-pn/medications/:slug" component={RexPnMedicationTemplate} />
+        <Route path="/rex-pn/lab-values/:slug" component={RexPnLabValueTemplate} />
+        <Route path="/rex-pn/compare/:slug" component={RexPnComparisonTemplate} />
+        <Route path="/rex-pn/strategy/:slug" component={RexPnStrategyTemplate} />
+        <Route path="/rex-pn/practice-questions">{() => <RexPnCategoryTemplate params={{ slug: "practice-questions" }} />}</Route>
+        <Route path="/rex-pn/fundamentals">{() => <RexPnCategoryTemplate params={{ slug: "fundamentals" }} />}</Route>
+        <Route path="/rex-pn/pharmacology">{() => <RexPnCategoryTemplate params={{ slug: "pharmacology" }} />}</Route>
+        <Route path="/rex-pn/safety-and-infection-control">{() => <RexPnCategoryTemplate params={{ slug: "safety-and-infection-control" }} />}</Route>
+        <Route path="/rex-pn/clinical-judgment">{() => <RexPnCategoryTemplate params={{ slug: "clinical-judgment" }} />}</Route>
+        <Route path="/rex-pn/exam-tips">{() => <RexPnCategoryTemplate params={{ slug: "exam-tips" }} />}</Route>
+        <Route path="/rex-pn/study-plan">{() => <RexPnCategoryTemplate params={{ slug: "study-plan" }} />}</Route>
         <Route path="/rex-pn/:rest*" component={SeoHubPage} />
         <Route path="/rex-pn" component={RexPnHub} />
         <Route path="/rex-pn-guide/:slug" component={RexPnGuide} />
