@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { SEO } from "@/components/seo";
@@ -10,7 +10,8 @@ import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, ChevronDown, ArrowRight, MessageSquare, Lock,
   CheckCircle2, Star, Lightbulb, Target, Users, Shield,
-  Stethoscope, Activity, Baby, Heart, AlertTriangle
+  Stethoscope, Activity, Baby, Heart, AlertTriangle,
+  Shuffle, Timer, BarChart3
 } from "lucide-react";
 
 const INTERVIEW_CATEGORIES = [
@@ -42,11 +43,33 @@ const FREE_CATEGORIES = new Set([
 
 const totalQuestionCount = INTERVIEW_QUESTION_BANK.length;
 
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function InterviewPage() {
   const { hasAccess } = useNewGradAccess();
   const { t } = useI18n();
   const [expandedQ, setExpandedQ] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [reviewedQuestions, setReviewedQuestions] = useState<Set<string>>(new Set());
+  const [randomMode, setRandomMode] = useState(false);
+  const [randomSeed, setRandomSeed] = useState(0);
+
+  const markReviewed = useCallback((questionId: string) => {
+    setReviewedQuestions((prev) => new Set(prev).add(questionId));
+  }, []);
+
+  const generateRandomSet = useCallback(() => {
+    setRandomMode(true);
+    setRandomSeed((s) => s + 1);
+    setExpandedQ(null);
+  }, []);
 
   const { data: dbQuestions = [] } = useQuery({
     queryKey: ["/api/newgrad/interview-questions"],
@@ -68,8 +91,14 @@ export default function InterviewPage() {
     ? allQuestions
     : allQuestions.filter((q: any) => q.category === activeCategory);
 
-  const freeQuestions = filteredByCategory.filter((q: any) => !q.isPremium && !q.is_premium);
-  const premiumQuestions = filteredByCategory.filter((q: any) => q.isPremium || q.is_premium);
+  const applyRandom = useMemo(() => {
+    if (!randomMode) return (arr: any[]) => arr;
+    return (arr: any[]) => shuffleArray(arr).slice(0, Math.min(10, arr.length));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [randomMode, randomSeed]);
+
+  const freeQuestions = applyRandom(filteredByCategory.filter((q: any) => !q.isPremium && !q.is_premium));
+  const premiumQuestions = applyRandom(filteredByCategory.filter((q: any) => q.isPremium || q.is_premium));
 
   const uniqueCategories = [...new Set(INTERVIEW_QUESTION_BANK.map((q) => q.category))];
   const categoriesWithCounts = INTERVIEW_CATEGORIES.filter(
@@ -138,13 +167,13 @@ export default function InterviewPage() {
 
       <section className="py-6 bg-white border-b border-gray-100" data-testid="section-categories">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-4">
             {categoriesWithCounts.filter((c) => c.count > 0).map((cat) => {
               const CatIcon = cat.icon;
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
+                  onClick={() => { setActiveCategory(cat.id); setRandomMode(false); }}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full font-medium transition-colors ${
                     activeCategory === cat.id
                       ? "bg-purple-600 text-white"
@@ -157,6 +186,36 @@ export default function InterviewPage() {
                 </button>
               );
             })}
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={generateRandomSet}
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg font-medium bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
+              data-testid="button-random-set"
+            >
+              <Shuffle className="w-3.5 h-3.5" /> Random Set of 10
+            </button>
+            {randomMode && (
+              <button
+                onClick={() => setRandomMode(false)}
+                className="text-sm text-gray-500 hover:text-gray-700"
+                data-testid="button-show-all"
+              >
+                Show All
+              </button>
+            )}
+            <Link
+              href="/newgrad/mock-interview"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg font-medium bg-purple-600 text-white hover:bg-purple-700 transition-colors ml-auto"
+              data-testid="button-timed-mock"
+            >
+              <Timer className="w-3.5 h-3.5" /> Timed Mock Interview
+            </Link>
+            {reviewedQuestions.size > 0 && (
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs rounded-full bg-green-50 text-green-600 font-medium" data-testid="badge-progress">
+                <BarChart3 className="w-3 h-3" /> {reviewedQuestions.size} reviewed
+              </span>
+            )}
           </div>
         </div>
       </section>
@@ -179,7 +238,7 @@ export default function InterviewPage() {
               {freeQuestions.map((q: any, i: number) => (
                 <div key={q.id || i} className="bg-white rounded-xl border border-gray-100 overflow-hidden" data-testid={`question-free-${i}`}>
                   <button
-                    onClick={() => setExpandedQ(expandedQ === i ? null : i)}
+                    onClick={() => { setExpandedQ(expandedQ === i ? null : i); markReviewed(q.id || `free-${i}`); }}
                     className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
                     data-testid={`button-question-${i}`}
                   >

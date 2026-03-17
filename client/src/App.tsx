@@ -217,6 +217,8 @@ const NewGradClinicalReferenceDetail = lazy(() => import("@/pages/newgrad/clinic
 const NewGradGuidesPage = lazy(() => import("@/pages/newgrad/guides-page"));
 const NewGradCareerPage = lazy(() => import("@/pages/newgrad/career-page"));
 const NewGradInterviewPage = lazy(() => import("@/pages/newgrad/interview-page"));
+const NewGradMockInterviewPage = lazy(() => import("@/pages/newgrad/mock-interview-page"));
+const NewGradSimulationSetsPage = lazy(() => import("@/pages/newgrad/simulation-sets-page"));
 const NewGradResumePage = lazy(() => import("@/pages/newgrad/resume-page"));
 const NewGradWorkplacePage = lazy(() => import("@/pages/newgrad/workplace-page"));
 const NewGradScenariosPage = lazy(() => import("@/pages/newgrad/scenarios-page"));
@@ -677,6 +679,8 @@ function AppRoutes() {
         <Route path="/newgrad/guides" component={NewGradGuidesPage} />
         <Route path="/newgrad/career" component={NewGradCareerPage} />
         <Route path="/newgrad/interview" component={NewGradInterviewPage} />
+        <Route path="/newgrad/mock-interview" component={NewGradMockInterviewPage} />
+        <Route path="/newgrad/simulation-sets" component={NewGradSimulationSetsPage} />
         <Route path="/newgrad/resume" component={NewGradResumePage} />
         <Route path="/newgrad/workplace" component={NewGradWorkplacePage} />
         <Route path="/newgrad/scenarios" component={NewGradScenariosPage} />

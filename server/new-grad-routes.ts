@@ -624,6 +624,31 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
+  app.get("/api/newgrad/practice-counts", async (_req, res) => {
+    try {
+      const interviewResult = await pool.query(
+        `SELECT COUNT(*)::int as count FROM new_grad_interview_questions WHERE status = 'published'`
+      );
+      const dbInterviewCount = interviewResult.rows[0]?.count || 0;
+
+      res.json({
+        interviewQuestions: Math.max(dbInterviewCount, 25),
+        scenarioQuestions: 28,
+        simulationSets: 4,
+        mockInterviewTests: 3,
+        questionCategories: 18,
+      });
+    } catch (e: any) {
+      res.json({
+        interviewQuestions: 25,
+        scenarioQuestions: 28,
+        simulationSets: 4,
+        mockInterviewTests: 3,
+        questionCategories: 18,
+      });
+    }
+  });
+
   app.get("/api/newgrad/entitlements", async (req, res) => {
     try {
       const user = await resolveAuthUser(req);

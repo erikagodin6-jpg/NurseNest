@@ -164,3 +164,43 @@ export function getPublicTotalDisplay(): string {
   const rounded = Math.floor(total / 1000) * 1000;
   return `${rounded.toLocaleString()}+`;
 }
+
+let _newGradCounts: {
+  interviewQuestions: number;
+  scenarioQuestions: number;
+  simulationSets: number;
+  mockInterviewTests: number;
+} | null = null;
+
+export function getNewGradCounts(): {
+  interviewQuestions: number;
+  scenarioQuestions: number;
+  simulationSets: number;
+  mockInterviewTests: number;
+} {
+  if (_newGradCounts) return _newGradCounts;
+  try {
+    const { INTERVIEW_QUESTION_BANK } = require("@/data/newgrad/premium-toolkit");
+    const { WORKPLACE_SCENARIOS, WORKPLACE_SCENARIO_CATEGORIES } = require("@/data/newgrad/workplace-scenarios");
+    _newGradCounts = {
+      interviewQuestions: INTERVIEW_QUESTION_BANK?.length || 0,
+      scenarioQuestions: WORKPLACE_SCENARIOS?.length || 0,
+      simulationSets: WORKPLACE_SCENARIO_CATEGORIES?.length || 0,
+      mockInterviewTests: 3,
+    };
+  } catch {
+    _newGradCounts = {
+      interviewQuestions: 25,
+      scenarioQuestions: 28,
+      simulationSets: 4,
+      mockInterviewTests: 3,
+    };
+  }
+  return _newGradCounts;
+}
+
+export function getNewGradTotalDisplay(): string {
+  const counts = getNewGradCounts();
+  const total = counts.interviewQuestions + counts.scenarioQuestions;
+  return `${total}+`;
+}

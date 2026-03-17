@@ -5,12 +5,15 @@ import { Footer } from "@/components/footer";
 import { useNewGradEntitlements } from "./premium-cta";
 import { useI18n } from "@/lib/i18n";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { INTERVIEW_QUESTION_BANK } from "@/data/newgrad/premium-toolkit";
+import { WORKPLACE_SCENARIOS, WORKPLACE_SCENARIO_CATEGORIES } from "@/data/newgrad/workplace-scenarios";
 import {
   ArrowRight, BookOpen, FileText, Brain, GraduationCap,
   CheckCircle2, ChevronRight, Briefcase, Heart, Shield, Users,
   AlertTriangle, MessageSquare, Award, Target, Lightbulb,
   Star, TrendingUp, DollarSign, Flame, Sparkles, Lock,
-  Stethoscope, ClipboardList, Compass, LayoutGrid
+  Stethoscope, ClipboardList, Compass, LayoutGrid,
+  Timer, Play, BarChart3, Zap, HelpCircle
 } from "lucide-react";
 
 const COLOR_MAP: Record<string, string> = {
@@ -23,6 +26,7 @@ const COLOR_MAP: Record<string, string> = {
   green: "bg-green-50 text-green-600 border-green-100",
   amber: "bg-amber-50 text-amber-600 border-amber-100",
   teal: "bg-teal-50 text-teal-600 border-teal-100",
+  violet: "bg-violet-50 text-violet-600 border-violet-100",
 };
 
 const ICON_BG_MAP: Record<string, string> = {
@@ -35,7 +39,12 @@ const ICON_BG_MAP: Record<string, string> = {
   green: "bg-green-100",
   amber: "bg-amber-100",
   teal: "bg-teal-100",
+  violet: "bg-violet-100",
 };
+
+const interviewQuestionCount = INTERVIEW_QUESTION_BANK.length;
+const scenarioCount = WORKPLACE_SCENARIOS.length;
+const simulationSetCount = WORKPLACE_SCENARIO_CATEGORIES.length;
 
 export default function NewGradHub() {
   const { hasAnyPremium: hasNewGradAccess } = useNewGradEntitlements();
@@ -82,9 +91,15 @@ export default function NewGradHub() {
     { questionKey: "newGrad.hub.faq2Q", answerKey: "newGrad.hub.faq2A" },
     { questionKey: "newGrad.hub.faq3Q", answerKey: "newGrad.hub.faq3A" },
     { questionKey: "newGrad.hub.faq4Q", answerKey: "newGrad.hub.faq4A" },
+    { question: "How many practice questions are available?", answer: `The New Grad Practice System includes ${interviewQuestionCount}+ interview questions across ${new Set(INTERVIEW_QUESTION_BANK.map(q => q.category)).size} categories, ${scenarioCount} workplace simulation scenarios, ${simulationSetCount} structured simulation sets, and timed mock interview exams. Free users can access preview questions in each mode.` },
+    { question: "What practice modes are available?", answer: "We offer four practice modes: Interview Question Bank (browse and study individual questions), Scenario Practice (workplace readiness scenarios), Mock Interview (timed exam-style sessions with scoring), and Workplace Simulation Sets (structured sequential walkthroughs organized by skill area)." },
+    { question: "Are mock interviews and simulation sets free?", answer: "Free users can access preview questions in the Interview Question Bank and Scenario Practice modes. Timed Mock Interviews and full Workplace Simulation Sets (including premium scenarios) require the New Grad Toolkit subscription. This ensures you get the full, structured practice experience." },
   ];
 
-  const faqForStructuredData = FAQ_DATA.map(f => ({ question: t(f.questionKey), answer: t(f.answerKey) }));
+  const faqForStructuredData = FAQ_DATA.map(f => {
+    if ('questionKey' in f) return { question: t(f.questionKey), answer: t(f.answerKey) };
+    return { question: f.question, answer: f.answer };
+  });
   const faqStructuredData = buildFaqStructuredData(faqForStructuredData);
 
   const hubStructuredData = {
@@ -111,13 +126,34 @@ export default function NewGradHub() {
     { titleKey: "newGrad.hub.freeItem8Title", descKey: "newGrad.hub.freeItem8Desc", href: "/newgrad/professional-development" },
   ];
 
+  const STRUGGLE_POINTS = [
+    { icon: AlertTriangle, title: "Interview Anxiety", desc: "65% of new grads report feeling unprepared for behavioral and clinical interview questions." },
+    { icon: ClipboardList, title: "Prioritization Paralysis", desc: "Knowing how to triage 4+ patients with competing needs when you've only practiced with 1–2 in clinicals." },
+    { icon: MessageSquare, title: "Communication Gaps", desc: "Calling physicians at 3 AM, giving shift report, and navigating difficult team dynamics with no practice." },
+    { icon: Shield, title: "Imposter Syndrome", desc: "70% of new graduates experience imposter syndrome within their first year of practice." },
+  ];
+
+  const PREPARES_YOU = [
+    { icon: MessageSquare, title: "Real Interview Questions", desc: `${interviewQuestionCount}+ categorized questions with STAR-format sample answers and expert tips.` },
+    { icon: Target, title: "Workplace Simulations", desc: `${scenarioCount} clinical and professional scenarios covering prioritization, delegation, and team dynamics.` },
+    { icon: Timer, title: "Timed Mock Interviews", desc: "Simulate real interview conditions with randomized questions, self-scoring, and performance review." },
+    { icon: BarChart3, title: "Structured Practice Sets", desc: `${simulationSetCount} simulation sets organized by skill area for sequential, focused practice.` },
+  ];
+
+  const PRACTICE_MODES = [
+    { icon: BookOpen, title: "Interview Question Bank", desc: `Browse ${interviewQuestionCount}+ questions by category. Study sample answers and expert tips at your own pace.`, href: "/newgrad/interview", color: "purple", free: true },
+    { icon: Target, title: "Scenario Practice", desc: `Work through ${scenarioCount} workplace scenarios. Reveal expert responses and key principles for each.`, href: "/newgrad/scenarios", color: "teal", free: true },
+    { icon: Timer, title: "Mock Interview", desc: "Timed exam-style practice with randomized questions, self-scoring, and detailed review.", href: "/newgrad/mock-interview", color: "violet", free: false },
+    { icon: Play, title: "Simulation Sets", desc: `${simulationSetCount} structured walkthroughs organized by skill area with sequential progression.`, href: "/newgrad/simulation-sets", color: "blue", free: false },
+  ];
+
   return (
     <div data-testid="newgrad-hub-page">
       <Navigation />
       <SEO
         title={t("newGrad.hub.seoTitle")}
         description={t("newGrad.hub.seoDescription")}
-        keywords="new grad nurse career hub, new graduate nurse resources, nursing career development, nurse interview prep, nursing resume builder, new nurse first year, nursing salary negotiation, transition to practice nursing, new grad nurse confidence"
+        keywords="new grad nurse career hub, new graduate nurse resources, nursing career development, nurse interview prep, nursing resume builder, new nurse first year, nursing salary negotiation, transition to practice nursing, new grad nurse confidence, mock nursing interview, nursing workplace simulation"
         canonicalPath="/newgrad"
         structuredData={hubStructuredData}
         additionalStructuredData={[faqStructuredData]}
@@ -143,21 +179,21 @@ export default function NewGradHub() {
               {t("newGrad.hub.badge")}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-hero-title">
-              {t("newGrad.hub.heroTitle1")}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{t("newGrad.hub.heroTitle2")}</span>
+              Land Your First Nursing Job with{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Confidence</span>
             </h1>
             <p className="text-lg text-gray-600 mb-4 leading-relaxed" data-testid="text-hero-subtitle">
-              {t("newGrad.hub.heroSubtitle")}
+              Practice real interview questions, build workplace confidence, and prepare for clinical scenarios — everything you need to go from graduation to your first day on the unit.
             </p>
             <p className="text-base text-gray-500 mb-8" data-testid="text-hero-detail">
-              {t("newGrad.hub.heroDetail")}
+              {interviewQuestionCount}+ interview questions · {scenarioCount} workplace simulations · {simulationSetCount} structured practice sets · Timed mock interviews with scoring
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/newgrad/guides" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-guides">
-                {t("newGrad.hub.exploreGuides")} <ArrowRight className="w-4 h-4" />
+              <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-start-practicing">
+                Start Practicing <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/newgrad/survival-guide" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-survival-guide">
-                {t("newGrad.common.survivalGuide")} <ArrowRight className="w-4 h-4" />
+              <Link href="/newgrad/mock-interview" className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition-colors shadow-lg shadow-violet-200" data-testid="button-mock-interview">
+                <Timer className="w-4 h-4" /> Mock Interview
               </Link>
               {!hasNewGradAccess && (
                 <Link href="/newgrad#premium" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-700 rounded-xl font-semibold hover:bg-indigo-50 transition-colors border border-indigo-200" data-testid="button-view-toolkit">
@@ -172,10 +208,108 @@ export default function NewGradHub() {
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div data-testid="stat-guides"><div className="text-2xl font-bold text-gray-900">50+</div><div className="text-sm text-gray-500">{t("newGrad.hub.statGuides")}</div></div>
-            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">40+</div><div className="text-sm text-gray-500">{t("newGrad.hub.statQuestions")}</div></div>
-            <div data-testid="stat-scenarios"><div className="text-2xl font-bold text-gray-900">28</div><div className="text-sm text-gray-500">Workplace Scenarios</div></div>
-            <div data-testid="stat-templates"><div className="text-2xl font-bold text-gray-900">16+</div><div className="text-sm text-gray-500">{t("newGrad.hub.statTemplates")}</div></div>
+            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">{interviewQuestionCount}+</div><div className="text-sm text-gray-500">Interview Questions</div></div>
+            <div data-testid="stat-scenarios"><div className="text-2xl font-bold text-gray-900">{scenarioCount}</div><div className="text-sm text-gray-500">Workplace Scenarios</div></div>
+            <div data-testid="stat-simulations"><div className="text-2xl font-bold text-gray-900">{simulationSetCount}</div><div className="text-sm text-gray-500">Simulation Sets</div></div>
+            <div data-testid="stat-categories"><div className="text-2xl font-bold text-gray-900">{new Set(INTERVIEW_QUESTION_BANK.map(q => q.category)).size}</div><div className="text-sm text-gray-500">Question Categories</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50" data-testid="section-struggles">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What New Nurses Struggle With</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">These are the real challenges new graduates face — and exactly what this practice system is designed to address.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {STRUGGLE_POINTS.map((point, i) => {
+              const PointIcon = point.icon;
+              return (
+                <div key={i} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`card-struggle-${i}`}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
+                      <PointIcon className="w-5 h-5 text-red-500" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">{point.title}</h3>
+                      <p className="text-sm text-gray-500">{point.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16" data-testid="section-prepares-you">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What This Bank Prepares You For</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Build the skills that interviewers and nurse managers are looking for — with practice tools built by experienced nurses.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {PREPARES_YOU.map((item, i) => {
+              const ItemIcon = item.icon;
+              return (
+                <div key={i} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`card-prepares-${i}`}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                      <ItemIcon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
+                      <p className="text-sm text-gray-500">{item.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-br from-blue-50 via-indigo-50/30 to-purple-50/20" data-testid="section-practice-system">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-blue-100 text-blue-700">
+              <Zap className="w-4 h-4" /> Practice System
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">How the Practice System Works</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Four practice modes designed to build your confidence systematically — from browsing questions to full timed interviews.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {PRACTICE_MODES.map((mode, i) => {
+              const ModeIcon = mode.icon;
+              return (
+                <Link key={i} href={mode.href} className="group" data-testid={`card-practice-mode-${i}`}>
+                  <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition-all h-full">
+                    <div className="flex items-start gap-4">
+                      <div className={`w-10 h-10 rounded-lg ${ICON_BG_MAP[mode.color]} flex items-center justify-center shrink-0`}>
+                        <ModeIcon className={`w-5 h-5 ${COLOR_MAP[mode.color].split(' ')[1]}`} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{mode.title}</h3>
+                          {mode.free ? (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">Free preview</span>
+                          ) : (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">Premium</span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-500">{mode.desc}</p>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex justify-end">
+                      <span className="text-xs text-blue-600 font-medium inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Start practicing <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -340,8 +474,12 @@ export default function NewGradHub() {
           <div className="space-y-4">
             {FAQ_DATA.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`card-faq-${i}`}>
-                <h3 className="font-semibold text-gray-900 text-sm mb-2">{t(faq.questionKey)}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{t(faq.answerKey)}</p>
+                <h3 className="font-semibold text-gray-900 text-sm mb-2">
+                  {'questionKey' in faq ? t(faq.questionKey) : faq.question}
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {'answerKey' in faq ? t(faq.answerKey) : faq.answer}
+                </p>
               </div>
             ))}
           </div>
@@ -371,11 +509,11 @@ export default function NewGradHub() {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("newGrad.hub.bottomCtaTitle")}</h2>
           <p className="text-blue-100 mb-8">{t("newGrad.hub.bottomCtaDesc")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/newgrad/guides" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors" data-testid="button-bottom-guides">
-              {t("newGrad.hub.browseFreeGuides")}
+            <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors" data-testid="button-bottom-practice">
+              Start Practicing
             </Link>
-            <Link href="/newgrad/clinical-references" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-bottom-clinical-references">
-              {t("newGrad.common.clinicalReferences")} <ArrowRight className="w-4 h-4" />
+            <Link href="/newgrad/mock-interview" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-bottom-mock">
+              <Timer className="w-4 h-4" /> Mock Interview <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

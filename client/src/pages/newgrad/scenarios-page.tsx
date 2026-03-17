@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
@@ -11,8 +11,17 @@ import {
 import {
   ChevronRight, ChevronDown, ArrowRight, Lock, CheckCircle2,
   Lightbulb, AlertTriangle, Users, ClipboardList, Shield, Target,
-  MessageSquare
+  MessageSquare, Shuffle, BarChart3, Layers
 } from "lucide-react";
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 const CATEGORY_ICONS: Record<string, any> = {
   prioritization: ClipboardList,
@@ -32,13 +41,32 @@ export default function ScenariosPage() {
   const { hasAccess } = useNewGradAccess();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedScenario, setExpandedScenario] = useState<string | null>(null);
+  const [randomMode, setRandomMode] = useState(false);
+  const [randomSeed, setRandomSeed] = useState(0);
+  const [reviewedScenarios, setReviewedScenarios] = useState<Set<string>>(new Set());
+
+  const markReviewed = useCallback((scenarioId: string) => {
+    setReviewedScenarios((prev) => new Set(prev).add(scenarioId));
+  }, []);
+
+  const generateRandomSet = useCallback(() => {
+    setRandomMode(true);
+    setRandomSeed((s) => s + 1);
+    setExpandedScenario(null);
+  }, []);
 
   const filteredScenarios = activeCategory
     ? WORKPLACE_SCENARIOS.filter((s) => s.category === activeCategory)
     : WORKPLACE_SCENARIOS;
 
-  const freeScenarios = filteredScenarios.filter((s) => !s.isPremium);
-  const premiumScenarios = filteredScenarios.filter((s) => s.isPremium);
+  const applyRandom = useMemo(() => {
+    if (!randomMode) return (arr: typeof WORKPLACE_SCENARIOS) => arr;
+    return (arr: typeof WORKPLACE_SCENARIOS) => shuffleArray(arr).slice(0, Math.min(8, arr.length));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [randomMode, randomSeed]);
+
+  const freeScenarios = applyRandom(filteredScenarios.filter((s) => !s.isPremium));
+  const premiumScenarios = applyRandom(filteredScenarios.filter((s) => s.isPremium));
 
   const totalScenarios = WORKPLACE_SCENARIOS.length;
   const totalFree = WORKPLACE_SCENARIOS.filter((s) => !s.isPremium).length;
@@ -90,9 +118,9 @@ export default function ScenariosPage() {
 
       <section className="py-8 bg-white border-b border-gray-100" data-testid="section-categories">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-4">
             <button
-              onClick={() => setActiveCategory(null)}
+              onClick={() => { setActiveCategory(null); setRandomMode(false); }}
               className={`px-4 py-2 text-sm rounded-full font-medium transition-colors ${
                 !activeCategory ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
@@ -105,7 +133,7 @@ export default function ScenariosPage() {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
+                  onClick={() => { setActiveCategory(activeCategory === cat.id ? null : cat.id); setRandomMode(false); }}
                   className={`inline-flex items-center gap-1.5 px-4 py-2 text-sm rounded-full font-medium transition-colors ${
                     activeCategory === cat.id ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
@@ -116,6 +144,36 @@ export default function ScenariosPage() {
                 </button>
               );
             })}
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={generateRandomSet}
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg font-medium bg-teal-100 text-teal-700 hover:bg-teal-200 transition-colors"
+              data-testid="button-random-scenarios"
+            >
+              <Shuffle className="w-3.5 h-3.5" /> Random Set of 8
+            </button>
+            {randomMode && (
+              <button
+                onClick={() => setRandomMode(false)}
+                className="text-sm text-gray-500 hover:text-gray-700"
+                data-testid="button-show-all-scenarios"
+              >
+                Show All
+              </button>
+            )}
+            <Link
+              href="/newgrad/simulation-sets"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg font-medium bg-teal-600 text-white hover:bg-teal-700 transition-colors ml-auto"
+              data-testid="button-simulation-sets"
+            >
+              <Layers className="w-3.5 h-3.5" /> Structured Simulation Sets
+            </Link>
+            {reviewedScenarios.size > 0 && (
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs rounded-full bg-green-50 text-green-600 font-medium" data-testid="badge-scenarios-progress">
+                <BarChart3 className="w-3 h-3" /> {reviewedScenarios.size} reviewed
+              </span>
+            )}
           </div>
         </div>
       </section>
@@ -138,7 +196,7 @@ export default function ScenariosPage() {
                   data-testid={`scenario-${scenario.id}`}
                 >
                   <button
-                    onClick={() => setExpandedScenario(isExpanded ? null : scenario.id)}
+                    onClick={() => { setExpandedScenario(isExpanded ? null : scenario.id); markReviewed(scenario.id); }}
                     className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
                     data-testid={`button-scenario-${scenario.id}`}
                   >
@@ -148,6 +206,9 @@ export default function ScenariosPage() {
                           <CatIcon className="w-3 h-3" />
                           {WORKPLACE_SCENARIO_CATEGORIES.find((c) => c.id === scenario.category)?.label}
                         </span>
+                        {reviewedScenarios.has(scenario.id) && (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                        )}
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                           scenario.difficulty === "beginner" ? "bg-green-50 text-green-600" :
                           scenario.difficulty === "intermediate" ? "bg-yellow-50 text-yellow-600" :
