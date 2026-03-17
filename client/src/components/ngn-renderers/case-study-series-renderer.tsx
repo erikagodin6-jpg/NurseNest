@@ -10,7 +10,8 @@ import type {
   CaseStudySubQuestion,
   NGNUserResponse,
 } from "@/lib/ngn-question-types";
-import { NGNQuestionDispatcher, createDefaultResponse } from "./ngn-question-dispatcher";
+import { NGNQuestionDispatcher } from "./ngn-question-dispatcher";
+import { createDefaultResponse } from "./create-default-response";
 
 interface CaseStudySeriesRendererProps {
   payload: CaseStudySeriesPayload;

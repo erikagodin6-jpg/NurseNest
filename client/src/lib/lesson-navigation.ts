@@ -16,7 +16,7 @@ import {
   rpnSystems,
   rnSystems,
   npSystems,
-} from "@/pages/lessons";
+} from "@/data/lesson-systems";
 import { canonicalDisplayName } from "@/lib/canonical-display";
 
 type LessonNavItem = { id: string; name: string };

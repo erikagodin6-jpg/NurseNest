@@ -40,28 +40,66 @@ function PreviewBanner() {
   );
 }
 
-class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
+}
+
+class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
   constructor(props: { children: ReactNode }) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
   static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("React Error Boundary caught:", error, info);
+    this.setState({ errorInfo: info });
+    const route = typeof window !== "undefined" ? window.location.pathname : "unknown";
+    const fingerprint = `${error.name}:${error.message?.slice(0, 80)}`;
+    console.error(
+      `[ErrorBoundary] Crash on route="${route}" fingerprint="${fingerprint}"`,
+      "\nError:", error,
+      "\nComponent stack:", info.componentStack
+    );
   }
   render() {
     if (this.state.hasError) {
+      const isDev = import.meta.env.DEV;
+      const route = typeof window !== "undefined" ? window.location.pathname : "unknown";
       return (
-        <div style={{ padding: "40px", fontFamily: "sans-serif" }}>
+        <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback">
           <h1 style={{ color: "#dc2626" }}>Something went wrong</h1>
-          <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "13px" }}>
-            {this.state.error?.message}
-            {"\n\n"}
-            {this.state.error?.stack}
-          </pre>
-          <button onClick={() => window.location.reload()} style={{ marginTop: "16px", padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}>
+          {isDev ? (
+            <>
+              <p style={{ color: "#6b7280", marginBottom: "8px" }}>
+                Route: <code>{route}</code>
+              </p>
+              <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "13px", maxHeight: "300px" }}>
+                {this.state.error?.message}
+                {"\n\n"}
+                {this.state.error?.stack}
+              </pre>
+              {this.state.errorInfo?.componentStack && (
+                <details style={{ marginTop: "12px" }}>
+                  <summary style={{ cursor: "pointer", color: "#4b5563", fontSize: "14px" }}>Component Stack</summary>
+                  <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "12px", maxHeight: "200px", marginTop: "8px" }}>
+                    {this.state.errorInfo.componentStack}
+                  </pre>
+                </details>
+              )}
+            </>
+          ) : (
+            <p style={{ color: "#6b7280" }}>
+              An unexpected error occurred. Please try reloading the page.
+            </p>
+          )}
+          <button
+            onClick={() => window.location.reload()}
+            style={{ marginTop: "16px", padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
+            data-testid="button-reload"
+          >
             Reload Page
           </button>
         </div>

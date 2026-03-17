@@ -1,4 +1,4 @@
-import type { LanguageCode } from "./i18n";
+import type { LanguageCode } from "./i18n-types";
 
 const AVAILABLE_LANGS = new Set([
   "fr", "tl", "hi", "es", "zh", "zh-tw", "ar", "ko",

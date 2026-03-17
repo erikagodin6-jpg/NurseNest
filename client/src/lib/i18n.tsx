@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
+import type { LanguageCode } from "./i18n-types";
 
-export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "zh-tw" | "ar" | "ko" | "pt" | "pa" | "vi" | "ht" | "ur" | "ja" | "fa" | "de" | "th" | "tr" | "id";
+export type { LanguageCode } from "./i18n-types";
 
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "\ud83c\uddec\ud83c\udde7" },
