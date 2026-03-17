@@ -787,6 +787,54 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Healthcare Career Explorer | Nursing & Allied Health Pathways | NurseNest",
     description: "Explore healthcare career paths in nursing, paramedicine, respiratory therapy, medical lab science, imaging, social work, and more. Salary data, education requirements, and job outlook.",
   },
+  "/healthcare-careers/registered-nurse": {
+    title: "Registered Nurse (RN) Career Guide | Salary, Education & Outlook | NurseNest",
+    description: "Complete guide to becoming a Registered Nurse. Education pathways, NCLEX-RN licensing, salary ranges ($60K–$120K), work environments, and career advancement opportunities.",
+  },
+  "/healthcare-careers/licensed-practical-nurse": {
+    title: "Licensed Practical Nurse (LPN/LVN) Career Guide | NurseNest",
+    description: "Career guide for Licensed Practical Nurses. Education requirements, NCLEX-PN exam prep, salary data ($40K–$62K), work settings, and advancement pathways.",
+  },
+  "/healthcare-careers/nurse-practitioner": {
+    title: "Nurse Practitioner (NP) Career Guide | Salary & Specializations | NurseNest",
+    description: "Comprehensive NP career guide. Graduate education pathways, certification exams, salary ranges ($90K–$150K), specializations, and prescriptive authority details.",
+  },
+  "/healthcare-careers/respiratory-therapist": {
+    title: "Respiratory Therapist (RRT) Career Guide | NurseNest",
+    description: "Guide to becoming a Respiratory Therapist. NBRC TMC/CSE exams, education requirements, salary ranges ($55K–$95K), and career advancement opportunities.",
+  },
+  "/healthcare-careers/radiologic-technologist": {
+    title: "Radiologic Technologist Career Guide | NurseNest",
+    description: "Career guide for Radiologic Technologists. ARRT certification, education pathways, salary data ($55K–$90K), imaging specializations, and job growth outlook.",
+  },
+  "/healthcare-careers/sonographer": {
+    title: "Diagnostic Medical Sonographer Career Guide | NurseNest",
+    description: "Complete sonographer career guide. ARDMS certification, ultrasound specializations, salary ranges ($60K–$100K), education pathways, and job outlook.",
+  },
+  "/healthcare-careers/physical-therapist-assistant": {
+    title: "Physical Therapist Assistant (PTA) Career Guide | NurseNest",
+    description: "PTA career guide covering education, NPTE-PTA exam, salary ranges ($48K–$72K), work environments, and advancement opportunities in physical therapy.",
+  },
+  "/healthcare-careers/occupational-therapy-assistant": {
+    title: "Occupational Therapy Assistant (OTA) Career Guide | NurseNest",
+    description: "OTA career guide with education pathways, NBCOT-COTA exam details, salary data ($50K–$75K), work settings, and career growth outlook.",
+  },
+  "/healthcare-careers/surgical-technologist": {
+    title: "Surgical Technologist Career Guide | NurseNest",
+    description: "Guide to becoming a Surgical Technologist. NBSTSA certification, education requirements, salary ranges ($45K–$72K), OR specializations, and advancement paths.",
+  },
+  "/healthcare-careers/medical-laboratory-technologist": {
+    title: "Medical Laboratory Technologist (MLT) Career Guide | NurseNest",
+    description: "MLT career guide covering CSMLS/ASCP certification, lab specializations, salary ranges ($50K–$85K), education pathways, and career advancement.",
+  },
+  "/healthcare-careers/paramedic": {
+    title: "Paramedic / EMT Career Guide | NurseNest",
+    description: "Paramedic career guide with NREMT certification details, education pathways, salary ranges ($35K–$65K), work environments, and advancement opportunities.",
+  },
+  "/healthcare-careers/pharmacy-technician": {
+    title: "Pharmacy Technician Career Guide | NurseNest",
+    description: "Pharmacy technician career guide covering PTCB/ExCPT certification, education requirements, salary ranges ($30K–$50K), pharmacy settings, and career growth.",
+  },
   "/guides": {
     title: "Healthcare Career Guides | Complete How-To Guides | NurseNest",
     description: "In-depth healthcare career guides covering nursing, paramedicine, respiratory therapy, medical lab technology, and radiography. Education pathways, certification requirements, and career advice.",
@@ -2039,7 +2087,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/rpn/questions", "/rn/questions", "/np/questions",
   "/conditions/", "/medications/", "/lab-values/",
   "/how-to-become-", "/career-development/", "/new-grad/",
-  "/compare/", "/topics/", "/guides/", "/newgrad/",
+  "/compare/", "/topics/", "/guides/", "/newgrad/", "/healthcare-careers/",
   "/allied-health/", "/flashcards/deck/",
   "/medical-imaging/", "/practice-questions/",
   "/mock-exams/", "/applynest/",

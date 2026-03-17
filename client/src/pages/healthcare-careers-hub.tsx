@@ -3,11 +3,13 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   Award, ArrowRight, ChevronRight, BookOpen, GraduationCap,
   Stethoscope, Wind, Ambulance, Pill, Microscope, Radio,
   Users, Hand, Brain, Briefcase, Heart, TrendingUp,
-  DollarSign, FileText, type LucideIcon
+  DollarSign, FileText, Activity, Syringe, Scan,
+  type LucideIcon
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 interface CareerPath {
   name: string;
   slug: string;
+  detailSlug: string;
   icon: LucideIcon;
   color: string;
   bgColor: string;
@@ -29,6 +32,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Registered Nurse (RN)",
     slug: "nursing-rn",
+    detailSlug: "registered-nurse",
     icon: Stethoscope,
     color: "text-blue-600",
     bgColor: "bg-blue-50",
@@ -45,6 +49,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Practical Nurse (RPN / LPN)",
     slug: "nursing-rpn",
+    detailSlug: "licensed-practical-nurse",
     icon: Heart,
     color: "text-pink-600",
     bgColor: "bg-pink-50",
@@ -60,6 +65,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Nurse Practitioner (NP)",
     slug: "nursing-np",
+    detailSlug: "nurse-practitioner",
     icon: Stethoscope,
     color: "text-indigo-600",
     bgColor: "bg-indigo-50",
@@ -75,6 +81,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Paramedic / EMT",
     slug: "paramedic",
+    detailSlug: "paramedic",
     icon: Ambulance,
     color: "text-red-600",
     bgColor: "bg-red-50",
@@ -90,6 +97,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Respiratory Therapist (RRT)",
     slug: "rrt",
+    detailSlug: "respiratory-therapist",
     icon: Wind,
     color: "text-cyan-600",
     bgColor: "bg-cyan-50",
@@ -105,6 +113,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Medical Laboratory Technologist (MLT)",
     slug: "mlt",
+    detailSlug: "medical-laboratory-technologist",
     icon: Microscope,
     color: "text-teal-600",
     bgColor: "bg-teal-50",
@@ -120,6 +129,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Radiologic Technologist",
     slug: "imaging",
+    detailSlug: "radiologic-technologist",
     icon: Radio,
     color: "text-purple-600",
     bgColor: "bg-purple-50",
@@ -135,6 +145,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Pharmacy Technician",
     slug: "pharmacy-tech",
+    detailSlug: "pharmacy-technician",
     icon: Pill,
     color: "text-orange-600",
     bgColor: "bg-orange-50",
@@ -149,6 +160,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Social Worker",
     slug: "social-work",
+    detailSlug: "",
     icon: Users,
     color: "text-amber-600",
     bgColor: "bg-amber-50",
@@ -163,6 +175,7 @@ const CAREER_PATHS: CareerPath[] = [
   {
     name: "Occupational Therapist",
     slug: "occupational-therapy",
+    detailSlug: "",
     icon: Hand,
     color: "text-green-600",
     bgColor: "bg-green-50",
@@ -172,6 +185,66 @@ const CAREER_PATHS: CareerPath[] = [
     links: [
       { title: "NBCOT Exam Prep", href: "/occupational-therapy-practice-questions" },
       { title: "How to Become an OT", href: "/how-to-become-an-occupational-therapist" },
+    ],
+  },
+  {
+    name: "Diagnostic Medical Sonographer",
+    slug: "sonographer",
+    detailSlug: "sonographer",
+    icon: Scan,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    description: "Use ultrasound equipment to create images of internal body structures. Sonographers specialize in areas like obstetric, cardiac, vascular, and abdominal sonography.",
+    salaryRange: "$60,000 – $100,000",
+    growthOutlook: "10% growth (much faster than average)",
+    links: [
+      { title: "Imaging Exam Prep", href: "/medical-imaging" },
+      { title: "New Grad Imaging Hub", href: "/new-grad/diagnostic-imaging" },
+    ],
+  },
+  {
+    name: "Physical Therapist Assistant (PTA)",
+    slug: "pta",
+    detailSlug: "physical-therapist-assistant",
+    icon: Activity,
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+    description: "Work under the direction of physical therapists to help patients recover from injuries, surgeries, and chronic conditions through therapeutic exercises and interventions.",
+    salaryRange: "$48,000 – $72,000",
+    growthOutlook: "14% growth (much faster than average)",
+    links: [
+      { title: "Allied Health Study Resources", href: "/allied-health" },
+      { title: "New Graduate Support", href: "/new-graduate-support" },
+    ],
+  },
+  {
+    name: "Occupational Therapy Assistant (OTA)",
+    slug: "ota",
+    detailSlug: "occupational-therapy-assistant",
+    icon: Hand,
+    color: "text-lime-600",
+    bgColor: "bg-lime-50",
+    description: "Help patients develop, recover, and improve skills needed for daily living and working through therapeutic activities under the supervision of occupational therapists.",
+    salaryRange: "$50,000 – $75,000",
+    growthOutlook: "24% growth (much faster than average)",
+    links: [
+      { title: "NBCOT Exam Prep", href: "/occupational-therapy-practice-questions" },
+      { title: "How to Become an OT", href: "/how-to-become-an-occupational-therapist" },
+    ],
+  },
+  {
+    name: "Surgical Technologist",
+    slug: "surgical-tech",
+    detailSlug: "surgical-technologist",
+    icon: Syringe,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    description: "Assist in surgical operations by preparing operating rooms, arranging equipment, helping surgeons during procedures, and maintaining sterile environments.",
+    salaryRange: "$45,000 – $72,000",
+    growthOutlook: "5% growth (average)",
+    links: [
+      { title: "Allied Health Study Resources", href: "/allied-health" },
+      { title: "New Graduate Support", href: "/new-graduate-support" },
     ],
   },
 ];
@@ -206,6 +279,7 @@ const collectionStructuredData = {
 };
 
 export default function HealthcareCareersHub() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background" data-testid="healthcare-careers-hub-page">
       <Navigation />
@@ -249,7 +323,7 @@ export default function HealthcareCareersHub() {
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-career-paths">
-                <p className="text-lg sm:text-xl font-bold text-gray-900">10+</p>
+                <p className="text-lg sm:text-xl font-bold text-gray-900">14</p>
                 <p className="text-xs text-slate-500 mt-1">Career Paths</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-salary-range">
@@ -257,7 +331,7 @@ export default function HealthcareCareersHub() {
                 <p className="text-xs text-slate-500 mt-1">Salary Range</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-career-guides">
-                <p className="text-lg sm:text-xl font-bold text-gray-900">9</p>
+                <p className="text-lg sm:text-xl font-bold text-gray-900">12</p>
                 <p className="text-xs text-slate-500 mt-1">Career Guides</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-job-growth">
@@ -346,6 +420,14 @@ export default function HealthcareCareersHub() {
                           </span>
                         </div>
                         <div className="flex flex-wrap gap-2">
+                          {career.detailSlug && (
+                            <LocaleLink href={`/healthcare-careers/${career.detailSlug}`}>
+                              <span className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors cursor-pointer" data-testid={`link-career-guide-${career.slug}`}>
+                                {t("careerGuide.viewFullGuide")}
+                                <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </LocaleLink>
+                          )}
                           {career.links.map((link, idx) => (
                             <LocaleLink key={idx} href={link.href}>
                               <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-purple-100 hover:text-purple-700 transition-colors cursor-pointer" data-testid={`link-career-${career.slug}-${idx}`}>

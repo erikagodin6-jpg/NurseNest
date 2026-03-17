@@ -404,6 +404,7 @@ const ClusterGuidePage = lazy(() => import("@/pages/cluster-guide-page"));
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
+const HealthcareCareerDetail = lazy(() => import("@/pages/healthcare-career-detail"));
 const GenericCareerJourney = lazy(() => import("@/pages/career-journey"));
 const ProfessionCareerJourney = lazy(() => import("@/pages/career-journey").then(m => ({ default: m.ProfessionCareerJourney })));
 const NclexReadinessScore = lazy(() => import("@/pages/nclex-readiness-score"));
@@ -667,6 +668,7 @@ function AppRoutes() {
         <Route path="/exam-prep" component={ExamPrepHub} />
         <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
         <Route path="/healthcare-careers" component={HealthcareCareersHub} />
+        <Route path="/healthcare-careers/:slug" component={HealthcareCareerDetail} />
         <Route path="/career-guides/how-to-become-an-icu-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-an-icu-nurse" />}</Route>
         <Route path="/career-guides/how-to-become-an-er-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-an-er-nurse" />}</Route>
         <Route path="/career-guides/how-to-become-a-pediatric-nurse">{() => <SeoLandingBySlug slug="career-guides/how-to-become-a-pediatric-nurse" />}</Route>
