@@ -240,7 +240,7 @@ function ValueTable({ headers, rows }: { headers: string[]; rows: string[][] }) 
   );
 }
 
-function StudyGuidePageWrapper({ guide, children }: { guide: StudyGuideDef; children: React.ReactNode }) {
+function StudyGuidePageWrapper({ guide, faqs, children }: { guide: StudyGuideDef; faqs: { question: string; answer: string }[]; children: React.ReactNode }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -263,6 +263,7 @@ function StudyGuidePageWrapper({ guide, children }: { guide: StudyGuideDef; chil
         keywords={guide.keywords}
         canonicalPath={`/nursing-study-guides/${guide.slug}`}
         structuredData={structuredData}
+        additionalStructuredData={[buildFaqStructuredData(faqs)]}
       />
       <Navigation />
       <main className="min-h-screen bg-white dark:bg-gray-950">
@@ -282,11 +283,24 @@ function StudyGuidePageWrapper({ guide, children }: { guide: StudyGuideDef; chil
           </div>
           <p className="text-gray-600 dark:text-gray-400 mb-8">{guide.description}</p>
           {children}
+
+          <div className="mt-12">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
+              ))}
+            </div>
+          </div>
+
           <div className="mt-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6">
             <h3 className="font-bold text-gray-900 dark:text-white mb-3">Continue Your Study</h3>
             <div className="flex flex-wrap gap-3">
               <LocaleLink href="/question-bank" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700" data-testid="link-practice-questions">
                 <Target className="w-4 h-4" /> Practice Questions
+              </LocaleLink>
+              <LocaleLink href="/nursing-clinical-scenarios" className="inline-flex items-center gap-2 bg-white dark:bg-gray-800 text-emerald-600 border border-emerald-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-50" data-testid="link-clinical-scenarios">
+                <GraduationCap className="w-4 h-4" /> Clinical Scenarios
               </LocaleLink>
               <LocaleLink href="/flashcards" className="inline-flex items-center gap-2 bg-white dark:bg-gray-800 text-emerald-600 border border-emerald-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-50" data-testid="link-flashcards">
                 <FileText className="w-4 h-4" /> Flashcards
@@ -304,8 +318,13 @@ function StudyGuidePageWrapper({ guide, children }: { guide: StudyGuideDef; chil
 
 function ElectrolytesGuide() {
   const guide = STUDY_GUIDES.find(g => g.slug === "electrolytes-nursing-guide")!;
+  const faqs = [
+    { question: "Which electrolyte is most commonly tested on the NCLEX?", answer: "Potassium is the most commonly tested electrolyte on the NCLEX. You must know the normal range (3.5–5.0 mEq/L), that IV potassium must never be pushed (it causes cardiac arrest), and the ECG changes associated with hypo- and hyperkalemia." },
+    { question: "How do I remember the difference between SIADH and diabetes insipidus?", answer: "SIADH = too much ADH = water retention = dilutional hyponatremia (low sodium, concentrated urine). Diabetes insipidus = too little ADH = water loss = hypernatremia (high sodium, dilute urine). Remember: 'Water follows sodium' — sodium problems are often water problems." },
+    { question: "What is the relationship between calcium and phosphorus?", answer: "Calcium and phosphorus have an inverse (reciprocal) relationship. When calcium goes up, phosphorus goes down, and vice versa. This is important in renal failure, where phosphorus rises and calcium falls, leading to bone disease and cardiac complications." },
+  ];
   return (
-    <StudyGuidePageWrapper guide={guide}>
+    <StudyGuidePageWrapper guide={guide} faqs={faqs}>
       <Section title="Overview of Electrolytes in Nursing">
         <p>Electrolyte imbalances are among the most commonly tested topics on nursing licensing exams. Understanding normal ranges, clinical manifestations, and appropriate nursing interventions is essential for both exam success and safe clinical practice. Electrolytes are minerals that carry an electrical charge and are essential for nerve conduction, muscle contraction, fluid balance, and acid-base regulation.</p>
         <KeyPoint><strong>Key principle:</strong> Electrolyte imbalances rarely occur in isolation. Hypokalemia often accompanies hypomagnesemia, and correcting the underlying cause is as important as treating the lab value.</KeyPoint>
@@ -345,8 +364,13 @@ function ElectrolytesGuide() {
 
 function AcidBaseGuide() {
   const guide = STUDY_GUIDES.find(g => g.slug === "acid-base-disorders-study-guide")!;
+  const faqs = [
+    { question: "What is the fastest way to interpret ABGs on the NCLEX?", answer: "Use the ROME mnemonic: Respiratory = Opposite (pH and CO₂ move in opposite directions), Metabolic = Equal (pH and HCO₃ move in the same direction). Step 1: Look at pH (acidosis or alkalosis). Step 2: Check which value (CO₂ or HCO₃) explains the pH change — that is the primary disorder. Step 3: Check if the other value is compensating." },
+    { question: "What is the difference between compensated and uncompensated acid-base disorders?", answer: "Uncompensated: pH is abnormal, and only one system (respiratory or metabolic) is abnormal. Partially compensated: pH is still abnormal, but both systems are abnormal (the body is trying to correct). Fully compensated: pH is normal, but both CO₂ and HCO₃ are abnormal — look at which side of 7.40 the pH falls to determine the primary disorder." },
+    { question: "Why does vomiting cause alkalosis but diarrhea causes acidosis?", answer: "Vomiting removes hydrochloric acid (HCl) from the stomach, causing a loss of acid and resulting in metabolic alkalosis. Diarrhea removes bicarbonate-rich intestinal secretions, causing a loss of base and resulting in metabolic acidosis. This is one of the most commonly tested distinctions on the NCLEX." },
+  ];
   return (
-    <StudyGuidePageWrapper guide={guide}>
+    <StudyGuidePageWrapper guide={guide} faqs={faqs}>
       <Section title="Understanding Acid-Base Balance">
         <p>The body maintains blood pH between 7.35 and 7.45 through three buffering systems: the bicarbonate buffer system, the respiratory system (lungs), and the renal system (kidneys). Disruptions to this balance result in four primary acid-base disorders that nurses must recognize and manage.</p>
         <ValueTable headers={["ABG Component", "Normal Range", "Interpretation"]} rows={[
@@ -396,8 +420,13 @@ function AcidBaseGuide() {
 
 function ECGGuide() {
   const guide = STUDY_GUIDES.find(g => g.slug === "ecg-interpretation-study-guide")!;
+  const faqs = [
+    { question: "What cardiac rhythms must I recognize for the NCLEX?", answer: "You must recognize lethal rhythms: ventricular fibrillation (immediate defibrillation), pulseless ventricular tachycardia (defibrillation), asystole (CPR + epinephrine), and PEA (CPR + treat cause). You should also know atrial fibrillation (irregularly irregular, stroke risk), heart blocks (especially Type II and third-degree), and normal sinus rhythm." },
+    { question: "How do I quickly calculate heart rate on an ECG strip?", answer: "Use the '300 method': count the number of large boxes between two consecutive R waves, then divide 300 by that number. For example, 4 large boxes between R waves = 300 ÷ 4 = 75 bpm. For irregular rhythms, count the number of R waves in a 6-second strip and multiply by 10." },
+    { question: "What is the difference between a shockable and non-shockable rhythm?", answer: "Shockable rhythms (treat with defibrillation): ventricular fibrillation and pulseless ventricular tachycardia. Non-shockable rhythms (treat with CPR and medications): asystole and pulseless electrical activity (PEA). This distinction is critical for ACLS algorithms and is frequently tested on nursing exams." },
+  ];
   return (
-    <StudyGuidePageWrapper guide={guide}>
+    <StudyGuidePageWrapper guide={guide} faqs={faqs}>
       <Section title="Systematic ECG Interpretation Approach">
         <p>Consistent ECG analysis requires a systematic approach. Use the same sequence every time to avoid missing critical findings. The recommended approach: Rate → Rhythm → P waves → PR interval → QRS complex → ST segment → T waves.</p>
         <ValueTable headers={["Component", "Normal Value", "What It Represents"]} rows={[
@@ -444,8 +473,13 @@ function ECGGuide() {
 
 function FluidBalanceGuide() {
   const guide = STUDY_GUIDES.find(g => g.slug === "fluid-electrolyte-balance-guide")!;
+  const faqs = [
+    { question: "What is the most accurate way to assess fluid status?", answer: "Daily weights are the most accurate indicator of fluid status changes. A gain of 1 kg (2.2 lbs) equals approximately 1 liter of fluid retention. Always weigh the patient at the same time of day, on the same scale, with similar clothing. I&O monitoring is also important but less precise." },
+    { question: "When should I use isotonic vs hypotonic vs hypertonic IV fluids?", answer: "Isotonic (0.9% NS, LR): volume resuscitation, dehydration, hemorrhage — stays in ECF. Hypotonic (0.45% NS): cellular dehydration, hypernatremia — shifts water into cells. Hypertonic (3% saline): severe hyponatremia, cerebral edema — pulls water from cells into ECF. Never give hypotonic fluids to patients with increased ICP." },
+    { question: "What is third-spacing and why is it clinically significant?", answer: "Third-spacing is the shift of fluid from the intravascular space into non-functional compartments (peritoneal cavity, pleural space, interstitial tissue). It occurs in burns, sepsis, liver failure, and post-surgical states. The patient may be intravascularly depleted (hypotensive, tachycardic) while appearing edematous — this is why assessment is critical." },
+  ];
   return (
-    <StudyGuidePageWrapper guide={guide}>
+    <StudyGuidePageWrapper guide={guide} faqs={faqs}>
       <Section title="Fluid Compartments and Distribution">
         <p>Total body water comprises approximately 60% of body weight in adults (less in elderly and obese patients). This water is distributed between two main compartments: intracellular fluid (ICF, about 2/3) and extracellular fluid (ECF, about 1/3). The ECF is further divided into intravascular (plasma) and interstitial (between cells) compartments.</p>
         <ValueTable headers={["Compartment", "Percentage of Body Water", "Clinical Significance"]} rows={[
@@ -482,8 +516,13 @@ function FluidBalanceGuide() {
 
 function CriticalLabValuesGuide() {
   const guide = STUDY_GUIDES.find(g => g.slug === "critical-lab-values-guide")!;
+  const faqs = [
+    { question: "What are the most important critical lab values for nursing exams?", answer: "The most commonly tested critical values are: potassium (< 2.5 or > 6.5 mEq/L), glucose (< 50 or > 400 mg/dL), hemoglobin (< 7 g/dL), platelets (< 50,000/μL), INR (> 4.5), troponin (> 0.4 ng/mL), and lactate (> 4.0 mmol/L). Know the nursing actions for each." },
+    { question: "What should a nurse do immediately when receiving a critical lab value?", answer: "Follow these steps: (1) Verify the result (repeat if questionable), (2) Assess the patient for related symptoms, (3) Notify the provider using SBAR communication, (4) Implement standing orders or provider-directed interventions, (5) Document the time of notification, provider response, and actions taken." },
+    { question: "What is the difference between a critical value and an abnormal value?", answer: "An abnormal value falls outside the normal reference range but may not require immediate action. A critical (panic) value is so far outside normal that it poses an immediate threat to patient safety and requires urgent notification and intervention. For example, potassium of 5.2 is abnormal but potassium of 6.8 is critical." },
+  ];
   return (
-    <StudyGuidePageWrapper guide={guide}>
+    <StudyGuidePageWrapper guide={guide} faqs={faqs}>
       <Section title="Understanding Critical Lab Values">
         <p>Critical (or "panic") lab values are results that fall outside the normal range to a degree that poses an immediate threat to patient safety. When a critical value is identified, the laboratory must notify the nurse or provider immediately, and the nurse must take appropriate action. Failure to act on critical lab values is a common cause of adverse patient outcomes.</p>
         <KeyPoint><strong>Nursing responsibility:</strong> When you receive a critical lab value, you must: (1) verify the result, (2) assess the patient, (3) notify the provider, (4) implement interventions, and (5) document the communication and actions taken.</KeyPoint>

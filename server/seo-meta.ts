@@ -243,6 +243,35 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const clinicalCalcMatch = pathname.match(/^\/clinical-calculators\/(.+)$/);
+  if (clinicalCalcMatch) {
+    crumbs.push({ name: "Clinical Calculators", url: `${SITE_BASE}/clinical-calculators` });
+    crumbs.push({ name: slugToTitle(clinicalCalcMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+  if (pathname === "/clinical-calculators") {
+    crumbs.push({ name: "Clinical Calculators", url: `${SITE_BASE}/clinical-calculators` });
+    return crumbs;
+  }
+
+  const studyGuideMatch = pathname.match(/^\/nursing-study-guides\/(.+)$/);
+  if (studyGuideMatch) {
+    crumbs.push({ name: "Nursing Study Guides", url: `${SITE_BASE}/nursing-study-guides` });
+    crumbs.push({ name: slugToTitle(studyGuideMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+  if (pathname === "/nursing-study-guides") {
+    crumbs.push({ name: "Nursing Study Guides", url: `${SITE_BASE}/nursing-study-guides` });
+    return crumbs;
+  }
+
+  const clinicalScenarioMatch = pathname.match(/^\/nursing-clinical-scenarios\/(.+)$/);
+  if (clinicalScenarioMatch) {
+    crumbs.push({ name: "Clinical Scenarios", url: `${SITE_BASE}/nursing-clinical-scenarios` });
+    crumbs.push({ name: slugToTitle(clinicalScenarioMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   const perioperativePages: Record<string, string> = {
     "/preoperative-care": "Preoperative Care",
     "/preoperative-nursing-guide": "Preoperative Nursing Guide",
@@ -448,6 +477,62 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/medication-mastery": {
     title: "Medication Mastery - Drug Mechanisms & Safety | NurseNest",
     description: "Explore medication mechanisms of action at the receptor level. Pharmacology mastery for nursing students with safety considerations.",
+  },
+  "/clinical-calculators": {
+    title: "Clinical Calculators — Free Nursing & Medical Calculators | NurseNest",
+    description: "Free interactive clinical calculators for nursing students and healthcare professionals. Anion gap, IV drip rate, BSA, pediatric dose, ABG interpreter, GFR, and BMI calculators with clinical interpretation and exam tips.",
+  },
+  "/clinical-calculators/anion-gap": {
+    title: "Anion Gap Calculator — Metabolic Acidosis Workup | NurseNest",
+    description: "Calculate anion gap from sodium, chloride, and bicarbonate values. Includes clinical interpretation for metabolic acidosis, MUDPILES mnemonic, and nursing exam tips.",
+  },
+  "/clinical-calculators/iv-drip-rate": {
+    title: "IV Drip Rate Calculator — gtt/min & mL/hr | NurseNest",
+    description: "Calculate IV drip rates in gtt/min and mL/hr. Includes drop factor selection, clinical safety checks, and nursing med math exam tips for NCLEX preparation.",
+  },
+  "/clinical-calculators/body-surface-area": {
+    title: "Body Surface Area (BSA) Calculator — Mosteller & Du Bois | NurseNest",
+    description: "Calculate body surface area using Mosteller and Du Bois formulas. Used for chemotherapy dosing, burn assessment, and cardiac index calculations in nursing practice.",
+  },
+  "/clinical-calculators/pediatric-dose": {
+    title: "Pediatric Medication Dose Calculator — mg/kg Dosing | NurseNest",
+    description: "Calculate weight-based pediatric medication doses in mg/kg. Includes safety range checking, maximum dose alerts, and nursing exam tips for medication administration.",
+  },
+  "/clinical-calculators/abg-interpretation": {
+    title: "ABG Interpretation Helper — Arterial Blood Gas Analyzer | NurseNest",
+    description: "Interpret arterial blood gas results with step-by-step analysis. Identifies acid-base disorders, compensation status, and oxygenation assessment for nursing students.",
+  },
+  "/clinical-calculators/gfr-calculator": {
+    title: "GFR Calculator — CKD-EPI Glomerular Filtration Rate | NurseNest",
+    description: "Calculate estimated GFR using the CKD-EPI equation. Includes CKD staging, clinical interpretation, medication dosing implications, and nursing assessment pearls.",
+  },
+  "/clinical-calculators/bmi-calculator": {
+    title: "BMI Calculator — Body Mass Index for Nursing Assessment | NurseNest",
+    description: "Calculate BMI from height and weight in metric or imperial units. Includes WHO classification, clinical nursing considerations, and health assessment context.",
+  },
+  "/nursing-study-guides": {
+    title: "Nursing Study Guides — Comprehensive Exam Prep Resources | NurseNest",
+    description: "Free cornerstone nursing study guides for exam preparation. Electrolytes, acid-base disorders, ECG interpretation, fluid balance, and critical lab values — deep educational content with exam tips.",
+  },
+  "/nursing-study-guides/electrolytes-nursing-guide": {
+    title: "Electrolytes for Nursing Exams — Complete Study Guide | NurseNest",
+    description: "Master electrolyte imbalances for NCLEX and nursing exams. Sodium, potassium, calcium, magnesium, and phosphorus — normal values, clinical signs, nursing interventions, and exam-style questions.",
+  },
+  "/nursing-study-guides/acid-base-disorders-study-guide": {
+    title: "Acid-Base Disorders — Nursing Study Guide | NurseNest",
+    description: "Comprehensive acid-base disorders study guide for nursing students. Respiratory and metabolic acidosis/alkalosis, ABG interpretation, compensation, and clinical nursing interventions.",
+  },
+  "/nursing-study-guides/ecg-interpretation-study-guide": {
+    title: "ECG Interpretation — Cardiac Rhythm Study Guide for Nurses | NurseNest",
+    description: "Learn ECG interpretation for nursing exams. Normal sinus rhythm, atrial fibrillation, heart blocks, STEMI, and lethal rhythms — systematic approach with clinical nursing actions.",
+  },
+  "/nursing-study-guides/fluid-electrolyte-balance-guide": {
+    title: "Fluid and Electrolyte Balance — Nursing Study Guide | NurseNest",
+    description: "Master fluid and electrolyte balance for nursing exams. Isotonic, hypotonic, and hypertonic solutions, fluid volume deficit and excess, IV fluid selection, and clinical nursing management.",
+  },
+  "/nursing-study-guides/critical-lab-values-guide": {
+    title: "Critical Lab Values — Nursing Reference Study Guide | NurseNest",
+    description: "Essential critical lab values every nurse must know. Potassium, sodium, glucose, troponin, INR, hemoglobin, and more — critical ranges, nursing actions, and NCLEX exam tips.",
   },
   "/shop": {
     title: "Nursing Study Guides & Cram Booklets | NurseNest Store",
