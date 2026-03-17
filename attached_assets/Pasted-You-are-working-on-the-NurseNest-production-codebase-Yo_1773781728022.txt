@@ -1,0 +1,124 @@
+You are working on the NurseNest production codebase.
+
+Your task is to perform a FULL SEO CTR + TRAFFIC OPTIMIZATION based on Google Search Console data.
+
+We are getting impressions but low clicks.
+
+GOAL:
+Increase CTR, clicks, and conversions WITHOUT breaking existing content.
+
+-------------------------------------
+PHASE 1 — QUERY-BASED PAGE CREATION
+-------------------------------------
+
+For each high-impression query, create a dedicated SEO page.
+
+PRIORITY QUERIES:
+
+• hyperkalemia physiology of the heart
+• hyperkalemia and hypokalemia effects on the heart
+• how does hyperkalemia affect the heart
+• barrel chest COPD
+
+Create pages:
+
+/hyperkalemia-effects-on-heart
+/hyperkalemia-vs-hypokalemia-heart
+/barrel-chest-copd-explained
+
+-------------------------------------
+PHASE 2 — TITLE OPTIMIZATION
+-------------------------------------
+
+Each page must have a HIGH-CTR title:
+
+Examples:
+
+“Hyperkalemia Effects on the Heart (ECG Changes + NCLEX Tips)”
+
+“Hyperkalemia vs Hypokalemia (Key Cardiac Differences Explained)”
+
+“Barrel Chest in COPD (Causes, Pathophysiology, and Exam Tips)”
+
+-------------------------------------
+PHASE 3 — META DESCRIPTION
+-------------------------------------
+
+Include:
+
+• clear explanation
+• clinical relevance
+• exam prep hook
+
+Example:
+
+“Learn how hyperkalemia affects the heart, including ECG changes, clinical symptoms, and NCLEX-style practice questions with rationales.”
+
+-------------------------------------
+PHASE 4 — CONTENT STRUCTURE
+-------------------------------------
+
+Each page must include:
+
+• definition
+• pathophysiology
+• cardiac effects
+• ECG changes (if relevant)
+• symptoms
+• nursing/clinical implications
+• exam tips
+• comparison tables (if applicable)
+
+-------------------------------------
+PHASE 5 — QUESTION INTEGRATION
+-------------------------------------
+
+Add:
+
+• 3–5 free questions
+• full rationales
+
+CTA:
+“Unlock full question bank”
+
+-------------------------------------
+PHASE 6 — INTERNAL LINKING
+-------------------------------------
+
+Link to:
+
+• related electrolytes
+• cardiac topics
+• NCLEX question banks
+
+-------------------------------------
+PHASE 7 — FEATURED SNIPPET OPTIMIZATION
+-------------------------------------
+
+Add:
+
+• short answer paragraph at top
+• bullet summaries
+• FAQ section
+
+-------------------------------------
+PHASE 8 — PERFORMANCE + INDEXING
+-------------------------------------
+
+Ensure:
+
+• pages are in sitemap
+• no duplicate content
+• fast load speed
+• mobile optimized
+
+-------------------------------------
+SUCCESS CRITERIA
+-------------------------------------
+
+• pages match search intent exactly
+• titles are highly clickable
+• content is structured for Google snippets
+• questions drive engagement
+• internal linking improves ranking
+• CTR increases within 2–4 weeks
