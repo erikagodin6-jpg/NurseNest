@@ -48,27 +48,48 @@ Block generation if domain distribution is not within +-3%.
 FORMAT DISTRIBUTION:
 {{formatDistBlock}}
 
+FORMAT-SPECIFIC RULES:
+- For RN/NCLEX questions: Emphasize BOWTIE, CASE_STUDY_SERIES, prioritization, and TREND formats aligned with the NCSBN Clinical Judgment Model.
+- For NP questions: Emphasize CASE_STUDY_SERIES, TREND, BOWTIE, and LAB_INTERPRETATION formats for diagnostic reasoning and prescribing.
+
 CONTENT RULES:
 {{regionRules}}
 
 OUTPUT FORMAT:
-Return a JSON array of objects with these fields:
-{
-  "questionId": "AUTO_INCREMENT",
-  "questionType": "",
-  "clientNeedDomain": "",
-  "subCategory": "",
-  "difficulty": 1-5,
-  "stem": "",
-  "scenario": "",
-  "options": [],
-  "correctAnswer": {},
-  "rationale": "",
-  "clinicalPearls": [],
-  "tags": [],
-  "labReference": "{{labRef}}",
-  "blueprintValidated": true
-}
+Return a JSON array of objects. Use the appropriate schema per questionType:
+
+For MCQ/SATA:
+{ "questionId": "AUTO_INCREMENT", "questionType": "MCQ"|"SATA", "clientNeedDomain": "", "subCategory": "", "difficulty": 1-5, "stem": "", "scenario": "", "options": [{"text": "", "label": "A"}], "correctAnswer": {"selected": ["A"]}, "rationale": "", "clinicalPearls": [], "tags": [], "labReference": "{{labRef}}", "blueprintValidated": true }
+
+For BOWTIE:
+{ "questionType": "BOWTIE", "stem": "", "scenario": "", "columns": {"actions": [{"id":"a1","text":""}], "parameters": [{"id":"p1","text":""}], "conditions": [{"id":"c1","text":""}]}, "correctAnswer": {"actions": ["a1"], "parameters": ["p1"], "conditions": ["c1"]}, ... }
+
+For CASE_STUDY_SERIES:
+{ "questionType": "CASE_STUDY_SERIES", "stem": "", "scenario": "", "phases": [{"phaseLabel": "Phase 1", "narrative": "", "questions": [{"stem": "", "options": [{"text":"","label":"A"}], "correctAnswer": {"selected": ["A"]}}]}], "rationale": "", ... }
+
+For MATRIX:
+{ "questionType": "MATRIX", "stem": "", "scenario": "", "rows": [{"label": ""}], "columns": [{"label": ""}], "correctAnswer": {"selections": {"row0": "col1"}}, "rationale": "", ... }
+
+For TREND:
+{ "questionType": "TREND", "stem": "", "scenario": "", "trendData": [{"time": "", "value": "", "label": ""}], "options": [{"text":"","label":"A"}], "correctAnswer": {"selected": ["A"]}, "rationale": "", ... }
+
+For DRAG_DROP:
+{ "questionType": "DRAG_DROP", "stem": "", "scenario": "", "draggableItems": [{"id":"d1","text":""}], "dropZones": [{"id":"z1","label":""}], "correctAnswer": {"placements": {"z1": ["d1"]}}, "rationale": "", ... }
+
+For HIGHLIGHT_TEXT:
+{ "questionType": "HIGHLIGHT_TEXT", "stem": "", "passage": "", "correctAnswer": {"highlightedSegments": [{"start":0,"end":10,"text":""}]}, "rationale": "", ... }
+
+For LAB_INTERPRETATION:
+{ "questionType": "LAB_INTERPRETATION", "stem": "", "scenario": "", "labValues": [{"test": "", "value": "", "unit": "", "normalRange": "", "flag": "normal"|"high"|"low"|"critical"}], "options": [{"text":"","label":"A"}], "correctAnswer": {"selected": ["A"]}, "rationale": "", ... }
+
+For IMAGE_HOTSPOT:
+{ "questionType": "IMAGE_HOTSPOT", "stem": "", "scenario": "", "imageUrl": "", "imageDescription": "", "hotspots": [{"id":"h1","x":0,"y":0,"width":50,"height":50,"label":""}], "correctAnswer": {"selectedHotspots": ["h1"]}, "rationale": "", ... }
+
+For CALCULATION_NUMERIC:
+{ "questionType": "CALCULATION_NUMERIC", "stem": "", "scenario": "", "formula": "", "givenValues": [{"label":"","value":"","unit":""}], "correctAnswer": {"numericValue": 0, "unit": "", "tolerance": 0.01}, "rationale": "", ... }
+
+For MATCHING_GRID:
+{ "questionType": "MATCHING_GRID", "stem": "", "scenario": "", "leftItems": [{"id":"l1","text":""}], "rightItems": [{"id":"r1","text":""}], "correctAnswer": {"matches": {"l1":"r1"}}, "rationale": "", ... }
 
 Each rationale must be minimum {{rationaleMinWords}} words.
 Return ONLY valid JSON array. No commentary, no markdown.`,
@@ -85,18 +106,20 @@ Return ONLY valid JSON array. No commentary, no markdown.`,
           "Physiological Integrity": [0.38, 0.62],
         },
         requiredTypeMix: {
-          CASE_CLUSTER: 4,
-          BOWTIE: 2,
-          MATRIX_MULTI: 2,
-          MATRIX_SINGLE: 2,
-          HIGHLIGHT_TEXT: 2,
-          DROPDOWN_CLOZE: 2,
-          DRAG_DROP_CLOZE: 2,
+          MCQ: 10,
           SATA: 4,
-          MCQ: 5,
+          BOWTIE: 2,
+          CASE_STUDY_SERIES: 2,
+          MATRIX: 1,
+          TREND: 1,
+          DRAG_DROP: 1,
+          HIGHLIGHT_TEXT: 1,
+          LAB_INTERPRETATION: 1,
+          CALCULATION_NUMERIC: 1,
+          MATCHING_GRID: 1,
         },
         formatRules: {
-          allowed: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE", "DRAG_DROP_CLOZE", "SATA", "MCQ", "CASE_CLUSTER"],
+          allowed: ["MCQ", "SATA", "BOWTIE", "CASE_STUDY_SERIES", "MATRIX", "TREND", "DRAG_DROP", "HIGHLIGHT_TEXT", "LAB_INTERPRETATION", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID"],
         },
       },
       {
@@ -110,8 +133,8 @@ Return ONLY valid JSON array. No commentary, no markdown.`,
           "Psychosocial Integrity": [0.06, 0.12],
           "Physiological Integrity": [0.38, 0.62],
         },
-        requiredTypeMix: { CASE_CLUSTER: 4, BOWTIE: 2, MATRIX_MULTI: 2, SATA: 4, MCQ: 5, HIGHLIGHT_TEXT: 2, DROPDOWN_CLOZE: 2, DRAG_DROP_CLOZE: 2, MATRIX_SINGLE: 2 },
-        formatRules: { allowed: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE", "DRAG_DROP_CLOZE", "SATA", "MCQ", "CASE_CLUSTER"] },
+        requiredTypeMix: { MCQ: 10, SATA: 4, BOWTIE: 2, CASE_STUDY_SERIES: 2, MATRIX: 1, TREND: 1, DRAG_DROP: 1, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 1, CALCULATION_NUMERIC: 1, MATCHING_GRID: 1 },
+        formatRules: { allowed: ["MCQ", "SATA", "BOWTIE", "CASE_STUDY_SERIES", "MATRIX", "TREND", "DRAG_DROP", "HIGHLIGHT_TEXT", "LAB_INTERPRETATION", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID"] },
       },
       {
         variantKey: "nclexpn_us",
@@ -124,8 +147,8 @@ Return ONLY valid JSON array. No commentary, no markdown.`,
           "Psychosocial Integrity": [0.06, 0.12],
           "Physiological Integrity": [0.38, 0.62],
         },
-        requiredTypeMix: { CASE_CLUSTER: 4, BOWTIE: 2, MATRIX_MULTI: 2, SATA: 4, MCQ: 5, HIGHLIGHT_TEXT: 2, DROPDOWN_CLOZE: 2, DRAG_DROP_CLOZE: 2, MATRIX_SINGLE: 2 },
-        formatRules: { allowed: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE", "DRAG_DROP_CLOZE", "SATA", "MCQ", "CASE_CLUSTER"] },
+        requiredTypeMix: { MCQ: 10, SATA: 4, BOWTIE: 2, CASE_STUDY_SERIES: 2, MATRIX: 1, TREND: 1, DRAG_DROP: 1, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 1, CALCULATION_NUMERIC: 1, MATCHING_GRID: 1 },
+        formatRules: { allowed: ["MCQ", "SATA", "BOWTIE", "CASE_STUDY_SERIES", "MATRIX", "TREND", "DRAG_DROP", "HIGHLIGHT_TEXT", "LAB_INTERPRETATION", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID"] },
       },
       {
         variantKey: "nclexrn_us",
@@ -138,8 +161,8 @@ Return ONLY valid JSON array. No commentary, no markdown.`,
           "Psychosocial Integrity": [0.06, 0.12],
           "Physiological Integrity": [0.38, 0.62],
         },
-        requiredTypeMix: { CASE_CLUSTER: 4, BOWTIE: 2, MATRIX_MULTI: 2, SATA: 4, MCQ: 5, HIGHLIGHT_TEXT: 2, DROPDOWN_CLOZE: 2, DRAG_DROP_CLOZE: 2, MATRIX_SINGLE: 2 },
-        formatRules: { allowed: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE", "DRAG_DROP_CLOZE", "SATA", "MCQ", "CASE_CLUSTER"] },
+        requiredTypeMix: { MCQ: 10, SATA: 4, BOWTIE: 2, CASE_STUDY_SERIES: 2, MATRIX: 1, TREND: 1, DRAG_DROP: 1, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 1, CALCULATION_NUMERIC: 1, MATCHING_GRID: 1 },
+        formatRules: { allowed: ["MCQ", "SATA", "BOWTIE", "CASE_STUDY_SERIES", "MATRIX", "TREND", "DRAG_DROP", "HIGHLIGHT_TEXT", "LAB_INTERPRETATION", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID"] },
       },
       {
         variantKey: "nclexrn_can",
@@ -152,8 +175,8 @@ Return ONLY valid JSON array. No commentary, no markdown.`,
           "Psychosocial Integrity": [0.06, 0.12],
           "Physiological Integrity": [0.38, 0.62],
         },
-        requiredTypeMix: { CASE_CLUSTER: 4, BOWTIE: 2, MATRIX_MULTI: 2, SATA: 4, MCQ: 5, HIGHLIGHT_TEXT: 2, DROPDOWN_CLOZE: 2, DRAG_DROP_CLOZE: 2, MATRIX_SINGLE: 2 },
-        formatRules: { allowed: ["BOWTIE", "MATRIX_SINGLE", "MATRIX_MULTI", "HIGHLIGHT_TEXT", "DROPDOWN_CLOZE", "DRAG_DROP_CLOZE", "SATA", "MCQ", "CASE_CLUSTER"] },
+        requiredTypeMix: { MCQ: 10, SATA: 4, BOWTIE: 2, CASE_STUDY_SERIES: 2, MATRIX: 1, TREND: 1, DRAG_DROP: 1, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 1, CALCULATION_NUMERIC: 1, MATCHING_GRID: 1 },
+        formatRules: { allowed: ["MCQ", "SATA", "BOWTIE", "CASE_STUDY_SERIES", "MATRIX", "TREND", "DRAG_DROP", "HIGHLIGHT_TEXT", "LAB_INTERPRETATION", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID"] },
       },
     ],
     validationRules: {
@@ -181,26 +204,41 @@ Block generation if distribution not met +-3%.
 FORMAT DISTRIBUTION:
 {{formatDistBlock}}
 
+FORMAT-SPECIFIC RULES FOR ALLIED HEALTH:
+- Use scope-appropriate formats only. Each profession has specific allowed formats.
+- CASE_STUDY_SERIES: Multi-phase clinical scenarios with progressive data — appropriate for professions requiring sequential clinical reasoning (MLT, RRT, Paramedic, PT, OT, Peds Nursing).
+- LAB_INTERPRETATION: Lab value analysis with normal ranges and flags — appropriate for MLT, RRT, and Peds Nursing.
+- CALCULATION_NUMERIC: Numeric answer with formula and given values — appropriate for MLT, PharmTech, Paramedic, RRT, PT, Imaging.
+- IMAGE_HOTSPOT: Spatial identification on anatomy/imaging — appropriate for Imaging.
+- MATCHING_GRID: Two-column matching items — appropriate for any profession needing categorization or classification tasks.
+- TREND: Time-series data interpretation — appropriate for RRT, Paramedic, PT, Peds Nursing.
+
 QUALITY RULES:
 All items must reflect real licensing exam cognitive level, avoid textbook trivia, focus on applied reasoning, include plausible distractors, respect scope of practice.
 
 OUTPUT FORMAT:
-Return a JSON array of objects:
-{
-  "questionId": "AUTO_INCREMENT",
-  "questionType": "",
-  "domain": "",
-  "subDomain": "",
-  "difficulty": 1-5,
-  "stem": "",
-  "scenario": "",
-  "options": [],
-  "correctAnswer": {},
-  "rationale": "",
-  "clinicalPearls": [],
-  "tags": [],
-  "blueprintValidated": true
-}
+Return a JSON array of objects. Use the appropriate schema per questionType:
+
+For MCQ_SINGLE/standard:
+{ "questionId": "AUTO_INCREMENT", "questionType": "", "domain": "", "subDomain": "", "difficulty": 1-5, "stem": "", "scenario": "", "options": [], "correctAnswer": {}, "rationale": "", "clinicalPearls": [], "tags": [], "blueprintValidated": true }
+
+For CASE_STUDY_SERIES:
+{ "questionType": "CASE_STUDY_SERIES", "stem": "", "scenario": "", "phases": [{"phaseLabel": "", "narrative": "", "questions": [{"stem": "", "options": [{"text":"","label":"A"}], "correctAnswer": {"selected": ["A"]}}]}], "rationale": "", ... }
+
+For LAB_INTERPRETATION:
+{ "questionType": "LAB_INTERPRETATION", "stem": "", "scenario": "", "labValues": [{"test": "", "value": "", "unit": "", "normalRange": "", "flag": "normal"|"high"|"low"|"critical"}], "options": [...], "correctAnswer": {"selected": ["A"]}, "rationale": "", ... }
+
+For CALCULATION_NUMERIC:
+{ "questionType": "CALCULATION_NUMERIC", "stem": "", "scenario": "", "formula": "", "givenValues": [{"label":"","value":"","unit":""}], "correctAnswer": {"numericValue": 0, "unit": "", "tolerance": 0.01}, "rationale": "", ... }
+
+For IMAGE_HOTSPOT:
+{ "questionType": "IMAGE_HOTSPOT", "stem": "", "scenario": "", "imageUrl": "", "imageDescription": "", "hotspots": [{"id":"h1","x":0,"y":0,"width":50,"height":50,"label":""}], "correctAnswer": {"selectedHotspots": ["h1"]}, "rationale": "", ... }
+
+For MATCHING_GRID:
+{ "questionType": "MATCHING_GRID", "stem": "", "scenario": "", "leftItems": [{"id":"l1","text":""}], "rightItems": [{"id":"r1","text":""}], "correctAnswer": {"matches": {"l1":"r1"}}, "rationale": "", ... }
+
+For TREND:
+{ "questionType": "TREND", "stem": "", "scenario": "", "trendData": [{"time": "", "value": "", "label": ""}], "options": [...], "correctAnswer": {"selected": ["A"]}, "rationale": "", ... }
 
 Each rationale must be minimum {{rationaleMinWords}} words.
 Return ONLY valid JSON array.`,
@@ -211,8 +249,8 @@ Return ONLY valid JSON array.`,
         region: "US",
         defaultCount: 25,
         domainWeights: { "Clinical Chemistry": [0.25, 0.35], "Hematology & Coagulation": [0.20, 0.30], "Microbiology": [0.20, 0.30], "Transfusion Medicine": [0.10, 0.15], "Immunology/Molecular/Lab Ops": [0.10, 0.20] },
-        requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 5, NUMERIC_ENTRY: 3, DATA_TABLE_INTERPRETATION: 3, MATCHING: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "NUMERIC_ENTRY", "MATCHING", "DATA_TABLE_INTERPRETATION", "MATRIX_SINGLE"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 5, NUMERIC_ENTRY: 3, DATA_TABLE_INTERPRETATION: 3, MATCHING: 2, LAB_INTERPRETATION: 1, CALCULATION_NUMERIC: 1 },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "NUMERIC_ENTRY", "MATCHING", "DATA_TABLE_INTERPRETATION", "MATRIX_SINGLE", "LAB_INTERPRETATION", "CALCULATION_NUMERIC", "MATCHING_GRID", "CASE_STUDY_SERIES"] },
       },
       {
         variantKey: "pharm_tech",
@@ -221,7 +259,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Prescription Processing": [0.25, 0.35], "Pharmacology Basics": [0.20, 0.30], "Calculations": [0.20, 0.30], "Compounding": [0.10, 0.20], "Law & Ethics": [0.10, 0.15] },
         requiredTypeMix: { MCQ_SINGLE: 10, NUMERIC_ENTRY: 5, CASE_BASED_CLUSTER: 5, MATCHING: 3, PRIORITIZATION: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "NUMERIC_ENTRY", "CASE_BASED_CLUSTER", "MATCHING", "PRIORITIZATION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "NUMERIC_ENTRY", "CASE_BASED_CLUSTER", "MATCHING", "PRIORITIZATION", "CALCULATION_NUMERIC", "MATCHING_GRID", "CASE_STUDY_SERIES"] },
       },
       {
         variantKey: "paramedic",
@@ -230,7 +268,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Airway & Respiratory": [0.20, 0.30], "Cardiology": [0.20, 0.30], "Trauma": [0.20, 0.25], "Medical Emergencies": [0.15, 0.25], "Professional Practice": [0.05, 0.10] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5, NUMERIC_ENTRY: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "NUMERIC_ENTRY"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "NUMERIC_ENTRY", "CASE_STUDY_SERIES", "CALCULATION_NUMERIC", "TREND", "DRAG_DROP"] },
       },
       {
         variantKey: "rrt",
@@ -239,7 +277,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Airway Management": [0.08, 0.12], "Oxygen Therapy": [0.06, 0.10], "ABG Interpretation": [0.08, 0.12], "Mechanical Ventilation": [0.10, 0.14], "Pulmonary Function Testing": [0.04, 0.08], "Neonatal & Pediatric Respiratory Care": [0.06, 0.10], "Critical Care Respiratory Therapy": [0.08, 0.12], "Cardiopulmonary Physiology": [0.06, 0.10], "Aerosol & Medication Delivery": [0.04, 0.08], "Sleep & Noninvasive Ventilation": [0.04, 0.08], "Emergency Respiratory Care": [0.04, 0.08], "Patient Assessment": [0.04, 0.08], "Infection Control & Equipment": [0.02, 0.06] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, NUMERIC_ENTRY: 4, DATA_TABLE_INTERPRETATION: 3 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "NUMERIC_ENTRY", "DATA_TABLE_INTERPRETATION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "NUMERIC_ENTRY", "DATA_TABLE_INTERPRETATION", "LAB_INTERPRETATION", "CALCULATION_NUMERIC", "TREND", "CASE_STUDY_SERIES"] },
       },
       {
         variantKey: "imaging",
@@ -248,7 +286,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Patient Care & Safety": [0.20, 0.30], "Radiation Physics": [0.20, 0.30], "Imaging Procedures & Positioning": [0.25, 0.35], "Image Production & Evaluation": [0.15, 0.25], "Radiation Protection": [0.10, 0.15] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, CALCULATION: 4, MATCHING: 3 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "CALCULATION", "MATCHING"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "CALCULATION", "MATCHING", "IMAGE_HOTSPOT", "CALCULATION_NUMERIC", "MATCHING_GRID", "CASE_STUDY_SERIES"] },
       },
       {
         variantKey: "ot",
@@ -257,7 +295,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Evaluation & Assessment": [0.25, 0.35], "Intervention Planning & Implementation": [0.30, 0.40], "Professional Practice & Ethics": [0.15, 0.25], "Psychosocial & Mental Health": [0.10, 0.20], "Pediatrics & Development": [0.10, 0.20] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5, MATCHING: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "MATCHING", "SHORT_CASE_ANALYSIS"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "MATCHING", "SHORT_CASE_ANALYSIS", "CASE_STUDY_SERIES", "MATCHING_GRID", "DRAG_DROP"] },
       },
       {
         variantKey: "pt",
@@ -266,7 +304,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Musculoskeletal": [0.25, 0.35], "Neuromuscular": [0.20, 0.30], "Cardiopulmonary": [0.10, 0.20], "Other Systems": [0.10, 0.15], "Non-System / Professional": [0.10, 0.20] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, DIFFERENTIAL_DIAGNOSIS: 5, PRIORITIZATION: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "DIFFERENTIAL_DIAGNOSIS", "NUMERIC_ENTRY", "PROGRESSION_DECISION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "DIFFERENTIAL_DIAGNOSIS", "NUMERIC_ENTRY", "PROGRESSION_DECISION", "CASE_STUDY_SERIES", "CALCULATION_NUMERIC", "TREND"] },
       },
       {
         variantKey: "psychotherapist",
@@ -275,7 +313,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Ethics & Professional Standards": [0.25, 0.35], "Assessment & Diagnosis": [0.20, 0.30], "Treatment Planning": [0.20, 0.30], "Crisis & Risk Management": [0.10, 0.20] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5, SHORT_CASE_ANALYSIS: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "SHORT_CASE_ANALYSIS"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "SHORT_CASE_ANALYSIS", "CASE_STUDY_SERIES", "MATCHING_GRID"] },
       },
       {
         variantKey: "social_worker",
@@ -291,7 +329,7 @@ Return ONLY valid JSON array.`,
           "Crisis Intervention": [0.10, 0.15],
         },
         requiredTypeMix: { MCQ_SINGLE: 20, CASE_BASED_CLUSTER: 20, PRIORITIZATION: 10 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "CASE_STUDY_SERIES", "MATCHING_GRID"] },
       },
       {
         variantKey: "addictions_worker",
@@ -300,7 +338,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Foundations of Addiction": [0.20, 0.30], "Counseling Techniques": [0.25, 0.35], "Harm Reduction": [0.15, 0.25], "Crisis & Withdrawal": [0.15, 0.20], "Ethics & Legal": [0.10, 0.15] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "CASE_STUDY_SERIES", "MATCHING_GRID"] },
       },
       {
         variantKey: "peds_nursing",
@@ -309,7 +347,7 @@ Return ONLY valid JSON array.`,
         defaultCount: 25,
         domainWeights: { "Neonatal Care": [0.18, 0.22], "Developmental Milestones": [0.18, 0.22], "Pediatric Infections": [0.18, 0.22], "Congenital Disorders": [0.18, 0.22], "Pediatric Emergencies": [0.18, 0.22] },
         requiredTypeMix: { MCQ_SINGLE: 10, CASE_BASED_CLUSTER: 8, PRIORITIZATION: 5, MATCHING: 2 },
-        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "MATCHING"], prohibited: ["BOWTIE", "DRAG_DROP_CLOZE", "HIGHLIGHT_TEXT"] },
+        formatRules: { allowed: ["MCQ_SINGLE", "CASE_BASED_CLUSTER", "PRIORITIZATION", "MATCHING", "CASE_STUDY_SERIES", "TREND", "CALCULATION_NUMERIC", "MATCHING_GRID", "LAB_INTERPRETATION"] },
       },
     ],
     validationRules: {

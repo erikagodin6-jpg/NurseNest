@@ -27,11 +27,50 @@ const CATEGORIES = [
 const BATCH_SIZES = [10, 25, 50, 100];
 
 const TYPE_PRESETS = [
-  { value: "balanced", label: "Balanced" },
+  { value: "balanced", label: "Balanced (All Formats)" },
   { value: "heavy_case", label: "Heavy Case-Based" },
   { value: "assessment", label: "Assessment Focus" },
+  { value: "clinical_judgment", label: "Clinical Judgment Mix" },
   { value: "custom", label: "Custom" },
 ] as const;
+
+const ALL_QUESTION_FORMATS = [
+  { value: "MCQ", label: "MCQ", category: "core" },
+  { value: "SATA", label: "SATA", category: "core" },
+  { value: "BOWTIE", label: "Bowtie", category: "ngn" },
+  { value: "CASE_STUDY_SERIES", label: "Case Study Series", category: "clinical" },
+  { value: "MATRIX", label: "Matrix", category: "ngn" },
+  { value: "TREND", label: "Trend Analysis", category: "clinical" },
+  { value: "DRAG_DROP", label: "Drag & Drop", category: "ngn" },
+  { value: "HIGHLIGHT_TEXT", label: "Highlight Text", category: "ngn" },
+  { value: "LAB_INTERPRETATION", label: "Lab Interpretation", category: "clinical" },
+  { value: "IMAGE_HOTSPOT", label: "Image Hotspot", category: "clinical" },
+  { value: "CALCULATION_NUMERIC", label: "Calculation/Numeric", category: "clinical" },
+  { value: "MATCHING_GRID", label: "Matching Grid", category: "clinical" },
+] as const;
+
+const TARGET_DISTRIBUTION: Record<string, Record<string, number>> = {
+  balanced: {
+    MCQ: 45, SATA: 15, BOWTIE: 10, CASE_STUDY_SERIES: 10, MATRIX: 5,
+    TREND: 5, DRAG_DROP: 3, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 1,
+    IMAGE_HOTSPOT: 2, CALCULATION_NUMERIC: 2, MATCHING_GRID: 1,
+  },
+  heavy_case: {
+    MCQ: 25, SATA: 10, BOWTIE: 15, CASE_STUDY_SERIES: 20, MATRIX: 5,
+    TREND: 10, DRAG_DROP: 3, HIGHLIGHT_TEXT: 1, LAB_INTERPRETATION: 3,
+    IMAGE_HOTSPOT: 3, CALCULATION_NUMERIC: 3, MATCHING_GRID: 2,
+  },
+  assessment: {
+    MCQ: 50, SATA: 20, BOWTIE: 5, CASE_STUDY_SERIES: 5, MATRIX: 5,
+    TREND: 3, DRAG_DROP: 2, HIGHLIGHT_TEXT: 2, LAB_INTERPRETATION: 2,
+    IMAGE_HOTSPOT: 2, CALCULATION_NUMERIC: 2, MATCHING_GRID: 2,
+  },
+  clinical_judgment: {
+    MCQ: 30, SATA: 10, BOWTIE: 12, CASE_STUDY_SERIES: 15, MATRIX: 5,
+    TREND: 8, DRAG_DROP: 3, HIGHLIGHT_TEXT: 2, LAB_INTERPRETATION: 5,
+    IMAGE_HOTSPOT: 3, CALCULATION_NUMERIC: 4, MATCHING_GRID: 3,
+  },
+};
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {

@@ -6181,18 +6181,54 @@ Rules:
       if (!admin) return;
 
       const safeQuery = (sql: string) => pool.query(sql).catch(() => ({ rows: [] }));
-      const [byExamType, bySpecialty, byReviewStatus, topDecks] = await Promise.all([
+      const [byExamType, bySpecialty, byReviewStatus, topDecks, byFormat, byFormatTier, byFormatSpecialty] = await Promise.all([
         safeQuery(`SELECT exam, tier, COUNT(*)::int AS count FROM exam_questions GROUP BY exam, tier ORDER BY count DESC`),
         safeQuery(`SELECT body_system, COUNT(*)::int AS count FROM exam_questions WHERE status='published' AND body_system IS NOT NULL GROUP BY body_system ORDER BY count DESC LIMIT 20`),
         safeQuery(`SELECT status, COUNT(*)::int AS count FROM exam_questions GROUP BY status ORDER BY count DESC`),
         safeQuery(`SELECT fd.title, fd.tier, fd.card_count, fd.career_type FROM flashcard_decks fd ORDER BY fd.card_count DESC NULLS LAST LIMIT 15`),
+        safeQuery(`SELECT question_type, COUNT(*)::int AS count FROM exam_questions WHERE status='published' GROUP BY question_type ORDER BY count DESC`),
+        safeQuery(`SELECT tier, question_type, COUNT(*)::int AS count FROM exam_questions WHERE status='published' GROUP BY tier, question_type ORDER BY tier, count DESC`),
+        safeQuery(`SELECT body_system, question_type, COUNT(*)::int AS count FROM exam_questions WHERE status='published' AND body_system IS NOT NULL GROUP BY body_system, question_type ORDER BY body_system, count DESC`),
       ]);
+
+      const formatCounts: Record<string, number> = {};
+      for (const row of byFormat.rows) {
+        formatCounts[row.question_type || "unknown"] = row.count;
+      }
+      const totalFormatted = Object.values(formatCounts).reduce((s, c) => s + c, 0);
+      const uniqueFormats = Object.keys(formatCounts).length;
+      const maxPossibleFormats = 12;
+      const formatDiversityScore = totalFormatted > 0
+        ? Math.round((uniqueFormats / maxPossibleFormats) * 100)
+        : 0;
+
+      const formatByTier: Record<string, Record<string, number>> = {};
+      for (const row of byFormatTier.rows) {
+        if (!formatByTier[row.tier]) formatByTier[row.tier] = {};
+        formatByTier[row.tier][row.question_type || "unknown"] = row.count;
+      }
+
+      const formatBySpecialty: Record<string, Record<string, number>> = {};
+      for (const row of byFormatSpecialty.rows) {
+        if (!formatBySpecialty[row.body_system]) formatBySpecialty[row.body_system] = {};
+        formatBySpecialty[row.body_system][row.question_type || "unknown"] = row.count;
+      }
 
       res.json({
         byExamType: byExamType.rows,
         bySpecialty: bySpecialty.rows,
         byReviewStatus: byReviewStatus.rows,
         topDecks: topDecks.rows,
+        formatDistribution: formatCounts,
+        clinicalJudgmentCoverage: {
+          questionsByFormat: formatCounts,
+          questionsByTier: formatByTier,
+          questionsBySpecialty: formatBySpecialty,
+          formatDiversityScore,
+          totalFormattedQuestions: totalFormatted,
+          uniqueFormatsUsed: uniqueFormats,
+          maxPossibleFormats,
+        },
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {

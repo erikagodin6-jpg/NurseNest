@@ -110,6 +110,123 @@ function validateGeneratedBatch(
     }
   }
 
+  if (variant.formatRules?.allowed) {
+    for (const q of questions) {
+      if (q.questionType && !variant.formatRules.allowed.includes(q.questionType)) {
+        warnings.push(`Format "${q.questionType}" not in allowed list for this variant`);
+      }
+    }
+  }
+
+  for (let idx = 0; idx < questions.length; idx++) {
+    const q = questions[idx];
+    const fmt = q.questionType || "";
+    if (fmt === "CASE_STUDY_SERIES") {
+      if (!q.phases || !Array.isArray(q.phases) || q.phases.length === 0) {
+        errors.push(`Q#${idx}: CASE_STUDY_SERIES missing required 'phases' array`);
+      } else {
+        for (let pi = 0; pi < q.phases.length; pi++) {
+          const phase = q.phases[pi];
+          if (!phase.phaseLabel) {
+            warnings.push(`Q#${idx} Phase ${pi}: CASE_STUDY_SERIES phase missing phaseLabel`);
+          }
+          if (!phase.narrative) {
+            warnings.push(`Q#${idx} Phase ${pi}: CASE_STUDY_SERIES phase missing narrative`);
+          }
+          if (!phase.questions || !Array.isArray(phase.questions) || phase.questions.length === 0) {
+            errors.push(`Q#${idx} Phase ${pi}: CASE_STUDY_SERIES phase missing questions`);
+          }
+        }
+      }
+    } else if (fmt === "LAB_INTERPRETATION") {
+      if (!q.labValues || !Array.isArray(q.labValues) || q.labValues.length === 0) {
+        errors.push(`Q#${idx}: LAB_INTERPRETATION missing required 'labValues' array`);
+      } else {
+        for (const lv of q.labValues) {
+          if (!lv.test || lv.value === undefined || !lv.unit) {
+            warnings.push(`Q#${idx}: LAB_INTERPRETATION lab value missing test/value/unit`);
+            break;
+          }
+          if (!lv.normalRange) {
+            warnings.push(`Q#${idx}: LAB_INTERPRETATION lab value missing normalRange`);
+            break;
+          }
+        }
+      }
+      if (!q.options || !Array.isArray(q.options) || q.options.length === 0) {
+        errors.push(`Q#${idx}: LAB_INTERPRETATION missing options array`);
+      }
+    } else if (fmt === "IMAGE_HOTSPOT") {
+      if (!q.hotspots || !Array.isArray(q.hotspots) || q.hotspots.length === 0) {
+        errors.push(`Q#${idx}: IMAGE_HOTSPOT missing required 'hotspots' array`);
+      } else {
+        for (const hs of q.hotspots) {
+          if (!hs.id || hs.x === undefined || hs.y === undefined) {
+            warnings.push(`Q#${idx}: IMAGE_HOTSPOT hotspot missing id/x/y`);
+            break;
+          }
+        }
+      }
+      if (!q.imageDescription && !q.imageUrl) {
+        warnings.push(`Q#${idx}: IMAGE_HOTSPOT missing both imageUrl and imageDescription`);
+      }
+      if (!q.correctAnswer?.selectedHotspots || q.correctAnswer.selectedHotspots.length === 0) {
+        errors.push(`Q#${idx}: IMAGE_HOTSPOT missing correctAnswer.selectedHotspots`);
+      }
+    } else if (fmt === "CALCULATION_NUMERIC") {
+      if (!q.formula) {
+        warnings.push(`Q#${idx}: CALCULATION_NUMERIC missing formula`);
+      }
+      if (!q.givenValues || !Array.isArray(q.givenValues) || q.givenValues.length === 0) {
+        errors.push(`Q#${idx}: CALCULATION_NUMERIC missing required 'givenValues' array`);
+      }
+      if (q.correctAnswer?.numericValue === undefined || q.correctAnswer?.numericValue === null) {
+        errors.push(`Q#${idx}: CALCULATION_NUMERIC missing correctAnswer.numericValue`);
+      } else if (typeof q.correctAnswer.numericValue !== "number") {
+        errors.push(`Q#${idx}: CALCULATION_NUMERIC correctAnswer.numericValue must be a number`);
+      }
+      if (!q.correctAnswer?.unit) {
+        warnings.push(`Q#${idx}: CALCULATION_NUMERIC missing correctAnswer.unit`);
+      }
+    } else if (fmt === "MATCHING_GRID") {
+      if (!q.leftItems || !Array.isArray(q.leftItems) || q.leftItems.length === 0) {
+        errors.push(`Q#${idx}: MATCHING_GRID missing required 'leftItems' array`);
+      }
+      if (!q.rightItems || !Array.isArray(q.rightItems) || q.rightItems.length === 0) {
+        errors.push(`Q#${idx}: MATCHING_GRID missing required 'rightItems' array`);
+      }
+      if (!q.correctAnswer?.matches || Object.keys(q.correctAnswer.matches).length === 0) {
+        errors.push(`Q#${idx}: MATCHING_GRID missing correctAnswer.matches`);
+      }
+    } else if (fmt === "BOWTIE") {
+      if (!q.columns || !q.columns.actions || !q.columns.parameters || !q.columns.conditions) {
+        errors.push(`Q#${idx}: BOWTIE missing required columns (actions/parameters/conditions)`);
+      }
+    } else if (fmt === "TREND") {
+      if (!q.trendData || !Array.isArray(q.trendData) || q.trendData.length === 0) {
+        errors.push(`Q#${idx}: TREND missing required 'trendData' array`);
+      }
+    } else if (fmt === "MATRIX") {
+      if (!q.rows || !Array.isArray(q.rows) || !q.columns || !Array.isArray(q.columns)) {
+        errors.push(`Q#${idx}: MATRIX missing required 'rows' and 'columns' arrays`);
+      }
+    } else if (fmt === "DRAG_DROP") {
+      if (!q.draggableItems || !Array.isArray(q.draggableItems) || q.draggableItems.length === 0) {
+        errors.push(`Q#${idx}: DRAG_DROP missing required 'draggableItems' array`);
+      }
+      if (!q.dropZones || !Array.isArray(q.dropZones) || q.dropZones.length === 0) {
+        errors.push(`Q#${idx}: DRAG_DROP missing required 'dropZones' array`);
+      }
+    } else if (fmt === "HIGHLIGHT_TEXT") {
+      if (!q.passage) {
+        errors.push(`Q#${idx}: HIGHLIGHT_TEXT missing required 'passage' field`);
+      }
+      if (!q.correctAnswer?.highlightedSegments || q.correctAnswer.highlightedSegments.length === 0) {
+        errors.push(`Q#${idx}: HIGHLIGHT_TEXT missing correctAnswer.highlightedSegments`);
+      }
+    }
+  }
+
   const scopeChecks = validationRules?.scopeChecks || [];
   if (scopeChecks.includes("pn_scope") && variant.examKey?.includes("PN")) {
     for (const q of questions) {

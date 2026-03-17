@@ -68,10 +68,10 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "MATCHING",
       "DATA_TABLE_INTERPRETATION",
       "MATRIX_SINGLE",
-      "CASE_STUDY_SERIES",
       "LAB_INTERPRETATION",
       "CALCULATION_NUMERIC",
       "MATCHING_GRID",
+      "CASE_STUDY_SERIES",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 10,
@@ -149,6 +149,8 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_STUDY_SERIES",
       "CALCULATION_NUMERIC",
       "IMAGE_HOTSPOT",
+      "TREND",
+      "DRAG_DROP",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 25,
@@ -184,9 +186,10 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "NUMERIC_ENTRY",
       "DATA_INTERPRETATION",
-      "CASE_STUDY_SERIES",
       "LAB_INTERPRETATION",
       "CALCULATION_NUMERIC",
+      "TREND",
+      "CASE_STUDY_SERIES",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 10,
@@ -221,6 +224,8 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "CASE_BASED_CLUSTER",
       "PRIORITIZATION",
       "SHORT_CASE_ANALYSIS",
+      "CASE_STUDY_SERIES",
+      "MATCHING_GRID",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 30,
@@ -256,6 +261,8 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "MCQ_SINGLE",
       "CASE_BASED_CLUSTER",
       "PRIORITIZATION",
+      "CASE_STUDY_SERIES",
+      "MATCHING_GRID",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 48,
@@ -290,6 +297,8 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "MCQ_SINGLE",
       "CASE_BASED_CLUSTER",
       "PRIORITIZATION",
+      "CASE_STUDY_SERIES",
+      "MATCHING_GRID",
     ],
     questionTypesRequiredMin: {
       CASE_BASED_CLUSTER: 18,
@@ -366,6 +375,9 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "PRIORITIZATION",
       "MATCHING",
       "SHORT_CASE_ANALYSIS",
+      "CASE_STUDY_SERIES",
+      "MATCHING_GRID",
+      "DRAG_DROP",
     ],
     questionTypesRequiredMin: {
       MCQ_SINGLE: 20,
@@ -402,6 +414,9 @@ export const ALLIED_EXAM_BLUEPRINTS: Record<string, AlliedExamBlueprint> = {
       "DIFFERENTIAL_DIAGNOSIS",
       "NUMERIC_ENTRY",
       "PROGRESSION_DECISION",
+      "CASE_STUDY_SERIES",
+      "CALCULATION_NUMERIC",
+      "TREND",
     ],
     questionTypesRequiredMin: {
       MCQ_SINGLE: 30,

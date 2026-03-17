@@ -84,11 +84,23 @@ interface AnalyticsData {
   timestamp: string;
 }
 
+interface ClinicalJudgmentCoverage {
+  questionsByFormat: Record<string, number>;
+  questionsByTier: Record<string, Record<string, number>>;
+  questionsBySpecialty: Record<string, Record<string, number>>;
+  formatDiversityScore: number;
+  totalFormattedQuestions: number;
+  uniqueFormatsUsed: number;
+  maxPossibleFormats: number;
+}
+
 interface BreakdownData {
   byExamType: Array<{ exam: string; tier: string; count: number }>;
   bySpecialty: Array<{ body_system: string; count: number }>;
   byReviewStatus: Array<{ status: string; count: number }>;
   topDecks: Array<{ title: string; tier: string; card_count: number; career_type: string }>;
+  formatDistribution?: Record<string, number>;
+  clinicalJudgmentCoverage?: ClinicalJudgmentCoverage;
 }
 
 const TIER_LABELS: Record<string, string> = {
@@ -335,6 +347,7 @@ export default function AdminContentAnalytics() {
 
   const sections = [
     { id: "summary", label: "Summary" },
+    { id: "clinical", label: "Clinical Judgment" },
     { id: "tiers", label: "Tier Breakdown" },
     { id: "health", label: "Content Health" },
     { id: "allied", label: "Allied & Imaging" },
@@ -484,6 +497,202 @@ export default function AdminContentAnalytics() {
                 </CardContent>
               </Card>
             )}
+          </div>
+        )}
+
+        {activeSection === "clinical" && breakdown?.clinicalJudgmentCoverage && (
+          <div className="space-y-6">
+            <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-indigo-500" /> Clinical Judgment Coverage
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Card data-testid="card-format-diversity-score">
+                <CardContent className="pt-4 text-center">
+                  <div className="text-4xl font-bold text-indigo-700">
+                    {breakdown.clinicalJudgmentCoverage.formatDiversityScore}%
+                  </div>
+                  <p className="text-sm text-slate-500 mt-1">Format Diversity Score</p>
+                  <ProgressBar
+                    value={breakdown.clinicalJudgmentCoverage.formatDiversityScore}
+                    color={breakdown.clinicalJudgmentCoverage.formatDiversityScore >= 60 ? "bg-emerald-500" : breakdown.clinicalJudgmentCoverage.formatDiversityScore >= 30 ? "bg-amber-500" : "bg-red-500"}
+                  />
+                  <p className="text-xs text-slate-400 mt-1">
+                    {breakdown.clinicalJudgmentCoverage.uniqueFormatsUsed} of {breakdown.clinicalJudgmentCoverage.maxPossibleFormats} formats used
+                  </p>
+                </CardContent>
+              </Card>
+              <Card data-testid="card-total-formatted">
+                <CardContent className="pt-4 text-center">
+                  <div className="text-4xl font-bold text-slate-800">
+                    {breakdown.clinicalJudgmentCoverage.totalFormattedQuestions.toLocaleString()}
+                  </div>
+                  <p className="text-sm text-slate-500 mt-1">Total Published Questions</p>
+                </CardContent>
+              </Card>
+              <Card data-testid="card-unique-formats">
+                <CardContent className="pt-4 text-center">
+                  <div className="text-4xl font-bold text-purple-700">
+                    {breakdown.clinicalJudgmentCoverage.uniqueFormatsUsed}
+                  </div>
+                  <p className="text-sm text-slate-500 mt-1">Unique Formats Active</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card data-testid="card-format-distribution">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                  <PieChart className="w-4 h-4 text-blue-500" /> Questions by Format
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {(() => {
+                  const cj = breakdown.clinicalJudgmentCoverage;
+                  const formatColors: Record<string, string> = {
+                    MCQ: "#3b82f6", SATA: "#10b981", BOWTIE: "#8b5cf6",
+                    CASE_STUDY_SERIES: "#f59e0b", MATRIX: "#ef4444", TREND: "#06b6d4",
+                    DRAG_DROP: "#ec4899", HIGHLIGHT_TEXT: "#14b8a6", LAB_INTERPRETATION: "#f97316",
+                    IMAGE_HOTSPOT: "#6366f1", CALCULATION_NUMERIC: "#84cc16", MATCHING_GRID: "#a855f7",
+                  };
+                  const items = Object.entries(cj.questionsByFormat)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([fmt, count]) => ({
+                      label: fmt.replace(/_/g, " "),
+                      value: count,
+                      color: formatColors[fmt] || "#94a3b8",
+                    }));
+                  return items.length > 0 ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <DonutChart segments={items} size={160} />
+                      <BarChart items={items} />
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-400">No format data available</p>
+                  );
+                })()}
+              </CardContent>
+            </Card>
+
+            <Card data-testid="card-format-by-tier">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-slate-700">Format Distribution by Tier</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="text-left px-3 py-2 font-medium text-slate-600">Tier</th>
+                        {Object.keys(breakdown.clinicalJudgmentCoverage.questionsByFormat).map(fmt => (
+                          <th key={fmt} className="text-right px-2 py-2 font-medium text-slate-600 text-xs whitespace-nowrap">
+                            {fmt.replace(/_/g, " ").substring(0, 12)}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(breakdown.clinicalJudgmentCoverage.questionsByTier).map(([tier, formats]) => (
+                        <tr key={tier} className="border-t border-slate-100" data-testid={`row-format-tier-${tier}`}>
+                          <td className="px-3 py-2 font-medium">{TIER_LABELS[tier] || tier}</td>
+                          {Object.keys(breakdown.clinicalJudgmentCoverage!.questionsByFormat).map(fmt => (
+                            <td key={fmt} className="px-2 py-2 text-right font-mono text-xs">
+                              {formats[fmt] || 0}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card data-testid="card-format-by-specialty">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-slate-700">Format Distribution by Specialty (Top 10)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="text-left px-3 py-2 font-medium text-slate-600">Specialty</th>
+                        <th className="text-right px-3 py-2 font-medium text-slate-600">Formats Used</th>
+                        <th className="text-right px-3 py-2 font-medium text-slate-600">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(breakdown.clinicalJudgmentCoverage.questionsBySpecialty)
+                        .sort((a, b) => Object.values(b[1]).reduce((s, c) => s + c, 0) - Object.values(a[1]).reduce((s, c) => s + c, 0))
+                        .slice(0, 10)
+                        .map(([specialty, formats]) => (
+                          <tr key={specialty} className="border-t border-slate-100" data-testid={`row-format-specialty-${specialty}`}>
+                            <td className="px-3 py-2">{specialty}</td>
+                            <td className="px-3 py-2 text-right">
+                              <div className="flex gap-1 justify-end flex-wrap">
+                                {Object.entries(formats).map(([fmt, count]) => (
+                                  <span key={fmt} className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">
+                                    {fmt.replace(/_/g, " ").substring(0, 10)}: {count}
+                                  </span>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono">
+                              {Object.values(formats).reduce((s, c) => s + c, 0)}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card data-testid="card-target-distribution">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-slate-700">Target Format Distribution</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {[
+                    { fmt: "MCQ", target: "40-50%", color: "bg-blue-50 text-blue-700" },
+                    { fmt: "SATA", target: "15%", color: "bg-emerald-50 text-emerald-700" },
+                    { fmt: "BOWTIE", target: "10%", color: "bg-purple-50 text-purple-700" },
+                    { fmt: "CASE_STUDY_SERIES", target: "10%", color: "bg-amber-50 text-amber-700" },
+                    { fmt: "MATRIX", target: "5%", color: "bg-red-50 text-red-700" },
+                    { fmt: "TREND", target: "5%", color: "bg-cyan-50 text-cyan-700" },
+                    { fmt: "DRAG_DROP", target: "3%", color: "bg-pink-50 text-pink-700" },
+                    { fmt: "HIGHLIGHT_TEXT", target: "1%", color: "bg-teal-50 text-teal-700" },
+                    { fmt: "LAB_INTERPRETATION", target: "1%", color: "bg-orange-50 text-orange-700" },
+                    { fmt: "IMAGE_HOTSPOT", target: "~1%", color: "bg-indigo-50 text-indigo-700" },
+                    { fmt: "CALCULATION_NUMERIC", target: "~1%", color: "bg-lime-50 text-lime-700" },
+                    { fmt: "MATCHING_GRID", target: "~1%", color: "bg-violet-50 text-violet-700" },
+                  ].map(({ fmt, target, color }) => {
+                    const actual = breakdown.clinicalJudgmentCoverage!.questionsByFormat[fmt] || 0;
+                    const total = breakdown.clinicalJudgmentCoverage!.totalFormattedQuestions || 1;
+                    const actualPct = ((actual / total) * 100).toFixed(1);
+                    return (
+                      <div key={fmt} className={`p-3 rounded-lg ${color}`} data-testid={`card-target-${fmt}`}>
+                        <div className="text-xs font-medium">{fmt.replace(/_/g, " ")}</div>
+                        <div className="text-lg font-bold">{actual.toLocaleString()}</div>
+                        <div className="text-xs">
+                          Actual: {actualPct}% / Target: {target}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {activeSection === "clinical" && (!breakdown || !breakdown.clinicalJudgmentCoverage) && (
+          <div className="text-center py-12">
+            <p className="text-slate-500" data-testid="text-clinical-no-data">
+              Clinical judgment coverage data is loading or unavailable. Try recalculating.
+            </p>
           </div>
         )}
 
