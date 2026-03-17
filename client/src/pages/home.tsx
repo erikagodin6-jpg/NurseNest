@@ -247,7 +247,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans md:animate-page-enter">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans md:animate-page-enter overflow-x-hidden">
       <SEO
         title={`NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certifications | ${examLabel} & NCLEX Test Bank`}
         description={`Prepare for nursing, NP certification, and allied health exams with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} lessons. Built for ${rpnLabel}, RN, NP, allied health students, and new graduates in Canada and the US. Start free.`}
@@ -359,7 +359,7 @@ export default function Home() {
         <LazyNavigation />
       </Suspense>
       
-      <main className="flex-grow">
+      <main className="flex-grow overflow-x-hidden">
         <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero-top)', paddingBottom: 'var(--space-hero-bottom)' }} data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block will-change-transform" aria-hidden="true">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" style={{ transform: 'translateZ(0)' }} />
@@ -475,7 +475,7 @@ export default function Home() {
                   {t("home.hero.urgencyMicrocopy")}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
+                <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-5 gap-y-2 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{t("home.hero.noCreditCard")}</span>
@@ -490,7 +490,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-700" data-testid="hero-trust-indicators">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 sm:gap-x-4 gap-y-2 text-xs text-gray-700" data-testid="hero-trust-indicators">
                   <div className="flex items-center gap-1.5">
                     <Trophy className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-pass-rate">{t("home.hero.trustPassRate")}</span>
@@ -522,7 +522,7 @@ export default function Home() {
                       { icon: Briefcase, key: "builtForNursePractitioners" },
                       { icon: Users, key: "builtForAlliedHealth" },
                     ].map((seg) => (
-                      <span key={seg.key} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-xs font-medium text-gray-700" data-testid={`built-for-${seg.key}`}>
+                      <span key={seg.key} className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-[11px] sm:text-xs font-medium text-gray-700" data-testid={`built-for-${seg.key}`}>
                         <seg.icon className="w-3 h-3 text-gray-500 shrink-0" />
                         {t(`home.hero.${seg.key}`)}
                       </span>
