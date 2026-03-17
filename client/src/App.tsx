@@ -428,6 +428,12 @@ const TopicClusterPage = lazy(() => import("@/pages/topic-cluster-page"));
 const TopicClusterBySlug = lazy(() => import("@/pages/topic-cluster-page").then(m => ({ default: m.TopicClusterBySlug })));
 const NursingPhysiologyHubPage = lazy(() => import("@/pages/nursing-physiology-hub-page"));
 const ClinicalNursingSkillsHubPage = lazy(() => import("@/pages/clinical-nursing-skills-hub-page"));
+const CardiologyHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.CardiologyHub })));
+const RespiratoryHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.RespiratoryHub })));
+const EndocrineHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.EndocrineHub })));
+const NeurologyNursingHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.NeurologyHub })));
+const ElectrolytesHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.ElectrolytesHub })));
+const PharmacologyNursingHub = lazy(() => import("@/pages/category-hub-page").then(m => ({ default: m.PharmacologyNursingHub })));
 const InternationalNursingHub = lazy(() => import("@/pages/international-nursing-hub"));
 const InternationalNursingCountry = lazy(() => import("@/pages/international-nursing-country"));
 const InternationalNursingMigration = lazy(() => import("@/pages/international-nursing-migration"));
@@ -1284,6 +1290,14 @@ function AppRoutes() {
         <Route path="/medication-mastery-nursing">{() => <TopicClusterBySlug slug="medication-mastery-nursing" />}</Route>
         <Route path="/nursing-simulation-practice">{() => <TopicClusterBySlug slug="nursing-simulation-practice" />}</Route>
         <Route path="/test-nclex-avec-corrige">{() => <TopicClusterBySlug slug="test-nclex-avec-corrige" />}</Route>
+
+        {/* Category Hub Pages */}
+        <Route path="/cardiology-nursing" component={CardiologyHub} />
+        <Route path="/respiratory-nursing" component={RespiratoryHub} />
+        <Route path="/endocrine-nursing" component={EndocrineHub} />
+        <Route path="/neurology-nursing" component={NeurologyNursingHub} />
+        <Route path="/electrolytes-nursing" component={ElectrolytesHub} />
+        <Route path="/pharmacology-nursing" component={PharmacologyNursingHub} />
 
         {/* Nursing Physiology Hub & Child Pages */}
         <Route path="/nursing-physiology-explained" component={NursingPhysiologyHubPage} />

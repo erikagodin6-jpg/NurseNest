@@ -1141,6 +1141,30 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Blood Bank Antibody ID: Panel Interpretation Guide | NurseNest",
     description: "Master blood bank antibody identification and panel interpretation for ASCP MLT exam. Rule-out methodology, multiple antibodies, and clinical significance.",
   },
+  "/cardiology-nursing": {
+    title: "Cardiology Nursing — Heart & Cardiovascular Topics for Nurses | NurseNest",
+    description: "Master cardiology nursing concepts including cardiac rhythms, heart failure, ECG interpretation, hemodynamic monitoring, and cardiovascular pharmacology for NCLEX and clinical practice.",
+  },
+  "/respiratory-nursing": {
+    title: "Respiratory Nursing — Pulmonary & Airway Topics for Nurses | NurseNest",
+    description: "Comprehensive respiratory nursing education covering ventilator management, ABG interpretation, oxygen therapy, COPD, asthma, and pulmonary assessment for nursing students.",
+  },
+  "/endocrine-nursing": {
+    title: "Endocrine Nursing — Hormonal & Metabolic Topics for Nurses | NurseNest",
+    description: "Learn endocrine nursing topics including diabetes management, thyroid disorders, adrenal crisis, DKA, HHS, and hormonal regulation for NCLEX preparation.",
+  },
+  "/neurology-nursing": {
+    title: "Neurology Nursing — Neurological Topics for Nurses | NurseNest",
+    description: "Explore neurology nursing concepts including stroke assessment, seizure management, intracranial pressure, neurological assessment, and brain injury care for nurses.",
+  },
+  "/electrolytes-nursing": {
+    title: "Electrolytes in Nursing — Fluid & Electrolyte Balance for Nurses | NurseNest",
+    description: "Master fluid and electrolyte balance including hyperkalemia, hyponatremia, calcium regulation, acid-base disorders, and IV fluid therapy for nursing students.",
+  },
+  "/pharmacology-nursing": {
+    title: "Pharmacology for Nurses — Medication & Drug Topics | NurseNest",
+    description: "Comprehensive nursing pharmacology covering drug classifications, medication administration, dosage calculations, adverse effects, and NCLEX pharmacology review.",
+  },
   "/nursing-physiology-explained": {
     title: "Nursing Physiology Explained — Clinical Pathophysiology for Nurses | NurseNest",
     description: "Explore nursing pathophysiology topics explained clearly for students. Burns and hyperkalemia, cardiac conduction, acid-base disorders, pyloric stenosis, and ECG interpretation.",
@@ -2094,6 +2118,8 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/nursing-licensing-exams", "/nurse-salary-guide",
   "/nurse-salary-canada", "/nurse-salary-united-states",
   "/nurse-salary-united-kingdom", "/nurse-salary-australia",
+  "/cardiology-nursing", "/respiratory-nursing", "/endocrine-nursing",
+  "/neurology-nursing", "/electrolytes-nursing", "/pharmacology-nursing",
 ]));
 
 const KNOWN_DYNAMIC_PREFIXES = [

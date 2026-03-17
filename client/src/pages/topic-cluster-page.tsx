@@ -12,9 +12,11 @@ import {
   TOPIC_CLUSTERS,
   type TopicCluster,
 } from "@shared/topic-cluster-data";
+import { findPrimaryHubForTopic } from "@shared/category-hub-data";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
+import { AutoRelatedContent } from "@/components/auto-related-content";
 import {
   BookOpen, ChevronDown, ArrowRight, HelpCircle,
   Stethoscope, Activity, FileText, Brain, Pill,
@@ -112,34 +114,26 @@ const PRIORITY_STYLES = {
   standard: { label: "Standard", color: "#059669", bg: "#D1FAE5" },
 };
 
-export default function TopicClusterPage() {
-  const params = useParams<{ slug: string }>();
-  const topic = getTopicClusterBySlug(params.slug || "");
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  if (!topic) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-topic-not-found">Topic Not Found</h1>
-          <p className="text-gray-600 mb-6">The clinical topic you are looking for does not exist.</p>
-          <LocaleLink href="/topics">
-            <Button data-testid="button-back-to-topics">Browse All Topics</Button>
-          </LocaleLink>
-        </div>
-        <Footer />
-      </div>
-    );
+function buildBreadcrumbsForTopic(topic: TopicCluster) {
+  const parentHub = findPrimaryHubForTopic(topic.slug, topic.parentCategorySlug);
+  if (parentHub) {
+    return [
+      { name: "Home", url: "https://www.nursenest.ca" },
+      { name: "Topics", url: "https://www.nursenest.ca/topics" },
+      { name: parentHub.title, url: `https://www.nursenest.ca/${parentHub.slug}` },
+      { name: topic.title, url: `https://www.nursenest.ca/${topic.slug}` },
+    ];
   }
+  return [
+    { name: "Home", url: "https://www.nursenest.ca" },
+    { name: "Topics", url: "https://www.nursenest.ca/topics" },
+    { name: topic.category, url: `https://www.nursenest.ca/study-guide/${topic.parentCategorySlug}` },
+    { name: topic.title, url: `https://www.nursenest.ca/${topic.slug}` },
+  ];
+}
 
-  const relatedTopics = getRelatedTopicClusters(topic.relatedTopicSlugs);
-
-  const faqStructuredData = buildFaqStructuredData(
-    topic.faqs.map(f => ({ question: f.question, answer: f.answer }))
-  );
-
-  const medicalWebPageData = {
+function buildMedicalWebPageData(topic: TopicCluster) {
+  return {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
     "headline": topic.title,
@@ -171,13 +165,38 @@ export default function TopicClusterPage() {
     },
     "specialty": "Nursing",
   };
+}
 
-  const breadcrumbItems = [
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Topics", url: "https://www.nursenest.ca/topics" },
-    { name: topic.category, url: `https://www.nursenest.ca/study-guide/${topic.parentCategorySlug}` },
-    { name: topic.title, url: `https://www.nursenest.ca/${topic.slug}` },
-  ];
+export default function TopicClusterPage() {
+  const params = useParams<{ slug: string }>();
+  const topic = getTopicClusterBySlug(params.slug || "");
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  if (!topic) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="max-w-4xl mx-auto px-4 py-20 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-topic-not-found">Topic Not Found</h1>
+          <p className="text-gray-600 mb-6">The clinical topic you are looking for does not exist.</p>
+          <LocaleLink href="/topics">
+            <Button data-testid="button-back-to-topics">Browse All Topics</Button>
+          </LocaleLink>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const relatedTopics = getRelatedTopicClusters(topic.relatedTopicSlugs);
+  const parentHub = findPrimaryHubForTopic(topic.slug, topic.parentCategorySlug);
+
+  const faqStructuredData = buildFaqStructuredData(
+    topic.faqs.map(f => ({ question: f.question, answer: f.answer }))
+  );
+
+  const medicalWebPageData = buildMedicalWebPageData(topic);
+  const breadcrumbItems = buildBreadcrumbsForTopic(topic);
 
   return (
     <div className="min-h-screen bg-gray-50" data-testid={`topic-cluster-${topic.slug}`}>
@@ -231,6 +250,19 @@ export default function TopicClusterPage() {
           </div>
 
           <div className="flex-1 min-w-0">
+            {parentHub && (
+              <div className="mb-6 bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center gap-3" data-testid="link-back-to-hub">
+                <ArrowRight className="w-4 h-4 text-blue-600 rotate-180 shrink-0" />
+                <p className="text-sm text-blue-800">
+                  This topic is part of our{" "}
+                  <LocaleLink href={`/${parentHub.slug}`} className="font-semibold text-blue-700 underline hover:text-blue-900" data-testid="link-parent-hub">
+                    {parentHub.title}
+                  </LocaleLink>
+                  {" "}hub.
+                </p>
+              </div>
+            )}
+
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
               <p className="text-gray-700 leading-relaxed text-base">{topic.introduction}</p>
             </section>
@@ -454,50 +486,14 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
   if (!topic) return null;
 
   const relatedTopics = getRelatedTopicClusters(topic.relatedTopicSlugs);
+  const parentHub = findPrimaryHubForTopic(topic.slug, topic.parentCategorySlug);
 
   const faqStructuredData = buildFaqStructuredData(
     topic.faqs.map(f => ({ question: f.question, answer: f.answer }))
   );
 
-  const medicalWebPageData = {
-    "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
-    "headline": topic.title,
-    "description": topic.metaDescription,
-    "author": {
-      "@type": "EducationalOrganization",
-      "name": "NurseNest",
-      "url": "https://www.nursenest.ca",
-    },
-    "publisher": {
-      "@type": "EducationalOrganization",
-      "name": "NurseNest",
-      "url": "https://www.nursenest.ca",
-      "parentOrganization": {
-        "@type": "EducationalOrganization",
-        "name": PARENT_EDUCATIONAL_ORG.name,
-        "url": PARENT_EDUCATIONAL_ORG.url,
-      },
-    },
-    "datePublished": "2025-06-01",
-    "dateModified": new Date().toISOString().split("T")[0],
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://www.nursenest.ca/${topic.slug}`,
-    },
-    "medicalAudience": {
-      "@type": "MedicalAudience",
-      "audienceType": "Nurse",
-    },
-    "specialty": "Nursing",
-  };
-
-  const breadcrumbItems = [
-    { name: "Home", url: "https://www.nursenest.ca" },
-    { name: "Topics", url: "https://www.nursenest.ca/topics" },
-    { name: topic.category, url: `https://www.nursenest.ca/study-guide/${topic.parentCategorySlug}` },
-    { name: topic.title, url: `https://www.nursenest.ca/${topic.slug}` },
-  ];
+  const medicalWebPageData = buildMedicalWebPageData(topic);
+  const breadcrumbItems = buildBreadcrumbsForTopic(topic);
 
   return (
     <div className="min-h-screen bg-gray-50" data-testid={`topic-cluster-${topic.slug}`}>
@@ -537,6 +533,19 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
           </div>
 
           <div className="flex-1 min-w-0">
+            {parentHub && (
+              <div className="mb-6 bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center gap-3" data-testid="link-back-to-hub">
+                <ArrowRight className="w-4 h-4 text-blue-600 rotate-180 shrink-0" />
+                <p className="text-sm text-blue-800">
+                  This topic is part of our{" "}
+                  <LocaleLink href={`/${parentHub.slug}`} className="font-semibold text-blue-700 underline hover:text-blue-900" data-testid="link-parent-hub">
+                    {parentHub.title}
+                  </LocaleLink>
+                  {" "}hub.
+                </p>
+              </div>
+            )}
+
             <section id="introduction" className="mb-12 scroll-mt-24" data-testid="section-introduction">
               <p className="text-gray-700 leading-relaxed text-base">{topic.introduction}</p>
             </section>
