@@ -369,6 +369,9 @@ const DemoHeroShowcase = lazy(() => import("@/pages/demo-hero-showcase"));
 const SeoPracticeQuiz = lazy(() => import("@/pages/seo-practice-quiz"));
 const ExamPrepCornerstonePage = lazy(() => import("@/pages/exam-prep-cornerstone-pages"));
 const AuthorityGuidePage = lazy(() => import("@/pages/authority-guide-pages"));
+const ClinicalCalculatorsPage = lazy(() => import("@/pages/clinical-calculators"));
+const NursingStudyGuidesPage = lazy(() => import("@/pages/nursing-study-guides"));
+const NursingClinicalScenariosHubPage = lazy(() => import("@/pages/nursing-clinical-scenarios-hub"));
 const ParamedicPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.ParamedicPracticeQuestions })));
 const RrtPracticeQuestions = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.RrtPracticeQuestions })));
 const MltPracticeQuestionsPage = lazy(() => import("@/pages/profession-practice-questions").then(m => ({ default: m.MltPracticeQuestions })));
@@ -1281,6 +1284,17 @@ function AppRoutes() {
         <Route path="/respiratory-assessment-nursing">{() => <TopicClusterBySlug slug="respiratory-assessment-nursing" />}</Route>
         <Route path="/critical-care-nursing-essentials">{() => <TopicClusterBySlug slug="critical-care-nursing-essentials" />}</Route>
         <Route path="/acid-base-balance-nursing">{() => <TopicClusterBySlug slug="acid-base-balance-nursing" />}</Route>
+
+        {/* Clinical Calculators Hub & Child Pages */}
+        <Route path="/clinical-calculators/:slug" component={ClinicalCalculatorsPage} />
+        <Route path="/clinical-calculators" component={ClinicalCalculatorsPage} />
+
+        {/* Nursing Study Guides Hub & Child Pages */}
+        <Route path="/nursing-study-guides/:slug" component={NursingStudyGuidesPage} />
+        <Route path="/nursing-study-guides" component={NursingStudyGuidesPage} />
+
+        {/* Nursing Clinical Scenarios Hub & Child Pages */}
+        <Route path="/nursing-clinical-scenarios/:slug" component={NursingClinicalScenariosHubPage} />
 
         {/* Exam Prep Cornerstone Pages */}
         <Route path="/nclex-question-bank">{() => <ExamPrepCornerstonePage slug="nclex-question-bank" />}</Route>

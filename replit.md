@@ -22,7 +22,7 @@ Core functionalities include a database-driven subscription model with regional 
 Key architectural components and features:
 - **Learning & Exam Preparation**: Includes Flashcards, Test Bank, Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, Mock Exam Engine (CAT & Practice modes), and an Adaptive Learning Engine.
 - **AI-Powered Study & Content**: Features an AI Study Coaching & Course Generation System, Exam Date AI Study Planner, and an AI-Powered Generation & Safety system for content creation with quality gates.
-- **Content & SEO**: Incorporates an Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and an SEO Content Expansion System.
+- **Content & SEO**: Incorporates an Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, SEO Content Expansion System, Clinical Calculators Hub (7 interactive calculators), Nursing Study Guides Hub (5 long-form guides), and Nursing Clinical Scenarios Hub (5 interactive case studies).
 - **User Experience & Engagement**: Provides a Dashboard Lifecycle Command Center for adaptive user guidance and a Global Report a Problem System.
 - **Multi-Profession Support**: A dynamic framework allows configuration of new healthcare professions with specific navigation and content, including specialized question banks for MLT, Surgical Technologist, Respiratory Therapy, and dedicated NP Exam Ecosystems.
 - **Database Safety & Management**: Utilizes PostgreSQL with Drizzle ORM, supported by an EnvironmentAwareContentWriteService.
