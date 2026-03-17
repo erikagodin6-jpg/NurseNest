@@ -40,14 +40,21 @@ function PreviewBanner() {
   );
 }
 
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  route?: string;
+  component?: string;
+}
+
+
 interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
 }
 
-class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
-  constructor(props: { children: ReactNode }) {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
   }
@@ -56,18 +63,32 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   }
   componentDidCatch(error: Error, info: ErrorInfo) {
     this.setState({ errorInfo: info });
-    const route = typeof window !== "undefined" ? window.location.pathname : "unknown";
+    const isDev = import.meta.env.DEV;
+    const route = this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown");
+    const component = this.props.component || "unknown";
     const fingerprint = `${error.name}:${error.message?.slice(0, 80)}`;
+    const isTDZ = error.message?.includes("before initialization") ||
+                  error.message?.includes("Cannot access");
     console.error(
-      `[ErrorBoundary] Crash on route="${route}" fingerprint="${fingerprint}"`,
-      "\nError:", error,
-      "\nComponent stack:", info.componentStack
+      `[ErrorBoundary] Crash on route="${route}" component="${component}" fingerprint="${fingerprint}"`,
+      "\n  Error:", error.message,
+      isTDZ ? "\n  ⚠ TDZ/circular-import detected — check module initialization order" : "",
+      "\n  Component stack:", info.componentStack,
     );
+    if (isDev) {
+      console.groupCollapsed("[ErrorBoundary] Full diagnostic context");
+      console.error("Error object:", error);
+      console.error("Stack:", error.stack);
+      console.error("React component stack:", info.componentStack);
+      console.error("Route:", route);
+      console.error("Component:", component);
+      console.groupEnd();
+    }
   }
   render() {
     if (this.state.hasError) {
       const isDev = import.meta.env.DEV;
-      const route = typeof window !== "undefined" ? window.location.pathname : "unknown";
+      const route = this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown");
       return (
         <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback">
           <h1 style={{ color: "#dc2626" }}>Something went wrong</h1>
@@ -89,6 +110,16 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
                   </pre>
                 </details>
               )}
+              <details style={{ marginTop: "12px" }}>
+                <summary style={{ cursor: "pointer", fontWeight: "bold", color: "#6b7280" }}>
+                  Diagnostic Context
+                </summary>
+                <pre style={{ background: "#fef3c7", padding: "12px", borderRadius: "8px", fontSize: "12px", marginTop: "8px", overflow: "auto" }}>
+                  Route: {route}{"\n"}
+                  Component: {this.props.component || "root"}{"\n"}
+                  {this.state.errorInfo?.componentStack}
+                </pre>
+              </details>
             </>
           ) : (
             <p style={{ color: "#6b7280" }}>

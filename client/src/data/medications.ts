@@ -1,3 +1,8 @@
+import { medicationsBatchA } from "./medications-batch-a";
+import { medicationsBatchB } from "./medications-batch-b";
+import { medicationsBatchC } from "./medications-batch-c";
+import { medicationsBatchD } from "./medications-batch-d";
+
 export interface Medication {
   id: string;
   genericName: string;
@@ -291,11 +296,6 @@ const baseMedications: Medication[] = [
     relatedLessons: [{ id: "dka-management", title: "DKA Management" }, { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" }],
   },
 ];
-
-import { medicationsBatchA } from "./medications-batch-a";
-import { medicationsBatchB } from "./medications-batch-b";
-import { medicationsBatchC } from "./medications-batch-c";
-import { medicationsBatchD } from "./medications-batch-d";
 
 export const medications: Medication[] = [
   ...baseMedications,

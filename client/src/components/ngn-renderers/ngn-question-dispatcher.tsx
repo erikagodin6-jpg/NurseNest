@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import type {
   NGNQuestionType,
   NGNItemPayload,
@@ -13,7 +14,10 @@ import type {
   MatchingGridPayload,
   MatchingGridResponse,
 } from "@/lib/ngn-question-types";
-import { CaseStudySeriesRenderer } from "./case-study-series-renderer";
+export { createDefaultResponse } from "./ngn-default-response";
+const CaseStudySeriesRenderer = lazy(() =>
+  import("./case-study-series-renderer").then(m => ({ default: m.CaseStudySeriesRenderer }))
+);
 import { LabInterpretationRenderer } from "./lab-interpretation-renderer";
 import { ImageHotspotRenderer } from "./image-hotspot-renderer";
 import { CalculationNumericRenderer } from "./calculation-numeric-renderer";
@@ -37,12 +41,14 @@ export function NGNQuestionDispatcher({
   switch (questionType) {
     case "CASE_STUDY_SERIES":
       return (
-        <CaseStudySeriesRenderer
-          payload={payload as CaseStudySeriesPayload}
-          response={response as CaseStudySeriesResponse}
-          onResponseChange={onResponseChange}
-          disabled={disabled}
-        />
+        <Suspense fallback={<div className="p-4 text-sm text-gray-500">Loading case study...</div>}>
+          <CaseStudySeriesRenderer
+            payload={payload as CaseStudySeriesPayload}
+            response={response as CaseStudySeriesResponse}
+            onResponseChange={onResponseChange}
+            disabled={disabled}
+          />
+        </Suspense>
       );
     case "LAB_INTERPRETATION":
       return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,8 +10,10 @@ import type {
   CaseStudySubQuestion,
   NGNUserResponse,
 } from "@/lib/ngn-question-types";
-import { NGNQuestionDispatcher } from "./ngn-question-dispatcher";
-import { createDefaultResponse } from "./create-default-response";
+import { createDefaultResponse } from "./ngn-default-response";
+const LazyNGNQuestionDispatcher = lazy(() =>
+  import("./ngn-question-dispatcher").then(m => ({ default: m.NGNQuestionDispatcher }))
+);
 
 interface CaseStudySeriesRendererProps {
   payload: CaseStudySeriesPayload;
@@ -109,13 +111,15 @@ function SubQuestionRenderer({
         </Badge>
       </div>
       <p className="text-base font-medium text-gray-900 leading-relaxed">{subQuestion.stem}</p>
-      <NGNQuestionDispatcher
-        questionType={subQuestion.questionType}
-        payload={subQuestion.itemPayload}
-        response={defaultResponse}
-        onResponseChange={onSubResponseChange}
-        disabled={disabled}
-      />
+      <Suspense fallback={<div className="p-2 text-sm text-gray-400">Loading...</div>}>
+        <LazyNGNQuestionDispatcher
+          questionType={subQuestion.questionType}
+          payload={subQuestion.itemPayload}
+          response={defaultResponse}
+          onResponseChange={onSubResponseChange}
+          disabled={disabled}
+        />
+      </Suspense>
     </div>
   );
 }
