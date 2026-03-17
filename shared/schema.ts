@@ -6155,3 +6155,27 @@ export const taxonomyReviewQueue = pgTable("taxonomy_review_queue", {
 export const insertTaxonomyReviewSchema = createInsertSchema(taxonomyReviewQueue).omit({ id: true, createdAt: true });
 export type TaxonomyReviewEntry = typeof taxonomyReviewQueue.$inferSelect;
 export type InsertTaxonomyReviewEntry = z.infer<typeof insertTaxonomyReviewSchema>;
+
+export const mockExamTemplates = pgTable("mock_exam_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateId: text("template_id").notNull().unique(),
+  examCode: text("exam_code").notNull(),
+  examName: text("exam_name").notNull(),
+  templateName: text("template_name").notNull(),
+  description: text("description"),
+  questionCount: integer("question_count").notNull(),
+  timeLimitMinutes: integer("time_limit_minutes").notNull(),
+  difficultyDistribution: jsonb("difficulty_distribution").notNull(),
+  domainWeights: jsonb("domain_weights").notNull(),
+  formatMix: jsonb("format_mix").notNull(),
+  passingStandard: integer("passing_standard").default(65),
+  seed: integer("seed").default(0),
+  tier: text("tier").notNull(),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMockExamTemplateSchema = createInsertSchema(mockExamTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type MockExamTemplate = typeof mockExamTemplates.$inferSelect;
+export type InsertMockExamTemplate = z.infer<typeof insertMockExamTemplateSchema>;

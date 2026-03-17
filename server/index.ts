@@ -631,6 +631,9 @@ app.use((req, res, next) => {
   registerScenarioRoutes(app);
   registerParamedicBulkUploadRoutes(app);
 
+  const { registerMockExamTemplateRoutes } = await import("./mock-exam-template-routes");
+  registerMockExamTemplateRoutes(app);
+
   const [
     { registerScheduleRoutes },
     { setupAiOpsRoutes },

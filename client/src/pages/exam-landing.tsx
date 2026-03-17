@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { SEO_EXAM_PAGES, type SeoExamPageConfig, type SeoSampleQuestion } from "@/data/seo-exam-data";
+import { getMockExamCountByExamCode } from "@/lib/flagship-mock-exam-configs";
 import {
   ChevronDown,
   ChevronRight,
@@ -19,6 +20,7 @@ import {
   Layers,
   Target,
   Zap,
+  GraduationCap,
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
@@ -226,7 +228,7 @@ export default function ExamLandingPage() {
               <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Format</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
                 <div data-testid="text-question-count">
                   <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Questions</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{examData.formatDetails.questionCount}</p>
@@ -242,6 +244,26 @@ export default function ExamLandingPage() {
                 <div data-testid="text-pass-rate">
                   <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Pass Rate</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{examData.formatDetails.passRate}</p>
+                </div>
+                <div data-testid="text-mock-exam-count">
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Mock Exams</p>
+                  <p className="text-lg font-bold text-[#2E3A59] flex items-center gap-1.5">
+                    <GraduationCap className="w-5 h-5 text-[#BFA6F6]" />
+                    {(() => {
+                      const counts = getMockExamCountByExamCode();
+                      const examCodes = examData.examCode ? [examData.examCode] : [];
+                      const relatedCodes: Record<string, string[]> = {
+                        "NCLEX-RN": ["NCLEX-RN"],
+                        "NCLEX-PN": ["NCLEX-PN"],
+                        "REX-PN": ["REX-PN"],
+                        "AANP": ["AANP"],
+                        "ANCC": ["ANCC"],
+                      };
+                      const codes = relatedCodes[examData.examCode] || examCodes;
+                      const total = codes.reduce((s, c) => s + (counts[c] || 0), 0);
+                      return total > 0 ? `${total} Available` : "Coming Soon";
+                    })()}
+                  </p>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-gray-100">

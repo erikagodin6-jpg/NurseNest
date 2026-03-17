@@ -135,14 +135,36 @@ export async function calculateEnhancedReadiness(userId: string): Promise<Enhanc
   const topicCoverage = totalTopics > 0 ? Math.round((proficientTopics / totalTopics) * 100) : 0;
 
   const examResult = await pool.query(
-    `SELECT score, total_questions FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed' ORDER BY completed_at DESC LIMIT 5`,
+    `SELECT score, total_questions, exam_type, report FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed' ORDER BY completed_at DESC LIMIT 10`,
     [userId]
   );
   let practiceExamScore = 0;
   if (examResult.rows.length > 0) {
-    const totalExamQ = examResult.rows.reduce((s: number, r: any) => s + (r.total_questions || 0), 0);
-    const totalExamScore = examResult.rows.reduce((s: number, r: any) => s + (r.score || 0), 0);
-    practiceExamScore = totalExamQ > 0 ? Math.round((totalExamScore / totalExamQ) * 100) : 0;
+    const flagshipExams = examResult.rows.filter((r: any) => r.exam_type === "flagship_mock");
+    const regularExams = examResult.rows.filter((r: any) => r.exam_type !== "flagship_mock");
+
+    let flagshipScore = 0;
+    if (flagshipExams.length > 0) {
+      const recent5 = flagshipExams.slice(0, 5);
+      const totalScore = recent5.reduce((s: number, r: any) => s + (r.score || 0), 0);
+      flagshipScore = Math.round(totalScore / recent5.length);
+    }
+
+    let regularScore = 0;
+    if (regularExams.length > 0) {
+      const recent5 = regularExams.slice(0, 5);
+      const totalQ = recent5.reduce((s: number, r: any) => s + (r.total_questions || 0), 0);
+      const totalS = recent5.reduce((s: number, r: any) => s + (r.score || 0), 0);
+      regularScore = totalQ > 0 ? Math.round((totalS / totalQ) * 100) : 0;
+    }
+
+    if (flagshipExams.length > 0 && regularExams.length > 0) {
+      practiceExamScore = Math.round(flagshipScore * 0.7 + regularScore * 0.3);
+    } else if (flagshipExams.length > 0) {
+      practiceExamScore = flagshipScore;
+    } else {
+      practiceExamScore = regularScore;
+    }
   }
 
   const avgTime = profile.avg_time_per_question || 0;

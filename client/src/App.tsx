@@ -390,6 +390,7 @@ const CustomPracticePage = lazy(() => import("@/pages/custom-practice"));
 const PerformanceAnalyticsPage = lazy(() => import("@/pages/performance-analytics"));
 const OfflineStudyPage = lazy(() => import("@/pages/offline-study"));
 const AdminMockResults = lazy(() => import("@/pages/admin-mock-results"));
+const AdminMockExamTemplates = lazy(() => import("@/pages/admin-mock-exam-templates"));
 const EncyclopediaLanding = lazy(() => import("@/pages/encyclopedia-landing"));
 const EncyclopediaHub = lazy(() => import("@/pages/encyclopedia-hub"));
 const EncyclopediaEntry = lazy(() => import("@/pages/encyclopedia-entry"));
@@ -916,6 +917,7 @@ function AppRoutes() {
         <Route path="/admin/rn-lesson-audit" component={AdminRnLessonAudit} />
         <Route path="/admin/demo-progress" component={AdminDemoProgress} />
         <Route path="/admin/mock-results" component={AdminMockResults} />
+        <Route path="/admin/mock-exam-templates" component={AdminMockExamTemplates} />
         <Route path="/admin/demo-adaptive-report" component={DemoAdaptiveReport} />
         <Route path="/admin/demo-screenshot-studio" component={DemoScreenshotStudio} />
         <Route path="/admin/demo-exam-review" component={DemoExamReview} />
