@@ -277,6 +277,7 @@ const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
 const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
 const AdminAiOps = lazy(() => import("@/pages/admin-ai-ops"));
 const AdminContentExpansion = lazy(() => import("@/pages/admin-content-expansion"));
+const AdminContentIntegrity = lazy(() => import("@/pages/admin-content-integrity"));
 const AdminPageviews = lazy(() => import("@/pages/admin-pageviews"));
 const StudyCoachingDashboard = lazy(() => import("@/pages/study-coaching-dashboard"));
 const AdminStudyAnalytics = lazy(() => import("@/pages/admin-study-analytics"));
@@ -895,6 +896,7 @@ function AppRoutes() {
         <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/admin/ai-ops" component={AdminAiOps} />
         <Route path="/admin/content-expansion" component={AdminContentExpansion} />
+        <Route path="/admin/content-integrity" component={AdminContentIntegrity} />
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/allied-health-articles" component={AdminAlliedHealthArticles} />
