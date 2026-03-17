@@ -1045,26 +1045,26 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
           : "bg-white/90 backdrop-blur-xl border-transparent"
       )}
     >
-      <div className="hidden md:block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white" data-testid="ecosystem-nav">
+      <div className="hidden md:block" style={{ background: "var(--theme-topbar-bg)", color: "var(--theme-topbar-text)" }} data-testid="ecosystem-nav">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-center gap-1 sm:gap-6 h-7 sm:h-8 text-[10px] sm:text-xs font-medium">
-            <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
+            <LocaleLink href={appendUtmParams("/exam-prep")} className="flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors" style={{ color: "inherit" }} onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")} data-testid="ecosystem-link-exam-prep" onClick={() => trackCrossSectionClick(getPlatformSection(location), "exam_prep", "Exam Prep")}>
               <BookOpen className="w-3 h-3" />
               <span>{t("nav.ecosystemExamPrep")}</span>
             </LocaleLink>
-            <span className="text-white/30 hidden sm:inline">|</span>
-            <LocaleLink href={appendUtmParams("/new-graduate-support")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-new-grad" onClick={() => trackCrossSectionClick(getPlatformSection(location), "new_grad", "New Grad Support")}>
+            <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
+            <LocaleLink href={appendUtmParams("/new-graduate-support")} className="flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors" style={{ color: "inherit" }} onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")} data-testid="ecosystem-link-new-grad" onClick={() => trackCrossSectionClick(getPlatformSection(location), "new_grad", "New Grad Support")}>
               <GraduationCap className="w-3 h-3" />
               <span>{t("nav.ecosystemNewGrad")}</span>
             </LocaleLink>
-            <span className="text-white/30 hidden sm:inline">|</span>
-            <LocaleLink href={appendUtmParams("/healthcare-careers")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-healthcare-jobs" onClick={() => trackCrossSectionClick(getPlatformSection(location), "career_tools", "Healthcare Jobs")}>
+            <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
+            <LocaleLink href={appendUtmParams("/healthcare-careers")} className="flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors" style={{ color: "inherit" }} onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")} data-testid="ecosystem-link-healthcare-jobs" onClick={() => trackCrossSectionClick(getPlatformSection(location), "career_tools", "Healthcare Jobs")}>
               <Briefcase className="w-3 h-3" />
               <span className="hidden sm:inline">{t("nav.ecosystemHealthcareCareers")}</span>
               <span className="sm:hidden">{t("nav.ecosystemCareers")}</span>
             </LocaleLink>
-            <span className="text-white/30 hidden sm:inline">|</span>
-            <LocaleLink href={appendUtmParams("/international-nurses")} className="flex items-center gap-1.5 px-2 py-1 rounded-full hover:bg-white/15 transition-colors" data-testid="ecosystem-link-international-nurses" onClick={() => trackCrossSectionClick(getPlatformSection(location), "international_nurses", "International Nurses")}>
+            <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
+            <LocaleLink href={appendUtmParams("/international-nurses")} className="flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors" style={{ color: "inherit" }} onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")} data-testid="ecosystem-link-international-nurses" onClick={() => trackCrossSectionClick(getPlatformSection(location), "international_nurses", "International Nurses")}>
               <Globe className="w-3 h-3" />
               <span className="hidden sm:inline">International Nurses</span>
               <span className="sm:hidden">IEN</span>
