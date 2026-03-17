@@ -66,7 +66,7 @@ const HIGH_END_TARGETS: Record<string, number> = {
 const TIER_EXAM_MAP: Record<string, string[]> = {
   rpn: ["REx-PN", "NCLEX-PN"],
   rn: ["NCLEX-RN", "NMC-CBT", "AHPRA"],
-  np: ["AANP-FNP", "ANCC-FNP", "AGNP", "ACNP", "CNPE", "PMHNP"],
+  np: ["AANP-FNP", "ANCC-FNP", "AGPCNP-AANP", "AGPCNP-ANCC", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP", "CNPE"],
 };
 
 const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
@@ -130,6 +130,49 @@ const BLUEPRINT_WEIGHTS: Record<string, Record<string, number>> = {
     "Crisis Intervention": 0.15,
     "Professional Practice": 0.05,
   },
+  "AGPCNP-AANP": {
+    "Assessment & Diagnosis": 0.36,
+    "Clinical Management & Treatment": 0.36,
+    "Health Promotion & Disease Prevention": 0.14,
+    "Professional Practice": 0.14,
+  },
+  "AGPCNP-ANCC": {
+    "Assessment & Diagnosis": 0.30,
+    "Clinical Management & Treatment": 0.30,
+    "Health Promotion & Disease Prevention": 0.12,
+    "Professional Practice": 0.10,
+    "Research & Evidence-Based Practice": 0.10,
+    "Role & Policy": 0.08,
+  },
+  "AGACNP": {
+    "Complex Acute & Critical Care": 0.35,
+    "Diagnostic Reasoning & Procedures": 0.25,
+    "Chronic Disease in Acute Settings": 0.15,
+    "Pharmacotherapeutics": 0.15,
+    "Professional Practice & Systems": 0.10,
+  },
+  "PNP": {
+    "Pediatric Health Assessment": 0.25,
+    "Growth & Developmental Milestones": 0.20,
+    "Pediatric Disease Management": 0.25,
+    "Health Promotion & Immunizations": 0.15,
+    "Family & Behavioral Health": 0.10,
+    "Professional Practice": 0.05,
+  },
+  "WHNP": {
+    "Reproductive Health & Gynecology": 0.30,
+    "Prenatal & Postpartum Care": 0.20,
+    "Primary Care of Women": 0.20,
+    "Health Promotion & Screening": 0.15,
+    "Professional Practice & Ethics": 0.15,
+  },
+  "ENP": {
+    "Emergency Assessment & Triage": 0.30,
+    "Acute Illness & Injury Management": 0.30,
+    "Procedures & Diagnostics": 0.20,
+    "Trauma Management": 0.10,
+    "Professional Practice & Systems": 0.10,
+  },
 };
 
 const CORE_TOPICS: Record<string, string[]> = {
@@ -163,6 +206,76 @@ const CORE_TOPICS: Record<string, string[]> = {
     "Geriatric & Palliative Care", "Mental Health & Behavioral",
     "Emergency & Urgent Care", "Evidence-Based Practice & Research",
     "Professional Role & Health Policy",
+  ],
+};
+
+const NP_SPECIALTY_TOPICS: Record<string, string[]> = {
+  "PMHNP": [
+    "Psychopharmacology", "Psychiatric Assessment & DSM-5", "Mood Disorders",
+    "Anxiety & Trauma-Related Disorders", "Psychotic Disorders", "Substance Use Disorders",
+    "Child & Adolescent Psychiatry", "Geriatric Psychiatry", "Crisis Intervention & Suicidality",
+    "Therapeutic Communication & Modalities", "Neurodevelopmental Disorders",
+    "Personality Disorders", "Sleep-Wake Disorders", "Psychotropic Drug Interactions",
+    "Involuntary Commitment & Legal Issues",
+  ],
+  "PNP": [
+    "Developmental Milestones & Screening", "Pediatric Growth Assessment",
+    "Childhood Immunization Schedules", "Common Pediatric Infections",
+    "Pediatric Respiratory Disorders", "Congenital & Genetic Conditions",
+    "Pediatric Nutrition & Feeding", "Behavioral & Developmental Disorders",
+    "Pediatric Pharmacology & Dosing", "Child Abuse Recognition & Reporting",
+    "Adolescent Health & Risk Behaviors", "Pediatric Dermatology",
+    "Pediatric Cardiac Disorders", "School-Age Health & Sports Injuries",
+    "Family-Centered Care & Anticipatory Guidance",
+  ],
+  "WHNP": [
+    "Reproductive Health & Contraception", "Menstrual Disorders",
+    "Prenatal Care & Obstetric Management", "Postpartum Care & Lactation",
+    "Menopause & Hormone Therapy", "Gynecological Infections & STIs",
+    "Cervical & Breast Cancer Screening", "Infertility Assessment",
+    "Pelvic Floor Disorders", "Intimate Partner Violence Screening",
+    "Osteoporosis & Women's Bone Health", "Polycystic Ovary Syndrome",
+    "Ectopic Pregnancy & Pregnancy Complications", "Vulvovaginal Disorders",
+    "Women's Primary Care & Chronic Disease",
+  ],
+  "ENP": [
+    "Emergency Triage & Acuity Assessment", "Acute Coronary Syndromes",
+    "Stroke Recognition & Management", "Trauma Assessment & ATLS Principles",
+    "Toxicology & Overdose Management", "Emergency Procedures & Wound Management",
+    "Pediatric Emergencies", "Obstetric Emergencies", "Shock Recognition & Management",
+    "Airway Management & Respiratory Emergencies", "Orthopedic Injuries & Fractures",
+    "Burns & Environmental Emergencies", "Sepsis Recognition & Management",
+    "Psychiatric Emergencies", "Mass Casualty & Disaster Triage",
+  ],
+  "AGPCNP-AANP": [
+    "Adult & Geriatric Health Assessment", "Chronic Disease Management",
+    "Geriatric Syndromes & Frailty", "Polypharmacy & Medication Reconciliation",
+    "Cardiovascular Risk Management", "Diabetes Management in Older Adults",
+    "Cognitive Assessment & Dementia", "Fall Prevention & Mobility",
+    "Cancer Screening & Prevention", "Palliative Care & Advance Directives",
+    "Musculoskeletal Disorders in Aging", "Depression & Mental Health in Older Adults",
+    "Immunizations & Preventive Health", "Urinary & Bowel Disorders",
+    "Sensory Changes & Age-Related Conditions",
+  ],
+  "AGPCNP-ANCC": [
+    "Adult & Geriatric Health Assessment", "Chronic Disease Management",
+    "Geriatric Syndromes & Frailty", "Polypharmacy & Medication Reconciliation",
+    "Cardiovascular Risk Management", "Diabetes Management in Older Adults",
+    "Cognitive Assessment & Dementia", "Fall Prevention & Mobility",
+    "Cancer Screening & Prevention", "Palliative Care & Advance Directives",
+    "Evidence-Based Practice & Research Methods", "Healthcare Policy & Systems",
+    "Quality Improvement & Patient Safety", "Interprofessional Collaboration",
+    "Role Development & Professional Practice",
+  ],
+  "AGACNP": [
+    "Complex Acute Care Management", "Critical Care & ICU Management",
+    "Hemodynamic Monitoring & Interpretation", "Ventilator Management",
+    "Acute Cardiac Events & Interventions", "Acute Respiratory Failure",
+    "Sepsis & Multi-Organ Dysfunction", "Acute Renal Failure & Dialysis",
+    "Acute Neurological Events", "Surgical & Post-Operative Management",
+    "Procedural Skills & Diagnostics", "Pharmacotherapeutics in Acute Care",
+    "Trauma Assessment & Stabilization", "End-of-Life Care in Acute Settings",
+    "Rapid Response & Deteriorating Patients",
   ],
 };
 
@@ -650,7 +763,9 @@ async function executePipelineRun(runId: string): Promise<void> {
 
   const topics = config.topic
     ? [config.topic]
-    : (CORE_TOPICS[config.tier] || CORE_TOPICS.rpn);
+    : (config.tier === "np" && config.examType && NP_SPECIALTY_TOPICS[config.examType]
+      ? NP_SPECIALTY_TOPICS[config.examType]
+      : (CORE_TOPICS[config.tier] || CORE_TOPICS.rpn));
 
   let topicIdx = 0;
 
@@ -804,7 +919,7 @@ export async function listPipelineRunsFromDB(limit: number = 50): Promise<any[]>
   return result.rows;
 }
 
-export { HIGH_END_TARGETS, TIER_EXAM_MAP, CORE_TOPICS, BLUEPRINT_WEIGHTS, FORMAT_TYPES, DEFAULT_FORMAT_MIX, NP_FORMAT_MIX, COGNITIVE_LEVELS, DEFAULT_COGNITIVE_DISTRIBUTION };
+export { HIGH_END_TARGETS, TIER_EXAM_MAP, CORE_TOPICS, BLUEPRINT_WEIGHTS, FORMAT_TYPES, DEFAULT_FORMAT_MIX, NP_FORMAT_MIX, COGNITIVE_LEVELS, DEFAULT_COGNITIVE_DISTRIBUTION, NP_SPECIALTY_TOPICS };
 
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
