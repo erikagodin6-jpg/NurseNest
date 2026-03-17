@@ -16,6 +16,15 @@ import { mltQuestions } from "./mlt-questions";
 import { mltQuestionsBatch2 } from "./mlt-questions-batch2";
 import { imagingQuestions } from "./imaging-questions";
 import { otaQuestions } from "./ota-questions";
+import { otaQuestionsBatch2 } from "./ota-questions-batch2";
+import { otaQuestionsBatch3 } from "./ota-questions-batch3";
+import { otaQuestionsBatch4 } from "./ota-questions-batch4";
+import { otaQuestionsBatch5 } from "./ota-questions-batch5";
+import { otaQuestionsBatch6 } from "./ota-questions-batch6";
+import { otaQuestionsBatch7 } from "./ota-questions-batch7";
+import { otaQuestionsBatch8 } from "./ota-questions-batch8";
+import { otaQuestionsBatch9 } from "./ota-questions-batch9";
+import { otaQuestionsBatch10 } from "./ota-questions-batch10";
 import { ptaQuestions } from "./pta-questions";
 import { himQuestions } from "./him-questions";
 import { sonographyQuestions } from "./sonography-questions";
@@ -51,7 +60,7 @@ const pools: Record<string, CareerQuestion[]> = {
   pharmacyTech: [...pharmacyTechQuestions, ...pharmacyTechQuestionsExtended, ...pharmacyTechQuestionsBatch2, ...pharmacyTechQuestionsBatch3, ...pharmacyTechQuestionsBatch4, ...pharmacyTechQuestionsPEBC],
   mlt: [...mltQuestions, ...mltQuestionsBatch2],
   imaging: imagingQuestions,
-  occupationalTherapyAssistant: otaQuestions,
+  occupationalTherapyAssistant: [...otaQuestions, ...otaQuestionsBatch2, ...otaQuestionsBatch3, ...otaQuestionsBatch4, ...otaQuestionsBatch5, ...otaQuestionsBatch6, ...otaQuestionsBatch7, ...otaQuestionsBatch8, ...otaQuestionsBatch9, ...otaQuestionsBatch10],
   occupationalTherapy: otaQuestions,
   physiotherapyAssistant: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],
   physicalTherapy: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18],

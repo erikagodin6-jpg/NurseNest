@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T23:07:58.611Z",
+  "generatedAt": "2026-03-16T23:48:26.686Z",
   "version": 1,
   "static": {
     "alliedHealth": {
@@ -134,42 +134,113 @@
         ]
       },
       "occupationalTherapyAssistant": {
-        "total": 900,
+        "total": 2002,
         "byCategory": {
           "Clinical Scenarios": 236,
           "Therapeutic Intervention": 311,
           "Patient Care Planning": 215,
-          "Safety": 138
+          "Safety": 138,
+          "Anatomy & Physiology": 80,
+          "Musculoskeletal": 70,
+          "Neurological": 68,
+          "Rehabilitation Principles": 41,
+          "Patient Mobility": 78,
+          "Therapeutic Exercises": 58,
+          "Assistive Devices": 70,
+          "Patient Safety": 47,
+          "Infection Prevention": 27,
+          "Documentation": 48,
+          "Professional Ethics": 38,
+          "Patient Communication": 27,
+          "Interdisciplinary Collaboration": 26,
+          "Clinical Case Scenarios": 66,
+          "Rehabilitation Planning": 72,
+          "Patient Education": 51,
+          "Geriatric Rehabilitation": 43,
+          "Pediatric Rehabilitation": 66,
+          "Neurological Rehabilitation": 65,
+          "Orthopedic Rehabilitation": 61
         },
         "byFormat": {
-          "MCQ": 900
+          "MCQ": 2002
         },
         "files": [
-          "ota-questions.ts"
+          "ota-questions.ts",
+          "ota-questions-batch2.ts",
+          "ota-questions-batch3.ts",
+          "ota-questions-batch4.ts",
+          "ota-questions-batch5.ts",
+          "ota-questions-batch6.ts",
+          "ota-questions-batch7.ts",
+          "ota-questions-batch8.ts",
+          "ota-questions-batch9.ts",
+          "ota-questions-batch10.ts"
         ]
       },
       "physiotherapyAssistant": {
-        "total": 900,
+        "total": 2249,
         "byCategory": {
-          "Musculoskeletal Rehabilitation": 331,
-          "Gait Training & Assistive Devices": 47,
-          "Therapeutic Exercise": 139,
-          "Neurological Rehabilitation": 149,
-          "Geriatric Rehabilitation": 31,
-          "Patient Safety & Body Mechanics": 59,
-          "Pediatric Rehabilitation": 36,
-          "Ethics & Professional Practice": 59,
-          "Therapeutic Modalities": 11,
-          "Cardiopulmonary Physical Therapy": 8,
-          "Integumentary & Wound Care": 9,
-          "Data Collection & Measurement": 11,
-          "Patient Education & Home Programs": 10
+          "Musculoskeletal Rehabilitation": 366,
+          "Gait Training & Assistive Devices": 54,
+          "Therapeutic Exercise": 151,
+          "Neurological Rehabilitation": 239,
+          "Geriatric Rehabilitation": 86,
+          "Patient Safety & Body Mechanics": 63,
+          "Pediatric Rehabilitation": 105,
+          "Ethics & Professional Practice": 60,
+          "Therapeutic Modalities": 22,
+          "Cardiopulmonary Physical Therapy": 34,
+          "Integumentary & Wound Care": 33,
+          "Data Collection & Measurement": 14,
+          "Patient Education & Home Programs": 12,
+          "Prosthetics & Orthotics": 9,
+          "Biomechanics & Kinesiology": 25,
+          "Pain Management": 7,
+          "Evidence-Based Practice": 15,
+          "Pharmacology for PTAs": 10,
+          "Clinical Prioritization & Workflow": 5,
+          "Anatomy & Physiology": 77,
+          "Musculoskeletal": 60,
+          "Neurological": 24,
+          "Rehabilitation Principles": 10,
+          "Patient Mobility": 50,
+          "Therapeutic Exercises": 112,
+          "Assistive Devices": 67,
+          "Patient Safety": 60,
+          "Infection Prevention": 45,
+          "Documentation": 54,
+          "Professional Ethics": 37,
+          "Patient Communication": 24,
+          "Interdisciplinary Collaboration": 27,
+          "Clinical Case Scenarios": 106,
+          "Rehabilitation Planning": 37,
+          "Patient Education": 58,
+          "Orthopedic Rehabilitation": 89,
+          "Documentation & Communication": 2
         },
         "byFormat": {
-          "MCQ": 900
+          "MCQ": 2249
         },
         "files": [
-          "pta-questions.ts"
+          "pta-questions.ts",
+          "pta-questions-batch1.ts",
+          "pta-questions-batch2.ts",
+          "pta-questions-batch3.ts",
+          "pta-questions-batch4.ts",
+          "pta-questions-batch5.ts",
+          "pta-questions-batch6.ts",
+          "pta-questions-batch7.ts",
+          "pta-questions-batch8.ts",
+          "pta-questions-batch9.ts",
+          "pta-questions-batch10.ts",
+          "pta-questions-batch11.ts",
+          "pta-questions-batch12.ts",
+          "pta-questions-batch13.ts",
+          "pta-questions-batch14.ts",
+          "pta-questions-batch15.ts",
+          "pta-questions-batch16.ts",
+          "pta-questions-batch17.ts",
+          "pta-questions-batch18.ts"
         ]
       },
       "psychotherapist": {
@@ -281,6 +352,66 @@
         },
         "files": [
           "addictions-counsellor-questions.ts"
+        ]
+      },
+      "healthInfoMgmt": {
+        "total": 310,
+        "byCategory": {
+          "ICD-10-CM/PCS Coding": 48,
+          "CPT/HCPCS Coding": 35,
+          "HIPAA Privacy & Security": 30,
+          "EHR Systems & Health IT": 31,
+          "Revenue Cycle Management": 48,
+          "Clinical Documentation Improvement": 26,
+          "Data Analytics & Quality": 44,
+          "Compliance & Legal": 32,
+          "Health Information Exchange": 16
+        },
+        "byFormat": {
+          "MCQ": 310
+        },
+        "files": [
+          "him-questions.ts"
+        ]
+      },
+      "diagnosticSonography": {
+        "total": 310,
+        "byCategory": {
+          "Ultrasound Physics & Instrumentation": 55,
+          "Abdominal Sonography": 61,
+          "Obstetric Sonography": 48,
+          "Vascular Sonography": 35,
+          "Gynecologic Sonography": 28,
+          "Small Parts & Superficial Structures": 30,
+          "Musculoskeletal Ultrasound": 23,
+          "Sonographic Pathology Recognition": 30
+        },
+        "byFormat": {
+          "MCQ": 310
+        },
+        "files": [
+          "sonography-questions.ts"
+        ]
+      },
+      "cardiacSonographer": {
+        "total": 311,
+        "byCategory": {
+          "Cardiac Anatomy & Physiology": 36,
+          "Standard Echocardiography Views": 24,
+          "Cardiac Hemodynamics & Doppler": 43,
+          "Valvular Heart Disease": 48,
+          "LV Systolic Function Assessment": 36,
+          "Diastolic Function Assessment": 20,
+          "Congenital Heart Disease": 30,
+          "Stress Echocardiography": 17,
+          "Pericardial Disease & Cardiomyopathies": 32,
+          "TEE & Advanced Techniques": 25
+        },
+        "byFormat": {
+          "MCQ": 311
+        },
+        "files": [
+          "cardiac-sonographer-questions.ts"
         ]
       },
       "surgicalTechnologist": {
@@ -1056,15 +1187,15 @@
     }
   },
   "totals": {
-    "alliedHealthStatic": 11321,
+    "alliedHealthStatic": 14703,
     "nursingStatic": 6139,
     "nursingCertStatic": 2500,
     "databaseGenerated": 35054,
-    "publicTotal": 13821
+    "publicTotal": 17203
   },
   "integrity": {
-    "fileCount": 246,
+    "fileCount": 276,
     "parseFailures": [],
-    "contentHash": "26759bfb48ade929"
+    "contentHash": "783be7c9254b4e8c"
   }
 }

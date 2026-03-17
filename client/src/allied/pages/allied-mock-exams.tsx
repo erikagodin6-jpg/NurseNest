@@ -9,16 +9,22 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
 const EXAM_TYPES = [
-  { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam" },
-  { id: "standard", name: "Standard Exam", questions: 75, time: 90, free: false, desc: "Full-length timed exam weighted to blueprint" },
-  { id: "comprehensive", name: "Comprehensive", questions: 150, time: 180, free: false, desc: "Marathon exam covering all domains" },
-  { id: "mock2", name: "Mock Exam 2", questions: 90, time: 110, free: false, desc: "PTCB-style 90-question exam with adaptive difficulty" },
-  { id: "mock3", name: "Mock Exam 3", questions: 90, time: 110, free: false, desc: "Fresh 90-question set for repeated practice" },
-  { id: "calculations", name: "Calculations Mastery", questions: 40, time: 60, free: false, desc: "Focused on dosage calculations and pharmacy math" },
-  { id: "safety-law", name: "Safety & Law", questions: 50, time: 60, free: false, desc: "Patient safety, regulations, and controlled substances" },
-  { id: "pharmacology-focus", name: "Pharmacology Focus", questions: 60, time: 75, free: false, desc: "Drug classes, interactions, and top 200 drugs" },
-  { id: "sterile-compounding", name: "Sterile & Compounding", questions: 40, time: 50, free: false, desc: "USP 795/797/800 and compounding techniques" },
-  { id: "rapid-review", name: "Rapid Review", questions: 50, time: 45, free: false, desc: "Fast-paced review across all domains" },
+  { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam", careers: null },
+  { id: "standard", name: "Standard Exam", questions: 75, time: 90, free: false, desc: "Full-length timed exam weighted to blueprint", careers: null },
+  { id: "comprehensive", name: "Comprehensive", questions: 150, time: 180, free: false, desc: "Marathon exam covering all domains", careers: null },
+  { id: "mock2", name: "Mock Exam 2", questions: 90, time: 110, free: false, desc: "Full-length 90-question exam with adaptive difficulty", careers: null },
+  { id: "mock3", name: "Mock Exam 3", questions: 90, time: 110, free: false, desc: "Fresh 90-question set for repeated practice", careers: null },
+  { id: "calculations", name: "Calculations Mastery", questions: 40, time: 60, free: false, desc: "Focused on dosage calculations and pharmacy math", careers: ["pharmacyTech"] as string[] },
+  { id: "safety-law", name: "Safety & Law", questions: 50, time: 60, free: false, desc: "Patient safety, regulations, and controlled substances", careers: ["pharmacyTech"] as string[] },
+  { id: "pharmacology-focus", name: "Pharmacology Focus", questions: 60, time: 75, free: false, desc: "Drug classes, interactions, and top 200 drugs", careers: ["pharmacyTech"] as string[] },
+  { id: "sterile-compounding", name: "Sterile & Compounding", questions: 40, time: 50, free: false, desc: "USP 795/797/800 and compounding techniques", careers: ["pharmacyTech"] as string[] },
+  { id: "rapid-review", name: "Rapid Review", questions: 50, time: 45, free: false, desc: "Fast-paced review across all domains", careers: null },
+  { id: "ota-adl-interventions", name: "ADL & Interventions", questions: 60, time: 75, free: false, desc: "Focused on ADL training, adaptive equipment, and OT intervention strategies", careers: ["occupationalTherapyAssistant"] as string[] },
+  { id: "ota-neuro-peds", name: "Neuro & Pediatric OT", questions: 50, time: 60, free: false, desc: "Neurological rehabilitation, pediatric milestones, and developmental interventions", careers: ["occupationalTherapyAssistant"] as string[] },
+  { id: "ota-clinical-reasoning", name: "Clinical Reasoning", questions: 50, time: 65, free: false, desc: "Complex clinical scenarios testing OTA decision-making and professional ethics", careers: ["occupationalTherapyAssistant"] as string[] },
+  { id: "pta-musculoskeletal", name: "Musculoskeletal Focus", questions: 60, time: 75, free: false, desc: "Orthopedic conditions, therapeutic exercises, and rehabilitation protocols", careers: ["physiotherapyAssistant"] as string[] },
+  { id: "pta-neuro-rehab", name: "Neuro Rehabilitation", questions: 50, time: 60, free: false, desc: "Neurological conditions, motor recovery, and balance/gait interventions", careers: ["physiotherapyAssistant"] as string[] },
+  { id: "pta-modalities-safety", name: "Modalities & Safety", questions: 50, time: 60, free: false, desc: "Physical agents, therapeutic modalities, patient safety, and infection control", careers: ["physiotherapyAssistant"] as string[] },
 ];
 
 export default function AlliedMockExamsPage() {
@@ -84,6 +90,12 @@ export default function AlliedMockExamsPage() {
     "safety-law": ["Patient Safety", "Regulations/Law"],
     "pharmacology-focus": ["Pharmacology", "Drug Interactions", "Drug Classifications"],
     "sterile-compounding": ["Sterile Products", "Compounding"],
+    "ota-adl-interventions": ["Assistive Devices", "Patient Mobility", "Rehabilitation Principles", "Therapeutic Exercises"],
+    "ota-neuro-peds": ["Neurological", "Neurological Rehabilitation", "Pediatric Rehabilitation"],
+    "ota-clinical-reasoning": ["Clinical Case Scenarios", "Professional Ethics", "Rehabilitation Planning"],
+    "pta-musculoskeletal": ["Musculoskeletal", "Orthopedic Rehabilitation", "Therapeutic Exercises"],
+    "pta-neuro-rehab": ["Neurological", "Neurological Rehabilitation", "Patient Mobility", "Rehabilitation Principles"],
+    "pta-modalities-safety": ["Patient Safety", "Infection Prevention", "Therapeutic Exercises", "Anatomy & Physiology"],
   };
 
   const startExam = (examId: string) => {
@@ -317,7 +329,7 @@ export default function AlliedMockExamsPage() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {EXAM_TYPES.map(exam => (
+        {EXAM_TYPES.filter(exam => exam.careers === null || exam.careers.includes(career.id)).map(exam => (
           <div key={exam.id} className="bg-white rounded-2xl border border-gray-100 p-6 hover:border-teal-200 hover:shadow-md transition-all" data-testid={`exam-card-${exam.id}`}>
             <FileText className="w-8 h-8 text-teal-500 mb-3" />
             <h3 className="text-lg font-semibold text-gray-900 mb-1">{exam.name}</h3>

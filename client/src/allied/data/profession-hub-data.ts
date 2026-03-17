@@ -816,14 +816,14 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       "Group Facilitation",
     ],
     studyFeatures: [
-      { label: "COTA Practice Questions", description: "400+ NBCOT COTA-aligned questions with detailed rationales covering all exam domains at the assistant level." },
+      { label: "COTA Practice Questions", description: "2,000+ NBCOT COTA-aligned questions with detailed rationales covering all exam domains at the assistant level." },
       { label: "ADL Intervention Scenarios", description: "Practice selecting and implementing ADL interventions for diverse patient populations with realistic case vignettes." },
       { label: "Adaptive Equipment Guide", description: "Master adaptive equipment selection, training techniques, and environmental modification strategies." },
       { label: "Splinting & Orthotics Drill", description: "Interactive splint fabrication scenarios covering resting hand, wrist cock-up, and thumb spica splints." },
       { label: "Blueprint-Weighted Mock Exams", description: "Full-length NBCOT COTA simulations with domain-level scoring and performance analytics." },
       { label: "Spaced Repetition Flashcards", description: "Master OT terminology, developmental milestones, and intervention techniques with adaptive flashcards." },
     ],
-    questionCountDisplay: "400+",
+    questionCountDisplay: "2,000+",
     faqs: [
       { q: "What is the difference between the COTA and OTR exams?", a: "The NBCOT COTA exam is for Occupational Therapy Assistants who hold an associate degree, while the OTR exam is for Occupational Therapists who hold a master's or doctoral degree. The COTA exam focuses on intervention implementation and clinical skills under supervision, whereas the OTR exam emphasizes evaluation, treatment planning, and independent clinical decision-making." },
       { q: "What does the NBCOT COTA exam cover?", a: "The exam covers four main domains: acquiring knowledge for intervention implementation, applying knowledge to select interventions, using clinical reasoning to implement evidence-based interventions, and managing and adapting practice. Questions test ADL training, adaptive equipment, pediatric and geriatric OT, psychosocial interventions, and documentation." },

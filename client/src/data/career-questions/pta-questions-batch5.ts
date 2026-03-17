@@ -1,679 +1,74 @@
 import type { CareerQuestion } from "./rrt-questions";
 
 export const ptaQuestionsBatch5: CareerQuestion[] = [
-  {
-    "id": "pta-b5-001",
-    "stem": "A 45-year-old construction worker presents 8 weeks post-rotator cuff repair. He can actively flex his shoulder to 120° but reports pain at end range. The MOST appropriate intervention is:",
-    "options": [
-      "Aggressive passive stretching beyond 120°",
-      "Continue active-assisted ROM to 130-140° with pain-free progression and periscapular strengthening",
-      "Discontinue all shoulder exercises",
-      "Begin heavy resistance training"
-    ],
-    "correctIndex": 1,
-    "rationale": "At 8 weeks post-RCR, the patient is progressing well. Continue gradual ROM progression within tolerance and begin periscapular strengthening. Avoid aggressive end-range stretching.",
-    "difficulty": 2,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Rotator Cuff Progression"
-  },
-  {
-    "id": "pta-b5-002",
-    "stem": "A 60-year-old woman with knee OA demonstrates antalgic gait. Her gait deviation is MOST likely:",
-    "options": [
-      "Increased stance phase on the affected side",
-      "Decreased stance phase on the affected side to reduce time bearing weight on the painful knee",
-      "Normal gait pattern",
-      "Increased cadence"
-    ],
-    "correctIndex": 1,
-    "rationale": "Antalgic gait: shortened stance phase on the painful side to minimize weight-bearing time. Results in uneven gait rhythm with rapid transition off the painful leg.",
-    "difficulty": 1,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Antalgic Gait"
-  },
-  {
-    "id": "pta-b5-003",
-    "stem": "A patient with bilateral knee OA asks about the best exercise. Evidence supports:",
-    "options": [
-      "Running on hard surfaces",
-      "Aquatic exercise, cycling, and moderate walking for symptom management while maintaining fitness",
-      "No exercise with OA",
-      "Only isometric exercises forever"
-    ],
-    "correctIndex": 1,
-    "rationale": "OA exercise: low-impact activities (aquatic, cycling, walking) maintain joint mobility, muscle strength, and cardiovascular fitness while minimizing joint stress.",
-    "difficulty": 1,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "OA Exercise"
-  },
-  {
-    "id": "pta-b5-004",
-    "stem": "A 35-year-old runner with Achilles tendinopathy should begin rehabilitation with:",
-    "options": [
-      "Immediate return to running",
-      "Eccentric heel drops (Alfredson protocol), activity modification, and addressing contributing biomechanical factors",
-      "Complete immobilization for 3 months",
-      "Corticosteroid injection only"
-    ],
-    "correctIndex": 1,
-    "rationale": "Achilles tendinopathy: eccentric heel drops (Alfredson protocol: 3x15 reps, 2x/day, for 12 weeks) are first-line treatment. Address biomechanics (calf tightness, overpronation).",
-    "difficulty": 2,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Achilles Tendinopathy"
-  },
-  {
-    "id": "pta-b5-005",
-    "stem": "A patient with frozen shoulder is in the thawing phase. The PTA should focus on:",
-    "options": [
-      "Pain management only",
-      "Progressive ROM exercises including sustained stretching, joint mobilization, and functional activity training",
-      "Complete rest",
-      "Maximum intensity strengthening"
-    ],
-    "correctIndex": 1,
-    "rationale": "Thawing phase: inflammation resolves, pain decreases, and motion gradually returns. Focus on progressive ROM, stretching, joint mobilization, and restoring functional movement patterns.",
-    "difficulty": 2,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Frozen Shoulder Phases"
-  },
-  {
-    "id": "pta-b5-006",
-    "stem": "A patient 3 weeks post-stroke has flaccid right UE (Brunnstrom Stage 1-2). The PTA should focus on:",
-    "options": [
-      "Resistive exercises for the right UE",
-      "Positioning to protect the shoulder, PROM, neuromuscular facilitation techniques, and functional weight bearing",
-      "Discharge from therapy",
-      "Only left-side activities"
-    ],
-    "correctIndex": 1,
-    "rationale": "Early flaccid stage: protect the shoulder (positioning, support), maintain ROM, facilitate muscle activation through weight bearing, sensory stimulation, and task-oriented approaches.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "Early Stroke Rehab"
-  },
-  {
-    "id": "pta-b5-007",
-    "stem": "A patient with TBI at Rancho Level IV (confused-agitated) requires:",
-    "options": [
-      "Complex multi-step instructions",
-      "Structured environment, simple commands, consistent routine, and redirection without confrontation",
-      "Maximum cognitive demands",
-      "Full independence in all activities"
-    ],
-    "correctIndex": 1,
-    "rationale": "Rancho IV: confused-agitated. Provide structured environment, simple 1-step commands, consistent routine, minimize stimulation, use calm redirection. Avoid confrontation.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "TBI Management"
-  },
-  {
-    "id": "pta-b5-008",
-    "stem": "A patient with Guillain-Barre syndrome in the acute phase should NOT receive:",
-    "options": [
-      "Gentle PROM exercises",
-      "Fatiguing exercise or resistive training",
-      "Positioning for comfort",
-      "Respiratory monitoring"
-    ],
-    "correctIndex": 1,
-    "rationale": "GBS acute phase: avoid fatigue-inducing exercise (overwork weakness delays recovery). Focus on PROM, positioning, respiratory monitoring/care, and emotional support.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "GBS Acute Care"
-  },
-  {
-    "id": "pta-b5-009",
-    "stem": "A patient with left CVA demonstrates global aphasia. Communication strategies include:",
-    "options": [
-      "Speaking louder",
-      "Using gestures, pictures, yes/no questions, and allowing extra processing time",
-      "Speaking faster",
-      "Only written communication"
-    ],
-    "correctIndex": 1,
-    "rationale": "Global aphasia: both expression and comprehension impaired. Use multimodal communication: gestures, pictures, pointing boards, yes/no questions, familiar objects, and extra time.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "Communication Strategies"
-  },
-  {
-    "id": "pta-b5-010",
-    "stem": "A patient with incomplete SCI (ASIA C) has some motor function below the injury. Expected outcomes include:",
-    "options": [
-      "Full functional recovery",
-      "Potential for functional ambulation with assistive devices depending on strength and balance",
-      "Complete dependence for all mobility",
-      "No benefit from rehabilitation"
-    ],
-    "correctIndex": 1,
-    "rationale": "ASIA C (incomplete, majority of key muscles below level <3/5): with rehabilitation, potential for functional ambulation with assistive devices depending on remaining motor function.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "Incomplete SCI"
-  },
-  {
-    "id": "pta-b5-011",
-    "stem": "A patient in Phase III cardiac rehab wants to begin resistance training. ACSM guidelines recommend:",
-    "options": [
-      "Maximum effort lifts immediately",
-      "Moderate intensity (40-60% 1RM), 8-12 reps, 1-3 sets, 2-3 days/week starting 4-6 weeks post-event",
-      "No resistance training is ever safe post-MI",
-      "Only isometric exercises"
-    ],
-    "correctIndex": 1,
-    "rationale": "Phase III resistance training: start 4-6 weeks post-event, moderate intensity (40-60% 1RM), 8-12 reps, 1-3 sets, 2-3 days/week. Avoid Valsalva maneuver.",
-    "difficulty": 2,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "Cardiac Resistance Training"
-  },
-  {
-    "id": "pta-b5-012",
-    "stem": "A patient with COPD demonstrates accessory muscle use during breathing. This indicates:",
-    "options": [
-      "Normal respiratory effort",
-      "Increased work of breathing with diaphragm insufficient for ventilation demands",
-      "Excellent respiratory function",
-      "No clinical significance"
-    ],
-    "correctIndex": 1,
-    "rationale": "Accessory muscle use (SCM, scalenes, pectorals) indicates increased work of breathing. The diaphragm alone cannot meet ventilation demands.",
-    "difficulty": 1,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "Respiratory Assessment"
-  },
-  {
-    "id": "pta-b5-013",
-    "stem": "A patient post-CABG surgery is 5 days post-op. Sternal precautions include:",
-    "options": [
-      "No lifting restrictions",
-      "No lifting >5-10 lbs, no pushing/pulling, no reaching behind, and log-roll for bed mobility for 6-8 weeks",
-      "Full activity as tolerated",
-      "Only lower extremity precautions"
-    ],
-    "correctIndex": 1,
-    "rationale": "Sternal precautions post-CABG: no lifting >5-10 lbs, no pushing/pulling with UEs, support sternum when coughing, log-roll for bed mobility, and avoid shoulder flexion/abduction >90° initially.",
-    "difficulty": 1,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "Sternal Precautions"
-  },
-  {
-    "id": "pta-b5-014",
-    "stem": "Active cycle of breathing technique is effective for:",
-    "options": [
-      "Strengthening muscles",
-      "Airway clearance in patients with COPD, bronchiectasis, and cystic fibrosis",
-      "Weight loss",
-      "Cardiovascular training"
-    ],
-    "correctIndex": 1,
-    "rationale": "ACBT: effective airway clearance for conditions with excessive secretions. Three phases: breathing control, thoracic expansion, forced expiratory technique.",
-    "difficulty": 2,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "Airway Clearance"
-  },
-  {
-    "id": "pta-b5-015",
-    "stem": "A patient on a ventilator in the ICU can benefit from PT by:",
-    "options": [
-      "No PT possible on ventilator",
-      "Early mobilization including bed exercises, sitting, standing, and even ambulation with appropriate safety measures",
-      "Only passive ROM",
-      "Only respiratory therapy"
-    ],
-    "correctIndex": 1,
-    "rationale": "ICU early mobilization (even on mechanical ventilation) reduces ICU-acquired weakness, delirium, and length of stay. Includes progressive mobility from in-bed exercises to ambulation.",
-    "difficulty": 2,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "ICU Rehabilitation"
-  },
-  {
-    "id": "pta-b5-016",
-    "stem": "A 2-year-old with spastic quadriplegic CP (GMFCS Level IV) should receive:",
-    "options": [
-      "Walking-focused therapy only",
-      "Positioning and seating systems, supported standing, UE function activities, and caregiver education",
-      "No therapy until age 5",
-      "Adult exercise programs"
-    ],
-    "correctIndex": 1,
-    "rationale": "GMFCS IV: transported in wheelchair, may achieve self-mobility with powered wheelchair. Focus on positioning, supported standing for bone health, UE function, and caregiver training.",
-    "difficulty": 2,
-    "category": "Pediatric Rehabilitation",
-    "topic": "CP Management"
-  },
-  {
-    "id": "pta-b5-017",
-    "stem": "A child with developmental coordination disorder (DCD) benefits MOST from:",
-    "options": [
-      "Repetitive drill-based exercises",
-      "Task-oriented approach using functional activities the child wants to learn",
-      "No intervention",
-      "Only academic tutoring"
-    ],
-    "correctIndex": 1,
-    "rationale": "DCD: task-oriented approach (CO-OP method) using activities meaningful to the child. Focus on strategy development and self-monitoring rather than isolated skill drilling.",
-    "difficulty": 2,
-    "category": "Pediatric Rehabilitation",
-    "topic": "DCD Intervention"
-  },
-  {
-    "id": "pta-b5-018",
-    "stem": "A premature infant showing signs of respiratory distress during therapy should:",
-    "options": [
-      "Continue treatment at same intensity",
-      "Stop treatment, position for optimal breathing, monitor, and notify NICU team",
-      "Increase stimulation",
-      "Apply deep pressure massage"
-    ],
-    "correctIndex": 1,
-    "rationale": "Neonatal distress signs: desaturation, apnea, bradycardia, color changes. Stop intervention, position for respiratory support, minimize stimulation, and alert NICU team.",
-    "difficulty": 2,
-    "category": "Pediatric Rehabilitation",
-    "topic": "NICU Precautions"
-  },
-  {
-    "id": "pta-b5-019",
-    "stem": "Constraint-induced movement therapy adapted for children (mCIMT) involves:",
-    "options": [
-      "Restraining the affected hand",
-      "Restraining the less-affected hand while engaging in intensive, structured play activities with the affected hand",
-      "No restraint use in pediatrics",
-      "Only passive stretching of affected hand"
-    ],
-    "correctIndex": 1,
-    "rationale": "Modified CIMT for children: restraint of less-affected UE during intensive, age-appropriate play. Modified protocols (2-6 hours/day) are effective for hemiplegic CP.",
-    "difficulty": 2,
-    "category": "Pediatric Rehabilitation",
-    "topic": "Pediatric CIMT"
-  },
-  {
-    "id": "pta-b5-020",
-    "stem": "A child with juvenile idiopathic arthritis (JIA) should:",
-    "options": [
-      "Avoid all exercise due to joint inflammation",
-      "Participate in low-impact exercise, aquatic therapy, and gentle ROM during active flares with progressive activity as tolerated",
-      "Rest completely at all times",
-      "Perform high-impact sports only"
-    ],
-    "correctIndex": 1,
-    "rationale": "JIA exercise: gentle ROM and low-impact activities during flares, progressive strengthening and conditioning as inflammation subsides. Aquatic therapy is well-tolerated.",
-    "difficulty": 2,
-    "category": "Pediatric Rehabilitation",
-    "topic": "JIA Exercise"
-  },
-  {
-    "id": "pta-b5-021",
-    "stem": "An 80-year-old patient with fear of falling avoids leaving home. The PTA should:",
-    "options": [
-      "Validate the fear and recommend staying home",
-      "Implement progressive desensitization through graded exposure to challenging environments with successful experiences",
-      "Ignore the fear",
-      "Force the patient to walk outside immediately"
-    ],
-    "correctIndex": 1,
-    "rationale": "Fear of falling leads to activity restriction and further deconditioning. Progressive, successful exposure builds confidence: indoor exercises, then hallway, then outdoors with support.",
-    "difficulty": 2,
-    "category": "Geriatric Rehabilitation",
-    "topic": "Fear of Falling"
-  },
-  {
-    "id": "pta-b5-022",
-    "stem": "Frailty in older adults is characterized by:",
-    "options": [
-      "Good strength and endurance",
-      "Unintentional weight loss, self-reported exhaustion, low physical activity, slow walking speed, and weak grip strength",
-      "Only cognitive decline",
-      "Only social isolation"
-    ],
-    "correctIndex": 1,
-    "rationale": "Frailty phenotype (Fried criteria): unintentional weight loss, exhaustion, low activity, slow gait speed, and weak grip. 3+ criteria = frail, 1-2 = pre-frail.",
-    "difficulty": 2,
-    "category": "Geriatric Rehabilitation",
-    "topic": "Frailty Assessment"
-  },
-  {
-    "id": "pta-b5-023",
-    "stem": "Perturbation training for elderly fall prevention involves:",
-    "options": [
-      "Static standing only",
-      "Challenging balance through unexpected external perturbations to improve reactive balance responses",
-      "Bed rest",
-      "Only seated exercises"
-    ],
-    "correctIndex": 1,
-    "rationale": "Perturbation training: therapist applies unexpected external forces during standing/walking to train reactive balance (stepping, reaching, trunk strategies). Evidence supports fall reduction.",
-    "difficulty": 3,
-    "category": "Geriatric Rehabilitation",
-    "topic": "Perturbation Training"
-  },
-  {
-    "id": "pta-b5-024",
-    "stem": "A patient with Parkinson disease in Hoehn and Yahr Stage 3 demonstrates:",
-    "options": [
-      "Unilateral involvement only",
-      "Bilateral involvement with postural instability but still physically independent",
-      "Wheelchair-bound",
-      "Bed-bound"
-    ],
-    "correctIndex": 1,
-    "rationale": "H&Y Stage 3: bilateral disease with postural instability (positive pull test). Still physically independent. Stage 4: severe disability but can stand/walk. Stage 5: wheelchair/bed-bound.",
-    "difficulty": 2,
-    "category": "Geriatric Rehabilitation",
-    "topic": "Parkinson Staging"
-  },
-  {
-    "id": "pta-b5-025",
-    "stem": "Exercise prescription for older adults with diabetes should include:",
-    "options": [
-      "Only flexibility exercises",
-      "Combined aerobic (150 min/week moderate) and resistance training (2-3 days/week) with blood glucose monitoring",
-      "No exercise for diabetic patients",
-      "Maximum intensity exercise without monitoring"
-    ],
-    "correctIndex": 1,
-    "rationale": "Diabetic exercise: aerobic 150 min/week moderate + resistance 2-3 days/week. Monitor blood glucose before/after. Avoid exercise if BG >250 with ketones or <100 without snack.",
-    "difficulty": 2,
-    "category": "Geriatric Rehabilitation",
-    "topic": "Diabetic Exercise"
-  },
-  {
-    "id": "pta-b5-026",
-    "stem": "A patient with a Stage II pressure injury over the sacrum should be repositioned every:",
-    "options": [
-      "8 hours",
-      "2 hours or more frequently to relieve pressure",
-      "Once daily",
-      "Only when in pain"
-    ],
-    "correctIndex": 1,
-    "rationale": "Stage II pressure injury: reposition every 2 hours minimum (more often on higher-risk surfaces). Use pressure redistribution surfaces, avoid positioning on the injury.",
-    "difficulty": 1,
-    "category": "Integumentary & Wound Care",
-    "topic": "Pressure Relief"
-  },
-  {
-    "id": "pta-b5-027",
-    "stem": "A patient with a diabetic foot ulcer has an ABI (ankle-brachial index) of 0.6. This indicates:",
-    "options": [
-      "Normal circulation",
-      "Moderate peripheral arterial disease - compression may be contraindicated",
-      "Excellent blood flow",
-      "Venous insufficiency only"
-    ],
-    "correctIndex": 1,
-    "rationale": "ABI 0.6: moderate PAD. Compression therapy contraindicated below 0.5. Between 0.5-0.8: modified/light compression may be used cautiously. Above 0.8: compression generally safe.",
-    "difficulty": 2,
-    "category": "Integumentary & Wound Care",
-    "topic": "ABI Interpretation"
-  },
-  {
-    "id": "pta-b5-028",
-    "stem": "Wound bed preparation using TIME framework stands for:",
-    "options": [
-      "Treatment, Infection, Moisture, Exercise",
-      "Tissue (non-viable), Infection/inflammation, Moisture imbalance, Edge (non-advancing)",
-      "Temperature, Inspection, Medication, Elevation",
-      "Testing, Imaging, Monitoring, Evaluation"
-    ],
-    "correctIndex": 1,
-    "rationale": "TIME: Tissue management (debridement), Infection/inflammation control, Moisture balance (not too wet/dry), Edge advancement (assess non-healing edges). Systematic wound management.",
-    "difficulty": 2,
-    "category": "Integumentary & Wound Care",
-    "topic": "Wound Management"
-  },
-  {
-    "id": "pta-b5-029",
-    "stem": "Granulation tissue in a healing wound appears:",
-    "options": [
-      "Black and necrotic",
-      "Beefy red, moist, and granular indicating healthy healing",
-      "Yellow and stringy",
-      "White and dry"
-    ],
-    "correctIndex": 1,
-    "rationale": "Granulation tissue: red, moist, granular appearance. Indicates healthy healing with new capillaries and collagen formation. Yellow = slough, black = eschar, white = potential infection.",
-    "difficulty": 1,
-    "category": "Integumentary & Wound Care",
-    "topic": "Wound Assessment"
-  },
-  {
-    "id": "pta-b5-030",
-    "stem": "Whirlpool therapy for wound care is:",
-    "options": [
-      "Always the best choice for wound management",
-      "Being replaced by more targeted approaches due to cross-contamination concerns and non-selective debridement",
-      "The only evidence-based wound treatment",
-      "Never used in clinical practice"
-    ],
-    "correctIndex": 1,
-    "rationale": "Whirlpool use declining due to: cross-contamination risk, non-selective debridement, and maceration concerns. Pulsed lavage and other targeted approaches are preferred.",
-    "difficulty": 2,
-    "category": "Integumentary & Wound Care",
-    "topic": "Wound Therapy"
-  },
-  {
-    "id": "pta-b5-031",
-    "stem": "During the stance phase of gait, the ankle progresses through:",
-    "options": [
-      "Plantarflexion only",
-      "Plantarflexion (initial contact to loading), dorsiflexion (midstance to terminal stance), then plantarflexion (push-off)",
-      "Dorsiflexion only",
-      "No motion"
-    ],
-    "correctIndex": 1,
-    "rationale": "Stance ankle motion: PF at initial contact to loading (eccentric tibialis anterior), DF through midstance/terminal stance (tibial advancement), then PF at push-off (concentric gastrocnemius/soleus).",
-    "difficulty": 2,
-    "category": "Biomechanics & Kinesiology",
-    "topic": "Gait Biomechanics"
-  },
-  {
-    "id": "pta-b5-032",
-    "stem": "The knee normally flexes to approximately what degree during loading response of gait?",
-    "options": [
-      "0° (full extension)",
-      "15-20° (shock absorption)",
-      "45°",
-      "90°"
-    ],
-    "correctIndex": 1,
-    "rationale": "Loading response knee flexion: ~15-20°. This controlled flexion (eccentric quadriceps) absorbs shock at initial contact. Loss of this motion creates a stiff-legged gait.",
-    "difficulty": 2,
-    "category": "Biomechanics & Kinesiology",
-    "topic": "Gait Biomechanics"
-  },
-  {
-    "id": "pta-b5-033",
-    "stem": "Arthrokinematic motion at a concave-on-convex joint (e.g., tibial plateau on femoral condyles) follows:",
-    "options": [
-      "Glide opposite to bone movement",
-      "Glide in the same direction as bone movement",
-      "No glide occurs",
-      "Random glide pattern"
-    ],
-    "correctIndex": 1,
-    "rationale": "Concave on convex rule: glide is in the same direction as bone movement. Example: tibia on femur during knee extension - tibia glides anteriorly.",
-    "difficulty": 2,
-    "category": "Biomechanics & Kinesiology",
-    "topic": "Arthrokinematics"
-  },
-  {
-    "id": "pta-b5-034",
-    "stem": "Creep in connective tissue refers to:",
-    "options": [
-      "Sudden tissue failure",
-      "Progressive deformation of tissue under constant sustained load over time",
-      "Tissue becoming stronger with loading",
-      "Elastic rebound after stretching"
-    ],
-    "correctIndex": 1,
-    "rationale": "Creep: time-dependent deformation under constant load. Tissue progressively elongates. This principle underlies sustained stretching for increasing flexibility.",
-    "difficulty": 2,
-    "category": "Biomechanics & Kinesiology",
-    "topic": "Tissue Mechanics"
-  },
-  {
-    "id": "pta-b5-035",
-    "stem": "Davis law states that:",
-    "options": [
-      "Bone remodels in response to stress",
-      "Soft tissue remodels along lines of imposed stress",
-      "Muscles atrophy with disuse",
-      "Nerves regenerate at 1mm/day"
-    ],
-    "correctIndex": 1,
-    "rationale": "Davis law: soft tissues remodel along the lines of stress placed upon them. Important for scar tissue management and tissue healing - controlled stress promotes organized healing.",
-    "difficulty": 2,
-    "category": "Biomechanics & Kinesiology",
-    "topic": "Tissue Healing"
-  },
-  {
-    "id": "pta-b5-036",
-    "stem": "A patient demonstrates positive Babinski sign. This indicates:",
-    "options": [
-      "Normal finding in adults",
-      "Upper motor neuron lesion (great toe extension, other toes fan with plantar stimulation)",
-      "Lower motor neuron lesion",
-      "Peripheral nerve injury"
-    ],
-    "correctIndex": 1,
-    "rationale": "Positive Babinski: great toe extension with fanning of other toes upon plantar stimulation. Normal in infants (up to 2 years). In adults, indicates UMN lesion.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "UMN Signs"
-  },
-  {
-    "id": "pta-b5-037",
-    "stem": "Clonus is characterized by:",
-    "options": [
-      "Single muscle contraction",
-      "Rhythmic, involuntary muscular contractions and relaxations indicating UMN lesion",
-      "Muscle atrophy",
-      "Fasciculations"
-    ],
-    "correctIndex": 1,
-    "rationale": "Clonus: involuntary rhythmic contractions (sustained >3 beats is pathological). Indicates UMN lesion with hyperreflexia. Commonly tested at ankle (sustained dorsiflexion).",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "UMN Signs"
-  },
-  {
-    "id": "pta-b5-038",
-    "stem": "A patient post-hip fracture ORIF can begin weight bearing as:",
-    "options": [
-      "Determined by the surgeon's protocol based on fracture pattern and fixation stability",
-      "Always NWB for 12 weeks",
-      "Full weight bearing immediately in all cases",
-      "Never weight bearing"
-    ],
-    "correctIndex": 0,
-    "rationale": "Weight bearing after hip ORIF depends on fracture type, fixation stability, bone quality, and surgical protocol. The surgeon determines the appropriate weight-bearing status.",
-    "difficulty": 2,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Post-Surgical Protocols"
-  },
-  {
-    "id": "pta-b5-039",
-    "stem": "Venous thromboembolism (VTE) prophylaxis post-surgery includes:",
-    "options": [
-      "No specific interventions",
-      "Early mobilization, compression devices, ankle pumps, and anticoagulation as prescribed",
-      "Complete bed rest",
-      "Only ice application"
-    ],
-    "correctIndex": 1,
-    "rationale": "VTE prophylaxis: early mobilization, sequential compression devices, ankle pumps, graduated compression stockings, adequate hydration, and pharmacological prophylaxis as prescribed.",
-    "difficulty": 1,
-    "category": "Patient Safety & Body Mechanics",
-    "topic": "VTE Prevention"
-  },
-  {
-    "id": "pta-b5-040",
-    "stem": "A patient with complex regional pain syndrome (CRPS) Type I demonstrates:",
-    "options": [
-      "Normal limb appearance",
-      "Disproportionate pain, vasomotor changes, edema, and trophic changes without specific nerve injury",
-      "Only motor deficits",
-      "Isolated sensory loss"
-    ],
-    "correctIndex": 1,
-    "rationale": "CRPS I (reflex sympathetic dystrophy): disproportionate pain, vasomotor changes (color/temperature), edema, motor changes, trophic changes. No specific nerve injury identified.",
-    "difficulty": 3,
-    "category": "Pain Management",
-    "topic": "CRPS"
-  },
-  {
-    "id": "pta-b5-041",
-    "stem": "Return-to-sport criteria after ACL reconstruction typically include:",
-    "options": [
-      "Pain-free walking only",
-      "Limb symmetry index >90% on hop tests, isokinetic strength >85% LSI, functional testing, and psychological readiness",
-      "2 weeks post-surgery",
-      "Surgeon clearance only without functional testing"
-    ],
-    "correctIndex": 1,
-    "rationale": "RTS criteria: LSI >90% hop tests, quadriceps/hamstring strength >85% LSI, successful sport-specific functional testing, psychological readiness (ACL-RSI score), and typically >9 months post-ACLR.",
-    "difficulty": 2,
-    "category": "Musculoskeletal Rehabilitation",
-    "topic": "Return to Sport"
-  },
-  {
-    "id": "pta-b5-042",
-    "stem": "Pelvic floor rehabilitation for urinary incontinence includes:",
-    "options": [
-      "Only medication",
-      "Kegel exercises (pelvic floor muscle training), biofeedback, electrical stimulation, and behavioral modifications",
-      "Surgery as first line",
-      "No evidence-based treatments exist"
-    ],
-    "correctIndex": 1,
-    "rationale": "Pelvic floor rehab: Kegel exercises (sustained contractions and quick flicks), biofeedback for motor awareness, E-stim for muscle activation, bladder training, and lifestyle modifications.",
-    "difficulty": 2,
-    "category": "Therapeutic Exercise",
-    "topic": "Pelvic Floor"
-  },
-  {
-    "id": "pta-b5-043",
-    "stem": "A patient with lymphedema should receive:",
-    "options": [
-      "Only medication",
-      "Complete decongestive therapy: manual lymphatic drainage, compression bandaging, exercise, and skin care",
-      "Hot packs to the affected limb",
-      "Dependent positioning"
-    ],
-    "correctIndex": 1,
-    "rationale": "CDT for lymphedema: manual lymphatic drainage, short-stretch compression bandaging, decongestive exercise (with compression), skin care, and patient education for self-management.",
-    "difficulty": 2,
-    "category": "Integumentary & Wound Care",
-    "topic": "Lymphedema Management"
-  },
-  {
-    "id": "pta-b5-044",
-    "stem": "Vestibular rehabilitation for unilateral vestibular hypofunction includes:",
-    "options": [
-      "Bed rest until symptoms resolve",
-      "Gaze stabilization exercises, habituation exercises, and balance training",
-      "Only medication",
-      "Avoiding all head movement"
-    ],
-    "correctIndex": 1,
-    "rationale": "Vestibular rehab: gaze stabilization (VOR exercises), habituation (repeated exposure to provoking movements), and balance training (static and dynamic). Evidence strongly supports.",
-    "difficulty": 2,
-    "category": "Neurological Rehabilitation",
-    "topic": "Vestibular Rehab"
-  },
-  {
-    "id": "pta-b5-045",
-    "stem": "A patient with chronic obstructive pulmonary disease requires supplemental oxygen during exercise when SpO2 drops below:",
-    "options": [
-      "98%",
-      "90% (or as prescribed by the physician)",
-      "95%",
-      "100%"
-    ],
-    "correctIndex": 1,
-    "rationale": "Supplemental O2 during exercise when SpO2 drops below 88-90% (varies by guideline/physician order). Target SpO2 >90% during exercise for adequate tissue oxygenation.",
-    "difficulty": 2,
-    "category": "Cardiopulmonary Physical Therapy",
-    "topic": "Supplemental Oxygen"
-  }
+  { id: "pta-1251", stem: "A PTA is educating a patient about the importance of weight-bearing exercise for bone health. Which exercise type provides the MOST osteogenic stimulus?", options: ["Swimming", "Impact activities (jogging, jumping) and resistance training that generate mechanical loading through bones", "Cycling", "Stretching only"], correctIndex: 1, rationale: "Osteogenic stimulus requires mechanical loading: impact activities (running, jumping) create ground reaction forces, and resistance training generates muscle pull on bone. Both stimulate osteoblast activity.", difficulty: 2, category: "Patient Education", topic: "bone health exercise" },
+  { id: "pta-1252", stem: "When educating a patient about energy conservation for daily activities, what is the MOST important principle?", options: ["Do everything as quickly as possible", "Plan and prioritize tasks, pace activities with rest breaks, sit during tasks when possible, and organize workspace efficiently", "Complete all tasks without rest", "Only rest — no activity"], correctIndex: 1, rationale: "Energy conservation: plan/prioritize, pace (work-rest), sit when possible, organize workspace (frequently used items within reach), delegate non-essential tasks, and use assistive devices.", difficulty: 1, category: "Patient Education", topic: "energy conservation" },
+  { id: "pta-1253", stem: "A patient asks about the difference between acute and chronic pain. How should the PTA explain this?", options: ["They are the same", "Acute pain is a warning signal lasting <3 months related to tissue damage; chronic pain persists >3 months and involves nervous system sensitization", "Acute pain is worse than chronic", "Chronic pain means permanent damage"], correctIndex: 1, rationale: "Acute pain: protective, time-limited (<3 months), proportional to tissue damage. Chronic pain: >3 months, involves nervous system changes (central sensitization), not always proportional to tissue state.", difficulty: 1, category: "Patient Education", topic: "pain education" },
+  { id: "pta-1254", stem: "A patient needs education about proper posture during prolonged sitting at work. What is the key recommendation?", options: ["Slouch for comfort", "Feet flat on floor, knees at 90°, lumbar support, monitor at eye level, take breaks every 30-60 minutes to stand and move", "Sit as long as possible without breaks", "Cross legs for stability"], correctIndex: 1, rationale: "Sitting ergonomics: feet flat, knees 90°, hips at or slightly above knees, lumbar support, monitor at eye level (arm's length), elbows at 90°, and breaks every 30-60 minutes.", difficulty: 1, category: "Patient Education", topic: "sitting posture education" },
+  { id: "pta-1255", stem: "When teaching a patient about wound care at home after discharge, which instruction is critical?", options: ["No wound care education needed from PT", "Keep the wound clean and dry, watch for signs of infection (redness, warmth, drainage, fever), follow dressing change schedule, and report changes", "Only the nurse provides wound education", "No wound care needed at home"], correctIndex: 1, rationale: "Home wound care education within PT scope: cleanliness, infection signs (redness, warmth, purulent drainage, fever), dressing change frequency, activity precautions around the wound, and when to seek medical attention.", difficulty: 1, category: "Patient Education", topic: "wound care education" },
+  { id: "pta-1256", stem: "A patient with newly diagnosed hypertension asks about exercise. What guidance should the PTA provide?", options: ["No exercise allowed", "Regular moderate aerobic exercise (30+ min, most days) helps lower BP; avoid breath-holding (Valsalva); monitor BP before/after exercise", "Only high-intensity exercise", "Exercise makes hypertension worse"], correctIndex: 1, rationale: "Hypertension exercise: regular moderate aerobic exercise (150 min/week), avoid Valsalva maneuver, monitor BP, contraindications if SBP >200 or DBP >110 mmHg at rest.", difficulty: 1, category: "Patient Education", topic: "hypertension exercise education" },
+  { id: "pta-1257", stem: "A patient is learning to use a home exercise elastic band (TheraBand). What safety instructions should be provided?", options: ["Stretch the band to maximum", "Inspect for tears before each use, anchor securely, avoid snapping, replace when discolored/cracked, and keep away from face", "No safety precautions needed", "Use only in gym settings"], correctIndex: 1, rationale: "TheraBand safety: inspect for tears/wear, secure anchor point, maintain control (no snapping), avoid pointing toward face, replace when damaged, progress colors gradually.", difficulty: 1, category: "Patient Education", topic: "resistance band safety" },
+  { id: "pta-1258", stem: "When educating a patient about joint protection for osteoarthritis, what is the primary message?", options: ["Avoid all movement", "Use larger joints for tasks, distribute forces over multiple joints, avoid prolonged positions, respect pain, and maintain activity with modification", "Exercise makes arthritis worse", "Only rest the joints"], correctIndex: 1, rationale: "OA joint protection: use larger joints, distribute forces, avoid prolonged static positions, respect pain (2-hour rule: if pain lasts >2 hours after activity, reduce next session), and stay active with modification.", difficulty: 1, category: "Patient Education", topic: "OA joint protection education" },
+  { id: "pta-1259", stem: "A patient with lymphedema needs education about activity precautions. What should the PTA advise?", options: ["No exercise restrictions", "Avoid blood draws, BP measurements, and constrictive clothing on the affected limb; elevate when resting; wear compression garment during exercise", "Exercise is contraindicated", "No precautions needed"], correctIndex: 1, rationale: "Lymphedema precautions: avoid BP/blood draws on affected side, no constrictive clothing, wear compression during exercise, elevate when resting, avoid extreme heat, and gradual exercise progression.", difficulty: 1, category: "Patient Education", topic: "lymphedema education" },
+  { id: "pta-1260", stem: "A PTA is teaching a patient about the signs and symptoms that require immediate medical attention after knee surgery. What should be reported?", options: ["Mild soreness", "Sudden increase in swelling, fever, increasing redness, wound drainage, calf pain/swelling (DVT signs), or numbness/tingling in the foot", "Normal post-surgical discomfort", "Slight bruising"], correctIndex: 1, rationale: "Post-surgical red flags: sudden swelling increase, fever (>101°F), wound changes (drainage, redness, warmth), DVT signs (calf pain/swelling), and neurovascular changes (numbness, color change).", difficulty: 1, category: "Patient Education", topic: "post-surgical warning signs" },
+  { id: "pta-1261", stem: "A 72-year-old patient demonstrates decreased balance and reports two falls in the past month. Which standardized assessment should the PTA administer?", options: ["Manual Muscle Test only", "Berg Balance Scale and/or Timed Up and Go (TUG) test to quantify fall risk and balance deficits", "Visual acuity test", "Cognitive screening only"], correctIndex: 1, rationale: "Fall risk assessment: BBS (14 tasks, <45 = fall risk), TUG (>12-14 sec = fall risk), and 30-second chair stand test. Multiple assessments improve fall risk identification.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "fall risk assessment" },
+  { id: "pta-1262", stem: "Which age-related change in the musculoskeletal system affects a geriatric patient's rehabilitation?", options: ["Increased bone density", "Decreased muscle mass (sarcopenia), decreased bone density, increased joint stiffness, and slower healing response", "Improved flexibility", "Faster recovery times"], correctIndex: 1, rationale: "Age-related musculoskeletal changes: sarcopenia (muscle loss), osteoporosis (bone loss), joint stiffness (cartilage changes), decreased collagen elasticity, and slower tissue healing.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "aging musculoskeletal changes" },
+  { id: "pta-1263", stem: "An elderly patient with osteoporosis has a thoracic kyphosis. Which exercise is MOST important?", options: ["Trunk flexion exercises", "Thoracic extension exercises, scapular retraction, and postural awareness training to reduce kyphosis progression", "Heavy trunk rotation", "Sit-ups"], correctIndex: 1, rationale: "Thoracic kyphosis with osteoporosis: extension exercises (prone, standing), scapular retraction, postural awareness, and AVOID trunk flexion exercises (increase vertebral compression fracture risk).", difficulty: 1, category: "Geriatric Rehabilitation", topic: "kyphosis exercise" },
+  { id: "pta-1264", stem: "Which exercise program has the strongest evidence for reducing falls in community-dwelling older adults?", options: ["Only stretching", "Tai Chi — balance, strength, and coordination training in a progressive, supervised program (2-3x/week, 12+ weeks)", "Only walking", "Only upper body exercise"], correctIndex: 1, rationale: "Tai Chi has strong evidence for fall reduction: improves balance, LE strength, coordination, and confidence. Recommended 2-3x/week for at least 12 weeks.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "tai chi fall prevention" },
+  { id: "pta-1265", stem: "A geriatric patient is prescribed a progressive resistance training program. What intensity is appropriate?", options: ["Maximum effort always", "60-80% of 1RM, 2-3 sets of 8-12 repetitions, 2-3 times per week with adequate rest between sessions", "Only light weight", "Daily maximum training"], correctIndex: 1, rationale: "Geriatric resistance training: moderate intensity (60-80% 1RM), 2-3 sets of 8-12 reps, 2-3x/week, with adequate rest. Progress gradually; supervised initially for safety and proper form.", difficulty: 2, category: "Geriatric Rehabilitation", topic: "geriatric resistance training" },
+  { id: "pta-1266", stem: "An elderly patient has poor nutritional status affecting rehabilitation outcomes. What should the PTA do?", options: ["Prescribe supplements", "Document observations, communicate concerns to the PT and medical team, and recommend dietary/nutrition consultation", "Ignore nutrition", "Provide dietary counseling"], correctIndex: 1, rationale: "The PTA observes and reports nutritional concerns: document observations (weight loss, poor appetite), communicate to the PT and medical team, and recommend nutrition/dietary consultation.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "nutrition referral" },
+  { id: "pta-1267", stem: "Which polypharmacy concern most commonly affects geriatric rehabilitation?", options: ["Not enough medications", "Multiple medications causing side effects (dizziness, drowsiness, orthostatic hypotension) that increase fall risk", "Only one medication at a time", "Medications never affect therapy"], correctIndex: 1, rationale: "Polypharmacy (5+ medications) in elderly: increased fall risk from side effects (dizziness, drowsiness, orthostatic hypotension), drug interactions, and cognitive effects. Coordinate with pharmacy.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "polypharmacy effects" },
+  { id: "pta-1268", stem: "A geriatric patient with dementia has difficulty following exercise instructions. Which approach is MOST effective?", options: ["Complex verbal instructions", "Simple one-step commands, consistent routine, visual demonstration, hand-over-hand guidance, and familiar functional activities", "Written instructions only", "Give up on exercise"], correctIndex: 1, rationale: "Dementia exercise: simple one-step cues, demonstration, tactile guidance, consistent routine/environment, familiar activities (walking, standing up), and music-based movement programs.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "dementia exercise approach" },
+  { id: "pta-1269", stem: "A geriatric patient in a nursing home refuses PT. What are the patient's rights?", options: ["They must participate", "The patient has the right to refuse treatment; document the refusal, educate about consequences, and respect autonomy", "Force treatment for their own good", "Discharge immediately"], correctIndex: 1, rationale: "Patient autonomy: the right to refuse treatment. Document the refusal, educate about risks/consequences, offer alternatives, respect the decision, and plan for re-approach at another time.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "patient refusal rights" },
+  { id: "pta-1270", stem: "Which screening tool assesses cognitive function quickly in geriatric patients?", options: ["Berg Balance Scale", "Mini-Mental State Examination (MMSE) or Montreal Cognitive Assessment (MoCA) — brief cognitive screening tools", "FIM", "TUG test"], correctIndex: 1, rationale: "MMSE (30-point, 10 minutes): orientation, memory, attention, language. MoCA (30-point, 10 minutes): more sensitive for mild cognitive impairment. Score <26 suggests impairment on both.", difficulty: 1, category: "Geriatric Rehabilitation", topic: "cognitive screening tools" },
+  { id: "pta-1271", stem: "At what age does a typically developing child begin to creep on hands and knees?", options: ["3 months", "8-10 months", "18 months", "24 months"], correctIndex: 1, rationale: "Motor milestone: creeping on hands and knees typically develops at 8-10 months. Crawling (belly on floor) precedes creeping. Independent walking follows at 12-15 months.", difficulty: 1, category: "Pediatric Rehabilitation", topic: "creeping milestone" },
+  { id: "pta-1272", stem: "A child with spastic diplegic cerebral palsy primarily has motor involvement in which body distribution?", options: ["One side of the body", "Both lower extremities more than upper extremities", "All four extremities equally", "Only one extremity"], correctIndex: 1, rationale: "Spastic diplegia: bilateral LE involvement greater than UE. Common pattern from periventricular leukomalacia (PVL) in premature infants. UE function is relatively preserved.", difficulty: 1, category: "Pediatric Rehabilitation", topic: "CP distribution" },
+  { id: "pta-1273", stem: "Which intervention is evidence-based for improving motor function in children with cerebral palsy?", options: ["Only stretching", "Task-specific functional training (CIMT, bimanual training), strength training, and goal-directed activity-based interventions", "Only passive ROM", "Medication only"], correctIndex: 1, rationale: "CP evidence-based interventions: task-specific training (CIMT, bimanual), functional strength training, goal-directed therapy, fitness training, and constraint-induced movement therapy.", difficulty: 2, category: "Pediatric Rehabilitation", topic: "CP evidence-based treatment" },
+  { id: "pta-1274", stem: "A child with Duchenne muscular dystrophy (DMD) demonstrates Gowers' sign when rising from the floor. What does this indicate?", options: ["Normal development", "Proximal muscle weakness — the child uses arms to 'walk up' their legs from a crouched position due to hip/knee extensor weakness", "Ankle weakness only", "Cognitive delay"], correctIndex: 1, rationale: "Gowers' sign: proximal LE weakness (hip/knee extensors). The child rolls prone, pushes up to all fours, then walks hands up the legs to achieve upright position. Classic sign of DMD.", difficulty: 2, category: "Pediatric Rehabilitation", topic: "DMD Gowers sign" },
+  { id: "pta-1275", stem: "Which developmental position promotes antigravity extension and strengthens back extensors in infants?", options: ["Supine only", "Prone position — promotes head lifting, upper body propping, and back extensor strengthening", "Sitting only", "Standing only"], correctIndex: 1, rationale: "Prone position promotes: head lifting (cervical extension), upper body propping (arm strengthening), back extensor development, and visual exploration. Essential for 'tummy time'.", difficulty: 1, category: "Pediatric Rehabilitation", topic: "prone positioning benefits" },
+  { id: "pta-1276", stem: "A child with Down syndrome has joint hypermobility. Which precaution is essential during exercise?", options: ["Maximize joint ROM", "Avoid excessive joint stretching, focus on stability and strengthening exercises, and screen for atlantoaxial instability before exercise", "No precautions needed", "Only stretching exercises"], correctIndex: 1, rationale: "Down syndrome exercise precautions: avoid overstretching hypermobile joints, focus on stability/strengthening, screen for atlantoaxial instability (C1-C2) before contact sports or exercises.", difficulty: 2, category: "Pediatric Rehabilitation", topic: "Down syndrome exercise precautions" },
+  { id: "pta-1277", stem: "At what age does a typically developing child achieve independent sitting without support?", options: ["3 months", "6-8 months", "12 months", "18 months"], correctIndex: 1, rationale: "Independent sitting without support: 6-8 months. Sitting with support: 5-6 months. Ring sitting (arms supporting): 6 months. Sitting and rotating to reach: 8-9 months.", difficulty: 1, category: "Pediatric Rehabilitation", topic: "sitting milestone" },
+  { id: "pta-1278", stem: "A child with spina bifida at L5-S1 can expect which level of mobility?", options: ["No walking ability", "Community ambulation with AFOs and possibly crutches; relatively good functional prognosis for walking", "Normal walking without aids", "Wheelchair only"], correctIndex: 1, rationale: "L5-S1 spina bifida: preserved hip flexors, knee extensors, and ankle dorsiflexors. Good prognosis for community ambulation with AFOs. May need crutches for community distances.", difficulty: 2, category: "Pediatric Rehabilitation", topic: "spina bifida L5 mobility" },
+  { id: "pta-1279", stem: "Which intervention approach for children emphasizes the child's own problem-solving during motor tasks?", options: ["Therapist-directed only", "Cognitive Orientation to daily Occupational Performance (CO-OP) — Goal-Plan-Do-Check strategy for child-directed problem solving", "Only passive treatment", "Only manual handling"], correctIndex: 1, rationale: "CO-OP: the child uses a cognitive strategy (Goal-Plan-Do-Check) to solve motor problems. The therapist guides discovery rather than providing the solution. Evidence-based for DCD.", difficulty: 2, category: "Pediatric Rehabilitation", topic: "CO-OP approach" },
+  { id: "pta-1280", stem: "A premature infant born at 28 weeks gestation should have their developmental age calculated how?", options: ["Use chronological age only", "Use corrected (adjusted) age: subtract weeks of prematurity from chronological age (until 2-3 years of age)", "Add extra months", "Ignore prematurity"], correctIndex: 1, rationale: "Corrected age = chronological age minus weeks of prematurity. Example: 6-month-old born at 28 weeks (12 weeks early) → corrected age = 3 months. Use corrected age until age 2-3 years.", difficulty: 1, category: "Pediatric Rehabilitation", topic: "corrected age calculation" },
+  { id: "pta-1281", stem: "A patient post-stroke demonstrates Brunnstrom Stage 3 in the upper extremity. What movement pattern is expected?", options: ["Isolated finger movements", "Obligatory synergy patterns — flexion synergy or extension synergy only; no movement outside of synergy", "Normal voluntary movement", "No movement at all"], correctIndex: 1, rationale: "Brunnstrom Stage 3: spasticity peaks, voluntary movement emerges but only in synergy patterns (flexion or extension synergy). No isolated movements possible yet.", difficulty: 2, category: "Neurological Rehabilitation", topic: "Brunnstrom Stage 3" },
+  { id: "pta-1282", stem: "A patient with right hemisphere stroke typically demonstrates which behavioral characteristics?", options: ["Language deficits only", "Left neglect, impulsivity, poor spatial awareness, denial of deficits (anosognosia), and overestimation of abilities", "Only motor deficits", "Depression without behavioral changes"], correctIndex: 1, rationale: "Right CVA characteristics: left neglect, impulsivity, poor judgment, spatial/perceptual deficits, anosognosia (denial of deficits), and flat affect. Safety is a major concern due to impulsivity.", difficulty: 2, category: "Neurological Rehabilitation", topic: "right CVA characteristics" },
+  { id: "pta-1283", stem: "A patient with a complete T10 SCI is working toward community ambulation. What is the realistic long-term mobility goal?", options: ["Independent walking without aids", "Limited household ambulation with bilateral KAFOs and crutches; wheelchair primary mobility for community distances", "Full running ability", "Power wheelchair only"], correctIndex: 1, rationale: "T10 SCI: limited household ambulation possible with KAFOs and crutches (high energy cost). Wheelchair is primary community mobility. Exercise ambulation provides weight-bearing bone benefits.", difficulty: 2, category: "Neurological Rehabilitation", topic: "T10 SCI ambulation" },
+  { id: "pta-1284", stem: "Which technique is used to facilitate ankle dorsiflexion in a patient with post-stroke foot drop?", options: ["Passive plantarflexion", "Quick stretch to dorsiflexors, tapping over tibialis anterior, electrical stimulation (FES), and task-specific stepping practice", "Only ice to the ankle", "Maximum resistance to plantarflexors"], correctIndex: 1, rationale: "Facilitating dorsiflexion: quick stretch (tapping over tibialis anterior), FES to dorsiflexors during gait, task-specific practice (stepping, heel walking), and verbal cues for heel strike.", difficulty: 2, category: "Neurological Rehabilitation", topic: "foot drop facilitation" },
+  { id: "pta-1285", stem: "A patient with Guillain-Barré syndrome is in the recovery phase and demonstrating motor return. What is the expected pattern of recovery?", options: ["Random recovery pattern", "Proximal-to-distal recovery — proximal muscles recover before distal muscles (reverse of the ascending weakness)", "Distal-to-proximal recovery", "No recovery expected"], correctIndex: 1, rationale: "GBS recovery: typically proximal-to-distal (reverse of the ascending weakness pattern). Recovery may take weeks to months. Some patients have residual distal weakness.", difficulty: 2, category: "Neurological Rehabilitation", topic: "GBS recovery pattern" },
+  { id: "pta-1286", stem: "A patient with MS is exercising in the therapy gym. What precaution is essential regarding body temperature?", options: ["Exercise in a hot environment", "Avoid overheating (Uhthoff's phenomenon) — exercise in a cool environment, use cooling vest, and take rest breaks", "Temperature doesn't matter", "Exercise until sweating heavily"], correctIndex: 1, rationale: "MS exercise precaution: avoid overheating (Uhthoff's phenomenon worsens symptoms). Exercise in cool environment, pre-cool with cooling vest, adequate hydration, and rest breaks.", difficulty: 2, category: "Neurological Rehabilitation", topic: "MS exercise temperature" },
+  { id: "pta-1287", stem: "A patient with peripheral neuropathy has impaired protective sensation in the feet. What foot care education is essential?", options: ["Walk barefoot to toughen feet", "Daily foot inspection, proper footwear at all times, avoid extreme temperatures, moisturize, and report any skin changes immediately", "No special care needed", "Soak feet in hot water"], correctIndex: 1, rationale: "Neuropathy foot care: daily inspection (use mirror), never walk barefoot, proper shoe fit, avoid hot water, moisturize (not between toes), and immediate reporting of any wounds/changes.", difficulty: 1, category: "Neurological Rehabilitation", topic: "neuropathy foot care" },
+  { id: "pta-1288", stem: "A patient with a traumatic brain injury demonstrates confabulation. What does this mean?", options: ["The patient is lying deliberately", "The patient fills memory gaps with fabricated information without conscious intent to deceive", "Normal memory recall", "Visual hallucinations"], correctIndex: 1, rationale: "Confabulation: unconscious fabrication of experiences to fill memory gaps. The patient is not deliberately lying. Common in TBI and Korsakoff's syndrome. Don't confront aggressively.", difficulty: 2, category: "Neurological Rehabilitation", topic: "TBI confabulation" },
+  { id: "pta-1289", stem: "Which balance system is MOST affected in a patient with peripheral vestibular dysfunction?", options: ["Visual system", "Vestibular system — impaired detection of head position and movement relative to gravity", "Somatosensory system", "Musculoskeletal system"], correctIndex: 1, rationale: "Peripheral vestibular dysfunction: impaired detection of head position/movement. Balance relies more on visual and somatosensory inputs. Rehabilitation targets vestibular compensation.", difficulty: 1, category: "Neurological Rehabilitation", topic: "vestibular balance system" },
+  { id: "pta-1290", stem: "A patient with amyotrophic lateral sclerosis (ALS) demonstrates progressive weakness. What exercise intensity is appropriate?", options: ["Maximum effort always", "Low-to-moderate intensity to maintain function without overworking muscles; avoid fatigue and overwork damage", "No exercise at all", "High-intensity resistance training"], correctIndex: 1, rationale: "ALS exercise: low-to-moderate intensity, avoid overwork damage (already compromised motor neurons), maintain current function, energy conservation, and adapt as disease progresses.", difficulty: 2, category: "Neurological Rehabilitation", topic: "ALS exercise intensity" },
+  { id: "pta-1291", stem: "A patient post-ACL reconstruction is at 4 months. What functional test helps determine readiness for jogging?", options: ["No testing needed", "Single-leg hop test (>80% limb symmetry), adequate quad strength (>70% LSI), no effusion, and full ROM before initiating jogging", "Just try jogging and see", "Only isokinetic testing"], correctIndex: 1, rationale: "Pre-jogging criteria at 4 months post-ACL: quad strength >70% LSI, single-leg hop >80% symmetry, full ROM, no effusion, and good neuromuscular control during CKC exercises.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "ACL jogging criteria" },
+  { id: "pta-1292", stem: "A patient with a rotator cuff repair is 2 weeks post-surgery. What ROM exercise is appropriate?", options: ["Full active ROM", "Passive ROM within protected range per surgeon protocol (typically pendulum exercises and supine PROM)", "Aggressive stretching", "Maximum resistance exercises"], correctIndex: 1, rationale: "2 weeks post-rotator cuff repair: pendulum exercises (Codman's), supine PROM within protected range (typically 120° flexion, 30° ER), and no active shoulder motion yet.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "rotator cuff early rehab" },
+  { id: "pta-1293", stem: "A patient with a lateral ankle sprain is cleared for return to sport. Which functional test should be performed?", options: ["No testing needed", "Single-leg hop test, Star Excursion Balance Test (SEBT/Y-Balance), figure-of-8 running, and sport-specific agility tests", "Only walking test", "Only balance assessment"], correctIndex: 1, rationale: "Return-to-sport ankle sprain tests: single-leg hop (symmetry), SEBT/Y-Balance (dynamic balance), figure-of-8 running (cutting), carioca/crossover running, and sport-specific drills.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "ankle return to sport" },
+  { id: "pta-1294", stem: "A patient with a grade III AC (acromioclavicular) joint separation is being treated conservatively. What is the rehabilitation focus?", options: ["Immediate full ROM", "Rest in sling (2-4 weeks), then progressive ROM, deltoid/rotator cuff strengthening, and scapular stabilization", "Surgery always required", "No rehabilitation needed"], correctIndex: 1, rationale: "Grade III AC conservative: sling immobilization (2-4 weeks), ice, then progressive PROM → AROM, deltoid strengthening (above the AC joint), rotator cuff, and scapular stabilization.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "AC joint rehabilitation" },
+  { id: "pta-1295", stem: "A patient with a Colles fracture (distal radius) is 8 weeks post-injury and out of the cast. What is the primary rehabilitation focus?", options: ["Immediate heavy lifting", "Restore wrist ROM (flex/ext, pronation/supination), finger ROM, grip strengthening, and scar management", "No rehabilitation needed", "Only finger exercises"], correctIndex: 1, rationale: "Post-cast Colles fracture: restore wrist ROM (all planes), finger ROM, forearm rotation, edema control, progressive grip strengthening, scar management, and functional activity training.", difficulty: 1, category: "Orthopedic Rehabilitation", topic: "Colles fracture rehabilitation" },
+  { id: "pta-1296", stem: "A patient post-TKR has difficulty achieving 90° knee flexion at 3 weeks. Which technique is MOST effective?", options: ["Forceful manipulation", "Wall slides, heel slides, stationary bike (high seat position), and continuous passive motion if prescribed", "No intervention — wait for it to improve", "Ice only"], correctIndex: 1, rationale: "Post-TKR flexion: wall slides, heel slides (supine), stationary bike (high seat, progress to full revolution), CPM if prescribed, and gentle PROM with sustained stretch at end range.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "TKR flexion techniques" },
+  { id: "pta-1297", stem: "A patient with a medial meniscus repair should avoid which activity during the first 6 weeks?", options: ["Ankle pumps", "Deep squatting (>90° knee flexion) and twisting/pivoting movements that stress the healing meniscus", "Straight leg raises", "Upper body exercises"], correctIndex: 1, rationale: "Meniscus repair precautions: avoid deep flexion (>90°), twisting/pivoting, and full weight-bearing initially. Protect the healing meniscus with restricted ROM and progressive weight-bearing.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "meniscus repair precautions" },
+  { id: "pta-1298", stem: "A patient with shoulder impingement demonstrates a painful arc of motion. At which range does pain typically occur?", options: ["0-30°", "60-120° of shoulder elevation — the subacromial space narrows in this range", "Above 160°", "Full range equally"], correctIndex: 1, rationale: "Painful arc in impingement: 60-120° of elevation where the subacromial space narrows, compressing the supraspinatus tendon and bursa between the humeral head and acromion.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "impingement painful arc" },
+  { id: "pta-1299", stem: "A patient with chronic Achilles tendinopathy should perform which evidence-based exercise?", options: ["Complete rest", "Eccentric heel lowering exercises (Alfredson protocol) — standing on step, lowering heel below step level with straight and bent knee", "Aggressive stretching only", "Running through the pain"], correctIndex: 1, rationale: "Alfredson eccentric protocol: 3 sets of 15 heel drops, both with straight knee (gastrocnemius) and bent knee (soleus), twice daily for 12 weeks. Strong evidence for chronic Achilles tendinopathy.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "Achilles eccentric protocol" },
+  { id: "pta-1300", stem: "A patient with lumbar spinal stenosis reports relief of symptoms with forward flexion and sitting. Which exercise program is appropriate?", options: ["Extension-based exercises (McKenzie)", "Flexion-based exercises (Williams) — posterior pelvic tilt, knee-to-chest, and cycling, which open the spinal canal", "Only running", "No exercise"], correctIndex: 1, rationale: "Spinal stenosis: flexion-based exercises open the spinal canal and neural foramen. Williams exercises (posterior pelvic tilt, knee-to-chest), cycling, and aquatic therapy are indicated.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "spinal stenosis exercise" },
+  { id: "pta-1301", stem: "A patient post-total shoulder replacement is working on ROM. What is the typical ROM goal at 6 weeks?", options: ["Full ROM", "Flexion 120-140°, external rotation 30-40° per surgeon protocol; avoid combined extension/internal rotation", "No ROM goals at 6 weeks", "Only 30° in all planes"], correctIndex: 1, rationale: "TSA 6-week ROM goals (vary by surgeon): flexion 120-140°, ER 30-40°, abduction 90°. Avoid combined extension/IR (posterior dislocation risk). Progress per surgeon protocol.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "TSA ROM goals" },
+  { id: "pta-1302", stem: "A patient with a frozen shoulder (adhesive capsulitis) demonstrates the capsular pattern restriction. What is the order of limitation?", options: ["Flexion most limited", "External rotation most limited > abduction > internal rotation", "All motions equally limited", "Only flexion and extension limited"], correctIndex: 1, rationale: "Shoulder capsular pattern: external rotation most limited, followed by abduction, then internal rotation. This pattern helps differentiate capsular restriction from other causes of shoulder stiffness.", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "capsular pattern shoulder" },
+  { id: "pta-1303", stem: "A patient with a posterior hip dislocation should avoid which combined movement?", options: ["Hip abduction", "Hip flexion beyond 90° combined with adduction and internal rotation (posterior dislocation mechanism)", "Hip extension", "Ankle dorsiflexion"], correctIndex: 1, rationale: "Posterior hip dislocation precautions: avoid flexion >90°, adduction past midline, and internal rotation. These are the same as posterior-approach THR precautions.", difficulty: 1, category: "Orthopedic Rehabilitation", topic: "hip dislocation precautions" },
+  { id: "pta-1304", stem: "A patient with patellofemoral pain syndrome should avoid which exercise?", options: ["Straight leg raises", "Full-arc open kinetic chain knee extension (0-90°) which increases patellofemoral compressive forces", "Terminal knee extension (last 30°)", "Mini-squats to 45°"], correctIndex: 1, rationale: "PFPS: avoid full-arc OKC knee extension (0-90°) — increased patellofemoral compression in mid-range. Use terminal extension (last 30° OKC) or short-arc CKC (mini-squats, wall slides to 45°).", difficulty: 2, category: "Orthopedic Rehabilitation", topic: "PFPS exercise guidelines" },
+  { id: "pta-1305", stem: "A patient with a posterior cruciate ligament (PCL) injury should avoid which exercise?", options: ["Quad strengthening", "Resisted hamstring exercises in open kinetic chain (increases posterior tibial translation stressing the PCL)", "Straight leg raises", "Ankle exercises"], correctIndex: 1, rationale: "PCL injury: avoid OKC resisted hamstring exercises (posterior tibial translation stress). CKC exercises are preferred because they provide posterior tibial support through co-contraction.", difficulty: 3, category: "Orthopedic Rehabilitation", topic: "PCL exercise precautions" },
+  { id: "pta-1306", stem: "A patient with a recent MI (myocardial infarction) is in Phase I cardiac rehabilitation. What activities are appropriate?", options: ["Running on treadmill", "Bed exercises, dangling, sitting, standing, and progressive ambulation in the room/hallway with continuous monitoring", "No activity — strict bed rest", "Stair climbing immediately"], correctIndex: 1, rationale: "Phase I cardiac rehab (inpatient): progressive mobilization — bed exercises → dangling → sitting → standing → room ambulation → hallway ambulation. Continuous ECG monitoring, vitals, and symptom assessment.", difficulty: 2, category: "Clinical Case Scenarios", topic: "Phase I cardiac rehab" },
+  { id: "pta-1307", stem: "A patient with congestive heart failure (CHF) gains 3 pounds overnight. What does this indicate?", options: ["Muscle gain", "Fluid retention indicating possible CHF exacerbation — report to physician immediately", "Normal weight fluctuation", "Too much food"], correctIndex: 1, rationale: "Sudden weight gain (2-3 lbs overnight or 5 lbs in a week) in CHF indicates fluid retention and possible decompensation. Report immediately. Other signs: increased dyspnea, edema, fatigue.", difficulty: 2, category: "Clinical Case Scenarios", topic: "CHF weight monitoring" },
+  { id: "pta-1308", stem: "A patient with diabetes type 2 experiences signs of hyperglycemia during exercise. What are the signs?", options: ["Tremors and sweating", "Excessive thirst, frequent urination, blurred vision, fatigue, and blood glucose >250 mg/dL", "Cold and clammy skin", "Sudden hunger"], correctIndex: 1, rationale: "Hyperglycemia signs: polyuria (frequent urination), polydipsia (excessive thirst), blurred vision, fatigue, and fruity breath (if ketoacidosis). Blood glucose >250 mg/dL or ketones present: avoid exercise.", difficulty: 2, category: "Clinical Case Scenarios", topic: "hyperglycemia signs" },
+  { id: "pta-1309", stem: "A 30-year-old patient with ankylosing spondylitis should perform which type of exercise?", options: ["Spinal flexion exercises", "Spinal extension exercises, deep breathing exercises, and aerobic conditioning to maintain posture and chest expansion", "No exercise", "Only cervical rotation"], correctIndex: 1, rationale: "Ankylosing spondylitis: spinal extension (prevent kyphosis), chest expansion exercises (prevent chest wall restriction), aerobic conditioning, and ROM (all spinal segments).", difficulty: 2, category: "Clinical Case Scenarios", topic: "AS exercise" },
+  { id: "pta-1310", stem: "A patient with complex regional pain syndrome (CRPS) Type I of the foot presents with allodynia. What does this mean?", options: ["No pain", "Pain from a stimulus that is not normally painful (e.g., light touch or clothing causes severe pain)", "Normal pain response", "Only pain with pressure"], correctIndex: 1, rationale: "Allodynia: pain from a normally non-painful stimulus (light touch, clothing contact, air movement). Indicates central sensitization. Treatment: desensitization, graded motor imagery, mirror therapy.", difficulty: 2, category: "Clinical Case Scenarios", topic: "CRPS allodynia" },
+  { id: "pta-1311", stem: "A patient with a spinal cord injury at C6 is working on wheelchair propulsion. Which muscle provides the primary force for pushing the wheelchair?", options: ["Triceps", "Anterior deltoid, biceps, and clavicular pectoralis (triceps not available at C6)", "Finger flexors", "Wrist flexors"], correctIndex: 1, rationale: "C6 SCI: no triceps (C7). Wheelchair propulsion uses anterior deltoid, biceps, and clavicular pectoralis. Wrist extensors (C6) assist with tenodesis grasp on the push rim.", difficulty: 2, category: "Clinical Case Scenarios", topic: "C6 wheelchair propulsion" },
+  { id: "pta-1312", stem: "A patient recovering from Guillain-Barré syndrome is in the rehabilitation phase. What is the MOST important precaution?", options: ["Exercise at maximum intensity", "Avoid overwork damage to recovering muscles — monitor for excessive fatigue, and maintain low-to-moderate exercise intensity", "No precautions needed", "Complete bed rest"], correctIndex: 1, rationale: "GBS rehabilitation: avoid overwork damage (denervated muscles are vulnerable), monitor fatigue carefully, low-to-moderate intensity, include rest periods, and gradual progression.", difficulty: 2, category: "Clinical Case Scenarios", topic: "GBS rehab precaution" },
+  { id: "pta-1313", stem: "A patient with a femoral neck fracture treated with hemiarthroplasty (partial hip replacement) has which weight-bearing status?", options: ["Non-weight-bearing", "Weight-bearing as tolerated (WBAT) — hemiarthroplasty typically allows immediate weight-bearing", "Toe-touch only", "Depends on the specific type of fracture fixation"], correctIndex: 3, rationale: "Hemiarthroplasty WB status depends on the approach and fixation: cemented prostheses often allow WBAT immediately, while uncemented may have WB restrictions. Always follow surgeon protocol.", difficulty: 2, category: "Clinical Case Scenarios", topic: "hemiarthroplasty weight-bearing" },
+  { id: "pta-1314", stem: "A patient with a pulmonary embolism is being treated with anticoagulation. When can PT safely begin?", options: ["Immediately at maximum intensity", "After medical stabilization and physician clearance — begin with gentle bed exercises and progressive mobilization under monitoring", "Not until fully off anticoagulation", "Never during anticoagulation"], correctIndex: 1, rationale: "Post-PE: begin PT after medical stabilization (usually 24-48 hours after anticoagulation started). Start with gentle bed exercises, progress mobilization gradually, and monitor vitals closely.", difficulty: 2, category: "Clinical Case Scenarios", topic: "PE rehabilitation timing" },
+  { id: "pta-1315", stem: "A patient with peripheral arterial disease (PAD) reports claudication in the calves during walking. What exercise is evidence-based?", options: ["Avoid all walking", "Supervised walking program: walk until moderate claudication pain, rest until pain subsides, resume walking; repeat for 30-60 minutes 3x/week", "Sprint training", "Only upper body exercise"], correctIndex: 1, rationale: "PAD claudication exercise: supervised walking to moderate pain → rest → resume walking. 30-60 min/session, 3x/week for 12+ weeks. Strong evidence for improved walking distance.", difficulty: 2, category: "Clinical Case Scenarios", topic: "claudication exercise" },
+  { id: "pta-1316", stem: "A pregnant patient is receiving PT for low back pain. Which position should be avoided during exercise after the first trimester?", options: ["Side-lying", "Supine position for prolonged periods — the uterus compresses the inferior vena cava reducing venous return", "Standing", "Sitting"], correctIndex: 1, rationale: "Supine hypotensive syndrome: after the first trimester, prolonged supine position allows the gravid uterus to compress the IVC, reducing venous return and cardiac output. Use side-lying or inclined.", difficulty: 2, category: "Clinical Case Scenarios", topic: "pregnancy exercise position" },
+  { id: "pta-1317", stem: "A patient with a tibial shaft fracture fixed with an intramedullary nail is cleared for weight-bearing. What is the typical weight-bearing progression?", options: ["NWB for 12 weeks", "IM nails typically allow early weight-bearing: WBAT or PWB progressing to FWB as tolerated per surgeon", "FWB immediately with no restrictions", "Only TTWB forever"], correctIndex: 1, rationale: "IM nail fixation provides load-sharing stability, typically allowing early weight-bearing (WBAT or PWB). Weight-bearing promotes bone healing (Wolff's law). Progress per surgeon protocol.", difficulty: 2, category: "Clinical Case Scenarios", topic: "IM nail weight-bearing" },
+  { id: "pta-1318", stem: "A patient with cervical radiculopathy has pain radiating down the arm. Which test helps confirm nerve root compression?", options: ["Lachman's test", "Spurling's test (cervical compression) — reproduces radicular symptoms by narrowing the neural foramen", "McMurray's test", "Thompson test"], correctIndex: 1, rationale: "Spurling's test: lateral flexion, rotation, and compression to the affected side reproduces radicular symptoms. Positive test suggests neural foramen narrowing compressing the nerve root.", difficulty: 2, category: "Clinical Case Scenarios", topic: "cervical radiculopathy test" },
+  { id: "pta-1319", stem: "A patient recovering from a burn injury needs scar management. When should pressure garments be applied?", options: ["During acute wound healing", "Once the wound is fully closed and can tolerate shear forces; worn 23 hours/day for 12-18 months", "6 months after healing", "Never for burns"], correctIndex: 1, rationale: "Burn pressure garments: apply after wound closure (tolerate shear), 23 hours/day for 12-18 months. Garments apply 25 mmHg pressure to minimize hypertrophic scarring.", difficulty: 2, category: "Clinical Case Scenarios", topic: "burn pressure garments" },
+  { id: "pta-1320", stem: "A patient recovering from a COVID-19 infection has persistent fatigue and exercise intolerance. What is the rehabilitation approach?", options: ["Maximum intensity exercise", "Gradual, paced exercise progression starting below symptom threshold; monitor SpO2, HR, and symptoms; energy conservation education", "No exercise until fully recovered", "Only breathing exercises"], correctIndex: 1, rationale: "Post-COVID rehabilitation: gradual exercise progression (start well below tolerance), monitor SpO2/HR/symptoms, pacing/energy conservation, breathing exercises, and avoid post-exertional symptom exacerbation.", difficulty: 2, category: "Clinical Case Scenarios", topic: "post-COVID rehabilitation" },
 ];

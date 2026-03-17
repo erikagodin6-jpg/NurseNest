@@ -117,6 +117,19 @@ export function getTotalNursingCertDisplay(): string {
   return `${rounded.toLocaleString()}+`;
 }
 
+export function getTotalAlliedHealthQuestions(): number {
+  return Object.values(manifest.static.alliedHealth).reduce(
+    (sum, tc) => sum + tc.total,
+    0
+  );
+}
+
+export function getTotalAlliedHealthDisplay(): string {
+  const total = getTotalAlliedHealthQuestions();
+  const rounded = Math.floor(total / 1000) * 1000;
+  return `${rounded.toLocaleString()}+`;
+}
+
 export function getManifest(): QuestionManifest {
   return manifest;
 }
