@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { CAREER_CONFIGS } from "@shared/careers";
 import crypto from "crypto";
+import { resolveAuthUser } from "./admin-auth";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"];
 
@@ -112,11 +113,10 @@ async function getDifficultyDistribution(careerType: string): Promise<Record<num
 }
 
 async function requireAutomationAdmin(req: any, res: any): Promise<any> {
-  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-  if (!adminId) return res.status(401).json({ error: "Admin required" });
-  const r = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [adminId]);
-  if (!r.rows[0]) return res.status(403).json({ error: "Admin access denied" });
-  return r.rows[0];
+  const user = await resolveAuthUser(req);
+  if (!user) return res.status(401).json({ error: "Authentication required" });
+  if (user.tier !== "admin") return res.status(403).json({ error: "Admin access denied" });
+  return user;
 }
 
 async function createRunRecord(automationId: string, slug: string): Promise<string> {

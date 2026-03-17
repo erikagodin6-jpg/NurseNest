@@ -59,13 +59,34 @@ interface RevisionItem {
 }
 
 async function apiFetch(url: string, opts?: RequestInit) {
-  const adminId = "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225";
-  const sep = url.includes("?") ? "&" : "?";
-  const res = await fetch(`${url}${sep}adminId=${adminId}`, {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const stored = localStorage.getItem("nursenest-credentials");
+  if (stored) {
+    try {
+      const creds = JSON.parse(stored);
+      if (creds.username) headers["x-username"] = creds.username;
+      if (creds.password) headers["x-password"] = creds.password;
+    } catch {}
+  }
+  const token = localStorage.getItem("nn_admin_access_token");
+  if (token) headers["authorization"] = `Bearer ${token}`;
+  const res = await fetch(url, {
     ...opts,
-    headers: { "Content-Type": "application/json", "x-admin-id": adminId, ...(opts?.headers || {}) },
+    headers: { ...headers, ...(opts?.headers || {}) },
+    credentials: "include",
   });
-  if (!res.ok) throw new Error(await res.text());
+  if (!res.ok) {
+    let msg = "Request failed";
+    try {
+      const body = await res.json();
+      if (body.error === "Authentication required") msg = "You must be logged in to perform this action";
+      else if (body.error === "Admin access denied") msg = "You do not have permission to perform this action";
+      else msg = body.error || msg;
+    } catch {
+      msg = await res.text().catch(() => msg);
+    }
+    throw new Error(msg);
+  }
   return res.json();
 }
 
@@ -257,7 +278,7 @@ export default function AlliedAdminPage() {
 
   const handleSeedAutomations = async () => {
     try {
-      const result = await apiFetch("/api/allied/automations/seed", { method: "POST", body: JSON.stringify({ adminId: "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225" }) });
+      const result = await apiFetch("/api/allied/automations/seed", { method: "POST" });
       toast({ title: "Automations seeded", description: `${result.seeded} new automations created (${result.total} total)` });
       loadAutomations();
     } catch (e: any) {
@@ -277,7 +298,7 @@ export default function AlliedAdminPage() {
   const handleRunNow = async (id: string) => {
     setRunningAutomation(id);
     try {
-      const result = await apiFetch(`/api/allied/automations/${id}/run-now`, { method: "POST", body: JSON.stringify({ adminId: "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225" }) });
+      const result = await apiFetch(`/api/allied/automations/${id}/run-now`, { method: "POST" });
       toast({ title: "Automation started", description: `Run ${result.runId} for ${result.slug}` });
       setTimeout(() => { loadAutomations(); setRunningAutomation(null); }, 5000);
     } catch (e: any) {
@@ -937,12 +958,14 @@ export default function AlliedAdminPage() {
             <h3 className="font-semibold text-gray-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-teal-500" /> Automation Center
             </h3>
-            <div className="flex gap-2">
-              <button onClick={handleSeedAutomations} className="px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium hover:bg-teal-700" data-testid="button-seed-automations">Seed All Automations</button>
-              <button onClick={() => handleKillSwitch(!automationStatus?.killSwitch)} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 ${automationStatus?.killSwitch ? "bg-red-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} data-testid="button-kill-switch">
-                <Power className="w-3.5 h-3.5" /> {automationStatus?.killSwitch ? "Kill Switch ON" : "Kill Switch OFF"}
-              </button>
-            </div>
+            {isAdmin && (
+              <div className="flex gap-2">
+                <button onClick={handleSeedAutomations} className="px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium hover:bg-teal-700" data-testid="button-seed-automations">Seed All Automations</button>
+                <button onClick={() => handleKillSwitch(!automationStatus?.killSwitch)} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 ${automationStatus?.killSwitch ? "bg-red-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} data-testid="button-kill-switch">
+                  <Power className="w-3.5 h-3.5" /> {automationStatus?.killSwitch ? "Kill Switch ON" : "Kill Switch OFF"}
+                </button>
+              </div>
+            )}
           </div>
 
           {automationStatus && (
@@ -989,9 +1012,15 @@ export default function AlliedAdminPage() {
                 <div className="space-y-2">
                   {(items as any[]).map((a: any) => (
                     <div key={a.id} className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-gray-50 border border-gray-50" data-testid={`automation-${a.slug}`}>
-                      <button onClick={() => handleToggleAutomation(a.id, !a.enabled)} className="flex-shrink-0" data-testid={`toggle-${a.slug}`}>
-                        {a.enabled ? <ToggleRight className="w-6 h-6 text-teal-500" /> : <ToggleLeft className="w-6 h-6 text-gray-300" />}
-                      </button>
+                      {isAdmin ? (
+                        <button onClick={() => handleToggleAutomation(a.id, !a.enabled)} className="flex-shrink-0" data-testid={`toggle-${a.slug}`}>
+                          {a.enabled ? <ToggleRight className="w-6 h-6 text-teal-500" /> : <ToggleLeft className="w-6 h-6 text-gray-300" />}
+                        </button>
+                      ) : (
+                        <span className="flex-shrink-0">
+                          {a.enabled ? <ToggleRight className="w-6 h-6 text-gray-300" /> : <ToggleLeft className="w-6 h-6 text-gray-300" />}
+                        </span>
+                      )}
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium text-gray-800">{a.name}</div>
                         <div className="text-xs text-gray-400 truncate">{a.description}</div>
@@ -1002,9 +1031,11 @@ export default function AlliedAdminPage() {
                         {a.auto_publish && <span className="px-1.5 py-0.5 bg-green-50 text-green-700 rounded">auto-pub</span>}
                         {a.last_run_at && <span className="text-gray-300">{new Date(a.last_run_at).toLocaleDateString()}</span>}
                       </div>
-                      <button onClick={() => handleRunNow(a.id)} disabled={runningAutomation === a.id || automationStatus?.killSwitch} className="px-2.5 py-1 bg-teal-50 text-teal-700 rounded-md text-xs font-medium hover:bg-teal-100 disabled:opacity-40 flex items-center gap-1" data-testid={`run-${a.slug}`}>
-                        {runningAutomation === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />} Run
-                      </button>
+                      {isAdmin && (
+                        <button onClick={() => handleRunNow(a.id)} disabled={runningAutomation === a.id || automationStatus?.killSwitch} className="px-2.5 py-1 bg-teal-50 text-teal-700 rounded-md text-xs font-medium hover:bg-teal-100 disabled:opacity-40 flex items-center gap-1" data-testid={`run-${a.slug}`}>
+                          {runningAutomation === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />} Run
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -1016,7 +1047,11 @@ export default function AlliedAdminPage() {
             <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
               <Zap className="w-10 h-10 text-gray-300 mx-auto mb-3" />
               <p className="text-sm text-gray-500 mb-3">No automations configured yet.</p>
-              <button onClick={handleSeedAutomations} className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-seed-empty">Seed 39 Automations</button>
+              {isAdmin ? (
+                <button onClick={handleSeedAutomations} className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-seed-empty">Seed 39 Automations</button>
+              ) : (
+                <p className="text-xs text-gray-400" data-testid="text-admin-required">Admin access required to seed automations</p>
+              )}
             </div>
           )}
 
