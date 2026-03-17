@@ -741,6 +741,13 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
 
     await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS preferred_theme text`);
 
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS correct_answer_explanation TEXT DEFAULT ''`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS incorrect_answer_rationale TEXT DEFAULT ''`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS clinical_reasoning TEXT DEFAULT ''`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS key_takeaway TEXT DEFAULT ''`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS mnemonic TEXT DEFAULT ''`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS reference_source TEXT DEFAULT ''`);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS problem_reports (
         id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
