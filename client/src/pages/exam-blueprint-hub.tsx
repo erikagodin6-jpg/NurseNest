@@ -236,6 +236,7 @@ export default function ExamBlueprintHub() {
                             </Badge>
                           </div>
                           <p className="text-sm text-gray-500 leading-relaxed">{cat.description}</p>
+                          <p className="text-xs text-[#BFA6F6] font-medium mt-2 group-hover:underline">Browse Questions & Study Resources →</p>
                         </div>
                         <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors shrink-0 mt-1" />
                       </div>

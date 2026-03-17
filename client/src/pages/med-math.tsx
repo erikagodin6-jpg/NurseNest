@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { MedicalReviewBadge } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 
 function seededRandom(seed: number) {
   let s = seed % 2147483647;
@@ -1436,6 +1438,11 @@ export default function MedMathPage() {
             <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
           </div>
         </LocaleLink>
+
+        <div className="mt-12 space-y-6">
+          <MedicalReviewBadge lastUpdated="2025-12-01" />
+          <MedicalReferences lessonId="pharmacology-dosage-calculation" />
+        </div>
 
         <div className="mt-16 border-t border-gray-200 pt-6">
           <div className="flex items-start gap-2 text-xs text-gray-400 max-w-3xl mx-auto">

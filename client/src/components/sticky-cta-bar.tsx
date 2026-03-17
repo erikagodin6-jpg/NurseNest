@@ -1,14 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
-import { X, ArrowRight, Sparkles } from "lucide-react";
+import { X, ArrowRight, Sparkles, BookOpen, FileText, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const DISMISS_KEY = "nursenest-cta-bar-dismissed";
-const DISMISS_DURATION_MS = 24 * 60 * 60 * 1000;
+const SESSION_DISMISS_KEY = "nursenest-cta-bar-session-dismissed";
 
-type CtaContext = "questions" | "content" | "default";
+type CtaContext = "questions" | "content" | "blueprint" | "tools" | "default";
 
 function getCtaContext(pathname: string): CtaContext {
   const questionPatterns = [
@@ -18,10 +17,20 @@ function getCtaContext(pathname: string): CtaContext {
   ];
   if (questionPatterns.some((p) => pathname.startsWith(p))) return "questions";
 
+  const blueprintPatterns = [
+    "/rexpn-", "/nclex-", "/allied-", "/exam-blueprint",
+  ];
+  if (blueprintPatterns.some((p) => pathname.includes(p))) return "blueprint";
+
+  const toolPatterns = [
+    "/med-math", "/lab-values", "/si-to-conventional",
+    "/anatomy", "/pharmacology",
+  ];
+  if (toolPatterns.some((p) => pathname.startsWith(p))) return "tools";
+
   const contentPatterns = [
     "/lesson", "/flashcard", "/lecture", "/clinical-clarity",
-    "/medication-mastery", "/lab-values", "/med-math",
-    "/anatomy", "/osce", "/pharmacology", "/content",
+    "/medication-mastery", "/osce", "/content",
     "/blog", "/glossary", "/deck",
   ];
   if (contentPatterns.some((p) => pathname.startsWith(p))) return "content";
@@ -29,40 +38,31 @@ function getCtaContext(pathname: string): CtaContext {
   return "default";
 }
 
-const CTA_CONFIG: Record<CtaContext, { text: string; href: string }> = {
-  questions: { text: "Unlock 500+ Questions", href: "/pricing" },
-  content: { text: "Start Free Practice", href: "/start-free" },
-  default: { text: "Get Exam Ready — Try Free", href: "/start-free" },
+const CTA_CONFIG: Record<CtaContext, { text: string; buttonText: string; href: string; icon: typeof Sparkles }> = {
+  questions: { text: "Unlock Full Test Bank — 2,000+ Practice Questions", buttonText: "View Plans", href: "/pricing", icon: FileText },
+  content: { text: "Start Free Practice — Study Smarter Today", buttonText: "Get Started", href: "/start-free", icon: BookOpen },
+  blueprint: { text: "Practice Exam Questions Aligned to This Blueprint", buttonText: "Start Free", href: "/start-free", icon: GraduationCap },
+  tools: { text: "Get Full Access to All Study Tools", buttonText: "Explore Plans", href: "/pricing", icon: Sparkles },
+  default: { text: "Get Exam Ready — Try Free Practice", buttonText: "Start Free", href: "/start-free", icon: Sparkles },
 };
 
-const HIDDEN_ROUTES = ["/login", "/pricing", "/start-free", "/subscribe", "/admin"];
+const HIDDEN_ROUTES = ["/login", "/pricing", "/start-free", "/subscribe", "/admin", "/dashboard", "/profile", "/reports"];
 
 export function StickyCtaBar() {
   const { user, effectiveTier, isAdmin } = useAuth();
   const [location] = useLocation();
-  const [dismissed, setDismissed] = useState(true);
-
-  useEffect(() => {
+  const [dismissed, setDismissed] = useState(() => {
     try {
-      const raw = localStorage.getItem(DISMISS_KEY);
-      if (raw) {
-        const ts = parseInt(raw, 10);
-        if (Date.now() - ts < DISMISS_DURATION_MS) {
-          setDismissed(true);
-          return;
-        }
-        localStorage.removeItem(DISMISS_KEY);
-      }
-      setDismissed(false);
+      return sessionStorage.getItem(SESSION_DISMISS_KEY) === "true";
     } catch {
-      setDismissed(false);
+      return false;
     }
-  }, []);
+  });
 
   const handleDismiss = useCallback(() => {
     setDismissed(true);
     try {
-      localStorage.setItem(DISMISS_KEY, String(Date.now()));
+      sessionStorage.setItem(SESSION_DISMISS_KEY, "true");
     } catch {}
   }, []);
 
@@ -72,7 +72,7 @@ export function StickyCtaBar() {
   if (HIDDEN_ROUTES.some((r) => location.startsWith(r))) return null;
 
   const ctx = getCtaContext(location);
-  const { text, href } = CTA_CONFIG[ctx];
+  const { text, buttonText, href, icon: Icon } = CTA_CONFIG[ctx];
 
   return (
     <div
@@ -80,7 +80,7 @@ export function StickyCtaBar() {
       data-testid="sticky-cta-bar"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 px-4 py-2 relative">
-        <Sparkles className="w-4 h-4 flex-shrink-0 hidden sm:block" />
+        <Icon className="w-4 h-4 flex-shrink-0 hidden sm:block" />
         <span className="text-sm font-medium truncate" data-testid="text-cta-message">
           {text}
         </span>
@@ -91,7 +91,7 @@ export function StickyCtaBar() {
             className="rounded-full px-4 py-1 h-7 text-xs font-semibold bg-white text-primary hover:bg-white/90 shadow-sm"
             data-testid="button-cta-bar-action"
           >
-            Get Started <ArrowRight className="w-3 h-3 ml-1" />
+            {buttonText} <ArrowRight className="w-3 h-3 ml-1" />
           </Button>
         </LocaleLink>
         <button

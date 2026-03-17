@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EducationalIntegrity } from "@/components/educational-integrity";
+import { MedicalReviewBadge } from "@/components/medical-review-badge";
+import { MedicalReferences } from "@/components/medical-references";
 import { useFeatureUsage } from "@/hooks/use-feature-usage";
 import { useAuth } from "@/lib/auth";
 import { UsageLimitBanner, UsageLimitPaywall } from "@/components/usage-limit-gate";
@@ -901,6 +903,11 @@ export default function LabValuesPage() {
             <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
           </div>
         </LocaleLink>
+
+        <div className="mt-12 space-y-6">
+          <MedicalReviewBadge lastUpdated="2025-12-01" />
+          <MedicalReferences lessonId="hematology-lab-values-reference" />
+        </div>
 
         <div className="mt-16">
           <EducationalIntegrity variant="footer" />
