@@ -4,12 +4,44 @@ import { CAREER_CONFIGS, getCanonicalRoute } from "@shared/careers";
 import {
   Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen,
   FileText, Brain, Zap, CheckCircle2, TrendingUp, Users, Star, Mail,
-  ShieldCheck, Building2, Hand, Activity
+  ShieldCheck, Building2, Hand, Activity, DollarSign, BarChart3, GraduationCap,
+  Stethoscope, ClipboardList
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getTotalAlliedHealthDisplay } from "@/data/career-questions/question-counts";
+
+const FEATURED_CAREERS = [
+  {
+    ...CAREER_CONFIGS.rrt,
+    Icon: Wind,
+    salaryRange: "$61,000 – $76,000",
+    jobOutlook: "+14% growth",
+    examCount: 3,
+  },
+  {
+    ...CAREER_CONFIGS.mlt,
+    Icon: Microscope,
+    salaryRange: "$57,000 – $72,000",
+    jobOutlook: "+7% growth",
+    examCount: 3,
+  },
+  {
+    ...CAREER_CONFIGS.imaging,
+    Icon: Radio,
+    salaryRange: "$63,000 – $85,000",
+    jobOutlook: "+6% growth",
+    examCount: 4,
+  },
+  {
+    ...CAREER_CONFIGS.diagnosticSonography,
+    Icon: Radio,
+    salaryRange: "$62,000 – $82,000",
+    jobOutlook: "+10% growth",
+    examCount: 3,
+  },
+];
 
 const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.rrt, Icon: Wind },
@@ -60,9 +92,9 @@ export default function AlliedHomePage() {
   return (
     <div data-testid="allied-home-page">
       <AlliedSEO
-        title="Allied Health Exam Prep — Practice Questions & Mock Exams | NurseNest"
-        description={`Pass your allied health certification exam with ${getTotalAlliedHealthDisplay()} practice questions, blueprint-weighted mock exams, flashcards, and AI study tools for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, and PT certifications.`}
-        keywords="allied health exam prep, RRT practice questions, paramedic exam prep, pharmacy tech PTCB questions, MLT CSMLS exam, ARRT radiography exam, healthcare certification practice test, mock exam, question bank"
+        title="Allied Health Careers & Certification Exam Prep — RRT, MLT, Radiologic Tech, Sonography | NurseNest"
+        description="Pass your allied health certification exams faster with practice questions, career guidance, and salary data for Respiratory Therapy, Medical Laboratory, Radiologic Technology, and Sonography careers. Free to start."
+        keywords="allied health careers, certification exam prep, respiratory therapy exam, medical laboratory technologist exam, healthcare career training, ARRT radiography exam, ARDMS sonography exam, allied health salary, job outlook"
         canonicalPath="/allied-health"
         structuredData={{
           "@context": "https://schema.org",
@@ -71,64 +103,93 @@ export default function AlliedHomePage() {
           "url": "https://www.nursenest.ca/allied-health"
         }}
       />
-      <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32" data-testid="allied-hero">
+      <section className="relative overflow-hidden pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-14 lg:pb-20" data-testid="allied-hero">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-teal-100/80 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium mb-6" data-testid="badge-allied">
-              <Zap className="w-4 h-4" />
-              Healthcare Exam Academy
+            <div className="inline-flex items-center gap-2 bg-teal-100/80 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium mb-5" data-testid="badge-allied">
+              <Stethoscope className="w-4 h-4" />
+              Built for Allied Health Certification Exams — RRT, MLT, Rad Tech, Sonography
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-hero-title">
-              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Certification Exam</span> on the First Attempt
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-hero-title">
+              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Allied Health Certification Exams</span> Faster
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
-              {getTotalAlliedHealthDisplay()} exam-style practice questions with detailed rationales, blueprint-weighted mock exams, and AI-powered study plans for RRT, Paramedic, Pharmacy Tech, MLT, Imaging, OT, PT, and more certifications.
-            </p>
-            <p className="text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 inline-block mb-3" data-testid="text-hero-loss-aversion">
-              Don't risk failing your certification exam — start building confidence today
-            </p>
-            <p className="text-sm text-gray-500 italic mb-6 max-w-xl mx-auto" data-testid="text-hero-future-self">
-              Walk into your certification exam knowing exactly what to expect and how to succeed.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-              <Link href="/diagnostic?career=general" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
-                Start Free Practice Questions <ArrowRight className="w-4 h-4" />
+            <h2 className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
+              Exam prep, career guidance, {getTotalAlliedHealthDisplay()} practice questions, and certification support — everything you need to launch your allied health career.
+            </h2>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-gray-600 mb-6" data-testid="allied-hero-trust-indicators">
+              {[
+                { icon: ClipboardList, label: "Certification Exam Prep" },
+                { icon: TrendingUp, label: "Career Pathways" },
+                { icon: BookOpen, label: "Practice Questions" },
+                { icon: Brain, label: "Clinical Concepts" },
+                { icon: DollarSign, label: "Salary + Job Outlook" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-1.5" data-testid={`trust-indicator-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                  <item.icon className="w-4 h-4 text-teal-500" />
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
+              <Link href="/allied-health/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200" data-testid="button-explore-careers">
+                Explore Careers <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/allied-health/careers" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-all border border-teal-200" data-testid="button-view-pricing">
-                Browse Exam Prep by Profession
+              <Link href="/diagnostic?career=general" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-all border border-teal-200" data-testid="button-start-practice">
+                Start Practice Questions <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="allied-hero-trust-badges">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-500" />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-500" />
-                <span>Blueprint-aligned content</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-500" />
-                <span>Cancel anytime</span>
-              </div>
+
+            <div className="flex flex-col items-center gap-1 mb-8">
+              <p className="text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-4 py-1 inline-block" data-testid="text-hero-urgency">
+                Start preparing today — exams are competitive
+              </p>
+              <p className="text-xs text-gray-500" data-testid="text-hero-reassurance">
+                No signup required to start
+              </p>
             </div>
-            <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/70 border border-teal-100 backdrop-blur-sm" data-testid="allied-hero-clarity-block">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
-              <div className="space-y-2 text-left">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>Career-specific question banks with detailed rationales</span>
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-center text-lg font-semibold text-gray-800 mb-5" data-testid="text-featured-careers-heading">
+              Featured Allied Health Careers
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-testid="featured-careers-grid">
+              {FEATURED_CAREERS.filter(c => c.enabled).map((career) => (
+                <div key={career.slug} className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-lg hover:border-teal-200 transition-all group" data-testid={`card-featured-career-${career.slug}`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: career.colorAccent }}>
+                      <career.Icon className="w-5 h-5" style={{ color: career.color }} />
+                    </div>
+                    <h4 className="text-base font-semibold text-gray-900 group-hover:text-teal-700 transition-colors leading-tight" data-testid={`text-featured-name-${career.slug}`}>
+                      {career.shortName}
+                    </h4>
+                  </div>
+                  <div className="space-y-1.5 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-600" data-testid={`text-salary-${career.slug}`}>
+                      <DollarSign className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                      <span>{career.salaryRange}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600" data-testid={`text-outlook-${career.slug}`}>
+                      <BarChart3 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                      <span>{career.jobOutlook}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600" data-testid={`text-exams-${career.slug}`}>
+                      <GraduationCap className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                      <span>{career.examCount} certification exams</span>
+                    </div>
+                  </div>
+                  <Link
+                    href={getCanonicalRoute(career.slug)}
+                    className="inline-flex items-center gap-1.5 w-full justify-center px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100 transition-colors"
+                    data-testid={`button-explore-career-${career.slug}`}
+                  >
+                    Explore Career <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>Blueprint-weighted mock exams that mirror real test conditions</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>AI-powered study plans and readiness tracking</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
