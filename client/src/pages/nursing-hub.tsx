@@ -475,6 +475,21 @@ export default function NursingHub() {
         </div>
       </section>
 
+      <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30 border-t border-gray-100" data-testid="section-new-grad-cta">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-indigo-100 text-indigo-700">
+            <GraduationCap className="w-4 h-4" /> Graduating Soon?
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-new-grad-cta-title">Ready for Your First Nursing Job?</h2>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Passed your exam? Our New Grad Career Hub has everything you need — interview prep with 100+ questions, resume templates, salary negotiation tools, and first-year survival guides.
+          </p>
+          <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200" data-testid="link-new-grad-hub">
+            Explore New Grad Career Hub <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
       <EndOfContentLeadCapture
         leadMagnetType="practice_questions"
         professionContext="nursing"

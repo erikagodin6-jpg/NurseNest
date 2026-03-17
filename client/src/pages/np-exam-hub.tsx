@@ -1087,6 +1087,19 @@ function HubPage() {
         <div className="mb-8">
           <ExplanationPromoBanner variant="compact" />
         </div>
+        <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30" data-testid="section-new-grad-cta">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-np-new-grad-cta">New to NP Practice? Career Readiness Resources</h2>
+            <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
+              Transitioning from student to practitioner? Our New Grad Career Hub has interview prep, contract negotiation guides, and first-year confidence builders for new NPs.
+            </p>
+            <LocaleLink href="/newgrad">
+              <Button className="gap-2" data-testid="link-np-new-grad">
+                Explore New Grad Career Hub <ArrowRight className="w-4 h-4" />
+              </Button>
+            </LocaleLink>
+          </div>
+        </section>
         <ComparisonTable
           headline="How NurseNest Compares for NP Exam Prep"
           subtitle="See how a modern clinical learning system stacks up against typical study platforms for nurse practitioner exam preparation."

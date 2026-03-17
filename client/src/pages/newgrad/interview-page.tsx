@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradAccess } from "./premium-cta";
 import { INTERVIEW_QUESTION_BANK } from "@/data/newgrad/premium-toolkit";
 import { useI18n } from "@/lib/i18n";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ChevronRight, ChevronDown, ArrowRight, MessageSquare, Lock,
   CheckCircle2, Star, Lightbulb, Target, Users, Shield,
@@ -100,6 +101,14 @@ export default function InterviewPage() {
   const freeQuestions = applyRandom(filteredByCategory.filter((q: any) => !q.isPremium && !q.is_premium));
   const premiumQuestions = applyRandom(filteredByCategory.filter((q: any) => q.isPremium || q.is_premium));
 
+  const INTERVIEW_FAQ = [
+    { question: "What are the most common nursing interview questions for new grads?", answer: "The most common nursing interview questions for new graduates include behavioral questions using the STAR format (Situation, Task, Action, Result), clinical scenario questions about patient prioritization and safety, conflict resolution scenarios, and questions about time management and teamwork. Expect questions about handling medication errors, difficult patients, and working with interdisciplinary teams." },
+    { question: "How should I prepare for a nursing behavioral interview?", answer: "Prepare for behavioral nursing interviews by practicing the STAR method: describe the Situation, explain the Task, detail your Action, and share the Result. Use examples from clinical rotations, simulation labs, and group projects. Focus on patient safety decisions, conflict resolution, teamwork examples, and times you received constructive feedback." },
+    { question: "What are good nursing job scenario questions to practice?", answer: "Practice scenario questions about patient deterioration response, medication error handling, prioritization with multiple patients, communicating with difficult family members, advocating for patients, delegating to CNAs, and managing emergency situations. Specialty-specific scenarios for ICU, ER, Med-Surg, Pediatrics, and L&D are also common." },
+    { question: "How many interview questions should I prepare for my first nursing job?", answer: "Prepare at least 15-20 interview questions across different categories: 5 behavioral STAR questions, 5 clinical scenarios, 3 conflict/teamwork situations, and 3-5 specialty-specific questions. Our question bank has 100+ questions with detailed sample answers to help you feel confident and prepared." },
+  ];
+  const faqStructuredData = buildFaqStructuredData(INTERVIEW_FAQ);
+
   const uniqueCategories = [...new Set(INTERVIEW_QUESTION_BANK.map((q) => q.category))];
   const categoriesWithCounts = INTERVIEW_CATEGORIES.filter(
     (cat) => cat.id === "all" || uniqueCategories.includes(cat.id)
@@ -116,8 +125,9 @@ export default function InterviewPage() {
       <SEO
         title={t("newGrad.interview.seoTitle")}
         description={t("newGrad.interview.seoDescription")}
-        keywords="nurse interview questions, new grad nurse interview, nursing behavioral interview, STAR format nursing, nurse interview prep, nursing job interview tips, ICU interview, ER interview, pediatric interview, difficult interview questions nursing"
+        keywords="nursing interview questions, new grad nurse interview prep, nurse behavioral interview questions, first nursing job interview practice, nursing job scenario questions, STAR format nursing, ICU interview, ER interview, pediatric interview"
         canonicalPath="/newgrad/interview"
+        additionalStructuredData={[faqStructuredData]}
         breadcrumbs={[
           { name: t("newGrad.common.home"), url: "https://www.nursenest.ca" },
           { name: t("newGrad.common.newGradCareerHub"), url: "https://www.nursenest.ca/newgrad" },
@@ -363,6 +373,22 @@ export default function InterviewPage() {
           </div>
         </section>
       )}
+
+      <section className="py-16 bg-white" data-testid="section-interview-faq">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-4">
+            {INTERVIEW_FAQ.map((faq, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 p-6" data-testid={`card-interview-faq-${i}`}>
+                <h3 className="font-semibold text-gray-900 text-sm mb-2">{faq.question}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="py-12 bg-gradient-to-r from-purple-50 to-indigo-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">

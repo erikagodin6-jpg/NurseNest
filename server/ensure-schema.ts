@@ -987,6 +987,14 @@ async function ensureProgrammaticPages(pool: pg.Pool): Promise<void> {
       updated_at timestamptz DEFAULT NOW() NOT NULL
     )
   `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS admin_settings (
+      key text PRIMARY KEY,
+      value text NOT NULL,
+      updated_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
 }
 
 async function canonicalizeImageCaptions(pool: pg.Pool): Promise<void> {

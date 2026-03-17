@@ -110,6 +110,13 @@ export async function findRelatedContent(
     console.error("Related content: glossary error:", e);
   }
 
+  try {
+    const newGradResults = findRelatedNewGradContent(context, keyTerms, seenSlugs, Math.min(2, limit));
+    results.push(...newGradResults);
+  } catch (e) {
+    console.error("Related content: new grad error:", e);
+  }
+
   return results.slice(0, limit);
 }
 
@@ -391,6 +398,54 @@ async function findRelatedGlossary(
         slug,
         href: `/glossary/${slug}`,
         description: `Definition and clinical significance of ${title.toLowerCase()}`,
+      });
+    }
+  }
+
+  return items.slice(0, limit);
+}
+
+const NEW_GRAD_RESOURCES: { title: string; slug: string; href: string; keywords: string[] }[] = [
+  { title: "New Grad Career Hub", slug: "newgrad", href: "/newgrad", keywords: ["career", "job", "graduate", "new grad", "interview", "resume", "first year"] },
+  { title: "Nursing Interview Questions & Prep", slug: "newgrad-interview", href: "/newgrad/interview", keywords: ["interview", "behavioral", "star", "question", "job", "hiring"] },
+  { title: "New Grad Resume Guide", slug: "newgrad-resume", href: "/newgrad/resume", keywords: ["resume", "cv", "cover letter", "job", "application", "ats"] },
+  { title: "New Nurse Survival Guide", slug: "newgrad-survival", href: "/newgrad/survival-guide", keywords: ["new grad", "first year", "orientation", "transition", "confidence", "survival"] },
+  { title: "New Grad Salary Guide", slug: "newgrad-salary", href: "/newgrad/salary", keywords: ["salary", "negotiation", "compensation", "pay", "wage", "benefits"] },
+  { title: "Workplace Navigation for New Nurses", slug: "newgrad-workplace", href: "/newgrad/workplace", keywords: ["workplace", "team", "conflict", "communication", "preceptor", "delegation"] },
+  { title: "Burnout Prevention for New Nurses", slug: "newgrad-burnout", href: "/newgrad/burnout", keywords: ["burnout", "stress", "self-care", "mental health", "resilience", "wellness"] },
+  { title: "Nursing Career Development", slug: "newgrad-career", href: "/newgrad/career", keywords: ["career", "specialty", "advancement", "leadership", "professional development"] },
+  { title: "New Grad Certifications Hub", slug: "newgrad-certs", href: "/newgrad/certifications", keywords: ["certification", "acls", "bls", "pals", "tncc", "ccrn", "cen"] },
+];
+
+function findRelatedNewGradContent(
+  context: ContentContext,
+  keyTerms: string[],
+  seenSlugs: Set<string>,
+  limit: number
+): RelatedContentItem[] {
+  const items: RelatedContentItem[] = [];
+  const careerRelatedTypes = ["blog", "new-grad-guide"];
+  const isCareerContent = careerRelatedTypes.includes(context.contentType) ||
+    keyTerms.some(t => ["career", "job", "interview", "resume", "graduate", "new grad", "first year", "salary", "burnout"].includes(t));
+
+  if (!isCareerContent) return items;
+
+  for (const resource of NEW_GRAD_RESOURCES) {
+    if (items.length >= limit) break;
+    if (seenSlugs.has(resource.slug)) continue;
+
+    const matchScore = resource.keywords.filter(kw =>
+      keyTerms.some(t => kw.includes(t) || t.includes(kw))
+    ).length;
+
+    if (matchScore >= 1) {
+      seenSlugs.add(resource.slug);
+      items.push({
+        type: "blog",
+        title: resource.title,
+        slug: resource.slug,
+        href: resource.href,
+        description: `Career readiness resource for new graduate nurses`,
       });
     }
   }

@@ -216,6 +216,28 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, allLocales, "0.8", "monthly", today));
   }
 
+  const newGradPages = [
+    { path: "/newgrad", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/interview", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/resume", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/guides", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/career", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/workplace", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/burnout", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/salary", priority: "0.9", freq: "monthly" },
+    { path: "/newgrad/scenarios", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/survival-guide", priority: "0.9", freq: "monthly" },
+    { path: "/newgrad/clinical-references", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/professional-development", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications", priority: "0.9", freq: "weekly" },
+    { path: "/newgrad/certifications/bls", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications/acls", priority: "0.8", freq: "monthly" },
+    { path: "/newgrad/certifications/pals", priority: "0.8", freq: "monthly" },
+  ];
+  for (const page of newGradPages) {
+    urls.push(singleLocaleUrl(base, page.path, targetLocale, allLocales, page.priority, page.freq, today));
+  }
+
   try {
     const seoPages = await pool.query(
       `SELECT slug, country, updated_at FROM imaging_seo_pages WHERE status = 'published' ORDER BY updated_at DESC LIMIT 5000`

@@ -44,6 +44,7 @@ import {
   Stethoscope,
   ChevronRight,
   ArrowLeft,
+  ArrowRight,
   Heart,
   Brain,
   Droplets,
@@ -1600,6 +1601,20 @@ export default function PreNursingPage() {
           }}
         />
       )}
+
+      <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30 border-t border-gray-100" data-testid="section-new-grad-cta">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-prenursing-new-grad-cta">Planning Ahead? Explore Career Readiness</h2>
+          <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
+            Once you graduate, our New Grad Career Hub will help you land your first nursing job with interview prep, resume templates, salary negotiation tools, and first-year survival guides.
+          </p>
+          <LocaleLink href="/newgrad">
+            <Button className="gap-2" data-testid="link-prenursing-new-grad">
+              Preview New Grad Career Hub <ArrowRight className="w-4 h-4" />
+            </Button>
+          </LocaleLink>
+        </div>
+      </section>
 
       <section className="py-12 bg-gradient-to-r from-teal-50 to-cyan-50" data-testid="section-applynest-prenursing">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

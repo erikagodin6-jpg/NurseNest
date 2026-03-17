@@ -684,4 +684,150 @@ export function registerNewGradRoutes(app: Express) {
       res.status(500).json({ error: e.message });
     }
   });
+
+  const CONTENT_EXPANSION_ROADMAP = [
+    {
+      rank: 1,
+      area: "Addiction Counsellor Certification Prep",
+      slug: "addiction-counsellor",
+      seoScore: 9.2,
+      questionVolume: 8.5,
+      conversionPotential: 8.8,
+      professionalDemand: 9.0,
+      composite: 8.88,
+      status: "planned",
+      notes: "High-demand niche with very few quality prep resources. Monthly search volume ~12K for CASAC/CADC/IC&RC exam prep. Low competition, high conversion intent.",
+    },
+    {
+      rank: 2,
+      area: "Psychotherapist Licensing Exam Prep",
+      slug: "psychotherapist",
+      seoScore: 8.8,
+      questionVolume: 8.0,
+      conversionPotential: 8.5,
+      professionalDemand: 8.7,
+      composite: 8.50,
+      status: "planned",
+      notes: "NCE/NCMHCE exam prep market growing rapidly. Strong organic search for 'counseling exam practice questions'. Underserved by current competitors.",
+    },
+    {
+      rank: 3,
+      area: "AI Adaptive Testing Engine",
+      slug: "ai-adaptive-testing",
+      seoScore: 7.5,
+      questionVolume: 9.5,
+      conversionPotential: 9.0,
+      professionalDemand: 8.0,
+      composite: 8.50,
+      status: "planned",
+      notes: "Platform-wide upgrade. NCLEX CAT simulation is a top-3 search term. Improves retention and conversion across all verticals. High engineering lift but massive SEO and product differentiation.",
+    },
+    {
+      rank: 4,
+      area: "Certification Exam Question Banks (CCRN, CEN, PCCN)",
+      slug: "specialty-cert-qbanks",
+      seoScore: 8.5,
+      questionVolume: 9.0,
+      conversionPotential: 7.5,
+      professionalDemand: 8.0,
+      composite: 8.25,
+      status: "planned",
+      notes: "Natural extension of existing nursing content. 'CCRN practice questions' has ~8K monthly searches. Builds on current question infrastructure.",
+    },
+    {
+      rank: 5,
+      area: "Social Work Licensing Exam Prep (ASWB)",
+      slug: "social-work-aswb",
+      seoScore: 8.0,
+      questionVolume: 7.5,
+      conversionPotential: 8.0,
+      professionalDemand: 8.5,
+      composite: 8.00,
+      status: "planned",
+      notes: "ASWB exam prep has ~15K monthly searches. Adjacent to nursing/allied health audience. High pass-rate anxiety drives purchase intent.",
+    },
+    {
+      rank: 6,
+      area: "Medical Laboratory Technologist Prep",
+      slug: "mlt-prep",
+      seoScore: 7.8,
+      questionVolume: 7.0,
+      conversionPotential: 7.5,
+      professionalDemand: 8.0,
+      composite: 7.58,
+      status: "planned",
+      notes: "MLT/MLS certification (ASCP BOC) underserved. Complements existing allied health hub. Moderate search volume but high conversion due to limited competition.",
+    },
+    {
+      rank: 7,
+      area: "Pharmacy Technician Certification (PTCB/ExCPT)",
+      slug: "pharmacy-tech",
+      seoScore: 7.5,
+      questionVolume: 7.5,
+      conversionPotential: 7.0,
+      professionalDemand: 7.5,
+      composite: 7.38,
+      status: "planned",
+      notes: "Pharmacy tech certification prep has steady demand (~6K monthly). Fits allied health vertical. Good upsell path to pharmacology content.",
+    },
+    {
+      rank: 8,
+      area: "Multilingual Clinical Scenario Expansion (FR/ES)",
+      slug: "multilingual-scenarios",
+      seoScore: 7.0,
+      questionVolume: 6.5,
+      conversionPotential: 7.5,
+      professionalDemand: 8.0,
+      composite: 7.25,
+      status: "in-progress",
+      notes: "French and Spanish clinical scenarios for Canadian/international markets. Lower search volume per language but near-zero competition. Supports existing i18n infrastructure.",
+    },
+  ];
+
+  app.get("/api/admin/content-expansion-roadmap", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let stored: any = null;
+      try {
+        const result = await pool.query(
+          `SELECT value FROM admin_settings WHERE key = 'content_expansion_roadmap'`
+        );
+        if (result.rows.length > 0) {
+          stored = JSON.parse(result.rows[0].value);
+        }
+      } catch {}
+
+      res.json({
+        roadmap: stored || CONTENT_EXPANSION_ROADMAP,
+        isDefault: !stored,
+        lastUpdated: stored ? undefined : new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/content-expansion-roadmap", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { roadmap } = req.body;
+      if (!Array.isArray(roadmap)) {
+        return res.status(400).json({ error: "roadmap must be an array" });
+      }
+
+      await pool.query(
+        `INSERT INTO admin_settings (key, value) VALUES ('content_expansion_roadmap', $1)
+         ON CONFLICT (key) DO UPDATE SET value = $1`,
+        [JSON.stringify(roadmap)]
+      );
+
+      res.json({ ok: true, message: "Roadmap saved" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
 }

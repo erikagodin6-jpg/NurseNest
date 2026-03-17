@@ -1056,8 +1056,52 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Advanced NP certification exam preparation for AANP and ANCC. Practice questions, differential diagnosis cases, pharmacology review, and mock exams.",
   },
   "/newgrad": {
-    title: "New Grad Career Hub — Interview Prep, Resume Tools & Survival Guides | NurseNest",
-    description: "Launch your nursing career with free survival guides, STAR-framework interview prep, ATS-optimized resume templates, salary negotiation tools, and burnout prevention strategies for new graduate nurses.",
+    title: "Nursing Interview Questions & New Grad Career Hub — Interview Prep, Resume Tools & First Year Survival | NurseNest",
+    description: "Top nursing interview questions, new grad nurse interview prep, and nurse behavioral interview questions with STAR-format answers. Free first nursing job interview practice, scenario questions, resume templates, salary negotiation tools, and burnout prevention strategies.",
+  },
+  "/newgrad/interview": {
+    title: "Nursing Interview Questions — 100+ Behavioral & Clinical Scenario Questions | NurseNest",
+    description: "Master nursing interview questions with 100+ behavioral interview questions, clinical scenario practice, and STAR-format sample answers. New grad nurse interview prep covering ICU, ER, Med-Surg, Pediatrics, and L&D specialties.",
+  },
+  "/newgrad/resume": {
+    title: "New Grad Nurse Resume Guide — ATS-Optimized Templates & Examples | NurseNest",
+    description: "Build an ATS-optimized nursing resume with professional templates designed for new graduate nurses. Cover letter examples, clinical placement formatting, and recruiter-approved formats for your first nursing job.",
+  },
+  "/newgrad/guides": {
+    title: "New Graduate Nurse Guides — Clinical Skills, Unit Orientation & Career Resources | NurseNest",
+    description: "Comprehensive guides for new graduate nurses covering clinical skill development, unit-specific orientation, specialty selection, and professional development. Free career resources for your first year of nursing.",
+  },
+  "/newgrad/career": {
+    title: "Nursing Career Development — Specialties, Growth & Advancement for New Grads | NurseNest",
+    description: "Explore nursing career paths, specialty options, and advancement strategies for new graduate nurses. From bedside nursing to leadership, education, and advanced practice roles.",
+  },
+  "/newgrad/workplace": {
+    title: "Workplace Navigation for New Nurses — Communication, Teamwork & Conflict Resolution | NurseNest",
+    description: "Navigate nursing workplace dynamics with guides on team communication, conflict resolution, preceptor relationships, and professional boundaries. Essential workplace survival skills for new graduate nurses.",
+  },
+  "/newgrad/burnout": {
+    title: "New Nurse Burnout Prevention — Self-Care, Resilience & Mental Health | NurseNest",
+    description: "Prevent nursing burnout with evidence-based self-care strategies, resilience building, stress management techniques, and mental health resources designed for new graduate nurses in their first year.",
+  },
+  "/newgrad/salary": {
+    title: "New Grad Nurse Salary Guide — Negotiation Scripts & Market Data | NurseNest",
+    description: "Comprehensive salary guide for new graduate nurses with market data by region, specialty salary comparisons, negotiation scripts, and total compensation analysis. Know your worth in your first nursing job.",
+  },
+  "/newgrad/scenarios": {
+    title: "Nursing Job Scenario Questions — Workplace Practice Simulations | NurseNest",
+    description: "Practice nursing job scenario questions with realistic workplace simulations. Behavioral scenarios, clinical decision-making practice, and situational judgment exercises for new grad nurse interview preparation.",
+  },
+  "/newgrad/professional-development": {
+    title: "Professional Development for New Nurses — Continuing Education & Growth | NurseNest",
+    description: "Professional development resources for new graduate nurses including continuing education planning, portfolio building, leadership development, and career milestone tracking.",
+  },
+  "/newgrad/survival-guide": {
+    title: "New Grad Nurse Survival Guide — First Year Transition & Confidence Building | NurseNest",
+    description: "The ultimate first-year nursing survival guide. Orientation preparation, clinical confidence building, time management, documentation tips, and transition-to-practice strategies for new graduate nurses.",
+  },
+  "/newgrad/clinical-references": {
+    title: "Clinical Quick References for New Nurses — Lab Values, Meds & Procedures | NurseNest",
+    description: "Essential clinical quick reference guides for new graduate nurses. Lab value ranges, common medications, nursing procedures, assessment checklists, and clinical decision-making frameworks.",
   },
   "/newgrad/certifications": {
     title: "New Grad Certifications: ACLS, BLS, PALS, TNCC, NRP, CEN, CCRN | NurseNest",
