@@ -1,0 +1,511 @@
+You are working on the NurseNest production codebase (React + Vite + Express).
+
+You have already built or are building dedicated tier landing pages such as:
+
+• /rex-pn
+• /nclex-rn
+• /np-exam
+
+Your task now is to build the COMPLETE SEO CONTENT EXPANSION SYSTEM beneath each of those tier pages so they become true ranking hubs, traffic generators, and conversion funnels.
+
+This is NOT just blog generation.
+This is a full internal-content architecture for SEO + conversions + exam prep growth.
+
+=====================================
+PRIMARY GOALS
+=====================================
+
+1. Turn each tier landing page into a strong SEO hub
+2. Generate supporting content that ranks for long-tail keywords
+3. Connect all content through internal linking
+4. Improve conversions from organic traffic into subscriptions
+5. Maintain full multilingual support
+6. Prevent duplicate content, broken links, orphan pages, and thin content
+
+=====================================
+TIER STRUCTURE TO SUPPORT
+=====================================
+
+Build content systems under each of these major hubs:
+
+1. RPN / REx-PN
+2. RN / NCLEX-RN
+3. NP / Board Exams
+
+Each hub must have its own SEO-supporting subpages, internal links, and conversion flows.
+
+=====================================
+PHASE 1 — CONTENT HUB ARCHITECTURE
+=====================================
+
+For EACH nursing tier page, build a structured content cluster beneath it.
+
+Example:
+
+REx-PN hub
+• /rex-pn
+• /rex-pn/practice-questions
+• /rex-pn/study-plan
+• /rex-pn/fundamentals
+• /rex-pn/pharmacology
+• /rex-pn/safety-and-infection-control
+• /rex-pn/clinical-judgment
+• /rex-pn/exam-tips
+• /rex-pn/top-conditions
+• /rex-pn/lab-values
+• /rex-pn/medications
+
+NCLEX-RN hub
+• /nclex-rn
+• /nclex-rn/practice-questions
+• /nclex-rn/ngn
+• /nclex-rn/prioritization-and-delegation
+• /nclex-rn/pharmacology
+• /nclex-rn/adult-health
+• /nclex-rn/maternal-child
+• /nclex-rn/mental-health
+• /nclex-rn/exam-strategy
+• /nclex-rn/top-conditions
+• /nclex-rn/lab-values
+• /nclex-rn/medications
+
+NP hub
+• /np-exam
+• /np-exam/practice-questions
+• /np-exam/differential-diagnosis
+• /np-exam/primary-care
+• /np-exam/pharmacology
+• /np-exam/diagnostics
+• /np-exam/chronic-disease-management
+• /np-exam/case-studies
+• /np-exam/exam-strategy
+• /np-exam/top-conditions
+• /np-exam/lab-values
+• /np-exam/medications
+
+Do NOT create messy, duplicated, or random page trees.
+Use a consistent, scalable hierarchy.
+
+=====================================
+PHASE 2 — PAGE TYPES TO GENERATE
+=====================================
+
+Under each tier, generate the following content types:
+
+A. CORE EXAM CATEGORY PAGES
+Examples:
+• REx-PN Pharmacology Practice Questions
+• NCLEX-RN Prioritization Questions
+• NP Differential Diagnosis Cases
+
+B. CONDITION PAGES
+Examples:
+• Heart Failure Nursing Interventions for NCLEX
+• COPD Exacerbation Questions for REx-PN
+• Type 2 Diabetes Management for NP Exam Prep
+
+C. LAB VALUE PAGES
+Examples:
+• Potassium Levels Explained for NCLEX
+• ABG Interpretation for Nursing Exams
+• A1C Interpretation for NP Boards
+
+D. MEDICATION PAGES
+Examples:
+• Furosemide Nursing Considerations
+• Insulin Types for NCLEX
+• ACE Inhibitors for NP Board Prep
+
+E. SKILLS / STRATEGY PAGES
+Examples:
+• How to Pass REx-PN
+• How to Study for NCLEX-RN
+• Best NP Exam Study Strategy
+• Clinical Judgment Framework
+• Prioritization Tips
+• SOAP Notes / Diagnostic Approach
+
+F. COMPARISON PAGES
+Examples:
+• DKA vs HHS
+• Crohn’s vs Ulcerative Colitis
+• Stable vs Unstable Angina
+• Iron Deficiency vs B12 Deficiency
+• Viral vs Bacterial Pneumonia
+
+G. QUESTION BANK LANDING PAGES
+Examples:
+• 100 REx-PN Pharmacology Questions
+• 250 NCLEX-RN Cardiac Questions
+• NP Exam Case-Based Questions
+
+=====================================
+PHASE 3 — REQUIRED CONTENT FORMAT
+=====================================
+
+Every generated page must include:
+
+1. SEO title
+2. Meta description
+3. H1 heading
+4. clear H2 / H3 structure
+5. strong introductory paragraph
+6. educational depth
+7. exam relevance
+8. internal links
+9. conversion CTA
+10. references where medically appropriate
+11. medically reviewed block
+12. last updated date
+
+No page may be thin.
+No page may be empty.
+No page may be generic filler.
+
+=====================================
+PHASE 4 — MEDICAL + EDUCATIONAL DEPTH
+=====================================
+
+Content must not be shallow.
+
+For condition pages include:
+• definition
+• pathophysiology
+• causes/risk factors
+• signs and symptoms
+• assessment findings
+• labs and diagnostics
+• medications
+• nursing interventions
+• complications
+• patient teaching
+• exam pearls
+• common trap answers
+• related questions
+
+For medication pages include:
+• class
+• mechanism of action
+• indications
+• side effects
+• adverse effects
+• contraindications
+• nursing considerations
+• monitoring
+• patient teaching
+• herb/supplement interactions where relevant
+• exam tips
+
+For lab pages include:
+• normal ranges
+• Canadian and US variations where relevant
+• high/low significance
+• interpretation
+• associated conditions
+• nursing implications
+• exam alerts
+
+For NP pages increase depth to include:
+• differential diagnosis
+• workup
+• red flags
+• diagnostics
+• first-line vs second-line management
+• follow-up considerations
+• prescribing / management pearls
+• patient counselling considerations
+
+=====================================
+PHASE 5 — PRACTICE QUESTIONS + CONVERSIONS
+=====================================
+
+Every major hub and many supporting pages should include practice question integration.
+
+Requirements:
+• embed 3–5 free preview questions
+• show strong rationales for right and wrong answers
+• except CAT-style exam areas where rationale behavior may differ
+• include locked premium teaser questions underneath
+• CTA:
+  “Unlock Full Test Bank”
+  “Start Full Practice”
+  “Upgrade for More Questions”
+
+Add a second conversion block further down the page:
+• “Get unlimited access to questions, rationales, study guides, and clinical review.”
+
+=====================================
+PHASE 6 — INTERNAL LINKING ENGINE
+=====================================
+
+Build strong internal linking automatically and intentionally.
+
+Each page must link to:
+• its parent tier hub
+• related condition pages
+• related lab pages
+• related medication pages
+• relevant question bank pages
+• pricing / signup pages
+• study plan pages
+
+Example:
+Heart failure page links to:
+• furosemide page
+• BNP lab page
+• fluid overload page
+• cardiac NCLEX questions
+• prioritization practice page
+
+Do not overstuff links.
+Do not create broken links.
+Do not leave orphan pages.
+
+=====================================
+PHASE 7 — SEO TARGETING STRATEGY
+=====================================
+
+Target keywords with clear search intent.
+
+Examples:
+
+RPN / REx-PN
+• rex-pn exam prep
+• rex-pn practice questions
+• practical nursing exam prep
+• pharmacology for rex-pn
+• safety and infection control rex-pn
+
+RN / NCLEX-RN
+• nclex-rn practice questions
+• next generation nclex questions
+• nclex pharmacology questions
+• prioritization and delegation nclex
+• nclex cardiac questions
+
+NP
+• np board exam prep
+• np differential diagnosis questions
+• family nurse practitioner exam questions
+• np pharmacology review
+• primary care board prep
+
+Use keywords naturally.
+Do NOT keyword-stuff.
+Each page must have a unique target keyword set and unique meta data.
+
+=====================================
+PHASE 8 — AVOID SEO CANNIBALIZATION
+=====================================
+
+This is critical.
+
+Do NOT create multiple pages targeting the exact same keyword intent.
+Do NOT create duplicate pages that only differ by minor wording.
+Do NOT repeat the same article structure across all tiers without real differentiation.
+
+Differentiate by:
+• exam type
+• learner level
+• depth
+• clinical complexity
+• question style
+• page purpose
+
+RPN content should feel foundational and practical.
+RN content should emphasize clinical judgment, NGN, prioritization, delegation.
+NP content should feel advanced, diagnostic, management-focused.
+
+=====================================
+PHASE 9 — MULTI-LANGUAGE SUPPORT
+=====================================
+
+All new pages must support all existing site languages.
+
+Requirements:
+• integrate into existing i18n system
+• translate headings, labels, CTAs, and metadata
+• use proper localized routes if applicable
+• add hreflang support
+• ensure translated pages are indexable
+• do not leave raw translation keys visible anywhere
+• do not hardcode English-only UI text
+
+Preserve medical accuracy across translations.
+Do not generate broken language routes.
+Do not omit metadata in translated versions.
+
+=====================================
+PHASE 10 — TRAFFIC GROWTH FEATURES
+=====================================
+
+Add built-in traffic support features:
+
+1. Related articles blocks
+2. FAQ sections on key pages
+3. schema markup where appropriate:
+   • Article
+   • FAQPage
+   • MedicalWebPage
+   • BreadcrumbList
+4. sitemap inclusion for all indexable pages
+5. breadcrumb navigation
+6. clear page hierarchy
+7. strong on-page introductions that match search intent
+
+Also create “hub-to-blog” pathways:
+• tier hub pages should highlight relevant blog/guide content
+• blog/guide pages should link back to the tier hub and paid products
+
+=====================================
+PHASE 11 — CONVERSION OPTIMIZATION
+=====================================
+
+Each major SEO page must include conversion logic.
+
+Include:
+• primary CTA above the fold
+• mid-page CTA
+• end-of-page CTA
+• soft trust copy:
+  “Built for modern nursing exams”
+  “Clinically focused study support”
+  “Medically reviewed learning content”
+
+Add friction reducers:
+• “No signup required to preview”
+• “Start free”
+• “Try sample questions first”
+
+Add value framing:
+• question banks
+• study plans
+• cheat sheets
+• clinical rationales
+• exam-specific learning
+
+=====================================
+PHASE 12 — TECHNICAL INTEGRATION
+=====================================
+
+Everything must be properly integrated into the production app.
+
+Requirements:
+• pages must be saved in the right data model / content structure
+• pages must render on live production routes
+• no duplicate menus
+• no broken routes
+• no dead navigation
+• no blank page rendering
+• no route collisions
+• no missing metadata
+• no untranslated components
+• production build must pass
+
+If content is generated automatically, it must:
+• save properly
+• publish properly
+• display properly
+• appear in the correct category/hub
+• be discoverable through internal linking and sitemap
+
+=====================================
+PHASE 13 — CONTENT QUALITY CONTROLS
+=====================================
+
+Implement validation rules so that no generated page can publish if it is missing:
+
+• title
+• meta description
+• H1
+• body content
+• internal links
+• CTA
+• medically reviewed section
+• references block where relevant
+• language mapping
+• parent hub association
+
+Also prevent:
+• empty lessons
+• pages with only one paragraph
+• repeated intros across dozens of pages
+• duplicated meta descriptions
+• duplicated slugs
+
+=====================================
+PHASE 14 — PRIORITY BUILD ORDER
+=====================================
+
+Build in this order:
+
+1. REx-PN content hub pages
+2. NCLEX-RN content hub pages
+3. NP hub pages
+4. top condition pages
+5. lab pages
+6. medication pages
+7. comparison pages
+8. strategy pages
+9. FAQs / schema / related content blocks
+10. multilingual expansion and validation
+
+Start with the highest-value, highest-traffic, highest-conversion topics first.
+
+=====================================
+TOPIC PRIORITY EXAMPLES
+=====================================
+
+Start with:
+• heart failure
+• diabetes / DKA / HHS
+• COPD
+• pneumonia
+• sepsis
+• hypertension
+• MI / ACS
+• stroke
+• insulin
+• furosemide
+• potassium
+• sodium
+• ABGs
+• prioritization
+• delegation
+• infection control
+• pharmacology fundamentals
+• differential diagnosis basics for NP
+
+=====================================
+FINAL DELIVERABLES REQUIRED
+=====================================
+
+When finished, provide:
+
+1. Exact hub structure built
+2. Exact routes/pages created
+3. Examples of content pages generated for each tier
+4. Confirmation of internal linking implementation
+5. Confirmation multilingual support is working
+6. Confirmation pages are published and accessible
+7. Confirmation sitemap / schema / metadata are implemented
+8. Confirmation conversion blocks are live
+9. Any architecture improvements made to support scaling
+10. Any remaining risks or recommended next steps
+
+=====================================
+SUCCESS CRITERIA
+=====================================
+
+This system is complete only if:
+
+• each tier page becomes a real SEO hub
+• supporting pages exist beneath it in a clean structure
+• content is medically useful and exam-relevant
+• internal linking is strong
+• pages are translated across all supported languages
+• users can move from organic landing page to questions to paid plans
+• there are no broken links, empty pages, duplicate routes, or thin content
+• the result improves both traffic potential and conversion potential
+
+Build this as a production-grade SEO and conversion architecture, not as a generic content dump.

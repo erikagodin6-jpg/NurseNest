@@ -159,18 +159,17 @@ async function buildAll() {
     .sort((a: number, b: number) => a - b);
   log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
 
-  await copySeedData();
-  log("seed data done");
-
-  await buildLessonsData();
-  log("lessons data done");
-  for (const i of npBatchFiles) {
-    await buildNpBatch(i);
-  }
-  log("np batches done");
-
-  await buildServer();
-  log("server done");
+  await Promise.all([
+    buildServer().then(() => log("server done")),
+    buildLessonsData().then(async () => {
+      log("lessons data done");
+      for (const i of npBatchFiles) {
+        await buildNpBatch(i);
+      }
+      log("np batches done");
+    }),
+    copySeedData().then(() => log("seed data done")),
+  ]);
 
   await viteBuild();
   log("client done");

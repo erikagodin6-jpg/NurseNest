@@ -1,0 +1,271 @@
+You are working on the NurseNest production codebase (React + Vite + Express).
+
+Your task is to implement a COMPLETE TIER-BASED HERO LANDING SYSTEM that allows users to:
+
+• land on the main homepage (unchanged)
+• click on a nursing tier or exam (RPN, RN, NP, etc.)
+• be routed to a dedicated, SEO-optimized landing page with its own HERO section
+• experience zero broken links, clean routing, and full integration with the platform
+
+This is a HIGH-PRIORITY UX, SEO, and CONVERSION system.
+
+---
+
+## PRIMARY GOALS
+
+1. Maintain ONE main homepage (no changes to its core structure)
+2. Create SEPARATE tier landing pages:
+   • /rex-pn
+   • /nclex-rn
+   • /np-exam
+   (and future exams)
+3. Each page must have:
+   • its own HERO section
+   • unique SEO content
+   • tier-specific messaging
+   • strong conversion pathways
+4. Ensure:
+   • no broken links
+   • no duplicate routes
+   • no SEO cannibalization
+   • full multi-language support
+
+---
+
+## PHASE 1 — ROUTING + PAGE STRUCTURE
+
+Create new routes:
+
+/rex-pn
+/nclex-rn
+/np-exam
+
+Ensure:
+• routes are registered in router (Wouter or existing system)
+• navigation buttons on homepage correctly link to these routes
+• NO 404 errors
+• NO redirect loops
+
+Add fallback handling:
+• if route fails, show safe fallback UI (not blank screen)
+
+---
+
+## PHASE 2 — HERO LANDING PAGES
+
+Each tier page must function like a “mini homepage”
+
+---
+
+## RPN (REx-PN) HERO
+
+H1:
+“Pass Your REx-PN Exam with Confidence”
+
+Subheadline:
+“Master the fundamentals of nursing with practice questions, clinical explanations, and exam-focused learning designed for practical nurses.”
+
+CTA:
+• Start Practice Questions
+• View Study Plan
+
+Features:
+• Fundamentals
+• Safety & Infection Control
+• Basic Pharmacology
+• Clinical Scenarios
+
+---
+
+## RN (NCLEX-RN) HERO
+
+H1:
+“Master NCLEX-RN and Clinical Judgment”
+
+Subheadline:
+“Prepare for next-generation NCLEX with advanced clinical scenarios, prioritization training, and exam-level question banks.”
+
+CTA:
+• Start NGN Practice
+• Take Diagnostic Quiz
+
+Features:
+• NGN Question Types
+• Prioritization & Delegation
+• Clinical Judgment
+• Case-Based Learning
+
+---
+
+## NP HERO
+
+H1:
+“Pass Your NP Board Exam with Advanced Clinical Prep”
+
+Subheadline:
+“Develop diagnostic reasoning, differential diagnosis skills, and treatment planning with advanced case-based learning.”
+
+CTA:
+• Start Advanced Cases
+• Explore Exam Prep
+
+Features:
+• Differential Diagnosis
+• Prescribing & Management
+• Clinical Decision Making
+• Case Simulations
+
+---
+
+## PHASE 3 — SEO OPTIMIZATION
+
+Each page MUST include:
+
+• unique meta title + description
+• H1, H2, H3 structure
+• keyword targeting:
+RPN → “REx-PN exam prep”
+RN → “NCLEX-RN practice questions”
+NP → “NP board exam prep”
+
+• internal links:
+→ lessons
+→ question banks
+→ pricing
+
+• clean URLs (no query params)
+
+• canonical tags (self-referencing)
+
+---
+
+## PHASE 4 — CONVERSION SYSTEM
+
+On EACH tier page:
+
+1. PRIMARY CTA above fold
+
+2. SECONDARY CTA below fold
+
+3. Mid-page conversion block:
+   “Unlock full test bank”
+
+4. Add:
+   • free preview questions (3–5)
+   • locked content teaser
+
+5. Add microcopy:
+   “No signup required to start”
+
+---
+
+## PHASE 5 — INTERNAL LINKING
+
+Each tier page must link to:
+
+• its question banks
+• its lessons
+• pricing page
+• related topics
+
+AND:
+homepage must link BACK to each tier page
+
+Ensure:
+• no orphan pages
+• no dead links
+
+---
+
+## PHASE 6 — MULTI-LANGUAGE (CRITICAL)
+
+All pages must support existing i18n system:
+
+• dynamically translate:
+
+* headlines
+* CTAs
+* features
+* metadata
+
+• ensure:
+/en/rex-pn
+/fr/rex-pn
+/es/rex-pn
+etc.
+
+• add hreflang tags
+
+• DO NOT hardcode English
+
+---
+
+## PHASE 7 — DESIGN + UX
+
+• match NurseNest design system
+• fix top spacing issues (existing bug)
+• responsive on mobile
+• fast load (lazy load heavy components)
+
+---
+
+## PHASE 8 — ANALYTICS + TRACKING
+
+Track:
+
+• hero CTA clicks
+• page visits per tier
+• conversion rate per tier
+
+Prepare hooks for:
+• Google Analytics
+• future A/B testing
+
+---
+
+## PHASE 9 — VALIDATION
+
+Verify:
+
+• all routes load correctly
+• no console errors
+• no blank screens
+• all buttons navigate properly
+• all languages render correctly
+• production build succeeds
+
+---
+
+## TRAFFIC + SEO STRATEGY (IMPLEMENTATION NOTES)
+
+• each tier page acts as an SEO landing page
+• link these pages in sitemap
+• connect blog posts to these pages
+• use them as primary internal hubs
+
+---
+
+## CONVERSION STRATEGY (IMPLEMENTATION NOTES)
+
+• tailor messaging per tier (do NOT reuse generic text)
+• emphasize exam-specific pain points
+• use action-driven CTAs
+• reduce friction (free entry point)
+
+---
+
+## SUCCESS CRITERIA
+
+This system is complete ONLY if:
+
+• users can click a tier → land on a full hero page
+• pages are SEO optimized and indexable
+• no broken links exist anywhere
+• content is translated across all languages
+• conversion pathways are clear and functional
+• the platform feels cohesive, not fragmented
+
+---
+
+This is a CORE growth system.
+Build it cleanly, scalably, and production-ready.
