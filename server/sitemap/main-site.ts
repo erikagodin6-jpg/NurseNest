@@ -579,6 +579,41 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/nclex-rn/strategy/${slug}`, "0.7", "monthly", locales, today));
   }
 
+  const npExamCategoryPages = ["practice-questions", "differential-diagnosis", "primary-care", "pharmacology", "diagnostics", "chronic-disease-management", "case-studies", "exam-strategy", "top-conditions", "lab-values", "medications"];
+  for (const slug of npExamCategoryPages) {
+    urls.push(localizedUrl(base, `/np-exam/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const npExamConditionPages = ["hypertension", "type-2-diabetes", "heart-failure", "copd", "asthma", "hypothyroidism", "hyperthyroidism", "depression", "anxiety", "atrial-fibrillation", "community-acquired-pneumonia", "uti-complicated", "chronic-kidney-disease", "gerd", "osteoarthritis", "iron-deficiency-anemia", "stroke-tia", "acute-coronary-syndrome"];
+  for (const slug of npExamConditionPages) {
+    urls.push(localizedUrl(base, `/np-exam/conditions/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const npExamMedicationPages = ["ace-inhibitors", "beta-blockers", "statins", "ssris", "metformin", "levothyroxine", "ppis", "inhaled-corticosteroids", "thiazide-diuretics", "anticoagulants-doacs", "sglt2-inhibitors", "antibiotics-first-line", "arbs", "calcium-channel-blockers", "glp1-agonists"];
+  for (const slug of npExamMedicationPages) {
+    urls.push(localizedUrl(base, `/np-exam/medications/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const npExamLabValuePages = ["cbc-differential", "cmp", "hba1c", "tsh-free-t4", "lipid-panel", "troponin", "bnp-nt-probnp", "urinalysis"];
+  for (const slug of npExamLabValuePages) {
+    urls.push(localizedUrl(base, `/np-exam/lab-values/${slug}`, "0.8", "monthly", locales, today));
+  }
+
+  const npExamComparisonPages = ["aanp-vs-ancc", "stable-angina-vs-acs", "hypothyroidism-vs-hyperthyroidism", "gerd-vs-pud", "depression-vs-anxiety-pharmacotherapy", "ckd-stages-management"];
+  for (const slug of npExamComparisonPages) {
+    urls.push(localizedUrl(base, `/np-exam/compare/${slug}`, "0.7", "monthly", locales, today));
+  }
+
+  const npExamStrategyPages = ["best-np-exam-study-strategy", "diagnostic-reasoning-framework", "prescribing-pearls-review", "soap-note-approach", "differential-diagnosis-question-strategy"];
+  for (const slug of npExamStrategyPages) {
+    urls.push(localizedUrl(base, `/np-exam/strategy/${slug}`, "0.7", "monthly", locales, today));
+  }
+
+  const npExamCaseStudyPages = ["differential-diagnosis-cases", "primary-care-scenarios", "chronic-disease-cases"];
+  for (const slug of npExamCaseStudyPages) {
+    urls.push(localizedUrl(base, `/np-exam/case-studies/${slug}`, "0.7", "monthly", locales, today));
+  }
+
   return urls;
 }
 

@@ -358,6 +358,13 @@ const NclexRnMedicationTemplate = lazy(() => import("@/pages/nclex-rn-content-hu
 const NclexRnLabValueTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnLabValueTemplate })));
 const NclexRnComparisonTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnComparisonTemplate })));
 const NclexRnStrategyTemplate = lazy(() => import("@/pages/nclex-rn-content-hub").then(m => ({ default: m.NclexRnStrategyTemplate })));
+const NpExamCategoryTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamCategoryTemplate })));
+const NpExamConditionTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamConditionTemplate })));
+const NpExamMedicationTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamMedicationTemplate })));
+const NpExamLabValueTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamLabValueTemplate })));
+const NpExamComparisonTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamComparisonTemplate })));
+const NpExamStrategyTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamStrategyTemplate })));
+const NpExamCaseStudyTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamCaseStudyTemplate })));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
@@ -990,6 +997,23 @@ function AppRoutes() {
         <Route path="/nclex-rn/lab-values">{() => <NclexRnCategoryTemplate params={{ slug: "lab-values" }} />}</Route>
         <Route path="/nclex-rn/medications">{() => <NclexRnCategoryTemplate params={{ slug: "medications" }} />}</Route>
         <Route path="/nclex-rn/*" component={SeoHubPage} />
+        <Route path="/np-exam/conditions/:slug" component={NpExamConditionTemplate} />
+        <Route path="/np-exam/medications/:slug" component={NpExamMedicationTemplate} />
+        <Route path="/np-exam/lab-values/:slug" component={NpExamLabValueTemplate} />
+        <Route path="/np-exam/compare/:slug" component={NpExamComparisonTemplate} />
+        <Route path="/np-exam/strategy/:slug" component={NpExamStrategyTemplate} />
+        <Route path="/np-exam/case-studies/:slug" component={NpExamCaseStudyTemplate} />
+        <Route path="/np-exam/practice-questions">{() => <NpExamCategoryTemplate params={{ slug: "practice-questions" }} />}</Route>
+        <Route path="/np-exam/differential-diagnosis">{() => <NpExamCategoryTemplate params={{ slug: "differential-diagnosis" }} />}</Route>
+        <Route path="/np-exam/primary-care">{() => <NpExamCategoryTemplate params={{ slug: "primary-care" }} />}</Route>
+        <Route path="/np-exam/pharmacology">{() => <NpExamCategoryTemplate params={{ slug: "pharmacology" }} />}</Route>
+        <Route path="/np-exam/diagnostics">{() => <NpExamCategoryTemplate params={{ slug: "diagnostics" }} />}</Route>
+        <Route path="/np-exam/chronic-disease-management">{() => <NpExamCategoryTemplate params={{ slug: "chronic-disease-management" }} />}</Route>
+        <Route path="/np-exam/case-studies">{() => <NpExamCategoryTemplate params={{ slug: "case-studies" }} />}</Route>
+        <Route path="/np-exam/exam-strategy">{() => <NpExamCategoryTemplate params={{ slug: "exam-strategy" }} />}</Route>
+        <Route path="/np-exam/top-conditions">{() => <NpExamCategoryTemplate params={{ slug: "top-conditions" }} />}</Route>
+        <Route path="/np-exam/lab-values">{() => <NpExamCategoryTemplate params={{ slug: "lab-values" }} />}</Route>
+        <Route path="/np-exam/medications">{() => <NpExamCategoryTemplate params={{ slug: "medications" }} />}</Route>
         <Route path="/np-exam-prep/*" component={SeoHubPage} />
         <Route path="/np-exam/*" component={SeoHubPage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
