@@ -19,7 +19,7 @@ import {
 import {
   Bug, Filter, RefreshCw, ExternalLink, X, Save,
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle2,
-  Clock, XCircle, Eye, Image as ImageIcon,
+  Clock, XCircle, Eye, Image as ImageIcon, MessageCircle, Trash2, ShieldCheck,
 } from "lucide-react";
 
 const PROBLEM_TYPE_LABELS: Record<string, string> = {
@@ -148,6 +148,39 @@ export default function AdminProblemReportsPage() {
       toast({ title: "Failed to save notes", variant: "destructive" });
     } finally {
       setSavingId(null);
+    }
+  }
+
+  const [flaggedComments, setFlaggedComments] = useState<any[]>([]);
+  const [flaggedLoading, setFlaggedLoading] = useState(false);
+  const [showFlagged, setShowFlagged] = useState(false);
+
+  async function fetchFlaggedComments() {
+    setFlaggedLoading(true);
+    try {
+      const res = await adminFetch("/api/admin/flagged-comments");
+      if (res.ok) {
+        setFlaggedComments(await res.json());
+      }
+    } catch {
+      toast({ title: "Failed to load flagged comments", variant: "destructive" });
+    } finally {
+      setFlaggedLoading(false);
+    }
+  }
+
+  async function handleFlaggedAction(commentId: string, action: "dismiss" | "delete") {
+    try {
+      const res = await adminFetch(`/api/admin/flagged-comments/${commentId}`, {
+        method: "PATCH",
+        body: { action },
+      });
+      if (res.ok) {
+        setFlaggedComments(prev => prev.filter(c => c.id !== commentId));
+        toast({ title: action === "delete" ? "Comment deleted" : "Comment restored" });
+      }
+    } catch {
+      toast({ title: "Action failed", variant: "destructive" });
     }
   }
 
@@ -475,6 +508,79 @@ export default function AdminProblemReportsPage() {
                 </Card>
               </div>
             )}
+          </div>
+
+          <div className="mt-8">
+            <Card data-testid="card-flagged-comments">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-amber-600" />
+                    <CardTitle className="text-lg" data-testid="text-flagged-comments-title">Flagged Comments</CardTitle>
+                    {flaggedComments.length > 0 && (
+                      <Badge variant="destructive" className="text-xs">{flaggedComments.length}</Badge>
+                    )}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => { setShowFlagged(!showFlagged); if (!showFlagged) fetchFlaggedComments(); }}
+                    data-testid="button-toggle-flagged"
+                  >
+                    {showFlagged ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                    {showFlagged ? "Hide" : "Show"}
+                  </Button>
+                </div>
+              </CardHeader>
+              {showFlagged && (
+                <CardContent className="space-y-3">
+                  {flaggedLoading ? (
+                    <p className="text-center text-muted-foreground py-4">Loading flagged comments...</p>
+                  ) : flaggedComments.length === 0 ? (
+                    <p className="text-center text-muted-foreground py-4" data-testid="text-no-flagged">No flagged comments</p>
+                  ) : (
+                    flaggedComments.map((comment) => (
+                      <div key={comment.id} className="border rounded-lg p-4 bg-amber-50/50" data-testid={`flagged-comment-${comment.id}`}>
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-medium text-sm">{comment.username || "Unknown"}</span>
+                              <span className="text-xs text-muted-foreground">{formatDate(comment.createdAt)}</span>
+                              <Badge variant="outline" className="text-xs">Q: {comment.questionId}</Badge>
+                            </div>
+                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{comment.content}</p>
+                            <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                              <span>{comment.thumbsUpCount || 0} upvotes</span>
+                              <span>{comment.thumbsDownCount || 0} downvotes</span>
+                            </div>
+                          </div>
+                          <div className="flex gap-1 shrink-0">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="h-8 text-xs gap-1"
+                              onClick={() => handleFlaggedAction(comment.id, "dismiss")}
+                              data-testid={`button-dismiss-${comment.id}`}
+                            >
+                              <ShieldCheck className="w-3 h-3" /> Restore
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              className="h-8 text-xs gap-1"
+                              onClick={() => handleFlaggedAction(comment.id, "delete")}
+                              data-testid={`button-delete-${comment.id}`}
+                            >
+                              <Trash2 className="w-3 h-3" /> Delete
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              )}
+            </Card>
           </div>
         </div>
       </div>

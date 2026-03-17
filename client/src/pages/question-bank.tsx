@@ -23,6 +23,7 @@ import { getTierConfig, getAllowedExamTiers } from "@shared/tier-config";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { InlineConfidenceRating } from "@/components/study-momentum";
 import { SocialProofBar } from "@/components/conversion-funnel";
+import { QuestionComments } from "@/components/question-comments";
 import { useI18n } from "@/lib/i18n";
 import {
   AnswerOption,
@@ -406,6 +407,7 @@ export default function QuestionBank() {
                         </div>
                       ))}
                       <p className="text-xs text-gray-600 mt-3 leading-relaxed italic">{r.question.rationale}</p>
+                      <QuestionComments questionId={r.question.id || `qb-review-${i}`} />
                     </div>
                   </div>
                 ))}
@@ -895,6 +897,10 @@ export default function QuestionBank() {
                               topic={question.bodySystem}
                               bodySystem={question.bodySystem}
                             />
+                          )}
+
+                          {question && (
+                            <QuestionComments questionId={question.id || `qb-${question.tier}-${currentIndex}`} />
                           )}
 
                           <div className="flex gap-3 pt-2">

@@ -61,3 +61,11 @@ Both endpoints require admin authentication via `requireAdmin`.
 - **Object Storage**: Replit Object Storage (Google Cloud Storage)
 - **Email**: Resend (transactional email via Replit integration)
 - **SMS**: Twilio (SMS via Replit integration)
+
+### Question Comments & Discussion
+Lightweight flat-thread discussion system on practice questions. Users can post text-only comments, vote (thumbs up/down), and flag inappropriate content. Flagged comments are hidden after a threshold (3 reports) and appear in the admin moderation queue.
+- **Schema**: `question_comments`, `question_comment_votes`, `question_comment_flags` tables
+- **API**: `server/question-comment-routes.ts` — list, post (rate-limited: 5/hr), vote (transactional), flag (threshold-based), admin moderation
+- **UI Component**: `client/src/components/question-comments.tsx` — collapsible discussion section with sort options
+- **Integration**: Embedded in question-bank (study/learning/exam review), question-of-the-day pages
+- **Admin**: Flagged comments section in `client/src/pages/admin-problem-reports.tsx` with dismiss/delete actions

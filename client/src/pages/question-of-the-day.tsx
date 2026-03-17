@@ -12,6 +12,7 @@ import { SEO } from "@/components/seo";
 import { CheckCircle2, XCircle, Calendar, BookOpen, Stethoscope, Brain, ArrowRight, Mail, Trophy, Sparkles, Clock } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { QuestionComments } from "@/components/question-comments";
 
 const siteUrl = "https://www.nursenest.ca";
 
@@ -218,6 +219,8 @@ export default function QuestionOfTheDay() {
                           </Button>
                         </LocaleLink>
                       )}
+
+                      <QuestionComments questionId={`qotd-${qotd.questionDate}`} />
                     </div>
                   )}
                 </CardContent>

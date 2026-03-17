@@ -498,6 +498,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentIntegrityRoutes } = await import("./content-integrity-routes");
   registerContentIntegrityRoutes(app);
 
+  const { registerQuestionCommentRoutes } = await import("./question-comment-routes");
+  registerQuestionCommentRoutes(app);
+
   const { registerQuestionBlogPipelineRoutes } = await import("./question-blog-pipeline");
   registerQuestionBlogPipelineRoutes(app);
 

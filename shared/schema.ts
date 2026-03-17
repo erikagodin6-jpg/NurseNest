@@ -6412,3 +6412,34 @@ export const insertSeoHubPageSchema = createInsertSchema(seoHubPages).omit({
 });
 export type SeoHubPage = typeof seoHubPages.$inferSelect;
 export type InsertSeoHubPage = z.infer<typeof insertSeoHubPageSchema>;
+
+export const questionComments = pgTable("question_comments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  content: text("content").notNull(),
+  thumbsUpCount: integer("thumbs_up_count").default(0).notNull(),
+  thumbsDownCount: integer("thumbs_down_count").default(0).notNull(),
+  isFlagged: boolean("is_flagged").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQuestionCommentSchema = createInsertSchema(questionComments).omit({
+  id: true,
+  thumbsUpCount: true,
+  thumbsDownCount: true,
+  isFlagged: true,
+  createdAt: true,
+});
+export type QuestionComment = typeof questionComments.$inferSelect;
+export type InsertQuestionComment = z.infer<typeof insertQuestionCommentSchema>;
+
+export const questionCommentVotes = pgTable("question_comment_votes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  commentId: varchar("comment_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  voteType: text("vote_type").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type QuestionCommentVote = typeof questionCommentVotes.$inferSelect;
