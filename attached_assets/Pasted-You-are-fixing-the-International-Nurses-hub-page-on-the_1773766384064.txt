@@ -1,0 +1,220 @@
+You are fixing the International Nurses hub page on the NurseNest production codebase.
+
+PAGE ISSUE SUMMARY
+
+The International Nurses page is broken in two ways:
+
+1. Translation keys are rendering visibly instead of real text
+   Examples currently visible:
+   - intlNursing.hub.title
+   - intlNursing.hub.badge
+   - intlNursing.hub.heading
+   - intlNursing.hub.subtitle
+   - intlNursing.hub.ctaExplore
+   - intlNursing.hub.ctaPrepare
+
+2. The page layout has excessive top whitespace and loose hero spacing on desktop
+
+GOAL
+
+Fully repair the International Nurses hub so it:
+- renders real user-facing text instead of i18n keys
+- has clean, premium spacing aligned with the rest of NurseNest
+- preserves responsive behavior
+- does not break existing navigation or styling
+- works correctly on the published site
+
+DO NOT:
+- do not hardcode messy one-off fixes in random components
+- do not create duplicate translation systems
+- do not remove localization support
+- do not break mobile layout
+- do not introduce CLS or layout instability
+
+--------------------------------------------------
+PART 1 — FIX THE I18N KEYS
+--------------------------------------------------
+
+Find the International Nurses page component and trace all strings used in:
+- page title / SEO title
+- breadcrumb badge
+- hero badge
+- hero heading
+- hero subtitle
+- CTA buttons
+- section headings
+- card titles
+- card descriptions
+- any stats/features/benefits on the page
+
+Confirm whether the page is calling translation keys that:
+- do not exist in locale JSON files
+- exist under the wrong namespace
+- are mismatched by casing or nesting
+- are using the wrong translation hook
+- are not loaded for this route
+
+Fix the implementation properly.
+
+REQUIREMENTS:
+- every visible key on the page must resolve to real text
+- add missing keys to all active locale files used by the site
+- ensure English fallback works if another locale is incomplete
+- prevent raw translation keys from appearing in production UI
+- if translation lookup fails, use a clean fallback string rather than exposing the raw key
+
+Add a safe fallback pattern such as:
+- translated value if key exists
+- English fallback if not
+- final plain-text fallback if still missing
+
+Check:
+- browser tab title
+- hero section
+- breadcrumb area
+- CTA buttons
+- cards below hero
+- section headings
+- metadata if localized
+
+--------------------------------------------------
+PART 2 — ADD THE ACTUAL ENGLISH COPY
+--------------------------------------------------
+
+Use polished production copy for the English locale.
+
+Suggested copy set:
+
+title:
+International Nurses | NurseNest
+
+badge:
+International Nurses
+
+heading:
+Explore Nursing Pathways Across Countries
+
+subtitle:
+Compare licensure routes, exam requirements, education pathways, and career planning resources for nurses pursuing opportunities internationally.
+
+ctaExplore:
+Explore Pathways
+
+ctaPrepare:
+Prepare for Exams
+
+whoIsThisFor:
+Who Is This Section For?
+
+audience1Title:
+Internationally Educated Nurses
+
+audience1Text:
+Seeking licensure in a new country
+
+audience2Title:
+Nurses Exploring Opportunities
+
+audience2Text:
+Comparing countries, pathways, and requirements
+
+audience3Title:
+Nursing Students Abroad
+
+audience3Text:
+Planning their nursing career internationally
+
+Only adjust wording if needed for consistency with the existing brand voice, but keep it concise, clear, and professional.
+
+--------------------------------------------------
+PART 3 — FIX THE SPACING / LAYOUT
+--------------------------------------------------
+
+The hero starts too low and there is too much whitespace under the header/subnav.
+
+Audit all of the following:
+- page wrapper top padding
+- breadcrumb margin/padding
+- hero section top padding
+- section container spacing
+- any min-height or vertical centering
+- sticky/fixed header offset logic
+- top margins on badge/title/subtitle/button group
+
+Fix so the layout is tighter and visually aligned with the main homepage.
+
+TARGET VISUAL RESULT:
+- breadcrumb sits close to the subnav without crowding
+- hero badge, heading, subtitle, and CTA group are tightly grouped
+- heading appears much higher on the page
+- no large empty dead space above the content
+- section below hero begins at a natural distance, not too far down
+
+IMPLEMENTATION GUIDELINES:
+
+1. Remove excessive top padding from page and hero wrappers
+   Look for classes like:
+   - pt-20
+   - pt-24
+   - pt-28
+   - py-20
+   - mt-16
+   - mt-20
+   - min-h-screen
+   Reduce them appropriately.
+
+2. Ensure hero container is top-aligned, not vertically centered
+   Use:
+   - justify-start
+   not:
+   - justify-center
+
+3. Tighten spacing between hero elements
+   - badge bottom margin: small
+   - title margin-top: zero or very small
+   - subtitle margin-top: modest
+   - CTA group margin-top: moderate, not oversized
+
+4. Avoid forcing desktop min-height unless necessary
+   If the hero uses min-h-screen or large viewport-height rules, replace with a more natural content-based layout or a restrained min-height.
+
+5. Ensure responsive behavior stays clean
+   - desktop: tighter and more premium
+   - tablet/mobile: still breathable and readable
+
+--------------------------------------------------
+PART 4 — VALIDATE I18N ACROSS LOCALES
+--------------------------------------------------
+
+Check all supported locales and make sure this route does not break when switching languages.
+
+For any locale missing the new keys:
+- add translated values if your translation system already supports them
+- otherwise use English fallback safely until translations are added
+
+Most important:
+- raw keys must never appear in the UI
+- route must not crash because of missing locale content
+
+--------------------------------------------------
+PART 5 — QA CHECKLIST
+--------------------------------------------------
+
+After implementing, verify:
+
+- page tab/title displays proper text
+- breadcrumb shows real text
+- hero badge shows real text
+- heading and subtitle show real text
+- CTA buttons show real text
+- audience cards show real text
+- no visible intlNursing.* keys anywhere
+- desktop spacing is tightened
+- mobile layout still looks intentional
+- no console errors from translation lookups
+- no hydration mismatch
+- published site reflects the corrected content
+
+If the problem is caused by this route using the wrong namespace or wrong loader, fix that at the source rather than patching the symptoms.
+
+Commit the fix cleanly.

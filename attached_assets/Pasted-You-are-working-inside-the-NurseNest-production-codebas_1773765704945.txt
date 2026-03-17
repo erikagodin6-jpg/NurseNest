@@ -1,0 +1,195 @@
+You are working inside the NurseNest production codebase.
+
+Update and expand the existing nursing question-generation, exam-bank, test-bank, and flashcard pipeline so that every nursing exam pathway is strongly represented, with special priority on full NP exam coverage, and ensure all generated content is published to the LIVE production site (not just the dev environment).
+
+This is a production-critical content expansion task.
+
+CRITICAL OBJECTIVES
+
+1. Massively increase NGN-style question volume across all nursing tiers.
+2. Ensure EACH exam pathway is individually and properly represented (especially NP exams).
+3. Ensure ALL generated content is:
+   - saved in the correct existing database collections
+   - mapped to the correct existing categories, exams, and filters
+   - visible on the LIVE published site (production environment)
+4. Ensure content does NOT remain only in dev, staging, preview, or admin-only states.
+5. Ensure high-quality rationales for all non-CAT questions.
+6. Ensure CAT exams DO NOT display rationales during the exam experience (only allow if post-exam review logic already exists).
+
+DO NOT:
+- create new site tiers
+- create duplicate or messy navigation structures
+- create disconnected content areas
+- create placeholder or empty entries
+- store content only locally or in dev databases
+- bypass the existing publishing pipeline
+
+MANDATORY QUESTION COUNT TARGETS
+
+You must scale content to the following MINIMUM targets:
+
+RPN / PN TIER:
+- Total Questions: 8,000 – 12,000
+- Per Exam (REx-PN, NCLEX-PN, etc.): 2,000 – 4,000 each
+- Per Major System (cardio, resp, neuro, etc.): 200 – 400
+- NGN Case-Based Sets: minimum 300 sets
+- Flashcards: 1 flashcard per question minimum (8,000+)
+
+RN TIER:
+- Total Questions: 12,000 – 18,000
+- Per Exam (NCLEX-RN, etc.): 4,000 – 6,000 each
+- Per Major System: 300 – 600
+- NGN Case-Based Sets: minimum 500 sets
+- Advanced Clinical Judgment Sets: heavily represented
+- Flashcards: 1 per question minimum (12,000+)
+
+NP TIER (HIGHEST PRIORITY):
+- Total Questions: 15,000 – 25,000+
+- Per Individual NP Exam (NOT combined):
+  - Minimum 2,000 – 4,000 questions PER exam
+- Each NP specialty must be built independently:
+  - FNP (AANP)
+  - FNP (ANCC)
+  - AGPCNP
+  - AGACNP
+  - PMHNP
+  - PNP
+  - WHNP
+  - ENP
+  - any additional NP exams already in system
+- Include:
+  - advanced differential diagnosis
+  - pharmacology depth
+  - diagnostic reasoning
+  - clinical management
+- NGN/Case-Based Sets: minimum 800+
+- Flashcards: 1 per question minimum (15,000+)
+
+GLOBAL DISTRIBUTION REQUIREMENTS
+
+Across ALL tiers:
+- At least 30–40% must be NGN-style questions
+- Include full mix of:
+  - multiple choice
+  - SATA
+  - bow-tie
+  - ordered response
+  - cloze/drop-down
+  - case-based scenarios
+  - prioritization/delegation
+  - lab interpretation
+  - pharmacology
+  - safety/infection control
+
+MANDATORY PUBLISHING REQUIREMENTS
+
+All generated content MUST:
+
+- be inserted into the PRODUCTION database (not dev)
+- be marked as:
+  status = "published"
+- appear in:
+  - live exam banks
+  - live test banks
+  - live question sets
+  - live flashcard decks
+- be accessible via:
+  - search
+  - filters
+  - exam pages
+  - topic/system pages
+
+If environment separation exists:
+- explicitly target production DB
+- use production API endpoints
+- verify live visibility after insert
+
+EXAM COVERAGE REQUIREMENTS
+
+RPN / PN:
+- REx-PN
+- NCLEX-PN
+- all existing PN pathways
+
+RN:
+- NCLEX-RN
+- all existing RN pathways
+
+NP (CRITICAL):
+- Each NP exam must be treated independently
+- NO merging into generic NP category
+- Respect:
+  - blueprint domains
+  - population focus
+  - pharmacology scope
+  - diagnostic depth
+
+CONTENT STRUCTURE (REQUIRED FOR EACH QUESTION)
+
+- question stem (realistic clinical scenario)
+- question type
+- answer options
+- correct answer(s)
+- NGN metadata (if applicable)
+- difficulty level
+- exam tag
+- system tag
+- subtopic tag
+- language mapping
+
+RATIONALE REQUIREMENTS (VERY IMPORTANT)
+
+For ALL non-CAT questions:
+
+- explain WHY correct answer is correct
+- explain WHY EACH incorrect option is wrong
+- include:
+  - clinical reasoning
+  - pathophysiology
+  - pharmacology (if applicable)
+  - lab interpretation (if applicable)
+  - prioritization frameworks (ABCs, Maslow, safety)
+
+For CAT exams:
+- DO NOT show rationales during exam
+- allow backend storage only if needed for review
+
+FLASHCARD REQUIREMENTS
+
+For EVERY question:
+- generate 1+ linked flashcards including:
+  - key concept
+  - definition
+  - clinical pearl
+  - memory aid
+- link to:
+  - same exam
+  - same topic
+  - same tier
+
+QUALITY CONTROL
+
+- no duplicate questions
+- no missing rationales (except CAT rules)
+- accurate clinical content
+- correct tagging
+- consistent formatting
+- all items render correctly
+
+FINAL VALIDATION (MANDATORY)
+
+After generation:
+
+- confirm visibility on LIVE site (not dev)
+- confirm correct placement in:
+  - exam pages
+  - topic pages
+  - test banks
+  - flashcards
+- confirm paywall behavior
+- confirm analytics tracking
+- confirm no broken routes or missing data
+
+If content is not visible on the live site, FIX and republish.
+
+This is a full-scale production expansion — content must be live, structured, and fully integrated.

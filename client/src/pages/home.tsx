@@ -360,7 +360,7 @@ export default function Home() {
       </Suspense>
       
       <main className="flex-grow">
-        <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero)', paddingBottom: 'var(--space-hero)' }} data-testid="hero-section">
+        <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero-top)', paddingBottom: 'var(--space-hero-bottom)' }} data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" />
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" />
@@ -370,7 +370,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
               <div className="space-y-6 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" data-testid="badge-trust-micro">

@@ -1,0 +1,208 @@
+You are fixing a broken admin automation action in the NurseNest Allied admin dashboard.
+
+PROBLEM
+
+On the Allied Content Pipeline page, the “Seed All Automations” action appears in the UI, but clicking it fails with:
+
+Seed failed
+{"error":"Admin access denied"}
+
+This means the frontend is showing admin-only controls, but the backend is rejecting the request.
+
+GOAL
+
+Make the Allied admin automation seeding workflow fully functional for legitimate admin users.
+
+The fix must ensure:
+- real admins can successfully seed automations
+- non-admins cannot access the action
+- frontend admin visibility matches backend authorization
+- auth works correctly on the live/published site
+- no fake “Admin” state appears if the backend session is not actually authorized
+
+DO NOT:
+- do not disable auth entirely
+- do not hardcode open access to admin endpoints
+- do not rely on a visual Admin label alone
+- do not patch only the frontend while leaving backend broken
+- do not create separate inconsistent role systems
+
+==================================================
+PART 1 — TRACE THE FAILURE END TO END
+==================================================
+
+Audit the full click path for “Seed All Automations”:
+
+1. frontend button component
+2. click handler
+3. API client call / fetch / axios request
+4. request URL and HTTP method
+5. cookies / credentials included or not
+6. backend route
+7. auth middleware
+8. role/permission check
+9. allied-specific admin guard logic
+10. session/user lookup and role resolution
+
+Identify exactly why the server returns:
+{"error":"Admin access denied"}
+
+==================================================
+PART 2 — FIX FRONTEND/BACKEND AUTH MISMATCH
+==================================================
+
+The UI currently suggests the user is an admin, but the backend disagrees.
+
+Fix this properly.
+
+Check whether:
+- the “Admin” label in header is just derived from stale client state
+- the allied site is using a different auth namespace than the main NurseNest site
+- user role is not loaded before rendering admin controls
+- there is a mismatch between session user object and database user record
+- role is stored as admin / isAdmin / superAdmin / staff / owner / role[] inconsistently
+- country/site context (US/CA/Allied) is interfering with permission checks
+- the request is hitting the wrong domain, path, or API base
+- credentials: 'include' is missing from the request
+- SameSite / secure cookie settings are preventing the session from being sent
+- middleware is checking the wrong field or wrong tenant/site scope
+
+Requirements:
+- admin-only buttons must render only when backend-verifiable admin access exists
+- if user is not truly admin, hide or disable the button and show an accurate message
+- if user is truly admin, the request must succeed
+
+==================================================
+PART 3 — STANDARDIZE ADMIN AUTHORIZATION
+==================================================
+
+Implement one consistent authorization rule for allied admin actions.
+
+Create or reuse a single server-side guard for allied admin routes, something like:
+- requireAuthenticatedUser
+- requireAdminRole
+or
+- requireAlliedAdminAccess
+
+That guard must:
+- read the authenticated session correctly
+- fetch the authoritative user role from the backend/session/database
+- allow only approved admin roles
+- reject everyone else cleanly
+
+Do not trust the frontend role label alone.
+
+If there are multiple admin role values in the codebase, normalize them.
+
+For example, support an explicit allowlist such as:
+- admin
+- superadmin
+- owner
+
+Only if those roles are already part of the existing system. Reuse the real production role model rather than inventing a new one unnecessarily.
+
+==================================================
+PART 4 — FIX THE REQUEST ITSELF
+==================================================
+
+Inspect the Seed All Automations API request.
+
+Verify:
+- correct route path
+- correct HTTP method
+- credentials included
+- CSRF/auth handling compatible with current app auth
+- no broken proxy/base URL issues
+- no allied-vs-main-site mismatch in route prefix
+
+If using fetch, ensure authenticated requests include credentials where needed.
+
+If the frontend is calling the wrong environment URL or an unauthenticated path, fix it.
+
+==================================================
+PART 5 — FIX THE UI STATE
+==================================================
+
+The page should not misleadingly show admin tools if the user cannot actually perform admin actions.
+
+Update the dashboard so that:
+- admin controls are shown only after verified permission load
+- loading state is explicit while auth/role is being resolved
+- unauthorized users do not see broken admin buttons
+- if the session expires, the page handles it gracefully
+- if a request fails, the toast/error is human-readable
+
+Replace raw:
+{"error":"Admin access denied"}
+
+with a cleaner message like:
+You do not have permission to perform this action.
+
+But keep detailed error logging in dev tools/server logs.
+
+==================================================
+PART 6 — VALIDATE THE ALLIED AUTOMATION SEEDER
+==================================================
+
+After auth is fixed, ensure the seeding action itself actually works.
+
+Validate:
+- clicking “Seed All Automations” creates the expected automation records
+- duplicate prevention works if seeded twice
+- the “Seed 39 Automations” empty-state button also works or is wired consistently
+- refresh updates the dashboard counts
+- selected specialty (for example RRT) is respected if intended
+- no silent failures occur after auth passes
+
+If both buttons exist:
+- confirm whether they should trigger the same endpoint or different scoped actions
+- make behavior explicit and consistent
+
+==================================================
+PART 7 — QA CHECKLIST
+==================================================
+
+Test these scenarios:
+
+1. Legit admin user
+- can see admin controls
+- can click Seed All Automations
+- request succeeds
+- automations appear after refresh
+
+2. Non-admin user
+- cannot see or cannot trigger admin controls
+- backend remains protected
+
+3. Expired session / logged-out state
+- no false admin badge
+- no misleading controls
+- action blocked gracefully
+
+4. Production/published site
+- same behavior works outside local/dev
+- cookies/session auth function correctly
+
+==================================================
+PART 8 — IF HEADER “ADMIN” IS FAKE, FIX IT
+==================================================
+
+Audit the header badge/label that currently shows “Admin”.
+
+If that label is based on stale local state, mock data, or incomplete role hydration:
+- replace it with real server-backed authorization state
+- do not display “Admin” until permissions are confirmed
+
+The header and dashboard must agree with the backend.
+
+==================================================
+PART 9 — DELIVERABLE
+==================================================
+
+Implement the fix cleanly and commit it.
+
+Result required:
+- no more false admin UI
+- no more admin access denied for real admins
+- automation seeding works end to end
+- backend remains secure

@@ -40,7 +40,7 @@ export default function WhyNurseNestPage() {
       <main className="flex-grow">
         <section
           className="relative overflow-hidden"
-          style={{ paddingTop: "var(--space-hero)", paddingBottom: "var(--space-block)" }}
+          style={{ paddingTop: "var(--space-hero-top)", paddingBottom: "var(--space-block)" }}
           data-testid="section-why-hero"
         >
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">

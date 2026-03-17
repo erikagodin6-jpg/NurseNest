@@ -1,0 +1,377 @@
+You are working inside the LIVE NurseNest production codebase.
+
+This is a production-critical task with TWO equally important goals:
+
+1. Massively expand the nursing question banks, exam banks, NGN content, and flashcards across all nursing tiers, with explicit per-tier and per-exam count targets.
+2. Fix the mobile homepage technical SEO and PageSpeed issues on the LIVE published site, especially the fact that the page is currently being reported as blocked from indexing.
+
+Work only within the existing NurseNest architecture.
+Do not create messy new sections, duplicate navigation, duplicate categories, or disconnected admin-only content.
+Do not leave work only on dev, staging, preview, or unpublished environments.
+Everything must be implemented on the LIVE published site and production database.
+
+==================================================
+PART 1 — NURSING QUESTION BANK EXPANSION
+==================================================
+
+Update and expand the existing nursing question-generation, exam-bank, test-bank, and flashcard pipelines so that every nursing exam pathway is strongly represented, with special priority on full NP exam coverage.
+
+CRITICAL CONTENT OBJECTIVES
+
+1. Massively increase NGN-style question volume across all nursing tiers.
+2. Ensure EACH exam pathway is individually represented, especially NP exams.
+3. Ensure ALL generated content is:
+   - saved in the correct PRODUCTION database collections
+   - tagged correctly
+   - mapped to the correct existing exams, systems, topics, and filters
+   - visible on the LIVE published site
+4. Ensure standard questions have high-quality rationales.
+5. Ensure CAT exams do NOT display rationales during the exam experience unless there is already controlled post-exam review logic.
+
+DO NOT:
+- create new tiers
+- create duplicate taxonomy branches
+- create random new menu items
+- create placeholder items
+- leave content in draft-only or admin-only state
+- store content only in local/dev databases
+- break search, filters, navigation, analytics, paywall, or exam flows
+
+MANDATORY QUESTION COUNT TARGETS
+
+RPN / PN TIER
+- Total questions target: 8,000 to 12,000
+- Per exam target: 2,000 to 4,000 each where applicable
+- Per major system target: 200 to 400
+- NGN case-based sets: minimum 300
+- Flashcards: minimum 1 per question
+
+RN TIER
+- Total questions target: 12,000 to 18,000
+- Per exam target: 4,000 to 6,000 each where applicable
+- Per major system target: 300 to 600
+- NGN case-based sets: minimum 500
+- Flashcards: minimum 1 per question
+
+NP TIER — HIGHEST PRIORITY
+- Total questions target: 15,000 to 25,000+
+- Minimum 2,000 to 4,000 questions PER INDIVIDUAL NP EXAM
+- NGN/case-based sets: minimum 800+
+- Flashcards: minimum 1 per question
+
+NP EXAMS MUST BE TREATED AS DISTINCT EXAM PATHWAYS, NOT ONE GENERIC NP BUCKET
+
+For every NP exam already present in the platform, build content separately, including where applicable:
+- AANP FNP
+- ANCC FNP
+- AGPCNP
+- AGACNP
+- PMHNP
+- PNP
+- WHNP
+- ENP
+- any additional NP exams already configured in the existing codebase, database, filters, admin system, or routing
+
+Each NP exam must preserve its own:
+- blueprint domains
+- population focus
+- pharmacology depth
+- differential diagnosis focus
+- prevention vs acute management emphasis
+- clinical decision-making style
+- board-exam difficulty and realism
+
+QUESTION TYPE DISTRIBUTION
+
+Across all tiers, ensure at least 30 to 40 percent of new content is NGN-style.
+
+Use a balanced mix of:
+- multiple choice
+- SATA / multiple response
+- case-based clinical judgment
+- bow-tie items where supported
+- ordered response
+- cloze / drop-down
+- matrix / grid items where supported
+- hotspot / image-based items where supported
+- prioritization and delegation
+- pharmacology
+- lab interpretation
+- pathophysiology
+- safety and infection control
+- maternal-child
+- pediatrics
+- mental health
+- community health
+- emergency / critical care where relevant
+- chronic disease management where relevant
+
+QUESTION DATA REQUIREMENTS
+
+Each generated question must include:
+- realistic question stem
+- question type
+- answer options
+- correct answer(s)
+- exam tag
+- tier tag
+- system tag
+- subtopic tag
+- difficulty
+- NGN metadata where applicable
+- language mapping if multilingual is enabled
+- production publish status
+
+RATIONALE REQUIREMENTS
+
+For ALL non-CAT questions, provide excellent rationales:
+- explain why the correct answer is correct
+- explain why EACH incorrect answer is wrong
+- include clinical reasoning
+- include pathophysiology when relevant
+- include pharmacology mechanism when relevant
+- include lab interpretation when relevant
+- include prioritization framework where appropriate
+- include concise exam strategy insight when useful
+
+For CAT exams:
+- do NOT display rationales during the exam
+- storing rationales in backend is acceptable only if needed for later review logic already present in the platform
+
+FLASHCARD REQUIREMENTS
+
+For every generated question:
+- create at least 1 aligned flashcard
+- include:
+  - core concept
+  - definition
+  - clinical pearl
+  - memory aid
+  - medication/lab cue where relevant
+- map each flashcard to the same:
+  - tier
+  - exam
+  - topic/system
+
+MANDATORY PRODUCTION PUBLISHING REQUIREMENTS
+
+All new content MUST:
+- be written to the PRODUCTION database
+- be marked as published using the existing publish workflow
+- appear on the LIVE site, not only dev or preview
+- show up in:
+  - exam banks
+  - test banks
+  - topic pages
+  - system pages
+  - flashcard libraries
+  - search results
+  - filters
+- respect current paywall and role access rules
+
+If there is any environment separation, explicitly:
+- use production DB credentials/config
+- use production API endpoints
+- verify the data is live after insertion
+
+CONTENT QA REQUIREMENTS
+
+Before finalizing:
+- prevent duplicate questions
+- prevent duplicate flashcards
+- ensure clinical accuracy
+- ensure coherent difficulty distribution
+- ensure proper exam mapping
+- ensure proper category placement
+- ensure no missing rationales except CAT rules
+- ensure content renders correctly on frontend
+- ensure content is searchable and filterable
+- ensure analytics/events still fire correctly
+
+==================================================
+PART 2 — FIX MOBILE SEO + PAGESPEED + INDEXING
+==================================================
+
+The mobile PageSpeed Insights report for https://www.nursenest.ca/en shows serious technical SEO and performance issues that must be fixed on the LIVE site.
+
+CURRENT PRIORITY ISSUES TO FIX
+
+SEO / INDEXING
+- Lighthouse reports: Page is blocked from indexing
+- This is critical and must be treated as a production blocker
+
+PERFORMANCE
+- Mobile Performance: 68
+- FCP: 2.8 s
+- LCP: 7.0 s
+- TBT: 160 ms
+- CLS: 0.01
+- Speed Index: 4.1 s
+
+DIAGNOSTICS / INSIGHTS TO FIX
+- render blocking requests
+- reduce unused JavaScript
+- avoid long main-thread tasks
+- improve image delivery
+- use efficient cache lifetimes
+- avoid non-composited animations
+- browser errors logged to console
+- images with incorrect aspect ratio
+- insufficient color contrast
+- weak security headers / policies noted by Lighthouse
+- blocked indexing issue on homepage
+
+CRITICAL SEO FIXES — MUST IMPLEMENT FIRST
+
+1. FIND WHY THE PAGE IS BLOCKED FROM INDEXING AND FIX IT
+Audit and correct all possible causes on the live homepage and related layout/SEO pipeline:
+- meta robots tag accidentally set to noindex
+- X-Robots-Tag header set to noindex
+- environment-based noindex logic leaking from dev/staging into production
+- canonical pointing incorrectly
+- robots.txt blocking the route
+- SSR/head manager incorrectly writing robots directives
+- route-level SEO component using noindex on /en
+- middleware/header logic injecting non-indexable response headers
+- alternate language routes inheriting incorrect robots settings
+
+After fixing:
+- ensure /en is indexable
+- ensure other public language and main content routes are indexable unless intentionally excluded
+- ensure the production homepage outputs correct index,follow behavior
+- ensure the canonical is self-referencing and correct
+- ensure hreflang strategy remains correct if multilingual routes exist
+
+2. AUDIT robots.txt, sitemap, canonicals, and head tags
+- verify robots.txt allows crawling of public pages
+- verify sitemap index and child sitemaps are reachable
+- verify canonical tags are correct and do not point to wrong environments
+- verify structured metadata is not conflicting
+- verify no accidental duplicate canonicals or malformed head tags
+- verify each main page has proper:
+  - title
+  - meta description
+  - canonical
+  - hreflang where applicable
+  - Open Graph / Twitter tags where appropriate
+
+3. ENSURE SPA/SSR SEO IS SEARCH-FRIENDLY
+If the homepage relies too heavily on client rendering:
+- improve server-rendered or pre-rendered HTML for core content
+- ensure titles, meta tags, H1, intro copy, and key content are present in initial HTML
+- ensure crawlers can access meaningful content without waiting for heavy JS hydration
+- avoid empty shells on initial response
+
+MOBILE PERFORMANCE FIXES
+
+1. IMPROVE LCP
+Target the homepage hero / largest above-the-fold content:
+- identify exact LCP element
+- optimize its loading path
+- preload the LCP image or text/font resources when appropriate
+- compress and resize hero imagery
+- convert heavy images to modern formats if supported
+- lazy-load below-the-fold images only
+- remove unnecessary sliders/animations/heavy effects above the fold
+- make sure hero section renders fast on slow mobile
+
+2. REDUCE UNUSED JAVASCRIPT
+- code-split noncritical modules
+- defer nonessential scripts
+- remove dead code
+- tree-shake unused libraries
+- lazy-load lower-priority UI
+- reduce heavy homepage bundles
+- audit third-party scripts and load only what is necessary
+- prevent large admin/editor logic from leaking into public bundle
+
+3. REDUCE RENDER-BLOCKING RESOURCES
+- inline truly critical CSS if appropriate
+- defer noncritical CSS/JS
+- preload only critical assets
+- eliminate unnecessary blocking font/style/script dependencies
+- reduce dependency chains for initial render
+
+4. IMPROVE IMAGE DELIVERY
+- fix incorrect aspect ratio rendering
+- provide properly sized responsive images
+- use width/height attributes to stabilize layout
+- compress assets
+- use srcset/sizes correctly
+- ensure no oversized homepage imagery is shipped to mobile
+
+5. FIX MAIN-THREAD AND ANIMATION ISSUES
+- reduce long tasks
+- simplify expensive client-side logic
+- avoid non-composited animations
+- move animations to transform/opacity when possible
+- tone down decorative motion on mobile hero and landing sections
+
+6. CACHE + DELIVERY
+- improve cache lifetimes for static assets
+- ensure hashed asset strategy works correctly
+- verify CDN/static asset caching headers if available in deployment
+
+BEST PRACTICES + SECURITY HARDENING
+
+Address Lighthouse best-practice/security warnings where possible:
+- add/strengthen CSP
+- add/strengthen HSTS
+- set COOP/COEP/origin isolation where appropriate and compatible
+- reduce DOM-XSS risk with safer patterns / trusted types where feasible
+- fix browser console errors on homepage load
+- ensure no broken scripts are firing on public pages
+
+ACCESSIBILITY FIXES
+
+- fix insufficient contrast issues without breaking NurseNest branding
+- maintain pastel branding but ensure readable text contrast on mobile
+- verify buttons, links, badges, and hero text remain legible
+
+TECHNICAL IMPLEMENTATION REQUIREMENTS
+
+- work in the existing production codebase
+- fix root causes, not temporary patches
+- do not break multilingual routing
+- do not break analytics
+- do not break existing structured navigation
+- do not break existing study/product/exam page indexing
+- do not remove important conversion sections unless replacing them with a better-performing equivalent
+- preserve the NurseNest visual brand while improving performance
+
+FINAL VALIDATION — MANDATORY
+
+After implementation, run a full validation on the LIVE site and confirm:
+
+CONTENT EXPANSION
+- question counts increased toward the targets above
+- each tier and each exam is represented correctly
+- NP exams are individually populated
+- rationales appear properly on non-CAT questions
+- CAT exams do not show rationales during test flow
+- flashcards are linked correctly
+- content is live on the production site, not just dev
+
+SEO / INDEXING
+- /en is indexable
+- no noindex on public homepage
+- robots.txt allows crawling
+- canonical is correct
+- sitemap is valid
+- public pages are crawlable and indexable
+
+PERFORMANCE
+- mobile LCP is improved significantly
+- homepage JS bundle size is reduced
+- render-blocking assets are reduced
+- image delivery is improved
+- console errors are fixed
+- aspect ratio issues are fixed
+- key accessibility contrast issues are fixed
+
+Then provide a concise implementation summary showing:
+- what was fixed
+- what was published live
+- which production routes were verified
+- updated question counts by tier and exam
+- any remaining blockers that still require manual review
