@@ -119,6 +119,9 @@ const contentHubPages = [
   { title: "Clinical Judgment", href: "/rex-pn/clinical-judgment", description: "NCSBN CJMM framework, prioritization, clinical decision-making", icon: Brain },
   { title: "Exam Tips", href: "/rex-pn/exam-tips", description: "CAT strategies, time management, test-day preparation tips", icon: GraduationCap },
   { title: "10-Week Study Plan", href: "/rex-pn/study-plan", description: "Structured weekly goals covering all content domains", icon: Layers },
+  { title: "How to Pass the REx-PN", href: "/rex-pn/strategy/how-to-pass-rex-pn", description: "Evidence-based strategies to pass on your first attempt", icon: CheckCircle },
+  { title: "Prioritization Tips", href: "/rex-pn/strategy/prioritization-tips", description: "ABCs, Maslow's hierarchy, delegation principles", icon: ClipboardCheck },
+  { title: "Infection Control Study Guide", href: "/rex-pn/strategy/infection-control-study-guide", description: "Chain of infection, PPE, isolation precautions", icon: Activity },
 ];
 
 const conditionGuides = [
@@ -130,18 +133,50 @@ const conditionGuides = [
   { title: "Hypertension", href: "/rex-pn/conditions/hypertension" },
   { title: "MI / ACS", href: "/rex-pn/conditions/mi-acs" },
   { title: "Stroke (CVA)", href: "/rex-pn/conditions/stroke" },
+  { title: "UTI", href: "/rex-pn/conditions/uti" },
+  { title: "DVT / PE", href: "/rex-pn/conditions/dvt-pe" },
+  { title: "Anemia", href: "/rex-pn/conditions/anemia" },
+  { title: "Wound Infection", href: "/rex-pn/conditions/wound-infection" },
+  { title: "Dehydration", href: "/rex-pn/conditions/dehydration" },
+  { title: "Hypoglycemia", href: "/rex-pn/conditions/hypoglycemia" },
+  { title: "Seizures", href: "/rex-pn/conditions/seizures" },
 ];
 
 const labValueGuides = [
   { title: "Potassium (K+)", href: "/rex-pn/lab-values/potassium" },
   { title: "Sodium (Na+)", href: "/rex-pn/lab-values/sodium" },
+  { title: "Blood Glucose", href: "/rex-pn/lab-values/glucose" },
+  { title: "BUN / Creatinine", href: "/rex-pn/lab-values/bun-creatinine" },
+  { title: "CBC / WBC", href: "/rex-pn/lab-values/cbc-wbc" },
+  { title: "Hemoglobin / Hematocrit", href: "/rex-pn/lab-values/hemoglobin-hematocrit" },
   { title: "ABG Interpretation", href: "/rex-pn/lab-values/abgs" },
+  { title: "Calcium (Ca2+)", href: "/rex-pn/lab-values/calcium" },
+  { title: "Magnesium (Mg2+)", href: "/rex-pn/lab-values/magnesium" },
+  { title: "INR / PT", href: "/rex-pn/lab-values/inr-pt" },
+];
+
+const medicationGuides = [
+  { title: "Furosemide (Lasix)", href: "/rex-pn/medications/furosemide" },
+  { title: "Insulin Types", href: "/rex-pn/medications/insulin" },
+  { title: "Metoprolol", href: "/rex-pn/medications/metoprolol" },
+  { title: "Lisinopril", href: "/rex-pn/medications/lisinopril" },
+  { title: "Metformin", href: "/rex-pn/medications/metformin" },
+  { title: "Acetaminophen", href: "/rex-pn/medications/acetaminophen" },
+  { title: "Warfarin", href: "/rex-pn/medications/warfarin" },
+  { title: "Heparin", href: "/rex-pn/medications/heparin" },
+  { title: "Digoxin", href: "/rex-pn/medications/digoxin" },
+  { title: "Albuterol", href: "/rex-pn/medications/albuterol" },
+  { title: "Levothyroxine", href: "/rex-pn/medications/levothyroxine" },
+  { title: "Omeprazole", href: "/rex-pn/medications/omeprazole" },
 ];
 
 const comparisonGuides = [
   { title: "DKA vs HHS", href: "/rex-pn/compare/dka-vs-hhs" },
   { title: "Crohn's vs Ulcerative Colitis", href: "/rex-pn/compare/crohns-vs-uc" },
   { title: "Stable vs Unstable Angina", href: "/rex-pn/compare/stable-vs-unstable-angina" },
+  { title: "Type 1 vs Type 2 Diabetes", href: "/rex-pn/compare/type-1-vs-type-2-diabetes" },
+  { title: "DVT vs PE", href: "/rex-pn/compare/dvt-vs-pe" },
+  { title: "Hypoglycemia vs Hyperglycemia", href: "/rex-pn/compare/hypoglycemia-vs-hyperglycemia" },
 ];
 
 const strategyGuides = [
@@ -470,6 +505,23 @@ export default function RexPnHub() {
                   </div>
                 </div>
 
+                <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-medication-guides">
+                  <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-green-500" />
+                    Medication Guides
+                  </h3>
+                  <div className="space-y-2">
+                    {medicationGuides.map((guide, i) => (
+                      <LocaleLink key={i} href={guide.href}>
+                        <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer" data-testid={`link-med-${i}`}>
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-primary">{guide.title}</span>
+                          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="section-comparison-guides">
                   <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
                     <Scale className="w-5 h-5 text-purple-500" />
@@ -507,6 +559,7 @@ export default function RexPnHub() {
             </div>
           </div>
         </section>
+
 
         <ComparisonTable
           headline="How NurseNest Compares for REx-PN Prep"
