@@ -285,6 +285,7 @@ const AlliedHealthHub = lazy(() => import("@/pages/allied-health-hub"));
 const AlliedHealthProfessionPage = lazy(() => import("@/pages/allied-health-profession"));
 const AlliedHealthArticlePage = lazy(() => import("@/pages/allied-health-article"));
 const AdminAlliedHealthArticles = lazy(() => import("@/pages/admin-allied-health-articles"));
+const AdminContentGenerator = lazy(() => import("@/pages/admin-content-generator"));
 const AdminSeoDebug = lazy(() => import("@/pages/admin-seo-debug"));
 const AdminAlliedMarketing = lazy(() => import("@/pages/admin-allied-marketing"));
 const AdminSocialContent = lazy(() => import("@/pages/admin-social-content"));
@@ -897,6 +898,7 @@ function AppRoutes() {
         <Route path="/admin/pageviews" component={AdminPageviews} />
         <Route path="/admin/seo-visual-autopilot" component={AdminSeoAutopilot} />
         <Route path="/admin/allied-health-articles" component={AdminAlliedHealthArticles} />
+        <Route path="/admin/content-generator" component={AdminContentGenerator} />
         <Route path="/admin/seo-debug" component={AdminSeoDebug} />
         <Route path="/admin/allied-marketing" component={AdminAlliedMarketing} />
         <Route path="/admin/profession-analytics" component={AdminProfessionAnalytics} />

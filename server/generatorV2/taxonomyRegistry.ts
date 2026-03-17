@@ -1,4 +1,14 @@
-export const VALID_TIERS = ["free", "rpn", "rn", "np", "certification_prep", "new_grad_toolkit", "full_access"] as const;
+export const VALID_TIERS = [
+  "free", "rpn", "rn", "np", "pre_nursing", "rn_international",
+  "np_fnp", "np_agnp", "np_pmhnp", "np_pnp", "np_nnp", "np_whnp", "np_cnpe",
+  "respiratory_therapy", "medical_lab_tech", "paramedic", "radiologic_tech",
+  "diagnostic_sonography", "cardiac_sonographer", "occupational_therapy_asst",
+  "physical_therapy_asst", "pharmacy_tech", "surgical_tech", "dental_hygienist",
+  "dietitian", "social_worker",
+  "cert_acls", "cert_bls", "cert_pals", "cert_nrp", "cert_ccrn", "cert_cen",
+  "cert_med_surg", "cert_oncology", "cert_wound_care", "cert_infection_control", "cert_gerontology",
+  "certification_prep", "new_grad_toolkit", "full_access", "allied", "newgrad", "admin",
+] as const;
 export type ValidTier = typeof VALID_TIERS[number];
 
 export const VALID_BODY_SYSTEMS = [

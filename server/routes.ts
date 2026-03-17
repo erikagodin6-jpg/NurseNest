@@ -498,6 +498,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerBackupRoutes } = await import("./backup-routes");
   registerBackupRoutes(app);
 
+  const { registerUniversalGeneratorRoutes } = await import("./universal-generator-routes");
+  registerUniversalGeneratorRoutes(app);
+
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {
       return res.redirect(301, 'https://www.nursenest.ca' + req.url);
