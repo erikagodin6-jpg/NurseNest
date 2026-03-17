@@ -347,6 +347,8 @@ const ImagingMarketingDashboard = lazy(() => import("@/pages/imaging-marketing-d
 const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
+const ExamReadinessPage = lazy(() => import("@/pages/exam-readiness"));
+const AdminReadinessAnalytics = lazy(() => import("@/pages/admin-readiness-analytics"));
 const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
 const DemoAdaptiveReport = lazy(() => import("@/pages/demo-adaptive-report"));
 const DemoScreenshotStudio = lazy(() => import("@/pages/demo-screenshot-studio"));
@@ -989,6 +991,8 @@ function AppRoutes() {
         <Route path="/medical-imaging/usa" component={MedicalImagingUSAPage} />
         <Route path="/medical-imaging" component={MedicalImagingHub} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
+        <Route path="/exam-readiness" component={ExamReadinessPage} />
+        <Route path="/admin/readiness-analytics" component={AdminReadinessAnalytics} />
         <Route path="/demo/exam-readiness" component={ExamReadinessDemo} />
         <Route path="/demo/learning-progress" component={DemoLearningProgress} />
         <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />

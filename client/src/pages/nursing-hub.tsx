@@ -235,6 +235,11 @@ export default function NursingHub() {
                 Browse Lessons
               </Link>
             </div>
+            <div className="mt-4">
+              <Link href="/exam-readiness" className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors" data-testid="link-readiness-cta">
+                <Target className="w-4 h-4" /> Check your exam readiness — see your probability of passing
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -885,6 +885,13 @@ function ClusterPage({ slug }: { slug: string }) {
               </Button>
             </LocaleLink>
           </div>
+          <div className="mt-4">
+            <LocaleLink href="/exam-readiness">
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline" data-testid="link-readiness-cta">
+                <Target className="w-4 h-4" /> See your probability of passing
+              </span>
+            </LocaleLink>
+          </div>
         </div>
 
         <ClusterNav currentSlug={slug} />

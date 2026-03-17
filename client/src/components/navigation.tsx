@@ -165,6 +165,9 @@ function UserProfileDropdown({ user, logout, setLocation: navigate }: { user: an
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => navigate("/admin/site-health")} data-testid="menu-site-health">
               {t("nav.siteHealth")}
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => navigate("/admin/readiness-analytics")} data-testid="menu-readiness-analytics">
+              Readiness Analytics
+            </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />

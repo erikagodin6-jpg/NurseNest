@@ -745,6 +745,13 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
                 </Button>
               </LocaleLink>
             </div>
+            <div className="mt-4">
+              <LocaleLink href="/exam-readiness">
+                <span className="inline-flex items-center gap-2 text-sm font-medium hover:underline" style={{ color: page.color }} data-testid="link-readiness-cta">
+                  <Target className="w-4 h-4" /> Check your exam readiness
+                </span>
+              </LocaleLink>
+            </div>
           </div>
         </div>
       </section>

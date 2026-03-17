@@ -848,7 +848,7 @@ function StudyStreakWidget({ user }: { user: any }) {
       .then((r) => r.json())
       .then(setProgress)
       .catch(() => {});
-    fetch(`/api/exam-readiness/${user.id}`)
+    fetch(`/api/readiness/${user.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then(setStreakData)
       .catch(() => {});
@@ -1559,10 +1559,11 @@ function ExamReadinessWidget({ user }: { user: any }) {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
+  const isPremium = canAccessFeature(user?.tier || "free", "reports");
 
   useEffect(() => {
     if (!user?.id) { setLoading(false); return; }
-    fetch(`/api/exam-readiness/${user.id}`)
+    fetch(`/api/readiness/${user.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then(setData)
       .catch(() => {})
@@ -1577,61 +1578,88 @@ function ExamReadinessWidget({ user }: { user: any }) {
     );
   }
 
-  const readiness = data?.readiness || 0;
-  const accuracy = data?.accuracy || 0;
-  const totalAnswered = data?.totalAnswered || 0;
+  const readiness = data?.readinessScore || data?.readiness || 0;
+  const accuracy = data?.factors?.accuracy || data?.accuracy || 0;
+  const totalAnswered = data?.factors?.totalAnswered || data?.totalAnswered || 0;
+  const passProbability = data?.passProbability || 0;
 
   const tiers = [
-    { label: "Not Ready", range: "0–40%", min: 0, max: 40, color: "bg-red-400", active: "bg-red-500" },
-    { label: "Developing", range: "40–70%", min: 40, max: 70, color: "bg-amber-300", active: "bg-amber-500" },
-    { label: "Likely Pass", range: "70–85%", min: 70, max: 85, color: "bg-blue-300", active: "bg-blue-500" },
-    { label: "Strong Pass", range: "85–100%", min: 85, max: 100, color: "bg-emerald-300", active: "bg-emerald-500" },
+    { label: "Not Ready", range: "0–40%", min: 0, max: 40, color: "bg-red-400", active: "bg-red-500", badge: "bg-red-100 text-red-700" },
+    { label: "Developing", range: "40–70%", min: 40, max: 70, color: "bg-amber-300", active: "bg-amber-500", badge: "bg-amber-100 text-amber-700" },
+    { label: "Likely Pass", range: "70–85%", min: 70, max: 85, color: "bg-blue-300", active: "bg-blue-500", badge: "bg-blue-100 text-blue-700" },
+    { label: "Strong Pass", range: "85–100%", min: 85, max: 100, color: "bg-emerald-300", active: "bg-emerald-500", badge: "bg-emerald-100 text-emerald-700" },
   ];
 
   const currentTier = tiers.find(t => readiness >= t.min && readiness < t.max) || tiers[tiers.length - 1];
   const tierIndex = tiers.indexOf(currentTier);
 
+  const gaugeColor = readiness >= 85 ? "#10b981" : readiness >= 70 ? "#3b82f6" : readiness >= 40 ? "#f59e0b" : "#ef4444";
+  const radius = 38;
+  const circumference = 2 * Math.PI * radius;
+  const gaugeOffset = circumference - (readiness / 100) * circumference;
+
+  const motivational = readiness >= 85 ? "Excellent! You're exam-ready." : readiness >= 70 ? "Great progress — keep going!" : readiness >= 40 ? "Building momentum — focus on weak areas." : "Keep practicing daily!";
+
   return (
     <div data-testid="widget-content-exam-readiness">
-      <div className="text-center mb-3">
-        <span className="text-3xl font-bold text-foreground" data-testid="text-readiness-score">{readiness}%</span>
-        <p className="text-sm font-medium text-muted-foreground mt-0.5">Exam Readiness</p>
-      </div>
-      <div className="flex gap-1 mb-2" data-testid="readiness-meter">
-        {tiers.map((tier, i) => {
-          const isActive = i <= tierIndex;
-          const segmentWidth = tier.max - tier.min;
-          let fillPercent = 0;
-          if (readiness >= tier.max) fillPercent = 100;
-          else if (readiness > tier.min) fillPercent = ((readiness - tier.min) / (tier.max - tier.min)) * 100;
-          return (
-            <div key={tier.label} className="flex-1" data-testid={`readiness-segment-${i}`}>
-              <div className={`h-3 rounded-full overflow-hidden ${i === 0 ? "rounded-l-full" : ""} ${i === tiers.length - 1 ? "rounded-r-full" : ""} bg-gray-100`}>
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${isActive ? tier.active : tier.color}`}
-                  style={{ width: `${fillPercent}%` }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="flex justify-between mb-3">
-        {tiers.map((tier, i) => (
-          <div key={tier.label} className="flex-1 text-center">
-            <p className={`text-[9px] font-medium ${i === tierIndex ? "text-foreground" : "text-muted-foreground"}`}>
-              {tier.label}
-            </p>
+      <div className="flex items-center gap-4 mb-3">
+        <div className="relative flex-shrink-0" style={{ width: 84, height: 84 }}>
+          <svg width={84} height={84} className="transform -rotate-90">
+            <circle cx={42} cy={42} r={radius} fill="none" stroke="#e5e7eb" strokeWidth={6} />
+            <circle cx={42} cy={42} r={radius} fill="none" stroke={gaugeColor} strokeWidth={6}
+              strokeDasharray={circumference} strokeDashoffset={gaugeOffset} strokeLinecap="round"
+              className="transition-all duration-1000" />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-xl font-bold" style={{ color: gaugeColor }} data-testid="text-readiness-score">{readiness}%</span>
           </div>
-        ))}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${currentTier.badge}`} data-testid="badge-readiness-tier">
+              {currentTier.label}
+            </span>
+          </div>
+          {isPremium && passProbability > 0 && (
+            <p className="text-sm font-semibold text-foreground" data-testid="text-pass-probability">{passProbability}% pass probability</p>
+          )}
+          {isPremium && (
+            <p className="text-[10px] text-muted-foreground mt-0.5">{motivational}</p>
+          )}
+        </div>
       </div>
-      <div className="flex items-center justify-between text-xs text-muted-foreground mb-3 px-1">
-        <span>{accuracy}% accuracy</span>
-        <span>{totalAnswered} questions</span>
-      </div>
-      <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/performance-analytics")} data-testid="button-view-analytics">
-        <BarChart3 className="h-4 w-4 mr-1.5" /> View Analytics
-      </Button>
+      {isPremium && (
+        <>
+          <div className="flex gap-1 mb-2" data-testid="readiness-meter">
+            {tiers.map((tier, i) => {
+              const isActive = i <= tierIndex;
+              let fillPercent = 0;
+              if (readiness >= tier.max) fillPercent = 100;
+              else if (readiness > tier.min) fillPercent = ((readiness - tier.min) / (tier.max - tier.min)) * 100;
+              return (
+                <div key={tier.label} className="flex-1" data-testid={`readiness-segment-${i}`}>
+                  <div className={`h-2.5 rounded-full overflow-hidden ${i === 0 ? "rounded-l-full" : ""} ${i === tiers.length - 1 ? "rounded-r-full" : ""} bg-gray-100`}>
+                    <div className={`h-full rounded-full transition-all duration-700 ${isActive ? tier.active : tier.color}`} style={{ width: `${fillPercent}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-3 px-1">
+            <span>{accuracy}% accuracy</span>
+            <span>{totalAnswered} questions</span>
+          </div>
+        </>
+      )}
+      {isPremium ? (
+        <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/exam-readiness")} data-testid="button-view-full-report">
+          <BarChart3 className="h-4 w-4 mr-1.5" /> View Full Report
+        </Button>
+      ) : (
+        <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/pricing")} data-testid="button-upgrade-readiness">
+          <Lock className="h-4 w-4 mr-1.5" /> Upgrade for Full Analysis
+        </Button>
+      )}
     </div>
   );
 }
