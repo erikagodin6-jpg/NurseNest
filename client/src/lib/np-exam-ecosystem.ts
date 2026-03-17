@@ -1,6 +1,6 @@
 import { EXAM_BLUEPRINTS, type ExamBlueprint } from "./question-pool";
 
-export type NpExamCode = "AANP" | "ANCC" | "CNPLE" | "UPCOMING_CANADA_NP";
+export type NpExamCode = "AANP" | "ANCC" | "CNPLE" | "UPCOMING_CANADA_NP" | "AANP-FNP" | "ANCC-FNP" | "AGPCNP" | "AGACNP" | "PMHNP" | "PNP" | "WHNP" | "ENP";
 
 export const NP_QUESTION_POOLS = {
   NP_CORE_BANK: {
@@ -30,10 +30,66 @@ export const NP_QUESTION_POOLS = {
     examFilter: "CNPLE",
     region: "CA" as const,
   },
+  AANP_FNP_BANK: {
+    id: "AANP_FNP_BANK",
+    label: "AANP FNP Question Bank",
+    description: "AANP Family Nurse Practitioner certification questions",
+    examFilter: "AANP-FNP",
+    region: "US" as const,
+  },
+  ANCC_FNP_BANK: {
+    id: "ANCC_FNP_BANK",
+    label: "ANCC FNP Question Bank",
+    description: "ANCC Family Nurse Practitioner Board Certification questions",
+    examFilter: "ANCC-FNP",
+    region: "US" as const,
+  },
+  AGPCNP_BANK: {
+    id: "AGPCNP_BANK",
+    label: "AGPCNP Question Bank",
+    description: "Adult-Gerontology Primary Care NP certification questions",
+    examFilter: "AGPCNP",
+    region: "US" as const,
+  },
+  AGACNP_BANK: {
+    id: "AGACNP_BANK",
+    label: "AGACNP Question Bank",
+    description: "Adult-Gerontology Acute Care NP certification questions",
+    examFilter: "AGACNP",
+    region: "US" as const,
+  },
+  PMHNP_BANK: {
+    id: "PMHNP_BANK",
+    label: "PMHNP Question Bank",
+    description: "Psychiatric-Mental Health NP certification questions",
+    examFilter: "PMHNP",
+    region: "US" as const,
+  },
+  PNP_BANK: {
+    id: "PNP_BANK",
+    label: "PNP Question Bank",
+    description: "Pediatric Nurse Practitioner certification questions",
+    examFilter: "PNP",
+    region: "US" as const,
+  },
+  WHNP_BANK: {
+    id: "WHNP_BANK",
+    label: "WHNP Question Bank",
+    description: "Women's Health Nurse Practitioner certification questions",
+    examFilter: "WHNP",
+    region: "US" as const,
+  },
+  ENP_BANK: {
+    id: "ENP_BANK",
+    label: "ENP Question Bank",
+    description: "Emergency Nurse Practitioner certification questions",
+    examFilter: "ENP",
+    region: "US" as const,
+  },
 } as const;
 
 export const NP_EXAM_TAGS = {
-  exam: ["AANP", "ANCC", "CANADA_NP"] as const,
+  exam: ["AANP", "ANCC", "CANADA_NP", "AANP-FNP", "ANCC-FNP", "AGPCNP", "AGACNP", "PMHNP", "PNP", "WHNP", "ENP"] as const,
   domain: [
     "Health Assessment",
     "Diagnosis",
@@ -144,6 +200,14 @@ export function getQuestionPoolForExam(examCode: NpExamCode): string {
     case "ANCC": return "ANCC_BANK";
     case "CNPLE": return "CANADA_NP_BANK";
     case "UPCOMING_CANADA_NP": return "CANADA_NP_BANK";
+    case "AANP-FNP": return "AANP_FNP_BANK";
+    case "ANCC-FNP": return "ANCC_FNP_BANK";
+    case "AGPCNP": return "AGPCNP_BANK";
+    case "AGACNP": return "AGACNP_BANK";
+    case "PMHNP": return "PMHNP_BANK";
+    case "PNP": return "PNP_BANK";
+    case "WHNP": return "WHNP_BANK";
+    case "ENP": return "ENP_BANK";
     default: return "NP_CORE_BANK";
   }
 }
@@ -154,6 +218,14 @@ export function getExamFilterParams(examCode: NpExamCode): { exam?: string; regi
     case "ANCC": return { exam: "ANCC", region: "US" };
     case "CNPLE": return { exam: "CNPLE", region: "CA" };
     case "UPCOMING_CANADA_NP": return { region: "CA" };
+    case "AANP-FNP": return { exam: "AANP-FNP", region: "US" };
+    case "ANCC-FNP": return { exam: "ANCC-FNP", region: "US" };
+    case "AGPCNP": return { exam: "AGPCNP", region: "US" };
+    case "AGACNP": return { exam: "AGACNP", region: "US" };
+    case "PMHNP": return { exam: "PMHNP", region: "US" };
+    case "PNP": return { exam: "PNP", region: "US" };
+    case "WHNP": return { exam: "WHNP", region: "US" };
+    case "ENP": return { exam: "ENP", region: "US" };
     default: return {};
   }
 }

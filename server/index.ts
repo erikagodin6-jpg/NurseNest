@@ -7,6 +7,7 @@ import { registerRoutes } from "./routes";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
 import { registerAutomationRoutes } from "./allied-automations";
 import { registerAiJobsRoutes } from "./ai-jobs-routes";
+import { registerMassExpansionRoutes } from "./mass-expansion-routes";
 import { registerSocialContentRoutes } from "./social-content-automation";
 import { registerScenarioRoutes } from "./allied-scenarios";
 import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
@@ -649,6 +650,7 @@ app.use((req, res, next) => {
   registerSocialContentRoutes(app);
   registerScenarioRoutes(app);
   registerParamedicBulkUploadRoutes(app);
+  registerMassExpansionRoutes(app);
 
   const { registerMockExamTemplateRoutes } = await import("./mock-exam-template-routes");
   registerMockExamTemplateRoutes(app);

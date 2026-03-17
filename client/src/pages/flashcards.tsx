@@ -89,6 +89,9 @@ import { npFlashcardsEnrichment3 } from "@/data/flashcards-np-enrichment-3";
 import { npFlashcardsEnrichment4 } from "@/data/flashcards-np-enrichment-4";
 import { npFlashcardsEnrichment5 } from "@/data/flashcards-np-enrichment-5";
 import { npFlashcardsEnrichment6 } from "@/data/flashcards-np-enrichment-6";
+import { npSubspecialtyFlashcards } from "@/data/flashcards-np-subspecialties";
+import { rpnExpansionFlashcards } from "@/data/flashcards-rpn-expansion";
+import { rnExpansion2Flashcards } from "@/data/flashcards-rn-expansion-2";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
 import { AITutorWidget } from "@/components/ai-tutor-widget";
@@ -1988,7 +1991,25 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         ...c,
         source: "static" as const,
       }));
-    const combined = [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped, ...npCoreMapped, ...npEnrichmentAll];
+    const npSubspecialtyMapped: Flashcard[] = npSubspecialtyFlashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    const rpnExpansionMapped: Flashcard[] = rpnExpansionFlashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    const rnExpansion2Mapped: Flashcard[] = rnExpansion2Flashcards
+      .filter(c => c.type === "question")
+      .map(c => ({
+        ...c,
+        source: "static" as const,
+      }));
+    const combined = [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped, ...npCoreMapped, ...npEnrichmentAll, ...npSubspecialtyMapped, ...rpnExpansionMapped, ...rnExpansion2Mapped];
     const seen = new Set<string>();
     return combined.filter(c => {
       if (seen.has(c.id)) return false;
