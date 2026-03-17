@@ -133,7 +133,8 @@ async function scanQuestions(mode: ScanMode, tiers?: string[]): Promise<TypeScan
   try {
     let query = `SELECT id, tier, exam, question_type, status, stem, options, correct_answer, rationale,
                         difficulty, tags, body_system, topic, subtopic, scenario, distractor_rationales,
-                        quality_score, cognitive_level
+                        quality_score, cognitive_level, is_adaptive_eligible,
+                        correct_answer_explanation, clinical_pearl
                  FROM exam_questions`;
     const params: any[] = [];
     const conditions: string[] = [];
@@ -200,8 +201,20 @@ async function scanQuestions(mode: ScanMode, tiers?: string[]): Promise<TypeScan
         hasIssue = true;
       }
 
-      if (isEmptyJsonb(q.distractor_rationales)) {
+      const isCAT = q.is_adaptive_eligible === true;
+
+      if (isEmptyJsonb(q.distractor_rationales) && !isCAT) {
         issues.push(makeIssue("questions", q.id, q.stem?.substring(0, 80) || "Untitled", tier, "missing_distractor_rationales", "medium", "Question has no distractor explanations", "distractor_rationales", null, true, "ai_generate_rationale"));
+        hasIssue = true;
+      }
+
+      if (!isCAT && (!q.correct_answer_explanation || q.correct_answer_explanation.trim().length === 0)) {
+        issues.push(makeIssue("questions", q.id, q.stem?.substring(0, 80) || "Untitled", tier, "missing_correct_answer_explanation", "medium", "Question has no correct answer explanation", "correct_answer_explanation", null, true, "ai_generate_rationale"));
+        hasIssue = true;
+      }
+
+      if (!isCAT && (!q.clinical_pearl || q.clinical_pearl.trim().length === 0)) {
+        issues.push(makeIssue("questions", q.id, q.stem?.substring(0, 80) || "Untitled", tier, "missing_clinical_pearl", "low", "Question has no clinical pearl", "clinical_pearl", null, true, "ai_generate_rationale"));
         hasIssue = true;
       }
 
@@ -505,11 +518,114 @@ export async function getQuestionsMissingRationales(limit: number = 100): Promis
        FROM exam_questions
        WHERE (rationale IS NULL OR TRIM(rationale) = '' OR LENGTH(rationale) < 20)
        AND status = 'published'
+       AND (is_adaptive_eligible = false OR is_adaptive_eligible IS NULL)
        ORDER BY id LIMIT $1`,
       [limit]
     );
     return result.rows.map((r: any) => ({ id: r.id, stem: r.stem, tier: r.tier, options: r.options, correctAnswer: r.correct_answer }));
   } catch { return []; }
+}
+
+export interface RationaleAuditQuestion {
+  id: string;
+  stem: string;
+  tier: string;
+  topic: string;
+  options: any;
+  correctAnswer: any;
+  rationale: string | null;
+  distractorRationales: any;
+  correctAnswerExplanation: string | null;
+  clinicalPearl: string | null;
+}
+
+export async function getNonCATQuestionsNeedingRationaleUpgrade(limit: number = 100): Promise<RationaleAuditQuestion[]> {
+  try {
+    const result = await pool.query(
+      `SELECT id, stem, tier, topic, options, correct_answer, rationale,
+              distractor_rationales, correct_answer_explanation, clinical_pearl
+       FROM exam_questions
+       WHERE (is_adaptive_eligible = false OR is_adaptive_eligible IS NULL)
+       AND status = 'published'
+       AND NOT (
+         LENGTH(COALESCE(rationale, '')) >= 300
+         AND distractor_rationales IS NOT NULL AND distractor_rationales::text NOT IN ('{}', '[]', 'null', '')
+         AND correct_answer_explanation IS NOT NULL AND TRIM(COALESCE(correct_answer_explanation, '')) != ''
+         AND clinical_pearl IS NOT NULL AND TRIM(COALESCE(clinical_pearl, '')) != ''
+       )
+       ORDER BY id LIMIT $1`,
+      [limit]
+    );
+    return result.rows.map((r: any) => ({
+      id: r.id,
+      stem: r.stem,
+      tier: r.tier,
+      topic: r.topic || "",
+      options: r.options,
+      correctAnswer: r.correct_answer,
+      rationale: r.rationale,
+      distractorRationales: r.distractor_rationales,
+      correctAnswerExplanation: r.correct_answer_explanation,
+      clinicalPearl: r.clinical_pearl,
+    }));
+  } catch { return []; }
+}
+
+export async function countNonCATRationaleAudit(): Promise<{
+  total: number;
+  missingRationale: number;
+  weakRationale: number;
+  missingDistractorRationales: number;
+  missingCorrectAnswerExplanation: number;
+  missingClinicalPearl: number;
+  highQualitySkipped: number;
+  byTier: Record<string, { total: number; issues: number }>;
+}> {
+  try {
+    const result = await pool.query(
+      `SELECT tier,
+              COUNT(*) as total,
+              COUNT(*) FILTER (WHERE rationale IS NULL OR TRIM(rationale) = '') as missing_rationale,
+              COUNT(*) FILTER (WHERE rationale IS NOT NULL AND LENGTH(rationale) > 0 AND LENGTH(rationale) < 50) as weak_rationale,
+              COUNT(*) FILTER (WHERE distractor_rationales IS NULL OR distractor_rationales::text IN ('{}', '[]', 'null', '')) as missing_distractor,
+              COUNT(*) FILTER (WHERE correct_answer_explanation IS NULL OR TRIM(correct_answer_explanation) = '') as missing_correct_exp,
+              COUNT(*) FILTER (WHERE clinical_pearl IS NULL OR TRIM(clinical_pearl) = '') as missing_pearl,
+              COUNT(*) FILTER (WHERE LENGTH(rationale) >= 300 AND distractor_rationales IS NOT NULL AND distractor_rationales::text NOT IN ('{}', '[]', 'null', '') AND correct_answer_explanation IS NOT NULL AND TRIM(COALESCE(correct_answer_explanation, '')) != '' AND clinical_pearl IS NOT NULL AND TRIM(COALESCE(clinical_pearl, '')) != '') as high_quality
+       FROM exam_questions
+       WHERE (is_adaptive_eligible = false OR is_adaptive_eligible IS NULL)
+       AND status = 'published'
+       GROUP BY tier`
+    );
+
+    let total = 0, missingRationale = 0, weakRationale = 0, missingDistractorRationales = 0;
+    let missingCorrectAnswerExplanation = 0, missingClinicalPearl = 0, highQualitySkipped = 0;
+    const byTier: Record<string, { total: number; issues: number }> = {};
+
+    for (const row of result.rows) {
+      const t = parseInt(row.total);
+      const mr = parseInt(row.missing_rationale);
+      const wr = parseInt(row.weak_rationale);
+      const md = parseInt(row.missing_distractor);
+      const mc = parseInt(row.missing_correct_exp);
+      const mp = parseInt(row.missing_pearl);
+      const hq = parseInt(row.high_quality);
+
+      total += t;
+      missingRationale += mr;
+      weakRationale += wr;
+      missingDistractorRationales += md;
+      missingCorrectAnswerExplanation += mc;
+      missingClinicalPearl += mp;
+      highQualitySkipped += hq;
+
+      const uniqueAffected = t - hq;
+      byTier[row.tier || "unknown"] = { total: t, issues: uniqueAffected };
+    }
+
+    return { total, missingRationale, weakRationale, missingDistractorRationales, missingCorrectAnswerExplanation, missingClinicalPearl, highQualitySkipped, byTier };
+  } catch {
+    return { total: 0, missingRationale: 0, weakRationale: 0, missingDistractorRationales: 0, missingCorrectAnswerExplanation: 0, missingClinicalPearl: 0, highQualitySkipped: 0, byTier: {} };
+  }
 }
 
 export async function getQuestionsMissingMetadata(limit: number = 100): Promise<{ id: string; stem: string; tier: string }[]> {

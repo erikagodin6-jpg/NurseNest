@@ -45,6 +45,20 @@ export function validateQuestion(data: any): ValidationResult {
     errors.push({ field: "rationale", message: "Rationale is required for publishing (min 20 characters)", severity: "error", autoFixSuggestion: "ai_generate_rationale" });
   }
 
+  if (!data.isAdaptiveEligible) {
+    if (!data.correctAnswerExplanation || (typeof data.correctAnswerExplanation === "string" && data.correctAnswerExplanation.trim().length === 0)) {
+      warnings.push({ field: "correctAnswerExplanation", message: "Correct answer explanation is missing", severity: "warning", autoFixSuggestion: "ai_generate_rationale" });
+    }
+
+    if (!data.distractorRationales || (typeof data.distractorRationales === "object" && Object.keys(data.distractorRationales).length === 0)) {
+      warnings.push({ field: "distractorRationales", message: "Distractor rationales are missing", severity: "warning", autoFixSuggestion: "ai_generate_rationale" });
+    }
+
+    if (!data.clinicalPearl || (typeof data.clinicalPearl === "string" && data.clinicalPearl.trim().length === 0)) {
+      warnings.push({ field: "clinicalPearl", message: "Clinical pearl is missing", severity: "warning", autoFixSuggestion: "ai_generate_rationale" });
+    }
+  }
+
   if (!data.bodySystem) {
     warnings.push({ field: "bodySystem", message: "Body system is not set", severity: "warning", autoFixSuggestion: "ai_infer_metadata" });
   }

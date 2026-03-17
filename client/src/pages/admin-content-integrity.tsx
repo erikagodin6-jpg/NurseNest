@@ -353,6 +353,7 @@ function ActionControlsPanel() {
     { key: "sync", label: "Re-sync Published Content", icon: RefreshCw, description: "Synchronize draft and published content states", endpoint: "/api/admin/content-integrity/resync-published", color: "bg-amber-600 hover:bg-amber-700" },
     { key: "flashcards", label: "Generate Missing Flashcards", icon: BookOpen, description: "AI-generate flashcards for uncovered topics", endpoint: "/api/admin/content-integrity/generate-flashcards", color: "bg-indigo-600 hover:bg-indigo-700" },
     { key: "rationales", label: "Generate Missing Rationales", icon: FileWarning, description: "AI-generate rationales for questions missing them", endpoint: "/api/admin/content-integrity/generate-rationales", color: "bg-teal-600 hover:bg-teal-700" },
+    { key: "deep-rationales", label: "Deep Rationale Upgrade", icon: Sparkles, description: "Upgrade all non-CAT question rationales with distractor breakdowns, clinical pearls, and flashcard sync", endpoint: "/api/admin/content-integrity/deep-rationale-upgrade", color: "bg-cyan-600 hover:bg-cyan-700" },
     { key: "recalculate", label: "Recalculate Tier Totals", icon: Layers, description: "Recount all tier-level statistics", endpoint: "/api/admin/content-integrity/recalculate-tiers", color: "bg-orange-600 hover:bg-orange-700" },
     { key: "push-live", label: "Push Valid Repairs Live", icon: Zap, description: "Publish all validated repairs to production", endpoint: "/api/admin/content-integrity/push-repairs-live", color: "bg-rose-600 hover:bg-rose-700" },
   ];
@@ -758,6 +759,8 @@ function AuditLogPanel() {
           <option value="scan">Scan</option>
           <option value="sync">Sync</option>
           <option value="generation">Generation</option>
+          <option value="rationale_upgraded">Rationale Upgraded</option>
+          <option value="flashcard_generated">Flashcard Generated</option>
         </select>
       </div>
 

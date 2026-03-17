@@ -229,7 +229,7 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const queryTier = userTier === "admin" ? undefined : userTier;
-      let query = `SELECT id, tier, stem, options, correct_answer, rationale, body_system FROM exam_questions WHERE id = $1 AND status = 'published'`;
+      let query = `SELECT id, tier, stem, options, correct_answer, rationale, body_system, correct_answer_explanation, distractor_rationales, clinical_pearl FROM exam_questions WHERE id = $1 AND status = 'published'`;
       const params: any[] = [questionId];
       let paramIdx = 2;
 
@@ -289,10 +289,18 @@ export function setupQBankRoutes(app: Express) {
       }
       const isCorrect = correctAnswer.includes(selectedOption);
 
+      let parsedDistractorRationales = question.distractor_rationales;
+      if (typeof parsedDistractorRationales === "string") {
+        try { parsedDistractorRationales = JSON.parse(parsedDistractorRationales); } catch { parsedDistractorRationales = null; }
+      }
+
       res.json({
         correct: isCorrect,
         correctAnswer,
         rationale: question.rationale,
+        correctAnswerExplanation: question.correct_answer_explanation || null,
+        distractorRationales: parsedDistractorRationales || null,
+        clinicalPearl: question.clinical_pearl || null,
         bodySystem: question.body_system,
       });
     } catch (e: any) {
@@ -413,7 +421,7 @@ export function setupQBankRoutes(app: Express) {
       const topicFilter = req.query.topic as string;
       const regionFilter = req.query.region as string;
 
-      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, region_scope, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales
+      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, region_scope, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, correct_answer_explanation
                    FROM exam_questions
                    WHERE tier = $1 AND status = 'published'`;
       const params: any[] = [queryTier];
@@ -523,6 +531,7 @@ export function setupQBankRoutes(app: Express) {
             options: parsedOptions,
             correctAnswer: parsedCorrect,
             rationale: row.rationale,
+            correctAnswerExplanation: row.correct_answer_explanation || null,
             bodySystem: row.body_system,
             topic: row.topic,
             subtopic: row.subtopic,

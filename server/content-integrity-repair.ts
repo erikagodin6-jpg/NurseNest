@@ -5,6 +5,9 @@ import {
   getQuestionsMissingMetadata,
   getQuestionsWithoutFlashcards,
   getLessonsMissingSeo,
+  getNonCATQuestionsNeedingRationaleUpgrade,
+  countNonCATRationaleAudit,
+  type RationaleAuditQuestion,
 } from "./content-integrity-scanner";
 
 const openai = new OpenAI({
@@ -269,6 +272,303 @@ Return ONLY valid JSON: {"front": "...", "back": "..."}`;
   return result;
 }
 
+export interface DeepRationaleUpgradeResult extends RepairResult {
+  flashcardsGenerated: number;
+  summary: {
+    totalScanned: number;
+    rationalesUpgraded: number;
+    flashcardsGenerated: number;
+    skippedHighQuality: number;
+    flaggedForReview: number;
+    failed: number;
+  };
+}
+
+function isHighQualityRationale(q: RationaleAuditQuestion): boolean {
+  if (!q.rationale || q.rationale.length < 300) return false;
+  if (!q.distractorRationales) return false;
+  const dr = typeof q.distractorRationales === "string" ? q.distractorRationales : JSON.stringify(q.distractorRationales);
+  if (dr === "{}" || dr === "[]" || dr === "null" || dr === "") return false;
+  if (!q.correctAnswerExplanation || q.correctAnswerExplanation.trim().length === 0) return false;
+  if (!q.clinicalPearl || q.clinicalPearl.trim().length === 0) return false;
+  return true;
+}
+
+export async function repairDeepRationales(scanRunId: string | null, batchSize: number = 50): Promise<DeepRationaleUpgradeResult> {
+  const result: DeepRationaleUpgradeResult = {
+    repaired: 0, failed: 0, skipped: 0, details: [],
+    flashcardsGenerated: 0,
+    summary: { totalScanned: 0, rationalesUpgraded: 0, flashcardsGenerated: 0, skippedHighQuality: 0, flaggedForReview: 0, failed: 0 },
+  };
+
+  const questions = await getNonCATQuestionsNeedingRationaleUpgrade(batchSize);
+  result.summary.totalScanned = questions.length;
+
+  for (const q of questions) {
+    try {
+      if (isHighQualityRationale(q)) {
+        result.skipped++;
+        result.summary.skippedHighQuality++;
+        result.details.push({ contentId: q.id, field: "rationale", status: "skipped", error: "Already high quality (300+ words with distractor coverage)" });
+        continue;
+      }
+
+      const optionsText = Array.isArray(q.options)
+        ? q.options.map((o: any, i: number) => `${String.fromCharCode(65 + i)}. ${typeof o === "string" ? o : o.text || JSON.stringify(o)}`).join("\n")
+        : "";
+      const correctIdx = Array.isArray(q.correctAnswer) ? q.correctAnswer[0] : q.correctAnswer;
+
+      const prompt = `You are a clinical nursing education expert writing for ${q.tier?.toUpperCase() || "nursing"} exam preparation (NCLEX/REx-PN level).
+
+Generate a comprehensive, structured rationale for this exam question. Return ONLY valid JSON with these exact fields:
+
+{
+  "rationale": "Full rationale paragraph (150-300 words). Explain the clinical reasoning, pathophysiology, and evidence behind the correct answer. Include why the correct answer is definitively right.",
+  "correct_answer_explanation": "Focused explanation (2-4 sentences) of why the correct answer is right, including the specific clinical reasoning and any relevant pathophysiology.",
+  "distractor_rationales": {
+    "A": "Why option A is correct or incorrect - explain the misconception or reasoning",
+    "B": "Why option B is correct or incorrect - explain the misconception or reasoning",
+    "C": "Why option C is correct or incorrect - explain the misconception or reasoning",
+    "D": "Why option D is correct or incorrect - explain the misconception or reasoning"
+  },
+  "clinical_pearl": "A single high-yield exam insight or memory anchor (1-2 sentences) that helps students remember the key concept. Include a mnemonic, clinical tip, or safety note if applicable."
+}
+
+Question: ${q.stem}
+Options:
+${optionsText}
+Correct Answer Index: ${correctIdx}
+Topic: ${q.topic || "General Nursing"}
+
+Requirements:
+- Be clinically accurate and evidence-based
+- Each distractor rationale must explain the specific misconception students might have
+- The clinical pearl should be a memorable, exam-relevant takeaway
+- Include lab values, medication notes, or safety considerations where relevant
+- Return ONLY valid JSON, no other text`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 1200,
+        temperature: 0.3,
+      });
+
+      const content = response.choices[0]?.message?.content?.trim();
+      if (!content) {
+        result.failed++;
+        result.summary.failed++;
+        result.details.push({ contentId: q.id, field: "rationale", status: "failed", error: "Empty AI response" });
+        continue;
+      }
+
+      let parsed: any;
+      try {
+        const jsonMatch = content.match(/\{[\s\S]*\}/);
+        parsed = JSON.parse(jsonMatch ? jsonMatch[0] : content);
+      } catch {
+        result.failed++;
+        result.summary.failed++;
+        result.details.push({ contentId: q.id, field: "rationale", status: "failed", error: "Failed to parse AI JSON response" });
+        continue;
+      }
+
+      const rationale = parsed.rationale;
+      const correctAnswerExplanation = parsed.correct_answer_explanation;
+      const distractorRationales = parsed.distractor_rationales;
+      const clinicalPearl = parsed.clinical_pearl;
+
+      if (!rationale || rationale.length < 30) {
+        result.failed++;
+        result.summary.failed++;
+        result.details.push({ contentId: q.id, field: "rationale", status: "failed", error: "AI generated empty or too-short rationale" });
+        continue;
+      }
+
+      if (!distractorRationales || typeof distractorRationales !== "object" || Object.keys(distractorRationales).length === 0) {
+        result.failed++;
+        result.summary.failed++;
+        result.details.push({ contentId: q.id, field: "distractor_rationales", status: "failed", error: "AI generated empty distractor rationales" });
+        continue;
+      }
+
+      await pool.query(
+        `UPDATE exam_questions SET
+          rationale = $1,
+          correct_answer_explanation = $2,
+          distractor_rationales = $3,
+          clinical_pearl = $4
+        WHERE id = $5`,
+        [rationale, correctAnswerExplanation || "", JSON.stringify(distractorRationales), clinicalPearl || "", q.id]
+      );
+
+      await logRepair(scanRunId, "questions", q.id, "rationale_upgraded", "rationale", q.rationale?.substring(0, 200) || null, rationale.substring(0, 200), "openai_gpt4o_mini", "applied");
+
+      if (correctAnswerExplanation) {
+        await logRepair(scanRunId, "questions", q.id, "rationale_upgraded", "correct_answer_explanation", q.correctAnswerExplanation?.substring(0, 200) || null, correctAnswerExplanation.substring(0, 200), "openai_gpt4o_mini", "applied");
+      }
+      if (clinicalPearl) {
+        await logRepair(scanRunId, "questions", q.id, "rationale_upgraded", "clinical_pearl", q.clinicalPearl?.substring(0, 200) || null, clinicalPearl.substring(0, 200), "openai_gpt4o_mini", "applied");
+      }
+
+      result.repaired++;
+      result.summary.rationalesUpgraded++;
+      result.details.push({ contentId: q.id, field: "rationale", status: "repaired" });
+
+      const flashcardResult = await syncFlashcardForQuestion(scanRunId, q, rationale, clinicalPearl);
+      if (flashcardResult === "created") {
+        result.flashcardsGenerated++;
+        result.summary.flashcardsGenerated++;
+      }
+    } catch (err: any) {
+      result.failed++;
+      result.summary.failed++;
+      result.details.push({ contentId: q.id, field: "rationale", status: "failed", error: err.message });
+    }
+  }
+
+  return result;
+}
+
+async function syncFlashcardForQuestion(
+  scanRunId: string | null,
+  q: RationaleAuditQuestion,
+  rationale: string,
+  clinicalPearl: string | null
+): Promise<"created" | "exists" | "failed"> {
+  try {
+    const topicSlug = (q.topic || "general").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const deckSlug = `auto-${q.tier || "nursing"}-${topicSlug}`;
+
+    const existingCheck = await pool.query(
+      `SELECT df.id FROM deck_flashcards df
+       JOIN flashcard_decks fd ON fd.id = df.deck_id
+       WHERE fd.slug = $1
+       AND (df.front ILIKE '%' || LEFT($2, 40) || '%' OR df.tags::text ILIKE '%' || $3 || '%')
+       LIMIT 1`,
+      [deckSlug, q.stem, q.id]
+    );
+
+    if (existingCheck.rows.length > 0) {
+      return "exists";
+    }
+
+    const prompt = `You are a nursing exam preparation expert. Create a flashcard based on this question's key concept.
+
+Question topic: ${q.topic || "General Nursing"}
+Tier: ${q.tier?.toUpperCase() || "Nursing"}
+Clinical Pearl: ${clinicalPearl || "N/A"}
+Key concept from rationale: ${rationale.substring(0, 300)}
+
+Create a flashcard with:
+- front: A concise question or prompt testing the key concept (not the exact exam question)
+- back: A clear, concise answer with the key clinical fact AND a memory aid
+
+Return ONLY valid JSON: {"front": "...", "back": "..."}`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 300,
+      temperature: 0.3,
+    });
+
+    const content = response.choices[0]?.message?.content?.trim();
+    if (!content) return "failed";
+
+    let parsed: any;
+    try {
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      parsed = JSON.parse(jsonMatch ? jsonMatch[0] : content);
+    } catch {
+      return "failed";
+    }
+
+    if (!parsed.front || !parsed.back) return "failed";
+
+    let deckId: string | null = null;
+    const deckResult = await pool.query(
+      `SELECT id FROM flashcard_decks WHERE slug = $1 LIMIT 1`,
+      [deckSlug]
+    );
+
+    if (deckResult.rows.length > 0) {
+      deckId = deckResult.rows[0].id;
+    } else {
+      const newDeck = await pool.query(
+        `INSERT INTO flashcard_decks (id, owner_id, title, slug, tier, visibility, created_at, updated_at)
+         VALUES (gen_random_uuid(), 'system', $1, $2, $3, 'public', NOW(), NOW())
+         RETURNING id`,
+        [`${q.topic || "General"} - ${(q.tier || "nursing").toUpperCase()}`, deckSlug, q.tier || "free"]
+      );
+      deckId = newDeck.rows[0].id;
+    }
+
+    await pool.query(
+      `INSERT INTO deck_flashcards (id, deck_id, front, back, tags, created_at, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, NOW(), NOW())`,
+      [deckId, parsed.front, parsed.back, JSON.stringify([q.topic || "general", q.tier || "nursing", `qid:${q.id}`])]
+    );
+
+    await pool.query(
+      `UPDATE flashcard_decks SET card_count = card_count + 1, updated_at = NOW() WHERE id = $1`,
+      [deckId]
+    );
+
+    await logRepair(scanRunId, "questions", q.id, "flashcard_generated", "linked_flashcard", null, `${parsed.front.substring(0, 100)} | ${parsed.back.substring(0, 100)}`, "openai_gpt4o_mini", "applied");
+
+    return "created";
+  } catch {
+    return "failed";
+  }
+}
+
+export async function runDeepRationaleUpgrade(batchSize: number = 50): Promise<{
+  scanRunId: string;
+  auditSummary: any;
+  upgradeResult: DeepRationaleUpgradeResult;
+  validationResult: any;
+}> {
+  const auditSummary = await countNonCATRationaleAudit();
+
+  let scanRunId = "";
+  try {
+    const scanResult = await pool.query(
+      `INSERT INTO integrity_scan_runs (id, scan_type, status, content_types, tiers, started_at, created_at)
+       VALUES (gen_random_uuid(), 'deep_rationale_upgrade', 'processing', $1, '{}', NOW(), NOW()) RETURNING id`,
+      [["questions"]]
+    );
+    scanRunId = scanResult.rows[0].id;
+  } catch { scanRunId = ""; }
+
+  const upgradeResult = await repairDeepRationales(scanRunId, batchSize);
+
+  const validationResult = await countNonCATRationaleAudit();
+
+  if (scanRunId) {
+    try {
+      const uniqueAffected = auditSummary.total - auditSummary.highQualitySkipped;
+      await pool.query(
+        `UPDATE integrity_scan_runs SET
+          status = 'completed',
+          total_records = $1, scanned_records = $2, issues_found = $3,
+          repairs_attempted = $4, repairs_succeeded = $5,
+          completed_at = NOW()
+        WHERE id = $6`,
+        [
+          auditSummary.total, upgradeResult.summary.totalScanned,
+          uniqueAffected,
+          upgradeResult.repaired + upgradeResult.failed,
+          upgradeResult.repaired,
+          scanRunId
+        ]
+      );
+    } catch {}
+  }
+
+  return { scanRunId, auditSummary, upgradeResult, validationResult };
+}
+
 export async function repairMissingSeo(scanRunId: string | null, batchSize: number = 50): Promise<RepairResult> {
   const result: RepairResult = { repaired: 0, failed: 0, skipped: 0, details: [] };
   const lessons = await getLessonsMissingSeo(batchSize);
@@ -357,6 +657,9 @@ export async function runBatchRepair(scanRunId: string | null, repairTypes?: str
 
   if (types.includes("rationales")) {
     results.rationales = await repairMissingRationales(scanRunId, batchSize);
+  }
+  if (types.includes("deep_rationales")) {
+    results.deep_rationales = await repairDeepRationales(scanRunId, batchSize);
   }
   if (types.includes("metadata")) {
     results.metadata = await repairMissingMetadata(scanRunId, batchSize);

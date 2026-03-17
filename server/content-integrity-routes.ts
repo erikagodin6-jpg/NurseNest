@@ -2,7 +2,8 @@ import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { runContentScan } from "./content-integrity-scanner";
-import { runBatchRepair, repairMissingRationales, repairMissingMetadata, repairMissingFlashcards, repairMissingSeo } from "./content-integrity-repair";
+import { runBatchRepair, repairMissingRationales, repairMissingMetadata, repairMissingFlashcards, repairMissingSeo, repairDeepRationales, runDeepRationaleUpgrade } from "./content-integrity-repair";
+import { countNonCATRationaleAudit } from "./content-integrity-scanner";
 import { validateForPublish } from "./content-integrity-validation";
 import { runLightweightScan, runDeepScan, runScanAndRepair, createScanRun, completeScanRun, persistScanIssues, routeToManualReview, startScheduledJobs, stopScheduledJobs, getJobStatus } from "./content-integrity-jobs";
 
@@ -98,6 +99,41 @@ export function registerContentIntegrityRoutes(app: Express) {
       if (!admin) return;
       const { batchSize = 50 } = req.body;
       const result = await repairMissingSeo(null, batchSize);
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/content-integrity/rationale-audit", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const audit = await countNonCATRationaleAudit();
+      res.json(audit);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/content-integrity/repair/deep-rationales", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { batchSize = 50 } = req.body;
+      const result = await repairDeepRationales(null, Math.min(batchSize, 100));
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/content-integrity/deep-rationale-upgrade", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { batchSize = 50 } = req.body;
+      const result = await runDeepRationaleUpgrade(Math.min(batchSize, 100));
       res.json(result);
     } catch (err: any) {
       res.status(500).json({ error: err.message });
@@ -483,7 +519,7 @@ const ALLOWED_ROLLBACK_TABLES: Record<string, string> = {
 };
 
 const ALLOWED_ROLLBACK_COLUMNS: Record<string, Set<string>> = {
-  exam_questions: new Set(["rationale", "body_system", "topic", "tags", "difficulty", "cognitive_level", "distractor_rationales", "scenario"]),
+  exam_questions: new Set(["rationale", "body_system", "topic", "tags", "difficulty", "cognitive_level", "distractor_rationales", "scenario", "correct_answer_explanation", "clinical_pearl"]),
   deck_flashcards: new Set(["front", "back", "tags", "rationale"]),
   lessons: new Set(["seo_title", "seo_description", "seo_keywords", "summary", "related_lesson_slugs"]),
   content_items: new Set(["meta_title", "meta_description", "primary_keyword"]),
