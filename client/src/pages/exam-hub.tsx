@@ -8,7 +8,9 @@ import { SEO_EXAM_PAGES, type SeoExamPageConfig } from "@/data/seo-exam-data";
 import {
   BookOpen, FileText, Stethoscope, FlaskConical, Pill,
   ArrowRight, Target, Clock, BarChart, Award,
-  ChevronRight, Brain, GraduationCap, Layers
+  ChevronRight, Brain, GraduationCap, Layers,
+  Heart, Activity, Baby, Smile, Beaker,
+  Scale, HelpCircle, Zap, ClipboardList
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -174,6 +176,167 @@ const HUB_CONFIGS: HubConfig[] = [
   },
 ];
 
+const NCLEX_RN_CONTENT_HUB_SECTIONS = [
+  {
+    title: "Core Study Guides",
+    icon: BookOpen,
+    links: [
+      { title: "Practice Questions", href: "/nclex-rn/practice-questions", badge: "Popular" },
+      { title: "Next Generation NCLEX (NGN)", href: "/nclex-rn/ngn", badge: "NGN" },
+      { title: "Prioritization & Delegation", href: "/nclex-rn/prioritization-and-delegation" },
+      { title: "Pharmacology Questions", href: "/nclex-rn/pharmacology" },
+      { title: "Exam Strategy & Tips", href: "/nclex-rn/exam-strategy" },
+      { title: "Adult Health Nursing", href: "/nclex-rn/adult-health" },
+      { title: "Maternal-Child Nursing", href: "/nclex-rn/maternal-child" },
+      { title: "Mental Health Nursing", href: "/nclex-rn/mental-health" },
+      { title: "Top Conditions", href: "/nclex-rn/top-conditions" },
+      { title: "Lab Values Reference", href: "/nclex-rn/lab-values" },
+      { title: "Medications Guide", href: "/nclex-rn/medications" },
+    ],
+  },
+  {
+    title: "High-Yield Conditions",
+    icon: Heart,
+    links: [
+      { title: "Heart Failure", href: "/nclex-rn/condition/heart-failure" },
+      { title: "Diabetes / DKA / HHS", href: "/nclex-rn/condition/diabetes-dka-hhs" },
+      { title: "COPD", href: "/nclex-rn/condition/copd" },
+      { title: "Pneumonia", href: "/nclex-rn/condition/pneumonia" },
+      { title: "Sepsis", href: "/nclex-rn/condition/sepsis" },
+      { title: "Hypertension", href: "/nclex-rn/condition/hypertension" },
+      { title: "MI / ACS", href: "/nclex-rn/condition/mi-acs" },
+      { title: "Stroke", href: "/nclex-rn/condition/stroke" },
+      { title: "Preeclampsia", href: "/nclex-rn/condition/preeclampsia" },
+      { title: "Postpartum Hemorrhage", href: "/nclex-rn/condition/postpartum-hemorrhage" },
+      { title: "Schizophrenia", href: "/nclex-rn/condition/schizophrenia" },
+      { title: "Bipolar Disorder", href: "/nclex-rn/condition/bipolar-disorder" },
+      { title: "Cirrhosis", href: "/nclex-rn/condition/cirrhosis" },
+      { title: "Acute Kidney Injury", href: "/nclex-rn/condition/aki" },
+      { title: "Burns", href: "/nclex-rn/condition/burns" },
+      { title: "Sickle Cell Crisis", href: "/nclex-rn/condition/sickle-cell-crisis" },
+      { title: "Thyroid Storm", href: "/nclex-rn/condition/thyroid-storm" },
+      { title: "Addisonian Crisis", href: "/nclex-rn/condition/addisonian-crisis" },
+    ],
+  },
+  {
+    title: "Lab Values",
+    icon: FlaskConical,
+    links: [
+      { title: "Potassium (K+)", href: "/nclex-rn/lab/potassium" },
+      { title: "Sodium (Na+)", href: "/nclex-rn/lab/sodium" },
+      { title: "Glucose", href: "/nclex-rn/lab/glucose" },
+      { title: "BUN & Creatinine", href: "/nclex-rn/lab/bun-creatinine" },
+      { title: "CBC & WBC", href: "/nclex-rn/lab/wbc" },
+      { title: "Hemoglobin & Hematocrit", href: "/nclex-rn/lab/hemoglobin-hematocrit" },
+      { title: "ABGs (Acid-Base)", href: "/nclex-rn/lab/abgs" },
+      { title: "Calcium", href: "/nclex-rn/lab/calcium" },
+      { title: "Magnesium", href: "/nclex-rn/lab/magnesium" },
+      { title: "INR & PT", href: "/nclex-rn/lab/inr-pt" },
+      { title: "Troponin", href: "/nclex-rn/lab/troponin" },
+      { title: "BNP", href: "/nclex-rn/lab/bnp" },
+    ],
+  },
+  {
+    title: "Must-Know Medications",
+    icon: Pill,
+    links: [
+      { title: "Furosemide (Lasix)", href: "/nclex-rn/medication/furosemide" },
+      { title: "Insulin Types", href: "/nclex-rn/medication/insulin-types" },
+      { title: "Metoprolol", href: "/nclex-rn/medication/metoprolol" },
+      { title: "Lisinopril / ACE Inhibitors", href: "/nclex-rn/medication/lisinopril" },
+      { title: "Metformin", href: "/nclex-rn/medication/metformin" },
+      { title: "Warfarin", href: "/nclex-rn/medication/warfarin" },
+      { title: "Heparin", href: "/nclex-rn/medication/heparin" },
+      { title: "Digoxin", href: "/nclex-rn/medication/digoxin" },
+      { title: "Magnesium Sulfate", href: "/nclex-rn/medication/magnesium-sulfate" },
+      { title: "Oxytocin (Pitocin)", href: "/nclex-rn/medication/oxytocin" },
+      { title: "Lithium", href: "/nclex-rn/medication/lithium" },
+      { title: "Phenytoin (Dilantin)", href: "/nclex-rn/medication/phenytoin" },
+      { title: "Vancomycin", href: "/nclex-rn/medication/vancomycin" },
+      { title: "Nitroglycerin", href: "/nclex-rn/medication/nitroglycerin" },
+      { title: "Dopamine", href: "/nclex-rn/medication/dopamine" },
+    ],
+  },
+  {
+    title: "Clinical Comparisons",
+    icon: Scale,
+    links: [
+      { title: "DKA vs HHS", href: "/nclex-rn/compare/dka-vs-hhs" },
+      { title: "Crohn's vs Ulcerative Colitis", href: "/nclex-rn/compare/crohns-vs-ulcerative-colitis" },
+      { title: "Stable vs Unstable Angina", href: "/nclex-rn/compare/stable-vs-unstable-angina" },
+      { title: "Iron vs B12 Deficiency", href: "/nclex-rn/compare/iron-vs-b12-deficiency" },
+      { title: "Viral vs Bacterial Pneumonia", href: "/nclex-rn/compare/viral-vs-bacterial-pneumonia" },
+      { title: "Left vs Right Heart Failure", href: "/nclex-rn/compare/left-vs-right-heart-failure" },
+      { title: "Cushing's vs Addison's", href: "/nclex-rn/compare/cushings-vs-addisons" },
+      { title: "Hyperthyroidism vs Hypothyroidism", href: "/nclex-rn/compare/hyperthyroidism-vs-hypothyroidism" },
+    ],
+  },
+  {
+    title: "Study Strategies",
+    icon: Target,
+    links: [
+      { title: "How to Study for NCLEX-RN", href: "/nclex-rn/strategy/how-to-study" },
+      { title: "NGN Clinical Judgment Breakdown", href: "/nclex-rn/strategy/ngn-clinical-judgment" },
+      { title: "Prioritization Framework", href: "/nclex-rn/strategy/prioritization-framework" },
+      { title: "Test-Taking Strategies", href: "/nclex-rn/strategy/test-taking-strategies" },
+      { title: "ABG Interpretation Guide", href: "/nclex-rn/strategy/abg-interpretation" },
+    ],
+  },
+  {
+    title: "Practice Question Banks",
+    icon: ClipboardList,
+    links: [
+      { title: "Cardiac Questions", href: "/nclex-rn/questions/cardiac" },
+      { title: "Pharmacology Questions", href: "/nclex-rn/questions/pharmacology" },
+      { title: "Prioritization Questions", href: "/nclex-rn/questions/prioritization" },
+      { title: "Maternal-Child Questions", href: "/nclex-rn/questions/maternal-child" },
+      { title: "Mental Health Questions", href: "/nclex-rn/questions/mental-health" },
+    ],
+  },
+];
+
+function NclexRnContentHub() {
+  const { t } = useI18n();
+  return (
+    <section className="mb-12" data-testid="section-nclex-rn-content-hub">
+      <h2 className="text-xl sm:text-2xl font-bold text-[#2E3A59] mb-2" data-testid="text-content-hub-title">
+        {t("examHub.contentHubTitle")}
+      </h2>
+      <p className="text-sm text-slate-500 mb-6" data-testid="text-content-hub-desc">
+        {t("examHub.contentHubDesc")}
+      </p>
+      <div className="space-y-6">
+        {NCLEX_RN_CONTENT_HUB_SECTIONS.map((section, sIdx) => {
+          const SectionIcon = section.icon;
+          return (
+            <div key={sIdx} data-testid={`content-hub-section-${sIdx}`}>
+              <div className="flex items-center gap-2 mb-3">
+                <SectionIcon className="w-5 h-5 text-[#BFA6F6]" />
+                <h3 className="text-sm font-bold text-[#2E3A59] uppercase tracking-wide">{section.title}</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {section.links.map((link, lIdx) => (
+                  <LocaleLink key={lIdx} href={link.href}>
+                    <span
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 text-slate-700 bg-white hover:border-[#BFA6F6]/50 hover:text-[#BFA6F6] hover:bg-[#BFA6F6]/5 transition-all cursor-pointer"
+                      data-testid={`link-content-hub-${sIdx}-${lIdx}`}
+                    >
+                      {link.title}
+                      {"badge" in link && link.badge && (
+                        <Badge className="bg-[#BFA6F6] text-white text-[9px] px-1 py-0 leading-tight">{link.badge}</Badge>
+                      )}
+                    </span>
+                  </LocaleLink>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function getHubConfig(slug: string): HubConfig | undefined {
   return HUB_CONFIGS.find((h) => h.slug === slug);
 }
@@ -313,6 +476,8 @@ export default function ExamHub() {
             })}
           </div>
         </section>
+
+        {hub.slug === "nclex-rn" && <NclexRnContentHub />}
 
         {examData && (
           <section className="mb-12" data-testid="section-hub-exam-details">

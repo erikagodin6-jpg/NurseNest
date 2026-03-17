@@ -366,6 +366,8 @@ const enTranslations: Record<string, string> = {
     "examHub.studyResources": "Study Resources",
     "examHub.timeLimit": "Time Limit",
     "examHub.viewCareerPath": "View Career Path",
+    "examHub.contentHubTitle": "NCLEX-RN Content Hub",
+    "examHub.contentHubDesc": "Comprehensive, medically reviewed study guides covering conditions, lab values, medications, clinical comparisons, and exam strategies for NCLEX-RN preparation.",
     "faq.boundaries1.a": "No educational resource can guarantee examination results or clinical performance. NurseNest supports learning and reasoning development, but outcomes depend on many individual factors.",
     "faq.boundaries1.q": "Does NurseNest guarantee exam success or clinical outcomes?",
     "faq.boundaries2.a": "NurseNest is intended to complement, not replace, accredited education, clinical mentorship, institutional policy, and regulatory standards.",

@@ -17,7 +17,7 @@ type SeoHubPageData = Omit<SeoHubPageType, "publishedAt" | "createdAt" | "update
 };
 
 export default function SeoHubPage() {
-  const params = useParams<{ tier: string; pageType: string; slug: string; rest: string }>();
+  const params = useParams<Record<string, string>>();
   const [location] = useLocation();
   const [page, setPage] = useState<SeoHubPageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -26,8 +26,9 @@ export default function SeoHubPage() {
   const { pathWithoutLocale } = getLocaleFromPath(location);
   const pathParts = pathWithoutLocale.split("/").filter(Boolean);
 
-  const tier = params.tier || pathParts[0] || "";
-  const rest = params.rest || pathParts.slice(1).join("/") || "";
+  const wildcard = params["*"] || params.rest || "";
+  const tier = pathParts[0] || "";
+  const rest = wildcard || pathParts.slice(1).join("/") || "";
 
   useEffect(() => {
     if (!tier || !rest) {

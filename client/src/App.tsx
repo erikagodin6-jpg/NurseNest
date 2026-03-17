@@ -962,9 +962,9 @@ function AppRoutes() {
         <Route path="/compare/uworld-alternative-nursing">{() => <SeoLandingBySlug slug="compare/uworld-alternative-nursing" />}</Route>
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
-        <Route path="/nclex-rn/:rest*" component={SeoHubPage} />
-        <Route path="/np-exam-prep/:rest*" component={SeoHubPage} />
-        <Route path="/np-exam/:rest*" component={SeoHubPage} />
+        <Route path="/nclex-rn/*" component={SeoHubPage} />
+        <Route path="/np-exam-prep/*" component={SeoHubPage} />
+        <Route path="/np-exam/*" component={SeoHubPage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />
         <Route path="/rex-pn/exam-format" component={RexPnExamFormat} />
@@ -985,7 +985,7 @@ function AppRoutes() {
         <Route path="/rex-pn/clinical-judgment">{() => <RexPnCategoryTemplate params={{ slug: "clinical-judgment" }} />}</Route>
         <Route path="/rex-pn/exam-tips">{() => <RexPnCategoryTemplate params={{ slug: "exam-tips" }} />}</Route>
         <Route path="/rex-pn/study-plan">{() => <RexPnCategoryTemplate params={{ slug: "study-plan" }} />}</Route>
-        <Route path="/rex-pn/:rest*" component={SeoHubPage} />
+        <Route path="/rex-pn/*" component={SeoHubPage} />
         <Route path="/rex-pn" component={RexPnHub} />
         <Route path="/rex-pn-guide/:slug" component={RexPnGuide} />
         <Route path="/rex-pn-guide" component={RexPnGuide} />
