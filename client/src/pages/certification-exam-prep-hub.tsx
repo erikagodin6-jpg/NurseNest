@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { WhyNurseNestGrid, DifferentiatorCTA } from "@/components/competitive-differentiation";
 import { SEO } from "@/components/seo";
 import {
   ArrowRight, Award, BookOpen, ChevronRight, ChevronDown,
@@ -338,6 +339,19 @@ export default function CertificationExamPrepHub() {
         </div>
       </section>
 
+      <WhyNurseNestGrid
+        headline="Why NurseNest for Certification Exam Prep"
+        subtitle="NurseNest provides exam-aligned question banks, adaptive practice, and clinical lessons designed specifically for healthcare certification exams."
+        context="certification"
+      />
+      <DifferentiatorCTA
+        headline="Start Your Certification Prep Today"
+        subtitle="Access adaptive practice exams, clinical lessons, and performance analytics to prepare for your certification exam with confidence."
+        primaryHref="/register"
+        primaryLabel="Start Free"
+        secondaryHref="/pricing"
+        secondaryLabel="View Plans"
+      />
       <Footer />
     </div>
   );

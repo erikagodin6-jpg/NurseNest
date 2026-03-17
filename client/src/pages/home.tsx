@@ -46,6 +46,14 @@ const HeroNursingTiers = lazy(() => import("@/components/hero-nursing-tiers"));
 const HeroCertifications = lazy(() => import("@/components/hero-certifications"));
 const HeroAlliedHealth = lazy(() => import("@/components/hero-allied-health"));
 const HeroExpansionTracker = lazy(() => import("@/components/hero-expansion-tracker"));
+const HomeDifferentiation = lazy(() => import("@/components/competitive-differentiation").then(m => ({
+  default: () => (
+    <>
+      <m.WhyNurseNestGrid />
+      <m.ComparisonTable />
+    </>
+  )
+})));
 
 const heroCarouselSlides = [
   {
@@ -613,6 +621,12 @@ export default function Home() {
         <LazySection minHeight="300px" rootMargin="300px">
           <Suspense fallback={<div className="min-h-[300px]" />}>
             <HeroExpansionTracker />
+          </Suspense>
+        </LazySection>
+
+        <LazySection minHeight="600px" rootMargin="300px">
+          <Suspense fallback={<div className="min-h-[600px]" />}>
+            <HomeDifferentiation />
           </Suspense>
         </LazySection>
 

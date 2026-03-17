@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { DifferentiatorCTA, TrustBadges } from "@/components/competitive-differentiation";
 import { CERT_PREP_CONTENT } from "@/data/certification-prep-content";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useAuth } from "@/lib/auth";
@@ -478,6 +479,15 @@ export default function CertificationPrepPage() {
         </div>
       </section>
 
+      <TrustBadges variant="compact" />
+      <DifferentiatorCTA
+        headline="Start Your Certification Prep Today"
+        subtitle="Access adaptive practice exams, clinical lessons, and performance analytics to prepare with confidence."
+        primaryHref="/register"
+        primaryLabel="Start Free"
+        secondaryHref="/pricing"
+        secondaryLabel="View Plans"
+      />
       <Footer />
     </div>
   );

@@ -28,6 +28,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { ComparisonTable, DifferentiatorCTA } from "@/components/competitive-differentiation";
 
 const domains = [
   { name: "Foundations of Practice", weight: 36, color: "bg-blue-500" },
@@ -363,6 +364,19 @@ export default function RexPnHub() {
             </div>
           </div>
         </section>
+
+        <ComparisonTable
+          headline="How NurseNest Compares for REx-PN Prep"
+          subtitle="See how a modern clinical learning system compares to typical study platforms for REx-PN exam preparation."
+        />
+        <DifferentiatorCTA
+          headline="Start Your REx-PN Prep Today"
+          subtitle="Join thousands of Canadian nursing students using NurseNest's adaptive REx-PN practice exams, clinical lessons, and readiness analytics."
+          primaryHref="/register"
+          primaryLabel="Start Free"
+          secondaryHref="/pricing"
+          secondaryLabel="View Plans"
+        />
 
         <section className="py-12 bg-gray-50 border-t border-gray-100" data-testid="section-disclaimer">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

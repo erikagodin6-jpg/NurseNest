@@ -6,6 +6,7 @@ import {
   ALLIED_HEALTH_PROFESSIONS,
   ALLIED_HEALTH_PROFESSION_SLUGS,
 } from "@/allied/data/allied-health-professions";
+import { WhyNurseNestGrid, DifferentiatorCTA } from "@/components/competitive-differentiation";
 import {
   Wind, Ambulance, Pill, Microscope, ScanLine, Monitor, HeartPulse,
   Hand, Activity, Scissors, ArrowRight, BookOpen, GraduationCap,
@@ -239,26 +240,11 @@ export default function AlliedHealthHub() {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-b from-teal-50/50 to-white" data-testid="hub-why-nursenest">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Why Study with NurseNest?</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: BookOpen, title: "Exam-Aligned Test Banks", desc: "Thousands of questions mapped to official exam blueprints with detailed rationales that teach you the clinical reasoning behind every answer." },
-              { icon: Award, title: "Multiple Certification Tracks", desc: "Content tailored for US and Canadian certification exams including ARRT, ARDMS, NBRC, NREMT, PTCB, NBCOT, ASCP, and more." },
-              { icon: TrendingUp, title: "Adaptive Learning Engine", desc: "Our CAT-style practice engine adjusts question difficulty based on your performance, targeting your weak areas for maximum study efficiency." },
-            ].map((feature) => (
-              <div key={feature.title} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`feature-${feature.title.toLowerCase().replace(/\s+/g, "-")}`}>
-                <feature.icon className="w-8 h-8 text-teal-500 mb-3" />
-                <h3 className="text-base font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-500">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WhyNurseNestGrid
+        headline="Why NurseNest for Allied Health Exam Prep"
+        subtitle="NurseNest provides exam-aligned test banks, adaptive practice engines, and clinical lessons built specifically for allied health certification exams."
+        context="allied"
+      />
 
       <section className="py-8 bg-white" data-testid="hub-faq-link">
         <div className="max-w-3xl mx-auto px-4 text-center">
@@ -273,25 +259,14 @@ export default function AlliedHealthHub() {
         </div>
       </section>
 
-      <section className="py-16 bg-white" data-testid="hub-cta">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 rounded-2xl p-8 sm:p-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3" data-testid="text-cta-title">
-              Ready to Start Your Healthcare Career?
-            </h2>
-            <p className="text-gray-300 mb-6 max-w-lg mx-auto">
-              Choose your profession above to access career guides, certification info, and free study tools. Start preparing for your certification exam today.
-            </p>
-            <Link
-              href="/allied-health/respiratory-therapy"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-500 text-white rounded-xl text-base font-semibold hover:bg-teal-400 transition-colors"
-              data-testid="button-get-started"
-            >
-              Get Started <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <DifferentiatorCTA
+        headline="Ready to Start Your Healthcare Career?"
+        subtitle="Choose your profession above to access career guides, certification info, and free study tools. Start preparing for your certification exam today."
+        primaryHref="/register"
+        primaryLabel="Get Started"
+        secondaryHref="/pricing"
+        secondaryLabel="View Plans"
+      />
     </div>
   );
 }

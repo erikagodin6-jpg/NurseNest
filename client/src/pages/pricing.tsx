@@ -4,6 +4,7 @@ import { useLocation, useRoute } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { TrustBadges as TrustBadgesComponent } from "@/components/competitive-differentiation";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
@@ -540,6 +541,9 @@ export default function PricingPage() {
                   </CardContent>
                 </Card>
               </div>
+
+              {/* Trust Badges */}
+              <TrustBadgesComponent variant="compact" />
 
               {/* Trust Signals */}
               <div className="flex flex-col items-center gap-8 text-center mt-4 mb-8">

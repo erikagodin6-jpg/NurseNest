@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { DifferentiatorCTA } from "@/components/competitive-differentiation";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -581,6 +582,14 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
           </div>
         </section>
       </main>
+      <DifferentiatorCTA
+        headline="Unlock More Practice Questions"
+        subtitle="Access thousands of nursing practice questions with detailed rationales, adaptive difficulty, and performance analytics."
+        primaryHref="/register"
+        primaryLabel="Start Free"
+        secondaryHref="/pricing"
+        secondaryLabel="View Plans"
+      />
       <AITutorWidget context={current ? {
         type: "practice_question",
         id: current.id || `${tier}-${systemSlug}-${currentIndex}`,

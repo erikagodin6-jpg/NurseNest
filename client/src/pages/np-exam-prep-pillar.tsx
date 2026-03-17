@@ -2,6 +2,7 @@ import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { ComparisonTable, DifferentiatorCTA } from "@/components/competitive-differentiation";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import { buildFaqStructuredData } from "@/lib/structured-data";
@@ -505,6 +506,19 @@ export default function NpExamPrepPillarPage() {
               </div>
             </div>
           </section>
+
+          <ComparisonTable
+            headline="How NurseNest Compares for NP Exam Prep"
+            subtitle="See how a modern clinical learning system stacks up against typical study platforms for nurse practitioner exam preparation."
+          />
+          <DifferentiatorCTA
+            headline="Start Your NP Exam Prep Today"
+            subtitle="Join thousands of nurse practitioner students using NurseNest to study smarter with adaptive practice exams, clinical lessons, and readiness analytics."
+            primaryHref="/register"
+            primaryLabel="Start Free"
+            secondaryHref="/pricing"
+            secondaryLabel="View Plans"
+          />
 
           <div className="mt-16">
             <EndOfContentLeadCapture

@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
+import { ComparisonTable, DifferentiatorCTA } from "@/components/competitive-differentiation";
 import { useI18n } from "@/lib/i18n";
 
 interface HubConfig {
@@ -460,6 +461,18 @@ export default function ExamHub() {
           </div>
         </section>
 
+        <ComparisonTable
+          headline={`How NurseNest Compares for ${hub.title}`}
+          subtitle="See how a modern clinical learning system stacks up against typical study platforms for nursing exam preparation."
+        />
+        <DifferentiatorCTA
+          headline={`Start Your ${hub.title} Prep Today`}
+          subtitle="Join thousands of students using NurseNest's adaptive practice exams, clinical lessons, and readiness analytics."
+          primaryHref="/register"
+          primaryLabel="Start Free"
+          secondaryHref="/pricing"
+          secondaryLabel="View Plans"
+        />
         <EndOfContentLeadCapture
           leadMagnetType="mock_exam"
           professionContext={hub.tier}

@@ -18,6 +18,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/components/related-resources";
 import { ExplanationPromoBanner } from "@/components/explanation-panel";
+import { ComparisonTable, DifferentiatorCTA } from "@/components/competitive-differentiation";
 
 const clusterData: Record<string, {
   title: string;
@@ -1086,6 +1087,18 @@ function HubPage() {
         <div className="mb-8">
           <ExplanationPromoBanner variant="compact" />
         </div>
+        <ComparisonTable
+          headline="How NurseNest Compares for NP Exam Prep"
+          subtitle="See how a modern clinical learning system stacks up against typical study platforms for nurse practitioner exam preparation."
+        />
+        <DifferentiatorCTA
+          headline="Start Your NP Exam Prep Today"
+          subtitle="Join thousands of nurse practitioner students using NurseNest's adaptive practice exams, clinical lessons, and readiness analytics."
+          primaryHref="/register"
+          primaryLabel="Start Free"
+          secondaryHref="/pricing"
+          secondaryLabel="View Plans"
+        />
         <EndOfContentLeadCapture
           leadMagnetType="mock_exam"
           professionContext="NP"

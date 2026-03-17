@@ -408,6 +408,7 @@ const PerioperativeNurseCareer = lazy(() => import("@/pages/perioperative-hub-pa
 const HealthcareGuidesIndex = lazy(() => import("@/pages/healthcare-guide-page").then(m => ({ default: m.HealthcareGuidesIndex })));
 const UnifiedGuidePage = lazy(() => import("@/pages/unified-guide-page"));
 const ClusterGuidePage = lazy(() => import("@/pages/cluster-guide-page"));
+const WhyNurseNestPage = lazy(() => import("@/pages/why-nursenest"));
 const ExamPrepHub = lazy(() => import("@/pages/exam-prep-hub"));
 const NewGraduateSupportHub = lazy(() => import("@/pages/new-graduate-support-hub"));
 const HealthcareCareersHub = lazy(() => import("@/pages/healthcare-careers-hub"));
@@ -1059,6 +1060,7 @@ function AppRoutes() {
         <Route path="/question-bank">{() => <Redirect to="/test-bank" />}</Route>
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
+        <Route path="/why-nursenest" component={WhyNurseNestPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/bookmarks" component={BookmarksPage} />
         <Route path="/practice" component={CustomPracticePage} />

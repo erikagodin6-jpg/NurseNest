@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { DifferentiatorCTA, TrustBadges } from "@/components/competitive-differentiation";
 import { RelatedResources } from "@/components/related-resources";
 import { SEO } from "@/components/seo";
 import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
@@ -955,6 +956,15 @@ export default function QuestionBank() {
         />
       </div>
 
+      <TrustBadges variant="compact" />
+      <DifferentiatorCTA
+        headline="Study Smarter with NurseNest"
+        subtitle="Access thousands of nursing practice questions, adaptive mock exams, clinical lessons, and flashcards — all in one platform."
+        primaryHref="/register"
+        primaryLabel="Start Free"
+        secondaryHref="/pricing"
+        secondaryLabel="View Plans"
+      />
       <AdminEditButton pageName="question-bank" />
       <Footer />
     </>
