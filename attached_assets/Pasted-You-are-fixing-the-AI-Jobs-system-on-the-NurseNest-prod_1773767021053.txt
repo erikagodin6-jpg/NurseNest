@@ -1,0 +1,236 @@
+You are fixing the AI Jobs system on the NurseNest production codebase.
+
+PROBLEM
+
+The “Create Job” action on the AI Jobs page fails with this production error:
+
+Error
+column "tier" of relation "ai_jobs" does not exist
+
+This means the frontend and/or backend is trying to insert a `tier` field into the `ai_jobs` table, but the live production database schema does not contain that column.
+
+GOAL
+
+Repair the AI Jobs system end to end so AI job creation works correctly in production.
+
+The fix must:
+- make Create Job succeed on the published site
+- align frontend form fields, backend payload validation, ORM/schema definitions, and actual production database columns
+- preserve existing AI job records if any exist
+- avoid breaking queue/history/budget/settings pages
+- ensure future schema drift is less likely
+
+DO NOT:
+- do not apply a fragile one-off frontend hack
+- do not silently drop important fields without tracing where they are needed
+- do not wipe the ai_jobs table unless absolutely necessary and explicitly avoid destructive changes
+- do not leave production and code schemas out of sync
+- do not fix only local dev while leaving production broken
+
+==================================================
+PART 1 — TRACE THE FULL CREATE JOB PATH
+==================================================
+
+Audit the full request path for AI job creation:
+
+1. AI Jobs page form fields
+2. frontend request payload
+3. request handler / API client
+4. backend route/controller
+5. validation schema
+6. ORM or SQL insert statement
+7. database migration history
+8. actual production table definition for `ai_jobs`
+
+Identify exactly:
+- where `tier` is coming from
+- whether the system expects `tier` to exist
+- whether production schema is missing a migration
+- whether code was updated but production DB was not migrated
+- whether the real column is named something else such as:
+  - exam_tier
+  - target_tier
+  - content_tier
+  - job_tier
+  - audience_tier
+
+==================================================
+PART 2 — INSPECT THE REAL PRODUCTION SCHEMA
+==================================================
+
+Read the actual production schema for `ai_jobs` and compare it against:
+- ORM model
+- Drizzle/Prisma/schema file
+- insert types
+- validation schema
+- frontend form payload
+
+Produce a precise column mapping for:
+- job type
+- tier
+- model
+- batch size
+- spend cap
+- topic
+- specialty
+- exam type
+- duplicate protection
+- dry run
+- status
+- timestamps
+- user/admin metadata
+
+Determine whether the correct fix is:
+
+A. add the missing `tier` column to production
+OR
+B. map the UI/backend to an existing correct column
+OR
+C. rename code references if `tier` is outdated
+
+Choose the safest and most correct option based on the intended product design.
+
+==================================================
+PART 3 — FIX THE SCHEMA MISMATCH PROPERLY
+==================================================
+
+If `tier` is supposed to exist:
+- create the proper migration
+- add the column safely
+- set appropriate type
+- add sensible default/nullability handling
+- backfill if needed
+- update ORM schema and insert/select types
+
+If `tier` is NOT supposed to exist:
+- remove or remap all references to `tier`
+- update frontend payload builder
+- update backend validation and SQL insert logic
+- use the correct canonical field name everywhere
+
+Do not leave mixed naming in the codebase.
+
+==================================================
+PART 4 — MAKE FRONTEND, API, AND DB CONSISTENT
+==================================================
+
+Standardize the AI job creation contract.
+
+The form currently includes fields like:
+- Job Type
+- Tier
+- Model
+- Batch Size
+- Spend Cap
+- Topic
+- Specialty
+- Exam Type
+- Duplicate Protection
+- Dry Run
+
+Ensure the exact same contract is used across:
+- frontend form state
+- request payload TypeScript type
+- API input validation
+- backend service layer
+- database schema
+- history/list/detail rendering
+
+If a field is optional, handle it consistently.
+If a field is required, enforce it consistently.
+
+==================================================
+PART 5 — ADD DEFENSIVE ERROR HANDLING
+==================================================
+
+Improve the current failure mode.
+
+Right now the UI exposes a raw database error.
+Replace that with:
+- a user-friendly toast/message on the frontend
+- structured server logging for debugging
+
+Example user-facing message:
+Unable to create AI job because the system configuration is out of sync. Please refresh and try again.
+
+But in development logs, keep the real DB error available.
+
+==================================================
+PART 6 — VALIDATE THE AI JOB LIFECYCLE
+==================================================
+
+After fixing creation, verify the full AI Jobs flow:
+
+1. Create Job succeeds
+2. job record persists in production DB
+3. Queue tab shows the new job
+4. History works
+5. Budget counters still work
+6. Active/completed counts update correctly
+7. dry run flag works correctly
+8. duplicate protection flag persists correctly
+9. model selection persists correctly
+10. tier/exam type/specialty/topic values persist and display correctly
+
+Also verify that:
+- no other missing columns exist after `tier`
+- no downstream worker crashes because it expects different column names
+- queue execution can read the created jobs
+
+==================================================
+PART 7 — CHECK MIGRATION DISCIPLINE
+==================================================
+
+Audit why this happened.
+
+Check whether:
+- migrations were created but never applied to production
+- schema file changed without migration
+- production DB is behind local/dev
+- multiple ai_jobs definitions exist
+- an old table is still being used in production
+- a newer code path points to an older table
+
+Then fix the deployment/migration workflow so future releases do not ship with DB drift.
+
+Add or confirm:
+- startup schema check or migration status visibility for admin
+- clear migration process for production deploys
+- no silent fallback to outdated schema
+
+==================================================
+PART 8 — QA CHECKLIST
+==================================================
+
+Test on production-like data:
+
+A. Create RN/NCLEX exam question job
+- should succeed
+
+B. Create another job with topic empty
+- should succeed if topic optional
+
+C. Create job with specialty populated
+- should persist correctly
+
+D. Create dry run job
+- should persist correctly
+
+E. Create job with duplicate protection on
+- should persist correctly
+
+F. Verify job appears in Queue/History and can be processed
+
+G. Confirm no raw DB error is shown to users
+
+==================================================
+PART 9 — DELIVERABLE
+==================================================
+
+Implement the proper fix and commit it cleanly.
+
+Required end state:
+- AI job creation works on the published site
+- no schema mismatch between code and production DB
+- `ai_jobs` insert path is stable
+- user sees clean errors, not raw SQL/database errors
