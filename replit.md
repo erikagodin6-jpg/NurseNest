@@ -70,6 +70,26 @@ Key files:
 
 Each page includes: MedicalReviewBadge, MedicalReferences, AutoRelatedContent, MedicalWebPage + FAQPage JSON-LD structured data, interactive practice questions, breadcrumb navigation, and canonical URLs.
 
+### Content Publishing & Live Validation
+Comprehensive validation system at `server/content-publishing-validator.ts` with 8-section validation:
+1. **Unpublished Content**: Finds approved questions/flashcards ready for publishing, bulk-updates them (supports dry-run mode)
+2. **Question Metadata**: Validates rationale (non-CAT), body_system, topic, options count, correct_answer, exam tag matching TIER_EXAM_MAP
+3. **Duplicate Stems**: Detects exact duplicate stems and content_hash duplicates, optionally disables them
+4. **CAT Rationale**: Verifies CAT-eligible questions don't expose rationale during active exams (exam-set endpoint uses `mode` param)
+5. **Exam Page Routes**: Checks all tier/topic/exam/flashcard routes have published content (not empty states)
+6. **Flashcard Linkage**: Validates deck-card relationships, orphaned cards, tier assignments, flashcard_bank entries
+7. **Tier Access Control**: Programmatically verifies canUserAccessTier, getAllowedExamTiers, getAllowedContentTiers hierarchies
+8. **Content Integrity**: Runs lightweight content scan via content-integrity-scanner
+API endpoints (all admin-only):
+- `POST /api/admin/content-publishing/validate` — Full 8-section validation (supports `dryRun`, `removeDuplicates`, `sections[]`)
+- `POST /api/admin/content-publishing/publish-approved` — Bulk publish all approved content
+- `POST /api/admin/content-publishing/remove-duplicates` — Find and disable duplicate stems/hashes
+- `GET /api/admin/content-publishing/tier-check` — Verify tier access control hierarchy
+- `GET /api/admin/content-publishing/cat-rationale-check` — Verify CAT exam rationale behavior
+- `GET /api/admin/content-publishing/route-check` — Check exam page routes for content
+- `GET /api/admin/content-publishing/summary` — Content status summary by tier/status
+CAT rationale fix: `server/qbank-api.ts` exam-set endpoint only includes rationale/correctAnswerExplanation/distractorRationales for admin users. Non-admin users never receive rationale in exam-set responses regardless of query params — rationale is only available through `POST /api/qbank/attempt` after answer submission.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

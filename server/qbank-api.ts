@@ -420,8 +420,10 @@ export function setupQBankRoutes(app: Express) {
       const difficultyFilter = req.query.difficulty as string;
       const topicFilter = req.query.topic as string;
       const regionFilter = req.query.region as string;
+      const includeRationale = userTier === "admin";
 
-      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, region_scope, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, correct_answer_explanation
+      const rationaleColumns = includeRationale ? ", rationale, correct_answer_explanation, distractor_rationales" : "";
+      let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer${rationaleColumns}, body_system, topic, subtopic, difficulty, region_scope, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap
                    FROM exam_questions
                    WHERE tier = $1 AND status = 'published'`;
       const params: any[] = [queryTier];
@@ -522,7 +524,7 @@ export function setupQBankRoutes(app: Express) {
             try { parsedDistractorRationales = JSON.parse(parsedDistractorRationales); } catch { parsedDistractorRationales = null; }
           }
 
-          return {
+          const base: any = {
             id: row.id,
             tier: row.tier,
             exam: row.exam,
@@ -530,8 +532,6 @@ export function setupQBankRoutes(app: Express) {
             stem: row.stem,
             options: parsedOptions,
             correctAnswer: parsedCorrect,
-            rationale: row.rationale,
-            correctAnswerExplanation: row.correct_answer_explanation || null,
             bodySystem: row.body_system,
             topic: row.topic,
             subtopic: row.subtopic,
@@ -543,8 +543,15 @@ export function setupQBankRoutes(app: Express) {
             memoryHook: row.memory_hook,
             frameworkUsed: row.framework_used,
             clinicalTrap: row.clinical_trap,
-            distractorRationales: parsedDistractorRationales,
           };
+
+          if (includeRationale) {
+            base.rationale = row.rationale;
+            base.correctAnswerExplanation = row.correct_answer_explanation || null;
+            base.distractorRationales = parsedDistractorRationales;
+          }
+
+          return base;
         }).filter((q: any) => q !== null);
 
       res.json({
