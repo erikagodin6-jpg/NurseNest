@@ -1,0 +1,399 @@
+#!/usr/bin/env tsx
+
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { parse } from "@babel/parser";
+import traverse from "@babel/traverse";
+import type { NodePath } from "@babel/traverse";
+import * as t from "@babel/types";
+import fg from "fast-glob";
+
+type Severity = "critical" | "high" | "medium" | "low";
+
+type Violation = {
+  file: string;
+  line: number;
+  column: number;
+  matched: string;
+  severity: Severity;
+  reason: string;
+  suggestion: string;
+};
+
+type ScannerConfig = {
+  include: string[];
+  ignore: string[];
+  allowlistPatterns: RegExp[];
+  failOnWarning: boolean;
+  maxWarnings: number;
+  maxErrors: number;
+  priorityPathPatterns: RegExp[];
+};
+
+const config: ScannerConfig = {
+  include: [
+    "client/**/*.{ts,tsx,js,jsx}",
+    "src/**/*.{ts,tsx,js,jsx}",
+    "app/**/*.{ts,tsx,js,jsx}",
+    "components/**/*.{ts,tsx,js,jsx}",
+    "pages/**/*.{ts,tsx,js,jsx}",
+    "lib/**/*.{ts,tsx,js,jsx}",
+    "shared/**/*.{ts,tsx,js,jsx}",
+    "server/**/*.{ts,tsx,js,jsx}",
+    "config/**/*.{ts,tsx,js,jsx}",
+  ],
+  ignore: [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.next/**",
+    "**/coverage/**",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/__tests__/**",
+    "**/generated/**",
+  ],
+  allowlistPatterns: [
+    /^$/,
+    /^[A-Z0-9_]+$/,
+    /^[a-z0-9_.-]+$/,
+    /^\/[a-z0-9\-/:._]*$/i,
+    /^https?:\/\//i,
+    /^#[a-z0-9_-]+$/i,
+    /^[a-z]+(\.[a-z0-9_-]+)+$/i, // translation-ish keys
+    /^NurseNest$/,
+    /^NCLEX$/,
+    /^REx-PN$/,
+    /^AANP$/,
+    /^ANCC$/,
+    /^OSCE$/,
+    /^CAT$/,
+    /^AI$/,
+    /^[0-9\s.,:%\-()]+$/,
+  ],
+  failOnWarning: false,
+  maxWarnings: 20,
+  maxErrors: 0,
+  priorityPathPatterns: [
+    /hero/i,
+    /feature/i,
+    /pricing/i,
+    /question/i,
+    /rationale/i,
+    /exam/i,
+    /dashboard/i,
+    /admin/i,
+    /search/i,
+    /filter/i,
+  ],
+};
+
+const violations: Violation[] = [];
+
+function isAllowedString(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+  return config.allowlistPatterns.some((rx) => rx.test(trimmed));
+}
+
+function looksUserFacing(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  if (isAllowedString(trimmed)) return false;
+
+  const hasLetters = /[A-Za-zÀ-ÿ]/.test(trimmed);
+  const hasSpace = /\s/.test(trimmed);
+  const looksSentence = /[.!?]$/.test(trimmed) || trimmed.split(/\s+/).length >= 2;
+  const looksUiLabel = /^[A-ZÀ-Ý][A-Za-zÀ-ÿ0-9'’\-/:&(),.% ]+$/.test(trimmed);
+
+  return hasLetters && (hasSpace || looksSentence || looksUiLabel);
+}
+
+function severityFor(file: string, context: string): Severity {
+  const priority = config.priorityPathPatterns.some((rx) => rx.test(file));
+  if (context === "jsx_text" || context === "button_or_heading") return "critical";
+  if (priority) return "high";
+  if (context === "metadata" || context === "tooltip") return "medium";
+  return "high";
+}
+
+function pushViolation(
+  file: string,
+  node: t.Node,
+  matched: string,
+  reason: string,
+  suggestion: string,
+  context: string
+) {
+  if (!node.loc) return;
+  const cleaned = matched.trim().replace(/\s+/g, " ");
+  if (!looksUserFacing(cleaned)) return;
+
+  violations.push({
+    file,
+    line: node.loc.start.line,
+    column: node.loc.start.column,
+    matched: cleaned,
+    severity: severityFor(file, context),
+    reason,
+    suggestion,
+  });
+}
+
+function isInsideTranslationCall(path: NodePath<t.Node>): boolean {
+  return !!path.findParent((p) => {
+    if (!p.isCallExpression()) return false;
+    const callee = p.node.callee;
+    return (
+      (t.isIdentifier(callee) && ["t", "tc", "translate"].includes(callee.name)) ||
+      (t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.property) &&
+        ["t", "translate"].includes(callee.property.name))
+    );
+  });
+}
+
+function isInsideConsole(path: NodePath<t.Node>): boolean {
+  return !!path.findParent((p) => {
+    if (!p.isCallExpression()) return false;
+    const callee = p.node.callee;
+    return (
+      t.isMemberExpression(callee) &&
+      t.isIdentifier(callee.object) &&
+      callee.object.name === "console"
+    );
+  });
+}
+
+function isIgnoredJsxParent(path: NodePath<t.JSXText>): boolean {
+  const parent = path.parentPath;
+  if (!parent) return false;
+
+  if (parent.isJSXElement()) {
+    const opening = parent.node.openingElement.name;
+    if (t.isJSXIdentifier(opening)) {
+      const ignored = ["Trans", "T", "LocalizedText"];
+      return ignored.includes(opening.name);
+    }
+  }
+  return false;
+}
+
+function inspectFile(file: string) {
+  const code = fs.readFileSync(file, "utf8");
+
+  let ast;
+  try {
+    ast = parse(code, {
+      sourceType: "unambiguous",
+      plugins: [
+        "typescript",
+        "jsx",
+        "classProperties",
+        "decorators-legacy",
+        "objectRestSpread",
+        "topLevelAwait",
+      ],
+      errorRecovery: true,
+    });
+  } catch (error) {
+    console.warn(`Parse failed for ${file}:`, error);
+    return;
+  }
+
+  traverse(ast, {
+    JSXText(path) {
+      if (isIgnoredJsxParent(path)) return;
+      const value = path.node.value;
+      if (!looksUserFacing(value)) return;
+      pushViolation(
+        file,
+        path.node,
+        value,
+        "Raw JSX text detected",
+        "Move this text to locale files and render via t('...')",
+        "jsx_text"
+      );
+    },
+
+    StringLiteral(path) {
+      const value = path.node.value;
+      if (!looksUserFacing(value)) return;
+      if (isInsideTranslationCall(path)) return;
+      if (isInsideConsole(path)) return;
+
+      const parent = path.parentPath;
+
+      if (
+        parent.isImportDeclaration() ||
+        parent.isExportDeclaration() ||
+        parent.isTSLiteralType()
+      ) {
+        return;
+      }
+
+      if (parent.isObjectProperty()) {
+        const key = parent.node.key;
+        const keyName =
+          t.isIdentifier(key) ? key.name : t.isStringLiteral(key) ? key.value : "";
+
+        const likelyUiKeys = [
+          "label",
+          "title",
+          "subtitle",
+          "description",
+          "placeholder",
+          "text",
+          "helperText",
+          "emptyState",
+          "tooltip",
+          "ariaLabel",
+          "heading",
+          "subheading",
+          "cta",
+          "buttonText",
+          "seoTitle",
+          "metaDescription",
+        ];
+
+        if (likelyUiKeys.includes(keyName)) {
+          pushViolation(
+            file,
+            path.node,
+            value,
+            `User-facing object property "${keyName}" contains hardcoded text`,
+            "Replace this string with a translation key and resolve it at render time",
+            keyName === "title" || keyName === "label" ? "button_or_heading" : "metadata"
+          );
+          return;
+        }
+      }
+
+      if (parent.isJSXAttribute()) {
+        const attrName = t.isJSXIdentifier(parent.node.name) ? parent.node.name.name : "";
+        const likelyUiAttrs = [
+          "placeholder",
+          "title",
+          "aria-label",
+          "alt",
+          "label",
+          "helperText",
+        ];
+        if (likelyUiAttrs.includes(attrName)) {
+          pushViolation(
+            file,
+            path.node,
+            value,
+            `Hardcoded JSX attribute "${attrName}" detected`,
+            "Replace with localized text via t('...')",
+            attrName === "title" || attrName === "label" ? "button_or_heading" : "tooltip"
+          );
+          return;
+        }
+      }
+
+      if (parent.isConditionalExpression() || parent.isLogicalExpression()) {
+        pushViolation(
+          file,
+          path.node,
+          value,
+          "Possible fallback English string inside component logic",
+          "Replace fallback string with translation key or localized fallback UI",
+          "high"
+        );
+        return;
+      }
+
+      if (parent.isArrayExpression() || parent.isVariableDeclarator()) {
+        pushViolation(
+          file,
+          path.node,
+          value,
+          "Possible config-driven UI string detected",
+          "Move this config label/text into locale files and resolve by translation key",
+          "high"
+        );
+      }
+    },
+
+    TemplateLiteral(path) {
+      if (isInsideTranslationCall(path)) return;
+      if (isInsideConsole(path)) return;
+
+      const cooked = path.node.quasis.map((q) => q.value.cooked ?? "").join(" ").trim();
+      if (!looksUserFacing(cooked)) return;
+
+      pushViolation(
+        file,
+        path.node,
+        cooked,
+        "Hardcoded template literal likely shown to users",
+        "Extract template text into locale file and interpolate variables through i18n",
+        "high"
+      );
+    },
+  });
+}
+
+async function main() {
+  const files = await fg(config.include, { ignore: config.ignore, absolute: false });
+
+  for (const file of files) {
+    inspectFile(file);
+  }
+
+  const counts = violations.reduce(
+    (acc, v) => {
+      acc[v.severity] += 1;
+      return acc;
+    },
+    { critical: 0, high: 0, medium: 0, low: 0 } as Record<Severity, number>
+  );
+
+  const report = {
+    generatedAt: new Date().toISOString(),
+    total: violations.length,
+    counts,
+    violations,
+  };
+
+  const outDir = path.resolve("reports");
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, "i18n-scan-report.json"), JSON.stringify(report, null, 2));
+
+  console.log("\nI18N SCAN SUMMARY");
+  console.log("-----------------");
+  console.log(`Total violations: ${violations.length}`);
+  console.log(`Critical: ${counts.critical}`);
+  console.log(`High:     ${counts.high}`);
+  console.log(`Medium:   ${counts.medium}`);
+  console.log(`Low:      ${counts.low}`);
+  console.log(`JSON: reports/i18n-scan-report.json\n`);
+
+  for (const v of violations.slice(0, 100)) {
+    console.log(
+      `[${v.severity.toUpperCase()}] ${v.file}:${v.line}:${v.column} :: "${v.matched}"\n` +
+      `  Reason: ${v.reason}\n` +
+      `  Fix:    ${v.suggestion}\n`
+    );
+  }
+
+  const errorCount = counts.critical + counts.high;
+  const warningCount = counts.medium + counts.low;
+
+  if (errorCount > config.maxErrors) {
+    console.error(`Build blocked: ${errorCount} error-level i18n violations found.`);
+    process.exit(1);
+  }
+
+  if (config.failOnWarning && warningCount > config.maxWarnings) {
+    console.error(`Build blocked: ${warningCount} warning-level i18n violations found.`);
+    process.exit(1);
+  }
+}
+
+main().catch((err) => {
+  console.error("Scanner failed:", err);
+  process.exit(1);
+});
