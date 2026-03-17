@@ -217,6 +217,21 @@ app.use((_req, res, next) => {
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  if (process.env.NODE_ENV === "production") {
+    res.setHeader("Content-Security-Policy",
+      "default-src 'self'; " +
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://tagmanager.google.com; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://tagmanager.google.com; " +
+      "font-src 'self' https://fonts.gstatic.com; " +
+      "img-src 'self' data: blob: https:; " +
+      "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://api.stripe.com https://*.nursenest.ca; " +
+      "frame-src 'self' https://js.stripe.com https://www.googletagmanager.com; " +
+      "object-src 'none'; " +
+      "base-uri 'self'"
+    );
+  }
   next();
 });
 const httpServer = createServer(app);

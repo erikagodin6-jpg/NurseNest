@@ -37,7 +37,7 @@ import type { HeroStats, PlatformProof } from "@shared/lesson-stats";
 
 function NavPlaceholder() {
   return (
-    <nav className="h-11 sm:h-16 bg-white/90 backdrop-blur-xl border-b border-transparent sticky top-0 z-50" aria-hidden="true" />
+    <nav className="h-11 sm:h-16 bg-white border-b border-transparent sticky top-0 z-50" aria-hidden="true" />
   );
 }
 
@@ -247,7 +247,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 animate-page-enter">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans md:animate-page-enter">
       <SEO
         title={`NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certifications | ${examLabel} & NCLEX Test Bank`}
         description={`Prepare for nursing, NP certification, and allied health exams with NurseNest. Access ${formatCount(questionCount)} practice questions, ${flashcardCount > 0 ? `${formatCount(flashcardCount)} flashcards across ${formatCount(deckCount)} decks, ` : ""}adaptive CAT exams, clinical case simulations, and ${formatCount(lessonCount)} lessons. Built for ${rpnLabel}, RN, NP, allied health students, and new graduates in Canada and the US. Start free.`}
@@ -361,17 +361,14 @@ export default function Home() {
       
       <main className="flex-grow">
         <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero-top)', paddingBottom: 'var(--space-hero-bottom)' }} data-testid="hero-section">
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block">
-            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" />
-            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" />
-          </div>
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none md:hidden">
-            <div className="absolute top-[20%] left-[30%] w-[200px] h-[200px] rounded-full bg-primary/6 blur-[40px]" />
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block" aria-hidden="true">
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px] will-change-transform" />
+            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px] will-change-transform" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-              <div className="space-y-6 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
+              <div className="space-y-6">
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" data-testid="badge-trust-micro">
                     <Award className="w-3.5 h-3.5 text-primary shrink-0" />
@@ -392,7 +389,7 @@ export default function Home() {
                     {t("home.hero.mainTitle")}
                   </h1>
                   
-                  <p className="text-base lg:text-lg text-gray-600 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
+                  <p className="text-base lg:text-lg text-gray-700 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
                     {t("home.hero.newSubheadline")}
                   </p>
                 </div>
@@ -410,7 +407,7 @@ export default function Home() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-xs sm:text-sm font-semibold text-gray-900 leading-tight">{t(`home.hero.${feat.key}`)}</p>
-                        <p className="text-[11px] text-gray-500 leading-snug mt-0.5 hidden sm:block">{t(`home.hero.${feat.descKey}`)}</p>
+                        <p className="text-[11px] text-gray-600 leading-snug mt-0.5 hidden sm:block">{t(`home.hero.${feat.descKey}`)}</p>
                       </div>
                     </div>
                   ))}
@@ -448,8 +445,8 @@ export default function Home() {
                   </div>
                   <div className="px-4 py-3 bg-gray-50/80 border-t border-gray-100">
                     <div className="flex items-start gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-gray-500 shrink-0 mt-0.5" />
-                      <p className="text-xs text-gray-500 leading-relaxed">
+                      <MapPin className="w-3.5 h-3.5 text-gray-600 shrink-0 mt-0.5" />
+                      <p className="text-xs text-gray-600 leading-relaxed">
                         {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
                       </p>
                     </div>
@@ -478,26 +475,26 @@ export default function Home() {
                   </Button>
                 </div>
 
-                <p className="text-xs text-gray-500 text-center sm:text-left" data-testid="text-urgency-microcopy">
+                <p className="text-xs text-gray-600 text-center sm:text-left" data-testid="text-urgency-microcopy">
                   {t("home.hero.urgencyMicrocopy")}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{t("home.hero.noCreditCard")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <Shield className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{t("home.hero.guarantee")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{t("home.hero.cancelAnytime")}</span>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-600" data-testid="hero-trust-indicators">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-gray-700" data-testid="hero-trust-indicators">
                   <div className="flex items-center gap-1.5">
                     <Trophy className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-pass-rate">{t("home.hero.trustPassRate")}</span>
@@ -520,7 +517,7 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-xl border border-gray-100 bg-white/60 shadow-[var(--shadow-card)] p-4" data-testid="hero-built-for-bar">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">{t("home.hero.builtForLabel")}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-2.5">{t("home.hero.builtForLabel")}</p>
                   <div className="flex flex-wrap gap-2">
                     {[
                       { icon: GraduationCap, key: "builtForNursingStudents" },
@@ -535,7 +532,7 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                  <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">{t("home.hero.builtForMicrocopy")}</p>
+                  <p className="text-[11px] text-gray-600 mt-2 leading-relaxed">{t("home.hero.builtForMicrocopy")}</p>
                 </div>
               </div>
 
@@ -547,7 +544,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-gray-900">{t("home.hero.passRate")}</div>
-                    <div className="text-xs text-gray-500">{t("home.hero.firstAttempt")}</div>
+                    <div className="text-xs text-gray-600">{t("home.hero.firstAttempt")}</div>
                   </div>
                 </div>
                 <div className="absolute -top-3 -right-3 bg-white rounded-2xl shadow-[var(--shadow-card-hover)] border border-gray-100/80 px-4 py-2.5 flex items-center gap-2 z-10">
@@ -572,7 +569,7 @@ export default function Home() {
             </div>
 
             <div className="mt-10 sm:mt-12" data-testid="section-careers-supported">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-3">
                 {t("home.hero.examPrepFor", { region: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -617,12 +614,16 @@ export default function Home() {
           </div>
         </section>
 
-        <Suspense fallback={<div className="min-h-[60px]" />}>
-          <HeroFeatureStrip />
-        </Suspense>
-        <Suspense fallback={<div className="min-h-[50px]" />}>
-          <HeroTrustIndicator />
-        </Suspense>
+        <LazySection minHeight="60px" rootMargin="400px">
+          <Suspense fallback={<div className="min-h-[60px]" />}>
+            <HeroFeatureStrip />
+          </Suspense>
+        </LazySection>
+        <LazySection minHeight="50px" rootMargin="400px">
+          <Suspense fallback={<div className="min-h-[50px]" />}>
+            <HeroTrustIndicator />
+          </Suspense>
+        </LazySection>
 
         <LazySection minHeight="200px" rootMargin="300px">
           <Suspense fallback={<div className="min-h-[200px]" />}>

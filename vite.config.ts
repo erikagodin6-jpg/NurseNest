@@ -47,7 +47,29 @@ export default defineConfig({
     modulePreload: false,
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks(id: string) {
+          if (id.includes("node_modules/react-dom")) {
+            return "react-dom";
+          }
+          if (id.includes("node_modules/react/") || id.includes("node_modules/scheduler/")) {
+            return "react-core";
+          }
+          if (id.includes("node_modules/@tanstack")) {
+            return "query";
+          }
+          if (id.includes("node_modules/lucide-react")) {
+            return "icons";
+          }
+          if (id.includes("node_modules/wouter")) {
+            return "router";
+          }
+          if (id.includes("/allied/")) {
+            return "allied";
+          }
+          if (id.includes("/pages/admin")) {
+            return "admin";
+          }
+        },
       },
     },
   },

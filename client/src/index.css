@@ -995,17 +995,18 @@ input, textarea, [contenteditable="true"], .allow-select {
 }
 
 @keyframes pageEnterMobile {
-  from { transform: translateY(8px); }
-  to { transform: translateY(0); }
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-page-enter {
-  animation: pageEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: pageEnter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
 }
 
 @media (max-width: 767px) {
   .animate-page-enter {
-    animation: pageEnterMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pageEnterMobile 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -1034,6 +1035,7 @@ input, textarea, [contenteditable="true"], .allow-select {
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
   border-radius: 0.5rem;
+  contain: strict;
 }
 
 .skeleton-text {
@@ -1042,6 +1044,7 @@ input, textarea, [contenteditable="true"], .allow-select {
   background: linear-gradient(90deg, #f3f4f6 25%, #e8e9ec 37%, #f3f4f6 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
+  contain: strict;
 }
 
 .skeleton-circle {
@@ -1049,6 +1052,7 @@ input, textarea, [contenteditable="true"], .allow-select {
   background: linear-gradient(90deg, #f3f4f6 25%, #e8e9ec 37%, #f3f4f6 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
+  contain: strict;
 }
 
 :is([data-theme="dark-clinical"], [data-theme="dark-academia"], [data-theme="dark-mode"]) :is(.skeleton-block, .skeleton-text, .skeleton-circle) {
