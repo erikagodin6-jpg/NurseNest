@@ -62,6 +62,45 @@ export const CONTENT_EXPANSION_ROADMAP = [
   },
 ];
 
+export const TUTOR_EXPANSION_ROADMAP = [
+  {
+    rank: 1,
+    title: "Competitive Study Leaderboards",
+    description: "Gamified leaderboard system where students compete on accuracy, streaks, and study time across topics.",
+    engagementImpact: 9,
+    conversionPotential: 7,
+    learningEffectiveness: 6,
+    status: "planned" as const,
+  },
+  {
+    rank: 2,
+    title: "Group Study Rooms",
+    description: "Virtual collaborative study spaces where students can quiz each other, share notes, and discuss topics in real time.",
+    engagementImpact: 8,
+    conversionPotential: 8,
+    learningEffectiveness: 8,
+    status: "planned" as const,
+  },
+  {
+    rank: 3,
+    title: "Daily Study Streaks",
+    description: "Streak-based motivation system with daily study goals, badges, and rewards for consistency.",
+    engagementImpact: 9,
+    conversionPotential: 6,
+    learningEffectiveness: 7,
+    status: "planned" as const,
+  },
+  {
+    rank: 4,
+    title: "Exam Countdown Tracker",
+    description: "Personalized countdown to exam day with adaptive study plan adjustments and readiness assessments.",
+    engagementImpact: 7,
+    conversionPotential: 8,
+    learningEffectiveness: 9,
+    status: "planned" as const,
+  },
+];
+
 export const CERTIFICATION_BUILD_SUMMARY = {
   selectedPriority: "Certification Exam Bank Expansion",
   banksCreated: 11,

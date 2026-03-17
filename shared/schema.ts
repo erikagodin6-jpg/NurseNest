@@ -6074,3 +6074,35 @@ export const practiceRecommendations = pgTable("practice_recommendations", {
 export const insertPracticeRecommendationSchema = createInsertSchema(practiceRecommendations).omit({ id: true, generatedAt: true });
 export type PracticeRecommendation = typeof practiceRecommendations.$inferSelect;
 export type InsertPracticeRecommendation = z.infer<typeof insertPracticeRecommendationSchema>;
+
+export const tutorAdminConfig = pgTable("tutor_admin_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  systemPrompt: text("system_prompt").notNull().default("You are a helpful AI tutoring assistant for healthcare students. Provide clear, accurate explanations. Never provide direct answers to exam questions — guide students to understand the concepts."),
+  blockedTopics: jsonb("blocked_topics").default(sql`'["explicit_content","violence","political_opinions","medical_diagnosis","prescription_advice"]'::jsonb`),
+  dailyFreeLimit: integer("daily_free_limit").default(10),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTutorAdminConfigSchema = createInsertSchema(tutorAdminConfig).omit({ id: true, updatedAt: true });
+export type TutorAdminConfig = typeof tutorAdminConfig.$inferSelect;
+export type InsertTutorAdminConfig = z.infer<typeof insertTutorAdminConfigSchema>;
+
+export const tutorConversations = pgTable("tutor_conversations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  username: text("username"),
+  userTier: text("user_tier").default("free"),
+  topic: text("topic"),
+  explanationType: text("explanation_type"),
+  messages: jsonb("messages").default(sql`'[]'::jsonb`),
+  flagged: boolean("flagged").default(false),
+  flagReason: text("flag_reason"),
+  adminReviewed: boolean("admin_reviewed").default(false),
+  adminNotes: text("admin_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertTutorConversationSchema = createInsertSchema(tutorConversations).omit({ id: true, createdAt: true, updatedAt: true });
+export type TutorConversation = typeof tutorConversations.$inferSelect;
+export type InsertTutorConversation = z.infer<typeof insertTutorConversationSchema>;
