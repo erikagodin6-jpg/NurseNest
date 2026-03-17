@@ -1,0 +1,160 @@
+
+
+Site Health & Integrity
+Monitor broken links, content gaps, SEO metadata, and sitemap integrity
+Scan
+Overview
+Broken Links
+2
+Missing Content
+3
+SEO Audit
+173
+Sitemap
+4
+Internal Links
+11%
+SEO Health Score
+125
+Pages Audited
+14
+Pages OK
+111
+Pages with Issues
+Page Audit Details
+Page	Title	Description	Canonical	OG	Issues
+/pillar/electrolytes-acid-base-nursing-guide					
+Missing canonical URL
+/pillar/cardiac-emergencies-nursing-guide					
+Missing canonical URL
+Description too long (162 chars, max 160)
+/pillar/respiratory-emergencies-nursing-guide					
+Missing canonical URL
+Description too long (165 chars, max 160)
+/pillar/sepsis-shock-nursing-guide					
+Missing canonical URL
+Description too long (174 chars, max 160)
+/pillar/ob-emergencies-nursing-guide					
+Missing canonical URL
+Description too long (161 chars, max 160)
+/pillar/pre-nursing-foundations-study-guide					
+Missing canonical URL
+Description too long (166 chars, max 160)
+/pillar/anatomy-physiology-nursing-guide					
+Missing canonical URL
+/pillar/pharmacology-high-yield-nursing-guide					
+Missing canonical URL
+/pillar/hyperkalemia-effects-on-heart-nursing					
+Missing canonical URL
+Title too long (69 chars, max 60)
+Description too long (179 chars, max 160)
+/pillar/copd-barrel-chest-nursing-exam					
+Missing canonical URL
+Title too long (74 chars, max 60)
+Description too long (171 chars, max 160)
+/pillar/nursing-question-bank-free-practice					
+Missing canonical URL
+Title too long (74 chars, max 60)
+Description too long (186 chars, max 160)
+/category/paramedic-airway-management					
+Missing canonical URL
+/category/paramedic-trauma					
+Missing canonical URL
+Description too long (165 chars, max 160)
+/category/paramedic-cardiology					
+Missing canonical URL
+/category/paramedic-pharmacology					
+Missing canonical URL
+/category/paramedic-respiratory-emergencies					
+Missing canonical URL
+/topic/paramedic-trauma-primary-survey					
+Missing canonical URL
+Description too long (170 chars, max 160)
+/category/paramedic-medical-emergencies					
+Missing canonical URL
+Description too long (164 chars, max 160)
+/category/paramedic-neurology					
+Missing canonical URL
+/category/paramedic-pediatrics					
+Missing canonical URL
+/category/paramedic-obstetrics					
+Missing canonical URL
+Description too long (161 chars, max 160)
+/category/paramedic-ems-operations					
+Missing canonical URL
+Description too long (162 chars, max 160)
+/topic/paramedic-airway-management-fundamentals					
+Missing canonical URL
+Title too long (66 chars, max 60)
+Description too long (174 chars, max 160)
+/topic/paramedic-bag-valve-mask-ventilation					
+Missing canonical URL
+Description too long (166 chars, max 160)
+/topic/paramedic-opa-vs-npa					
+Missing canonical URL
+Title too long (65 chars, max 60)
+Description too long (168 chars, max 160)
+/topic/paramedic-cardiac-arrest-recognition					
+Missing canonical URL
+Description too long (174 chars, max 160)
+/topic/paramedic-shock-assessment					
+Missing canonical URL
+Description too long (167 chars, max 160)
+/topic/paramedic-spinal-motion-restriction					
+Missing canonical URL
+Description too long (164 chars, max 160)
+/topic/paramedic-chest-pain-assessment					
+Missing canonical URL
+Description too long (171 chars, max 160)
+/topic/paramedic-stroke-recognition					
+Missing canonical URL
+Description too long (172 chars, max 160)
+/topic/paramedic-seizure-assessment					
+Missing canonical URL
+Description too long (164 chars, max 160)
+/topic/paramedic-rapid-trauma-assessment					
+Missing canonical URL
+/topic/paramedic-anaphylaxis-management					
+Missing canonical URL
+Description too long (164 chars, max 160)
+/topic/paramedic-diabetic-emergencies					
+Missing canonical URL
+Description too long (163 chars, max 160)
+/topic/paramedic-pediatric-respiratory-distress					
+Missing canonical URL
+Description too long (168 chars, max 160)
+/topic/paramedic-prehospital-ecg-basics					
+Missing canonical URL
+Description too long (166 chars, max 160)
+/topic/paramedic-oxygen-delivery-devices					
+Missing canonical URL
+Description too long (165 chars, max 160)
+/topic/paramedic-scene-safety					
+Missing canonical URL
+Description too long (163 chars, max 160)
+/topic/paramedic-glasgow-coma-scale					
+Missing canonical URL
+/topic/paramedic-vital-signs-interpretation					
+Missing canonical URL
+Description too long (170 chars, max 160)
+/topic/paramedic-pharmacology-basics					
+Missing canonical URL
+Description too long (164 chars, max 160)
+/glossary/paramedic-glossary-gcs					
+Missing canonical URL
+/glossary/paramedic-glossary-bvm					
+Missing canonical URL
+/glossary/paramedic-glossary-opa					
+Missing canonical URL
+/glossary/paramedic-glossary-npa					
+Missing canonical URL
+/glossary/paramedic-glossary-spo2					
+Missing canonical URL
+/certifications/ccrn					
+Title too long (69 chars, max 60)
+/glossary/paramedic-glossary-capnography					
+Missing canonical URL
+/glossary/paramedic-glossary-tachycardia					
+Missing canonical URL
+/glossary/paramedic-glossary-bradycardia					
+Missing canonical URL
