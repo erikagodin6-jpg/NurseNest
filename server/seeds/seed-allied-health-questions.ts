@@ -208,6 +208,11 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/rrt-questions-batch1").then(m => m.rrtQuestionsBatch1),
         import("../../client/src/data/career-questions/rrt-questions-batch2").then(m => m.rrtQuestionsBatch2),
         import("../../client/src/data/career-questions/rrt-questions-batch3").then(m => m.rrtQuestionsBatch3),
+        import("../../client/src/data/career-questions/rrt-questions-batch4").then(m => m.rrtQuestionsBatch4),
+        import("../../client/src/data/career-questions/rrt-questions-batch5").then(m => m.rrtQuestionsBatch5),
+        import("../../client/src/data/career-questions/rrt-questions-batch6").then(m => m.rrtQuestionsBatch6),
+        import("../../client/src/data/career-questions/rrt-questions-batch7").then(m => m.rrtQuestionsBatch7),
+        import("../../client/src/data/career-questions/rrt-questions-batch8").then(m => m.rrtQuestionsBatch8),
       ]);
       return parts.flat();
     },
@@ -219,6 +224,11 @@ const SEED_CONFIGS: SeedConfig[] = [
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/paramedic-questions").then(m => m.paramedicQuestions),
         import("../../client/src/data/career-questions/paramedic-questions-expansion").then(m => m.paramedicQuestionsExpansion),
+        import("../../client/src/data/career-questions/paramedic-questions-batch2").then(m => m.paramedicQuestionsBatch2),
+        import("../../client/src/data/career-questions/paramedic-questions-batch3").then(m => m.paramedicQuestionsBatch3),
+        import("../../client/src/data/career-questions/paramedic-questions-batch4").then(m => m.paramedicQuestionsBatch4),
+        import("../../client/src/data/career-questions/paramedic-questions-batch5").then(m => m.paramedicQuestionsBatch5),
+        import("../../client/src/data/career-questions/paramedic-questions-batch6").then(m => m.paramedicQuestionsBatch6),
       ]);
       return parts.flat();
     },
@@ -247,6 +257,11 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/mlt-questions").then(m => m.mltQuestions),
         import("../../client/src/data/career-questions/mlt-questions-batch2").then(m => m.mltQuestionsBatch2),
         import("../../client/src/data/career-questions/mlt-questions-expansion").then(m => m.mltQuestionsExpansion),
+        import("../../client/src/data/career-questions/mlt-questions-batch3").then(m => m.mltQuestionsBatch3),
+        import("../../client/src/data/career-questions/mlt-questions-batch4").then(m => m.mltQuestionsBatch4),
+        import("../../client/src/data/career-questions/mlt-questions-batch5").then(m => m.mltQuestionsBatch5),
+        import("../../client/src/data/career-questions/mlt-questions-batch6").then(m => m.mltQuestionsBatch6),
+        import("../../client/src/data/career-questions/mlt-questions-batch7").then(m => m.mltQuestionsBatch7),
       ]);
       return parts.flat();
     },
