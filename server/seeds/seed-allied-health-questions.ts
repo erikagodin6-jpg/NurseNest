@@ -106,6 +106,11 @@ const SEED_CONFIGS: SeedConfig[] = [
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/him-questions").then(m => m.himQuestions),
         import("../../client/src/data/career-questions/him-questions-batch2").then(m => m.himQuestionsBatch2),
+        import("../../client/src/data/career-questions/him-questions-batch3").then(m => m.himQuestionsBatch3),
+        import("../../client/src/data/career-questions/him-questions-batch4").then(m => m.himQuestionsBatch4),
+        import("../../client/src/data/career-questions/him-questions-batch5").then(m => m.himQuestionsBatch5),
+        import("../../client/src/data/career-questions/him-questions-batch6").then(m => m.himQuestionsBatch6),
+        import("../../client/src/data/career-questions/him-questions-batch7").then(m => m.himQuestionsBatch7),
       ]);
       return parts.flat();
     },
@@ -132,6 +137,11 @@ const SEED_CONFIGS: SeedConfig[] = [
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/sonography-questions").then(m => m.sonographyQuestions),
         import("../../client/src/data/career-questions/sonography-questions-batch2").then(m => m.sonographyQuestionsBatch2),
+        import("../../client/src/data/career-questions/sonography-questions-batch3").then(m => m.sonographyQuestionsBatch3),
+        import("../../client/src/data/career-questions/sonography-questions-batch4").then(m => m.sonographyQuestionsBatch4),
+        import("../../client/src/data/career-questions/sonography-questions-batch5").then(m => m.sonographyQuestionsBatch5),
+        import("../../client/src/data/career-questions/sonography-questions-batch6").then(m => m.sonographyQuestionsBatch6),
+        import("../../client/src/data/career-questions/sonography-questions-batch7").then(m => m.sonographyQuestionsBatch7),
       ]);
       return parts.flat();
     },
@@ -143,6 +153,37 @@ const SEED_CONFIGS: SeedConfig[] = [
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
         import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch2").then(m => m.cardiacSonographerQuestionsBatch2),
+        import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch3").then(m => m.cardiacSonographerQuestionsBatch3),
+        import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch4").then(m => m.cardiacSonographerQuestionsBatch4),
+        import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch5").then(m => m.cardiacSonographerQuestionsBatch5),
+        import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch6").then(m => m.cardiacSonographerQuestionsBatch6),
+        import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch7").then(m => m.cardiacSonographerQuestionsBatch7),
+      ]);
+      return parts.flat();
+    },
+  },
+  {
+    careerType: "psychotherapist",
+    examTag: "RP Qualifying",
+    importFn: async () => {
+      const parts = await Promise.all([
+        import("../../client/src/data/career-questions/psychotherapist-questions").then(m => m.psychotherapistQuestions),
+        import("../../client/src/data/career-questions/psychotherapist-questions-batch2").then(m => m.psychotherapistQuestionsBatch2),
+        import("../../client/src/data/career-questions/psychotherapist-questions-batch3").then(m => m.psychotherapistQuestionsBatch3),
+        import("../../client/src/data/career-questions/psychotherapist-questions-batch4").then(m => m.psychotherapistQuestionsBatch4),
+      ]);
+      return parts.flat();
+    },
+  },
+  {
+    careerType: "addictionsCounsellor",
+    examTag: "IC&RC CAC",
+    importFn: async () => {
+      const parts = await Promise.all([
+        import("../../client/src/data/career-questions/addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
+        import("../../client/src/data/career-questions/addictions-counsellor-questions-batch2").then(m => m.addictionsCounsellorQuestionsBatch2),
+        import("../../client/src/data/career-questions/addictions-counsellor-questions-batch3").then(m => m.addictionsCounsellorQuestionsBatch3),
+        import("../../client/src/data/career-questions/addictions-counsellor-questions-batch4").then(m => m.addictionsCounsellorQuestionsBatch4),
       ]);
       return parts.flat();
     },

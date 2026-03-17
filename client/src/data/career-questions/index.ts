@@ -38,7 +38,12 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
   perioperative: () => import("./perioperative-questions").then(m => m.perioperativeQuestions),
   oncologyNursing: () => import("./oncology-nursing-questions").then(m => m.oncologyNursingQuestions),
   pediatricCert: () => import("./pediatric-cert-questions").then(m => m.pediatricCertQuestions),
-  psychotherapist: () => import("./psychotherapist-questions").then(m => m.psychotherapistQuestions),
+  psychotherapist: () => Promise.all([
+    import("./psychotherapist-questions").then(m => m.psychotherapistQuestions),
+    import("./psychotherapist-questions-batch2").then(m => m.psychotherapistQuestionsBatch2),
+    import("./psychotherapist-questions-batch3").then(m => m.psychotherapistQuestionsBatch3),
+    import("./psychotherapist-questions-batch4").then(m => m.psychotherapistQuestionsBatch4),
+  ]).then(parts => parts.flat()),
   socialWorker: () => Promise.all([
     import("./social-worker-questions").then(m => m.socialWorkerQuestions),
     import("./social-worker-questions-batch2").then(m => m.socialWorkerQuestionsBatch2),
@@ -68,7 +73,12 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./social-worker-questions-batch26").then(m => m.socialWorkerQuestionsBatch26),
     import("./social-worker-questions-batch27").then(m => m.socialWorkerQuestionsBatch27),
   ]).then(parts => parts.flat()),
-  addictionsCounsellor: () => import("./addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
+  addictionsCounsellor: () => Promise.all([
+    import("./addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
+    import("./addictions-counsellor-questions-batch2").then(m => m.addictionsCounsellorQuestionsBatch2),
+    import("./addictions-counsellor-questions-batch3").then(m => m.addictionsCounsellorQuestionsBatch3),
+    import("./addictions-counsellor-questions-batch4").then(m => m.addictionsCounsellorQuestionsBatch4),
+  ]).then(parts => parts.flat()),
   physiotherapyAssistant: () => Promise.all([
     import("./pta-questions").then(m => m.ptaQuestions),
     import("./pta-questions-batch1").then(m => m.ptaQuestionsBatch1),
@@ -133,14 +143,29 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
   healthInfoMgmt: () => Promise.all([
     import("./him-questions").then(m => m.himQuestions),
     import("./him-questions-batch2").then(m => m.himQuestionsBatch2),
+    import("./him-questions-batch3").then(m => m.himQuestionsBatch3),
+    import("./him-questions-batch4").then(m => m.himQuestionsBatch4),
+    import("./him-questions-batch5").then(m => m.himQuestionsBatch5),
+    import("./him-questions-batch6").then(m => m.himQuestionsBatch6),
+    import("./him-questions-batch7").then(m => m.himQuestionsBatch7),
   ]).then(parts => parts.flat()),
   diagnosticSonography: () => Promise.all([
     import("./sonography-questions").then(m => m.sonographyQuestions),
     import("./sonography-questions-batch2").then(m => m.sonographyQuestionsBatch2),
+    import("./sonography-questions-batch3").then(m => m.sonographyQuestionsBatch3),
+    import("./sonography-questions-batch4").then(m => m.sonographyQuestionsBatch4),
+    import("./sonography-questions-batch5").then(m => m.sonographyQuestionsBatch5),
+    import("./sonography-questions-batch6").then(m => m.sonographyQuestionsBatch6),
+    import("./sonography-questions-batch7").then(m => m.sonographyQuestionsBatch7),
   ]).then(parts => parts.flat()),
   cardiacSonographer: () => Promise.all([
     import("./cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
     import("./cardiac-sonographer-questions-batch2").then(m => m.cardiacSonographerQuestionsBatch2),
+    import("./cardiac-sonographer-questions-batch3").then(m => m.cardiacSonographerQuestionsBatch3),
+    import("./cardiac-sonographer-questions-batch4").then(m => m.cardiacSonographerQuestionsBatch4),
+    import("./cardiac-sonographer-questions-batch5").then(m => m.cardiacSonographerQuestionsBatch5),
+    import("./cardiac-sonographer-questions-batch6").then(m => m.cardiacSonographerQuestionsBatch6),
+    import("./cardiac-sonographer-questions-batch7").then(m => m.cardiacSonographerQuestionsBatch7),
   ]).then(parts => parts.flat()),
 };
 
