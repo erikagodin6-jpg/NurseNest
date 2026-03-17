@@ -197,7 +197,7 @@ export const freeCardiovascularSystems = [
     color: "text-red-500",
     bgColor: "bg-red-50",
     diseases: [
-      { id: "cardiac-critical-patterns-rpnrn", name: "Cardiac Critical Patterns", status: "Available" },
+      { id: "cardiac-critical-patterns", name: "Cardiac Critical Patterns", status: "Available" },
       { id: "cardiac-monitoring-and-telemetry", name: "Cardiac Monitoring and Telemetry", status: "Available" },
       { id: "acute-myocardial-infarction", name: "Acute Myocardial Infarction", status: "Available" },
       { id: "asystole-and-pulseless-electrical-activity-pea", name: "Asystole and Pulseless Electrical Activity (PEA)", status: "Available" },
