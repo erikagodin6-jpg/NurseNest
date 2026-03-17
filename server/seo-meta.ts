@@ -399,6 +399,90 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certification Test Bank, Simulations & Flashcards",
     description: "Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. 40,000+ practice questions, clinical case simulations, 13,000+ flashcards, and 8,000+ lessons for nursing students, NP candidates, allied health professionals, and new graduates in Canada and the US. Start free.",
   },
+  "/new-grad": {
+    title: "New Grad Career Hub — Resume, Interview & Career Resources | NurseNest",
+    description: "Complete career hub for new graduate nurses: resume templates, interview prep with 100+ questions, clinical confidence guides, salary negotiation tools, and first-year survival resources.",
+  },
+  "/resumes-cover-letters": {
+    title: "Resumes & Cover Letters — Healthcare Resume Templates & Guides | NurseNest",
+    description: "Build a winning healthcare resume with ATS-optimized templates, real new grad nursing resume examples, cover letter frameworks, and expert writing guides.",
+  },
+  "/interview-prep": {
+    title: "Interview Prep — Nursing Interview Questions & Practice | NurseNest",
+    description: "Prepare for nursing interviews with 100+ practice questions, STAR-method examples, behavioral interview strategies, and timed mock interview simulators.",
+  },
+  "/personal-statements": {
+    title: "Personal Statements — Nursing School Application Essays & Examples | NurseNest",
+    description: "Write winning nursing school personal statements and scholarship essays. Includes real examples, expert frameworks, and tips for BSN, MSN, and DNP program applications.",
+  },
+  "/resources": {
+    title: "Career Resources — New Graduate Nurse Guides & Tools | NurseNest",
+    description: "Navigate your first year of nursing with comprehensive career resources. Guides for clinical confidence, time management, workplace navigation, and burnout prevention.",
+  },
+  "/resumes-cover-letters/new-grad-nursing-resume-example": {
+    title: "New Grad Nursing Resume Example — Templates & Writing Guide | NurseNest",
+    description: "Create a winning new grad nursing resume with our step-by-step guide. Includes real resume examples, ATS optimization tips, and templates for med-surg, ICU, ER, and pediatric positions.",
+  },
+  "/resumes-cover-letters/healthcare-resume-templates": {
+    title: "Healthcare Resume Templates — Free Nursing Resume Templates | NurseNest",
+    description: "Download free ATS-optimized healthcare resume templates for new graduate nurses. Includes med-surg, ICU, ER, pediatric, and cover letter templates.",
+  },
+  "/resumes-cover-letters/ats-resume-tips-new-graduates": {
+    title: "ATS Resume Tips for New Graduates — Beat Applicant Tracking Systems | NurseNest",
+    description: "Master ATS resume optimization with proven tips for new graduate nurses. Learn keyword strategies, formatting rules, and common mistakes.",
+  },
+  "/resumes-cover-letters/cover-letter-examples-healthcare": {
+    title: "Cover Letter Examples Healthcare — New Grad Nursing Cover Letters | NurseNest",
+    description: "Write compelling cover letters for healthcare positions with specialty-specific examples and frameworks for new graduate nurses.",
+  },
+  "/resumes-cover-letters/resume-mistakes-to-avoid": {
+    title: "Resume Mistakes to Avoid — New Graduate Nurse Resume Errors | NurseNest",
+    description: "Avoid the most common resume mistakes new graduate nurses make. Learn how to fix formatting errors, weak descriptions, and missing keywords.",
+  },
+  "/interview-prep/top-nursing-interview-questions": {
+    title: "Top Nursing Interview Questions — New Grad Nurse Interview Prep | NurseNest",
+    description: "Prepare for your nursing interview with the top questions asked by nurse managers. Includes behavioral, clinical, and situational questions with sample answers.",
+  },
+  "/interview-prep/behavioral-interview-questions-healthcare": {
+    title: "Behavioral Interview Questions Healthcare — STAR Method Examples | NurseNest",
+    description: "Master behavioral nursing interview questions with STAR-method answers for teamwork, conflict resolution, patient advocacy, and leadership.",
+  },
+  "/interview-prep/tell-me-about-yourself-best-answer": {
+    title: "Tell Me About Yourself — Best Nursing Interview Answer | NurseNest",
+    description: "Craft the perfect answer to 'Tell me about yourself' for nursing interviews. Includes templates, examples, and a proven framework for new grads.",
+  },
+  "/interview-prep/star-method-explained": {
+    title: "STAR Method Explained — Nursing Interview Answer Framework | NurseNest",
+    description: "Learn the STAR method for nursing interviews. Step-by-step guide with healthcare examples for behavioral interview questions.",
+  },
+  "/interview-prep/common-interview-mistakes": {
+    title: "Common Interview Mistakes — New Graduate Nurse Interview Errors | NurseNest",
+    description: "Avoid the most common interview mistakes new graduate nurses make. Learn how to prevent rambling answers, poor preparation, and other errors.",
+  },
+  "/resources/what-to-expect-first-nursing-job": {
+    title: "What to Expect First Nursing Job — New Graduate Nurse Guide | NurseNest",
+    description: "Prepare for your first nursing job with this comprehensive guide covering orientation, preceptorship, clinical confidence, and workplace dynamics.",
+  },
+  "/resources/transition-student-to-nurse": {
+    title: "Transition from Student to Nurse — New Graduate Role Change Guide | NurseNest",
+    description: "Navigate the transition from nursing student to practicing nurse with strategies for managing identity change, building independence, and overcoming imposter syndrome.",
+  },
+  "/resources/time-management-new-nurses": {
+    title: "Time Management for New Nurses — Shift Organization Guide | NurseNest",
+    description: "Master time management as a new nurse with proven strategies for shift organization, patient prioritization, and documentation efficiency.",
+  },
+  "/resources/clinical-confidence-tips": {
+    title: "Clinical Confidence Tips — New Graduate Nurse Confidence Guide | NurseNest",
+    description: "Build clinical confidence as a new graduate nurse with proven strategies for developing assessment skills, managing emergencies, and overcoming imposter syndrome.",
+  },
+  "/personal-statements/nursing-school-personal-statement-examples": {
+    title: "Nursing School Personal Statement Examples — Application Writing Guide | NurseNest",
+    description: "Write a compelling nursing school personal statement with real examples and expert writing guide for BSN, MSN, and DNP applications.",
+  },
+  "/personal-statements/scholarship-application-tips": {
+    title: "Scholarship Application Tips — Nursing Scholarship Essay Guide | NurseNest",
+    description: "Win nursing scholarships with proven application strategies. Learn to write compelling essays, request strong recommendation letters, and craft financial need statements.",
+  },
   "/start-free": {
     title: "Start Free - Begin Your Nursing Exam Prep | NurseNest",
     description: "Start your free NurseNest account today. Access nursing lessons, flashcards, and practice questions to begin preparing for NCLEX, NCLEX-PN, and REx-PN exams.",

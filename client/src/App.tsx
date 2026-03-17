@@ -284,6 +284,15 @@ const ApplyNestInterviewPrep = lazy(() => import("@/pages/applynest-interview-pr
 const ApplyNestJobSearchGuide = lazy(() => import("@/pages/applynest-job-search-guide"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
+const SeoHubNewGrad = lazy(() => import("@/pages/seo-hub-new-grad"));
+const SeoHubResumes = lazy(() => import("@/pages/seo-hub-resumes"));
+const SeoHubInterview = lazy(() => import("@/pages/seo-hub-interview"));
+const SeoHubPersonalStatements = lazy(() => import("@/pages/seo-hub-personal-statements"));
+const SeoHubResources = lazy(() => import("@/pages/seo-hub-resources"));
+const SeoResumeArticle = lazy(() => import("@/pages/seo-content-article").then(m => ({ default: () => { const { ResumeArticlePage } = m; return <ResumeArticlePage />; } })));
+const SeoInterviewArticle = lazy(() => import("@/pages/seo-content-article").then(m => ({ default: () => { const { InterviewArticlePage } = m; return <InterviewArticlePage />; } })));
+const SeoCareerArticle = lazy(() => import("@/pages/seo-content-article").then(m => ({ default: () => { const { CareerArticlePage } = m; return <CareerArticlePage />; } })));
+const SeoPersonalStatementArticle = lazy(() => import("@/pages/seo-content-article").then(m => ({ default: () => { const { PersonalStatementArticlePage } = m; return <PersonalStatementArticlePage />; } })));
 const NewGradHub = lazy(() => import("@/pages/newgrad/newgrad-hub"));
 const NewGradProfessionHub = lazy(() => import("@/pages/new-grad/profession-hub-page"));
 const FirstYearGuidePage = lazy(() => import("@/pages/new-grad/first-year-guide-page"));
@@ -808,7 +817,20 @@ function AppRoutes() {
           }
           return <NewGradProfessionHub />;
         }}</Route>
-        <Route path="/new-grad">{() => <Redirect to="/newgrad" />}</Route>
+        <Route path="/new-grad" component={SeoHubNewGrad} />
+
+        <Route path="/resumes-cover-letters/:slug" component={SeoResumeArticle} />
+        <Route path="/resumes-cover-letters" component={SeoHubResumes} />
+
+        <Route path="/interview-prep/:slug" component={SeoInterviewArticle} />
+        <Route path="/interview-prep" component={SeoHubInterview} />
+
+        <Route path="/personal-statements/:slug" component={SeoPersonalStatementArticle} />
+        <Route path="/personal-statements" component={SeoHubPersonalStatements} />
+
+        <Route path="/resources/:slug" component={SeoCareerArticle} />
+        <Route path="/resources" component={SeoHubResources} />
+
         <Route path="/exam-prep" component={ExamPrepHub} />
         <Route path="/new-graduate-support" component={NewGraduateSupportHub} />
         <Route path="/healthcare-careers" component={HealthcareCareersHub} />

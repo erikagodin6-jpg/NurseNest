@@ -37,6 +37,39 @@ export async function generateNewGradPages(): Promise<string[]> {
     urls.push(simpleUrl(`${base}/${slug}`, now, "monthly", "0.8"));
   }
 
+  const seoHubPages = [
+    { path: "/new-grad", priority: "0.9", freq: "weekly" },
+    { path: "/resumes-cover-letters", priority: "0.9", freq: "weekly" },
+    { path: "/interview-prep", priority: "0.9", freq: "weekly" },
+    { path: "/personal-statements", priority: "0.9", freq: "weekly" },
+    { path: "/resources", priority: "0.9", freq: "weekly" },
+  ];
+  for (const page of seoHubPages) {
+    urls.push(simpleUrl(`${siteBase}${page.path}`, now, page.freq, page.priority));
+  }
+
+  const seoContentArticles = [
+    "resumes-cover-letters/new-grad-nursing-resume-example",
+    "resumes-cover-letters/healthcare-resume-templates",
+    "resumes-cover-letters/ats-resume-tips-new-graduates",
+    "resumes-cover-letters/cover-letter-examples-healthcare",
+    "resumes-cover-letters/resume-mistakes-to-avoid",
+    "interview-prep/top-nursing-interview-questions",
+    "interview-prep/behavioral-interview-questions-healthcare",
+    "interview-prep/tell-me-about-yourself-best-answer",
+    "interview-prep/star-method-explained",
+    "interview-prep/common-interview-mistakes",
+    "resources/what-to-expect-first-nursing-job",
+    "resources/transition-student-to-nurse",
+    "resources/time-management-new-nurses",
+    "resources/clinical-confidence-tips",
+    "personal-statements/nursing-school-personal-statement-examples",
+    "personal-statements/scholarship-application-tips",
+  ];
+  for (const slug of seoContentArticles) {
+    urls.push(simpleUrl(`${siteBase}/${slug}`, now, "monthly", "0.8"));
+  }
+
   urls.push(simpleUrl(`${siteBase}/newgrad`, now, "weekly", "1.0"));
   const careerHubPages = [
     { path: "/newgrad/guides", priority: "0.9", freq: "weekly" },
