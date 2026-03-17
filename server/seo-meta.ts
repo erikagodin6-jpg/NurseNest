@@ -659,6 +659,10 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nursing Question of the Day - Free NCLEX Practice | NurseNest",
     description: "Answer a new nursing practice question every day. Free NCLEX, NCLEX-PN, and REx-PN exam prep with detailed rationales. Subscribe for daily email delivery.",
   },
+  "/daily-question": {
+    title: "Daily NCLEX Practice Question - Free Nursing Exam Prep | NurseNest",
+    description: "Challenge yourself with a new NCLEX-style nursing question every day. Get detailed rationales, join the discussion, and track your progress. Free daily practice for NCLEX-RN, NCLEX-PN, and REx-PN.",
+  },
   "/test-bank": {
     title: "Test Bank - 1,200+ Nursing Practice Questions | NurseNest",
     description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX, NCLEX-PN, and REx-PN prep. New questions added weekly.",
@@ -2268,7 +2272,7 @@ const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi
 const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/", "/lessons", "/flashcards", "/pricing", "/start-free", "/anatomy",
   "/med-math", "/lab-values", "/mock-exams", "/clinical-clarity", "/blog",
-  "/pre-nursing", "/question-of-the-day", "/question-bank", "/lectures",
+  "/pre-nursing", "/question-of-the-day", "/daily-question", "/question-bank", "/lectures",
   "/nursing", "/nursing-specialties", "/nursing-certifications", "/healthcare-certifications", "/nursing-schools",
   "/nurse-residency-programs", "/nursing-regulatory-bodies", "/study-pathways",
   "/faq", "/about", "/contact", "/terms", "/privacy",

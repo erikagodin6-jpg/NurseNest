@@ -291,6 +291,28 @@ export function registerQuestionCommentRoutes(app: Express) {
     }
   });
 
+  app.get("/api/admin/recent-comments", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const limit = parseInt(req.query.limit as string) || 100;
+      const result = await pool.query(
+        `SELECT qc.*, u.username
+         FROM question_comments qc
+         LEFT JOIN users u ON u.id = qc.user_id
+         ORDER BY qc.created_at DESC
+         LIMIT $1`,
+        [Math.min(limit, 500)]
+      );
+
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      console.error("Error fetching recent comments:", e);
+      res.status(500).json({ error: "Failed to load recent comments" });
+    }
+  });
+
   app.get("/api/admin/flagged-comments", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

@@ -366,6 +366,8 @@ const NpExamComparisonTemplate = lazy(() => import("@/pages/np-exam-content-hub"
 const NpExamStrategyTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamStrategyTemplate })));
 const NpExamCaseStudyTemplate = lazy(() => import("@/pages/np-exam-content-hub").then(m => ({ default: m.NpExamCaseStudyTemplate })));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
+const DailyQuestionPage = lazy(() => import("@/pages/daily-question"));
+const AdminCommentModeration = lazy(() => import("@/pages/admin-comment-moderation"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
 const AdminContentAnalytics = lazy(() => import("@/pages/admin-content-analytics"));
@@ -746,6 +748,7 @@ function AppRoutes() {
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
+        <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
         <Route path="/admin/notifications" component={AdminNotifications} />
         <Route path="/study/:mode" component={AdaptiveStudyPage} />
         <Route path="/study" component={AdaptiveStudyPage} />
@@ -1259,6 +1262,7 @@ function AppRoutes() {
         <Route path="/refund-policy" component={RefundPolicyPage} />
         <Route path="/email-preferences" component={EmailPreferencesPage} />
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
+        <Route path="/daily-question" component={DailyQuestionPage} />
         <Route path="/test-bank">{() => <ProtectedTestBankRoute><QuestionBank /></ProtectedTestBankRoute>}</Route>
         <Route path="/question-bank">{() => <Redirect to="/test-bank" />}</Route>
         <Route path="/contact" component={ContactPage} />

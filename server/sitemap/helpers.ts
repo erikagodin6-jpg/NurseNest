@@ -263,6 +263,7 @@ export function getSharedStaticRoutes(today: string): StaticRouteDefinition[] {
     { path: "/blog", priority: "0.7", changefreq: "daily", lastmod: today },
     { path: "/pre-nursing", priority: "0.6", changefreq: "monthly", lastmod: today },
     { path: "/question-of-the-day", priority: "0.9", changefreq: "daily", lastmod: today },
+    { path: "/daily-question", priority: "0.9", changefreq: "daily", lastmod: today },
     { path: "/question-bank", priority: "0.8", changefreq: "weekly", lastmod: today },
     { path: "/lectures", priority: "0.7", changefreq: "weekly", lastmod: today },
     { path: "/nursing", priority: "0.9", changefreq: "monthly", lastmod: today },
