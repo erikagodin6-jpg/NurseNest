@@ -31,6 +31,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-australia": "salaire-infirmier-australie",
     "nursing-certifications": "certifications-infirmieres",
     "certifications": "certifications",
+    "healthcare-careers": "carrieres-sante",
+    "healthcare-certifications": "certifications-sante",
   },
   es: {
     "pricing": "precios",
@@ -60,6 +62,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-australia": "salario-enfermeria-australia",
     "nursing-certifications": "certificaciones-enfermeria",
     "certifications": "certificaciones",
+    "healthcare-careers": "carreras-salud",
+    "healthcare-certifications": "certificaciones-salud",
   },
   zh: {
     "pricing": "jiage",
@@ -87,6 +91,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-united-states": "hushi-xinzi-meiguo",
     "nurse-salary-united-kingdom": "hushi-xinzi-yingguo",
     "nurse-salary-australia": "hushi-xinzi-aodaliya",
+    "healthcare-careers": "yiliao-zhiye",
+    "healthcare-certifications": "yiliao-renzheng",
   },
   "zh-tw": {
     "pricing": "jiage",
@@ -132,6 +138,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-united-states": "rawatib-altamrid-amrika",
     "nurse-salary-united-kingdom": "rawatib-altamrid-britanya",
     "nurse-salary-australia": "rawatib-altamrid-ostralya",
+    "healthcare-careers": "mihan-riaaya-sihhiya",
+    "healthcare-certifications": "shahadat-riaaya-sihhiya",
   },
   hi: {
     "pricing": "mulya",
@@ -150,6 +158,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "margadarshikaaen",
     "international-nurses": "antarrashtriya-nurses",
     "newgrad": "naye-snaatak",
+    "healthcare-careers": "swasthya-seva-career",
+    "healthcare-certifications": "swasthya-seva-pramanpatra",
   },
   ko: {
     "pricing": "gagyeog",
@@ -293,6 +303,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "topics": "themen",
     "guides": "leitfaeden",
     "international-nurses": "internationale-pflegekraefte",
+    "healthcare-careers": "gesundheitsberufe",
+    "healthcare-certifications": "gesundheitszertifizierungen",
   },
   tr: {
     "pricing": "fiyatlandirma",
@@ -348,6 +360,8 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-schools": "escolas-enfermagem",
     "nurse-residency-programs": "programas-residencia-enfermagem",
     "nursing-regulatory-bodies": "orgaos-reguladores-enfermagem",
+    "healthcare-careers": "carreiras-saude",
+    "healthcare-certifications": "certificacoes-saude",
   },
   th: {
     "pricing": "rakha",

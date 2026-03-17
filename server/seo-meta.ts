@@ -168,6 +168,20 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const healthcareCareerMatch = pathname.match(/^\/healthcare-careers\/(.+)$/);
+  if (healthcareCareerMatch) {
+    crumbs.push({ name: "Healthcare Careers", url: `${SITE_BASE}/healthcare-careers` });
+    crumbs.push({ name: slugToTitle(healthcareCareerMatch[1]) + " Career Guide", url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const healthcareCertMatch = pathname.match(/^\/healthcare-certifications\/(.+)$/);
+  if (healthcareCertMatch) {
+    crumbs.push({ name: "Healthcare Certifications", url: `${SITE_BASE}/healthcare-certifications` });
+    crumbs.push({ name: healthcareCertMatch[1].toUpperCase() + " Certification", url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   const careerMatch = pathname.match(/^\/career-development\/(.+)$/);
   if (careerMatch) {
     crumbs.push({ name: "Career Development", url: `${SITE_BASE}/new-grad` });
@@ -2049,7 +2063,7 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/nclex-rn-practice-questions", "/nclex-pn-practice-questions",
   "/rex-pn-practice-questions", "/np-exam-practice-questions",
   "/free-practice", "/practice-questions", "/glossary", "/medication-mastery",
-  "/exam-prep", "/new-graduate-support", "/healthcare-careers", "/guides",
+  "/exam-prep", "/new-graduate-support", "/healthcare-careers", "/healthcare-certifications", "/guides",
   "/topics", "/allied-health", "/case-simulations", "/shop",
   "/perioperative-nursing", "/preoperative-care", "/preoperative-nursing-guide",
   "/perioperative-nurse-career", "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
@@ -2112,6 +2126,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/allied-pharmacy-", "/allied-psychotherapy-", "/allied-health-exam-",
   "/simulators/",
   "/nursing-licensing-exams/",
+  "/healthcare-careers/",
   "/healthcare-certifications/",
 ];
 

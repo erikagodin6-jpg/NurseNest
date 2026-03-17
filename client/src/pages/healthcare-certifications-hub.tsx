@@ -1,17 +1,18 @@
-import { Link } from "wouter";
 import { useState } from "react";
-import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { HEALTHCARE_CERTIFICATIONS, getCertificationsByCategory } from "@/data/healthcare-certifications-data";
+import { SEO } from "@/components/seo";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { HEALTHCARE_CERTIFICATION_DATA, type HealthcareCertificationDetail } from "@/data/healthcare-certification-data";
 import {
-  ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
-  HelpCircle, TrendingUp, Clock, DollarSign, GraduationCap,
-  Stethoscope, Heart, Brain, Baby, Ribbon, Activity,
-  RefreshCw, Zap, ClipboardList, Layers, Users, Filter,
-  Search
+  Award, ArrowRight, ChevronRight, BookOpen, ShieldCheck,
+  Clock, DollarSign, TrendingUp, Filter, Heart, Activity,
+  Baby, Zap, Stethoscope, Ribbon, Brain, Scissors, GraduationCap
 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string }> = {
   red: { bg: "bg-red-50", iconColor: "text-red-600", border: "border-red-100" },
@@ -19,87 +20,48 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string 
   blue: { bg: "bg-blue-50", iconColor: "text-blue-600", border: "border-blue-100" },
   purple: { bg: "bg-purple-50", iconColor: "text-purple-600", border: "border-purple-100" },
   sky: { bg: "bg-sky-50", iconColor: "text-sky-600", border: "border-sky-100" },
-  teal: { bg: "bg-teal-50", iconColor: "text-teal-600", border: "border-teal-100" },
   pink: { bg: "bg-pink-50", iconColor: "text-pink-600", border: "border-pink-100" },
   violet: { bg: "bg-violet-50", iconColor: "text-violet-600", border: "border-violet-100" },
+  teal: { bg: "bg-teal-50", iconColor: "text-teal-600", border: "border-teal-100" },
 };
 
-const ICON_MAP: Record<string, typeof Activity> = {
-  acls: Heart,
-  pals: Baby,
-  bls: Activity,
-  nrp: Baby,
-  tncc: Zap,
-  enpc: Baby,
-  ccrn: Activity,
-  cen: Stethoscope,
-  ocn: Ribbon,
-  cmsrn: Heart,
-};
+type FilterCategory = "all" | "life-support" | "specialty";
 
 const FAQ_DATA = [
-  { question: "How do I choose which healthcare certification to pursue?", answer: "Choose based on your clinical specialty and career goals. Start with required certifications for your unit (BLS is universal, ACLS for acute care, PALS for pediatrics). Then pursue specialty certifications like CCRN or CEN after gaining clinical experience." },
-  { question: "Are healthcare certifications required to practice nursing?", answer: "BLS is required for all nursing positions. ACLS, PALS, NRP, TNCC, and ENPC are required by specific units and facilities. Specialty certifications like CCRN, CEN, OCN, and CMSRN are voluntary but strongly preferred by employers and often required for clinical ladder advancement." },
-  { question: "How long does it take to prepare for a certification exam?", answer: "Course-based certifications (BLS: 1 day, ACLS/PALS: 2 days, TNCC/ENPC: 2 days) include instruction time. Knowledge-based exams like CCRN, CEN, OCN, and CMSRN typically require 6-12 weeks of self-study while working full-time." },
-  { question: "Do healthcare certifications increase salary?", answer: "Yes. Most hospitals offer certification pay differentials ranging from $1,000 to $10,000 annually. CCRN, CEN, and specialty certifications typically command the highest premiums. Certifications also strengthen your position for leadership roles." },
-  { question: "What is the difference between course certifications and exam certifications?", answer: "Course certifications (BLS, ACLS, PALS, NRP, TNCC, ENPC) are earned by completing a structured course with skills testing. Exam certifications (CCRN, CEN, CMSRN, OCN) require passing a comprehensive knowledge exam and typically require significant clinical experience hours." },
-  { question: "How often do certifications need to be renewed?", answer: "BLS, ACLS, PALS, and NRP renew every 2 years. TNCC and ENPC renew every 4 years. CCRN renews every 3 years. CEN and OCN renew every 4 years. CMSRN renews every 5 years. Each has different renewal options including re-examination and continuing education." },
-  { question: "What certifications should new graduate nurses get first?", answer: "BLS before day one (usually done in nursing school). ACLS within 90 days for acute care. PALS within 6 months for pediatric/ED units. NRP for labor & delivery. TNCC for trauma/ED. Specialty certifications after 1-2 years of experience." },
+  { question: "What certifications should new nurses get first?", answer: "Start with BLS before your first day (usually completed in nursing school). Add ACLS within 90 days for acute care units, PALS within 6 months for pediatric or ED units, and NRP for labor & delivery. Pursue specialty certifications like CCRN or CEN after 1–2 years of clinical experience." },
+  { question: "How do I choose which certification to pursue?", answer: "Choose based on your clinical specialty and career goals. Life support certifications (BLS, ACLS, PALS, NRP) are unit-specific requirements. Specialty certifications (CCRN, CEN, CMSRN, OCN) validate expertise and require clinical experience in that specialty area." },
+  { question: "Do certifications increase salary?", answer: "Yes, most hospitals offer certification pay differentials ranging from $1,000 to $10,000 annually. CCRN, CEN, and specialty certifications typically command the highest premiums. Certifications also strengthen your position for leadership roles and clinical ladder advancement." },
+  { question: "How often do certifications need to be renewed?", answer: "BLS, ACLS, PALS, and NRP renew every 2 years. TNCC and ENPC renew every 4 years. Specialty certifications like CCRN (3 years), CEN (4 years), and CMSRN (5 years) vary and can be renewed through continuing education or re-examination." },
+  { question: "What is the difference between life support and specialty certifications?", answer: "Life support certifications (BLS, ACLS, PALS, NRP, TNCC, ENPC) are course-based, typically completed in 1–2 days with skills testing. Specialty certifications (CCRN, CEN, OCN, CMSRN) require passing a comprehensive knowledge exam and clinical experience hours." },
+  { question: "Are US certifications recognized in Canada?", answer: "BLS, ACLS, PALS, and NRP are recognized across North America. US specialty certifications like CCRN and CEN are recognized by many Canadian employers. Canadian nurses may hold both US and Canadian specialty certifications." },
 ];
 
-const WHY_CERTIFY = [
-  { icon: DollarSign, title: "Higher Earning Potential", desc: "Certified nurses earn $3,000-$10,000 more annually" },
-  { icon: TrendingUp, title: "Career Advancement", desc: "Required for leadership and clinical educator roles" },
-  { icon: ShieldCheck, title: "Professional Credibility", desc: "Recognized expertise validated by national organizations" },
-  { icon: Clock, title: "Magnet Recognition", desc: "Contributes to hospital Magnet designation requirements" },
-];
-
-function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors" data-testid={`button-faq-toggle-${index}`}>
-        <span className="font-medium text-gray-900 pr-4">{question}</span>
-        <HelpCircle className={`w-5 h-5 flex-shrink-0 transition-colors ${open ? 'text-emerald-500' : 'text-gray-400'}`} />
-      </button>
-      {open && <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed" data-testid={`text-faq-answer-${index}`}>{answer}</div>}
-    </div>
-  );
-}
+const allCerts = Object.values(HEALTHCARE_CERTIFICATION_DATA);
 
 export default function HealthcareCertificationsHub() {
-  const [filter, setFilter] = useState<"all" | "emergency" | "specialty">("all");
-  const [searchQuery, setSearchQuery] = useState("");
-
+  const [filter, setFilter] = useState<FilterCategory>("all");
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 
-  const emergencyCerts = getCertificationsByCategory("emergency");
-  const specialtyCerts = getCertificationsByCategory("specialty");
+  const filteredCerts = filter === "all"
+    ? allCerts
+    : allCerts.filter(c => c.category === filter);
 
-  const filteredCerts = HEALTHCARE_CERTIFICATIONS.filter(cert => {
-    if (filter !== "all" && cert.category !== filter) return false;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      return cert.name.toLowerCase().includes(q) ||
-             cert.fullName.toLowerCase().includes(q) ||
-             cert.organization.toLowerCase().includes(q);
-    }
-    return true;
-  });
+  const lifeSupportCerts = allCerts.filter(c => c.category === "life-support");
+  const specialtyCerts = allCerts.filter(c => c.category === "specialty");
 
   return (
-    <div data-testid="page-healthcare-certifications-hub">
+    <div className="min-h-screen bg-background" data-testid="healthcare-certifications-hub-page">
       <Navigation />
       <SEO
-        title="Healthcare Certifications Database: BLS, ACLS, PALS, CCRN, CEN, OCN & More | NurseNest"
-        description="Comprehensive healthcare certification database with detailed guides for BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, and CMSRN. Eligibility requirements, exam structure, renewal cycles, and study resources."
-        keywords="healthcare certifications, nursing certifications, BLS certification, ACLS certification, PALS certification, NRP certification, TNCC certification, ENPC certification, CCRN certification, CEN certification, OCN certification, CMSRN certification, certification database"
+        title="Healthcare Certifications Database: BLS, ACLS, PALS, CCRN, CEN & More | NurseNest"
+        description="Complete database of healthcare certifications. Eligibility requirements, exam structure, renewal cycles, and study preparation for BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, and CMSRN."
+        keywords="healthcare certifications, nursing certifications, BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CMSRN, certification exam prep, certification renewal"
         canonicalPath="/healthcare-certifications"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           "name": "Healthcare Certifications Database",
-          "description": "Comprehensive database of healthcare certifications including life support, emergency, and specialty nursing certifications with detailed guides.",
+          "description": "Complete database of healthcare certifications including life support and specialty nursing certifications with eligibility, exam structure, renewal information, and study resources.",
           "provider": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
         }}
         breadcrumbs={[
@@ -109,285 +71,281 @@ export default function HealthcareCertificationsHub() {
         additionalStructuredData={[faqStructuredData]}
       />
 
-      <section className="relative py-16 sm:py-20 overflow-hidden" data-testid="section-hero">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-emerald-600">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-emerald-700 font-medium">Healthcare Certifications</span>
-          </div>
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700 mb-4" data-testid="badge-hub">
-              <Award className="w-4 h-4" /> Certification Database
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
-              Healthcare Certifications Database
-            </h1>
-            <p className="text-lg text-gray-600 mb-8" data-testid="text-page-subtitle">
-              Your comprehensive resource for healthcare certifications — from life support courses (BLS, ACLS, PALS) to advanced specialty credentials (CCRN, CEN, OCN, CMSRN). Detailed eligibility requirements, exam structures, renewal cycles, and study guidance for each certification.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-browse-certs">
-                Browse Certifications <ArrowRight className="w-4 h-4" />
-              </a>
-              <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-emerald-50 transition-colors border border-emerald-200" data-testid="button-nursing-certs">
-                Nursing Cert Prep Guides
-              </Link>
-            </div>
-          </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
+          <LocaleLink href="/" className="hover:text-emerald-600">Home</LocaleLink>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-emerald-700 font-medium">Healthcare Certifications</span>
         </div>
-      </section>
 
-      <section className="py-16" data-testid="section-why-certify">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-why-heading">Why Get Certified?</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {WHY_CERTIFY.map((item, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 text-center" data-testid={`card-why-${i}`}>
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                  <item.icon className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-                <p className="text-sm text-gray-500">{item.desc}</p>
+        <section className="mb-12" data-testid="section-hero">
+          <div className="bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white rounded-2xl border border-emerald-100 p-8 sm:p-10">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                <Award className="w-7 h-7 text-emerald-600" />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gray-50" id="certifications" data-testid="section-certifications">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-certs-heading">All Certifications</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Browse our complete database of healthcare certifications. Click any certification for a detailed guide including eligibility, exam structure, renewal cycle, and study resources.</p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 items-center justify-center">
-            <div className="flex gap-2" data-testid="filter-buttons">
-              <button
-                onClick={() => setFilter("all")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "all" ? "bg-emerald-600 text-white" : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"}`}
-                data-testid="button-filter-all"
-              >
-                All ({HEALTHCARE_CERTIFICATIONS.length})
-              </button>
-              <button
-                onClick={() => setFilter("emergency")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "emergency" ? "bg-emerald-600 text-white" : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"}`}
-                data-testid="button-filter-emergency"
-              >
-                Life Support ({emergencyCerts.length})
-              </button>
-              <button
-                onClick={() => setFilter("specialty")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "specialty" ? "bg-emerald-600 text-white" : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"}`}
-                data-testid="button-filter-specialty"
-              >
-                Specialty ({specialtyCerts.length})
-              </button>
+              <div>
+                <Badge variant="outline" className="mb-2 text-xs border-emerald-200 text-emerald-700" data-testid="badge-cert-hub">
+                  Certification Database
+                </Badge>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight" data-testid="text-cert-h1">
+                  Healthcare Certifications Database
+                </h1>
+              </div>
             </div>
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search certifications..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-64"
-                data-testid="input-search"
-              />
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-4xl" data-testid="text-cert-intro">
+              Comprehensive guide to healthcare certifications — from essential life support courses to advanced specialty credentials. Each certification includes eligibility requirements, exam structure, renewal information, and NurseNest study resources.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-total-certs">
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{allCerts.length}</p>
+                <p className="text-xs text-slate-500 mt-1">Certifications</p>
+              </div>
+              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-life-support">
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{lifeSupportCerts.length}</p>
+                <p className="text-xs text-slate-500 mt-1">Life Support</p>
+              </div>
+              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-specialty">
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{specialtyCerts.length}</p>
+                <p className="text-xs text-slate-500 mt-1">Specialty</p>
+              </div>
+              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-prep-guides">
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{allCerts.length}</p>
+                <p className="text-xs text-slate-500 mt-1">Prep Guides</p>
+              </div>
             </div>
           </div>
+        </section>
 
+        <section className="mb-8" data-testid="section-filter">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={filter === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFilter("all")}
+              className="rounded-full"
+              data-testid="button-filter-all"
+            >
+              All Certifications ({allCerts.length})
+            </Button>
+            <Button
+              variant={filter === "life-support" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFilter("life-support")}
+              className="rounded-full"
+              data-testid="button-filter-life-support"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 mr-1" />
+              Life Support ({lifeSupportCerts.length})
+            </Button>
+            <Button
+              variant={filter === "specialty" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFilter("specialty")}
+              className="rounded-full"
+              data-testid="button-filter-specialty"
+            >
+              <Award className="w-3.5 h-3.5 mr-1" />
+              Specialty ({specialtyCerts.length})
+            </Button>
+          </div>
+        </section>
+
+        <section className="mb-12" data-testid="section-cert-list">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredCerts.map((cert) => {
-              const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
-              const Icon = ICON_MAP[cert.slug] || Activity;
+              const certColors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
               return (
-                <Link key={cert.slug} href={`/healthcare-certifications/${cert.slug}`} className="group" data-testid={`card-cert-${cert.slug}`}>
-                  <div className={`bg-white rounded-xl border ${colors.border} p-6 hover:shadow-md transition-all h-full`}>
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center flex-shrink-0`}>
-                        <Icon className={`w-6 h-6 ${colors.iconColor}`} />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-gray-900 text-lg group-hover:text-emerald-700 transition-colors" data-testid={`text-cert-name-${cert.slug}`}>{cert.name}</h3>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{cert.organization.split('(')[1]?.replace(')', '') || cert.organization.split(' ')[0]}</span>
+                <LocaleLink key={cert.slug} href={`/healthcare-certifications/${cert.slug}`}>
+                  <Card className={`h-full hover:shadow-md transition-all cursor-pointer group ${certColors.border}`} data-testid={`card-cert-${cert.slug}`}>
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className={`w-10 h-10 rounded-xl ${certColors.bg} flex items-center justify-center`}>
+                          <Award className={`w-5 h-5 ${certColors.iconColor}`} />
                         </div>
-                        <p className="text-sm text-gray-500">{cert.fullName}</p>
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-lg group-hover:text-emerald-700 transition-colors" data-testid={`text-cert-name-${cert.slug}`}>
+                            {cert.certName}
+                          </h3>
+                          <p className="text-xs text-gray-500">{cert.org}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {cert.validity}</span>
-                      <span className="flex items-center gap-1"><DollarSign className="w-3.5 h-3.5" /> {cert.cost}</span>
-                    </div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${cert.category === "emergency" ? "bg-red-50 text-red-600" : "bg-blue-50 text-blue-600"}`}>
-                        {cert.category === "emergency" ? "Life Support" : "Specialty"}
+                      <p className="text-xs text-gray-500 mb-2">{cert.fullName}</p>
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{cert.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-xs text-gray-400">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>Valid {cert.renewalCycle.validity}</span>
+                        </div>
+                        <Badge variant="outline" className="text-xs">
+                          {cert.category === "life-support" ? "Life Support" : "Specialty"}
+                        </Badge>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 mt-3 group-hover:gap-2 transition-all">
+                        View Details <ArrowRight className="w-3.5 h-3.5" />
                       </span>
-                    </div>
-                    <span className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 group-hover:gap-2 transition-all">
-                      View Full Guide <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </Link>
+                    </CardContent>
+                  </Card>
+                </LocaleLink>
               );
             })}
           </div>
+        </section>
 
-          {filteredCerts.length === 0 && (
-            <div className="text-center py-12 text-gray-500" data-testid="text-no-results">
-              <p>No certifications found matching your search.</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="py-16 bg-white" data-testid="section-comparison">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-comparison-heading">Certification Comparison</h2>
-            <p className="text-gray-600">Quick overview of all certifications to help you plan your certification journey.</p>
-          </div>
+        <section className="mb-12" data-testid="section-comparison">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Certification Comparison</h2>
           <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="w-full text-sm" data-testid="table-comparison">
               <thead>
                 <tr className="bg-gray-50 text-left">
                   <th className="px-4 py-3 font-semibold text-gray-900">Certification</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Type</th>
                   <th className="px-4 py-3 font-semibold text-gray-900">Organization</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Type</th>
                   <th className="px-4 py-3 font-semibold text-gray-900">Validity</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Cost</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Guide</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">Details</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {HEALTHCARE_CERTIFICATIONS.map((cert, i) => (
-                  <tr key={cert.slug} className="hover:bg-gray-50" data-testid={`row-comparison-${cert.slug}`}>
-                    <td className="px-4 py-3 font-semibold text-gray-900">
-                      <div>
-                        <span>{cert.name}</span>
-                        <p className="text-xs text-gray-400 font-normal">{cert.fullName}</p>
-                      </div>
-                    </td>
+                {allCerts.map((cert) => (
+                  <tr key={cert.slug} className="hover:bg-gray-50" data-testid={`row-cert-${cert.slug}`}>
+                    <td className="px-4 py-3 font-semibold text-gray-900">{cert.certName}</td>
+                    <td className="px-4 py-3 text-gray-600 text-xs">{cert.org}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${cert.category === "emergency" ? "bg-red-50 text-red-600" : "bg-blue-50 text-blue-600"}`}>
-                        {cert.category === "emergency" ? "Life Support" : "Specialty"}
-                      </span>
+                      <Badge variant="outline" className="text-xs">
+                        {cert.category === "life-support" ? "Life Support" : "Specialty"}
+                      </Badge>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">{cert.organization.split('(')[1]?.replace(')', '') || cert.organization}</td>
-                    <td className="px-4 py-3 text-gray-600">{cert.validity}</td>
-                    <td className="px-4 py-3 text-gray-600">{cert.cost}</td>
+                    <td className="px-4 py-3 text-gray-600">{cert.renewalCycle.validity}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/healthcare-certifications/${cert.slug}`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-${cert.slug}`}>View</Link>
+                      <LocaleLink href={`/healthcare-certifications/${cert.slug}`} className="text-emerald-600 hover:text-emerald-700 font-medium text-xs" data-testid={`table-link-${cert.slug}`}>
+                        View Guide
+                      </LocaleLink>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-16 bg-gray-50" data-testid="section-study-tools">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-tools-heading">Study Tools for Certification Prep</h2>
-            <p className="text-gray-600">Everything you need to prepare for and pass your certification exams.</p>
-          </div>
+        <section className="mb-12" data-testid="section-study-tools">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Study Tools & Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link href="/free-practice" className="group" data-testid="link-tool-practice">
-              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                  <ClipboardList className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Practice Questions</h3>
-                <p className="text-xs text-gray-500">Thousands of questions aligned to certification exam blueprints.</p>
-              </div>
-            </Link>
-            <Link href="/flashcards" className="group" data-testid="link-tool-flashcards">
-              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                  <Layers className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Flashcards</h3>
-                <p className="text-xs text-gray-500">Spaced-repetition decks for algorithms, medications, and key concepts.</p>
-              </div>
-            </Link>
-            <Link href="/lessons" className="group" data-testid="link-tool-lessons">
-              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                  <BookOpen className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Lessons</h3>
-                <p className="text-xs text-gray-500">In-depth clinical lessons covering certification content areas.</p>
-              </div>
-            </Link>
-            <Link href="/mock-exams" className="group" data-testid="link-tool-mocks">
-              <div className="bg-white rounded-xl border border-emerald-100 p-5 hover:shadow-md transition-all h-full text-center">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-                  <Award className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Mock Exams</h3>
-                <p className="text-xs text-gray-500">Timed practice exams simulating real certification exam conditions.</p>
-              </div>
-            </Link>
+            <LocaleLink href="/free-practice">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-tool-practice">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                    <BookOpen className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Practice Questions</h3>
+                  <p className="text-xs text-slate-500">Certification-aligned question banks</p>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/flashcards">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-tool-flashcards">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                    <GraduationCap className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Flashcards</h3>
+                  <p className="text-xs text-slate-500">Spaced-repetition study decks</p>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/lessons">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-tool-lessons">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                    <Stethoscope className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Clinical Lessons</h3>
+                  <p className="text-xs text-slate-500">In-depth certification content</p>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/mock-exams">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-tool-mocks">
+                <CardContent className="p-5 text-center">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                    <Award className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Mock Exams</h3>
+                  <p className="text-xs text-slate-500">Timed exam simulations</p>
+                </CardContent>
+              </Card>
+            </LocaleLink>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-16 bg-white" data-testid="section-cross-links">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
+        <section className="mb-12" data-testid="section-cross-links">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Related Resources</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-nursing-certs">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Nursing Certification Prep</h3>
-              <p className="text-sm text-emerald-700/70">Study guides, renewal resources, and practice questions for each certification.</p>
-            </Link>
-            <Link href="/nursing-specialties" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-specialties">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">Nursing Specialties</h3>
-              <p className="text-sm text-blue-700/70">Explore career guides for critical care, emergency, pediatric, oncology, and more.</p>
-            </Link>
-            <Link href="/newgrad/certifications" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-newgrad">
-              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">New Grad Certification Guide</h3>
-              <p className="text-sm text-violet-700/70">Certification timeline and study strategies for new graduate nurses.</p>
-            </Link>
+            <LocaleLink href="/healthcare-careers">
+              <Card className="h-full hover:shadow-md hover:border-purple-200 transition-all cursor-pointer group" data-testid="card-cross-careers">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
+                      <TrendingUp className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">Healthcare Careers Hub</h3>
+                      <p className="text-xs text-slate-500 mt-1">Explore career paths, salary guides, and education requirements.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/nursing-certifications">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-cross-nursing-certs">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">Nursing Certifications</h3>
+                      <p className="text-xs text-slate-500 mt-1">Emergency and specialty nursing certification prep guides.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/exam-prep">
+              <Card className="h-full hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group" data-testid="card-cross-exam-prep">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                      <BookOpen className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Exam Prep Hub</h3>
+                      <p className="text-xs text-slate-500 mt-1">Practice questions, mock exams, and study resources.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </LocaleLink>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-16 bg-gray-50" data-testid="section-faq">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Healthcare Certification FAQs</h2>
+        <section className="mb-12" data-testid="section-faq">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
-              <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
+              <details key={i} className="border border-gray-200 rounded-xl overflow-hidden group" data-testid={`faq-item-${i}`}>
+                <summary className="px-5 py-4 cursor-pointer text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors list-none flex items-center justify-between" data-testid={`button-faq-${i}`}>
+                  {faq.question}
+                  <ChevronRight className="w-4 h-4 text-gray-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                </summary>
+                <div className="px-5 pb-4">
+                  <p className="text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                </div>
+              </details>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gradient-to-br from-emerald-600 to-teal-700" data-testid="section-cta">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" data-testid="text-cta-heading">
-            Start Your Certification Journey
-          </h2>
-          <p className="text-emerald-100 mb-8 text-lg">
-            Practice questions, flashcards, and study tools aligned to every major healthcare certification exam.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/free-practice" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-emerald-700 rounded-xl font-bold hover:bg-emerald-50 transition-colors shadow-lg" data-testid="button-cta-qbank">
-              Practice Questions <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-400 transition-colors border border-emerald-400" data-testid="button-cta-pricing">
-              View Pricing
-            </Link>
-          </div>
-        </div>
-      </section>
-
+        </section>
+      </main>
       <Footer />
     </div>
   );

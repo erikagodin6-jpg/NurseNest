@@ -4,53 +4,62 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
-import { CAREER_SLUG_MAP } from "@/data/healthcare-career-data";
-import { useI18n } from "@/lib/i18n";
+import { HEALTHCARE_CAREER_DATA } from "@/data/healthcare-career-data";
 import {
-  ChevronRight, BookOpen, GraduationCap, Briefcase,
-  DollarSign, TrendingUp, MapPin, CheckCircle2,
-  ArrowRight, FileText, Award, Building2, Lightbulb
+  ArrowRight, ChevronRight, BookOpen, GraduationCap,
+  DollarSign, TrendingUp, Clock, CheckCircle2, MapPin,
+  Briefcase, Award, Stethoscope, FileText, Users, Heart
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+
+const COLOR_MAP: Record<string, { bg: string; text: string; border: string; gradientFrom: string }> = {
+  blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-100", gradientFrom: "from-blue-50" },
+  pink: { bg: "bg-pink-50", text: "text-pink-600", border: "border-pink-100", gradientFrom: "from-pink-50" },
+  indigo: { bg: "bg-indigo-50", text: "text-indigo-600", border: "border-indigo-100", gradientFrom: "from-indigo-50" },
+  cyan: { bg: "bg-cyan-50", text: "text-cyan-600", border: "border-cyan-100", gradientFrom: "from-cyan-50" },
+  purple: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-100", gradientFrom: "from-purple-50" },
+  teal: { bg: "bg-teal-50", text: "text-teal-600", border: "border-teal-100", gradientFrom: "from-teal-50" },
+  green: { bg: "bg-green-50", text: "text-green-600", border: "border-green-100", gradientFrom: "from-green-50" },
+  emerald: { bg: "bg-emerald-50", text: "text-emerald-600", border: "border-emerald-100", gradientFrom: "from-emerald-50" },
+  rose: { bg: "bg-rose-50", text: "text-rose-600", border: "border-rose-100", gradientFrom: "from-rose-50" },
+  red: { bg: "bg-red-50", text: "text-red-600", border: "border-red-100", gradientFrom: "from-red-50" },
+  orange: { bg: "bg-orange-50", text: "text-orange-600", border: "border-orange-100", gradientFrom: "from-orange-50" },
+};
 
 export default function HealthcareCareerDetail() {
-  const params = useParams<{ slug: string }>();
-  const slug = params.slug || "";
-  const career = CAREER_SLUG_MAP[slug];
-  const { t } = useI18n();
+  const { slug } = useParams<{ slug: string }>();
+  const career = slug ? HEALTHCARE_CAREER_DATA[slug] : null;
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   if (!career) {
     return (
-      <div className="min-h-screen bg-background" data-testid="career-not-found">
+      <div data-testid="page-career-not-found">
         <Navigation />
-        <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("careerGuide.notFound")}</h1>
-          <p className="text-gray-600 mb-4">{t("careerGuide.notFoundDesc")}</p>
-          <LocaleLink href="/healthcare-careers" className="inline-flex items-center gap-2 px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="link-back-careers">
-            {t("careerGuide.backToCareers")}
-          </LocaleLink>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center max-w-md px-4">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Career Not Found</h1>
+            <p className="text-gray-600 mb-6">The healthcare career you're looking for isn't available.</p>
+            <LocaleLink href="/healthcare-careers" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors" data-testid="link-back-to-careers">
+              Back to Careers Hub <ArrowRight className="w-4 h-4" />
+            </LocaleLink>
+          </div>
         </div>
         <Footer />
       </div>
     );
   }
 
-  const Icon = career.icon;
-
-  const faqStructuredData = buildFaqStructuredData(career.faqs);
+  const colors = COLOR_MAP[career.color] || COLOR_MAP.blue;
+  const faqStructuredData = career.faqs.length > 0 ? buildFaqStructuredData(career.faqs) : null;
 
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": career.metaTitle,
-    "description": career.metaDescription,
-    "url": `https://www.nursenest.ca/healthcare-careers/${career.slug}`,
-    "publisher": {
-      "@type": "EducationalOrganization",
-      "name": "NurseNest",
-      "url": "https://www.nursenest.ca",
-    },
+    "headline": `${career.name} Career Guide`,
+    "description": career.description,
+    "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
     "about": {
       "@type": "Occupation",
       "name": career.fullTitle,
@@ -58,297 +67,258 @@ export default function HealthcareCareerDetail() {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual Salary",
         "currency": "USD",
-        "minValue": career.salaryMin,
-        "maxValue": career.salaryMax,
-        "unitText": "YEAR",
+        "median": parseInt(career.salaryMedian.replace(/[^0-9]/g, ""), 10) || 0,
       },
     },
-    "datePublished": "2025-01-15",
-    "dateModified": "2026-03-15",
   };
 
   return (
-    <div className="min-h-screen bg-background" data-testid={`career-detail-${career.slug}`}>
+    <div data-testid={`page-career-${career.slug}`}>
       <Navigation />
       <SEO
-        title={career.metaTitle}
-        description={career.metaDescription}
-        keywords={career.metaKeywords}
+        title={`${career.name} Career Guide: Education, Salary & Licensing | NurseNest`}
+        description={`Complete ${career.name} career guide. Education pathways, licensing requirements, salary range (${career.salaryRange}), work environments, advancement opportunities, and exam prep resources.`}
+        keywords={`${career.name.toLowerCase()} career, ${career.fullTitle.toLowerCase()} salary, how to become a ${career.fullTitle.toLowerCase()}, ${career.fullTitle.toLowerCase()} education, ${career.fullTitle.toLowerCase()} licensing`}
         canonicalPath={`/healthcare-careers/${career.slug}`}
         structuredData={articleStructuredData}
-        additionalStructuredData={[faqStructuredData]}
+        additionalStructuredData={faqStructuredData ? [faqStructuredData] : undefined}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
-          { name: t("careerGuide.backToCareers").replace("Back to ", "").replace("Retour aux ", "").replace("Volver a ", ""), url: "https://www.nursenest.ca/healthcare-careers" },
+          { name: "Healthcare Careers", url: "https://www.nursenest.ca/healthcare-careers" },
           { name: career.name, url: `https://www.nursenest.ca/healthcare-careers/${career.slug}` },
         ]}
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-          <LocaleLink href="/" className="hover:text-blue-600">Home</LocaleLink>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <LocaleLink href="/healthcare-careers" className="hover:text-blue-600">{t("careerGuide.backToCareers").replace("Back to ", "").replace("Retour aux ", "").replace("Volver a ", "")}</LocaleLink>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-purple-700 font-medium">{career.name}</span>
-        </nav>
+      <main className="min-h-screen bg-white">
+        <section className={`relative py-14 sm:py-18 overflow-hidden`} data-testid="section-hero">
+          <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white to-white`} />
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
+              <LocaleLink href="/" className="hover:text-purple-600">Home</LocaleLink>
+              <ChevronRight className="w-3.5 h-3.5" />
+              <LocaleLink href="/healthcare-careers" className="hover:text-purple-600">Healthcare Careers</LocaleLink>
+              <ChevronRight className="w-3.5 h-3.5" />
+              <span className={`${colors.text} font-medium`}>{career.name}</span>
+            </div>
+            <Badge variant="outline" className={`mb-3 text-xs ${colors.border} ${colors.text}`} data-testid="badge-career-guide">
+              Career Guide
+            </Badge>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-career-title">
+              {career.name} Career Guide
+            </h1>
+            <p className="text-lg text-gray-600 mb-8 max-w-3xl" data-testid="text-career-subtitle">
+              {career.heroSubtitle}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-salary">
+                <DollarSign className="w-5 h-5 text-green-500 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Salary Range</p>
+                <p className="text-sm font-bold text-gray-900">{career.salaryRange}</p>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-education">
+                <Clock className="w-5 h-5 text-blue-500 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Education</p>
+                <p className="text-sm font-bold text-gray-900">{career.educationLength}</p>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-growth">
+                <TrendingUp className="w-5 h-5 text-purple-500 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Job Growth</p>
+                <p className="text-sm font-bold text-gray-900">{career.growthRate} (10-year)</p>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-median">
+                <Award className="w-5 h-5 text-orange-500 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Median Salary</p>
+                <p className="text-sm font-bold text-gray-900">{career.salaryMedian}</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <section className="mb-10" data-testid="section-career-hero">
-          <div className={`bg-gradient-to-br from-${career.bgColor.replace("bg-", "")}/60 via-white to-white rounded-2xl border border-slate-200 p-8 sm:p-10`}>
-            <div className="flex items-start gap-4 mb-6">
-              <div className={`w-14 h-14 rounded-xl ${career.bgColor} flex items-center justify-center shrink-0`}>
-                <Icon className={`w-7 h-7 ${career.color}`} />
+        <section className="py-12 px-4" data-testid="section-overview">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-5">Role Overview</h2>
+            <div className="space-y-4">
+              {career.overview.map((p, i) => (
+                <p key={i} className="text-gray-600 leading-relaxed" data-testid={`text-overview-${i}`}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-12 px-4 bg-gray-50" data-testid="section-education">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Education Pathways</h2>
+            <div className="space-y-4">
+              {career.educationPathways.map((path, i) => (
+                <div key={i} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-6" data-testid={`card-edu-${i}`}>
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-full ${colors.bg} flex items-center justify-center`}>
+                    <GraduationCap className={`w-5 h-5 ${colors.text}`} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{path.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{path.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-12 px-4" data-testid="section-licensing">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Licensing Requirements</h2>
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <ul className="space-y-3">
+                {career.licensingRequirements.map((req, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`text-license-${i}`}>
+                    <CheckCircle2 className={`w-5 h-5 ${colors.text} mt-0.5 flex-shrink-0`} />
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-12 px-4 bg-gray-50" data-testid="section-responsibilities">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-5">Typical Responsibilities</h2>
+                <ul className="space-y-2.5">
+                  {career.typicalResponsibilities.map((resp, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
+                      <Stethoscope className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
+                      {resp}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div>
-                <Badge variant="outline" className="mb-2 text-xs border-purple-200 text-purple-700" data-testid="badge-career-guide">
-                  {t("careerGuide.badge")}
-                </Badge>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight" data-testid="text-career-title">
-                  {career.name}
-                </h1>
-              </div>
-            </div>
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-4xl mb-6" data-testid="text-career-description">
-              {career.description}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-salary">
-                <DollarSign className="w-5 h-5 text-green-600 mx-auto mb-1" />
-                <p className="text-sm sm:text-base font-bold text-gray-900">{career.salaryRange}</p>
-                <p className="text-xs text-slate-500 mt-1">{t("careerGuide.annualSalary")}</p>
-              </div>
-              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-growth">
-                <TrendingUp className="w-5 h-5 text-blue-600 mx-auto mb-1" />
-                <p className="text-sm sm:text-base font-bold text-gray-900">{career.growthOutlook.split("—")[0].trim()}</p>
-                <p className="text-xs text-slate-500 mt-1">{t("careerGuide.jobGrowth")}</p>
-              </div>
-              <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center col-span-2 sm:col-span-1" data-testid="stat-environments">
-                <MapPin className="w-5 h-5 text-purple-600 mx-auto mb-1" />
-                <p className="text-sm sm:text-base font-bold text-gray-900">{career.workEnvironments.length}+</p>
-                <p className="text-xs text-slate-500 mt-1">{t("careerGuide.workSettings")}</p>
+                <h2 className="text-xl font-bold text-gray-900 mb-5">Work Environments</h2>
+                <ul className="space-y-2.5">
+                  {career.workEnvironments.map((env, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
+                      <MapPin className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
+                      {env}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mb-10" data-testid="section-role-overview">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <FileText className="w-6 h-6 text-purple-600" />
-            {t("careerGuide.roleOverview")}
-          </h2>
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base" data-testid="text-role-overview">
-              {career.roleOverview}
-            </p>
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-education">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <GraduationCap className="w-6 h-6 text-blue-600" />
-            {t("careerGuide.educationPathways")}
-          </h2>
-          <div className="space-y-4">
-            {career.educationPathways.map((pathway, idx) => (
-              <Card key={idx} className="border-slate-200/60" data-testid={`card-education-${idx}`}>
-                <CardContent className="p-5 sm:p-6">
-                  <h3 className="font-semibold text-gray-900 mb-2">{pathway.title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{pathway.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-licensing">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Award className="w-6 h-6 text-amber-600" />
-            {t("careerGuide.licensingRequirements")}
-          </h2>
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-            <ul className="space-y-3">
-              {career.licensingRequirements.map((req, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-sm text-slate-600" data-testid={`licensing-req-${idx}`}>
-                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-                  <span>{req}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-salary">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-green-600" />
-            {t("careerGuide.salaryOutlook")}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Card className="border-slate-200/60" data-testid="card-salary-range">
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-slate-500 mb-1">{t("careerGuide.annualSalary")}</p>
-                <p className="text-2xl font-bold text-gray-900">{career.salaryRange}</p>
-              </CardContent>
-            </Card>
-            <Card className="border-slate-200/60" data-testid="card-growth-outlook">
-              <CardContent className="p-6">
-                <p className="text-sm font-medium text-slate-500 mb-1">{t("careerGuide.growthOutlook")}</p>
-                <p className="text-sm font-semibold text-gray-900 leading-relaxed">{career.growthOutlook}</p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-work-environments">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-indigo-600" />
-            {t("careerGuide.workEnvironments")}
-          </h2>
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {career.workEnvironments.map((env, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-sm text-slate-600" data-testid={`work-env-${idx}`}>
-                  <MapPin className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>{env}</span>
+        <section className="py-12 px-4" data-testid="section-advancement">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Advancement Opportunities</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {career.advancementOpportunities.map((opp, i) => (
+                <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-lg ${colors.bg} ${colors.border} border`} data-testid={`text-advancement-${i}`}>
+                  <TrendingUp className={`w-4 h-4 ${colors.text} flex-shrink-0`} />
+                  <span className="text-sm text-gray-800">{opp}</span>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="mb-10" data-testid="section-responsibilities">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Briefcase className="w-6 h-6 text-teal-600" />
-            {t("careerGuide.responsibilities")}
-          </h2>
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-            <ul className="space-y-3">
-              {career.typicalResponsibilities.map((resp, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-sm text-slate-600" data-testid={`responsibility-${idx}`}>
-                  <CheckCircle2 className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
-                  <span>{resp}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-advancement">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Lightbulb className="w-6 h-6 text-yellow-600" />
-            {t("careerGuide.advancement")}
-          </h2>
-          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {career.advancementOpportunities.map((opp, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-sm text-slate-600" data-testid={`advancement-${idx}`}>
-                  <ArrowRight className="w-4 h-4 text-yellow-600 shrink-0" />
-                  <span>{opp}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-10" data-testid="section-resources">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("careerGuide.resources")}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Card className="border-slate-200/60 hover:shadow-md transition-shadow" data-testid="card-study-links">
-              <CardContent className="p-5">
-                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
-                  <BookOpen className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-3">{t("careerGuide.studyResources")}</h3>
+        <section className="py-12 px-4 bg-gray-50" data-testid="section-resources">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Study Resources & Career Tools</h2>
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" /> Exam Prep
+                </h3>
                 <ul className="space-y-2">
-                  {career.studyLinks.map((link, idx) => (
-                    <li key={idx}>
-                      <LocaleLink href={link.href} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1" data-testid={`study-link-${idx}`}>
-                        <ChevronRight className="w-3 h-3" />
-                        {link.title}
+                  {career.relatedExamPrep.map((link, i) => (
+                    <li key={i}>
+                      <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-exam-${i}`}>
+                        <ArrowRight className="w-3 h-3" /> {link.title}
                       </LocaleLink>
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
-            <Card className="border-slate-200/60 hover:shadow-md transition-shadow" data-testid="card-exam-links">
-              <CardContent className="p-5">
-                <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-3">
-                  <GraduationCap className="w-5 h-5 text-purple-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-3">{t("careerGuide.examPrep")}</h3>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Award className="w-4 h-4" /> Certifications
+                </h3>
                 <ul className="space-y-2">
-                  {career.examPrepLinks.map((link, idx) => (
-                    <li key={idx}>
-                      <LocaleLink href={link.href} className="text-xs text-purple-600 hover:text-purple-800 flex items-center gap-1" data-testid={`exam-link-${idx}`}>
-                        <ChevronRight className="w-3 h-3" />
-                        {link.title}
+                  {career.relatedCertifications.map((link, i) => (
+                    <li key={i}>
+                      <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-cert-${i}`}>
+                        <ArrowRight className="w-3 h-3" /> {link.title}
                       </LocaleLink>
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
-            <Card className="border-slate-200/60 hover:shadow-md transition-shadow" data-testid="card-career-tool-links">
-              <CardContent className="p-5">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center mb-3">
-                  <Briefcase className="w-5 h-5 text-teal-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-3">{t("careerGuide.careerTools")}</h3>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" /> Career & Job Tools
+                </h3>
                 <ul className="space-y-2">
-                  {career.careerToolLinks.map((link, idx) => (
-                    <li key={idx}>
-                      <LocaleLink href={link.href} className="text-xs text-teal-600 hover:text-teal-800 flex items-center gap-1" data-testid={`career-tool-link-${idx}`}>
-                        <ChevronRight className="w-3 h-3" />
-                        {link.title}
+                  {career.relatedJobTools.map((link, i) => (
+                    <li key={i}>
+                      <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-job-${i}`}>
+                        <ArrowRight className="w-3 h-3" /> {link.title}
                       </LocaleLink>
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="mb-10" data-testid="section-faq">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">{t("careerGuide.faq")}</h2>
-          <div className="space-y-4">
-            {career.faqs.map((faq, idx) => (
-              <Card key={idx} className="border-slate-200/60" data-testid={`faq-item-${idx}`}>
-                <CardContent className="p-5 sm:p-6">
-                  <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">{faq.question}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{faq.answer}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+        {career.faqs.length > 0 && (
+          <section className="py-12 px-4" data-testid="section-faqs">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+              <div className="space-y-3">
+                {career.faqs.map((faq, i) => (
+                  <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                      data-testid={`button-faq-${i}`}
+                    >
+                      <span className="text-sm font-semibold text-gray-900 pr-4">{faq.question}</span>
+                      <ChevronRight className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${openFaq === i ? "rotate-90" : ""}`} />
+                    </button>
+                    {openFaq === i && (
+                      <div className="px-5 pb-4">
+                        <p className="text-sm text-gray-600 leading-relaxed" data-testid={`text-faq-answer-${i}`}>{faq.answer}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
-        <section className="mb-10" data-testid="section-cta">
-          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl border border-purple-100 p-8 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
-              {t("careerGuide.ctaTitle")}
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base mb-6 max-w-2xl mx-auto">
-              {t("careerGuide.ctaDescription")}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <LocaleLink href="/exam-prep" data-testid="cta-exam-prep">
-                <span className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700 transition-colors">
-                  <BookOpen className="w-4 h-4" />
-                  {t("careerGuide.ctaExamPrep")}
-                </span>
-              </LocaleLink>
-              <LocaleLink href="/healthcare-careers" data-testid="cta-all-careers">
-                <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 border border-purple-200 rounded-xl text-sm font-medium hover:bg-purple-50 transition-colors">
-                  <ArrowRight className="w-4 h-4" />
-                  {t("careerGuide.ctaAllCareers")}
-                </span>
-              </LocaleLink>
+        <section className="py-12 px-4 bg-gray-50" data-testid="section-cta">
+          <div className="max-w-5xl mx-auto">
+            <div className={`bg-gradient-to-br ${colors.gradientFrom} to-white rounded-2xl border ${colors.border} p-8 text-center`}>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to Start Your {career.name} Journey?</h2>
+              <p className="text-gray-600 mb-6 max-w-xl mx-auto">
+                Explore NurseNest's exam preparation resources, clinical lessons, and career tools designed for aspiring {career.fullTitle.toLowerCase()}s.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <LocaleLink href="/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg" data-testid="button-cta-exam-prep">
+                  Explore Exam Prep <ArrowRight className="w-4 h-4" />
+                </LocaleLink>
+                <LocaleLink href="/healthcare-careers" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200" data-testid="button-cta-back">
+                  Browse All Careers
+                </LocaleLink>
+              </div>
             </div>
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

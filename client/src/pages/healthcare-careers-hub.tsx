@@ -436,6 +436,14 @@ export default function HealthcareCareersHub() {
                               </span>
                             </LocaleLink>
                           ))}
+                          {career.detailSlug && (
+                            <LocaleLink href={`/healthcare-careers/${career.detailSlug}`}>
+                              <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors cursor-pointer" data-testid={`link-career-detail-${career.slug}`}>
+                                View Full Guide
+                                <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </LocaleLink>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -477,6 +485,22 @@ export default function HealthcareCareersHub() {
                       <p className="text-xs text-slate-500 mt-1">Interview prep, resume tools, and first-year guides for new healthcare graduates.</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 shrink-0 mt-1" />
+                  </div>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+            <LocaleLink href="/healthcare-certifications">
+              <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-cross-certifications">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                      <Award className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">Healthcare Certifications</h3>
+                      <p className="text-xs text-slate-500 mt-1">BLS, ACLS, PALS, NRP, CCRN, CEN, and more — eligibility, exam structure, and renewal guides.</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 shrink-0 mt-1" />
                   </div>
                 </CardContent>
               </Card>
