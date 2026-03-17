@@ -20,6 +20,15 @@ import {
   HelpCircle,
   Layers,
   Users,
+  Brain,
+  Target,
+  ClipboardList,
+  Stethoscope,
+  GraduationCap,
+  Heart,
+  Briefcase,
+  Award,
+  Sparkles,
 } from "lucide-react";
 import { getEnabledCareers } from "@shared/careers";
 
@@ -362,10 +371,16 @@ export default function Home() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              <div className="space-y-8 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
-                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white border border-primary/15 shadow-[var(--shadow-card)] max-w-[90vw]">
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 shrink-0 skeleton-pulse"></span>
-                  <span className="text-xs sm:text-sm font-medium text-gray-600 truncate">{t("home.new.announcement")}</span>
+              <div className="space-y-6 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" data-testid="badge-trust-micro">
+                    <Award className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-primary">{t("home.hero.trustMicroBadge")}</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100" data-testid="badge-authority">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-emerald-700">{t("home.hero.authorityBadge")}</span>
+                  </div>
                 </div>
                 
                 <div className="space-y-4">
@@ -377,9 +392,28 @@ export default function Home() {
                     {t("home.hero.mainTitle")}
                   </h1>
                   
-                  <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
-                    {t("home.hero.dynamicSubtitle", { questionCount: formatCount(questionCount), flashcardInfo: flashcardCount > 0 ? t("home.hero.flashcardsInfo", { count: formatCount(flashcardCount) }) : "", lessonCount: formatCount(lessonCount), rpnLabel, regionName: region === "CA" ? t("home.region.ca") : t("home.region.us") })}
+                  <p className="text-base lg:text-lg text-gray-600 leading-relaxed max-w-xl" data-testid="text-hero-subheading">
+                    {t("home.hero.newSubheadline")}
                   </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3" data-testid="hero-feature-strip">
+                  {[
+                    { icon: Brain, key: "featureActiveRecall", descKey: "featureActiveRecallDesc", color: "text-violet-600", bg: "bg-violet-50" },
+                    { icon: ClipboardList, key: "featureNGN", descKey: "featureNGNDesc", color: "text-blue-600", bg: "bg-blue-50" },
+                    { icon: Target, key: "featureBlueprint", descKey: "featureBlueprintDesc", color: "text-amber-600", bg: "bg-amber-50" },
+                    { icon: Stethoscope, key: "featureClinicalDecision", descKey: "featureClinicalDecisionDesc", color: "text-emerald-600", bg: "bg-emerald-50" },
+                  ].map((feat) => (
+                    <div key={feat.key} className="flex items-start gap-2.5 p-3 rounded-xl bg-white border border-gray-100 shadow-[var(--shadow-card)]" data-testid={`feature-${feat.key}`}>
+                      <div className={`w-8 h-8 rounded-lg ${feat.bg} flex items-center justify-center shrink-0 mt-0.5`}>
+                        <feat.icon className={`w-4 h-4 ${feat.color}`} />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-semibold text-gray-900 leading-tight">{t(`home.hero.${feat.key}`)}</p>
+                        <p className="text-[11px] text-gray-500 leading-snug mt-0.5 hidden sm:block">{t(`home.hero.${feat.descKey}`)}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
                 
                 <div className="rounded-2xl border border-gray-200 bg-white shadow-[var(--shadow-card)] overflow-hidden" data-testid="region-toggle-hero">
@@ -429,23 +463,23 @@ export default function Home() {
                     onClick={() => setLocation("/register")}
                     data-testid="button-hero-start-free"
                   >
-                    {t("home.hero.startPracticingFree")}
+                    {t("home.hero.ctaPrimary")}
                     <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
                   </Button>
                   <Button 
                     size="lg" 
                     variant="outline" 
                     className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 bg-white w-full sm:w-auto font-medium" 
-                    onClick={() => setLocation("/lessons")}
+                    onClick={() => setLocation("/exam-prep")}
                     data-testid="button-hero-browse"
                   >
                     <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
-                    {t("home.hero.exploreLessons")}
+                    {t("home.hero.ctaSecondary")}
                   </Button>
                 </div>
 
-                <p className="text-xs text-gray-500 text-center sm:text-left" data-testid="text-no-credit-card">
-                  {t("home.hero.noCreditCardCentered")}
+                <p className="text-xs text-gray-500 text-center sm:text-left" data-testid="text-urgency-microcopy">
+                  {t("home.hero.urgencyMicrocopy")}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
@@ -485,26 +519,23 @@ export default function Home() {
                   </div>
                 </div>
 
-                <p className="text-xs text-gray-500 leading-relaxed max-w-lg" data-testid="text-built-for">
-                  {t("home.hero.builtFor")}
-                </p>
-
-                <div className="rounded-xl border border-gray-100 bg-white/80 shadow-[var(--shadow-card)] p-4" data-testid="hero-clarity-block">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">{t("home.hero.clarityHeading")}</p>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{t("home.hero.clarityItem1")}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{t("home.hero.clarityItem2")}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{t("home.hero.clarityItem3")}</span>
-                    </div>
+                <div className="rounded-xl border border-gray-100 bg-white/60 shadow-[var(--shadow-card)] p-4" data-testid="hero-built-for-bar">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2.5">{t("home.hero.builtForLabel")}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { icon: GraduationCap, key: "builtForNursingStudents" },
+                      { icon: Heart, key: "builtForPracticalNurses" },
+                      { icon: Stethoscope, key: "builtForRegisteredNurses" },
+                      { icon: Briefcase, key: "builtForNursePractitioners" },
+                      { icon: Users, key: "builtForAlliedHealth" },
+                    ].map((seg) => (
+                      <span key={seg.key} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-xs font-medium text-gray-700" data-testid={`built-for-${seg.key}`}>
+                        <seg.icon className="w-3 h-3 text-gray-500 shrink-0" />
+                        {t(`home.hero.${seg.key}`)}
+                      </span>
+                    ))}
                   </div>
+                  <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">{t("home.hero.builtForMicrocopy")}</p>
                 </div>
               </div>
 
@@ -559,6 +590,29 @@ export default function Home() {
                   </span>
                 )}
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-gradient-to-b from-gray-50/80 to-white border-t border-gray-100" style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }} data-testid="section-hero-benefits">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 text-center mb-6" data-testid="text-benefits-heading">
+              {t("home.hero.benefitsHeading")}
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
+              {[
+                { key: "benefit1", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
+                { key: "benefit2", icon: Brain, color: "text-violet-600", bg: "bg-violet-50" },
+                { key: "benefit3", icon: ClipboardList, color: "text-blue-600", bg: "bg-blue-50" },
+                { key: "benefit4", icon: Target, color: "text-amber-600", bg: "bg-amber-50" },
+              ].map((item) => (
+                <div key={item.key} className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-gray-100 shadow-[var(--shadow-card)]" data-testid={`hero-${item.key}`}>
+                  <div className={`w-8 h-8 rounded-lg ${item.bg} flex items-center justify-center shrink-0 mt-0.5`}>
+                    <item.icon className={`w-4 h-4 ${item.color}`} />
+                  </div>
+                  <p className="text-sm text-gray-700 leading-relaxed">{t(`home.hero.${item.key}`)}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
