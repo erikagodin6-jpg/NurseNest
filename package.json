@@ -10,14 +10,11 @@
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
     "db:push": "drizzle-kit push",
-    "backup:full": "tsx scripts/backup/backup-full.ts",
-    "backup:code": "tsx scripts/backup/backup-code.ts",
-    "backup:db": "tsx scripts/backup/backup-db.ts",
-    "backup:assets": "tsx scripts/backup/backup-assets.ts",
-    "backup:content": "tsx scripts/backup/backup-content.ts",
-    "export:deployment": "tsx scripts/backup/export-deployment.ts",
-    "restore:validate": "tsx scripts/backup/restore-validate.ts",
-    "restore:dry-run": "tsx scripts/backup/restore-dry-run.ts"
+    "backup:full": "tsx backup-system/backup-full.ts",
+    "backup:db": "tsx backup-system/backup-db.ts",
+    "backup:assets": "tsx backup-system/backup-assets.ts",
+    "export:deployment": "tsx backup-system/export-deployment.ts",
+    "backup:validate": "tsx backup-system/validate-backup.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",
