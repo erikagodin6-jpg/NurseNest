@@ -122,6 +122,31 @@ const frenchMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Listes de vérification étape par étape pour l'insertion IV, soins de cathéter central, changement de pansement, oxygénothérapie et transfusion sanguine. Comprend la justification infirmière, les alertes de sécurité et les notes d'examen NCLEX.",
     keywords: "listes vérification compétences infirmières, procédures cliniques, insertion IV, soins cathéter central, pansement, oxygénothérapie, transfusion sanguine, NCLEX",
   },
+  "/healthcare-policy-and-updates": {
+    title: "Politique de Santé & Mises à Jour — Changements Réglementaires Infirmiers | NurseNest",
+    description: "Restez informé des changements de politique de santé affectant les infirmières. Guides sur les mises à jour de licences, le recrutement international, les changements de format d'examen et les évolutions réglementaires.",
+    keywords: "politique de santé infirmière, changements réglementaires, licences infirmières, recrutement international infirmier, mises à jour examens, réglementation soins infirmiers",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Changements de Politique de Licences Infirmières — Compact, Portée de Pratique | NurseNest",
+    description: "Guide complet des changements de politique de licences infirmières, y compris les mises à jour du Compact de Licences, les changements de portée de pratique et les exigences de renouvellement.",
+    keywords: "changements licences infirmières, compact infirmier, portée de pratique, renouvellement licence, politique licences",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Recrutement International d'Infirmières — Évaluation des Diplômes & Programmes | NurseNest",
+    description: "Guide des politiques de recrutement international d'infirmières. Évaluation des diplômes, voies d'immigration, programmes de transition et réglementations des agences de recrutement.",
+    keywords: "recrutement infirmier international, évaluation diplômes infirmiers, programmes transition, visa infirmier, agences recrutement",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Mises à Jour Format d'Examen Infirmier — NGN, CAT & Rapports de Scores | NurseNest",
+    description: "Suivez les changements de format des examens infirmiers. Guide sur les mises à jour NGN du NCLEX, les changements de test adaptatif et les modifications de rapports de scores.",
+    keywords: "mises à jour format examen NCLEX, NGN, test adaptatif, rapports scores infirmier, changements examen",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Changements Réglementaires Affectant les Infirmières — Dotation, Sécurité & Normes | NurseNest",
+    description: "Guide des changements réglementaires affectant la pratique infirmière. Lois sur les ratios de dotation, normes de sécurité des patients, télésanté et exigences de sécurité au travail.",
+    keywords: "changements réglementaires infirmiers, ratios dotation, sécurité patients, télésanté, normes pratique infirmière",
+  },
   "/practice-questions": {
     title: "Questions Pratique Gratuites – Révision Infirmière | NurseNest",
     description: "Accédez à des questions pratique gratuites pour la révision infirmière. Contenu aligné sur les examens avec justifications détaillées pour chaque réponse.",
@@ -340,6 +365,31 @@ const spanishMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Listas de verificación paso a paso para inserción IV, cuidado de catéter central, cambio de vendaje, oxigenoterapia y transfusión sanguínea. Incluye justificación de enfermería, alertas de seguridad y notas de examen NCLEX.",
     keywords: "listas verificación habilidades enfermería, procedimientos clínicos, inserción IV, cuidado catéter central, vendaje, oxigenoterapia, transfusión sanguínea, NCLEX",
   },
+  "/healthcare-policy-and-updates": {
+    title: "Política de Salud y Actualizaciones — Cambios Regulatorios de Enfermería | NurseNest",
+    description: "Manténgase informado sobre los cambios de política de salud que afectan a enfermeras. Guías sobre actualizaciones de licencias, reclutamiento internacional, cambios de formato de examen y desarrollos regulatorios.",
+    keywords: "política de salud enfermería, cambios regulatorios, licencias enfermería, reclutamiento internacional enfermero, actualizaciones exámenes, regulación enfermería",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Cambios de Política de Licencias de Enfermería — Compact, Ámbito de Práctica | NurseNest",
+    description: "Guía completa de los cambios de política de licencias de enfermería, incluyendo actualizaciones del Compact de Licencias, cambios en el ámbito de práctica y requisitos de renovación.",
+    keywords: "cambios licencias enfermería, compact enfermero, ámbito de práctica, renovación licencia, política licencias",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Reclutamiento Internacional de Enfermeras — Evaluación de Credenciales y Programas | NurseNest",
+    description: "Guía de políticas de reclutamiento internacional de enfermeras. Evaluación de credenciales, vías de inmigración, programas de transición y regulaciones de agencias de reclutamiento.",
+    keywords: "reclutamiento enfermero internacional, evaluación credenciales, programas transición, visa enfermero, agencias reclutamiento",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Actualizaciones de Formato de Examen de Enfermería — NGN, CAT & Reportes | NurseNest",
+    description: "Siga los cambios de formato de exámenes de enfermería. Guía sobre actualizaciones NGN del NCLEX, cambios en pruebas adaptativas y modificaciones de reportes de puntuación.",
+    keywords: "actualizaciones formato examen NCLEX, NGN, test adaptativo, reportes puntuación, cambios examen enfermería",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Cambios Regulatorios que Afectan a Enfermeras — Dotación, Seguridad & Normas | NurseNest",
+    description: "Guía de cambios regulatorios que afectan la práctica enfermera. Leyes de ratios de dotación, normas de seguridad del paciente, telesalud y requisitos de seguridad laboral.",
+    keywords: "cambios regulatorios enfermería, ratios dotación, seguridad paciente, telesalud, normas práctica enfermera",
+  },
   "/practice-questions": {
     title: "Preguntas Práctica Gratuitas – Repaso Enfermería | NurseNest",
     description: "Accede a preguntas práctica gratuitas para el repaso de enfermería. Contenido alineado con exámenes con justificaciones detalladas para cada respuesta.",
@@ -543,6 +593,31 @@ const portugueseMetadata: Record<string, LocalizedSEOEntry> = {
     description: "Listas de verificação passo a passo para inserção de cateter IV, cuidados com cateter central, troca de curativo, oxigenoterapia e transfusão sanguínea. Inclui justificativa de enfermagem, alertas de segurança e notas de exame NCLEX.",
     keywords: "listas verificação habilidades enfermagem, procedimentos clínicos, inserção IV, cuidados cateter central, curativo, oxigenoterapia, transfusão sanguínea, NCLEX",
   },
+  "/healthcare-policy-and-updates": {
+    title: "Política de Saúde e Atualizações — Mudanças Regulatórias de Enfermagem | NurseNest",
+    description: "Mantenha-se informado sobre mudanças na política de saúde que afetam enfermeiros. Guias sobre atualizações de licenciamento, recrutamento internacional, mudanças no formato de exames e desenvolvimentos regulatórios.",
+    keywords: "política de saúde enfermagem, mudanças regulatórias, licenciamento enfermagem, recrutamento internacional enfermeiro, atualizações exames, regulamentação enfermagem",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Mudanças na Política de Licenciamento de Enfermagem — Compact, Âmbito de Prática | NurseNest",
+    description: "Guia completo das mudanças na política de licenciamento de enfermagem, incluindo atualizações do Compact de Licenças, mudanças no âmbito de prática e requisitos de renovação.",
+    keywords: "mudanças licenciamento enfermagem, compact enfermeiro, âmbito de prática, renovação licença, política licenças",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Recrutamento Internacional de Enfermeiros — Avaliação de Credenciais e Programas | NurseNest",
+    description: "Guia de políticas de recrutamento internacional de enfermeiros. Avaliação de credenciais, vias de imigração, programas de transição e regulamentos de agências de recrutamento.",
+    keywords: "recrutamento enfermeiro internacional, avaliação credenciais, programas transição, visto enfermeiro, agências recrutamento",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Atualizações de Formato de Exame de Enfermagem — NGN, CAT e Relatórios | NurseNest",
+    description: "Acompanhe as mudanças no formato dos exames de enfermagem. Guia sobre atualizações NGN do NCLEX, mudanças em testes adaptativos e modificações nos relatórios de pontuação.",
+    keywords: "atualizações formato exame NCLEX, NGN, teste adaptativo, relatórios pontuação, mudanças exame enfermagem",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Mudanças Regulatórias que Afetam Enfermeiros — Dotação, Segurança e Normas | NurseNest",
+    description: "Guia de mudanças regulatórias que afetam a prática de enfermagem. Leis de proporções de pessoal, normas de segurança do paciente, telesaúde e requisitos de segurança no trabalho.",
+    keywords: "mudanças regulatórias enfermagem, proporções pessoal, segurança paciente, telesaúde, normas prática enfermagem",
+  },
   "/practice-questions": {
     title: "Questões Práticas Gratuitas – Revisão de Enfermagem | NurseNest",
     description: "Acesse questões práticas gratuitas para revisão de enfermagem. Conteúdo alinhado a exames com justificativas detalhadas para cada resposta.",
@@ -670,6 +745,31 @@ const vietnameseMetadata: Record<string, LocalizedSEOEntry> = {
     title: "Tiền Điều dưỡng – Nền tảng & Module Miễn phí | NurseNest",
     description: "Khám phá các module tiền điều dưỡng miễn phí, tương tác. Sinh học tế bào, sinh lý, thuật ngữ y khoa và cơ bản dược lý để xây dựng nền tảng lâm sàng.",
     keywords: "tiền điều dưỡng, nền tảng điều dưỡng, sinh học tế bào điều dưỡng, thuật ngữ y khoa, cơ bản dược lý",
+  },
+  "/healthcare-policy-and-updates": {
+    title: "Chính sách Y tế & Cập nhật — Thay đổi Quy định Điều dưỡng | NurseNest",
+    description: "Cập nhật các thay đổi chính sách y tế ảnh hưởng đến điều dưỡng viên. Hướng dẫn về cập nhật cấp phép, tuyển dụng quốc tế, thay đổi định dạng thi và phát triển quy định.",
+    keywords: "chính sách y tế điều dưỡng, thay đổi quy định, cấp phép điều dưỡng, tuyển dụng quốc tế, cập nhật thi, quy định điều dưỡng",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Thay đổi Chính sách Cấp phép Điều dưỡng | NurseNest",
+    description: "Hướng dẫn toàn diện về thay đổi chính sách cấp phép điều dưỡng bao gồm cập nhật Compact, thay đổi phạm vi hành nghề và yêu cầu gia hạn.",
+    keywords: "thay đổi cấp phép điều dưỡng, compact điều dưỡng, phạm vi hành nghề, gia hạn giấy phép",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Tuyển dụng Điều dưỡng Quốc tế — Đánh giá Bằng cấp | NurseNest",
+    description: "Hướng dẫn chính sách tuyển dụng điều dưỡng quốc tế. Đánh giá bằng cấp, con đường nhập cư, chương trình chuyển tiếp.",
+    keywords: "tuyển dụng điều dưỡng quốc tế, đánh giá bằng cấp, chương trình chuyển tiếp, visa điều dưỡng",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Cập nhật Định dạng Thi Điều dưỡng — NGN & CAT | NurseNest",
+    description: "Theo dõi thay đổi định dạng thi điều dưỡng. Hướng dẫn về cập nhật NGN NCLEX, thay đổi kiểm tra thích ứng và sửa đổi báo cáo điểm.",
+    keywords: "cập nhật định dạng thi NCLEX, NGN, kiểm tra thích ứng, báo cáo điểm",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Thay đổi Quy định Ảnh hưởng Điều dưỡng | NurseNest",
+    description: "Hướng dẫn thay đổi quy định ảnh hưởng thực hành điều dưỡng. Luật tỷ lệ nhân sự, tiêu chuẩn an toàn bệnh nhân, y tế từ xa.",
+    keywords: "thay đổi quy định điều dưỡng, tỷ lệ nhân sự, an toàn bệnh nhân, y tế từ xa",
   },
   "/clinical-clarity": {
     title: "Rõ ràng Lâm sàng – Câu trả lời Dựa trên Bằng chứng | NurseNest",
@@ -829,6 +929,31 @@ const filipinoMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Komprehensibong gabay para sa mga nurse na may international na edukasyon: licensure, exams, credential evaluation, migration pathways, at job opportunities sa buong mundo.",
       keywords: "international nurses, foreign nursing license, nursing migration, NCLEX international, nursing exam Canada",
     },
+  "/healthcare-policy-and-updates": {
+    title: "Healthcare Policy & Updates — Mga Pagbabago sa Regulasyon ng Nursing | NurseNest",
+    description: "Manatiling updated sa mga pagbabago sa healthcare policy na nakakaapekto sa mga nurse. Gabay sa licensing updates, international recruitment, exam format changes, at regulatory developments.",
+    keywords: "healthcare policy nursing, regulatory changes, nursing licensing, international nurse recruitment, exam updates",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Mga Pagbabago sa Nursing Licensing Policy | NurseNest",
+    description: "Komprehensibong gabay sa mga pagbabago sa nursing licensing policy kabilang ang Compact updates, scope of practice changes, at renewal requirements.",
+    keywords: "nursing licensing changes, compact nursing, scope of practice, license renewal",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "International Nursing Recruitment — Credential Evaluation | NurseNest",
+    description: "Gabay sa international nursing recruitment policies. Credential evaluation, immigration pathways, bridging programs.",
+    keywords: "international nurse recruitment, credential evaluation, bridging programs, nurse visa",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Mga Update sa Nursing Exam Format — NGN & CAT | NurseNest",
+    description: "Sundan ang mga pagbabago sa nursing exam format. Gabay sa NGN NCLEX updates, adaptive testing changes, at score reporting modifications.",
+    keywords: "NCLEX exam format updates, NGN, adaptive testing, score reporting",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Mga Regulatory Changes na Nakakaapekto sa Nurses | NurseNest",
+    description: "Gabay sa mga regulatory changes na nakakaapekto sa nursing practice. Staffing ratio laws, patient safety regulations, telehealth.",
+    keywords: "nursing regulatory changes, staffing ratios, patient safety, telehealth",
+  },
 };
 
 const traditionalChineseMetadata: Record<string, LocalizedSEOEntry> = {
@@ -867,6 +992,31 @@ const traditionalChineseMetadata: Record<string, LocalizedSEOEntry> = {
       description: "為國際護理師提供的完整指南：執照、考試、學歷認證、移民途徑和全球就業機會。",
       keywords: "國際護理師, 海外護理執照, 護理移民, NCLEX國際, 護理考試加拿大",
     },
+  "/healthcare-policy-and-updates": {
+    title: "醫療政策與更新 — 護理法規變更 | NurseNest",
+    description: "了解影響護理師的醫療政策變更。執照更新、國際招聘、考試格式變更和法規發展指南。",
+    keywords: "醫療政策護理, 法規變更, 護理執照, 國際護理招聘, 考試更新, 護理法規",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "護理執照政策變更 — Compact執照、執業範圍 | NurseNest",
+    description: "護理執照政策變更完整指南，包括執照Compact更新、執業範圍變更和續期要求。",
+    keywords: "護理執照變更, 執照Compact, 執業範圍, 執照續期, 執照政策",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "國際護理招聘 — 學歷評估與課程 | NurseNest",
+    description: "國際護理招聘政策指南。學歷評估、移民途徑、過渡課程和招聘機構法規。",
+    keywords: "國際護理招聘, 學歷評估, 過渡課程, 護理簽證, 招聘機構",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "護理考試格式更新 — NGN、CAT與成績報告 | NurseNest",
+    description: "追蹤護理考試格式變更。NGN NCLEX更新、適應性測試變更和成績報告修改指南。",
+    keywords: "NCLEX考試格式更新, NGN, 適應性測試, 成績報告, 護理考試變更",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "影響護理師的法規變更 — 人員配置、安全與標準 | NurseNest",
+    description: "影響護理實踐的法規變更指南。人員配置比例法律、病患安全法規、遠程醫療標準和工作場所安全要求。",
+    keywords: "護理法規變更, 人員配置比例, 病患安全, 遠程醫療, 護理實踐標準",
+  },
 };
 
 const germanMetadata: Record<string, LocalizedSEOEntry> = {
@@ -905,6 +1055,31 @@ const germanMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Umfassender Leitfaden für international ausgebildete Pflegekräfte: Lizenzierung, Prüfungen, Qualifikationsbewertung, Migrationswege und Beschäftigungsmöglichkeiten weltweit.",
       keywords: "internationale Pflegekräfte, ausländische Pflegelizenz, Pflegemigration, NCLEX international, Pflegeprüfung Kanada",
     },
+  "/healthcare-policy-and-updates": {
+    title: "Gesundheitspolitik & Aktualisierungen — Regulatorische Änderungen Pflege | NurseNest",
+    description: "Bleiben Sie über gesundheitspolitische Änderungen informiert, die Pflegekräfte betreffen. Leitfäden zu Lizenzierungsaktualisierungen, internationaler Rekrutierung, Prüfungsformatänderungen und regulatorischen Entwicklungen.",
+    keywords: "Gesundheitspolitik Pflege, regulatorische Änderungen, Pflegelizenzierung, internationale Pflegerekrutierung, Prüfungsaktualisierungen, Pflegeregulierung",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Änderungen der Pflegelizenzierungspolitik — Compact, Praxisumfang | NurseNest",
+    description: "Umfassender Leitfaden zu Änderungen der Pflegelizenzierungspolitik einschließlich Compact-Updates, Änderungen des Praxisumfangs und Verlängerungsanforderungen.",
+    keywords: "Pflegelizenzierungsänderungen, Pflege-Compact, Praxisumfang, Lizenzverlängerung, Lizenzierungspolitik",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Internationale Pflegerekrutierung — Qualifikationsbewertung & Programme | NurseNest",
+    description: "Leitfaden zur internationalen Pflegerekrutierungspolitik. Qualifikationsbewertung, Einwanderungswege, Übergangsprogramme und Agenturvorschriften.",
+    keywords: "internationale Pflegerekrutierung, Qualifikationsbewertung, Übergangsprogramme, Pflegevisum, Rekrutierungsagenturen",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Aktualisierungen des Pflegeprüfungsformats — NGN, CAT & Ergebnisberichte | NurseNest",
+    description: "Verfolgen Sie Änderungen des Pflegeprüfungsformats. Leitfaden zu NGN-NCLEX-Updates, adaptiven Teständerungen und Ergebnisberichtsmodifikationen.",
+    keywords: "NCLEX-Prüfungsformat-Updates, NGN, adaptiver Test, Ergebnisberichte, Pflegeprüfungsänderungen",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Regulatorische Änderungen für Pflegekräfte — Personal, Sicherheit & Standards | NurseNest",
+    description: "Leitfaden zu regulatorischen Änderungen, die die Pflegepraxis betreffen. Personalverhältnisgesetze, Patientensicherheitsvorschriften, Telemedizinstandards und Arbeitssicherheitsanforderungen.",
+    keywords: "regulatorische Pflegeänderungen, Personalverhältnisse, Patientensicherheit, Telemedizin, Pflegepraxisstandards",
+  },
 };
 
 const thaiMetadata: Record<string, LocalizedSEOEntry> = {
@@ -943,6 +1118,31 @@ const thaiMetadata: Record<string, LocalizedSEOEntry> = {
       description: "คู่มือฉบับสมบูรณ์สำหรับพยาบาลที่ศึกษาในต่างประเทศ: ใบอนุญาต, การสอบ, การประเมินคุณวุฒิ, เส้นทางการย้ายถิ่นฐาน และโอกาสการจ้างงานทั่วโลก",
       keywords: "พยาบาลนานาชาติ, ใบอนุญาตพยาบาลต่างประเทศ, การอพยพพยาบาล, NCLEX นานาชาติ",
     },
+  "/healthcare-policy-and-updates": {
+    title: "นโยบายสุขภาพและการอัปเดต — การเปลี่ยนแปลงกฎระเบียบพยาบาล | NurseNest",
+    description: "ติดตามการเปลี่ยนแปลงนโยบายสุขภาพที่ส่งผลต่อพยาบาล คู่มือเกี่ยวกับการอัปเดตใบอนุญาต การสรรหาบุคลากรระหว่างประเทศ การเปลี่ยนแปลงรูปแบบการสอบ และพัฒนาการด้านกฎระเบียบ",
+    keywords: "นโยบายสุขภาพพยาบาล, การเปลี่ยนแปลงกฎระเบียบ, ใบอนุญาตพยาบาล, การสรรหาพยาบาลนานาชาติ, อัปเดตการสอบ",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "การเปลี่ยนแปลงนโยบายใบอนุญาตพยาบาล | NurseNest",
+    description: "คู่มือฉบับสมบูรณ์เกี่ยวกับการเปลี่ยนแปลงนโยบายใบอนุญาตพยาบาล รวมถึงการอัปเดต Compact การเปลี่ยนแปลงขอบเขตการปฏิบัติ และข้อกำหนดการต่ออายุ",
+    keywords: "การเปลี่ยนแปลงใบอนุญาตพยาบาล, compact พยาบาล, ขอบเขตการปฏิบัติ, ต่ออายุใบอนุญาต",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "การสรรหาพยาบาลนานาชาติ — การประเมินคุณวุฒิ | NurseNest",
+    description: "คู่มือนโยบายการสรรหาพยาบาลนานาชาติ การประเมินคุณวุฒิ เส้นทางการย้ายถิ่นฐาน โปรแกรมเชื่อมต่อ",
+    keywords: "การสรรหาพยาบาลนานาชาติ, การประเมินคุณวุฒิ, โปรแกรมเชื่อมต่อ, วีซ่าพยาบาล",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "การอัปเดตรูปแบบการสอบพยาบาล — NGN & CAT | NurseNest",
+    description: "ติดตามการเปลี่ยนแปลงรูปแบบการสอบพยาบาล คู่มือ NGN NCLEX การเปลี่ยนแปลงการทดสอบแบบปรับตัว และการแก้ไขรายงานคะแนน",
+    keywords: "อัปเดตรูปแบบสอบ NCLEX, NGN, การทดสอบแบบปรับตัว, รายงานคะแนน",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "การเปลี่ยนแปลงกฎระเบียบที่ส่งผลต่อพยาบาล | NurseNest",
+    description: "คู่มือการเปลี่ยนแปลงกฎระเบียบที่ส่งผลต่อการปฏิบัติงานพยาบาล กฎหมายอัตราส่วนบุคลากร มาตรฐานความปลอดภัยผู้ป่วย การแพทย์ทางไกล",
+    keywords: "การเปลี่ยนแปลงกฎระเบียบพยาบาล, อัตราส่วนบุคลากร, ความปลอดภัยผู้ป่วย, การแพทย์ทางไกล",
+  },
 };
 
 const turkishMetadata: Record<string, LocalizedSEOEntry> = {
@@ -981,6 +1181,31 @@ const turkishMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Uluslararası eğitimli hemşireler için kapsamlı kılavuz: lisanslama, sınavlar, yeterlilik değerlendirmesi, göç yolları ve dünya genelinde istihdam fırsatları.",
       keywords: "uluslararası hemşireler, yabancı hemşirelik lisansı, hemşirelik göçü, NCLEX uluslararası, hemşirelik sınavı Kanada",
     },
+  "/healthcare-policy-and-updates": {
+    title: "Sağlık Politikası ve Güncellemeler — Hemşirelik Düzenleyici Değişiklikler | NurseNest",
+    description: "Hemşireleri etkileyen sağlık politikası değişikliklerinden haberdar olun. Lisanslama güncellemeleri, uluslararası işe alım, sınav formatı değişiklikleri ve düzenleyici gelişmeler hakkında rehberler.",
+    keywords: "sağlık politikası hemşirelik, düzenleyici değişiklikler, hemşirelik lisansı, uluslararası hemşire işe alımı, sınav güncellemeleri",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Hemşirelik Lisanslama Politikası Değişiklikleri | NurseNest",
+    description: "Hemşirelik lisanslama politikası değişiklikleri hakkında kapsamlı rehber. Compact güncellemeleri, uygulama kapsamı değişiklikleri ve yenileme gereklilikleri.",
+    keywords: "hemşirelik lisans değişiklikleri, compact hemşirelik, uygulama kapsamı, lisans yenileme",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Uluslararası Hemşire İşe Alımı — Yeterlilik Değerlendirmesi | NurseNest",
+    description: "Uluslararası hemşire işe alım politikaları rehberi. Yeterlilik değerlendirmesi, göç yolları, köprü programları.",
+    keywords: "uluslararası hemşire işe alımı, yeterlilik değerlendirmesi, köprü programları, hemşire vizesi",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Hemşirelik Sınav Formatı Güncellemeleri — NGN & CAT | NurseNest",
+    description: "Hemşirelik sınav formatı değişikliklerini takip edin. NGN NCLEX güncellemeleri, adaptif test değişiklikleri ve puan raporlaması değişiklikleri rehberi.",
+    keywords: "NCLEX sınav formatı güncellemeleri, NGN, adaptif test, puan raporları",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Hemşireleri Etkileyen Düzenleyici Değişiklikler | NurseNest",
+    description: "Hemşirelik uygulamasını etkileyen düzenleyici değişiklikler rehberi. Personel oranı yasaları, hasta güvenliği düzenlemeleri, telesağlık.",
+    keywords: "hemşirelik düzenleyici değişiklikler, personel oranları, hasta güvenliği, telesağlık",
+  },
 };
 
 const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
@@ -1019,6 +1244,31 @@ const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
       description: "Panduan lengkap untuk perawat berpendidikan internasional: lisensi, ujian, evaluasi kredensial, jalur migrasi, dan peluang kerja di seluruh dunia.",
       keywords: "perawat internasional, lisensi keperawatan asing, migrasi keperawatan, NCLEX internasional, ujian keperawatan Kanada",
     },
+  "/healthcare-policy-and-updates": {
+    title: "Kebijakan Kesehatan & Pembaruan — Perubahan Regulasi Keperawatan | NurseNest",
+    description: "Tetap terinformasi tentang perubahan kebijakan kesehatan yang memengaruhi perawat. Panduan pembaruan lisensi, rekrutmen internasional, perubahan format ujian, dan perkembangan regulasi.",
+    keywords: "kebijakan kesehatan keperawatan, perubahan regulasi, lisensi keperawatan, rekrutmen perawat internasional, pembaruan ujian",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Perubahan Kebijakan Lisensi Keperawatan | NurseNest",
+    description: "Panduan lengkap perubahan kebijakan lisensi keperawatan termasuk pembaruan Compact, perubahan lingkup praktik, dan persyaratan perpanjangan.",
+    keywords: "perubahan lisensi keperawatan, compact keperawatan, lingkup praktik, perpanjangan lisensi",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "Rekrutmen Perawat Internasional — Evaluasi Kredensial | NurseNest",
+    description: "Panduan kebijakan rekrutmen perawat internasional. Evaluasi kredensial, jalur imigrasi, program jembatan.",
+    keywords: "rekrutmen perawat internasional, evaluasi kredensial, program jembatan, visa perawat",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Pembaruan Format Ujian Keperawatan — NGN & CAT | NurseNest",
+    description: "Ikuti perubahan format ujian keperawatan. Panduan pembaruan NGN NCLEX, perubahan tes adaptif, dan modifikasi laporan skor.",
+    keywords: "pembaruan format ujian NCLEX, NGN, tes adaptif, laporan skor",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Perubahan Regulasi yang Memengaruhi Perawat | NurseNest",
+    description: "Panduan perubahan regulasi yang memengaruhi praktik keperawatan. Undang-undang rasio staf, standar keselamatan pasien, telemedicine.",
+    keywords: "perubahan regulasi keperawatan, rasio staf, keselamatan pasien, telemedicine",
+  },
 };
 
 export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {

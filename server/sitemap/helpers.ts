@@ -15,6 +15,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/changjianwenti",
     "/blog": "/boke",
     "/international-nurses": "/guoji-hushi",
+    "/healthcare-policy-and-updates": "/yiliao-zhengce-gengxin",
   },
   fr: {
     "/pricing": "/tarifs",
@@ -36,6 +37,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/nurse-salary-united-states": "/salaire-infirmier-etats-unis",
     "/nurse-salary-united-kingdom": "/salaire-infirmier-royaume-uni",
     "/nurse-salary-australia": "/salaire-infirmier-australie",
+    "/healthcare-policy-and-updates": "/politique-sante-et-mises-a-jour",
   },
   es: {
     "/pricing": "/precios",
@@ -48,6 +50,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/preguntas-frecuentes",
     "/blog": "/blog",
     "/international-nurses": "/enfermeros-internacionales",
+    "/healthcare-policy-and-updates": "/politica-salud-y-actualizaciones",
   },
   pt: {
     "/pricing": "/precos",
@@ -60,6 +63,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/perguntas-frequentes",
     "/blog": "/blog",
     "/international-nurses": "/enfermeiros-internacionais",
+    "/healthcare-policy-and-updates": "/politica-saude-e-atualizacoes",
   },
   th: {
     "/pricing": "/rakha",
@@ -72,6 +76,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/kham-tham-thi-phop-boi",
     "/blog": "/blog",
     "/international-nurses": "/phayaban-nana-chat",
+    "/healthcare-policy-and-updates": "/nayobai-sukkhaphap-lae-khao-mai",
   },
   tr: {
     "/pricing": "/fiyatlandirma",
@@ -84,6 +89,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/sikca-sorulan-sorular",
     "/blog": "/blog",
     "/international-nurses": "/uluslararasi-hemsireler",
+    "/healthcare-policy-and-updates": "/saglik-politikasi-ve-guncellemeler",
   },
   id: {
     "/pricing": "/harga",
@@ -96,6 +102,7 @@ const SITEMAP_SLUG_MAP: Record<string, Record<string, string>> = {
     "/faq": "/pertanyaan-umum",
     "/blog": "/blog",
     "/international-nurses": "/perawat-internasional",
+    "/healthcare-policy-and-updates": "/kebijakan-kesehatan-dan-pembaruan",
   },
 };
 

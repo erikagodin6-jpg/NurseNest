@@ -182,6 +182,15 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const policyMatch = pathname.match(/^\/healthcare-policy-and-updates(\/(.+))?$/);
+  if (policyMatch) {
+    crumbs.push({ name: "Healthcare Policy & Updates", url: `${SITE_BASE}/healthcare-policy-and-updates` });
+    if (policyMatch[2]) {
+      crumbs.push({ name: slugToTitle(policyMatch[2]), url: `${SITE_BASE}${pathname}` });
+    }
+    return crumbs;
+  }
+
   const careerMatch = pathname.match(/^\/career-development\/(.+)$/);
   if (careerMatch) {
     crumbs.push({ name: "Career Development", url: `${SITE_BASE}/new-grad` });
@@ -957,6 +966,26 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/guides/complete-guide-to-becoming-a-medical-lab-technologist": {
     title: "Complete Guide to Becoming a Medical Lab Technologist | NurseNest",
     description: "Detailed MLT career guide covering CSMLS/ASCP certification, education pathways, lab specializations, salary ranges, and job growth outlook.",
+  },
+  "/healthcare-policy-and-updates": {
+    title: "Healthcare Policy & Updates Hub: Licensing, Exam Changes, Regulatory Updates | NurseNest",
+    description: "Stay informed on healthcare policy changes affecting nurses. Evergreen guides on licensing policy updates, international nursing recruitment, exam format changes, and regulatory developments.",
+  },
+  "/healthcare-policy-and-updates/licensing-policy-changes": {
+    title: "Nursing Licensing Policy Changes: Compact Licenses, Scope of Practice & Licensure Updates | NurseNest",
+    description: "Comprehensive guide to nursing licensure policy changes including Nurse Licensure Compact updates, scope of practice changes, endorsement requirements, and license renewal policies across jurisdictions.",
+  },
+  "/healthcare-policy-and-updates/international-nursing-recruitment": {
+    title: "International Nursing Recruitment Policies: Credential Evaluation, Visa Pathways & Bridging Programs | NurseNest",
+    description: "Guide to international nursing recruitment policies including credential evaluation processes, visa and immigration pathways, bridging program requirements, and recruitment agency regulations.",
+  },
+  "/healthcare-policy-and-updates/exam-format-updates": {
+    title: "Nursing Exam Format Updates: NGN, CAT Changes, Score Reporting & Testing Policies | NurseNest",
+    description: "Stay current with nursing exam format changes. Comprehensive guide covering Next Generation NCLEX updates, computerized adaptive testing changes, score reporting modifications, and testing center policies.",
+  },
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses": {
+    title: "Regulatory Changes Affecting Nurses: Staffing Laws, Safety Standards & Practice Requirements | NurseNest",
+    description: "Comprehensive guide to healthcare regulatory changes affecting nursing practice. Covers staffing ratio laws, patient safety regulations, telehealth standards, and workplace safety requirements.",
   },
   "/nursing-certifications": {
     title: "Nursing Certifications Hub | Specialty Credentials & Exam Prep | NurseNest",
@@ -2173,6 +2202,11 @@ const KNOWN_STATIC_PATHS = new Set(Object.keys(staticPages).concat([
   "/rex-pn-practice-questions", "/np-exam-practice-questions",
   "/free-practice", "/practice-questions", "/glossary", "/medication-mastery",
   "/exam-prep", "/new-graduate-support", "/healthcare-careers", "/healthcare-certifications", "/guides",
+  "/healthcare-policy-and-updates",
+  "/healthcare-policy-and-updates/licensing-policy-changes",
+  "/healthcare-policy-and-updates/international-nursing-recruitment",
+  "/healthcare-policy-and-updates/exam-format-updates",
+  "/healthcare-policy-and-updates/regulatory-changes-affecting-nurses",
   "/topics", "/allied-health", "/case-simulations", "/shop",
   "/perioperative-nursing", "/preoperative-care", "/preoperative-nursing-guide",
   "/perioperative-nurse-career", "/nclex-rn", "/nclex-pn", "/canada-np", "/us-np",
@@ -2212,7 +2246,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/rpn/questions", "/rn/questions", "/np/questions",
   "/conditions/", "/medications/", "/lab-values/",
   "/how-to-become-", "/career-development/", "/new-grad/",
-  "/compare/", "/topics/", "/guides/", "/newgrad/", "/healthcare-careers/",
+  "/compare/", "/topics/", "/guides/", "/newgrad/", "/healthcare-careers/", "/healthcare-policy-and-updates/",
   "/allied-health/", "/flashcards/deck/",
   "/medical-imaging/", "/practice-questions/",
   "/mock-exams/", "/applynest/",

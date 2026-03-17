@@ -39,6 +39,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "healthcare-certifications": "certifications-sante",
     "medical-abbreviations-for-nurses": "abreviations-medicales-infirmiere",
     "nursing-skill-checklists": "listes-verification-competences-infirmieres",
+    "healthcare-policy-and-updates": "politique-sante-et-mises-a-jour",
   },
   es: {
     "pricing": "precios",
@@ -76,6 +77,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "healthcare-certifications": "certificaciones-salud",
     "medical-abbreviations-for-nurses": "abreviaturas-medicas-enfermeria",
     "nursing-skill-checklists": "listas-verificacion-habilidades-enfermeria",
+    "healthcare-policy-and-updates": "politica-salud-y-actualizaciones",
   },
   zh: {
     "pricing": "jiage",
@@ -110,6 +112,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nurse-salary-australia": "hushi-xinzi-aodaliya",
     "healthcare-careers": "yiliao-zhiye",
     "healthcare-certifications": "yiliao-renzheng",
+    "healthcare-policy-and-updates": "yiliao-zhengce-gengxin",
   },
   "zh-tw": {
     "pricing": "jiage",
@@ -128,6 +131,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "guides": "zhinan",
     "international-nurses": "guoji-hushi",
     "newgrad": "yingjie-biye",
+    "healthcare-policy-and-updates": "yiliao-zhengce-gengxin",
   },
   ar: {
     "pricing": "al-asar",
@@ -162,6 +166,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "healthcare-certifications": "shahadat-riaaya-sihhiya",
     "medical-abbreviations-for-nurses": "ikhtisarat-tibbiya-tamrid",
     "nursing-skill-checklists": "qawaaim-maharat-altamrid",
+    "healthcare-policy-and-updates": "siyasat-riaaya-sihhiya-tahdith",
   },
   hi: {
     "pricing": "mulya",
@@ -185,6 +190,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "newgrad": "naye-snaatak",
     "healthcare-careers": "swasthya-seva-career",
     "healthcare-certifications": "swasthya-seva-pramanpatra",
+    "healthcare-policy-and-updates": "swasthya-seva-niti-aur-update",
   },
   ko: {
     "pricing": "gagyeog",
@@ -206,6 +212,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "ganho-imsan-sinario",
     "international-nurses": "gukje-ganho",
     "newgrad": "sinib-joleopja",
+    "healthcare-policy-and-updates": "uiryo-jeongchaek-mit-eopdeitu",
   },
   pa: {
     "pricing": "keemat",
@@ -227,6 +234,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "nursing-naidanik-paridrishya",
     "international-nurses": "antarrashtriya-nurses",
     "newgrad": "nave-snaatak",
+    "healthcare-policy-and-updates": "sihat-niti-ate-update",
   },
   vi: {
     "pricing": "bang-gia",
@@ -248,6 +256,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "tinh-huong-lam-sang-dieu-duong",
     "international-nurses": "dieu-duong-quoc-te",
     "newgrad": "tan-tot-nghiep",
+    "healthcare-policy-and-updates": "chinh-sach-y-te-va-cap-nhat",
   },
   ht: {
     "pricing": "pri",
@@ -269,6 +278,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "senario-klinik-enfimye",
     "international-nurses": "enfimye-entenaasyonal",
     "newgrad": "nouvo-diplome",
+    "healthcare-policy-and-updates": "politik-sante-ak-mizajou",
   },
   ur: {
     "pricing": "qeemat",
@@ -290,6 +300,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "nursing-tibbi-manazir",
     "international-nurses": "bainulaqwami-nurses",
     "newgrad": "naye-faarig-uttahar",
+    "healthcare-policy-and-updates": "sehat-ki-policy-aur-updates",
   },
   ja: {
     "pricing": "kakaku",
@@ -311,6 +322,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "kango-rinsho-shinario",
     "international-nurses": "kokusai-kangoshi",
     "newgrad": "shinsotsu",
+    "healthcare-policy-and-updates": "iryo-seisaku-to-saishin-jouhou",
   },
   fa: {
     "pricing": "gheymat",
@@ -332,6 +344,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "senariu-balini-parastari",
     "international-nurses": "parastar-beinolmelali",
     "newgrad": "faragh-altahsil-jadid",
+    "healthcare-policy-and-updates": "siyasat-behdashti-va-berozresani",
   },
   de: {
     "pricing": "preise",
@@ -354,6 +367,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "international-nurses": "internationale-pflegekraefte",
     "healthcare-careers": "gesundheitsberufe",
     "healthcare-certifications": "gesundheitszertifizierungen",
+    "healthcare-policy-and-updates": "gesundheitspolitik-und-aktualisierungen",
   },
   tr: {
     "pricing": "fiyatlandirma",
@@ -374,6 +388,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-study-guides": "hemsirelik-calisma-rehberleri",
     "nursing-clinical-scenarios": "hemsirelik-klinik-senaryolar",
     "international-nurses": "uluslararasi-hemsireler",
+    "healthcare-policy-and-updates": "saglik-politikasi-ve-guncellemeler",
   },
   id: {
     "pricing": "harga",
@@ -394,6 +409,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-study-guides": "panduan-belajar-keperawatan",
     "nursing-clinical-scenarios": "skenario-klinis-keperawatan",
     "international-nurses": "perawat-internasional",
+    "healthcare-policy-and-updates": "kebijakan-kesehatan-dan-pembaruan",
   },
   pt: {
     "pricing": "precos",
@@ -422,6 +438,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "healthcare-certifications": "certificacoes-saude",
     "medical-abbreviations-for-nurses": "abreviaturas-medicas-enfermagem",
     "nursing-skill-checklists": "listas-verificacao-habilidades-enfermagem",
+    "healthcare-policy-and-updates": "politica-saude-e-atualizacoes",
   },
   th: {
     "pricing": "rakha",
@@ -442,6 +459,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-study-guides": "khumue-rian-phayaban",
     "nursing-clinical-scenarios": "sathanakon-klinik-phayaban",
     "international-nurses": "phayaban-nana-chat",
+    "healthcare-policy-and-updates": "nayobai-sukkhaphap-lae-khao-mai",
   },
 };
 
