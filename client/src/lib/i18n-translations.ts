@@ -14,9 +14,9 @@ export async function loadLanguage(lang: LanguageCode): Promise<Record<string, s
   if (!AVAILABLE_LANGS.has(langKey)) return {};
 
   try {
-    let res = await fetch(`/api/assets/i18n/${langKey}.json`);
+    let res = await fetch(`/i18n/${langKey}.json`);
     if (!res.ok) {
-      res = await fetch(`/i18n/${langKey}.json`);
+      res = await fetch(`/api/assets/i18n/${langKey}.json`);
     }
     if (!res.ok) {
       console.warn(`[i18n] Failed to load i18n/${langKey}.json (${res.status}). Run: npx tsx script/compile-i18n.ts`);

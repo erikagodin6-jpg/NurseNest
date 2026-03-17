@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
 import type { LanguageCode } from "./i18n-types";
+import enTranslations from "./i18n-en";
 
 export type { LanguageCode } from "./i18n-types";
 
@@ -29,7 +30,7 @@ export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; 
 ];
 
 const translations: Partial<Record<LanguageCode, Record<string, string>>> & { en: Record<string, string> } = {
-  en: {},
+  en: { ...enTranslations },
 };
 
 const missingKeys: Map<string, Set<string>> = new Map();
@@ -73,29 +74,19 @@ function trackMissingKey(lang: string, key: string) {
   }
 }
 
-let enLoaded = false;
-const enReady = fetch("/api/assets/i18n/en.json")
-  .then((r) => {
-    if (!r.ok) {
-      return fetch("/i18n/en.json");
+let enLoaded = true;
+const enReady: Promise<void> = (async () => {
+  try {
+    let res = await fetch("/i18n/en.json");
+    if (!res.ok) {
+      res = await fetch("/api/assets/i18n/en.json");
     }
-    return r;
-  })
-  .then((r) => {
-    if (!r.ok) {
-      console.error(`[i18n] Failed to load i18n/en.json (${r.status}). Run: npx tsx script/compile-i18n.ts`);
-      throw new Error("Missing i18n/en.json");
+    if (res.ok) {
+      const data: Record<string, string> = await res.json();
+      Object.assign(translations.en, data);
     }
-    return r.json();
-  })
-  .then((data: Record<string, string>) => {
-    Object.assign(translations.en, data);
-    enLoaded = true;
-  })
-  .catch((err) => {
-    console.error("[i18n] English translations failed to load:", err);
-    enLoaded = true;
-  });
+  } catch {}
+})();
 
 type I18nContextType = {
   language: LanguageCode;
