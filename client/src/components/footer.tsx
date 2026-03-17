@@ -132,7 +132,7 @@ export function Footer() {
               <li><LocaleLink href="/allied-health/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">Occupational Therapy</LocaleLink></li>
               <li><LocaleLink href="/allied-health/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
               <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">Allied Careers</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
+              <li><LocaleLink href="/pricing?section=allied" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
               <li><LocaleLink href="/allied-health/social-work" className="hover:text-primary transition-colors" data-testid="link-footer-allied-social-work">Social Work</LocaleLink></li>
               <li><LocaleLink href="/allied-health/psychotherapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-psychotherapy">Psychotherapy</LocaleLink></li>
             </ul>

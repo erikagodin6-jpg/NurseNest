@@ -17,7 +17,6 @@ const AlliedFlashcards = lazy(() => import("./pages/allied-flashcards"));
 const AlliedSims = lazy(() => import("./pages/allied-sims"));
 const ParamedicScenarioPlayer = lazy(() => import("./pages/paramedic-scenario-player"));
 const AlliedTools = lazy(() => import("./pages/allied-tools"));
-const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
 const MltAdmin = lazy(() => import("./pages/mlt-admin"));
 const ParamedicBulkUpload = lazy(() => import("./pages/paramedic-bulk-upload"));
@@ -218,8 +217,8 @@ export function AlliedRoutes() {
         <Route path="/allied-health/faq" component={AlliedHealthFAQPage} />
         <Route path="/allied-health/lessons" component={AlliedLessons} />
         <Route path="/allied-health/careers" component={CareerDirectory} />
-        <Route path="/allied-health/pricing" component={AlliedPricing} />
-        <Route path="/pricing/allied" component={AlliedPricing} />
+        <Route path="/allied-health/pricing">{() => <Redirect to="/pricing?section=allied" />}</Route>
+        <Route path="/pricing/allied">{() => <Redirect to="/pricing?section=allied" />}</Route>
         <Route path="/allied-health/institutions/faq" component={AlliedInstitutionsFAQ} />
         <Route path="/allied-health/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
         <Route path="/allied-health/institutions" component={AlliedInstitutions} />
@@ -614,7 +613,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/allied-health/:careerSlug/study-plan" component={AlliedStudyPlan} />
         <Route path="/allied-health/:careerSlug/flashcards" component={AlliedFlashcards} />
-        <Route path="/allied-health/:careerSlug/pricing" component={AlliedPricing} />
+        <Route path="/allied-health/:careerSlug/pricing">{() => <Redirect to="/pricing?section=allied" />}</Route>
         <Route path="/allied-health/:careerSlug/sims" component={AlliedSims} />
         <Route path="/allied-health/:careerSlug/tools" component={AlliedTools} />
 

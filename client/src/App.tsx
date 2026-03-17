@@ -1022,7 +1022,7 @@ function AppRoutes() {
         <Route path="/medical-imaging/purchase-success" component={ImagingPurchaseSuccessPage} />
         <Route path="/medical-imaging/store" component={ImagingStorePage} />
         <Route path="/medical-imaging/account" component={ImagingAccountPage} />
-        <Route path="/medical-imaging/:country/pricing" component={ImagingPricingPage} />
+        <Route path="/medical-imaging/:country/pricing">{() => <Redirect to="/pricing?section=imaging" />}</Route>
         <Route path="/medical-imaging/:country/lessons" component={ImagingLessonsPage} />
         <Route path="/medical-imaging/:country/positioning/:projectionSlug" component={ImagingPositioningDetailPage} />
         <Route path="/medical-imaging/:country/positioning" component={ImagingPositioningPage} />
@@ -1076,7 +1076,13 @@ function AppRoutes() {
         <Route path="/login" component={LoginPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
-        <Route path="/pricing/:tier" component={PricingPage} />
+        <Route path="/pricing/allied">{() => <Redirect to="/pricing?section=allied" />}</Route>
+        <Route path="/pricing/rpn">{() => <Redirect to="/pricing?section=nursing" />}</Route>
+        <Route path="/pricing/rn">{() => <Redirect to="/pricing?section=nursing" />}</Route>
+        <Route path="/pricing/np">{() => <Redirect to="/pricing?section=nursing" />}</Route>
+        <Route path="/pricing/newgrad">{() => <Redirect to="/pricing?section=newgrad" />}</Route>
+        <Route path="/pricing/imaging">{() => <Redirect to="/pricing?section=imaging" />}</Route>
+        <Route path="/pricing/:tier">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pricing" component={PricingPage} />
         <Route path="/refer" component={ReferPage} />
         <Route path="/signup">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
@@ -1111,7 +1117,7 @@ function AppRoutes() {
         <Route path="/onboarding/plan" component={OnboardingPlanPage} />
         <Route path="/study-plan" component={StudyPlanPage} />
         <Route path="/pharmacology/curriculum" component={PharmacologyHub} />
-        <Route path="/pharmacology/pricing" component={PharmacologyHub} />
+        <Route path="/pharmacology/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pharmacology/faq" component={PharmacologyHub} />
         <Route path="/pharmacology" component={PharmacologyHub} />
         <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
@@ -1198,7 +1204,7 @@ function AppRoutes() {
         <Route path="/critical-care/mock-exams/:id" component={MockExamSession} />
         <Route path="/critical-care/mock-exams" component={MockExamsPage} />
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
-        <Route path="/critical-care/pricing" component={PricingPage} />
+        <Route path="/critical-care/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/critical-care/dashboard" component={DashboardPage} />
         <Route path="/critical-care" component={AlliedHomePage} />
 
@@ -1210,7 +1216,7 @@ function AppRoutes() {
         <Route path="/emergency-nursing/mock-exams/:id" component={MockExamSession} />
         <Route path="/emergency-nursing/mock-exams" component={MockExamsPage} />
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
-        <Route path="/emergency-nursing/pricing" component={PricingPage} />
+        <Route path="/emergency-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
         <Route path="/emergency-nursing" component={AlliedHomePage} />
 
@@ -1229,7 +1235,7 @@ function AppRoutes() {
         <Route path="/perioperative/mock-exams/:id" component={MockExamSession} />
         <Route path="/perioperative/mock-exams" component={MockExamsPage} />
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
-        <Route path="/perioperative/pricing" component={PricingPage} />
+        <Route path="/perioperative/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/perioperative/dashboard" component={DashboardPage} />
         <Route path="/perioperative" component={AlliedHomePage} />
 
@@ -1241,7 +1247,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing/mock-exams/:id" component={MockExamSession} />
         <Route path="/oncology-nursing/mock-exams" component={MockExamsPage} />
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
-        <Route path="/oncology-nursing/pricing" component={PricingPage} />
+        <Route path="/oncology-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
         <Route path="/oncology-nursing" component={AlliedHomePage} />
 
@@ -1253,7 +1259,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert/mock-exams/:id" component={MockExamSession} />
         <Route path="/pediatric-cert/mock-exams" component={MockExamsPage} />
         <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
-        <Route path="/pediatric-cert/pricing" component={PricingPage} />
+        <Route path="/pediatric-cert/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pediatric-cert/dashboard" component={DashboardPage} />
         <Route path="/pediatric-cert" component={AlliedHomePage} />
 
