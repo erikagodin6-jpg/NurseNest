@@ -3,6 +3,8 @@ import { getExamConstants, type Region as ConstRegion } from "@shared/constants"
 import { getTierConfig } from "@shared/tier-config";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useCareer } from "@/lib/career-context";
+import { CAREER_CONFIGS, type CareerType } from "@shared/careers";
 import { 
   BookOpen, 
   Layers, 
@@ -32,7 +34,19 @@ import {
   Calendar,
   UserCircle,
   X,
-  LayoutDashboard
+  LayoutDashboard,
+  HeartPulse,
+  Siren,
+  Scissors,
+  Ribbon,
+  Baby,
+  Brain,
+  Users,
+  ShieldCheck,
+  Hand,
+  Database,
+  Radio,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -62,6 +76,67 @@ import { useI18n, LANGUAGES } from "@/lib/i18n";
 import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award, Sparkles, ArrowRightLeft } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
+
+const CAREER_ICON_MAP: Record<string, LucideIcon> = {
+  Stethoscope, Wind, Ambulance, Pill, Microscope, ScanLine, HeartPulse,
+  Siren, Scissors, Ribbon, Baby, Brain, Users, ShieldCheck, Hand,
+  Activity, Database, Radio, Heart,
+};
+
+interface CareerSectionItem {
+  id: CareerType;
+  subtitle?: string;
+}
+
+interface CareerSection {
+  label: string;
+  items: CareerSectionItem[];
+}
+
+const CAREER_SECTIONS: CareerSection[] = [
+  {
+    label: "Nursing",
+    items: [
+      { id: "nursing", subtitle: "RPN/REx-PN, RN/NCLEX-RN, NP" },
+    ],
+  },
+  {
+    label: "Allied Health",
+    items: [
+      { id: "rrt" },
+      { id: "paramedic" },
+      { id: "pharmacyTech" },
+      { id: "mlt" },
+      { id: "imaging" },
+      { id: "occupationalTherapy" },
+      { id: "physicalTherapy" },
+      { id: "healthInfoMgmt" },
+      { id: "occupationalTherapyAssistant" },
+      { id: "physiotherapyAssistant" },
+      { id: "surgicalTechnologist" },
+      { id: "diagnosticSonography" },
+      { id: "cardiacSonographer" },
+    ],
+  },
+  {
+    label: "Nursing Specialties",
+    items: [
+      { id: "criticalCare" },
+      { id: "emergencyNursing" },
+      { id: "oncologyNursing" },
+      { id: "perioperative" },
+      { id: "pediatricCert" },
+    ],
+  },
+  {
+    label: "Behavioral Health",
+    items: [
+      { id: "psychotherapist" },
+      { id: "socialWorker" },
+      { id: "addictionsCounsellor" },
+    ],
+  },
+];
 
 function UserProfileDropdown({ user, logout, setLocation: navigate }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -223,7 +298,16 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const [location, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
   const { language, setLanguage, t } = useI18n();
+  const { setCareer } = useCareer();
   const navTo = (path: string) => setLocation(path);
+
+  const navigateToCareer = (careerId: CareerType) => {
+    const config = CAREER_CONFIGS[careerId];
+    if (!config) return;
+    setCareer(careerId);
+    const route = config.routePrefix || "/";
+    navTo(route);
+  };
   const currentLang = LANGUAGES.find(l => l.code === language);
 
   const setRegion = (newRegion: "US" | "CA") => {
@@ -480,51 +564,40 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
             </div>
 
-            <div className="mb-6">
-              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">{t("nav.practiceTiers")}</p>
-              <div className="grid grid-cols-1 gap-2 px-1">
-                <Button 
-                  variant="outline" 
-                  className={cn(
-                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
-                    user?.tier === 'rpn' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
-                  )}
-                  onClick={() => { navTo("/lessons?tier=rpn"); setMobileMenuOpen(false); }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shadow-inner shrink-0">PN</div>
-                  <div className="text-left overflow-hidden">
-                    <div className="text-sm font-bold truncate">{region === 'CA' ? 'RPN/REX-PN' : 'LPN/LVN'}</div>
-                    <div className="text-[10px] text-gray-500 truncate">{t("nav.practicalNursingPrep")}</div>
+            <div className="mb-6" data-testid="mobile-career-tracks">
+              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">{t("nav.careerGuides")}</p>
+              <div className="flex flex-col gap-4 px-1">
+                {CAREER_SECTIONS.map((section) => (
+                  <div key={section.label}>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">{section.label}</p>
+                    <div className="flex flex-col gap-0.5">
+                      {section.items.map((item) => {
+                        const config = CAREER_CONFIGS[item.id];
+                        if (!config?.enabled) return null;
+                        const IconComp = CAREER_ICON_MAP[config.icon] || Stethoscope;
+                        return (
+                          <SheetClose asChild key={item.id}>
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start gap-2.5 h-10 text-gray-700 hover:text-primary hover:bg-primary/5"
+                              onClick={() => { navigateToCareer(item.id); setMobileMenuOpen(false); }}
+                              data-testid={`mobile-career-${config.slug}`}
+                            >
+                              <IconComp className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                              <div className="text-left min-w-0">
+                                <div className="text-sm font-medium truncate">{config.shortName}</div>
+                                {item.subtitle && <div className="text-[10px] text-gray-400 truncate">{item.subtitle}</div>}
+                                {!item.subtitle && config.examNames.length > 0 && (
+                                  <div className="text-[10px] text-gray-400 truncate">{config.examNames.slice(0, 2).join(", ")}</div>
+                                )}
+                              </div>
+                            </Button>
+                          </SheetClose>
+                        );
+                      })}
+                    </div>
                   </div>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className={cn(
-                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
-                    user?.tier === 'rn' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
-                  )}
-                  onClick={() => { navTo("/lessons?tier=rn"); setMobileMenuOpen(false); }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm shadow-inner shrink-0">RN</div>
-                  <div className="text-left overflow-hidden">
-                    <div className="text-sm font-bold truncate">RN/NCLEX-RN</div>
-                    <div className="text-[10px] text-gray-500 truncate">{t("nav.registeredNursingPrep")}</div>
-                  </div>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className={cn(
-                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
-                    user?.tier === 'np' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
-                  )}
-                  onClick={() => { navTo("/lessons?tier=np"); setMobileMenuOpen(false); }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-sm shadow-inner shrink-0">NP</div>
-                  <div className="text-left overflow-hidden">
-                    <div className="text-sm font-bold truncate">{t("nav.npAdvanced")}</div>
-                    <div className="text-[10px] text-gray-500 truncate">{t("nav.npContent")}</div>
-                  </div>
-                </Button>
+                ))}
               </div>
               <Separator className="my-6 mx-3 bg-gray-100" />
             </div>
@@ -626,96 +699,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/new-grad/nursing")} data-testid="button-new-grad-nursing-mobile">
                 <Stethoscope className="w-4 h-4" />
                 {t("footer.nursing")}
-              </Button>
-            </SheetClose>
-
-            <Separator className="my-2 bg-[var(--theme-separator)]" />
-
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.careerGuides")}</p>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/nursing")} data-testid="button-career-nursing-mobile">
-                <Stethoscope className="w-4 h-4" />
-                {t("footer.nursing")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => navTo("/nursing-specialties")} data-testid="button-nursing-specialties-mobile">
-                {t("nav.specialties")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => navTo("/new-grad")} data-testid="button-nursing-certifications-mobile">
-                {t("nav.certifications")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9 pl-10" onClick={() => navTo("/study-pathways")} data-testid="button-study-pathways-mobile">
-                {t("nav.studyPathways")}
-              </Button>
-            </SheetClose>
-
-            <Separator className="my-2 bg-[var(--theme-separator)]" />
-
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Allied Health</p>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health")} data-testid="button-allied-health-hub-mobile">
-                <GraduationCap className="w-4 h-4 text-teal-500" />
-                Allied Health Hub
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/rrt")} data-testid="button-career-rrt-mobile">
-                <Wind className="w-4 h-4" />
-                {t("footer.respiratoryTherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/paramedic")} data-testid="button-career-paramedic-mobile">
-                <Ambulance className="w-4 h-4" />
-                {t("footer.paramedic")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/pharmacy-technician")} data-testid="button-career-pharmacy-tech-mobile">
-                <Pill className="w-4 h-4" />
-                Pharmacy Technician
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/mlt")} data-testid="button-career-mlt-mobile">
-                <Microscope className="w-4 h-4" />
-                {t("footer.medLabTech")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/imaging")} data-testid="button-career-imaging-mobile">
-                <ScanLine className="w-4 h-4" />
-                {t("nav.diagnosticImaging")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/occupational-therapy")} data-testid="button-career-ot-mobile">
-                {t("nav.occupationalTherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/physical-therapy")} data-testid="button-career-pt-mobile">
-                Physical Therapy
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/social-work")} data-testid="button-career-social-work-mobile">
-                {t("nav.socialWork")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/psychotherapy")} data-testid="button-career-psychotherapy-mobile">
-                {t("nav.psychotherapy")}
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/allied-health/addictions")} data-testid="button-career-addictions-mobile">
-                {t("nav.addictionsCounseling")}
               </Button>
             </SheetClose>
 
@@ -1268,62 +1251,71 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56 p-2">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Nursing</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/nursing")} data-testid="menu-career-nursing">
-                    <Stethoscope className="w-4 h-4 text-blue-500" />
-                    {t("nav.clinicalLessons")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-specialties")} data-testid="menu-nursing-specialties">
-                    {t("nav.specialties")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/nursing-certifications")} data-testid="menu-nursing-certifications">
-                    {t("nav.certifications")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 pl-8" onClick={() => navTo("/study-pathways")} data-testid="menu-study-pathways">
-                    {t("nav.studyPathways")}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Allied Health</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health")} data-testid="menu-allied-health-hub">
-                    <GraduationCap className="w-4 h-4 text-teal-500" />
-                    Allied Health Hub
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/rrt")} data-testid="menu-career-rrt">
-                    <Wind className="w-4 h-4 text-cyan-500" />
-                    {t("nav.respTherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/paramedic")} data-testid="menu-career-paramedic">
-                    <Ambulance className="w-4 h-4 text-red-500" />
-                    {t("nav.paramedicine")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/pharmacy-technician")} data-testid="menu-career-pharmacy-tech">
-                    <Pill className="w-4 h-4 text-green-500" />
-                    {t("nav.pharmacyTech")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/mlt")} data-testid="menu-career-mlt">
-                    <Microscope className="w-4 h-4 text-purple-500" />
-                    {t("nav.medLabTech")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/imaging")} data-testid="menu-career-imaging">
-                    <ScanLine className="w-4 h-4 text-amber-500" />
-                    {t("nav.diagnosticImaging")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/physical-therapy")} data-testid="menu-career-pt">
-                    {t("nav.physicalTherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/occupational-therapy")} data-testid="menu-career-ot">
-                    {t("nav.occupationalTherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/social-work")} data-testid="menu-career-social-work">
-                    {t("nav.socialWork")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/psychotherapy")} data-testid="menu-career-psychotherapy">
-                    {t("nav.psychotherapy")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/allied-health/addictions")} data-testid="menu-career-addictions">
-                    {t("nav.addictionsCounseling")}
-                  </DropdownMenuItem>
+                <DropdownMenuContent align="start" className="w-[540px] p-4" data-testid="career-dropdown-panel">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-4">
+                      {CAREER_SECTIONS.slice(0, 2).map((section) => (
+                        <div key={section.label}>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-1">{section.label}</p>
+                          <div className="flex flex-col gap-0.5">
+                            {section.items.map((item) => {
+                              const config = CAREER_CONFIGS[item.id];
+                              if (!config?.enabled) return null;
+                              const IconComp = CAREER_ICON_MAP[config.icon] || Stethoscope;
+                              return (
+                                <DropdownMenuItem
+                                  key={item.id}
+                                  className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 py-1.5"
+                                  onClick={() => navigateToCareer(item.id)}
+                                  data-testid={`menu-career-${config.slug}`}
+                                >
+                                  <IconComp className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-medium truncate">{config.shortName}</div>
+                                    {item.subtitle && <div className="text-[10px] text-gray-400 truncate">{item.subtitle}</div>}
+                                    {!item.subtitle && config.examNames.length > 0 && (
+                                      <div className="text-[10px] text-gray-400 truncate">{config.examNames.slice(0, 2).join(", ")}</div>
+                                    )}
+                                  </div>
+                                </DropdownMenuItem>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      {CAREER_SECTIONS.slice(2).map((section) => (
+                        <div key={section.label}>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-1">{section.label}</p>
+                          <div className="flex flex-col gap-0.5">
+                            {section.items.map((item) => {
+                              const config = CAREER_CONFIGS[item.id];
+                              if (!config?.enabled) return null;
+                              const IconComp = CAREER_ICON_MAP[config.icon] || Stethoscope;
+                              return (
+                                <DropdownMenuItem
+                                  key={item.id}
+                                  className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 py-1.5"
+                                  onClick={() => navigateToCareer(item.id)}
+                                  data-testid={`menu-career-${config.slug}`}
+                                >
+                                  <IconComp className="w-4 h-4 shrink-0" style={{ color: config.color }} />
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-medium truncate">{config.shortName}</div>
+                                    {item.subtitle && <div className="text-[10px] text-gray-400 truncate">{item.subtitle}</div>}
+                                    {!item.subtitle && config.examNames.length > 0 && (
+                                      <div className="text-[10px] text-gray-400 truncate">{config.examNames.slice(0, 2).join(", ")}</div>
+                                    )}
+                                  </div>
+                                </DropdownMenuItem>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
 
