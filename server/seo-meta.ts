@@ -395,6 +395,10 @@ function slugToTitle(slug: string): string {
 }
 
 const staticPages: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certification Test Bank, Simulations & Flashcards",
+    description: "Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. 40,000+ practice questions, clinical case simulations, 13,000+ flashcards, and 8,000+ lessons for nursing students, NP candidates, allied health professionals, and new graduates in Canada and the US. Start free.",
+  },
   "/start-free": {
     title: "Start Free - Begin Your Nursing Exam Prep | NurseNest",
     description: "Start your free NurseNest account today. Access nursing lessons, flashcards, and practice questions to begin preparing for NCLEX, NCLEX-PN, and REx-PN exams.",
@@ -2578,6 +2582,11 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
     /<!--SEO_CANONICAL-->.*?<!--\/SEO_CANONICAL-->/s,
     `<!--SEO_CANONICAL--><link rel="canonical" href="${meta.canonical}" /><!--/SEO_CANONICAL-->`
   );
+
+  const NEVER_NOINDEX_PATHS = new Set(["/"]);
+  if (NEVER_NOINDEX_PATHS.has(strippedPath) && isLocaleIndexable(detectedLocale)) {
+    meta.noindex = false;
+  }
 
   if (meta.noindex) {
     html = html.replace(

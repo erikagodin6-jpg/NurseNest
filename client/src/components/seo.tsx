@@ -79,10 +79,9 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       const el = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
       if (el) el.dataset.clientSet = shouldNoindexPage ? "true" : "";
     } else {
-      const robotsEl = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
-      if (robotsEl) {
-        robotsEl.remove();
-      }
+      setMeta("robots", "index, follow");
+      const el = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      if (el) el.dataset.clientSet = "true";
     }
 
     setMeta("description", effectiveDescription);
@@ -214,10 +213,6 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         if (el) el.remove();
       });
       hreflangLinks.forEach((el) => el.remove());
-      if (shouldNoindexPage) {
-        const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
-        if (robotsMeta) robotsMeta.remove();
-      }
     };
   }, [title, description, keywords, canonicalPath, ogType, noindex, structuredData, additionalStructuredData, breadcrumbs, noBreadcrumbs]);
 
