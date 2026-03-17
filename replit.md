@@ -45,6 +45,12 @@ Real-time email (Resend) and SMS (Twilio) alerts on purchase events. Triggered f
 Events: new_subscription, subscription_cancelled, payment_failed, lifetime_purchase, trial_started.
 Default recipients: erikagodin6@gmail.com (email), +16132198982 (SMS). Configurable via admin settings.
 
+### Content Publishing Audit
+Admin-only content audit system at `server/content-audit-report.ts` with two endpoints:
+- `GET /api/admin/content-audit` — Comprehensive audit report: tier counts vs targets, data quality (missing rationale/body_system/exam/topic), flashcard coverage & linkage, exam breakdown, body system breakdown, format breakdown, CAT behavior verification, paywall enforcement status.
+- `POST /api/admin/content-audit/fix-quality` — Atomically marks published questions with missing required fields (rationale, body_system, exam) as draft using a DB transaction.
+Both endpoints require admin authentication via `requireAdmin`.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
