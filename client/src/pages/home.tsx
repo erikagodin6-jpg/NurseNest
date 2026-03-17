@@ -361,9 +361,9 @@ export default function Home() {
       
       <main className="flex-grow">
         <section className="relative overflow-hidden" style={{ paddingTop: 'var(--space-hero-top)', paddingBottom: 'var(--space-hero-bottom)' }} data-testid="hero-section">
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block" aria-hidden="true">
-            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px] will-change-transform" />
-            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px] will-change-transform" />
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none hidden md:block will-change-transform" aria-hidden="true">
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[80px]" style={{ transform: 'translateZ(0)' }} />
+            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/20 blur-[100px]" style={{ transform: 'translateZ(0)' }} />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -456,7 +456,7 @@ export default function Home() {
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <Button 
                     size="lg" 
-                    className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-[var(--shadow-elevated)] shadow-primary/25 transition-all hover:-translate-y-0.5 text-white w-full sm:w-auto font-semibold" 
+                    className="h-13 sm:h-14 px-7 sm:px-9 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-[var(--shadow-elevated)] shadow-primary/25 transition-transform hover:-translate-y-0.5 text-white w-full sm:w-auto font-semibold" 
                     onClick={() => setLocation("/register")}
                     data-testid="button-hero-start-free"
                   >
@@ -499,17 +499,17 @@ export default function Home() {
                     <Trophy className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-pass-rate">{t("home.hero.trustPassRate")}</span>
                   </div>
-                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <span className="hidden sm:inline text-gray-400" aria-hidden="true">·</span>
                   <div className="flex items-center gap-1.5">
                     <HelpCircle className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-questions">{questionCount > 0 ? `${formatCount(questionCount)} ${t("home.hero.trustQuestionsLabel")}` : t("home.hero.trustQuestions")}</span>
                   </div>
-                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <span className="hidden sm:inline text-gray-400" aria-hidden="true">·</span>
                   <div className="flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-flashcards">{flashcardCount > 0 ? `${formatCount(flashcardCount)} ${t("home.hero.trustFlashcardsLabel")}` : t("home.hero.trustFlashcards")}</span>
                   </div>
-                  <span className="hidden sm:inline text-gray-300">·</span>
+                  <span className="hidden sm:inline text-gray-400" aria-hidden="true">·</span>
                   <div className="flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5 shrink-0" />
                     <span data-testid="text-trust-students">{t("home.hero.trustStudents")}</span>

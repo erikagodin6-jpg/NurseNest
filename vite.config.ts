@@ -48,27 +48,18 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes("node_modules/react-dom")) {
-            return "react-dom";
-          }
-          if (id.includes("node_modules/react/") || id.includes("node_modules/scheduler/")) {
-            return "react-core";
-          }
-          if (id.includes("node_modules/@tanstack")) {
-            return "query";
-          }
-          if (id.includes("node_modules/lucide-react")) {
-            return "icons";
-          }
-          if (id.includes("node_modules/wouter")) {
-            return "router";
-          }
-          if (id.includes("/allied/")) {
-            return "allied";
-          }
-          if (id.includes("/pages/admin")) {
-            return "admin";
-          }
+          if (id.includes("node_modules/react-dom")) return "react-dom";
+          if (id.includes("node_modules/react/") || id.includes("node_modules/scheduler")) return "react-core";
+          if (id.includes("node_modules/@tanstack")) return "tanstack";
+          if (id.includes("node_modules/lucide-react")) return "icons";
+          if (id.includes("node_modules/wouter")) return "router";
+          if (id.includes("node_modules/framer-motion")) return "framer";
+          if (id.includes("node_modules/recharts") || id.includes("node_modules/d3")) return "charts";
+          if (id.includes("node_modules/@radix-ui")) return "radix";
+          if (id.includes("node_modules/stripe") || id.includes("node_modules/@stripe")) return "stripe";
+          if (id.includes("/allied/")) return "allied";
+          if (id.includes("/pages/admin")) return "admin";
+          if (id.includes("node_modules/")) return "vendor";
         },
       },
     },

@@ -36,7 +36,7 @@ export function serveStatic(app: Express) {
 
   app.use(
     express.static(distPath, {
-      maxAge: "1h",
+      maxAge: "1d",
       setHeaders: (res, filePath) => {
         if (filePath.endsWith("sw.js") || filePath.endsWith(".html")) {
           res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -73,8 +73,10 @@ export function serveStatic(app: Express) {
       const statusCode = contentExists ? 200 : 404;
 
       const injected = await injectMeta(html, req.path, { isAllied: !!(req as any).isAllied });
+      const isNoindex = injected.includes('content="noindex');
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.setHeader("X-Robots-Tag", isNoindex ? "noindex, follow" : "index, follow");
       res.status(statusCode).send(injected);
     } catch (err) {
       console.error("SEO meta injection error:", err);

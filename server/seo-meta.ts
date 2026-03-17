@@ -2682,6 +2682,26 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
       "</body>",
       `<noscript><article role="main">${meta.noscriptContent}</article></noscript>\n</body>`
     );
+  } else if ((strippedPath === "/" || strippedPath === "") && detectedLocale === "en") {
+    const homepageNoscript = `<noscript><article role="main" lang="en">` +
+      `<h1>NurseNest — Healthcare Exam Prep for Nursing, NP &amp; Allied Health</h1>` +
+      `<p>Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. Access 40,000+ practice questions, 13,000+ flashcards, 8,000+ clinical lessons, adaptive CAT exams, and clinical case simulations.</p>` +
+      `<h2>Why NurseNest?</h2>` +
+      `<ul>` +
+      `<li>Evidence-based active recall and spaced repetition</li>` +
+      `<li>Next Generation NCLEX (NGN) clinical judgment questions</li>` +
+      `<li>NCLEX &amp; REx-PN exam blueprint alignment</li>` +
+      `<li>Clinical decision-making simulations</li>` +
+      `</ul>` +
+      `<h2>Built For</h2>` +
+      `<ul>` +
+      `<li>Nursing Students (RPN/LVN, RN, NP)</li>` +
+      `<li>Allied Health Professionals (RRT, MLT, Paramedic, Social Work, OT)</li>` +
+      `<li>New Graduates preparing for licensure</li>` +
+      `</ul>` +
+      `<p>Available in 20 languages. Start free at <a href="https://www.nursenest.ca/en">nursenest.ca</a>.</p>` +
+      `</article></noscript>\n`;
+    html = html.replace("</body>", `${homepageNoscript}</body>`);
   }
 
   return html;
