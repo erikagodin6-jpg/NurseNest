@@ -20215,6 +20215,78 @@ Return ONLY valid JSON with this exact structure:
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
+
+      const internationalExams = ["NMC-CBT", "AHPRA-RN", "GULF-NURSING"];
+      const examFilter = req.query.exam as string;
+
+      if (examFilter && internationalExams.includes(examFilter)) {
+        const count = Math.min(parseInt(req.query.count as string) || 25, 100);
+        let query = `SELECT id, stem, options, correct_answer, rationale, body_system AS category,
+                            CASE WHEN difficulty = 2 THEN 'easy' WHEN difficulty = 3 THEN 'moderate' WHEN difficulty = 4 THEN 'hard' ELSE 'moderate' END AS difficulty,
+                            exam, topic
+                     FROM exam_questions
+                     WHERE exam = $1 AND status = 'published'`;
+        const params: any[] = [examFilter];
+        let paramIdx = 2;
+
+        if (req.query.category) {
+          query += ` AND (body_system ILIKE $${paramIdx} OR topic ILIKE $${paramIdx})`;
+          params.push(`%${req.query.category}%`);
+          paramIdx++;
+        }
+        if (req.query.difficulty) {
+          const diffMap: Record<string, number> = { easy: 2, moderate: 3, hard: 4, very_hard: 5 };
+          const diffVal = diffMap[req.query.difficulty as string];
+          if (diffVal) {
+            query += ` AND difficulty = $${paramIdx}`;
+            params.push(diffVal);
+            paramIdx++;
+          }
+        }
+
+        query += ` ORDER BY RANDOM() LIMIT $${paramIdx}`;
+        params.push(count);
+
+        const result = await pool.query(query, params);
+
+        const transformed = result.rows.map((row: any) => {
+          let options = row.options;
+          if (typeof options === "string") {
+            try { options = JSON.parse(options); } catch { options = []; }
+          }
+          const optArray = Array.isArray(options) ? options : [];
+          return {
+            id: row.id,
+            question: row.stem,
+            optionA: optArray[0]?.text || optArray[0] || "",
+            optionB: optArray[1]?.text || optArray[1] || "",
+            optionC: optArray[2]?.text || optArray[2] || "",
+            optionD: optArray[3]?.text || optArray[3] || "",
+            correctAnswer: (() => {
+              let ca = row.correct_answer;
+              if (typeof ca === "string") {
+                try { ca = JSON.parse(ca); } catch {}
+              }
+              if (typeof ca === "string") return ca;
+              if (typeof ca === "number") return ["A", "B", "C", "D"][ca] || "A";
+              if (Array.isArray(ca)) return ["A", "B", "C", "D"][ca[0]] || "A";
+              return "A";
+            })(),
+            rationale: row.rationale || "",
+            category: row.category || row.topic || "",
+            difficulty: row.difficulty,
+            examType: row.exam,
+            country: examFilter === "NMC-CBT" ? "GB" : examFilter === "AHPRA-RN" ? "AU" : "AE",
+            questionType: "multiple_choice",
+            clientNeeds: row.topic || "",
+            topic: row.topic || "",
+            status: "active",
+          };
+        });
+
+        return res.json(transformed);
+      }
+
       const country = getCountryForUserRegion(user.region);
       if (!country) return res.status(400).json({ error: "User region not set. Please update your profile." });
       const examType = getExamTypeForCountry(country);

@@ -1037,4 +1037,64 @@ export function setupQBankRoutes(app: Express) {
       res.status(500).json({ error: "Failed to check answer" });
     }
   });
+
+  app.get("/api/qbank/international-stats", async (_req: any, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT exam, country_code, licensing_body,
+               COUNT(*) as total,
+               SUM(CASE WHEN is_mock_exam_eligible = true THEN 1 ELSE 0 END) as mock_eligible
+        FROM exam_questions
+        WHERE exam IN ('NMC-CBT', 'AHPRA-RN', 'GULF-NURSING')
+          AND status = 'published'
+        GROUP BY exam, country_code, licensing_body
+        ORDER BY exam
+      `);
+
+      const domainResult = await pool.query(`
+        SELECT exam,
+               COALESCE(domain, body_system) as domain,
+               COUNT(*) as count
+        FROM exam_questions
+        WHERE exam IN ('NMC-CBT', 'AHPRA-RN', 'GULF-NURSING')
+          AND status = 'published'
+        GROUP BY exam, COALESCE(domain, body_system)
+        ORDER BY exam, count DESC
+      `);
+
+      const stats: Record<string, {
+        exam: string;
+        countryCode: string;
+        licensingBody: string;
+        total: number;
+        mockEligible: number;
+        domains: { domain: string; count: number }[];
+      }> = {};
+
+      for (const row of result.rows) {
+        stats[row.exam] = {
+          exam: row.exam,
+          countryCode: row.country_code,
+          licensingBody: row.licensing_body,
+          total: parseInt(row.total),
+          mockEligible: parseInt(row.mock_eligible),
+          domains: [],
+        };
+      }
+
+      for (const row of domainResult.rows) {
+        if (stats[row.exam]) {
+          stats[row.exam].domains.push({
+            domain: row.domain,
+            count: parseInt(row.count),
+          });
+        }
+      }
+
+      res.json({ stats });
+    } catch (e: any) {
+      console.error("International stats error:", e.message);
+      res.status(500).json({ error: "Failed to fetch international stats" });
+    }
+  });
 }

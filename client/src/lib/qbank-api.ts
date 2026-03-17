@@ -186,6 +186,22 @@ export async function fetchQBankStats(tier?: string): Promise<QBankStats> {
   return res.json();
 }
 
+export interface InternationalExamStats {
+  exam: string;
+  countryCode: string;
+  licensingBody: string;
+  total: number;
+  mockEligible: number;
+  domains: { domain: string; count: number }[];
+}
+
+export async function fetchInternationalStats(): Promise<Record<string, InternationalExamStats>> {
+  const res = await fetch("/api/qbank/international-stats");
+  if (!res.ok) return {};
+  const data = await res.json();
+  return data.stats || {};
+}
+
 export async function fetchBodySystems(tier?: string): Promise<string[]> {
   const query = tier ? `?tier=${tier}` : "";
   const res = await fetch(`/api/qbank/body-systems${query}`, {

@@ -151,8 +151,8 @@ export const LICENSING_EXAMS: LicensingExam[] = [
     ],
     relatedExamSlugs: ["nclex", "ielts-for-nurses", "oet-for-nurses"],
     nurseNestLinks: [
-      { label: "NurseNest Question Bank", href: "/question-bank" },
-      { label: "Clinical Skills Practice", href: "/clinical-skills" },
+      { label: "NMC CBT Practice Questions", href: "/qbank-exam?exam=NMC-CBT" },
+      { label: "NMC CBT Question Bank", href: "/question-bank?exam=NMC-CBT" },
       { label: "International Nurses Hub", href: "/international-nurses" },
       { label: "IELTS for Nurses", href: "/nursing-licensing-exams/ielts-for-nurses" },
       { label: "OET for Nurses", href: "/nursing-licensing-exams/oet-for-nurses" },
@@ -196,10 +196,11 @@ export const LICENSING_EXAMS: LicensingExam[] = [
     ],
     relatedExamSlugs: ["nclex", "nmc-cbt", "ielts-for-nurses", "oet-for-nurses"],
     nurseNestLinks: [
+      { label: "AHPRA RN Practice Questions", href: "/qbank-exam?exam=AHPRA-RN" },
+      { label: "AHPRA RN Question Bank", href: "/question-bank?exam=AHPRA-RN" },
       { label: "International Nurses Hub", href: "/international-nurses" },
       { label: "IELTS for Nurses", href: "/nursing-licensing-exams/ielts-for-nurses" },
       { label: "OET for Nurses", href: "/nursing-licensing-exams/oet-for-nurses" },
-      { label: "Question Bank", href: "/question-bank" },
     ],
   },
   {
@@ -240,9 +241,9 @@ export const LICENSING_EXAMS: LicensingExam[] = [
     ],
     relatedExamSlugs: ["nclex", "oet-for-nurses"],
     nurseNestLinks: [
+      { label: "Gulf Nursing Practice Questions", href: "/qbank-exam?exam=GULF-NURSING" },
+      { label: "Gulf Nursing Question Bank", href: "/question-bank?exam=GULF-NURSING" },
       { label: "International Nurses Hub", href: "/international-nurses" },
-      { label: "Question Bank", href: "/question-bank" },
-      { label: "Practice Questions", href: "/practice-questions" },
     ],
   },
   {

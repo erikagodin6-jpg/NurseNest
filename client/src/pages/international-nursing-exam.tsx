@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRoute, Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useI18n } from "@/lib/i18n";
+import { fetchInternationalStats, type InternationalExamStats } from "@/lib/qbank-api";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Clock, BookOpen,
   GraduationCap, Target, AlertTriangle, FileText, Globe, Shield,
@@ -27,6 +28,7 @@ interface ExamConfig {
   nursenestLink: string;
   nursenestCTA: string;
   faqs: { question: string; answer: string }[];
+  examCode?: string;
 }
 
 const EXAM_CONFIGS: Record<string, ExamConfig> = {
@@ -71,6 +73,7 @@ const EXAM_CONFIGS: Record<string, ExamConfig> = {
     studyPlanSummary: "Most IENs benefit from 8-12 weeks of dedicated NCLEX preparation. Start with a diagnostic assessment to identify weak areas, then follow a structured study plan focusing on high-yield topics. Complete at least 2,000 practice questions before your exam date.",
     nursenestLink: "/mock-exams",
     nursenestCTA: "Start NCLEX Prep with NurseNest",
+    examCode: "NCLEX-RN",
     faqs: [
       { question: "Is the NCLEX-RN the same in the US and Canada?", answer: "Yes. The NCLEX-RN is developed by NCSBN and is the same exam used for RN licensure in both the United States and Canada. The exam content, format, and passing standard are identical regardless of where you take it." },
       { question: "What is the NCLEX pass rate for international nurses?", answer: "The NCLEX pass rate for internationally educated nurses is typically lower than for domestic graduates — around 30-50% on the first attempt depending on the source country. This makes thorough preparation essential. IENs who use structured prep programs significantly improve their pass rates." },
@@ -116,6 +119,7 @@ const EXAM_CONFIGS: Record<string, ExamConfig> = {
     studyPlanSummary: "Plan for 8-10 weeks of dedicated preparation. Focus on understanding the Canadian practical nursing scope and practicing with REx-PN-specific questions.",
     nursenestLink: "/mock-exams",
     nursenestCTA: "Start REx-PN Prep with NurseNest",
+    examCode: "REx-PN",
     faqs: [
       { question: "What is the difference between NCLEX-RN and REx-PN?", answer: "NCLEX-RN is for Registered Nurse (RN) licensure, while REx-PN is for practical nurse (RPN/LPN) registration. The REx-PN tests practical nursing competencies at the entry level, while NCLEX-RN covers a broader scope of registered nursing practice." },
       { question: "Can I take the REx-PN outside Canada?", answer: "The REx-PN is primarily available at Pearson VUE centres in Canada. International candidates may need to arrange to take the exam in Canada." },
@@ -323,7 +327,15 @@ export default function InternationalNursingExamPage() {
   const slug = localeStripped.replace(/^\//, '');
   const config = EXAM_CONFIGS[slug];
 
+  const [intlStats, setIntlStats] = useState<Record<string, InternationalExamStats>>({});
+
+  useEffect(() => {
+    fetchInternationalStats().then(setIntlStats).catch(() => {});
+  }, []);
+
   if (!config) return null;
+
+  const examStat = config.examCode ? intlStats[config.examCode] : null;
 
   const faqStructuredData = buildFaqStructuredData(config.faqs.map(f => ({ question: f.question, answer: f.answer })));
 
@@ -368,9 +380,30 @@ export default function InternationalNursingExamPage() {
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">{config.title}</h1>
             <p className="text-lg text-gray-600 mb-6">{config.subtitle}</p>
-            <Link href={config.nursenestLink} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-cta">
-              {config.nursenestCTA} <ArrowRight className="w-4 h-4" />
-            </Link>
+            {examStat && examStat.total > 0 && (
+              <div className="flex flex-wrap gap-3 mb-6" data-testid="section-question-stats">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-teal-200 rounded-xl text-sm font-medium text-teal-700">
+                  <BookOpen className="w-4 h-4" />
+                  <span data-testid="text-question-count">{examStat.total.toLocaleString()}+ Practice Questions</span>
+                </div>
+                {examStat.mockEligible > 0 && (
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-blue-200 rounded-xl text-sm font-medium text-blue-700">
+                    <Target className="w-4 h-4" />
+                    <span data-testid="text-mock-count">{examStat.mockEligible} Mock Exam Questions</span>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="flex flex-wrap gap-3">
+              <Link href={config.nursenestLink} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-cta">
+                {config.nursenestCTA} <ArrowRight className="w-4 h-4" />
+              </Link>
+              {config.examCode && ["NMC-CBT", "AHPRA-RN", "GULF-NURSING"].includes(config.examCode) && (
+                <Link href={`/qbank-exam?exam=${config.examCode}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 border border-teal-300 rounded-xl font-semibold hover:bg-teal-50 transition-colors" data-testid="button-practice-questions">
+                  Practice Questions <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>

@@ -93,6 +93,10 @@ export default function QBankExamPage() {
   const [questionCount, setQuestionCount] = useState(25);
   const [filterCategory, setFilterCategory] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("");
+  const [filterExam, setFilterExam] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("exam") || "";
+  });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startExam = async () => {
@@ -102,6 +106,7 @@ export default function QBankExamPage() {
       const params = new URLSearchParams({ count: String(questionCount) });
       if (filterCategory) params.set("category", filterCategory);
       if (filterDifficulty) params.set("difficulty", filterDifficulty);
+      if (filterExam) params.set("exam", filterExam);
       const resp = await fetch(`/api/question-bank/exam?${params}`, {
         headers: getAuthHeaders(),
       });
@@ -297,7 +302,7 @@ export default function QBankExamPage() {
                 Simulate a timed exam with randomized questions and shuffled answer choices. Your region determines which exam bank you see
                 ({getPracticalNurseExamName((user.region as Region) || "US")}).
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-600 mb-1.5 block">Number of Questions</label>
                   <select value={questionCount} onChange={(e) => setQuestionCount(Number(e.target.value))} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-question-count">
@@ -308,6 +313,24 @@ export default function QBankExamPage() {
                     <option value={100}>100 questions</option>
                   </select>
                 </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Exam / Country</label>
+                  <select value={filterExam} onChange={(e) => setFilterExam(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-exam-type">
+                    <option value="">All Exams (Default Region)</option>
+                    <optgroup label="North America">
+                      <option value="NCLEX-RN">NCLEX-RN (US/Canada)</option>
+                      <option value="REx-PN">REx-PN (Canada)</option>
+                      <option value="NCLEX-PN">NCLEX-PN (US)</option>
+                    </optgroup>
+                    <optgroup label="International">
+                      <option value="NMC-CBT">NMC CBT (United Kingdom)</option>
+                      <option value="AHPRA-RN">AHPRA RN (Australia)</option>
+                      <option value="GULF-NURSING">Gulf Nursing (DHA/HAAD/MOH)</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category (optional)</label>
                   <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Pharmacology" className="rounded-xl border-gray-200" data-testid="input-exam-category" />
