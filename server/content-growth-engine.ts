@@ -687,11 +687,13 @@ export async function executeContentGrowthRun(runId: string): Promise<void> {
           if (card.validation.passed) {
             const contentHash = crypto.createHash("sha256").update(card.front.toLowerCase().trim()).digest("hex");
             try {
+              const examTag = tier === "np" ? "NP-CAT" : tier === "rpn" || tier === "pn" ? "REx-PN" : "NCLEX-RN";
+              const tags = [`tier:${tier}`, `exam:${examTag}`, `system:${system}`, `topic:${card.topicTag}`];
               await pool.query(
-                `INSERT INTO flashcard_bank (tier, topic_tag, front, back, status, content_hash, career_type)
-                 VALUES ($1, $2, $3, $4, 'needs_review', $5, 'nursing')
+                `INSERT INTO flashcard_bank (tier, topic_tag, front, back, status, content_hash, career_type, body_system, category, flashcard_enabled, tags_json, source_type)
+                 VALUES ($1, $2, $3, $4, 'published', $5, 'nursing', $6, $7, true, $8, 'content_growth')
                  ON CONFLICT (content_hash) DO NOTHING`,
-                [tier, card.topicTag, card.front, card.back, contentHash]
+                [tier, card.topicTag, card.front, card.back, contentHash, system, system, JSON.stringify(tags)]
               );
               acceptedCount++;
             } catch {

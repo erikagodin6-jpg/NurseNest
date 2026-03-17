@@ -4,6 +4,7 @@ import { pool } from "./storage";
 interface ExamQuestion {
   id: string;
   tier: string;
+  exam: string;
   stem: string;
   options: any[];
   correct_answer: any[];
@@ -19,6 +20,13 @@ interface ExamQuestion {
   region_scope: string;
   career_type: string;
   tags: string[] | null;
+  memory_hook: string | null;
+  mnemonic: string | null;
+  labs: any;
+  vitals: any;
+  medication_naming_variant: string | null;
+  lab_unit_variant: string | null;
+  key_takeaway: string | null;
 }
 
 interface InfographicMatch {
@@ -448,8 +456,71 @@ function buildBack(q: ExamQuestion): string {
   if (q.exam_strategy) {
     parts.push(`\n🎯 Exam Strategy: ${q.exam_strategy}`);
   }
+
+  const memoryAid = q.memory_hook || q.mnemonic || null;
+  if (memoryAid) {
+    parts.push(`\n🧠 Memory Aid: ${memoryAid}`);
+  }
+
+  if (q.labs && typeof q.labs === "object") {
+    try {
+      const labEntries = Array.isArray(q.labs) ? q.labs : Object.entries(q.labs);
+      if (labEntries.length > 0) {
+        const labStr = Array.isArray(q.labs)
+          ? q.labs.map((l: any) => typeof l === "string" ? l : `${l.name || l.label || ""}: ${l.value || l.result || ""}`).join(", ")
+          : Object.entries(q.labs).map(([k, v]) => `${k}: ${v}`).join(", ");
+        if (labStr.trim()) parts.push(`\n🔬 Lab Values: ${labStr}`);
+      }
+    } catch {}
+  }
+
+  if (q.medication_naming_variant) {
+    parts.push(`\n💊 Medication: ${q.medication_naming_variant}`);
+  }
+
+  if (q.key_takeaway) {
+    parts.push(`\n📌 Key Takeaway: ${q.key_takeaway}`);
+  }
   
   return parts.join("\n");
+}
+
+function getExamTagsForQuestion(q: ExamQuestion): string[] {
+  const tags: string[] = [];
+  const tier = (q.tier || "").toLowerCase();
+  const exam = (q.exam || "").toUpperCase();
+
+  tags.push(`tier:${tier}`);
+
+  if (exam) {
+    tags.push(`exam:${exam}`);
+  }
+
+  if (tier === "np" || exam.includes("NP")) {
+    if (!tags.includes("exam:NP-CAT")) tags.push("tier:np");
+    if (exam.includes("PMHNP")) tags.push("specialty:pmhnp");
+    else if (exam.includes("FNP")) tags.push("specialty:fnp");
+    else if (exam.includes("AGNP") || exam.includes("AG-NP")) tags.push("specialty:agnp");
+    else if (exam.includes("PNP")) tags.push("specialty:pnp");
+    else if (exam.includes("WHNP")) tags.push("specialty:whnp");
+    else if (exam.includes("ENP")) tags.push("specialty:enp");
+    else if (exam.includes("ACNP")) tags.push("specialty:acnp");
+  } else if (tier === "rpn" || tier === "pn" || exam.includes("PN") || exam.includes("REX-PN") || exam.includes("NCLEX-PN")) {
+    if (!tags.some(t => t.startsWith("exam:"))) tags.push("exam:REx-PN");
+  } else if (tier === "rn" || exam.includes("RN") || exam.includes("NCLEX-RN")) {
+    if (!tags.some(t => t.startsWith("exam:"))) tags.push("exam:NCLEX-RN");
+  }
+
+  if (q.body_system) tags.push(`system:${q.body_system}`);
+  if (q.topic) tags.push(`topic:${q.topic}`);
+
+  if (q.tags && Array.isArray(q.tags)) {
+    for (const t of q.tags) {
+      if (t && !tags.includes(t)) tags.push(t);
+    }
+  }
+
+  return tags;
 }
 
 export async function mapExamQuestionsToFlashcards(): Promise<{
@@ -480,9 +551,9 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
   }
 
   const { rows: questions } = await pool.query(
-    `SELECT id, tier, stem, options, correct_answer, rationale, body_system, topic, subtopic, 
+    `SELECT id, tier, exam, stem, options, correct_answer, rationale, body_system, topic, subtopic, 
             difficulty, question_type, clinical_pearl, exam_strategy, distractor_rationales,
-            region_scope, career_type, tags
+            region_scope, career_type, tags, memory_hook
      FROM exam_questions 
      WHERE status = 'published' AND career_type = 'nursing'
      ORDER BY tier, created_at`
@@ -503,6 +574,7 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
     const lessons = matchLessons(question);
     const front = buildFront(question);
     const back = buildBack(question);
+    const examTags = getExamTagsForQuestion(question);
 
     const correctIdx = Array.isArray(question.correct_answer) ? question.correct_answer[0] : question.correct_answer;
     const opts = Array.isArray(question.options) ? question.options : [];
@@ -535,7 +607,8 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
           difficulty = $11, body_system = $12, topic = $13, subtopic = $14,
           region_scope = $15, flashcard_enabled = true, source_type = 'cat_exam',
           source_question_id = $16, question_type = $17, category = $18,
-          status = 'published', updated_at = NOW()
+          status = 'published', updated_at = NOW(),
+          tags_json = $20, topic_tag = $21
         WHERE id = $19`,
         [
           front, back, JSON.stringify(question.options), JSON.stringify(question.correct_answer),
@@ -545,7 +618,9 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
           question.difficulty, question.body_system, question.topic, question.subtopic,
           question.region_scope || "BOTH", question.id, question.question_type || "mcq",
           question.body_system || "General",
-          existing[0].id
+          existing[0].id,
+          JSON.stringify(examTags),
+          question.topic || question.body_system || "General"
         ]
       );
       result.updated++;
@@ -556,8 +631,8 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
           question_type, options, correct_answer, rationale_correct, distractor_rationales,
           clinical_takeaway, exam_pearl, rationale_media, lesson_links,
           difficulty, body_system, topic, subtopic, region_scope, flashcard_enabled,
-          category, career_type
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24)`,
+          category, career_type, tags_json, topic_tag
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)`,
         [
           question.tier, front, back, contentHash, "published", "cat_exam", question.id,
           question.question_type || "mcq", JSON.stringify(question.options), JSON.stringify(question.correct_answer),
@@ -566,7 +641,9 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
           JSON.stringify(images), JSON.stringify(lessons),
           question.difficulty, question.body_system, question.topic, question.subtopic,
           question.region_scope || "BOTH", true,
-          question.body_system || "General", question.career_type || "nursing"
+          question.body_system || "General", question.career_type || "nursing",
+          JSON.stringify(examTags),
+          question.topic || question.body_system || "General"
         ]
       );
       result.created++;
@@ -576,6 +653,260 @@ export async function mapExamQuestionsToFlashcards(): Promise<{
   }
 
   return result;
+}
+
+export async function generateAlignedFlashcardsFromQuestions(options?: {
+  tierFilter?: string;
+  examFilter?: string;
+  batchSize?: number;
+}): Promise<{
+  total: number;
+  created: number;
+  updated: number;
+  skipped: number;
+  perTier: Record<string, number>;
+  perExam: Record<string, number>;
+}> {
+  const result = {
+    total: 0,
+    created: 0,
+    updated: 0,
+    skipped: 0,
+    perTier: {} as Record<string, number>,
+    perExam: {} as Record<string, number>,
+  };
+
+  const tierFilter = options?.tierFilter || null;
+  const examFilter = options?.examFilter || null;
+  const batchSize = options?.batchSize || 500;
+
+  let whereClause = `eq.status = 'published'`;
+  const params: any[] = [];
+  let paramIdx = 1;
+
+  if (tierFilter) {
+    whereClause += ` AND eq.tier = $${paramIdx}`;
+    params.push(tierFilter);
+    paramIdx++;
+  }
+  if (examFilter) {
+    whereClause += ` AND eq.exam ILIKE $${paramIdx}`;
+    params.push(`%${examFilter}%`);
+    paramIdx++;
+  }
+
+  const { rows: questions } = await pool.query(
+    `SELECT eq.id, eq.tier, eq.exam, eq.stem, eq.options, eq.correct_answer, eq.rationale,
+            eq.body_system, eq.topic, eq.subtopic, eq.difficulty, eq.question_type,
+            eq.clinical_pearl, eq.exam_strategy, eq.distractor_rationales,
+            eq.region_scope, eq.career_type, eq.tags,
+            eq.memory_hook
+     FROM exam_questions eq
+     LEFT JOIN flashcard_bank fb ON fb.source_question_id = eq.id
+     WHERE ${whereClause} AND fb.id IS NULL
+     ORDER BY eq.tier, eq.exam, eq.created_at
+     LIMIT $${paramIdx}`,
+    [...params, batchSize]
+  );
+
+  result.total = questions.length;
+
+  if (questions.length === 0) {
+    console.log(`[FlashcardAlignment] No unlinked questions found for tier=${tierFilter || "all"}, exam=${examFilter || "all"}`);
+    return result;
+  }
+
+  console.log(`[FlashcardAlignment] Processing ${questions.length} unlinked questions...`);
+
+  for (const q of questions) {
+    const question = q as ExamQuestion;
+
+    if (!question.stem || !question.options) {
+      result.skipped++;
+      continue;
+    }
+
+    const baseContentHash = generateContentHash(question.stem, question.tier);
+    const questionSpecificHash = crypto.createHash("sha256").update(`aligned:${question.id}`).digest("hex").slice(0, 32);
+    const images = matchImages(question);
+    const lessons = matchLessons(question);
+    const front = buildFront(question);
+    const back = buildBack(question);
+    const examTags = getExamTagsForQuestion(question);
+
+    const correctIdx = Array.isArray(question.correct_answer) ? question.correct_answer[0] : question.correct_answer;
+    const opts = Array.isArray(question.options) ? question.options : [];
+    let rationaleCorrect = question.rationale || "";
+
+    let distractorRationales = question.distractor_rationales;
+    if (!distractorRationales && opts.length > 0) {
+      const drs: Record<string, string> = {};
+      opts.forEach((opt: any, idx: number) => {
+        if (idx !== correctIdx) {
+          const optText = typeof opt === "object" ? (opt as any).text || String(opt) : String(opt);
+          drs[optText] = "This option is incorrect for this clinical scenario.";
+        }
+      });
+      distractorRationales = drs;
+    }
+
+    const { rows: existingBySource } = await pool.query(
+      `SELECT id FROM flashcard_bank WHERE source_question_id = $1`,
+      [question.id]
+    );
+
+    const { rows: existingByHash } = await pool.query(
+      `SELECT id, source_question_id FROM flashcard_bank WHERE content_hash = $1`,
+      [baseContentHash]
+    );
+
+    const insertValues = [
+      front, back, JSON.stringify(question.options), JSON.stringify(question.correct_answer),
+      rationaleCorrect, JSON.stringify(distractorRationales),
+      question.clinical_pearl || null, question.exam_strategy || null,
+      JSON.stringify(images), JSON.stringify(lessons),
+      question.difficulty, question.body_system, question.topic, question.subtopic,
+      question.region_scope || "BOTH", question.id, question.question_type || "mcq",
+      question.body_system || "General",
+      JSON.stringify(examTags),
+      question.topic || question.body_system || "General"
+    ];
+
+    if (existingBySource.length > 0) {
+      await pool.query(
+        `UPDATE flashcard_bank SET
+          front = $1, back = $2, options = $3, correct_answer = $4,
+          rationale_correct = $5, distractor_rationales = $6,
+          clinical_takeaway = $7, exam_pearl = $8,
+          rationale_media = $9, lesson_links = $10,
+          difficulty = $11, body_system = $12, topic = $13, subtopic = $14,
+          region_scope = $15, flashcard_enabled = true, source_type = 'exam_aligned',
+          source_question_id = $16, question_type = $17, category = $18,
+          status = 'published', updated_at = NOW(),
+          tags_json = $19, topic_tag = $20
+        WHERE id = $21`,
+        [...insertValues, existingBySource[0].id]
+      );
+      result.updated++;
+    } else if (existingByHash.length > 0 && !existingByHash[0].source_question_id) {
+      await pool.query(
+        `UPDATE flashcard_bank SET
+          front = $1, back = $2, options = $3, correct_answer = $4,
+          rationale_correct = $5, distractor_rationales = $6,
+          clinical_takeaway = $7, exam_pearl = $8,
+          rationale_media = $9, lesson_links = $10,
+          difficulty = $11, body_system = $12, topic = $13, subtopic = $14,
+          region_scope = $15, flashcard_enabled = true, source_type = 'exam_aligned',
+          source_question_id = $16, question_type = $17, category = $18,
+          status = 'published', updated_at = NOW(),
+          tags_json = $19, topic_tag = $20
+        WHERE id = $21`,
+        [...insertValues, existingByHash[0].id]
+      );
+      result.updated++;
+    } else {
+      try {
+        await pool.query(
+          `INSERT INTO flashcard_bank (
+            tier, front, back, content_hash, status, source_type, source_question_id,
+            question_type, options, correct_answer, rationale_correct, distractor_rationales,
+            clinical_takeaway, exam_pearl, rationale_media, lesson_links,
+            difficulty, body_system, topic, subtopic, region_scope, flashcard_enabled,
+            category, career_type, tags_json, topic_tag
+          ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26)
+          ON CONFLICT (content_hash) DO NOTHING`,
+          [
+            question.tier, front, back, questionSpecificHash, "published", "exam_aligned", question.id,
+            question.question_type || "mcq", JSON.stringify(question.options), JSON.stringify(question.correct_answer),
+            rationaleCorrect, JSON.stringify(distractorRationales),
+            question.clinical_pearl || null, question.exam_strategy || null,
+            JSON.stringify(images), JSON.stringify(lessons),
+            question.difficulty, question.body_system, question.topic, question.subtopic,
+            question.region_scope || "BOTH", true,
+            question.body_system || "General", question.career_type || "nursing",
+            JSON.stringify(examTags),
+            question.topic || question.body_system || "General"
+          ]
+        );
+        result.created++;
+      } catch (err: any) {
+        if (err.code === "23505") {
+          result.skipped++;
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    result.perTier[question.tier] = (result.perTier[question.tier] || 0) + 1;
+    const examKey = question.exam || "unknown";
+    result.perExam[examKey] = (result.perExam[examKey] || 0) + 1;
+  }
+
+  console.log(`[FlashcardAlignment] Complete: ${result.created} created, ${result.updated} updated, ${result.skipped} skipped`);
+  console.log(`[FlashcardAlignment] Per tier:`, result.perTier);
+  console.log(`[FlashcardAlignment] Per exam:`, result.perExam);
+
+  return result;
+}
+
+async function exhaustiveAlignForTier(tier: string, batchSize: number = 500): Promise<{
+  total: number; created: number; updated: number; skipped: number; perExam: Record<string, number>;
+}> {
+  const cumulative = { total: 0, created: 0, updated: 0, skipped: 0, perExam: {} as Record<string, number> };
+  const maxIterations = 20;
+
+  for (let i = 0; i < maxIterations; i++) {
+    const batch = await generateAlignedFlashcardsFromQuestions({ tierFilter: tier, batchSize });
+    cumulative.total += batch.total;
+    cumulative.created += batch.created;
+    cumulative.updated += batch.updated;
+    cumulative.skipped += batch.skipped;
+    for (const [exam, count] of Object.entries(batch.perExam)) {
+      cumulative.perExam[exam] = (cumulative.perExam[exam] || 0) + count;
+    }
+    if (batch.total === 0) break;
+  }
+
+  return cumulative;
+}
+
+export async function bulkGenerateAlignedFlashcards(): Promise<{
+  np: { total: number; created: number; updated: number; skipped: number; perExam: Record<string, number> };
+  rpn: { total: number; created: number; updated: number; skipped: number; perExam: Record<string, number> };
+  rn: { total: number; created: number; updated: number; skipped: number; perExam: Record<string, number> };
+  summary: { totalProcessed: number; totalCreated: number; totalUpdated: number; totalSkipped: number };
+}> {
+  console.log("[FlashcardAlignment] Starting bulk aligned flashcard generation for all tiers...");
+
+  const npResult = await exhaustiveAlignForTier("np");
+  const rpnResult = await exhaustiveAlignForTier("rpn");
+  const rnResult = await exhaustiveAlignForTier("rn");
+
+  const pnResult = await exhaustiveAlignForTier("pn");
+  rpnResult.total += pnResult.total;
+  rpnResult.created += pnResult.created;
+  rpnResult.updated += pnResult.updated;
+  rpnResult.skipped += pnResult.skipped;
+  for (const [exam, count] of Object.entries(pnResult.perExam)) {
+    rpnResult.perExam[exam] = (rpnResult.perExam[exam] || 0) + count;
+  }
+
+  const summary = {
+    totalProcessed: npResult.total + rpnResult.total + rnResult.total,
+    totalCreated: npResult.created + rpnResult.created + rnResult.created,
+    totalUpdated: npResult.updated + rpnResult.updated + rnResult.updated,
+    totalSkipped: npResult.skipped + rpnResult.skipped + rnResult.skipped,
+  };
+
+  console.log(`[FlashcardAlignment] Bulk generation complete:`, summary);
+
+  return {
+    np: { total: npResult.total, created: npResult.created, updated: npResult.updated, skipped: npResult.skipped, perExam: npResult.perExam },
+    rpn: { total: rpnResult.total, created: rpnResult.created, updated: rpnResult.updated, skipped: rpnResult.skipped, perExam: rpnResult.perExam },
+    rn: { total: rnResult.total, created: rnResult.created, updated: rnResult.updated, skipped: rnResult.skipped, perExam: rnResult.perExam },
+    summary,
+  };
 }
 
 export async function getExamFlashcardStats(): Promise<{

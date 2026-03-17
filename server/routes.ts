@@ -6,7 +6,7 @@ import fs from "fs";
 import nodePath from "path";
 import multer from "multer";
 import { storage, DatabaseStorage, pool } from "./storage";
-import { mapExamQuestionsToFlashcards, getExamFlashcardStats } from "./exam-flashcard-mapper";
+import { mapExamQuestionsToFlashcards, getExamFlashcardStats, generateAlignedFlashcardsFromQuestions, bulkGenerateAlignedFlashcards } from "./exam-flashcard-mapper";
 import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
@@ -14317,6 +14317,37 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/exam-flashcards/align", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { tierFilter, examFilter, batchSize } = req.body || {};
+      const result = await generateAlignedFlashcardsFromQuestions({
+        tierFilter: tierFilter || undefined,
+        examFilter: examFilter || undefined,
+        batchSize: batchSize || 500,
+      });
+      heroStatsCache = null;
+      res.json(result);
+    } catch (e: any) {
+      console.error("[Flashcard Alignment] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-flashcards/bulk-align", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await bulkGenerateAlignedFlashcards();
+      heroStatsCache = null;
+      res.json(result);
+    } catch (e: any) {
+      console.error("[Bulk Flashcard Alignment] Error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/exam-flashcards/manage", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -19667,9 +19698,15 @@ Return ONLY valid JSON with this exact structure:
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const { mapExamQuestionsToFlashcards } = await import("./exam-flashcard-mapper");
-      const result = await mapExamQuestionsToFlashcards();
-      res.json({ success: true, created: result.created || 0, ...result });
+      const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
+      const mapResult = await mapExamQuestionsToFlashcards();
+      const alignResult = await bulkGenerateAlignedFlashcards();
+      res.json({
+        success: true,
+        created: (mapResult.created || 0) + alignResult.summary.totalCreated,
+        ...mapResult,
+        aligned: alignResult.summary,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
