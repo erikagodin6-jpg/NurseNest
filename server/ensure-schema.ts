@@ -383,6 +383,39 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     `);
 
     await client.query(`
+      CREATE TABLE IF NOT EXISTS lessons (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        slug text NOT NULL UNIQUE,
+        title text NOT NULL,
+        category text,
+        sub_category text,
+        tier text DEFAULT 'free',
+        status text DEFAULT 'draft',
+        summary text,
+        definition text,
+        pathophysiology text,
+        signs_symptoms jsonb DEFAULT '[]'::jsonb,
+        diagnostics jsonb DEFAULT '[]'::jsonb,
+        treatment jsonb DEFAULT '[]'::jsonb,
+        nursing_interventions jsonb DEFAULT '[]'::jsonb,
+        complications jsonb DEFAULT '[]'::jsonb,
+        clinical_pearls jsonb DEFAULT '[]'::jsonb,
+        "references" jsonb DEFAULT '[]'::jsonb,
+        seo_title text,
+        seo_description text,
+        seo_keywords text[] DEFAULT '{}'::text[],
+        image_url text,
+        image_alt text,
+        related_lesson_slugs text[] DEFAULT '{}'::text[],
+        linked_flashcard_set_id varchar,
+        linked_question_bank_id varchar,
+        is_public_preview boolean DEFAULT false,
+        created_at timestamp NOT NULL DEFAULT now(),
+        updated_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+
+    await client.query(`
       CREATE TABLE IF NOT EXISTS lesson_aliases (
         id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
         lesson_id TEXT NOT NULL,

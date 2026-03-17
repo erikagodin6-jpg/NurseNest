@@ -466,15 +466,96 @@ async function checkSitemapIntegrity(): Promise<HealthIssue[]> {
         }
 
         if (urls.length === 0) {
-          issues.push({
-            id: issueId("sitemap", `empty:${gen.name}`),
-            category: "sitemap",
-            severity: "critical",
-            title: `Empty sitemap section: ${gen.name}`,
-            description: `The ${gen.name} sitemap generator returned 0 URLs`,
-            autoFixable: false,
-            detectedAt: now,
-          });
+          if (gen.name === "flashcards") {
+            issues.push({
+              id: issueId("sitemap", `empty:${gen.name}`),
+              category: "sitemap",
+              severity: "info",
+              title: `Sitemap section intentionally empty: ${gen.name}`,
+              description: `Flashcard pages are noindex; section is intentionally empty. Only the /flashcards landing page is included in static routes.`,
+              autoFixable: false,
+              detectedAt: now,
+            });
+          } else if (gen.name === "programmatic") {
+            let tableExists = false;
+            let rowCount = 0;
+            try {
+              const tableCheck = await pool.query(
+                `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'programmatic_pages') AS exists`
+              );
+              tableExists = tableCheck.rows[0]?.exists ?? false;
+              if (tableExists) {
+                const countResult = await pool.query(`SELECT COUNT(*)::int AS cnt FROM programmatic_pages WHERE status = 'published'`);
+                rowCount = countResult.rows[0]?.cnt ?? 0;
+              }
+            } catch (dbErr: any) {
+              console.error("Sitemap health: programmatic_pages introspection error:", dbErr?.message);
+            }
+
+            if (!tableExists) {
+              issues.push({
+                id: issueId("sitemap", `empty:${gen.name}`),
+                category: "sitemap",
+                severity: "warning",
+                title: `Sitemap section empty: ${gen.name}`,
+                description: `The programmatic_pages table does not exist yet. No programmatic URLs can be generated.`,
+                autoFixable: false,
+                detectedAt: now,
+              });
+            } else if (rowCount === 0) {
+              issues.push({
+                id: issueId("sitemap", `empty:${gen.name}`),
+                category: "sitemap",
+                severity: "info",
+                title: `Sitemap section empty: ${gen.name}`,
+                description: `The programmatic_pages table exists but has no published rows matching the expected page types. ${gen.name} sitemap will populate once content is published.`,
+                autoFixable: false,
+                detectedAt: now,
+              });
+            } else {
+              issues.push({
+                id: issueId("sitemap", `empty:${gen.name}`),
+                category: "sitemap",
+                severity: "warning",
+                title: `Empty sitemap section: ${gen.name}`,
+                description: `The ${gen.name} sitemap generator returned 0 URLs despite ${rowCount} published rows existing. Check page type filters.`,
+                autoFixable: false,
+                detectedAt: now,
+              });
+            }
+          } else if (gen.name === "lessons") {
+            let tableExists = false;
+            try {
+              const tableCheck = await pool.query(
+                `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'lessons') AS exists`
+              );
+              tableExists = tableCheck.rows[0]?.exists ?? false;
+            } catch (dbErr: any) {
+              console.error("Sitemap health: lessons table introspection error:", dbErr?.message);
+            }
+
+            issues.push({
+              id: issueId("sitemap", `empty:${gen.name}`),
+              category: "sitemap",
+              severity: tableExists ? "info" : "warning",
+              title: `Sitemap section empty: ${gen.name}`,
+              description: tableExists
+                ? `The lessons table exists but has no published lessons yet. Lesson sitemap will populate once content is published.`
+                : `The lessons table does not exist. Ensure database schema is up to date.`,
+              autoFixable: false,
+              detectedAt: now,
+            });
+          } else {
+            issues.push({
+              id: issueId("sitemap", `empty:${gen.name}`),
+              category: "sitemap",
+              severity: "critical",
+              title: `Empty sitemap section: ${gen.name}`,
+              description: `The ${gen.name} sitemap generator returned 0 URLs`,
+              autoFixable: false,
+              detectedAt: now,
+            });
+          }
         }
       } catch (e: any) {
         issues.push({
@@ -490,24 +571,31 @@ async function checkSitemapIntegrity(): Promise<HealthIssue[]> {
     }
 
     try {
-      const publishedLessons = await pool.query(
-        `SELECT slug FROM lessons WHERE status = 'published' LIMIT 5000`
+      const tableCheck = await pool.query(
+        `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'lessons') AS exists`
       );
-      const base = getSiteBase();
-      for (const lesson of publishedLessons.rows) {
-        const expectedUrl = `${base}/en/lessons/${lesson.slug}`;
-        if (!allSitemapUrls.has(expectedUrl)) {
-          issues.push({
-            id: issueId("sitemap", `missing_lesson:${lesson.slug}`),
-            category: "sitemap",
-            severity: "warning",
-            title: `Published lesson missing from sitemap`,
-            description: `Lesson "${lesson.slug}" is published but not in the sitemap`,
-            url: `/lessons/${lesson.slug}`,
-            autoFixable: true,
-            fixAction: "add_to_sitemap",
-            detectedAt: now,
-          });
+      const lessonsTableExists = tableCheck.rows[0]?.exists ?? false;
+
+      if (lessonsTableExists) {
+        const publishedLessons = await pool.query(
+          `SELECT slug FROM lessons WHERE status = 'published' LIMIT 5000`
+        );
+        const base = getSiteBase();
+        for (const lesson of publishedLessons.rows) {
+          const expectedUrl = `${base}/en/lessons/${lesson.slug}`;
+          if (!allSitemapUrls.has(expectedUrl)) {
+            issues.push({
+              id: issueId("sitemap", `missing_lesson:${lesson.slug}`),
+              category: "sitemap",
+              severity: "warning",
+              title: `Published lesson missing from sitemap`,
+              description: `Lesson "${lesson.slug}" is published but not in the sitemap`,
+              url: `/lessons/${lesson.slug}`,
+              autoFixable: true,
+              fixAction: "add_to_sitemap",
+              detectedAt: now,
+            });
+          }
         }
       }
     } catch (e: any) {
