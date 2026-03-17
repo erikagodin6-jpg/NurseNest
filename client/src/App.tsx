@@ -102,6 +102,7 @@ const AdminProblemReportsPage = lazy(() => import("@/pages/admin-problem-reports
 const AdminAiJobs = lazy(() => import("@/pages/admin-ai-jobs"));
 const AdminBusinessHealth = lazy(() => import("@/pages/admin-business-health"));
 const AdminContentCoverage = lazy(() => import("@/pages/admin-content-coverage"));
+const AdminNewGradAnalytics = lazy(() => import("@/pages/admin-new-grad-analytics"));
 const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
@@ -634,6 +635,7 @@ function AppRoutes() {
         <Route path="/admin/problem-reports" component={AdminProblemReportsPage} />
         <Route path="/:locale/admin/problem-reports" component={AdminProblemReportsPage} />
         <Route path="/admin/content-coverage" component={AdminContentCoverage} />
+        <Route path="/admin/new-grad-analytics" component={AdminNewGradAnalytics} />
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />

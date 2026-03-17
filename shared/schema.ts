@@ -6271,3 +6271,74 @@ export const manualReviewQueue = pgTable("manual_review_queue", {
 export const insertManualReviewQueueSchema = createInsertSchema(manualReviewQueue).omit({ id: true, createdAt: true });
 export type ManualReviewQueueItem = typeof manualReviewQueue.$inferSelect;
 export type InsertManualReviewQueueItem = z.infer<typeof insertManualReviewQueueSchema>;
+
+export const newGradScenarioQuestions = pgTable("new_grad_scenario_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  formatType: text("format_type").notNull().default("scenario"),
+  categoryGroup: text("category_group").notNull(),
+  subcategory: text("subcategory").notNull(),
+  scenarioPrompt: text("scenario_prompt").notNull(),
+  question: text("question").notNull(),
+  exampleAnswer: text("example_answer").notNull(),
+  feedback: text("feedback"),
+  starBreakdown: jsonb("star_breakdown"),
+  difficulty: text("difficulty").notNull().default("intermediate"),
+  isPremium: boolean("is_premium").default(false),
+  status: text("status").default("published"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNewGradScenarioQuestionSchema = createInsertSchema(newGradScenarioQuestions).omit({
+  id: true,
+  createdAt: true,
+});
+export type NewGradScenarioQuestion = typeof newGradScenarioQuestions.$inferSelect;
+export type InsertNewGradScenarioQuestion = z.infer<typeof insertNewGradScenarioQuestionSchema>;
+
+export const newGradInterviewSimulations = pgTable("new_grad_interview_simulations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull(),
+  difficulty: text("difficulty").notNull().default("intermediate"),
+  questionCount: integer("question_count").notNull().default(0),
+  estimatedMinutes: integer("estimated_minutes").notNull().default(30),
+  questionIds: text("question_ids").array().default(sql`'{}'::text[]`),
+  metadata: jsonb("metadata"),
+  isPremium: boolean("is_premium").default(false),
+  status: text("status").default("published"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNewGradInterviewSimulationSchema = createInsertSchema(newGradInterviewSimulations).omit({
+  id: true,
+  createdAt: true,
+});
+export type NewGradInterviewSimulation = typeof newGradInterviewSimulations.$inferSelect;
+export type InsertNewGradInterviewSimulation = z.infer<typeof insertNewGradInterviewSimulationSchema>;
+
+export const newGradMockInterviewTests = pgTable("new_grad_mock_interview_tests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull(),
+  difficulty: text("difficulty").notNull().default("intermediate"),
+  questionCount: integer("question_count").notNull().default(0),
+  timeLimit: integer("time_limit").notNull().default(60),
+  questionIds: text("question_ids").array().default(sql`'{}'::text[]`),
+  supportsRandomization: boolean("supports_randomization").default(true),
+  metadata: jsonb("metadata"),
+  isPremium: boolean("is_premium").default(true),
+  status: text("status").default("published"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertNewGradMockInterviewTestSchema = createInsertSchema(newGradMockInterviewTests).omit({
+  id: true,
+  createdAt: true,
+});
+export type NewGradMockInterviewTest = typeof newGradMockInterviewTests.$inferSelect;
+export type InsertNewGradMockInterviewTest = z.infer<typeof insertNewGradMockInterviewTestSchema>;
