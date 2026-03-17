@@ -21,6 +21,8 @@ import { getLecturesForTier, type LectureMetadata } from "@/data/micro-lectures"
 import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
 import { useToast } from "@/hooks/use-toast";
 import { LessonLibraryHero } from "@/components/lesson-library-hero";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { FeaturedTopics } from "@/components/featured-topics";
 import { LessonProgressCard } from "@/components/lesson-progress-card";
 import { LessonLibraryCTA } from "@/components/lesson-library-cta";
@@ -4504,6 +4506,8 @@ export default function Lessons() {
       <Navigation />
       
       <LessonLibraryHero activeTier={activeTab} />
+      <HeroFeatureStrip />
+      <HeroTrustIndicator />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div className="mb-12 flex flex-col items-center gap-6">

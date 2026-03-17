@@ -1,6 +1,8 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Button } from "@/components/ui/button";
@@ -138,11 +140,11 @@ export default function RexPnHub() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-rex-pn-heading">
-                REx-PN Exam Prep
+                Retain More. Stress Less. Pass the REx-PN.
               </h1>
 
               <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed" data-testid="text-rex-pn-subtitle">
-                Prepare for the Regulatory Exam - Practical Nurse with adaptive practice exams, a comprehensive question bank, and clinical study tools designed for Canadian RPN candidates.
+                Our retention-focused REx-PN exam prep uses active recall, spaced repetition, and clinical scenarios to help Canadian RPN candidates build lasting knowledge and pass with confidence.
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 pt-4 px-4 sm:px-0">
@@ -171,6 +173,9 @@ export default function RexPnHub() {
             </div>
           </div>
         </section>
+
+        <HeroFeatureStrip />
+        <HeroTrustIndicator />
 
         <section className="py-16 bg-white border-t border-gray-100" data-testid="section-exam-overview">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

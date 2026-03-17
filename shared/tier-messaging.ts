@@ -40,16 +40,16 @@ export const TIER_MESSAGING: Record<string, TierMessaging> = {
     requiredKeywords: ["REx-PN", "RPN"],
     forbiddenTerms: [],
     hero: {
-      headline: "Master the Nursing Concepts Tested on the REx-PN",
-      subheadline: "Clear, step-by-step lessons that simplify disease processes, nursing priorities, and safety concepts so you can confidently answer REx-PN exam questions.",
+      headline: "Retain More. Stress Less. Pass the REx-PN.",
+      subheadline: "Our retention-focused learning system uses active recall and spaced repetition to help you master nursing exam prep concepts — so you remember what matters on REx-PN exam day.",
       stats: [
         { value: "240+", label: "RPN Lessons" },
         { value: "12", label: "Body Systems" },
         { value: "1000+", label: "Practice Questions" },
       ],
-      primaryCta: { text: "Start Free RPN Lessons", href: "/register" },
-      secondaryCta: { text: "View Study Plan", href: "/pricing" },
-      badges: ["Step-by-Step Learning", "REx-PN Aligned", "Confidence Building"],
+      primaryCta: { text: "Start Studying Smarter", href: "/register" },
+      secondaryCta: { text: "Explore Practice Questions", href: "/exam-prep" },
+      badges: ["Active Recall Learning", "REx-PN Aligned", "Spaced Repetition"],
     },
     cta: {
       steps: [
@@ -88,17 +88,17 @@ export const TIER_MESSAGING: Record<string, TierMessaging> = {
     requiredKeywords: ["NCLEX-RN", "NCLEX", "RN"],
     forbiddenTerms: ["REx-PN"],
     hero: {
-      headline: "Master Nursing Pathophysiology the Way NCLEX Tests It",
-      subheadline: "Deep clinical lessons that teach the reasoning behind disease processes so you can solve unfamiliar NCLEX questions.",
+      headline: "Learn Deeper. Remember Longer. Pass the NCLEX-RN.",
+      subheadline: "Our evidence-based learning system combines clinical scenarios, active recall, and spaced repetition to strengthen NCLEX preparation — so you retain nursing concepts and pass on your first attempt.",
       stats: [
         { value: "500+", label: "RN Lessons" },
         { value: "12", label: "Body Systems" },
         { value: "3000+", label: "Practice Questions" },
         { value: "Adaptive", label: "Exam Simulator" },
       ],
-      primaryCta: { text: "Start Studying Free", href: "/register" },
-      secondaryCta: { text: "Try NCLEX Practice Questions", href: "/nclex-rn-practice-questions" },
-      badges: ["Clinical Pathophysiology", "NCLEX Reasoning", "Exam Focused"],
+      primaryCta: { text: "Start Studying Smarter", href: "/register" },
+      secondaryCta: { text: "Explore Practice Questions", href: "/nclex-rn-practice-questions" },
+      badges: ["Active Recall Learning", "NCLEX Preparation", "Spaced Repetition"],
     },
     cta: {
       steps: [
@@ -137,16 +137,16 @@ export const TIER_MESSAGING: Record<string, TierMessaging> = {
     requiredKeywords: ["NP", "Nurse Practitioner", "Certification", "Advanced"],
     forbiddenTerms: ["REx-PN"],
     hero: {
-      headline: "Master Advanced Pathophysiology for NP Certification",
-      subheadline: "In-depth lessons designed to strengthen diagnostic reasoning, clinical decision-making, and certification exam performance.",
+      headline: "Think Critically. Retain Deeply. Certify as an NP.",
+      subheadline: "Our retention-focused healthcare study platform uses clinical decision training and spaced repetition to build lasting diagnostic reasoning for NP certification exam performance.",
       stats: [
         { value: "800+", label: "Advanced Lessons" },
         { value: "Multi-system", label: "Pathophysiology" },
         { value: "Clinical", label: "Reasoning Modules" },
       ],
-      primaryCta: { text: "Start Free Trial", href: "/register" },
-      secondaryCta: { text: "Explore NP Content", href: "/np-exam-practice-questions" },
-      badges: ["Advanced Practice", "Diagnostic Reasoning", "NP Certification"],
+      primaryCta: { text: "Start Studying Smarter", href: "/register" },
+      secondaryCta: { text: "Explore Practice Questions", href: "/np-exam-practice-questions" },
+      badges: ["Clinical Decision Training", "Spaced Repetition", "NP Certification"],
     },
     cta: {
       steps: [
@@ -183,16 +183,16 @@ export const TIER_MESSAGING: Record<string, TierMessaging> = {
 };
 
 export const DEFAULT_HERO: TierHeroConfig = {
-  headline: "Master Nursing Concepts for Exam Success",
-  subheadline: "Clear, structured lessons designed to help you understand disease processes and strengthen clinical reasoning for your nursing exam.",
+  headline: "Learn Faster. Remember Longer. Pass Your Exams.",
+  subheadline: "A retention-focused healthcare exam preparation system built on active recall, spaced repetition, and clinical scenarios — designed to help you master nursing concepts and pass with confidence.",
   stats: [
     { value: "500+", label: "Lessons" },
     { value: "12", label: "Body Systems" },
     { value: "1000+", label: "Practice Questions" },
   ],
-  primaryCta: { text: "Start Free Lessons", href: "/register" },
-  secondaryCta: { text: "View Study Plan", href: "/pricing" },
-  badges: ["Step-by-Step Learning", "Exam Aligned", "Clinical Reasoning"],
+  primaryCta: { text: "Start Studying Smarter", href: "/register" },
+  secondaryCta: { text: "Explore Practice Questions", href: "/exam-prep" },
+  badges: ["Active Recall Learning", "Exam Blueprint Aligned", "Spaced Repetition"],
 };
 
 export const DEFAULT_CTA: TierCtaConfig = {

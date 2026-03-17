@@ -35,6 +35,7 @@ export default function HomeHeroFeatures() {
     { icon: ShieldCheck, labelKey: "home.heroFeatures.trustEvidence" },
     { icon: Target, labelKey: "home.heroFeatures.trustExamAligned" },
     { icon: Brain, labelKey: "home.heroFeatures.trustClinicalReasoning" },
+    { icon: Activity, labelKey: "home.heroFeatures.trustRetention" },
   ];
 
   const learningAreas = [

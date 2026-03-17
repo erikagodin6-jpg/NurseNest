@@ -1,5 +1,7 @@
 import { Link } from "wouter";
 import { useEffect } from "react";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import {
   ALLIED_HEALTH_PROFESSIONS,
   ALLIED_HEALTH_PROFESSION_SLUGS,
@@ -106,10 +108,10 @@ export default function AlliedHealthHub() {
               Allied Health Career Hub
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-hub-title">
-              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Healthcare Certification Exam</span> With Confidence
+              Learn It Once. <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Remember It for Your Exam.</span>
             </h1>
             <p className="text-lg text-gray-600 mb-4 max-w-2xl mx-auto" data-testid="text-hub-subtitle">
-              6,500+ practice questions, blueprint-weighted mock exams, and AI-powered study tools across 10 allied health professions. Join thousands of students who passed on their first attempt.
+              Our retention-focused healthcare exam preparation system uses active recall and spaced repetition across 6,500+ practice questions and blueprint-aligned mock exams for 10 allied health professions.
             </p>
             <p className="text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 inline-block mb-3" data-testid="text-hub-loss-aversion">
               Don't risk failing your certification exam — start building confidence today
@@ -159,6 +161,9 @@ export default function AlliedHealthHub() {
           </div>
         </div>
       </section>
+
+      <HeroFeatureStrip />
+      <HeroTrustIndicator />
 
       <section className="py-6 bg-white border-b border-gray-100" data-testid="hub-stats">
         <div className="max-w-5xl mx-auto px-4">

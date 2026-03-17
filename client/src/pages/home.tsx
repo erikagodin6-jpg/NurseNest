@@ -38,6 +38,8 @@ const HomeBottomSections = lazy(() => import("@/components/home-bottom-sections"
 const HomeChoosePath = lazy(() => import("@/components/home-choose-path"));
 const HomeCareerCta = lazy(() => import("@/components/home-career-cta"));
 const HeroPlatformStats = lazy(() => import("@/components/hero-platform-stats"));
+const HeroFeatureStrip = lazy(() => import("@/components/hero-feature-strip"));
+const HeroTrustIndicator = lazy(() => import("@/components/hero-trust-indicator"));
 const HeroFeaturesGrid = lazy(() => import("@/components/hero-features-grid"));
 const HeroGlobalCoverage = lazy(() => import("@/components/hero-global-coverage"));
 const HeroNursingTiers = lazy(() => import("@/components/hero-nursing-tiers"));
@@ -359,6 +361,10 @@ export default function Home() {
                 </div>
                 
                 <div className="space-y-4">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700" data-testid="badge-evidence-based">
+                    <Shield className="w-3.5 h-3.5" />
+                    {t("hero.badge.evidenceBased")}
+                  </div>
                   <h1 className="font-bold tracking-tight text-gray-900 leading-[1.08]" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-hero-heading">
                     {t("home.hero.mainTitle")}
                   </h1>
@@ -548,6 +554,13 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <Suspense fallback={<div className="min-h-[60px]" />}>
+          <HeroFeatureStrip />
+        </Suspense>
+        <Suspense fallback={<div className="min-h-[50px]" />}>
+          <HeroTrustIndicator />
+        </Suspense>
 
         <LazySection minHeight="200px" rootMargin="300px">
           <Suspense fallback={<div className="min-h-[200px]" />}>

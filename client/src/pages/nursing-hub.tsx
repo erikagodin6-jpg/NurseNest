@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useState } from "react";
 import {
@@ -210,13 +212,13 @@ export default function NursingHub() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-4" data-testid="badge-exam-prep">
-              Exam Prep Platform
+              Retention-Focused Learning System
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-h1">
-              Nursing Exam Prep That Actually Works
+              Study Smarter. Retain More. Pass Your Nursing Exam.
             </h1>
             <p className="text-lg text-gray-600 mb-6" data-testid="text-subtitle">
-              Stop guessing what to study. Our adaptive platform identifies your weak areas, builds a personalized plan, and uses active recall to prepare you for NCLEX-RN, REX-PN, and NP certification exams.
+              Our retention-focused nursing exam prep system uses active recall, spaced repetition, and clinical decision training to help you master NCLEX-RN, REx-PN, and NP certification content — and remember it on exam day.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-8">
@@ -243,6 +245,9 @@ export default function NursingHub() {
           </div>
         </div>
       </section>
+
+      <HeroFeatureStrip />
+      <HeroTrustIndicator />
 
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">

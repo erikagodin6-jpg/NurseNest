@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { PROFESSION_LIST } from "@/pages/new-grad/profession-data";
 import { getCrossPlatformLinksForNewGrad } from "@/data/internal-links";
@@ -152,10 +154,10 @@ export default function NewGradHub() {
               New Graduate Nurse
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-hero-title">
-              Your First Year as a Nurse <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Starts Here</span>
+              Build Lasting Clinical Confidence <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">From Day One</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
-              First-year survival guides, specialty certification prep (ACLS, PALS, CCRN), clinical skills references, and career growth tools — everything new graduate nurses need to thrive from day one.
+              Our structured learning system for new graduates uses active recall and clinical scenarios to reinforce the skills you need — from ACLS and PALS certification prep to first-year survival guides and career growth tools.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#certifications" onClick={(e) => { e.preventDefault(); document.getElementById('certifications')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-certifications">
@@ -168,6 +170,9 @@ export default function NewGradHub() {
           </div>
         </div>
       </section>
+
+      <HeroFeatureStrip />
+      <HeroTrustIndicator />
 
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
@@ -423,10 +425,10 @@ export default function NclexRnGuide() {
               <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">NCLEX-RN Exam Preparation</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6" data-testid="text-nclex-rn-heading">
-              Master the NCLEX-RN
+              Learn Deeper. Remember Longer. Pass the NCLEX-RN.
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8" data-testid="text-nclex-rn-subtitle">
-              Your complete guide to the National Council Licensure Examination for Registered Nurses — including Next Generation NCLEX question types, the Clinical Judgment Measurement Model, and proven study strategies.
+              Our retention-focused NCLEX preparation system uses active recall, spaced repetition, and clinical decision training — covering Next Generation NCLEX question types and the Clinical Judgment Measurement Model.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-8">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-blue-100 shadow-sm">
@@ -456,6 +458,9 @@ export default function NclexRnGuide() {
             </div>
           </div>
         </section>
+
+        <HeroFeatureStrip />
+        <HeroTrustIndicator />
 
         <section className="py-16 bg-white border-y border-gray-100" data-testid="section-nclex-rn-clusters">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

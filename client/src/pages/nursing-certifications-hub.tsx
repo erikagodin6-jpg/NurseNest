@@ -3,6 +3,8 @@ import { useState } from "react";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import HeroFeatureStrip from "@/components/hero-feature-strip";
+import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
@@ -104,10 +106,10 @@ export default function NursingCertificationsHub() {
               <Award className="w-4 h-4" /> Certification Hub
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
-              Nursing Certification Guides
+              Retain What You Study. Pass Your Certification.
             </h1>
             <p className="text-lg text-gray-600 mb-8" data-testid="text-page-subtitle">
-              Your central resource for every nursing certification — from essential life support courses (BLS, ACLS, PALS) to advanced specialty credentials (CCRN, CEN, CNOR). Prep guides, renewal resources, practice questions, and study strategies for each certification.
+              Our retention-focused learning system helps you prepare for every nursing certification — from BLS, ACLS, and PALS to CCRN, CEN, and CNOR — using active recall, spaced repetition, and exam blueprint alignment to build lasting knowledge.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#emergency-certs" onClick={(e) => { e.preventDefault(); document.getElementById('emergency-certs')?.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200" data-testid="button-emergency-certs">
@@ -120,6 +122,9 @@ export default function NursingCertificationsHub() {
           </div>
         </div>
       </section>
+
+      <HeroFeatureStrip />
+      <HeroTrustIndicator />
 
       <section className="py-16" data-testid="section-why-certify">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
