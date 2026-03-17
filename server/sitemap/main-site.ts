@@ -605,27 +605,27 @@ export async function generateMainTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `/np-exam/${slug}`, "0.8", "monthly", locales, today));
   }
 
-  const npExamConditionPages = ["hypertension", "type-2-diabetes", "heart-failure", "copd", "asthma", "hypothyroidism", "hyperthyroidism", "depression", "anxiety", "atrial-fibrillation", "community-acquired-pneumonia", "uti-complicated", "chronic-kidney-disease", "gerd", "osteoarthritis", "iron-deficiency-anemia", "stroke-tia", "acute-coronary-syndrome"];
+  const npExamConditionPages = ["hypertension", "type-2-diabetes", "heart-failure", "copd", "asthma", "hypothyroidism", "hyperthyroidism", "depression", "anxiety", "atrial-fibrillation", "community-acquired-pneumonia", "uti-complicated", "chronic-kidney-disease", "gerd", "osteoarthritis", "iron-deficiency-anemia", "stroke-tia", "acute-coronary-syndrome", "diabetes-dka-hhs", "pneumonia", "sepsis", "mi-acs", "stroke", "thyroid-disorders"];
   for (const slug of npExamConditionPages) {
     urls.push(localizedUrl(base, `/np-exam/conditions/${slug}`, "0.8", "monthly", locales, today));
   }
 
-  const npExamMedicationPages = ["ace-inhibitors", "beta-blockers", "statins", "ssris", "metformin", "levothyroxine", "ppis", "inhaled-corticosteroids", "thiazide-diuretics", "anticoagulants-doacs", "sglt2-inhibitors", "antibiotics-first-line", "arbs", "calcium-channel-blockers", "glp1-agonists"];
+  const npExamMedicationPages = ["ace-inhibitors", "beta-blockers", "statins", "ssris", "metformin", "levothyroxine", "ppis", "inhaled-corticosteroids", "thiazide-diuretics", "anticoagulants-doacs", "sglt2-inhibitors", "antibiotics-first-line", "arbs", "calcium-channel-blockers", "glp1-agonists", "insulin", "antibiotics-overview"];
   for (const slug of npExamMedicationPages) {
     urls.push(localizedUrl(base, `/np-exam/medications/${slug}`, "0.8", "monthly", locales, today));
   }
 
-  const npExamLabValuePages = ["cbc-differential", "cmp", "hba1c", "tsh-free-t4", "lipid-panel", "troponin", "bnp-nt-probnp", "urinalysis"];
+  const npExamLabValuePages = ["cbc-differential", "cmp", "hba1c", "tsh-free-t4", "lipid-panel", "troponin", "bnp-nt-probnp", "urinalysis", "potassium", "sodium", "abgs", "a1c", "tsh-t3-t4", "cbc-interpretation"];
   for (const slug of npExamLabValuePages) {
     urls.push(localizedUrl(base, `/np-exam/lab-values/${slug}`, "0.8", "monthly", locales, today));
   }
 
-  const npExamComparisonPages = ["aanp-vs-ancc", "stable-angina-vs-acs", "hypothyroidism-vs-hyperthyroidism", "gerd-vs-pud", "depression-vs-anxiety-pharmacotherapy", "ckd-stages-management"];
+  const npExamComparisonPages = ["aanp-vs-ancc", "stable-angina-vs-acs", "hypothyroidism-vs-hyperthyroidism", "gerd-vs-pud", "depression-vs-anxiety-pharmacotherapy", "ckd-stages-management", "dka-vs-hhs", "crohns-vs-uc", "stable-vs-unstable-angina", "viral-vs-bacterial-pneumonia", "hypothyroid-vs-hyperthyroid"];
   for (const slug of npExamComparisonPages) {
     urls.push(localizedUrl(base, `/np-exam/compare/${slug}`, "0.7", "monthly", locales, today));
   }
 
-  const npExamStrategyPages = ["best-np-exam-study-strategy", "diagnostic-reasoning-framework", "prescribing-pearls-review", "soap-note-approach", "differential-diagnosis-question-strategy"];
+  const npExamStrategyPages = ["best-np-exam-study-strategy", "diagnostic-reasoning-framework", "prescribing-pearls-review", "soap-note-approach", "differential-diagnosis-question-strategy", "np-exam-study-strategy", "differential-diagnosis-approach", "soap-notes-methodology", "case-study-approach"];
   for (const slug of npExamStrategyPages) {
     urls.push(localizedUrl(base, `/np-exam/strategy/${slug}`, "0.7", "monthly", locales, today));
   }

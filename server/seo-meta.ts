@@ -2330,7 +2330,7 @@ const KNOWN_DYNAMIC_PREFIXES = [
   "/medical-imaging/", "/practice-questions/",
   "/mock-exams/", "/applynest/",
   "/perioperative-", "/preoperative-",
-  "/nclex-rn/", "/nclex-pn/", "/rex-pn/", "/canada-np/", "/us-np/",
+  "/nclex-rn/", "/nclex-pn/", "/rex-pn/", "/np-exam/", "/canada-np/", "/us-np/",
   "/rpn/", "/rn/", "/np/",
   "/nclex/", "/symptoms/", "/meds/", "/labs/", "/clinical-compare/",
   "/radiography-", "/hyperkalemia-", "/barrel-chest-",

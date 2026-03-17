@@ -1000,6 +1000,7 @@ function AppRoutes() {
         <Route path="/nclex-rn/lab-values">{() => <NclexRnCategoryTemplate params={{ slug: "lab-values" }} />}</Route>
         <Route path="/nclex-rn/medications">{() => <NclexRnCategoryTemplate params={{ slug: "medications" }} />}</Route>
         <Route path="/nclex-rn/*" component={SeoHubPage} />
+        <Route path="/np-exam-prep/:rest*" component={SeoHubPage} />
         <Route path="/np-exam/conditions/:slug" component={NpExamConditionTemplate} />
         <Route path="/np-exam/medications/:slug" component={NpExamMedicationTemplate} />
         <Route path="/np-exam/lab-values/:slug" component={NpExamLabValueTemplate} />
