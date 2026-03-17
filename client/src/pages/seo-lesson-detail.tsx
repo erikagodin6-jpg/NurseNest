@@ -265,12 +265,13 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
         </div>
 
         {lesson.imageUrl && (
-          <div className="rounded-2xl overflow-hidden shadow-sm bg-gray-50" data-testid="img-lesson-header">
+          <div className="rounded-2xl overflow-hidden shadow-sm bg-gray-50" style={{ aspectRatio: "16/9", minHeight: "200px" }} data-testid="img-lesson-header">
             <img
               src={lesson.imageUrl}
               alt={lesson.imageAlt || `Clinical illustration of ${displayTitle}`}
-              className="w-full h-auto object-contain max-h-[500px]"
+              className="w-full h-full object-contain"
               loading="lazy"
+              decoding="async"
             />
           </div>
         )}

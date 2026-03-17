@@ -194,12 +194,12 @@ export default function ShopProductPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {product.coverImageUrl && (
-              <div className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm" data-testid="div-product-image">
+              <div className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm" style={{ aspectRatio: "16/10" }} data-testid="div-product-image">
                 <img
                   src={product.coverImageUrl}
                   alt={`${product.title} - NurseNest study resource`}
                   title={product.title}
-                  className="w-full object-cover"
+                  className="w-full h-full object-cover"
                   loading="eager"
                   decoding="async"
                   data-testid="img-product-detail"

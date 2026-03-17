@@ -15,8 +15,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "pulmonary edema & ARDS", target: "/lessons/ards-rn", reason: "complication" },
     { anchor: "electrolyte imbalances", target: "/lessons/hyperkalemia-rn", reason: "complication monitoring" },
     { anchor: "Tips for New ICU Nurses", target: "/new-grad/nursing", reason: "ICU specialty transition guide", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "New Grad Clinical Confidence Builder", target: "/new-grad#clinical-confidence", reason: "quick-reference clinical decision tools", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "RRT Exam Prep – Hemodynamics", target: "/careers/rrt", reason: "respiratory therapy cardiac concepts", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence Builder", target: "/newgrad", reason: "quick-reference clinical decision tools", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "RRT Exam Prep – Hemodynamics", target: "/allied-health/rrt", reason: "respiratory therapy cardiac concepts", type: "lesson-to-career", platform: "allied" },
   ],
   "hypertension": [
     { anchor: "hypertensive crisis management", target: "/lessons/hypertensive-crisis-rn", reason: "emergency escalation" },
@@ -34,7 +34,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "DVT & PE prevention", target: "/lessons/dvt-pe", reason: "immobility complication" },
     { anchor: "delirium vs dementia", target: "/lessons/delirium-dementia", reason: "differential diagnosis" },
     { anchor: "New Grad Neuro Unit Transition Tips", target: "/new-grad/nursing", reason: "stroke care in your first year", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "Paramedic Exam Prep – Stroke Assessment", target: "/careers/paramedic", reason: "prehospital stroke scales and transport", type: "lesson-to-career", platform: "allied" },
+    { anchor: "Paramedic Exam Prep – Stroke Assessment", target: "/allied-health/paramedic", reason: "prehospital stroke scales and transport", type: "lesson-to-career", platform: "allied" },
   ],
   "sepsis": [
     { anchor: "IV therapy & fluid resuscitation", target: "/lessons/iv-therapy", reason: "treatment" },
@@ -43,9 +43,9 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "AKI from sepsis", target: "/lessons/aki-management-rn", reason: "complication" },
     { anchor: "DIC management", target: "/lessons/dic-management-rn", reason: "complication" },
     { anchor: "ARDS development", target: "/lessons/ards-rn", reason: "complication" },
-    { anchor: "First 90 Days on a Med-Surg Unit", target: "/new-grad#first-90-days", reason: "managing sepsis patients as a new grad", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "New Grad Interview Prep – Clinical Scenarios", target: "/new-grad#interview-lab", reason: "sepsis scenario interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "Paramedic Exam Prep – Medical Emergencies", target: "/careers/paramedic", reason: "prehospital sepsis recognition", type: "lesson-to-career", platform: "allied" },
+    { anchor: "First 90 Days on a Med-Surg Unit", target: "/newgrad", reason: "managing sepsis patients as a new grad", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "New Grad Interview Prep – Clinical Scenarios", target: "/newgrad", reason: "sepsis scenario interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Medical Emergencies", target: "/allied-health/paramedic", reason: "prehospital sepsis recognition", type: "lesson-to-career", platform: "allied" },
   ],
   "diabetes-lifespan": [
     { anchor: "DKA management protocol", target: "/lessons/dka-management-rn", reason: "emergency complication" },
@@ -55,7 +55,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "NP prescribing guide", target: "/lessons/diabetes-management-np", reason: "advanced management" },
     { anchor: "peripheral artery disease", target: "/lessons/pad-claudication", reason: "vascular complication" },
     { anchor: "New Grad Med-Surg Transition Tips", target: "/new-grad/nursing", reason: "diabetes management for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "MLT Exam Prep – Glucose Testing", target: "/careers/mlt", reason: "lab testing for diabetes markers", type: "lesson-to-career", platform: "allied" },
+    { anchor: "MLT Exam Prep – Glucose Testing", target: "/allied-health/mlt", reason: "lab testing for diabetes markers", type: "lesson-to-career", platform: "allied" },
   ],
   "abg-basics": [
     { anchor: "metabolic acidosis management", target: "/lessons/metabolic-acidosis-rn", reason: "ABG interpretation" },
@@ -64,8 +64,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "DKA & anion gap acidosis", target: "/lessons/dka-management-rn", reason: "clinical correlation" },
     { anchor: "respiratory assessment", target: "/lessons/respiratory-assessment", reason: "prerequisite skill" },
     { anchor: "mechanical ventilation", target: "/lessons/mechanical-ventilation-rn", reason: "advanced application" },
-    { anchor: "RRT Exam Prep – ABG Interpretation", target: "/careers/rrt", reason: "respiratory therapy ABG analysis", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Lab Values", target: "/new-grad#clinical-confidence", reason: "ABG quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "RRT Exam Prep – ABG Interpretation", target: "/allied-health/rrt", reason: "respiratory therapy ABG analysis", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Lab Values", target: "/newgrad", reason: "ABG quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "cardiac-assessment-ecg": [
     { anchor: "normal sinus rhythm", target: "/lessons/normal-sinus-rhythm", reason: "ECG baseline" },
@@ -75,7 +75,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "hyperkalemia ECG changes", target: "/lessons/hyperkalemia-rn", reason: "electrolyte effect" },
     { anchor: "cardiac tamponade", target: "/lessons/cardiac-tamponade", reason: "emergency" },
     { anchor: "New Grad ICU Readiness", target: "/new-grad/nursing", reason: "ECG interpretation for new ICU nurses", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "Paramedic Exam Prep – Cardiac Emergencies", target: "/careers/paramedic", reason: "prehospital ECG interpretation", type: "lesson-to-career", platform: "allied" },
+    { anchor: "Paramedic Exam Prep – Cardiac Emergencies", target: "/allied-health/paramedic", reason: "prehospital ECG interpretation", type: "lesson-to-career", platform: "allied" },
   ],
   "respiratory-assessment": [
     { anchor: "lung auscultation guide", target: "/lessons/lung-auscultation", reason: "assessment technique" },
@@ -84,8 +84,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "COPD management", target: "/lessons/copd-basics-rpn", reason: "chronic condition" },
     { anchor: "ABG interpretation", target: "/lessons/abg-basics", reason: "diagnostic skill" },
     { anchor: "tracheostomy care", target: "/lessons/tracheostomy-basics-rpn", reason: "airway management" },
-    { anchor: "RRT Certification Exam Prep", target: "/careers/rrt", reason: "respiratory therapy assessment overlap", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Shift Prep", target: "/new-grad#clinical-confidence", reason: "respiratory assessment checklists for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "RRT Certification Exam Prep", target: "/allied-health/rrt", reason: "respiratory therapy assessment overlap", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Shift Prep", target: "/newgrad", reason: "respiratory assessment checklists for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "cranial-nerve-assessment": [
     { anchor: "stroke assessment", target: "/lessons/stroke", reason: "clinical application" },
@@ -103,8 +103,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "sepsis fluid resuscitation", target: "/lessons/sepsis", reason: "clinical application" },
     { anchor: "DKA insulin drip", target: "/lessons/dka-management-rn", reason: "IV medication" },
     { anchor: "medication safety rights", target: "/lessons/medication-administration-safety", reason: "safety link" },
-    { anchor: "New Grad Clinical Confidence Builder", target: "/new-grad#clinical-confidence", reason: "IV skills confidence for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "First 90 Days – Skills Checklist", target: "/new-grad#first-90-days", reason: "IV therapy milestones for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "New Grad Clinical Confidence Builder", target: "/newgrad", reason: "IV skills confidence for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "First 90 Days – Skills Checklist", target: "/newgrad", reason: "IV therapy milestones for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "preeclampsia-management": [
     { anchor: "placental abruption risk", target: "/lessons/placental-abruption", reason: "complication" },
@@ -113,6 +113,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "seizure management", target: "/lessons/seizure-types-priorities-rpn", reason: "eclampsia link" },
     { anchor: "hypertensive crisis", target: "/lessons/hypertensive-crisis-rn", reason: "BP emergency" },
     { anchor: "AKI from preeclampsia", target: "/lessons/aki-management-rn", reason: "organ damage" },
+    { anchor: "preeclampsia RN assessment", target: "/lessons/preeclampsia-rn", reason: "nursing assessment" },
+    { anchor: "ectopic pregnancy differential", target: "/lessons/ectopic-pregnancy", reason: "OB differential" },
     { anchor: "New Grad L&D Unit Transition", target: "/new-grad/nursing", reason: "preeclampsia management for new OB nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "dvt-pe": [
@@ -122,6 +124,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "stroke from paradoxical embolism", target: "/lessons/stroke", reason: "embolic event" },
     { anchor: "shock recognition", target: "/lessons/shock-types-recognition-rpn", reason: "obstructive shock" },
     { anchor: "postpartum DVT risk", target: "/lessons/postpartum-hemorrhage-rn", reason: "OB link" },
+    { anchor: "PE recognition & assessment", target: "/lessons/pe-recognition", reason: "PE assessment" },
+    { anchor: "compartment syndrome risk", target: "/lessons/compartment-syndrome", reason: "vascular complication" },
   ],
   "atrial-fibrillation-rn": [
     { anchor: "cardiac conduction system", target: "/lessons/conduction-system", reason: "prerequisite" },
@@ -154,8 +158,9 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "pneumonia in COPD", target: "/lessons/pneumonia-basics-rpn", reason: "complication" },
     { anchor: "mechanical ventilation", target: "/lessons/mechanical-ventilation-rn", reason: "acute exacerbation" },
     { anchor: "NP GOLD guidelines", target: "/lessons/copd-management-np", reason: "advanced tier" },
-    { anchor: "RRT Exam Prep – COPD Management", target: "/careers/rrt", reason: "respiratory therapy COPD protocols", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Respiratory", target: "/new-grad#clinical-confidence", reason: "COPD care quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "COPD exacerbation management", target: "/lessons/copd-exacerbation", reason: "acute episode" },
+    { anchor: "RRT Exam Prep – COPD Management", target: "/allied-health/rrt", reason: "respiratory therapy COPD protocols", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Respiratory", target: "/newgrad", reason: "COPD care quick reference for new grads", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "pneumonia-basics-rpn": [
     { anchor: "respiratory assessment", target: "/lessons/respiratory-assessment", reason: "assessment" },
@@ -164,8 +169,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "sepsis from pneumonia", target: "/lessons/sepsis", reason: "complication" },
     { anchor: "ARDS development", target: "/lessons/ards-rn", reason: "complication" },
     { anchor: "TB differential", target: "/lessons/tb-basics-rpn", reason: "differential" },
-    { anchor: "RRT Exam Prep – Airway Management", target: "/careers/rrt", reason: "respiratory care in pneumonia", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad First 90 Days – Infection Control", target: "/new-grad#first-90-days", reason: "infection prevention for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "RRT Exam Prep – Airway Management", target: "/allied-health/rrt", reason: "respiratory care in pneumonia", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad First 90 Days – Infection Control", target: "/newgrad", reason: "infection prevention for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "catheterization": [
     { anchor: "UTI prevention & management", target: "/lessons/uti-basics-rpn", reason: "CAUTI" },
@@ -185,8 +190,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "cardiogenic shock", target: "/lessons/cardiogenic-shock", reason: "shock subtype" },
     { anchor: "anaphylaxis management", target: "/lessons/anaphylaxis", reason: "distributive shock" },
     { anchor: "ABG interpretation in shock", target: "/lessons/abg-basics", reason: "metabolic acidosis assessment" },
-    { anchor: "Paramedic Exam Prep – Shock Management", target: "/careers/paramedic", reason: "prehospital shock recognition", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Emergency Response", target: "/new-grad#clinical-confidence", reason: "shock assessment for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Shock Management", target: "/allied-health/paramedic", reason: "prehospital shock recognition", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Emergency Response", target: "/newgrad", reason: "shock assessment for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "hypothyroidism-basics": [
     { anchor: "myxedema coma emergency", target: "/lessons/myxedema-coma-rn", reason: "emergency" },
@@ -195,6 +200,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "NP thyroid prescribing", target: "/lessons/thyroid-disorders-np", reason: "advanced tier" },
     { anchor: "depression connection", target: "/lessons/depression-rn", reason: "psychiatric link" },
     { anchor: "hyponatremia risk", target: "/lessons/hyponatremia-rn", reason: "electrolyte effect" },
+    { anchor: "thyroid cancer management", target: "/lessons/thyroid-cancer-np", reason: "thyroid malignancy" },
   ],
   "hyperthyroidism-basics": [
     { anchor: "thyroid storm emergency", target: "/lessons/thyroid-storm-rn", reason: "emergency" },
@@ -221,6 +227,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "HIV co-infection", target: "/lessons/hiv-aids-rn", reason: "co-infection" },
     { anchor: "Barrett's esophagus", target: "/lessons/barrett-esophagus-rpn", reason: "GI system" },
     { anchor: "C. diff precautions", target: "/lessons/cdiff-management-rpn", reason: "infection control" },
+    { anchor: "cirrhosis progression", target: "/lessons/cirrhosis", reason: "chronic liver disease" },
+    { anchor: "GI bleeding risk", target: "/lessons/gi-bleeding-rn", reason: "variceal bleeding" },
   ],
   "bipolar-disorder-rn": [
     { anchor: "depression management", target: "/lessons/depression-rn", reason: "mood disorder" },
@@ -263,7 +271,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "prone positioning protocol", target: "/lessons/respiratory-assessment", reason: "nursing intervention" },
     { anchor: "heart failure vs ARDS", target: "/lessons/heart-failure", reason: "differential" },
     { anchor: "DIC from ARDS", target: "/lessons/dic-management-rn", reason: "complication" },
-    { anchor: "RRT Exam Prep – Mechanical Ventilation", target: "/careers/rrt", reason: "ventilator management in ARDS", type: "lesson-to-career", platform: "allied" },
+    { anchor: "RRT Exam Prep – Mechanical Ventilation", target: "/allied-health/rrt", reason: "ventilator management in ARDS", type: "lesson-to-career", platform: "allied" },
     { anchor: "New Grad ICU Survival Guide", target: "/new-grad/nursing", reason: "ARDS patient care for new ICU nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "dic-management-rn": [
@@ -297,8 +305,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "shock & hemorrhage", target: "/lessons/shock-types-recognition-rpn", reason: "indication" },
     { anchor: "hyperkalemia from stored blood", target: "/lessons/hyperkalemia-rn", reason: "electrolyte risk" },
     { anchor: "iron deficiency anemia", target: "/lessons/iron-deficiency-anemia-rpn", reason: "indication" },
-    { anchor: "MLT Exam Prep – Blood Banking", target: "/careers/mlt", reason: "blood typing and crossmatch", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Procedures", target: "/new-grad#clinical-confidence", reason: "blood transfusion checklist for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "MLT Exam Prep – Blood Banking", target: "/allied-health/mlt", reason: "blood typing and crossmatch", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Procedures", target: "/newgrad", reason: "blood transfusion checklist for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "meningitis-basics-rpn": [
     { anchor: "increased ICP management", target: "/lessons/increased-icp", reason: "complication" },
@@ -331,7 +339,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "shock from burn injury", target: "/lessons/shock-types-recognition-rpn", reason: "complication" },
     { anchor: "inhalation injury & ARDS", target: "/lessons/ards-rn", reason: "complication" },
     { anchor: "pain management strategies", target: "/lessons/pain-management-rpn", reason: "nursing care" },
-    { anchor: "Paramedic Exam Prep – Trauma", target: "/careers/paramedic", reason: "prehospital burn assessment", type: "lesson-to-career", platform: "allied" },
+    { anchor: "Paramedic Exam Prep – Trauma", target: "/allied-health/paramedic", reason: "prehospital burn assessment", type: "lesson-to-career", platform: "allied" },
     { anchor: "New Grad Emergency Nursing Tips", target: "/new-grad/nursing", reason: "burn care for new ER nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "anaphylaxis": [
@@ -341,8 +349,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "blood transfusion reactions", target: "/lessons/blood-transfusion-rn", reason: "trigger" },
     { anchor: "IV access & fluid bolus", target: "/lessons/iv-therapy", reason: "treatment" },
     { anchor: "asthma exacerbation", target: "/lessons/asthma-basics-rpn", reason: "differential" },
-    { anchor: "Paramedic Exam Prep – Allergic Emergencies", target: "/careers/paramedic", reason: "prehospital anaphylaxis management", type: "lesson-to-career", platform: "allied" },
-    { anchor: "New Grad Clinical Confidence – Emergency Meds", target: "/new-grad#clinical-confidence", reason: "epinephrine administration for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Paramedic Exam Prep – Allergic Emergencies", target: "/allied-health/paramedic", reason: "prehospital anaphylaxis management", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Clinical Confidence – Emergency Meds", target: "/newgrad", reason: "epinephrine administration for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
   "postpartum-hemorrhage-rn": [
     { anchor: "placental abruption", target: "/lessons/placental-abruption", reason: "antepartum cause" },
@@ -352,7 +360,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "hypovolemic shock management", target: "/lessons/shock-types-recognition-rpn", reason: "emergency" },
     { anchor: "uterine atony interventions", target: "/lessons/iv-therapy", reason: "oxytocin drip" },
     { anchor: "New Grad L&D Readiness", target: "/new-grad/nursing", reason: "PPH management for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "Paramedic Exam Prep – Obstetric Emergencies", target: "/careers/paramedic", reason: "prehospital postpartum hemorrhage", type: "lesson-to-career", platform: "allied" },
+    { anchor: "Paramedic Exam Prep – Obstetric Emergencies", target: "/allied-health/paramedic", reason: "prehospital postpartum hemorrhage", type: "lesson-to-career", platform: "allied" },
   ],
   "placental-abruption": [
     { anchor: "postpartum hemorrhage", target: "/lessons/postpartum-hemorrhage-rn", reason: "complication" },
@@ -369,6 +377,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "hypothyroidism screening", target: "/lessons/hypothyroidism-basics", reason: "medical cause" },
     { anchor: "postpartum depression", target: "/lessons/postpartum-hemorrhage-rn", reason: "OB link" },
     { anchor: "medication safety (SSRIs)", target: "/lessons/medication-administration-safety", reason: "pharmacology" },
+    { anchor: "PTSD & trauma comorbidity", target: "/lessons/ptsd-rn", reason: "trauma-related" },
     { anchor: "Psychotherapist Career Guide", target: "/new-grad/psychotherapist", reason: "therapeutic interventions for depression", type: "lesson-to-career", platform: "new-grad" },
     { anchor: "New Grad Mental Health Nursing Tips", target: "/new-grad/nursing", reason: "depression care for new nurses", type: "lesson-to-newgrad", platform: "new-grad" },
   ],
@@ -419,6 +428,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "anaphylaxis & bronchospasm", target: "/lessons/anaphylaxis", reason: "emergency" },
     { anchor: "oxygen therapy devices", target: "/lessons/oxygen-therapy-basics", reason: "treatment" },
     { anchor: "inhaler technique", target: "/lessons/medication-administration-safety", reason: "patient education" },
+    { anchor: "asthma emergency management", target: "/lessons/asthma-emergency", reason: "acute exacerbation" },
+    { anchor: "pediatric asthma assessment", target: "/lessons/pediatric-asthma-rpn", reason: "pediatric focus" },
   ],
   "pulmonary-embolism-rn": [
     { anchor: "DVT prevention & assessment", target: "/lessons/dvt-pe", reason: "source" },
@@ -673,8 +684,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "IV therapy administration", target: "/lessons/iv-therapy", reason: "parenteral route" },
     { anchor: "pharmacology basics", target: "/lessons/pharmacology-cardio-resp", reason: "drug knowledge" },
     { anchor: "clinical documentation", target: "/lessons/documentation-sbar-dar", reason: "documentation of administration" },
-    { anchor: "New Grad Interview Prep – Patient Safety", target: "/new-grad#interview-lab", reason: "medication error interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
-    { anchor: "Pharmacy Tech Exam Prep", target: "/careers/pharmacy-tech", reason: "medication safety crossover", type: "lesson-to-career", platform: "allied" },
+    { anchor: "New Grad Interview Prep – Patient Safety", target: "/newgrad", reason: "medication error interview questions", type: "lesson-to-newgrad", platform: "new-grad" },
+    { anchor: "Pharmacy Tech Exam Prep", target: "/allied-health/pharmacy-tech", reason: "medication safety crossover", type: "lesson-to-career", platform: "allied" },
   ],
   "copd-exacerbation": [
     { anchor: "COPD baseline management", target: "/lessons/copd-basics-rpn", reason: "chronic management" },
@@ -884,6 +895,9 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "depression screening", target: "/lessons/depression-rn", reason: "comorbidity" },
     { anchor: "cranial nerve assessment", target: "/lessons/cranial-nerve-assessment", reason: "neurological" },
     { anchor: "urinary retention", target: "/lessons/catheterization", reason: "autonomic" },
+    { anchor: "Parkinson's RPN assessment", target: "/lessons/parkinsons-disease-rpn", reason: "RPN assessment focus" },
+    { anchor: "MS differential diagnosis", target: "/lessons/multiple-sclerosis-rn", reason: "neuro differential" },
+    { anchor: "sickle cell disease management", target: "/lessons/sickle-cell-disease-rn", reason: "chronic disease management" },
   ],
   "multiple-sclerosis-rn": [
     { anchor: "cranial nerve deficits", target: "/lessons/cranial-nerve-assessment", reason: "neurological" },
@@ -1251,6 +1265,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "AKI & hepatorenal syndrome", target: "/lessons/aki-management-rn", reason: "complication" },
     { anchor: "DIC risk", target: "/lessons/dic-management-rn", reason: "coagulopathy" },
     { anchor: "nutrition support", target: "/lessons/nutrition-basics", reason: "nutritional management" },
+    { anchor: "cirrhosis pathophysiology", target: "/lessons/cirrhosis", reason: "core liver disease" },
+    { anchor: "pancreatitis complication", target: "/lessons/pancreatitis-rn", reason: "GI complication" },
   ],
   "gi-bleeding-rn": [
     { anchor: "shock & hemorrhage", target: "/lessons/shock-types-recognition-rpn", reason: "hypovolemic shock" },
@@ -1391,7 +1407,7 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
   "resume-builder": [
     { anchor: "IV Therapy Skills Lesson", target: "/lessons/iv-therapy", reason: "brush up on skills to list on your resume", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Cardiac Assessment Lesson", target: "/lessons/cardiac-assessment-ecg", reason: "review assessment skills for resume keywords", type: "newgrad-to-lesson", platform: "nursenest" },
-    { anchor: "Allied Health Career Directory", target: "/careers", reason: "explore allied health career paths", type: "newgrad-to-career", platform: "allied" },
+    { anchor: "Allied Health Career Directory", target: "/healthcare-careers", reason: "explore allied health career paths", type: "newgrad-to-career", platform: "allied" },
   ],
   "clinical-confidence": [
     { anchor: "ABG Interpretation Lesson", target: "/lessons/abg-basics", reason: "master ABGs for clinical confidence", type: "newgrad-to-lesson", platform: "nursenest" },
@@ -1404,11 +1420,11 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "Medication Safety Lesson", target: "/lessons/medication-administration-safety", reason: "medication safety during orientation", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Sepsis Recognition Lesson", target: "/lessons/sepsis", reason: "early sepsis detection skills", type: "newgrad-to-lesson", platform: "nursenest" },
     { anchor: "Heart Failure Lesson", target: "/lessons/heart-failure", reason: "common med-surg diagnosis review", type: "newgrad-to-lesson", platform: "nursenest" },
-    { anchor: "Allied Health Career Exploration", target: "/careers", reason: "explore multidisciplinary team roles", type: "newgrad-to-career", platform: "allied" },
+    { anchor: "Allied Health Career Exploration", target: "/healthcare-careers", reason: "explore multidisciplinary team roles", type: "newgrad-to-career", platform: "allied" },
   ],
   "cover-letter": [
     { anchor: "Nursing Practice Questions", target: "/free-practice", reason: "demonstrate clinical knowledge in applications", type: "newgrad-to-lesson", platform: "nursenest" },
-    { anchor: "Allied Health Career Paths", target: "/careers", reason: "explore alternative healthcare career options", type: "newgrad-to-career", platform: "allied" },
+    { anchor: "Allied Health Career Paths", target: "/healthcare-careers", reason: "explore alternative healthcare career options", type: "newgrad-to-career", platform: "allied" },
   ],
   "rrt": [
     { anchor: "ABG Interpretation Nursing Lesson", target: "/lessons/abg-basics", reason: "foundational ABG concepts", type: "career-to-lesson", platform: "nursenest" },
@@ -1464,6 +1480,8 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
   "diabetes-mellitus": [
     { anchor: "Type 1 vs Type 2 Diabetes", target: "/clinical-comparisons/type-1-vs-type-2-diabetes", reason: "clinical comparison" },
     { anchor: "DKA vs HHS Comparison", target: "/clinical-comparisons/dka-vs-hhs", reason: "complication comparison" },
+    { anchor: "DKA emergency management", target: "/lessons/dka", reason: "acute complication" },
+    { anchor: "diabetic ketoacidosis assessment", target: "/lessons/diabetic-ketoacidosis", reason: "assessment" },
   ],
   "deep-vein-thrombosis": [
     { anchor: "DVT vs PE Comparison", target: "/clinical-comparisons/dvt-vs-pe", reason: "clinical comparison" },

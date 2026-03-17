@@ -679,11 +679,13 @@ export default function ImagingExamSimulatorPage() {
                 </div>
 
                 {currentQuestion.imageUrl && (
-                  <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 bg-gray-900" data-testid="question-image-container">
+                  <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 bg-gray-900" style={{ minHeight: "200px" }} data-testid="question-image-container">
                     <img
                       src={currentQuestion.imageUrl}
                       alt="Radiographic image for this question"
                       className="max-w-full max-h-80 mx-auto object-contain"
+                      loading="lazy"
+                      decoding="async"
                       data-testid="img-question"
                     />
                   </div>
