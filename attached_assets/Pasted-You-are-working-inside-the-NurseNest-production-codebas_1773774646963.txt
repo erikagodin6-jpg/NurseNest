@@ -1,0 +1,207 @@
+You are working inside the NurseNest production codebase.
+
+Your task is to perform a FULL CONTENT INTEGRITY AUDIT and AUTO-REPAIR system for:
+
+1) EMPTY OR THIN LESSONS
+2) QUESTIONS WITH MISSING OR WEAK RATIONALES
+
+This must be done WITHOUT breaking existing structure, UI, or database schema.
+
+--------------------------------------------------
+PRIMARY OBJECTIVE
+--------------------------------------------------
+
+Ensure:
+
+• ZERO empty lessons exist anywhere on the platform
+• ALL published questions (EXCEPT CAT exams) contain HIGH-QUALITY, DEEP RATIONALES
+• ALL fixes are automatically published to the live site
+• NO duplicate content is created
+• NO new categories, routes, or database tables are created
+
+--------------------------------------------------
+SCOPE
+--------------------------------------------------
+
+Apply across ALL:
+
+• Nursing tiers (RPN, RN, NP)
+• Exams (NCLEX-RN, NCLEX-PN, REx-PN, NP exams)
+• Countries (Canada, USA)
+• Languages (ALL supported i18n)
+
+--------------------------------------------------
+PART 1 — LESSON AUDIT + FIX
+--------------------------------------------------
+
+Scan ALL lessons and identify:
+
+• Empty lessons (no content)
+• Placeholder content
+• Thin content (< minimum educational threshold)
+
+For each flagged lesson:
+
+AUTO-GENERATE FULL LESSON CONTENT INCLUDING:
+
+• Clear topic overview
+• Pathophysiology (deep, exam-relevant)
+• Signs and symptoms
+• Risk factors
+• Diagnostics + lab values
+• Medical management
+• Nursing interventions
+• Medications (if applicable)
+• Patient education
+• Clinical pearls / exam tips
+• NGN-style clinical connections where applicable
+
+REQUIREMENTS:
+
+• Must meet NCLEX / REx-PN blueprint standards
+• Must be structured with H1, H2, H3 hierarchy
+• Must include internal links to related topics
+• Must include SEO title + meta description
+• Must include “Medically reviewed by Registered Nurse” section
+
+Then:
+
+• SAVE into existing lesson structure
+• PUBLISH to live site
+• DO NOT create new lesson categories or routes
+
+--------------------------------------------------
+PART 2 — QUESTION RATIONALE AUDIT
+--------------------------------------------------
+
+Scan ALL questions and identify:
+
+• Missing rationale
+• Weak rationale (too short, vague, or incomplete)
+• Incomplete answer explanations
+
+EXCLUDE:
+
+• CAT EXAMS (DO NOT MODIFY CAT QUESTIONS OR RATIONALES)
+
+--------------------------------------------------
+RATIONALE REBUILD REQUIREMENTS
+--------------------------------------------------
+
+For EACH non-CAT question:
+
+Generate:
+
+1) CORRECT ANSWER RATIONALE
+• Explain WHY it is correct
+• Include clinical reasoning
+• Reference pathophysiology when applicable
+
+2) INCORRECT ANSWER BREAKDOWN
+For EACH distractor:
+• Explain WHY it is wrong
+• Include common misconceptions
+• Clarify clinical differences
+
+3) CLINICAL TAKEAWAY
+• High-yield exam insight
+• Memory anchor or pattern recognition tip
+
+4) OPTIONAL (IF APPLICABLE)
+• Lab value interpretation
+• Medication mechanism
+• Safety considerations
+
+--------------------------------------------------
+QUALITY STANDARD (STRICT)
+--------------------------------------------------
+
+Each rationale must:
+
+• Be exam-level depth (NCLEX / NGN standard)
+• Be clear, structured, and clinically accurate
+• Avoid generic statements
+• Avoid repetition
+• Be useful for learning — not just justification
+
+--------------------------------------------------
+VALIDATION BEFORE PUBLISHING
+--------------------------------------------------
+
+Before saving any update:
+
+• Ensure rationale exists for ALL answer choices
+• Ensure no empty fields remain
+• Ensure formatting consistency
+• Ensure translation completeness (if multilingual)
+
+If incomplete:
+• DO NOT publish
+
+--------------------------------------------------
+DATABASE RULES (CRITICAL)
+--------------------------------------------------
+
+• UPDATE existing records ONLY
+• DO NOT create duplicate questions
+• DO NOT create new schemas or collections
+• Maintain all IDs and relationships
+
+--------------------------------------------------
+PUBLISHING RULES
+--------------------------------------------------
+
+• Updates must be immediately visible on:
+  - Practice mode
+  - Exam mode
+  - Question review screens
+
+• Ensure analytics and tracking remain intact
+
+--------------------------------------------------
+FLASHCARD SYNC
+--------------------------------------------------
+
+For each updated question:
+
+• Ensure a linked flashcard exists
+• If missing → auto-generate:
+  - Key concept
+  - Key fact
+  - Memory aid
+
+--------------------------------------------------
+ADMIN PANEL
+--------------------------------------------------
+
+Ensure:
+
+• Updated lessons and questions appear in admin
+• Mark items as:
+  - “Auto-fixed”
+  - “Rationale upgraded”
+• Allow manual review/edit if needed
+
+--------------------------------------------------
+FAIL-SAFE
+--------------------------------------------------
+
+If system detects:
+
+• Risk of overwriting high-quality existing content
+• Structural conflicts
+
+Then:
+• SKIP and flag for manual review
+
+--------------------------------------------------
+FINAL GOAL
+--------------------------------------------------
+
+Achieve:
+
+• ZERO empty lessons
+• ZERO weak or missing rationales (excluding CAT exams)
+• FULLY EDUCATIONAL, EXAM-READY CONTENT ACROSS THE PLATFORM
+
+Begin audit and repair immediately and continue until ALL content meets this standard.
