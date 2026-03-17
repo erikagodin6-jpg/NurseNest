@@ -336,7 +336,8 @@ async function auditSeoMetadata(): Promise<{ issues: HealthIssue[]; audit: SeoAu
             title: `SEO issue on "${page.title || page.slug}"`,
             description: issue,
             url: path,
-            autoFixable: false,
+            autoFixable: issue.includes("Missing canonical"),
+            fixAction: issue.includes("Missing canonical") ? "auto_generate_canonical_page" : undefined,
             detectedAt: now,
           });
         }
@@ -742,6 +743,36 @@ async function attemptAutoRepair(iid: string, fixAction: string): Promise<{ succ
             [canonical, slug]
           );
           return { success: true, message: `Set canonical URL to ${canonical}` };
+        }
+      } catch (e: any) {
+        return { success: false, message: e.message };
+      }
+      return { success: false, message: "Could not determine slug from issue ID" };
+    }
+
+    case "auto_generate_canonical_page": {
+      const base = getSiteBase();
+      try {
+        const parts = iid.split("::");
+        const detail = parts.slice(1).join("::");
+        const slugMatch = detail.match(/^([^:]+):/);
+        if (slugMatch) {
+          const slug = slugMatch[1];
+          const pageResult = await pool.query(
+            `SELECT page_type FROM seo_pages WHERE slug = $1 AND canonical_url IS NULL LIMIT 1`,
+            [slug]
+          );
+          if (pageResult.rows.length > 0) {
+            const pageType = pageResult.rows[0].page_type;
+            const pathSegment = pageType === "specialty" ? "specialties" : pageType === "certification" ? "certifications" : pageType;
+            const canonical = `${base}/${pathSegment}/${slug}`;
+            await pool.query(
+              `UPDATE seo_pages SET canonical_url = $1 WHERE slug = $2 AND canonical_url IS NULL`,
+              [canonical, slug]
+            );
+            return { success: true, message: `Set canonical URL to ${canonical}` };
+          }
+          return { success: false, message: `No seo_page found with slug "${slug}" missing canonical URL` };
         }
       } catch (e: any) {
         return { success: false, message: e.message };
