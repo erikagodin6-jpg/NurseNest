@@ -130,7 +130,7 @@ export default function GeneratorV2Page() {
   const [exam, setExam] = useState("rex-pn");
   const [region, setRegion] = useState("CA");
   const [targetCount, setTargetCount] = useState(250);
-  const [chunkSize, setChunkSize] = useState(15);
+  const [chunkSize, setChunkSize] = useState(5);
   const [topic, setTopic] = useState("Cardiac Pathophysiology");
   const [instructions, setInstructions] = useState("");
   const [difficulty, setDifficulty] = useState("mixed");

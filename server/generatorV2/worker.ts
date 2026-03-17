@@ -479,7 +479,9 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
   let state: PromptState = (gen.promptState as PromptState) || getDefaultPromptState();
   if (!state.byTopic) state.byTopic = {};
 
-  const CHUNK_SIZE = gen.chunkSize || 15;
+  const MAX_CHUNK = 10;
+  const DEFAULT_CHUNK = 5;
+  const CHUNK_SIZE = Math.min(gen.chunkSize || DEFAULT_CHUNK, MAX_CHUNK);
 
   const existingQuestions = await storage.getGeneratedQuestions(generationId);
   const existingHashes = new Set(existingQuestions.map(q => q.hash).filter(Boolean) as string[]);

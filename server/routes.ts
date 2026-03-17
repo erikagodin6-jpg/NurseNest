@@ -450,6 +450,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentCoverageRoutes } = await import("./content-coverage-routes");
   registerContentCoverageRoutes(app);
 
+  const { setupQBankGenerator } = await import("./qbank-generator");
+  setupQBankGenerator(app);
+
   const { registerProfessionPracticeQuestionsRoutes } = await import("./profession-practice-questions-routes");
   registerProfessionPracticeQuestionsRoutes(app);
 
@@ -16798,8 +16801,8 @@ Return ONLY valid JSON with this exact structure:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 15, promptBase, settings, topic, instructions, difficulty = "mixed", questionTypes, tier, themeId } = req.body;
-      if (!targetCount || targetCount < 10) return res.status(400).json({ error: "targetCount must be >= 10" });
+      const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 5, promptBase, settings, topic, instructions, difficulty = "mixed", questionTypes, tier, themeId } = req.body;
+      if (!targetCount || targetCount < 5) return res.status(400).json({ error: "targetCount must be >= 5" });
       const cleanTopic = (topic || "Nursing Pathophysiology").substring(0, 200);
       const gen = await storage.createProductGeneration({
         userId: admin.id,
@@ -16807,7 +16810,7 @@ Return ONLY valid JSON with this exact structure:
         status: "queued",
         targetCount: Math.min(targetCount, 1000),
         createdCount: 0,
-        chunkSize: Math.min(Math.max(chunkSize, 5), 25),
+        chunkSize: Math.min(Math.max(chunkSize, 1), 10),
         promptBase: instructions || promptBase || null,
         topic: cleanTopic,
         examTarget: exam || "rex-pn",
@@ -17400,6 +17403,59 @@ Return ONLY valid JSON with this exact structure:
       });
       await logAudit(req, admin, "generated_question", req.params.qId, "edit", null, { generationId: req.params.id, fields: Object.keys(updateData) });
       res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/publish-to-qbank", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { id } = req.params;
+      const gen = await storage.getProductGeneration(id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+
+      const questions = await storage.getGeneratedQuestions(id);
+      if (questions.length === 0) return res.status(400).json({ error: "No questions to publish" });
+
+      const { normalizeBodySystem, normalizeTier, getExamForTier, normalizeQuestionType, normalizeDifficulty, normalizeTopic } = await import("./taxonomy-normalizer");
+      const settings = (gen.settings as Record<string, any>) || {};
+      const tier = normalizeTier(settings.tier || "rpn");
+      const exam = getExamForTier(tier);
+
+      let inserted = 0;
+      let rejected = 0;
+      const errors: string[] = [];
+
+      for (const q of questions) {
+        try {
+          const bodySystem = normalizeBodySystem(q.system);
+          const topic = await normalizeTopic((q as any).topic || gen.topic);
+          const qType = normalizeQuestionType(q.type);
+          const difficulty = normalizeDifficulty(q.difficulty);
+
+          const result = await pool.query(
+            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, body_system, topic, region_scope, career_type, clinical_pearl, language_code)
+             VALUES ($1, $2, $3, 'draft', $4, $5, $6, $7, $8, $9, $10, 'BOTH', 'nursing', $11, 'en')`,
+            [
+              tier, exam, qType,
+              q.stem, JSON.stringify(q.choices), JSON.stringify(q.correctAnswers),
+              typeof q.rationale === "object" ? (q.rationale as any).correctReasoning || JSON.stringify(q.rationale) : (q.rationale || ""),
+              difficulty, bodySystem, topic,
+              q.examPearl || null,
+            ]
+          );
+          if (result.rowCount && result.rowCount > 0) inserted++;
+        } catch (err: any) {
+          rejected++;
+          if (err.code !== "23505") errors.push(err.message);
+        }
+      }
+
+      await logAudit(req, admin, "generator_v2", id, "publish_to_qbank", null, { inserted, rejected, total: questions.length });
+      console.log(`[GenV2->QBank] Published ${inserted}/${questions.length} questions from generation ${id} to exam_questions (tier=${tier}, exam=${exam})`);
+      res.json({ ok: true, inserted, rejected, total: questions.length, errors: errors.slice(0, 5) });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

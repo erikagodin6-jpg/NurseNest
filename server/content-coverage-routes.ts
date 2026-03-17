@@ -3,6 +3,7 @@ import { requireAdmin } from "./admin-auth";
 import { pool } from "./storage";
 import { loadLessonData, classifyLessonStatus, deriveTier } from "./lesson-content-api";
 import { routeAIRequest, getKillSwitch } from "./ai-provider-router";
+import { normalizeBodySystem, normalizeTier, getExamForTier, normalizeQuestionType, normalizeDifficulty, normalizeTopic } from "./taxonomy-normalizer";
 
 interface CoverageTarget {
   category: string;
@@ -41,8 +42,8 @@ interface CoverageReport {
 const NURSING_TIERS = ["rpn", "rn", "np"];
 const BODY_SYSTEMS = [
   "Cardiovascular", "Respiratory", "Neurological", "Gastrointestinal",
-  "Renal/Urinary", "Endocrine", "Musculoskeletal", "Integumentary",
-  "Hematological", "Immunological", "Reproductive", "Mental Health",
+  "Renal", "Endocrine", "Musculoskeletal", "Integumentary",
+  "Hematology", "Immunological", "Reproductive", "Mental Health",
   "Pediatrics", "Maternal/Newborn"
 ];
 
@@ -120,7 +121,8 @@ async function analyzeCoverage(): Promise<CoverageReport> {
   );
   const systemMap: Record<string, number> = {};
   for (const row of systemCounts.rows) {
-    systemMap[row.body_system] = row.count;
+    const canonical = normalizeBodySystem(row.body_system);
+    systemMap[canonical] = (systemMap[canonical] || 0) + row.count;
   }
   const byBodySystem: CoverageTarget[] = BODY_SYSTEMS.map(sys => {
     const current = systemMap[sys] || 0;
@@ -323,27 +325,34 @@ async function generateQuestionsForGap(params: {
   count: number;
   difficulty?: string;
 }): Promise<GenerationResult> {
+  const startTime = Date.now();
   const result: GenerationResult = { requested: 0, generated: 0, validated: 0, inserted: 0, rejected: 0, errors: [], rejectionReasons: [] };
 
   if (getKillSwitch()) {
     result.errors.push("AI generation kill switch is active");
     result.failureStage = "preflight";
+    console.log(`[ContentGen] ${JSON.stringify({ stage: "preflight", status: "blocked", reason: "kill_switch", timestamp: new Date().toISOString() })}`);
     return result;
   }
 
-  const { tier, bodySystem, topic, difficulty } = params;
+  const normalizedTier = normalizeTier(params.tier);
+  const examValue = getExamForTier(normalizedTier);
+  const normalizedBodySystem = normalizeBodySystem(params.bodySystem);
+  const normalizedTopicName = await normalizeTopic(params.topic);
+  const { difficulty } = params;
   const batchSize = Math.max(1, Math.min(params.count || DEFAULT_BATCH_SIZE, MAX_BATCH_SIZE));
   result.requested = batchSize;
 
-  const tierLabel = tier.toUpperCase();
-  const scopeNote = tier === "rpn" ? "Practical nursing scope (LPN/RPN)" : tier === "rn" ? "Registered Nurse scope" : "Nurse Practitioner scope";
+  const scopeNote = normalizedTier === "rpn" ? "Practical nursing scope (LPN/RPN)" : normalizedTier === "rn" ? "Registered Nurse scope" : "Nurse Practitioner scope";
   const diffDist = difficulty || "30% easy (difficulty 1-2), 50% moderate (difficulty 3), 20% difficult (difficulty 4-5)";
+
+  console.log(`[ContentGen] ${JSON.stringify({ stage: "start", tier: normalizedTier, exam: examValue, bodySystem: normalizedBodySystem, topic: normalizedTopicName, batchSize, timestamp: new Date().toISOString() })}`);
 
   const systemPrompt = `You are a senior nursing exam psychometrician generating NCLEX-style questions.
 Scope: ${scopeNote}
 Target difficulty distribution: ${diffDist}
 
-IMPORTANT: Return ONLY a valid JSON array. No markdown fences, no commentary, no text before or after the array.
+IMPORTANT: Return ONLY a valid JSON object with an "items" array. No markdown fences, no commentary.
 Generate exactly ${batchSize} question objects. Each object must have this exact schema:
 {
   "stem": "clinical vignette with patient demographics, vitals, assessment findings (min 80 chars)",
@@ -352,78 +361,80 @@ Generate exactly ${batchSize} question objects. Each object must have this exact
   "rationale": "detailed explanation (min 150 words) - why correct, why each wrong",
   "clinicalPearl": "exam-relevant insight",
   "difficulty": 3,
-  "bodySystem": "${bodySystem || 'appropriate system'}",
-  "topic": "${topic || 'appropriate topic'}",
+  "bodySystem": "${normalizedBodySystem}",
+  "topic": "${normalizedTopicName || 'appropriate topic'}",
   "subtopic": "specific subtopic",
   "questionType": "MCQ",
   "tags": ["tag1","tag2"]
-}`;
+}
 
-  const userPrompt = `Generate exactly ${batchSize} unique clinical exam questions for ${tierLabel} nursing students.
-${bodySystem ? `Body System: ${bodySystem}` : ""}
-${topic ? `Topic: ${topic}` : ""}
-Each question must have a distinct clinical scenario. Return ONLY a JSON array of ${batchSize} objects.`;
+Return JSON: {"items": [...]}`;
 
-  console.log(`[generator:start] questions tier=${tier} bodySystem=${bodySystem || "any"} topic=${topic || "any"} batchSize=${batchSize}`);
+  const userPrompt = `Generate exactly ${batchSize} unique clinical exam questions for ${normalizedTier.toUpperCase()} nursing students.
+${normalizedBodySystem !== "Multi-system" ? `Body System: ${normalizedBodySystem}` : ""}
+${normalizedTopicName ? `Topic: ${normalizedTopicName}` : ""}
+Each question must have a distinct clinical scenario. Return a JSON object with an "items" array of ${batchSize} objects.`;
 
   try {
     const aiResult = await routeAIRequest(systemPrompt, userPrompt, {
       model: "gpt-4o-mini",
       maxTokens: Math.min(batchSize * 1200, 16000),
       temperature: 0.7,
-      taskType: "content",
+      responseFormat: { type: "json_object" },
+      taskType: "qbank",
       feature: "coverage-gap-generator",
     });
-    console.log(`[generator:provider_response] content length=${aiResult.content.length} tokens=${aiResult.tokensUsed}`);
+    console.log(`[ContentGen] ${JSON.stringify({ stage: "provider_response", contentLength: aiResult.content.length, tokens: aiResult.tokensUsed, provider: aiResult.providerName, latencyMs: aiResult.latencyMs })}`);
 
     let questions: any[] = [];
     try {
       questions = parseAIJsonArray(aiResult.content);
     } catch (parseErr: any) {
-      console.error(`[generator:parse_error]`, parseErr.message);
+      console.error(`[ContentGen] ${JSON.stringify({ stage: "parse", status: "error", error: parseErr.message })}`);
       result.errors.push(`Parse failed: ${parseErr.message}`);
       result.failureStage = "parse";
       return result;
     }
     result.generated = questions.length;
-    console.log(`[generator:parse_result] parsed ${questions.length} questions`);
+    console.log(`[ContentGen] ${JSON.stringify({ stage: "parse_result", parsed: questions.length })}`);
 
-    for (const q of questions) {
-      const validation = validateQuestion(q, bodySystem, topic);
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      const validation = validateQuestion(q, normalizedBodySystem, normalizedTopicName || undefined);
       if (!validation.valid) {
         result.rejected++;
         result.rejectionReasons!.push(validation.reason || "unknown");
-        console.log(`[generator:validation_reject] ${validation.reason}`);
+        console.log(`[ContentGen] ${JSON.stringify({ stage: "validation_reject", index: i, reason: validation.reason })}`);
         continue;
       }
       result.validated++;
 
-      const normalizedType = (q.questionType || "MCQ").toUpperCase() === "MULTIPLE_CHOICE" ? "MCQ" : (q.questionType || "MCQ");
+      const qType = normalizeQuestionType(q.questionType);
+      const qDifficulty = normalizeDifficulty(q.difficulty);
+      const qBodySystem = normalizeBodySystem(q.bodySystem || params.bodySystem);
+      const qTopic = await normalizeTopic(q.topic || params.topic);
 
       try {
         const insertResult = await pool.query(
-          `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, clinical_pearl)
-           VALUES ($1, $2, $3, 'draft', $4, $5, $6, $7, $8, $9, $10, $11, $12, 'BOTH', 'nursing', $13)
-           ON CONFLICT DO NOTHING`,
+          `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, clinical_pearl, language_code)
+           VALUES ($1, $2, $3, 'draft', $4, $5, $6, $7, $8, $9, $10, $11, $12, 'BOTH', 'nursing', $13, 'en')`,
           [
-            tier, `${tier.toUpperCase()}-CAT`, normalizedType,
+            normalizedTier, examValue, qType,
             q.stem, JSON.stringify(q.options), JSON.stringify(q.correctAnswer || "A"),
-            q.rationale || "", q.difficulty || 3, q.tags || [],
-            q.bodySystem || bodySystem || null, q.topic || topic || null,
+            q.rationale || "", qDifficulty, q.tags || [],
+            qBodySystem, qTopic,
             q.subtopic || null, q.clinicalPearl || null,
           ]
         );
         if (insertResult.rowCount && insertResult.rowCount > 0) {
           result.inserted++;
-        } else {
-          result.rejected++;
-          result.rejectionReasons!.push("duplicate (ON CONFLICT)");
+          console.log(`[ContentGen] ${JSON.stringify({ stage: "db_insert", status: "ok", index: i, tier: normalizedTier, topic: qTopic, bodySystem: qBodySystem })}`);
         }
       } catch (err: any) {
         result.rejected++;
         result.rejectionReasons!.push(`db_insert: ${err.message}`);
         if (err.code !== "23505") result.errors.push(`DB: ${err.message}`);
-        console.error(`[generator:db_insert_error]`, err.message);
+        console.error(`[ContentGen] ${JSON.stringify({ stage: "db_insert", status: "error", index: i, error: err.message, code: err.code })}`);
       }
     }
 
@@ -433,10 +444,12 @@ Each question must have a distinct clinical scenario. Return ONLY a JSON array o
       result.failureStage = "db_insert";
     }
 
-    console.log(`[generator:final_result] requested=${result.requested} generated=${result.generated} validated=${result.validated} inserted=${result.inserted} rejected=${result.rejected}`);
+    const elapsed = Date.now() - startTime;
+    console.log(`[ContentGen] ${JSON.stringify({ stage: "complete", tier: normalizedTier, topic: normalizedTopicName, bodySystem: normalizedBodySystem, requested: result.requested, generated: result.generated, validated: result.validated, inserted: result.inserted, rejected: result.rejected, failureStage: result.failureStage || null, errors: result.errors.length > 0 ? result.errors : undefined, elapsedMs: elapsed, timestamp: new Date().toISOString() })}`);
     return result;
   } catch (err: any) {
-    console.error(`[generator:error]`, err.message);
+    const elapsed = Date.now() - startTime;
+    console.error(`[ContentGen] ${JSON.stringify({ stage: "provider_request", status: "error", error: err.message, tier: normalizedTier, topic: normalizedTopicName, elapsedMs: elapsed, timestamp: new Date().toISOString() })}`);
     result.errors.push(err.message);
     result.failureStage = "provider_request";
     return result;
