@@ -1,6 +1,21 @@
 import { Link } from "wouter";
 import { ALLIED_HEALTH_CAREERS, PRE_NURSING_GOAL, NEW_GRAD_GOAL } from "@shared/platform-manifest";
 import { Briefcase, GraduationCap, BookOpen, ArrowRight } from "lucide-react";
+import { getQuestionCount, getQuestionCountDisplay } from "@/data/career-questions/question-counts";
+
+function getSlugFromRoute(route: string): string {
+  return route.split("/").pop() || "";
+}
+
+function computeCountRange(careers: typeof ALLIED_HEALTH_CAREERS): string {
+  const counts = careers.map((c) => getQuestionCount(getSlugFromRoute(c.route))).filter((n) => n > 0);
+  if (counts.length === 0) return "Coming Soon";
+  const min = Math.min(...counts);
+  const max = Math.max(...counts);
+  const roundDown = (n: number) => Math.floor(n / 100) * 100;
+  if (min === max) return `${roundDown(min).toLocaleString()}+ questions each`;
+  return `${roundDown(min).toLocaleString()} to ${roundDown(max).toLocaleString()}+ questions each`;
+}
 
 export default function HeroAlliedHealth() {
   const majorCareers = ALLIED_HEALTH_CAREERS.filter((c) => c.tier === "major");
@@ -87,52 +102,70 @@ export default function HeroAlliedHealth() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Major Careers — 3,000 to 5,000 questions each</h3>
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Major Careers — {computeCountRange(majorCareers)}</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {majorCareers.map((career) => (
-                  <Link
-                    key={career.label}
-                    href={career.route}
-                    className="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-200 hover:-translate-y-0.5 p-4 no-underline"
-                    data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()\/]/g, "-")}`}
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                      <Briefcase className="w-5 h-5 text-teal-600" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
-                      <p className="text-xs text-gray-500">
-                        <span className="font-semibold text-gray-700">{career.goalQuestions.toLocaleString()}+</span> questions
-                      </p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
-                  </Link>
-                ))}
+                {majorCareers.map((career) => {
+                  const slug = getSlugFromRoute(career.route);
+                  const count = getQuestionCount(slug);
+                  const display = getQuestionCountDisplay(slug);
+                  return (
+                    <Link
+                      key={career.label}
+                      href={career.route}
+                      className="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-200 hover:-translate-y-0.5 p-4 no-underline"
+                      data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()\/]/g, "-")}`}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                        <Briefcase className="w-5 h-5 text-teal-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
+                        <p className="text-xs text-gray-500">
+                          {count > 0 ? (
+                            <><span className="font-semibold text-gray-700">{display}</span> questions</>
+                          ) : (
+                            <span className="font-semibold text-amber-600">Coming Soon</span>
+                          )}
+                        </p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mid-Size Careers — 2,000 to 3,500 questions each</h3>
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mid-Size Careers — {computeCountRange(midCareers)}</h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {midCareers.map((career) => (
-                  <Link
-                    key={career.label}
-                    href={career.route}
-                    className="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-200 hover:-translate-y-0.5 p-4 no-underline"
-                    data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()\/]/g, "-")}`}
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
-                      <Briefcase className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
-                      <p className="text-xs text-gray-500">
-                        <span className="font-semibold text-gray-700">{career.goalQuestions.toLocaleString()}+</span> questions
-                      </p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
-                  </Link>
-                ))}
+                {midCareers.map((career) => {
+                  const slug = getSlugFromRoute(career.route);
+                  const count = getQuestionCount(slug);
+                  const display = getQuestionCountDisplay(slug);
+                  return (
+                    <Link
+                      key={career.label}
+                      href={career.route}
+                      className="group flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-200 hover:-translate-y-0.5 p-4 no-underline"
+                      data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()\/]/g, "-")}`}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                        <Briefcase className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
+                        <p className="text-xs text-gray-500">
+                          {count > 0 ? (
+                            <><span className="font-semibold text-gray-700">{display}</span> questions</>
+                          ) : (
+                            <span className="font-semibold text-amber-600">Coming Soon</span>
+                          )}
+                        </p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

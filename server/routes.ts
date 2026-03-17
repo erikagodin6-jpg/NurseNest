@@ -624,6 +624,22 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  let _alliedHealthTotalCache: number | null = null;
+  function getAlliedHealthTotal(): number {
+    if (_alliedHealthTotalCache !== null) return _alliedHealthTotalCache;
+    try {
+      const manifestPath = nodePath.resolve(process.cwd(), "client/src/data/career-questions/question-manifest.json");
+      const questionManifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+      _alliedHealthTotalCache = Object.values(questionManifest.static.alliedHealth as Record<string, { total: number }>).reduce(
+        (sum: number, entry: { total: number }) => sum + entry.total, 0
+      );
+    } catch (e) {
+      console.error("[AlliedHealth] Failed to load question manifest:", e);
+      _alliedHealthTotalCache = 0;
+    }
+    return _alliedHealthTotalCache;
+  }
+
   let heroStatsCache: { data: any; timestamp: number } | null = null;
   const HERO_CACHE_TTL = 10 * 60 * 1000;
 
@@ -634,6 +650,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       }
 
       const { tierCounts } = await import("@shared/tier-counts");
+      const alliedHealthTotal = getAlliedHealthTotal();
 
       const dbResult = await pool.query(`
         SELECT
@@ -674,7 +691,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const storeQuestionCount = Number(store.store_questions);
       const storeProductCount = Number(store.store_products);
       const examQuestionCount = Number(eq.total_eq);
-      const totalQuestions = tierCounts.questionCount + storeQuestionCount + examQuestionCount;
+      const totalQuestions = tierCounts.questionCount + storeQuestionCount + examQuestionCount + alliedHealthTotal;
 
       const stats = {
         rpnLessons,
@@ -700,6 +717,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
           rnExamQ: Number(eq.rn_eq),
           npExamQ: Number(eq.np_eq),
           totalExamQ: examQuestionCount,
+          alliedHealthStatic: alliedHealthTotal,
         },
       };
 
@@ -761,6 +779,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     heroStatsCache = null;
     platformProofCache = null;
     tierQuestionCountsCache = null;
+    _alliedHealthTotalCache = null;
     res.json({ ok: true });
   });
 
@@ -774,6 +793,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       }
 
       const { tierCounts } = await import("@shared/tier-counts");
+      const ppAlliedHealthTotal = getAlliedHealthTotal();
 
       const [dbLessons, storeData, examQ, flashcardCount, deckCount] = await Promise.all([
         pool.query(`
@@ -809,7 +829,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         (tierCounts.np + Number(db.np_db)) +
         (tierCounts.free + Number(db.free_db));
 
-      const totalQuestions = tierCounts.questionCount + Number(store.store_questions) + Number(eq.total_eq);
+      const totalQuestions = tierCounts.questionCount + Number(store.store_questions) + Number(eq.total_eq) + ppAlliedHealthTotal;
 
       const proof = {
         totalQuestions,

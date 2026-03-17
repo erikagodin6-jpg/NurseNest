@@ -25,6 +25,8 @@ export const CAREER_SLUG_TO_KEY: Record<string, string> = {
   "socialWorker": "socialWorker",
   "addictions-counsellor": "addictionsCounsellor",
   "addictionsCounsellor": "addictionsCounsellor",
+  "social-work": "socialWorker",
+  "psychotherapy": "psychotherapist",
   "surgical-technologist": "surgicalTechnologist",
   "surgicalTechnologist": "surgicalTechnologist",
   "diagnostic-sonography": "diagnosticSonography",
