@@ -532,6 +532,27 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     `);
 
     await client.query(`
+      ALTER TABLE ai_jobs
+        ADD COLUMN IF NOT EXISTS tier text,
+        ADD COLUMN IF NOT EXISTS content_type text,
+        ADD COLUMN IF NOT EXISTS model text DEFAULT 'gpt-4o-mini',
+        ADD COLUMN IF NOT EXISTS model_tier text DEFAULT 'cheapest',
+        ADD COLUMN IF NOT EXISTS batch_size integer DEFAULT 25,
+        ADD COLUMN IF NOT EXISTS spend_cap double precision,
+        ADD COLUMN IF NOT EXISTS duplicate_protection boolean DEFAULT true,
+        ADD COLUMN IF NOT EXISTS dry_run boolean DEFAULT false,
+        ADD COLUMN IF NOT EXISTS topic text,
+        ADD COLUMN IF NOT EXISTS specialty text,
+        ADD COLUMN IF NOT EXISTS framework text,
+        ADD COLUMN IF NOT EXISTS current_stage text,
+        ADD COLUMN IF NOT EXISTS items_failed integer DEFAULT 0,
+        ADD COLUMN IF NOT EXISTS retry_count integer DEFAULT 0,
+        ADD COLUMN IF NOT EXISTS max_retries integer DEFAULT 3,
+        ADD COLUMN IF NOT EXISTS paused_at timestamptz,
+        ADD COLUMN IF NOT EXISTS resumed_at timestamptz
+    `);
+
+    await client.query(`
       CREATE TABLE IF NOT EXISTS ai_spend_tracking (
         id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
         job_id varchar,

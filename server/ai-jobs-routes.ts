@@ -129,7 +129,13 @@ export function registerAiJobsRoutes(app: Express): void {
       });
       res.json({ id, message: "Job created. Use POST /api/admin/ai-jobs/:id/start to begin." });
     } catch (e: any) {
-      res.status(400).json({ error: e.message });
+      console.error("[AI Jobs] Failed to create job:", e);
+      const isDbError = e.code || e.message?.includes("column") || e.message?.includes("relation") || e.message?.includes("syntax");
+      if (isDbError) {
+        res.status(500).json({ error: "Unable to create AI job — please try again. If the problem persists, contact support." });
+      } else {
+        res.status(400).json({ error: e.message || "Failed to create AI job" });
+      }
     }
   });
 
