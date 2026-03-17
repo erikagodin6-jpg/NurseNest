@@ -383,7 +383,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700" data-testid="badge-evidence-based">
                     <Shield className="w-3.5 h-3.5" />
-                    {t("hero.badge.evidenceBased")}
+                    {(() => { const v = t("hero.badge.evidenceBased"); return v === "hero.badge.evidenceBased" ? "Evidence-Based Learning" : v; })()}
                   </div>
                   <h1 className="font-bold tracking-tight text-gray-900 leading-[1.08]" style={{ fontSize: 'var(--text-hero)' }} data-testid="text-hero-heading">
                     {t("home.hero.mainTitle")}
