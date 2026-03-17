@@ -513,6 +513,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerBackupRoutes } = await import("./backup-routes");
   registerBackupRoutes(app);
 
+  const { registerExamBlueprintSeoRoutes } = await import("./exam-blueprint-seo-routes");
+  registerExamBlueprintSeoRoutes(app);
+
   const { registerUniversalGeneratorRoutes } = await import("./universal-generator-routes");
   registerUniversalGeneratorRoutes(app);
 

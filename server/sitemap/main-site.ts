@@ -552,6 +552,32 @@ export async function generateMainTopics(): Promise<string[]> {
   return urls;
 }
 
+export async function generateExamBlueprintSeoPages(): Promise<string[]> {
+  const base = getSiteBase();
+  const today = todayDate();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  const blueprintRoutes = [
+    { path: "/nclex/cardiac-questions", priority: "0.8" },
+    { path: "/nclex/pharmacology-practice", priority: "0.8" },
+    { path: "/nclex/respiratory-questions", priority: "0.8" },
+    { path: "/nclex/mental-health-questions", priority: "0.8" },
+    { path: "/rex-pn/pharmacology-practice", priority: "0.8" },
+    { path: "/rex-pn/clinical-practice-questions", priority: "0.8" },
+    { path: "/rex-pn/professional-practice-questions", priority: "0.8" },
+    { path: "/np-exam/primary-care-questions", priority: "0.8" },
+    { path: "/np-exam/pharmacology-advanced", priority: "0.8" },
+    { path: "/np-exam/differential-diagnosis", priority: "0.8" },
+  ];
+
+  for (const route of blueprintRoutes) {
+    urls.push(localizedUrl(base, route.path, route.priority, "weekly", locales, today));
+  }
+
+  return urls;
+}
+
 export async function generateSeoContentPages(): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();

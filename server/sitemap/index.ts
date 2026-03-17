@@ -11,7 +11,7 @@ import {
   generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
   generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
   generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
-  generateSeoContentPages
+  generateSeoContentPages, generateExamBlueprintSeoPages
 } from "./main-site";
 import {
   generateAlliedPages, generateAlliedDatabaseContent,
@@ -75,6 +75,7 @@ const mainSitemapDefs: SitemapDef[] = [
   { name: "topics", generator: generateMainTopics },
   { name: "programmatic", generator: generateMainProgrammatic },
   { name: "seo-content-pages", generator: generateSeoContentPages },
+  { name: "exam-blueprint-seo", generator: generateExamBlueprintSeoPages },
   { name: "allied-health", generator: generateAlliedCombined },
 ];
 

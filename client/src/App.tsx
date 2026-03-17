@@ -444,6 +444,7 @@ const RadiographyReadinessQuiz = lazy(() => import("@/pages/radiography-readines
 const ImagingMarketingDashboard = lazy(() => import("@/pages/imaging-marketing-dashboard"));
 const DemoWeakAreas = lazy(() => import("@/pages/demo-weak-areas"));
 const DemoStudyPlanPage = lazy(() => import("@/pages/demo-study-plan"));
+const ExamBlueprintPage = lazy(() => import("@/pages/exam-blueprint-page"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
 const ExamReadinessPage = lazy(() => import("@/pages/exam-readiness"));
 const AdminReadinessAnalytics = lazy(() => import("@/pages/admin-readiness-analytics"));
@@ -1229,6 +1230,16 @@ function AppRoutes() {
         <Route path="/pharmacology/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pharmacology/faq" component={PharmacologyHub} />
         <Route path="/pharmacology" component={PharmacologyHub} />
+        <Route path="/nclex/cardiac-questions" component={ExamBlueprintPage} />
+        <Route path="/nclex/pharmacology-practice" component={ExamBlueprintPage} />
+        <Route path="/nclex/respiratory-questions" component={ExamBlueprintPage} />
+        <Route path="/nclex/mental-health-questions" component={ExamBlueprintPage} />
+        <Route path="/rex-pn/pharmacology-practice" component={ExamBlueprintPage} />
+        <Route path="/rex-pn/clinical-practice-questions" component={ExamBlueprintPage} />
+        <Route path="/rex-pn/professional-practice-questions" component={ExamBlueprintPage} />
+        <Route path="/np-exam/primary-care-questions" component={ExamBlueprintPage} />
+        <Route path="/np-exam/pharmacology-advanced" component={ExamBlueprintPage} />
+        <Route path="/np-exam/differential-diagnosis" component={ExamBlueprintPage} />
         <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
         <Route path="/nclex-pn/mock-exam" component={ExamLandingPage} />
         <Route path="/rex-pn/mock-exam" component={ExamLandingPage} />
