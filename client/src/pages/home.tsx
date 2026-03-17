@@ -367,8 +367,8 @@ export default function Home() {
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-              <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center lg:items-start">
+              <div className="space-y-6 lg:space-y-5 md:animate-in md:fade-in md:slide-in-from-bottom-8 md:duration-700">
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" data-testid="badge-trust-micro">
                     <Award className="w-3.5 h-3.5 text-primary shrink-0" />

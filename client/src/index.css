@@ -53,6 +53,13 @@ img:not([loading]) {
   --shadow-pricing-hover: 0 12px 40px -8px rgba(0,0,0,0.1), 0 4px 16px -4px rgba(0,0,0,0.05);
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --space-hero-top: clamp(1.5rem, 2.5vw, 2rem);
+    --space-hero-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+}
+
 /* Theme Definitions - Using [data-theme] for maximum stability with next-themes */
 :root, [data-theme="lavender"] {
   --theme-primary: #9d82dd;
