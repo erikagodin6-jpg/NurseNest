@@ -1,0 +1,253 @@
+You are redesigning the pricing architecture for the NurseNest production codebase.
+
+GOAL
+
+Move to one unified pricing page that shows all pricing across the platform in a clean, premium, conversion-focused layout.
+
+I want users to be able to see all prices on one page instead of being routed to separate pricing pages for Nursing, Allied Health, or other sections.
+
+PRIMARY OUTCOME
+
+Create a single canonical pricing page that includes all relevant offerings in one place, while keeping the experience organized and easy to understand.
+
+This pricing page should support:
+- Nursing pricing
+- Allied Health pricing
+- New Grad / career support pricing if applicable
+- Certification / add-on pricing if applicable
+- One-time products and subscription options where relevant
+
+DO NOT:
+- do not create a cluttered wall of cards with no structure
+- do not leave old section-specific pricing links broken
+- do not remove important section context
+- do not create duplicate/conflicting pricing routes
+- do not break mobile usability
+- do not bury the main conversion CTA
+
+==================================================
+PART 1 — CREATE ONE CANONICAL PRICING ROUTE
+==================================================
+
+Implement one canonical pricing page/route for the entire platform.
+
+Examples:
+- /pricing
+or the existing canonical route if one already exists
+
+Requirements:
+- all site sections should link to this one pricing page
+- old section-specific pricing routes should either redirect cleanly to the canonical pricing page or be retired safely
+- no orphaned or conflicting pricing pages should remain live unless intentionally needed for SEO and properly canonicalized
+
+==================================================
+PART 2 — INFORMATION ARCHITECTURE FOR THE PAGE
+==================================================
+
+Design the unified pricing page so it is easy to scan and conversion-focused.
+
+Recommended structure:
+
+1. Hero/header
+- simple headline
+- short subheadline
+- reassurance/trust copy
+- optional toggle for monthly / one-time / bundles if applicable
+
+2. Section selector / tabs / anchored chips
+- Nursing
+- Allied Health
+- New Grad
+- Certifications / Add-Ons (if relevant)
+
+3. Pricing blocks by category
+Within each section, group offers logically:
+- core subscriptions
+- exam prep bundles
+- premium features
+- one-time digital products
+- add-ons
+
+4. Comparison/help section
+- what each plan includes
+- who it is for
+- quick FAQ
+- refund/access notes if applicable
+
+5. CTA/footer section
+- strong conversion CTA
+- contact/help for unsure buyers
+
+==================================================
+PART 3 — MAKE IT SECTION-AWARE WITHOUT SPLITTING PAGES
+==================================================
+
+Even though there is now one pricing page, preserve source context.
+
+If a user clicks Pricing from:
+- Nursing pages
+- Allied Health pages
+- New Grad pages
+
+Then the unified pricing page should:
+- open with that relevant category preselected, highlighted, or scrolled into view
+- still allow the user to browse all other offerings on the same page
+
+Possible implementation patterns:
+- query param like /pricing?section=allied
+- hash anchor like /pricing#allied
+- internal tab state seeded from route context
+
+Use the cleanest production-safe approach.
+
+==================================================
+PART 4 — MIGRATE ALL NAV LINKS
+==================================================
+
+Update all Pricing links across:
+- nursing header
+- allied header
+- new grad header
+- mobile menus
+- footer links
+- CTA buttons that point to pricing
+
+They should all route to the single pricing page.
+
+But preserve contextual opening state as described above.
+
+Examples:
+- Allied Pricing nav -> /pricing?section=allied
+- Nursing Pricing nav -> /pricing?section=nursing
+
+==================================================
+PART 5 — CONTENT / CARD REQUIREMENTS
+==================================================
+
+For each pricing card or plan block, show clearly:
+- product/plan name
+- price
+- billing frequency if recurring
+- short description
+- key inclusions
+- target audience
+- CTA button
+- badge like Most Popular / Best for NCLEX / Best for Allied / Career Starter where appropriate
+
+If products are sold through Stripe:
+- ensure buttons map to the correct checkout/product
+- do not break existing purchase flows
+
+If some offers are one-time and some are recurring:
+- make that distinction obvious visually and textually
+
+==================================================
+PART 6 — CLEAN UP LEGACY PRICING ARCHITECTURE
+==================================================
+
+Audit and fix old pricing routes/pages.
+
+If legacy routes exist such as:
+- /nursing/pricing
+- /allied/pricing
+- /new-grad/pricing
+or equivalents
+
+Then either:
+A. redirect them to the canonical pricing route with context preserved
+or
+B. keep them only if necessary, but canonicalize to the unified pricing page and avoid duplicate/conflicting UX
+
+No dead links.
+No section accidentally opening the wrong page.
+No duplicate pricing pages competing with each other.
+
+==================================================
+PART 7 — DESIGN / UX REQUIREMENTS
+==================================================
+
+The page must feel premium and easy to compare.
+
+Requirements:
+- clean spacing
+- clear section dividers
+- strong hierarchy
+- not overly busy
+- mobile-friendly stacking
+- sticky section selector on mobile if helpful
+- accessible contrast and readable pricing
+- obvious CTA buttons
+
+If there are many offers, use:
+- tabs
+- accordions
+- segmented controls
+- anchor navigation
+- progressive disclosure
+
+Do not overwhelm the user.
+
+==================================================
+PART 8 — SEO / TECHNICAL
+==================================================
+
+Because pricing is now unified:
+- set one canonical pricing URL
+- update meta title/description
+- update sitemap if needed
+- update internal links
+- prevent duplicate pricing pages from competing in search
+- maintain correct analytics tracking for source section
+
+Track where users came from, such as:
+- nursing
+- allied
+- new grad
+
+So conversion attribution remains useful.
+
+==================================================
+PART 9 — QA CHECKLIST
+==================================================
+
+Test all of the following:
+
+1. Nursing header Pricing
+- opens unified pricing page
+- nursing section highlighted by default
+
+2. Allied header Pricing
+- opens unified pricing page
+- allied section highlighted by default
+
+3. New Grad header Pricing
+- opens unified pricing page
+- new grad section highlighted by default
+
+4. Mobile nav pricing links
+- same behavior
+
+5. Legacy pricing URLs
+- redirect or resolve correctly
+
+6. CTA buttons on pricing cards
+- go to correct checkout/product
+
+7. Page refresh with query/hash
+- preserves selected section
+
+8. No duplicate/confusing pricing pages remain
+
+==================================================
+PART 10 — FINAL DELIVERABLE
+==================================================
+
+Implement the unified pricing system cleanly.
+
+Required end state:
+- one pricing page for all site offerings
+- all prices visible in one organized place
+- all nav pricing links route there
+- section context is preserved
+- purchase flows still work correctly
+- mobile and desktop both work well
