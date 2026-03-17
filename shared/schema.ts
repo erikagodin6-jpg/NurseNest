@@ -6366,3 +6366,49 @@ export const insertNewGradMockInterviewTestSchema = createInsertSchema(newGradMo
 });
 export type NewGradMockInterviewTest = typeof newGradMockInterviewTests.$inferSelect;
 export type InsertNewGradMockInterviewTest = z.infer<typeof insertNewGradMockInterviewTestSchema>;
+
+export const SEO_HUB_TIERS = ["rex-pn", "nclex-rn", "np-exam"] as const;
+export type SeoHubTier = typeof SEO_HUB_TIERS[number];
+
+export const SEO_HUB_PAGE_TYPES = [
+  "condition", "lab-value", "medication", "comparison",
+  "strategy", "question-bank-landing", "study-plan",
+  "pharmacology", "exam-tips", "top-conditions",
+] as const;
+export type SeoHubPageType = typeof SEO_HUB_PAGE_TYPES[number];
+
+export const seoHubPages = pgTable("seo_hub_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tier: text("tier").notNull(),
+  pageType: text("page_type").notNull(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  metaKeywords: text("meta_keywords").array().default(sql`'{}'::text[]`),
+  h1: text("h1"),
+  contentSections: jsonb("content_sections").default(sql`'[]'::jsonb`),
+  faqItems: jsonb("faq_items").default(sql`'[]'::jsonb`),
+  internalLinks: jsonb("internal_links").default(sql`'[]'::jsonb`),
+  parentHub: text("parent_hub"),
+  relatedSlugs: text("related_slugs").array().default(sql`'{}'::text[]`),
+  language: text("language").default("en"),
+  status: text("status").default("draft"),
+  medicallyReviewedBy: text("medically_reviewed_by"),
+  medicallyReviewedAt: timestamp("medically_reviewed_at"),
+  lastUpdatedDate: text("last_updated_date"),
+  references: jsonb("references").default(sql`'[]'::jsonb`),
+  practiceQuestionIds: text("practice_question_ids").array().default(sql`'{}'::text[]`),
+  structuredDataType: text("structured_data_type").default("Article"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSeoHubPageSchema = createInsertSchema(seoHubPages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type SeoHubPage = typeof seoHubPages.$inferSelect;
+export type InsertSeoHubPage = z.infer<typeof insertSeoHubPageSchema>;

@@ -539,6 +539,18 @@ export async function generateMainProgrammatic(): Promise<string[]> {
   const today = todayDate();
   const urls: string[] = [];
 
+  try {
+    const locales = getIndexableLocales();
+    const hubResult = await pool.query(
+      "SELECT slug, updated_at FROM seo_hub_pages WHERE status = 'published' ORDER BY slug"
+    );
+    for (const row of hubResult.rows) {
+      urls.push(localizedUrl(base, `/${row.slug}`, "0.7", "weekly", locales, toLastmod(row.updated_at)));
+    }
+  } catch (e) {
+    console.error("Sitemap: seo_hub_pages query error:", e);
+  }
+
   const programmaticSitemapTypes: Record<string, string> = {
     "study-guide": "study-guide",
     "exam-tips": "exam-tips",

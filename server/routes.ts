@@ -444,6 +444,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerProgrammaticSeoRoutes } = await import("./programmatic-seo-engine");
   registerProgrammaticSeoRoutes(app);
 
+  const { registerSeoHubRoutes } = await import("./seo-hub-routes");
+  registerSeoHubRoutes(app);
+
   const { registerAnalyticsDashboardRoutes } = await import("./analytics-dashboard-routes");
   registerAnalyticsDashboardRoutes(app);
 

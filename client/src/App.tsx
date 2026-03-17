@@ -232,6 +232,7 @@ const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
 const NpExamPrepPillar = lazy(() => import("@/pages/np-exam-prep-pillar"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
+const SeoHubPage = lazy(() => import("@/pages/seo-hub-page"));
 const NpExamHubPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.NpExamHubPage })));
 const AanpExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AanpExamPage })));
 const AnccExamPage = lazy(() => import("@/pages/np-exam-pages").then(m => ({ default: m.AnccExamPage })));
@@ -950,6 +951,10 @@ function AppRoutes() {
         <Route path="/compare/best-rex-pn-prep">{() => <SeoLandingBySlug slug="compare/best-rex-pn-prep" />}</Route>
         <Route path="/compare/uworld-alternative-nursing">{() => <SeoLandingBySlug slug="compare/uworld-alternative-nursing" />}</Route>
         <Route path="/compare/:slug" component={ComparePage} />
+        <Route path="/nclex-rn/mock-exam" component={ExamLandingPage} />
+        <Route path="/nclex-rn/:rest*" component={SeoHubPage} />
+        <Route path="/np-exam-prep/:rest*" component={SeoHubPage} />
+        <Route path="/np-exam/:rest*" component={SeoHubPage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />
         <Route path="/rex-pn/exam-format" component={RexPnExamFormat} />
@@ -957,6 +962,8 @@ function AppRoutes() {
         <Route path="/rex-pn/strategies" component={RexPnStrategies} />
         <Route path="/rex-pn/wellness" component={RexPnWellness} />
         <Route path="/rex-pn/practice-tests" component={MockExamsPage} />
+        <Route path="/rex-pn/mock-exam" component={ExamLandingPage} />
+        <Route path="/rex-pn/:rest*" component={SeoHubPage} />
         <Route path="/rex-pn" component={RexPnHub} />
         <Route path="/rex-pn-guide/:slug" component={RexPnGuide} />
         <Route path="/rex-pn-guide" component={RexPnGuide} />
