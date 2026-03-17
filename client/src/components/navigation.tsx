@@ -978,6 +978,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                         Revenue Intelligence
                       </Button>
                     </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/admin/content-metrics")} data-testid="button-content-metrics-mobile">
+                        <BarChart3 className="w-4 h-4" />
+                        Content Metrics
+                      </Button>
+                    </SheetClose>
                   </>
                 )}
                 {isAdmin && (

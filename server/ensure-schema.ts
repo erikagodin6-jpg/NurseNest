@@ -817,6 +817,19 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`CREATE INDEX IF NOT EXISTS idx_tutor_conversations_user_id ON tutor_conversations (user_id)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_tutor_messages_conversation_id ON tutor_messages (conversation_id)`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_finance (
+        id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+        category text NOT NULL,
+        label text NOT NULL,
+        amount double precision NOT NULL,
+        currency text DEFAULT 'USD',
+        notes text,
+        created_at timestamp NOT NULL DEFAULT now(),
+        updated_at timestamp NOT NULL DEFAULT now()
+      )
+    `);
+
     await client.query("COMMIT");
     console.log("[SchemaSync] Ensured all tables and columns exist");
 

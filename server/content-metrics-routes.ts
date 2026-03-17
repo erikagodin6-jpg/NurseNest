@@ -8,34 +8,41 @@ export function registerContentMetricsRoutes(app: Express) {
     if (!admin) return;
 
     try {
+      const safeQuery = async (query: string, fallback: any = { rows: [] }) => {
+        try { return await pool.query(query); } catch (e: any) {
+          console.warn("[ContentMetrics] Query failed:", e.message);
+          return fallback;
+        }
+      };
+
       const [questionsByTier, flashcardStats, generationJobs, financeEntries, subscriberStats] = await Promise.all([
-        pool.query(`
+        safeQuery(`
           SELECT tier, COUNT(*) as count
           FROM exam_questions
           WHERE status = 'published'
           GROUP BY tier
           ORDER BY tier
         `),
-        pool.query(`
+        safeQuery(`
           SELECT
             COUNT(*) FILTER (WHERE status = 'published') as published,
             COUNT(*) FILTER (WHERE status IN ('draft', 'needs_review')) as pending_review,
             0 as total_decks
           FROM flashcard_bank
         `),
-        pool.query(`
+        safeQuery(`
           SELECT id, run_date, content_type, tier, target_count, generated_count, mode, status, created_at
           FROM generation_jobs
           WHERE status IN ('queued', 'running', 'partial')
           ORDER BY created_at DESC
           LIMIT 50
         `),
-        pool.query(`
+        safeQuery(`
           SELECT id, category, label, amount, currency, notes, created_at, updated_at
           FROM admin_finance
           ORDER BY created_at DESC
         `),
-        pool.query(`
+        safeQuery(`
           SELECT
             COUNT(*) FILTER (WHERE subscription_status = 'active') as active_subscribers,
             COUNT(*) as total_users
