@@ -12534,6 +12534,65 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/qbank-pipeline/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { startPipelineRun } = await import("./qbank-pipeline");
+      const { tier, examType, topic, subtopic, targetCount, questionFormatMix, cognitiveDistribution, countryCode } = req.body;
+      if (!tier || !examType || !targetCount || targetCount < 1 || targetCount > 5000) {
+        return res.status(400).json({ error: "tier, examType, targetCount (1-5000) required" });
+      }
+      const run = await startPipelineRun({
+        tier, examType, topic, subtopic,
+        targetCount: Math.min(targetCount, 5000),
+        questionFormatMix, cognitiveDistribution, countryCode,
+      });
+      await logAudit(req, admin, "qbank-pipeline", run.id, "generate", null, { tier, examType, topic, targetCount });
+      res.json(run);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/qbank-pipeline/progress", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { getCurrentCounts, getGapAnalysis, HIGH_END_TARGETS } = await import("./qbank-pipeline");
+      const [counts, gaps] = await Promise.all([getCurrentCounts(), getGapAnalysis()]);
+      res.json({ counts, gaps, targets: HIGH_END_TARGETS });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/qbank-pipeline/runs", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { listPipelineRuns, listPipelineRunsFromDB } = await import("./qbank-pipeline");
+      const activeRuns = listPipelineRuns();
+      const dbRuns = await listPipelineRunsFromDB(parseInt(String(req.query.limit)) || 50);
+      res.json({ activeRuns, dbRuns: dbRuns.map(snakeToCamel) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-pipeline/runs/:id/pause", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { pausePipelineRun } = await import("./qbank-pipeline");
+      const success = pausePipelineRun(req.params.id);
+      await logAudit(req, admin, "qbank-pipeline", req.params.id, "pause", null, {});
+      res.json({ success });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/qbank/review", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

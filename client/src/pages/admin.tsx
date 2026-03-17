@@ -67,6 +67,7 @@ import AdminContentSecurity from "./admin-content-security";
 import { AdminTrialAnalytics } from "@/components/admin-trial-analytics";
 import AdminContentGrowth from "./admin-content-growth";
 import AdminTutorManagement from "./admin-tutor";
+import AdminQBankPipeline from "./admin-qbank-pipeline";
 
 function KillSwitchBanner() {
   const { data } = useQueryRQ({
@@ -176,7 +177,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics", "content-growth", "tutor-management"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics", "content-growth", "tutor-management", "qbank-pipeline"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -193,7 +194,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth" | "cert-analytics" | "tutor-management"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth" | "cert-analytics" | "tutor-management" | "qbank-pipeline"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1598,7 +1599,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "content-growth", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics", "cert-analytics", "tutor-management"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "content-growth", "qbank-pipeline", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics", "cert-analytics", "tutor-management"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1627,6 +1628,7 @@ export default function AdminPage() {
                     {tab === "trial-analytics" && "Trial Analytics"}
                     {tab === "cert-analytics" && "Cert Exam Banks"}
                     {tab === "tutor-management" && "Tutor Management"}
+                    {tab === "qbank-pipeline" && "QBank Pipeline"}
                   </button>
                 ))}
               </div>
@@ -4970,6 +4972,9 @@ export default function AdminPage() {
               )}
               {activeTab === "tutor-management" && (
                 <AdminTutorManagement />
+              )}
+              {activeTab === "qbank-pipeline" && (
+                <AdminQBankPipeline />
               )}
             </>
           ) : null}
