@@ -10899,6 +10899,22 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/admin/seed-np-specialty-content", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { seedNPSpecialtyContent } = await import("./seeds/seed-np-specialty-content");
+      res.json({ message: "NP specialty content seed started. This will run in the background." });
+      seedNPSpecialtyContent().then(result => {
+        console.log("[NP Specialty Seed] Completed:", JSON.stringify(result));
+      }).catch(err => {
+        console.error("[NP Specialty Seed] Failed:", err.message);
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/question-types/registry", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
