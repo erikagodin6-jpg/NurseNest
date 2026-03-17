@@ -429,6 +429,17 @@ import { rnMskExpansionLessons } from "./rn-msk-expansion";
 import { rnHeentExpansionLessons } from "./rn-heent-expansion";
 import { rnSafetyForensicExpansionLessons } from "./rn-safety-forensic-expansion";
 import { rnInfectionControlExpansionLessons } from "./rn-infection-control-expansion";
+import { missingBatch01Lessons } from "./missing-batch-01";
+import { missingBatch02Lessons } from "./missing-batch-02";
+import { missingBatch03Lessons } from "./missing-batch-03";
+import { missingBatch04Lessons } from "./missing-batch-04";
+import { missingBatch05Lessons } from "./missing-batch-05";
+import { missingBatch06Lessons } from "./missing-batch-06";
+import { missingBatch07Lessons } from "./missing-batch-07";
+import { missingBatch08Lessons } from "./missing-batch-08";
+import { missingBatch09Lessons } from "./missing-batch-09";
+import { missingBatch10Lessons } from "./missing-batch-10";
+import { missingBatch11Lessons } from "./missing-batch-11";
 
 export type { LessonContent } from "./types";
 
@@ -1064,6 +1075,17 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   rpnContentBatch041Lessons,
   rpnContentBatch042Lessons,
   rpnContentBatch043Lessons,
+  missingBatch01Lessons,
+  missingBatch02Lessons,
+  missingBatch03Lessons,
+  missingBatch04Lessons,
+  missingBatch05Lessons,
+  missingBatch06Lessons,
+  missingBatch07Lessons,
+  missingBatch08Lessons,
+  missingBatch09Lessons,
+  missingBatch10Lessons,
+  missingBatch11Lessons,
 );
 
 
