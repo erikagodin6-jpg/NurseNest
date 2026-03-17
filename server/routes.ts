@@ -21953,14 +21953,115 @@ Rules:
     }
   });
 
-  app.get("/api/admin/content-expansion-roadmap", async (req, res) => {
+  app.get("/api/admin/content-inventory", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { CONTENT_EXPANSION_ROADMAP } = await import("../shared/schema");
-      res.json({ roadmap: CONTENT_EXPANSION_ROADMAP });
+      const queryErrors: string[] = [];
+      const safeQuery = async (q: string, params?: any[]) => {
+        try { return await pool.query(q, params); }
+        catch (err: any) {
+          queryErrors.push(`Query failed: ${q.substring(0, 80)} — ${err.message || err}`);
+          return { rows: [] };
+        }
+      };
+
+      const [
+        examByTier,
+        examByExam,
+        examByCountry,
+        examByLanguage,
+        examByTopic,
+        examByFormat,
+        examByStatus,
+        alliedByCareer,
+        alliedByTopic,
+        mockExamCount,
+        scenarioCount,
+        lessonCount,
+        flashcardDeckCount,
+        flashcardCardCount,
+        explanationCount,
+        examTotal,
+        alliedTotal,
+        publishedExamTotal,
+        aiGeneratedCount,
+      ] = await Promise.all([
+        safeQuery(`SELECT tier, COUNT(*)::int as count FROM exam_questions GROUP BY tier ORDER BY count DESC`),
+        safeQuery(`SELECT exam, COUNT(*)::int as count FROM exam_questions WHERE exam IS NOT NULL GROUP BY exam ORDER BY count DESC`),
+        safeQuery(`SELECT COALESCE(country_code, region_scope, 'UNKNOWN') as country, COUNT(*)::int as count FROM exam_questions GROUP BY COALESCE(country_code, region_scope, 'UNKNOWN') ORDER BY count DESC`),
+        safeQuery(`SELECT COALESCE(language_code, 'en') as language, COUNT(*)::int as count FROM exam_questions GROUP BY COALESCE(language_code, 'en') ORDER BY count DESC`),
+        safeQuery(`SELECT topic, COUNT(*)::int as count FROM exam_questions WHERE topic IS NOT NULL GROUP BY topic ORDER BY count DESC LIMIT 50`),
+        safeQuery(`SELECT COALESCE(question_format, question_type, 'mcq') as format, COUNT(*)::int as count FROM exam_questions GROUP BY COALESCE(question_format, question_type, 'mcq') ORDER BY count DESC`),
+        safeQuery(`SELECT status, COUNT(*)::int as count FROM exam_questions GROUP BY status ORDER BY count DESC`),
+        safeQuery(`SELECT career_type, COUNT(*)::int as count FROM allied_questions GROUP BY career_type ORDER BY count DESC`),
+        safeQuery(`SELECT topic, COUNT(*)::int as count FROM allied_questions WHERE topic IS NOT NULL GROUP BY topic ORDER BY count DESC LIMIT 50`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM mock_exam_definitions`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM exam_questions WHERE scenario IS NOT NULL AND scenario != ''`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM content_items WHERE type = 'lesson'`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM flashcard_decks`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM user_flashcards`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM question_explanations`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM exam_questions`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM allied_questions`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM exam_questions WHERE status = 'published'`),
+        safeQuery(`SELECT COUNT(*)::int as count FROM exam_questions WHERE status = 'ai_generated' OR status = 'draft'`),
+      ]);
+
+      const blueprintGaps = await pool.query(`
+        SELECT eb.tier, eb.category_id, eb.category_label, eb.weight,
+               COALESCE(eq_count.count, 0)::int as question_count
+        FROM exam_blueprints eb
+        LEFT JOIN (
+          SELECT tier, topic, COUNT(*)::int as count
+          FROM exam_questions
+          WHERE status = 'published'
+          GROUP BY tier, topic
+        ) eq_count ON eb.tier = eq_count.tier AND (
+          LOWER(eb.category_label) = LOWER(eq_count.topic)
+          OR LOWER(eb.category_id) = LOWER(eq_count.topic)
+        )
+        ORDER BY eb.tier, eb.weight DESC
+      `).catch(() => ({ rows: [] }));
+
+      res.json({
+        examQuestions: {
+          total: examTotal.rows[0]?.count || 0,
+          published: publishedExamTotal.rows[0]?.count || 0,
+          aiGenerated: aiGeneratedCount.rows[0]?.count || 0,
+          byTier: Object.fromEntries(examByTier.rows.map((r: any) => [r.tier, r.count])),
+          byExam: Object.fromEntries(examByExam.rows.map((r: any) => [r.exam, r.count])),
+          byCountry: Object.fromEntries(examByCountry.rows.map((r: any) => [r.country, r.count])),
+          byLanguage: Object.fromEntries(examByLanguage.rows.map((r: any) => [r.language, r.count])),
+          byTopic: examByTopic.rows.map((r: any) => ({ topic: r.topic, count: r.count })),
+          byFormat: Object.fromEntries(examByFormat.rows.map((r: any) => [r.format, r.count])),
+          byStatus: Object.fromEntries(examByStatus.rows.map((r: any) => [r.status, r.count])),
+        },
+        alliedQuestions: {
+          total: alliedTotal.rows[0]?.count || 0,
+          byCareer: Object.fromEntries(alliedByCareer.rows.map((r: any) => [r.career_type, r.count])),
+          byTopic: alliedByTopic.rows.map((r: any) => ({ topic: r.topic, count: r.count })),
+        },
+        inventory: {
+          mockExams: mockExamCount.rows[0]?.count || 0,
+          scenarios: scenarioCount.rows[0]?.count || 0,
+          lessons: lessonCount.rows[0]?.count || 0,
+          flashcardDecks: flashcardDeckCount.rows[0]?.count || 0,
+          flashcardCards: flashcardCardCount.rows[0]?.count || 0,
+          explanations: explanationCount.rows[0]?.count || 0,
+        },
+        blueprintGaps: blueprintGaps.rows.map((r: any) => ({
+          tier: r.tier,
+          categoryId: r.category_id,
+          categoryLabel: r.category_label,
+          weight: parseFloat(r.weight) || 0,
+          questionCount: r.question_count,
+        })),
+        ...(queryErrors.length > 0 ? { queryErrors } : {}),
+      });
     } catch (e: any) {
+      console.error("Content inventory error:", e.message);
       res.status(500).json({ error: e.message });
     }
   });

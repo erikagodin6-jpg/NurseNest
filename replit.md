@@ -61,3 +61,73 @@ Key architectural components and features:
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (supports OpenAI, Ollama, vLLM, LM Studio, Anthropic)
 - **Object Storage**: Replit Object Storage (Google Cloud Storage)
+
+## Critical Build Notes
+- **DO NOT use manual chunk splitting (`manualChunks`) in vite.config.ts.** React 19 uses an `Activity` export that causes module initialization race conditions when React, ReactDOM, and dependent libraries (Radix UI, etc.) are split into separate vendor chunks. Vite's default code splitting handles initialization order correctly.
+- **Build command**: `npm run build` — outputs to `dist/public` for client, `dist/index.cjs` for server. Uses `NODE_OPTIONS=--max-old-space-size=4096` to prevent OOM crashes. Build phases run sequentially to minimize memory peaks.
+- **Deployment**: build: `["npm","run","build"]`, run: `["node","./dist/index.cjs"]`
+
+## Herbal Supplements & Medication Safety Module
+- **15 individual herb lessons** + 1 hub overview + 1 surgery/anesthesia safety lesson in `client/src/data/lessons/herbal-supplements.ts`
+- **75+ question bank** in `client/src/data/lessons/herbal-supplements-questions.ts`
+- **5 SEO educational pages** in `client/src/data/seo-herbal-supplements.ts` with `SeoHerbalPage` interface
+- **Hub page component**: `client/src/pages/herbal-supplements-hub.tsx` — organized by interaction category (bleeding risk, CNS depressants, CYP450, special populations)
+- **SEO page component**: `client/src/pages/herbal-supplement-page.tsx` — renders SEO herbal guides with FAQ structured data
+- **Routes**: `/herbal-supplements` (hub), `/herbal-supplements/:slug` (SEO pages), individual lessons via `/lessons/:id`
+- **Navigation**: All 15 herbs + hub + question bank listed in pharmacology-rn section of lessons.tsx
+- **Sitemap**: 5 SEO pages + hub registered in `server/sitemap/main-site.ts`
+- **Lesson IDs**: herbal-supplements-hub, st-johns-wort, ginkgo-biloba, garlic-supplement, ginseng-supplement, echinacea-supplement, valerian-root, kava-supplement, saw-palmetto, black-cohosh, evening-primrose-oil, melatonin-supplement, chamomile-supplement, turmeric-curcumin, omega-3-fatty-acids, cranberry-supplement, surgery-anesthesia-herbal-safety, herbal-supplements-question-bank
+
+## SI Converter Cluster Pages
+- **10 SEO content pages** forming an internal linking cluster around the SI ↔ Conventional Units Converter hub (`/si-to-conventional-units-converter`)
+- **Data config**: `client/src/data/conversion-cluster-data.ts` — all page content, FAQs, reference charts, conversion examples, and internal links
+- **Shared component**: `client/src/pages/conversion-cluster-page.tsx` — renders educational content, mini converter, reference table, FAQ accordion, JSON-LD structured data (MedicalWebPage + FAQPage)
+- **Wrapper**: `client/src/pages/conversion-cluster-wrapper.tsx` — resolves URL slug to page data
+- **Slugs**: canadian-vs-american-lab-values, glucose-mmol-l-to-mg-dl, creatinine-umol-l-to-mg-dl, hemoglobin-g-l-to-g-dl, bilirubin-umol-l-to-mg-dl, calcium-mmol-l-to-mg-dl, urea-to-bun-conversion-nursing, cholesterol-triglyceride-unit-conversion, kg-to-lb-nursing, celsius-to-fahrenheit-nursing
+- **SEO meta**: All 10 pages registered in `server/seo-meta.ts`
+- **Sitemap**: All 10 pages registered in `server/sitemap/main-site.ts` with priority 0.7
+- **Internal linking**: Hub page links down to all 10 cluster pages via "In-Depth Conversion Guides" section; each cluster page links back to hub and to related cluster pages
+
+## SEO Technical Infrastructure
+- **301 Redirect Middleware**: `server/seo-redirects.ts` — detects timestamp-suffix duplicate URLs (pattern `-\d{10,13}`) on `/lessons/:slug` and `/learn/:slug` across all locale prefixes, strips suffix and 301 redirects to canonical slug. Also handles known bad slug redirects in single-hop resolution.
+- **Structured Data**: Lesson pages emit Article, Course, MedicalCondition, and FAQ JSON-LD schemas. `seo-lesson-detail.tsx` includes Article schema via `buildArticleSD()`. `lesson-detail.tsx` uses `buildLessonFaqFromContent()` + `buildFaqStructuredData()` for content-derived FAQs.
+- **Thin Content Detection**: `isLessonThinContent()` in `client/src/lib/seo-utils.ts` flags lessons with placeholder/incomplete content for noindex. `content-page.tsx` applies noindex for pages with <100 words or <2 content blocks.
+- **Sitemap Cleanup**: `server/sitemap/main-site.ts` and `server/sitemap/language-sitemaps.ts` filter out timestamp-suffix duplicate slugs and thin content from lesson and blog sitemaps.
+- **Meta Optimization**: `generateLessonSeoTitle()` and `generateLessonSeoDescription()` in `client/src/lib/seo-utils.ts` produce exam-relevance-focused titles and descriptions.
+
+## Multilingual Translation System
+- **20 languages**: en, fr, es, tl, hi, zh, zh-tw, ar, ko, pt, pa, vi, ht, ur, ja, fa, de, th, tr, id
+- **UI strings**: All i18n-*.ts source files in `client/src/lib/`, compiled to JSON via `npx tsx script/compile-i18n.ts`
+- **Content**: Lesson content translations in `client/src/data/translations/{lang}.json` (~614 lessons per language)
+- **Build-time validation**: `node scripts/validate-translations.mjs --fail-on-threshold` — exits non-zero if any language is below 95% UI coverage
+- **Translation scripts**:
+  - `scripts/translate-ui-strings.mjs` — AI batch translator for UI strings (uses modelfarm GPT-4o-mini)
+  - `scripts/translate-content-titles.mjs` — AI batch translator for lesson content
+  - `scripts/convert-zhtw-fast.mjs` — Character-level Simplified→Traditional Chinese conversion
+  - `scripts/validate-translations.mjs` — Audit script with coverage report
+- **Hreflang**: Configured in `server/translation-audit.ts` getHreflangCode() for all 20 languages
+- **High-EN-borrowing languages**: Filipino (tl), Indonesian (id), Haitian Creole (ht) have relaxed untranslated detection thresholds
+
+## Unified Question Schema & Country Adaptation
+- **exam_questions table** extended with international/global fields: `country_code`, `region_code`, `licensing_body`, `language_code`, `cognitive_level`, `question_format`, `is_scenario`, `is_mock_exam_eligible`, `is_adaptive_eligible`, `is_flashcard_source`, `is_study_guide_linked`, `is_tutor_ready`, `correct_answer_explanation`, `incorrect_answer_rationale`, `clinical_reasoning`, `key_takeaway`, `mnemonic`, `reference_source`, `lab_unit_variant`, `medication_naming_variant`, `case_context`, `vitals`, `labs`, `images`, `scenario_id`, `blueprint_weight`
+- **Country Adaptation Constants**: `shared/country-adaptation.ts` maps country codes (CA, US, GB, AU) to lab unit systems, medication naming conventions, licensing bodies, exam types, and lab reference ranges
+- **API Filtering**: QBank endpoints (`/api/qbank`, `/api/qbank/filters`) support `country_code`, `language_code`, `licensing_body` query params
+- **Admin endpoints**: GET/PATCH `/api/admin/qbank/question/:id` expose all unified schema fields
+
+## Expansion Roadmap Dashboard & Content Manifests
+- **Admin Tab**: "Expansion Roadmap" tab in admin dashboard at `/admin?tab=expansion-roadmap`
+- **GLOBAL_CONTENT_EXPANSION_ROADMAP**: 5-phase expansion plan constant in `client/src/config/expansion-roadmap.ts` covering Core Nursing Tiers, Allied Health Expansion, Nursing Certification Exams, Global/Multilingual Expansion, and Advanced Features
+- **Content Inventory API**: `GET /api/admin/content-inventory` returns live database aggregations by tier, exam, country, language, topic, format, status, plus allied health career breakdowns, mock exam counts, scenario counts, lesson counts, flashcard deck/card counts, explanation counts, and blueprint gaps
+- **Manifest Dashboard**: Sub-tabs for Overview, Tiers, Exams, Countries, Topics, Formats with drill-down inventory bars
+- **Thin-Bank Detection**: Flags any exam/tier/topic below 1,200 absolute floor or 2,500 flagship threshold
+- **Blueprint Coverage Analysis**: Shows which exam blueprint domains have insufficient question coverage relative to their weight
+- **Next-Priority Recommendations**: AI-gap-based recommendation engine identifying highest-impact content areas to build next, ordered by impact severity and roadmap phase
+- **AI Pool Tracking**: AI-generated/draft questions tracked separately from published validated inventory
+- Key files: `client/src/config/expansion-roadmap.ts`, `client/src/pages/admin-expansion-roadmap.tsx`, `server/routes.ts`
+
+## Adaptive Study Engine
+- Routes: `/study` (hub with all mode tiles) and `/study/:mode` (auto-starts a specific mode)
+- Mode slugs: `recommended`, `weak-areas`, `due-review`, `flagged`, `rapid`, `mixed`, `pre-exam`
+- Tiles navigate to `/study/{slug}` on click, with per-tile loading spinners and error banners
+- Exit Session / Back to Study Modes navigates back to `/study`
+- Free users: only `recommended` and `rapidReview` modes are unlocked
