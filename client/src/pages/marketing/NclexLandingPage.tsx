@@ -65,7 +65,7 @@ const features = [
   },
   {
     icon: Target,
-    title: "3,000+ Practice Questions",
+    title: "13,000+ Practice Questions",
     description: "Comprehensive question bank covering all NCLEX categories with regularly updated content.",
   },
   {
@@ -105,7 +105,7 @@ const pricingTiers = [
     monthlyUSD: 21.99,
     features: [
       "REX-PN style practice exams",
-      "1,000+ practical nursing questions",
+      "4,200+ practical nursing questions",
       "Detailed answer rationales",
       "Flashcard decks",
       "Progress tracking",
@@ -120,7 +120,7 @@ const pricingTiers = [
     monthlyUSD: 29.99,
     features: [
       "NCLEX-RN adaptive exams",
-      "2,000+ registered nursing questions",
+      "3,900+ registered nursing questions",
       "Clinical judgment scenarios",
       "Detailed answer rationales",
       "Flashcard decks",
@@ -172,7 +172,7 @@ const faqStructuredData = {
       name: "How many NCLEX practice questions does NurseNest offer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "NurseNest offers over 3,000 NCLEX-style practice questions covering all exam categories, with new questions added regularly.",
+        text: "NurseNest offers over 13,000 practice questions covering all exam categories, with new questions added regularly.",
       },
     },
     {
@@ -283,7 +283,7 @@ function HeroSection({ onNavigate }: { onNavigate: (path: string) => void }) {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
           {[
-            { value: "3,000+", label: "Practice Questions" },
+            { value: "13,000+", label: "Practice Questions" },
             { value: "95%", label: "Pass Rate" },
             { value: "CAT", label: "Adaptive Testing" },
             { value: "24/7", label: "Access Anytime" },
@@ -611,7 +611,7 @@ function PricingSection({ isCAD, onNavigate }: { isCAD: boolean; onNavigate: (pa
             <tbody>
               {[
                 { feature: "Adaptive CAT Exams", rpn: true, rn: true, np: true },
-                { feature: "Practice Questions", rpn: "1,000+", rn: "2,000+", np: "3,000+" },
+                { feature: "Practice Questions", rpn: "4,200+", rn: "3,900+", np: "2,800+" },
                 { feature: "Detailed Rationales", rpn: true, rn: true, np: true },
                 { feature: "Flashcards", rpn: true, rn: true, np: true },
                 { feature: "Performance Analytics", rpn: true, rn: true, np: true },

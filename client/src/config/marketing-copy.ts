@@ -165,13 +165,13 @@ const generalCopy: MarketingCopy = {
   track: "general",
   hero: {
     headline: "Pass Your Nursing Exam With Confidence",
-    subheadline: "10,000+ practice questions, 10,000+ flashcards across 140+ decks, and 8,000+ clinical lessons — all aligned to your exam blueprint. 94% of NurseNest students pass on their first attempt.",
+    subheadline: "13,000+ practice questions, 10,000+ flashcards across 140+ decks, and 8,000+ clinical lessons — all aligned to your exam blueprint. 94% of NurseNest students pass on their first attempt.",
     primaryCta: "Start Practicing Free",
     primaryCtaPath: "/register",
     secondaryCta: "Explore Lessons",
     secondaryCtaPath: "/lessons",
     stats: [
-      { label: "Practice Questions", value: "10,000+" },
+      { label: "Practice Questions", value: "13,000+" },
       { label: "Flashcards", value: "10,000+" },
       { label: "First-Attempt Pass Rate", value: "94%" },
       { label: "Active Students", value: "12,000+" },
@@ -262,7 +262,7 @@ const rpnCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "3,000+ RPN-scope questions",
+      "4,200+ RPN-scope questions",
       "15+ body systems covered",
       "Built for {pnExamName} prep",
       "10,000+ flashcards included",
@@ -270,13 +270,13 @@ const rpnCopy: MarketingCopy = {
   },
   hero: {
     headline: "Pass the {pnExamName} With Confidence",
-    subheadline: "3,000+ RPN-scope practice questions, 10,000+ flashcards, and unlimited practice exams — all calibrated for practical nursing. 94% of NurseNest students pass on their first attempt.",
+    subheadline: "4,200+ RPN-scope practice questions, 10,000+ flashcards, and unlimited practice exams — all calibrated for practical nursing. 94% of NurseNest students pass on their first attempt.",
     primaryCta: "Try 10 Free Questions",
     primaryCtaPath: "/register",
     secondaryCta: "Explore RPN Lessons",
     secondaryCtaPath: "/lessons",
     stats: [
-      { label: "RPN Questions", value: "3,000+" },
+      { label: "RPN Questions", value: "4,200+" },
       { label: "Flashcards", value: "10,000+" },
       { label: "First-Attempt Pass Rate", value: "94%" },
       { label: "Active Students", value: "12,000+" },
@@ -398,7 +398,7 @@ const rpnCopy: MarketingCopy = {
   pricing: {
     headline: "RPN exam prep built for your success",
     description: "Get full access to the practical nursing question bank, practice exams, flashcards, and readiness analytics.",
-    whatsIncluded: ["3,000+ RPN-scope questions", "Unlimited RPN practice exams", "10,000+ flashcards across 140+ decks", "Medication safety drills", "Progress tracking by blueprint area", "Weak-topic review"],
+    whatsIncluded: ["4,200+ RPN-scope questions", "Unlimited RPN practice exams", "10,000+ flashcards across 140+ decks", "Medication safety drills", "Progress tracking by blueprint area", "Weak-topic review"],
     reassurance: "Built specifically for practical nursing learners. Cancel anytime.",
   },
   upgrade: {
@@ -438,7 +438,7 @@ const rnCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "4,000+ RN-scope questions",
+      "3,900+ RN-scope questions",
       "8 exam blueprint domains",
       "10,000+ flashcards included",
       "Built for NCLEX-RN readiness",
@@ -446,13 +446,13 @@ const rnCopy: MarketingCopy = {
   },
   hero: {
     headline: "Pass the NCLEX-RN With Confidence",
-    subheadline: "4,000+ RN-scope practice questions, 10,000+ flashcards, and unlimited clinical judgment exams — blueprint-aligned for NCLEX-RN. 94% of NurseNest students pass on their first attempt.",
+    subheadline: "3,900+ RN-scope practice questions, 10,000+ flashcards, and unlimited clinical judgment exams — blueprint-aligned for NCLEX-RN. 94% of NurseNest students pass on their first attempt.",
     primaryCta: "Start Practicing Free",
     primaryCtaPath: "/register",
     secondaryCta: "See How It Works",
     secondaryCtaPath: "/free-practice",
     stats: [
-      { label: "RN Questions", value: "4,000+" },
+      { label: "RN Questions", value: "3,900+" },
       { label: "Flashcards", value: "10,000+" },
       { label: "First-Attempt Pass Rate", value: "94%" },
       { label: "Active Students", value: "12,000+" },
@@ -574,7 +574,7 @@ const rnCopy: MarketingCopy = {
   pricing: {
     headline: "RN exam prep that matches your exam's complexity",
     description: "Get full access to the RN question bank, clinical judgment exams, prioritization drills, and readiness analytics.",
-    whatsIncluded: ["4,000+ RN-scope questions", "Unlimited clinical judgment exams", "10,000+ flashcards across 140+ decks", "Prioritization drills", "8-domain readiness analytics", "Detailed performance trends"],
+    whatsIncluded: ["3,900+ RN-scope questions", "Unlimited clinical judgment exams", "10,000+ flashcards across 140+ decks", "Prioritization drills", "8-domain readiness analytics", "Detailed performance trends"],
     reassurance: "Built for RN-level clinical reasoning. Cancel anytime.",
   },
   upgrade: {
@@ -614,7 +614,7 @@ const npCopy: MarketingCopy = {
   },
   trustStrip: {
     items: [
-      "3,000+ NP board-style questions",
+      "2,800+ NP board-style questions",
       "12+ clinical domains",
       "10,000+ flashcards included",
       "Built for FNP, AGNP, and NP certification",
@@ -622,13 +622,13 @@ const npCopy: MarketingCopy = {
   },
   hero: {
     headline: "Pass Your NP Certification Exam With Confidence",
-    subheadline: "3,000+ NP board-style questions, 10,000+ flashcards, and unlimited diagnostic reasoning cases — built for AANP, ANCC, and CNPE certification exams. 94% of NurseNest students pass on their first attempt.",
+    subheadline: "2,800+ NP board-style questions, 10,000+ flashcards, and unlimited diagnostic reasoning cases — built for AANP, ANCC, and CNPE certification exams. 94% of NurseNest students pass on their first attempt.",
     primaryCta: "Start Practicing Free",
     primaryCtaPath: "/register",
     secondaryCta: "Explore Advanced Cases",
     secondaryCtaPath: "/free-practice",
     stats: [
-      { label: "NP Questions", value: "3,000+" },
+      { label: "NP Questions", value: "2,800+" },
       { label: "Flashcards", value: "10,000+" },
       { label: "First-Attempt Pass Rate", value: "94%" },
       { label: "Active Students", value: "12,000+" },
@@ -750,7 +750,7 @@ const npCopy: MarketingCopy = {
   pricing: {
     headline: "NP board prep at the level your exam demands",
     description: "Get full access to advanced clinical cases, diagnostic reasoning exams, prescribing review, and board-readiness analytics.",
-    whatsIncluded: ["3,000+ NP-scope questions", "Unlimited board-style exams", "10,000+ flashcards across 140+ decks", "Differential diagnosis drills", "Advanced performance analytics", "Evidence-informed rationales"],
+    whatsIncluded: ["2,800+ NP-scope questions", "Unlimited board-style exams", "10,000+ flashcards across 140+ decks", "Differential diagnosis drills", "Advanced performance analytics", "Evidence-informed rationales"],
     reassurance: "Built for graduate-level clinical reasoning. Cancel anytime.",
   },
   upgrade: {

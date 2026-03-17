@@ -561,7 +561,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/compare/best-uworld-alternatives-nclex": {
     title: "Best UWorld Alternatives for NCLEX Prep 2025 | NurseNest",
-    description: "Looking for cheaper UWorld alternatives? Compare NurseNest, Archer, and other NCLEX prep options. 4,000+ questions, adaptive testing, and flashcards from $4.99/month.",
+    description: "Looking for cheaper UWorld alternatives? Compare NurseNest, Archer, and other NCLEX prep options. 13,000+ questions, adaptive testing, and flashcards from $4.99/month.",
   },
   "/compare/best-rex-pn-question-bank-canada": {
     title: "Best REx-PN Question Bank in Canada 2025 | NurseNest",
@@ -841,7 +841,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/nursing-exam-prep": {
     title: "Nursing Exam Prep — NCLEX-RN, NCLEX-PN, REx-PN & NP Certification Review | NurseNest",
-    description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 4,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons. Start your clinical review today.",
+    description: "Complete nursing exam preparation for NCLEX-RN, NCLEX-PN, REx-PN, and NP certification. 13,000+ practice questions, adaptive mock exams, pharmacology flashcards, and pathophysiology lessons. Start your clinical review today.",
   },
   "/hyperkalemia-effects-on-heart": {
     title: "Hyperkalemia Effects on the Heart — Nursing Physiology and ECG Changes | NurseNest",
