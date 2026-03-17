@@ -40,10 +40,10 @@ function isLangLessonThinForSitemap(lesson: any): boolean {
 export async function generateLanguageSitemap(targetLocale: string): Promise<string[]> {
   const base = getSiteBase();
   const today = todayDate();
-  const allLocales = getIndexableLocales() || ["en"];
+  const indexableLocales = getIndexableLocales() || ["en"];
   const urls: string[] = [];
 
-  if (!allLocales.includes(targetLocale)) {
+  if (!indexableLocales.includes(targetLocale)) {
     return urls;
   }
 
@@ -52,16 +52,16 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     if (!route.multilingual && targetLocale !== "en") continue;
     if (isLowValueTranslatedPage(route.path, targetLocale)) continue;
     if (isNoindexPath(route.path, targetLocale)) continue;
-    const localesForRoute = route.multilingual ? allLocales : ["en"];
+    const localesForRoute = route.multilingual ? indexableLocales : ["en"];
     urls.push(singleLocaleUrl(base, route.path, targetLocale, localesForRoute, route.priority, route.changefreq, route.lastmod));
   }
 
   for (const slug of COMPARE_PAGES) {
-    urls.push(singleLocaleUrl(base, `/compare/${slug}`, targetLocale, allLocales, "0.7", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/compare/${slug}`, targetLocale, indexableLocales, "0.7", "monthly", today));
   }
 
   for (const tier of NURSING_QUESTION_TIERS) {
-    urls.push(singleLocaleUrl(base, `/${tier}/questions`, targetLocale, allLocales, "0.8", "weekly", today));
+    urls.push(singleLocaleUrl(base, `/${tier}/questions`, targetLocale, indexableLocales, "0.8", "weekly", today));
   }
 
   try {
@@ -76,7 +76,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       if (seenLessonSlugs.has(lesson.slug)) continue;
       if (isLangLessonThinForSitemap(lesson)) continue;
       seenLessonSlugs.add(lesson.slug);
-      urls.push(singleLocaleUrl(base, `/lessons/${lesson.slug}`, targetLocale, allLocales, "0.8", "weekly", toLastmod(lesson.updated_at)));
+      urls.push(singleLocaleUrl(base, `/lessons/${lesson.slug}`, targetLocale, indexableLocales, "0.8", "weekly", toLastmod(lesson.updated_at)));
     }
   } catch {}
 
@@ -90,7 +90,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       const key = `${row.tier}/${slug}`;
       if (slug && !seenSlugs.has(key)) {
         seenSlugs.add(key);
-        urls.push(singleLocaleUrl(base, `/${row.tier}/questions/${slug}`, targetLocale, allLocales, "0.7", "weekly", today));
+        urls.push(singleLocaleUrl(base, `/${row.tier}/questions/${slug}`, targetLocale, indexableLocales, "0.7", "weekly", today));
       }
     }
   } catch {}
@@ -104,7 +104,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       const slug = row.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
       if (slug && !previewSeen.has(slug)) {
         previewSeen.add(slug);
-        urls.push(singleLocaleUrl(base, `/questions/${slug}`, targetLocale, allLocales, "0.7", "weekly", today));
+        urls.push(singleLocaleUrl(base, `/questions/${slug}`, targetLocale, indexableLocales, "0.7", "weekly", today));
       }
     }
   } catch {}
@@ -116,7 +116,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   ];
   for (const combo of practiceQuestionCombos) {
     for (const system of combo.systems) {
-      urls.push(singleLocaleUrl(base, `/practice-questions/${combo.tier}/${system}`, targetLocale, allLocales, "0.8", "weekly", today));
+      urls.push(singleLocaleUrl(base, `/practice-questions/${combo.tier}/${system}`, targetLocale, indexableLocales, "0.8", "weekly", today));
     }
   }
 
@@ -147,7 +147,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     "cardioversion","arterial-blood-gas-sampling","incentive-spirometry","suctioning",
   ];
   for (const slug of glossaryTermSlugs) {
-    urls.push(singleLocaleUrl(base, `/glossary/${slug}`, targetLocale, allLocales, "0.5", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/glossary/${slug}`, targetLocale, indexableLocales, "0.5", "monthly", today));
   }
 
   const clarityTopics = [
@@ -171,7 +171,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     "why-does-guillain-barre-cause-ascending-paralysis",
   ];
   for (const slug of clarityTopics) {
-    urls.push(singleLocaleUrl(base, `/clinical-clarity/${slug}`, targetLocale, allLocales, "0.6", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/clinical-clarity/${slug}`, targetLocale, indexableLocales, "0.6", "monthly", today));
   }
 
   try {
@@ -197,23 +197,23 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     const { internalLinkMap } = await import("../../client/src/data/internal-links");
     const topicSlugs = Object.keys(internalLinkMap);
     for (const slug of topicSlugs) {
-      urls.push(singleLocaleUrl(base, `/topics/${slug}`, targetLocale, allLocales, "0.7", "monthly", today));
+      urls.push(singleLocaleUrl(base, `/topics/${slug}`, targetLocale, indexableLocales, "0.7", "monthly", today));
     }
   } catch {}
 
   const seoConditions = ["hypertension", "diabetes", "asthma", "copd", "heart-failure", "sepsis", "pneumonia"];
   for (const c of seoConditions) {
-    urls.push(singleLocaleUrl(base, `/conditions/${c}`, targetLocale, allLocales, "0.8", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/conditions/${c}`, targetLocale, indexableLocales, "0.8", "monthly", today));
   }
 
   const seoMedications = ["metformin", "lisinopril", "warfarin", "insulin", "amiodarone"];
   for (const m of seoMedications) {
-    urls.push(singleLocaleUrl(base, `/medications/${m}`, targetLocale, allLocales, "0.8", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/medications/${m}`, targetLocale, indexableLocales, "0.8", "monthly", today));
   }
 
   const seoLabValues = ["sodium", "potassium", "troponin", "creatinine", "inr", "calcium", "magnesium", "bicarbonate", "bun", "hemoglobin", "white-blood-cells"];
   for (const l of seoLabValues) {
-    urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, allLocales, "0.8", "monthly", today));
+    urls.push(singleLocaleUrl(base, `/lab-values/${l}`, targetLocale, indexableLocales, "0.8", "monthly", today));
   }
 
   const newGradPages = [
@@ -235,7 +235,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
     { path: "/newgrad/certifications/pals", priority: "0.8", freq: "monthly" },
   ];
   for (const page of newGradPages) {
-    urls.push(singleLocaleUrl(base, page.path, targetLocale, allLocales, page.priority, page.freq, today));
+    urls.push(singleLocaleUrl(base, page.path, targetLocale, indexableLocales, page.priority, page.freq, today));
   }
 
   try {
@@ -243,7 +243,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       `SELECT slug, country, updated_at FROM imaging_seo_pages WHERE status = 'published' ORDER BY updated_at DESC LIMIT 5000`
     );
     for (const page of seoPages.rows) {
-      urls.push(singleLocaleUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, targetLocale, allLocales, "0.7", "weekly", toLastmod(page.updated_at)));
+      urls.push(singleLocaleUrl(base, `/medical-imaging/${page.country}/seo/${page.slug}`, targetLocale, indexableLocales, "0.7", "weekly", toLastmod(page.updated_at)));
     }
   } catch {}
 
@@ -252,7 +252,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       `SELECT slug, updated_at FROM imaging_blog_articles WHERE status = 'published' ORDER BY updated_at DESC LIMIT 5000`
     );
     for (const article of blogArticles.rows) {
-      urls.push(singleLocaleUrl(base, `/medical-imaging/blog/${article.slug}`, targetLocale, allLocales, "0.7", "weekly", toLastmod(article.updated_at)));
+      urls.push(singleLocaleUrl(base, `/medical-imaging/blog/${article.slug}`, targetLocale, indexableLocales, "0.7", "weekly", toLastmod(article.updated_at)));
     }
   } catch {}
 
@@ -261,7 +261,7 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       `SELECT slug, country, updated_at FROM imaging_positioning_entries WHERE status = 'published' ORDER BY updated_at DESC LIMIT 5000`
     );
     for (const entry of posEntries.rows) {
-      urls.push(singleLocaleUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, targetLocale, allLocales, "0.7", "monthly", toLastmod(entry.updated_at)));
+      urls.push(singleLocaleUrl(base, `/medical-imaging/${entry.country}/positioning/${entry.slug}`, targetLocale, indexableLocales, "0.7", "monthly", toLastmod(entry.updated_at)));
     }
   } catch {}
 

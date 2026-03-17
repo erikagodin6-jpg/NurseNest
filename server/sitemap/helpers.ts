@@ -183,10 +183,10 @@ export function localizedUrl(base: string, path: string, priority: string, chang
   return lines.join("\n");
 }
 
-export function singleLocaleUrl(base: string, path: string, locale: string, allLocales: string[], priority: string, changefreq: string, lastmod?: string): string {
+export function singleLocaleUrl(base: string, path: string, locale: string, indexableLocales: string[], priority: string, changefreq: string, lastmod?: string): string {
   if (_isLowValueTranslatedPage(path, locale)) return "";
 
-  const filteredLocales = allLocales.filter(l => !_isLowValueTranslatedPage(path, l));
+  const filteredLocales = indexableLocales.filter(l => !_isLowValueTranslatedPage(path, l));
   const mappedPath = applySlugMapping(path, locale);
   const loc = `${base}/${locale}${mappedPath === "/" ? "" : mappedPath}`;
   const lines: string[] = [];
