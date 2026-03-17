@@ -514,88 +514,87 @@ export default function AlliedAdminPage() {
               );
             })}
           </div>
-        </div>
 
-        <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="build-priority-panel">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-orange-500" /> Active Build Priority
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {ACTIVE_BUILD_PRIORITY.map(careerId => {
-              const c = CAREER_CONFIGS[careerId as keyof typeof CAREER_CONFIGS];
-              const cs = stats[careerId];
-              if (!c) return null;
-              return (
-                <div key={careerId} className="border border-orange-200 bg-orange-50 rounded-lg p-4" data-testid={`priority-${careerId}`}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-gray-900">{c.shortName}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 font-medium">PRIORITY</span>
+          <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="build-priority-panel">
+            <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Target className="w-5 h-5 text-orange-500" /> Active Build Priority
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {ACTIVE_BUILD_PRIORITY.map(careerId => {
+                const c = CAREER_CONFIGS[careerId as keyof typeof CAREER_CONFIGS];
+                const cs = stats[careerId];
+                if (!c) return null;
+                return (
+                  <div key={careerId} className="border border-orange-200 bg-orange-50 rounded-lg p-4" data-testid={`priority-${careerId}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold text-gray-900">{c.shortName}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 font-medium">PRIORITY</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">{cs?.totalQuestions || 0}</div>
+                        <div className="text-gray-500">Questions</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">{cs?.flashcards || 0}</div>
+                        <div className="text-gray-500">Flashcards</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">{c.domains?.length || 0}</div>
+                        <div className="text-gray-500">Domains</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                    <div>
-                      <div className="text-lg font-bold text-gray-900">{cs?.totalQuestions || 0}</div>
-                      <div className="text-gray-500">Questions</div>
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold text-gray-900">{cs?.flashcards || 0}</div>
-                      <div className="text-gray-500">Flashcards</div>
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold text-gray-900">{c.domains?.length || 0}</div>
-                      <div className="text-gray-500">Domains</div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-
-        <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="expansion-roadmap-panel">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-blue-500" /> Content Expansion Roadmap
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="text-left py-2 px-3 font-medium text-gray-600">Career</th>
-                  <th className="text-center py-2 px-3 font-medium text-gray-600">Status</th>
-                  <th className="text-center py-2 px-3 font-medium text-gray-600">Search Vol</th>
-                  <th className="text-center py-2 px-3 font-medium text-gray-600">SEO</th>
-                  <th className="text-center py-2 px-3 font-medium text-gray-600">Conversion</th>
-                  <th className="text-center py-2 px-3 font-medium text-gray-600">Depth</th>
-                  <th className="text-left py-2 px-3 font-medium text-gray-600">Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {CONTENT_EXPANSION_ROADMAP.map(item => (
-                  <tr key={item.slug} className="border-b border-gray-50" data-testid={`roadmap-${item.slug}`}>
-                    <td className="py-2 px-3 font-medium text-gray-900">{item.career}</td>
-                    <td className="py-2 px-3 text-center">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                        item.status === "active" ? "bg-green-50 text-green-700" :
-                        item.status === "planned" ? "bg-blue-50 text-blue-700" :
-                        "bg-gray-50 text-gray-600"
-                      }`}>{item.status}</span>
-                    </td>
-                    <td className="py-2 px-3 text-center">
-                      <span className={`text-xs font-medium ${item.searchVolume === "high" ? "text-green-600" : item.searchVolume === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.searchVolume}</span>
-                    </td>
-                    <td className="py-2 px-3 text-center">
-                      <span className={`text-xs font-medium ${item.seoOpportunity === "high" ? "text-green-600" : item.seoOpportunity === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.seoOpportunity}</span>
-                    </td>
-                    <td className="py-2 px-3 text-center">
-                      <span className={`text-xs font-medium ${item.conversionPotential === "high" ? "text-green-600" : item.conversionPotential === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.conversionPotential}</span>
-                    </td>
-                    <td className="py-2 px-3 text-center">
-                      <span className="text-xs text-gray-600">{item.contentDepth}</span>
-                    </td>
-                    <td className="py-2 px-3 text-xs text-gray-500 max-w-xs truncate">{item.notes}</td>
+          <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="expansion-roadmap-panel">
+            <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-blue-500" /> Content Expansion Roadmap
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="text-left py-2 px-3 font-medium text-gray-600">Career</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">Status</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">Search Vol</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">SEO</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">Conversion</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">Depth</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-600">Notes</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {CONTENT_EXPANSION_ROADMAP.map(item => (
+                    <tr key={item.slug} className="border-b border-gray-50" data-testid={`roadmap-${item.slug}`}>
+                      <td className="py-2 px-3 font-medium text-gray-900">{item.career}</td>
+                      <td className="py-2 px-3 text-center">
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          item.status === "active" ? "bg-green-50 text-green-700" :
+                          item.status === "planned" ? "bg-blue-50 text-blue-700" :
+                          "bg-gray-50 text-gray-600"
+                        }`}>{item.status}</span>
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        <span className={`text-xs font-medium ${item.searchVolume === "high" ? "text-green-600" : item.searchVolume === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.searchVolume}</span>
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        <span className={`text-xs font-medium ${item.seoOpportunity === "high" ? "text-green-600" : item.seoOpportunity === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.seoOpportunity}</span>
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        <span className={`text-xs font-medium ${item.conversionPotential === "high" ? "text-green-600" : item.conversionPotential === "medium" ? "text-amber-600" : "text-gray-500"}`}>{item.conversionPotential}</span>
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        <span className="text-xs text-gray-600">{item.contentDepth}</span>
+                      </td>
+                      <td className="py-2 px-3 text-xs text-gray-500 max-w-xs truncate">{item.notes}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
