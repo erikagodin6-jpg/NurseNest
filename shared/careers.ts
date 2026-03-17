@@ -888,3 +888,26 @@ export function getEnabledCareers(): CareerConfig[] {
 export function getCareerRoutePrefix(careerType: CareerType): string {
   return CAREER_CONFIGS[careerType].routePrefix;
 }
+
+export const ACTIVE_BUILD_PRIORITY: CareerType[] = [
+  "occupationalTherapyAssistant",
+  "physiotherapyAssistant",
+] as const as unknown as CareerType[];
+
+export interface ContentExpansionItem {
+  career: string;
+  slug: string;
+  status: "active" | "planned" | "research";
+  searchVolume: "high" | "medium" | "low";
+  seoOpportunity: "high" | "medium" | "low";
+  conversionPotential: "high" | "medium" | "low";
+  contentDepth: "deep" | "moderate" | "shallow";
+  notes: string;
+}
+
+export const CONTENT_EXPANSION_ROADMAP: ContentExpansionItem[] = [
+  { career: "Pre-Nursing", slug: "pre-nursing", status: "planned", searchVolume: "high", seoOpportunity: "high", conversionPotential: "high", contentDepth: "deep", notes: "Massive search volume for TEAS/HESI A2 prep. High conversion — funnels directly into RN/LPN tracks." },
+  { career: "New Grad Nurse", slug: "new-grad", status: "planned", searchVolume: "high", seoOpportunity: "high", conversionPotential: "high", contentDepth: "moderate", notes: "New grad transition content, residency prep, first-year clinical competency. Strong retention driver." },
+  { career: "Addictions Counsellor", slug: "addictions-counsellor", status: "active", searchVolume: "medium", seoOpportunity: "medium", conversionPotential: "medium", contentDepth: "deep", notes: "IC&RC, CASAC, CADC certification prep. Growing demand with opioid crisis. Already has base content." },
+  { career: "Psychotherapist", slug: "psychotherapist", status: "active", searchVolume: "medium", seoOpportunity: "high", conversionPotential: "medium", contentDepth: "deep", notes: "NCE, NCMHCE, state licensure prep. Mental health demand driving search volume growth." },
+];

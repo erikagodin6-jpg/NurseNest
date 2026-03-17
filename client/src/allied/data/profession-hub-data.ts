@@ -9,6 +9,23 @@ export interface CrossLink {
   description: string;
 }
 
+export interface WhoThisIsForItem {
+  audience: string;
+  description: string;
+}
+
+export interface HowBankWorksStep {
+  step: number;
+  title: string;
+  description: string;
+}
+
+export interface PracticeStrategyItem {
+  week: string;
+  focus: string;
+  activities: string[];
+}
+
 export interface ProfessionHubData {
   professionSlug: string;
   careerSlug: string;
@@ -39,6 +56,9 @@ export interface ProfessionHubData {
   crossLinks: CrossLink[];
   contentClusterBase: string;
   studyResourceLinks?: { label: string; href: string; desc: string }[];
+  whoThisIsFor?: WhoThisIsForItem[];
+  howBankWorks?: HowBankWorksStep[];
+  practiceStrategy?: PracticeStrategyItem[];
 }
 
 export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
@@ -789,9 +809,9 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#8BC34A",
     colorAccent: "#F1F8E9",
     seo: {
-      title: "OTA Exam Prep and Practice Questions — NBCOT COTA | NurseNest Allied",
-      description: "Prepare for the NBCOT COTA occupational therapy assistant exam with practice questions, ADL intervention scenarios, splinting guides, and blueprint-weighted mock exams.",
-      keywords: "OTA exam prep, NBCOT COTA practice questions, occupational therapy assistant exam, COTA certification, OTA study guide, OTA mock exam, OTA flashcards, certified occupational therapy assistant",
+      title: "OTA Exam Prep & NBCOT COTA Practice Questions 2025 — Certified Occupational Therapy Assistant | NurseNest Allied",
+      description: "Pass the NBCOT COTA exam on your first attempt with 400+ occupational therapy assistant practice questions, ADL intervention scenarios, splinting drills, adaptive equipment guides, and blueprint-weighted mock exams. Free diagnostic included.",
+      keywords: "OTA exam prep, NBCOT COTA practice questions, occupational therapy assistant exam, COTA certification, OTA study guide, OTA mock exam, OTA flashcards, certified occupational therapy assistant, NBCOT COTA exam prep 2025, OTA practice test, COTA exam questions, OTA review course, occupational therapy assistant certification prep, NBCOT study materials, COTA test prep, OTA exam review, OTA clinical simulation, ADL intervention questions, adaptive equipment OTA, OTA splinting practice",
       canonicalPath: "/allied-health/occupational-therapy-assistant",
     },
     examInfo: {
@@ -831,11 +851,16 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "Do OTAs need state licensure in addition to NBCOT certification?", a: "Yes. All US states require OTAs to hold a valid state license or registration in addition to NBCOT COTA certification. Requirements vary by state but typically include passing the NBCOT exam, completing continuing education, and maintaining an active license." },
       { q: "What settings do OTAs work in?", a: "OTAs work in skilled nursing facilities, hospitals, outpatient rehabilitation clinics, home health agencies, schools (early intervention and school-based OT), mental health facilities, and community programs. The most common setting is skilled nursing, followed by outpatient clinics." },
       { q: "Is there a free trial for OTA exam prep?", a: "Yes! Take a free diagnostic assessment to identify your strengths and gaps across all NBCOT COTA domains. You also get 5 free practice questions with full rationales to experience the depth of our content." },
+      { q: "How is NurseNest different from other OTA prep resources?", a: "NurseNest Allied uses blueprint-weighted question distribution, 600+ word rationales for every question, adaptive difficulty that targets your weak areas, and spaced repetition flashcards that auto-generate from your practice sessions. Every question maps to an official NBCOT COTA exam domain." },
     ],
     crossLinks: [
       { label: "PTA Exam Prep", href: "/allied-health/physiotherapy-assistant", description: "Physical therapist assistant certification with overlapping rehabilitation content" },
       { label: "Occupational Therapy (OTR)", href: "/allied-health/occupational-therapy", description: "Full occupational therapy certification for OTs pursuing the OTR credential" },
-      { label: "Pharmacy Tech Exam Prep", href: "/allied-health/pharmacy-technician", description: "Pharmacy technology certification with medication management knowledge" },
+      { label: "Allied Health Hub", href: "/allied-health", description: "Explore all allied health certification prep programs" },
+      { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy certification with cardiopulmonary assessment overlap" },
+      { label: "MLT Exam Prep", href: "/allied-health/mlt", description: "Medical laboratory technology with clinical data interpretation" },
+      { label: "Paramedic Exam Prep", href: "/allied-health/paramedic", description: "Emergency medical services with patient assessment and safety content" },
+      { label: "Imaging Exam Prep", href: "/allied-health/imaging", description: "Radiologic technology with patient positioning and safety protocols" },
     ],
     contentClusterBase: "/allied-health/occupational-therapy-assistant",
     studyResourceLinks: [
@@ -843,6 +868,25 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Practice Questions", href: "/allied-health/occupational-therapy-assistant/practice-questions", desc: "ADL intervention and clinical scenario questions with rationales" },
       { label: "Mock Exams", href: "/allied-health/occupational-therapy-assistant/mock-exam", desc: "Full-length NBCOT COTA simulations with domain scoring" },
       { label: "Lessons", href: "/allied-health/occupational-therapy-assistant/lessons", desc: "ADL training, adaptive equipment, splinting, and documentation lessons" },
+    ],
+    whoThisIsFor: [
+      { audience: "OTA Students", description: "Currently enrolled in an accredited Occupational Therapy Assistant program preparing for the NBCOT COTA certification exam." },
+      { audience: "Recent OTA Graduates", description: "Graduated from your OTA program and need targeted exam prep to pass the NBCOT COTA on your first attempt." },
+      { audience: "COTA Renewal Candidates", description: "Certified OTAs needing to refresh clinical knowledge for recertification or returning to practice after a career break." },
+      { audience: "Career Changers", description: "Healthcare professionals transitioning into occupational therapy assisting who want to understand the NBCOT COTA exam scope." },
+    ],
+    howBankWorks: [
+      { step: 1, title: "Take a Free Diagnostic", description: "Start with a diagnostic assessment that evaluates your knowledge across all 10 NBCOT COTA domains — ADLs, adaptive equipment, splinting, pediatrics, and more." },
+      { step: 2, title: "Get Your Personalized Study Plan", description: "Based on your diagnostic results, receive a targeted study plan that prioritizes your weakest domains and maps to the official NBCOT blueprint." },
+      { step: 3, title: "Practice with Blueprint-Weighted Questions", description: "Work through 400+ practice questions with 600+ word rationales. Each question is tagged by domain, difficulty, and cognitive level." },
+      { step: 4, title: "Simulate Exam Day", description: "Take full-length mock exams under timed conditions with domain-level scoring to track your readiness and build test-taking confidence." },
+      { step: 5, title: "Review with Spaced Repetition", description: "Flashcards auto-generate from your missed questions. The spaced repetition algorithm ensures you retain critical concepts long-term." },
+    ],
+    practiceStrategy: [
+      { week: "Weeks 1-2", focus: "Foundation Building", activities: ["Complete diagnostic assessment", "Review ADL intervention frameworks", "Start daily flashcard sessions (20 cards/day)", "Study adaptive equipment categories"] },
+      { week: "Weeks 3-5", focus: "Domain Deep Dives", activities: ["Complete 50 questions per domain", "Focus on weak areas from diagnostic", "Practice splinting scenarios", "Review pediatric and geriatric OT content"] },
+      { week: "Weeks 6-8", focus: "Integration & Mock Exams", activities: ["Take first full-length mock exam", "Analyze domain-level scores", "Target remaining weak areas with focused drills", "Increase daily question volume to 40-50 questions"] },
+      { week: "Weeks 9-12", focus: "Exam Readiness", activities: ["Complete 2-3 additional mock exams", "Review all flagged/missed questions", "Focus on clinical simulation items", "Maintain flashcard streaks for retention"] },
     ],
   },
 
@@ -855,9 +899,9 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
     color: "#009688",
     colorAccent: "#E0F2F1",
     seo: {
-      title: "PTA Exam Prep and Practice Questions — NPTE-PTA | NurseNest Allied",
-      description: "Prepare for the NPTE-PTA (Physical Therapist Assistant) and Canadian physiotherapy assistant exams with practice questions, modality selection drills, gait analysis scenarios, and blueprint-weighted mock exams.",
-      keywords: "PTA exam prep, NPTE-PTA practice questions, physical therapist assistant exam, physiotherapy assistant certification, PTA study guide, PTA mock exam, FSBPT PTA, physical therapy assistant flashcards",
+      title: "PTA Exam Prep & NPTE-PTA Practice Questions 2025 — Physical Therapist Assistant | NurseNest Allied",
+      description: "Pass the NPTE-PTA (FSBPT) exam on your first attempt with 2,000+ physical therapist assistant practice questions, gait analysis scenarios, modality selection drills, therapeutic exercise protocols, and blueprint-weighted mock exams. Free diagnostic included.",
+      keywords: "PTA exam prep, NPTE-PTA practice questions, physical therapist assistant exam, physiotherapy assistant certification, PTA study guide, PTA mock exam, FSBPT PTA, physical therapy assistant flashcards, NPTE-PTA exam prep 2025, PTA practice test, FSBPT exam questions, PTA review course, physical therapist assistant certification prep, NPTE study materials, PTA test prep, PTA exam review, NPTE-PTA clinical scenarios, gait training PTA, therapeutic modalities PTA, musculoskeletal rehab questions",
       canonicalPath: "/allied-health/physiotherapy-assistant",
     },
     examInfo: {
@@ -907,11 +951,16 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { q: "How long should I study for the NPTE-PTA?", a: "Most PTA students study 8-12 weeks before their exam. Start with a diagnostic to identify weak areas, then follow a structured plan targeting those domains. We recommend completing at least 3 full-length mock exams before test day." },
       { q: "What is the pass rate for the NPTE-PTA?", a: "First-time pass rates for the NPTE-PTA typically range from 80-90% for graduates of accredited programs. Our platform helps you identify and strengthen weak areas to maximize your chances of passing on the first attempt." },
       { q: "Is there a free trial?", a: "Yes! Take a free diagnostic assessment to identify your strengths and gaps across all NPTE-PTA content areas. You also get 5 free practice questions with full rationales." },
+      { q: "How is NurseNest different from other PTA prep resources?", a: "NurseNest Allied uses blueprint-weighted question distribution matching FSBPT exam percentages, 600+ word rationales for every question, adaptive mock exams with domain-level scoring, and gait analysis and modality selection trainers unique to our platform. Every question maps to official NPTE-PTA content areas." },
     ],
     crossLinks: [
       { label: "OTA Exam Prep", href: "/allied-health/occupational-therapy-assistant", description: "Occupational therapy assistant certification with overlapping rehabilitation content" },
       { label: "Physical Therapy (NPTE-PT)", href: "/allied-health/physical-therapy", description: "Full physical therapy certification for PTs pursuing the NPTE-PT credential" },
+      { label: "Allied Health Hub", href: "/allied-health", description: "Explore all allied health certification prep programs" },
       { label: "Paramedic Exam Prep", href: "/allied-health/paramedic", description: "Emergency medical services with musculoskeletal trauma assessment" },
+      { label: "RRT Exam Prep", href: "/allied-health/rrt", description: "Respiratory therapy with cardiopulmonary assessment overlap" },
+      { label: "MLT Exam Prep", href: "/allied-health/mlt", description: "Medical laboratory technology with clinical data interpretation" },
+      { label: "Imaging Exam Prep", href: "/allied-health/imaging", description: "Radiologic technology with patient positioning and musculoskeletal imaging" },
     ],
     contentClusterBase: "/allied-health/physiotherapy-assistant",
     studyResourceLinks: [
@@ -919,6 +968,25 @@ export const PROFESSION_HUB_DATA: Record<string, ProfessionHubData> = {
       { label: "Practice Questions", href: "/allied-health/physiotherapy-assistant/practice-questions", desc: "Modality selection and therapeutic exercise questions with rationales" },
       { label: "Mock Exams", href: "/allied-health/physiotherapy-assistant/mock-exam", desc: "Full-length NPTE-PTA simulations with domain scoring" },
       { label: "Lessons", href: "/allied-health/physiotherapy-assistant/lessons", desc: "Therapeutic exercise, modalities, gait training, and wound care lessons" },
+    ],
+    whoThisIsFor: [
+      { audience: "PTA Students", description: "Currently enrolled in an accredited Physical Therapist Assistant program preparing for the NPTE-PTA exam administered by the FSBPT." },
+      { audience: "Recent PTA Graduates", description: "Graduated from your PTA program and need focused exam prep to pass the NPTE-PTA on your first attempt." },
+      { audience: "Canadian Physiotherapy Assistants", description: "Physiotherapy assistant students in Canada preparing for provincial certification and clinical competency exams." },
+      { audience: "Career Changers", description: "Healthcare or fitness professionals transitioning into physical therapy assisting who want to understand the NPTE-PTA exam scope and content domains." },
+    ],
+    howBankWorks: [
+      { step: 1, title: "Take a Free Diagnostic", description: "Start with a diagnostic assessment that evaluates your knowledge across all NPTE-PTA content areas — musculoskeletal, neuromuscular, cardiopulmonary, integumentary, and non-systems." },
+      { step: 2, title: "Get Your Personalized Study Plan", description: "Based on your diagnostic results, receive a targeted study plan that prioritizes your weakest content areas and follows the FSBPT exam blueprint percentages." },
+      { step: 3, title: "Practice with 2,000+ Questions", description: "Work through blueprint-weighted practice questions with 600+ word rationales. Every question is tagged by content area, difficulty, and cognitive level." },
+      { step: 4, title: "Train with Specialty Tools", description: "Use the Modality Selection Trainer, Gait Deviation Analyzer, and Therapeutic Exercise Library to build clinical decision-making skills." },
+      { step: 5, title: "Simulate Exam Day", description: "Take 5 full-length NPTE-PTA mock exams under timed conditions with content-area scoring, difficulty adaptation, and detailed performance reports." },
+    ],
+    practiceStrategy: [
+      { week: "Weeks 1-2", focus: "Foundation & Musculoskeletal", activities: ["Complete diagnostic assessment", "Begin musculoskeletal domain review (35% of exam)", "Start daily flashcard sessions (25 cards/day)", "Review special tests and ROM norms"] },
+      { week: "Weeks 3-4", focus: "Neuromuscular & Cardiopulmonary", activities: ["Complete 100+ neuro questions", "Study gait deviations and assistive devices", "Review cardiac rehab and vitals interpretation", "Practice modality selection scenarios"] },
+      { week: "Weeks 5-7", focus: "Integumentary, Non-Systems & Integration", activities: ["Complete wound care and integumentary content", "Study ethics, documentation, and safety", "Take first full-length mock exam", "Analyze domain-level performance gaps"] },
+      { week: "Weeks 8-12", focus: "Mock Exams & Final Review", activities: ["Complete 3-4 additional mock exams", "Target remaining weak content areas", "Review all flagged/missed questions", "Maintain daily flashcard practice for retention"] },
     ],
   },
 

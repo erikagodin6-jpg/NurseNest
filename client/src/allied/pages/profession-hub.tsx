@@ -2,7 +2,8 @@ import { Link } from "wouter";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, Target, GraduationCap,
   CheckCircle2, HelpCircle, ChevronRight, ChevronDown, Award, BarChart3,
-  DollarSign, TrendingUp, Briefcase, Users, ExternalLink, ClipboardList
+  DollarSign, TrendingUp, Briefcase, Users, ExternalLink, ClipboardList,
+  Lock, Star, Calendar, UserCheck
 } from "lucide-react";
 import { useState } from "react";
 import { MedicalReviewBadge } from "@/components/medical-review-badge";
@@ -12,6 +13,7 @@ import { buildJobTrainingStructuredData } from "@/lib/structured-data";
 import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
 const FEATURE_ICONS = [BookOpen, Brain, Zap, FileText, GraduationCap, Target];
+const AUDIENCE_ICONS = [GraduationCap, UserCheck, Star, Briefcase];
 
 interface ProfessionHubPageProps {
   data: ProfessionHubData;
@@ -267,7 +269,8 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-16 bg-gray-50" data-testid="section-study-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3 text-center">What's Included</h2>
+          <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">Everything you need to prepare for your {data.shortName} certification exam, from practice questions to mock exams.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.studyFeatures.map((feature, i) => {
               const Icon = FEATURE_ICONS[i % FEATURE_ICONS.length];
@@ -282,6 +285,101 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
           </div>
         </div>
       </section>
+
+      {data.whoThisIsFor && data.whoThisIsFor.length > 0 && (
+        <section className="py-16 bg-white" data-testid="section-who-this-is-for">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Who This Is For</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Our {data.shortName} exam prep is designed for learners at every stage of their certification journey.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {data.whoThisIsFor.map((item, i) => {
+                const Icon = AUDIENCE_ICONS[i % AUDIENCE_ICONS.length];
+                return (
+                  <div key={item.audience} className="bg-gray-50 rounded-xl p-5 border border-gray-100" data-testid={`card-audience-${i}`}>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg" style={{ backgroundColor: data.colorAccent }}>
+                        <Icon className="w-5 h-5" style={{ color: data.color }} />
+                      </div>
+                      <h3 className="font-semibold text-gray-900">{item.audience}</h3>
+                    </div>
+                    <p className="text-sm text-gray-600">{item.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {data.howBankWorks && data.howBankWorks.length > 0 && (
+        <section className="py-16 bg-gray-50" data-testid="section-how-bank-works">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">How the Question Bank Works</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">A structured, blueprint-driven approach to {data.shortName} exam preparation.</p>
+            </div>
+            <div className="space-y-4">
+              {data.howBankWorks.map((step) => (
+                <div key={step.step} className="bg-white rounded-xl p-5 border border-gray-100 flex items-start gap-4" data-testid={`step-bank-${step.step}`}>
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: data.color }}>
+                    {step.step}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
+                    <p className="text-sm text-gray-600">{step.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 text-center">
+              <Link href={`/qbank?career=${data.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-try-question-bank">
+                <Target className="w-4 h-4" /> Try the Question Bank Free
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {data.practiceStrategy && data.practiceStrategy.length > 0 && (
+        <section className="py-16 bg-white" data-testid="section-practice-strategy">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{data.shortName} Practice Strategy</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Follow this proven study timeline to maximize your chances of passing on the first attempt.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {data.practiceStrategy.map((phase, i) => (
+                <div key={phase.week} className="rounded-xl border border-gray-100 overflow-hidden" data-testid={`card-strategy-${i}`}>
+                  <div className="px-5 py-3 font-semibold text-white text-sm flex items-center gap-2" style={{ backgroundColor: data.color }}>
+                    <Calendar className="w-4 h-4" />
+                    {phase.week}: {phase.focus}
+                  </div>
+                  <div className="p-5 bg-white">
+                    <ul className="space-y-2">
+                      {phase.activities.map((activity, j) => (
+                        <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
+                          <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: data.color }} />
+                          {activity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 bg-gray-50 rounded-xl p-6 border border-gray-100 text-center" data-testid="premium-strategy-cta">
+              <Lock className="w-6 h-6 mx-auto mb-2" style={{ color: data.color }} />
+              <h3 className="font-semibold text-gray-900 mb-1">Unlock Your Full Study Plan</h3>
+              <p className="text-sm text-gray-600 mb-4">Premium members get personalized study schedules, progress tracking, and adaptive practice sessions tailored to their weak areas.</p>
+              <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors" style={{ backgroundColor: data.color }} data-testid="button-upgrade-strategy">
+                <Star className="w-4 h-4" /> View Premium Plans
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-16 bg-white" data-testid="section-content-clusters">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
