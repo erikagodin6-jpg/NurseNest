@@ -424,7 +424,8 @@ import { npAssessmentContentBLessons } from "./np-assessment-content-b";
 import { npAssessmentContentCLessons } from "./np-assessment-content-c";
 import { rnPathoEndocrineHemeMskLessons } from "./rn-patho-endocrine-heme-msk";
 import { herbalSupplementsLessons } from "./herbal-supplements";
-import { herbalSupplementsQuestionBank } from "./herbal-supplements-questions";
+import { lessonRepairBatch } from "./lesson-repair-batch";
+import { mltLessonRepairBatch } from "./mlt-lesson-repair-batch";
 import { rnMskExpansionLessons } from "./rn-msk-expansion";
 import { rnHeentExpansionLessons } from "./rn-heent-expansion";
 import { rnSafetyForensicExpansionLessons } from "./rn-safety-forensic-expansion";
@@ -634,7 +635,7 @@ function safeMerge(
   ...sources: Record<string, LessonContent>[]
 ): Record<string, LessonContent> {
   const supplementFields: (keyof LessonContent)[] = [
-    'riskFactors', 'diagnostics', 'management', 'nursingActions', 'assessmentFindings'
+    'riskFactors', 'diagnostics', 'management', 'nursingActions', 'assessmentFindings', 'medications'
   ];
   for (const source of sources) {
     for (const [id, lesson] of Object.entries(source)) {
@@ -1063,7 +1064,6 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   dmsSonographyUsLessons,
   dmsSonographyCaLessons,
   herbalSupplementsLessons,
-  herbalSupplementsQuestionBank,
   rnMskExpansionLessons,
   rnHeentExpansionLessons,
   rnSafetyForensicExpansionLessons,
@@ -1086,6 +1086,8 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   missingBatch09Lessons,
   missingBatch10Lessons,
   missingBatch11Lessons,
+  lessonRepairBatch,
+  mltLessonRepairBatch,
 );
 
 
