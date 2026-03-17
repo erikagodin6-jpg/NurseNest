@@ -1742,6 +1742,7 @@ export const alliedQuestions = pgTable("allied_questions", {
   bottomGroupCorrect: doublePrecision("bottom_group_correct"),
   flagged: boolean("flagged").default(false),
   flagReason: text("flag_reason"),
+  examTag: text("exam_tag"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -1774,6 +1775,7 @@ export const alliedFlashcards = pgTable("allied_flashcards", {
   clinicalPearl: text("clinical_pearl"),
   blueprintCategory: text("blueprint_category"),
   subtopic: text("subtopic"),
+  examTag: text("exam_tag"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

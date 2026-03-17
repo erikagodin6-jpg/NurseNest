@@ -11,10 +11,28 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./rrt-questions-batch2").then(m => m.rrtQuestionsBatch2),
     import("./rrt-questions-batch3").then(m => m.rrtQuestionsBatch3),
   ]).then(parts => parts.flat()),
-  paramedic: () => import("./paramedic-questions").then(m => m.paramedicQuestions),
-  pharmacyTech: () => import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
-  mlt: () => import("./mlt-questions").then(m => m.mltQuestions),
-  imaging: () => import("./imaging-questions").then(m => m.imagingQuestions),
+  paramedic: () => Promise.all([
+    import("./paramedic-questions").then(m => m.paramedicQuestions),
+    import("./paramedic-questions-expansion").then(m => m.paramedicQuestionsExpansion),
+  ]).then(parts => parts.flat()),
+  pharmacyTech: () => Promise.all([
+    import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
+    import("./pharmacy-tech-questions-batch2").then(m => m.pharmacyTechQuestionsBatch2),
+    import("./pharmacy-tech-questions-batch3").then(m => m.pharmacyTechQuestionsBatch3),
+    import("./pharmacy-tech-questions-batch4").then(m => m.pharmacyTechQuestionsBatch4 as any),
+    import("./pharmacy-tech-questions-extended").then(m => m.pharmacyTechQuestionsExtended),
+    import("./pharmacy-tech-questions-pebc").then(m => m.pharmacyTechQuestionsPEBC as any),
+    import("./pharmacy-tech-questions-expansion").then(m => m.pharmacyTechQuestionsExpansion),
+  ]).then(parts => parts.flat()),
+  mlt: () => Promise.all([
+    import("./mlt-questions").then(m => m.mltQuestions),
+    import("./mlt-questions-batch2").then(m => m.mltQuestionsBatch2),
+    import("./mlt-questions-expansion").then(m => m.mltQuestionsExpansion),
+  ]).then(parts => parts.flat()),
+  imaging: () => Promise.all([
+    import("./imaging-questions").then(m => m.imagingQuestions),
+    import("./imaging-questions-expansion").then(m => m.imagingQuestionsExpansion),
+  ]).then(parts => parts.flat()),
   criticalCare: () => import("./critical-care-questions").then(m => m.criticalCareQuestions),
   emergencyNursing: () => import("./emergency-nursing-questions").then(m => m.emergencyNursingQuestions),
   perioperative: () => import("./perioperative-questions").then(m => m.perioperativeQuestions),
@@ -66,6 +84,7 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./pta-questions-batch16").then(m => m.ptaQuestionsBatch16),
     import("./pta-questions-batch17").then(m => m.ptaQuestionsBatch17),
     import("./pta-questions-batch18").then(m => m.ptaQuestionsBatch18),
+    import("./pta-questions-expansion").then(m => m.ptaQuestionsExpansion),
   ]).then(parts => parts.flat()),
   surgicalTechnologist: () => Promise.all([
     import("./surgical-technologist-questions").then(m => m.surgicalTechnologistQuestions),
@@ -86,12 +105,28 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./ota-questions-batch8").then(m => m.otaQuestionsBatch8),
     import("./ota-questions-batch9").then(m => m.otaQuestionsBatch9),
     import("./ota-questions-batch10").then(m => m.otaQuestionsBatch10),
+    import("./ota-questions-expansion").then(m => m.otaQuestionsExpansion),
   ]).then(parts => parts.flat()),
-  occupationalTherapy: () => import("./ota-questions").then(m => m.otaQuestions),
-  physicalTherapy: () => import("./pta-questions").then(m => m.ptaQuestions),
-  healthInfoMgmt: () => import("./him-questions").then(m => m.himQuestions),
-  diagnosticSonography: () => import("./sonography-questions").then(m => m.sonographyQuestions),
-  cardiacSonographer: () => import("./cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
+  occupationalTherapy: () => Promise.all([
+    import("./ota-questions").then(m => m.otaQuestions),
+    import("./ota-questions-expansion").then(m => m.otaQuestionsExpansion),
+  ]).then(parts => parts.flat()),
+  physicalTherapy: () => Promise.all([
+    import("./pta-questions").then(m => m.ptaQuestions),
+    import("./pta-questions-expansion").then(m => m.ptaQuestionsExpansion),
+  ]).then(parts => parts.flat()),
+  healthInfoMgmt: () => Promise.all([
+    import("./him-questions").then(m => m.himQuestions),
+    import("./him-questions-batch2").then(m => m.himQuestionsBatch2),
+  ]).then(parts => parts.flat()),
+  diagnosticSonography: () => Promise.all([
+    import("./sonography-questions").then(m => m.sonographyQuestions),
+    import("./sonography-questions-batch2").then(m => m.sonographyQuestionsBatch2),
+  ]).then(parts => parts.flat()),
+  cardiacSonographer: () => Promise.all([
+    import("./cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
+    import("./cardiac-sonographer-questions-batch2").then(m => m.cardiacSonographerQuestionsBatch2),
+  ]).then(parts => parts.flat()),
 };
 
 export async function loadCareerQuestions(careerType: CareerType): Promise<CareerQuestion[]> {
