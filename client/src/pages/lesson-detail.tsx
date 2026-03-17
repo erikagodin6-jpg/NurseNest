@@ -1751,6 +1751,7 @@ export default function LessonDetail() {
   const [apiLesson, setApiLesson] = useState<LessonContent | null>(null);
   const [apiLoading, setApiLoading] = useState(true);
   const [apiLessonId, setApiLessonId] = useState<string | null>(null);
+  const [tierLocked, setTierLocked] = useState<{ requiredTier: string } | null>(null);
 
   useEffect(() => {
     if (!id) { setApiLoading(false); return; }
@@ -1758,6 +1759,7 @@ export default function LessonDetail() {
     setApiLesson(null);
     setApiLessonId(null);
     setIsPreviewOnly(false);
+    setTierLocked(null);
     setOverrides(null);
     setDbContent(null);
     setNoteContent("");
@@ -1765,8 +1767,20 @@ export default function LessonDetail() {
     setDbLoading(true);
     const controller = new AbortController();
     fetch(`/api/lessons/content/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
-      .then((r) => {
-        if (!r.ok) { setApiLesson(null); setApiLoading(false); return; }
+      .then(async (r) => {
+        if (!r.ok) {
+          if (r.status === 403) {
+            try {
+              const errData = await r.json();
+              if (errData.code === "LESSON_TIER_LOCKED") {
+                setTierLocked({ requiredTier: errData.requiredTier || "rpn" });
+              }
+            } catch {}
+          }
+          setApiLesson(null);
+          setApiLoading(false);
+          return;
+        }
         return r.json();
       })
       .then((data) => {
@@ -2456,6 +2470,36 @@ export default function LessonDetail() {
             {showAdminCreator && (
               <AdminLessonCreator lessonId={id} onPublished={() => fetchDbLesson(id)} />
             )}
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (tierLocked) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group" data-testid="button-back-lessons-locked">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+              <Lock className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-locked">Premium Lesson</h1>
+            <p className="text-gray-600 max-w-md mx-auto">
+              This lesson is part of the {getTierLabel(tierLocked.requiredTier)} plan. Upgrade your account to access this lesson and hundreds more with adaptive quizzes, flashcards, and spaced repetition.
+            </p>
+            <LocaleLink href={getTierPricingPath(tierLocked.requiredTier)}>
+              <Button className="mt-4 bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base font-semibold gap-2" data-testid="button-lesson-locked-upgrade">
+                <Crown className="w-5 h-5" />
+                Upgrade to {getTierLabel(tierLocked.requiredTier)}
+              </Button>
+            </LocaleLink>
           </main>
           <Footer />
         </div>
