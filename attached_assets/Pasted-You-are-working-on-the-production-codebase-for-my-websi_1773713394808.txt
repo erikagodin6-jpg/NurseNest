@@ -1,0 +1,82 @@
+You are working on the production codebase for my website.
+
+There are visible i18n translation key errors rendering on the hero page instead of real text. The site is showing raw keys like:
+
+hero.trustIndicator.builtFor
+hero.trustIndicator.nursingStudents
+hero.trustIndicator.newGradNurses
+hero.trustIndicator.alliedHealth
+hero.trustIndicator.certCandidates
+home.heroFeatures.multilingual
+home.heroFeatures.examPrep
+home.heroFeatures.clinicalScenarios
+home.heroFeatures.pathophysiology
+home.heroFeatures.labValues
+home.heroFeatures.bloodTransfusion
+home.heroFeatures.newGrad
+
+Fix this properly across the site.
+
+PRIMARY GOAL
+
+Make sure the hero page displays real user-facing text in every supported language and never shows raw translation keys on the published site.
+
+TASKS
+
+1. Audit the hero page component and identify exactly where these translation keys are being called.
+2. Confirm whether the component is using the correct namespace and key path.
+3. Inspect all locale translation files used by the site and add any missing keys for every supported language.
+4. If some languages are incomplete, add safe fallback translations temporarily using the English text so raw keys never appear.
+5. Ensure the correct translation namespace is loaded before the hero renders.
+6. Add defensive fallback handling so if a key is missing, the UI shows readable English copy instead of the raw key string.
+7. Verify this works on the live published site, not just locally.
+8. Do not break existing navigation, theming, SEO, or layout.
+9. Do not create duplicate translation structures or messy new files if a translation system already exists.
+10. Keep all text grouped in the proper hero/home translation sections so the structure stays clean and maintainable.
+
+REQUIRED ENGLISH COPY
+
+Use these as the default English values if missing:
+
+hero.trustIndicator.builtFor = Built for
+hero.trustIndicator.nursingStudents = Nursing Students
+hero.trustIndicator.newGradNurses = New Grad Nurses
+hero.trustIndicator.alliedHealth = Allied Health
+hero.trustIndicator.certCandidates = Certification Candidates
+
+home.heroFeatures.multilingual = Multilingual Learning
+home.heroFeatures.examPrep = Exam Prep
+home.heroFeatures.clinicalScenarios = Clinical Scenarios
+home.heroFeatures.pathophysiology = Pathophysiology
+home.heroFeatures.labValues = Lab Values
+home.heroFeatures.bloodTransfusion = Blood Transfusion
+home.heroFeatures.newGrad = New Grad Support
+
+IMPLEMENTATION REQUIREMENTS
+
+- Find the exact hero component(s) rendering these values.
+- Fix the translation lookup logic instead of hardcoding text into JSX unless used only as a fallback.
+- Ensure the translation resources are loaded for all supported locales.
+- If namespaces like hero or home are split, keep them consistent.
+- If the site uses i18next, react-i18next, next-intl, or a custom translation loader, follow the existing architecture.
+- Add a helper or fallback pattern such as:
+  t("hero.trustIndicator.builtFor", "Built for")
+  or equivalent for the current translation framework.
+- Make sure hydration does not briefly flash raw keys before translations load.
+- Confirm the same issue is not happening on other homepage sections.
+
+QA CHECKS
+
+- Test homepage in default language.
+- Test homepage in at least all currently enabled languages.
+- Confirm no raw translation keys appear anywhere on hero cards, trust indicators, feature chips, or CTA sections.
+- Confirm production build succeeds.
+- Confirm published deployment reflects the fix.
+
+DELIVERABLE
+
+Implement the fix directly in code, clean up any broken or duplicate translation entries, and provide a short report with:
+1. root cause
+2. files changed
+3. keys added
+4. any languages still needing manual translation review
