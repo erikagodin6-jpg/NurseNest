@@ -1,0 +1,282 @@
+You are implementing a global translation-system hardening fix across the NurseNest production codebase.
+
+PROBLEM
+
+Raw i18n keys are appearing in production UI instead of human-readable text, for example:
+
+- hero.featureStrip.activeRecall
+- hero.featureStrip.spacedRepetition
+- hero.featureStrip.clinicalDecision
+- hero.featureStrip.examBlueprint
+- intlNursing.hub.title
+- intlNursing.hub.badge
+- hero.trustIndicator.*
+- home.heroFeatures.*
+- and similar unresolved translation keys
+
+This is no longer a one-component bug. This is a system-level reliability issue in the localization layer.
+
+GOAL
+
+Create a robust, global i18n solution so unresolved translation keys never appear visibly in production again.
+
+The fix must:
+- preserve multilingual support
+- keep proper namespace-based translations
+- allow English fallback
+- prevent raw keys from rendering in UI
+- work across homepage, nursing tiers, allied health, new grad, international nursing, admin pages, and future pages
+- make missing keys easier to detect during development
+- avoid fragile one-off component patches
+
+DO NOT:
+- do not remove localization support
+- do not hardcode all strings directly in components
+- do not create multiple competing fallback systems
+- do not silently swallow translation issues without logging them in development
+- do not break SSR/hydration
+- do not make production show raw translation keys under any circumstances
+
+==================================================
+PART 1 — AUDIT THE I18N ARCHITECTURE
+==================================================
+
+Audit the current localization implementation end to end:
+
+- i18n initialization/config
+- translation provider setup
+- namespace loading
+- page-level namespace registration
+- locale JSON structure
+- fallback language config
+- server/client hydration behavior
+- route-based lazy loading
+- translation hook usage
+- helper utilities wrapping t()
+
+Identify all current failure modes, including:
+- wrong namespace used by component
+- namespace not loaded for a route
+- missing key in locale file
+- key exists under wrong nesting
+- inconsistent casing/path naming
+- async translation loading race conditions
+- fallback language not configured correctly
+- direct rendering of unresolved `t(key)` return values
+- components assuming that the translation library never returns the raw key
+
+==================================================
+PART 2 — CREATE A SAFE GLOBAL TRANSLATION HELPER
+==================================================
+
+Implement a single reusable helper for all UI translation calls.
+
+Examples of acceptable patterns:
+- safeT(...)
+- translateWithFallback(...)
+- useSafeTranslation(...)
+
+This helper must:
+1. attempt the requested key in the requested namespace
+2. if missing, attempt English fallback
+3. if still missing, use a provided plain-language fallback/defaultValue
+4. if no defaultValue exists, generate a clean human-readable fallback instead of returning the raw key
+5. in development only, log a warning with the missing key, namespace, and component/page context
+6. in production, never expose the raw key string to the user
+
+Behavior requirement:
+- production UI must never show values like `hero.featureStrip.activeRecall`
+- development must still make it obvious that a translation is missing
+
+==================================================
+PART 3 — DEFINE FALLBACK RULES
+==================================================
+
+Implement fallback priority consistently:
+
+Priority order:
+1. requested locale key
+2. English locale key
+3. explicit defaultValue passed by component
+4. humanized fallback derived from last key segment
+
+Examples:
+- `hero.featureStrip.activeRecall` -> "Active Recall"
+- `intlNursing.hub.ctaPrepare` -> "Prepare"
+- `home.heroFeatures.labValues` -> "Lab Values"
+
+Humanization should:
+- extract the last meaningful segment
+- split camelCase
+- replace dots/underscores/hyphens
+- title-case the result
+- avoid ugly raw developer strings in UI
+
+Do not let the raw full key path appear visually.
+
+==================================================
+PART 4 — ADD A SAFE HOOK FOR COMPONENTS
+==================================================
+
+Create or update a hook so components can do something like:
+
+const { safeT } = useSafeTranslation('home')
+
+Then use:
+safeT('hero.featureStrip.activeRecall', 'Active Recall Learning')
+
+or equivalent.
+
+Requirements:
+- namespace-aware
+- supports default value
+- supports interpolation
+- supports pluralization if current system supports it
+- works in client and SSR contexts
+- minimal refactor burden for components
+
+==================================================
+PART 5 — UPDATE HIGH-RISK COMPONENTS FIRST
+==================================================
+
+Refactor the components/routes most visibly affected:
+
+1. Homepage hero
+2. Hero feature strips
+3. Trust indicators
+4. International Nurses hub
+5. Allied / New Grad hero sections
+6. Header / nav labels
+7. CTA buttons
+8. Breadcrumbs
+9. Admin dashboards where labels are localized
+10. Any page currently showing raw keys in screenshots/issues
+
+Replace direct fragile translation calls with the safe helper pattern.
+
+==================================================
+PART 6 — ENSURE NAMESPACE LOADING IS CORRECT
+==================================================
+
+Audit every major route and confirm it loads the namespaces its components require.
+
+Fix:
+- missing namespace imports
+- incorrect namespace names
+- page loaders that omit route-specific translations
+- components mounted under routes without their namespace loaded
+
+If a component depends on a namespace, either:
+- explicitly load it at route level
+or
+- colocate it in a reliably loaded shared namespace
+
+Do not rely on luck or implicit loading.
+
+==================================================
+PART 7 — STANDARDIZE LOCALE FILE STRUCTURE
+==================================================
+
+Normalize translation file structure across locales.
+
+Ensure:
+- same key paths exist across locales wherever possible
+- key nesting is consistent
+- no duplicate alternate structures for the same UI copy
+- naming conventions are standardized
+
+For example, do not mix:
+- hero.featureStrip.activeRecall
+with
+- home.hero_features.active_recall
+for the same label
+
+Choose one canonical schema and align the codebase to it.
+
+==================================================
+PART 8 — ADD DEVELOPMENT DIAGNOSTICS
+==================================================
+
+Add strong missing-translation diagnostics for development only.
+
+In dev:
+- console.warn or structured logger when a key is missing
+- include locale, namespace, key, and component/route if possible
+- optionally add a lightweight dev-only overlay/report of missing keys
+
+In production:
+- no noisy console spam for users
+- no raw keys in UI
+- safe fallback only
+
+==================================================
+PART 9 — ADD QA/TEST COVERAGE
+==================================================
+
+Add tests or validation for the translation layer.
+
+Include at minimum:
+1. safe helper returns locale value when key exists
+2. safe helper falls back to English when locale value missing
+3. safe helper falls back to defaultValue when both missing
+4. safe helper humanizes final fallback when no text exists
+5. raw key string is never returned to rendered production UI
+6. namespace loading for key routes works
+
+Also add a lightweight script or check that can scan locale files for missing critical keys.
+
+==================================================
+PART 10 — FIX CURRENT KNOWN KEYS
+==================================================
+
+Ensure the following known problem areas are fully corrected in locale files and route/component usage:
+
+- hero.featureStrip.activeRecall
+- hero.featureStrip.spacedRepetition
+- hero.featureStrip.clinicalDecision
+- hero.featureStrip.examBlueprint
+- intlNursing.hub.title
+- intlNursing.hub.badge
+- intlNursing.hub.heading
+- intlNursing.hub.subtitle
+- intlNursing.hub.ctaExplore
+- intlNursing.hub.ctaPrepare
+- hero.trustIndicator.builtFor
+- hero.trustIndicator.nursingStudents
+- hero.trustIndicator.newGradNurses
+- hero.trustIndicator.alliedHealth
+- hero.trustIndicator.certCandidates
+- home.heroFeatures.multilingual
+- home.heroFeatures.examPrep
+- home.heroFeatures.clinicalScenarios
+- home.heroFeatures.pathophysiology
+- home.heroFeatures.labValues
+- home.heroFeatures.bloodTransfusion
+- home.heroFeatures.newGrad
+
+==================================================
+PART 11 — PRODUCTION SAFETY REQUIREMENT
+==================================================
+
+Before shipping, verify:
+
+- no raw translation keys visible anywhere on public pages
+- no raw translation keys visible on admin pages
+- locale switching still works
+- English fallback works safely
+- SSR/hydration is stable
+- Lighthouse/performance impact is minimal
+- no broken buttons/headings/breadcrumbs/titles because of i18n failure
+
+==================================================
+PART 12 — FINAL DELIVERABLE
+==================================================
+
+Implement a clean, maintainable global fix and commit it.
+
+Required end state:
+- translation failures no longer leak raw keys into the UI
+- missing translations degrade gracefully
+- developers can still detect missing keys in development
+- namespace loading is reliable
+- NurseNest localization becomes production-safe across the site

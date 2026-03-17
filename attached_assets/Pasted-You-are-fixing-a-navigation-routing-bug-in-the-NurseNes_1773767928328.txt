@@ -1,0 +1,172 @@
+You are fixing a navigation/routing bug in the NurseNest production codebase.
+
+PROBLEM
+
+When I am on the Allied Health site/section and click the “Pricing” link in the navigation, it incorrectly takes me to the Nursing pricing page instead of the Allied Health pricing page.
+
+GOAL
+
+Make the Pricing link context-aware so users on Allied Health are taken to the Allied Health pricing page, not the Nursing pricing page.
+
+This must work cleanly on the published site and preserve correct behavior across all site sections.
+
+DO NOT:
+- do not hardcode a fragile one-off patch in only one component if pricing links are shared globally
+- do not break nursing pricing navigation
+- do not break new grad or other section-specific pricing routes
+- do not redirect all pricing links to one universal page unless that is the intended architecture
+- do not leave mixed behavior between desktop and mobile nav
+
+==================================================
+PART 1 — TRACE THE PRICING LINK SOURCE
+==================================================
+
+Audit every place the Allied Health “Pricing” nav item is generated.
+
+Check:
+- desktop header nav
+- mobile nav
+- shared nav config
+- section-specific nav config
+- layout wrappers
+- breadcrumb/header utilities
+- any route mapping/constants file
+
+Find out whether the Pricing link is:
+- hardcoded to the nursing route
+- inherited from a shared global nav config
+- missing section context
+- using the wrong base path
+- using a fallback route because allied pricing route is absent or misnamed
+
+==================================================
+PART 2 — IDENTIFY THE CORRECT ROUTE MODEL
+==================================================
+
+Determine the intended architecture for pricing pages.
+
+Possibilities:
+A. Separate pricing pages per section/site
+   - nursing pricing
+   - allied health pricing
+   - new grad pricing
+B. One shared pricing page with section-aware content
+C. One pricing page but route should preserve active section/tab
+
+Use the existing product architecture and keep it consistent.
+
+For Allied Health, clicking Pricing must resolve to the correct allied experience.
+
+==================================================
+PART 3 — FIX THE LINKING LOGIC
+==================================================
+
+Implement proper context-aware navigation logic.
+
+If the user is inside Allied Health:
+- Pricing should point to the allied pricing route
+
+If inside Nursing:
+- Pricing should point to nursing pricing
+
+If inside New Grad:
+- Pricing should point to new grad pricing if one exists, or the correct intended pricing destination
+
+Use a canonical nav routing strategy, for example:
+- section-aware route config
+- current site/brand/section context
+- route helper function like getPricingRoute(currentSection)
+
+Do not duplicate route strings all over the codebase.
+
+==================================================
+PART 4 — CHECK DESKTOP AND MOBILE NAV
+==================================================
+
+Ensure the fix applies consistently to:
+- desktop header
+- mobile menu
+- any sticky nav
+- footer pricing links if section-specific
+- CTA buttons that say pricing/plans/upgrade
+
+No route inconsistency between nav variants.
+
+==================================================
+PART 5 — VERIFY THE ALLIED PRICING PAGE ITSELF
+==================================================
+
+Confirm the Allied Health pricing route/page exists and is production-ready.
+
+If it exists:
+- ensure the nav points to it correctly
+
+If it does not exist:
+- build or wire the intended allied pricing page using the existing pricing system
+- do not send users to nursing pricing by mistake
+
+If pricing content is shared but should be branded/filter-scoped for Allied Health:
+- ensure the page opens with Allied Health context selected automatically
+
+==================================================
+PART 6 — PRESERVE BRAND/SECTION CONTEXT
+==================================================
+
+When navigating from Allied Health to Pricing, preserve the correct:
+- branding
+- header/nav state
+- selected section
+- pricing cards/content relevant to allied health
+- locale/country context if applicable
+
+Do not reset users into the nursing funnel unintentionally.
+
+==================================================
+PART 7 — QA CHECKLIST
+==================================================
+
+Test all of the following:
+
+1. Allied Health desktop nav → Pricing
+- goes to Allied Health pricing
+
+2. Allied Health mobile nav → Pricing
+- goes to Allied Health pricing
+
+3. Nursing nav → Pricing
+- still goes to nursing pricing
+
+4. New Grad / other section pricing links
+- still behave correctly
+
+5. Direct refresh on allied pricing page
+- loads without redirecting to nursing pricing
+
+6. Active nav highlighting
+- still works correctly
+
+7. Internal CTAs/buttons to pricing from allied pages
+- do not route to nursing unless intentionally designed
+
+==================================================
+PART 8 — CLEAN IMPLEMENTATION
+==================================================
+
+Refactor any shared nav config so section-aware links are generated from a single source of truth.
+
+Preferred outcome:
+- no hardcoded wrong pricing route
+- section-aware route helper in one place
+- future nav links for allied/new grad can reuse the same pattern
+
+==================================================
+DELIVERABLE
+==================================================
+
+Implement the fix cleanly and commit it.
+
+Required end state:
+- clicking Pricing from Allied Health takes users to the Allied Health pricing page
+- nursing pricing remains correct
+- desktop and mobile nav are both fixed
+- routing is section-aware and maintainable
