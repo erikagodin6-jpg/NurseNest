@@ -441,7 +441,7 @@ function FreeQuestionsContent({ cc }: { cc: CountryConfig }) {
             Get access to thousands of {cc.examBoard}-aligned questions with adaptive difficulty, detailed analytics, and exam simulation mode.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-pricing-from-free">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors" data-testid="link-pricing-from-free">
               View Pricing <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={`/allied-health/mlt/${cc.country}/exam-prep`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-50 transition-colors border border-purple-200" data-testid="link-exam-prep-from-free">

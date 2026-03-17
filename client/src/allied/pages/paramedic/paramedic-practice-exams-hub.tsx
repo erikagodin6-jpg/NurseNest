@@ -163,7 +163,7 @@ export default function ParamedicPracticeExamsHub() {
         title="Take Your First Practice Exam"
         subtitle="See where you stand with a free mock exam, then use your results to build a targeted study plan for exam day."
         primaryCTA={{ label: "Start Free Mock Exam", href: "/allied-health/paramedic/exam-launcher" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

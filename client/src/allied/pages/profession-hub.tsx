@@ -373,7 +373,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
               <Lock className="w-6 h-6 mx-auto mb-2" style={{ color: data.color }} />
               <h3 className="font-semibold text-gray-900 mb-1">Unlock Your Full Study Plan</h3>
               <p className="text-sm text-gray-600 mb-4">Premium members get personalized study schedules, progress tracking, and adaptive practice sessions tailored to their weak areas.</p>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors" style={{ backgroundColor: data.color }} data-testid="button-upgrade-strategy">
+              <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors" style={{ backgroundColor: data.color }} data-testid="button-upgrade-strategy">
                 <Star className="w-4 h-4" /> View Premium Plans
               </Link>
             </div>

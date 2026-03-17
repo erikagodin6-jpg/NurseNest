@@ -251,7 +251,7 @@ export function ConversionCTA({ title, description, ctaText, ctaHref }: {
       <h3 className="text-xl font-bold text-white mb-2">{title || "Ready to ace your paramedic exam?"}</h3>
       <p className="text-teal-100 text-sm mb-4">{description || "Join thousands of paramedic students using NurseNest to prepare for their certification exams."}</p>
       <a
-        href={ctaHref || "/pricing"}
+        href={ctaHref || "/allied-health/pricing"}
         className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-colors"
         data-testid="button-cta"
       >

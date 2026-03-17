@@ -150,7 +150,7 @@ export default function CareerGuideSubpage({ careerSlug }: CareerGuideSubpagePro
             <Link href={`/diagnostic?career=${hubData.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200 text-gray-700" data-testid="button-cta-pricing">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-colors border border-gray-200 text-gray-700" data-testid="button-cta-pricing">
               View Pricing
             </Link>
           </div>

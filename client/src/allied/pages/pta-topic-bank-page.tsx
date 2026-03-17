@@ -258,7 +258,7 @@ export default function PtaTopicBankPage() {
                 Get full access to detailed rationales, mock exams, flashcards, and adaptive study tools.
               </p>
               <Link
-                href="/pricing"
+                href="/allied-health/pricing"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 shadow-lg shadow-teal-200 transition-all"
                 data-testid="button-upgrade-pro"
               >
@@ -342,7 +342,7 @@ export default function PtaTopicBankPage() {
             <Link href="/allied-health/physiotherapy-assistant/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-all" data-testid="button-cta-start-practicing">
               Start Practicing Free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 border border-teal-400 transition-all" data-testid="button-cta-upgrade">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 border border-teal-400 transition-all" data-testid="button-cta-upgrade">
               Upgrade to Allied Pro
             </Link>
           </div>

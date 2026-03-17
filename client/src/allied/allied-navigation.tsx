@@ -264,7 +264,7 @@ export function AlliedNavigation() {
                 );
               })}
 
-              <Link href="/pricing" className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${location === "/pricing" ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid="link-pricing">
+              <Link href="/allied-health/pricing" className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${location === "/allied-health/pricing" ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid="link-pricing">
                 Pricing
               </Link>
             </nav>
@@ -294,7 +294,7 @@ export function AlliedNavigation() {
                 )}
               </div>
             ) : (
-              <Link href="/pricing" className="hidden sm:block px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors shadow-sm" data-testid="button-get-started">
+              <Link href="/allied-health/pricing" className="hidden sm:block px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors shadow-sm" data-testid="button-get-started">
                 Get Started Free
               </Link>
             )}
@@ -365,7 +365,7 @@ export function AlliedNavigation() {
               <Globe className="w-4 h-4 text-teal-500" />
               Region: {region === "US" ? "United States" : "Canada"} (tap to switch)
             </button>
-            <Link href="/pricing" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-pricing">Pricing</Link>
+            <Link href="/allied-health/pricing" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-pricing">Pricing</Link>
             {isAdmin && (
               <Link href="/admin/allied" className="block px-4 py-3 text-sm font-medium text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-admin">Admin Panel</Link>
             )}

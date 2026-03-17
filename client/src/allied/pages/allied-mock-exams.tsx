@@ -300,7 +300,7 @@ export default function AlliedMockExamsPage() {
           {freeMocksUsed >= FREE_MOCK_LIMIT ? (
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <p className="text-sm text-amber-800 flex-1">You've used your free mock exam. Upgrade to Pro for unlimited mock exams with adaptive CAT simulation.</p>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-mock-cap">
+              <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-mock-cap">
                 <Lock className="w-4 h-4" /> Unlock All Mock Exams
               </Link>
             </div>
@@ -318,10 +318,10 @@ export default function AlliedMockExamsPage() {
             Upgrade to Pro for unlimited mock exams including Standard (75 Qs) and Comprehensive (150 Qs) with adaptive CAT-style difficulty.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-mock-full">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-mock-full">
               <Zap className="w-4 h-4" /> Upgrade to Pro — $29/mo
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-mock-annual">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-mock-annual">
               Or $239/year (Save 31%)
             </Link>
           </div>
@@ -339,7 +339,7 @@ export default function AlliedMockExamsPage() {
               <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.time} min</span>
             </div>
             {exam.free && !isPro && freeMocksUsed >= FREE_MOCK_LIMIT ? (
-              <Link href="/pricing" className="w-full px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-medium flex items-center justify-center gap-2 border border-amber-200" data-testid={`button-used-${exam.id}`}>
+              <Link href="/allied-health/pricing" className="w-full px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-medium flex items-center justify-center gap-2 border border-amber-200" data-testid={`button-used-${exam.id}`}>
                 <Lock className="w-4 h-4" /> Free Mock Used — Upgrade
               </Link>
             ) : exam.free || isPro ? (
@@ -347,7 +347,7 @@ export default function AlliedMockExamsPage() {
                 <Play className="w-4 h-4" /> Start Exam
               </button>
             ) : (
-              <Link href="/pricing" className="w-full px-4 py-2.5 bg-gray-100 text-gray-500 rounded-xl text-sm font-medium flex items-center justify-center gap-2" data-testid={`button-locked-${exam.id}`}>
+              <Link href="/allied-health/pricing" className="w-full px-4 py-2.5 bg-gray-100 text-gray-500 rounded-xl text-sm font-medium flex items-center justify-center gap-2" data-testid={`button-locked-${exam.id}`}>
                 <Lock className="w-4 h-4" /> Upgrade to PRO
               </Link>
             )}

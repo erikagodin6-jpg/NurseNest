@@ -245,7 +245,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
             <Link href="/dashboard/mlt" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="cta-start-studying">
               Start Studying Free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 border border-purple-200 rounded-xl font-semibold hover:bg-purple-50 transition-colors" data-testid="cta-view-plans">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 border border-purple-200 rounded-xl font-semibold hover:bg-purple-50 transition-colors" data-testid="cta-view-plans">
               View Plans
             </Link>
           </div>

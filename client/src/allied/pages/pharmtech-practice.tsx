@@ -177,7 +177,7 @@ export default function PharmtechPracticePage() {
             <Lock className="w-10 h-10 text-green-400 mx-auto mb-4" />
             <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock All Practice Questions</h3>
             <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">Upgrade to Allied Pro for unlimited access to all 200+ questions with detailed rationales.</p>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200" data-testid="button-upgrade-practice">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200" data-testid="button-upgrade-practice">
               <Lock className="w-4 h-4" /> Upgrade to Pro
             </Link>
           </div>

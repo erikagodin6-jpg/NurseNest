@@ -114,7 +114,7 @@ export default function ParamedicPCPPage() {
         title="Ready to Start Studying for Your PCP Exam?"
         subtitle="Take the free diagnostic today and get a personalized study plan targeting your weakest PCP domains."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

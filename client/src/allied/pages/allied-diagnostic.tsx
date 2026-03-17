@@ -588,7 +588,7 @@ export default function AlliedDiagnostic() {
           </ul>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="/pricing"
+              href="/allied-health/pricing"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-bold hover:bg-teal-50 transition-all"
               data-testid="link-upgrade-pricing"
             >

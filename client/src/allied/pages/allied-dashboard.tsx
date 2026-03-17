@@ -399,7 +399,7 @@ export default function AlliedDashboardPage() {
           <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock Full Access</h3>
           <p className="text-sm text-gray-600 mb-4">Upgrade to get unlimited questions, mock exams, personalized study plans, and detailed analytics for your {career.shortName} certification prep.</p>
           <Link
-            href="/pricing"
+            href="/allied-health/pricing"
             className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200"
             data-testid="button-upgrade"
           >

@@ -66,7 +66,7 @@ export default function ParamedicScenariosHub() {
         title="Build Clinical Judgment Through Simulation"
         subtitle="Scenarios build the decision-making skills that separate good paramedics from great ones. Start with a free diagnostic to see where you stand."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

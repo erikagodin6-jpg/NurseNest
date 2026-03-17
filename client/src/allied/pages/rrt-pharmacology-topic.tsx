@@ -176,7 +176,7 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
                     Unlock the full topic guide including indications, contraindications, side effects, key medications, clinical pearls, and practice questions.
                   </p>
                   <div className="flex flex-wrap gap-3 justify-center">
-                    <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors" data-testid="button-unlock-premium">
+                    <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors" data-testid="button-unlock-premium">
                       Unlock All Topics <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link href="/allied-health/rrt/pharmacology" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl text-sm font-semibold border border-blue-200 hover:bg-blue-50 transition-colors" data-testid="button-back-hub">

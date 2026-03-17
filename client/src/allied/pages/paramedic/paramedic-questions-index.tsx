@@ -213,7 +213,7 @@ export default function ParamedicQuestionsIndex() {
         title="Ready to Practice Paramedic Questions?"
         subtitle="Start with a free diagnostic to identify your strengths and gaps, then use targeted practice sets to build exam readiness."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

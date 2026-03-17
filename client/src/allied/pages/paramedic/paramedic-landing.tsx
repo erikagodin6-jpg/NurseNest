@@ -239,7 +239,7 @@ export default function ParamedicLandingPage() {
         title="Your Paramedic Exam Is Coming. Are You Ready?"
         subtitle="Start with a free diagnostic to see exactly where you stand. Then follow your personalized study plan to exam-day confidence."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

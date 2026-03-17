@@ -254,14 +254,14 @@ export default function AlliedQBankPage() {
           {freeUsed >= FREE_LIMIT ? (
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <p className="text-sm text-amber-800 flex-1">5 free questions available. Upgrade to unlock full QBank access.</p>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-cap">
+              <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-cap">
                 <Lock className="w-4 h-4" /> Unlock Full QBank
               </Link>
             </div>
           ) : freeUsed >= FREE_LIMIT * 0.8 ? (
             <div className="flex items-center justify-between">
               <p className="text-xs text-amber-700">Only {FREE_LIMIT - freeUsed} free questions remaining</p>
-              <Link href="/pricing" className="text-xs font-medium text-teal-600 hover:text-teal-700" data-testid="link-upgrade-warning">
+              <Link href="/allied-health/pricing" className="text-xs font-medium text-teal-600 hover:text-teal-700" data-testid="link-upgrade-warning">
                 Upgrade to Pro →
               </Link>
             </div>
@@ -277,10 +277,10 @@ export default function AlliedQBankPage() {
             Upgrade to Pro for unlimited questions with detailed 600+ word rationales, adaptive CAT simulation, weak area targeting, and more.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-full">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-full">
               <Zap className="w-4 h-4" /> Upgrade to Pro — $29/mo
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-annual">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-annual">
               Or $239/year (Save 31%)
             </Link>
           </div>
@@ -387,7 +387,7 @@ export default function AlliedQBankPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Available</h3>
           <p className="text-gray-500 text-sm mb-4">Try adjusting your filters or check back soon for more content.</p>
           {!isPro && (
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-upgrade">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-upgrade">
               <Lock className="w-4 h-4" /> Unlock Full QBank
             </Link>
           )}

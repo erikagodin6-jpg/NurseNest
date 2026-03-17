@@ -320,7 +320,7 @@ export default function RrtPharmacologyHub() {
             <h2 className="text-2xl font-bold mb-3" data-testid="text-cta-heading">Ready to Master Respiratory Pharmacology?</h2>
             <p className="text-blue-100 mb-6">Unlock all 12+ pharmacology topic guides, practice questions, and clinical pearls with NurseNest Allied Pro.</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl text-base font-semibold hover:bg-blue-50 transition-colors" data-testid="button-cta-pricing">
+              <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl text-base font-semibold hover:bg-blue-50 transition-colors" data-testid="button-cta-pricing">
                 View Plans <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/allied-health/rrt" className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500/30 text-white rounded-xl text-base font-semibold hover:bg-blue-500/40 transition-colors border border-blue-400/30" data-testid="button-back-to-rrt">

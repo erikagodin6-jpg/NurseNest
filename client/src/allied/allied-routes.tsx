@@ -154,7 +154,6 @@ const MockExamReportPage = lazy(() => import("@/pages/mock-exam-report"));
 const MockExamSessionPage = lazy(() => import("@/pages/mock-exam-session"));
 const MockExamsListPage = lazy(() => import("@/pages/mock-exams"));
 const StudyPlanPage = lazy(() => import("@/pages/study-plan"));
-const PricingPage = lazy(() => import("@/pages/pricing"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const AuthorityContentPage = lazy(() => import("@/pages/authority-content-page"));
 const ExamStudyGuidePage = lazy(() => import("@/pages/exam-study-guide"));
@@ -221,7 +220,6 @@ export function AlliedRoutes() {
         <Route path="/allied-health/careers" component={CareerDirectory} />
         <Route path="/allied-health/pricing" component={AlliedPricing} />
         <Route path="/pricing/allied" component={AlliedPricing} />
-        <Route path="/pricing" component={AlliedPricing} />
         <Route path="/allied-health/institutions/faq" component={AlliedInstitutionsFAQ} />
         <Route path="/allied-health/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
         <Route path="/allied-health/institutions" component={AlliedInstitutions} />
@@ -616,7 +614,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/allied-health/:careerSlug/study-plan" component={AlliedStudyPlan} />
         <Route path="/allied-health/:careerSlug/flashcards" component={AlliedFlashcards} />
-        <Route path="/allied-health/:careerSlug/pricing" component={PricingPage} />
+        <Route path="/allied-health/:careerSlug/pricing" component={AlliedPricing} />
         <Route path="/allied-health/:careerSlug/sims" component={AlliedSims} />
         <Route path="/allied-health/:careerSlug/tools" component={AlliedTools} />
 

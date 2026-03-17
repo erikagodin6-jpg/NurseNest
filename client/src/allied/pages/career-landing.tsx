@@ -807,7 +807,7 @@ export default function CareerLandingPage() {
                   <span>All smart tools & analytics</span>
                 </li>
               </ul>
-              <Link href="/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-100 text-teal-700 rounded-xl font-medium hover:bg-teal-200 transition-colors" data-testid="button-pricing-monthly">
+              <Link href="/allied-health/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-100 text-teal-700 rounded-xl font-medium hover:bg-teal-200 transition-colors" data-testid="button-pricing-monthly">
                 Get Monthly Access
               </Link>
             </div>
@@ -834,7 +834,7 @@ export default function CareerLandingPage() {
                   <span>Extended performance history</span>
                 </li>
               </ul>
-              <Link href="/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-md shadow-teal-200" data-testid="button-pricing-annual">
+              <Link href="/allied-health/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-md shadow-teal-200" data-testid="button-pricing-annual">
                 Get Annual Access
               </Link>
             </div>
@@ -918,14 +918,14 @@ export default function CareerLandingPage() {
             <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-400 transition-colors border border-teal-400" data-testid="button-cta-pricing">
+            <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-400 transition-colors border border-teal-400" data-testid="button-cta-pricing">
               View Full Pricing
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-teal-200 text-sm">
             <Link href={`/allied-health/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Test Bank →</Link>
             <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
-            <Link href="/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
+            <Link href="/allied-health/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
           </div>
         </div>
       </section>

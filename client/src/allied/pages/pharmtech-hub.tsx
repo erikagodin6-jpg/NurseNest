@@ -303,7 +303,7 @@ export default function PharmtechHubPage() {
               <Link href="/allied-health/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free
               </Link>
-              <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-pricing">
+              <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700 text-white rounded-xl text-sm font-semibold hover:bg-green-800 border border-green-500 transition-all" data-testid="button-cta-pricing">
                 <Sparkles className="w-4 h-4" /> View Plans
               </Link>
             </div>

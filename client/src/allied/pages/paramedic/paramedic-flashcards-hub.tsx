@@ -66,7 +66,7 @@ export default function ParamedicFlashcardsHub() {
         title="Master Paramedic Concepts with Spaced Repetition"
         subtitle="Flashcards are most effective when combined with practice questions and clinical scenarios. Start with a free diagnostic to build your personalized study plan."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

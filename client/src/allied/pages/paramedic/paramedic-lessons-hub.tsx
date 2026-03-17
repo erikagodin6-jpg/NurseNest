@@ -105,7 +105,7 @@ export default function ParamedicLessonsHub() {
         title="Want Full Access to All Paramedic Lessons?"
         subtitle="Pro members get unlimited access to every lesson, question, and study tool. Start with a free diagnostic to see where you stand."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

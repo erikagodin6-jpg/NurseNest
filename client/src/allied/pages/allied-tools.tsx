@@ -88,7 +88,7 @@ export default function AlliedToolsPage() {
                       Launch Tool <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   ) : (
-                    <Link href="/pricing" className="inline-flex items-center gap-1 text-sm font-medium text-gray-400" data-testid={`button-locked-${tool.id}`}>
+                    <Link href="/allied-health/pricing" className="inline-flex items-center gap-1 text-sm font-medium text-gray-400" data-testid={`button-locked-${tool.id}`}>
                       <Lock className="w-3.5 h-3.5" /> PRO Only
                     </Link>
                   )}

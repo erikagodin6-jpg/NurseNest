@@ -70,7 +70,7 @@ export default function AlliedPricingPage() {
         title="Allied Health Plans - Exam Prep Pricing"
         description="Choose your Allied Health exam prep plan. Access exam-style questions, flashcards, lessons, and performance tools. Plans start at $14.99 CAD/month."
         keywords="allied health exam prep pricing, healthcare certification cost, RRT exam prep price, paramedic exam prep price, pharmacy tech exam prep price"
-        canonicalPath="/pricing"
+        canonicalPath="/allied-health/pricing"
       />
 
       <div className="text-center mb-12">

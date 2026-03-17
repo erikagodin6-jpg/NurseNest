@@ -114,7 +114,7 @@ export default function ParamedicACPPage() {
         title="Ready to Master ACP-Level Practice?"
         subtitle="Advanced Care Paramedic exams demand advanced preparation. Start with a free diagnostic and build your study plan today."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

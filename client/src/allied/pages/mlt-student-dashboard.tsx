@@ -1223,7 +1223,7 @@ export default function MltStudentDashboard() {
   function handleUpgrade() {
     trackMltUpgradeClick(`dashboard-${activeTab}`);
     trackMltConversionEvent("upgrade_click", effectiveTier);
-    setLocation("/pricing");
+    setLocation("/allied-health/pricing");
   }
 
   const tabs: { id: DashboardTab; label: string; icon: any; path: string }[] = [

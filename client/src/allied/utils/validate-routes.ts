@@ -4,7 +4,8 @@ import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 const REGISTERED_ROUTES = new Set([
   "/",
   "/careers",
-  "/pricing",
+  "/allied-health/pricing",
+  "/pricing/allied",
   "/institutions",
   "/institutions/faq",
   "/institutions/faculty-dashboard",
@@ -87,7 +88,7 @@ export function validateAlliedRoutes(): { valid: string[]; broken: string[]; war
   const footerLinks = [
     "/allied-health/rrt", "/allied-health/paramedic", "/allied-health/pharmacy-technician", "/allied-health/mlt", "/allied-health/imaging",
     "/allied-health/occupational-therapy", "/allied-health/physical-therapy", "/allied-health/social-work",
-    "/careers", "/pricing",
+    "/careers", "/pricing/allied",
   ];
   for (const link of footerLinks) {
     if (isValidRoute(link)) {

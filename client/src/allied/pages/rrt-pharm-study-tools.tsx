@@ -26,7 +26,7 @@ function PremiumBanner() {
       <Lock className="w-6 h-6 mx-auto mb-2 opacity-80" />
       <h3 className="text-lg font-bold mb-1">Unlock All Study Tools</h3>
       <p className="text-blue-100 text-sm mb-3">Get full access to all quick sheets, mnemonics, traps, and review cards with NurseNest Allied Pro.</p>
-      <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors" data-testid="link-upgrade-premium">
+      <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors" data-testid="link-upgrade-premium">
         Upgrade to Pro <ArrowRight className="w-4 h-4" />
       </Link>
     </div>

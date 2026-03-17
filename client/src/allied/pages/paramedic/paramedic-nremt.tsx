@@ -114,7 +114,7 @@ export default function ParamedicNREMTPage() {
         title="Your NREMT Exam Is Coming. Let's Get You Registry-Certified."
         subtitle="Start with a free diagnostic, follow your personalized study plan, and walk into your cognitive exam knowing you are ready."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
-        secondaryCTA={{ label: "View Pricing", href: "/pricing" }}
+        secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />
     </div>
   );

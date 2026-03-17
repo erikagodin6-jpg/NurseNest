@@ -1144,7 +1144,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              href="/pricing"
+              href="/allied-health/pricing"
               className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-3.5 rounded-xl font-semibold text-lg transition-colors border border-white/20"
               data-testid="link-view-pricing"
             >
@@ -1254,7 +1254,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/pricing"
+                href="/allied-health/pricing"
                 className="inline-flex items-center justify-center gap-2 bg-transparent border border-white/40 text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors"
                 data-testid="link-pricing-page"
               >
@@ -1350,7 +1350,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               </div>
             </Link>
             <Link
-              href="/pricing"
+              href="/allied-health/pricing"
               className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-teal-300 hover:shadow-sm transition-all"
               data-testid="link-internal-pricing"
             >

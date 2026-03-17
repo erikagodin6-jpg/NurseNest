@@ -345,7 +345,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/pricing"
+              href="/allied-health/pricing"
               className="inline-flex items-center justify-center gap-2 border-2 border-teal-300 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-500 transition-colors"
               data-testid="link-cta-pricing"
             >
