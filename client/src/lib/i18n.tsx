@@ -47,9 +47,29 @@ export function getMissingKeyCount(): number {
   return total;
 }
 
-function trackMissingKey(lang: LanguageCode, key: string) {
+function humanizeKey(key: string): string {
+  const lastSegment = key.split(".").pop() || key;
+  return lastSegment
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .replace(/[_-]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
+
+function isDottedKey(val: string): boolean {
+  return /^[a-zA-Z][a-zA-Z0-9]*\.[a-zA-Z]/.test(val);
+}
+
+function trackMissingKey(lang: string, key: string) {
   if (!missingKeys.has(lang)) missingKeys.set(lang, new Set());
-  missingKeys.get(lang)!.add(key);
+  const keySet = missingKeys.get(lang)!;
+  if (!keySet.has(key)) {
+    keySet.add(key);
+    if (import.meta.env.DEV) {
+      console.warn(`[i18n] Missing translation: key="${key}", language="${lang}"`);
+    }
+  }
 }
 
 let enLoaded = false;
@@ -87,7 +107,7 @@ type I18nContextType = {
 const I18nContext = createContext<I18nContextType>({
   language: "en",
   setLanguage: () => {},
-  t: (key: string, _vars?: Record<string, string>) => key,
+  t: (key: string, _vars?: Record<string, string>) => humanizeKey(key),
   isTranslationLoaded: false,
   isFallback: () => false,
 });
@@ -189,7 +209,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       trackMissingKey(language, key);
     }
 
-    val = val || key;
+    if (!val || isDottedKey(val)) {
+      if (!translations.en[key]) {
+        trackMissingKey("en", key);
+      }
+      val = humanizeKey(key);
+    }
+
     if (vars) {
       for (const [k, v] of Object.entries(vars)) {
         val = val.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
