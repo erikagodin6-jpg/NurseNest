@@ -1,0 +1,54 @@
+Stop. The current fix is wrong and is recreating the failure.
+
+You changed the schema back to:
+email.notNull().default("")
+
+That guarantees Drizzle will generate:
+ALTER TABLE "users" ALTER COLUMN "email" SET NOT NULL;
+
+Your idea that a pre-migration hook in drizzle.config.ts will run first is not working in Replit Publishing. The proof is that deployment still fails with the exact same error.
+
+So stop using drizzle.config.ts side effects as a migration mechanism.
+
+We now need to choose ONE real fix path and execute it cleanly.
+
+PATH A — PREFERRED IF EMAIL IS OPTIONAL
+1. Revert users.email to nullable in the actual Drizzle schema.
+2. Remove every notNull() and default("") from users.email.
+3. Remove any snapshot/meta state that still expects email NOT NULL.
+4. Regenerate Drizzle state cleanly.
+5. Prove with commands/output that NO migration diff exists for users.email.
+6. Trigger a fresh publish from that corrected commit only.
+
+PATH B — ONLY IF EMAIL MUST BE REQUIRED
+1. Leave schema as NOT NULL only if product design truly requires it.
+2. Run a REAL manual SQL update directly against the production database BEFORE publishing:
+   UPDATE users
+   SET email = CASE
+     WHEN username ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$' THEN lower(trim(username))
+     ELSE 'user-' || id || '@placeholder.local'
+   END
+   WHERE email IS NULL;
+3. Verify:
+   SELECT count(*) FROM users WHERE email IS NULL;
+   must return 0.
+4. Then retry publish.
+5. Do NOT rely on drizzle.config.ts hooks for this.
+
+IMPORTANT:
+- Do not keep alternating between nullable schema and notNull schema.
+- Do not use drizzle.config.ts side effects as the solution.
+- Do not claim Publishing cache unless you can prove it.
+- Do not say fixed unless a brand-new publish passes.
+
+I need you to decide which path is correct and execute it fully.
+
+Before doing anything else, answer clearly:
+- Is users.email optional or required by product design?
+- Which path are you taking: A or B?
+
+Then show:
+- exact schema line before and after
+- exact files changed
+- exact command outputs
+- result of a brand-new publish attempt
