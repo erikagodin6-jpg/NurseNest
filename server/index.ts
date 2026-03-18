@@ -248,6 +248,14 @@ app.use((_req, res, next) => {
 });
 const httpServer = createServer(app);
 
+const port = parseInt(process.env.PORT || "5000", 10);
+httpServer.keepAliveTimeout = 65000;
+httpServer.headersTimeout = 66000;
+httpServer.timeout = 30000;
+httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
+  log(`port ${port} open (health check ready, routes loading...)`);
+});
+
 // -------------------------
 // Stripe init (sync + managed webhook)
 // -------------------------
@@ -821,51 +829,44 @@ app.use((req, res, next) => {
   }
 
   appReady = true;
+  log(`routes loaded, app ready on port ${port}`);
 
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.keepAliveTimeout = 65000;
-  httpServer.headersTimeout = 66000;
-  httpServer.timeout = 30000;
-  httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
-    log(`serving on port ${port}`);
+  const sitemapFiles = [
+    "sitemap-index.xml (master index)",
+    "sitemap-pages.xml (static/marketing pages)",
+    "sitemap-lessons.xml (lesson content)",
+    "sitemap-questions.xml (practice questions)",
+    "sitemap-flashcards.xml (glossary/flashcards)",
+    "sitemap-specialties.xml (nursing specialties)",
+    "sitemap-professions.xml (profession landing pages)",
+    "sitemap-allied.xml (allied health)",
+    "sitemap-newgrad.xml (new graduate)",
+    "sitemap-content.xml (SEO articles/content)",
+    "image-sitemap.xml (images)",
+    "sitemap-study-guides.xml (programmatic)",
+    "sitemap-exam-tips.xml (programmatic)",
+    "sitemap-clinical-scenarios.xml (programmatic)",
+    "sitemap-practice-questions.xml (programmatic)",
+    "sitemap-question-details.xml (programmatic)",
+    "sitemap-flashcard-details.xml (programmatic)",
+  ];
+  console.log("\n[Sitemap] Registered sitemap files:");
+  for (const f of sitemapFiles) {
+    console.log(`  ✓ /${f}`);
+  }
+  console.log(`[Sitemap] Total: ${sitemapFiles.length} sitemap files`);
+  console.log(`[Sitemap] robots.txt → Sitemap: https://www.nursenest.ca/sitemap-index.xml`);
+  console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
+  console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
-    const sitemapFiles = [
-      "sitemap-index.xml (master index)",
-      "sitemap-pages.xml (static/marketing pages)",
-      "sitemap-lessons.xml (lesson content)",
-      "sitemap-questions.xml (practice questions)",
-      "sitemap-flashcards.xml (glossary/flashcards)",
-      "sitemap-specialties.xml (nursing specialties)",
-      "sitemap-professions.xml (profession landing pages)",
-      "sitemap-allied.xml (allied health)",
-      "sitemap-newgrad.xml (new graduate)",
-      "sitemap-content.xml (SEO articles/content)",
-      "image-sitemap.xml (images)",
-      "sitemap-study-guides.xml (programmatic)",
-      "sitemap-exam-tips.xml (programmatic)",
-      "sitemap-clinical-scenarios.xml (programmatic)",
-      "sitemap-practice-questions.xml (programmatic)",
-      "sitemap-question-details.xml (programmatic)",
-      "sitemap-flashcard-details.xml (programmatic)",
-    ];
-    console.log("\n[Sitemap] Registered sitemap files:");
-    for (const f of sitemapFiles) {
-      console.log(`  ✓ /${f}`);
-    }
-    console.log(`[Sitemap] Total: ${sitemapFiles.length} sitemap files`);
-    console.log(`[Sitemap] robots.txt → Sitemap: https://www.nursenest.ca/sitemap-index.xml`);
-    console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
-    console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
+  import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
 
-    import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
+  runDeferredStartupWork();
 
-    runDeferredStartupWork();
-
-    const alertPool = getDevPool();
-    startAlertingEngine(alertPool, 5 * 60 * 1000);
-    const syntheticBaseUrl = `http://127.0.0.1:${port}`;
-    startSyntheticMonitoring(alertPool, syntheticBaseUrl, 10 * 60 * 1000);
-  });
+  const alertPool = getDevPool();
+  startAlertingEngine(alertPool, 5 * 60 * 1000);
+  const syntheticBaseUrl = `http://127.0.0.1:${port}`;
+  startSyntheticMonitoring(alertPool, syntheticBaseUrl, 10 * 60 * 1000);
 
   setInterval(async () => {
     try {
