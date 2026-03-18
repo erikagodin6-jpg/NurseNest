@@ -29,7 +29,7 @@ export interface IStorage {
   deleteNote(userId: string, lessonId: string): Promise<void>;
   getTestResults(userId: string, lessonId?: string): Promise<TestResult[]>;
   createTestResult(result: InsertTestResult): Promise<TestResult>;
-  getUserProgress(userId: string): Promise<UserProgress[]>;
+  getUserProgress(userId: string, limit?: number, offset?: number): Promise<UserProgress[]>;
   getProgressForLesson(userId: string, lessonId: string): Promise<UserProgress | undefined>;
   upsertProgress(progress: InsertUserProgress): Promise<UserProgress>;
   getProduct(productId: string): Promise<any>;
@@ -40,10 +40,10 @@ export interface IStorage {
   getSubscription(subscriptionId: string): Promise<any>;
   getFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage | undefined>;
   incrementFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage>;
-  getAllContentItems(): Promise<ContentItem[]>;
+  getAllContentItems(limit?: number, offset?: number): Promise<ContentItem[]>;
   getContentItem(id: string): Promise<ContentItem | undefined>;
   getContentItemBySlug(slug: string): Promise<ContentItem | undefined>;
-  getPublishedContent(type?: string, category?: string): Promise<ContentItem[]>;
+  getPublishedContent(type?: string, category?: string, limit?: number, offset?: number): Promise<ContentItem[]>;
   getScheduledContentDue(): Promise<ContentItem[]>;
   publishScheduledContent(): Promise<number>;
   checkDuplicateSlug(slug: string, excludeId?: string): Promise<boolean>;
@@ -51,7 +51,7 @@ export interface IStorage {
   createContentItem(item: InsertContentItem): Promise<ContentItem>;
   updateContentItem(id: string, updates: Partial<InsertContentItem>): Promise<ContentItem>;
   deleteContentItem(id: string): Promise<void>;
-  getUserFlashcards(userId: string): Promise<UserFlashcard[]>;
+  getUserFlashcards(userId: string, limit?: number, offset?: number): Promise<UserFlashcard[]>;
   createUserFlashcard(card: InsertUserFlashcard): Promise<UserFlashcard>;
   updateUserFlashcard(id: string, userId: string, updates: Partial<InsertUserFlashcard>): Promise<UserFlashcard>;
   deleteUserFlashcard(id: string, userId: string): Promise<void>;
@@ -518,8 +518,11 @@ export class DatabaseStorage implements IStorage {
     return created;
   }
 
-  async getUserProgress(userId: string): Promise<UserProgress[]> {
-    return db.select().from(userProgress).where(eq(userProgress.userId, userId)).orderBy(desc(userProgress.lastAccessed));
+  async getUserProgress(userId: string, limit?: number, offset?: number): Promise<UserProgress[]> {
+    let q = db.select().from(userProgress).where(eq(userProgress.userId, userId)).orderBy(desc(userProgress.lastAccessed));
+    if (limit !== undefined) q = q.limit(limit) as any;
+    if (offset !== undefined) q = q.offset(offset) as any;
+    return q;
   }
 
   async getProgressForLesson(userId: string, lessonId: string): Promise<UserProgress | undefined> {
@@ -603,8 +606,11 @@ export class DatabaseStorage implements IStorage {
     return db.select().from(notes).orderBy(desc(notes.updatedAt));
   }
 
-  async getAllContentItems(): Promise<ContentItem[]> {
-    return db.select().from(contentItems).orderBy(desc(contentItems.updatedAt));
+  async getAllContentItems(limit?: number, offset?: number): Promise<ContentItem[]> {
+    let q = db.select().from(contentItems).orderBy(desc(contentItems.updatedAt));
+    if (limit !== undefined) q = q.limit(limit) as any;
+    if (offset !== undefined) q = q.offset(offset) as any;
+    return q;
   }
 
   async getContentItem(id: string): Promise<ContentItem | undefined> {
@@ -617,11 +623,14 @@ export class DatabaseStorage implements IStorage {
     return item;
   }
 
-  async getPublishedContent(type?: string, category?: string): Promise<ContentItem[]> {
+  async getPublishedContent(type?: string, category?: string, limit?: number, offset?: number): Promise<ContentItem[]> {
     const conditions = [eq(contentItems.status, "published")];
     if (type) conditions.push(eq(contentItems.type, type));
     if (category) conditions.push(eq(contentItems.category, category));
-    return db.select().from(contentItems).where(and(...conditions)).orderBy(desc(contentItems.publishedAt));
+    let q = db.select().from(contentItems).where(and(...conditions)).orderBy(desc(contentItems.publishedAt));
+    if (limit !== undefined) q = q.limit(limit) as any;
+    if (offset !== undefined) q = q.offset(offset) as any;
+    return q;
   }
 
   async getScheduledContentDue(): Promise<ContentItem[]> {
@@ -692,8 +701,11 @@ export class DatabaseStorage implements IStorage {
     return result.rows[0] as FeatureUsage;
   }
 
-  async getUserFlashcards(userId: string): Promise<UserFlashcard[]> {
-    return db.select().from(userFlashcards).where(eq(userFlashcards.userId, userId)).orderBy(desc(userFlashcards.createdAt));
+  async getUserFlashcards(userId: string, limit?: number, offset?: number): Promise<UserFlashcard[]> {
+    let q = db.select().from(userFlashcards).where(eq(userFlashcards.userId, userId)).orderBy(desc(userFlashcards.createdAt));
+    if (limit !== undefined) q = q.limit(limit) as any;
+    if (offset !== undefined) q = q.offset(offset) as any;
+    return q;
   }
 
   async createUserFlashcard(card: InsertUserFlashcard): Promise<UserFlashcard> {
@@ -1125,13 +1137,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getLessonAudioLinks(lessonId: string): Promise<(LessonAudioLink & { clip: AudioClip })[]> {
-    const links = await db.select().from(lessonAudioLinks).where(eq(lessonAudioLinks.lessonId, lessonId)).orderBy(lessonAudioLinks.displayOrder);
-    const results: (LessonAudioLink & { clip: AudioClip })[] = [];
-    for (const link of links) {
-      const [clip] = await db.select().from(audioClips).where(eq(audioClips.id, link.audioClipId));
-      if (clip) results.push({ ...link, clip });
-    }
-    return results;
+    const result = await pool.query(
+      `SELECT lal.*, ac.id AS clip_id, ac.title AS clip_title, ac.description AS clip_description,
+              ac.audio_url AS clip_audio_url, ac.duration_seconds AS clip_duration_seconds,
+              ac.category AS clip_category, ac.voice_id AS clip_voice_id,
+              ac.created_at AS clip_created_at
+       FROM lesson_audio_links lal
+       JOIN audio_clips ac ON lal.audio_clip_id = ac.id
+       WHERE lal.lesson_id = $1
+       ORDER BY lal.display_order`,
+      [lessonId]
+    );
+    return result.rows.map((r: any) => {
+      const link = snakeToCamel(r) as any;
+      link.clip = {
+        id: r.clip_id,
+        title: r.clip_title,
+        description: r.clip_description,
+        audioUrl: r.clip_audio_url,
+        durationSeconds: r.clip_duration_seconds,
+        category: r.clip_category,
+        voiceId: r.clip_voice_id,
+        createdAt: r.clip_created_at,
+      };
+      return link;
+    });
   }
 
   async createLessonAudioLink(link: InsertLessonAudioLink): Promise<LessonAudioLink> {
@@ -1297,18 +1327,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getProductSales(): Promise<{ productId: string; title: string; totalSales: number; totalRevenue: number }[]> {
-    const products = await db.select().from(digitalProducts).orderBy(desc(digitalProducts.createdAt));
-    const results: { productId: string; title: string; totalSales: number; totalRevenue: number }[] = [];
-    for (const p of products) {
-      const [salesCount] = await db.select({ count: count() }).from(productPurchases).where(eq(productPurchases.productId, p.id));
-      results.push({
-        productId: p.id,
-        title: p.title,
-        totalSales: salesCount?.count || 0,
-        totalRevenue: (salesCount?.count || 0) * p.price,
-      });
-    }
-    return results;
+    const result = await pool.query(
+      `SELECT dp.id AS product_id, dp.title, dp.price,
+              COUNT(pp.id)::int AS total_sales
+       FROM digital_products dp
+       LEFT JOIN product_purchases pp ON dp.id = pp.product_id
+       GROUP BY dp.id, dp.title, dp.price
+       ORDER BY dp.created_at DESC`
+    );
+    return result.rows.map((r: any) => ({
+      productId: r.product_id,
+      title: r.title,
+      totalSales: r.total_sales || 0,
+      totalRevenue: (r.total_sales || 0) * Number(r.price || 0),
+    }));
   }
 
   async validateCoupon(code: string): Promise<{ valid: boolean; discountType?: string; discountValue?: number }> {
@@ -1402,12 +1434,12 @@ export class DatabaseStorage implements IStorage {
   async getUserStudyGroups(userId: string): Promise<StudyGroup[]> {
     const memberships = await db.select().from(studyGroupMembers).where(eq(studyGroupMembers.userId, userId));
     if (memberships.length === 0) return [];
-    const groups: StudyGroup[] = [];
-    for (const m of memberships) {
-      const g = await this.getStudyGroup(m.groupId);
-      if (g) groups.push(g);
-    }
-    return groups;
+    const groupIds = memberships.map(m => m.groupId);
+    const result = await pool.query(
+      `SELECT * FROM study_groups WHERE id = ANY($1)`,
+      [groupIds]
+    );
+    return result.rows.map(snakeToCamel) as StudyGroup[];
   }
   async addStudyGroupMember(data: InsertStudyGroupMember): Promise<StudyGroupMember> {
     const [m] = await db.insert(studyGroupMembers).values(data).returning();
@@ -2311,8 +2343,11 @@ export class DatabaseStorage implements IStorage {
     return { study, steps: stepsWithQuestions };
   }
 
-  async getAllLessons(filters?: { category?: string; tier?: string; status?: string; limit?: number; offset?: number }): Promise<any[]> {
-    let query = "SELECT * FROM lessons WHERE 1=1";
+  async getAllLessons(filters?: { category?: string; tier?: string; status?: string; limit?: number; offset?: number; metadataOnly?: boolean }): Promise<any[]> {
+    const columns = filters?.metadataOnly
+      ? "id, slug, title, category, sub_category, tier, status, summary, seo_title, seo_description, image_url, image_alt, is_public_preview, created_at, updated_at"
+      : "*";
+    let query = `SELECT ${columns} FROM lessons WHERE 1=1`;
     const params: any[] = [];
     let idx = 1;
     if (filters?.category) { query += ` AND category = $${idx++}`; params.push(filters.category); }

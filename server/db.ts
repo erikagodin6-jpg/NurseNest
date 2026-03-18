@@ -16,8 +16,27 @@ let prodPool: pg.Pool | null = null;
 export function getDevPool(): pg.Pool {
   if (!devPool) {
     if (!DEV_URL) throw new Error("DATABASE_URL is not set");
-    devPool = new pg.Pool({ connectionString: DEV_URL });
-    console.log(`[DB] Dev pool created → ${maskUrl(DEV_URL)}`);
+    devPool = new pg.Pool({
+      connectionString: DEV_URL,
+      statement_timeout: 10000,
+    });
+    const origQuery = devPool.query.bind(devPool);
+    devPool.query = function (...args: any[]) {
+      const start = Date.now();
+      const result = origQuery(...args);
+      if (result && typeof result.then === "function") {
+        return result.then((res: any) => {
+          const elapsed = Date.now() - start;
+          if (elapsed > 500) {
+            const queryText = typeof args[0] === "string" ? args[0].slice(0, 200) : "(complex query)";
+            console.warn(`[SlowQuery] ${elapsed}ms: ${queryText}`);
+          }
+          return res;
+        });
+      }
+      return result;
+    } as any;
+    console.log(`[DB] Dev pool created → ${maskUrl(DEV_URL)} (statement_timeout=10s)`);
   }
   return devPool;
 }
@@ -25,8 +44,27 @@ export function getDevPool(): pg.Pool {
 export function getProdPool(): pg.Pool {
   if (!prodPool) {
     if (!PROD_URL) throw new Error("Neither PROD_DATABASE_URL nor DATABASE_URL is set");
-    prodPool = new pg.Pool({ connectionString: PROD_URL });
-    console.log(`[DB] Prod pool created → ${maskUrl(PROD_URL)}`);
+    prodPool = new pg.Pool({
+      connectionString: PROD_URL,
+      statement_timeout: 10000,
+    });
+    const origQuery = prodPool.query.bind(prodPool);
+    prodPool.query = function (...args: any[]) {
+      const start = Date.now();
+      const result = origQuery(...args);
+      if (result && typeof result.then === "function") {
+        return result.then((res: any) => {
+          const elapsed = Date.now() - start;
+          if (elapsed > 500) {
+            const queryText = typeof args[0] === "string" ? args[0].slice(0, 200) : "(complex query)";
+            console.warn(`[SlowQuery] ${elapsed}ms: ${queryText}`);
+          }
+          return res;
+        });
+      }
+      return result;
+    } as any;
+    console.log(`[DB] Prod pool created → ${maskUrl(PROD_URL)} (statement_timeout=10s)`);
   }
   return prodPool;
 }

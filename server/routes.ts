@@ -403,44 +403,13 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerEnvironmentRoutes } = await import("./environment-routes");
   registerEnvironmentRoutes(app);
 
-  registerMltAdminRoutes(app);
-  registerMltPipelineRoutes(app);
   registerMltExamRoutes(app);
   registerPremiumStudyRoutes(app);
 
   const { registerTutorRoutes } = await import("./tutor-routes");
   registerTutorRoutes(app);
 
-  registerMltRemediationRoutes(app);
   registerImagingLibraryRoutes(app);
-  registerInstitutionalRoutes(app);
-
-  const { registerContentSecurityRoutes } = await import("./content-security-routes");
-  registerContentSecurityRoutes(app);
-
-  const { registerContentQuarantineRoutes } = await import("./content-quarantine-routes");
-  registerContentQuarantineRoutes(app);
-
-  const { registerMigrationRoutes } = await import("./migration-routes");
-  registerMigrationRoutes(app);
-
-  const { registerTaxonomyRoutes } = await import("./taxonomy-routes");
-  registerTaxonomyRoutes(app);
-
-  const { registerTranslationAuditRoutes } = await import("./translation-audit-routes");
-  registerTranslationAuditRoutes(app);
-
-  const { registerTranslationHealthRoutes } = await import("./translation-health-routes");
-  registerTranslationHealthRoutes(app);
-
-  const { registerTranslationCompletenessRoutes } = await import("./translation-completeness-routes");
-  registerTranslationCompletenessRoutes(app);
-
-  const { registerI18nMissingKeysRoutes } = await import("./i18n-missing-keys-routes");
-  registerI18nMissingKeysRoutes(app);
-
-  const { registerImagingMonetizationRoutes } = await import("./imaging-monetization-routes");
-  registerImagingMonetizationRoutes(app);
 
   const { registerPharmtechRoutes } = await import("./pharmtech-routes");
   registerPharmtechRoutes(app);
@@ -457,9 +426,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerNursingQuestionsRoutes } = await import("./nursing-questions-api");
   registerNursingQuestionsRoutes(app);
 
-  const { registerContentAuditRoutes } = await import("./content-audit-report");
-  registerContentAuditRoutes(app);
-
   const { registerQuestionPreviewRoutes } = await import("./question-preview-api");
   registerQuestionPreviewRoutes(app);
 
@@ -475,18 +441,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerProfessionRoutes } = await import("./profession-routes");
   registerProfessionRoutes(app);
 
-  const { registerQuestionImportRoutes } = await import("./question-import-routes");
-  registerQuestionImportRoutes(app);
-
-  const { registerImagingGrowthRoutes } = await import("./imaging-growth-routes");
-  registerImagingGrowthRoutes(app);
-
-  const { registerImagingQuestionGeneratorRoutes } = await import("./imaging-question-generator-routes");
-  registerImagingQuestionGeneratorRoutes(app);
-
-  const { registerSonographyQuestionGeneratorRoutes } = await import("./sonography-question-generator-routes");
-  registerSonographyQuestionGeneratorRoutes(app);
-
   const { registerStudyCoachingRoutes } = await import("./study-coaching-routes");
   registerStudyCoachingRoutes(app);
 
@@ -498,9 +452,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerSeoQuizRoutes } = await import("./seo-quiz-engine");
   registerSeoQuizRoutes(app);
-
-  const { registerExpansionEngineRoutes } = await import("./expansion-engine-routes");
-  registerExpansionEngineRoutes(app);
 
   const { registerEncyclopediaRoutes } = await import("./encyclopedia-routes");
   registerEncyclopediaRoutes(app);
@@ -517,9 +468,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerApplyNestRoutes } = await import("./applynest-routes");
   registerApplyNestRoutes(app);
 
-  const { setupAlliedMarketingRoutes } = await import("./allied-marketing-engine");
-  setupAlliedMarketingRoutes(app);
-
   const { registerAlliedHealthArticleRoutes } = await import("./allied-health-article-routes");
   registerAlliedHealthArticleRoutes(app);
 
@@ -529,17 +477,56 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSeoHubRoutes } = await import("./seo-hub-routes");
   registerSeoHubRoutes(app);
 
-  const { registerSubscriberRescueRoutes } = await import("./subscriber-rescue-routes");
-  registerSubscriberRescueRoutes(app);
-
   const { registerSubstituteContentRoutes } = await import("./substitute-content-routes");
   registerSubstituteContentRoutes(app);
 
-  const { registerNclexRnHubSeedRoutes } = await import("./nclex-rn-hub-seed");
-  registerNclexRnHubSeedRoutes(app);
+  let adminRoutesPromise: Promise<void> | null = null;
+  async function ensureAdminRoutes() {
+    if (adminRoutesPromise) return adminRoutesPromise;
+    adminRoutesPromise = (async () => {
+    const startMs = Date.now();
+    console.log("[LazyRoutes] Loading admin/generator/ops routes on first request...");
 
-  const { registerAnalyticsDashboardRoutes } = await import("./analytics-dashboard-routes");
-  registerAnalyticsDashboardRoutes(app);
+    registerMltAdminRoutes(app);
+    registerMltPipelineRoutes(app);
+    registerMltRemediationRoutes(app);
+    registerInstitutionalRoutes(app);
+
+    const adminModules = [
+      import("./content-security-routes").then(m => m.registerContentSecurityRoutes(app)),
+      import("./content-quarantine-routes").then(m => m.registerContentQuarantineRoutes(app)),
+      import("./migration-routes").then(m => m.registerMigrationRoutes(app)),
+      import("./taxonomy-routes").then(m => m.registerTaxonomyRoutes(app)),
+      import("./translation-audit-routes").then(m => m.registerTranslationAuditRoutes(app)),
+      import("./translation-health-routes").then(m => m.registerTranslationHealthRoutes(app)),
+      import("./translation-completeness-routes").then(m => m.registerTranslationCompletenessRoutes(app)),
+      import("./i18n-missing-keys-routes").then(m => m.registerI18nMissingKeysRoutes(app)),
+      import("./imaging-monetization-routes").then(m => m.registerImagingMonetizationRoutes(app)),
+      import("./content-audit-report").then(m => m.registerContentAuditRoutes(app)),
+      import("./question-import-routes").then(m => m.registerQuestionImportRoutes(app)),
+      import("./imaging-growth-routes").then(m => m.registerImagingGrowthRoutes(app)),
+      import("./imaging-question-generator-routes").then(m => m.registerImagingQuestionGeneratorRoutes(app)),
+      import("./sonography-question-generator-routes").then(m => m.registerSonographyQuestionGeneratorRoutes(app)),
+      import("./expansion-engine-routes").then(m => m.registerExpansionEngineRoutes(app)),
+      import("./allied-marketing-engine").then(m => m.setupAlliedMarketingRoutes(app)),
+      import("./subscriber-rescue-routes").then(m => m.registerSubscriberRescueRoutes(app)),
+      import("./nclex-rn-hub-seed").then(m => m.registerNclexRnHubSeedRoutes(app)),
+      import("./analytics-dashboard-routes").then(m => m.registerAnalyticsDashboardRoutes(app)),
+    ];
+    await Promise.all(adminModules);
+    console.log(`[LazyRoutes] Admin/generator/ops routes loaded in ${Date.now() - startMs}ms`);
+    })();
+    return adminRoutesPromise;
+  }
+
+  app.use("/api/admin", async (_req, _res, next) => {
+    try { await ensureAdminRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading admin routes:", e.message); }
+    next();
+  });
+  app.use("/api/generator", async (_req, _res, next) => {
+    try { await ensureAdminRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading admin routes:", e.message); }
+    next();
+  });
 
   const examTimeout = examRequestTimeout(15000);
   const memoryGuard = async (req: Request, res: Response, next: NextFunction) => {
@@ -570,32 +557,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerAnalyticsEventsRoutes } = await import("./analytics-events-routes");
   registerAnalyticsEventsRoutes(app);
 
-  const { registerTutorAdminRoutes } = await import("./tutor-admin-routes");
-  registerTutorAdminRoutes(app);
-
-  const { registerContentMetricsRoutes } = await import("./content-metrics-routes");
-  registerContentMetricsRoutes(app);
-
-  const { registerContentGapRepairRoutes } = await import("./content-gap-repair-routes");
-  registerContentGapRepairRoutes(app);
-
-  const { registerContentCoverageRoutes } = await import("./content-coverage-routes");
-  registerContentCoverageRoutes(app);
-
-  const { setupQBankGenerator } = await import("./qbank-generator");
-  setupQBankGenerator(app);
-
   const { registerProfessionPracticeQuestionsRoutes } = await import("./profession-practice-questions-routes");
   registerProfessionPracticeQuestionsRoutes(app);
-
-  const { registerSeoProgressRoutes } = await import("./seo-progress-routes");
-  registerSeoProgressRoutes(app);
-
-  const { registerWeeklyReportRoutes } = await import("./weekly-report-routes");
-  registerWeeklyReportRoutes(app);
-
-  const { registerSearchPerformanceRoutes } = await import("./search-performance-routes");
-  registerSearchPerformanceRoutes(app);
 
   const { registerAlliedArticleRoutes } = await import("./allied-article-routes");
   registerAlliedArticleRoutes(app);
@@ -603,78 +566,23 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerRrtPharmacologyRoutes } = await import("./rrt-pharmacology-api");
   registerRrtPharmacologyRoutes(app);
 
-  const { registerBusinessHealthRoutes } = await import("./business-health-routes");
-  registerBusinessHealthRoutes(app);
-
-  const { registerReliabilityDashboardRoutes } = await import("./reliability-dashboard-routes");
-  registerReliabilityDashboardRoutes(app);
-
-  const { registerSiteHealthRoutes } = await import("./site-health-routes");
-  registerSiteHealthRoutes(app);
-
-  const { registerContentHealthRoutes } = await import("./content-health-routes");
-  registerContentHealthRoutes(app);
-
-  const { registerLanguageHealthRoutes } = await import("./language-health-routes");
-  registerLanguageHealthRoutes(app);
-
-  const { ensureLanguageEnforcementTable } = await import("./language-enforcement-logger");
-  ensureLanguageEnforcementTable().catch((e) => console.error("Language enforcement table init error:", e?.message));
-
-  const { registerRationaleRemediationRoutes } = await import("./rationale-remediation");
-  registerRationaleRemediationRoutes(app);
-
-  const { registerContentIntegrityRoutes } = await import("./content-integrity-routes");
-  registerContentIntegrityRoutes(app);
-
-  const { registerContentPublishingRoutes } = await import("./content-publishing-validator");
-  registerContentPublishingRoutes(app);
-
-  const { registerContentVersionRoutes } = await import("./content-version-routes");
-  registerContentVersionRoutes(app);
-
-  const { registerPublishGateRoutes } = await import("./publish-gate");
-  registerPublishGateRoutes(app);
-
-  const { registerQuestionCommentRoutes } = await import("./question-comment-routes");
-  registerQuestionCommentRoutes(app);
-
-  const { registerQuestionBlogPipelineRoutes } = await import("./question-blog-pipeline");
-  registerQuestionBlogPipelineRoutes(app);
+  const { registerExamBlueprintSeoRoutes } = await import("./exam-blueprint-seo-routes");
+  registerExamBlueprintSeoRoutes(app);
 
   const { registerJobBoardRoutes } = await import("./job-board-routes");
   registerJobBoardRoutes(app);
 
-  const { registerContentFailoverRoutes } = await import("./content-failover");
-  registerContentFailoverRoutes(app);
+  const { registerQuestionCommentRoutes } = await import("./question-comment-routes");
+  registerQuestionCommentRoutes(app);
 
-  const { registerSeoPerformanceRoutes } = await import("./seo-performance-routes");
-  registerSeoPerformanceRoutes(app);
+  const { registerAccessDeliveryRoutes } = await import("./access-delivery-orchestrator");
+  registerAccessDeliveryRoutes(app);
 
-  const { registerExamQuestionTranslationRoutes, registerContentTranslationBatchRoutes } = await import("./exam-question-translation-routes");
-  registerExamQuestionTranslationRoutes(app);
-  registerContentTranslationBatchRoutes(app);
-
-  const { registerBackupRoutes } = await import("./backup-routes");
-  registerBackupRoutes(app);
-
-  const { registerChaosTestingRoutes } = await import("./chaos-testing");
-  registerChaosTestingRoutes(app);
-
-  const { registerOpsStatusRoutes } = await import("./ops-status-routes");
-  registerOpsStatusRoutes(app);
-
-  const { registerExamBlueprintSeoRoutes } = await import("./exam-blueprint-seo-routes");
-  registerExamBlueprintSeoRoutes(app);
-
-  const { registerUniversalGeneratorRoutes } = await import("./universal-generator-routes");
-  registerUniversalGeneratorRoutes(app);
+  const { registerSessionCheckpointRoutes } = await import("./session-checkpoint-routes");
+  registerSessionCheckpointRoutes(app);
 
   const { registerExamReliabilityRoutes } = await import("./exam-reliability");
   registerExamReliabilityRoutes(app);
-
-  const { registerOpsRoutes } = await import("./ops-routes");
-  registerOpsRoutes(app);
 
   const { registerExamResilienceRoutes } = await import("./exam-resilience-engine");
   registerExamResilienceRoutes(app);
@@ -683,61 +591,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerResilienceRoutes(app);
   startPeriodicSelfHealing();
 
-  const { registerTelemetryRoutes } = await import("./telemetry-service");
-  registerTelemetryRoutes(app);
-
-  const { registerRevenueProtectionRoutes } = await import("./revenue-protection-routes");
-  registerRevenueProtectionRoutes(app);
-
-  const { registerIncidentCorrelationRoutes } = await import("./incident-correlation");
-  registerIncidentCorrelationRoutes(app);
-
-  const { registerContentHealthGateRoutes } = await import("./content-health-gate");
-  registerContentHealthGateRoutes(app);
-
-  const { registerDeploymentProtectionRoutes } = await import("./deployment-protection");
-  registerDeploymentProtectionRoutes(app);
-
-  const { registerSchemaVersioningRoutes } = await import("./schema-versioning");
-  registerSchemaVersioningRoutes(app);
-
-  const { registerOpsDashboardRoutes } = await import("./ops-dashboard-routes");
-  registerOpsDashboardRoutes(app);
-
-  const { registerBackendResilienceRoutes, ensureResilienceTables, killSwitchGuard } = await import("./backend-resilience");
-  ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
-  registerBackendResilienceRoutes(app);
-
-  const { registerAccessDeliveryRoutes } = await import("./access-delivery-orchestrator");
-  registerAccessDeliveryRoutes(app);
-
-  const { registerSessionCheckpointRoutes } = await import("./session-checkpoint-routes");
-  registerSessionCheckpointRoutes(app);
-
-  const { registerIncidentResponseRoutes } = await import("./incident-response-routes");
-  registerIncidentResponseRoutes(app);
-
-  const { registerIncidentMonitorRoutes } = await import("./incident-routes");
-  registerIncidentMonitorRoutes(app);
-
-  const { registerReleaseGateRoutes } = await import("./release-gate");
-  registerReleaseGateRoutes(app);
-
-  const { registerContentHealthScoreRoutes } = await import("./content-health-score");
-  registerContentHealthScoreRoutes(app);
-
-  const { registerVipPrioritizationRoutes, vipPrioritizationMiddleware } = await import("./vip-prioritization");
-  app.use(vipPrioritizationMiddleware());
-  registerVipPrioritizationRoutes(app);
-
-  const { registerResilienceReportRoutes } = await import("./resilience-report");
-  registerResilienceReportRoutes(app);
-
-  const { registerRunbookRoutes } = await import("./admin-runbooks");
-  registerRunbookRoutes(app);
-
-  const { registerPreviewModeRoutes } = await import("./admin-preview-mode");
-  registerPreviewModeRoutes(app);
+  const { registerContentFailoverRoutes } = await import("./content-failover");
+  registerContentFailoverRoutes(app);
 
   const { registerLiteModeRoutes, liteModeFallbackMiddleware } = await import("./nursenest-lite");
   registerLiteModeRoutes(app);
@@ -746,6 +601,90 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));
+
+  const { registerVipPrioritizationRoutes, vipPrioritizationMiddleware } = await import("./vip-prioritization");
+  app.use(vipPrioritizationMiddleware());
+  registerVipPrioritizationRoutes(app);
+
+  const { ensureLanguageEnforcementTable } = await import("./language-enforcement-logger");
+  ensureLanguageEnforcementTable().catch((e) => console.error("Language enforcement table init error:", e?.message));
+
+  const { registerBackendResilienceRoutes, ensureResilienceTables, killSwitchGuard } = await import("./backend-resilience");
+  ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
+  registerBackendResilienceRoutes(app);
+
+  let opsRoutesPromise: Promise<void> | null = null;
+  async function ensureOpsRoutes() {
+    if (opsRoutesPromise) return opsRoutesPromise;
+    opsRoutesPromise = (async () => {
+    const startMs = Date.now();
+    console.log("[LazyRoutes] Loading ops/reporting routes on first request...");
+
+    const opsModules = [
+      import("./tutor-admin-routes").then(m => m.registerTutorAdminRoutes(app)),
+      import("./content-metrics-routes").then(m => m.registerContentMetricsRoutes(app)),
+      import("./content-gap-repair-routes").then(m => m.registerContentGapRepairRoutes(app)),
+      import("./content-coverage-routes").then(m => m.registerContentCoverageRoutes(app)),
+      import("./qbank-generator").then(m => m.setupQBankGenerator(app)),
+      import("./seo-progress-routes").then(m => m.registerSeoProgressRoutes(app)),
+      import("./weekly-report-routes").then(m => m.registerWeeklyReportRoutes(app)),
+      import("./search-performance-routes").then(m => m.registerSearchPerformanceRoutes(app)),
+      import("./business-health-routes").then(m => m.registerBusinessHealthRoutes(app)),
+      import("./reliability-dashboard-routes").then(m => m.registerReliabilityDashboardRoutes(app)),
+      import("./site-health-routes").then(m => m.registerSiteHealthRoutes(app)),
+      import("./content-health-routes").then(m => m.registerContentHealthRoutes(app)),
+      import("./language-health-routes").then(m => m.registerLanguageHealthRoutes(app)),
+      import("./rationale-remediation").then(m => m.registerRationaleRemediationRoutes(app)),
+      import("./content-integrity-routes").then(m => m.registerContentIntegrityRoutes(app)),
+      import("./content-publishing-validator").then(m => m.registerContentPublishingRoutes(app)),
+      import("./content-version-routes").then(m => m.registerContentVersionRoutes(app)),
+      import("./publish-gate").then(m => m.registerPublishGateRoutes(app)),
+      import("./question-blog-pipeline").then(m => m.registerQuestionBlogPipelineRoutes(app)),
+      import("./seo-performance-routes").then(m => m.registerSeoPerformanceRoutes(app)),
+      import("./exam-question-translation-routes").then(m => { m.registerExamQuestionTranslationRoutes(app); m.registerContentTranslationBatchRoutes(app); }),
+      import("./backup-routes").then(m => m.registerBackupRoutes(app)),
+      import("./chaos-testing").then(m => m.registerChaosTestingRoutes(app)),
+      import("./ops-status-routes").then(m => m.registerOpsStatusRoutes(app)),
+      import("./universal-generator-routes").then(m => m.registerUniversalGeneratorRoutes(app)),
+      import("./ops-routes").then(m => m.registerOpsRoutes(app)),
+      import("./telemetry-service").then(m => m.registerTelemetryRoutes(app)),
+      import("./revenue-protection-routes").then(m => m.registerRevenueProtectionRoutes(app)),
+      import("./incident-correlation").then(m => m.registerIncidentCorrelationRoutes(app)),
+      import("./content-health-gate").then(m => m.registerContentHealthGateRoutes(app)),
+      import("./deployment-protection").then(m => m.registerDeploymentProtectionRoutes(app)),
+      import("./schema-versioning").then(m => m.registerSchemaVersioningRoutes(app)),
+      import("./ops-dashboard-routes").then(m => m.registerOpsDashboardRoutes(app)),
+      import("./incident-response-routes").then(m => m.registerIncidentResponseRoutes(app)),
+      import("./incident-routes").then(m => m.registerIncidentMonitorRoutes(app)),
+      import("./release-gate").then(m => m.registerReleaseGateRoutes(app)),
+      import("./content-health-score").then(m => m.registerContentHealthScoreRoutes(app)),
+      import("./resilience-report").then(m => m.registerResilienceReportRoutes(app)),
+      import("./admin-runbooks").then(m => m.registerRunbookRoutes(app)),
+      import("./admin-preview-mode").then(m => m.registerPreviewModeRoutes(app)),
+      import("./subscriber-rescue-routes").then(m => m.registerSubscriberRescueRoutes(app)),
+    ];
+    await Promise.all(opsModules);
+    console.log(`[LazyRoutes] Ops/reporting routes loaded in ${Date.now() - startMs}ms`);
+    })();
+    return opsRoutesPromise;
+  }
+
+  app.use("/api/ops", async (_req, _res, next) => {
+    try { await ensureOpsRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading ops routes:", e.message); }
+    next();
+  });
+  app.use("/api/reports", async (_req, _res, next) => {
+    try { await ensureOpsRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading ops routes:", e.message); }
+    next();
+  });
+  app.use("/api/content-metrics", async (_req, _res, next) => {
+    try { await ensureOpsRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading ops routes:", e.message); }
+    next();
+  });
+  app.use("/api/health", async (_req, _res, next) => {
+    try { await ensureOpsRoutes(); } catch (e: any) { console.error("[LazyRoutes] Error loading ops routes:", e.message); }
+    next();
+  });
 
   app.use((req, res, next) => {
     if (req.headers.host === 'nursenest.ca') {

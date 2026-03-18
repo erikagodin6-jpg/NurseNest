@@ -19,9 +19,9 @@ SKIP_I18N_VALIDATION=1 npx tsx -e "
 "
 echo "$(elapsed) i18n done"
 
+echo "$(elapsed) Step 2: Server bundle..."
 LOADER="--loader:.png=empty --loader:.jpg=empty --loader:.jpeg=empty --loader:.svg=empty --loader:.webp=empty --loader:.gif=empty"
 
-echo "$(elapsed) Step 2: Server bundle..."
 EXTERNALS=$(node -e "
 const p=JSON.parse(require('fs').readFileSync('package.json','utf-8'));
 const allow=['@google/generative-ai','axios','connect-pg-simple','cors','date-fns','drizzle-orm','drizzle-zod','express','express-rate-limit','express-session','jsonwebtoken','memorystore','multer','nanoid','nodemailer','openai','passport','passport-local','pg','stripe','uuid','ws','xlsx','zod','zod-validation-error'];
