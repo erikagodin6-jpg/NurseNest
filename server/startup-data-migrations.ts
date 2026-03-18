@@ -348,6 +348,9 @@ export async function runStartupDataMigrations() {
       const { runCrossPlatformAuthMigration } = await import("./migrations/cross-platform-auth-unification");
       await runCrossPlatformAuthMigration(pool);
 
+      const { runAnalyticsEventsMigration } = await import("./migrations/analytics-events");
+      await runAnalyticsEventsMigration(pool);
+
       lastStartupMigrationTimestamp = new Date().toISOString();
       console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";

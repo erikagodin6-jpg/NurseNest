@@ -7914,6 +7914,45 @@ export const insertEntitlementEventSchema = createInsertSchema(entitlementEvents
 export type EntitlementEvent = typeof entitlementEvents.$inferSelect;
 export type InsertEntitlementEvent = z.infer<typeof insertEntitlementEventSchema>;
 
+export const ANALYTICS_EVENT_NAMES = [
+  "login_started",
+  "login_completed",
+  "signup_started",
+  "signup_completed",
+  "onboarding_started",
+  "onboarding_step_completed",
+  "onboarding_completed",
+  "practice_started",
+  "question_answered",
+  "session_completed",
+  "paywall_viewed",
+  "upgrade_clicked",
+  "upgrade_completed",
+] as const;
+
+export type AnalyticsEventName = (typeof ANALYTICS_EVENT_NAMES)[number];
+
+export const analyticsEvents = pgTable("analytics_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventName: text("event_name").notNull(),
+  userId: varchar("user_id"),
+  sessionId: text("session_id"),
+  platform: text("platform"),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAnalyticsEventSchema = createInsertSchema(analyticsEvents).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
+export type InsertAnalyticsEvent = z.infer<typeof insertAnalyticsEventSchema>;
+
 export type SubscriptionStatus = "active" | "trialing" | "past_due" | "canceled" | "unpaid" | "incomplete" | "expired";
 export type EntitlementEventType =
   | "subscription_created"
