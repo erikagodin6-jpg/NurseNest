@@ -70,6 +70,16 @@ export async function generateNewGradPages(): Promise<string[]> {
     urls.push(simpleUrl(`${siteBase}/${slug}`, now, "monthly", "0.8"));
   }
 
+  urls.push(simpleUrl(`${siteBase}/jobs`, now, "daily", "0.9"));
+
+  try {
+    const { pool } = await import("../storage");
+    const slugsResult = await pool.query(`SELECT slug FROM job_listings WHERE status = 'published' ORDER BY posted_at DESC`);
+    for (const row of slugsResult.rows) {
+      urls.push(simpleUrl(`${siteBase}/jobs/${row.slug}`, now, "weekly", "0.7"));
+    }
+  } catch {}
+
   urls.push(simpleUrl(`${siteBase}/newgrad`, now, "weekly", "1.0"));
   const careerHubPages = [
     { path: "/newgrad/guides", priority: "0.9", freq: "weekly" },

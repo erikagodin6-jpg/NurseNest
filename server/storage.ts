@@ -339,6 +339,13 @@ export interface IStorage {
   updateExplanation(id: string, updates: Partial<{ correctAnswerExplanation: string; incorrectAnswerRationale: any; clinicalReasoning: string | null; keyTakeaway: string | null; mnemonic: string | null; clinicalPearl: string | null; referenceSource: string | null; reviewStatus: string; relatedContent: any }>): Promise<QuestionExplanation>;
   getExplanationById(id: string): Promise<QuestionExplanation | undefined>;
   getRelatedContentForExplanation(questionId: string, source: string): Promise<{ relatedQuestions: any[]; relatedLessons: any[]; relatedFlashcards: any[] }>;
+
+  getJobListings(filters?: { location?: string; profession?: string; experienceLevel?: string; search?: string; status?: string; featured?: boolean; limit?: number; offset?: number }): Promise<{ rows: any[]; total: number }>;
+  getJobListingBySlug(slug: string): Promise<any | undefined>;
+  getJobListing(id: string): Promise<any | undefined>;
+  createJobListing(data: any): Promise<any>;
+  createJobListingsBulk(data: any[]): Promise<any[]>;
+  getFeaturedJobListings(limit?: number): Promise<any[]>;
 }
 
 import { getDevPool } from "./db";
@@ -2611,6 +2618,93 @@ export class DatabaseStorage implements IStorage {
       relatedLessons: relatedLessonsR.rows.map(snakeToCamel),
       relatedFlashcards: relatedFlashcardsR.rows.map(snakeToCamel),
     };
+  }
+
+  async getJobListings(filters?: { location?: string; profession?: string; experienceLevel?: string; search?: string; status?: string; featured?: boolean; limit?: number; offset?: number }): Promise<{ rows: any[]; total: number }> {
+    const conditions: string[] = [];
+    const params: any[] = [];
+    let paramIndex = 1;
+
+    const status = filters?.status || "published";
+    conditions.push(`status = $${paramIndex++}`);
+    params.push(status);
+
+    if (filters?.location) {
+      conditions.push(`(location ILIKE $${paramIndex} OR state ILIKE $${paramIndex} OR country ILIKE $${paramIndex})`);
+      params.push(`%${filters.location}%`);
+      paramIndex++;
+    }
+    if (filters?.profession) {
+      conditions.push(`(profession ILIKE $${paramIndex} OR specialty ILIKE $${paramIndex})`);
+      params.push(`%${filters.profession}%`);
+      paramIndex++;
+    }
+    if (filters?.experienceLevel) {
+      conditions.push(`experience_level = $${paramIndex++}`);
+      params.push(filters.experienceLevel);
+    }
+    if (filters?.search) {
+      conditions.push(`(title ILIKE $${paramIndex} OR description ILIKE $${paramIndex} OR employer ILIKE $${paramIndex})`);
+      params.push(`%${filters.search}%`);
+      paramIndex++;
+    }
+    if (filters?.featured !== undefined) {
+      conditions.push(`featured = $${paramIndex++}`);
+      params.push(filters.featured);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const limit = filters?.limit || 20;
+    const offset = filters?.offset || 0;
+
+    const countResult = await pool.query(`SELECT COUNT(*) as total FROM job_listings ${whereClause}`, params);
+    const total = parseInt(countResult.rows[0]?.total || "0");
+
+    const dataResult = await pool.query(
+      `SELECT * FROM job_listings ${whereClause} ORDER BY featured DESC, posted_at DESC LIMIT $${paramIndex++} OFFSET $${paramIndex++}`,
+      [...params, limit, offset]
+    );
+
+    return { rows: dataResult.rows.map(snakeToCamel), total };
+  }
+
+  async getJobListingBySlug(slug: string): Promise<any | undefined> {
+    const result = await pool.query(`SELECT * FROM job_listings WHERE slug = $1`, [slug]);
+    return result.rows[0] ? snakeToCamel(result.rows[0]) : undefined;
+  }
+
+  async getJobListing(id: string): Promise<any | undefined> {
+    const result = await pool.query(`SELECT * FROM job_listings WHERE id = $1`, [id]);
+    return result.rows[0] ? snakeToCamel(result.rows[0]) : undefined;
+  }
+
+  async createJobListing(data: any): Promise<any> {
+    const cols = Object.keys(data);
+    const snakeCols = cols.map(c => c.replace(/[A-Z]/g, m => `_${m.toLowerCase()}`));
+    const vals = cols.map(c => data[c]);
+    const placeholders = vals.map((_, i) => `$${i + 1}`).join(", ");
+    const result = await pool.query(
+      `INSERT INTO job_listings (${snakeCols.join(", ")}) VALUES (${placeholders}) RETURNING *`,
+      vals
+    );
+    return snakeToCamel(result.rows[0]);
+  }
+
+  async createJobListingsBulk(data: any[]): Promise<any[]> {
+    const results: any[] = [];
+    for (const item of data) {
+      const created = await this.createJobListing(item);
+      results.push(created);
+    }
+    return results;
+  }
+
+  async getFeaturedJobListings(limit: number = 6): Promise<any[]> {
+    const result = await pool.query(
+      `SELECT * FROM job_listings WHERE status = 'published' AND featured = true ORDER BY posted_at DESC LIMIT $1`,
+      [limit]
+    );
+    return result.rows.map(snakeToCamel);
   }
 }
 

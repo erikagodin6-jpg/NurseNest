@@ -1147,6 +1147,10 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Nurse Practitioner Track | AANP & ANCC Certification Prep | NurseNest",
     description: "Advanced NP certification exam preparation for AANP and ANCC. Practice questions, differential diagnosis cases, pharmacology review, and mock exams.",
   },
+  "/jobs": {
+    title: "New Grad Healthcare Jobs — Entry Level Nursing, NP, Allied Health Positions | NurseNest",
+    description: "Browse new graduate healthcare job listings including RN, LPN, Nurse Practitioner, and allied health positions. Filter by location, profession, and experience level. Find your first healthcare job with resume and interview prep tools.",
+  },
   "/newgrad": {
     title: "Nursing Interview Questions & New Grad Career Hub — Interview Prep, Resume Tools & First Year Survival | NurseNest",
     description: "Top nursing interview questions, new grad nurse interview prep, and nurse behavioral interview questions with STAR-format answers. Free first nursing job interview practice, scenario questions, resume templates, salary negotiation tools, and burnout prevention strategies.",

@@ -320,6 +320,8 @@ const NewGradSurvivalGuideLanding = lazy(() => import("@/pages/newgrad/survival-
 const NewGradGuidePage = lazy(() => import("@/pages/new-grad/new-grad-guide-template"));
 const SeoGuidePage = lazy(() => import("@/pages/new-grad/seo-guide-page"));
 const NewGradCertificationPage = lazy(() => import("@/pages/new-grad-certification-page"));
+const JobsHub = lazy(() => import("@/pages/jobs-hub"));
+const JobDetail = lazy(() => import("@/pages/job-detail"));
 const NewGradCertificationsHub = lazy(() => import("@/pages/newgrad/certifications-hub"));
 const NewGradCertificationDetail = lazy(() => import("@/pages/newgrad/certification-detail"));
 const CertificationPrepPage = lazy(() => import("@/pages/certification-prep-page"));
@@ -780,6 +782,8 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
+        <Route path="/jobs/:slug" component={JobDetail} />
+        <Route path="/jobs" component={JobsHub} />
         <Route path="/newgrad/certifications/:slug" component={NewGradCertificationDetail} />
         <Route path="/newgrad/certifications" component={NewGradCertificationsHub} />
         <Route path="/new-grad/certifications/:slug">{(params: any) => <Redirect to={`/newgrad/certifications/${params.slug}`} />}</Route>

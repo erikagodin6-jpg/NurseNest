@@ -24,6 +24,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "hyperkalemia-effects-on-heart": "hyperkalemie-coeur",
     "international-nurses": "infirmiers-internationaux",
     "newgrad": "nouveau-diplome",
+    "jobs": "emplois",
     "nursing-schools": "ecoles-infirmieres",
     "nurse-residency-programs": "programmes-residence-infirmiere",
     "nursing-regulatory-bodies": "organismes-reglementation-infirmiere",
@@ -125,6 +126,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "escenarios-clinicos-enfermeria",
     "international-nurses": "enfermeros-internacionales",
     "newgrad": "recien-graduado",
+    "jobs": "empleos",
     "nursing-schools": "escuelas-enfermeria",
     "nurse-residency-programs": "programas-residencia-enfermeria",
     "nursing-regulatory-bodies": "organismos-reguladores-enfermeria",
@@ -306,6 +308,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "sinariyuhat-saririyya-tamridiyya",
     "international-nurses": "mumarridat-dawliyyat",
     "newgrad": "kharrij-jadid",
+    "jobs": "wazaif",
     "nursing-schools": "madaris-altamrid",
     "nurse-residency-programs": "baramij-iqama-tamrid",
     "nursing-regulatory-bodies": "hayaat-tanzim-altamrid",
@@ -365,6 +368,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "ganho-imsan-sinario",
     "international-nurses": "gukje-ganho",
     "newgrad": "sinib-joleopja",
+    "jobs": "chaeyong",
     "healthcare-policy-and-updates": "uiryo-jeongchaek-mit-eopdeitu",
   },
   pa: {
@@ -409,6 +413,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "tinh-huong-lam-sang-dieu-duong",
     "international-nurses": "dieu-duong-quoc-te",
     "newgrad": "tan-tot-nghiep",
+    "jobs": "viec-lam",
     "healthcare-policy-and-updates": "chinh-sach-y-te-va-cap-nhat",
   },
   ht: {
@@ -431,6 +436,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "senario-klinik-enfimye",
     "international-nurses": "enfimye-entenaasyonal",
     "newgrad": "nouvo-diplome",
+    "jobs": "travay",
     "healthcare-policy-and-updates": "politik-sante-ak-mizajou",
   },
   ur: {
@@ -453,6 +459,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "nursing-tibbi-manazir",
     "international-nurses": "bainulaqwami-nurses",
     "newgrad": "naye-faarig-uttahar",
+    "jobs": "naukariyan",
     "healthcare-policy-and-updates": "sehat-ki-policy-aur-updates",
   },
   ja: {
@@ -475,6 +482,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "kango-rinsho-shinario",
     "international-nurses": "kokusai-kangoshi",
     "newgrad": "shinsotsu",
+    "jobs": "kyuujin",
     "healthcare-policy-and-updates": "iryo-seisaku-to-saishin-jouhou",
   },
   fa: {
@@ -497,6 +505,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "senariu-balini-parastari",
     "international-nurses": "parastar-beinolmelali",
     "newgrad": "faragh-altahsil-jadid",
+    "jobs": "kaarha",
     "healthcare-policy-and-updates": "siyasat-behdashti-va-berozresani",
   },
   de: {
@@ -584,6 +593,7 @@ export const LOCALIZED_SLUGS: Record<string, Record<string, string>> = {
     "nursing-clinical-scenarios": "cenarios-clinicos-enfermagem",
     "international-nurses": "enfermeiros-internacionais",
     "newgrad": "recem-formado",
+    "jobs": "empregos",
     "nursing-schools": "escolas-enfermagem",
     "nurse-residency-programs": "programas-residencia-enfermagem",
     "nursing-regulatory-bodies": "orgaos-reguladores-enfermagem",

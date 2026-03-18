@@ -510,6 +510,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerQuestionBlogPipelineRoutes } = await import("./question-blog-pipeline");
   registerQuestionBlogPipelineRoutes(app);
 
+  const { registerJobBoardRoutes } = await import("./job-board-routes");
+  registerJobBoardRoutes(app);
+
   const { registerSeoPerformanceRoutes } = await import("./seo-performance-routes");
   registerSeoPerformanceRoutes(app);
 

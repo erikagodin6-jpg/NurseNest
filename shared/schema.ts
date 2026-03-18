@@ -6512,3 +6512,42 @@ export const insertClinicalSeoPageSchema = createInsertSchema(clinicalSeoPages).
 });
 export type ClinicalSeoPage = typeof clinicalSeoPages.$inferSelect;
 export type InsertClinicalSeoPage = z.infer<typeof insertClinicalSeoPageSchema>;
+
+export const jobListings = pgTable("job_listings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull(),
+  requirements: text("requirements").array().default(sql`'{}'::text[]`),
+  qualifications: text("qualifications").array().default(sql`'{}'::text[]`),
+  responsibilities: text("responsibilities").array().default(sql`'{}'::text[]`),
+  location: text("location").notNull(),
+  state: text("state"),
+  country: text("country").default("US"),
+  profession: text("profession").notNull(),
+  specialty: text("specialty"),
+  experienceLevel: text("experience_level").notNull().default("new_grad"),
+  employmentType: text("employment_type").default("full_time"),
+  salaryMin: integer("salary_min"),
+  salaryMax: integer("salary_max"),
+  salaryCurrency: text("salary_currency").default("USD"),
+  salaryPeriod: text("salary_period").default("year"),
+  employer: text("employer").notNull(),
+  employerDescription: text("employer_description"),
+  benefits: text("benefits").array().default(sql`'{}'::text[]`),
+  applicationUrl: text("application_url"),
+  status: text("status").default("published"),
+  featured: boolean("featured").default(false),
+  postedAt: timestamp("posted_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertJobListingSchema = createInsertSchema(jobListings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type JobListing = typeof jobListings.$inferSelect;
+export type InsertJobListing = z.infer<typeof insertJobListingSchema>;
