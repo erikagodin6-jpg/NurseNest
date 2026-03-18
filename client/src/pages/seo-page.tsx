@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/auth";
 import { ChevronRight, BookOpen, FileText, HelpCircle, Link as LinkIcon, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { ContextualRelatedResources } from "@/components/related-resources";
+import { ConversionFunnel } from "@/components/conversion-funnel/ConversionFunnel";
 
 type FAQ = { q: string; a: string };
 type TOCItem = { id: string; title: string; level: number };
@@ -216,6 +217,28 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
                   <p className="text-sm mt-1">Check back soon for comprehensive study material.</p>
                 </div>
               )}
+
+              <div className="mb-12" data-testid="section-conversion-funnel">
+                <ConversionFunnel
+                  topic={page.title}
+                  bodySystem={
+                    page.slug?.includes("copd") || page.slug?.includes("barrel-chest") || page.slug?.includes("respiratory")
+                      ? "respiratory"
+                      : page.slug?.includes("hyperkalemia") || page.slug?.includes("hypokalemia") || page.slug?.includes("cardiac") || page.slug?.includes("ecg")
+                        ? "cardiac"
+                        : undefined
+                  }
+                  showPracticeQuestions={true}
+                  showFlashcards={false}
+                  showMockExam={false}
+                  showPremiumSummary={false}
+                  showSocialProof={false}
+                  showTopCta={false}
+                  showMidCta={false}
+                  showBottomCta={true}
+                  showProgressPrompt={false}
+                />
+              </div>
 
               {faqs.length > 0 && (
                 <section id="faq" className="mb-12">
