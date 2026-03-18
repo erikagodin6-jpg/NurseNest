@@ -239,7 +239,7 @@ async function buildAll() {
     log,
   );
 
-  log("building client + server in parallel...");
+  log("building server + data sequentially to reduce memory pressure...");
   const lessonsDir = path.resolve("client/src/data/lessons");
   const npBatchFiles = (await readdir(lessonsDir))
     .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
@@ -247,17 +247,20 @@ async function buildAll() {
     .sort((a: number, b: number) => a - b);
   log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
 
-  await Promise.all([
-    buildServer().then(() => log("server done")),
-    buildLessonsData().then(async () => {
-      log("lessons data done");
-      for (const i of npBatchFiles) {
-        await buildNpBatch(i);
-      }
-      log("np batches done");
-    }),
-    copySeedData().then(() => log("seed data done")),
-  ]);
+  await copySeedData();
+  log("seed data done");
+
+  await buildLessonsData();
+  log("lessons data done");
+  for (const i of npBatchFiles) {
+    await buildNpBatch(i);
+  }
+  log("np batches done");
+
+  await buildServer();
+  log("server done");
+
+  if (global.gc) global.gc();
 
   await viteBuild();
   log("client done");

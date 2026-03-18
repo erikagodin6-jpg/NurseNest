@@ -1478,10 +1478,6 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "DKA vs HHS Comparison", target: "/clinical-comparisons/dka-vs-hhs", reason: "clinical comparison" },
     { anchor: "Hyperkalemia Assessment", target: "/symptoms/hyperkalemia", reason: "electrolyte complication" },
   ],
-  "crohns-disease": [
-    { anchor: "Crohn's vs Ulcerative Colitis", target: "/clinical-comparisons/crohns-vs-ulcerative-colitis", reason: "clinical comparison" },
-    { anchor: "Abdominal Pain Assessment", target: "/symptoms/abdominal-pain", reason: "symptom assessment" },
-  ],
   "ulcerative-colitis": [
     { anchor: "UC vs Crohn's Comparison", target: "/clinical-comparisons/ulcerative-colitis-vs-crohns-disease", reason: "clinical comparison" },
     { anchor: "Abdominal Pain Assessment", target: "/symptoms/abdominal-pain", reason: "symptom assessment" },
