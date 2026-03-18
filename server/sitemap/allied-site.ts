@@ -222,6 +222,21 @@ export async function generateAlliedSeoLanding(): Promise<string[]> {
     urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
   }
 
+  const ptaSeoGuidePages = [
+    "low-back-pain-rehabilitation", "knee-osteoarthritis-rehabilitation", "stroke-rehabilitation",
+    "acl-injury-rehabilitation", "rotator-cuff-rehabilitation", "parkinsons-disease-rehabilitation",
+    "post-op-knee-replacement",
+    "range-of-motion-exercises", "strengthening-exercises", "balance-training-exercises",
+    "gait-training-exercises", "postural-correction-exercises", "core-stability-exercises",
+    "major-muscle-groups", "joint-movements-kinesiology", "kinesiology-basics", "biomechanics-fundamentals",
+    "heat-vs-cold-therapy", "ultrasound-therapy", "electrical-stimulation-therapy",
+    "rehab-progression-protocols", "post-surgical-timelines",
+    "how-to-pass-the-pta-exam", "top-50-pta-exam-questions", "common-rehab-mistakes-pta",
+  ];
+  for (const page of ptaSeoGuidePages) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/physiotherapy-assistant/guide/${page}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
   return urls;
 }
 

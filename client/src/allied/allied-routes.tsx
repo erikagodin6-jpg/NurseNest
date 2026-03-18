@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from "wouter";
+import { Switch, Route, Redirect, useRoute } from "wouter";
 import React, { lazy, Suspense } from "react";
 import { getCanonicalRoute } from "@shared/careers";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
@@ -97,6 +97,18 @@ import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
 const MltSEOPage = lazy(() => import("./pages/mlt-seo-pages").then(m => ({ default: m.MltSEOPage })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
+const PtaSeoContentPage = lazy(() => import("./pages/pta-seo-content-page"));
+const PtaBlogPage = lazy(() => import("./pages/pta-seo-content-page").then(m => ({ default: m.PtaBlogPage })));
+
+const PTA_BLOG_SLUGS = new Set(["how-to-pass-the-pta-exam", "top-50-pta-exam-questions", "common-rehab-mistakes-pta"]);
+function PtaGuideRouter() {
+  const [, routeParams] = useRoute("/allied-health/physiotherapy-assistant/guide/:slug");
+  const slug = routeParams?.slug || "";
+  if (PTA_BLOG_SLUGS.has(slug)) {
+    return <PtaBlogPage />;
+  }
+  return <PtaSeoContentPage />;
+}
 const AlliedQuestionsIndexPage = lazy(() => import("./pages/allied-questions-index"));
 const UnderservedSEOPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.UnderservedSEOPage })));
 const OTQuestionBankPage = lazy(() => import("./pages/underserved-seo-pages").then(m => ({ default: m.OTQuestionBankPage })));
@@ -550,6 +562,7 @@ export function AlliedRoutes() {
         <Route path="/allied-health/occupational-therapy-assistant/career-guide">{() => <CareerGuideSubpage careerSlug="occupational-therapy-assistant" />}</Route>
         <Route path="/allied-health/occupational-therapy-assistant">{() => <ProfessionHubPage data={PROFESSION_HUB_DATA["occupational-therapy-assistant"]} />}</Route>
 
+        <Route path="/allied-health/physiotherapy-assistant/guide/:slug">{() => <Suspense fallback={<div />}><PtaGuideRouter /></Suspense>}</Route>
         <Route path="/allied-health/physiotherapy-assistant/topic/:slug">{() => <Suspense fallback={<div />}><PtaTopicBankPage /></Suspense>}</Route>
         <Route path="/allied-health/physiotherapy-assistant/lessons">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="lessons" />}</Route>
         <Route path="/allied-health/physiotherapy-assistant/practice-questions">{() => <ProfessionClusterRedirect profession="physiotherapy-assistant" clusterType="practice-questions" />}</Route>

@@ -59,6 +59,21 @@ API endpoints (all admin-only):
 - `GET /api/admin/content-publishing/summary` — Content status summary by tier/status
 CAT rationale fix: `server/qbank-api.ts` exam-set endpoint only includes rationale/correctAnswerExplanation/distractorRationales for admin users. Non-admin users never receive rationale in exam-set responses regardless of query params — rationale is only available through `POST /api/qbank/attempt` after answer submission.
 
+### PTA Programmatic SEO Content System
+22 rich educational content pages organized into 4 content clusters (Conditions, Exercises, Anatomy & Movement, Modalities & Protocols) plus 3 blog-style SEO articles for PTA exam prep. Each content page features:
+- Embedded practice questions (first 3 free, remaining locked/blurred with conversion CTA)
+- FAQ accordion with FAQPage structured data
+- Article + EducationalOrganization + BreadcrumbList structured data
+- Internal linking engine (RelatedTopicsBlock) connecting pages across clusters
+- Mid-page and end-page conversion CTAs to practice questions and pricing
+- Cluster navigation badges and content exploration sections
+
+Key files:
+- `client/src/allied/data/pta-seo-content-data.ts` — Content data for all 22 pages + 3 blog pages
+- `client/src/allied/pages/pta-seo-content-page.tsx` — Template components (PtaSeoContentPage + PtaBlogPage)
+- Routes: `/allied-health/physiotherapy-assistant/guide/:slug` with PtaGuideRouter dispatching to content or blog template
+- Sitemap: 25 URLs registered in `server/sitemap/allied-site.ts` under `generateAlliedSeoLanding()`
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
