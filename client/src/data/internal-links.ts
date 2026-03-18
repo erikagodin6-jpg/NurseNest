@@ -1554,6 +1554,57 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "Complete Lab Values Chart", target: "/allied-health/mlt/lab-values/complete-chart", reason: "reference chart" },
     { anchor: "MLT Exam Prep", target: "/allied-health/mlt", reason: "career hub" },
   ],
+  "mlt-microbiology-hub": [
+    { anchor: "MLT Lab Values", target: "/allied-health/mlt/lab-values", reason: "sibling cluster" },
+    { anchor: "MLT Question Bank", target: "/allied-health/mlt/questions", reason: "practice questions" },
+    { anchor: "MLT Exam Prep", target: "/allied-health/mlt", reason: "career hub" },
+    { anchor: "Microbiology Quick Guide", target: "/allied-health/mlt/microbiology/quick-guide", reason: "viral lead magnet" },
+  ],
+  "mlt-microbiology-quick-guide": [
+    { anchor: "Microbiology Hub", target: "/allied-health/mlt/microbiology", reason: "parent hub" },
+    { anchor: "MLT Lab Values", target: "/allied-health/mlt/lab-values", reason: "sibling cluster" },
+    { anchor: "MLT Question Bank", target: "/allied-health/mlt/questions", reason: "practice questions" },
+  ],
+  "mlt-micro-gram-positive-vs-gram-negative": [
+    { anchor: "Staphylococcus vs Streptococcus", target: "/allied-health/mlt/microbiology/staphylococcus-vs-streptococcus", reason: "organisms → identification" },
+    { anchor: "E. coli Identification", target: "/allied-health/mlt/microbiology/e-coli-identification", reason: "organisms → GNR identification" },
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "organisms → lab methods" },
+  ],
+  "mlt-micro-staphylococcus-vs-streptococcus": [
+    { anchor: "Gram Positive vs Gram Negative", target: "/allied-health/mlt/microbiology/gram-positive-vs-gram-negative", reason: "classification context" },
+    { anchor: "Antibiotic Sensitivity Testing", target: "/allied-health/mlt/microbiology/antibiotic-sensitivity-testing", reason: "identification → AST" },
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "identification → media selection" },
+  ],
+  "mlt-micro-e-coli-identification": [
+    { anchor: "Gram Positive vs Gram Negative", target: "/allied-health/mlt/microbiology/gram-positive-vs-gram-negative", reason: "GNR classification" },
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "organisms → media" },
+    { anchor: "Antibiotic Sensitivity Testing", target: "/allied-health/mlt/microbiology/antibiotic-sensitivity-testing", reason: "organisms → AST" },
+  ],
+  "mlt-micro-culture-media-explained": [
+    { anchor: "E. coli Identification", target: "/allied-health/mlt/microbiology/e-coli-identification", reason: "media → organism" },
+    { anchor: "Staphylococcus vs Streptococcus", target: "/allied-health/mlt/microbiology/staphylococcus-vs-streptococcus", reason: "media → organism ID" },
+    { anchor: "Antibiotic Sensitivity Testing", target: "/allied-health/mlt/microbiology/antibiotic-sensitivity-testing", reason: "media → AST" },
+  ],
+  "mlt-micro-antibiotic-sensitivity-testing": [
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "AST → media (MHA)" },
+    { anchor: "Staphylococcus vs Streptococcus", target: "/allied-health/mlt/microbiology/staphylococcus-vs-streptococcus", reason: "AST → MRSA context" },
+    { anchor: "E. coli Identification", target: "/allied-health/mlt/microbiology/e-coli-identification", reason: "AST → ESBL context" },
+  ],
+  "mlt-micro-viral-vs-bacterial-infections": [
+    { anchor: "Gram Positive vs Gram Negative", target: "/allied-health/mlt/microbiology/gram-positive-vs-gram-negative", reason: "bacterial classification" },
+    { anchor: "Fungal Infections Overview", target: "/allied-health/mlt/microbiology/fungal-infections-overview", reason: "differential diagnosis" },
+    { anchor: "Parasites in Lab Diagnosis", target: "/allied-health/mlt/microbiology/parasites-in-lab-diagnosis", reason: "differential diagnosis" },
+  ],
+  "mlt-micro-fungal-infections-overview": [
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "SDA media context" },
+    { anchor: "Viral vs Bacterial Infections", target: "/allied-health/mlt/microbiology/viral-vs-bacterial-infections", reason: "differential diagnosis" },
+    { anchor: "Parasites in Lab Diagnosis", target: "/allied-health/mlt/microbiology/parasites-in-lab-diagnosis", reason: "non-bacterial pathogens" },
+  ],
+  "mlt-micro-parasites-in-lab-diagnosis": [
+    { anchor: "Fungal Infections Overview", target: "/allied-health/mlt/microbiology/fungal-infections-overview", reason: "non-bacterial pathogens" },
+    { anchor: "Viral vs Bacterial Infections", target: "/allied-health/mlt/microbiology/viral-vs-bacterial-infections", reason: "differential diagnosis" },
+    { anchor: "Culture Media Explained", target: "/allied-health/mlt/microbiology/culture-media-explained", reason: "specimen processing context" },
+  ],
 };
 
 export function getInternalLinksForLesson(lessonId: string): InternalLink[] {

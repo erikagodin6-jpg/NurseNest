@@ -119,6 +119,9 @@ const MltLabValuesTop50 = lazy(() => import("./pages/mlt-lab-values-viral").then
 const MltBloodBankHub = lazy(() => import("./pages/mlt-blood-bank-hub"));
 const MltBloodBankTopicPage = lazy(() => import("./pages/mlt-blood-bank-topic"));
 const MltBloodBankCheatSheet = lazy(() => import("./pages/mlt-blood-bank-cheat-sheet"));
+const MltMicrobiologyHub = lazy(() => import("./pages/mlt-microbiology-hub").then(m => ({ default: m.MltMicrobiologyHub })));
+const MltMicrobiologyTopic = lazy(() => import("./pages/mlt-microbiology-topic").then(m => ({ default: m.MltMicrobiologyTopic })));
+const MltMicrobiologyQuickGuide = lazy(() => import("./pages/mlt-microbiology-quick-guide").then(m => ({ default: m.MltMicrobiologyQuickGuide })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
 const PtaSeoContentPage = lazy(() => import("./pages/pta-seo-content-page"));
@@ -488,6 +491,9 @@ export function AlliedRoutes() {
         <Route path="/allied-health/mlt/lab-values/top-50" component={MltLabValuesTop50} />
         <Route path="/allied-health/mlt/lab-values/:slug" component={MltLabValuePage} />
         <Route path="/allied-health/mlt/lab-values" component={MltLabValuesHub} />
+        <Route path="/allied-health/mlt/microbiology/quick-guide" component={MltMicrobiologyQuickGuide} />
+        <Route path="/allied-health/mlt/microbiology/:slug" component={MltMicrobiologyTopic} />
+        <Route path="/allied-health/mlt/microbiology" component={MltMicrobiologyHub} />
         <Route path="/allied-health/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
         <Route path="/allied-health/mlt/canada/lessons">{() => <MltCountryPage country="canada" pageType="lessons" />}</Route>
         <Route path="/allied-health/mlt/canada/flashcards">{() => <MltCountryPage country="canada" pageType="flashcards" />}</Route>

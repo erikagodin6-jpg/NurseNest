@@ -179,6 +179,15 @@ export async function generateAlliedTopics(): Promise<string[]> {
     }
   } catch {}
 
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology/quick-guide`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  try {
+    const { getAllMicrobiologyTopicSlugs } = await import("../../client/src/data/seo-microbiology");
+    for (const slug of getAllMicrobiologyTopicSlugs()) {
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology/${slug}`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+    }
+  } catch {}
+
   const encyclopediaProfessions = [
     "paramedic", "respiratory-therapy", "mlt", "imaging",
     "social-work", "psychotherapy", "addictions", "occupational-therapy",
