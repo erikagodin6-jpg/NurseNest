@@ -6589,3 +6589,73 @@ export const insertTranslationEventSchema = createInsertSchema(translationEvents
 });
 export type TranslationEvent = typeof translationEvents.$inferSelect;
 export type InsertTranslationEvent = z.infer<typeof insertTranslationEventSchema>;
+
+export const entitlementCache = pgTable("entitlement_cache", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productType: text("product_type").notNull(),
+  productId: text("product_id"),
+  hasAccess: boolean("has_access").notNull(),
+  accessSource: text("access_source").notNull(),
+  planId: text("plan_id"),
+  tier: text("tier"),
+  expiresAt: timestamp("expires_at"),
+  decisionReason: text("decision_reason"),
+  verifiedAt: timestamp("verified_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEntitlementCacheSchema = createInsertSchema(entitlementCache).omit({
+  id: true,
+  createdAt: true,
+});
+export type EntitlementCache = typeof entitlementCache.$inferSelect;
+export type InsertEntitlementCache = z.infer<typeof insertEntitlementCacheSchema>;
+
+export const entitlementDecisions = pgTable("entitlement_decisions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productType: text("product_type").notNull(),
+  productId: text("product_id"),
+  hasAccess: boolean("has_access").notNull(),
+  accessSource: text("access_source").notNull(),
+  provisional: boolean("provisional").default(false),
+  decisionReason: text("decision_reason"),
+  requestPath: text("request_path"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEntitlementDecisionSchema = createInsertSchema(entitlementDecisions).omit({
+  id: true,
+  createdAt: true,
+});
+export type EntitlementDecision = typeof entitlementDecisions.$inferSelect;
+export type InsertEntitlementDecision = z.infer<typeof insertEntitlementDecisionSchema>;
+
+export type AccessSource =
+  | "subscription"
+  | "bundle"
+  | "one_time_purchase"
+  | "free"
+  | "promo"
+  | "admin_override"
+  | "legacy"
+  | "trial"
+  | "tester"
+  | "none";
+
+export interface EntitlementDecisionObject {
+  hasAccess: boolean;
+  accessSource: AccessSource;
+  planId: string | null;
+  productType: string;
+  productId: string | null;
+  locale: string | null;
+  fallbackEligible: boolean;
+  backupModesAvailable: string[];
+  lastVerifiedContentVersion: string | null;
+  substituteEligible: boolean;
+  expiresAt: string | null;
+  accessDecisionReason: string;
+  provisional: boolean;
+}

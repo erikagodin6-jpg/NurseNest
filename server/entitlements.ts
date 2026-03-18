@@ -8,6 +8,7 @@
  * DO NOT add inline tier checks in route handlers. Instead use:
  *   - requireEntitlement("featureKey")  — Express middleware, returns 403 if denied
  *   - requireAnyPremium()               — Express middleware, requires any paid tier
+ *   - resolveEntitlement(userId, productType, productId) — Full normalized decision
  *   - getUserEntitlements(user)          — Compute full entitlement map for a user
  *   - checkEntitlement(user, feature)   — Boolean check for a single feature
  *
@@ -24,6 +25,9 @@
 import { resolveAuthUser } from "./admin-auth";
 import { pool } from "./storage";
 import type { Request, Response, NextFunction } from "express";
+import type { AccessSource, EntitlementDecisionObject } from "@shared/schema";
+
+const PROVISIONAL_GRACE_WINDOW_MS = 15 * 60 * 1000;
 
 export type Feature =
   | "lessons_free"
@@ -88,6 +92,8 @@ const TIER_HIERARCHY: Record<string, number> = {
   admin: 4,
 };
 
+const PAID_TIERS = new Set(["rpn", "rn", "np", "newgrad", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
+
 const NEWGRAD_TOOLKIT_FEATURES = new Set<Feature>([
   "newgrad_toolkit",
   "newgrad_brain_sheets",
@@ -106,7 +112,7 @@ const NEWGRAD_CERT_PREP_FEATURES = new Set<Feature>([
   "newgrad_flashcards",
 ]);
 
-const FEATURE_TIERS: Record<Feature, Tier> = {
+export const FEATURE_TIERS: Record<Feature, Tier> = {
   lessons_free: "free",
   anatomy_labeling: "free",
   concept_checks: "free",
@@ -178,6 +184,16 @@ function hasActiveTrialAccess(user: any): boolean {
   return true;
 }
 
+function getTrialExpiry(user: any): string | null {
+  const trialEnd = user.trial_end || user.trialEnd || user.trial_expires_at || user.trialExpiresAt;
+  return trialEnd ? new Date(trialEnd).toISOString() : null;
+}
+
+function getTesterExpiry(user: any): string | null {
+  const expiry = user.tester_expiry || user.testerExpiry;
+  return expiry ? new Date(expiry).toISOString() : null;
+}
+
 function normalizeNewGradTier(tier: string): string {
   return tier === "newgrad" ? "new_grad_toolkit" : tier;
 }
@@ -192,6 +208,312 @@ function hasNewGradFeatureAccess(userTier: string, feature: Feature): boolean {
     return NEWGRAD_TOOLKIT_FEATURES.has(feature);
   }
   return false;
+}
+
+function buildDefaultDecision(productType: string, productId: string | null): EntitlementDecisionObject {
+  return {
+    hasAccess: false,
+    accessSource: "none",
+    planId: null,
+    productType,
+    productId,
+    locale: null,
+    fallbackEligible: false,
+    backupModesAvailable: [],
+    lastVerifiedContentVersion: null,
+    substituteEligible: false,
+    expiresAt: null,
+    accessDecisionReason: "no_access",
+    provisional: false,
+  };
+}
+
+function determineAccessSource(user: any): { source: AccessSource; reason: string; expiresAt: string | null } {
+  const userTier: string = user.tier || "free";
+
+  if (userTier === "admin") {
+    return { source: "admin_override", reason: "admin_tier", expiresAt: null };
+  }
+
+  if (isActiveTester(user)) {
+    return { source: "tester", reason: "active_tester", expiresAt: getTesterExpiry(user) };
+  }
+
+  if (hasActiveTrialAccess(user)) {
+    return { source: "trial", reason: "active_trial", expiresAt: getTrialExpiry(user) };
+  }
+
+  if (user.is_lifetime || user.isLifetime) {
+    return { source: "one_time_purchase", reason: "lifetime_purchase", expiresAt: null };
+  }
+
+  if (PAID_TIERS.has(userTier)) {
+    const planExpiry = user.plan_expires_at || user.planExpiresAt;
+    return {
+      source: "subscription",
+      reason: `active_subscription_${userTier}`,
+      expiresAt: planExpiry ? new Date(planExpiry).toISOString() : null,
+    };
+  }
+
+  return { source: "free", reason: "free_tier", expiresAt: null };
+}
+
+export function resolveEntitlementSync(user: any, productType: string, productId: string | null = null): EntitlementDecisionObject {
+  const decision = buildDefaultDecision(productType, productId);
+
+  if (!user) {
+    decision.accessDecisionReason = "not_authenticated";
+    return decision;
+  }
+
+  const userTier: string = user.tier || "free";
+  const { source, reason, expiresAt } = determineAccessSource(user);
+  decision.accessSource = source;
+  decision.expiresAt = expiresAt;
+  decision.planId = user.stripe_subscription_id || user.stripeSubscriptionId || null;
+  decision.locale = user.region || null;
+
+  if (productType === "feature" && productId) {
+    const feature = productId as Feature;
+    const requiredTier = FEATURE_TIERS[feature];
+
+    if (!requiredTier || requiredTier === "free") {
+      decision.hasAccess = true;
+      decision.accessSource = "free";
+      decision.accessDecisionReason = "free_feature";
+      return decision;
+    }
+
+    if (requiredTier === "admin") {
+      if (userTier === "admin") {
+        decision.hasAccess = true;
+        decision.accessDecisionReason = "admin_tier";
+        return decision;
+      }
+      decision.hasAccess = false;
+      decision.accessDecisionReason = "admin_only";
+      decision.fallbackEligible = false;
+      return decision;
+    }
+
+    if (userTier === "admin") {
+      decision.hasAccess = true;
+      decision.accessDecisionReason = "admin_tier";
+      return decision;
+    }
+
+    if (isActiveTester(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "tester";
+      decision.accessDecisionReason = "tester_bypass";
+      return decision;
+    }
+
+    if (hasActiveTrialAccess(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "trial";
+      decision.accessDecisionReason = "trial_access";
+      decision.expiresAt = getTrialExpiry(user);
+      return decision;
+    }
+
+    if (user.is_lifetime || user.isLifetime) {
+      decision.hasAccess = true;
+      decision.accessSource = "one_time_purchase";
+      decision.accessDecisionReason = "lifetime_purchase";
+      return decision;
+    }
+
+    if (NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature)) {
+      if (hasNewGradFeatureAccess(userTier, feature)) {
+        decision.hasAccess = true;
+        decision.accessDecisionReason = `tier_${userTier}`;
+        return decision;
+      }
+      decision.hasAccess = false;
+      decision.accessDecisionReason = `requires_${requiredTier}`;
+      decision.fallbackEligible = true;
+      decision.substituteEligible = true;
+      return decision;
+    }
+
+    const userLevel = TIER_HIERARCHY[userTier] ?? 0;
+    const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
+    if (userLevel >= requiredLevel) {
+      decision.hasAccess = true;
+      decision.accessDecisionReason = `tier_${userTier}`;
+      return decision;
+    }
+
+    decision.hasAccess = false;
+    decision.accessDecisionReason = `requires_${requiredTier}`;
+    decision.fallbackEligible = true;
+    decision.substituteEligible = true;
+    return decision;
+  }
+
+  if (productType === "any_premium") {
+    if (userTier === "admin" || PAID_TIERS.has(userTier) || isActiveTester(user) || hasActiveTrialAccess(user) || user.is_lifetime || user.isLifetime) {
+      decision.hasAccess = true;
+      decision.accessDecisionReason = reason;
+      return decision;
+    }
+    decision.hasAccess = false;
+    decision.accessDecisionReason = "requires_paid_tier";
+    decision.fallbackEligible = true;
+    return decision;
+  }
+
+  decision.accessDecisionReason = reason;
+  decision.hasAccess = source !== "free" && source !== "none";
+  return decision;
+}
+
+async function getCachedEntitlement(userId: string, productType: string, productId: string | null): Promise<EntitlementDecisionObject | null> {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM entitlement_cache 
+       WHERE user_id = $1 AND product_type = $2 AND ($3::text IS NULL OR product_id = $3)
+       AND verified_at > NOW() - INTERVAL '${PROVISIONAL_GRACE_WINDOW_MS / 1000} seconds'
+       ORDER BY verified_at DESC LIMIT 1`,
+      [userId, productType, productId]
+    );
+    if (result.rows.length === 0) return null;
+    const row = result.rows[0];
+    return {
+      hasAccess: row.has_access,
+      accessSource: row.access_source as AccessSource,
+      planId: row.plan_id,
+      productType: row.product_type,
+      productId: row.product_id,
+      locale: null,
+      fallbackEligible: false,
+      backupModesAvailable: [],
+      lastVerifiedContentVersion: null,
+      substituteEligible: false,
+      expiresAt: row.expires_at ? new Date(row.expires_at).toISOString() : null,
+      accessDecisionReason: row.decision_reason || "cached_entitlement",
+      provisional: true,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function cacheEntitlementDecision(userId: string, decision: EntitlementDecisionObject): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO entitlement_cache (id, user_id, product_type, product_id, has_access, access_source, plan_id, tier, expires_at, decision_reason, verified_at, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW())
+       ON CONFLICT DO NOTHING`,
+      [
+        userId,
+        decision.productType,
+        decision.productId,
+        decision.hasAccess,
+        decision.accessSource,
+        decision.planId,
+        null,
+        decision.expiresAt ? new Date(decision.expiresAt) : null,
+        decision.accessDecisionReason,
+      ]
+    );
+  } catch {}
+}
+
+async function logProvisionalAccess(userId: string, decision: EntitlementDecisionObject, requestPath?: string): Promise<void> {
+  console.warn(`[EntitlementProvisional] ${JSON.stringify({
+    timestamp: new Date().toISOString(),
+    userId,
+    productType: decision.productType,
+    productId: decision.productId,
+    hasAccess: decision.hasAccess,
+    accessSource: decision.accessSource,
+    reason: decision.accessDecisionReason,
+    provisional: true,
+    requestPath: requestPath || null,
+  })}`);
+
+  try {
+    await pool.query(
+      `INSERT INTO entitlement_decisions (id, user_id, product_type, product_id, has_access, access_source, provisional, decision_reason, request_path, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, true, $6, $7, NOW())`,
+      [userId, decision.productType, decision.productId, decision.hasAccess, decision.accessSource, decision.accessDecisionReason, requestPath || null]
+    );
+  } catch {}
+}
+
+export async function resolveEntitlement(
+  userId: string,
+  productType: string,
+  productId: string | null = null,
+  requestPath?: string,
+): Promise<EntitlementDecisionObject> {
+  let user: any = null;
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
+    user = result.rows[0] || null;
+  } catch {
+    const cached = await getCachedEntitlement(userId, productType, productId);
+    if (cached) {
+      await logProvisionalAccess(userId, cached, requestPath);
+      return cached;
+    }
+    const decision = buildDefaultDecision(productType, productId);
+    decision.accessDecisionReason = "database_unavailable";
+    return decision;
+  }
+
+  if (!user) {
+    return buildDefaultDecision(productType, productId);
+  }
+
+  const decision = resolveEntitlementSync(user, productType, productId);
+
+  if (!decision.hasAccess) {
+    try {
+      const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+      if (hasProvisionalAccess(userId) || isEmergencyMode()) {
+        const cached = await getCachedEntitlement(userId, productType, productId);
+        if (cached && cached.hasAccess) {
+          cached.provisional = true;
+          cached.accessDecisionReason = "provisional_grace_window";
+          await logProvisionalAccess(userId, cached, requestPath);
+          return cached;
+        }
+        if (isEmergencyMode()) {
+          decision.hasAccess = true;
+          decision.provisional = true;
+          decision.accessDecisionReason = "emergency_mode_override";
+          await logProvisionalAccess(userId, decision, requestPath);
+          return decision;
+        }
+      }
+    } catch {}
+  }
+
+  if (decision.hasAccess) {
+    cacheEntitlementDecision(userId, decision).catch(() => {});
+  }
+
+  logEntitlementDecision(userId, decision, requestPath);
+
+  return decision;
+}
+
+function logEntitlementDecision(userId: string, decision: EntitlementDecisionObject, requestPath?: string): void {
+  console.log(`[EntitlementDecision] ${JSON.stringify({
+    timestamp: new Date().toISOString(),
+    userId,
+    productType: decision.productType,
+    productId: decision.productId,
+    hasAccess: decision.hasAccess,
+    accessSource: decision.accessSource,
+    reason: decision.accessDecisionReason,
+    provisional: decision.provisional,
+    requestPath: requestPath || null,
+  })}`);
 }
 
 export function checkEntitlement(user: any, feature: Feature): boolean {
@@ -286,17 +608,12 @@ export function requireEntitlement(feature: Feature) {
       return res.status(401).json({ error: "Authentication required" });
     }
 
-    if (!checkEntitlement(user, feature)) {
-      try {
-        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
-        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
-          logPaywallAccess(req.path, user, feature, true);
-          (req as any).authUser = user;
-          return next();
-        }
-      } catch {}
+    const decision = await resolveEntitlement(user.id, "feature", feature, req.path);
+    (req as any).entitlement = decision;
+    (req as any).authUser = user;
 
-      logPaywallAccess(req.path, user, feature, false);
+    if (!decision.hasAccess) {
+      logPaywallAccess(req.path, user, feature, false, decision);
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,
@@ -305,8 +622,7 @@ export function requireEntitlement(feature: Feature) {
       });
     }
 
-    logPaywallAccess(req.path, user, feature, true);
-    (req as any).authUser = user;
+    logPaywallAccess(req.path, user, feature, true, decision);
     next();
   };
 }
@@ -319,25 +635,17 @@ export function requireAnyPremium() {
       return res.status(401).json({ error: "Authentication required" });
     }
 
-    const userTier = user.tier || "free";
-    const paidTiers = new Set(["rpn", "rn", "np", "newgrad", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
+    const decision = await resolveEntitlement(user.id, "any_premium", null, req.path);
+    (req as any).entitlement = decision;
+    (req as any).authUser = user;
 
-    if (!paidTiers.has(userTier) && !isActiveTester(user) && !hasActiveTrialAccess(user)) {
-      try {
-        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
-        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
-          (req as any).authUser = user;
-          return next();
-        }
-      } catch {}
-
+    if (!decision.hasAccess) {
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,
       });
     }
 
-    (req as any).authUser = user;
     next();
   };
 }
@@ -353,7 +661,7 @@ export function requireAuthenticated() {
   };
 }
 
-function logPaywallAccess(path: string, user: any, feature: string, granted: boolean): void {
+function logPaywallAccess(path: string, user: any, feature: string, granted: boolean, decision?: EntitlementDecisionObject): void {
   let safePath = path;
   try {
     const qIdx = safePath.indexOf("?");
@@ -366,6 +674,9 @@ function logPaywallAccess(path: string, user: any, feature: string, granted: boo
     feature,
     resourcePath: safePath,
     accessGranted: granted,
+    accessSource: decision?.accessSource || null,
+    provisional: decision?.provisional || false,
+    reason: decision?.accessDecisionReason || null,
   })}`);
 }
 
@@ -420,3 +731,19 @@ export async function handleEntitlementDebug(req: any, res: any): Promise<void> 
     entitlements,
   });
 }
+
+export async function handleEntitlementResolve(req: any, res: any): Promise<void> {
+  const user = await resolveAuthUser(req);
+  if (!user) {
+    res.status(401).json({ error: "Authentication required" });
+    return;
+  }
+
+  const productType = String(req.query.productType || req.body?.productType || "feature");
+  const productId = String(req.query.productId || req.body?.productId || "") || null;
+
+  const decision = await resolveEntitlement(user.id, productType, productId, req.path);
+  res.json(decision);
+}
+
+export { hasActiveTrialAccess, PAID_TIERS };

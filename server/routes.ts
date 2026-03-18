@@ -71,7 +71,7 @@ import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegion
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
 import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit } from "./admin-auth";
-import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug } from "./entitlements";
+import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
@@ -225,6 +225,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.get("/api/admin/entitlement-debug", async (req, res) => {
     await handleEntitlementDebug(req, res);
+  });
+
+  app.get("/api/entitlement/resolve", async (req, res) => {
+    await handleEntitlementResolve(req, res);
   });
 
   app.get("/api/assets/{*assetPath}", async (req, res) => {

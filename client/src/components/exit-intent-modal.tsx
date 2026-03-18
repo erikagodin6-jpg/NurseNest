@@ -81,7 +81,6 @@ const SECTION_CONFIGS: Record<string, SectionConfig> = {
 };
 
 function detectSection(pathname: string): string {
-  const { t } = useI18n();
   if (pathname.includes("/new-grad") || pathname.includes("survival-guide") || pathname.includes("first-year")) {
     return "new_grad";
   }
@@ -106,6 +105,7 @@ const CATEGORY_LABELS: Record<SubscriptionCategory, string> = {
 };
 
 export function ExitIntentModal() {
+  const { t } = useI18n();
   const { showModal, dismiss, dismissForToday, dismissPermanently } = useExitIntent();
   const [location] = useLocation();
   const [email, setEmail] = useState("");

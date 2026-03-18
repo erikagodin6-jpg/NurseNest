@@ -1209,4 +1209,40 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_type ON clinical_seo_pages(page_type)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_status ON clinical_seo_pages(status)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_clinical_seo_pages_body_system ON clinical_seo_pages(body_system)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS entitlement_cache (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id varchar NOT NULL,
+      product_type text NOT NULL,
+      product_id text,
+      has_access boolean NOT NULL,
+      access_source text NOT NULL,
+      plan_id text,
+      tier text,
+      expires_at timestamp,
+      decision_reason text,
+      verified_at timestamp NOT NULL DEFAULT NOW(),
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_cache_user_product ON entitlement_cache(user_id, product_type, product_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_cache_verified ON entitlement_cache(verified_at)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS entitlement_decisions (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id varchar NOT NULL,
+      product_type text NOT NULL,
+      product_id text,
+      has_access boolean NOT NULL,
+      access_source text NOT NULL,
+      provisional boolean DEFAULT false,
+      decision_reason text,
+      request_path text,
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_decisions_user ON entitlement_decisions(user_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_decisions_provisional ON entitlement_decisions(provisional) WHERE provisional = true`);
 }

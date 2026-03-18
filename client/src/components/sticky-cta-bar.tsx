@@ -51,6 +51,7 @@ const CTA_CONFIG: Record<CtaContext, { text: string; buttonText: string; href: s
 const HIDDEN_ROUTES = ["/login", "/pricing", "/start-free", "/subscribe", "/admin", "/dashboard", "/profile", "/reports"];
 
 export function StickyCtaBar() {
+  const { t } = useI18n();
   const { user, effectiveTier, isAdmin } = useAuth();
   const { t } = useI18n();
   const [location] = useLocation();

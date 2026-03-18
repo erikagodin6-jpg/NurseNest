@@ -1,4 +1,6 @@
-import { checkEntitlement, getUserEntitlements, isActiveTester } from "../entitlements";
+import { describe, test, expect } from "vitest";
+import { checkEntitlement, getUserEntitlements, isActiveTester, resolveEntitlementSync } from "../entitlements";
+import type { EntitlementDecisionObject } from "../../shared/schema";
 
 function makeUser(overrides: Record<string, any> = {}) {
   return {
@@ -9,6 +11,10 @@ function makeUser(overrides: Record<string, any> = {}) {
     tester_expiry: null,
     trial_active: false,
     trial_end: null,
+    is_lifetime: false,
+    stripe_subscription_id: null,
+    region: "US",
+    plan_expires_at: null,
     ...overrides,
   };
 }
@@ -159,5 +165,194 @@ describe("getUserEntitlements", () => {
     const ents = getUserEntitlements(user);
     expect(ents.flashcards.allowed).toBe(true);
     expect(ents.flashcards.reason).toBe("tester_bypass");
+  });
+});
+
+describe("resolveEntitlementSync", () => {
+  test("returns correct decision for admin user", () => {
+    const user = makeUser({ tier: "admin" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("admin_override");
+    expect(decision.accessDecisionReason).toBe("admin_tier");
+    expect(decision.provisional).toBe(false);
+    expect(decision.productType).toBe("feature");
+    expect(decision.productId).toBe("flashcards");
+  });
+
+  test("returns correct decision for free user accessing premium feature", () => {
+    const user = makeUser({ tier: "free" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("requires_rpn");
+    expect(decision.fallbackEligible).toBe(true);
+    expect(decision.substituteEligible).toBe(true);
+  });
+
+  test("returns correct decision for free feature", () => {
+    const user = makeUser({ tier: "free" });
+    const decision = resolveEntitlementSync(user, "feature", "lessons_free");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("free");
+    expect(decision.accessDecisionReason).toBe("free_feature");
+  });
+
+  test("returns correct decision for tester", () => {
+    const user = makeUser({ tier: "free", tester_access: true });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("tester");
+    expect(decision.accessDecisionReason).toBe("tester_bypass");
+  });
+
+  test("tester cannot access admin features via resolver", () => {
+    const user = makeUser({ tier: "free", tester_access: true });
+    const decision = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("admin_only");
+  });
+
+  test("returns correct decision for trial user", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", trial_active: true, trial_end: future });
+    const decision = resolveEntitlementSync(user, "feature", "qbank");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("trial");
+    expect(decision.accessDecisionReason).toBe("trial_access");
+    expect(decision.expiresAt).toBeTruthy();
+  });
+
+  test("expired trial user is denied", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", trial_active: true, trial_end: past });
+    const decision = resolveEntitlementSync(user, "feature", "qbank");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("returns correct decision for any_premium check", () => {
+    const user = makeUser({ tier: "rpn", stripe_subscription_id: "sub_123" });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("subscription");
+    expect(decision.planId).toBe("sub_123");
+  });
+
+  test("free user denied any_premium", () => {
+    const user = makeUser({ tier: "free" });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("requires_paid_tier");
+    expect(decision.fallbackEligible).toBe(true);
+  });
+
+  test("not authenticated returns correct decision", () => {
+    const decision = resolveEntitlementSync(null, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("not_authenticated");
+  });
+
+  test("lifetime user gets one_time_purchase source", () => {
+    const user = makeUser({ tier: "rn", is_lifetime: true });
+    const decision = resolveEntitlementSync(user, "feature", "lessons_rn");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("one_time_purchase");
+  });
+
+  test("subscription user gets subscription source", () => {
+    const user = makeUser({ tier: "rpn", stripe_subscription_id: "sub_abc" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("subscription");
+    expect(decision.planId).toBe("sub_abc");
+  });
+
+  test("newgrad toolkit feature access", () => {
+    const user = makeUser({ tier: "new_grad_toolkit" });
+    const decision = resolveEntitlementSync(user, "feature", "newgrad_brain_sheets");
+    expect(decision.hasAccess).toBe(true);
+  });
+
+  test("newgrad toolkit user cannot access cert_prep features", () => {
+    const user = makeUser({ tier: "new_grad_toolkit" });
+    const decision = resolveEntitlementSync(user, "feature", "newgrad_cert_prep");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("requires_certification_prep");
+  });
+
+  test("certification_prep user can access both toolkit and cert features", () => {
+    const user = makeUser({ tier: "certification_prep" });
+    const d1 = resolveEntitlementSync(user, "feature", "newgrad_brain_sheets");
+    expect(d1.hasAccess).toBe(true);
+    const d2 = resolveEntitlementSync(user, "feature", "newgrad_cert_prep");
+    expect(d2.hasAccess).toBe(true);
+  });
+
+  test("full_access user can access everything (except admin)", () => {
+    const user = makeUser({ tier: "full_access" });
+    const d1 = resolveEntitlementSync(user, "feature", "newgrad_brain_sheets");
+    expect(d1.hasAccess).toBe(true);
+    const d2 = resolveEntitlementSync(user, "feature", "newgrad_cert_prep");
+    expect(d2.hasAccess).toBe(true);
+    const d3 = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(d3.hasAccess).toBe(false);
+  });
+
+  test("decision object has all required fields", () => {
+    const user = makeUser({ tier: "rpn" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision).toHaveProperty("hasAccess");
+    expect(decision).toHaveProperty("accessSource");
+    expect(decision).toHaveProperty("planId");
+    expect(decision).toHaveProperty("productType");
+    expect(decision).toHaveProperty("productId");
+    expect(decision).toHaveProperty("locale");
+    expect(decision).toHaveProperty("fallbackEligible");
+    expect(decision).toHaveProperty("backupModesAvailable");
+    expect(decision).toHaveProperty("lastVerifiedContentVersion");
+    expect(decision).toHaveProperty("substituteEligible");
+    expect(decision).toHaveProperty("expiresAt");
+    expect(decision).toHaveProperty("accessDecisionReason");
+    expect(decision).toHaveProperty("provisional");
+  });
+
+  test("locale is populated from user region", () => {
+    const user = makeUser({ tier: "rpn", region: "CA" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.locale).toBe("CA");
+  });
+
+  test("lifetime user on free tier can access premium features", () => {
+    const user = makeUser({ tier: "free", is_lifetime: true });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("one_time_purchase");
+    expect(decision.accessDecisionReason).toBe("lifetime_purchase");
+  });
+
+  test("lifetime user on free tier passes any_premium check", () => {
+    const user = makeUser({ tier: "free", is_lifetime: true });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("one_time_purchase");
+  });
+
+  test("lifetime user cannot access admin features", () => {
+    const user = makeUser({ tier: "free", is_lifetime: true });
+    const decision = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("admin_only");
+  });
+
+  test("expired tester denied via resolver", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", tester_access: true, tester_expiry: past });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("default decision is non-provisional", () => {
+    const user = makeUser({ tier: "rpn" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.provisional).toBe(false);
   });
 });

@@ -5,6 +5,7 @@ import { getTierPricingPath, getTierLabel } from "@/lib/access";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lock, ChevronDown, Sparkles, ArrowRight, Eye } from "lucide-react";
+import { useEntitlement } from "@/hooks/use-entitlement";
 
 import { useI18n } from "@/lib/i18n";
 export type ContentVisibility = "free" | "preview" | "premium";
@@ -25,45 +26,11 @@ export function ContentGate({
   featureName = "this content",
 }: ContentGateProps) {
   const { t } = useI18n();
-  const { user, effectiveTier } = useAuth();
+  const { user, hasAccess: authHasAccess } = useAuth();
+  const entitlement = useEntitlement("feature", requiredTier);
 
-  const tierHierarchy: Record<string, number> = {
-    free: 0,
-    rpn: 1,
-    rn: 2,
-    np: 3,
-    admin: 99,
-  };
-
-  const newgradTiers = new Set(["newgrad", "new_grad_toolkit", "certification_prep", "full_access"]);
-  const newgradHierarchy: Record<string, number> = {
-    newgrad: 1,
-    new_grad_toolkit: 1,
-    certification_prep: 2,
-    full_access: 3,
-  };
-
-  const isolatedTiers = new Set(["rpn"]);
-
-  const activeTier = effectiveTier || user?.tier || "free";
-
-  let hasAccess: boolean;
-  if (activeTier === "admin") {
-    hasAccess = true;
-  } else if (newgradTiers.has(requiredTier)) {
-    const normalizedRequired = requiredTier === "newgrad" ? "new_grad_toolkit" : requiredTier;
-    const userNewGradLevel = newgradHierarchy[activeTier] ?? 0;
-    const requiredNewGradLevel = newgradHierarchy[normalizedRequired] ?? 1;
-    hasAccess = userNewGradLevel >= requiredNewGradLevel;
-  } else if (isolatedTiers.has(requiredTier)) {
-    const userTierLevel = tierHierarchy[activeTier] || 0;
-    const requiredLevel = tierHierarchy[requiredTier] || 1;
-    hasAccess = activeTier === requiredTier || userTierLevel > requiredLevel;
-  } else {
-    const userTierLevel = tierHierarchy[activeTier] || 0;
-    const requiredLevel = tierHierarchy[requiredTier] || 1;
-    hasAccess = userTierLevel >= requiredLevel;
-  }
+  const localAccess = authHasAccess(requiredTier);
+  const hasAccess = user ? (entitlement.isLoading ? localAccess : entitlement.hasAccess) : localAccess;
 
   if (visibility === "free" || hasAccess) {
     return <>{children}</>;
