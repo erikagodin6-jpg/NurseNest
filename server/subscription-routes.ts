@@ -205,15 +205,35 @@ export function registerSubscriptionRoutes(app: Express): void {
         return res.status(401).json({ error: "Not authenticated" });
       }
 
-      const subscription = await storage.getUserSubscription(user.id);
-      const entitlements = computeSimpleEntitlements(user, subscription);
+      let subscription: any = null;
+      try {
+        subscription = await storage.getUserSubscription(user.id);
+      } catch (subErr: any) {
+        console.error("[auth/me] subscription lookup failed (non-fatal):", subErr?.message);
+      }
 
+      let entitlements: SimpleEntitlements | null = null;
+      try {
+        entitlements = computeSimpleEntitlements(user, subscription);
+      } catch {}
+
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(user);
       res.json({
-        user: sanitizeUser(user),
+        ...userResponse,
         subscription: subscription || null,
-        entitlements,
+        entitlements: entitlements || userResponse.entitlements || null,
       });
     } catch (e: any) {
+      console.error("[auth/me] Fatal error:", e?.message);
+      try {
+        const user = await resolveAuthUser(req as any);
+        if (user) {
+          const { buildAuthUserResponse } = await import("./auth-response");
+          const userResponse = await buildAuthUserResponse(user);
+          return res.json(userResponse);
+        }
+      } catch {}
       res.status(500).json({ error: "Failed to fetch user data" });
     }
   });
