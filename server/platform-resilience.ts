@@ -26,7 +26,7 @@ function genId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-function addAlert(severity: "critical" | "warning" | "info", category: string, title: string, message: string, source: string, data: Record<string, any> = {}) {
+export function addAlert(severity: "critical" | "warning" | "info", category: string, title: string, message: string, source: string, data: Record<string, any> = {}) {
   const existing = alertEvents.find(a => a.category === category && a.title === title && !a.acknowledged && Date.now() - a.createdAt < 300000);
   if (existing) return;
   const alert = { id: genId(), severity, category, title, message, source, acknowledged: false, createdAt: Date.now(), data };
@@ -260,6 +260,12 @@ export async function withCircuitBreaker<T>(
   }
 }
 
+interface FeatureFlagScope {
+  users?: string[];
+  regions?: string[];
+  professions?: string[];
+}
+
 interface FeatureFlag {
   key: string;
   enabled: boolean;
@@ -271,6 +277,8 @@ interface FeatureFlag {
   disabledReason: string | null;
   adminOverride: boolean | null;
   updatedAt: number;
+  scope: FeatureFlagScope | null;
+  scopeMode: "global" | "include" | "exclude";
 }
 
 const featureFlags = new Map<string, FeatureFlag>();
@@ -305,6 +313,8 @@ export function initFeatureFlags(): void {
       disabledReason: null,
       adminOverride: null,
       updatedAt: Date.now(),
+      scope: null,
+      scopeMode: "global",
     });
   }
 }
@@ -322,6 +332,46 @@ export function isFeatureEnabled(key: string): boolean {
   if (!flag) return true;
   if (flag.adminOverride !== null) return flag.adminOverride;
   return flag.enabled;
+}
+
+export function isFeatureEnabledForContext(key: string, context?: { userId?: string; region?: string; profession?: string }): boolean {
+  const baseEnabled = isFeatureEnabled(key);
+  const flag = featureFlags.get(key);
+  if (!flag || !flag.scope || flag.scopeMode === "global" || !context) return baseEnabled;
+
+  const matchesScope = checkScopeMatch(flag.scope, context);
+
+  if (flag.scopeMode === "include") {
+    return baseEnabled && matchesScope;
+  }
+  if (flag.scopeMode === "exclude") {
+    return baseEnabled && !matchesScope;
+  }
+
+  return baseEnabled;
+}
+
+function checkScopeMatch(scope: FeatureFlagScope, context: { userId?: string; region?: string; profession?: string }): boolean {
+  if (scope.users && scope.users.length > 0 && context.userId) {
+    if (scope.users.includes(context.userId)) return true;
+  }
+  if (scope.regions && scope.regions.length > 0 && context.region) {
+    if (scope.regions.includes(context.region)) return true;
+  }
+  if (scope.professions && scope.professions.length > 0 && context.profession) {
+    if (scope.professions.includes(context.profession)) return true;
+  }
+  return false;
+}
+
+export function setFeatureFlagScope(key: string, scopeMode: "global" | "include" | "exclude", scope: FeatureFlagScope | null, actor?: string): void {
+  const flag = featureFlags.get(key);
+  if (!flag) return;
+  flag.scopeMode = scopeMode;
+  flag.scope = scope;
+  flag.updatedAt = Date.now();
+  addResilienceEvent("feature_flag_scope_update", key, { scopeMode, scope, actor });
+  addResilienceAudit("feature_flag_scope_update", "feature_flag", key, { scopeMode, scope }, actor || null);
 }
 
 export function setFeatureFlag(key: string, enabled: boolean, reason?: string, actor?: string): void {
@@ -802,6 +852,350 @@ export function autoHealOnCircuitTrip(serviceName: string): void {
       }
     });
   }
+}
+
+export async function selfHealCacheCorruption(): Promise<{ checked: number; rebuilt: number; errors: string[] }> {
+  const result = { checked: 0, rebuilt: 0, errors: [] as string[] };
+
+  try {
+    result.checked++;
+    const cached = getCachedEntitlement("__test__");
+    if (cached === null) {
+      result.rebuilt++;
+    }
+    clearEntitlementCache();
+
+    result.checked++;
+    const healthCache = cachedHealthResponse;
+    if (healthCache && Date.now() - healthCache.timestamp > HEALTH_CACHE_TTL * 10) {
+      cachedHealthResponse = null;
+      result.rebuilt++;
+      addResilienceEvent("self_heal_cache_rebuild", "health_cache", { reason: "stale_cache_cleared" });
+    }
+
+    result.checked++;
+    const now = Date.now();
+    let staleRateLimits = 0;
+    for (const [key, entry] of rateLimitStore) {
+      if (now - entry.windowStart > 300000) {
+        rateLimitStore.delete(key);
+        staleRateLimits++;
+      }
+    }
+    if (staleRateLimits > 0) {
+      result.rebuilt++;
+      addResilienceEvent("self_heal_cache_rebuild", "rate_limit_store", { staleEntriesCleared: staleRateLimits });
+    }
+  } catch (err: any) {
+    result.errors.push(err.message);
+  }
+
+  return result;
+}
+
+export async function selfHealMissingBackups(): Promise<{ checked: number; regenerated: number; errors: string[] }> {
+  const result = { checked: 0, regenerated: 0, errors: [] as string[] };
+
+  try {
+    result.checked++;
+    const lessonCheck = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM lessons WHERE status = 'published'`
+    ).catch(() => ({ rows: [{ total: 0 }] }));
+
+    const backupCheck = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM content_revisions WHERE content_id IN (SELECT id FROM lessons WHERE status = 'published')`
+    ).catch(() => ({ rows: [{ total: 0 }] }));
+
+    if (lessonCheck.rows[0]?.total > 0 && backupCheck.rows[0]?.total === 0) {
+      try {
+        const publishedLessons = await pool.query(
+          `SELECT id, title, slug FROM lessons WHERE status = 'published' LIMIT 100`
+        );
+        for (const lesson of publishedLessons.rows) {
+          await pool.query(
+            `INSERT INTO content_revisions (id, content_id, revision_number, title, content, status, created_at)
+             SELECT gen_random_uuid(), $1, 1, l.title, row_to_json(l)::jsonb, l.status, NOW()
+             FROM lessons l WHERE l.id = $1
+             ON CONFLICT DO NOTHING`,
+            [lesson.id]
+          ).catch(() => {});
+          result.regenerated++;
+        }
+        addResilienceEvent("self_heal_backup_regen", "lessons", { regenerated: publishedLessons.rows.length });
+      } catch (regenErr: any) {
+        addAlert("warning", "self_healing", "Missing Lesson Backups", "Published lessons exist but backup regeneration failed: " + regenErr.message, "self_healing");
+        result.errors.push("Lesson backup regen: " + regenErr.message);
+      }
+    }
+
+    result.checked++;
+    const questionCheck = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM exam_questions WHERE status = 'published'`
+    ).catch(() => ({ rows: [{ total: 0 }] }));
+
+    if (questionCheck.rows[0]?.total > 0) {
+      const publishedWithoutRationale = await pool.query(
+        `SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE status = 'published' AND (rationale IS NULL OR rationale = '')`
+      ).catch(() => ({ rows: [{ cnt: 0 }] }));
+
+      if (publishedWithoutRationale.rows[0]?.cnt > 10) {
+        result.regenerated++;
+        addAlert("warning", "self_healing", "Missing Rationales Detected",
+          `${publishedWithoutRationale.rows[0].cnt} published questions missing rationales`,
+          "self_healing");
+      }
+    }
+
+    result.checked++;
+    const backupPayloadCheck = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM exam_backup_payloads`
+    ).catch(() => ({ rows: [{ total: 0 }] }));
+
+    const examDefCheck = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM mock_exam_definitions`
+    ).catch(() => ({ rows: [{ total: 0 }] }));
+
+    if (examDefCheck.rows[0]?.total > 0 && backupPayloadCheck.rows[0]?.total === 0) {
+      try {
+        const activeDefs = await pool.query(
+          `SELECT id, specialty FROM mock_exam_definitions LIMIT 50`
+        );
+        for (const def of activeDefs.rows) {
+          const questions = await pool.query(
+            `SELECT id, stem, options, correct_answer, rationale, difficulty FROM exam_questions
+             WHERE exam = $1 AND status = 'published' LIMIT 75`,
+            [def.specialty]
+          ).catch(() => ({ rows: [] }));
+
+          if (questions.rows.length > 0) {
+            await pool.query(
+              `INSERT INTO exam_backup_payloads (template_id, payload, question_count, created_at)
+               VALUES ($1, $2, $3, NOW())
+               ON CONFLICT (template_id) DO NOTHING`,
+              [def.id, JSON.stringify({ questions: questions.rows, generatedAt: Date.now() }), questions.rows.length]
+            ).catch(() => {});
+            result.regenerated++;
+          }
+        }
+        addResilienceEvent("self_heal_backup_regen", "exam_backup_payloads", { regenerated: activeDefs.rows.length });
+      } catch (regenErr: any) {
+        addAlert("warning", "self_healing", "Missing Exam Backup Payloads", "Backup payload regeneration failed: " + regenErr.message, "self_healing");
+        result.errors.push("Exam backup regen: " + regenErr.message);
+      }
+    }
+  } catch (err: any) {
+    result.errors.push(err.message);
+  }
+
+  return result;
+}
+
+export async function selfHealSchemaDrift(): Promise<{ checked: number; repaired: number; errors: string[] }> {
+  const result = { checked: 0, repaired: 0, errors: [] as string[] };
+
+  try {
+    result.checked++;
+    const nullDifficulty = await pool.query(
+      `UPDATE exam_questions SET difficulty = 3 WHERE difficulty IS NULL AND status = 'published' RETURNING id`
+    ).catch(() => ({ rows: [], rowCount: 0 }));
+    if (nullDifficulty.rowCount && nullDifficulty.rowCount > 0) {
+      result.repaired += nullDifficulty.rowCount;
+      addResilienceEvent("self_heal_schema_drift", "exam_questions.difficulty", { repaired: nullDifficulty.rowCount });
+    }
+
+    result.checked++;
+    const nullTags = await pool.query(
+      `UPDATE exam_questions SET tags = '{}'::text[] WHERE tags IS NULL RETURNING id`
+    ).catch(() => ({ rows: [], rowCount: 0 }));
+    if (nullTags.rowCount && nullTags.rowCount > 0) {
+      result.repaired += nullTags.rowCount;
+      addResilienceEvent("self_heal_schema_drift", "exam_questions.tags", { repaired: nullTags.rowCount });
+    }
+
+    result.checked++;
+    const nullLessonKeywords = await pool.query(
+      `UPDATE lessons SET seo_keywords = '{}'::text[] WHERE seo_keywords IS NULL RETURNING id`
+    ).catch(() => ({ rows: [], rowCount: 0 }));
+    if (nullLessonKeywords.rowCount && nullLessonKeywords.rowCount > 0) {
+      result.repaired += nullLessonKeywords.rowCount;
+      addResilienceEvent("self_heal_schema_drift", "lessons.seo_keywords", { repaired: nullLessonKeywords.rowCount });
+    }
+
+    result.checked++;
+    const nullRelated = await pool.query(
+      `UPDATE lessons SET related_lesson_slugs = '{}'::text[] WHERE related_lesson_slugs IS NULL RETURNING id`
+    ).catch(() => ({ rows: [], rowCount: 0 }));
+    if (nullRelated.rowCount && nullRelated.rowCount > 0) {
+      result.repaired += nullRelated.rowCount;
+      addResilienceEvent("self_heal_schema_drift", "lessons.related_lesson_slugs", { repaired: nullRelated.rowCount });
+    }
+
+    result.checked++;
+    const nullDistractors = await pool.query(
+      `UPDATE exam_questions SET distractor_rationales = '{}'::jsonb WHERE distractor_rationales IS NULL RETURNING id`
+    ).catch(() => ({ rows: [], rowCount: 0 }));
+    if (nullDistractors.rowCount && nullDistractors.rowCount > 0) {
+      result.repaired += nullDistractors.rowCount;
+      addResilienceEvent("self_heal_schema_drift", "exam_questions.distractor_rationales", { repaired: nullDistractors.rowCount });
+    }
+  } catch (err: any) {
+    result.errors.push(err.message);
+  }
+
+  return result;
+}
+
+let selfHealingInterval: ReturnType<typeof setInterval> | null = null;
+const SELF_HEALING_INTERVAL_MS = 300000;
+
+export function startPeriodicSelfHealing(): void {
+  if (selfHealingInterval) return;
+  selfHealingInterval = setInterval(async () => {
+    if (!selfHealingActive) return;
+    try {
+      const cacheResult = await selfHealCacheCorruption();
+      const schemaResult = await selfHealSchemaDrift();
+      const backupResult = await selfHealMissingBackups();
+
+      if (cacheResult.rebuilt > 0 || schemaResult.repaired > 0 || backupResult.regenerated > 0) {
+        selfHealingLog.unshift({
+          action: "periodic_self_heal",
+          target: "system",
+          result: `cache: ${cacheResult.rebuilt} rebuilt, schema: ${schemaResult.repaired} repaired, backups: ${backupResult.regenerated} regenerated`,
+          timestamp: Date.now(),
+        });
+        if (selfHealingLog.length > 100) selfHealingLog.length = 100;
+      }
+    } catch (err: any) {
+      console.error("[SelfHealing] Periodic check error:", err.message);
+    }
+  }, SELF_HEALING_INTERVAL_MS);
+  console.log(`[SelfHealing] Periodic checks started (every ${SELF_HEALING_INTERVAL_MS / 1000}s)`);
+}
+
+export function stopPeriodicSelfHealing(): void {
+  if (selfHealingInterval) {
+    clearInterval(selfHealingInterval);
+    selfHealingInterval = null;
+  }
+}
+
+interface LoadSheddingConfig {
+  enabled: boolean;
+  heavyOperationQueueMax: number;
+  systemLoadThreshold: number;
+  criticalPaths: Set<string>;
+}
+
+const loadSheddingConfig: LoadSheddingConfig = {
+  enabled: true,
+  heavyOperationQueueMax: 10,
+  systemLoadThreshold: 0.9,
+  criticalPaths: new Set(["/api/auth", "/api/login", "/api/stripe", "/api/health"]),
+};
+
+const heavyOperationQueue: Array<{
+  id: string;
+  operation: string;
+  userId: string | null;
+  priority: number;
+  queuedAt: number;
+}> = [];
+
+export function getLoadSheddingStatus(): { enabled: boolean; queueLength: number; config: { heavyOperationQueueMax: number; systemLoadThreshold: number } } {
+  return {
+    enabled: loadSheddingConfig.enabled,
+    queueLength: heavyOperationQueue.length,
+    config: {
+      heavyOperationQueueMax: loadSheddingConfig.heavyOperationQueueMax,
+      systemLoadThreshold: loadSheddingConfig.systemLoadThreshold,
+    },
+  };
+}
+
+export function loadSheddingMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!loadSheddingConfig.enabled) return next();
+
+    if (loadSheddingConfig.criticalPaths.has(req.path) || req.method === "GET") {
+      return next();
+    }
+
+    const mem = process.memoryUsage();
+    const memUsage = mem.heapUsed / mem.heapTotal;
+
+    if (memUsage < loadSheddingConfig.systemLoadThreshold) {
+      return next();
+    }
+
+    const user = (req as any).authUser;
+    const isPaid = user?.tier && user.tier !== "free";
+
+    if (isPaid) {
+      return next();
+    }
+
+    return res.status(503).json({
+      error: "Server is under heavy load. Please try again shortly.",
+      retryAfter: 30,
+      code: "LOAD_SHEDDING",
+    });
+  };
+}
+
+export function queueHeavyOperation(operation: string, userId: string | null, isPaid: boolean): { queued: boolean; position?: number; reason?: string } {
+  if (heavyOperationQueue.length >= loadSheddingConfig.heavyOperationQueueMax) {
+    if (!isPaid) {
+      return { queued: false, reason: "Queue full. Paid subscribers are prioritized." };
+    }
+    const freeIdx = heavyOperationQueue.findIndex(op => op.priority === 0);
+    if (freeIdx >= 0) {
+      heavyOperationQueue.splice(freeIdx, 1);
+    } else {
+      return { queued: false, reason: "Queue full." };
+    }
+  }
+
+  const entry = {
+    id: `op-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    operation,
+    userId,
+    priority: isPaid ? 1 : 0,
+    queuedAt: Date.now(),
+  };
+
+  if (isPaid) {
+    const insertIdx = heavyOperationQueue.findIndex(op => op.priority < 1);
+    if (insertIdx >= 0) {
+      heavyOperationQueue.splice(insertIdx, 0, entry);
+    } else {
+      heavyOperationQueue.push(entry);
+    }
+  } else {
+    heavyOperationQueue.push(entry);
+  }
+
+  return { queued: true, position: heavyOperationQueue.indexOf(entry) + 1 };
+}
+
+export function dequeueHeavyOperation(): typeof heavyOperationQueue[0] | null {
+  return heavyOperationQueue.shift() || null;
+}
+
+export function examStartRateLimitMiddleware() {
+  return rateLimitMiddleware({ windowMs: 60000, maxRequests: 5, keyPrefix: "exam_start", subscriberMultiplier: 3 });
+}
+
+export function aiHeavyRateLimitMiddleware() {
+  return rateLimitMiddleware({ windowMs: 60000, maxRequests: 10, keyPrefix: "ai_heavy", subscriberMultiplier: 3 });
+}
+
+export function adminApiRateLimitMiddleware() {
+  return rateLimitMiddleware({ windowMs: 60000, maxRequests: 120, keyPrefix: "admin_api", subscriberMultiplier: 1 });
+}
+
+export function sensitiveApiRateLimitMiddleware() {
+  return rateLimitMiddleware({ windowMs: 300000, maxRequests: 20, keyPrefix: "sensitive", subscriberMultiplier: 2 });
 }
 
 const entitlementCache = new Map<string, { result: any; expiresAt: number }>();
@@ -1702,6 +2096,45 @@ export function registerResilienceRoutes(app: Express): void {
     } catch {
       res.json({ entries: resilienceAuditLog.slice(0, limit), total: resilienceAuditLog.length });
     }
+  });
+
+  app.post("/api/admin/resilience/feature-flags/:key/scope", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { key } = req.params;
+    const { scopeMode, scope } = req.body;
+    if (!scopeMode || !["global", "include", "exclude"].includes(scopeMode)) {
+      return res.status(400).json({ error: "scopeMode must be global, include, or exclude" });
+    }
+    setFeatureFlagScope(key, scopeMode, scope || null, admin.username || admin.id);
+    res.json({ success: true, flag: featureFlags.get(key) });
+  });
+
+  app.post("/api/admin/resilience/self-heal/run", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    try {
+      const [cacheResult, backupResult, schemaResult] = await Promise.all([
+        selfHealCacheCorruption(),
+        selfHealMissingBackups(),
+        selfHealSchemaDrift(),
+      ]);
+      res.json({
+        success: true,
+        cache: cacheResult,
+        backups: backupResult,
+        schema: schemaResult,
+        timestamp: Date.now(),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/resilience/load-shedding", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json(getLoadSheddingStatus());
   });
 
   app.post("/api/admin/resilience/health-check/run", async (req: Request, res: Response) => {

@@ -205,7 +205,7 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
-  const { readOnlyEnforcement, minimalCoreEnforcement, initDefaultBreakers, initFeatureFlags, initErrorBudgets, prewarmCriticalRoutes, startKeepWarmInterval } = await import("./platform-resilience");
+  const { readOnlyEnforcement, minimalCoreEnforcement, initDefaultBreakers, initFeatureFlags, initErrorBudgets, prewarmCriticalRoutes, startKeepWarmInterval, loadSheddingMiddleware } = await import("./platform-resilience");
   initDefaultBreakers();
   initFeatureFlags();
   initErrorBudgets();
@@ -220,6 +220,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { performanceMiddleware, registerPerformanceRoutes, cacheGet, cacheSet, cacheInvalidate, timedQuery, withTimeout, instrumentCorePath } = await import("./performance");
   app.use(performanceMiddleware());
   registerPerformanceRoutes(app);
+
+  const { requestMetricsMiddleware, autoStartDeployMonitoring } = await import("./deployment-protection");
+  app.use(requestMetricsMiddleware());
+  app.use(loadSheddingMiddleware());
+  autoStartDeployMonitoring();
 
   const MIGRATION_REDIRECT_SLUGS = [
     "philippines-to-canada", "india-to-canada", "philippines-to-usa",
@@ -587,8 +592,15 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerExamResilienceRoutes } = await import("./exam-resilience-engine");
   registerExamResilienceRoutes(app);
 
-  const { registerResilienceRoutes } = await import("./platform-resilience");
+  const { registerResilienceRoutes, startPeriodicSelfHealing } = await import("./platform-resilience");
   registerResilienceRoutes(app);
+  startPeriodicSelfHealing();
+
+  const { registerDeploymentProtectionRoutes } = await import("./deployment-protection");
+  registerDeploymentProtectionRoutes(app);
+
+  const { registerSchemaVersioningRoutes } = await import("./schema-versioning");
+  registerSchemaVersioningRoutes(app);
 
   const { registerBackendResilienceRoutes, ensureResilienceTables, killSwitchGuard } = await import("./backend-resilience");
   ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
@@ -1295,9 +1307,17 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   // AI Content Generation (admin-only)
   // --------------------
   app.post("/api/ai/generate-content", async (req, res) => {
+    let _dequeueOnFinish: (() => void) | null = null;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+
+      const { queueHeavyOperation, dequeueHeavyOperation } = await import("./platform-resilience");
+      const queueResult = queueHeavyOperation("ai_generate_content", admin.id, admin.tier !== "free");
+      if (!queueResult.queued) {
+        return res.status(503).json({ error: queueResult.reason, code: "QUEUE_FULL" });
+      }
+      _dequeueOnFinish = dequeueHeavyOperation;
 
       const aiCheck = checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
@@ -1495,6 +1515,8 @@ CRITICAL RULES:
     } catch (e: any) {
       console.error("AI generate error:", e);
       res.status(500).json({ error: e.message || "AI generation failed" });
+    } finally {
+      if (_dequeueOnFinish) _dequeueOnFinish();
     }
   });
 
@@ -2367,9 +2389,17 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
 
   // --- Question batch endpoint for large question counts ---
   app.post("/api/ai/generate-questions-batch", async (req, res) => {
+    let _dequeueOnFinish: (() => void) | null = null;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+
+      const { queueHeavyOperation, dequeueHeavyOperation } = await import("./platform-resilience");
+      const queueResult = queueHeavyOperation("ai_generate_questions_batch", admin.id, admin.tier !== "free");
+      if (!queueResult.queued) {
+        return res.status(503).json({ error: queueResult.reason, code: "QUEUE_FULL" });
+      }
+      _dequeueOnFinish = dequeueHeavyOperation;
 
       const aiCheck = checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
@@ -2475,13 +2505,23 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
     } catch (e: any) {
       console.error(`[QuestionBatch] error:`, e);
       res.status(500).json({ error: e.message || "Question batch generation failed" });
+    } finally {
+      if (_dequeueOnFinish) _dequeueOnFinish();
     }
   });
 
   app.post("/api/ai/generate-test-bank", async (req, res) => {
+    let _dequeueOnFinish: (() => void) | null = null;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+
+      const { queueHeavyOperation, dequeueHeavyOperation } = await import("./platform-resilience");
+      const queueResult = queueHeavyOperation("ai_generate_test_bank", admin.id, admin.tier !== "free");
+      if (!queueResult.queued) {
+        return res.status(503).json({ error: queueResult.reason, code: "QUEUE_FULL" });
+      }
+      _dequeueOnFinish = dequeueHeavyOperation;
 
       const aiCheck = checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
@@ -2807,6 +2847,8 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${fillCoun
     } catch (e: any) {
       console.error("AI test bank error:", e);
       res.status(500).json({ error: e.message || "AI test bank generation failed" });
+    } finally {
+      if (_dequeueOnFinish) _dequeueOnFinish();
     }
   });
 
@@ -3312,6 +3354,18 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   app.use("/api/admin", adminRateLimiter);
+
+  const { examStartRateLimitMiddleware, aiHeavyRateLimitMiddleware, sensitiveApiRateLimitMiddleware } = await import("./platform-resilience");
+  app.use("/api/ai/generate-content", aiHeavyRateLimitMiddleware());
+  app.use("/api/ai/generate-pipeline", aiHeavyRateLimitMiddleware());
+  app.use("/api/ai/generate-questions-batch", aiHeavyRateLimitMiddleware());
+  app.use("/api/ai/generate-test-bank", aiHeavyRateLimitMiddleware());
+  app.use("/api/ai/chat-assist", aiHeavyRateLimitMiddleware());
+  app.use("/api/admin/ai/exam-questions/generate", aiHeavyRateLimitMiddleware());
+  app.use("/api/admin/ai/flashcards/generate", aiHeavyRateLimitMiddleware());
+  app.use("/api/mock-exams/start", examStartRateLimitMiddleware());
+  app.use("/api/mock-exams/start-specialty", examStartRateLimitMiddleware());
+  app.use("/api/auth/recover-account", sensitiveApiRateLimitMiddleware());
 
   const signupLimiter = rateLimit({
     windowMs: 60 * 60 * 1000,
@@ -7737,7 +7791,8 @@ Rules:
         `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC`,
         [req.params.id]
       );
-      const allCards = snakeToCamel(result.rows);
+      const { normalizeContentArray } = await import("./schema-versioning");
+      const allCards = normalizeContentArray("flashcard", snakeToCamel(result.rows));
 
       if (userId) {
         const deckCheck = await pool.query(`SELECT owner_id, tier FROM flashcard_decks WHERE id = $1`, [req.params.id]);
@@ -9722,6 +9777,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   app.post("/api/mock-exams/start-specialty", examStartLimiter, killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
+      const { isFeatureEnabledForContext } = await import("./platform-resilience");
+      if (!isFeatureEnabledForContext("mock_exams", {
+        userId: authUser?.id,
+        region: req.region || "US",
+        profession: authUser?.profession || undefined,
+      })) {
+        return res.status(503).json({ error: "Mock exams are temporarily unavailable for your account.", code: "FEATURE_DISABLED" });
+      }
       console.log("[MockExam][start-specialty] Received payload:", { examDefinitionId: req.body.examDefinitionId, specialty: req.body.specialty });
       console.log("[MockExam][start-specialty] User auth state:", { userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
 
@@ -11478,7 +11541,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         questionType: questionType as string, status: status as string,
         bodySystem: bodySystem as string,
       });
-      res.json(questions);
+      const { normalizeContentArray } = await import("./schema-versioning");
+      res.json(normalizeContentArray("exam_question", questions));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -11490,7 +11554,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const q = await storage.getExamQuestion(req.params.id);
       if (!q) return res.status(404).json({ error: "Question not found" });
-      res.json(q);
+      const { normalizeContent } = await import("./schema-versioning");
+      res.json(normalizeContent("exam_question", q));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -22552,11 +22617,13 @@ Rules:
 
   app.get("/api/seo-lessons/:slug", async (req, res) => {
     try {
-      const lesson = await storage.getLessonBySlug(req.params.slug);
-      if (!lesson) return res.status(404).json({ error: "Lesson not found" });
-      if (lesson.status !== "published") {
+      const rawLesson = await storage.getLessonBySlug(req.params.slug);
+      if (!rawLesson) return res.status(404).json({ error: "Lesson not found" });
+      if (rawLesson.status !== "published") {
         return res.status(404).json({ error: "Lesson not found" });
       }
+      const { normalizeLesson } = await import("./schema-versioning");
+      const lesson = normalizeLesson(rawLesson);
       const related = await storage.getRelatedLessons(req.params.slug, 3);
       const requestingUserTier = await extractUserTier(req);
       const lessonTier = (lesson as any).tier || "free";
