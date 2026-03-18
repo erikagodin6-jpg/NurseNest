@@ -862,6 +862,8 @@ function AppRoutes() {
         <Route path="/:locale/admin/incident-response" component={AdminIncidentResponse} />
         <Route path="/admin-performance" component={AdminPerformance} />
         <Route path="/:locale/admin-performance" component={AdminPerformance} />
+        <Route path="/admin/incidents/:id" component={AdminIncidents} />
+        <Route path="/:locale/admin/incidents/:id" component={AdminIncidents} />
         <Route path="/admin/incidents" component={AdminIncidents} />
         <Route path="/:locale/admin/incidents" component={AdminIncidents} />
         <Route path="/admin/ops/incidents/:id" component={AdminOpsIncidentDetail} />

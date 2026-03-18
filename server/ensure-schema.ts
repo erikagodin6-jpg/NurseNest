@@ -1274,6 +1274,14 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_severity ON production_incidents(severity)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_category ON production_incidents(category)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_last_occurrence ON production_incidents(last_occurrence DESC)`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS impacted_routes jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS impacted_features jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS impacted_content_ids jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS admin_notes jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS fallback_modes jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS recommended_actions jsonb DEFAULT '[]'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS correlation_data jsonb DEFAULT '{}'`);
+  await pool.query(`ALTER TABLE production_incidents ADD COLUMN IF NOT EXISTS created_by text`);
 
   const snapshotsExists = await pool.query(`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'content_snapshots')`);
   if (snapshotsExists.rows[0].exists) {

@@ -13,7 +13,6 @@ import {
   type IncidentSeverity,
   type IncidentStatus,
 } from "./incident-monitor";
-import { correlateChanges, getRecentChanges, logChange } from "./incident-correlation";
 
 async function resolveAdmin(req: Request, res: Response): Promise<any | null> {
   try {
@@ -50,6 +49,186 @@ async function addIncidentEvent(incidentId: string, eventType: string, eventData
   );
 }
 
+async function auditIncidentAction(admin: any, action: string, incidentId: string, details: any) {
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, after_json, severity, created_at)
+       VALUES (gen_random_uuid(), $1, $2, 'incident', $3, $4, $5, 'info', NOW())`,
+      [admin?.id || null, admin?.username || null, incidentId, action, JSON.stringify(details)]
+    );
+  } catch {}
+}
+
+interface CorrelationEntry {
+  type: string;
+  timestamp: string;
+  description: string;
+  entityType: string;
+  entityId: string | null;
+  actor: string | null;
+  confidence: number;
+  details: any;
+}
+
+async function buildCorrelationTimeline(incidentFirstOccurrence: number, incidentLastOccurrence: number, incidentCategory: string): Promise<CorrelationEntry[]> {
+  const correlations: CorrelationEntry[] = [];
+  const windowStart = new Date(incidentFirstOccurrence - 30 * 60 * 1000);
+  const windowEnd = new Date(incidentLastOccurrence + 5 * 60 * 1000);
+
+  try {
+    const auditResult = await pool.query(
+      `SELECT id, actor_id, actor_username, entity_type, entity_id, action, action_category, after_json, severity, created_at
+       FROM audit_logs
+       WHERE created_at BETWEEN $1 AND $2
+       ORDER BY created_at DESC
+       LIMIT 50`,
+      [windowStart, windowEnd]
+    );
+
+    for (const row of auditResult.rows) {
+      const action = row.action || "";
+      const entityType = row.entity_type || "";
+      let confidence = 0.3;
+      let description = `${action} on ${entityType}`;
+
+      if (action.includes("deploy") || action.includes("release") || action.includes("publish")) {
+        confidence = 0.9;
+        description = `Deployment/publish: ${action} on ${entityType} ${row.entity_id || ""}`;
+      } else if (action.includes("feature_flag") || action.includes("toggle")) {
+        confidence = 0.8;
+        description = `Feature flag change: ${action} on ${row.entity_id || entityType}`;
+      } else if (action.includes("kill_switch")) {
+        confidence = 0.85;
+        description = `Kill switch change: ${action} on ${row.entity_id || ""}`;
+      } else if (action.includes("schema") || action.includes("migrate")) {
+        confidence = 0.75;
+        description = `Schema change: ${action}`;
+      } else if (action.includes("billing") || action.includes("stripe") || action.includes("pricing")) {
+        confidence = 0.6;
+        description = `Billing/Stripe config: ${action} on ${row.entity_id || ""}`;
+      } else if (action.includes("emergency") || action.includes("mode")) {
+        confidence = 0.7;
+        description = `Emergency/mode change: ${action}`;
+      } else if (action.includes("admin") || action.includes("override")) {
+        confidence = 0.5;
+        description = `Admin override: ${action} on ${entityType} ${row.entity_id || ""}`;
+      } else if (entityType === "content_item" || entityType === "exam_question") {
+        confidence = 0.5;
+        description = `Content change: ${action} on ${entityType} ${row.entity_id || ""}`;
+      }
+
+      const timeDiffMs = Math.abs(new Date(row.created_at).getTime() - incidentFirstOccurrence);
+      if (timeDiffMs < 5 * 60 * 1000) confidence = Math.min(confidence + 0.1, 1.0);
+      if (timeDiffMs > 20 * 60 * 1000) confidence = Math.max(confidence - 0.1, 0.1);
+
+      let afterJson: any = null;
+      try {
+        afterJson = typeof row.after_json === "string" ? JSON.parse(row.after_json) : row.after_json;
+      } catch {}
+
+      correlations.push({
+        type: "audit_log",
+        timestamp: new Date(row.created_at).toISOString(),
+        description,
+        entityType: entityType,
+        entityId: row.entity_id,
+        actor: row.actor_username || row.actor_id,
+        confidence,
+        details: { action, afterJson, severity: row.severity },
+      });
+    }
+  } catch {}
+
+  try {
+    const healthResult = await pool.query(
+      `SELECT service, status, latency_ms, details, checked_at
+       FROM platform_health_checks
+       WHERE checked_at BETWEEN $1 AND $2
+       AND status != 'healthy'
+       ORDER BY checked_at DESC
+       LIMIT 20`,
+      [windowStart, windowEnd]
+    );
+
+    for (const row of healthResult.rows) {
+      correlations.push({
+        type: "health_check_failure",
+        timestamp: new Date(row.checked_at).toISOString(),
+        description: `Health check failure: ${row.service} is ${row.status} (${row.latency_ms}ms)`,
+        entityType: "health_check",
+        entityId: row.service,
+        actor: null,
+        confidence: row.status === "down" ? 0.9 : 0.6,
+        details: { service: row.service, status: row.status, latencyMs: row.latency_ms, details: row.details },
+      });
+    }
+  } catch {}
+
+  try {
+    const emergencyResult = await pool.query(
+      `SELECT action, reason, actor, auto_triggered, created_at
+       FROM platform_emergency_log
+       WHERE created_at BETWEEN $1 AND $2
+       ORDER BY created_at DESC
+       LIMIT 10`,
+      [windowStart, windowEnd]
+    );
+
+    for (const row of emergencyResult.rows) {
+      correlations.push({
+        type: "emergency_action",
+        timestamp: new Date(row.created_at).toISOString(),
+        description: `Emergency ${row.action}: ${row.reason || "no reason"}`,
+        entityType: "emergency_mode",
+        entityId: null,
+        actor: row.actor,
+        confidence: 0.85,
+        details: { action: row.action, reason: row.reason, autoTriggered: row.auto_triggered },
+      });
+    }
+  } catch {}
+
+  try {
+    const contentResult = await pool.query(
+      `SELECT id, title, slug, status, updated_at, author_name
+       FROM content_items
+       WHERE updated_at BETWEEN $1 AND $2
+       AND status = 'published'
+       ORDER BY updated_at DESC
+       LIMIT 20`,
+      [windowStart, windowEnd]
+    );
+
+    for (const row of contentResult.rows) {
+      correlations.push({
+        type: "content_publish",
+        timestamp: new Date(row.updated_at).toISOString(),
+        description: `Content published: "${row.title}" (${row.slug})`,
+        entityType: "content_item",
+        entityId: row.id,
+        actor: row.author_name,
+        confidence: 0.5,
+        details: { title: row.title, slug: row.slug, status: row.status },
+      });
+    }
+  } catch {}
+
+  correlations.sort((a, b) => b.confidence - a.confidence || new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  return correlations;
+}
+
+async function correlateChangesFromTimeline(startTime: Date, lookbackMinutes: number, impactedFeatures: string[]) {
+  const startMs = startTime.getTime();
+  const endMs = startMs + lookbackMinutes * 60 * 1000;
+  const timeline = await buildCorrelationTimeline(startMs - lookbackMinutes * 60 * 1000, startMs, "general");
+  return timeline.map(entry => ({
+    ...entry,
+    changeType: entry.type,
+    confidenceScore: Math.round(entry.confidence * 100),
+    createdAt: entry.timestamp,
+  }));
+}
+
 export function registerIncidentMonitorRoutes(app: Express): void {
   loadIncidentsFromDb().catch(() => {});
 
@@ -61,6 +240,8 @@ export function registerIncidentMonitorRoutes(app: Express): void {
       const severity = req.query.severity as string;
       const category = req.query.category as string;
       const status = req.query.status as string;
+      const from = req.query.from as string;
+      const to = req.query.to as string;
       const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
 
       let incidents = getAllIncidents();
@@ -74,11 +255,20 @@ export function registerIncidentMonitorRoutes(app: Express): void {
       if (status) {
         incidents = incidents.filter(i => i.status === status);
       }
+      if (from) {
+        const fromTime = new Date(from).getTime();
+        incidents = incidents.filter(i => i.firstOccurrence >= fromTime);
+      }
+      if (to) {
+        const toTime = new Date(to).getTime();
+        incidents = incidents.filter(i => i.firstOccurrence <= toTime);
+      }
 
       const total = incidents.length;
       incidents = incidents.slice(0, limit);
 
-      res.json({ incidents, total });
+      const stats = getIncidentStats();
+      res.json({ incidents, total, stats });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -117,9 +307,37 @@ export function registerIncidentMonitorRoutes(app: Express): void {
       ).catch(() => ({ rows: [{}] }));
 
       res.json({
-        ...stats,
-        structured: structuredResult.rows[0] || {},
+        monitorStats: stats,
+        structuredStats: structuredResult.rows[0] || {},
       });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/incidents/create", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { title, message, severity, category } = req.body || {};
+      if (!title || !message) {
+        return res.status(400).json({ error: "title and message are required" });
+      }
+
+      const actor = admin.username || admin.id || "admin";
+      const incidentId = `INC-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const now = Date.now();
+
+      await pool.query(
+        `INSERT INTO production_incidents (incident_id, category, severity, error_signature, title, message, first_occurrence, last_occurrence, affected_user_ids, affected_user_count, occurrence_count, status, metadata, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, '[]', 0, 1, 'active', '{}', $9)`,
+        [incidentId, category || "general", severity || "warning", `manual:${incidentId}`, title, message, new Date(now), new Date(now), actor]
+      );
+
+      await logAudit(req, admin, "incident", incidentId, "create", null, { title, message, severity, category });
+
+      res.json({ success: true, incidentId });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -140,8 +358,7 @@ export function registerIncidentMonitorRoutes(app: Express): void {
             [incidentId]
           );
           if (result.rows.length > 0) {
-            const row = result.rows[0];
-            incident = mapDbRow(row);
+            incident = mapDbRow(result.rows[0]);
           }
         } catch {}
       }
@@ -150,7 +367,42 @@ export function registerIncidentMonitorRoutes(app: Express): void {
         return res.status(404).json({ error: "Incident not found" });
       }
 
-      res.json({ incident });
+      let dbExtras: any = {};
+      try {
+        const extraResult = await pool.query(
+          `SELECT impacted_routes, impacted_features, impacted_content_ids, admin_notes, fallback_modes, recommended_actions, correlation_data, created_by FROM production_incidents WHERE incident_id = $1`,
+          [incidentId]
+        );
+        if (extraResult.rows.length > 0) {
+          const row = extraResult.rows[0];
+          const parseJson = (val: any, fallback: any = []) => {
+            if (!val) return fallback;
+            try { return typeof val === "string" ? JSON.parse(val) : val; } catch { return fallback; }
+          };
+          dbExtras = {
+            impactedRoutes: parseJson(row.impacted_routes),
+            impactedFeatures: parseJson(row.impacted_features),
+            impactedContentIds: parseJson(row.impacted_content_ids),
+            adminNotes: parseJson(row.admin_notes),
+            fallbackModes: parseJson(row.fallback_modes),
+            recommendedActions: parseJson(row.recommended_actions),
+            correlationData: parseJson(row.correlation_data, {}),
+            createdBy: row.created_by,
+          };
+        }
+      } catch {}
+
+      const timeline = await buildCorrelationTimeline(
+        incident.firstOccurrence,
+        incident.lastOccurrence,
+        incident.category
+      );
+
+      res.json({
+        incident,
+        correlationTimeline: timeline,
+        ...dbExtras,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -251,6 +503,122 @@ export function registerIncidentMonitorRoutes(app: Express): void {
     }
   });
 
+  app.post("/api/admin/incidents/:id/notes", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const incidentId = req.params.id;
+      const { note } = req.body || {};
+      if (!note || typeof note !== "string" || note.trim().length === 0) {
+        return res.status(400).json({ error: "note is required" });
+      }
+
+      const noteEntry = {
+        id: `note-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        text: note.trim(),
+        author: admin.username || admin.id || "admin",
+        createdAt: new Date().toISOString(),
+      };
+
+      await pool.query(
+        `UPDATE production_incidents SET admin_notes = COALESCE(admin_notes, '[]'::jsonb) || $2::jsonb WHERE incident_id = $1`,
+        [incidentId, JSON.stringify([noteEntry])]
+      );
+
+      await auditIncidentAction(admin, "incident_note_added", incidentId, { note: note.trim() });
+
+      res.json({ success: true, note: noteEntry });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/incidents/:id/update", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const incidentId = req.params.id;
+      const { impactedRoutes, impactedFeatures, impactedContentIds, recommendedActions, fallbackModes } = req.body || {};
+
+      const updates: string[] = [];
+      const params: any[] = [incidentId];
+      let idx = 2;
+
+      if (impactedRoutes !== undefined) {
+        updates.push(`impacted_routes = $${idx++}`);
+        params.push(JSON.stringify(impactedRoutes));
+      }
+      if (impactedFeatures !== undefined) {
+        updates.push(`impacted_features = $${idx++}`);
+        params.push(JSON.stringify(impactedFeatures));
+      }
+      if (impactedContentIds !== undefined) {
+        updates.push(`impacted_content_ids = $${idx++}`);
+        params.push(JSON.stringify(impactedContentIds));
+      }
+      if (recommendedActions !== undefined) {
+        updates.push(`recommended_actions = $${idx++}`);
+        params.push(JSON.stringify(recommendedActions));
+      }
+      if (fallbackModes !== undefined) {
+        updates.push(`fallback_modes = $${idx++}`);
+        params.push(JSON.stringify(fallbackModes));
+      }
+
+      if (updates.length === 0) {
+        return res.status(400).json({ error: "No updates provided" });
+      }
+
+      await pool.query(
+        `UPDATE production_incidents SET ${updates.join(", ")} WHERE incident_id = $1`,
+        params
+      );
+
+      await auditIncidentAction(admin, "incident_updated", incidentId, req.body);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/incidents/:id/correlation", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const incidentId = req.params.id;
+      let incident = getIncident(incidentId);
+
+      if (!incident) {
+        try {
+          const result = await pool.query(
+            `SELECT * FROM production_incidents WHERE incident_id = $1`,
+            [incidentId]
+          );
+          if (result.rows.length > 0) {
+            incident = mapDbRow(result.rows[0]);
+          }
+        } catch {}
+      }
+
+      if (!incident) {
+        return res.status(404).json({ error: "Incident not found" });
+      }
+
+      const timeline = await buildCorrelationTimeline(
+        incident.firstOccurrence,
+        incident.lastOccurrence,
+        incident.category
+      );
+
+      res.json({ timeline });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/incidents/history/search", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
@@ -308,45 +676,6 @@ export function registerIncidentMonitorRoutes(app: Express): void {
       res.json({
         incidents: result.rows.map(mapDbRow),
         total: countResult.rows[0]?.total || 0,
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get("/api/admin/incidents/:id/correlation", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
-    if (!admin) return;
-
-    try {
-      const incidentId = req.params.id;
-      const lookbackMinutes = parseInt(req.query.lookback as string) || 120;
-
-      let incident = getIncident(incidentId);
-      let startTime: Date;
-
-      if (incident) {
-        startTime = new Date(incident.firstOccurrence);
-      } else {
-        const result = await pool.query(
-          `SELECT first_occurrence FROM production_incidents WHERE incident_id = $1`,
-          [incidentId]
-        );
-        if (result.rows.length === 0) {
-          return res.status(404).json({ error: "Incident not found" });
-        }
-        startTime = new Date(result.rows[0].first_occurrence);
-      }
-
-      const impactedFeatures = incident?.metadata?.impactedFeatures || [];
-      const correlatedChanges = await correlateChanges(startTime, lookbackMinutes, impactedFeatures);
-
-      res.json({
-        incidentId,
-        lookbackMinutes,
-        startTime: startTime.toISOString(),
-        changes: correlatedChanges,
-        totalChanges: correlatedChanges.length,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -415,8 +744,12 @@ export function registerIncidentMonitorRoutes(app: Express): void {
 
     try {
       const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
-      const changes = await getRecentChanges(limit);
-      res.json({ changes });
+      const result = await pool.query(
+        `SELECT id, actor_id, actor_username, entity_type, entity_id, action, action_category, after_json, severity, created_at
+         FROM audit_logs ORDER BY created_at DESC LIMIT $1`,
+        [limit]
+      );
+      res.json({ changes: result.rows });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -432,15 +765,11 @@ export function registerIncidentMonitorRoutes(app: Express): void {
         return res.status(400).json({ error: "changeType, source, and description are required" });
       }
 
-      await logChange({
-        changeType,
-        source,
-        entityType,
-        entityId,
-        description,
-        metadata,
-        changedBy: admin.username || admin.id,
-      });
+      await pool.query(
+        `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, action_category, after_json, severity, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, 'info', NOW())`,
+        [admin.id || null, admin.username || null, entityType || source, entityId || null, description, changeType, metadata ? JSON.stringify(metadata) : null]
+      );
 
       res.json({ success: true });
     } catch (e: any) {
@@ -586,7 +915,7 @@ export function registerIncidentMonitorRoutes(app: Express): void {
       const impactedFeatures = Array.isArray(incident.impactedFeatures)
         ? incident.impactedFeatures
         : [];
-      const correlatedChanges = await correlateChanges(startTime, 120, impactedFeatures as string[]);
+      const correlatedChanges = await correlateChangesFromTimeline(startTime, 120, impactedFeatures as string[]);
 
       res.json({
         incident,
@@ -789,7 +1118,7 @@ export function registerIncidentMonitorRoutes(app: Express): void {
 
       const incident = mapStructuredIncident(result.rows[0]);
       const startTime = new Date(incident.startTime);
-      const correlatedChanges = await correlateChanges(startTime, 120, incident.impactedFeatures as string[]);
+      const correlatedChanges = await correlateChangesFromTimeline(startTime, 120, incident.impactedFeatures as string[]);
 
       let actions: any[] = [];
       try {

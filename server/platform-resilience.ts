@@ -655,6 +655,17 @@ export async function runHealthChecks(): Promise<HealthCheckResult[]> {
   for (const svc of downServices) {
     addAlert("critical", "health_check", `Service Down: ${svc.service}`, `${svc.service} is reporting as down. Details: ${svc.details || "none"}`, svc.service);
     recordErrorBudgetEvent(svc.service, 3);
+    try {
+      const { logIncident } = require("./incident-monitor");
+      logIncident({
+        category: "health_check_failure" as any,
+        severity: "critical" as const,
+        title: `Service Down: ${svc.service}`,
+        message: `Health check detected ${svc.service} is down. Latency: ${svc.latencyMs}ms. Details: ${svc.details || "none"}`,
+        errorKey: `health_check_down:${svc.service}`,
+        metadata: { service: svc.service, status: svc.status, latencyMs: svc.latencyMs, details: svc.details },
+      });
+    } catch {}
   }
   for (const svc of degradedServices) {
     addAlert("warning", "health_check", `Service Degraded: ${svc.service}`, `${svc.service} is reporting as degraded. Details: ${svc.details || "none"}`, svc.service);
@@ -807,6 +818,10 @@ function addResilienceEvent(type: string, source: string, data: Record<string, a
       feature_auto_disabled: { category: "feature_auto_disabled", severity: "warning", title: `Feature Auto-Disabled: ${source}` },
       emergency_mode_activated: { category: "emergency_mode", severity: "critical", title: "Emergency Mode Activated" },
       provisional_access_granted: { category: "provisional_access", severity: "info", title: `Provisional Access Granted: ${source}` },
+      self_heal_failed: { category: "health_check_failure", severity: "warning", title: `Self-Heal Failed: ${source}` },
+      error_budget_escalation: { category: "health_check_failure", severity: "warning", title: `Error Budget Escalation: ${source}` },
+      minimal_core_activated: { category: "emergency_mode", severity: "critical", title: "Minimal Core Mode Activated" },
+      feature_auto_throttled: { category: "feature_auto_disabled", severity: "warning", title: `Feature Auto-Throttled: ${source}` },
     };
     const mapping = eventToIncident[type];
     if (mapping) {
