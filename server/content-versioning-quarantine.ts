@@ -488,6 +488,11 @@ export async function quarantineContentItem(
 
     console.log(`[Quarantine] Content ${contentId} (${contentType}) quarantined: ${reason}`);
 
+    try {
+      const { fireQuarantineAlert } = await import("./alerting-engine");
+      fireQuarantineAlert(pool, contentId, contentType, reason).catch(() => {});
+    } catch {}
+
     return {
       quarantineId: insertResult.rows[0]?.id,
       contentId,

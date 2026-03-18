@@ -1038,6 +1038,42 @@ export const questionScheduleLog = pgTable("question_schedule_log", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const reliabilityAlerts = pgTable("reliability_alerts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  alertType: text("alert_type").notNull(),
+  severity: text("severity").notNull().default("warning"),
+  message: text("message").notNull(),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  acknowledged: boolean("acknowledged").default(false),
+  acknowledgedBy: varchar("acknowledged_by"),
+  acknowledgedAt: timestamp("acknowledged_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertReliabilityAlertSchema = createInsertSchema(reliabilityAlerts).omit({
+  id: true,
+  createdAt: true,
+});
+export type ReliabilityAlert = typeof reliabilityAlerts.$inferSelect;
+export type InsertReliabilityAlert = z.infer<typeof insertReliabilityAlertSchema>;
+
+export const syntheticTestResults = pgTable("synthetic_test_results", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  testName: text("test_name").notNull(),
+  status: text("status").notNull().default("pass"),
+  responseTimeMs: integer("response_time_ms"),
+  errorDetails: text("error_details"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSyntheticTestResultSchema = createInsertSchema(syntheticTestResults).omit({
+  id: true,
+  createdAt: true,
+});
+export type SyntheticTestResult = typeof syntheticTestResults.$inferSelect;
+export type InsertSyntheticTestResult = z.infer<typeof insertSyntheticTestResultSchema>;
+
 export type QuestionScheduleLog = typeof questionScheduleLog.$inferSelect;
 
 export const userPerformanceSummary = pgTable("user_performance_summary", {

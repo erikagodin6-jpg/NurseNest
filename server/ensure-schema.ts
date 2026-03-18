@@ -1387,4 +1387,36 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_change_log_type ON change_log(change_type)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_change_log_created ON change_log(created_at DESC)`);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS reliability_alerts (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      alert_type text NOT NULL,
+      severity text NOT NULL DEFAULT 'warning',
+      message text NOT NULL,
+      metadata jsonb DEFAULT '{}'::jsonb,
+      acknowledged boolean DEFAULT false,
+      acknowledged_by varchar,
+      acknowledged_at timestamptz,
+      created_at timestamptz DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_reliability_alerts_type ON reliability_alerts(alert_type)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_reliability_alerts_severity ON reliability_alerts(severity)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_reliability_alerts_created ON reliability_alerts(created_at DESC)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_reliability_alerts_unack ON reliability_alerts(acknowledged) WHERE acknowledged = false`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS synthetic_test_results (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      test_name text NOT NULL,
+      status text NOT NULL DEFAULT 'pass',
+      response_time_ms integer,
+      error_details text,
+      metadata jsonb DEFAULT '{}'::jsonb,
+      created_at timestamptz DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_name ON synthetic_test_results(test_name)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_created ON synthetic_test_results(created_at DESC)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_status ON synthetic_test_results(status)`)
 }

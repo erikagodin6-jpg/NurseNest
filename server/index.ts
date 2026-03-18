@@ -14,7 +14,10 @@ import { registerSocialContentRoutes } from "./social-content-automation";
 import { registerScenarioRoutes } from "./allied-scenarios";
 import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
 import { registerNotificationRoutes } from "./notification-routes";
+import { registerAlertingRoutes } from "./alerting-routes";
 import { sendAdminNotification } from "./admin-notifications";
+import { startAlertingEngine } from "./alerting-engine";
+import { startSyntheticMonitoring } from "./synthetic-monitoring";
 import { serveStatic } from "./static";
 
 import { runMigrations } from "stripe-replit-sync";
@@ -708,7 +711,9 @@ app.use((req, res, next) => {
   setupSeoRedirects(app);
 
   const { getDevPool } = await import("./db");
-  registerNotificationRoutes(app, getDevPool());
+  const devPool = getDevPool();
+  registerNotificationRoutes(app, devPool);
+  registerAlertingRoutes(app, devPool);
 
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
@@ -855,6 +860,11 @@ app.use((req, res, next) => {
     import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
 
     runDeferredStartupWork();
+
+    const alertPool = getDevPool();
+    startAlertingEngine(alertPool, 5 * 60 * 1000);
+    const syntheticBaseUrl = `http://127.0.0.1:${port}`;
+    startSyntheticMonitoring(alertPool, syntheticBaseUrl, 10 * 60 * 1000);
   });
 
   setInterval(async () => {

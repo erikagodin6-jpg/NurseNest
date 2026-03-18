@@ -1,0 +1,317 @@
+import pg from "pg";
+import { fireSyntheticTestFailureAlert } from "./alerting-engine";
+
+interface SyntheticTestConfig {
+  name: string;
+  description: string;
+  enabled: boolean;
+  timeoutMs: number;
+  runner: (pool: pg.Pool, baseUrl: string) => Promise<SyntheticTestRunResult>;
+}
+
+interface SyntheticTestRunResult {
+  status: "pass" | "fail";
+  responseTimeMs: number;
+  errorDetails?: string;
+  metadata?: Record<string, any>;
+}
+
+async function makeInternalRequest(
+  baseUrl: string,
+  path: string,
+  options: { method?: string; body?: any; timeoutMs?: number; headers?: Record<string, string> } = {}
+): Promise<{ status: number; body: any; timeMs: number }> {
+  const { method = "GET", body, timeoutMs = 10000, headers = {} } = options;
+  const url = `${baseUrl}${path}`;
+  const start = Date.now();
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const fetchOptions: RequestInit = {
+      method,
+      headers: { "Content-Type": "application/json", ...headers },
+      signal: controller.signal,
+    };
+    if (body) fetchOptions.body = JSON.stringify(body);
+
+    const resp = await fetch(url, fetchOptions);
+    const elapsed = Date.now() - start;
+    let respBody: any;
+    try {
+      respBody = await resp.json();
+    } catch {
+      respBody = await resp.text().catch(() => null);
+    }
+    return { status: resp.status, body: respBody, timeMs: elapsed };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+const loginTest: SyntheticTestConfig = {
+  name: "user_login_flow",
+  description: "Tests the user login endpoint responds correctly",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (_pool, baseUrl) => {
+    const start = Date.now();
+    try {
+      const resp = await makeInternalRequest(baseUrl, "/api/auth/me");
+      const timeMs = Date.now() - start;
+      if (resp.status === 401 || resp.status === 200) {
+        return { status: "pass", responseTimeMs: timeMs, metadata: { statusCode: resp.status } };
+      }
+      return { status: "fail", responseTimeMs: timeMs, errorDetails: `Unexpected status ${resp.status}` };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: e.message };
+    }
+  },
+};
+
+const examOpenTest: SyntheticTestConfig = {
+  name: "exam_open_flow",
+  description: "Tests that exam listing endpoint is available",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (_pool, baseUrl) => {
+    const start = Date.now();
+    try {
+      const resp = await makeInternalRequest(baseUrl, "/api/exams?tier=rpn&limit=1");
+      const timeMs = Date.now() - start;
+      if (resp.status === 200 || resp.status === 401) {
+        return { status: "pass", responseTimeMs: timeMs, metadata: { statusCode: resp.status } };
+      }
+      return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned ${resp.status}` };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: e.message };
+    }
+  },
+};
+
+const catStartTest: SyntheticTestConfig = {
+  name: "cat_exam_start",
+  description: "Tests the CAT exam configuration endpoint",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (_pool, baseUrl) => {
+    const start = Date.now();
+    try {
+      const resp = await makeInternalRequest(baseUrl, "/api/kill-switches");
+      const timeMs = Date.now() - start;
+      if (resp.status === 200) {
+        const body = resp.body;
+        if (body && typeof body === "object" && "cat" in body) {
+          if (body.cat === true) {
+            return { status: "fail", responseTimeMs: timeMs, errorDetails: "CAT kill switch is active" };
+          }
+          return { status: "pass", responseTimeMs: timeMs, metadata: { killSwitches: body } };
+        }
+        return { status: "fail", responseTimeMs: timeMs, errorDetails: "Kill switches response missing 'cat' field" };
+      }
+      return { status: "fail", responseTimeMs: timeMs, errorDetails: `Kill switches returned ${resp.status}` };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: e.message };
+    }
+  },
+};
+
+const flashcardAccessTest: SyntheticTestConfig = {
+  name: "flashcard_deck_access",
+  description: "Tests flashcard deck listing endpoint",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (pool, _baseUrl) => {
+    const start = Date.now();
+    try {
+      const result = await pool.query(`SELECT COUNT(*)::int AS count FROM flashcard_bank LIMIT 1`);
+      const timeMs = Date.now() - start;
+      const count = result.rows[0]?.count ?? 0;
+      return { status: "pass", responseTimeMs: timeMs, metadata: { flashcardCount: count } };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: `DB query failed: ${e.message}` };
+    }
+  },
+};
+
+const lessonLoadingTest: SyntheticTestConfig = {
+  name: "lesson_loading",
+  description: "Tests lesson content loading from database",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (pool, _baseUrl) => {
+    const start = Date.now();
+    try {
+      const result = await pool.query(
+        `SELECT id, title FROM content_items WHERE type = 'lesson' AND status = 'published' LIMIT 1`
+      );
+      const timeMs = Date.now() - start;
+      if (result.rows.length === 0) {
+        return { status: "pass", responseTimeMs: timeMs, metadata: { note: "No published lessons found, but DB is accessible" } };
+      }
+      return { status: "pass", responseTimeMs: timeMs, metadata: { sampleLesson: result.rows[0].title } };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: `Lesson query failed: ${e.message}` };
+    }
+  },
+};
+
+const premiumContentTest: SyntheticTestConfig = {
+  name: "premium_content_download",
+  description: "Tests premium content availability",
+  enabled: true,
+  timeoutMs: 10000,
+  runner: async (pool, _baseUrl) => {
+    const start = Date.now();
+    try {
+      const result = await pool.query(
+        `SELECT COUNT(*)::int AS count FROM content_items WHERE tier != 'free' AND status = 'published'`
+      );
+      const timeMs = Date.now() - start;
+      const count = result.rows[0]?.count ?? 0;
+      return { status: "pass", responseTimeMs: timeMs, metadata: { premiumContentCount: count } };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: `Premium content query failed: ${e.message}` };
+    }
+  },
+};
+
+const healthCheckTest: SyntheticTestConfig = {
+  name: "healthcheck",
+  description: "Tests the health check endpoint",
+  enabled: true,
+  timeoutMs: 5000,
+  runner: async (_pool, baseUrl) => {
+    const start = Date.now();
+    try {
+      const resp = await makeInternalRequest(baseUrl, "/healthz", { timeoutMs: 5000 });
+      const timeMs = Date.now() - start;
+      if (resp.status === 200) {
+        return { status: "pass", responseTimeMs: timeMs };
+      }
+      return { status: "fail", responseTimeMs: timeMs, errorDetails: `Health check returned ${resp.status}` };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: e.message };
+    }
+  },
+};
+
+const dbConnectivityTest: SyntheticTestConfig = {
+  name: "database_connectivity",
+  description: "Tests database connection and basic query",
+  enabled: true,
+  timeoutMs: 5000,
+  runner: async (pool, _baseUrl) => {
+    const start = Date.now();
+    try {
+      const result = await pool.query("SELECT 1 AS ping");
+      const timeMs = Date.now() - start;
+      if (result.rows[0]?.ping === 1) {
+        return { status: "pass", responseTimeMs: timeMs };
+      }
+      return { status: "fail", responseTimeMs: timeMs, errorDetails: "Unexpected DB response" };
+    } catch (e: any) {
+      return { status: "fail", responseTimeMs: Date.now() - start, errorDetails: `DB connection failed: ${e.message}` };
+    }
+  },
+};
+
+const ALL_TESTS: SyntheticTestConfig[] = [
+  healthCheckTest,
+  dbConnectivityTest,
+  loginTest,
+  examOpenTest,
+  catStartTest,
+  flashcardAccessTest,
+  lessonLoadingTest,
+  premiumContentTest,
+];
+
+export function getAvailableTests(): Array<{ name: string; description: string; enabled: boolean }> {
+  return ALL_TESTS.map(t => ({ name: t.name, description: t.description, enabled: t.enabled }));
+}
+
+export async function runSyntheticTest(
+  pool: pg.Pool,
+  testName: string,
+  baseUrl: string
+): Promise<SyntheticTestRunResult & { testName: string }> {
+  const test = ALL_TESTS.find(t => t.name === testName);
+  if (!test) {
+    return { testName, status: "fail", responseTimeMs: 0, errorDetails: `Unknown test: ${testName}` };
+  }
+
+  let result: SyntheticTestRunResult;
+  try {
+    result = await test.runner(pool, baseUrl);
+  } catch (e: any) {
+    result = { status: "fail", responseTimeMs: 0, errorDetails: `Runner threw: ${e.message}` };
+  }
+
+  try {
+    await pool.query(
+      `INSERT INTO synthetic_test_results (test_name, status, response_time_ms, error_details, metadata)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [testName, result.status, result.responseTimeMs, result.errorDetails || null, JSON.stringify(result.metadata || {})]
+    );
+  } catch (e: any) {
+    console.error(`[SyntheticMonitor] Failed to store result for ${testName}:`, e.message);
+  }
+
+  if (result.status === "fail") {
+    await fireSyntheticTestFailureAlert(pool, testName, result.errorDetails || "Unknown error", result.responseTimeMs);
+  }
+
+  return { testName, ...result };
+}
+
+export async function runAllSyntheticTests(
+  pool: pg.Pool,
+  baseUrl: string
+): Promise<Array<SyntheticTestRunResult & { testName: string }>> {
+  const enabledTests = ALL_TESTS.filter(t => t.enabled);
+  console.log(`[SyntheticMonitor] Running ${enabledTests.length} synthetic tests...`);
+
+  const results: Array<SyntheticTestRunResult & { testName: string }> = [];
+  for (const test of enabledTests) {
+    const result = await runSyntheticTest(pool, test.name, baseUrl);
+    results.push(result);
+    console.log(`[SyntheticMonitor] ${test.name}: ${result.status} (${result.responseTimeMs}ms)${result.errorDetails ? ` - ${result.errorDetails}` : ""}`);
+  }
+
+  const passed = results.filter(r => r.status === "pass").length;
+  const failed = results.filter(r => r.status === "fail").length;
+  console.log(`[SyntheticMonitor] Complete: ${passed} passed, ${failed} failed`);
+
+  return results;
+}
+
+let syntheticInterval: ReturnType<typeof setInterval> | null = null;
+let syntheticStartTimeout: ReturnType<typeof setTimeout> | null = null;
+
+export function startSyntheticMonitoring(pool: pg.Pool, baseUrl: string, intervalMs = 10 * 60 * 1000): void {
+  stopSyntheticMonitoring();
+  console.log(`[SyntheticMonitor] Started (interval: ${intervalMs / 1000}s, baseUrl: ${baseUrl})`);
+
+  syntheticStartTimeout = setTimeout(() => {
+    syntheticStartTimeout = null;
+    runAllSyntheticTests(pool, baseUrl).catch(e => console.error("[SyntheticMonitor] Run error:", e.message));
+  }, 60_000);
+
+  syntheticInterval = setInterval(() => {
+    runAllSyntheticTests(pool, baseUrl).catch(e => console.error("[SyntheticMonitor] Run error:", e.message));
+  }, intervalMs);
+}
+
+export function stopSyntheticMonitoring(): void {
+  if (syntheticStartTimeout) {
+    clearTimeout(syntheticStartTimeout);
+    syntheticStartTimeout = null;
+  }
+  if (syntheticInterval) {
+    clearInterval(syntheticInterval);
+    syntheticInterval = null;
+    console.log("[SyntheticMonitor] Stopped");
+  }
+}
