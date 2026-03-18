@@ -182,6 +182,7 @@ export function recordFailure(serviceName: string): void {
   const cb = getOrCreateBreaker(serviceName);
   cb.failureCount++;
   cb.lastFailure = Date.now();
+  recordErrorBudgetEvent(serviceName);
   if (cb.state === "half-open") {
     cb.state = "open";
     cb.openedAt = Date.now();
@@ -312,6 +313,10 @@ export function isFeatureEnabled(key: string): boolean {
   if (emergencyModeActive) {
     const safeInEmergency = new Set(["stripe_payments", "email_notifications", "lesson_rendering", "flashcards", "mock_exams", "question_bank"]);
     if (!safeInEmergency.has(key)) return false;
+  }
+  if (minimalCoreActive) {
+    const coreFeatures = new Set(["stripe_payments", "lesson_rendering", "flashcards", "mock_exams", "question_bank", "email_notifications"]);
+    if (!coreFeatures.has(key)) return false;
   }
   const flag = featureFlags.get(key);
   if (!flag) return true;
@@ -565,12 +570,24 @@ export async function runHealthChecks(): Promise<HealthCheckResult[]> {
   const degradedServices = results.filter(r => r.status === "degraded");
   for (const svc of downServices) {
     addAlert("critical", "health_check", `Service Down: ${svc.service}`, `${svc.service} is reporting as down. Details: ${svc.details || "none"}`, svc.service);
+    recordErrorBudgetEvent(svc.service, 3);
   }
   for (const svc of degradedServices) {
     addAlert("warning", "health_check", `Service Degraded: ${svc.service}`, `${svc.service} is reporting as degraded. Details: ${svc.details || "none"}`, svc.service);
+    recordErrorBudgetEvent(svc.service, 1);
   }
-  if (downServices.length >= 2 && !emergencyModeActive) {
+
+  const criticalDown = downServices.filter(s => ["database", "exams", "auth"].includes(s.service));
+  if (criticalDown.length >= 2 && !emergencyModeActive) {
+    activateEmergencyMode(`Auto-triggered: ${criticalDown.length} critical services down (${criticalDown.map(s => s.service).join(", ")})`);
+  } else if (downServices.length >= 3 && !emergencyModeActive) {
     activateEmergencyMode(`Auto-triggered: ${downServices.length} services down (${downServices.map(s => s.service).join(", ")})`);
+  }
+
+  const openBreakers = cbStates.filter(cb => cb.state === "open");
+  const criticalBreakers = openBreakers.filter(cb => ["database", "exam_service", "auth_service"].includes(cb.name));
+  if (criticalBreakers.length >= 2 && !emergencyModeActive) {
+    activateEmergencyMode(`Auto-triggered: ${criticalBreakers.length} critical circuit breakers open (${criticalBreakers.map(cb => cb.name).join(", ")})`);
   }
 
   persistHealthChecks(results).catch(() => {});
@@ -883,30 +900,555 @@ async function resolveAdmin(req: Request, res: Response): Promise<any | null> {
   }
 }
 
+export const isSafeMode = isEmergencyMode;
+export const activateSafeMode = activateEmergencyMode;
+export const deactivateSafeMode = deactivateEmergencyMode;
+export const getSafeModeStatus = getEmergencyModeStatus;
+
+const SAFE_MODE_CORE_READ_PATHS = new Set([
+  "/api/lessons",
+  "/api/flashcards",
+  "/api/flashcard-decks",
+  "/api/mock-exams",
+  "/api/exam-questions",
+  "/api/question-bank",
+  "/api/downloads",
+  "/api/verified-snapshots",
+]);
+
+const SAFE_MODE_INFRA_PATHS = new Set([
+  "/api/health",
+  "/api/platform/status",
+  "/api/platform/feature-flags",
+  "/api/platform/minimal-core",
+  "/api/exam-health",
+  "/api/admin/resilience",
+]);
+
+const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
+  "/api/auth",
+  "/api/login",
+  "/api/admin/resilience",
+  "/api/stripe/webhook",
+  "/api/boot-beacon",
+  "/api/exam-incident-report",
+]);
+
+const SAFE_MODE_STATIC_FALLBACKS: Record<string, any> = {
+  "/api/lessons": { items: [], message: "Lessons are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/flashcards": { items: [], message: "Flashcards are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/flashcard-decks": { items: [], message: "Flashcard decks are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/mock-exams": { items: [], message: "Mock exams are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/exam-questions": { items: [], count: 0, message: "Exam questions are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/question-bank": { items: [], count: 0, message: "Question bank is temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/downloads": { items: [], message: "Downloads are temporarily unavailable. Please try again shortly.", _static: true },
+  "/api/verified-snapshots": { items: [], message: "Verified snapshots are temporarily unavailable. Please try again shortly.", _static: true },
+};
+
+interface ErrorBudget {
+  subsystem: string;
+  totalBudget: number;
+  consumed: number;
+  windowMs: number;
+  errors: number[];
+  threshold: number;
+  escalationLevel: "normal" | "warning" | "critical" | "exhausted";
+  autoDisabledFeatures: string[];
+  lastEscalation: number | null;
+}
+
+const errorBudgets = new Map<string, ErrorBudget>();
+
+const DEFAULT_ERROR_BUDGETS: Array<{
+  subsystem: string;
+  totalBudget: number;
+  windowMs: number;
+  threshold: number;
+}> = [
+  { subsystem: "database", totalBudget: 50, windowMs: 300000, threshold: 0.5 },
+  { subsystem: "ai_service", totalBudget: 100, windowMs: 300000, threshold: 0.6 },
+  { subsystem: "exam_service", totalBudget: 30, windowMs: 300000, threshold: 0.4 },
+  { subsystem: "stripe", totalBudget: 50, windowMs: 300000, threshold: 0.5 },
+  { subsystem: "email_service", totalBudget: 80, windowMs: 300000, threshold: 0.6 },
+  { subsystem: "sms_service", totalBudget: 80, windowMs: 300000, threshold: 0.6 },
+  { subsystem: "content_generation", totalBudget: 100, windowMs: 300000, threshold: 0.6 },
+  { subsystem: "seo_generation", totalBudget: 100, windowMs: 300000, threshold: 0.7 },
+  { subsystem: "auth_service", totalBudget: 40, windowMs: 300000, threshold: 0.4 },
+];
+
+const THROTTLE_PRIORITY: string[][] = [
+  ["ai_tutor", "ai_content_gen", "advanced_analytics"],
+  ["seo_generation", "new_ui_components"],
+  ["email_notifications", "sms_notifications"],
+];
+
+export function initErrorBudgets(): void {
+  for (const def of DEFAULT_ERROR_BUDGETS) {
+    errorBudgets.set(def.subsystem, {
+      subsystem: def.subsystem,
+      totalBudget: def.totalBudget,
+      consumed: 0,
+      windowMs: def.windowMs,
+      errors: [],
+      threshold: def.threshold,
+      escalationLevel: "normal",
+      autoDisabledFeatures: [],
+      lastEscalation: null,
+    });
+  }
+}
+
+const SUBSYSTEM_NAME_MAP: Record<string, string> = {
+  "auth": "auth_service",
+  "exams": "exam_service",
+  "email": "email_service",
+  "sms": "sms_service",
+  "content": "content_generation",
+  "seo": "seo_generation",
+};
+
+function normalizeSubsystemName(name: string): string {
+  return SUBSYSTEM_NAME_MAP[name] || name;
+}
+
+export function recordErrorBudgetEvent(subsystem: string, count: number = 1): void {
+  subsystem = normalizeSubsystemName(subsystem);
+  let budget = errorBudgets.get(subsystem);
+  if (!budget) {
+    budget = {
+      subsystem,
+      totalBudget: 50,
+      consumed: 0,
+      windowMs: 300000,
+      errors: [],
+      threshold: 0.5,
+      escalationLevel: "normal",
+      autoDisabledFeatures: [],
+      lastEscalation: null,
+    };
+    errorBudgets.set(subsystem, budget);
+  }
+
+  const now = Date.now();
+  for (let i = 0; i < count; i++) {
+    budget.errors.push(now);
+  }
+  budget.errors = budget.errors.filter(t => now - t < budget.windowMs);
+  budget.consumed = budget.errors.length;
+
+  const prevLevel = budget.escalationLevel;
+  recomputeEscalationLevel(budget);
+  const ratio = budget.consumed / budget.totalBudget;
+
+  if (budget.escalationLevel !== prevLevel && budget.escalationLevel !== "normal") {
+    budget.lastEscalation = now;
+    addResilienceEvent("error_budget_escalation", subsystem, {
+      level: budget.escalationLevel,
+      consumed: budget.consumed,
+      total: budget.totalBudget,
+      ratio: Math.round(ratio * 100),
+    });
+
+    if (budget.escalationLevel === "warning") {
+      addAlert("warning", "error_budget", `Error Budget Warning: ${subsystem}`, `${subsystem} error budget at ${Math.round(ratio * 100)}% (${budget.consumed}/${budget.totalBudget})`, subsystem);
+    } else if (budget.escalationLevel === "critical") {
+      addAlert("warning", "error_budget", `Error Budget Critical: ${subsystem}`, `${subsystem} error budget at ${Math.round(ratio * 100)}% — auto-throttling non-essential features`, subsystem);
+      autoThrottleFeatures(subsystem, 1);
+    } else if (budget.escalationLevel === "exhausted") {
+      addAlert("critical", "error_budget", `Error Budget Exhausted: ${subsystem}`, `${subsystem} error budget fully consumed — escalating to safe mode`, subsystem);
+      autoThrottleFeatures(subsystem, 2);
+      const criticalSubsystems = new Set(["database", "exam_service", "auth_service"]);
+      if (criticalSubsystems.has(subsystem)) {
+        activateEmergencyMode(`Error budget exhausted for critical subsystem: ${subsystem}`);
+      }
+    }
+  }
+}
+
+function autoThrottleFeatures(subsystem: string, severity: number): void {
+  const budget = errorBudgets.get(subsystem);
+  if (!budget) return;
+
+  const maxTier = Math.min(severity, THROTTLE_PRIORITY.length);
+  for (let i = 0; i < maxTier; i++) {
+    for (const featureKey of THROTTLE_PRIORITY[i]) {
+      const flag = featureFlags.get(featureKey);
+      if (flag && flag.enabled && flag.adminOverride === null) {
+        flag.enabled = false;
+        flag.disabledAt = Date.now();
+        flag.disabledReason = `auto_throttled_by_error_budget:${subsystem}`;
+        budget.autoDisabledFeatures.push(featureKey);
+        addResilienceEvent("feature_auto_throttled", featureKey, { subsystem, severity });
+        console.warn(`[ErrorBudget] Auto-throttled feature "${featureKey}" due to ${subsystem} budget pressure`);
+      }
+    }
+  }
+}
+
+function recomputeEscalationLevel(budget: ErrorBudget): void {
+  const ratio = budget.consumed / budget.totalBudget;
+  if (ratio >= 1.0) {
+    budget.escalationLevel = "exhausted";
+  } else if (ratio >= budget.threshold) {
+    budget.escalationLevel = "critical";
+  } else if (ratio >= budget.threshold * 0.5) {
+    budget.escalationLevel = "warning";
+  } else {
+    budget.escalationLevel = "normal";
+  }
+}
+
+export function getErrorBudgets(): ErrorBudget[] {
+  const now = Date.now();
+  for (const budget of errorBudgets.values()) {
+    budget.errors = budget.errors.filter(t => now - t < budget.windowMs);
+    budget.consumed = budget.errors.length;
+    recomputeEscalationLevel(budget);
+  }
+  return Array.from(errorBudgets.values()).map(b => ({
+    ...b,
+    errors: [],
+  }));
+}
+
+export function resetErrorBudget(subsystem: string): void {
+  const budget = errorBudgets.get(subsystem);
+  if (!budget) return;
+  budget.errors = [];
+  budget.consumed = 0;
+  budget.escalationLevel = "normal";
+
+  for (const featureKey of budget.autoDisabledFeatures) {
+    const flag = featureFlags.get(featureKey);
+    if (flag && flag.disabledReason?.startsWith("auto_throttled_by_error_budget")) {
+      flag.enabled = true;
+      flag.disabledAt = null;
+      flag.disabledReason = null;
+    }
+  }
+  budget.autoDisabledFeatures = [];
+  addResilienceEvent("error_budget_reset", subsystem, {});
+}
+
+let minimalCoreActive = false;
+let minimalCoreReason: string | null = null;
+let minimalCoreActivatedAt: number | null = null;
+
+export function isMinimalCoreMode(): boolean {
+  return minimalCoreActive;
+}
+
+export function activateMinimalCore(reason: string, actor?: string): void {
+  if (minimalCoreActive) return;
+  minimalCoreActive = true;
+  minimalCoreReason = reason;
+  minimalCoreActivatedAt = Date.now();
+  console.warn(`[MinimalCore] ACTIVATED: ${reason}`);
+  addResilienceEvent("minimal_core_activated", "system", { reason, actor });
+  addAlert("warning", "minimal_core", "Minimal Core Mode Activated", `Platform switched to minimal core mode. Reason: ${reason}`, "minimal_core");
+  addResilienceAudit("minimal_core_activate", "platform", "minimal_core", { reason }, actor || null);
+
+  const heavyFeatures = ["ai_tutor", "ai_content_gen", "seo_generation", "advanced_analytics", "new_ui_components", "offline_sync"];
+  for (const key of heavyFeatures) {
+    const flag = featureFlags.get(key);
+    if (flag && flag.enabled && flag.adminOverride === null) {
+      flag.enabled = false;
+      flag.disabledAt = Date.now();
+      flag.disabledReason = "minimal_core_mode";
+    }
+  }
+}
+
+export function deactivateMinimalCore(actor?: string): void {
+  if (!minimalCoreActive) return;
+  const duration = minimalCoreActivatedAt ? Date.now() - minimalCoreActivatedAt : 0;
+  minimalCoreActive = false;
+  minimalCoreReason = null;
+  minimalCoreActivatedAt = null;
+  addResilienceEvent("minimal_core_deactivated", "system", { actor, durationMs: duration });
+  addResilienceAudit("minimal_core_deactivate", "platform", "minimal_core", { actor, durationMs: duration }, actor || null);
+
+  for (const flag of featureFlags.values()) {
+    if (flag.disabledReason === "minimal_core_mode") {
+      flag.enabled = true;
+      flag.disabledAt = null;
+      flag.disabledReason = null;
+    }
+  }
+}
+
+export function getMinimalCoreStatus(): { active: boolean; reason: string | null; activatedAt: number | null } {
+  return { active: minimalCoreActive, reason: minimalCoreReason, activatedAt: minimalCoreActivatedAt };
+}
+
+interface CacheWarmEntry {
+  key: string;
+  data: any;
+  warmedAt: number;
+  ttlMs: number;
+  stale: boolean;
+}
+
+const warmCache = new Map<string, CacheWarmEntry>();
+let cacheWarmStatus: {
+  lastWarmAt: number | null;
+  routesWarmed: number;
+  warming: boolean;
+  errors: string[];
+} = { lastWarmAt: null, routesWarmed: 0, warming: false, errors: [] };
+let keepWarmTimer: ReturnType<typeof setInterval> | null = null;
+const KEEP_WARM_INTERVAL_MS = 300000;
+const WARM_CACHE_TTL_MS = 600000;
+
+export function getCacheWarmStatus() {
+  return {
+    ...cacheWarmStatus,
+    cachedEntries: warmCache.size,
+    entries: Array.from(warmCache.entries()).map(([key, entry]) => ({
+      key,
+      warmedAt: entry.warmedAt,
+      stale: Date.now() - entry.warmedAt > entry.ttlMs,
+      hasData: !!entry.data,
+    })),
+  };
+}
+
+export function getWarmCacheEntry(key: string): any | null {
+  const entry = warmCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.warmedAt > entry.ttlMs) {
+    entry.stale = true;
+    return null;
+  }
+  return entry.data;
+}
+
+async function warmCriticalRoute(key: string, queryFn: () => Promise<any>): Promise<void> {
+  try {
+    const data = await queryFn();
+    warmCache.set(key, {
+      key,
+      data,
+      warmedAt: Date.now(),
+      ttlMs: WARM_CACHE_TTL_MS,
+      stale: false,
+    });
+  } catch (err: any) {
+    cacheWarmStatus.errors.push(`${key}: ${err.message}`);
+    console.error(`[ColdStart] Failed to warm "${key}":`, err.message);
+  }
+}
+
+export async function prewarmCriticalRoutes(): Promise<void> {
+  if (cacheWarmStatus.warming) return;
+  cacheWarmStatus.warming = true;
+  cacheWarmStatus.errors = [];
+  const startTime = Date.now();
+
+  try {
+    await warmCriticalRoute("published_questions_count", async () => {
+      const r = await pool.query("SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE status = 'published'");
+      return { count: r.rows[0]?.cnt || 0 };
+    });
+
+    await warmCriticalRoute("published_questions_by_tier", async () => {
+      const r = await pool.query("SELECT tier, COUNT(*)::int AS cnt FROM exam_questions WHERE status = 'published' GROUP BY tier");
+      return r.rows;
+    });
+
+    await warmCriticalRoute("flashcard_deck_summary", async () => {
+      const r = await pool.query("SELECT id, title, slug, tier, card_count FROM flashcard_decks WHERE visibility = 'public' ORDER BY card_count DESC LIMIT 100");
+      return r.rows;
+    });
+
+    await warmCriticalRoute("published_lessons_count", async () => {
+      const r = await pool.query("SELECT COUNT(*)::int AS cnt FROM lessons WHERE status = 'published'");
+      return { count: r.rows[0]?.cnt || 0 };
+    });
+
+    await warmCriticalRoute("popular_lessons", async () => {
+      const r = await pool.query("SELECT id, title, slug, category, tier FROM lessons WHERE status = 'published' ORDER BY id DESC LIMIT 50");
+      return r.rows;
+    });
+
+    await warmCriticalRoute("active_users_count", async () => {
+      const r = await pool.query("SELECT COUNT(*)::int AS cnt FROM users WHERE tier != 'free' AND tier IS NOT NULL");
+      return { count: r.rows[0]?.cnt || 0 };
+    });
+
+    cacheWarmStatus.routesWarmed = warmCache.size;
+    cacheWarmStatus.lastWarmAt = Date.now();
+    console.log(`[ColdStart] Prewarmed ${warmCache.size} critical routes in ${Date.now() - startTime}ms`);
+  } catch (err: any) {
+    console.error("[ColdStart] Prewarm error:", err.message);
+    cacheWarmStatus.errors.push(`prewarm_general: ${err.message}`);
+    addAlert("warning", "cold_start", "Prewarm Failed", `Critical route prewarming failed: ${err.message}. Safe mode fallback cache may be empty.`, "prewarm");
+  } finally {
+    cacheWarmStatus.warming = false;
+  }
+}
+
+export function startKeepWarmInterval(): void {
+  if (keepWarmTimer) return;
+  keepWarmTimer = setInterval(() => {
+    prewarmCriticalRoutes().catch(err => console.error("[KeepWarm] Error:", err.message));
+  }, KEEP_WARM_INTERVAL_MS);
+  console.log(`[KeepWarm] Started keep-warm interval (${KEEP_WARM_INTERVAL_MS / 1000}s)`);
+}
+
+export function stopKeepWarmInterval(): void {
+  if (keepWarmTimer) {
+    clearInterval(keepWarmTimer);
+    keepWarmTimer = null;
+  }
+}
+
+const SAFE_MODE_ROUTE_CACHE_MAP: Record<string, string> = {
+  "/api/lessons": "popular_lessons",
+  "/api/flashcards": "flashcard_deck_summary",
+  "/api/flashcard-decks": "flashcard_deck_summary",
+  "/api/exam-questions": "published_questions_count",
+  "/api/question-bank": "published_questions_count",
+  "/api/mock-exams": "published_questions_count",
+};
+
+function getSafeModeResponse(path: string): any {
+  const cached = (() => {
+    for (const [routePrefix, cacheKey] of Object.entries(SAFE_MODE_ROUTE_CACHE_MAP)) {
+      if (path.startsWith(routePrefix)) {
+        return getWarmCacheEntry(cacheKey);
+      }
+    }
+    return null;
+  })();
+
+  if (cached) {
+    return { data: cached, _safeMode: true, _cached: true };
+  }
+
+  for (const [routePrefix, fallback] of Object.entries(SAFE_MODE_STATIC_FALLBACKS)) {
+    if (path.startsWith(routePrefix)) {
+      return { data: fallback, _safeMode: true, _static: true };
+    }
+  }
+
+  return null;
+}
+
 export function readOnlyEnforcement() {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!emergencyModeActive) return next();
 
-    if (req.method === "GET" || req.method === "HEAD" || req.method === "OPTIONS") {
+    if (req.method === "OPTIONS") {
       return next();
     }
 
-    const writablePathsInEmergency = [
-      "/api/auth",
-      "/api/login",
-      "/api/admin/resilience",
-      "/api/stripe/webhook",
-      "/api/boot-beacon",
-    ];
-    if (writablePathsInEmergency.some(p => req.path.startsWith(p))) {
+    if (!req.path.startsWith("/api/")) {
+      return next();
+    }
+
+    const isInfraPath = Array.from(SAFE_MODE_INFRA_PATHS).some(p => req.path.startsWith(p));
+    if (isInfraPath) {
+      return next();
+    }
+
+    const isAdminException = Array.from(SAFE_MODE_ADMIN_WRITE_EXCEPTIONS).some(p => req.path.startsWith(p));
+
+    if (req.method === "GET" || req.method === "HEAD") {
+      const isCoreRead = Array.from(SAFE_MODE_CORE_READ_PATHS).some(p => req.path.startsWith(p));
+
+      if (isCoreRead) {
+        const fallback = getSafeModeResponse(req.path);
+        if (fallback) {
+          return res.json(fallback);
+        }
+        return res.status(503).json({
+          error: "This content is temporarily unavailable during safe mode.",
+          safeMode: true,
+          _static: true,
+        });
+      }
+
+      if (isAdminException) {
+        return next();
+      }
+
+      return res.status(503).json({
+        error: "This endpoint is unavailable during safe mode.",
+        safeMode: true,
+        message: "We're running in safe mode. Only core reading features remain available.",
+        allowedReadPaths: Array.from(SAFE_MODE_CORE_READ_PATHS),
+      });
+    }
+
+    if (isAdminException) {
       return next();
     }
 
     return res.status(503).json({
-      error: "Service temporarily in read-only mode",
+      error: "Write operations are disabled during safe mode.",
+      safeMode: true,
       emergencyMode: true,
-      message: "We're running in backup mode. Your access is protected.",
+      message: "We're running in safe mode. All write operations are temporarily disabled.",
     });
+  };
+}
+
+const MINIMAL_CORE_BLOCKED_ROUTES = new Set([
+  "/api/ai-tutor",
+  "/api/ai/tutor",
+  "/api/ai/content",
+  "/api/ai/generate",
+  "/api/seo/generate",
+  "/api/analytics/advanced",
+  "/api/admin/seo",
+]);
+
+const MINIMAL_CORE_HEAVY_FIELDS = new Set([
+  "animations", "richMedia", "interactiveWidgets", "videoEmbeds",
+  "advancedCharts", "threeDModels", "lottieData", "svgAnimations",
+]);
+
+function stripHeavyContent(data: any): any {
+  if (data === null || data === undefined || typeof data !== "object") return data;
+  if (Array.isArray(data)) return data.map(stripHeavyContent);
+  const result: any = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (MINIMAL_CORE_HEAVY_FIELDS.has(key)) continue;
+    result[key] = (typeof value === "object" && value !== null) ? stripHeavyContent(value) : value;
+  }
+  return result;
+}
+
+export function minimalCoreEnforcement() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!minimalCoreActive) return next();
+
+    const isBlocked = Array.from(MINIMAL_CORE_BLOCKED_ROUTES).some(p => req.path.startsWith(p));
+    if (isBlocked) {
+      return res.status(503).json({
+        error: "This feature is disabled during minimal core mode.",
+        minimalCore: true,
+        message: "Platform is in minimal core mode. Only essential text-first features are active.",
+      });
+    }
+
+    if (req.path.startsWith("/api/")) {
+      res.setHeader("X-Minimal-Core", "true");
+      res.setHeader("X-Render-Mode", "text-first");
+
+      const originalJson = res.json.bind(res);
+      res.json = function(body: any) {
+        const stripped = stripHeavyContent(body);
+        if (stripped && typeof stripped === "object" && !Array.isArray(stripped)) {
+          stripped._renderMode = "text-first";
+          stripped._minimalCore = true;
+        }
+        return originalJson(stripped);
+      };
+    }
+
+    return next();
   };
 }
 
@@ -921,8 +1463,15 @@ export function registerResilienceRoutes(app: Express): void {
   app.get("/api/platform/status", (_req: Request, res: Response) => {
     res.json({
       emergencyMode: emergencyModeActive,
-      message: emergencyModeActive ? "We're running in backup mode. Your access is protected." : null,
-      reason: emergencyModeActive ? emergencyModeReason : null,
+      safeMode: emergencyModeActive,
+      minimalCore: minimalCoreActive,
+      renderMode: minimalCoreActive ? "text-first" : emergencyModeActive ? "safe-static" : "full",
+      message: emergencyModeActive
+        ? "We're running in safe mode. Core reading features remain available."
+        : minimalCoreActive
+        ? "Platform is in minimal core mode. Only essential features are active."
+        : null,
+      reason: emergencyModeActive ? emergencyModeReason : minimalCoreActive ? minimalCoreReason : null,
     });
   });
 
@@ -977,6 +1526,13 @@ export function registerResilienceRoutes(app: Express): void {
     }
   });
 
+  app.get("/api/platform/minimal-core", (_req: Request, res: Response) => {
+    res.json({
+      minimalCore: minimalCoreActive,
+      safeMode: emergencyModeActive,
+    });
+  });
+
   app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
@@ -987,6 +1543,10 @@ export function registerResilienceRoutes(app: Express): void {
       killSwitches: getKillSwitches(),
       healthChecks: healthResults,
       emergencyMode: getEmergencyModeStatus(),
+      safeMode: getSafeModeStatus(),
+      minimalCore: getMinimalCoreStatus(),
+      errorBudgets: getErrorBudgets(),
+      cacheWarmStatus: getCacheWarmStatus(),
       provisionalAccess: getProvisionalAccessGrants(),
       selfHealingLog: getSelfHealingLog(),
       events: getResilienceEvents(100),
@@ -1140,6 +1700,72 @@ export function registerResilienceRoutes(app: Express): void {
     } catch {
       res.json({ history: [] });
     }
+  });
+
+  app.get("/api/admin/resilience/error-budgets", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({ errorBudgets: getErrorBudgets(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/error-budgets/:subsystem/reset", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    resetErrorBudget(req.params.subsystem);
+    addResilienceAudit("error_budget_reset", "error_budget", req.params.subsystem, {}, admin.username || admin.id);
+    res.json({ success: true });
+  });
+
+  app.post("/api/admin/resilience/minimal-core", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { active, reason } = req.body;
+    if (active) {
+      activateMinimalCore(reason || "admin_activated", admin.username || admin.id);
+    } else {
+      deactivateMinimalCore(admin.username || admin.id);
+    }
+    res.json({ success: true, minimalCore: getMinimalCoreStatus() });
+  });
+
+  app.get("/api/admin/resilience/cache-warm", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({ cacheWarmStatus: getCacheWarmStatus(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/cache-warm/run", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    await prewarmCriticalRoutes();
+    addResilienceAudit("cache_warm_manual", "platform", "cache_warm", {}, admin.username || admin.id);
+    res.json({ success: true, cacheWarmStatus: getCacheWarmStatus() });
+  });
+
+  app.get("/api/admin/resilience/dashboard", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({
+      safeMode: getSafeModeStatus(),
+      minimalCore: getMinimalCoreStatus(),
+      errorBudgets: getErrorBudgets(),
+      cacheWarmStatus: getCacheWarmStatus(),
+      circuitBreakers: getCircuitBreakerStates(),
+      featureFlags: getFeatureFlags().map(f => ({
+        key: f.key,
+        enabled: isFeatureEnabled(f.key),
+        description: f.description,
+        errorCount: f.errorCount,
+        disabledReason: f.disabledReason,
+      })),
+      healthSummary: {
+        lastCheck: cachedHealthResponse?.timestamp || null,
+        overallStatus: cachedHealthResponse?.status || "unknown",
+        servicesDown: cachedHealthResponse?.services.filter(s => s.status === "down").length || 0,
+        servicesDegraded: cachedHealthResponse?.services.filter(s => s.status === "degraded").length || 0,
+      },
+      timestamp: Date.now(),
+    });
   });
 
 }

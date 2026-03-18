@@ -204,10 +204,17 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
-  const { readOnlyEnforcement, initDefaultBreakers, initFeatureFlags } = await import("./platform-resilience");
+  const { readOnlyEnforcement, minimalCoreEnforcement, initDefaultBreakers, initFeatureFlags, initErrorBudgets, prewarmCriticalRoutes, startKeepWarmInterval } = await import("./platform-resilience");
   initDefaultBreakers();
   initFeatureFlags();
+  initErrorBudgets();
   app.use(readOnlyEnforcement());
+  app.use(minimalCoreEnforcement());
+
+  setTimeout(() => {
+    prewarmCriticalRoutes().catch(err => console.error("[ColdStart] Initial prewarm failed:", err.message));
+    startKeepWarmInterval();
+  }, 3000);
 
   const MIGRATION_REDIRECT_SLUGS = [
     "philippines-to-canada", "india-to-canada", "philippines-to-usa",
