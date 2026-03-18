@@ -1,0 +1,93 @@
+This shows the real problem clearly now.
+Replit Publishing is trying to apply a huge migration bundle, and that bundle still contains both of these:
+ALTER TABLE "users" ALTER COLUMN "email" SET NOT NULL;
+CREATE UNIQUE INDEX "idx_users_email_unique" ON "users" USING btree (lower(email) text_ops);
+So there are now two likely blockers on users.email:
+SET NOT NULL
+UNIQUE INDEX on lower(email)
+Even if you backfilled the nulls, publish can still fail if:
+the null backfill did not actually run on production, or
+duplicate emails were created by the backfill, or
+Replit is validating the whole migration bundle before preview and choking on one of these statements
+You need to check production data directly before another publish.
+Run these in the production SQL console:
+SELECT count(*) AS null_emails
+FROM users
+WHERE email IS NULL;
+SELECT lower(email) AS normalized_email, count(*) AS n
+FROM users
+WHERE email IS NOT NULL
+GROUP BY lower(email)
+HAVING count(*) > 1
+ORDER BY n DESC, normalized_email;
+SELECT id, username, email
+FROM users
+ORDER BY created_at NULLS LAST, id;
+What the results mean:
+If null_emails > 0, the SET NOT NULL statement is still the blocker.
+If the duplicate query returns any rows, the idx_users_email_unique creation is also a blocker.
+If both are clean, then the failure is likely elsewhere in that migration bundle, but users.email is still the first thing to eliminate.
+Use this exact message to Replit:
+We now have the actual migration bundle Publishing is trying to apply.
+
+It still includes:
+- ALTER TABLE "users" ALTER COLUMN "email" SET NOT NULL;
+- CREATE UNIQUE INDEX "idx_users_email_unique" ON "users" USING btree (lower(email) text_ops);
+
+So stop saying the codebase is clean. Publishing is validating a migration bundle that still enforces both NOT NULL and UNIQUE on users.email.
+
+I need a production-data-first verification now.
+
+TASKS
+
+1. Check production data with these exact queries and show me the raw results:
+
+SELECT count(*) AS null_emails
+FROM users
+WHERE email IS NULL;
+
+SELECT lower(email) AS normalized_email, count(*) AS n
+FROM users
+WHERE email IS NOT NULL
+GROUP BY lower(email)
+HAVING count(*) > 1
+ORDER BY n DESC, normalized_email;
+
+SELECT id, username, email
+FROM users
+ORDER BY created_at NULLS LAST, id;
+
+2. If null_emails > 0:
+   backfill production emails first.
+
+3. If duplicate normalized emails exist:
+   resolve duplicates before publish.
+   Use deterministic unique placeholders, for example:
+   user-<id>@placeholder.local
+
+4. Then verify again:
+   - 0 null emails
+   - 0 duplicate lower(email)
+
+5. After that, retry publish.
+
+6. Also tell me which migration file or generated migration bundle contains:
+   - ALTER COLUMN email SET NOT NULL
+   - CREATE UNIQUE INDEX idx_users_email_unique
+
+Do not summarize. Show raw query outputs and exact next SQL.
+If you want the cleanup SQL ready now, use this in production:
+UPDATE users
+SET email = CASE
+  WHEN username IS NOT NULL
+   AND btrim(username) <> ''
+   AND username ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'
+    THEN lower(btrim(username))
+  ELSE 'user-' || id || '@placeholder.local'
+END
+WHERE email IS NULL;
+Then normalize and de-duplicate anything still conflicting with the future unique index. First inspect duplicates with the query above. If duplicates exist, fix them one-by-one or use a targeted update.
+The key point: this is not just “failed to validate migrations.” The migration bundle you pasted proves Publishing still wants email to be:
+non-null
+unique, case-insensitively
+So production data must satisfy both before this publish can pass.
