@@ -5,6 +5,9 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
+import { useEntitlement } from "@/hooks/use-entitlement";
+import { FeatureLockedPreview } from "@/components/feature-locked-preview";
+import type { Feature } from "@/lib/entitlements";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -199,6 +202,8 @@ function computeSystemData(testResults: Record<string, TestResult>): SystemData[
 export default function Reports() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useI18n();
+  const { hasAccess: hasReportsAccess, isLoading: entitlementLoading } = useEntitlement("feature", "reports");
 
   const [testResults, setTestResults] = useState<Record<string, TestResult>>({});
 
@@ -307,6 +312,9 @@ export default function Reports() {
           </p>
         </div>
 
+        {!hasReportsAccess && !entitlementLoading ? (
+          <FeatureLockedPreview feature="reports" />
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <Card className="border-none shadow-md bg-white rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-2">
@@ -493,6 +501,7 @@ export default function Reports() {
               </div>
             </Card>
           </div>
+        )}
         )}
       </main>
       <AdminEditButton />

@@ -4,6 +4,9 @@ import { resolveAuthUser, requireAdmin } from "./admin-auth";
 import rateLimit from "express-rate-limit";
 import { getAllowedExamTiers } from "../shared/tier-config";
 import { validateQuestion, checkPoolHealth, structuredExamError, logExamRequest, addIncident } from "./exam-reliability";
+import { requireEntitlement, checkEntitlement } from "./entitlements";
+
+const QBANK_FREE_DAILY_LIMIT = 15;
 
 export function normalizeQuestionOptions(options: any): string[] {
   let parsed = options;
@@ -38,7 +41,102 @@ const qbankLimiter = rateLimit({
   validate: { xForwardedForHeader: false, trustProxy: false },
 });
 
+async function getQbankDailyUsage(userId: string): Promise<number> {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const result = await pool.query(
+      `SELECT count FROM qbank_daily_usage WHERE user_id = $1 AND date = $2`,
+      [userId, today]
+    );
+    return result.rows[0]?.count || 0;
+  } catch {
+    return 0;
+  }
+}
+
+async function incrementQbankDailyUsage(userId: string): Promise<number> {
+  const today = new Date().toISOString().slice(0, 10);
+  await pool.query(
+    `INSERT INTO qbank_daily_usage (id, user_id, date, count)
+     VALUES (gen_random_uuid(), $1, $2, 1)
+     ON CONFLICT (user_id, date) DO UPDATE SET count = qbank_daily_usage.count + 1`,
+    [userId, today]
+  );
+  const result = await pool.query(
+    `SELECT count FROM qbank_daily_usage WHERE user_id = $1 AND date = $2`,
+    [userId, today]
+  );
+  return result.rows[0]?.count || 0;
+}
+
 export function setupQBankRoutes(app: Express) {
+  pool.query(`
+    CREATE TABLE IF NOT EXISTS qbank_daily_usage (
+      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id VARCHAR NOT NULL,
+      date TEXT NOT NULL,
+      count INTEGER NOT NULL DEFAULT 0,
+      UNIQUE(user_id, date)
+    );
+  `).catch(() => {});
+
+  app.get("/api/qbank/usage-status", qbankLimiter, async (req: any, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+
+      const hasQbankAccess = checkEntitlement(user, "qbank");
+      if (hasQbankAccess) {
+        return res.json({ isPremium: true, dailyUsed: 0, dailyLimit: 999, dailyRemaining: 999 });
+      }
+
+      const dailyUsed = await getQbankDailyUsage(user.id);
+      const dailyRemaining = Math.max(0, QBANK_FREE_DAILY_LIMIT - dailyUsed);
+
+      res.json({
+        isPremium: false,
+        dailyUsed,
+        dailyLimit: QBANK_FREE_DAILY_LIMIT,
+        dailyRemaining,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/qbank/usage-increment", qbankLimiter, async (req: any, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required" });
+
+      const hasQbankAccess = checkEntitlement(user, "qbank");
+      if (hasQbankAccess) {
+        return res.json({ isPremium: true, dailyUsed: 0, dailyLimit: 999 });
+      }
+
+      const dailyUsed = await getQbankDailyUsage(user.id);
+      if (dailyUsed >= QBANK_FREE_DAILY_LIMIT) {
+        return res.status(403).json({
+          error: "Daily question limit reached",
+          upgradeRequired: true,
+          dailyLimitReached: true,
+          dailyUsed,
+          dailyLimit: QBANK_FREE_DAILY_LIMIT,
+        });
+      }
+
+      const newCount = await incrementQbankDailyUsage(user.id);
+      res.json({
+        isPremium: false,
+        dailyUsed: newCount,
+        dailyLimit: QBANK_FREE_DAILY_LIMIT,
+        dailyRemaining: Math.max(0, QBANK_FREE_DAILY_LIMIT - newCount),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/qbank", qbankLimiter, async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
@@ -47,12 +145,26 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const userTier = user.tier || "free";
-      if (userTier === "free") {
-        return res.status(403).json({ error: "Upgrade required", upgradeRequired: true });
+      const hasQbankAccess = checkEntitlement(user, "qbank");
+
+      if (!hasQbankAccess) {
+        const dailyUsed = await getQbankDailyUsage(user.id);
+        if (dailyUsed >= QBANK_FREE_DAILY_LIMIT) {
+          return res.status(403).json({
+            error: "Daily question limit reached",
+            upgradeRequired: true,
+            dailyLimitReached: true,
+            dailyUsed,
+            dailyLimit: QBANK_FREE_DAILY_LIMIT,
+          });
+        }
       }
 
       let queryTier: string;
       if (userTier === "admin") {
+        queryTier = (req.query.tier as string) || "rpn";
+        if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
+      } else if (userTier === "free" || !hasQbankAccess) {
         queryTier = (req.query.tier as string) || "rpn";
         if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
       } else {
@@ -243,8 +355,20 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const userTier = user.tier || "free";
-      if (userTier === "free") {
-        return res.status(403).json({ error: "Upgrade required" });
+      const hasQbankAccess = checkEntitlement(user, "qbank");
+
+      if (!hasQbankAccess) {
+        const dailyUsed = await getQbankDailyUsage(user.id);
+        if (dailyUsed >= QBANK_FREE_DAILY_LIMIT) {
+          return res.status(403).json({
+            error: "Daily question limit reached",
+            upgradeRequired: true,
+            dailyLimitReached: true,
+            dailyUsed,
+            dailyLimit: QBANK_FREE_DAILY_LIMIT,
+          });
+        }
+        await incrementQbankDailyUsage(user.id);
       }
 
       const { questionId, selectedOption } = req.body;
@@ -252,15 +376,18 @@ export function setupQBankRoutes(app: Express) {
         return res.status(400).json({ error: "questionId and selectedOption required" });
       }
 
-      const queryTier = userTier === "admin" ? undefined : userTier;
       let query = `SELECT id, tier, stem, options, correct_answer, rationale, body_system, correct_answer_explanation, distractor_rationales, clinical_pearl FROM exam_questions WHERE id = $1 AND status = 'published'`;
       const params: any[] = [questionId];
       let paramIdx = 2;
 
-      if (queryTier) {
-        query += ` AND tier = $${paramIdx}`;
-        params.push(queryTier);
-        paramIdx++;
+      if (userTier !== "admin") {
+        if (hasQbankAccess) {
+          query += ` AND tier = $${paramIdx}`;
+          params.push(userTier);
+          paramIdx++;
+        } else {
+          query += ` AND tier IN ('rpn', 'rn', 'np')`;
+        }
       }
 
       if (userTier !== "admin") {
@@ -428,12 +555,26 @@ export function setupQBankRoutes(app: Express) {
       }
 
       const userTier = user.tier || "free";
-      if (userTier === "free") {
-        return res.status(403).json({ error: "Upgrade required" });
+      const hasQbankAccess = checkEntitlement(user, "qbank");
+
+      if (!hasQbankAccess) {
+        const dailyUsed = await getQbankDailyUsage(user.id);
+        if (dailyUsed >= QBANK_FREE_DAILY_LIMIT) {
+          return res.status(403).json({
+            error: "Daily question limit reached",
+            upgradeRequired: true,
+            dailyLimitReached: true,
+            dailyUsed,
+            dailyLimit: QBANK_FREE_DAILY_LIMIT,
+          });
+        }
       }
 
       let queryTier: string;
       if (userTier === "admin") {
+        queryTier = (req.query.tier as string) || "rpn";
+        if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
+      } else if (userTier === "free" || !hasQbankAccess) {
         queryTier = (req.query.tier as string) || "rpn";
         if (!["rpn", "rn", "np"].includes(queryTier)) queryTier = "rpn";
       } else {

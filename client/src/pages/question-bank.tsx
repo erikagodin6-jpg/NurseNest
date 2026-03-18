@@ -26,6 +26,8 @@ import { SocialProofBar } from "@/components/conversion-funnel";
 import { QuestionComments } from "@/components/question-comments";
 import { ExamReportButton } from "@/components/exam-error-boundary";
 import { useI18n } from "@/lib/i18n";
+import { useEntitlement } from "@/hooks/use-entitlement";
+import { FeatureLockedPreview } from "@/components/feature-locked-preview";
 import {
   AnswerOption,
   ResultHeader,
@@ -84,6 +86,14 @@ export default function QuestionBank() {
   const { user, effectiveTier, isLoading: authLoading, isTester } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
+  const { hasAccess: hasQbankAccess } = useEntitlement("feature", "qbank");
+
+  const [usageStatus, setUsageStatus] = useState<{
+    isPremium: boolean;
+    dailyUsed: number;
+    dailyLimit: number;
+    dailyRemaining: number;
+  } | null>(null);
 
   useEffect(() => {
     if (authLoading) return;
@@ -91,12 +101,33 @@ export default function QuestionBank() {
       setLocation("/login?redirect=/test-bank");
       return;
     }
-    const hasPaidAccess = effectiveTier && effectiveTier !== "free";
-    if (!hasPaidAccess && !isTester) {
-      setLocation("/pricing");
-      return;
-    }
-  }, [user, effectiveTier, authLoading, isTester, setLocation]);
+  }, [user, authLoading, setLocation]);
+
+  const refreshUsageStatus = useCallback(() => {
+    if (!user) return;
+    const token = localStorage.getItem("nursenest-user-token");
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    fetch("/api/qbank/usage-status", { headers })
+      .then(r => r.json())
+      .then(data => setUsageStatus(data))
+      .catch(() => {});
+  }, [user]);
+
+  const trackFreeUsage = useCallback(() => {
+    if (!user || hasQbankAccess) return;
+    const token = localStorage.getItem("nursenest-user-token");
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    fetch("/api/qbank/usage-increment", { method: "POST", headers })
+      .then(r => r.json())
+      .then(() => refreshUsageStatus())
+      .catch(() => {});
+  }, [user, hasQbankAccess, refreshUsageStatus]);
+
+  useEffect(() => {
+    refreshUsageStatus();
+  }, [refreshUsageStatus]);
   const allowedQBankTiers = getAllowedExamTiers(effectiveTier || "free");
   const defaultTierFilter = allowedQBankTiers.length === 1 ? allowedQBankTiers[0] : (allowedQBankTiers.length > 0 ? allowedQBankTiers[0] : "all");
   const [tierFilter, setTierFilter] = useState<string>(defaultTierFilter);
@@ -163,13 +194,11 @@ export default function QuestionBank() {
   }, [tierFilter, effectiveTier, systemFilter, examFilter, difficultyFilter, topicFilter]);
 
   const isTierLocked = tierFilter !== "all" && !userCanAccessTier(tierFilter);
+  const isDailyLimitReached = usageStatus && !usageStatus.isPremium && usageStatus.dailyRemaining <= 0;
   const accessibleQuestions = useMemo(() => {
     if (isTierLocked) return [];
-    if (!user || !effectiveTier || effectiveTier === "free") {
-      return allQuestions.slice(0, FREE_PREVIEW_COUNT);
-    }
     return allQuestions;
-  }, [allQuestions, user, effectiveTier, isTierLocked]);
+  }, [allQuestions, isTierLocked]);
 
   const bodySystems = useMemo(() => {
     if (filterOptions?.categories) return filterOptions.categories;
@@ -196,6 +225,7 @@ export default function QuestionBank() {
         correct: prev.correct + (idx === question?.correct ? 1 : 0),
         total: prev.total + 1,
       }));
+      trackFreeUsage();
     }
   };
 
@@ -206,6 +236,7 @@ export default function QuestionBank() {
       correct: prev.correct + (selectedAnswer === question?.correct ? 1 : 0),
       total: prev.total + 1,
     }));
+    trackFreeUsage();
   };
 
   const handleNext = () => {
@@ -326,8 +357,7 @@ export default function QuestionBank() {
     ? qbTierConfig.testBankLabel
     : "Test Bank";
 
-  const hasPaidAccess = user && effectiveTier && effectiveTier !== "free";
-  if (authLoading || !user || (!hasPaidAccess && !isTester)) {
+  if (authLoading || !user) {
     return (
       <>
         <Navigation />
@@ -543,6 +573,41 @@ export default function QuestionBank() {
             </p>
           </div>
 
+          {usageStatus && !usageStatus.isPremium && (
+            <div className={`mb-6 p-4 rounded-xl border text-center ${isDailyLimitReached ? "bg-amber-50 border-amber-200" : "bg-blue-50 border-blue-200"}`} data-testid="qbank-usage-banner">
+              <div className="flex items-center justify-center gap-2 text-sm font-medium mb-1">
+                <span className={isDailyLimitReached ? "text-amber-700" : "text-blue-700"}>
+                  {isDailyLimitReached
+                    ? "Daily question limit reached"
+                    : `${usageStatus.dailyRemaining} of ${usageStatus.dailyLimit} free questions remaining today`}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2 max-w-xs mx-auto mb-2">
+                <div
+                  className={`h-2 rounded-full transition-all ${isDailyLimitReached ? "bg-amber-500" : "bg-blue-500"}`}
+                  style={{ width: `${Math.min(100, (usageStatus.dailyUsed / usageStatus.dailyLimit) * 100)}%` }}
+                />
+              </div>
+              {isDailyLimitReached && (
+                <Button
+                  size="sm"
+                  className="mt-2 rounded-full px-6"
+                  onClick={() => setLocation("/pricing")}
+                  data-testid="button-upgrade-qbank"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" /> Upgrade for Unlimited Access
+                </Button>
+              )}
+            </div>
+          )}
+
+          {isDailyLimitReached && (
+            <FeatureLockedPreview feature="qbank">
+              <div />
+            </FeatureLockedPreview>
+          )}
+
+          {!isDailyLimitReached && (
           <div className="flex items-center justify-center gap-2 mb-6" data-testid="mode-selector">
             <div className="inline-flex bg-gray-100/80 rounded-2xl p-1">
               <Button
@@ -959,6 +1024,7 @@ export default function QuestionBank() {
             <p>{t("qbank.disclaimerIndependent")}</p>
             <p>{t("qbank.disclaimerNotAffiliated")}</p>
           </div>
+          )}
         </div>
       </main>
 

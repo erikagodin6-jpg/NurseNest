@@ -3,7 +3,7 @@
 ### Overview
 NurseNest is an adaptive learning platform designed for nursing and allied health students across 17 specializations. Its primary purpose is to provide comprehensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and detailed performance analytics. Leveraging AI for content generation, the platform aims to enhance clinical reasoning, deepen nursing knowledge, and improve critical thinking, ultimately leading to better patient care outcomes and a revolution in nursing education. The project's ambition is to become a leader in health education technology.
 
-### User Preferences
+## User Preferences
 - Preferred communication style: Simple, everyday language.
 - Admin accounts use JWT-based authentication (no hardcoded admin users).
 - Copyright must show current year dynamically (uses `new Date().getFullYear()`).
@@ -22,12 +22,12 @@ Key system features include a database-driven subscription model supporting regi
 Core architectural components and design patterns include:
 - **Learning & Exam Preparation**: Flashcards, Test Bank, Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, and a Mock Exam Engine (CAT & Practice modes) supporting multiple nursing certifications, with an Exam Reliability System.
 - **AI-Powered Study & Content**: AI Study Coaching & Course Generation, Exam Date AI Study Planner, AI-Powered Generation & Safety system, context-aware AI Tutoring Assistant, and Bulk Question Bank Orchestrator.
-- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and structured data generation.
+- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System with build-blocking validation, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and structured data generation.
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study System, and LocalStorage-based Popup Suppression System.
-- **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content, including dedicated NP Exam Ecosystems.
+- **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content.
 - **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
 - **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue.
-- **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation, quality scoring, and review workflow.
+- **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation and review workflow.
 - **Exam Readiness Predictor Engine**: Provides readiness scores, pass probability, and personalized recommendations.
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtering by country, language, and licensing body.
 - **Multilingual Content Management**: AI-powered batch translation of exam questions and other content, with dedicated translation tables (`exam_question_translations`, `content_item_translations`, `flashcard_translations`, `seo_page_translations`) replacing EAV tables. Locale settings control strictness, and writes mark non-source translations as `stale`. Build-blocking validation ensures translation coverage.
@@ -73,7 +73,7 @@ Core architectural components and design patterns include:
 - **Subscriber Rescue & Refund Prevention**: Admin tools for subscriber retention including communication template management, rescue actions, and a refund prevention dashboard.
 - **Cross-Platform Subscription & Entitlement Sync System**: Unified subscription management with a canonical `subscriptions` table, mobile-ready entitlement API, idempotent webhook processing, structured `entitlement_events` analytics, email normalization, billing refresh/restore endpoints, and expanded admin tooling.
 
-### External Dependencies
+## External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe, PayPal SDK

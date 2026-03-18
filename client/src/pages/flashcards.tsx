@@ -7,6 +7,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useI18n } from "@/lib/i18n";
+import { useEntitlement } from "@/hooks/use-entitlement";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -1957,7 +1958,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   const [myCardsFlipped, setMyCardsFlipped] = useState(false);
   const FREE_LIMIT = 300;
 
-  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
+  const { hasAccess: hasFlashcardAccess } = useEntitlement("feature", "flashcards");
+  const isPaid = hasFlashcardAccess;
 
   const allCards = useMemo(() => {
     const icuMapped: Flashcard[] = icuCriticalCareFlashcards
@@ -2602,7 +2604,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   }, []);
 
   const fetchExamFlashcards = useCallback(async () => {
-    if (!effectiveTier || effectiveTier === "free") return;
+    if (!isPaid) return;
     setExamFlashcardsLoading(true);
     try {
       const tierParam = effectiveTier === "admin" ? "" : `&tier=${effectiveTier}`;
@@ -2669,7 +2671,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   }, [view, examFlashcards.length, fetchExamFlashcards]);
 
   const fetchAdaptiveSession = useCallback(async (mode: "learn" | "test") => {
-    if (!user || !effectiveTier || effectiveTier === "free") return;
+    if (!user || !isPaid) return;
     setAdaptiveLoading(true);
     setAdaptiveCards([]);
     setAdaptiveIndex(0);
@@ -2980,7 +2982,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   };
 
   const startSession = async () => {
-    const canUseAdaptive = !!(user && effectiveTier && effectiveTier !== "free");
+    const canUseAdaptive = !!(user && isPaid);
     if (filteredCards.length === 0 && !canUseAdaptive) return;
     setAdaptiveOverrideCards(null);
     setCurrentIndex(0);
@@ -3536,7 +3538,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       <Button
                         className="w-full h-12 rounded-xl text-sm font-semibold bg-violet-600 hover:bg-violet-700 shadow-lg shadow-violet-200/40"
                         onClick={startSession}
-                        disabled={filteredCards.length === 0 && !(user && effectiveTier && effectiveTier !== "free")}
+                        disabled={filteredCards.length === 0 && !(user && isPaid)}
                         data-testid="button-start-session"
                       >
                         Start Session ({filteredCards.length} cards)
@@ -3985,7 +3987,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       <Button
                         className="rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 h-10 gap-2"
                         onClick={startSession}
-                        disabled={filteredCards.length === 0 && !(user && effectiveTier && effectiveTier !== "free")}
+                        disabled={filteredCards.length === 0 && !(user && isPaid)}
                         data-testid="button-topic-start-session"
                       >
                         Start Session
