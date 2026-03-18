@@ -1,0 +1,399 @@
+You are working on the NurseNest platform architecture across the Replit website/backend and the Emergent mobile app.
+
+Build a COMPLETE CROSS-PLATFORM SUBSCRIPTION + ENTITLEMENT SYNC SYSTEM so paid access works correctly across the NurseNest website and mobile app.
+
+This is a CENTRAL REVENUE INFRASTRUCTURE task.
+
+The goal is to ensure that when a user pays for NurseNest, their access is recognized accurately, consistently, and safely across all platforms.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Implement one shared subscription / entitlement system where:
+
+- the website and app both read from the same central source of truth
+- paid users keep access across web and mobile
+- free users get the correct gated experience
+- no paying subscriber loses access because of sync issues
+- subscription status, plan, tier, and feature access are centrally enforced
+- the app never invents or guesses entitlement state locally
+
+==================================================
+SECTION 1 — CENTRAL SOURCE OF TRUTH
+==================================================
+
+Create or confirm a SINGLE central entitlement system in the backend.
+
+The backend must be the source of truth for:
+- subscription status
+- active/inactive state
+- billing period status
+- plan type
+- role/tier access
+- feature entitlements
+- trial status if used
+- purchase source if relevant
+- expiration / renewal state
+- grace period state if applicable
+
+The app and website must both READ from this system.
+Do not allow separate entitlement logic in each client.
+
+==================================================
+SECTION 2 — SHARED SUBSCRIPTION MODEL
+==================================================
+
+Create or audit a central subscription / entitlement model.
+
+At minimum support:
+
+USER IDENTITY
+- userId
+- email
+
+SUBSCRIPTION CORE
+- planId
+- planName
+- billingInterval
+- subscriptionStatus
+- activeFrom
+- expiresAt / renewsAt
+- canceledAt if applicable
+- trialStart / trialEnd if applicable
+- purchaseSource (web, app store, play store, promo, admin grant, etc.)
+
+ENTITLEMENTS
+- roleAccess (RPN, RN, NP, Allied, New Grad, etc.)
+- featureFlags / feature entitlements
+- content access scope
+- question bank access
+- lesson access
+- premium analytics access
+- AI feature access if applicable
+
+RESILIENCE
+- lastVerifiedAt
+- syncState
+- gracePeriodUntil if applicable
+
+==================================================
+SECTION 3 — WEB PAYMENTS → CENTRAL ENTITLEMENTS
+==================================================
+
+If website purchases happen through Stripe or existing web billing:
+
+Implement robust flow:
+1. payment succeeds
+2. backend validates payment/webhook
+3. backend updates central subscription record
+4. backend computes entitlements
+5. website UI reflects access
+6. mobile app receives same access on next auth/refresh
+
+Requirements:
+- never grant premium purely from frontend success callback
+- always use validated backend confirmation
+- make webhooks idempotent
+- handle duplicate webhook events safely
+- log entitlement changes
+
+==================================================
+SECTION 4 — APP ACCESS RULES
+==================================================
+
+The mobile app must NEVER hardcode premium access logic.
+
+App behavior:
+- authenticate user
+- request current subscription + entitlements from backend
+- cache safely for UX continuity
+- revalidate against backend regularly
+- render gated/unlocked features based on backend response
+
+Do not:
+- assume paid access from stale local state alone
+- create separate app-only subscription truth
+- unlock premium permanently because of one historical response
+
+==================================================
+SECTION 5 — API CONTRACTS (MANDATORY)
+==================================================
+
+Create or audit backend endpoints such as:
+
+AUTH / USER
+- GET /auth/me
+
+ENTITLEMENTS
+- GET /me/entitlements
+- GET /me/subscription
+
+OPTIONAL MANAGEMENT
+- POST /billing/refresh-entitlements
+- POST /billing/webhook/stripe
+- POST /billing/restore-access (if needed)
+- POST /admin/grant-entitlement (admin-only)
+
+Return clear structured data:
+- user identity
+- current plan
+- subscription status
+- entitlements list
+- gating booleans
+- timestamps
+- source of truth metadata if useful
+
+==================================================
+SECTION 6 — FEATURE GATING MODEL
+==================================================
+
+Define and centralize feature gating.
+
+Examples:
+- canAccessPremiumQuestions
+- canAccessFullQuestionBanks
+- canAccessLessons
+- canAccessFlashcards
+- canAccessAnalytics
+- canAccessAI
+- canAccessNPContent
+- canAccessRNContent
+- canAccessRPNContent
+- canAccessAlliedContent
+- canAccessNewGradContent
+
+Both app and website must consume the same gating decisions from backend data.
+
+Do not scatter entitlement rules across random UI components.
+Centralize them in shared backend logic and client-side guards/helpers.
+
+==================================================
+SECTION 7 — GRACEFUL FAILOVER / NEVER LOSE PAYING USERS
+==================================================
+
+This is critical.
+
+Implement entitlement resilience so valid paying users are protected.
+
+If billing verification is temporarily delayed or backend systems are unstable:
+- do not instantly hard-lock a previously verified paid user
+- use a grace window
+- preserve access while re-verifying
+- mark account as pending verification if needed
+- log incidents
+
+Rules:
+- never punish a paying user because of temporary sync failure
+- no dead-end lockouts for recently verified subscribers
+- degrade carefully, not aggressively
+
+==================================================
+SECTION 8 — LOCAL CACHING (SAFE, NOT AUTHORITATIVE)
+==================================================
+
+For mobile app UX and offline continuity:
+- cache last known entitlements locally
+- store verification timestamp
+- use secure/local storage responsibly
+- treat cache as temporary convenience only
+
+Behavior:
+- if offline and last known entitlement is recently verified, allow temporary continuity
+- once online, revalidate with backend
+- if backend contradicts stale local cache, backend wins
+- protect against corrupted local entitlement cache
+
+==================================================
+SECTION 9 — SUBSCRIPTION SYNC ACROSS PLATFORMS
+==================================================
+
+Ensure these scenarios work:
+
+SCENARIO A
+- user subscribes on website
+- opens mobile app
+- app reflects premium access after login / refresh
+
+SCENARIO B
+- user already subscribed
+- logs into website and app with same account
+- both show same plan and access
+
+SCENARIO C
+- user changes plan
+- both web and app reflect new entitlements
+
+SCENARIO D
+- user renews / billing succeeds
+- access remains continuous
+
+SCENARIO E
+- user cancels but retains access until end of billing period
+- both platforms reflect that correctly
+
+==================================================
+SECTION 10 — PLAN / TIER STRUCTURE
+==================================================
+
+Support NurseNest’s business model cleanly.
+
+Potential plan dimensions may include:
+- free
+- premium
+- role-specific plans
+- all-access plans
+- monthly
+- annual
+- bundled offers
+- promotional grants
+
+Structure the backend to support future expansion without messy rewrites.
+
+==================================================
+SECTION 11 — UI BEHAVIOR FOR GATED FEATURES
+==================================================
+
+On both app and website:
+
+If user has access:
+- show unlocked premium features normally
+
+If user lacks access:
+- show clean locked state
+- explain what is included in upgrade
+- provide upgrade CTA
+- do not create broken screens or dead ends
+
+If entitlement state is loading:
+- show loading/skeleton state
+- do not flicker locked/unlocked wildly
+
+If entitlement verification is temporarily uncertain:
+- show stable experience
+- avoid incorrectly locking users during refresh
+
+==================================================
+SECTION 12 — BILLING / WEBHOOK ROBUSTNESS
+==================================================
+
+Audit and harden billing sync logic.
+
+Requirements:
+- idempotent webhook handling
+- retry-safe processing
+- event logging
+- subscription state reconciliation jobs if needed
+- safe handling of delayed/out-of-order events
+- protection against duplicate grants
+- clear audit trail for entitlement changes
+
+==================================================
+SECTION 13 — ACCOUNT MERGE / DUPLICATE PROTECTION
+==================================================
+
+Protect against duplicate-user subscription issues.
+
+Requirements:
+- email normalization
+- case-insensitive identity matching
+- prevent same person from ending up with multiple fragmented accounts
+- clearly define what happens if a user purchased on web but signs into app with a different email
+- do not silently attach subscriptions to wrong user
+
+If mismatch occurs:
+- provide safe recovery path
+- do not guess incorrectly
+
+==================================================
+SECTION 14 — ANALYTICS / OBSERVABILITY
+==================================================
+
+Track and log:
+
+- subscription_created
+- subscription_updated
+- subscription_canceled
+- entitlement_granted
+- entitlement_revoked
+- entitlement_verification_failed
+- grace_period_started
+- access_restored
+- gated_feature_viewed
+- upgrade_cta_clicked
+
+Also log:
+- webhook processing results
+- sync mismatches
+- stale entitlement fallbacks
+- duplicate account detection
+
+==================================================
+SECTION 15 — ADMIN / SUPPORT TOOLS
+==================================================
+
+Create or improve support visibility so you can diagnose access issues quickly.
+
+Admin/support view should allow safe inspection of:
+- current subscription status
+- entitlement state
+- plan
+- billing source
+- last verification time
+- grace period status
+- recent sync/log events
+
+Optional admin tools:
+- refresh entitlements
+- temporarily grant support access
+- reconcile user subscription
+- inspect webhook history for that user
+
+==================================================
+SECTION 16 — SECURITY
+==================================================
+
+Ensure:
+- backend validates all billing events
+- clients cannot spoof premium access
+- entitlement endpoints require valid auth
+- admin operations are protected
+- sensitive billing details are not exposed unnecessarily
+
+==================================================
+SECTION 17 — IMPLEMENTATION DIVISION
+==================================================
+
+REPLIT WEBSITE / BACKEND SIDE:
+- central subscription model
+- webhook processing
+- entitlement computation
+- auth-protected API endpoints
+- admin/support tooling
+- website gated UI consumes backend entitlements
+
+EMERGENT MOBILE APP SIDE:
+- fetch entitlements from backend
+- store safe local cache for continuity
+- gate UI based on backend response
+- handle loading / refresh / offline gracefully
+- do not create separate subscription truth
+
+==================================================
+SECTION 18 — DELIVERABLES
+==================================================
+
+First audit the current state, then implement/fix what is needed.
+
+At the end provide:
+
+1. current subscription architecture summary
+2. whether website and app already share the same entitlement source
+3. gaps found
+4. backend models/endpoints added or changed
+5. webhook/billing hardening changes
+6. app-side sync behavior implemented
+7. gating logic changes
+8. grace-period / failover protections added
+9. admin/support tooling added
+10. remaining risks or next recommended step

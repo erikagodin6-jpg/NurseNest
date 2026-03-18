@@ -231,6 +231,39 @@ export function setupLessonContentRoutes(app: Express): void {
 
   app.use("/api/lessons", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
 
+  let availableIdsCache: string[] | null = null;
+  app.get("/api/lessons/available-ids", async (_req: Request, res: Response) => {
+    try {
+      if (!availableIdsCache) {
+        const data = await loadLessonData();
+        const ids: string[] = [];
+        for (const [id, lesson] of Object.entries(data)) {
+          const parts: string[] = [];
+          const cellular = typeof lesson.cellular === "string" ? lesson.cellular : lesson.cellular?.content || "";
+          parts.push(cellular);
+          if (lesson.riskFactors) parts.push(...lesson.riskFactors);
+          if (lesson.diagnostics) parts.push(...lesson.diagnostics);
+          if (lesson.management) parts.push(...lesson.management);
+          if (lesson.nursingActions) parts.push(...lesson.nursingActions);
+          if (lesson.assessmentFindings) parts.push(...lesson.assessmentFindings);
+          if (lesson.pearls) parts.push(...lesson.pearls);
+          if (Array.isArray(lesson.signs)) {
+            parts.push(...lesson.signs);
+          } else if (lesson.signs) {
+            parts.push(...(lesson.signs.left || []), ...(lesson.signs.right || []));
+          }
+          if (lesson.lifespan) parts.push(typeof lesson.lifespan === "string" ? lesson.lifespan : lesson.lifespan.content || "");
+          if (parts.join(" ").trim().length >= 200) ids.push(id);
+        }
+        availableIdsCache = ids;
+      }
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.json(availableIdsCache);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get("/api/admin/lesson-diagnostics", async (req: Request, res: Response) => {
     try {
       const user = await resolveAuthUser(req as any);
