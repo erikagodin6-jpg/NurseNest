@@ -53,7 +53,6 @@ const HIDDEN_ROUTES = ["/login", "/pricing", "/start-free", "/subscribe", "/admi
 export function StickyCtaBar() {
   const { t } = useI18n();
   const { user, effectiveTier, isAdmin } = useAuth();
-  const { t } = useI18n();
   const [location] = useLocation();
   const [dismissed, setDismissed] = useState(() => {
     try {
