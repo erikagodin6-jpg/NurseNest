@@ -82,9 +82,11 @@ function isPaidUser(req: Request): boolean {
 
 function estimateLoad(): number {
   const mem = process.memoryUsage();
-  const memUsage = mem.heapUsed / mem.heapTotal;
+  const RSS_HIGH_MB = 1200;
+  const rssMB = mem.rss / (1024 * 1024);
+  const memPressure = Math.min(rssMB / RSS_HIGH_MB, 1.0);
   const requestPressure = activeRequests / config.maxConcurrentRequests;
-  currentLoadEstimate = Math.max(memUsage, requestPressure);
+  currentLoadEstimate = Math.max(memPressure, requestPressure);
   lastLoadCheck = Date.now();
   return currentLoadEstimate;
 }

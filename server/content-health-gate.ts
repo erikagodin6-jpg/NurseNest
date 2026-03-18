@@ -643,12 +643,14 @@ async function runReleaseGateChecks(): Promise<GateResult> {
   }
 
   const mem = process.memoryUsage();
-  const memPct = Math.round((mem.heapUsed / mem.heapTotal) * 100);
+  const rssMB = Math.round(mem.rss / (1024 * 1024));
+  const RSS_WARNING_MB = 1200;
+  const RSS_CRITICAL_MB = 1500;
   checks.push({
     name: "memory_healthy",
-    passed: memPct < 90,
-    detail: `Heap: ${memPct}% used (${Math.round(mem.heapUsed / 1024 / 1024)}MB / ${Math.round(mem.heapTotal / 1024 / 1024)}MB)`,
-    severity: memPct >= 95 ? "critical" : "warning",
+    passed: rssMB < RSS_WARNING_MB,
+    detail: `RSS: ${rssMB}MB (warn: ${RSS_WARNING_MB}MB, crit: ${RSS_CRITICAL_MB}MB)`,
+    severity: rssMB >= RSS_CRITICAL_MB ? "critical" : "warning",
   });
 
   try {

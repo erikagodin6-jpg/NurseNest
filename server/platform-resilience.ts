@@ -1241,6 +1241,7 @@ export function getLoadSheddingStatus(): { enabled: boolean; queueLength: number
 }
 
 export function loadSheddingMiddleware() {
+  const RSS_SHED_THRESHOLD_MB = 1400;
   return (req: Request, res: Response, next: NextFunction) => {
     if (!loadSheddingConfig.enabled) return next();
 
@@ -1251,9 +1252,9 @@ export function loadSheddingMiddleware() {
     }
 
     const mem = process.memoryUsage();
-    const memUsage = mem.heapUsed / mem.heapTotal;
+    const rssMB = mem.rss / (1024 * 1024);
 
-    if (memUsage < loadSheddingConfig.systemLoadThreshold) {
+    if (rssMB < RSS_SHED_THRESHOLD_MB) {
       return next();
     }
 
