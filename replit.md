@@ -5,7 +5,7 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 
 ### User Preferences
 - Preferred communication style: Simple, everyday language.
-- Admin account: user "erikanim" has tier="admin" with full content access bypass.
+- Admin accounts use JWT-based authentication (no hardcoded admin users).
 - Copyright must show current year dynamically (uses `new Date().getFullYear()`).
 - NO normal lab values on lesson pages - only abnormal clinical findings.
 - Content depth: Multi-paragraph cellular/molecular pathophysiology, detailed drug MOA at receptor level.

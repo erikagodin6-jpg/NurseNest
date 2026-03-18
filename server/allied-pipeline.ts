@@ -191,11 +191,8 @@ async function getOpenAI() {
 }
 
 async function requirePipelineAdmin(req: any, res: any): Promise<any> {
-  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-  if (!adminId) return res.status(401).json({ error: "Admin required" });
-  const r = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [adminId]);
-  if (!r.rows[0]) return res.status(403).json({ error: "Admin access denied" });
-  return r.rows[0];
+  const { requireAdmin } = await import("./admin-auth");
+  return requireAdmin(req, res);
 }
 
 function wordCount(text: string): number {

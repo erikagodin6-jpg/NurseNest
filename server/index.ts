@@ -218,28 +218,26 @@ app.use(cookieParser());
 app.use((_req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
-  if (process.env.NODE_ENV === "production") {
-    res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-    res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
-    res.setHeader("Content-Security-Policy",
-      "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://tagmanager.google.com; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://tagmanager.google.com; " +
-      "font-src 'self' https://fonts.gstatic.com data:; " +
-      "img-src 'self' data: blob: https: http:; " +
-      "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://region1.google-analytics.com https://api.stripe.com https://*.nursenest.ca https://*.replit.dev wss://*.replit.dev; " +
-      "frame-src 'self' https://js.stripe.com https://www.googletagmanager.com; " +
-      "media-src 'self'; " +
-      "object-src 'none'; " +
-      "base-uri 'self'; " +
-      "form-action 'self' https://checkout.stripe.com; " +
-      "frame-ancestors 'self'"
-    );
-  }
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  res.setHeader("Content-Security-Policy",
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://tagmanager.google.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://tagmanager.google.com; " +
+    "font-src 'self' https://fonts.gstatic.com data:; " +
+    "img-src 'self' data: blob: https: http:; " +
+    "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://region1.google-analytics.com https://api.stripe.com https://*.nursenest.ca https://*.replit.dev wss://*.replit.dev; " +
+    "frame-src 'self' https://js.stripe.com https://www.googletagmanager.com; " +
+    "media-src 'self'; " +
+    "object-src 'none'; " +
+    "base-uri 'self'; " +
+    "form-action 'self' https://checkout.stripe.com; " +
+    "frame-ancestors 'self'"
+  );
   next();
 });
 const httpServer = createServer(app);

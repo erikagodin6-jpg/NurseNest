@@ -70,7 +70,7 @@ import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getAvailableLanguages, simpleHash } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
-import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier } from "./admin-auth";
+import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
@@ -163,27 +163,13 @@ async function getEffectiveTier(req: any): Promise<{ tier: string; isPreview: bo
   const previewToken = (req.cookies?.nursenest_preview || req.headers?.["x-preview-token"] || "") as string;
   const preview = getPreviewFromToken(previewToken);
 
-  const username = String(req.body?.username || req.query?.username || "");
-  const password = String(req.body?.password || req.query?.password || "");
   let realTier: string | null = null;
   let isAdmin = false;
 
-  if (username && password) {
-    const user = await storage.getUserByUsername(username);
-    if (user && user.password === password) {
-      realTier = user.tier || "free";
-      isAdmin = user.tier === "admin";
-    }
-  }
-  if (!realTier) {
-    const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
-    if (adminId) {
-      const user = await storage.getUser(adminId);
-      if (user) {
-        realTier = user.tier || "free";
-        isAdmin = user.tier === "admin";
-      }
-    }
+  const authUser = await resolveAuthUser(req);
+  if (authUser) {
+    realTier = authUser.tier || "free";
+    isAdmin = authUser.tier === "admin";
   }
 
   if (isAdmin && preview) {
@@ -2942,13 +2928,9 @@ Keep responses concise and actionable.`
   // --------------------
   app.post("/api/admin/verify", async (req, res) => {
     try {
-      const username = String(req.body?.username || "");
-      const password = String(req.body?.password || "");
-      if (!username || !password) return res.json({ isAdmin: false });
-
-      const user = await storage.getUserByUsername(username);
-      const ok = Boolean(user && user.password === password && user.tier === "admin");
-      res.json({ isAdmin: ok });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      res.json({ isAdmin: true });
     } catch {
       res.json({ isAdmin: false });
     }
@@ -3136,6 +3118,44 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   // --------------------
   // Auth
   // --------------------
+  const adminRateLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 60,
+    message: { error: "Too many admin requests. Please slow down." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    validate: { xForwardedForHeader: true, trustProxy: true },
+  });
+
+  const examStartLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 10,
+    message: { error: "Too many exam requests. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    validate: { xForwardedForHeader: true, trustProxy: true },
+  });
+
+  const accountRecoveryLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: { error: "Too many recovery attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    validate: { xForwardedForHeader: true, trustProxy: true },
+  });
+
+  const stripeCheckoutLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 10,
+    message: { error: "Too many checkout attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    validate: { xForwardedForHeader: true, trustProxy: true },
+  });
+
+  app.use("/api/admin", adminRateLimiter);
+
   const signupLimiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     max: 10,
@@ -3225,14 +3245,23 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.post("/api/auth/login", loginLimiter, async (req, res) => {
     try {
       const { username, password } = req.body;
+      if (!username || !password) return res.status(400).json({ error: "Username and password required" });
       const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password) return res.status(401).json({ error: "Invalid credentials" });
-
-      if (username === "erikanim" && user.tier !== "admin") {
-        await storage.updateUserTier(user.id, "admin");
-        user.tier = "admin";
-        user.subscriptionStatus = "active";
+      if (!user) {
+        recordFailedLogin(`user:${username}`);
+        recordFailedLogin(`ip:${req.ip}`);
+        return res.status(401).json({ error: "Invalid credentials" });
       }
+      const passwordValid = await verifyPassword(password, user.password);
+      if (!passwordValid) {
+        recordFailedLogin(`user:${username}`);
+        recordFailedLogin(`ip:${req.ip}`);
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      await migratePasswordIfNeeded(user.id, password, user.password);
+
+      logSecurityAudit("login_success", { userId: user.id, username: user.username, ip: req.ip });
 
       const response: any = {
         id: user.id,
@@ -3263,12 +3292,6 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     try {
       const user = await storage.getUser(req.params.userId);
       if (!user) return res.status(404).json({ error: "User not found" });
-
-      if (user.username === "erikanim" && user.tier !== "admin") {
-        await storage.updateUserTier(user.id, "admin");
-        user.tier = "admin";
-        user.subscriptionStatus = "active";
-      }
 
       res.json({
         id: user.id,
@@ -3343,15 +3366,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
   app.put("/api/pricing/plans/:id", async (req, res) => {
     try {
-      const username = (req.query.username as string) || req.body.username;
-      const password = (req.query.password as string) || req.body.password;
-      const adminUser = String(process.env.ADMIN_USERNAME || "");
-      const adminPass = String(process.env.ADMIN_PASSWORD || "");
-      if (!username || !password || username !== adminUser || password !== adminPass) {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const { username: _, password: __, ...updates } = req.body;
       const plan = await storage.updatePricingPlan(req.params.id, updates);
+      logSecurityAudit("pricing_plan_updated", { adminId: admin.id, planId: req.params.id });
       res.json(plan);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -3395,13 +3414,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   // --------------------
   app.get("/api/admin/subscription-analytics", async (req, res) => {
     try {
-      const username = req.query.username as string;
-      const password = req.query.password as string;
-      const adminUser = String(process.env.ADMIN_USERNAME || "");
-      const adminPass = String(process.env.ADMIN_PASSWORD || "");
-      if (!username || !password || username !== adminUser || password !== adminPass) {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
 
       const { getDevPool } = await import("./db");
       const dbPool = getDevPool();
@@ -3444,7 +3458,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
-  app.post("/api/stripe/create-checkout", async (req, res) => {
+  app.post("/api/stripe/create-checkout", stripeCheckoutLimiter, async (req, res) => {
     const isProduction = process.env.REPLIT_DEPLOYMENT === '1';
     const env = isProduction ? 'PRODUCTION' : 'DEVELOPMENT';
 
@@ -4243,14 +4257,8 @@ Rules:
   // --------------------
   app.post("/api/admin/analytics", async (req, res) => {
     try {
-      const { username, password } = req.body;
-      if (!username || !password) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
 
       const dbStorage = storage as DatabaseStorage;
       const [allUsers, allResults, allProgress, allNotes] = await Promise.all([
@@ -4437,14 +4445,8 @@ Rules:
 
   app.get("/api/admin/promotions", async (req, res) => {
     try {
-      const username = String(req.query.username || "");
-      const password = String(req.query.password || "");
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-
-      const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
 
       const stripe = await getUncachableStripeClient();
 
@@ -5233,9 +5235,9 @@ Rules:
       res.setHeader("Pragma", "no-cache");
       const { status, username, password, type, category } = req.query;
 
-      if (status === "all" && username && password) {
-        const adminUser = await storage.getUserByUsername(username as string);
-        if (adminUser && adminUser.password === password && adminUser.tier === "admin") {
+      if (status === "all") {
+        const adminUser = await resolveAuthUser(req);
+        if (adminUser && adminUser.tier === "admin") {
           let items: any[] = [];
           try {
             const result = await pool.query("SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST");
@@ -5337,10 +5339,8 @@ Rules:
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       if (item.status !== "published") {
-        const { username, password } = req.query;
-        if (!username || !password) return res.status(404).json({ error: "Content not found" });
-        const adminUser = await storage.getUserByUsername(username as string);
-        if (!adminUser || adminUser.password !== (password as string) || adminUser.tier !== "admin") {
+        const adminUser = await resolveAuthUser(req);
+        if (!adminUser || adminUser.tier !== "admin") {
           return res.status(404).json({ error: "Content not found" });
         }
       }
@@ -7046,13 +7046,8 @@ Rules:
 
   app.get("/api/admin/flashcard-preview/config", async (req, res) => {
     try {
-      const username = String(req.query.username || "");
-      const password = String(req.query.password || "");
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin only" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const result = await pool.query(`SELECT * FROM flashcard_preview_config WHERE content_type = 'flashcards'`);
       const config = result.rows[0] || {
         session_limit: 5,
@@ -7070,13 +7065,8 @@ Rules:
 
   app.put("/api/admin/flashcard-preview/config", async (req, res) => {
     try {
-      const username = String(req.body.username || req.query.username || "");
-      const password = String(req.body.password || req.query.password || "");
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin only" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
 
       const { sessionLimit, dailyLimit, allowedTopics, allowedTiers, upgradeHeadline, upgradeBody } = req.body;
       await pool.query(
@@ -9304,7 +9294,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/start-specialty", requireEntitlement("mock_exams"), async (req: any, res) => {
+  app.post("/api/mock-exams/start-specialty", examStartLimiter, requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
       console.log("[MockExam][start-specialty] Received payload:", { examDefinitionId: req.body.examDefinitionId, specialty: req.body.specialty });
@@ -9848,7 +9838,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!user) return res.status(404).json({ error: "User not found" });
 
       if (username && password) {
-        if (user.username !== username || user.password !== password) {
+        const pwValid = await verifyPassword(password, user.password);
+        if (user.username !== username || !pwValid) {
           return res.status(403).json({ error: "Authentication failed" });
         }
       }
@@ -18245,12 +18236,8 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/admin/institution-leads", async (req, res) => {
     try {
-      const adminId = String(req.headers?.["x-admin-id"] || req.query?.adminId || "");
-      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
-      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
-      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
-        return res.status(403).json({ error: "Forbidden" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const leads = await pool.query("SELECT * FROM institution_leads ORDER BY created_at DESC LIMIT 200");
       res.json(leads.rows.map(snakeToCamel));
     } catch (e: any) {
@@ -18261,12 +18248,8 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/admin/institutions", async (req, res) => {
     try {
-      const adminId = String(req.headers?.["x-admin-id"] || "");
-      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
-      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
-      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
-        return res.status(403).json({ error: "Forbidden" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const result = await pool.query(`
         SELECT i.*, COALESCE(s.cnt, 0) as seat_count
         FROM institutions i
@@ -18283,12 +18266,9 @@ Return ONLY valid JSON with this exact structure:
 
   app.post("/api/admin/institutions", async (req, res) => {
     try {
-      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
-      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
-      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
-      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
-        return res.status(403).json({ error: "Forbidden" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminId = admin.id;
       const parsed = insertInstitutionSchema.safeParse(req.body);
       if (!parsed.success) {
         return res.status(400).json({ error: "Invalid institution data", details: parsed.error.issues });
@@ -18329,8 +18309,9 @@ Return ONLY valid JSON with this exact structure:
 
   app.post("/api/institutions/:id/invite-codes", async (req, res) => {
     try {
-      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
-      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminId = admin.id;
       const inst = await pool.query("SELECT * FROM institutions WHERE id = $1", [req.params.id]);
       if (!inst.rows[0]) return res.status(404).json({ error: "Institution not found" });
       const code = crypto.randomBytes(6).toString("hex").toUpperCase();
@@ -18472,8 +18453,9 @@ Return ONLY valid JSON with this exact structure:
 
   app.post("/api/institutions/:id/seat-requests/:reqId/decide", async (req, res) => {
     try {
-      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
-      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminId = admin.id;
       const { decision, reason } = req.body;
       if (!["approved", "rejected"].includes(decision)) {
         return res.status(400).json({ error: "Decision must be 'approved' or 'rejected'" });
