@@ -26,6 +26,8 @@ const ReportProblemButton = lazy(() => import("@/components/report-problem-butto
 import { ExamErrorBoundary, ExamLoadingFallback } from "@/components/exam-error-boundary";
 import { PlatformErrorBoundary } from "@/components/platform-error-boundary";
 import { LanguageGuard } from "@/lib/language-guard";
+import { ProtectedRoute } from "@/components/protected-route";
+import { SafeExamFallback, SafeFlashcardFallback, SafeLessonFallback, SafeDownloadFallback } from "@/components/safe-mode-fallbacks";
 const IncidentBanner = lazy(() => import("@/components/incident-banner").then(m => ({ default: m.IncidentBanner })));
 
 function PreviewBanner() {
@@ -754,7 +756,7 @@ function AppRoutes() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/languages" component={LanguagesPage} />
-        <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/dashboard">{() => <ProtectedRoute contentType="general" fallbackPath="/en/lessons"><DashboardPage /></ProtectedRoute>}</Route>
         <Route path="/start-free" component={StartFreePage} />
         <Route path="/pathways" component={PathwaysPage} />
         <Route path="/med-math" component={MedMathPage} />
@@ -787,11 +789,11 @@ function AppRoutes() {
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
         <Route path="/admin/notifications" component={AdminNotifications} />
-        <Route path="/study/:mode" component={AdaptiveStudyPage} />
-        <Route path="/study" component={AdaptiveStudyPage} />
-        <Route path="/qbank/exam" component={QBankExamPage} />
-        <Route path="/qbank/study" component={QBankStudyPage} />
-        <Route path="/qbank/browse" component={QBankPreviewPage} />
+        <Route path="/study/:mode">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>
+        <Route path="/study">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>
+        <Route path="/qbank/exam">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/dashboard"} />}><QBankExamPage /></ProtectedRoute>}</Route>
+        <Route path="/qbank/study">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankStudyPage /></ProtectedRoute>}</Route>
+        <Route path="/qbank/browse">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankPreviewPage /></ProtectedRoute>}</Route>
         <Route path="/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/admin/taxonomy-review" component={AdminTaxonomyReview} />
@@ -1024,12 +1026,12 @@ function AppRoutes() {
         <Route path="/specialties/:slug">{() => <NursingHubPage pageType="specialty" />}</Route>
         <Route path="/study-pathways/:slug">{() => <NursingHubPage pageType="study-pathway" />}</Route>
         <Route path="/pre-nursing" component={PreNursingPage} />
-        <Route path="/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "mock-exam" }}><Suspense fallback={<ExamLoadingFallback />}><MockExamSession /></Suspense></ExamErrorBoundary>}</Route>
-        <Route path="/mock-exams" component={MockExamsPage} />
+        <Route path="/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "mock-exam" }}><Suspense fallback={<ExamLoadingFallback />}><MockExamSession /></Suspense></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
-        <Route path="/shop/:slug" component={ShopProductPage} />
-        <Route path="/shop" component={ShopPage} />
+        <Route path="/shop/:slug">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/shop"} />}><ShopProductPage /></ProtectedRoute>}</Route>
+        <Route path="/shop">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/dashboard"} />}><ShopPage /></ProtectedRoute>}</Route>
         <Route path="/compare/best-nclex-question-bank">{() => <SeoLandingBySlug slug="compare/best-nclex-question-bank" />}</Route>
         <Route path="/compare/best-rex-pn-prep">{() => <SeoLandingBySlug slug="compare/best-rex-pn-prep" />}</Route>
         <Route path="/compare/uworld-alternative-nursing">{() => <SeoLandingBySlug slug="compare/uworld-alternative-nursing" />}</Route>
@@ -1260,7 +1262,7 @@ function AppRoutes() {
         <Route path="/demo/learning-progress" component={DemoLearningProgress} />
         <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />
         <Route path="/admin/qbank-factory" component={QBankFactoryPage} />
-        <Route path="/account/library" component={AccountLibraryPage} />
+        <Route path="/account/library">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/dashboard"} />}><AccountLibraryPage /></ProtectedRoute>}</Route>
         <Route path="/admin/product-builder" component={ProductBuilderPage} />
         <Route path="/admin/product-builder/:id" component={ProductBuilderPage} />
         <Route path="/admin/trust-showcase" component={AdminTrustShowcase} />
@@ -1271,12 +1273,12 @@ function AppRoutes() {
         <Route path="/learn/:slug" component={ContentPage} />
         <Route path="/anatomy/:systemId" component={AnatomyPage} />
         <Route path="/anatomy" component={AnatomyPage} />
-        <Route path="/lessons" component={Lessons} />
+        <Route path="/lessons">{() => <ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/dashboard"} />}><Lessons /></ProtectedRoute>}</Route>
         <Route path="/lectures" component={LecturesPage} />
         <Route path="/lectures/:slug" component={LectureViewer} />
-        <Route path="/lessons/:id" component={LessonDetail} />
-        <Route path="/flashcards/deck/:slug" component={DeckPage} />
-        <Route path="/flashcards" component={PublicFlashcards} />
+        <Route path="/lessons/:id">{() => <ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/lessons"} />}><LessonDetail /></ProtectedRoute>}</Route>
+        <Route path="/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/flashcards"} />}><DeckPage /></ProtectedRoute>}</Route>
+        <Route path="/flashcards">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/dashboard"} />}><PublicFlashcards /></ProtectedRoute>}</Route>
 
         {/* Specialty Preview Pages (public) */}
         <Route path="/preview/:specialty" component={SpecialtyPreviewPage} />
@@ -1289,10 +1291,10 @@ function AppRoutes() {
         <Route path="/rpn/flashcards">{() => <Redirect to="/rpn/test-bank" />}</Route>
         <Route path="/rn/flashcards">{() => <Redirect to="/rn/test-bank" />}</Route>
         <Route path="/np/flashcards">{() => <Redirect to="/np/test-bank" />}</Route>
-        <Route path="/upgrade" component={UpgradePage} />
-        <Route path="/upgrade/success" component={UpgradePage} />
+        <Route path="/upgrade">{() => <ProtectedRoute contentType="general"><UpgradePage /></ProtectedRoute>}</Route>
+        <Route path="/upgrade/success">{() => <ProtectedRoute contentType="general"><UpgradePage /></ProtectedRoute>}</Route>
         <Route path="/reports" component={Reports} />
-        <Route path="/login" component={LoginPage} />
+        <Route path="/login">{() => <ProtectedRoute contentType="general"><LoginPage /></ProtectedRoute>}</Route>
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
         <Route path="/pricing/allied">{() => <Redirect to="/pricing?section=allied" />}</Route>
@@ -1302,13 +1304,13 @@ function AppRoutes() {
         <Route path="/pricing/newgrad">{() => <Redirect to="/pricing?section=newgrad" />}</Route>
         <Route path="/pricing/imaging">{() => <Redirect to="/pricing?section=imaging" />}</Route>
         <Route path="/pricing/:tier">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/pricing" component={PricingPage} />
+        <Route path="/pricing">{() => <ProtectedRoute contentType="general"><PricingPage /></ProtectedRoute>}</Route>
         <Route path="/refer" component={ReferPage} />
         <Route path="/signup">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
         <Route path="/register">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
         <Route path="/trial/session/:id" component={TrialSession} />
         <Route path="/trial/results/:id" component={TrialResults} />
-        <Route path="/trial/upgrade" component={TrialUpgrade} />
+        <Route path="/trial/upgrade">{() => <ProtectedRoute contentType="general"><TrialUpgrade /></ProtectedRoute>}</Route>
         <Route path="/trial" component={TrialLanding} />
         <Route path="/faq" component={FAQPage} />
         <Route path="/terms" component={TermsPage} />
@@ -1435,11 +1437,11 @@ function AppRoutes() {
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
         <Route path="/critical-care/question-bank">{() => <Redirect to="/critical-care/test-bank" />}</Route>
         <Route path="/critical-care/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/critical-care/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/critical-care/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/critical-care"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/critical-care/flashcards">{() => <Redirect to="/critical-care/test-bank" />}</Route>
-        <Route path="/critical-care/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/critical-care/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "critical-care" }}><MockExamSession /></ExamErrorBoundary>}</Route>
-        <Route path="/critical-care/mock-exams" component={MockExamsPage} />
+        <Route path="/critical-care/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/critical-care/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/critical-care/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "critical-care" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/critical-care/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
         <Route path="/critical-care/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/critical-care/dashboard" component={DashboardPage} />
@@ -1447,11 +1449,11 @@ function AppRoutes() {
 
         <Route path="/emergency-nursing/question-bank">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
         <Route path="/emergency-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/emergency-nursing/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/emergency-nursing"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/emergency-nursing/flashcards">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
-        <Route path="/emergency-nursing/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/emergency-nursing/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "emergency-nursing" }}><MockExamSession /></ExamErrorBoundary>}</Route>
-        <Route path="/emergency-nursing/mock-exams" component={MockExamsPage} />
+        <Route path="/emergency-nursing/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/emergency-nursing/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/emergency-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "emergency-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/emergency-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/emergency-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
@@ -1466,11 +1468,11 @@ function AppRoutes() {
         <Route path="/perioperative/lessons" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/question-bank">{() => <Redirect to="/perioperative/test-bank" />}</Route>
         <Route path="/perioperative/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/perioperative/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/perioperative"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/perioperative/flashcards">{() => <Redirect to="/perioperative/test-bank" />}</Route>
-        <Route path="/perioperative/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/perioperative/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "perioperative" }}><MockExamSession /></ExamErrorBoundary>}</Route>
-        <Route path="/perioperative/mock-exams" component={MockExamsPage} />
+        <Route path="/perioperative/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/perioperative/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/perioperative/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "perioperative" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/perioperative/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
         <Route path="/perioperative/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/perioperative/dashboard" component={DashboardPage} />
@@ -1478,11 +1480,11 @@ function AppRoutes() {
 
         <Route path="/oncology-nursing/question-bank">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
         <Route path="/oncology-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/oncology-nursing/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/oncology-nursing"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/oncology-nursing/flashcards">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
-        <Route path="/oncology-nursing/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/oncology-nursing/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "oncology-nursing" }}><MockExamSession /></ExamErrorBoundary>}</Route>
-        <Route path="/oncology-nursing/mock-exams" component={MockExamsPage} />
+        <Route path="/oncology-nursing/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/oncology-nursing/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/oncology-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "oncology-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/oncology-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/oncology-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
@@ -1490,11 +1492,11 @@ function AppRoutes() {
 
         <Route path="/pediatric-cert/question-bank">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
         <Route path="/pediatric-cert/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/pediatric-cert/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/pediatric-cert"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/pediatric-cert/flashcards">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
-        <Route path="/pediatric-cert/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/pediatric-cert/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "pediatric-cert" }}><MockExamSession /></ExamErrorBoundary>}</Route>
-        <Route path="/pediatric-cert/mock-exams" component={MockExamsPage} />
+        <Route path="/pediatric-cert/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
+        <Route path="/pediatric-cert/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/pediatric-cert/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "pediatric-cert" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/pediatric-cert/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
         <Route path="/pediatric-cert/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pediatric-cert/dashboard" component={DashboardPage} />

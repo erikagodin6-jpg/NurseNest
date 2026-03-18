@@ -106,6 +106,7 @@ function ComparisonTable() {
 }
 
 function CompetitorComparisonTable() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const region = useRegion();
   type CompetitorRow = {

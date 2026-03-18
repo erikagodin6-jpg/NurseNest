@@ -16,6 +16,7 @@ import {
 import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
 import { ExamReportButton } from "@/components/exam-error-boundary";
 import { createCheckpointManager } from "@/lib/session-checkpoint";
+import { clearExamCheckpoint } from "@/lib/exam-session-checkpoint";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
@@ -669,6 +670,7 @@ export default function MockExamSession() {
       if (!res.ok) {
         throw new Error("Server returned error");
       }
+      clearExamCheckpoint(attemptId);
       setCompletionData({ report, stoppingReason, catState: finalCatState || catState });
       fetchFullQuestions();
     } catch {
@@ -691,6 +693,7 @@ export default function MockExamSession() {
       if (!res.ok) {
         throw new Error("Server returned error");
       }
+      clearExamCheckpoint(attemptId);
       setCompletionData({ report, catState });
       fetchFullQuestions();
     } catch {

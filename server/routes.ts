@@ -228,6 +228,22 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     });
   }
 
+  app.get("/api/kill-switches", (_req, res) => {
+    try {
+      res.json({
+        exams: false,
+        flashcards: false,
+        lessons: false,
+        downloads: false,
+        cat: false,
+        qbank: false,
+        mockExams: false,
+      });
+    } catch {
+      res.json({});
+    }
+  });
+
   app.post("/api/boot-beacon", (req, res) => {
     const { step, detail } = req.body || {};
     console.log(`[BOOT-BEACON] Step ${step}: ${detail || ""}`);

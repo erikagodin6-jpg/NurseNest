@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
+import { validateFlashcards, getSkippedItemsMessage } from "@/lib/payload-validators";
 
 import { useI18n } from "@/lib/i18n";
 export default function DeckPage() {
@@ -27,6 +28,7 @@ export default function DeckPage() {
   const [totalCardCount, setTotalCardCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [skippedMsg, setSkippedMsg] = useState<string | null>(null);
 
   const isOwner = deck && user && deck.ownerId === user.id;
   const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
@@ -44,7 +46,12 @@ export default function DeckPage() {
         setTotalCardCount(d.cardCount || 0);
         const uid = user?.id || "";
         const cardsRes = await fetch(`/api/decks/${d.id}/cards?userId=${uid}`);
-        if (cardsRes.ok) setCards(await cardsRes.json());
+        if (cardsRes.ok) {
+          const rawCards = await cardsRes.json();
+          const { valid, skippedCount } = validateFlashcards(rawCards);
+          setCards(valid);
+          setSkippedMsg(getSkippedItemsMessage(skippedCount, "card"));
+        }
       } catch {}
       setLoading(false);
     }
@@ -209,6 +216,9 @@ export default function DeckPage() {
                 {hasFullAccess ? `${cards.length} cards` : `${cards.length} of ${totalCardCount || cards.length} cards`}
               </span>
             </div>
+            {skippedMsg && (
+              <p className="text-xs text-amber-600 bg-amber-50 rounded px-3 py-1.5 mb-2" data-testid="text-skipped-cards-warning">{skippedMsg}</p>
+            )}
             <div className="space-y-3">
               {cards.map((card: any, i: number) => (
                 <Card key={card.id} className="border-gray-100 hover:border-primary/20 transition-colors" data-testid={`card-preview-${i}`}>

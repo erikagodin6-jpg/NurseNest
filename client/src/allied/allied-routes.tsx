@@ -233,7 +233,7 @@ function LoadingFallback() {
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="text-center space-y-3">
         <div className="w-8 h-8 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto" />
-        <p className="text-sm text-gray-500">{t("allied.alliedRoutes.loading")}</p>
+        <p className="text-sm text-gray-500">Loading…</p>
       </div>
     </div>
   );
@@ -251,6 +251,7 @@ function SocialWorkDomainDetailWrapper({ slug }: { slug: string }) {
 }
 
 export function AlliedRoutes() {
+  const { t } = useI18n();
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
