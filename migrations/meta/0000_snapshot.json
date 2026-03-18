@@ -12144,8 +12144,7 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "''"
+          "notNull": false
         },
         "tier": {
           "name": "tier",

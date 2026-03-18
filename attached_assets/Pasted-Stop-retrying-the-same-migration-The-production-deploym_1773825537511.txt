@@ -1,0 +1,74 @@
+Stop retrying the same migration.
+
+The production deployment is failing because the migration tries to enforce:
+
+ALTER TABLE users ALTER COLUMN email SET NOT NULL
+
+but production already contains rows where users.email is NULL.
+
+I do NOT want the development database copied over production.
+
+Fix this properly with a safe two-phase migration strategy.
+
+TASKS
+
+1. Inspect the production users table and determine:
+   - how many rows have email IS NULL
+   - whether any auth/provider-based users legitimately lack email
+   - whether email currently has or will have a UNIQUE constraint
+   - whether downstream code assumes email is always present
+
+2. Create a PRE-MIGRATION data cleanup plan.
+   Use one of these strategies:
+   - preferred: backfill real emails if they exist in linked auth data
+   - otherwise: generate unique placeholder emails for null rows using a deterministic format such as:
+     missing-email+<user_id>@placeholder.local
+   Do NOT use the same placeholder for multiple users.
+
+3. Add a production-safe SQL migration that runs BEFORE SET NOT NULL, for example:
+   UPDATE users
+   SET email = 'missing-email+' || id || '@placeholder.local'
+   WHERE email IS NULL;
+
+   Adjust for actual id type/column format as needed.
+
+4. After all null values are removed, apply:
+   ALTER TABLE users ALTER COLUMN email SET NOT NULL;
+
+5. If UNIQUE is required on email:
+   - verify no duplicates exist first
+   - normalize casing if appropriate
+   - only then add the unique constraint
+
+6. Audit the app code so future user creation cannot insert NULL email values.
+   Check:
+   - signup flow
+   - OAuth/social auth callbacks
+   - guest/anonymous user creation
+   - admin-created users
+   - seed scripts
+   - test/demo user generation
+   - mobile onboarding/user bootstrap flows
+
+7. Add defensive protections:
+   - validation at application layer
+   - database default/fallback only if intentionally desired
+   - logging when a user record is created without email
+   - a health check / query to detect invalid users before deployment
+
+8. If some user types truly should not require email, then DO NOT force NOT NULL.
+   In that case:
+   - revert the schema change
+   - keep email nullable
+   - update TypeScript/types/validation accordingly
+   - explain why email must remain optional
+
+DELIVERABLES
+
+- explain root cause in plain English
+- show the exact rows/count affected
+- provide the final migration SQL
+- confirm whether email is nullable or required by product design
+- confirm production deployment is safe before retrying
+
+Do not loop. Do not regenerate the same failing migration. Do not overwrite production data.

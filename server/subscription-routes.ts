@@ -108,6 +108,11 @@ export function registerSubscriptionRoutes(app: Express): void {
     try {
       const data = insertUserSchema.parse(req.body);
       const { inviteCode, referralCode: refCode, firstName, role: userRole, country, exam } = req.body;
+
+      if (data.email && typeof data.email === "string" && data.email.includes("@")) {
+        data.email = data.email.trim().toLowerCase();
+      }
+
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       data.password = await hashPassword(data.password);
