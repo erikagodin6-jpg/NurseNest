@@ -1,0 +1,318 @@
+You are working on the NurseNest production codebase.
+
+Your task is to implement a COMPLETE SYSTEM-WIDE ENTITLEMENT ENFORCEMENT, STABILITY HARDENING, AND REGRESSION PROTECTION LAYER following the already deployed tier-based architecture.
+
+This is NOT optional. This is a critical production reliability upgrade.
+
+==================================================
+PRIMARY OBJECTIVE
+=================
+
+Guarantee that:
+
+1. Tier-based content access is ALWAYS enforced (backend-first)
+2. No screen bypasses entitlement rules
+3. No invalid or low-quality questions are generated
+4. No deployment introduces silent regressions
+5. Users NEVER see empty, broken, or unrestricted content
+
+==================================================
+SECTION 1 — GLOBAL ENTITLEMENT ENFORCEMENT (MANDATORY)
+======================================================
+
+Backend must ALWAYS be the source of truth.
+
+1. ENFORCE ENTITLEMENT SERVER-SIDE
+
+For ALL endpoints:
+
+* /api/test-banks
+* /api/lessons
+* /api/exams
+* /api/categories
+* /api/flashcards/decks
+* /api/questions/generate
+
+Implement:
+
+* Extract user from auth session/token (DO NOT rely only on query params)
+* Determine:
+  userTier (RPN | RN | NP | ALLIED)
+  isPremium (boolean)
+  region (CA | US | etc.)
+
+If query params exist:
+→ Validate against session
+→ NEVER trust client blindly
+
+2. ENTITLEMENT MATRIX (STRICT)
+
+* RPN → RPN only
+* RN → RPN + RN
+* NP → RPN + RN + NP
+* ALLIED → ALLIED only
+
+3. HARD FILTER ALL CONTENT AT DATABASE LEVEL
+
+Before returning results:
+
+* Filter by allowed tiers
+* Apply premium gating
+* Ensure no cross-tier leakage
+
+4. FAIL SAFE
+
+If entitlement cannot be resolved:
+→ Return safe fallback (empty + message)
+→ NEVER return full dataset
+
+==================================================
+SECTION 2 — FRONTEND ENFORCEMENT (NO BYPASS)
+============================================
+
+Update ALL data-fetching screens:
+
+* Practice
+* Exams
+* Flashcards
+* Lessons
+* Categories
+* Dashboard (already done)
+
+Every request MUST include:
+
+{
+user_tier,
+is_premium,
+region
+}
+
+Use AuthContext as the SINGLE SOURCE:
+
+userTierState = {
+role,
+subscription,
+region
+}
+
+5. REMOVE ANY CLIENT-SIDE FILTERING LOGIC
+
+* No filtering after fetch
+* All filtering must happen server-side
+
+==================================================
+SECTION 3 — ROUTE PROTECTION + PAYWALL (CRITICAL UX)
+====================================================
+
+Prevent deep-link bypass.
+
+If user navigates to locked content:
+
+→ DO NOT load empty page
+→ DO NOT crash
+
+Instead:
+
+Render one of:
+
+1. Paywall screen
+2. Tier upgrade modal
+3. Preview mode (optional limited access)
+
+Add:
+
+<ProtectedRoute requiredTier="RN">
+  <ExamPage />
+</ProtectedRoute>
+
+Behavior:
+
+IF not allowed:
+→ redirect OR overlay paywall
+
+==================================================
+SECTION 4 — QUESTION GENERATOR VALIDATION LAYER
+===============================================
+
+ALL generated questions MUST pass validation BEFORE returning.
+
+REQUIREMENTS:
+
+* EXACTLY 4 options
+* NO duplicate options
+* ONE correct answer only
+* Correct answer must exist in options
+* Rationales required for:
+
+  * correct answer
+  * ALL incorrect answers
+
+Add validation function:
+
+validateQuestion(question):
+
+* enforce structure
+* reject invalid output
+* regenerate if needed
+
+FAILURE HANDLING:
+
+* Retry generation up to 2 times
+* If still invalid:
+  → return fallback prebuilt question
+
+==================================================
+SECTION 5 — CONTENT AUDIT SYSTEM (DEPLOYMENT GATE)
+==================================================
+
+You already have:
+
+GET /api/content/audit
+
+Extend it:
+
+Return:
+
+{
+countsByTier,
+duplicateRate,
+missingRationales,
+invalidQuestions,
+qualityScore
+}
+
+Add:
+
+QUALITY RULES:
+
+* duplicateRate < 5%
+* missingRationales = 0
+* invalidQuestions = 0
+
+==================================================
+CI/CD INTEGRATION (MANDATORY)
+=============================
+
+Before ANY deploy:
+
+Run:
+
+/api/content/audit
+
+IF:
+
+qualityScore < threshold
+OR invalidQuestions > 0
+
+→ BLOCK DEPLOY
+→ return error
+
+==================================================
+SECTION 6 — REGRESSION TEST SUITE (CRITICAL)
+============================================
+
+Add automated tests:
+
+1. ENTITLEMENT TESTS
+
+* RPN cannot access RN/NP/ALLIED
+* RN cannot access NP/ALLIED
+* NP can access all nursing tiers
+* ALLIED cannot access nursing
+
+2. API TESTS
+
+* endpoints always return filtered data
+* no cross-tier leakage
+
+3. QUESTION GENERATOR TESTS
+
+* always 4 options
+* no duplicates
+* correct answer present
+* rationales exist
+
+4. UI TESTS
+
+* bottom nav shows all 5 tabs
+* tier selector locks correctly
+* locked tiers show lock icons
+
+==================================================
+SECTION 7 — EXAM SYSTEM OBSERVABILITY (PREVENT FUTURE FAILURES)
+===============================================================
+
+Add logging around:
+
+* API latency
+* payload size
+* generator execution time
+* empty responses
+* errors per endpoint
+* entitlement mismatches
+
+Log structure:
+
+{
+endpoint,
+userTier,
+responseTime,
+resultCount,
+error
+}
+
+If:
+
+* responseTime > threshold
+* resultCount = 0 unexpectedly
+
+→ log warning
+
+==================================================
+SECTION 8 — FALLBACK + RESILIENCE (NO DEAD ENDS)
+================================================
+
+If ANY failure occurs:
+
+NEVER return:
+
+* blank screen
+* crash
+* undefined state
+
+Instead:
+
+Return:
+
+* cached content OR
+* fallback dataset OR
+* friendly error UI
+
+==================================================
+SECTION 9 — FINAL VALIDATION CHECKLIST
+======================================
+
+Confirm ALL of the following:
+
+[ ] No API returns unfiltered content
+[ ] All screens send tier + premium + region
+[ ] Route protection blocks unauthorized access
+[ ] Question generator always valid
+[ ] Content audit passes 100%
+[ ] Tests cover entitlement + generator
+[ ] Exam pages never return empty without fallback
+[ ] Logs capture failures and slow endpoints
+
+==================================================
+FINAL RULE
+==========
+
+If ANY part of the system fails:
+
+→ Degrade gracefully
+→ Preserve user trust
+→ Maintain access to usable content
+
+NEVER allow a broken or empty experience.
+
+Proceed with full implementation.
