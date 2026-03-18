@@ -14,6 +14,8 @@ interface NotificationSettings {
   notifyOnPaymentFailed: boolean;
   notifyOnLifetimePurchase: boolean;
   notifyOnTrialStart: boolean;
+  notifyOnCriticalIncident: boolean;
+  notifyOnWarningIncident: boolean;
 }
 
 const DEFAULT_SETTINGS: NotificationSettings = {
@@ -26,6 +28,8 @@ const DEFAULT_SETTINGS: NotificationSettings = {
   notifyOnPaymentFailed: true,
   notifyOnLifetimePurchase: true,
   notifyOnTrialStart: true,
+  notifyOnCriticalIncident: true,
+  notifyOnWarningIncident: false,
 };
 
 export async function getNotificationSettings(pool: any): Promise<NotificationSettings> {

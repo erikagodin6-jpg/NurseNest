@@ -455,6 +455,10 @@ export async function resolveEntitlement(
     const result = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
     user = result.rows[0] || null;
   } catch {
+    try {
+      const { logIncident } = require("./incident-monitor");
+      logIncident({ category: "entitlement_failure", severity: "critical", title: "Entitlement DB Unavailable", message: `Database unavailable for entitlement check. User: ${userId}, product: ${productType}/${productId}`, errorKey: "entitlement_db_unavailable", userId, metadata: { productType, productId, requestPath } });
+    } catch {}
     const cached = await getCachedEntitlement(userId, productType, productId);
     if (cached) {
       await logProvisionalAccess(userId, cached, requestPath);

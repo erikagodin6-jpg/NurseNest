@@ -6,7 +6,8 @@ const VALID_CHANNELS = ["email", "sms"] as const;
 const SETTINGS_BOOLEAN_KEYS = [
   "emailEnabled", "smsEnabled",
   "notifyOnNewSubscription", "notifyOnCancellation",
-  "notifyOnPaymentFailed", "notifyOnLifetimePurchase", "notifyOnTrialStart"
+  "notifyOnPaymentFailed", "notifyOnLifetimePurchase", "notifyOnTrialStart",
+  "notifyOnCriticalIncident", "notifyOnWarningIncident"
 ] as const;
 
 export function registerNotificationRoutes(app: Express, pool: any) {

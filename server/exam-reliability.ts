@@ -520,6 +520,19 @@ export function logExamLoadError(context: {
   };
   console.error(`[ExamReliability] exam_load_error:`, JSON.stringify(entry));
 
+  try {
+    const { logIncident } = require("./incident-monitor");
+    logIncident({
+      category: "exam_load_failure" as any,
+      severity: context.questionCount === 0 ? "critical" as const : "warning" as const,
+      title: "Exam Load Failure",
+      message: context.failureReason,
+      errorKey: `exam_load:${context.failureReason?.slice(0, 50)}`,
+      userId: context.userId,
+      metadata: { attemptId: context.attemptId, questionCount: context.questionCount, invalidQuestionIds: context.invalidQuestionIds },
+    });
+  } catch {}
+
   addIncident({
     userId: context.userId || null,
     examType: context.examType || "unknown",

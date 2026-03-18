@@ -691,6 +691,28 @@ function addResilienceEvent(type: string, source: string, data: Record<string, a
   if (resilienceEvents.length > MAX_EVENTS) {
     resilienceEvents.length = MAX_EVENTS;
   }
+
+  try {
+    const { logIncident } = require("./incident-monitor");
+    const eventToIncident: Record<string, { category: string; severity: "critical" | "warning" | "info"; title: string }> = {
+      circuit_breaker_trip: { category: "circuit_breaker_trip", severity: "warning", title: `Circuit Breaker Tripped: ${source}` },
+      feature_auto_disabled: { category: "feature_auto_disabled", severity: "warning", title: `Feature Auto-Disabled: ${source}` },
+      emergency_mode_activated: { category: "emergency_mode", severity: "critical", title: "Emergency Mode Activated" },
+      provisional_access_granted: { category: "provisional_access", severity: "info", title: `Provisional Access Granted: ${source}` },
+    };
+    const mapping = eventToIncident[type];
+    if (mapping) {
+      logIncident({
+        category: mapping.category as any,
+        severity: mapping.severity,
+        title: mapping.title,
+        message: `Resilience event: ${type} from ${source}. ${JSON.stringify(data)}`,
+        errorKey: `${type}:${source}`,
+        userId: source.match(/^[a-f0-9-]+$/i) ? source : undefined,
+        metadata: { resilienceEventType: type, ...data },
+      });
+    }
+  } catch {}
 }
 
 export function getResilienceEvents(limit = 50): ResilienceEvent[] {

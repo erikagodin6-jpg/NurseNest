@@ -597,6 +597,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerIncidentResponseRoutes } = await import("./incident-response-routes");
   registerIncidentResponseRoutes(app);
 
+  const { registerIncidentMonitorRoutes } = await import("./incident-routes");
+  registerIncidentMonitorRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));
@@ -3403,12 +3406,20 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (!user) {
         recordFailedLogin(`user:${username}`);
         recordFailedLogin(`ip:${req.ip}`);
+        try {
+          const { logIncident } = await import("./incident-monitor");
+          logIncident({ category: "login_failure", severity: "info", title: "Login Failure: Unknown User", message: `Login attempt for non-existent user: ${username}`, errorKey: `login_unknown_user`, metadata: { username, ip: req.ip } });
+        } catch {}
         return res.status(401).json({ error: "Invalid credentials" });
       }
       const passwordValid = await verifyPassword(password, user.password);
       if (!passwordValid) {
         recordFailedLogin(`user:${username}`);
         recordFailedLogin(`ip:${req.ip}`);
+        try {
+          const { logIncident } = await import("./incident-monitor");
+          logIncident({ category: "login_failure", severity: "warning", title: "Login Failure: Invalid Password", message: `Invalid password attempt for user: ${username}`, errorKey: `login_bad_password`, userId: user.id, metadata: { username, ip: req.ip } });
+        } catch {}
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
@@ -4316,6 +4327,10 @@ Rules:
       res.json({ cards, category: category || "Study Cards" });
     } catch (e: any) {
       console.error("AI flashcard generation error:", e);
+      try {
+        const { logIncident } = await import("./incident-monitor");
+        logIncident({ category: "flashcard_failure", severity: "warning", title: "AI Flashcard Generation Failure", message: `AI flashcard generation failed: ${e.message}`, errorKey: `flashcard_ai:${e.message?.slice(0, 50)}`, metadata: {} });
+      } catch {}
       res.status(500).json({ error: "AI generation failed. Please try again." });
     }
   });
@@ -4388,6 +4403,10 @@ Rules:
       res.json({ cards, category: category || "From Notes" });
     } catch (e: any) {
       console.error("AI notes-to-flashcard generation error:", e);
+      try {
+        const { logIncident } = await import("./incident-monitor");
+        logIncident({ category: "flashcard_failure", severity: "warning", title: "AI Notes-to-Flashcard Failure", message: `Notes-to-flashcard generation failed: ${e.message}`, errorKey: `flashcard_notes_ai:${e.message?.slice(0, 50)}`, metadata: {} });
+      } catch {}
       res.status(500).json({ error: "AI generation failed. Please try again." });
     }
   });
@@ -16675,6 +16694,10 @@ Return ONLY valid JSON with this exact structure:
       const stream = file.createReadStream();
       stream.on("error", (err) => {
         console.error("Download stream error:", err);
+        try {
+          const { logIncident } = require("./incident-monitor");
+          logIncident({ category: "download_failure", severity: "warning", title: "Download Stream Failure", message: `Download stream error: ${err.message}`, errorKey: `download_stream:${err.message?.slice(0, 50)}`, metadata: { objectName } });
+        } catch {}
         if (!res.headersSent) res.status(500).json({ error: "Error streaming file" });
       });
       stream.pipe(res);

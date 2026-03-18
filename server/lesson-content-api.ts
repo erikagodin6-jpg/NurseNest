@@ -402,6 +402,10 @@ export function setupLessonContentRoutes(app: Express): void {
       res.json({ id: slug, tier: lessonTier, isPreviewOnly: false, ...adapted });
     } catch (err: any) {
       console.error("[LessonAPI] content error:", err.message);
+      try {
+        const { logIncident } = await import("./incident-monitor");
+        logIncident({ category: "lesson_load_failure", severity: "warning", title: "Lesson Load Failure", message: `Failed to load lesson: ${err.message}`, errorKey: `lesson_load:${err.message?.slice(0, 50)}`, metadata: { slug: req.params?.slug } });
+      } catch {}
       res.status(500).json({ error: "Failed to load lesson content" });
     }
   });

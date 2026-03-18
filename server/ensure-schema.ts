@@ -1245,4 +1245,33 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   `);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_decisions_user ON entitlement_decisions(user_id)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_decisions_provisional ON entitlement_decisions(provisional) WHERE provisional = true`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS production_incidents (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      incident_id text NOT NULL UNIQUE,
+      category text NOT NULL,
+      severity text NOT NULL,
+      error_signature text NOT NULL,
+      title text NOT NULL,
+      message text NOT NULL,
+      first_occurrence timestamp NOT NULL DEFAULT NOW(),
+      last_occurrence timestamp NOT NULL DEFAULT NOW(),
+      affected_user_ids jsonb DEFAULT '[]',
+      affected_user_count integer DEFAULT 0,
+      occurrence_count integer DEFAULT 1,
+      status text NOT NULL DEFAULT 'active',
+      resolution_notes text,
+      resolved_at timestamp,
+      resolved_by text,
+      acknowledged_at timestamp,
+      acknowledged_by text,
+      metadata jsonb DEFAULT '{}',
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_status ON production_incidents(status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_severity ON production_incidents(severity)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_category ON production_incidents(category)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_last_occurrence ON production_incidents(last_occurrence DESC)`);
 }
