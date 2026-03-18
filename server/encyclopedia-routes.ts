@@ -2,6 +2,7 @@ import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { analyzeAndPopulateCrossLinks, getCrossLinksForEntry, getCrossLinkStats } from "./encyclopedia-cross-linker";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 let encColCache: { crossLinkCol: string; categoryCol: string; keywordsCol: string; faqCol: string; mechanismCol: string } | null = null;
 async function getEncColumns(): Promise<typeof encColCache> {
@@ -32,7 +33,12 @@ function snakeToCamel(obj: any): any {
 }
 
 export function registerEncyclopediaRoutes(app: Express): void {
-  app.get("/api/encyclopedia", async (req, res) => {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+  const searchLimiter = createRateLimiter("search");
+
+  app.use("/api/encyclopedia", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+
+  app.get("/api/encyclopedia", searchLimiter, async (req, res) => {
     try {
       const { profession, domain, category, search, limit, offset } = req.query;
       const params: any[] = [];

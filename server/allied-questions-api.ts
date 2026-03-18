@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 function slugify(text: string): string {
   return text
@@ -168,8 +169,10 @@ interface TopicGroup {
 }
 
 export function registerAlliedQuestionsRoutes(app: Express) {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+
   for (const profession of PROFESSIONS) {
-    app.get(`/api/${profession.key}/question-topics`, async (_req: Request, res: Response) => {
+    app.get(`/api/${profession.key}/question-topics`, abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter, async (_req: Request, res: Response) => {
       try {
         const questions = await loadQuestions(profession);
         const topicMap = new Map<string, TopicGroup>();

@@ -2,6 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
 import { CONTENT_SECURITY_CONFIG } from "./content-security-config";
+import { getAbuseStats, manualUnblockIp, manualUnblockUser, manualBlockIp } from "./abuse-protection";
 import crypto from "crypto";
 
 function getClientIp(req: Request): string {
@@ -384,6 +385,155 @@ export function registerContentSecurityRoutes(app: Express): void {
       res.json({ ok: true, action, userId });
     } catch (e: any) {
       res.status(500).json({ error: "Failed to flag user" });
+    }
+  });
+
+  app.get("/api/admin/content-security/abuse-overview", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const rateLimitHitsByCategory = await pool.query(`
+        SELECT
+          CASE
+            WHEN endpoint LIKE '/api/ai/%' THEN 'AI Generation'
+            WHEN endpoint LIKE '/api/paramedic/%' OR endpoint LIKE '/api/imaging/%' OR endpoint LIKE '/api/mlt/%' OR endpoint LIKE '/api/pharmtech/%' THEN 'Exam Sessions'
+            WHEN endpoint LIKE '/api/practice-sessions%' OR endpoint LIKE '/api/adaptive%' THEN 'Practice Sessions'
+            WHEN endpoint LIKE '/api/newgrad/%' OR endpoint LIKE '/api/new-grad/%' THEN 'New Grad'
+            WHEN endpoint LIKE '/api/lessons/%' THEN 'Lessons'
+            WHEN endpoint LIKE '/api/encyclopedia%' THEN 'Encyclopedia'
+            WHEN endpoint LIKE '/api/auth/%' THEN 'Authentication'
+            WHEN endpoint LIKE '/api/qbank%' THEN 'Question Bank'
+            ELSE 'Other'
+          END AS category,
+          COUNT(*)::int AS hit_count,
+          COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '24 hours')::int AS last_24h,
+          COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS last_7d
+        FROM security_audit_logs
+        WHERE event_type IN ('abuse_warning', 'abuse_temp_block', 'abuse_extended_block', 'rate_limit_exceeded', 'rapid_request_detected', 'bot_heuristic_flag', 'bot_auto_blocked')
+        GROUP BY category
+        ORDER BY hit_count DESC
+      `);
+
+      const topOffendingIps24h = await pool.query(`
+        SELECT ip_address, COUNT(*)::int AS incident_count,
+          MAX(created_at) AS last_seen,
+          array_agg(DISTINCT event_type) AS event_types
+        FROM security_audit_logs
+        WHERE event_type IN ('abuse_warning', 'abuse_temp_block', 'abuse_extended_block', 'rate_limit_exceeded', 'rapid_request_detected', 'bot_heuristic_flag', 'bot_auto_blocked')
+          AND created_at > NOW() - INTERVAL '24 hours'
+        GROUP BY ip_address
+        ORDER BY incident_count DESC
+        LIMIT 20
+      `);
+
+      const topOffendingIps7d = await pool.query(`
+        SELECT ip_address, COUNT(*)::int AS incident_count,
+          MAX(created_at) AS last_seen,
+          array_agg(DISTINCT event_type) AS event_types
+        FROM security_audit_logs
+        WHERE event_type IN ('abuse_warning', 'abuse_temp_block', 'abuse_extended_block', 'rate_limit_exceeded', 'rapid_request_detected', 'bot_heuristic_flag', 'bot_auto_blocked')
+          AND created_at > NOW() - INTERVAL '7 days'
+        GROUP BY ip_address
+        ORDER BY incident_count DESC
+        LIMIT 20
+      `);
+
+      const topOffendingUsers24h = await pool.query(`
+        SELECT sal.user_id, COUNT(*)::int AS incident_count,
+          MAX(sal.created_at) AS last_seen,
+          array_agg(DISTINCT sal.event_type) AS event_types,
+          u.username, u.email, u.tier
+        FROM security_audit_logs sal
+        LEFT JOIN users u ON u.id = sal.user_id
+        WHERE sal.event_type IN ('abuse_warning', 'abuse_temp_block', 'abuse_extended_block', 'rate_limit_exceeded', 'rapid_request_detected')
+          AND sal.created_at > NOW() - INTERVAL '24 hours'
+          AND sal.user_id IS NOT NULL
+        GROUP BY sal.user_id, u.username, u.email, u.tier
+        ORDER BY incident_count DESC
+        LIMIT 20
+      `);
+
+      const recentEscalations = await pool.query(`
+        SELECT user_id, ip_address, endpoint, event_type, request_count, metadata, created_at
+        FROM security_audit_logs
+        WHERE event_type IN ('abuse_warning', 'abuse_temp_block', 'abuse_extended_block', 'bot_auto_blocked')
+        ORDER BY created_at DESC
+        LIMIT 50
+      `);
+
+      const inMemoryStats = getAbuseStats();
+
+      res.json({
+        rateLimitHitsByCategory: rateLimitHitsByCategory.rows,
+        topOffendingIps: {
+          last24h: topOffendingIps24h.rows,
+          last7d: topOffendingIps7d.rows,
+        },
+        topOffendingUsers: topOffendingUsers24h.rows,
+        recentEscalations: recentEscalations.rows,
+        activeBlocks: inMemoryStats.activeBlocks,
+        manualBlocks: inMemoryStats.manualBlocks,
+      });
+    } catch (e: any) {
+      console.error("[ContentSecurity] Abuse overview error:", e.message);
+      res.status(500).json({ error: "Failed to load abuse overview" });
+    }
+  });
+
+  app.post("/api/admin/content-security/unblock", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { target, type } = req.body;
+      if (!target || !["ip", "user"].includes(type)) {
+        return res.status(400).json({ error: "target and type (ip or user) required" });
+      }
+
+      let unblocked = false;
+      if (type === "ip") {
+        unblocked = manualUnblockIp(target);
+      } else {
+        unblocked = manualUnblockUser(target);
+      }
+
+      const ip = getClientIp(req);
+      await logSecurityEvent(admin.id, ip, "/api/admin/content-security/unblock", "admin_unblock", 1, {
+        target,
+        type,
+        adminUsername: admin.username,
+      });
+
+      res.json({ ok: true, unblocked, target, type });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to unblock" });
+    }
+  });
+
+  app.post("/api/admin/content-security/block-ip", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { ip: targetIp, durationMinutes = 60, reason = "admin_manual_block" } = req.body;
+      if (!targetIp) {
+        return res.status(400).json({ error: "ip is required" });
+      }
+
+      manualBlockIp(targetIp, durationMinutes * 60 * 1000, reason);
+
+      const adminIp = getClientIp(req);
+      await logSecurityEvent(admin.id, adminIp, "/api/admin/content-security/block-ip", "admin_block_ip", 1, {
+        targetIp,
+        durationMinutes,
+        reason,
+        adminUsername: admin.username,
+      });
+
+      res.json({ ok: true, ip: targetIp, durationMinutes, reason });
+    } catch (e: any) {
+      res.status(500).json({ error: "Failed to block IP" });
     }
   });
 }

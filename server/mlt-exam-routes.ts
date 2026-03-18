@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 import {
   createInitialAbility,
   updateAbilityEstimate,
@@ -115,7 +116,12 @@ async function getCandidateQuestions(country: string, usedIds: string[]): Promis
 }
 
 export function registerMltExamRoutes(app: Express) {
-  app.post("/api/mlt/exam/start", async (req, res) => {
+  const examStartLimiter = createRateLimiter("exam_start");
+  const examInteractionLimiter = createRateLimiter("exam_interaction");
+
+  app.use("/api/mlt/exam", abuseEscalationMiddleware, botDetectionMiddleware);
+
+  app.post("/api/mlt/exam/start", examStartLimiter, async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });

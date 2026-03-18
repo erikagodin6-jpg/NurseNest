@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 import {
   transformPharmtechQuestion,
   selectNextDifficulty,
@@ -24,6 +25,11 @@ function snakeToCamel(obj: any): any {
 }
 
 export function registerPharmtechRoutes(app: Express) {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+  const examStartLimiter = createRateLimiter("exam_start");
+
+  app.use("/api/pharmtech", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+
   app.get("/api/pharmtech/lessons", async (req, res) => {
     try {
       const cert = (req.query.cert as string || "").toUpperCase();

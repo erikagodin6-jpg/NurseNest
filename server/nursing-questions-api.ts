@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 function slugify(text: string): string {
   return text
@@ -31,6 +32,10 @@ const TIER_EXAM_LABELS: Record<string, string> = {
 };
 
 export function registerNursingQuestionsRoutes(app: Express) {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+
+  app.use("/api/nursing/question-topics", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+
   app.get("/api/nursing/question-topics/:tier", async (req: Request, res: Response) => {
     try {
       const { tier } = req.params;

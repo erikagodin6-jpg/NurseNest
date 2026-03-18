@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -228,7 +229,12 @@ async function computeCorrectRate(
 }
 
 export function registerParamedicExamRoutes(app: Express) {
-  app.post("/api/paramedic/exam-sessions", async (req, res) => {
+  const examStartLimiter = createRateLimiter("exam_start");
+  const examInteractionLimiter = createRateLimiter("exam_interaction");
+
+  app.use("/api/paramedic/exam-sessions", abuseEscalationMiddleware, botDetectionMiddleware);
+
+  app.post("/api/paramedic/exam-sessions", examStartLimiter, async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });

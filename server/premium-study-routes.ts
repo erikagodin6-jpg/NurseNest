@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser, requireAnyPaidTier } from "./admin-auth";
 import { requireEntitlement } from "./entitlements";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
 import {
   updateAbilityEstimate,
   createInitialAbility,
@@ -102,6 +103,13 @@ async function updateStudyStreak(userId: string): Promise<{ currentStreak: numbe
 }
 
 export function registerPremiumStudyRoutes(app: Express) {
+  const examStartLimiter = createRateLimiter("exam_start");
+  const examInteractionLimiter = createRateLimiter("exam_interaction");
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+
+  app.use("/api/practice-sessions", abuseEscalationMiddleware, botDetectionMiddleware);
+  app.use("/api/adaptive", abuseEscalationMiddleware, botDetectionMiddleware);
+  app.use("/api/bookmarks", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
 
   // ─── Question Bookmark API ───
 
@@ -221,7 +229,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Custom Practice Session API ───
 
-  app.post("/api/practice-sessions", requireAnyPaidTier(), async (req: any, res) => {
+  app.post("/api/practice-sessions", examStartLimiter, requireAnyPaidTier(), async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
@@ -400,7 +408,7 @@ export function registerPremiumStudyRoutes(app: Express) {
 
   // ─── Unified Adaptive Question Selection ───
 
-  app.post("/api/adaptive/next-question", requireEntitlement("adaptive_engine"), async (req: any, res) => {
+  app.post("/api/adaptive/next-question", examInteractionLimiter, requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
       const user = req.authUser;
 

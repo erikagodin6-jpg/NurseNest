@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { adaptLessonContent } from "./region-adapt-content";
 import { resolveAuthUser, logPaywallAudit } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 const FREE_LESSON_PREVIEW_LIMIT = 5;
 
@@ -225,6 +226,11 @@ function buildLessonPreview(lesson: any, slug: string, tier: string): any {
 }
 
 export function setupLessonContentRoutes(app: Express): void {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+  const searchLimiter = createRateLimiter("search");
+
+  app.use("/api/lessons", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+
   app.get("/api/admin/lesson-diagnostics", async (req: Request, res: Response) => {
     try {
       const user = await resolveAuthUser(req as any);
@@ -400,7 +406,7 @@ export function setupLessonContentRoutes(app: Express): void {
     }
   });
 
-  app.get("/api/lessons/search", async (req: Request, res: Response) => {
+  app.get("/api/lessons/search", searchLimiter, async (req: Request, res: Response) => {
     try {
       const q = ((req.query.q as string) || "").toLowerCase().trim();
       if (!q || q.length < 2) {

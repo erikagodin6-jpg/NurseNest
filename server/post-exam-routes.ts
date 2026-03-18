@@ -1,9 +1,15 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware } from "./abuse-protection";
 
 export function registerPostExamRoutes(app: Express) {
-  app.get("/api/post-exam/check", async (req, res) => {
+  const postExamLimiter = createRateLimiter("content_browse");
+  const recoveryPlanLimiter = createRateLimiter("ai_generation");
+
+  app.use("/api/post-exam", abuseEscalationMiddleware);
+
+  app.get("/api/post-exam/check", postExamLimiter, async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Not authenticated" });
@@ -243,7 +249,7 @@ export function registerPostExamRoutes(app: Express) {
     }
   });
 
-  app.post("/api/post-exam/generate-recovery-plan", async (req, res) => {
+  app.post("/api/post-exam/generate-recovery-plan", recoveryPlanLimiter, async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Not authenticated" });

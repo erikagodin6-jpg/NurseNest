@@ -5,6 +5,7 @@ import { seedNewGradContent } from "./new-grad-content-seed";
 import { generateNewGradGuide } from "./content-generators";
 import { checkEntitlement, requireEntitlement, type Feature } from "./entitlements";
 import { logPaywallAudit, type PaywallAuditEntry } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders, referrerValidation } from "./abuse-protection";
 
 function auditNewGradAccess(req: any, user: any, feature: string, granted: boolean) {
   logPaywallAudit({
@@ -19,6 +20,14 @@ function auditNewGradAccess(req: any, user: any, feature: string, granted: boole
 }
 
 export function registerNewGradRoutes(app: Express) {
+  const contentBrowseLimiter = createRateLimiter("content_browse");
+  const leadCaptureLimiter = createRateLimiter("lead_capture");
+  const premiumDownloadLimiter = createRateLimiter("premium_download");
+  const searchLimiter = createRateLimiter("search");
+
+  app.use("/api/new-grad", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+  app.use("/api/newgrad", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+
   app.post("/api/admin/new-grad/seed", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -333,7 +342,7 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
-  app.post("/api/new-grad/lead-capture", async (req, res) => {
+  app.post("/api/new-grad/lead-capture", leadCaptureLimiter, async (req, res) => {
     try {
       const { email, resourceType, resourceName, profession } = req.body;
       if (!email || !resourceType || !resourceName) {
@@ -383,7 +392,7 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
-  app.get("/api/newgrad/interview-questions", async (req, res) => {
+  app.get("/api/newgrad/interview-questions", premiumDownloadLimiter, antiScrapingHeaders, referrerValidation, async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
       const hasPremiumAccess = user ? checkEntitlement(user, "newgrad_full_interview_bank") : false;
@@ -462,7 +471,7 @@ export function registerNewGradRoutes(app: Express) {
     }
   });
 
-  app.get("/api/newgrad/templates", async (req, res) => {
+  app.get("/api/newgrad/templates", premiumDownloadLimiter, antiScrapingHeaders, referrerValidation, async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
       const hasPremiumAccess = user ? checkEntitlement(user, "newgrad_premium_templates") : false;

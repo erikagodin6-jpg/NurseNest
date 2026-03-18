@@ -77,6 +77,7 @@ import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEnti
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
 
 const TOKEN_EXPIRY_SECONDS = 1800;
 
@@ -247,6 +248,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       res.json({});
     }
   });
+
+  const aiBurstLimiter = createRateLimiter("ai_burst");
+  const aiGenerationLimiter = createRateLimiter("ai_generation");
+
+  app.use("/api/ai", abuseEscalationMiddleware, botDetectionMiddleware, aiBurstLimiter);
+  app.use("/api/admin/ai", abuseEscalationMiddleware, aiGenerationLimiter);
 
   app.post("/api/boot-beacon", (req, res) => {
     const { step, detail } = req.body || {};

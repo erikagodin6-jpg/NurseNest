@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser, requireAdmin } from "./admin-auth";
+import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 import {
   adjustDifficulty,
   selectNextQuestion,
@@ -22,7 +23,12 @@ function snakeToCamel(obj: any): any {
 }
 
 export function registerImagingExamRoutes(app: Express) {
-  app.post("/api/imaging/exam-sessions", async (req, res) => {
+  const examStartLimiter = createRateLimiter("exam_start");
+  const examInteractionLimiter = createRateLimiter("exam_interaction");
+
+  app.use("/api/imaging/exam-sessions", abuseEscalationMiddleware, botDetectionMiddleware);
+
+  app.post("/api/imaging/exam-sessions", examStartLimiter, async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });

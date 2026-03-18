@@ -15,7 +15,62 @@ import {
   RefreshCw,
   UserX,
   Flag,
+  ShieldAlert,
+  Unlock,
+  Lock,
 } from "lucide-react";
+
+interface AbuseOverviewData {
+  rateLimitHitsByCategory: Array<{
+    category: string;
+    hit_count: number;
+    last_24h: number;
+    last_7d: number;
+  }>;
+  topOffendingIps: {
+    last24h: Array<{
+      ip_address: string;
+      incident_count: number;
+      last_seen: string;
+      event_types: string[];
+    }>;
+    last7d: Array<{
+      ip_address: string;
+      incident_count: number;
+      last_seen: string;
+      event_types: string[];
+    }>;
+  };
+  topOffendingUsers: Array<{
+    user_id: string;
+    incident_count: number;
+    last_seen: string;
+    event_types: string[];
+    username: string;
+    email: string;
+    tier: string;
+  }>;
+  recentEscalations: Array<{
+    user_id: string;
+    ip_address: string;
+    endpoint: string;
+    event_type: string;
+    request_count: number;
+    metadata: any;
+    created_at: string;
+  }>;
+  activeBlocks: Array<{
+    key: string;
+    blockedUntil: number;
+    tempBlocks: number;
+    rateLimitHits: number;
+  }>;
+  manualBlocks: Array<{
+    key: string;
+    until: number;
+    reason: string;
+  }>;
+}
 
 interface DashboardData {
   watermarkSessions: {
@@ -86,20 +141,37 @@ const eventTypeLabels: Record<string, { label: string; color: string }> = {
   daily_limit_reached: { label: "Daily Limit", color: "bg-yellow-100 text-yellow-700" },
   admin_flag_user: { label: "Flagged", color: "bg-purple-100 text-purple-700" },
   admin_suspend_user: { label: "Suspended", color: "bg-gray-100 text-gray-700" },
+  abuse_warning: { label: "Warning", color: "bg-yellow-100 text-yellow-700" },
+  abuse_temp_block: { label: "Temp Block", color: "bg-orange-100 text-orange-700" },
+  abuse_extended_block: { label: "Extended Block", color: "bg-red-100 text-red-700" },
+  bot_heuristic_flag: { label: "Bot Detected", color: "bg-purple-100 text-purple-700" },
+  bot_auto_blocked: { label: "Bot Blocked", color: "bg-red-200 text-red-800" },
+  admin_unblock: { label: "Unblocked", color: "bg-green-100 text-green-700" },
+  admin_block_ip: { label: "IP Blocked", color: "bg-red-200 text-red-800" },
 };
 
 export default function AdminContentSecurity() {
+  const { t } = useI18n();
   const [data, setData] = useState<DashboardData | null>(null);
+  const [abuseData, setAbuseData] = useState<AbuseOverviewData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [subTab, setSubTab] = useState<"overview" | "watermarks" | "scraping" | "blocked" | "sessions" | "abuse">("overview");
+  const [subTab, setSubTab] = useState<"overview" | "watermarks" | "scraping" | "blocked" | "sessions" | "abuse" | "rate-limits">("overview");
   const [flaggingUser, setFlaggingUser] = useState<string | null>(null);
+  const [unblocking, setUnblocking] = useState<string | null>(null);
+  const [abuseTimeRange, setAbuseTimeRange] = useState<"24h" | "7d">("24h");
 
   async function fetchDashboard() {
     setLoading(true);
     try {
-      const res = await adminFetch("/api/admin/content-security/dashboard");
-      if (res.ok) {
-        setData(await res.json());
+      const [dashRes, abuseRes] = await Promise.all([
+        adminFetch("/api/admin/content-security/dashboard"),
+        adminFetch("/api/admin/content-security/abuse-overview"),
+      ]);
+      if (dashRes.ok) {
+        setData(await dashRes.json());
+      }
+      if (abuseRes.ok) {
+        setAbuseData(await abuseRes.json());
       }
     } catch (e) {
       console.error("Failed to load content security dashboard:", e);
@@ -111,6 +183,23 @@ export default function AdminContentSecurity() {
   useEffect(() => {
     fetchDashboard();
   }, []);
+
+  async function handleUnblock(target: string, type: "ip" | "user") {
+    setUnblocking(target);
+    try {
+      const res = await adminFetch("/api/admin/content-security/unblock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target, type }),
+      });
+      if (res.ok) {
+        await fetchDashboard();
+      }
+    } catch {
+    } finally {
+      setUnblocking(null);
+    }
+  }
 
   async function handleFlagUser(userId: string, action: "flag" | "suspend" | "unflag") {
     setFlaggingUser(userId);
@@ -148,6 +237,7 @@ export default function AdminContentSecurity() {
 
   const subTabs = [
     { key: "overview", label: "Overview", icon: Shield },
+    { key: "rate-limits", label: "Abuse & Rate Limiting", icon: ShieldAlert },
     { key: "watermarks", label: "Watermarks", icon: Eye },
     { key: "scraping", label: "Scraping", icon: AlertTriangle },
     { key: "blocked", label: "Blocked IPs", icon: Ban },
@@ -224,6 +314,325 @@ export default function AdminContentSecurity() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      )}
+
+      {subTab === "rate-limits" && abuseData && (
+        <div className="space-y-6" data-testid="container-abuse-overview">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <ShieldAlert className="w-8 h-8 text-orange-500" />
+                  <div>
+                    <p className="text-2xl font-bold" data-testid="text-total-rate-limit-hits">
+                      {abuseData.rateLimitHitsByCategory.reduce((sum, c) => sum + c.hit_count, 0)}
+                    </p>
+                    <p className="text-xs text-gray-500">Total Rate Limit Hits</p>
+                    <p className="text-xs text-gray-400">
+                      {abuseData.rateLimitHitsByCategory.reduce((sum, c) => sum + c.last_24h, 0)} in last 24h
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <Ban className="w-8 h-8 text-red-500" />
+                  <div>
+                    <p className="text-2xl font-bold" data-testid="text-active-blocks">
+                      {abuseData.activeBlocks.filter(b => b.blockedUntil > Date.now()).length + abuseData.manualBlocks.length}
+                    </p>
+                    <p className="text-xs text-gray-500">Active Blocks</p>
+                    <p className="text-xs text-gray-400">{abuseData.manualBlocks.length} manual</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <AlertTriangle className="w-8 h-8 text-yellow-500" />
+                  <div>
+                    <p className="text-2xl font-bold" data-testid="text-top-offenders-count">
+                      {abuseData.topOffendingIps.last24h.length}
+                    </p>
+                    <p className="text-xs text-gray-500">Offending IPs (24h)</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <Users className="w-8 h-8 text-purple-500" />
+                  <div>
+                    <p className="text-2xl font-bold" data-testid="text-offending-users-count">
+                      {abuseData.topOffendingUsers.length}
+                    </p>
+                    <p className="text-xs text-gray-500">Offending Users (24h)</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="w-5 h-5" /> Rate Limit Hits by Category
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b text-left">
+                      <th className="p-2">Category</th>
+                      <th className="p-2">Total Hits</th>
+                      <th className="p-2">Last 24h</th>
+                      <th className="p-2">Last 7d</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {abuseData.rateLimitHitsByCategory.map((cat) => (
+                      <tr key={cat.category} className="border-b hover:bg-gray-50" data-testid={`row-category-${cat.category}`}>
+                        <td className="p-2 font-medium">{cat.category}</td>
+                        <td className="p-2">
+                          <Badge variant={cat.hit_count > 100 ? "destructive" : "outline"}>{cat.hit_count}</Badge>
+                        </td>
+                        <td className="p-2">{cat.last_24h}</td>
+                        <td className="p-2">{cat.last_7d}</td>
+                      </tr>
+                    ))}
+                    {abuseData.rateLimitHitsByCategory.length === 0 && (
+                      <tr><td colSpan={4} className="p-4 text-center text-gray-400">No rate limit events recorded</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Ban className="w-5 h-5" /> Top Offending IPs
+                  <div className="ml-auto flex gap-1">
+                    <Button
+                      variant={abuseTimeRange === "24h" ? "default" : "outline"}
+                      size="sm"
+                      className="h-6 text-xs"
+                      onClick={() => setAbuseTimeRange("24h")}
+                      data-testid="button-abuse-24h"
+                    >24h</Button>
+                    <Button
+                      variant={abuseTimeRange === "7d" ? "default" : "outline"}
+                      size="sm"
+                      className="h-6 text-xs"
+                      onClick={() => setAbuseTimeRange("7d")}
+                      data-testid="button-abuse-7d"
+                    >7d</Button>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {(abuseTimeRange === "24h" ? abuseData.topOffendingIps.last24h : abuseData.topOffendingIps.last7d).map((ip) => (
+                    <div key={ip.ip_address} className="flex items-center justify-between p-2 bg-gray-50 rounded" data-testid={`row-offending-ip-${ip.ip_address}`}>
+                      <div>
+                        <span className="font-mono text-sm">{ip.ip_address}</span>
+                        <div className="flex gap-1 mt-1">
+                          {ip.event_types?.slice(0, 3).map((et) => {
+                            const info = eventTypeLabels[et] || { label: et, color: "bg-gray-100 text-gray-700" };
+                            return <Badge key={et} className={`text-xs ${info.color}`}>{info.label}</Badge>;
+                          })}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant={ip.incident_count > 10 ? "destructive" : "outline"}>{ip.incident_count}</Badge>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => handleUnblock(ip.ip_address, "ip")}
+                          disabled={unblocking === ip.ip_address}
+                          data-testid={`button-unblock-ip-${ip.ip_address}`}
+                        >
+                          <Unlock className="w-3 h-3 mr-1" />
+                          Unblock
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  {(abuseTimeRange === "24h" ? abuseData.topOffendingIps.last24h : abuseData.topOffendingIps.last7d).length === 0 && (
+                    <p className="text-center text-gray-400 py-4">No offending IPs in this period</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <UserX className="w-5 h-5" /> Top Offending Users (24h)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {abuseData.topOffendingUsers.map((u) => (
+                    <div key={u.user_id} className="flex items-center justify-between p-2 bg-gray-50 rounded" data-testid={`row-offending-user-${u.user_id}`}>
+                      <div>
+                        <span className="font-medium text-sm">{u.username || u.user_id?.slice(0, 8)}</span>
+                        <span className="ml-2 text-xs text-gray-500">{u.email || ""}</span>
+                        <div className="flex gap-1 mt-1">
+                          <Badge variant="outline" className="text-xs">{u.tier || "free"}</Badge>
+                          {u.event_types?.slice(0, 2).map((et) => {
+                            const info = eventTypeLabels[et] || { label: et, color: "bg-gray-100 text-gray-700" };
+                            return <Badge key={et} className={`text-xs ${info.color}`}>{info.label}</Badge>;
+                          })}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant={u.incident_count > 10 ? "destructive" : "outline"}>{u.incident_count}</Badge>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => handleUnblock(u.user_id, "user")}
+                          disabled={unblocking === u.user_id}
+                          data-testid={`button-unblock-user-${u.user_id}`}
+                        >
+                          <Unlock className="w-3 h-3 mr-1" />
+                          Unblock
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => handleFlagUser(u.user_id, "suspend")}
+                          disabled={flaggingUser === u.user_id}
+                          data-testid={`button-suspend-offender-${u.user_id}`}
+                        >
+                          <UserX className="w-3 h-3 mr-1" />
+                          Suspend
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  {abuseData.topOffendingUsers.length === 0 && (
+                    <p className="text-center text-gray-400 py-4">No offending users in the last 24h</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5" /> Recent Escalation Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b text-left">
+                      <th className="p-2">User</th>
+                      <th className="p-2">IP</th>
+                      <th className="p-2">Endpoint</th>
+                      <th className="p-2">Event</th>
+                      <th className="p-2">Count</th>
+                      <th className="p-2">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {abuseData.recentEscalations.map((e, i) => {
+                      const evtInfo = eventTypeLabels[e.event_type] || { label: e.event_type, color: "bg-gray-100 text-gray-700" };
+                      return (
+                        <tr key={i} className="border-b hover:bg-gray-50" data-testid={`row-escalation-${i}`}>
+                          <td className="p-2 font-mono text-xs">{e.user_id?.slice(0, 8) || "N/A"}</td>
+                          <td className="p-2 font-mono text-xs">{e.ip_address}</td>
+                          <td className="p-2 text-xs max-w-[200px] truncate">{e.endpoint}</td>
+                          <td className="p-2">
+                            <Badge className={evtInfo.color}>{evtInfo.label}</Badge>
+                          </td>
+                          <td className="p-2">{e.request_count}</td>
+                          <td className="p-2 text-gray-500 text-xs">{formatDate(e.created_at)}</td>
+                        </tr>
+                      );
+                    })}
+                    {abuseData.recentEscalations.length === 0 && (
+                      <tr><td colSpan={6} className="p-4 text-center text-gray-400">No escalation events recorded</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {(abuseData.activeBlocks.length > 0 || abuseData.manualBlocks.length > 0) && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lock className="w-5 h-5" /> Currently Active Blocks
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {abuseData.activeBlocks.filter(b => b.blockedUntil > Date.now()).map((b) => (
+                    <div key={b.key} className="flex items-center justify-between p-2 bg-red-50 rounded" data-testid={`row-active-block-${b.key}`}>
+                      <div>
+                        <span className="font-mono text-sm">{b.key}</span>
+                        <span className="ml-2 text-xs text-gray-500">
+                          Expires in {Math.ceil((b.blockedUntil - Date.now()) / 60000)}m
+                        </span>
+                        <Badge className="ml-2 text-xs bg-orange-100 text-orange-700">{b.tempBlocks} temp blocks</Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs"
+                        onClick={() => handleUnblock(b.key, "ip")}
+                        disabled={unblocking === b.key}
+                        data-testid={`button-unblock-active-${b.key}`}
+                      >
+                        <Unlock className="w-3 h-3 mr-1" />
+                        Unblock
+                      </Button>
+                    </div>
+                  ))}
+                  {abuseData.manualBlocks.map((b) => (
+                    <div key={b.key} className="flex items-center justify-between p-2 bg-red-50 rounded" data-testid={`row-manual-block-${b.key}`}>
+                      <div>
+                        <span className="font-mono text-sm">{b.key}</span>
+                        <Badge className="ml-2 text-xs bg-red-100 text-red-700">Manual: {b.reason}</Badge>
+                        {b.until > 0 && (
+                          <span className="ml-2 text-xs text-gray-500">
+                            Expires in {Math.ceil((b.until - Date.now()) / 60000)}m
+                          </span>
+                        )}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs"
+                        onClick={() => handleUnblock(b.key, "ip")}
+                        disabled={unblocking === b.key}
+                        data-testid={`button-unblock-manual-${b.key}`}
+                      >
+                        <Unlock className="w-3 h-3 mr-1" />
+                        Unblock
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
 
