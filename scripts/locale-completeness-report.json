@@ -2,9 +2,9 @@
   "fr": {
     "name": "French",
     "totalKeys": 17832,
-    "missingKeys": 528,
+    "missingKeys": 536,
     "extraKeys": 419,
-    "coverage": 97.1,
+    "coverage": 97,
     "missingKeysList": [
       "careerGuide.viewFullGuide",
       "clinicalCalculators.heading",
@@ -31,7 +31,7 @@
   "tl": {
     "name": "Filipino",
     "totalKeys": 3321,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "extraKeys": 4,
     "coverage": 18.5,
     "missingKeysList": [
@@ -60,8 +60,8 @@
   "hi": {
     "name": "Hindi",
     "totalKeys": 5173,
-    "missingKeys": 14082,
-    "extraKeys": 1314,
+    "missingKeys": 14088,
+    "extraKeys": 1312,
     "coverage": 21.5,
     "missingKeysList": [
       "allied.alliedAdmin.5layerProductionSystem",
@@ -89,7 +89,7 @@
   "es": {
     "name": "Spanish",
     "totalKeys": 4589,
-    "missingKeys": 13771,
+    "missingKeys": 13779,
     "extraKeys": 419,
     "coverage": 23.2,
     "missingKeysList": [
@@ -118,7 +118,7 @@
   "zh": {
     "name": "Chinese (Simplified)",
     "totalKeys": 4370,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "extraKeys": 380,
     "coverage": 22.2,
     "missingKeysList": [
@@ -147,7 +147,7 @@
   "zh-tw": {
     "name": "Chinese (Traditional)",
     "totalKeys": 3697,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "extraKeys": 380,
     "coverage": 18.5,
     "missingKeysList": [
@@ -176,7 +176,7 @@
   "ar": {
     "name": "Arabic",
     "totalKeys": 4370,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "extraKeys": 380,
     "coverage": 22.2,
     "missingKeysList": [
@@ -205,7 +205,7 @@
   "ko": {
     "name": "Korean",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -234,7 +234,7 @@
   "pt": {
     "name": "Portuguese",
     "totalKeys": 4582,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "extraKeys": 592,
     "coverage": 22.2,
     "missingKeysList": [
@@ -263,7 +263,7 @@
   "pa": {
     "name": "Punjabi",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -292,7 +292,7 @@
   "vi": {
     "name": "Vietnamese",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -321,7 +321,7 @@
   "ht": {
     "name": "Haitian Creole",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -350,7 +350,7 @@
   "ur": {
     "name": "Urdu",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -379,7 +379,7 @@
   "ja": {
     "name": "Japanese",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -408,7 +408,7 @@
   "fa": {
     "name": "Farsi",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "extraKeys": 380,
     "coverage": 21.5,
     "missingKeysList": [
@@ -437,7 +437,7 @@
   "de": {
     "name": "German",
     "totalKeys": 3697,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "extraKeys": 380,
     "coverage": 18.5,
     "missingKeysList": [
@@ -466,8 +466,8 @@
   "th": {
     "name": "Thai",
     "totalKeys": 3791,
-    "missingKeys": 14624,
-    "extraKeys": 474,
+    "missingKeys": 14630,
+    "extraKeys": 472,
     "coverage": 18.5,
     "missingKeysList": [
       "allied.alliedAdmin.5layerProductionSystem",
@@ -495,7 +495,7 @@
   "tr": {
     "name": "Turkish",
     "totalKeys": 3317,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "extraKeys": 0,
     "coverage": 18.5,
     "missingKeysList": [
@@ -524,7 +524,7 @@
   "id": {
     "name": "Indonesian",
     "totalKeys": 3317,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "extraKeys": 0,
     "coverage": 18.5,
     "missingKeysList": [

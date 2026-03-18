@@ -2,7 +2,7 @@
   "fr": {
     "name": "French",
     "totalKeys": 17832,
-    "missingKeys": 528,
+    "missingKeys": 536,
     "untranslatedKeys": 3508,
     "mixedKeys": 1309,
     "coverage": 77.5,
@@ -44,11 +44,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1127,
-        "missing": 54,
+        "missing": 62,
         "untranslated": 38,
-        "coverage": 92.5,
+        "coverage": 91.9,
         "threshold": 100,
         "passed": false
       },
@@ -132,7 +132,7 @@
   "tl": {
     "name": "Filipino",
     "totalKeys": 3321,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "untranslatedKeys": 80,
     "mixedKeys": 66,
     "coverage": 18,
@@ -174,11 +174,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1029,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 4,
-        "coverage": 84.4,
+        "coverage": 83.9,
         "threshold": 100,
         "passed": false
       },
@@ -262,7 +262,7 @@
   "hi": {
     "name": "Hindi",
     "totalKeys": 5173,
-    "missingKeys": 14082,
+    "missingKeys": 14088,
     "untranslatedKeys": 39,
     "mixedKeys": 10,
     "coverage": 21.3,
@@ -304,11 +304,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
-        "translated": 1006,
-        "missing": 185,
+        "total": 1227,
+        "translated": 1008,
+        "missing": 191,
         "untranslated": 28,
-        "coverage": 82.5,
+        "coverage": 82.2,
         "threshold": 100,
         "passed": false
       },
@@ -382,7 +382,7 @@
   "es": {
     "name": "Spanish",
     "totalKeys": 4589,
-    "missingKeys": 13771,
+    "missingKeys": 13779,
     "untranslatedKeys": 94,
     "mixedKeys": 27,
     "coverage": 22.7,
@@ -424,11 +424,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1131,
-        "missing": 54,
+        "missing": 62,
         "untranslated": 34,
-        "coverage": 92.8,
+        "coverage": 92.2,
         "threshold": 100,
         "passed": false
       },
@@ -512,7 +512,7 @@
   "zh": {
     "name": "Chinese (Simplified)",
     "totalKeys": 4370,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "untranslatedKeys": 44,
     "mixedKeys": 3,
     "coverage": 22,
@@ -554,11 +554,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1137,
-        "missing": 54,
+        "missing": 62,
         "untranslated": 28,
-        "coverage": 93.3,
+        "coverage": 92.7,
         "threshold": 100,
         "passed": false
       },
@@ -625,10 +625,10 @@
   "zh-tw": {
     "name": "Chinese (Traditional)",
     "totalKeys": 3697,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "untranslatedKeys": 42,
     "mixedKeys": 6,
-    "coverage": 18.3,
+    "coverage": 18.2,
     "byContentType": {
       "optional": {
         "total": 14497,
@@ -667,11 +667,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1006,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 27,
-        "coverage": 82.5,
+        "coverage": 82,
         "threshold": 100,
         "passed": false
       },
@@ -741,7 +741,7 @@
   "ar": {
     "name": "Arabic",
     "totalKeys": 4370,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "untranslatedKeys": 43,
     "mixedKeys": 2,
     "coverage": 22,
@@ -783,11 +783,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1138,
-        "missing": 54,
+        "missing": 62,
         "untranslated": 27,
-        "coverage": 93.4,
+        "coverage": 92.7,
         "threshold": 100,
         "passed": false
       },
@@ -853,7 +853,7 @@
   "ko": {
     "name": "Korean",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 48,
     "mixedKeys": 13,
     "coverage": 21.2,
@@ -895,11 +895,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1003,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 30,
-        "coverage": 82.3,
+        "coverage": 81.7,
         "threshold": 100,
         "passed": false
       },
@@ -976,7 +976,7 @@
   "pt": {
     "name": "Portuguese",
     "totalKeys": 4582,
-    "missingKeys": 13951,
+    "missingKeys": 13959,
     "untranslatedKeys": 72,
     "mixedKeys": 20,
     "coverage": 21.8,
@@ -1018,11 +1018,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1135,
-        "missing": 54,
+        "missing": 62,
         "untranslated": 30,
-        "coverage": 93.1,
+        "coverage": 92.5,
         "threshold": 100,
         "passed": false
       },
@@ -1106,7 +1106,7 @@
   "pa": {
     "name": "Punjabi",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 43,
     "mixedKeys": 12,
     "coverage": 21.3,
@@ -1148,11 +1148,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1005,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 28,
-        "coverage": 82.4,
+        "coverage": 81.9,
         "threshold": 100,
         "passed": false
       },
@@ -1228,7 +1228,7 @@
   "vi": {
     "name": "Vietnamese",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 68,
     "mixedKeys": 16,
     "coverage": 21.1,
@@ -1270,11 +1270,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1001,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 32,
-        "coverage": 82.1,
+        "coverage": 81.6,
         "threshold": 100,
         "passed": false
       },
@@ -1354,7 +1354,7 @@
   "ht": {
     "name": "Haitian Creole",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 4,
     "mixedKeys": 3,
     "coverage": 21.5,
@@ -1396,11 +1396,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1030,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 3,
-        "coverage": 84.5,
+        "coverage": 83.9,
         "threshold": 100,
         "passed": false
       },
@@ -1451,10 +1451,10 @@
   "ur": {
     "name": "Urdu",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 45,
     "mixedKeys": 6,
-    "coverage": 21.3,
+    "coverage": 21.2,
     "byContentType": {
       "optional": {
         "total": 14497,
@@ -1493,11 +1493,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1005,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 28,
-        "coverage": 82.4,
+        "coverage": 81.9,
         "threshold": 100,
         "passed": false
       },
@@ -1567,10 +1567,10 @@
   "ja": {
     "name": "Japanese",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 45,
     "mixedKeys": 2,
-    "coverage": 21.3,
+    "coverage": 21.2,
     "byContentType": {
       "optional": {
         "total": 14497,
@@ -1609,11 +1609,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1005,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 28,
-        "coverage": 82.4,
+        "coverage": 81.9,
         "threshold": 100,
         "passed": false
       },
@@ -1679,7 +1679,7 @@
   "fa": {
     "name": "Farsi",
     "totalKeys": 4238,
-    "missingKeys": 14083,
+    "missingKeys": 14091,
     "untranslatedKeys": 41,
     "mixedKeys": 0,
     "coverage": 21.3,
@@ -1721,11 +1721,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1005,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 28,
-        "coverage": 82.4,
+        "coverage": 81.9,
         "threshold": 100,
         "passed": false
       },
@@ -1788,10 +1788,10 @@
   "de": {
     "name": "German",
     "totalKeys": 3697,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "untranslatedKeys": 96,
     "mixedKeys": 21,
-    "coverage": 18,
+    "coverage": 17.9,
     "byContentType": {
       "optional": {
         "total": 14497,
@@ -1830,11 +1830,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 999,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 34,
-        "coverage": 82,
+        "coverage": 81.4,
         "threshold": 100,
         "passed": false
       },
@@ -1918,7 +1918,7 @@
   "th": {
     "name": "Thai",
     "totalKeys": 3791,
-    "missingKeys": 14624,
+    "missingKeys": 14630,
     "untranslatedKeys": 54,
     "mixedKeys": 25,
     "coverage": 18.2,
@@ -1960,11 +1960,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
-        "translated": 1006,
-        "missing": 186,
+        "total": 1227,
+        "translated": 1008,
+        "missing": 192,
         "untranslated": 27,
-        "coverage": 82.5,
+        "coverage": 82.2,
         "threshold": 100,
         "passed": false
       },
@@ -2048,7 +2048,7 @@
   "tr": {
     "name": "Turkish",
     "totalKeys": 3317,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "untranslatedKeys": 61,
     "mixedKeys": 21,
     "coverage": 18.1,
@@ -2090,11 +2090,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1004,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 29,
-        "coverage": 82.4,
+        "coverage": 81.8,
         "threshold": 100,
         "passed": false
       },
@@ -2178,7 +2178,7 @@
   "id": {
     "name": "Indonesian",
     "totalKeys": 3317,
-    "missingKeys": 14624,
+    "missingKeys": 14632,
     "untranslatedKeys": 2,
     "mixedKeys": 1,
     "coverage": 18.5,
@@ -2220,11 +2220,11 @@
         "passed": false
       },
       "ui": {
-        "total": 1219,
+        "total": 1227,
         "translated": 1031,
-        "missing": 186,
+        "missing": 194,
         "untranslated": 2,
-        "coverage": 84.6,
+        "coverage": 84,
         "threshold": 100,
         "passed": false
       },

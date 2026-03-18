@@ -285,6 +285,7 @@ export function ContextualRelatedResources({
   currentPath,
   className = "",
 }: ContextualRelatedResourcesProps) {
+  const { t } = useI18n();
   const baseKey = pageType === "content" || pageType === "studyGuide" ? "lessons" : pageType;
   const baseResources = STUDY_CROSS_LINKS[baseKey] || STUDY_CROSS_LINKS.lessons;
 
@@ -363,6 +364,7 @@ interface FlashcardStudyCTAProps {
 }
 
 export function FlashcardStudyCTA({ topic, className = "" }: FlashcardStudyCTAProps) {
+  const { t } = useI18n();
   const href = topic ? `/flashcards?topic=${encodeURIComponent(topic)}` : "/flashcards";
   const description = topic
     ? `Reinforce your understanding of ${topic} with spaced repetition flashcards.`

@@ -40,7 +40,7 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     target: "es2020",
-    sourcemap: true,
+    sourcemap: false,
     chunkSizeWarningLimit: 500,
     cssMinify: "esbuild",
     minify: "esbuild",
@@ -60,7 +60,17 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes("node_modules/react") || id.includes("node_modules/scheduler")) return "react-core";
+          if (id.includes("\0commonjsHelpers") || id.includes("\0commonjs-")) return "react-core";
+          if (
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/scheduler/") ||
+            id.includes("node_modules/react-is/") ||
+            id.includes("node_modules/prop-types/") ||
+            id.includes("node_modules/react-fast-compare/") ||
+            id.includes("node_modules/shallowequal/") ||
+            id.includes("node_modules/react-helmet-async/")
+          ) return "react-core";
           if (id.includes("node_modules/lucide-react")) return "icons";
           if (id.includes("node_modules/@radix-ui")) return "radix";
           if (id.includes("node_modules/framer-motion")) return "motion";

@@ -1,51 +1,69 @@
 [
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 813,
+    "line": 703,
     "text": "Loading...",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 902,
+    "line": 746,
     "text": "case simulation",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1367,
+    "line": 1137,
     "text": "diagnostic assessment",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1373,
+    "line": 1139,
     "text": "medication mastery",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1435,
+    "line": 1202,
     "text": "custom practice",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1436,
+    "line": 1203,
     "text": "performance analytics",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1444,
+    "line": 1211,
     "text": "study plan",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 1524,
+    "line": 1291,
     "text": "offline study",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/admin-routes.tsx",
+    "line": 127,
+    "text": "Loading admin…",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/admin-routes.tsx",
+    "line": 137,
+    "text": "Admin Page Not Found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/admin-routes.tsx",
+    "line": 138,
+    "text": "The admin page you're looking for doesn't exist.",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/allied/allied-navigation.tsx",
@@ -1609,97 +1627,97 @@
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 182,
+    "line": 243,
     "text": "Rationale",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 269,
+    "line": 330,
     "text": "No Valid Questions",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 270,
+    "line": 331,
     "text": "No questions could be loaded for this exam.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 581,
+    "line": 642,
     "text": "Subscriber Feature",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 598,
+    "line": 659,
     "text": "Printable Exam Backup",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 652,
+    "line": 713,
     "text": "Answer Key",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 667,
+    "line": 728,
     "text": "Rationales",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 764,
+    "line": 825,
     "text": "Subscriber Feature",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 829,
+    "line": 890,
     "text": "Backup Practice Set",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 914,
+    "line": 975,
     "text": "Original Algorithm",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 920,
+    "line": 981,
     "text": "Difficulty Target",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 926,
+    "line": 987,
     "text": "Category",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 943,
+    "line": 1004,
     "text": "No valid questions could be assembled for the backup.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 1024,
+    "line": 1085,
     "text": "Static practice set — not an adaptive score",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 1127,
+    "line": 1188,
     "text": "Progress",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
-    "line": 1131,
+    "line": 1192,
     "text": "Time Spent",
     "type": "jsx-text"
   },
@@ -1737,6 +1755,36 @@
     "file": "/home/runner/workspace/client/src/components/platform-error-boundary.tsx",
     "line": 207,
     "text": "Still having trouble?",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/premium-error-boundary.tsx",
+    "line": 125,
+    "text": "Still having trouble?",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/premium-error-boundary.tsx",
+    "line": 127,
+    "text": "Try refreshing the full page",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/premium-error-boundary.tsx",
+    "line": 128,
+    "text": "Clear your browser cache and try again",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/premium-error-boundary.tsx",
+    "line": 129,
+    "text": "Try using a different browser",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/premium-error-boundary.tsx",
+    "line": 144,
+    "text": "Simplified study mode — your access is active",
     "type": "jsx-text"
   },
   {
@@ -1957,19 +2005,31 @@
   },
   {
     "file": "/home/runner/workspace/client/src/lib/auth.tsx",
-    "line": 17,
+    "line": 23,
     "text": "Promise",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/lib/auth.tsx",
-    "line": 18,
+    "line": 24,
     "text": "Promise",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/lib/auth.tsx",
-    "line": 20,
+    "line": 26,
+    "text": "Promise",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/lib/auth.tsx",
+    "line": 27,
+    "text": "Promise",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/lib/auth.tsx",
+    "line": 28,
     "text": "Promise",
     "type": "jsx-text"
   },
@@ -2079,6 +2139,144 @@
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
     "line": 2002,
     "text": "Validation Issues:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 129,
+    "text": "Enter User ID...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 162,
+    "text": "Username:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 166,
+    "text": "Email:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 170,
+    "text": "Tier:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 174,
+    "text": "Status:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 180,
+    "text": "Lifetime:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 184,
+    "text": "Stripe Customer:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 188,
+    "text": "Stripe Sub:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 192,
+    "text": "Plan Expires:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 209,
+    "text": "Plan Tier:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 213,
+    "text": "Status:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 219,
+    "text": "Purchase Source:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 223,
+    "text": "Billing Interval:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 227,
+    "text": "Amount:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 231,
+    "text": "Lifetime:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 235,
+    "text": "Active From:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 239,
+    "text": "Last Verified:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 277,
+    "text": "No subscription history",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 286,
+    "text": "Lifetime",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 299,
+    "text": "Recent Webhook Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 303,
+    "text": "No webhook events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 322,
+    "text": "Recent Entitlement Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-billing-support.tsx",
+    "line": 326,
+    "text": "No entitlement events",
     "type": "jsx-text"
   },
   {
@@ -4471,109 +4669,109 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 63,
+    "line": 64,
     "text": "Loading failing routes...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 64,
+    "line": 65,
     "text": "No failing routes detected",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 75,
+    "line": 76,
     "text": "Errors (24h):",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 105,
+    "line": 106,
     "text": "Loading fallback usage...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 106,
+    "line": 107,
     "text": "No fallback events in the last 24 hours",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 112,
+    "line": 113,
     "text": "By Route",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 123,
+    "line": 124,
     "text": "By Reason",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 137,
+    "line": 138,
     "text": "Recent Fallback Events",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 215,
+    "line": 181,
     "text": "Loading quarantined content...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 216,
+    "line": 182,
     "text": "No quarantined content",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 269,
+    "line": 254,
     "text": "Loading validation failures...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 270,
+    "line": 255,
     "text": "No recent validation failures",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 326,
+    "line": 313,
     "text": "Loading provisional access events...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 327,
+    "line": 314,
     "text": "No provisional access events in the last 24 hours",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 335,
+    "line": 322,
     "text": "Total Events",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 341,
+    "line": 328,
     "text": "Unique Users",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 406,
+    "line": 393,
     "text": "Checking entitlement mismatches...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 407,
+    "line": 394,
     "text": "No entitlement mismatches detected",
     "type": "string-prop"
   },
@@ -4591,79 +4789,151 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 587,
-    "text": "System reliability monitoring and incident response",
+    "line": 577,
+    "text": "Loading backup & content health data...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 586,
+    "text": "Backup Mode Served (24h)",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 621,
-    "text": "System Overview",
+    "line": 593,
+    "text": "Substitute Routes (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 600,
+    "text": "Missing Backup Artifacts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 607,
+    "text": "Backup Mode Usage by Feature Type",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
     "line": 623,
-    "text": "Loading overview...",
-    "type": "string-prop"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 627,
-    "text": "Health Status",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 630,
-    "text": "Overall",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 631,
-    "text": "Failing Routes (24h)",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 632,
-    "text": "Fallback Events (24h)",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 633,
-    "text": "Active Incidents",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 638,
-    "text": "Content & Access",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 641,
-    "text": "Quarantined Content",
+    "text": "Substitute Content Routing Events",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
     "line": 642,
+    "text": "Missing Backup Artifacts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 662,
+    "text": "Top Failing Content IDs (7 days)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 741,
+    "text": "Loading alerts...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 767,
+    "text": "Alert Thresholds",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 806,
+    "text": "No alerts triggered",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 815,
+    "text": "Ack",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 908,
+    "text": "System reliability monitoring, alerting, and incident response",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 950,
+    "text": "System Overview",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 952,
+    "text": "Loading overview...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 956,
+    "text": "Health Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 959,
+    "text": "Overall",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 960,
+    "text": "Failing Routes (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 961,
+    "text": "Fallback Events (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 962,
+    "text": "Active Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 967,
+    "text": "Content & Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 970,
+    "text": "Quarantined Content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 971,
     "text": "Validation Failures (24h)",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 643,
+    "line": 972,
     "text": "Entitlement Mismatches",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
-    "line": 644,
+    "line": 973,
     "text": "Provisional Access (24h)",
     "type": "jsx-text"
   },
@@ -6180,362 +6450,530 @@
     "type": "jsx-text"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 317,
+    "text": "Content Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 318,
+    "text": "Total Items",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 319,
+    "text": "Approved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 320,
+    "text": "Stale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 321,
+    "text": "Missing",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-coverage.tsx",
+    "line": 322,
+    "text": "Completeness",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1016,
+    "line": 1019,
     "text": "Click the edit icon to quick-edit translations",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1038,
+    "line": 1041,
     "text": "Actions",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1055,
+    "line": 1058,
     "text": "Enter translation...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1084,
+    "line": 1087,
     "text": "Saved!",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1204,
+    "line": 1207,
     "text": "Search keys...",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1217,
+    "line": 1220,
     "text": "All Languages",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1225,
+    "line": 1228,
     "text": "No missing keys reported",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1226,
+    "line": 1229,
     "text": "The frontend has not reported any missing translation keys.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1235,
+    "line": 1238,
     "text": "Key",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1236,
+    "line": 1239,
     "text": "Language",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1237,
+    "line": 1240,
     "text": "Frequency",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1238,
+    "line": 1241,
     "text": "Last Reported",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1239,
+    "line": 1242,
     "text": "Actions",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1338,
+    "line": 1341,
     "text": "All Languages",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1350,
+    "line": 1353,
     "text": "No flagged content",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1351,
+    "line": 1354,
     "text": "No mixed-language content has been detected. Run an audit to check.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1360,
+    "line": 1363,
     "text": "Content",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1361,
-    "text": "Type",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1362,
-    "text": "Locale",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1363,
-    "text": "Field",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1364,
-    "text": "Source (English)",
+    "text": "Type",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1365,
-    "text": "Localized",
+    "text": "Locale",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1366,
-    "text": "Coverage",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1367,
-    "text": "Link",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1468,
-    "text": "All Languages",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1486,
-    "text": "No stale translations",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1487,
-    "text": "All translations are up to date with their English sources.",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1496,
-    "text": "Content ID",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1497,
-    "text": "Type",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1498,
-    "text": "Language",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
-    "line": 1499,
     "text": "Field",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1367,
+    "text": "Source (English)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1368,
+    "text": "Localized",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1369,
+    "text": "Coverage",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1370,
+    "text": "Link",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1471,
+    "text": "All Languages",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1489,
+    "text": "No stale translations",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1490,
+    "text": "All translations are up to date with their English sources.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1499,
+    "text": "Content ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1500,
-    "text": "Current Source",
+    "text": "Type",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1501,
-    "text": "Current Translation",
+    "text": "Language",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1502,
-    "text": "Status",
+    "text": "Field",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
     "line": 1503,
+    "text": "Current Source",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1504,
+    "text": "Current Translation",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1505,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1506,
     "text": "Last Updated",
     "type": "jsx-text"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1671,
+    "text": "Content Types",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1672,
+    "text": "Total Items",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1673,
+    "text": "Approved",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1674,
+    "text": "Stale",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1675,
+    "text": "Avg Completeness",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1685,
+    "text": "All Content Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1694,
+    "text": "All Locales",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1703,
+    "text": "All Statuses",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1756,
+    "text": "Locale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1757,
+    "text": "Total",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1758,
+    "text": "Translated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1759,
+    "text": "Approved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1760,
+    "text": "Stale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1761,
+    "text": "Missing",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1762,
+    "text": "Machine",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1763,
+    "text": "Review",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1764,
+    "text": "Completeness",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1826,
+    "text": "No translation data",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1827,
+    "text": "Per-content-type translation tables have not been populated yet.",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 145,
+    "line": 154,
     "text": "Translation Health - Admin",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 145,
+    "line": 154,
     "text": "AI Pipeline Language Enforcement & Translation Observability",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 216,
+    "line": 225,
     "text": "Language Mismatches",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 244,
+    "line": 253,
     "text": "Validated",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 272,
+    "line": 281,
     "text": "No events recorded yet",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 296,
+    "line": 305,
     "text": "No events recorded yet",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 314,
+    "line": 323,
     "text": "Language",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 315,
+    "line": 324,
     "text": "Total Content",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 316,
+    "line": 325,
     "text": "Translated",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 317,
+    "line": 326,
     "text": "Coverage",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 345,
+    "line": 354,
     "text": "Mismatch Rate",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 351,
+    "line": 360,
     "text": "Failure Rate",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 389,
-    "text": "Last 1h",
+    "line": 380,
+    "text": "Total Stale",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 390,
-    "text": "Last 6h",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 391,
-    "text": "Last 24h",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 392,
-    "text": "Last 3d",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 393,
-    "text": "Last 7d",
-    "type": "jsx-text"
-  },
-  {
-    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 401,
-    "text": "All Types",
+    "line": 387,
+    "text": "By Content Type",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
     "line": 402,
+    "text": "By Locale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 448,
+    "text": "Last 1h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 449,
+    "text": "Last 6h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 450,
+    "text": "Last 24h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 451,
+    "text": "Last 3d",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 452,
+    "text": "Last 7d",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 460,
+    "text": "All Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 461,
     "text": "Mismatch",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 403,
+    "line": 462,
     "text": "Validated",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 404,
+    "line": 463,
     "text": "Rejected",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 414,
+    "line": 473,
     "text": "All Severity",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 415,
+    "line": 474,
     "text": "Info",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 416,
+    "line": 475,
     "text": "Warning",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
-    "line": 417,
+    "line": 476,
     "text": "Error",
     "type": "jsx-text"
   },
@@ -6727,55 +7165,55 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 2262,
+    "line": 2271,
     "text": "e.g., barrel-chest-comparison",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 2435,
+    "line": 2444,
     "text": "e.g., ECG interpretation, medication safety",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4297,
+    "line": 4306,
     "text": "e.g., Pharmacology, Cardiac Care",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4389,
+    "line": 4398,
     "text": "e.g., Lab Values, Electrolytes",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4558,
+    "line": 4567,
     "text": "e.g., Batch for March cohort",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4638,
+    "line": 4647,
     "text": "e.g., March cohort",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4922,
+    "line": 4931,
     "text": "Reported by:",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 5119,
+    "line": 5128,
     "text": "e.g., Cardiovascular, Respiratory (comma-separated, blank = all)",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 5130,
+    "line": 5139,
     "text": "e.g., free, rpn (comma-separated, blank = all)",
     "type": "string-prop"
   },
@@ -6888,6 +7326,18 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/dashboard.tsx",
+    "line": 749,
+    "text": "Paused",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/dashboard.tsx",
+    "line": 766,
+    "text": "No sessions in progress yet",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/demo-cat-exam.tsx",
     "line": 27,
     "text": "NurseNest",
@@ -6913,31 +7363,31 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/flashcards.tsx",
-    "line": 3297,
+    "line": 3284,
     "text": "Save $20.88/year",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/flashcards.tsx",
-    "line": 4572,
+    "line": 4559,
     "text": "e.g., What are the signs of right-sided heart failure?",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/flashcards.tsx",
-    "line": 4582,
+    "line": 4569,
     "text": "e.g., Peripheral edema, jugular venous distension (JVD), hepatomegaly, weight ga",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/flashcards.tsx",
-    "line": 4592,
+    "line": 4579,
     "text": "e.g., Cardiac, Pharmacology, Maternity",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/flashcards.tsx",
-    "line": 4704,
+    "line": 4691,
     "text": "e.g., Cardiac medications and their side effects",
     "type": "string-prop"
   },
@@ -7057,8 +7507,38 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/lessons.tsx",
-    "line": 1290,
+    "line": 1306,
     "text": "e.g. Endocrine System",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/login.tsx",
+    "line": 107,
+    "text": "NurseNest",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/login.tsx",
+    "line": 151,
+    "text": "Email Address",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/login.tsx",
+    "line": 159,
+    "text": "Enter your email",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/login.tsx",
+    "line": 225,
+    "text": "Username or Email",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/login.tsx",
+    "line": 231,
+    "text": "Enter username or email",
     "type": "string-prop"
   },
   {
@@ -7099,13 +7579,13 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/mock-exam-session.tsx",
-    "line": 1268,
+    "line": 1416,
     "text": "All automatic recovery attempts exhausted",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/mock-exam-session.tsx",
-    "line": 1656,
+    "line": 1804,
     "text": "Your access is protected.",
     "type": "jsx-text"
   },
@@ -7159,7 +7639,7 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/onboarding-plan.tsx",
-    "line": 414,
+    "line": 416,
     "text": "Generate My Study Plan",
     "type": "jsx-text"
   },
@@ -7255,9 +7735,15 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/qbank-exam.tsx",
-    "line": 378,
+    "line": 411,
     "text": "e.g. Pharmacology",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/qbank-exam.tsx",
+    "line": 428,
+    "text": "Previous Session Detected",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/qbank-factory.tsx",
@@ -7273,7 +7759,7 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/question-bank.tsx",
-    "line": 994,
+    "line": 1060,
     "text": "Access thousands of nursing practice questions, adaptive mock exams, clinical le",
     "type": "string-prop"
   },
@@ -7281,6 +7767,36 @@
     "file": "/home/runner/workspace/client/src/pages/question-of-the-day.tsx",
     "line": 364,
     "text": "your.email@example.com",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/reset-password.tsx",
+    "line": 79,
+    "text": "NurseNest",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/reset-password.tsx",
+    "line": 103,
+    "text": "New Password",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/reset-password.tsx",
+    "line": 106,
+    "text": "Enter new password",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/reset-password.tsx",
+    "line": 110,
+    "text": "Confirm Password",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/reset-password.tsx",
+    "line": 113,
+    "text": "Confirm new password",
     "type": "string-prop"
   },
   {
@@ -7332,8 +7848,26 @@
     "type": "jsx-text"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/subscription-success.tsx",
+    "line": 65,
+    "text": "Your payment was successful and your subscription is now active.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/subscription-success.tsx",
+    "line": 69,
+    "text": "Return to the NurseNest App",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/subscription-success.tsx",
+    "line": 71,
+    "text": "Close this browser window and open the NurseNest app. Pull down to refresh and y",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/upgrade.tsx",
-    "line": 290,
+    "line": 300,
     "text": "Quizlet+ $7.99/month",
     "type": "jsx-text"
   }
