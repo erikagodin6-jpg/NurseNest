@@ -40,7 +40,7 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     target: "es2020",
-    sourcemap: false,
+    sourcemap: true,
     chunkSizeWarningLimit: 500,
     cssMinify: "esbuild",
     minify: "esbuild",
