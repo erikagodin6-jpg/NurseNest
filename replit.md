@@ -1,7 +1,7 @@
 # NurseNest
 
 ### Overview
-NurseNest is an adaptive learning platform for nursing and allied health students across 17 specializations. It offers extensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform leverages AI for content generation to foster clinical reasoning, enhance nursing knowledge, and critical thinking, with the goal of improving patient care outcomes and revolutionizing nursing education. The business vision is to become a leader in health education technology with significant market potential.
+NurseNest is an adaptive learning platform for nursing and allied health students across 17 specializations. It provides extensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform utilizes AI for content generation to foster clinical reasoning, enhance nursing knowledge, and critical thinking, aiming to improve patient care outcomes and revolutionize nursing education. The business vision is to become a leader in health education technology with significant market potential.
 
 ### User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -15,7 +15,7 @@ NurseNest is an adaptive learning platform for nursing and allied health student
 - Copy protection: content cannot be easily copied/screenshotted.
 
 ### System Architecture
-NurseNest employs a modern web architecture featuring a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) built with Vite, and an Express 5 backend on Node.js (TypeScript). Server state is managed using TanStack React Query via a RESTful API. Data persistence is handled by PostgreSQL with Drizzle ORM. The UI offers 24 themes, semantic CSS tokens, and DM Sans typography.
+NurseNest utilizes a modern web architecture with a React UI (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) built with Vite, and an Express 5 backend on Node.js (TypeScript). Server state is managed using TanStack React Query via a RESTful API. Data persistence is handled by PostgreSQL with Drizzle ORM. The UI offers 24 themes, semantic CSS tokens, and DM Sans typography.
 
 The platform includes a database-driven subscription model supporting regional pricing, tier-based access, Stripe-based lifetime purchases, and free trial usage caps. Key features include interactive learning modules, a mock exam engine with stratified random sampling, and a comprehensive admin dashboard. AI integrations, routed via a centralized AI Provider Router, are crucial for features like blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is categorized by body system, and supports Next Generation NCLEX (NGN) question types, partial credit scoring, and a Spaced Repetition System. Content access is dynamically controlled by user tier.
 
@@ -139,4 +139,3 @@ Key files:
 - **Object Storage**: Replit Object Storage (based on Google Cloud Storage)
 - **Email**: Resend
 - **SMS**: Twilio
-```

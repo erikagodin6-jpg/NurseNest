@@ -69,6 +69,7 @@ import AdminContentGrowth from "./admin-content-growth";
 import AdminTutorManagement from "./admin-tutor";
 import AdminQBankPipeline from "./admin-qbank-pipeline";
 import AdminExpansionRoadmap from "./admin-expansion-roadmap";
+import AdminContentHealth from "./admin-content-health";
 
 import { useI18n } from "@/lib/i18n";
 function KillSwitchBanner() {
@@ -180,7 +181,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics", "content-growth", "tutor-management", "qbank-pipeline", "expansion-roadmap"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "content-security", "pricing", "sub-analytics", "trial-analytics", "content-growth", "tutor-management", "qbank-pipeline", "expansion-roadmap", "content-health"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -197,7 +198,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth" | "cert-analytics" | "tutor-management" | "qbank-pipeline" | "expansion-roadmap"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety" | "beta-testers" | "flashcard-preview" | "content-security" | "pricing" | "sub-analytics" | "trial-analytics" | "content-growth" | "cert-analytics" | "tutor-management" | "qbank-pipeline" | "expansion-roadmap" | "content-health"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -1608,7 +1609,7 @@ export default function AdminPage() {
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "content-growth", "qbank-pipeline", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics", "cert-analytics", "tutor-management", "expansion-roadmap"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "content-growth", "qbank-pipeline", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety", "beta-testers", "flashcard-preview", "content-security", "pricing", "sub-analytics", "trial-analytics", "cert-analytics", "tutor-management", "expansion-roadmap", "content-health"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1639,6 +1640,7 @@ export default function AdminPage() {
                     {tab === "tutor-management" && "Tutor Management"}
                     {tab === "qbank-pipeline" && "QBank Pipeline"}
                     {tab === "expansion-roadmap" && "Expansion Roadmap"}
+                    {tab === "content-health" && "Content Health"}
                   </button>
                 ))}
               </div>
@@ -4988,6 +4990,9 @@ export default function AdminPage() {
               )}
               {activeTab === "expansion-roadmap" && (
                 <AdminExpansionRoadmap />
+              )}
+              {activeTab === "content-health" && (
+                <AdminContentHealth />
               )}
             </>
           ) : null}

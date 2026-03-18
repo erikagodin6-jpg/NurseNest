@@ -232,6 +232,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { requestMetricsMiddleware, autoStartDeployMonitoring } = await import("./deployment-protection");
   app.use(requestMetricsMiddleware());
   app.use(loadSheddingMiddleware());
+  const { vipPriorityMiddleware } = await import("./content-health-gate");
+  app.use(vipPriorityMiddleware());
   autoStartDeployMonitoring();
 
   const MIGRATION_REDIRECT_SLUGS = [
@@ -624,6 +626,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerIncidentCorrelationRoutes } = await import("./incident-correlation");
   registerIncidentCorrelationRoutes(app);
+
+  const { registerContentHealthGateRoutes } = await import("./content-health-gate");
+  registerContentHealthGateRoutes(app);
 
   const { registerDeploymentProtectionRoutes } = await import("./deployment-protection");
   registerDeploymentProtectionRoutes(app);
