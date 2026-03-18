@@ -6788,3 +6788,30 @@ export const insertSubstitutionEventLogSchema = createInsertSchema(substitutionE
 });
 export type SubstitutionEventLog = typeof substitutionEventLogs.$inferSelect;
 export type InsertSubstitutionEventLog = z.infer<typeof insertSubstitutionEventLogSchema>;
+
+export const contentVersions = pgTable("content_versions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  locale: text("locale").default("en"),
+  region: text("region").default("US"),
+  tier: text("tier").default("free"),
+  versionNumber: integer("version_number").notNull().default(1),
+  publishedAt: timestamp("published_at").defaultNow().notNull(),
+  validationStatus: text("validation_status").notNull().default("verified"),
+  payloadHash: text("payload_hash").notNull(),
+  backupArtifactRefs: jsonb("backup_artifact_refs").default(sql`'[]'::jsonb`),
+  payload: jsonb("payload").default(sql`'{}'::jsonb`),
+  createdBy: varchar("created_by"),
+  updatedBy: varchar("updated_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertContentVersionSchema = createInsertSchema(contentVersions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ContentVersion = typeof contentVersions.$inferSelect;
+export type InsertContentVersion = z.infer<typeof insertContentVersionSchema>;

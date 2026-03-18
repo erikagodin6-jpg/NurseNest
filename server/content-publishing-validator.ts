@@ -139,6 +139,15 @@ async function validateUnpublishedContent(dryRun: boolean): Promise<UnpublishedC
           [q.id]
         );
         questionsBulkUpdated++;
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          const publishedRow = await pool.query(`SELECT * FROM exam_questions WHERE id = $1`, [q.id]);
+          if (publishedRow.rows.length) {
+            await createVersionOnPublish(q.id, "exam_question", publishedRow.rows[0], { tier: q.tier });
+          }
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Auto-publish version error:", vErr.message);
+        }
         issues.push({
           category: "unpublished_content",
           severity: "info",
@@ -186,6 +195,15 @@ async function validateUnpublishedContent(dryRun: boolean): Promise<UnpublishedC
           [fc.id]
         );
         flashcardsBulkUpdated++;
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          const publishedRow = await pool.query(`SELECT * FROM flashcard_bank WHERE id = $1`, [fc.id]);
+          if (publishedRow.rows.length) {
+            await createVersionOnPublish(fc.id, "flashcard", publishedRow.rows[0], { tier: fc.tier });
+          }
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Auto-publish flashcard version error:", vErr.message);
+        }
         issues.push({
           category: "unpublished_content",
           severity: "info",

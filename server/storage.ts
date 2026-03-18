@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type QotdUserAnswer, type InsertQotdUserAnswer, type QotdStreak, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, qotdUserAnswers, qotdStreaks, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
+import { type ContentVersion, type InsertContentVersion, type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type QotdUserAnswer, type InsertQotdUserAnswer, type QotdStreak, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, qotdUserAnswers, qotdStreaks, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -346,6 +346,14 @@ export interface IStorage {
   createJobListing(data: any): Promise<any>;
   createJobListingsBulk(data: any[]): Promise<any[]>;
   getFeaturedJobListings(limit?: number): Promise<any[]>;
+
+  getContentVersion(id: string): Promise<ContentVersion | undefined>;
+  getContentVersionHistory(contentId: string, contentType: string, limit?: number, offset?: number): Promise<{ versions: ContentVersion[]; total: number }>;
+  getLatestVerifiedVersion(contentId: string, contentType: string): Promise<ContentVersion | undefined>;
+  listContentVersions(filters?: { contentType?: string; validationStatus?: string; limit?: number; offset?: number }): Promise<{ versions: ContentVersion[]; total: number }>;
+  createContentVersion(data: InsertContentVersion): Promise<ContentVersion>;
+  updateContentVersionStatus(id: string, validationStatus: string): Promise<ContentVersion | undefined>;
+  deleteContentVersion(id: string): Promise<boolean>;
 }
 
 import { getDevPool } from "./db";
@@ -2707,6 +2715,90 @@ export class DatabaseStorage implements IStorage {
       [limit]
     );
     return result.rows.map(snakeToCamel);
+  }
+
+  async getContentVersion(id: string): Promise<ContentVersion | undefined> {
+    const result = await pool.query(`SELECT * FROM content_versions WHERE id = $1`, [id]);
+    return result.rows.length > 0 ? snakeToCamel(result.rows[0]) : undefined;
+  }
+
+  async getContentVersionHistory(contentId: string, contentType: string, limit: number = 20, offset: number = 0): Promise<{ versions: ContentVersion[]; total: number }> {
+    const countResult = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM content_versions WHERE content_id = $1 AND content_type = $2`,
+      [contentId, contentType]
+    );
+    const result = await pool.query(
+      `SELECT * FROM content_versions WHERE content_id = $1 AND content_type = $2 ORDER BY version_number DESC LIMIT $3 OFFSET $4`,
+      [contentId, contentType, limit, offset]
+    );
+    return { versions: result.rows.map(snakeToCamel), total: countResult.rows[0].total };
+  }
+
+  async getLatestVerifiedVersion(contentId: string, contentType: string): Promise<ContentVersion | undefined> {
+    const result = await pool.query(
+      `SELECT * FROM content_versions WHERE content_id = $1 AND content_type = $2 AND validation_status = 'verified' ORDER BY version_number DESC LIMIT 1`,
+      [contentId, contentType]
+    );
+    return result.rows.length > 0 ? snakeToCamel(result.rows[0]) : undefined;
+  }
+
+  async listContentVersions(filters?: { contentType?: string; validationStatus?: string; limit?: number; offset?: number }): Promise<{ versions: ContentVersion[]; total: number }> {
+    const conditions: string[] = [];
+    const params: any[] = [];
+    if (filters?.contentType) {
+      params.push(filters.contentType);
+      conditions.push(`content_type = $${params.length}`);
+    }
+    if (filters?.validationStatus) {
+      params.push(filters.validationStatus);
+      conditions.push(`validation_status = $${params.length}`);
+    }
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const countResult = await pool.query(`SELECT COUNT(*)::int AS total FROM content_versions ${whereClause}`, params);
+    const limit = filters?.limit || 50;
+    const offset = filters?.offset || 0;
+    params.push(limit, offset);
+    const result = await pool.query(
+      `SELECT * FROM content_versions ${whereClause} ORDER BY created_at DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      params
+    );
+    return { versions: result.rows.map(snakeToCamel), total: countResult.rows[0].total };
+  }
+
+  async createContentVersion(data: InsertContentVersion): Promise<ContentVersion> {
+    const result = await pool.query(
+      `INSERT INTO content_versions
+       (id, content_id, content_type, locale, region, tier, version_number, published_at, validation_status, payload_hash, backup_artifact_refs, payload, created_by, created_at, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW(), $7, $8, $9, $10, $11, NOW(), NOW())
+       RETURNING *`,
+      [
+        data.contentId,
+        data.contentType,
+        data.locale || "en",
+        data.region || "US",
+        data.tier || "free",
+        data.versionNumber,
+        data.validationStatus || "verified",
+        data.payloadHash,
+        JSON.stringify(data.backupArtifactRefs || []),
+        JSON.stringify(data.payload),
+        data.createdBy || null,
+      ]
+    );
+    return snakeToCamel(result.rows[0]);
+  }
+
+  async updateContentVersionStatus(id: string, validationStatus: string): Promise<ContentVersion | undefined> {
+    const result = await pool.query(
+      `UPDATE content_versions SET validation_status = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
+      [validationStatus, id]
+    );
+    return result.rows.length > 0 ? snakeToCamel(result.rows[0]) : undefined;
+  }
+
+  async deleteContentVersion(id: string): Promise<boolean> {
+    const result = await pool.query(`DELETE FROM content_versions WHERE id = $1`, [id]);
+    return (result.rowCount ?? 0) > 0;
   }
 }
 

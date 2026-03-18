@@ -550,6 +550,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentPublishingRoutes } = await import("./content-publishing-validator");
   registerContentPublishingRoutes(app);
 
+  const { registerContentVersionRoutes } = await import("./content-version-routes");
+  registerContentVersionRoutes(app);
+
   const { registerQuestionCommentRoutes } = await import("./question-comment-routes");
   registerQuestionCommentRoutes(app);
 
@@ -6225,6 +6228,20 @@ Rules:
       cacheInvalidate("lessons:");
       cacheInvalidate("flashcard-sets:");
       cacheInvalidate("exams:");
+
+      if (contentData.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, contentType || "content_item", item, {
+            tier: item.tier || undefined,
+            region: item.regionScope || undefined,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Error during publish version creation:", vErr.message);
+        }
+      }
+
       await logAudit(req, admin, "content", req.params.id, "update",
         existing ? { title: existing.title, status: existing.status } : null,
         { title: item.title, status: item.status, autoRepairs: updateRepairs.length }
@@ -11568,6 +11585,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (before.status !== q.status) {
         await storage.createQuestionScheduleLog({ questionId: q.id, action: "status_change", previousStatus: before.status || undefined, newStatus: q.status || undefined, actorId: admin.id });
       }
+      if (q.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(q.id, "exam_question", q, {
+            tier: q.tier || undefined,
+            createdBy: admin.id,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Exam question version error:", vErr.message);
+        }
+      }
       await logAudit(req, admin, "exam_question", q.id, "update", { status: before.status }, { status: q.status, autoRepairs: repairs.length });
       res.json({ ...q, autoRepairs: repairs.length > 0 ? repairs : undefined });
     } catch (e: any) {
@@ -12986,6 +13014,20 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          parsed.catMinQuestions || null, parsed.catMaxQuestions || null, parsed.active ?? true]
       );
       await logAudit(req, admin, "exam_blueprint", result.rows[0].id, "create", null, result.rows[0]);
+
+      if (result.rows[0].active) {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(result.rows[0].id, "exam_blueprint", result.rows[0], {
+            tier: result.rows[0].tier,
+            region: result.rows[0].region,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Blueprint create version error:", vErr.message);
+        }
+      }
+
       res.json(snakeToCamel(result.rows[0]));
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -13010,6 +13052,20 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          catEnabled, catMinQuestions, catMaxQuestions, active, req.params.id]
       );
       await logAudit(req, admin, "exam_blueprint", req.params.id, "update", before.rows[0], result.rows[0]);
+
+      if (result.rows[0].active) {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, "exam_blueprint", result.rows[0], {
+            tier: result.rows[0].tier,
+            region: result.rows[0].region,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Blueprint update version error:", vErr.message);
+        }
+      }
+
       res.json(snakeToCamel(result.rows[0]));
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -13871,7 +13927,19 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       );
       if (!result.rows.length) return res.status(404).json({ error: "Question not found" });
       heroStatsCache = null;
-      res.json(snakeToCamel(result.rows[0]));
+      const updatedQ = result.rows[0];
+      if (updatedQ.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(updatedQ.id, "exam_question", updatedQ, {
+            tier: updatedQ.tier,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] QBank update version error:", vErr.message);
+        }
+      }
+      res.json(snakeToCamel(updatedQ));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -13936,6 +14004,22 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           [eligible]
         );
         publishedCount = result.rowCount || 0;
+
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          const publishedRows = await pool.query(
+            `SELECT * FROM exam_questions WHERE id = ANY($1) LIMIT 200`,
+            [eligible.slice(0, 200)]
+          );
+          for (const q of publishedRows.rows) {
+            await createVersionOnPublish(q.id, "exam_question", q, {
+              tier: q.tier,
+              createdBy: (admin as any)?.id || (admin as any)?.username,
+            });
+          }
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Bulk publish version error:", vErr.message);
+        }
       }
 
       heroStatsCache = null;
@@ -14105,7 +14189,21 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         params
       );
       if (!result.rows.length) return res.status(404).json({ error: "Flashcard not found" });
-      res.json(snakeToCamel(result.rows[0]));
+      const fc = result.rows[0];
+
+      if (fc.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, "flashcard", fc, {
+            tier: fc.tier,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Flashcard update version error:", vErr.message);
+        }
+      }
+
+      res.json(snakeToCamel(fc));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -14155,6 +14253,23 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          WHERE id = ANY($1) AND status != 'published'`,
         [ids]
       );
+
+      try {
+        const { createVersionOnPublish } = await import("./content-version-service");
+        const publishedRows = await pool.query(
+          `SELECT * FROM flashcard_bank WHERE id = ANY($1) AND status = 'published' LIMIT 200`,
+          [ids]
+        );
+        for (const fc of publishedRows.rows) {
+          await createVersionOnPublish(fc.id, "flashcard", fc, {
+            tier: fc.tier,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        }
+      } catch (vErr: any) {
+        console.error("[ContentVersion] Flashcard bulk publish version error:", vErr.message);
+      }
+
       res.json({ published: result.rowCount });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -14352,7 +14467,21 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         params
       );
       if (!result.rows.length) return res.status(404).json({ error: "Not found" });
-      res.json({ item: snakeToCamel(result.rows[0]), warnings: validationWarnings });
+      const fc = result.rows[0];
+
+      if (fc.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, "flashcard", fc, {
+            tier: fc.tier,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Flashcard full update version error:", vErr.message);
+        }
+      }
+
+      res.json({ item: snakeToCamel(fc), warnings: validationWarnings });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -16499,6 +16628,17 @@ Return ONLY valid JSON with this exact structure:
       if (req.body.isActive !== undefined) updates.isActive = req.body.isActive;
       if (req.body.questionCount !== undefined) updates.questionCount = parseInt(req.body.questionCount);
       const updated = await storage.updateDigitalProduct(req.params.id, updates);
+      if (updated.isActive) {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, "digital_product", updated, {
+            tier: updated.tier || undefined,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Digital product version error:", vErr.message);
+        }
+      }
       await logAudit(req, admin, "digital_product", req.params.id, "update", existing, updated);
       res.json(updated);
     } catch (e: any) {
@@ -22497,6 +22637,17 @@ Rules:
     if (!admin) return;
     try {
       const lesson = await storage.updateLesson(req.params.id, req.body);
+      if (lesson.status === "published") {
+        try {
+          const { createVersionOnPublish } = await import("./content-version-service");
+          await createVersionOnPublish(req.params.id, "lesson", lesson, {
+            tier: lesson.tier || undefined,
+            createdBy: (admin as any)?.id || (admin as any)?.username,
+          });
+        } catch (vErr: any) {
+          console.error("[ContentVersion] Lesson version error:", vErr.message);
+        }
+      }
       res.json(lesson);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
