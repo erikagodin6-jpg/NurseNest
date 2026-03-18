@@ -1,0 +1,78 @@
+REPLIT TASK — IMPLEMENT NURSENEST BRANDING IN THE MOBILE APP CODEBASE
+
+You are working in the NurseNest mobile app codebase.
+
+Your job is to IMPLEMENT the NurseNest brand system in code, not just define it.
+
+PRIMARY GOAL
+Replace generic healthcare styling with NurseNest branding across the authentication flow and ensure the actual rendered screens use the new theme and logo.
+
+REQUIRED IMPLEMENTATION
+
+1. FIND THE REAL AUTH SCREEN FILES
+- Locate the actual files used for:
+  - Login / Sign In
+  - Sign Up
+  - Forgot Password
+- Confirm the exact file paths before editing
+- Update the files that are truly rendered, not unused prototypes
+
+2. APPLY THEME TO THE AUTH UI
+- Import the NurseNest theme into the actual auth screens
+- Replace all hardcoded values for:
+  - colors
+  - spacing
+  - border radius
+  - shadows
+  - typography sizing where appropriate
+- Use theme tokens only
+
+3. IMPLEMENT NURSENEST LOGO
+- Add the real NurseNest logo asset to the top of the login and signup screens
+- Ensure the logo is centered, properly spaced, and not distorted
+- If the asset path is missing, create the correct asset import path and wire it properly
+
+4. REMOVE GENERIC HOSPITAL VISUALS
+- Remove any hospital, stethoscope, cross, medical building, or default healthcare iconography
+- Remove blue/red default healthcare palette usage
+- Replace with NurseNest pastel branding
+
+5. AUTH SCREEN VISUAL SPEC
+Use this structure:
+- top centered NurseNest logo
+- heading: Welcome Back
+- subheading: Continue your exam prep journey
+- email field
+- password field
+- primary sign in button
+- forgot password text
+- sign up footer text
+
+6. NURSENEST COLOR SYSTEM
+Use these exact brand values unless the existing theme already defines equivalent tokens:
+- Primary: #CDB4DB
+- Secondary: #FFC8DD
+- Accent: #BDE0FE
+- Background: #FAF7FD
+- Primary text: #2B2B2B
+- Secondary text: #6B6B6B
+- Input border: #E6DFF2
+
+7. COMPONENT ENFORCEMENT
+Update shared components if needed so auth screens visibly reflect the theme:
+- Button
+- InputField
+- Card / Container
+Buttons and inputs must be rounded and soft, not sharp or clinical
+
+8. VERIFY IT IS ACTUALLY USED
+- Confirm the updated auth screens are the ones the app really renders
+- Confirm the logo appears on screen
+- Confirm the theme is visibly applied
+- Confirm no default hospital styling remains
+
+DELIVERABLE
+Provide:
+1. exact files changed
+2. summary of what was wired
+3. confirmation that the rendered auth screens now use the NurseNest logo and color system
