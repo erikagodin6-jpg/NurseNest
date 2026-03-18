@@ -29,12 +29,13 @@ interface MemorySpikeEntry {
   activeConnections: number;
 }
 
-const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 1200;
-const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || 1500;
-const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 1800;
+const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 258;
+const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || 295;
+const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 324;
 const MONITOR_INTERVAL_MS = 10_000;
 const MAX_SPIKE_LOG = 100;
 const CLEANUP_INTERVAL_MS = 60_000;
+const MAX_PROTECTION_ACTIONS = 200;
 
 let monitorTimer: ReturnType<typeof setInterval> | null = null;
 let cleanupTimer: ReturnType<typeof setInterval> | null = null;
@@ -247,6 +248,54 @@ function hintGC(): void {
       global.gc();
     }
   } catch {}
+}
+
+interface ProtectionAction {
+  timestamp: number;
+  level: string;
+  action: string;
+  detail: string;
+}
+
+const protectionActions: ProtectionAction[] = [];
+
+export function logProtectionAction(action: string, detail: string): void {
+  protectionActions.unshift({
+    timestamp: Date.now(),
+    level: pressureState.level,
+    action,
+    detail,
+  });
+  if (protectionActions.length > MAX_PROTECTION_ACTIONS) {
+    protectionActions.length = MAX_PROTECTION_ACTIONS;
+  }
+}
+
+export function getProtectionActions(limit = 50): ProtectionAction[] {
+  return protectionActions.slice(0, limit);
+}
+
+export function shouldReducePayloads(): boolean {
+  return pressureState.isWarning || pressureState.isProtection || pressureState.isCritical;
+}
+
+export function shouldPauseBackgroundJobs(): boolean {
+  return pressureState.isProtection || pressureState.isCritical;
+}
+
+export function shouldRejectHeavyWork(): boolean {
+  return pressureState.isCritical;
+}
+
+export function getMemoryLevel(): MemoryStatus["level"] {
+  return pressureState.level;
+}
+
+export function getMaxPayloadSize(): number {
+  if (pressureState.isCritical) return 25;
+  if (pressureState.isProtection) return 50;
+  if (pressureState.isWarning) return 100;
+  return 200;
 }
 
 export function startMemoryMonitor(): void {

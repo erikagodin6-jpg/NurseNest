@@ -150,7 +150,7 @@ export default function QuestionBank() {
     setLoadingQuestions(true);
     getExamQuestions(
       tier,
-      200,
+      50,
       systemFilter !== "all" ? [systemFilter] : undefined,
       Object.keys(filters).length > 0 ? filters : undefined
     ).then((questions) => {

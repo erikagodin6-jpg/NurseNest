@@ -104,9 +104,21 @@ export function verifyAdminToken(token: string): AdminTokenPayload | null {
 const failedLoginAttempts = new Map<string, { count: number; lastAttempt: number }>();
 const SUSPICIOUS_THRESHOLD = 10;
 const SUSPICIOUS_WINDOW_MS = 15 * 60 * 1000;
+const MAX_FAILED_LOGIN_ENTRIES = 1000;
 
 export function recordFailedLogin(identifier: string): void {
   const now = Date.now();
+  if (failedLoginAttempts.size >= MAX_FAILED_LOGIN_ENTRIES) {
+    for (const [key, entry] of failedLoginAttempts) {
+      if (now - entry.lastAttempt > SUSPICIOUS_WINDOW_MS) {
+        failedLoginAttempts.delete(key);
+      }
+    }
+    if (failedLoginAttempts.size >= MAX_FAILED_LOGIN_ENTRIES) {
+      const firstKey = failedLoginAttempts.keys().next().value;
+      if (firstKey) failedLoginAttempts.delete(firstKey);
+    }
+  }
   const existing = failedLoginAttempts.get(identifier);
   if (existing && (now - existing.lastAttempt) < SUSPICIOUS_WINDOW_MS) {
     existing.count++;

@@ -172,7 +172,8 @@ export function setupStudyPathRoutes(app: Express): void {
 
       if (!trialSessionId && examKey) {
         const mockResult = await pool.query(
-          `SELECT * FROM mock_exam_attempts
+          `SELECT id, user_id, status, report, tier, score, completed_at
+           FROM mock_exam_attempts
            WHERE user_id = $1 AND status = 'completed'
            ORDER BY completed_at DESC LIMIT 1`,
           [userId]

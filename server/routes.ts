@@ -2505,7 +2505,21 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
       const examContext = examNotes[examTarget] || "General nursing exam preparation.";
       const regionContext = region === "CA" ? "Canadian context (metric, SI)" : region === "BOTH" ? "Both Canadian and US values" : "US context (imperial, conventional units)";
 
-      const total = Math.min(Math.max(parseInt(totalCount) || 25, 5), 500);
+      let memoryGated = false;
+      try {
+        const { shouldRejectHeavyWork, logProtectionAction } = await import("./memory-monitor");
+        if (shouldRejectHeavyWork()) {
+          logProtectionAction("reject_batch_generation", `Rejected batch generation of ${totalCount} questions due to critical memory`);
+          return res.status(503).json({ error: "Server is under memory pressure. Please try again later.", code: "MEMORY_PRESSURE" });
+        }
+        const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+        if (shouldPauseBackgroundJobs()) {
+          memoryGated = true;
+        }
+      } catch {}
+
+      const maxAllowed = memoryGated ? 50 : 100;
+      const total = Math.min(Math.max(parseInt(totalCount) || 25, 5), maxAllowed);
       const batchSize = Math.min(Math.max(parseInt(reqBatchSize) || 25, 10), 50);
       const batches = Math.ceil(total / batchSize);
 
@@ -2617,7 +2631,20 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
       const { topic, customPrompt, examTarget, questionCount, difficulty, questionTypes } = req.body;
       if (!topic) return res.status(400).json({ error: "Topic is required" });
 
-      const requestedCount = Math.min(Math.max(parseInt(questionCount) || 25, 5), 500);
+      let testBankMemoryGated = false;
+      try {
+        const { shouldRejectHeavyWork, shouldPauseBackgroundJobs, logProtectionAction } = await import("./memory-monitor");
+        if (shouldRejectHeavyWork()) {
+          logProtectionAction("reject_test_bank_generation", `Rejected test bank generation due to critical memory`);
+          return res.status(503).json({ error: "Server is under memory pressure. Please try again later.", code: "MEMORY_PRESSURE" });
+        }
+        if (shouldPauseBackgroundJobs()) {
+          testBankMemoryGated = true;
+        }
+      } catch {}
+
+      const testBankMax = testBankMemoryGated ? 50 : 100;
+      const requestedCount = Math.min(Math.max(parseInt(questionCount) || 25, 5), testBankMax);
       const diff = difficulty || "mixed";
       const types = questionTypes || ["multiple-choice", "select-all", "ordered-response"];
 
@@ -9569,7 +9596,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { db } = await import("./storage");
       const { generatedMicroLectures } = await import("@shared/schema");
-      const lectures = await db.select().from(generatedMicroLectures).orderBy(generatedMicroLectures.createdAt);
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 100);
+      const offset = (page - 1) * limit;
+      const lectures = await db.select().from(generatedMicroLectures).orderBy(generatedMicroLectures.createdAt).limit(limit).offset(offset);
       res.json(lectures);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -9613,7 +9643,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { db } = await import("./storage");
       const { designProjects } = await import("@shared/schema");
-      const projects = await db.select().from(designProjects).orderBy(designProjects.updatedAt);
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 100);
+      const offset = (page - 1) * limit;
+      const projects = await db.select().from(designProjects).orderBy(designProjects.updatedAt).limit(limit).offset(offset);
       res.json(projects);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -10126,10 +10159,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         regionScope: q.region_scope,
       }));
 
-      const questionsWithoutRationales = questions.map((q: any) => {
-        const { ...rest } = q;
-        return rest;
-      });
+      const questionIdsOnly = questions.map((q: any) => q.id);
 
       console.log("[MockExam][start-specialty] Inserting attempt:", { userId: String(authUser.id), questionCount: questions.length, specialty: examDef.specialty, examTitle: examDef.title });
 
@@ -10141,7 +10171,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           String(authUser.id),
           "all",
           questions.length,
-          JSON.stringify(questions),
+          JSON.stringify(questionIdsOnly),
           JSON.stringify({ examMode: "specialty-mock", specialty: examDef.specialty, examTitle: examDef.title, timeLimit: examDef.time_limit, sections: examDef.sections }),
           examDef.specialty,
         ],
@@ -10247,6 +10277,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const storedBpMeta = blueprintMetaData ? { ...blueprintMetaData, domainAssignments } : null;
 
+      const questionIdsOnly = questions.map((q: any) => q.id).filter(Boolean);
+
       console.log("[MockExam][start] Inserting attempt:", { userId: String(authUser.id), tier, totalQuestions, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit });
 
       const result = await pool.query(
@@ -10254,7 +10286,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          VALUES ($1, $2, $3, $4, 'in_progress', $5, $6, $7, $8)
          RETURNING id`,
         [
-          String(authUser.id), tier, totalQuestions, JSON.stringify(questions),
+          String(authUser.id), tier, totalQuestions, JSON.stringify(questionIdsOnly),
           JSON.stringify({ examMode: examMode || "practice" }),
           resolvedExamType, blueprintCode || null,
           storedBpMeta ? JSON.stringify(storedBpMeta) : null,
@@ -10350,13 +10382,34 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { answers, flagged, timeSpent, report, catState: completeCatState, stoppingReason } = req.body;
       if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
 
-      const check = await pool.query(`SELECT * FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      const check = await pool.query(
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
 
       const attempt = check.rows[0];
-      const questions = attempt.questions || [];
+      const rawQuestions = attempt.questions || [];
       const flaggedIds = flagged || [];
+
+      let questions: any[] = rawQuestions;
+      const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+      if (isIdOnlyFormat) {
+        const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+        if (questionIds.length > 0) {
+          const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+          const qResult = await pool.query(
+            `SELECT id, body_system, topic, category FROM exam_questions WHERE id IN (${placeholders})`,
+            questionIds
+          );
+          const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+          questions = questionIds.map((qId: string) => {
+            const q = qMap.get(qId);
+            return q ? { id: q.id, bodySystem: q.body_system || "General", category: q.category, topic: q.topic } : { id: qId, bodySystem: "General" };
+          });
+        }
+      }
 
       const domainBreakdown: Record<string, { total: number; correct: number; percentage: number; avgTimeMs: number }> = {};
       let totalTimeMs = 0;
@@ -10489,7 +10542,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { attemptId } = req.params;
-      const result = await pool.query(`SELECT * FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      const result = await pool.query(
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason
+         FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
 
       if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
@@ -10510,7 +10567,44 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const isSpecialtyMock = examReport.examMode === "specialty-mock";
 
       if (row.status === "in_progress") {
-        const questions = Array.isArray(row.questions) ? row.questions : [];
+        let rawQuestions = Array.isArray(row.questions) ? row.questions : [];
+
+        const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+        let questions: any[] = rawQuestions;
+
+        if (isIdOnlyFormat && rawQuestions.length > 0) {
+          const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+          if (questionIds.length > 0) {
+            const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+            const qResult = await pool.query(
+              `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, scenario, region_scope
+               FROM exam_questions WHERE id IN (${placeholders})`,
+              questionIds
+            );
+            const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+            questions = questionIds
+              .map((qId: string) => {
+                const q = qMap.get(qId);
+                if (!q) return null;
+                return {
+                  id: q.id,
+                  question: q.stem,
+                  options: q.options,
+                  correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0,
+                  bodySystem: q.body_system || "General",
+                  tier: "all",
+                  lessonId: "mock-exam",
+                  source: "quiz",
+                  topic: q.topic,
+                  subtopic: q.subtopic,
+                  difficulty: q.difficulty,
+                  questionType: q.question_type,
+                  regionScope: q.region_scope,
+                };
+              })
+              .filter(Boolean);
+          }
+        }
 
         if (questions.length === 0) {
           const { logExamLoadError } = await import("./exam-reliability");
@@ -10545,58 +10639,90 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             return rest;
           });
         res.json({ ...row, questions: strippedQuestions });
-      } else if (isFree && isReadiness && row.status === "completed") {
-        const questions = Array.isArray(row.questions) ? row.questions : [];
-        const fullQuestions = questions.map((q: any, idx: number) => {
-          const normalized = { ...q };
-          if (normalized.options) normalized.options = normalizeQuestionOptions(normalized.options);
-          if (idx < 5) return normalized;
-          const { rationale, explanation, ...rest } = normalized;
-          return rest;
+      } else if (row.status === "completed" || row.status === "abandoned") {
+        let completedQuestions = Array.isArray(row.questions) ? row.questions : [];
+
+        const completedIsIdOnly = completedQuestions.length > 0 && typeof completedQuestions[0] === "string";
+        if (completedIsIdOnly) {
+          const questionIds = completedQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+          if (questionIds.length > 0) {
+            const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+            const qResult = await pool.query(
+              `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, rationale, region_scope
+               FROM exam_questions WHERE id IN (${placeholders})`,
+              questionIds
+            );
+            const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+            completedQuestions = questionIds
+              .map((qId: string) => {
+                const q = qMap.get(qId);
+                if (!q) return null;
+                return {
+                  id: q.id,
+                  question: q.stem,
+                  options: q.options,
+                  correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0,
+                  bodySystem: q.body_system || "General",
+                  tier: "all",
+                  lessonId: "mock-exam",
+                  source: "quiz",
+                  topic: q.topic,
+                  subtopic: q.subtopic,
+                  difficulty: q.difficulty,
+                  questionType: q.question_type,
+                  rationale: q.rationale,
+                  regionScope: q.region_scope,
+                };
+              })
+              .filter(Boolean);
+          }
+        }
+
+        completedQuestions = completedQuestions.map((q: any) => {
+          if (q?.options) q.options = normalizeQuestionOptions(q.options);
+          return q;
         });
-        const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
-        res.json({ ...row, questions: fullQuestions, report: limitedReport, limitedReview: true });
-      } else if (row.status === "completed" && isSpecialtyMock) {
-        const careerType = row.career_type || examReport.specialty || "nursing";
-        try {
-          const [lessonsResult, flashcardsResult, questionsResult, casesResult] = await Promise.all([
-            pool.query(
-              `SELECT id, title, slug, category FROM content_items WHERE status = 'published' AND (career_type = $1 OR career_type IS NULL) LIMIT 10`,
-              [careerType]
-            ),
-            pool.query(
-              `SELECT id, topic_tag, tier FROM flashcard_bank WHERE career_type = $1 AND status = 'published' LIMIT 10`,
-              [careerType]
-            ),
-            pool.query(
-              `SELECT id, stem, body_system, topic FROM exam_questions WHERE career_type = $1 AND status = 'published' AND NOT (tags @> ARRAY['mock-exam']::text[]) LIMIT 10`,
-              [careerType]
-            ),
-            pool.query(
-              `SELECT id, title, body_system, category FROM case_studies WHERE status = 'published' LIMIT 10`
-            ),
-          ]);
-          const crossContent = {
-            lessons: lessonsResult.rows.map((r: any) => ({ id: r.id, title: r.title, slug: r.slug, category: r.category })),
-            flashcards: flashcardsResult.rows.map((r: any) => ({ id: r.id, topicTag: r.topic_tag, tier: r.tier })),
-            practiceQuestions: questionsResult.rows.map((r: any) => ({ id: r.id, stem: r.stem?.substring(0, 80), bodySystem: r.body_system, topic: r.topic })),
-            caseStudies: casesResult.rows.map((r: any) => ({ id: r.id, title: r.title, bodySystem: r.body_system, category: r.category })),
-          };
-          if (row.questions && Array.isArray(row.questions)) {
-            row.questions = row.questions.map((q: any) => {
-              if (q?.options) q.options = normalizeQuestionOptions(q.options);
-              return q;
-            });
+
+        if (isFree && isReadiness) {
+          const fullQuestions = completedQuestions.map((q: any, idx: number) => {
+            if (idx < 5) return q;
+            const { rationale, explanation, ...rest } = q;
+            return rest;
+          });
+          const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
+          res.json({ ...row, questions: fullQuestions, report: limitedReport, limitedReview: true });
+        } else if (isSpecialtyMock) {
+          const careerType = row.career_type || examReport.specialty || "nursing";
+          try {
+            const [lessonsResult, flashcardsResult, questionsResult, casesResult] = await Promise.all([
+              pool.query(
+                `SELECT id, title, slug, category FROM content_items WHERE status = 'published' AND (career_type = $1 OR career_type IS NULL) LIMIT 10`,
+                [careerType]
+              ),
+              pool.query(
+                `SELECT id, topic_tag, tier FROM flashcard_bank WHERE career_type = $1 AND status = 'published' LIMIT 10`,
+                [careerType]
+              ),
+              pool.query(
+                `SELECT id, stem, body_system, topic FROM exam_questions WHERE career_type = $1 AND status = 'published' AND NOT (tags @> ARRAY['mock-exam']::text[]) LIMIT 10`,
+                [careerType]
+              ),
+              pool.query(
+                `SELECT id, title, body_system, category FROM case_studies WHERE status = 'published' LIMIT 10`
+              ),
+            ]);
+            const crossContent = {
+              lessons: lessonsResult.rows.map((r: any) => ({ id: r.id, title: r.title, slug: r.slug, category: r.category })),
+              flashcards: flashcardsResult.rows.map((r: any) => ({ id: r.id, topicTag: r.topic_tag, tier: r.tier })),
+              practiceQuestions: questionsResult.rows.map((r: any) => ({ id: r.id, stem: r.stem?.substring(0, 80), bodySystem: r.body_system, topic: r.topic })),
+              caseStudies: casesResult.rows.map((r: any) => ({ id: r.id, title: r.title, bodySystem: r.body_system, category: r.category })),
+            };
+            res.json({ ...row, questions: completedQuestions, crossContent });
+          } catch {
+            res.json({ ...row, questions: completedQuestions });
           }
-          res.json({ ...row, crossContent });
-        } catch {
-          if (row.questions && Array.isArray(row.questions)) {
-            row.questions = row.questions.map((q: any) => {
-              if (q?.options) q.options = normalizeQuestionOptions(q.options);
-              return q;
-            });
-          }
-          res.json(row);
+        } else {
+          res.json({ ...row, questions: completedQuestions });
         }
       } else {
         if (row.questions && Array.isArray(row.questions)) {
@@ -10673,11 +10799,21 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   // Tracking + Admin site analytics (NOW PROTECTED)
   // --------------------
   const recentPageviews = new Map<string, number>();
+  const MAX_RECENT_PAGEVIEWS = 5000;
 
   setInterval(() => {
     const cutoff = Date.now() - 35 * 60 * 1000;
     for (const [key, ts] of recentPageviews) {
       if (ts < cutoff) recentPageviews.delete(key);
+    }
+    if (recentPageviews.size > MAX_RECENT_PAGEVIEWS) {
+      const toDelete = recentPageviews.size - MAX_RECENT_PAGEVIEWS;
+      let deleted = 0;
+      for (const key of recentPageviews.keys()) {
+        if (deleted >= toDelete) break;
+        recentPageviews.delete(key);
+        deleted++;
+      }
     }
   }, 5 * 60 * 1000);
 

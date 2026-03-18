@@ -711,6 +711,7 @@ interface RateLimitEntry {
 }
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
+const MAX_RATE_LIMIT_ENTRIES = 5000;
 const RATE_LIMIT_CLEANUP_INTERVAL = 60000;
 
 setInterval(() => {
@@ -718,6 +719,15 @@ setInterval(() => {
   for (const [key, entry] of rateLimitStore) {
     if (now - entry.windowStart > 120000) {
       rateLimitStore.delete(key);
+    }
+  }
+  if (rateLimitStore.size > MAX_RATE_LIMIT_ENTRIES) {
+    const toDelete = rateLimitStore.size - MAX_RATE_LIMIT_ENTRIES;
+    let deleted = 0;
+    for (const key of rateLimitStore.keys()) {
+      if (deleted >= toDelete) break;
+      rateLimitStore.delete(key);
+      deleted++;
     }
   }
 }, RATE_LIMIT_CLEANUP_INTERVAL);
@@ -1164,6 +1174,12 @@ export function startPeriodicSelfHealing(): void {
   selfHealingInterval = setInterval(async () => {
     if (!selfHealingActive) return;
     try {
+      const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+      if (shouldPauseBackgroundJobs()) {
+        return;
+      }
+    } catch {}
+    try {
       const cacheResult = await selfHealCacheCorruption();
       const schemaResult = await selfHealSchemaDrift();
       const backupResult = await selfHealMissingBackups();
@@ -1311,6 +1327,7 @@ export function sensitiveApiRateLimitMiddleware() {
 
 const entitlementCache = new Map<string, { result: any; expiresAt: number }>();
 const ENTITLEMENT_CACHE_TTL = 30000;
+const MAX_ENTITLEMENT_CACHE_SIZE = 2000;
 
 export function getCachedEntitlement(userId: string): any | null {
   const cached = entitlementCache.get(userId);
@@ -1320,6 +1337,10 @@ export function getCachedEntitlement(userId: string): any | null {
 }
 
 export function setCachedEntitlement(userId: string, result: any): void {
+  if (entitlementCache.size >= MAX_ENTITLEMENT_CACHE_SIZE) {
+    const firstKey = entitlementCache.keys().next().value;
+    if (firstKey) entitlementCache.delete(firstKey);
+  }
   entitlementCache.set(userId, { result, expiresAt: Date.now() + ENTITLEMENT_CACHE_TTL });
 }
 
@@ -1333,8 +1354,21 @@ export function clearEntitlementCache(userId?: string): void {
 
 const provisionalAccessGrants = new Map<string, { grantedAt: number; reason: string; expiresAt: number }>();
 const PROVISIONAL_ACCESS_DURATION = 3600000;
+const MAX_PROVISIONAL_GRANTS = 500;
 
 export function grantProvisionalAccess(userId: string, reason: string): void {
+  if (provisionalAccessGrants.size >= MAX_PROVISIONAL_GRANTS) {
+    const now = Date.now();
+    for (const [key, grant] of provisionalAccessGrants) {
+      if (now > grant.expiresAt) {
+        provisionalAccessGrants.delete(key);
+      }
+    }
+    if (provisionalAccessGrants.size >= MAX_PROVISIONAL_GRANTS) {
+      const firstKey = provisionalAccessGrants.keys().next().value;
+      if (firstKey) provisionalAccessGrants.delete(firstKey);
+    }
+  }
   provisionalAccessGrants.set(userId, {
     grantedAt: Date.now(),
     reason,
@@ -1909,7 +1943,11 @@ export async function prewarmCriticalRoutes(): Promise<void> {
 
 export function startKeepWarmInterval(): void {
   if (keepWarmTimer) return;
-  keepWarmTimer = setInterval(() => {
+  keepWarmTimer = setInterval(async () => {
+    try {
+      const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+      if (shouldPauseBackgroundJobs()) return;
+    } catch {}
     prewarmCriticalRoutes().catch(err => console.error("[KeepWarm] Error:", err.message));
   }, KEEP_WARM_INTERVAL_MS);
   console.log(`[KeepWarm] Started keep-warm interval (${KEEP_WARM_INTERVAL_MS / 1000}s)`);
@@ -2871,6 +2909,61 @@ export function registerResilienceRoutes(app: Express): void {
       },
       timestamp: Date.now(),
     });
+  });
+
+  app.get("/api/admin/memory-diagnostics", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "ops_viewer");
+    if (!admin) return;
+    try {
+      const {
+        getMemoryMonitorStatus,
+        getProtectionActions,
+        getActiveConnectionCount,
+        shouldReducePayloads,
+        shouldPauseBackgroundJobs,
+        shouldRejectHeavyWork,
+        getMaxPayloadSize,
+      } = await import("./memory-monitor");
+
+      const monitorStatus = getMemoryMonitorStatus();
+      const actions = getProtectionActions(50);
+
+      const activeExamsResult = await pool.query(
+        `SELECT COUNT(*) as count FROM mock_exam_attempts WHERE status = 'in_progress'`
+      );
+      const activeExamSessions = parseInt(activeExamsResult.rows[0]?.count || "0");
+
+      const mapSizes: Record<string, number> = {};
+      try {
+        mapSizes.rateLimitStore = rateLimitStore.size;
+      } catch {}
+      try {
+        mapSizes.circuitBreakers = circuitBreakers.size;
+      } catch {}
+      try {
+        mapSizes.featureFlags = featureFlags.size;
+      } catch {}
+
+      res.json({
+        memory: monitorStatus,
+        guards: {
+          shouldReducePayloads: shouldReducePayloads(),
+          shouldPauseBackgroundJobs: shouldPauseBackgroundJobs(),
+          shouldRejectHeavyWork: shouldRejectHeavyWork(),
+          maxPayloadSize: getMaxPayloadSize(),
+        },
+        activeConnections: getActiveConnectionCount(),
+        activeExamSessions,
+        mapSizes,
+        safeMode: emergencyModeActive,
+        minimalCore: minimalCoreActive,
+        recentProtectionActions: actions,
+        uptime: process.uptime(),
+        timestamp: Date.now(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   });
 
   app.post("/api/admin/resilience/feature-flags/:key", async (req: Request, res: Response) => {

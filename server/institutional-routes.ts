@@ -331,7 +331,7 @@ export function registerInstitutionalRoutes(app: Express) {
           [req.params.studentId]
         ),
         pool.query(
-          "SELECT * FROM mock_exam_attempts WHERE user_id = $1 ORDER BY started_at DESC LIMIT 20",
+          "SELECT id, user_id, status, exam_type, blueprint_code, score, started_at, completed_at, report, time_spent FROM mock_exam_attempts WHERE user_id = $1 ORDER BY started_at DESC LIMIT 20",
           [req.params.studentId]
         ),
         pool.query(

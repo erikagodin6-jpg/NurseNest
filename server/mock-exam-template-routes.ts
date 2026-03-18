@@ -511,7 +511,8 @@ export function registerMockExamTemplateRoutes(app: Express) {
       }
 
       const sessionResult = await pool.query(
-        `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2`,
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, score, started_at, completed_at, tier, blueprint_meta
+         FROM mock_exam_attempts WHERE id = $1 AND user_id = $2`,
         [req.params.sessionId, user.id]
       );
       if (!sessionResult.rows.length) return res.status(404).json({ error: "Session not found" });

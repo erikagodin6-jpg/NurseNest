@@ -779,7 +779,8 @@ export function registerPremiumStudyRoutes(app: Express) {
       const { attemptId } = req.params;
 
       const attemptResult = await pool.query(
-        `SELECT * FROM mock_exam_attempts WHERE id = $1`,
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, score, started_at, completed_at
+         FROM mock_exam_attempts WHERE id = $1`,
         [attemptId]
       );
       if (attemptResult.rows.length === 0) return res.status(404).json({ error: "Exam attempt not found" });
@@ -793,7 +794,24 @@ export function registerPremiumStudyRoutes(app: Express) {
         return res.status(400).json({ error: "Exam not yet completed" });
       }
 
-      const questions = attempt.questions || [];
+      const rawQuestions = attempt.questions || [];
+      let questions: any[] = rawQuestions;
+      const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+      if (isIdOnlyFormat) {
+        const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+        if (questionIds.length > 0) {
+          const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+          const qResult = await pool.query(
+            `SELECT id, stem, body_system, topic, category, options, correct_answer FROM exam_questions WHERE id IN (${placeholders})`,
+            questionIds
+          );
+          const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+          questions = questionIds.map((qId: string) => {
+            const q = qMap.get(qId);
+            return q ? { id: q.id, question: q.stem, bodySystem: q.body_system || "General", category: q.category, topic: q.topic, options: q.options, correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0 } : { id: qId, bodySystem: "General" };
+          });
+        }
+      }
       const answers = attempt.answers || {};
       const flaggedIds = attempt.flagged || [];
 

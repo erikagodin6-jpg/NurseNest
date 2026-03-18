@@ -88,17 +88,19 @@ export function registerChatRoutes(app: Express): void {
         max_completion_tokens: 8192,
       });
 
-      let fullResponse = "";
+      const responseChunks: string[] = [];
 
       for await (const chunk of stream) {
         const content = chunk.choices[0]?.delta?.content || "";
         if (content) {
-          fullResponse += content;
+          responseChunks.push(content);
           res.write(`data: ${JSON.stringify({ content })}\n\n`);
         }
       }
 
-      // Save assistant message
+      const fullResponse = responseChunks.join("");
+      responseChunks.length = 0;
+
       await chatStorage.createMessage(conversationId, "assistant", fullResponse);
 
       res.write(`data: ${JSON.stringify({ done: true })}\n\n`);

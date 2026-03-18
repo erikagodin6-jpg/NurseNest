@@ -877,7 +877,8 @@ export async function getOfficialExamQuestions(blueprintCode: string): Promise<{
   const blueprint = EXAM_BLUEPRINTS[blueprintCode];
   if (!blueprint) throw new Error(`Unknown blueprint: ${blueprintCode}`);
 
-  const allQuestions = await getExamQuestions(blueprint.tier, blueprint.totalQuestions * 3);
+  const fetchCount = Math.min(blueprint.totalQuestions + 30, Math.ceil(blueprint.totalQuestions * 1.5));
+  const allQuestions = await getExamQuestions(blueprint.tier, fetchCount);
 
   const domainBuckets: Record<string, PooledQuestion[]> = {};
   for (const domain of blueprint.domains) {

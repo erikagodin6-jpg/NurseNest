@@ -248,15 +248,18 @@ export function registerTutorRoutes(app: Express): void {
         temperature: 0.7,
       });
 
-      let fullResponse = "";
+      const responseChunks: string[] = [];
 
       for await (const chunk of stream) {
         const delta = chunk.choices[0]?.delta?.content || "";
         if (delta) {
-          fullResponse += delta;
+          responseChunks.push(delta);
           res.write(`data: ${JSON.stringify({ content: delta })}\n\n`);
         }
       }
+
+      const fullResponse = responseChunks.join("");
+      responseChunks.length = 0;
 
       await pool.query(
         "INSERT INTO tutor_messages (conversation_id, role, content, created_at) VALUES ($1, $2, $3, NOW())",
