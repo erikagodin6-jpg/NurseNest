@@ -249,7 +249,7 @@ async function buildAll() {
     );
   }
 
-  log("building server + data sequentially to reduce memory pressure...");
+  log("building server + data (NP batches in parallel)...");
   const lessonsDir = path.resolve("client/src/data/lessons");
   const npBatchFiles = (await readdir(lessonsDir))
     .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
@@ -262,9 +262,7 @@ async function buildAll() {
 
   await buildLessonsData();
   log("lessons data done");
-  for (const i of npBatchFiles) {
-    await buildNpBatch(i);
-  }
+  await Promise.all(npBatchFiles.map((i) => buildNpBatch(i)));
   log("np batches done");
 
   await buildServer();
