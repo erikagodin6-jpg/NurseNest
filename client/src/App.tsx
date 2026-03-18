@@ -441,6 +441,7 @@ const NpExamCaseStudyTemplate = lazy(() => import("@/pages/np-exam-content-hub")
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const DailyQuestionPage = lazy(() => import("@/pages/daily-question"));
 const AdminCommentModeration = lazy(() => import("@/pages/admin-comment-moderation"));
+const AdminDataMigration = lazy(() => import("@/pages/admin-data-migration"));
 const AdminContentManager = lazy(() => import("@/pages/admin-content-manager"));
 const AdminContentAudit = lazy(() => import("@/pages/admin-content-audit"));
 const AdminContentAnalytics = lazy(() => import("@/pages/admin-content-analytics"));
@@ -875,6 +876,8 @@ function AppRoutes() {
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
+        <Route path="/admin/data-migration" component={AdminDataMigration} />
+        <Route path="/:locale/admin/data-migration" component={AdminDataMigration} />
         <Route path="/admin/notifications" component={AdminNotifications} />
         <Route path="/study/:mode">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>
         <Route path="/study">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>

@@ -7375,3 +7375,51 @@ export const insertIncidentAffectedUserSchema = createInsertSchema(incidentAffec
 });
 export type IncidentAffectedUser = typeof incidentAffectedUsers.$inferSelect;
 export type InsertIncidentAffectedUser = z.infer<typeof insertIncidentAffectedUserSchema>;
+
+export const schemaMigrations = pgTable("schema_migrations", {
+  version: text("version").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  appliedAt: timestamp("applied_at").defaultNow().notNull(),
+  checksum: text("checksum"),
+  executionTimeMs: integer("execution_time_ms"),
+});
+
+export type SchemaMigration = typeof schemaMigrations.$inferSelect;
+
+export const migrationAuditLog = pgTable("migration_audit_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  version: text("version").notNull(),
+  name: text("name").notNull(),
+  direction: text("direction").notNull(),
+  status: text("status").notNull().default("pending"),
+  dryRun: boolean("dry_run").default(false),
+  executedAt: timestamp("executed_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  durationMs: integer("duration_ms"),
+  errorMessage: text("error_message"),
+  affectedRows: integer("affected_rows"),
+  executedBy: text("executed_by"),
+  rollbackOf: varchar("rollback_of"),
+  sqlExecuted: text("sql_executed"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+});
+
+export type MigrationAuditLog = typeof migrationAuditLog.$inferSelect;
+
+export const cleanupReports = pgTable("cleanup_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  runType: text("run_type").notNull(),
+  status: text("status").notNull().default("running"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  durationMs: integer("duration_ms"),
+  itemsScanned: integer("items_scanned").default(0),
+  itemsCleaned: integer("items_cleaned").default(0),
+  itemsFlagged: integer("items_flagged").default(0),
+  details: jsonb("details").default(sql`'[]'::jsonb`),
+  triggeredBy: text("triggered_by").default("system"),
+  errorMessage: text("error_message"),
+});
+
+export type CleanupReport = typeof cleanupReports.$inferSelect;

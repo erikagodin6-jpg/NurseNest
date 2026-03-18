@@ -403,6 +403,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentQuarantineRoutes } = await import("./content-quarantine-routes");
   registerContentQuarantineRoutes(app);
 
+  const { registerMigrationRoutes } = await import("./migration-routes");
+  registerMigrationRoutes(app);
+
   const { registerTaxonomyRoutes } = await import("./taxonomy-routes");
   registerTaxonomyRoutes(app);
 

@@ -1418,5 +1418,55 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   `);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_name ON synthetic_test_results(test_name)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_created ON synthetic_test_results(created_at DESC)`);
-  await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_status ON synthetic_test_results(status)`)
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_synthetic_results_status ON synthetic_test_results(status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS schema_migrations (
+      version text PRIMARY KEY,
+      name text NOT NULL,
+      description text,
+      applied_at timestamp NOT NULL DEFAULT NOW(),
+      checksum text,
+      execution_time_ms integer
+    )
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS migration_audit_log (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      version text NOT NULL,
+      name text NOT NULL,
+      direction text NOT NULL,
+      status text NOT NULL DEFAULT 'pending',
+      dry_run boolean DEFAULT false,
+      executed_at timestamp NOT NULL DEFAULT NOW(),
+      completed_at timestamp,
+      duration_ms integer,
+      error_message text,
+      affected_rows integer,
+      executed_by text,
+      rollback_of varchar,
+      sql_executed text,
+      metadata jsonb DEFAULT '{}'::jsonb
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_migration_audit_version ON migration_audit_log(version)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_migration_audit_status ON migration_audit_log(status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS cleanup_reports (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      run_type text NOT NULL,
+      status text NOT NULL DEFAULT 'running',
+      started_at timestamp NOT NULL DEFAULT NOW(),
+      completed_at timestamp,
+      duration_ms integer,
+      items_scanned integer DEFAULT 0,
+      items_cleaned integer DEFAULT 0,
+      items_flagged integer DEFAULT 0,
+      details jsonb DEFAULT '[]'::jsonb,
+      triggered_by text DEFAULT 'system',
+      error_message text
+    )
+  `);
 }
