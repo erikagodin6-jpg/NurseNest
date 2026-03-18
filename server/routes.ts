@@ -74,7 +74,8 @@ import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkT
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
 import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, logOperatorAction, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit, requirePermission, requireDestructiveAction, hasPermission } from "./admin-auth";
 import type { AdminRole, OperatorActionParams } from "./admin-auth";
-import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve } from "./entitlements";
+import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
+import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
@@ -15483,6 +15484,18 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.get("/api/admin/orchestrator/stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const hours = parseInt(req.query.hours as string) || 24;
+      const stats = await getOrchestratorStats(hours);
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/admin/exam-flashcards/align", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -15570,6 +15583,40 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       res.status(500).json({ error: e.message });
     }
   });
+
+  // ====== ORCHESTRATED CONTENT DELIVERY ======
+  app.get("/api/content/:contentId/deliver", requireAuthenticated(), wrapWithOrchestrator(
+    async (req: any, res) => {
+      const { contentId } = req.params;
+      const result = await pool.query(
+        `SELECT * FROM content_items WHERE id = $1 AND status = 'published'`,
+        [contentId],
+      );
+      if (result.rows.length === 0) throw new Error("Content not found");
+      const content = result.rows[0];
+      const contentTier = content.tier || "free";
+      if (contentTier !== "free") {
+        const user = req.authUser;
+        if (!user) throw new Error("Authentication required");
+        const premiumDecision = resolveEntitlementSync(user, "any_premium", null);
+        if (!premiumDecision.hasAccess) {
+          res.status(403).json({ error: "Premium access required", requiredTier: contentTier, _deliveryTier: "denied" });
+          return;
+        }
+        const userTier = user.tier || "free";
+        const allowedTiers = getAllowedContentTiers(userTier);
+        if (!allowedTiers.includes(contentTier) && premiumDecision.accessSource === "subscription") {
+          res.status(403).json({ error: "Insufficient access tier", requiredTier: contentTier, userTier, _deliveryTier: "denied" });
+          return;
+        }
+      }
+      res.json({ data: snakeToCamel(content), _deliveryTier: "primary" });
+    },
+    {
+      getContentId: (req) => req.params.contentId,
+      staticFallbackData: { message: "Content temporarily unavailable. Please try again later.", unavailable: true },
+    },
+  ));
 
   // ====== PUBLIC FLASHCARD BANK API ======
   app.get("/api/flashcard-bank", requireEntitlement("flashcard_bank"), async (req: any, res) => {

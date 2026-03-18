@@ -15,6 +15,13 @@ function makeUser(overrides: Record<string, any> = {}) {
     stripe_subscription_id: null,
     region: "US",
     plan_expires_at: null,
+    promo_active: false,
+    promo_expires_at: null,
+    referral_premium_active: false,
+    referral_premium_expires_at: null,
+    legacy_access: false,
+    bundle_id: null,
+    bundle_expires_at: null,
     ...overrides,
   };
 }
@@ -74,6 +81,43 @@ describe("checkEntitlement", () => {
   test("null user is denied all access", () => {
     expect(checkEntitlement(null, "flashcards")).toBe(false);
     expect(checkEntitlement(null, "lessons_free")).toBe(false);
+  });
+
+  test("bundle user can access premium features", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123" });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+  });
+
+  test("promo user can access premium features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "mock_exams")).toBe(true);
+  });
+
+  test("referral user can access premium features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: future });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+  });
+
+  test("legacy user can access premium features", () => {
+    const user = makeUser({ tier: "free", legacy_access: true });
+    expect(checkEntitlement(user, "flashcards")).toBe(true);
+    expect(checkEntitlement(user, "qbank")).toBe(true);
+  });
+
+  test("expired promo user cannot access premium features", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: past });
+    expect(checkEntitlement(user, "flashcards")).toBe(false);
+  });
+
+  test("expired referral user cannot access premium features", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: past });
+    expect(checkEntitlement(user, "flashcards")).toBe(false);
   });
 });
 
@@ -138,7 +182,7 @@ describe("getUserEntitlements", () => {
     const user = makeUser({ tier: "admin" });
     const ents = getUserEntitlements(user);
     expect(ents.flashcards.allowed).toBe(true);
-    expect(ents.flashcards.reason).toBe("admin");
+    expect(ents.flashcards.reason).toBe("admin_tier");
     expect(ents.admin_dashboard.allowed).toBe(true);
   });
 
@@ -165,6 +209,28 @@ describe("getUserEntitlements", () => {
     const ents = getUserEntitlements(user);
     expect(ents.flashcards.allowed).toBe(true);
     expect(ents.flashcards.reason).toBe("tester_bypass");
+  });
+
+  test("bundle user gets bundle access for all premium features", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_abc" });
+    const ents = getUserEntitlements(user);
+    expect(ents.flashcards.allowed).toBe(true);
+    expect(ents.flashcards.reason).toBe("active_bundle");
+  });
+
+  test("promo user gets promo access for premium features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future });
+    const ents = getUserEntitlements(user);
+    expect(ents.flashcards.allowed).toBe(true);
+    expect(ents.flashcards.reason).toBe("active_promo");
+  });
+
+  test("legacy user gets legacy access for premium features", () => {
+    const user = makeUser({ tier: "free", legacy_access: true });
+    const ents = getUserEntitlements(user);
+    expect(ents.flashcards.allowed).toBe(true);
+    expect(ents.flashcards.reason).toBe("legacy_grandfathered");
   });
 });
 
@@ -305,6 +371,7 @@ describe("resolveEntitlementSync", () => {
     expect(decision).toHaveProperty("planId");
     expect(decision).toHaveProperty("productType");
     expect(decision).toHaveProperty("productId");
+    expect(decision).toHaveProperty("region");
     expect(decision).toHaveProperty("locale");
     expect(decision).toHaveProperty("fallbackEligible");
     expect(decision).toHaveProperty("backupModesAvailable");
@@ -319,6 +386,7 @@ describe("resolveEntitlementSync", () => {
     const user = makeUser({ tier: "rpn", region: "CA" });
     const decision = resolveEntitlementSync(user, "feature", "flashcards");
     expect(decision.locale).toBe("CA");
+    expect(decision.region).toBe("CA");
   });
 
   test("lifetime user on free tier can access premium features", () => {
@@ -354,5 +422,191 @@ describe("resolveEntitlementSync", () => {
     const user = makeUser({ tier: "rpn" });
     const decision = resolveEntitlementSync(user, "feature", "flashcards");
     expect(decision.provisional).toBe(false);
+  });
+});
+
+describe("resolveEntitlementSync - bundle access", () => {
+  test("bundle user gets access to premium features", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("bundle");
+    expect(decision.accessDecisionReason).toBe("active_bundle");
+  });
+
+  test("bundle user passes any_premium check", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_abc" });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("bundle");
+  });
+
+  test("bundle user with expiry includes expiry date", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123", bundle_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "qbank");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.expiresAt).toBeTruthy();
+  });
+
+  test("bundle user cannot access admin features", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123" });
+    const decision = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(decision.hasAccess).toBe(false);
+    expect(decision.accessDecisionReason).toBe("admin_only");
+  });
+
+  test("expired bundle user is denied", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123", bundle_expires_at: past });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("bundle without expiry grants access", () => {
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123", bundle_expires_at: null });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("bundle");
+  });
+});
+
+describe("resolveEntitlementSync - promo access", () => {
+  test("active promo user gets access to premium features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("promo");
+    expect(decision.accessDecisionReason).toBe("active_promo");
+    expect(decision.expiresAt).toBeTruthy();
+  });
+
+  test("expired promo user is denied", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: past });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("inactive promo user is denied", () => {
+    const user = makeUser({ tier: "free", promo_active: false });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("promo user passes any_premium check", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("promo");
+  });
+
+  test("promo user cannot access admin features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(decision.hasAccess).toBe(false);
+  });
+});
+
+describe("resolveEntitlementSync - referral access", () => {
+  test("active referral user gets access to premium features", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("referral");
+    expect(decision.accessDecisionReason).toBe("referral_bonus");
+    expect(decision.expiresAt).toBeTruthy();
+  });
+
+  test("expired referral user is denied", () => {
+    const past = new Date(Date.now() - 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: past });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(false);
+  });
+
+  test("referral user passes any_premium check", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: future });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("referral");
+  });
+});
+
+describe("resolveEntitlementSync - legacy access", () => {
+  test("legacy user gets access to premium features", () => {
+    const user = makeUser({ tier: "free", legacy_access: true });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("legacy");
+    expect(decision.accessDecisionReason).toBe("legacy_grandfathered");
+    expect(decision.expiresAt).toBeNull();
+  });
+
+  test("legacy user passes any_premium check", () => {
+    const user = makeUser({ tier: "free", legacy_access: true });
+    const decision = resolveEntitlementSync(user, "any_premium");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("legacy");
+  });
+
+  test("legacy user cannot access admin features", () => {
+    const user = makeUser({ tier: "free", legacy_access: true });
+    const decision = resolveEntitlementSync(user, "feature", "admin_dashboard");
+    expect(decision.hasAccess).toBe(false);
+  });
+});
+
+describe("resolveEntitlementSync - access source priority", () => {
+  test("tester takes priority over subscription", () => {
+    const user = makeUser({ tier: "rpn", tester_access: true, stripe_subscription_id: "sub_123" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("tester");
+  });
+
+  test("trial takes priority over bundle", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", trial_active: true, trial_end: future, bundle_id: "bundle_123" });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("trial");
+  });
+
+  test("lifetime takes priority over promo", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", is_lifetime: true, promo_active: true, promo_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("one_time_purchase");
+  });
+
+  test("bundle takes priority over promo", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", bundle_id: "bundle_123", promo_active: true, promo_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("bundle");
+  });
+
+  test("promo takes priority over referral", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", promo_active: true, promo_expires_at: future, referral_premium_active: true, referral_premium_expires_at: future });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("promo");
+  });
+
+  test("referral takes priority over legacy", () => {
+    const future = new Date(Date.now() + 86400000).toISOString();
+    const user = makeUser({ tier: "free", referral_premium_active: true, referral_premium_expires_at: future, legacy_access: true });
+    const decision = resolveEntitlementSync(user, "feature", "flashcards");
+    expect(decision.hasAccess).toBe(true);
+    expect(decision.accessSource).toBe("referral");
   });
 });

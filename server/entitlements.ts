@@ -217,6 +217,7 @@ function buildDefaultDecision(productType: string, productId: string | null): En
     planId: null,
     productType,
     productId,
+    region: null,
     locale: null,
     fallbackEligible: false,
     backupModesAvailable: [],
@@ -226,6 +227,48 @@ function buildDefaultDecision(productType: string, productId: string | null): En
     accessDecisionReason: "no_access",
     provisional: false,
   };
+}
+
+function hasActivePromoAccess(user: any): boolean {
+  const promoActive = user.promo_active || user.promoActive;
+  if (!promoActive) return false;
+  const promoEnd = user.promo_expires_at || user.promoExpiresAt;
+  if (promoEnd && new Date(promoEnd) < new Date()) return false;
+  return true;
+}
+
+function getPromoExpiry(user: any): string | null {
+  const promoEnd = user.promo_expires_at || user.promoExpiresAt;
+  return promoEnd ? new Date(promoEnd).toISOString() : null;
+}
+
+function hasActiveReferralAccess(user: any): boolean {
+  const referralActive = user.referral_premium_active || user.referralPremiumActive;
+  if (!referralActive) return false;
+  const referralEnd = user.referral_premium_expires_at || user.referralPremiumExpiresAt;
+  if (referralEnd && new Date(referralEnd) < new Date()) return false;
+  return true;
+}
+
+function getReferralExpiry(user: any): string | null {
+  const referralEnd = user.referral_premium_expires_at || user.referralPremiumExpiresAt;
+  return referralEnd ? new Date(referralEnd).toISOString() : null;
+}
+
+function hasLegacyAccess(user: any): boolean {
+  return !!(user.legacy_access || user.legacyAccess);
+}
+
+function hasBundleAccess(user: any): boolean {
+  if (!(user.bundle_id || user.bundleId)) return false;
+  const bundleEnd = user.bundle_expires_at || user.bundleExpiresAt;
+  if (bundleEnd && new Date(bundleEnd) < new Date()) return false;
+  return true;
+}
+
+function getBundleExpiry(user: any): string | null {
+  const bundleEnd = user.bundle_expires_at || user.bundleExpiresAt;
+  return bundleEnd ? new Date(bundleEnd).toISOString() : null;
 }
 
 function determineAccessSource(user: any): { source: AccessSource; reason: string; expiresAt: string | null } {
@@ -245,6 +288,22 @@ function determineAccessSource(user: any): { source: AccessSource; reason: strin
 
   if (user.is_lifetime || user.isLifetime) {
     return { source: "one_time_purchase", reason: "lifetime_purchase", expiresAt: null };
+  }
+
+  if (hasBundleAccess(user)) {
+    return { source: "bundle", reason: "active_bundle", expiresAt: getBundleExpiry(user) };
+  }
+
+  if (hasActivePromoAccess(user)) {
+    return { source: "promo", reason: "active_promo", expiresAt: getPromoExpiry(user) };
+  }
+
+  if (hasActiveReferralAccess(user)) {
+    return { source: "referral", reason: "referral_bonus", expiresAt: getReferralExpiry(user) };
+  }
+
+  if (hasLegacyAccess(user)) {
+    return { source: "legacy", reason: "legacy_grandfathered", expiresAt: null };
   }
 
   if (PAID_TIERS.has(userTier)) {
@@ -272,6 +331,7 @@ export function resolveEntitlementSync(user: any, productType: string, productId
   decision.accessSource = source;
   decision.expiresAt = expiresAt;
   decision.planId = user.stripe_subscription_id || user.stripeSubscriptionId || null;
+  decision.region = user.region || null;
   decision.locale = user.region || null;
 
   if (productType === "feature" && productId) {
@@ -325,6 +385,37 @@ export function resolveEntitlementSync(user: any, productType: string, productId
       return decision;
     }
 
+    if (hasBundleAccess(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "bundle";
+      decision.accessDecisionReason = "active_bundle";
+      decision.expiresAt = getBundleExpiry(user);
+      return decision;
+    }
+
+    if (hasActivePromoAccess(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "promo";
+      decision.accessDecisionReason = "active_promo";
+      decision.expiresAt = getPromoExpiry(user);
+      return decision;
+    }
+
+    if (hasActiveReferralAccess(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "referral";
+      decision.accessDecisionReason = "referral_bonus";
+      decision.expiresAt = getReferralExpiry(user);
+      return decision;
+    }
+
+    if (hasLegacyAccess(user)) {
+      decision.hasAccess = true;
+      decision.accessSource = "legacy";
+      decision.accessDecisionReason = "legacy_grandfathered";
+      return decision;
+    }
+
     if (NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature)) {
       if (hasNewGradFeatureAccess(userTier, feature)) {
         decision.hasAccess = true;
@@ -354,7 +445,7 @@ export function resolveEntitlementSync(user: any, productType: string, productId
   }
 
   if (productType === "any_premium") {
-    if (userTier === "admin" || PAID_TIERS.has(userTier) || isActiveTester(user) || hasActiveTrialAccess(user) || user.is_lifetime || user.isLifetime) {
+    if (userTier === "admin" || PAID_TIERS.has(userTier) || isActiveTester(user) || hasActiveTrialAccess(user) || user.is_lifetime || user.isLifetime || hasBundleAccess(user) || hasActivePromoAccess(user) || hasActiveReferralAccess(user) || hasLegacyAccess(user)) {
       decision.hasAccess = true;
       decision.accessDecisionReason = reason;
       return decision;
@@ -387,6 +478,7 @@ async function getCachedEntitlement(userId: string, productType: string, product
       planId: row.plan_id,
       productType: row.product_type,
       productId: row.product_id,
+      region: null,
       locale: null,
       fallbackEligible: false,
       backupModesAvailable: [],
@@ -566,78 +658,19 @@ function logEntitlementDecision(userId: string, decision: EntitlementDecisionObj
 }
 
 export function checkEntitlement(user: any, feature: Feature): boolean {
-  if (!user) return false;
-
-  const userTier: string = user.tier || "free";
-
-  if (userTier === "admin") return true;
-
-  const requiredTier = FEATURE_TIERS[feature];
-  if (!requiredTier || requiredTier === "free") return true;
-
-  if (requiredTier === "admin") return false;
-
-  if (isActiveTester(user)) return true;
-  if (hasActiveTrialAccess(user)) return true;
-
-  if (NEWGRAD_TOOLKIT_FEATURES.has(feature) || NEWGRAD_CERT_PREP_FEATURES.has(feature)) {
-    return hasNewGradFeatureAccess(userTier, feature);
-  }
-
-  const userLevel = TIER_HIERARCHY[userTier] ?? 0;
-  const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
-  return userLevel >= requiredLevel;
+  const decision = resolveEntitlementSync(user, "feature", feature);
+  return decision.hasAccess;
 }
 
 export function getUserEntitlements(user: any): Record<Feature, { allowed: boolean; reason: string }> {
   const result: Record<string, { allowed: boolean; reason: string }> = {};
-  const userTier = user?.tier || "free";
-  const isTester = isActiveTester(user);
-  const hasTrial = hasActiveTrialAccess(user);
 
-  for (const [feature, requiredTier] of Object.entries(FEATURE_TIERS)) {
-    if (!user) {
-      result[feature] = { allowed: false, reason: "not_authenticated" };
-      continue;
-    }
-    if (userTier === "admin") {
-      result[feature] = { allowed: true, reason: "admin" };
-      continue;
-    }
-    if (requiredTier === "free") {
-      result[feature] = { allowed: true, reason: "free_feature" };
-      continue;
-    }
-    if (requiredTier === "admin") {
-      result[feature] = { allowed: false, reason: "admin_only" };
-      continue;
-    }
-    if (isTester) {
-      result[feature] = { allowed: true, reason: "tester_bypass" };
-      continue;
-    }
-    if (hasTrial) {
-      result[feature] = { allowed: true, reason: "trial_access" };
-      continue;
-    }
-
-    const feat = feature as Feature;
-    if (NEWGRAD_TOOLKIT_FEATURES.has(feat) || NEWGRAD_CERT_PREP_FEATURES.has(feat)) {
-      if (hasNewGradFeatureAccess(userTier, feat)) {
-        result[feature] = { allowed: true, reason: `tier_${userTier}` };
-      } else {
-        result[feature] = { allowed: false, reason: `requires_${requiredTier}` };
-      }
-      continue;
-    }
-
-    const userLevel = TIER_HIERARCHY[userTier] ?? 0;
-    const requiredLevel = TIER_HIERARCHY[requiredTier] ?? 0;
-    if (userLevel >= requiredLevel) {
-      result[feature] = { allowed: true, reason: `tier_${userTier}` };
-    } else {
-      result[feature] = { allowed: false, reason: `requires_${requiredTier}` };
-    }
+  for (const feature of Object.keys(FEATURE_TIERS)) {
+    const decision = resolveEntitlementSync(user, "feature", feature);
+    result[feature] = {
+      allowed: decision.hasAccess,
+      reason: decision.accessDecisionReason,
+    };
   }
 
   return result as Record<Feature, { allowed: boolean; reason: string }>;

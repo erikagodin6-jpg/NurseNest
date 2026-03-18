@@ -1,0 +1,318 @@
+import type { Request, Response, NextFunction } from "express";
+import { pool } from "./storage";
+import type { OrchestratorDeliveryTier } from "@shared/schema";
+
+export interface DeliveryAttemptResult {
+  success: boolean;
+  data?: any;
+  error?: string;
+  tier: OrchestratorDeliveryTier;
+  responseTimeMs: number;
+}
+
+export interface OrchestratorConfig {
+  contentId?: string;
+  primaryHandler: (req: Request, res: Response) => Promise<any>;
+  safeFallback?: (req: Request, res: Response) => Promise<any>;
+  lastKnownGood?: (req: Request, contentId: string) => Promise<any>;
+  backupSnapshot?: (req: Request, contentId: string) => Promise<any>;
+  substituteEquivalent?: (req: Request, contentId: string) => Promise<any>;
+  staticFallback?: (req: Request) => any;
+  getContentId?: (req: Request) => string | null;
+  quarantineHook?: (contentId: string, failureReason: string) => Promise<void>;
+}
+
+async function logRoutingDecision(
+  userId: string | null,
+  contentId: string | null,
+  requestPath: string,
+  attemptedTier: OrchestratorDeliveryTier,
+  deliveredTier: OrchestratorDeliveryTier | "exhausted",
+  failureReason: string | null,
+  responseTimeMs: number,
+  metadata?: Record<string, any>,
+): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO orchestrator_routing_decisions (id, user_id, content_id, request_path, attempted_tier, delivered_tier, failure_reason, response_time_ms, metadata, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW())`,
+      [userId, contentId, requestPath, attemptedTier, deliveredTier, failureReason, responseTimeMs, JSON.stringify(metadata || {})],
+    );
+  } catch (err: any) {
+    console.error(`[AccessOrchestrator] Failed to log routing decision: ${err?.message}`);
+  }
+}
+
+async function attemptDelivery(
+  handler: () => Promise<any>,
+  tier: OrchestratorDeliveryTier,
+): Promise<DeliveryAttemptResult> {
+  const start = Date.now();
+  try {
+    const data = await handler();
+    return {
+      success: true,
+      data,
+      tier,
+      responseTimeMs: Date.now() - start,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err?.message || "Unknown error",
+      tier,
+      responseTimeMs: Date.now() - start,
+    };
+  }
+}
+
+async function fetchLastKnownGoodVersion(contentId: string): Promise<any | null> {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM content_snapshots WHERE content_id = $1 ORDER BY version DESC LIMIT 1`,
+      [contentId],
+    );
+    return result.rows[0]?.content_data || null;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchBackupSnapshot(contentId: string): Promise<any | null> {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM render_payloads WHERE content_id = $1 ORDER BY version DESC LIMIT 1`,
+      [contentId],
+    );
+    return result.rows[0]?.data || null;
+  } catch {
+    return null;
+  }
+}
+
+async function findSubstituteContent(contentId: string): Promise<any | null> {
+  try {
+    const original = await pool.query(
+      `SELECT category, tier, content_type FROM content_items WHERE id = $1`,
+      [contentId],
+    );
+    if (original.rows.length === 0) return null;
+    const { category, tier, content_type } = original.rows[0];
+
+    const substitute = await pool.query(
+      `SELECT * FROM content_items 
+       WHERE category = $1 AND tier = $2 AND content_type = $3 AND id != $4 AND status = 'published'
+       ORDER BY RANDOM() LIMIT 1`,
+      [category, tier, content_type, contentId],
+    );
+    return substitute.rows[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+export function createAccessDeliveryOrchestrator(config: OrchestratorConfig) {
+  return async (req: Request, res: Response, _next: NextFunction) => {
+    const contentId = config.getContentId?.(req) || config.contentId || null;
+    const requestPath = req.originalUrl || req.url;
+    const userId: string | null = (req as any).authUser?.id || (req as any).user?.id || null;
+    const overallStart = Date.now();
+
+    const attempts: DeliveryAttemptResult[] = [];
+
+    const primaryResult = await attemptDelivery(
+      () => config.primaryHandler(req, res),
+      "primary",
+    );
+    attempts.push(primaryResult);
+
+    if (primaryResult.success) {
+      logRoutingDecision(userId, contentId, requestPath, "primary", "primary", null, primaryResult.responseTimeMs).catch(() => {});
+      return;
+    }
+
+    console.warn(`[AccessOrchestrator] Primary delivery failed for ${requestPath}: ${primaryResult.error}`);
+
+    if (config.quarantineHook && contentId) {
+      config.quarantineHook(contentId, primaryResult.error || "primary_delivery_failed").catch(() => {});
+    }
+
+    if (config.safeFallback) {
+      const fallbackResult = await attemptDelivery(
+        () => config.safeFallback!(req, res),
+        "safe_fallback",
+      );
+      attempts.push(fallbackResult);
+      if (fallbackResult.success) {
+        logRoutingDecision(userId, contentId, requestPath, "primary", "safe_fallback", primaryResult.error || null, fallbackResult.responseTimeMs).catch(() => {});
+        return;
+      }
+    }
+
+    if (contentId) {
+      if (config.lastKnownGood) {
+        const lkgResult = await attemptDelivery(
+          () => config.lastKnownGood!(req, contentId),
+          "last_known_good",
+        );
+        attempts.push(lkgResult);
+        if (lkgResult.success && lkgResult.data) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "last_known_good", primaryResult.error || null, lkgResult.responseTimeMs).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: lkgResult.data, _deliveryTier: "last_known_good", _contentId: contentId });
+          }
+          return;
+        }
+      } else {
+        const lkgStart = Date.now();
+        const lkgData = await fetchLastKnownGoodVersion(contentId);
+        if (lkgData) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "last_known_good", primaryResult.error || null, Date.now() - lkgStart).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: lkgData, _deliveryTier: "last_known_good", _contentId: contentId });
+          }
+          return;
+        }
+      }
+
+      if (config.backupSnapshot) {
+        const backupResult = await attemptDelivery(
+          () => config.backupSnapshot!(req, contentId),
+          "backup_snapshot",
+        );
+        attempts.push(backupResult);
+        if (backupResult.success && backupResult.data) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "backup_snapshot", primaryResult.error || null, backupResult.responseTimeMs).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: backupResult.data, _deliveryTier: "backup_snapshot", _contentId: contentId });
+          }
+          return;
+        }
+      } else {
+        const bkStart = Date.now();
+        const backupData = await fetchBackupSnapshot(contentId);
+        if (backupData) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "backup_snapshot", primaryResult.error || null, Date.now() - bkStart).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: backupData, _deliveryTier: "backup_snapshot", _contentId: contentId });
+          }
+          return;
+        }
+      }
+
+      if (config.substituteEquivalent) {
+        const subResult = await attemptDelivery(
+          () => config.substituteEquivalent!(req, contentId),
+          "substitute_equivalent",
+        );
+        attempts.push(subResult);
+        if (subResult.success && subResult.data) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "substitute_equivalent", primaryResult.error || null, subResult.responseTimeMs).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: subResult.data, _deliveryTier: "substitute_equivalent", _originalContentId: contentId });
+          }
+          return;
+        }
+      } else {
+        const subStart = Date.now();
+        const subData = await findSubstituteContent(contentId);
+        if (subData) {
+          logRoutingDecision(userId, contentId, requestPath, "primary", "substitute_equivalent", primaryResult.error || null, Date.now() - subStart).catch(() => {});
+          if (!res.headersSent) {
+            res.json({ data: subData, _deliveryTier: "substitute_equivalent", _originalContentId: contentId });
+          }
+          return;
+        }
+      }
+    }
+
+    if (config.staticFallback) {
+      const staticData = config.staticFallback(req);
+      logRoutingDecision(userId, contentId, requestPath, "primary", "static_fallback", primaryResult.error || null, Date.now() - overallStart).catch(() => {});
+      if (!res.headersSent) {
+        res.json({ data: staticData, _deliveryTier: "static_fallback" });
+      }
+      return;
+    }
+
+    const totalTime = attempts.reduce((sum, a) => sum + a.responseTimeMs, 0);
+    logRoutingDecision(
+      userId,
+      contentId,
+      requestPath,
+      "primary",
+      "exhausted",
+      `all_tiers_exhausted: ${attempts.map(a => `${a.tier}:${a.error || "ok"}`).join(", ")}`,
+      totalTime,
+    ).catch(() => {});
+
+    if (!res.headersSent) {
+      res.status(503).json({
+        error: "Content temporarily unavailable",
+        _deliveryTier: "exhausted",
+        _attemptsExhausted: true,
+      });
+    }
+  };
+}
+
+export function wrapWithOrchestrator(
+  handler: (req: Request, res: Response) => Promise<void>,
+  options: {
+    getContentId?: (req: Request) => string | null;
+    staticFallbackData?: any;
+  } = {},
+) {
+  return createAccessDeliveryOrchestrator({
+    primaryHandler: handler,
+    getContentId: options.getContentId,
+    staticFallback: options.staticFallbackData
+      ? () => options.staticFallbackData
+      : undefined,
+  });
+}
+
+export async function getOrchestratorStats(sinceHours: number = 24): Promise<{
+  totalDecisions: number;
+  byDeliveredTier: Record<string, number>;
+  failureRate: number;
+  avgResponseTimeMs: number;
+}> {
+  try {
+    const safeSinceHours = Math.max(1, Math.min(Math.floor(Number(sinceHours) || 24), 8760));
+    const result = await pool.query(
+      `SELECT delivered_tier, COUNT(*) as count, AVG(response_time_ms) as avg_time
+       FROM orchestrator_routing_decisions
+       WHERE created_at > NOW() - ($1::int * INTERVAL '1 hour')
+       GROUP BY delivered_tier`,
+      [safeSinceHours],
+    );
+
+    const byDeliveredTier: Record<string, number> = {};
+    let total = 0;
+    let failures = 0;
+    let totalTime = 0;
+    let timeCount = 0;
+
+    for (const row of result.rows) {
+      byDeliveredTier[row.delivered_tier] = parseInt(row.count);
+      total += parseInt(row.count);
+      if (row.delivered_tier !== "primary") {
+        failures += parseInt(row.count);
+      }
+      if (row.avg_time) {
+        totalTime += parseFloat(row.avg_time) * parseInt(row.count);
+        timeCount += parseInt(row.count);
+      }
+    }
+
+    return {
+      totalDecisions: total,
+      byDeliveredTier,
+      failureRate: total > 0 ? failures / total : 0,
+      avgResponseTimeMs: timeCount > 0 ? totalTime / timeCount : 0,
+    };
+  } catch {
+    return { totalDecisions: 0, byDeliveredTier: {}, failureRate: 0, avgResponseTimeMs: 0 };
+  }
+}

@@ -6694,6 +6694,7 @@ export type AccessSource =
   | "one_time_purchase"
   | "free"
   | "promo"
+  | "referral"
   | "admin_override"
   | "legacy"
   | "trial"
@@ -6706,6 +6707,7 @@ export interface EntitlementDecisionObject {
   planId: string | null;
   productType: string;
   productId: string | null;
+  region: string | null;
   locale: string | null;
   fallbackEligible: boolean;
   backupModesAvailable: string[];
@@ -6715,6 +6717,35 @@ export interface EntitlementDecisionObject {
   accessDecisionReason: string;
   provisional: boolean;
 }
+
+export type OrchestratorDeliveryTier =
+  | "primary"
+  | "safe_fallback"
+  | "last_known_good"
+  | "backup_snapshot"
+  | "substitute_equivalent"
+  | "static_fallback"
+  | "exhausted";
+
+export const orchestratorRoutingDecisions = pgTable("orchestrator_routing_decisions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  contentId: varchar("content_id"),
+  requestPath: text("request_path"),
+  attemptedTier: text("attempted_tier").notNull(),
+  deliveredTier: text("delivered_tier").notNull(),
+  failureReason: text("failure_reason"),
+  responseTimeMs: integer("response_time_ms"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertOrchestratorRoutingDecisionSchema = createInsertSchema(orchestratorRoutingDecisions).omit({
+  id: true,
+  createdAt: true,
+});
+export type OrchestratorRoutingDecision = typeof orchestratorRoutingDecisions.$inferSelect;
+export type InsertOrchestratorRoutingDecision = z.infer<typeof insertOrchestratorRoutingDecisionSchema>;
 
 export const sessionCheckpoints = pgTable("session_checkpoints", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
