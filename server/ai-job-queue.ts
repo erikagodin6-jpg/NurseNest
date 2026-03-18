@@ -1,5 +1,14 @@
 import { pool } from "./storage";
 import crypto from "crypto";
+import {
+  validateJobLanguage,
+  shouldBlockJobCompletion,
+  buildLanguageScopedCacheKey,
+  validateContentLanguage,
+  checkTerminologyConsistency,
+  buildValidationReport,
+  type LanguageValidationReport,
+} from "./language-enforcement";
 
 const GPT4O_MINI_INPUT_COST = 0.00015 / 1000;
 const GPT4O_MINI_OUTPUT_COST = 0.0006 / 1000;
@@ -476,6 +485,13 @@ async function executeJob(jobId: string, jobRow: any): Promise<void> {
   const jobSpendCap = jobRow.spend_cap;
   const maxRetries = jobRow.max_retries || 3;
 
+  const targetLanguage = validateJobLanguage(config);
+  if (targetLanguage !== "en") {
+    logs = addJobLog(jobId, logs, `Language enforcement active: target=${targetLanguage}`);
+  }
+
+  const itemLanguageResults: LanguageValidationReport[] = [];
+
   logs = addJobLog(jobId, logs, `Execution started: processing items ${startIndex + 1} to ${itemCount}`);
   await updateJobProgress(jobId, "running", completed, failed, duplicatesSkipped, totalCost, logs, itemCount);
 
@@ -535,7 +551,7 @@ async function executeJob(jobId: string, jobRow: any): Promise<void> {
             completed++;
             itemSuccess = true;
           } else {
-            const result = await executeJobItem(type, i, { ...config, topic: jobRow.topic, specialty: jobRow.specialty, framework: jobRow.framework, tier: jobRow.tier }, jobId, logs, model, duplicateProtection);
+            const result = await executeJobItem(type, i, { ...config, topic: jobRow.topic, specialty: jobRow.specialty, framework: jobRow.framework, tier: jobRow.tier, targetLanguage }, jobId, logs, model, duplicateProtection);
             if (result.duplicate) {
               duplicatesSkipped++;
               logs = addJobLog(jobId, result.logs || logs, `Item ${i + 1}: Duplicate skipped`);
@@ -546,6 +562,9 @@ async function executeJob(jobId: string, jobRow: any): Promise<void> {
               totalCost += itemCost;
               await recordSpend(jobId, result.tokens || 0, itemCost);
               logs = addJobLog(jobId, result.logs || logs, `Item ${i + 1}: Generated successfully (${result.tokens || 0} tokens, $${itemCost.toFixed(4)})`);
+              if (result.languageValidation) {
+                itemLanguageResults.push(result.languageValidation);
+              }
             }
             itemSuccess = true;
           }
@@ -564,7 +583,36 @@ async function executeJob(jobId: string, jobRow: any): Promise<void> {
       await updateJobProgress(jobId, "running", completed, failed, duplicatesSkipped, totalCost, logs, itemCount);
     }
 
-    const finalStatus = failed > 0 && completed === 0 ? "failed" : (failed > 0 ? "completed_with_warnings" : "completed");
+    let finalStatus = failed > 0 && completed === 0 ? "failed" : (failed > 0 ? "completed_with_warnings" : "completed");
+
+    if (targetLanguage !== "en" && finalStatus !== "failed") {
+      const langPassed = itemLanguageResults.length > 0
+        ? itemLanguageResults.every(r => r.validation_passed)
+        : true;
+      const termPassed = itemLanguageResults.length > 0
+        ? itemLanguageResults.every(r => r.terminology_check_passed)
+        : true;
+      const failedLangItems = itemLanguageResults.filter(r => !r.validation_passed).length;
+
+      const aggregatedReport: LanguageValidationReport = {
+        requested_language: targetLanguage,
+        detected_language: itemLanguageResults[0]?.detected_language || targetLanguage,
+        field_validation: itemLanguageResults[0]?.field_validation || {},
+        validation_passed: langPassed,
+        terminology_check_passed: termPassed,
+        retry_count: Math.max(0, ...itemLanguageResults.map(r => r.retry_count)),
+        status: langPassed && termPassed ? "validated" : "validation_failed",
+      };
+
+      const blockCheck = shouldBlockJobCompletion(aggregatedReport);
+      if (blockCheck.blocked) {
+        finalStatus = "completed_with_warnings";
+        logs = addJobLog(jobId, logs, `Language enforcement warning: ${blockCheck.reason} (${failedLangItems}/${itemLanguageResults.length} items failed validation)`);
+      } else if (itemLanguageResults.length > 0) {
+        logs = addJobLog(jobId, logs, `Language enforcement: ${itemLanguageResults.length} items validated for ${targetLanguage}`);
+      }
+    }
+
     logs = addJobLog(jobId, logs, `Job ${finalStatus}: ${completed} items generated, ${duplicatesSkipped} duplicates skipped, ${failed} failed, $${totalCost.toFixed(4)} total cost`);
     await pool.query(
       "UPDATE ai_jobs SET status = $2, completed_at = NOW(), items_completed = $3, items_failed = $4, duplicates_skipped = $5, actual_cost = $6, logs = $7, progress = $8, current_stage = 'done' WHERE id = $1",
@@ -589,7 +637,7 @@ async function updateJobProgress(jobId: string, status: string, completed: numbe
   );
 }
 
-async function executeJobItem(type: string, index: number, config: any, jobId: string, logs: any[], model: string, duplicateProtection: boolean): Promise<{ tokens: number; duplicate: boolean; logs: any[] }> {
+async function executeJobItem(type: string, index: number, config: any, jobId: string, logs: any[], model: string, duplicateProtection: boolean): Promise<{ tokens: number; duplicate: boolean; logs: any[]; languageValidation?: LanguageValidationReport }> {
   if (type === "blog") {
     return executeBlogItem(index, config, jobId, logs);
   }

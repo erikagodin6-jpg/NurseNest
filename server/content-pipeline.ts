@@ -4,6 +4,13 @@ import { eq, and, sql, inArray, desc } from "drizzle-orm";
 import { fisherYatesShuffle } from "../shared/shuffle";
 import OpenAI from "openai";
 import crypto from "crypto";
+import {
+  buildLanguageScopedCacheKey,
+  buildLanguageEnforcementPrompt,
+  validateContentLanguage,
+  buildValidationReport,
+  checkTerminologyConsistency,
+} from "./language-enforcement";
 
 interface TierTarget {
   min: number;
@@ -247,7 +254,8 @@ async function generateExamQuestionsBatch(
   tier: string,
   system: string,
   count: number,
-  difficultyBias?: string
+  difficultyBias?: string,
+  targetLanguage: string = "en"
 ): Promise<Array<{ stem: string; options: any; correctAnswer: any; rationale: string; difficulty: number; topic: string; bodySystem: string }>> {
   const openai = getOpenAI();
   const tierLabel = tier.toUpperCase();
@@ -272,7 +280,8 @@ For each question provide:
 Return JSON array. Each question must be clinically accurate, unique, and test critical thinking.`;
 
   try {
-    const cacheKey = hashContent(`eq_${tier}_${system}_${count}_${todayString()}_${difficultyBias || "default"}`);
+    const baseCacheKey = hashContent(`eq_${tier}_${system}_${count}_${todayString()}_${difficultyBias || "default"}`);
+    const cacheKey = buildLanguageScopedCacheKey(baseCacheKey, targetLanguage);
     const cached = await db.select().from(aiCache).where(eq(aiCache.cacheKey, cacheKey));
     if (cached.length > 0) {
       return cached[0].outputJson as any;
@@ -318,7 +327,8 @@ Return JSON array. Each question must be clinically accurate, unique, and test c
 async function generateFlashcardsBatch(
   tier: string,
   system: string,
-  count: number
+  count: number,
+  targetLanguage: string = "en"
 ): Promise<Array<{ front: string; back: string; topicTag: string }>> {
   const openai = getOpenAI();
   const tierLabel = tier.toUpperCase();
@@ -333,7 +343,7 @@ For each flashcard provide:
 Return JSON array. Each card must be clinically accurate and appropriate for ${tierLabel} scope.`;
 
   try {
-    const cacheKey = hashContent(`fc_${tier}_${system}_${count}_${todayString()}`);
+    const cacheKey = buildLanguageScopedCacheKey(hashContent(`fc_${tier}_${system}_${count}_${todayString()}`), targetLanguage);
     const cached = await db.select().from(aiCache).where(eq(aiCache.cacheKey, cacheKey));
     if (cached.length > 0) {
       return cached[0].outputJson as any;

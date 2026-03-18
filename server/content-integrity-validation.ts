@@ -1,3 +1,10 @@
+import {
+  validateContentLanguage,
+  checkTerminologyConsistency,
+  checkPublishingGate,
+  type LanguageValidationReport,
+} from "./language-enforcement";
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -9,6 +16,7 @@ export interface ValidationResult {
   valid: boolean;
   errors: ValidationError[];
   warnings: ValidationError[];
+  languageValidation?: LanguageValidationReport;
 }
 
 export function validateQuestion(data: any): ValidationResult {
@@ -159,24 +167,99 @@ export function validateBlogPost(data: any): ValidationResult {
   return { valid: errors.length === 0, errors, warnings };
 }
 
-export function validateForPublish(contentType: string, data: any): ValidationResult {
+export function validateForPublish(contentType: string, data: any, targetLanguage?: string): ValidationResult {
+  let result: ValidationResult;
   switch (contentType) {
     case "question":
     case "questions":
     case "exam_question":
-      return validateQuestion(data);
+      result = validateQuestion(data);
+      break;
     case "flashcard":
     case "flashcards":
-      return validateFlashcard(data);
+      result = validateFlashcard(data);
+      break;
     case "lesson":
     case "lessons":
-      return validateLesson(data);
+      result = validateLesson(data);
+      break;
     case "blog":
     case "blog-post":
     case "article":
     case "blogs":
-      return validateBlogPost(data);
+      result = validateBlogPost(data);
+      break;
     default:
-      return { valid: true, errors: [], warnings: [] };
+      result = { valid: true, errors: [], warnings: [] };
   }
+
+  if (targetLanguage) {
+    const langResult = validateLanguageForPublish(data, targetLanguage, contentType);
+    result.errors.push(...langResult.errors);
+    result.warnings.push(...langResult.warnings);
+    result.languageValidation = langResult.languageValidation;
+    if (langResult.errors.length > 0) {
+      result.valid = false;
+    }
+  }
+
+  return result;
+}
+
+export function validateLanguageForPublish(
+  data: any,
+  targetLanguage: string,
+  contentType: string
+): { errors: ValidationError[]; warnings: ValidationError[]; languageValidation?: LanguageValidationReport } {
+  const errors: ValidationError[] = [];
+  const warnings: ValidationError[] = [];
+
+  if (!targetLanguage || targetLanguage === "en") {
+    return { errors, warnings };
+  }
+
+  const { passed: langPassed, fieldResults } = validateContentLanguage(data, targetLanguage);
+  const { passed: termPassed, violations } = checkTerminologyConsistency(data, targetLanguage);
+
+  if (!langPassed) {
+    const failedFields = Object.entries(fieldResults)
+      .filter(([, v]) => !v.passed)
+      .map(([k]) => k);
+    errors.push({
+      field: "language",
+      message: `Language validation failed for fields: ${failedFields.join(", ")}. Expected: ${targetLanguage}`,
+      severity: "error",
+    });
+  }
+
+  if (!termPassed) {
+    for (const violation of violations) {
+      warnings.push({
+        field: violation.field,
+        message: `Clinical terminology mismatch: found "${violation.found}", expected "${violation.expected}" in ${targetLanguage}`,
+        severity: "warning",
+      });
+    }
+  }
+
+  const languageValidation: LanguageValidationReport = {
+    requested_language: targetLanguage,
+    detected_language: Object.values(fieldResults)[0]?.detected || targetLanguage,
+    field_validation: fieldResults,
+    validation_passed: langPassed,
+    terminology_check_passed: termPassed,
+    retry_count: 0,
+    status: langPassed && termPassed ? "validated" : "validation_failed",
+  };
+
+  const gate = checkPublishingGate(languageValidation);
+  if (!gate.allowed) {
+    errors.push({
+      field: "publishing_gate",
+      message: `Publishing blocked: ${gate.reasons.join("; ")}`,
+      severity: "error",
+    });
+  }
+
+  return { errors, warnings, languageValidation };
 }

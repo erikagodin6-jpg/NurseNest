@@ -59,6 +59,7 @@ async function seedDefaultEngines(): Promise<void> {
 }
 
 async function processAutopilotJob(jobId: string, engineKey: string, payload: any): Promise<void> {
+  const targetLang = payload.target_language || payload.targetLanguage || "en";
   try {
     switch (engineKey) {
       case "blog_engine":
@@ -68,14 +69,16 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.targetKeyword || payload.topic || "",
             payload.career,
             payload.wordCount || 1800,
-            jobId
+            jobId,
+            targetLang
           );
         } else if (payload.contentType === "new_grad") {
           await generateNewGradNursePage(
             payload.topic || "New Grad Nursing",
             payload.targetKeyword || payload.topic || "",
             payload.wordCount || 1500,
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await generateNursingPage(
@@ -83,7 +86,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.targetKeyword || payload.topic || "",
             payload.examType || "nclex-rn",
             payload.wordCount || 2000,
-            jobId
+            jobId,
+            targetLang
           );
         }
         break;
@@ -95,7 +99,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.domain || "Ethics & Professional Practice",
             payload.batchSize || 50,
             payload.difficultyDistribution || "35% Easy, 45% Moderate, 20% Hard",
-            jobId
+            jobId,
+            targetLang
           );
         } else if (payload.contentType === "allied_health" && payload.career) {
           await generateAlliedHealthQuestions(
@@ -103,7 +108,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.career,
             payload.difficultyRange || "2-4",
             payload.autoValidate !== false,
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await generatePracticeQuestionPage(
@@ -112,7 +118,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.batchSize || 25,
             payload.difficultyRange || "2-4",
             payload.autoValidate !== false,
-            jobId
+            jobId,
+            targetLang
           );
         }
         break;
@@ -123,20 +130,23 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.topic || "Allied Health Diagram",
             payload.career,
             payload.diagramType || payload.type || "clinical",
-            jobId
+            jobId,
+            targetLang
           );
         } else if (payload.contentType === "infographic_page") {
           await generateInfographicPage(
             payload.topic || "Infographic",
             payload.style || "clinical",
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await generateVisualDiagram(
             payload.type || "anatomy",
             payload.topic || "Heart Anatomy",
             payload.style || "clinical",
-            jobId
+            jobId,
+            targetLang
           );
         }
         break;
@@ -147,7 +157,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
           payload.bodySystem || "cardiovascular",
           payload.questionCount || 10,
           payload.tier || "rn",
-          jobId
+          jobId,
+          targetLang
         );
         break;
 
@@ -156,21 +167,24 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
           await generateFlashcards(
             payload.topic || "Nursing Fundamentals",
             payload.exam || payload.examType || "nclex-rn",
-            jobId
+            jobId,
+            targetLang
           );
         } else if (payload.contentType === "product") {
           await generateQuestionBankProduct(
             payload.topic || "Nursing Questions",
             payload.questionCount || 250,
             payload.exam || payload.examType || "nclex-rn",
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await generateCourseContent(
             payload.topic || "Nursing Fundamentals",
             payload.exam || "nclex-rn",
             payload.difficulty || "intermediate",
-            jobId
+            jobId,
+            targetLang
           );
         }
         break;
@@ -181,7 +195,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.topic || "Nursing Topic",
             payload.targetKeyword || payload.topic || "",
             payload.examType || "nclex-rn",
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await pool.query(
@@ -197,7 +212,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.topic || "Nursing Tips",
             payload.pageSlug || "",
             payload.board || "nursing-tips",
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await pool.query(
@@ -213,7 +229,8 @@ async function processAutopilotJob(jobId: string, engineKey: string, payload: an
             payload.pageSlug || "",
             payload.pageTitle || "",
             payload.clusterTopic || "",
-            jobId
+            jobId,
+            targetLang
           );
         } else {
           await pool.query(

@@ -1,5 +1,31 @@
 import { pool } from "./storage";
 import { routeAIRequest } from "./ai-provider-router";
+import {
+  validateTargetLanguage,
+  buildLanguageEnforcementPrompt,
+  validateContentLanguage,
+  checkTerminologyConsistency,
+  buildValidationReport,
+  getContentFields,
+  checkPublishingGate,
+  buildLanguageScopedCacheKey,
+  enforceLanguageOnGeneration,
+  type LanguageValidationReport,
+} from "./language-enforcement";
+
+async function runLanguageValidatedGeneration(
+  parsed: any,
+  targetLanguage: string,
+  contentType: string,
+  retryCount: number = 0
+): Promise<{ parsed: any; validationReport: LanguageValidationReport }> {
+  const fields = getContentFields(contentType);
+  const { passed: langPassed, fieldResults } = validateContentLanguage(parsed, targetLanguage, fields);
+  const { passed: termPassed } = checkTerminologyConsistency(parsed, targetLanguage);
+  const overallPassed = langPassed && termPassed;
+  const report = buildValidationReport(targetLanguage, fieldResults, termPassed, retryCount, overallPassed);
+  return { parsed, validationReport: report };
+}
 
 function getOpenAI() {
   return {
@@ -206,14 +232,17 @@ export async function generateNursingPage(
   targetKeyword: string,
   examType: string,
   wordCount: number,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   await pool.query(
     "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
     [jobId]
   );
 
   try {
+    const langPrompt = buildLanguageEnforcementPrompt(validatedLang);
     const userPrompt = `Generate a comprehensive nursing study page on the following topic:
 
 Topic: ${topic}
@@ -229,7 +258,7 @@ Requirements:
 - Clinical pearls should be memorable exam tips
 - Common exam traps should warn about frequent mistakes students make
 
-Make the content comprehensive, clinically accurate, and exam-focused.`;
+Make the content comprehensive, clinically accurate, and exam-focused.${langPrompt}`;
 
     const result = await routeAIRequest(NURSING_PAGE_SYSTEM_PROMPT, userPrompt, {
       model: "gpt-4o",
@@ -245,36 +274,54 @@ Make the content comprehensive, clinically accurate, and exam-focused.`;
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('blog_engine', 'blog', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic,
-          targetKeyword,
-          examType,
-          wordCount: parsed.wordCount || wordCount,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          metaDescription: parsed.metaDescription,
-          questionCount: parsed.practiceQuestions?.length || 0,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "nursing_page");
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        title: parsed.title,
-        slug: parsed.slug,
-        wordCount: parsed.wordCount,
-        questionCount: parsed.practiceQuestions?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
+
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('blog_engine', 'blog', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic,
+            targetKeyword,
+            examType,
+            wordCount: parsed.wordCount || wordCount,
+            slug: parsed.slug,
+            seoTitle: parsed.seoTitle,
+            metaDescription: parsed.metaDescription,
+            questionCount: parsed.practiceQuestions?.length || 0,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          title: parsed.title,
+          slug: parsed.slug,
+          wordCount: parsed.wordCount,
+          questionCount: parsed.practiceQuestions?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'blog_engine'"
@@ -303,8 +350,10 @@ export async function generateAlliedHealthPage(
   targetKeyword: string,
   career: string,
   wordCount: number,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   await pool.query(
     "UPDATE autopilot_jobs SET status = 'running', started_at = NOW() WHERE id = $1",
     [jobId]
@@ -313,6 +362,7 @@ export async function generateAlliedHealthPage(
   const careerLabel = ALLIED_CAREER_LABELS[career] || career;
 
   try {
+    const langPrompt = buildLanguageEnforcementPrompt(validatedLang);
     const userPrompt = `Generate a comprehensive allied health study page on the following topic:
 
 Topic: ${topic}
@@ -330,7 +380,7 @@ Requirements:
 - Clinical pearls should be memorable exam tips specific to this career
 - Visual content recommendation should be relevant to ${careerLabel} practice
 
-Make the content comprehensive, clinically accurate, and exam-focused.`;
+Make the content comprehensive, clinically accurate, and exam-focused.${langPrompt}`;
 
     const aiResult = await routeAIRequest(ALLIED_HEALTH_PAGE_SYSTEM_PROMPT, userPrompt, {
       model: "gpt-4o",
@@ -346,39 +396,49 @@ Make the content comprehensive, clinically accurate, and exam-focused.`;
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('blog_engine', 'blog', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic,
-          targetKeyword,
-          career,
-          careerLabel,
-          contentType: "allied_health",
-          wordCount: parsed.wordCount || wordCount,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          metaDescription: parsed.metaDescription,
-          questionCount: parsed.practiceQuestions?.length || 0,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "allied_health");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        title: parsed.title,
-        slug: parsed.slug,
-        career,
-        wordCount: parsed.wordCount,
-        questionCount: parsed.practiceQuestions?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('blog_engine', 'blog', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, targetKeyword, career, careerLabel,
+            contentType: "allied_health",
+            wordCount: parsed.wordCount || wordCount,
+            slug: parsed.slug, seoTitle: parsed.seoTitle,
+            metaDescription: parsed.metaDescription,
+            questionCount: parsed.practiceQuestions?.length || 0,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          title: parsed.title, slug: parsed.slug, career,
+          wordCount: parsed.wordCount,
+          questionCount: parsed.practiceQuestions?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'blog_engine'"
@@ -926,8 +986,10 @@ export async function generateAlliedHealthQuestions(
   career: string,
   difficultyRange: string,
   autoValidate: boolean,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
   const careerLabel = ALLIED_CAREER_LABELS[career] || career;
 
@@ -961,7 +1023,7 @@ Requirements:
 - Questions should progressively increase in complexity
 - Include relevant values, measurements, and technical specifications where appropriate
 
-Make questions clinically accurate and representative of the ${careerLabel} certification exam.`
+Make questions clinically accurate and representative of the ${careerLabel} certification exam.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -979,38 +1041,48 @@ Make questions clinically accurate and representative of the ${careerLabel} cert
       validationResult = validateQuestions(parsed.questions);
     }
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('question_factory', 'question', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Allied Health Questions: ${parsed.topic || topic} (${careerLabel})`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic,
-          career,
-          careerLabel,
-          contentType: "allied_health",
-          difficultyRange,
-          questionCount: parsed.questions?.length || 0,
-          validation: validationResult,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          metaDescription: parsed.metaDescription,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "exam_question");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        topic: parsed.topic,
-        career,
-        questionCount: parsed.questions?.length || 0,
-        validation: validationResult,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('question_factory', 'question', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Allied Health Questions: ${parsed.topic || topic} (${careerLabel})`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, career, careerLabel,
+            contentType: "allied_health", difficultyRange,
+            questionCount: parsed.questions?.length || 0,
+            validation: validationResult,
+            slug: parsed.slug, seoTitle: parsed.seoTitle,
+            metaDescription: parsed.metaDescription,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          topic: parsed.topic, career,
+          questionCount: parsed.questions?.length || 0,
+          validation: validationResult, queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'question_factory'"
@@ -1031,8 +1103,10 @@ export async function generateSocialWorkQuestions(
   domain: string,
   batchSize: number,
   difficultyDistribution: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1062,7 +1136,7 @@ Requirements:
 - Include clinical pearls and lesson links
 - Distribute across question types: 40% MCQ_SINGLE, 40% CASE_BASED_CLUSTER, 20% PRIORITIZATION
 
-Generate exactly ${batchSize} high-quality exam questions.`
+Generate exactly ${batchSize} high-quality exam questions.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1076,34 +1150,46 @@ Generate exactly ${batchSize} high-quality exam questions.`
     const parsed = JSON.parse(content);
     const questions = Array.isArray(parsed) ? parsed : parsed.questions || parsed.items || [];
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('question_factory', 'social_work_question', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Social Work Questions: ${topic} (${domain})`,
-        JSON.stringify({ questions, topic, domain }),
-        JSON.stringify({
-          topic,
-          domain,
-          career: "socialWorker",
-          contentType: "social_work",
-          batchSize,
-          difficultyDistribution,
-          questionCount: questions.length,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
+    const { validationReport } = await runLanguageValidatedGeneration(
+      { questions, topic, domain }, validatedLang, "social_work"
     );
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        topic,
-        domain,
-        questionCount: questions.length,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('question_factory', 'social_work_question', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Social Work Questions: ${topic} (${domain})`,
+          JSON.stringify({ questions, topic, domain }),
+          saveStatus,
+          JSON.stringify({
+            topic, domain, career: "socialWorker",
+            contentType: "social_work", batchSize, difficultyDistribution,
+            questionCount: questions.length,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          topic, domain, questionCount: questions.length,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     return { questions, topic, domain };
   } catch (err: any) {
@@ -1119,8 +1205,10 @@ export async function generateAlliedHealthInfographic(
   topic: string,
   career: string,
   diagramType: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
   const careerLabel = ALLIED_CAREER_LABELS[career] || career;
 
@@ -1150,7 +1238,7 @@ Requirements:
 - Content must be specific to ${careerLabel} practice
 - Make it visually clean with pastel clinical aesthetic
 
-Generate the complete infographic specification ready for design production.`
+Generate the complete infographic specification ready for design production.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1163,25 +1251,39 @@ Generate the complete infographic specification ready for design production.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('visual_factory', 'diagram', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, career, careerLabel, diagramType,
-          contentType: "allied_health",
-          slug: parsed.slug,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "allied_health");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({ title: parsed.title, slug: parsed.slug, career, queuedForReview: true }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('visual_factory', 'diagram', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, career, careerLabel, diagramType,
+            contentType: "allied_health", slug: parsed.slug,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({ title: parsed.title, slug: parsed.slug, career, queuedForReview: true, language_validation: validationReport }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'visual_factory'"
@@ -1201,8 +1303,10 @@ export async function generateNewGradNursePage(
   topic: string,
   targetKeyword: string,
   wordCount: number,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1231,7 +1335,7 @@ Requirements:
 - Quick reference checklist should be printable and actionable
 - Tone should be supportive and encouraging while remaining professional
 
-Make the content practical, evidence-based, and immediately useful.`
+Make the content practical, evidence-based, and immediately useful.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1244,34 +1348,45 @@ Make the content practical, evidence-based, and immediately useful.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('blog_engine', 'blog', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic,
-          targetKeyword,
-          contentType: "new_grad",
-          wordCount: parsed.wordCount || wordCount,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          metaDescription: parsed.metaDescription,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "new_grad");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        title: parsed.title,
-        slug: parsed.slug,
-        wordCount: parsed.wordCount,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('blog_engine', 'blog', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, targetKeyword, contentType: "new_grad",
+            wordCount: parsed.wordCount || wordCount,
+            slug: parsed.slug, seoTitle: parsed.seoTitle,
+            metaDescription: parsed.metaDescription,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          title: parsed.title, slug: parsed.slug,
+          wordCount: parsed.wordCount, queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'blog_engine'"
@@ -1291,8 +1406,10 @@ export async function generateSEOCluster(
   topic: string,
   targetKeyword: string,
   examType: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1321,7 +1438,7 @@ Requirements:
 - All slugs should be SEO-friendly and include relevant keywords
 - Supporting pages should cover the topic from different angles (study guides, practice questions, clinical tips, charts, comparisons)
 
-Make the cluster structure comprehensive and SEO-optimized.`
+Make the cluster structure comprehensive and SEO-optimized.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1334,30 +1451,46 @@ Make the cluster structure comprehensive and SEO-optimized.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('keyword_discovery', 'cluster', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Topic Cluster: ${parsed.clusterTopic || topic}`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, targetKeyword, examType,
-          pillarSlug: parsed.pillarPage?.slug,
-          supportingPageCount: parsed.supportingPages?.length || 0,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({
-        clusterTopic: parsed.clusterTopic,
-        pillarSlug: parsed.pillarPage?.slug,
-        supportingPages: parsed.supportingPages?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('keyword_discovery', 'cluster', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Topic Cluster: ${parsed.clusterTopic || topic}`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, targetKeyword, examType,
+            pillarSlug: parsed.pillarPage?.slug,
+            supportingPageCount: parsed.supportingPages?.length || 0,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({
+          clusterTopic: parsed.clusterTopic,
+          pillarSlug: parsed.pillarPage?.slug,
+          supportingPages: parsed.supportingPages?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'keyword_discovery'"
@@ -1376,8 +1509,10 @@ Make the cluster structure comprehensive and SEO-optimized.`
 export async function generateFlashcards(
   topic: string,
   examType: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1404,7 +1539,7 @@ Requirements:
 - Flashcards should be suitable for spaced-repetition study
 - Generate SEO metadata for the flashcard page
 
-Make flashcards concise, accurate, and easy to study.`
+Make flashcards concise, accurate, and easy to study.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1417,29 +1552,45 @@ Make flashcards concise, accurate, and easy to study.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('course_builder', 'flashcard', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Flashcards: ${parsed.topic || topic}`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, examType,
-          cardCount: parsed.flashcards?.length || 0,
-          slug: parsed.slug,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "flashcard");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({
-        topic: parsed.topic,
-        cardCount: parsed.flashcards?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('course_builder', 'flashcard', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Flashcards: ${parsed.topic || topic}`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, examType,
+            cardCount: parsed.flashcards?.length || 0,
+            slug: parsed.slug,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({
+          topic: parsed.topic,
+          cardCount: parsed.flashcards?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'course_builder'"
@@ -1459,8 +1610,10 @@ export async function generatePinterestPins(
   topic: string,
   pageSlug: string,
   board: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1488,7 +1641,7 @@ Requirements:
 - Pins should drive clicks to the study page
 - Descriptions should be engaging and educational
 
-Make pins visually appealing and click-worthy.`
+Make pins visually appealing and click-worthy.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1501,28 +1654,43 @@ Make pins visually appealing and click-worthy.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('pinterest_scheduler', 'social', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Pinterest Pins: ${topic}`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, pageSlug, board,
-          pinCount: parsed.pins?.length || 0,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({
-        topic,
-        pinCount: parsed.pins?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('pinterest_scheduler', 'social', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Pinterest Pins: ${topic}`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, pageSlug, board,
+            pinCount: parsed.pins?.length || 0,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({
+          topic, pinCount: parsed.pins?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'pinterest_scheduler'"
@@ -1542,8 +1710,10 @@ export async function generateInternalLinkMap(
   pageSlug: string,
   pageTitle: string,
   clusterTopic: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1571,7 +1741,7 @@ Requirements:
 - Each link should have natural, descriptive anchor text
 - Include a relevance score for each link
 
-Generate the complete internal linking map.`
+Generate the complete internal linking map.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1584,12 +1754,15 @@ Generate the complete internal linking map.`
 
     const parsed = JSON.parse(content);
 
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+
     await pool.query(
       "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
       [JSON.stringify({
         sourcePage: pageSlug,
         linkCount: parsed.links?.length || 0,
         links: parsed.links,
+        language_validation: validationReport,
       }), jobId]
     );
 
@@ -1611,8 +1784,10 @@ export async function generateQuestionBankProduct(
   topic: string,
   questionCount: number,
   examType: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1641,7 +1816,7 @@ Requirements:
 - Suggested pricing with compare-at price for perceived value
 - Feature list highlighting what makes this product valuable
 
-Make the product listing professional and conversion-optimized.`
+Make the product listing professional and conversion-optimized.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1654,30 +1829,45 @@ Make the product listing professional and conversion-optimized.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('course_builder', 'product', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || `${topic} Question Bank`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, questionCount, examType,
-          slug: parsed.slug,
-          suggestedPrice: parsed.suggestedPrice,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({
-        title: parsed.title,
-        slug: parsed.slug,
-        questionCount: parsed.questionCount,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('course_builder', 'product', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || `${topic} Question Bank`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, questionCount, examType,
+            slug: parsed.slug,
+            suggestedPrice: parsed.suggestedPrice,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({
+          title: parsed.title, slug: parsed.slug,
+          questionCount: parsed.questionCount,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     return parsed;
   } catch (err: any) {
@@ -1692,8 +1882,10 @@ Make the product listing professional and conversion-optimized.`
 export async function generateInfographicPage(
   topic: string,
   style: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1721,7 +1913,7 @@ Requirements:
 - Internal links to related lessons
 - Complete SEO metadata including image alt text
 
-Make the page educational, visually appealing, and SEO-optimized.`
+Make the page educational, visually appealing, and SEO-optimized.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1734,25 +1926,39 @@ Make the page educational, visually appealing, and SEO-optimized.`
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('visual_factory', 'infographic_page', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, style,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({ title: parsed.title, slug: parsed.slug, queuedForReview: true }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('visual_factory', 'infographic_page', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, style, slug: parsed.slug,
+            seoTitle: parsed.seoTitle,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({ title: parsed.title, slug: parsed.slug, queuedForReview: true, language_validation: validationReport }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'visual_factory'"
@@ -1774,8 +1980,10 @@ export async function generatePracticeQuestionPage(
   batchSize: number,
   difficultyRange: string,
   autoValidate: boolean,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1814,7 +2022,7 @@ ${category === "allied" ? "Focus on allied health exam preparation across multip
 ${category === "np_canada" ? "Focus on Canadian Nurse Practitioner exam content with Canadian guidelines" : ""}
 ${category === "np_us" ? "Focus on AANP/ANCC NP certification exam content" : ""}
 
-Make questions clinically accurate and exam-representative.`
+Make questions clinically accurate and exam-representative.${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1832,36 +2040,47 @@ Make questions clinically accurate and exam-representative.`
       validationResult = validateQuestions(parsed.questions);
     }
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('question_factory', 'question', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        `Practice Questions: ${parsed.topic || topic}`,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic,
-          category,
-          batchSize,
-          difficultyRange,
-          questionCount: parsed.questions?.length || 0,
-          validation: validationResult,
-          slug: parsed.slug,
-          seoTitle: parsed.seoTitle,
-          metaDescription: parsed.metaDescription,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "exam_question");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
-      [JSON.stringify({
-        topic: parsed.topic,
-        questionCount: parsed.questions?.length || 0,
-        validation: validationResult,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('question_factory', 'question', $1, $2, $3, $4, 'autopilot')`,
+        [
+          `Practice Questions: ${parsed.topic || topic}`,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, category, batchSize, difficultyRange,
+            questionCount: parsed.questions?.length || 0,
+            validation: validationResult,
+            slug: parsed.slug, seoTitle: parsed.seoTitle,
+            metaDescription: parsed.metaDescription,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        `UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2`,
+        [JSON.stringify({
+          topic: parsed.topic,
+          questionCount: parsed.questions?.length || 0,
+          validation: validationResult, queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'question_factory'"
@@ -1936,8 +2155,10 @@ export async function generateVisualDiagram(
   type: string,
   topic: string,
   style: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -1976,7 +2197,7 @@ Output JSON:
   "metaDescription": "...",
   "pinterestDescription": "...",
   "relatedTopics": ["..."]
-}`
+}${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -1989,24 +2210,38 @@ Output JSON:
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('visual_factory', 'diagram', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          type, topic, style,
-          slug: parsed.slug,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "article");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({ title: parsed.title, slug: parsed.slug, queuedForReview: true }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('visual_factory', 'diagram', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            type, topic, style, slug: parsed.slug,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({ title: parsed.title, slug: parsed.slug, queuedForReview: true, language_validation: validationReport }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'visual_factory'"
@@ -2027,8 +2262,10 @@ export async function generatePracticeSEOPage(
   bodySystem: string,
   questionCount: number,
   tier: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -2078,7 +2315,7 @@ Output JSON:
   ],
   "relatedPages": ["..."],
   "keywords": ["..."]
-}`
+}${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -2091,24 +2328,38 @@ Output JSON:
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('practice_seo', 'practice', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || title,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          bodySystem, tier, questionCount,
-          slug: parsed.slug,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "exam_question");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({ title: parsed.title, slug: parsed.slug, questionCount: parsed.questions?.length, queuedForReview: true }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('practice_seo', 'practice', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || title,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            bodySystem, tier, questionCount, slug: parsed.slug,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({ title: parsed.title, slug: parsed.slug, questionCount: parsed.questions?.length, queuedForReview: true, language_validation: validationReport }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'practice_seo'"
@@ -2128,8 +2379,10 @@ export async function generateCourseContent(
   topic: string,
   exam: string,
   difficulty: string,
-  jobId: string
+  jobId: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
 
   await pool.query(
@@ -2188,7 +2441,7 @@ Output JSON:
   ],
   "prerequisites": ["..."],
   "learningOutcomes": ["..."]
-}`
+}${buildLanguageEnforcementPrompt(validatedLang)}`
         }
       ],
       temperature: 0.7,
@@ -2201,30 +2454,44 @@ Output JSON:
 
     const parsed = JSON.parse(content);
 
-    await pool.query(
-      `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
-       VALUES ('course_builder', 'course', $1, $2, 'pending_review', $3, 'autopilot')`,
-      [
-        parsed.title || topic,
-        JSON.stringify(parsed),
-        JSON.stringify({
-          topic, exam, difficulty,
-          slug: parsed.slug,
-          moduleCount: parsed.modules?.length || 0,
-          generatedAt: new Date().toISOString(),
-        }),
-      ]
-    );
+    const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "lesson");
+    const saveStatus = validationReport.validation_passed ? 'pending_review' : 'validation_failed';
 
-    await pool.query(
-      "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
-      [JSON.stringify({
-        title: parsed.title,
-        slug: parsed.slug,
-        moduleCount: parsed.modules?.length || 0,
-        queuedForReview: true,
-      }), jobId]
-    );
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO publishing_queue (engine_key, content_type, title, content, status, metadata, created_by)
+         VALUES ('course_builder', 'course', $1, $2, $3, $4, 'autopilot')`,
+        [
+          parsed.title || topic,
+          JSON.stringify(parsed),
+          saveStatus,
+          JSON.stringify({
+            topic, exam, difficulty, slug: parsed.slug,
+            moduleCount: parsed.modules?.length || 0,
+            generatedAt: new Date().toISOString(),
+            target_language: validatedLang,
+            language_validation: validationReport,
+          }),
+        ]
+      );
+      await client.query(
+        "UPDATE autopilot_jobs SET status = 'completed', result = $1, completed_at = NOW() WHERE id = $2",
+        [JSON.stringify({
+          title: parsed.title, slug: parsed.slug,
+          moduleCount: parsed.modules?.length || 0,
+          queuedForReview: true,
+          language_validation: validationReport,
+        }), jobId]
+      );
+      await client.query("COMMIT");
+    } catch (txErr) {
+      await client.query("ROLLBACK");
+      throw txErr;
+    } finally {
+      client.release();
+    }
 
     await pool.query(
       "UPDATE autopilot_engines SET last_run_at = NOW() WHERE engine_key = 'course_builder'"
@@ -2252,8 +2519,10 @@ export async function generateNewGradGuide(
   guideType: string,
   topic: string,
   profession: string,
-  targetKeyword: string
+  targetKeyword: string,
+  targetLanguage: string = "en"
 ): Promise<any> {
+  const validatedLang = validateTargetLanguage(targetLanguage);
   const openai = getOpenAI();
   const systemPrompt = NEW_GRAD_PROMPT_MAP[guideType] || NEW_GRAD_CLINICAL_SKILLS_PROMPT;
 
@@ -2274,7 +2543,7 @@ Requirements:
 - Include real-world scenarios and evidence-based recommendations
 - Tone should be supportive and encouraging while remaining professional
 - Include FAQ items with detailed answers
-- All content should be immediately useful for new graduates`
+- All content should be immediately useful for new graduates${buildLanguageEnforcementPrompt(validatedLang)}`
       }
     ],
     temperature: 0.7,
@@ -2286,6 +2555,8 @@ Requirements:
   if (!content) throw new Error("No content returned from generation");
 
   const parsed = JSON.parse(content);
+
+  const { validationReport } = await runLanguageValidatedGeneration(parsed, validatedLang, "new_grad");
 
   const slug = parsed.slug
     ? `new-grad/${profession}/${parsed.slug.replace(/^new-grad\/[^/]+\//, "")}`
