@@ -1532,6 +1532,28 @@ export const internalLinkMap: Record<string, InternalLink[]> = {
     { anchor: "Dyspnea on Exertion Assessment", target: "/symptoms/dyspnea", reason: "related symptom" },
     { anchor: "Left vs Right Heart Failure", target: "/clinical-comparisons/left-vs-right-heart-failure", reason: "related comparison" },
   ],
+  "mlt-lab-values-potassium": [
+    { anchor: "Sodium Lab Values for MLT", target: "/allied-health/mlt/lab-values/sodium", reason: "related electrolyte" },
+    { anchor: "Magnesium Lab Values for MLT", target: "/allied-health/mlt/lab-values/magnesium", reason: "refractory hypokalemia" },
+    { anchor: "ABG Interpretation for MLT", target: "/allied-health/mlt/lab-values/abg", reason: "acid-base potassium shift" },
+    { anchor: "Complete MLT Lab Values Chart", target: "/allied-health/mlt/lab-values/complete-chart", reason: "reference chart" },
+  ],
+  "mlt-lab-values-hub": [
+    { anchor: "MLT Exam Prep", target: "/allied-health/mlt", reason: "career hub" },
+    { anchor: "Complete Lab Values Chart", target: "/allied-health/mlt/lab-values/complete-chart", reason: "viral lead magnet" },
+    { anchor: "Top 50 Lab Values for MLT", target: "/allied-health/mlt/lab-values/top-50", reason: "viral lead magnet" },
+    { anchor: "MLT Question Bank", target: "/allied-health/mlt/questions", reason: "practice questions" },
+  ],
+  "mlt-lab-values-chart": [
+    { anchor: "MLT Lab Values Hub", target: "/allied-health/mlt/lab-values", reason: "parent hub" },
+    { anchor: "Top 50 Must-Know Lab Values", target: "/allied-health/mlt/lab-values/top-50", reason: "study guide" },
+    { anchor: "MLT Exam Prep", target: "/allied-health/mlt", reason: "career hub" },
+  ],
+  "mlt-lab-values-top50": [
+    { anchor: "MLT Lab Values Hub", target: "/allied-health/mlt/lab-values", reason: "parent hub" },
+    { anchor: "Complete Lab Values Chart", target: "/allied-health/mlt/lab-values/complete-chart", reason: "reference chart" },
+    { anchor: "MLT Exam Prep", target: "/allied-health/mlt", reason: "career hub" },
+  ],
 };
 
 export function getInternalLinksForLesson(lessonId: string): InternalLink[] {

@@ -101,6 +101,10 @@ const ImagingCareerExamsPage = lazy(() => import("./components/career-exams-page
 const CareerCareerGuidePage = lazy(() => import("./components/career-career-guide-page"));
 import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
 const MltSEOPage = lazy(() => import("./pages/mlt-seo-pages").then(m => ({ default: m.MltSEOPage })));
+const MltLabValuePage = lazy(() => import("./pages/mlt-lab-value-page").then(m => ({ default: m.MltLabValuePage })));
+const MltLabValuesHub = lazy(() => import("./pages/mlt-lab-values-hub").then(m => ({ default: m.MltLabValuesHub })));
+const MltLabValuesCompleteChart = lazy(() => import("./pages/mlt-lab-values-viral").then(m => ({ default: m.MltLabValuesCompleteChart })));
+const MltLabValuesTop50 = lazy(() => import("./pages/mlt-lab-values-viral").then(m => ({ default: m.MltLabValuesTop50 })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
 const PtaSeoContentPage = lazy(() => import("./pages/pta-seo-content-page"));
@@ -452,6 +456,10 @@ export function AlliedRoutes() {
         <Route path="/allied-health/mlt/admin/cat" component={MltAdminCat} />
         <Route path="/allied-health/mlt/blog/:slug">{() => <MltBlog isPost />}</Route>
         <Route path="/allied-health/mlt/blog">{() => <MltBlog />}</Route>
+        <Route path="/allied-health/mlt/lab-values/complete-chart" component={MltLabValuesCompleteChart} />
+        <Route path="/allied-health/mlt/lab-values/top-50" component={MltLabValuesTop50} />
+        <Route path="/allied-health/mlt/lab-values/:slug" component={MltLabValuePage} />
+        <Route path="/allied-health/mlt/lab-values" component={MltLabValuesHub} />
         <Route path="/allied-health/mlt/canada/exam-prep">{() => <MltCountryPage country="canada" pageType="exam-prep" />}</Route>
         <Route path="/allied-health/mlt/canada/lessons">{() => <MltCountryPage country="canada" pageType="lessons" />}</Route>
         <Route path="/allied-health/mlt/canada/flashcards">{() => <MltCountryPage country="canada" pageType="flashcards" />}</Route>

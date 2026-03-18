@@ -127,6 +127,16 @@ export async function generateAlliedTopics(): Promise<string[]> {
     urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${page}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
   }
 
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/complete-chart`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/top-50`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  try {
+    const { getAllMltLabValueSlugs } = await import("../../client/src/data/mlt-lab-values");
+    for (const slug of getAllMltLabValueSlugs()) {
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/${slug}`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
+    }
+  } catch {}
+
   const encyclopediaProfessions = [
     "paramedic", "respiratory-therapy", "mlt", "imaging",
     "social-work", "psychotherapy", "addictions", "occupational-therapy",
