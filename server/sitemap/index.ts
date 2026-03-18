@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { SUPPORTED_LOCALES } from "@shared/locales";
+import { isEmergencyMode, isCircuitOpen } from "../platform-resilience";
 import {
   getSiteBase, getAlliedBase, getNewGradBase, todayDate, toLastmod,
   wrapUrlset, wrapSitemapIndex, sitemapIndexEntry,
@@ -49,6 +50,39 @@ function sendXml(res: Response, xml: string, cacheHit: boolean) {
   res.status(200).send(xml);
 }
 
+function handleSitemapError(res: Response, exactCacheKey: string, errorLabel: string, e: any): void {
+  console.error(`${errorLabel} error:`, e);
+  const entry = cache.get(exactCacheKey);
+  if (entry && entry.xml) {
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Sitemap-Cache", "STALE");
+    res.status(200).send(entry.xml);
+    return;
+  }
+  res.setHeader("Retry-After", "600");
+  res.status(503).send('<?xml version="1.0" encoding="UTF-8"?><error>Service temporarily unavailable</error>');
+}
+
+function serveStaleCacheOr503(res: Response, cacheKey: string, label: string): void {
+  const entry = cache.get(cacheKey);
+  if (entry && entry.xml) {
+    console.warn(`[Sitemap] ${label}: serving stale cache during degraded state`);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("X-Sitemap-Cache", "STALE");
+    res.status(200).send(entry.xml);
+    return;
+  }
+  console.warn(`[Sitemap] ${label}: no cache available, returning 503`);
+  res.setHeader("Retry-After", "600");
+  res.status(503).send('<?xml version="1.0" encoding="UTF-8"?><error>Service temporarily unavailable</error>');
+}
+
+async function isSystemDegraded(): Promise<boolean> {
+  if (isDegradedState()) return true;
+  if (isCircuitOpen("database")) return true;
+  return !(await isDbHealthy());
+}
+
 interface SitemapDef {
   name: string;
   generator: () => Promise<string[]>;
@@ -89,12 +123,31 @@ const alliedSitemapDefs: SitemapDef[] = [
   { name: "allied-seo-landing", generator: generateAlliedSeoLanding },
 ];
 
+function isDegradedState(): boolean {
+  return isEmergencyMode();
+}
+
+async function isDbHealthy(): Promise<boolean> {
+  try {
+    const { pool } = await import("../storage");
+    const result = await pool.query("SELECT 1");
+    return result.rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promise<string> {
   const cacheKey = `child-${def.name}-${chunkIndex}`;
   const cached = getCached(cacheKey);
   if (cached) return cached;
 
   const urls = await def.generator();
+  if (urls.length === 0 && await isSystemDegraded()) {
+    const stale = cache.get(cacheKey);
+    if (stale && stale.xml) return stale.xml;
+    throw new Error(`Empty sitemap during degraded state: ${def.name}`);
+  }
   const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
   const chunk = chunks[chunkIndex] || [];
   const xml = wrapUrlset(chunk);
@@ -294,8 +347,8 @@ export function registerSitemapRoutes(app: Express) {
       }
       sendXml(res, xml, false);
     } catch (e: any) {
-      console.error("Sitemap index error:", e);
-      sendXml(res, wrapSitemapIndex([]), false);
+      const indexKey = (req as any).isNewGrad ? "newgrad-index" : (req as any).isAllied ? "allied-index" : "main-index";
+      handleSitemapError(res, indexKey, "Sitemap index", e);
     }
   });
 
@@ -306,12 +359,14 @@ export function registerSitemapRoutes(app: Express) {
         const cached = getCached(cacheKey);
         if (cached) return sendXml(res, cached, true);
         const urls = await generateLanguageSitemap(locale);
+        if (urls.length === 0 && await isSystemDegraded()) {
+          return serveStaleCacheOr503(res, cacheKey, `Sitemap lang-${locale}`);
+        }
         const xml = wrapUrlset(urls);
         setCache(cacheKey, xml);
         sendXml(res, xml, false);
       } catch (e: any) {
-        console.error(`Sitemap lang-${locale} error:`, e);
-        sendXml(res, wrapUrlset([]), false);
+        handleSitemapError(res, `lang-${locale}`, `Sitemap lang-${locale}`, e);
       }
     });
   }
@@ -325,8 +380,7 @@ export function registerSitemapRoutes(app: Express) {
         const xml = await generateChildSitemap(def, 0);
         sendXml(res, xml, false);
       } catch (e: any) {
-        console.error(`Sitemap ${def.name} error:`, e);
-        sendXml(res, wrapUrlset([]), false);
+        handleSitemapError(res, `child-${def.name}-0`, `Sitemap ${def.name}`, e);
       }
     });
 
@@ -335,21 +389,23 @@ export function registerSitemapRoutes(app: Express) {
       if (isNaN(pageNum) || pageNum < 1) return res.status(404).send("Not found");
       const chunkIndex = pageNum - 1;
       try {
-        const urls = await def.generator();
-        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
-        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
-
         const cacheKey = `child-${def.name}-${chunkIndex}`;
         const cached = getCached(cacheKey);
         if (cached) return sendXml(res, cached, true);
+
+        const urls = await def.generator();
+        if (urls.length === 0 && await isSystemDegraded()) {
+          return serveStaleCacheOr503(res, cacheKey, `Sitemap ${def.name}-${pageNum}`);
+        }
+        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
+        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
 
         const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
         const xml = wrapUrlset(chunks[chunkIndex] || []);
         setCache(cacheKey, xml);
         sendXml(res, xml, false);
       } catch (e: any) {
-        console.error(`Sitemap ${def.name}-${pageNum} error:`, e);
-        res.status(500).send("Error generating sitemap");
+        handleSitemapError(res, `child-${def.name}-${chunkIndex}`, `Sitemap ${def.name}-${pageNum}`, e);
       }
     });
   }
@@ -363,8 +419,7 @@ export function registerSitemapRoutes(app: Express) {
         const xml = await generateChildSitemap(def, 0);
         sendXml(res, xml, false);
       } catch (e: any) {
-        console.error(`Sitemap ${def.name} error:`, e);
-        sendXml(res, wrapUrlset([]), false);
+        handleSitemapError(res, `child-${def.name}-0`, `Sitemap ${def.name}`, e);
       }
     });
 
@@ -373,21 +428,23 @@ export function registerSitemapRoutes(app: Express) {
       if (isNaN(pageNum) || pageNum < 1) return res.status(404).send("Not found");
       const chunkIndex = pageNum - 1;
       try {
-        const urls = await def.generator();
-        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
-        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
-
         const cacheKey = `child-${def.name}-${chunkIndex}`;
         const cached = getCached(cacheKey);
         if (cached) return sendXml(res, cached, true);
+
+        const urls = await def.generator();
+        if (urls.length === 0 && await isSystemDegraded()) {
+          return serveStaleCacheOr503(res, cacheKey, `Sitemap ${def.name}-${pageNum}`);
+        }
+        const chunkCount = Math.ceil(urls.length / SITEMAP_SPLIT_LIMIT);
+        if (chunkIndex >= chunkCount) return res.status(404).send("Not found");
 
         const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
         const xml = wrapUrlset(chunks[chunkIndex] || []);
         setCache(cacheKey, xml);
         sendXml(res, xml, false);
       } catch (e: any) {
-        console.error(`Sitemap ${def.name}-${pageNum} error:`, e);
-        res.status(500).send("Error generating sitemap");
+        handleSitemapError(res, `child-${def.name}-${chunkIndex}`, `Sitemap ${def.name}-${pageNum}`, e);
       }
     });
   }
@@ -407,12 +464,14 @@ export function registerSitemapRoutes(app: Express) {
       if (cached) return sendXml(res, cached, true);
 
       const urls = await generateNewGradPages();
+      if (urls.length === 0 && await isSystemDegraded()) {
+        return serveStaleCacheOr503(res, cacheKey, "NewGrad sitemap");
+      }
       const xml = wrapUrlset(urls);
       setCache(cacheKey, xml);
       sendXml(res, xml, false);
     } catch (e: any) {
-      console.error("NewGrad sitemap error:", e);
-      sendXml(res, wrapUrlset([]), false);
+      handleSitemapError(res, "newgrad-content-0", "NewGrad sitemap", e);
     }
   });
 
@@ -421,13 +480,21 @@ export function registerSitemapRoutes(app: Express) {
     if (isNaN(pageNum) || pageNum < 1) return res.status(404).send("Not found");
     const chunkIndex = pageNum - 1;
     try {
+      const cacheKey = `newgrad-content-${chunkIndex}`;
+      const cached = getCached(cacheKey);
+      if (cached) return sendXml(res, cached, true);
+
       const urls = await generateNewGradPages();
+      if (urls.length === 0 && await isSystemDegraded()) {
+        return serveStaleCacheOr503(res, cacheKey, `NewGrad sitemap page ${pageNum}`);
+      }
       const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
       if (chunkIndex >= chunks.length) return res.status(404).send("Not found");
       const xml = wrapUrlset(chunks[chunkIndex] || []);
+      setCache(cacheKey, xml);
       sendXml(res, xml, false);
     } catch (e: any) {
-      res.status(500).send("Error generating sitemap");
+      handleSitemapError(res, `newgrad-content-${chunkIndex}`, `NewGrad sitemap page ${pageNum}`, e);
     }
   });
 

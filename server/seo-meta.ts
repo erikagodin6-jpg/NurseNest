@@ -5,6 +5,7 @@ import { seoTitleMap } from "./seo-title-map";
 import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirection } from "./translation-audit";
 import { normalizeCanonicalUrl, isLowValueTranslatedPage, hasTimestampSuffix, LOW_VALUE_TRANSLATED_PATHS } from "@shared/canonical-url";
 import { deLocalizeSlug, localizeSlug } from "@shared/localized-slugs";
+import { isEmergencyMode } from "./platform-resilience";
 
 import { SUPPORTED_LOCALES as SUPPORTED_LOCALES_LIST, getMainSiteDomain } from "@shared/locales";
 
@@ -79,6 +80,10 @@ export function isNoindexPath(path: string, locale?: string): boolean {
   if (path.startsWith("/subscription")) return true;
   if (/^\/allied-health\/[^/]+\/dashboard/.test(path)) return true;
   if (path.startsWith("/allied-health/diagnostic")) return true;
+  if (path.startsWith("/qbank")) return true;
+  if (path.startsWith("/cat-exam")) return true;
+  if (path.startsWith("/provisional")) return true;
+  if (/^\/[^/]+\/mock-exams\/[^/]+/.test(path)) return true;
   if (locale && isLowValueTranslatedPage(path, locale)) return true;
   return false;
 }
@@ -2596,6 +2601,10 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   const detectedLocale = localeMatch ? localeMatch[1] : "en";
   const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname, options);
+
+  if (isEmergencyMode()) {
+    meta.noindex = true;
+  }
 
   const deLocalizedStrippedPath = detectedLocale !== "en" ? deLocalizeSlug(detectedLocale, strippedPath) : strippedPath;
   const contentExists = await checkContentExists(deLocalizedStrippedPath);

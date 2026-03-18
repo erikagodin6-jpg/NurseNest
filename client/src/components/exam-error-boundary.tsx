@@ -1,4 +1,4 @@
-import { Component, type ReactNode, type ErrorInfo, useState, useCallback } from "react";
+import { Component, type ReactNode, type ErrorInfo, useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw, ArrowLeft, MessageSquare, Loader2, ShieldCheck } from "lucide-react";
@@ -129,8 +129,32 @@ function ExamRecoveryUI({
     setSending(false);
   }, [error, examContext, retryCount]);
 
+  useEffect(() => {
+    const existing = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, follow";
+    meta.dataset.errorBoundary = "true";
+    if (existing) {
+      existing.dataset.originalContent = existing.content;
+      existing.content = "noindex, follow";
+      existing.dataset.errorBoundary = "true";
+    } else {
+      document.head.appendChild(meta);
+    }
+    return () => {
+      if (existing) {
+        existing.content = existing.dataset.originalContent || "index, follow";
+        delete existing.dataset.errorBoundary;
+        delete existing.dataset.originalContent;
+      } else {
+        meta.remove();
+      }
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="exam-recovery-ui">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="exam-recovery-ui" data-noindex-error="true">
       <Card className="max-w-lg w-full shadow-lg border-amber-200">
         <CardContent className="p-8 text-center space-y-6">
           <div className="mx-auto w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center">

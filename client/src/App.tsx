@@ -111,8 +111,33 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 function ErrorBoundaryFallback({ error, errorInfo, route, component }: { error: Error | null; errorInfo: ErrorInfo | null; route: string; component?: string }) {
   const { t } = useI18n();
   const isDev = import.meta.env.DEV;
+
+  useEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, follow";
+    meta.dataset.errorBoundary = "true";
+    const existing = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (existing) {
+      existing.dataset.originalContent = existing.content;
+      existing.content = "noindex, follow";
+      existing.dataset.errorBoundary = "true";
+    } else {
+      document.head.appendChild(meta);
+    }
+    return () => {
+      if (existing) {
+        existing.content = existing.dataset.originalContent || "index, follow";
+        delete existing.dataset.errorBoundary;
+        delete existing.dataset.originalContent;
+      } else {
+        meta.remove();
+      }
+    };
+  }, []);
+
   return (
-    <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback">
+    <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback" data-noindex-error="true">
       <h1 style={{ color: "#dc2626" }}>{t("app.App.somethingWentWrong")}</h1>
       {isDev ? (
         <>
