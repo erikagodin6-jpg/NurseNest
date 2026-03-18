@@ -1226,6 +1226,27 @@ function runDeferredStartupWork() {
     console.log(`[DeferredStartup] Phase 0 complete (validations + schedulers) in ${Date.now() - phase0Start}ms`);
 
     // ── Phase 1: Schema sync + data migrations (sequential) ──
+    async function startupMemoryGuard(label: string) {
+      const mem = process.memoryUsage();
+      const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
+      const rssMB = Math.round(mem.rss / 1024 / 1024);
+      if (heapUsedMB > 400) {
+        console.warn(`[MemoryGuard] ${label}: heapUsed=${heapUsedMB}MB rss=${rssMB}MB — forcing GC`);
+        if (global.gc) global.gc();
+        await new Promise(r => setTimeout(r, 100));
+      }
+    }
+
+    async function runSeedStep(name: string, fn: () => Promise<void>) {
+      try {
+        const t0 = Date.now();
+        await fn();
+        console.log(`[Startup Timing] ${name}: ${Date.now() - t0}ms`);
+      } catch (e: any) {
+        console.error(`[${name}] Failed:`, e.message);
+      }
+    }
+
     const phase1Start = Date.now();
     await startupMemoryGuard("Phase 1: Schema/Migrations");
     console.log("[DeferredStartup] Phase 1: Schema sync + data migrations...");

@@ -11,6 +11,7 @@ export interface AssemblyConfig {
   passingStandard: number;
   seed: number;
   tier: string;
+  bodySystems?: string[];
 }
 
 export interface AssembledQuestion {
@@ -185,21 +186,30 @@ const QUESTION_TYPE_TO_FORMAT: Record<string, string> = {
 };
 
 export async function assembleExam(config: AssemblyConfig): Promise<AssembledQuestion[]> {
-  const { questionCount, domainWeights, difficultyDistribution, formatMix, tier, seed, examCode } = config;
+  const { questionCount, domainWeights, difficultyDistribution, formatMix, tier, seed, examCode, bodySystems } = config;
 
   const tierFilter = tier === "np" ? "np" : tier === "rn" ? "rn" : "rpn";
   const poolSize = questionCount * 5;
+
+  let bodySystemFilter = "";
+  const params: any[] = [tierFilter, seed || Date.now().toString(), poolSize];
+  if (bodySystems && bodySystems.length > 0) {
+    const placeholders = bodySystems.map((_, i) => `$${i + 4}`).join(",");
+    bodySystemFilter = `AND body_system IN (${placeholders})`;
+    params.push(...bodySystems);
+  }
+
   const result = await pool.query(
     `WITH candidate_ids AS (
        SELECT id FROM exam_questions
-       WHERE tier = $1 AND status = 'published'
+       WHERE tier = $1 AND status = 'published' ${bodySystemFilter}
        ORDER BY md5(id::text || $2::text)
        LIMIT $3
      )
      SELECT eq.id, eq.stem, eq.options, eq.correct_answer, eq.rationale, eq.body_system, eq.topic, eq.subtopic, eq.difficulty, eq.question_type
      FROM exam_questions eq
      JOIN candidate_ids c ON eq.id = c.id`,
-    [tierFilter, seed || Date.now().toString(), poolSize]
+    params
   );
 
   if (result.rows.length === 0) {

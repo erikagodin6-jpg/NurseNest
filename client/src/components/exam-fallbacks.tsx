@@ -1216,3 +1216,69 @@ export function SessionRecoveryPrompt({
     </div>
   );
 }
+
+export function ExamListingFallback({
+  title,
+  message,
+  onRetry,
+  retrying,
+  type = "generic",
+}: {
+  title?: string;
+  message?: string;
+  onRetry?: () => void;
+  retrying?: boolean;
+  type?: "pool" | "history" | "definitions" | "generic";
+}) {
+  const defaults: Record<string, { title: string; message: string }> = {
+    pool: {
+      title: "Question Pool Unavailable",
+      message: "We're having trouble loading the question pool right now. This is usually temporary — please try again in a moment.",
+    },
+    history: {
+      title: "Exam History Unavailable",
+      message: "Your exam history couldn't be loaded right now. Your past results are safe and will appear once the connection is restored.",
+    },
+    definitions: {
+      title: "Exam Definitions Unavailable",
+      message: "Exam configurations couldn't be loaded. Please try again shortly.",
+    },
+    generic: {
+      title: "Something Went Wrong",
+      message: "We ran into an issue loading this section. Please try again.",
+    },
+  };
+  const d = defaults[type] || defaults.generic;
+
+  return (
+    <Card className="border-amber-200 bg-amber-50/50" data-testid="container-exam-listing-fallback">
+      <CardContent className="p-6">
+        <div className="flex flex-col items-center text-center space-y-4">
+          <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6 text-amber-600" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-semibold text-gray-800" data-testid="text-listing-fallback-title">
+              {title || d.title}
+            </h3>
+            <p className="text-sm text-gray-600" data-testid="text-listing-fallback-message">
+              {message || d.message}
+            </p>
+          </div>
+          {onRetry && (
+            <Button
+              onClick={onRetry}
+              disabled={retrying}
+              variant="outline"
+              className="gap-2"
+              data-testid="button-listing-fallback-retry"
+            >
+              <RefreshCw className={`w-4 h-4 ${retrying ? "animate-spin" : ""}`} />
+              {retrying ? "Retrying..." : "Try Again"}
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

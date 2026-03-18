@@ -310,6 +310,8 @@ export default function MockExamSession() {
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewFilter, setReviewFilter] = useState<"all" | "incorrect" | "flagged">("all");
   const [fullQuestions, setFullQuestions] = useState<PooledQuestion[]>([]);
+  const [totalServerQuestions, setTotalServerQuestions] = useState<number>(0);
+  const [loadedAllQuestions, setLoadedAllQuestions] = useState(false);
   const [translationMap, setTranslationMap] = useState<Record<string, Record<string, string>>>({});
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
@@ -469,6 +471,10 @@ export default function MockExamSession() {
           });
           setLoading(false);
           return;
+        }
+
+        if (data.total_questions) {
+          setTotalServerQuestions(data.total_questions);
         }
 
         const rawQuestionData: PooledQuestion[] = data.questions || [];
@@ -649,6 +655,56 @@ export default function MockExamSession() {
     };
   }, [attemptId, retryCount]);
 
+  useEffect(() => {
+    if (!attemptId || loading || loadedAllQuestions || totalServerQuestions <= 0 || isCATExam) return;
+    if (questions.length >= totalServerQuestions) {
+      setLoadedAllQuestions(true);
+      return;
+    }
+
+    let cancelled = false;
+    const loadRemainingQuestions = async () => {
+      const batchSize = 25;
+      let offset = questions.length;
+      const allLoaded = [...questions];
+
+      while (offset < totalServerQuestions && !cancelled) {
+        try {
+          const res = await fetch(`/api/mock-exams/${attemptId}/questions?offset=${offset}&limit=${batchSize}`, {
+            headers: getAuthHeaders(),
+          });
+          if (!res.ok) break;
+          const data = await res.json();
+          if (!data.questions || data.questions.length === 0) break;
+
+          const newQuestions = data.questions.map((q: any) => {
+            if (!q.id) return { ...q, id: `auto-${offset}` };
+            return q;
+          });
+          allLoaded.push(...newQuestions);
+          offset += data.questions.length;
+
+          if (!cancelled) {
+            setQuestions([...allLoaded]);
+            setOptionShuffleMap(createOptionShuffleMap(allLoaded));
+          }
+
+          if (!data.hasMore) break;
+        } catch (err) {
+          console.warn("[ExamSession] Background question loading error:", err);
+          break;
+        }
+      }
+
+      if (!cancelled) {
+        setLoadedAllQuestions(true);
+      }
+    };
+
+    const timer = setTimeout(loadRemainingQuestions, 500);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [attemptId, loading, totalServerQuestions, loadedAllQuestions]);
+
   const submitExamIncidentReport = useCallback((classified: ClassifiedExamError, elapsed: number) => {
     if (!attemptId) return;
     fetch("/api/exam-load-incidents", {
@@ -699,97 +755,33 @@ export default function MockExamSession() {
     setRecoveryInProgress(true);
     const currentRetry = retryCount + 1;
 
-    const recoveryTimeout = new Promise<"timeout">((resolve) => setTimeout(() => resolve("timeout"), 15000));
+    if (currentRetry > 2) {
+      setRecoveryStage(RECOVERY_STAGES.SAFE_EXIT);
+      setLoading(false);
+      setLoadError("All automatic recovery attempts exhausted");
+      setClassifiedError(classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() });
+      submitExamIncidentReport(
+        classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() },
+        Date.now() - loadStartTimeRef.current
+      );
+      setRecoveryInProgress(false);
+      return;
+    }
 
-    const recoveryWork = (async () => {
     try {
+      const backoff = currentRetry === 1 ? 2000 : 4000;
+      setRecoveryStage(currentRetry === 1 ? RECOVERY_STAGES.CLEAR_CACHE : RECOVERY_STAGES.CALL_RECOVERY);
+
       if (currentRetry === 1) {
-        setRecoveryStage(RECOVERY_STAGES.CLEAR_CACHE);
         clearStaleExamCache();
-        await new Promise(r => setTimeout(r, 500));
-        setRetryCount(currentRetry);
-      } else if (currentRetry === 2) {
-        setRecoveryStage(RECOVERY_STAGES.CALL_RECOVERY);
-        const backoff = Math.min(1000 * Math.pow(2, currentRetry - 1), 8000);
-        await new Promise(r => setTimeout(r, backoff));
-
-        try {
-          const recoveryRes = await fetch(`/api/mock-exams/${attemptId}/recover`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-            body: JSON.stringify({
-              incidentRef,
-              failureCode: classifiedError?.code || "unknown",
-              recoveryAttempt: currentRetry,
-              clearStaleState: true,
-              browserInfo: navigator.userAgent,
-            }),
-          });
-
-          if (recoveryRes.ok) {
-            const recoveryData = await recoveryRes.json();
-            if (recoveryData.recovered && recoveryData.questions?.length > 0) {
-              const recoveredQuestions = recoveryData.questions as PooledQuestion[];
-              setQuestions(recoveredQuestions);
-              if (recoveryData.state) {
-                setAnswers(recoveryData.state.answers || {});
-                setFlagged(recoveryData.state.flagged || []);
-                setTimeSpent(recoveryData.state.timeSpent || 0);
-                if (recoveryData.state.currentQuestion !== undefined) {
-                  setCurrentQ(recoveryData.state.currentQuestion);
-                }
-                if (recoveryData.state.catState) {
-                  setCatState(recoveryData.state.catState);
-                }
-              }
-              setLoadError(null);
-              setClassifiedError(null);
-              setRecoveryStage(null);
-              setLoading(false);
-              toast({ title: "Exam Recovered", description: `Recovered ${recoveredQuestions.length} questions successfully.` });
-              setRecoveryInProgress(false);
-              return "recovered";
-            }
-          }
-        } catch {}
-
-        setRetryCount(currentRetry);
-      } else if (currentRetry === 3) {
-        setRecoveryStage(RECOVERY_STAGES.FRESH_REHYDRATION);
-        const backoff = Math.min(1000 * Math.pow(2, currentRetry - 1), 8000);
-        await new Promise(r => setTimeout(r, backoff));
-        setRetryCount(currentRetry);
-      } else {
-        setRecoveryStage(RECOVERY_STAGES.SAFE_EXIT);
-        setLoading(false);
-        setLoadError("All automatic recovery attempts exhausted");
-        setClassifiedError(classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() });
-        submitExamIncidentReport(
-          classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() },
-          Date.now() - loadStartTimeRef.current
-        );
       }
+
+      await new Promise(r => setTimeout(r, backoff));
+      setRetryCount(currentRetry);
     } catch (err) {
       console.error("[ExamRecovery] Recovery error:", err);
       setLoading(false);
       setLoadError("Recovery failed unexpectedly");
-    }
-    return "done";
-    })();
-
-    const result = await Promise.race([recoveryWork, recoveryTimeout]);
-    if (result === "timeout") {
-      console.error("[ExamRecovery] Recovery timed out after 15 seconds");
-      setRecoveryStage(RECOVERY_STAGES.SAFE_EXIT);
-      setFallbackMode("safe");
-      setLoading(false);
-      setLoadError("Recovery timed out");
-      setClassifiedError({
-        code: EXAM_FAILURE_CODES.NETWORK_TIMEOUT,
-        message: "Recovery timed out. Entering safe mode.",
-        recoverable: true,
-        timestamp: new Date().toISOString(),
-      });
     }
     setRecoveryInProgress(false);
   }, [attemptId, retryCount, recoveryInProgress, classifiedError, incidentRef, clearStaleExamCache, submitExamIncidentReport, toast]);
@@ -1269,7 +1261,7 @@ export default function MockExamSession() {
       ? "You don't have permission to access this exam."
       : "Your progress and subscription are safe. Choose an option below to continue.";
 
-    const canRetry = retryCount < 4 && classifiedError?.recoverable !== false;
+    const canRetry = retryCount < 2 && classifiedError?.recoverable !== false;
     const showRecoveryProgress = recoveryInProgress && recoveryStage;
     const stageInfo = recoveryStage ? getRecoveryStageInfo(recoveryStage) : null;
 
@@ -1337,7 +1329,7 @@ export default function MockExamSession() {
                   ) : (
                     <RefreshCw className="w-4 h-4" />
                   )}
-                  {retryCount === 0 ? "Retry" : retryCount === 1 ? "Try Recovery" : retryCount === 2 ? "Deep Recovery" : "Last Attempt"}
+                  {retryCount === 0 ? "Retry" : "Try Again"}
                 </Button>
               )}
 

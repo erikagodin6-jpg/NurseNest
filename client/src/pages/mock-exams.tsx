@@ -1,5 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -27,6 +27,7 @@ import { AITutorWidget } from "@/components/ai-tutor-widget";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { getTierConfig } from "@shared/tier-config";
 import { useToast } from "@/hooks/use-toast";
+import { ExamListingFallback } from "@/components/exam-fallbacks";
 import { CAREER_TYPES, CAREER_CONFIGS } from "@shared/careers";
 
 interface MockExamDef {
@@ -109,7 +110,22 @@ function SpecialtyMockExams() {
   };
 
   if (loading) return null;
-  if (fetchError) return null;
+  if (fetchError) {
+    return (
+      <ExamListingFallback
+        type="pool"
+        onRetry={() => {
+          setFetchError(false);
+          setLoading(true);
+          fetch("/api/mock-exam-definitions")
+            .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+            .then((data) => { setExamDefs(Array.isArray(data) ? data : []); setLoading(false); })
+            .catch((err) => { console.error("[SpecialtyMockExams] Retry failed:", err?.message); setFetchError(true); setLoading(false); });
+        }}
+        retrying={loading}
+      />
+    );
+  }
   if (!Array.isArray(examDefs) || examDefs.length === 0) return null;
 
   return (
@@ -254,6 +270,10 @@ export default function MockExamsPage() {
   const [startError, setStartError] = useState<string | null>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState(false);
+  const [poolError, setPoolError] = useState(false);
+  const [poolRetrying, setPoolRetrying] = useState(false);
+  const [historyRetrying, setHistoryRetrying] = useState(false);
   const [examMode, setExamMode] = useState<"official" | "practice">("official");
   const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
   const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
@@ -308,20 +328,32 @@ export default function MockExamsPage() {
   const [stats, setStats] = useState<{ total: number; systems: Record<string, number> }>({ total: 0, systems: {} });
   const [tierStatsMap, setTierStatsMap] = useState<Record<string, { total: number }>>({});
 
-  useEffect(() => {
-    getAvailableBodySystems(selectedTier)
-      .then((systems) => setAvailableSystems(Array.isArray(systems) ? systems : []))
-      .catch((err) => {
-        console.error("[MockExams] Failed to load body systems:", err?.message);
-        setAvailableSystems([]);
-      });
-    getPoolStats(selectedTier)
-      .then((s) => setStats(s && typeof s.total === "number" ? s : { total: 0, systems: {} }))
-      .catch((err) => {
-        console.error("[MockExams] Failed to load pool stats:", err?.message);
-        setStats({ total: 0, systems: {} });
-      });
+  const loadPoolData = useCallback(() => {
+    setPoolError(false);
+    setPoolRetrying(true);
+    Promise.all([
+      getAvailableBodySystems(selectedTier)
+        .then((systems) => setAvailableSystems(Array.isArray(systems) ? systems : []))
+        .catch((err) => {
+          console.error("[MockExams] Failed to load body systems:", err?.message);
+          setAvailableSystems([]);
+          throw err;
+        }),
+      getPoolStats(selectedTier)
+        .then((s) => setStats(s && typeof s.total === "number" ? s : { total: 0, systems: {} }))
+        .catch((err) => {
+          console.error("[MockExams] Failed to load pool stats:", err?.message);
+          setStats({ total: 0, systems: {} });
+          throw err;
+        }),
+    ])
+      .catch(() => setPoolError(true))
+      .finally(() => setPoolRetrying(false));
   }, [selectedTier]);
+
+  useEffect(() => {
+    loadPoolData();
+  }, [loadPoolData]);
 
   useEffect(() => {
     const tiersToFetch = allowedTiers.length > 0 ? tierOptions.filter(t => allowedTiers.includes(t.value)) : tierOptions;
@@ -348,25 +380,33 @@ export default function MockExamsPage() {
     );
   };
 
-  useEffect(() => {
-    if (user?.id) {
-      setHistoryLoading(true);
-      fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() })
-        .then((r) => {
-          if (!r.ok) throw new Error(`HTTP ${r.status}`);
-          return r.json();
-        })
-        .then((data) => {
-          setHistory(Array.isArray(data) ? data : []);
-          setHistoryLoading(false);
-        })
-        .catch((err) => {
-          console.error("[MockExams] Failed to load history:", err?.message);
-          setHistory([]);
-          setHistoryLoading(false);
-        });
-    }
+  const loadHistory = useCallback(() => {
+    if (!user?.id) return;
+    setHistoryLoading(true);
+    setHistoryError(false);
+    setHistoryRetrying(true);
+    fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() })
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => {
+        setHistory(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        console.error("[MockExams] Failed to load history:", err?.message);
+        setHistory([]);
+        setHistoryError(true);
+      })
+      .finally(() => {
+        setHistoryLoading(false);
+        setHistoryRetrying(false);
+      });
   }, [user?.id]);
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   const startExam = async () => {
     if (!user) {
@@ -379,17 +419,50 @@ export default function MockExamsPage() {
       let questions;
       let blueprintMeta: any = null;
       let domainAssignments: Record<string, string> | null = null;
+      let useServerAssembly = false;
+      let assemblyConfig: any = null;
 
       if (examMode === "official" && selectedBlueprint) {
-        const result = await getOfficialExamQuestions(selectedBlueprint);
-        questions = result.questions;
-        blueprintMeta = result.blueprint;
-        domainAssignments = result.domainAssignments;
+        const blueprint = EXAM_BLUEPRINTS[selectedBlueprint];
+        if (blueprint) {
+          useServerAssembly = true;
+          blueprintMeta = blueprint;
+          assemblyConfig = {
+            templateId: selectedBlueprint,
+            examCode: blueprint.examCode,
+            questionCount: blueprint.totalQuestions,
+            timeLimitMinutes: blueprint.timeLimit || 180,
+            domainWeights: blueprint.domains.map((d: any) => ({ domain: d.name, weight: d.weight })),
+            difficultyDistribution: { foundational: 0.25, moderate: 0.5, difficult: 0.25 },
+            formatMix: { mcqSingle: 0.6, selectAllThatApply: 0.2, scenarioBased: 0.1, prioritization: 0.05, delegation: 0.05 },
+            passingStandard: blueprint.passingThreshold || 65,
+            seed: Date.now(),
+            tier: blueprint.tier,
+          };
+        } else {
+          const result = await getOfficialExamQuestions(selectedBlueprint);
+          questions = result.questions;
+          blueprintMeta = result.blueprint;
+          domainAssignments = result.domainAssignments;
+        }
       } else {
-        questions = await getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
+        useServerAssembly = true;
+        assemblyConfig = {
+          templateId: "practice",
+          examCode: "practice",
+          questionCount: selectedLength,
+          timeLimitMinutes: Math.ceil(selectedLength * 1.5),
+          domainWeights: [{ domain: "General", weight: 1.0 }],
+          difficultyDistribution: { foundational: 0.3, moderate: 0.4, difficult: 0.3 },
+          formatMix: { mcqSingle: 0.6, selectAllThatApply: 0.2, scenarioBased: 0.1, prioritization: 0.05, delegation: 0.05 },
+          passingStandard: 65,
+          seed: Date.now(),
+          tier: selectedTier,
+          bodySystems: selectedSystems.length > 0 ? selectedSystems : undefined,
+        };
       }
 
-      if (!questions || questions.length === 0) {
+      if (!useServerAssembly && (!questions || questions.length === 0)) {
         toast({
           title: "No Questions Available",
           description: "No questions available for this exam configuration. Please try a different tier or body system.",
@@ -404,8 +477,10 @@ export default function MockExamsPage() {
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
           tier: selectedTier,
-          totalQuestions: questions.length,
-          questions,
+          totalQuestions: useServerAssembly ? (assemblyConfig?.questionCount || selectedLength) : questions!.length,
+          questions: useServerAssembly ? undefined : questions,
+          serverAssembly: useServerAssembly || undefined,
+          assemblyConfig: useServerAssembly ? assemblyConfig : undefined,
           examMode: examMode,
           blueprintCode: examMode === "official" ? selectedBlueprint : undefined,
           blueprintMeta: blueprintMeta ? {
@@ -488,10 +563,17 @@ export default function MockExamsPage() {
 
   const completedExams = Array.isArray(history) ? history.filter((h) => h?.status === "completed") : [];
   const avgScore = completedExams.length > 0
-    ? Math.round(completedExams.reduce((sum, h) => sum + (h?.report?.percentage || 0), 0) / completedExams.length)
+    ? Math.round(completedExams.reduce((sum, h) => {
+        const totalQ = h?.total_questions || 1;
+        const pct = totalQ > 0 ? ((h?.score || 0) / totalQ) * 100 : 0;
+        return sum + pct;
+      }, 0) / completedExams.length)
     : null;
   const bestScore = completedExams.length > 0
-    ? Math.max(...completedExams.map((h) => h?.report?.percentage || 0))
+    ? Math.max(...completedExams.map((h) => {
+        const totalQ = h?.total_questions || 1;
+        return totalQ > 0 ? Math.round(((h?.score || 0) / totalQ) * 100) : 0;
+      }))
     : null;
 
   let activeTierConfig: ReturnType<typeof getTierConfig>;
@@ -602,8 +684,8 @@ export default function MockExamsPage() {
               </h2>
               {inProgressExams.map((exam) => {
                 if (!exam?.id) return null;
-                const isCat = exam?.exam_type === "cat" || exam?.report?.examMode === "official";
-                const label = exam?.blueprint_meta?.examName || exam?.report?.blueprintName || `${(exam?.tier || "").toUpperCase()} Exam`;
+                const isCat = exam?.exam_type === "cat";
+                const label = exam?.blueprint_code ? exam.blueprint_code.toUpperCase() : `${(exam?.tier || "").toUpperCase()} Exam`;
                 return (
                   <Card key={exam.id} className="border-none shadow-sm border-l-4 border-l-amber-400 hover:shadow-md transition-shadow cursor-pointer" data-testid={`card-resume-${exam.id}`}>
                     <CardContent className="p-4 flex items-center justify-between">
@@ -622,9 +704,6 @@ export default function MockExamsPage() {
                         className="rounded-full gap-1"
                         onClick={() => {
                           try {
-                            if (exam?.blueprint_meta) {
-                              localStorage.setItem(`blueprint-${exam.id}`, JSON.stringify(exam.blueprint_meta));
-                            }
                             if (isCat) {
                               localStorage.setItem(`strict-mode-${exam.id}`, "true");
                             }
@@ -804,6 +883,10 @@ export default function MockExamsPage() {
             </CardContent>
           </Card>
 
+          {poolError && (
+            <ExamListingFallback type="pool" onRetry={loadPoolData} retrying={poolRetrying} />
+          )}
+
           <Card className="border-none shadow-md overflow-hidden" data-testid="card-practice-exam">
             <div className="h-2 bg-blue-500" />
             <CardContent className="p-6 space-y-5">
@@ -930,7 +1013,9 @@ export default function MockExamsPage() {
             <History className="w-6 h-6 text-primary" /> {t("mockExams.examHistory")}
           </h2>
 
-          {completedExams.length === 0 ? (
+          {historyError ? (
+            <ExamListingFallback type="history" onRetry={loadHistory} retrying={historyRetrying} />
+          ) : completedExams.length === 0 ? (
             <Card className="border-none shadow-sm">
               <CardContent className="p-8 text-center text-gray-400">
                 <FileText className="w-12 h-12 mx-auto mb-3 text-gray-300" />
@@ -942,10 +1027,11 @@ export default function MockExamsPage() {
             <div className="grid sm:grid-cols-2 gap-3">
               {completedExams.map((exam) => {
                 if (!exam?.id) return null;
-                const isCatExam = exam?.exam_type === "cat" || exam?.report?.examType === "cat";
-                const isScaledExam = exam?.report?.examType === "linear-scaled";
-                const isReadiness = exam?.exam_type === "readiness" || exam?.report?.examType === "readiness";
-                const examLabel = exam?.report?.blueprintName || exam?.blueprint_meta?.examName || `${(exam?.tier || "").toUpperCase()} Mock`;
+                const isCatExam = exam?.exam_type === "cat";
+                const isReadiness = exam?.exam_type === "readiness";
+                const examLabel = exam?.blueprint_code ? exam.blueprint_code.toUpperCase() : `${(exam?.tier || "").toUpperCase()} Mock`;
+                const totalQ = exam?.total_questions || 1;
+                const scoreVal = totalQ > 0 ? Math.round(((exam?.score || 0) / totalQ) * 100) : 0;
                 return (
                   <Card key={exam.id} className="border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer" data-testid={`card-history-${exam.id}`}>
                     <CardContent className="p-4">
@@ -954,26 +1040,15 @@ export default function MockExamsPage() {
                           <div className="flex items-center gap-2">
                             <p className="font-bold text-gray-900 text-sm">{examLabel}</p>
                             {isCatExam && <Badge variant="secondary" className="text-[10px] bg-violet-100 text-violet-700">CAT</Badge>}
-                            {isScaledExam && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">{t("pages.mockExams.scaled2")}</Badge>}
                             {isReadiness && <Badge variant="secondary" className="text-[10px] bg-emerald-100 text-emerald-700">{t("pages.mockExams.readiness")}</Badge>}
-                            {!isCatExam && !isScaledExam && !isReadiness && <Badge variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">{t("pages.mockExams.practice2")}</Badge>}
+                            {!isCatExam && !isReadiness && <Badge variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">{t("pages.mockExams.practice2")}</Badge>}
                           </div>
-                          {isCatExam ? (
-                            <span className={`text-sm font-bold ${exam.report?.overallPass ? "text-emerald-600" : "text-red-500"}`}>
-                              {exam.report?.overallPass ? "PASS" : "FAIL"}
-                            </span>
-                          ) : isScaledExam && exam.report?.scaledScore != null ? (
-                            <span className={`text-sm font-bold ${exam.report?.overallPass ? "text-emerald-600" : "text-red-500"}`}>
-                              {exam.report.scaledScore}
-                            </span>
-                          ) : (
-                            <span className={`text-lg font-bold ${
-                              (exam.report?.percentage || 0) >= 80 ? "text-emerald-600" :
-                              (exam.report?.percentage || 0) >= 60 ? "text-amber-600" : "text-red-500"
-                            }`}>
-                              {exam.report?.percentage || 0}%
-                            </span>
-                          )}
+                          <span className={`text-lg font-bold ${
+                            scoreVal >= 80 ? "text-emerald-600" :
+                            scoreVal >= 60 ? "text-amber-600" : "text-red-500"
+                          }`}>
+                            {scoreVal}%
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-gray-400">

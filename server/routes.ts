@@ -10531,6 +10531,15 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     return resolveAuthUser(req);
   }
 
+  function logExamRoute(route: string, method: string, userId: any, startTime: number, extra: Record<string, any> = {}) {
+    const elapsed = Date.now() - startTime;
+    console.log(JSON.stringify({
+      route, method, userId: String(userId || "anon"), elapsed,
+      memoryRSS: process.memoryUsage.rss(), timestamp: new Date().toISOString(),
+      ...extra,
+    }));
+  }
+
   app.get("/api/mock-exam-definitions", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const { specialty } = req.query;
@@ -10560,6 +10569,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.post("/api/mock-exams/start-specialty", examStartLimiter, killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
+    const _routeStart = Date.now();
     try {
       const authUser = req.authUser;
       const { isFeatureEnabledForContext } = await import("./platform-resilience");
@@ -10641,7 +10651,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const attemptId = result.rows[0].id;
       console.log("[MockExam][start-specialty] INSERT success, attemptId:", attemptId);
 
-      res.json({ attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title });
+      const responsePayload = { attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title };
+      logExamRoute("/api/mock-exams/start-specialty", "POST", authUser.id, _routeStart, { attemptId, questionCount: questions.length, payloadSize: JSON.stringify(responsePayload).length });
+      res.json(responsePayload);
     } catch (e: any) {
       console.error("[MockExam][start-specialty] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
@@ -10662,12 +10674,41 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.post("/api/mock-exams/start", killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
+    const startTime = Date.now();
     try {
       const authUser = req.authUser;
-      console.log("[MockExam][start] Received payload:", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions });
+      console.log("[MockExam][start] Received payload:", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions, serverAssembly: req.body.serverAssembly });
       console.log("[MockExam][start] User auth state:", { userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
 
-      const { tier, totalQuestions, questions, examMode } = req.body;
+      const { tier, totalQuestions, examMode } = req.body;
+      let { questions } = req.body;
+
+      if (req.body.serverAssembly && req.body.assemblyConfig) {
+        const { assembleExam } = await import("./mock-exam-assembly");
+        const config = req.body.assemblyConfig;
+        config.tier = tier || config.tier;
+        config.seed = config.seed || Date.now();
+        const assembled = await assembleExam(config);
+        if (assembled.length === 0) {
+          return res.status(400).json({ error: "No questions available for this exam configuration." });
+        }
+        questions = assembled.map((q: any) => ({
+          id: q.id,
+          question: q.stem,
+          options: q.options,
+          correct: q.correctAnswer,
+          bodySystem: q.domain,
+          tier: tier,
+          lessonId: "mock-exam",
+          source: "quiz",
+          topic: q.topic,
+          subtopic: q.subtopic,
+          difficulty: q.difficulty,
+          questionType: q.questionType,
+        }));
+        console.log("[MockExam][start] Server-assembled", assembled.length, "questions");
+      }
+
       if (!tier || !questions || !Array.isArray(questions)) {
         console.log("[MockExam][start] Validation failed: missing required fields");
         return res.status(400).json({ error: "Missing required fields" });
@@ -10692,9 +10733,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
       }
 
+      const effectiveTotalQuestions = questions.length;
       const isReadiness = examMode === "readiness";
       const isOfficial = examMode === "official";
-      const isPaidRequired = isOfficial || (!isReadiness && totalQuestions > 25);
+      const isPaidRequired = isOfficial || (!isReadiness && effectiveTotalQuestions > 25);
 
       const blueprintCode = req.body.blueprintCode || "";
       const scopeMap: Record<string, string> = {
@@ -10740,14 +10782,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const questionIdsOnly = questions.map((q: any) => q.id).filter(Boolean);
 
-      console.log("[MockExam][start] Inserting attempt:", { userId: String(authUser.id), tier, totalQuestions, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit });
+      console.log("[MockExam][start] Inserting attempt:", { userId: String(authUser.id), tier, effectiveTotalQuestions, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit });
 
       const result = await pool.query(
         `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, exam_type, blueprint_code, blueprint_meta)
          VALUES ($1, $2, $3, $4, 'in_progress', $5, $6, $7, $8)
          RETURNING id`,
         [
-          String(authUser.id), tier, totalQuestions, JSON.stringify(questionIdsOnly),
+          String(authUser.id), tier, effectiveTotalQuestions, JSON.stringify(questionIdsOnly),
           JSON.stringify({ examMode: examMode || "practice" }),
           resolvedExamType, blueprintCode || null,
           storedBpMeta ? JSON.stringify(storedBpMeta) : null,
@@ -10766,6 +10808,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         console.log("[MockExam][start] Credit consumed for scope:", creditScope);
       }
 
+      const responsePayloadStart = JSON.stringify({ attemptId, creditUsed: usedCredit });
+      logExamRoute("/api/mock-exams/start", "POST", authUser.id, startTime, { attemptId, payloadSize: responsePayloadStart.length });
       res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
       console.error("[MockExam][start] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
@@ -10787,6 +10831,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.put("/api/mock-exams/:attemptId/progress", requireAnyPaidTier(), async (req: any, res) => {
+    const _routeStart = Date.now();
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -10828,6 +10873,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         timerState,
       }).catch((e: any) => console.error("[ExamResilience] Session state save error:", e.message));
 
+      logExamRoute("/api/mock-exams/:attemptId/progress", "PUT", authUser.id, _routeStart, { attemptId, payloadSize: JSON.stringify({ success: true }).length });
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -10835,6 +10881,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.get("/api/mock-exams/:attemptId/rationales", requireAnyPaidTier(), async (req: any, res) => {
+    const _routeStart = Date.now();
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -10898,6 +10945,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           };
         }
       }
+      const rationalesPayload = JSON.stringify({ rationales });
+      logExamRoute("/api/mock-exams/:attemptId/rationales", "GET", authUser.id, _routeStart, { attemptId, questionCount: Object.keys(rationales).length, payloadSize: rationalesPayload.length });
       res.json({ rationales });
     } catch (e: any) {
       console.error("[ExamRationales] Error:", e.message);
@@ -10906,6 +10955,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.post("/api/mock-exams/:attemptId/complete", requireAnyPaidTier(), async (req: any, res) => {
+    const _routeStart = Date.now();
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
@@ -11024,6 +11074,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         ],
       );
 
+      const completePayload = JSON.stringify({ success: true, report: enhancedReport });
+      logExamRoute("/api/mock-exams/:attemptId/complete", "POST", authUser.id, _routeStart, { attemptId, score: report?.score, payloadSize: completePayload.length });
       res.json({ success: true, report: enhancedReport });
     } catch (e: any) {
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
@@ -11043,8 +11095,9 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(403).json({ error: "Access denied" });
       }
 
+      const historyStartTime = Date.now();
       const result = await pool.query(
-        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report, career_type, exam_type, blueprint_code, blueprint_meta, review_unlocked
+        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, career_type, exam_type, blueprint_code, review_unlocked
          FROM mock_exam_attempts
          WHERE user_id = $1
          ORDER BY started_at DESC
@@ -11052,6 +11105,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         [req.params.userId],
       );
 
+      const historyPayload = JSON.stringify(result.rows);
+      logExamRoute("/api/mock-exams/history", "GET", req.params.userId, historyStartTime, { count: result.rows.length, payloadSize: historyPayload.length });
       res.json(result.rows);
     } catch (e: any) {
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
@@ -11080,7 +11135,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       console.log(`[ExamLoad] Starting load: attemptId=${attemptId} userId=${authUser.id} tier=${authUser.tier}`);
 
       const result = await pool.query(
-        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason, total_questions
          FROM mock_exam_attempts WHERE id = $1`,
         [attemptId]
       );
@@ -11216,9 +11271,15 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
             return rest;
           });
-        const elapsed = Date.now() - loadStartTime;
-        console.log(`[ExamLoad] SUCCESS: attemptId=${attemptId} userId=${authUser.id} questions=${strippedQuestions.length} filtered=${questions.length - strippedQuestions.length} elapsed=${elapsed}ms payloadSize=${JSON.stringify(strippedQuestions).length}`);
-        res.json({ ...row, questions: strippedQuestions });
+        const INITIAL_PAGE_SIZE = 25;
+        const totalQuestions = strippedQuestions.length;
+        const firstPage = strippedQuestions.slice(0, INITIAL_PAGE_SIZE);
+        const hasMore = totalQuestions > INITIAL_PAGE_SIZE;
+
+        const responseObj = { ...row, questions: firstPage, total_questions: totalQuestions, hasMore, offset: 0, limit: INITIAL_PAGE_SIZE };
+        const payloadSize = JSON.stringify(responseObj).length;
+        logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, questionCount: firstPage.length, totalQuestions, payloadSize });
+        res.json(responseObj);
       } else if (row.status === "completed" || row.status === "abandoned") {
         let completedQuestions = Array.isArray(row.questions) ? row.questions : [];
 
@@ -11340,6 +11401,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             return q;
           });
         }
+        const completedPayloadSize = JSON.stringify(row).length;
+        logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, status: row.status, questionCount: Array.isArray(row.questions) ? row.questions.length : 0, payloadSize: completedPayloadSize });
         res.json(row);
       }
     } catch (e: any) {
@@ -11366,6 +11429,201 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         recoverable: classified.recoverable,
         timestamp: classified.timestamp,
       });
+    }
+  });
+
+  app.get("/api/mock-exams/:attemptId/questions", requireAnyPaidTier(), async (req: any, res) => {
+    const startTime = Date.now();
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
+      const { attemptId } = req.params;
+      const offset = Math.max(0, parseInt(req.query.offset as string) || 0);
+      const limit = Math.min(Math.max(1, parseInt(req.query.limit as string) || 25), 50);
+
+      const result = await pool.query(
+        `SELECT user_id, questions, status FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const row = result.rows[0];
+      let rawQuestions = Array.isArray(row.questions) ? row.questions : [];
+      const totalQuestions = rawQuestions.length;
+      const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+
+      const isCompleted = row.status === "completed" || row.status === "abandoned";
+
+      if (isIdOnlyFormat) {
+        const pageIds = rawQuestions.slice(offset, offset + limit).filter((id: any) => typeof id === "string" && id.length > 0);
+        if (pageIds.length > 0) {
+          const placeholders = pageIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+          const rationaleCol = isCompleted ? ", rationale" : "";
+          const qResult = await pool.query(
+            `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, region_scope${rationaleCol}
+             FROM exam_questions WHERE id IN (${placeholders})`,
+            pageIds
+          );
+          const qMap = new Map<string, any>();
+          for (const r of qResult.rows) qMap.set(r.id, r);
+
+          const questions = pageIds
+            .map((qId: string) => {
+              const q = qMap.get(qId);
+              if (!q) return null;
+              const mapped: any = {
+                id: q.id, question: q.stem, options: normalizeQuestionOptions(q.options),
+                correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0,
+                bodySystem: q.body_system || "General", tier: "all", lessonId: "mock-exam", source: "quiz",
+                topic: q.topic, subtopic: q.subtopic, difficulty: q.difficulty,
+                questionType: q.question_type, regionScope: q.region_scope,
+              };
+              if (isCompleted) {
+                mapped.rationale = q.rationale;
+              }
+              return mapped;
+            })
+            .filter(Boolean);
+
+          const idOnlyResponse = { questions, offset, limit, total: totalQuestions, hasMore: offset + limit < totalQuestions };
+          logExamRoute("/api/mock-exams/:attemptId/questions", "GET", authUser.id, startTime, { attemptId, offset, limit, returned: questions.length, totalQuestions, payloadSize: JSON.stringify(idOnlyResponse).length });
+          return res.json(idOnlyResponse);
+        }
+      }
+
+      const pageQuestions = rawQuestions.slice(offset, offset + limit).map((q: any) => {
+        if (q?.options) q.options = normalizeQuestionOptions(q.options);
+        if (!isCompleted) {
+          const { rationale, explanation, clinicalPearl, examStrategy, memoryHook, frameworkUsed, clinicalTrap, distractorRationales, scenario, ...safe } = q;
+          return safe;
+        }
+        return q;
+      });
+
+      const rawObjResponse = { questions: pageQuestions, offset, limit, total: totalQuestions, hasMore: offset + limit < totalQuestions };
+      logExamRoute("/api/mock-exams/:attemptId/questions", "GET", authUser.id, startTime, { attemptId, offset, limit, returned: pageQuestions.length, totalQuestions, payloadSize: JSON.stringify(rawObjResponse).length });
+      res.json(rawObjResponse);
+    } catch (e: any) {
+      console.error("[MockExam] paginated questions error:", e.message);
+      res.status(500).json({ error: "Failed to load questions" });
+    }
+  });
+
+  app.get("/api/admin/exam-data-integrity", async (req: any, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser || authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const [duplicates, stemDuplicates, malformed, largeJsonb, orphaned] = await Promise.all([
+        pool.query(`
+          SELECT stem_hash, COUNT(*) as count, array_agg(id) as ids
+          FROM exam_questions
+          WHERE stem_hash IS NOT NULL
+          GROUP BY stem_hash
+          HAVING COUNT(*) > 1
+          ORDER BY count DESC
+          LIMIT 50
+        `),
+        pool.query(`
+          SELECT LEFT(stem, 120) as stem_preview, COUNT(*) as count, array_agg(id) as ids
+          FROM exam_questions
+          WHERE stem IS NOT NULL AND status = 'published'
+          GROUP BY stem
+          HAVING COUNT(*) > 1
+          ORDER BY count DESC
+          LIMIT 50
+        `),
+        pool.query(`
+          SELECT id, tier, body_system,
+            CASE
+              WHEN options IS NULL OR options = 'null'::jsonb THEN 'missing_options'
+              WHEN jsonb_typeof(options) != 'array' THEN 'options_not_array'
+              WHEN jsonb_array_length(options) < 2 THEN 'too_few_options'
+              WHEN correct_answer IS NULL OR correct_answer = 'null'::jsonb THEN 'missing_correct_answer'
+              ELSE 'other'
+            END as issue
+          FROM exam_questions
+          WHERE status = 'published'
+            AND (
+              options IS NULL OR options = 'null'::jsonb
+              OR jsonb_typeof(options) != 'array'
+              OR (jsonb_typeof(options) = 'array' AND jsonb_array_length(options) < 2)
+              OR correct_answer IS NULL OR correct_answer = 'null'::jsonb
+            )
+          LIMIT 100
+        `),
+        pool.query(`
+          SELECT id, tier, body_system,
+            pg_column_size(options) as options_size,
+            pg_column_size(exhibit_data) as exhibit_size,
+            pg_column_size(distractor_rationales) as distractor_size
+          FROM exam_questions
+          WHERE pg_column_size(options) > 10000
+            OR pg_column_size(exhibit_data) > 50000
+            OR pg_column_size(distractor_rationales) > 10000
+          ORDER BY GREATEST(
+            COALESCE(pg_column_size(options), 0),
+            COALESCE(pg_column_size(exhibit_data), 0),
+            COALESCE(pg_column_size(distractor_rationales), 0)
+          ) DESC
+          LIMIT 50
+        `),
+        pool.query(`
+          SELECT mea.id as attempt_id, mea.user_id, mea.status, mea.started_at,
+            CASE WHEN jsonb_typeof(mea.questions) = 'array' THEN jsonb_array_length(mea.questions) ELSE 0 END as question_count
+          FROM mock_exam_attempts mea
+          WHERE mea.status = 'in_progress'
+            AND mea.started_at < NOW() - INTERVAL '7 days'
+          ORDER BY mea.started_at
+          LIMIT 50
+        `),
+      ]);
+
+      let orphanedRefs: any[] = [];
+      try {
+        const recentAttempts = await pool.query(
+          `SELECT id, questions FROM mock_exam_attempts
+           WHERE jsonb_typeof(questions) = 'array'
+             AND jsonb_array_length(questions) > 0
+             AND started_at > NOW() - INTERVAL '30 days'
+           ORDER BY started_at DESC LIMIT 20`
+        );
+        for (const attempt of recentAttempts.rows) {
+          const qArr = attempt.questions;
+          const isIdOnly = Array.isArray(qArr) && qArr.length > 0 && typeof qArr[0] === "string";
+          if (!isIdOnly) continue;
+          const ids = qArr.filter((id: any) => typeof id === "string" && id.length > 0).slice(0, 200);
+          if (ids.length === 0) continue;
+          const placeholders = ids.map((_: any, i: number) => `$${i + 1}`).join(",");
+          const existing = await pool.query(`SELECT id FROM exam_questions WHERE id IN (${placeholders})`, ids);
+          const existingSet = new Set(existing.rows.map((r: any) => r.id));
+          const missing = ids.filter((id: string) => !existingSet.has(id));
+          if (missing.length > 0) {
+            orphanedRefs.push({ attemptId: attempt.id, totalQuestions: ids.length, missingQuestions: missing.length, sampleMissing: missing.slice(0, 5) });
+          }
+        }
+      } catch (e: any) {
+        console.warn("[DataIntegrity] Orphan ref check error:", e.message);
+      }
+
+      res.json({
+        duplicatesByHash: { count: duplicates.rows.length, items: duplicates.rows },
+        duplicatesByStemText: { count: stemDuplicates.rows.length, items: stemDuplicates.rows },
+        malformedQuestions: { count: malformed.rows.length, items: malformed.rows },
+        largeJsonbFields: { count: largeJsonb.rows.length, items: largeJsonb.rows },
+        staleAttempts: { count: orphaned.rows.length, items: orphaned.rows },
+        orphanedQuestionRefs: { count: orphanedRefs.length, items: orphanedRefs },
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      console.error("[DataIntegrity] Error:", e.message);
+      res.status(500).json({ error: "Failed to run data integrity check" });
     }
   });
 

@@ -583,7 +583,8 @@ export function setupQBankRoutes(app: Express) {
         queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
-      const count = Math.min(parseInt(req.query.count as string) || 25, 200);
+      const count = Math.min(parseInt(req.query.count as string) || 25, 100);
+      const mode = (req.query.mode as string) || "exam";
       const bodySystems = req.query.bodySystems ? (req.query.bodySystems as string).split(",") : [];
       const examFilter = req.query.exam as string;
       const difficultyFilter = req.query.difficulty as string;
@@ -728,19 +729,22 @@ export function setupQBankRoutes(app: Express) {
             questionType: row.question_type,
             stem: row.stem,
             options: parsedOptions,
-            correctAnswer: parsedCorrect,
             bodySystem: row.body_system,
             topic: row.topic,
             subtopic: row.subtopic,
             difficulty: row.difficulty,
             regionScope: row.region_scope,
-            scenario: row.scenario,
-            clinicalPearl: row.clinical_pearl,
-            examStrategy: row.exam_strategy,
-            memoryHook: row.memory_hook,
-            frameworkUsed: row.framework_used,
-            clinicalTrap: row.clinical_trap,
           };
+
+          if (includeRationale || userTier === "admin") {
+            base.correctAnswer = parsedCorrect;
+            base.scenario = row.scenario;
+            base.clinicalPearl = row.clinical_pearl;
+            base.examStrategy = row.exam_strategy;
+            base.memoryHook = row.memory_hook;
+            base.frameworkUsed = row.framework_used;
+            base.clinicalTrap = row.clinical_trap;
+          }
 
           if (includeRationale) {
             base.rationale = row.rationale;
@@ -751,11 +755,10 @@ export function setupQBankRoutes(app: Express) {
           return base;
         }).filter((q: any) => q !== null);
 
-      res.json({
-        questions: parsedQuestions,
-        count: parsedQuestions.length,
-        tier: queryTier,
-      });
+      const responsePayload = { questions: parsedQuestions, count: parsedQuestions.length, tier: queryTier };
+      const payloadSize = JSON.stringify(responsePayload).length;
+      console.log(JSON.stringify({ route: "/api/qbank/exam-set", method: "GET", userId: user.id, tier: queryTier, questionCount: parsedQuestions.length, payloadSize, memoryRSS: process.memoryUsage.rss(), timestamp: new Date().toISOString() }));
+      res.json(responsePayload);
     } catch (e: any) {
       console.error("QBank exam-set error:", e.message);
       addIncident({

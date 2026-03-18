@@ -1720,4 +1720,12 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_user_id ON entitlement_events(user_id)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_type ON entitlement_events(event_type)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_created ON entitlement_events(created_at)`);
+
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status ON exam_questions(tier, status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status_body_system ON exam_questions(tier, status, body_system)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status_region_scope ON exam_questions(tier, status, region_scope)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_career_type_status ON exam_questions(career_type, status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_difficulty ON exam_questions(difficulty)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_mock_exam_attempts_user_status ON mock_exam_attempts(user_id, status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_mock_exam_attempts_user_started ON mock_exam_attempts(user_id, started_at DESC)`);
 }
