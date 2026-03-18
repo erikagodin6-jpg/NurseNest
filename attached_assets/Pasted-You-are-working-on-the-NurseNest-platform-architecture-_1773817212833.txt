@@ -1,0 +1,100 @@
+You are working on the NurseNest platform architecture.
+
+Unify authentication across the NurseNest website and mobile app so users can use the SAME account credentials on both platforms.
+
+PRIMARY GOAL:
+Implement a shared cross-platform auth system where:
+- one user account works on web and mobile
+- one central user record exists
+- one central subscription/entitlement record exists
+- one central progress/profile record exists
+- both clients authenticate against the same production backend
+
+REQUIREMENTS:
+
+1. SINGLE AUTH SOURCE OF TRUTH
+- ensure website and app use the same production auth backend
+- ensure both use the same users table / auth provider / identity service
+- prevent duplicate account creation across platforms
+- prevent app and web from creating separate user silos
+
+2. SHARED LOGIN CREDENTIALS
+- a user who signs up on web must be able to log into app with same email/password
+- a user who signs up on app must be able to log into web with same email/password
+
+3. CENTRAL USER PROFILE
+Store centrally:
+- user id
+- email
+- first name / display name
+- role/tier
+- country
+- exam track
+- onboarding completion state
+
+4. CENTRAL ENTITLEMENTS / SUBSCRIPTIONS
+Store centrally and expose consistently to both clients:
+- subscription tier
+- active/inactive status
+- plan type
+- purchase source if needed
+- feature entitlements
+
+5. PLATFORM-SPECIFIC SESSION HANDLING
+- web can use cookie/session approach if already implemented
+- mobile can use secure token storage
+- both must still authenticate against the same backend identity
+- do not try to share browser cookies directly with mobile
+- instead share the identity/auth source, not raw session mechanism
+
+6. CENTRAL AUTH API CONTRACT
+Create or confirm shared endpoints/contracts for:
+- sign up
+- sign in
+- sign out
+- refresh session/token
+- forgot password
+- reset password
+- get current user
+- get entitlements
+- get onboarding/profile state
+
+7. DUPLICATE ACCOUNT PROTECTION
+- normalize email addresses
+- prevent duplicate registrations for same email
+- ensure case-insensitive matching
+- safely handle existing user login attempts from either platform
+
+8. ENVIRONMENT SAFETY
+- verify app and website both point to the same production backend/auth environment
+- identify and fix any staging vs production mismatch
+- identify and fix any separate database connections
+
+9. PROGRESS / PERSONALIZATION SYNC
+Ensure the following can be shared across web and app when available:
+- study progress
+- saved questions
+- bookmarks
+- onboarding selections
+- role/exam preferences
+
+10. RESILIENCE
+- if app is offline, preserve local cached session safely
+- once online, revalidate against central auth
+- never create shadow local-only accounts
+
+11. DELIVERABLES
+Audit current implementation and then implement/fix:
+- where web auth currently connects
+- where app auth currently connects
+- whether they already share the same backend
+- what is preventing shared login if anything
+- exact changes needed to unify them
+
+Then provide:
+1. current auth architecture summary
+2. whether app + site already share auth
+3. gaps found
+4. files/services changed
+5. how shared login now works across both platforms
+6. any remaining risks or next steps
