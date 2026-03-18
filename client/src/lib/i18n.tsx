@@ -35,6 +35,38 @@ const translations: Partial<Record<LanguageCode, Record<string, string>>> & { en
 
 const missingKeys: Map<string, Set<string>> = new Map();
 
+const MISSING_KEY_REPORT_DEBOUNCE_MS = 5000;
+const MISSING_KEY_BATCH_SIZE = 50;
+let pendingMissingKeys: { language: string; key: string }[] = [];
+let reportTimer: ReturnType<typeof setTimeout> | null = null;
+
+function flushMissingKeys() {
+  if (pendingMissingKeys.length === 0) return;
+  const batch = pendingMissingKeys.splice(0, MISSING_KEY_BATCH_SIZE);
+  try {
+    fetch("/api/i18n/missing-keys", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ keys: batch }),
+    }).catch(() => {});
+  } catch {}
+  if (pendingMissingKeys.length > 0) {
+    reportTimer = setTimeout(flushMissingKeys, MISSING_KEY_REPORT_DEBOUNCE_MS);
+  } else {
+    reportTimer = null;
+  }
+}
+
+function reportMissingKeyToServer(lang: string, key: string) {
+  pendingMissingKeys.push({ language: lang, key });
+  if (pendingMissingKeys.length >= MISSING_KEY_BATCH_SIZE) {
+    if (reportTimer) clearTimeout(reportTimer);
+    flushMissingKeys();
+  } else if (!reportTimer) {
+    reportTimer = setTimeout(flushMissingKeys, MISSING_KEY_REPORT_DEBOUNCE_MS);
+  }
+}
+
 export function getMissingKeys(): Record<string, string[]> {
   const result: Record<string, string[]> = {};
   missingKeys.forEach((keys, lang) => {
@@ -71,6 +103,7 @@ function trackMissingKey(lang: string, key: string) {
     if (import.meta.env.DEV) {
       console.warn(`[i18n] Missing translation: key="${key}", language="${lang}"`);
     }
+    reportMissingKeyToServer(lang, key);
   }
 }
 
@@ -88,12 +121,15 @@ const enReady: Promise<void> = (async () => {
   } catch {}
 })();
 
+type TranslationStatus = "translated" | "fallback" | "missing";
+
 type I18nContextType = {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
   t: (key: string, vars?: Record<string, string>) => string;
   isTranslationLoaded: boolean;
   isFallback: (key: string) => boolean;
+  translationStatus: (key: string) => TranslationStatus;
 };
 
 const I18nContext = createContext<I18nContextType>({
@@ -102,6 +138,7 @@ const I18nContext = createContext<I18nContextType>({
   t: (key: string, _vars?: Record<string, string>) => humanizeKey(key),
   isTranslationLoaded: false,
   isFallback: () => false,
+  translationStatus: () => "translated",
 });
 
 function localeToLanguage(locale: SupportedLocale): LanguageCode {
@@ -193,6 +230,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return !langStrings || !langStrings[key];
   }, [language, langLoaded]);
 
+  const translationStatus = useCallback((key: string): TranslationStatus => {
+    if (language === "en") {
+      return translations.en[key] ? "translated" : "missing";
+    }
+    const langStrings = translations[language];
+    if (langStrings && langStrings[key]) return "translated";
+    if (translations.en[key]) return "fallback";
+    return "missing";
+  }, [language, langLoaded]);
+
   const t = useCallback((key: string, vars?: Record<string, string>): string => {
     const langStrings = translations[language];
     let val = langStrings?.[key] || translations.en[key];
@@ -213,6 +260,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         val = val.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
       }
     }
+
+    if (import.meta.env.DEV && language !== "en") {
+      const status = langStrings?.[key] ? "translated" : "fallback";
+      if (status === "fallback") {
+        return `[${val}]`;
+      }
+    }
+
     return val;
   }, [language, langLoaded]);
 
@@ -221,7 +276,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   if (!ready) return null;
 
   return (
-    <I18nContext.Provider value={{ language, setLanguage, t, isTranslationLoaded, isFallback }}>
+    <I18nContext.Provider value={{ language, setLanguage, t, isTranslationLoaded, isFallback, translationStatus }}>
       {children}
     </I18nContext.Provider>
   );

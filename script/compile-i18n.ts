@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, readFileSync } from "fs";
 import path from "path";
 
 const LANGUAGES = [
@@ -6,54 +6,55 @@ const LANGUAGES = [
   "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id",
 ];
 
-const EXPECTED_EXPORT_NAMES: Record<string, string> = {
-  en: "enTranslations",
-  fr: "frTranslations",
-  tl: "tlTranslations",
-  hi: "hiTranslations",
-  es: "esTranslations",
-  zh: "zhTranslations",
-  "zh-tw": "zhTwTranslations",
-  ar: "arTranslations",
-  ko: "koTranslations",
-  pt: "ptTranslations",
-  pa: "paTranslations",
-  vi: "viTranslations",
-  ht: "htTranslations",
-  ur: "urTranslations",
-  ja: "jaTranslations",
-  fa: "faTranslations",
-  de: "deTranslations",
-  th: "thTranslations",
-  tr: "trTranslations",
-  id: "idTranslations",
-};
+function extractTranslationsFromSource(filePath: string): Record<string, string> | null {
+  const source = readFileSync(filePath, "utf-8");
+
+  const objectRegex = /(?:const\s+\w+\s*(?::\s*Record<string,\s*string>)?\s*=\s*|export\s+default\s+)\{([\s\S]*)\}\s*(?:as\s+const)?\s*;?\s*(?:export\s+default\s+\w+;?\s*)?$/;
+  const match = source.match(objectRegex);
+  if (!match) return null;
+
+  const body = match[1];
+  const result: Record<string, string> = {};
+  const entryRegex = /["']([^"']+)["']\s*:\s*["'`]((?:[^"'`\\]|\\.)*)["'`]/g;
+  let m: RegExpExecArray | null;
+  while ((m = entryRegex.exec(body)) !== null) {
+    result[m[1]] = m[2].replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\\\/g, "\\");
+  }
+  return result;
+}
 
 export async function compileI18n() {
   const outDir = path.resolve(process.cwd(), "client/public/i18n");
   mkdirSync(outDir, { recursive: true });
   const errors: string[] = [];
+  let totalKeys = 0;
+
   for (const lang of LANGUAGES) {
-    const mod = await import(`../client/src/lib/i18n-${lang}`);
-    const exportName = EXPECTED_EXPORT_NAMES[lang];
-    const data = mod[exportName] ?? mod.default;
-    if (!data || typeof data !== "object" || Array.isArray(data)) {
-      errors.push(`i18n-${lang}.ts: missing or invalid export "${exportName}"`);
-      continue;
+    const filePath = path.resolve(process.cwd(), `client/src/lib/i18n-${lang}.ts`);
+    try {
+      const data = extractTranslationsFromSource(filePath);
+      if (!data || typeof data !== "object") {
+        errors.push(`i18n-${lang}.ts: could not extract translations`);
+        continue;
+      }
+      const keys = Object.keys(data);
+      if (keys.length < 10) {
+        errors.push(`i18n-${lang}.ts: suspiciously few keys (${keys.length})`);
+        continue;
+      }
+      totalKeys += keys.length;
+      const json = JSON.stringify(data);
+      writeFileSync(path.join(outDir, `${lang}.json`), json);
+    } catch (err) {
+      errors.push(`i18n-${lang}.ts: ${err instanceof Error ? err.message : String(err)}`);
     }
-    const keys = Object.keys(data);
-    if (keys.length < 10) {
-      errors.push(`i18n-${lang}.ts: suspiciously few keys (${keys.length})`);
-      continue;
-    }
-    const json = JSON.stringify(data);
-    writeFileSync(path.join(outDir, `${lang}.json`), json);
   }
+
   if (errors.length > 0) {
     console.error("[i18n] Compilation errors:\n  " + errors.join("\n  "));
     throw new Error(`i18n compilation failed: ${errors.length} error(s)`);
   }
-  console.log(`compiled ${LANGUAGES.length} i18n files to JSON`);
+  console.log(`compiled ${LANGUAGES.length} i18n files to JSON (${totalKeys} total keys)`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith("compile-i18n.ts")) {

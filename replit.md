@@ -74,6 +74,14 @@ Key files:
 - Routes: `/allied-health/physiotherapy-assistant/guide/:slug` with PtaGuideRouter dispatching to content or blog template
 - Sitemap: 25 URLs registered in `server/sitemap/allied-site.ts` under `generateAlliedSeoLanding()`
 
+### i18n Enforcement & Build Tooling
+- **Compile Script** (`script/compile-i18n.ts`): Regex-based source parser that extracts translations from all 20 language TS files and produces JSON files in `client/public/i18n/`. Integrated into the build pipeline via `script/build.ts`.
+- **Missing Key Tracking**: `t()` function in `client/src/lib/i18n.tsx` reports missing translation keys to `POST /api/i18n/missing-keys` via debounced batched requests. In dev mode, non-English fallback content is wrapped in `[brackets]` for visibility.
+- **Missing Key API**: `POST /api/i18n/missing-keys` (rate-limited, unauthenticated) accepts batched missing key reports. `GET` and `DELETE` endpoints require admin auth. Server: `server/i18n-missing-keys-routes.ts`.
+- **Fallback Overlay** (`client/src/components/i18n-fallback-overlay.tsx`): Dev-mode component that wraps translated text with a red dashed border when `isFallback()` returns true.
+- **Hardcoded String Scanner** (`script/scan-hardcoded-strings.ts`): Scans `client/src/` TSX/TS files for raw user-facing strings not wrapped in `t()`. Exits non-zero on violations.
+- **`translationStatus(key)`**: New i18n context function returning `"translated" | "fallback" | "missing"` for granular status checking.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
