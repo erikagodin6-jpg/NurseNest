@@ -5947,7 +5947,7 @@ CREATE TABLE "users" (
 	"id" varchar PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"username" text NOT NULL,
 	"password" text NOT NULL,
-	"email" text DEFAULT '' NOT NULL,
+	"email" text,
 	"email_verified_at" timestamp,
 	"display_name" text,
 	"first_name" text,
