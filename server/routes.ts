@@ -655,9 +655,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerIncidentMonitorRoutes } = await import("./incident-routes");
   registerIncidentMonitorRoutes(app);
 
-  const { registerSubscriberRescueRoutes } = await import("./subscriber-rescue-routes");
-  registerSubscriberRescueRoutes(app);
-
   const { registerReleaseGateRoutes } = await import("./release-gate");
   registerReleaseGateRoutes(app);
 

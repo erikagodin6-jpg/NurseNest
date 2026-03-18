@@ -7332,27 +7332,6 @@ export const insertChangeLogSchema = createInsertSchema(changeLog).omit({
 export type ChangeLog = typeof changeLog.$inferSelect;
 export type InsertChangeLog = z.infer<typeof insertChangeLogSchema>;
 
-export const communicationTemplates = pgTable("communication_templates", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  category: text("category").notNull(),
-  subject: text("subject"),
-  body: text("body").notNull(),
-  placeholders: jsonb("placeholders").default(sql`'[]'::jsonb`),
-  isActive: boolean("is_active").default(true),
-  createdBy: varchar("created_by"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export const insertCommunicationTemplateSchema = createInsertSchema(communicationTemplates).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-export type CommunicationTemplate = typeof communicationTemplates.$inferSelect;
-export type InsertCommunicationTemplate = z.infer<typeof insertCommunicationTemplateSchema>;
-
 export const rescueActionLogs = pgTable("rescue_action_logs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   targetUserId: varchar("target_user_id").notNull(),
