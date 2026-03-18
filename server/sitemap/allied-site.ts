@@ -100,6 +100,48 @@ export async function generateAlliedTools(): Promise<string[]> {
   }
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/practice-exam-questions`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
 
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/medications`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  const pharmtechMedicationSlugs = [
+    "lisinopril", "atorvastatin", "metformin", "amoxicillin", "omeprazole", "metoprolol",
+    "amlodipine", "levothyroxine", "losartan", "sertraline", "albuterol", "gabapentin",
+    "hydrochlorothiazide", "pantoprazole", "furosemide", "prednisone", "warfarin",
+    "insulin-glargine", "rosuvastatin", "azithromycin", "escitalopram", "montelukast",
+    "duloxetine", "clopidogrel", "tramadol", "fluoxetine", "apixaban", "oxycodone",
+    "amphetamine-dextroamphetamine", "simvastatin", "alprazolam", "glipizide", "ibuprofen",
+    "acetaminophen", "empagliflozin", "sitagliptin", "semaglutide", "methylphenidate",
+    "doxycycline", "spironolactone", "fluticasone",
+  ];
+  for (const slug of pharmtechMedicationSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/medications/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/calculations`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  const pharmtechCalculationSlugs = [
+    "dosage-calculations", "iv-flow-rate", "unit-conversions", "alligation-method",
+    "ratio-proportion", "bsa-calculations", "concentration-dilution", "days-supply",
+  ];
+  for (const slug of pharmtechCalculationSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/calculations/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/sig-codes`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  const pharmtechSigCodeSlugs = ["common-sig-codes", "dangerous-abbreviations", "sig-code-practice"];
+  for (const slug of pharmtechSigCodeSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/sig-codes/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/law`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  const pharmtechLawSlugs = ["controlled-substances", "medication-safety", "pharmacy-operations", "hipaa-patient-privacy"];
+  for (const slug of pharmtechLawSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/law/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/guides`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  const pharmtechGuideSlugs = ["ptcb-exam-study-guide", "top-200-drugs-study-strategy", "pharmacy-math-cheat-sheet"];
+  for (const slug of pharmtechGuideSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/pharmacy-technician/guides/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/rrt/pharmacology`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
   const rrtPharmacologySlugs = [
     "bronchodilators", "corticosteroids", "mucolytics", "aerosolized-anti-infectives",

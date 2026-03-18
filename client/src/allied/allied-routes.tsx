@@ -88,6 +88,16 @@ const RrtPharmTraps = lazy(() => import("./pages/rrt-pharm-study-tools").then(m 
 const RrtPharmMnemonics = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmMnemonics })));
 const RrtPharmOneMinuteReview = lazy(() => import("./pages/rrt-pharm-study-tools").then(m => ({ default: m.RrtPharmOneMinuteReview })));
 const PharmtechPracticeExamSeo = lazy(() => import("./pages/pharmtech-practice-exam-seo"));
+const PharmtechMedicationsHub = lazy(() => import("./pages/pharmtech-medication-page").then(m => ({ default: m.PharmTechMedicationsHub })));
+const PharmtechMedicationDetail = lazy(() => import("./pages/pharmtech-medication-page").then(m => ({ default: m.PharmTechMedicationDetailRoute })));
+const PharmtechCalculationsHub = lazy(() => import("./pages/pharmtech-calculations-page").then(m => ({ default: m.PharmTechCalculationsHub })));
+const PharmtechCalculationDetail = lazy(() => import("./pages/pharmtech-calculations-page").then(m => ({ default: m.PharmTechCalculationDetailRoute })));
+const PharmtechSigCodesHub = lazy(() => import("./pages/pharmtech-sig-codes-page").then(m => ({ default: m.PharmTechSigCodesHub })));
+const PharmtechSigCodeDetail = lazy(() => import("./pages/pharmtech-sig-codes-page").then(m => ({ default: m.PharmTechSigCodeDetailRoute })));
+const PharmtechLawHub = lazy(() => import("./pages/pharmtech-law-page").then(m => ({ default: m.PharmTechLawHub })));
+const PharmtechLawDetail = lazy(() => import("./pages/pharmtech-law-page").then(m => ({ default: m.PharmTechLawDetailRoute })));
+const PharmtechGuidesHub = lazy(() => import("./pages/pharmtech-guides-page").then(m => ({ default: m.PharmTechGuidesHub })));
+const PharmtechGuideDetail = lazy(() => import("./pages/pharmtech-guides-page").then(m => ({ default: m.PharmTechGuideDetailRoute })));
 const PharmtechAdaptivePractice = lazy(() => import("./pages/pharmtech-adaptive-practice"));
 const PharmtechStudyPlan = lazy(() => import("./pages/pharmtech-study-plan"));
 const MltStudentDashboard = lazy(() => import("./pages/mlt-student-dashboard"));
@@ -284,6 +294,16 @@ export function AlliedRoutes() {
         <Route path="/admin/allied-content/pharmacy-technician/import" component={PharmtechAdmin} />
         <Route path="/admin/allied-content/pharmacy-technician" component={PharmtechAdmin} />
         <Route path="/admin/paramedic-bulk-upload" component={ParamedicBulkUpload} />
+        <Route path="/allied-health/pharmacy-technician/medications/:slug" component={PharmtechMedicationDetail} />
+        <Route path="/allied-health/pharmacy-technician/medications" component={PharmtechMedicationsHub} />
+        <Route path="/allied-health/pharmacy-technician/calculations/:slug" component={PharmtechCalculationDetail} />
+        <Route path="/allied-health/pharmacy-technician/calculations" component={PharmtechCalculationsHub} />
+        <Route path="/allied-health/pharmacy-technician/sig-codes/:slug" component={PharmtechSigCodeDetail} />
+        <Route path="/allied-health/pharmacy-technician/sig-codes" component={PharmtechSigCodesHub} />
+        <Route path="/allied-health/pharmacy-technician/law/:slug" component={PharmtechLawDetail} />
+        <Route path="/allied-health/pharmacy-technician/law" component={PharmtechLawHub} />
+        <Route path="/allied-health/pharmacy-technician/guides/:slug" component={PharmtechGuideDetail} />
+        <Route path="/allied-health/pharmacy-technician/guides" component={PharmtechGuidesHub} />
         <Route path="/allied-health/pharmacy-technician/drug-classes/:slug" component={PharmtechDrugClassDetail} />
         <Route path="/allied-health/pharmacy-technician/drug-classes" component={PharmtechDrugClassesHub} />
         <Route path="/admin/allied-content/pharmacy-technician/study-plans" component={PharmtechAdmin} />
