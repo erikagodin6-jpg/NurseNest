@@ -7209,3 +7209,79 @@ export const insertChangeLogSchema = createInsertSchema(changeLog).omit({
 });
 export type ChangeLog = typeof changeLog.$inferSelect;
 export type InsertChangeLog = z.infer<typeof insertChangeLogSchema>;
+
+export const communicationTemplates = pgTable("communication_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  subject: text("subject"),
+  body: text("body").notNull(),
+  placeholders: jsonb("placeholders").default(sql`'[]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  createdBy: varchar("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertCommunicationTemplateSchema = createInsertSchema(communicationTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type CommunicationTemplate = typeof communicationTemplates.$inferSelect;
+export type InsertCommunicationTemplate = z.infer<typeof insertCommunicationTemplateSchema>;
+
+export const rescueActionLogs = pgTable("rescue_action_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  targetUserId: varchar("target_user_id").notNull(),
+  targetUsername: text("target_username"),
+  actorId: varchar("actor_id").notNull(),
+  actorUsername: text("actor_username"),
+  actionType: text("action_type").notNull(),
+  actionDetails: jsonb("action_details").default(sql`'{}'::jsonb`),
+  reason: text("reason"),
+  incidentId: varchar("incident_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertRescueActionLogSchema = createInsertSchema(rescueActionLogs).omit({
+  id: true,
+  createdAt: true,
+});
+export type RescueActionLog = typeof rescueActionLogs.$inferSelect;
+export type InsertRescueActionLog = z.infer<typeof insertRescueActionLogSchema>;
+
+export const incidentAffectedUsers = pgTable("incident_affected_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  incidentId: varchar("incident_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  username: text("username"),
+  email: text("email"),
+  tier: text("tier"),
+  subscriptionStatus: text("subscription_status"),
+  severity: text("severity").default("medium"),
+  impactDescription: text("impact_description"),
+  rescueStatus: text("rescue_status").default("pending"),
+  suggestedActions: jsonb("suggested_actions").default(sql`'[]'::jsonb`),
+  actionsApplied: jsonb("actions_applied").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertIncidentAffectedUserSchema = createInsertSchema(incidentAffectedUsers).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type IncidentAffectedUser = typeof incidentAffectedUsers.$inferSelect;
+export type InsertIncidentAffectedUser = z.infer<typeof insertIncidentAffectedUserSchema>;
+
+export const supportNotes = pgTable("support_notes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  authorId: varchar("author_id").notNull(),
+  authorUsername: text("author_username"),
+  content: text("content").notNull(),
+  category: text("category").default("general"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

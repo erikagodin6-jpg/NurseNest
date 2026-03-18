@@ -29,12 +29,12 @@ Core architectural components and design patterns include:
 - **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue.
 - **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation, quality scoring, and review workflow.
 - **Exam Readiness Predictor Engine**: Provides readiness scores, pass probability, and personalized recommendations.
-- **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtering by country, language, and licensing body, with `country-adaptation.ts` for regional data mapping.
-- **Multilingual Exam Question Translation Pipeline**: AI-powered batch translation of exam questions into multiple languages, leveraging a `content_translations` table with quality checks.
+- **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtering by country, language, and licensing body.
+- **Multilingual Exam Question Translation Pipeline**: AI-powered batch translation of exam questions into multiple languages.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization layer for content generation.
-- **Admin Purchase Notifications**: Real-time email and SMS alerts on purchase events, configurable via an admin UI.
+- **Admin Purchase Notifications**: Real-time email and SMS alerts on purchase events.
 - **Content Publishing Audit**: Admin-only system for audit reports, quality fixes, coverage, and paywall enforcement for published content, including an 8-section validation system for unpublished content.
-- **Clinical SEO Pages**: Database-driven clinical content pages for SEO across 5 content types.
+- **Clinical SEO Pages**: Database-driven clinical content pages for SEO across 5 content types (Conditions, Symptoms, Medications, Lab Values, Comparisons).
 - **Question Comments & Discussion**: Lightweight discussion system on practice questions, allowing users to comment, vote, and flag content, with admin moderation.
 - **Exam Reliability System**: Production-grade exam stability with question validation, pool health checks, quarantine, incident tracking, error boundaries, report buttons, and API normalization.
 - **Ops Foundation & Audit Infrastructure**: Unified operational data layer with database tables for operational incidents (`ops_incidents`), communication templates (`comm_templates`), subscriber rescue actions (`rescue_actions`), release gate checks (`release_checks`), content health scores (`content_health_scores`), VIP prioritization (`vip_config`), and weekly reports (`weekly_reports`). Comprehensive audit logging service (`server/ops-audit-service.ts`) records all operator actions with who/when/what/target/reason/severity. Audit logs queryable via admin API with filtering by action, actor, entity type, severity, and time range, plus CSV/JSON export. Role-based admin permissions (`super_admin`, `support_admin`, `content_admin`, `ops_viewer`) via `requireAdminRole()` middleware. CSRF protection on all admin mutation endpoints (global middleware in `server/index.ts`), confirmation tokens for destructive actions. Sensitive platform operations (feature flag toggles, kill switch changes, safe mode, circuit breaker resets, provisional access grants, entitlement cache clears) all write structured audit entries. Key files: `server/ops-audit-service.ts`, `server/ops-routes.ts`, `server/platform-resilience.ts`.
@@ -136,6 +136,6 @@ Key files:
 - **ORM**: Drizzle ORM
 - **Payment Processing**: Stripe, PayPal SDK
 - **AI/Content Generation**: Centralized AI Provider Router (integrating OpenAI, Ollama, vLLM, LM Studio, Anthropic)
-- **Object Storage**: Replit Object Storage (based on Google Cloud Storage)
+- **Object Storage**: Replit Object Storage
 - **Email**: Resend
 - **SMS**: Twilio
