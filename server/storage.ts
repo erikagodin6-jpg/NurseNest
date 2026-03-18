@@ -1,4 +1,4 @@
-import { type ContentVersion, type InsertContentVersion, type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type QotdUserAnswer, type InsertQotdUserAnswer, type QotdStreak, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type UserSubscription, type InsertUserSubscription, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, qotdUserAnswers, qotdStreaks, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport, type AnalyticsEvent, type InsertAnalyticsEvent } from "@shared/schema";
+import { type ContentVersion, type InsertContentVersion, type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type QotdUserAnswer, type InsertQotdUserAnswer, type QotdStreak, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, type GeneratorV2PresentationSettings, type InsertGeneratorV2PresentationSettings, type TesterInviteCode, type InsertTesterInviteCode, type TesterFeedback, type InsertTesterFeedback, type PricingPlan, type InsertPricingPlan, type FreeTrialUsage, type InsertFreeTrialUsage, type UserSubscription, type InsertUserSubscription, type MltLabImage, type InsertMltLabImage, type MltLabImageLink, type InsertMltLabImageLink, type MltImageDrillAttempt, type InsertMltImageDrillAttempt, type QuestionExplanation, type InsertQuestionExplanation, type ImagingQuestion, type InsertImagingQuestion, type ImageAsset, type InsertImageAsset, type ImagingFlashcard, type InsertImagingFlashcard, type ImagingCaseStudy, type InsertImagingCaseStudy, type ImagingArtifactImage, type InsertImagingArtifactImage, type ImagingComparisonSet, type InsertImagingComparisonSet, type ImagingAnatomyImage, type InsertImagingAnatomyImage, type ImagingPhysicsVisual, type InsertImagingPhysicsVisual, type ImagingImageBrief, type InsertImagingImageBrief, type ImagingExamAttempt, type InsertImagingExamAttempt, type ImagingExamAttemptQuestion, type InsertImagingExamAttemptQuestion, type ImagingPositioningEntry, type CaseStudy, type InsertCaseStudy, type CaseStudyStep, type InsertCaseStudyStep, type CaseStudyQuestion, type InsertCaseStudyQuestion, type InsertImagingPositioningEntry, type ImagingPhysicsTopic, type InsertImagingPhysicsTopic, type QuestionBankItem, type InsertQuestionBankItem, type QuestionBankResult, type InsertQuestionBankResult, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, qotdUserAnswers, qotdStreaks, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generatorV2PresentationSettings, generationEvents, v2ContentBlocks, testerInviteCodes, testerFeedback, imagingQuestions, imageAssets, imagingFlashcards, imagingCaseStudies, imagingExamAttempts, imagingExamAttemptQuestions, imagingPositioningEntries, imagingPhysicsTopics, questionBank, questionBankResults, mltLabImages, mltLabImageLinks, mltImageDrillAttempts, imagingArtifactImages, imagingComparisonSets, imagingAnatomyImages, imagingPhysicsVisuals, imagingImageBriefs, type ProblemReport, type InsertProblemReport, type TestBankCollection, type InsertTestBankCollection, type TestBankProgress, type InsertTestBankProgress, type QuestionHistory, type InsertQuestionHistory, type CatSession, type InsertCatSession, type UserActivityLog, type InsertUserActivityLog, type DashboardResumeState, type InsertDashboardResumeState, type AnalyticsEvent, type InsertAnalyticsEvent, testBankCollections, testBankProgress, questionHistory, catSessions, userActivityLog, dashboardResumeState , type LessonBookmark, type InsertLessonBookmark, type MockExamSessionProgress, type InsertMockExamSessionProgress, lessonBookmarks, mockExamSessionProgress } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -371,6 +371,53 @@ export interface IStorage {
     limit?: number;
     offset?: number;
   }): Promise<{ rows: AnalyticsEvent[]; total: number }>;
+
+  getTestBankCollections(filters?: { role?: string; country?: string; exam?: string; tier?: string; isActive?: boolean }): Promise<TestBankCollection[]>;
+  getTestBankCollection(id: string): Promise<TestBankCollection | undefined>;
+  createTestBankCollection(data: InsertTestBankCollection): Promise<TestBankCollection>;
+  updateTestBankCollection(id: string, updates: Partial<InsertTestBankCollection>): Promise<TestBankCollection>;
+  deleteTestBankCollection(id: string): Promise<void>;
+
+  getTestBankProgress(userId: string, collectionId: string): Promise<TestBankProgress | undefined>;
+  getUserTestBankProgress(userId: string): Promise<TestBankProgress[]>;
+  upsertTestBankProgress(userId: string, collectionId: string, updates: Partial<InsertTestBankProgress>): Promise<TestBankProgress>;
+  deleteTestBankProgress(userId: string, collectionId: string): Promise<void>;
+
+  createQuestionHistory(data: InsertQuestionHistory): Promise<QuestionHistory>;
+  getQuestionHistory(id: string): Promise<QuestionHistory | undefined>;
+  getUserQuestionHistory(userId: string, filters?: { sourceType?: string; sessionId?: string; limit?: number; offset?: number }): Promise<QuestionHistory[]>;
+  getQuestionHistoryBySession(sessionId: string): Promise<QuestionHistory[]>;
+  updateQuestionHistory(id: string, updates: Partial<InsertQuestionHistory>): Promise<QuestionHistory>;
+
+  createCatSession(data: InsertCatSession): Promise<CatSession>;
+  getCatSession(id: string): Promise<CatSession | undefined>;
+  getUserCatSessions(userId: string, filters?: { status?: string }): Promise<CatSession[]>;
+  updateCatSession(id: string, updates: Partial<InsertCatSession> & { completedAt?: Date }): Promise<CatSession>;
+
+  createUserActivityLog(data: InsertUserActivityLog): Promise<UserActivityLog>;
+  getUserActivityLog(userId: string, filters?: { eventType?: string; limit?: number; offset?: number }): Promise<UserActivityLog[]>;
+
+  getDashboardResumeState(userId: string): Promise<DashboardResumeState | undefined>;
+  upsertDashboardResumeState(userId: string, updates: Partial<InsertDashboardResumeState>): Promise<DashboardResumeState>;
+  deleteDashboardResumeState(userId: string): Promise<void>;
+
+  deleteQuestionHistory(id: string): Promise<void>;
+  deleteUserQuestionHistory(userId: string): Promise<void>;
+
+  deleteCatSession(id: string): Promise<void>;
+
+  deleteUserActivityLog(id: string): Promise<void>;
+
+  createLessonBookmark(data: InsertLessonBookmark): Promise<LessonBookmark>;
+  getLessonBookmark(userId: string, lessonId: string): Promise<LessonBookmark | undefined>;
+  getUserLessonBookmarks(userId: string): Promise<LessonBookmark[]>;
+  updateLessonBookmark(userId: string, lessonId: string, updates: Partial<InsertLessonBookmark>): Promise<LessonBookmark>;
+  deleteLessonBookmark(userId: string, lessonId: string): Promise<void>;
+
+  getMockExamSessionProgress(userId: string, attemptId: string): Promise<MockExamSessionProgress | undefined>;
+  getUserMockExamSessionProgress(userId: string): Promise<MockExamSessionProgress[]>;
+  upsertMockExamSessionProgress(userId: string, attemptId: string, updates: Partial<InsertMockExamSessionProgress>): Promise<MockExamSessionProgress>;
+  deleteMockExamSessionProgress(id: string): Promise<void>;
 }
 
 import { getDevPool } from "./db";
@@ -3019,6 +3066,204 @@ export class DatabaseStorage implements IStorage {
     );
 
     return { rows: dataResult.rows.map(snakeToCamel), total };
+  }
+  async getTestBankCollections(filters?: { role?: string; country?: string; exam?: string; tier?: string; isActive?: boolean }): Promise<TestBankCollection[]> {
+    const conditions: any[] = [];
+    if (filters?.role) conditions.push(eq(testBankCollections.role, filters.role));
+    if (filters?.country) conditions.push(eq(testBankCollections.country, filters.country));
+    if (filters?.exam) conditions.push(eq(testBankCollections.exam, filters.exam));
+    if (filters?.tier) conditions.push(eq(testBankCollections.tier, filters.tier));
+    if (filters?.isActive !== undefined) conditions.push(eq(testBankCollections.isActive, filters.isActive));
+    const query = db.select().from(testBankCollections);
+    if (conditions.length > 0) {
+      return query.where(and(...conditions)).orderBy(testBankCollections.sortOrder);
+    }
+    return query.orderBy(testBankCollections.sortOrder);
+  }
+
+  async getTestBankCollection(id: string): Promise<TestBankCollection | undefined> {
+    const [result] = await db.select().from(testBankCollections).where(eq(testBankCollections.id, id));
+    return result;
+  }
+
+  async createTestBankCollection(data: InsertTestBankCollection): Promise<TestBankCollection> {
+    const [result] = await db.insert(testBankCollections).values(data).returning();
+    return result;
+  }
+
+  async updateTestBankCollection(id: string, updates: Partial<InsertTestBankCollection>): Promise<TestBankCollection> {
+    const [result] = await db.update(testBankCollections).set({ ...updates, updatedAt: new Date() }).where(eq(testBankCollections.id, id)).returning();
+    return result;
+  }
+
+  async deleteTestBankCollection(id: string): Promise<void> {
+    await db.delete(testBankCollections).where(eq(testBankCollections.id, id));
+  }
+
+  async getTestBankProgress(userId: string, collectionId: string): Promise<TestBankProgress | undefined> {
+    const [result] = await db.select().from(testBankProgress).where(and(eq(testBankProgress.userId, userId), eq(testBankProgress.collectionId, collectionId)));
+    return result;
+  }
+
+  async getUserTestBankProgress(userId: string): Promise<TestBankProgress[]> {
+    return db.select().from(testBankProgress).where(eq(testBankProgress.userId, userId)).orderBy(desc(testBankProgress.updatedAt));
+  }
+
+  async upsertTestBankProgress(userId: string, collectionId: string, updates: Partial<InsertTestBankProgress>): Promise<TestBankProgress> {
+    const existing = await this.getTestBankProgress(userId, collectionId);
+    if (existing) {
+      const [result] = await db.update(testBankProgress).set({ ...updates, updatedAt: new Date() }).where(eq(testBankProgress.id, existing.id)).returning();
+      return result;
+    }
+    const [result] = await db.insert(testBankProgress).values({ userId, collectionId, ...updates }).returning();
+    return result;
+  }
+
+  async deleteTestBankProgress(userId: string, collectionId: string): Promise<void> {
+    await db.delete(testBankProgress).where(and(eq(testBankProgress.userId, userId), eq(testBankProgress.collectionId, collectionId)));
+  }
+
+  async createQuestionHistory(data: InsertQuestionHistory): Promise<QuestionHistory> {
+    const [result] = await db.insert(questionHistory).values(data).returning();
+    return result;
+  }
+
+  async getQuestionHistory(id: string): Promise<QuestionHistory | undefined> {
+    const [result] = await db.select().from(questionHistory).where(eq(questionHistory.id, id));
+    return result;
+  }
+
+  async updateQuestionHistory(id: string, updates: Partial<InsertQuestionHistory>): Promise<QuestionHistory> {
+    const [result] = await db.update(questionHistory).set(updates).where(eq(questionHistory.id, id)).returning();
+    return result;
+  }
+
+  async getUserQuestionHistory(userId: string, filters?: { sourceType?: string; sessionId?: string; limit?: number; offset?: number }): Promise<QuestionHistory[]> {
+    const conditions: any[] = [eq(questionHistory.userId, userId)];
+    if (filters?.sourceType) conditions.push(sql`${questionHistory.sourceType} = ${filters.sourceType}`);
+    if (filters?.sessionId) conditions.push(eq(questionHistory.sessionId, filters.sessionId));
+    const limit = filters?.limit || 50;
+    const offset = filters?.offset || 0;
+    return db.select().from(questionHistory).where(and(...conditions)).orderBy(desc(questionHistory.answeredAt)).limit(limit).offset(offset);
+  }
+
+  async getQuestionHistoryBySession(sessionId: string): Promise<QuestionHistory[]> {
+    return db.select().from(questionHistory).where(eq(questionHistory.sessionId, sessionId)).orderBy(questionHistory.answeredAt);
+  }
+
+  async createCatSession(data: InsertCatSession): Promise<CatSession> {
+    const [result] = await db.insert(catSessions).values(data).returning();
+    return result;
+  }
+
+  async getCatSession(id: string): Promise<CatSession | undefined> {
+    const [result] = await db.select().from(catSessions).where(eq(catSessions.id, id));
+    return result;
+  }
+
+  async getUserCatSessions(userId: string, filters?: { status?: string }): Promise<CatSession[]> {
+    const conditions: any[] = [eq(catSessions.userId, userId)];
+    if (filters?.status) conditions.push(sql`${catSessions.status} = ${filters.status}`);
+    return db.select().from(catSessions).where(and(...conditions)).orderBy(desc(catSessions.startTime));
+  }
+
+  async updateCatSession(id: string, updates: Partial<InsertCatSession> & { completedAt?: Date }): Promise<CatSession> {
+    const [result] = await db.update(catSessions).set({ ...updates, lastActiveAt: new Date() }).where(eq(catSessions.id, id)).returning();
+    return result;
+  }
+
+  async createUserActivityLog(data: InsertUserActivityLog): Promise<UserActivityLog> {
+    const [result] = await db.insert(userActivityLog).values(data).returning();
+    return result;
+  }
+
+  async getUserActivityLog(userId: string, filters?: { eventType?: string; limit?: number; offset?: number }): Promise<UserActivityLog[]> {
+    const conditions: any[] = [eq(userActivityLog.userId, userId)];
+    if (filters?.eventType) conditions.push(sql`${userActivityLog.eventType} = ${filters.eventType}`);
+    const limit = filters?.limit || 50;
+    const offset = filters?.offset || 0;
+    return db.select().from(userActivityLog).where(and(...conditions)).orderBy(desc(userActivityLog.createdAt)).limit(limit).offset(offset);
+  }
+
+  async getDashboardResumeState(userId: string): Promise<DashboardResumeState | undefined> {
+    const [result] = await db.select().from(dashboardResumeState).where(eq(dashboardResumeState.userId, userId));
+    return result;
+  }
+
+  async upsertDashboardResumeState(userId: string, updates: Partial<InsertDashboardResumeState>): Promise<DashboardResumeState> {
+    const existing = await this.getDashboardResumeState(userId);
+    if (existing) {
+      const [result] = await db.update(dashboardResumeState).set({ ...updates, lastUpdatedAt: new Date() }).where(eq(dashboardResumeState.id, existing.id)).returning();
+      return result;
+    }
+    const [result] = await db.insert(dashboardResumeState).values({ userId, ...updates }).returning();
+    return result;
+  }
+
+  async deleteDashboardResumeState(userId: string): Promise<void> {
+    await db.delete(dashboardResumeState).where(eq(dashboardResumeState.userId, userId));
+  }
+
+  async deleteQuestionHistory(id: string): Promise<void> {
+    await db.delete(questionHistory).where(eq(questionHistory.id, id));
+  }
+
+  async deleteUserQuestionHistory(userId: string): Promise<void> {
+    await db.delete(questionHistory).where(eq(questionHistory.userId, userId));
+  }
+
+  async deleteCatSession(id: string): Promise<void> {
+    await db.delete(catSessions).where(eq(catSessions.id, id));
+  }
+
+  async deleteUserActivityLog(id: string): Promise<void> {
+    await db.delete(userActivityLog).where(eq(userActivityLog.id, id));
+  }
+
+  async createLessonBookmark(data: InsertLessonBookmark): Promise<LessonBookmark> {
+    const [result] = await db.insert(lessonBookmarks).values(data).returning();
+    return result;
+  }
+
+  async getLessonBookmark(userId: string, lessonId: string): Promise<LessonBookmark | undefined> {
+    const [result] = await db.select().from(lessonBookmarks).where(and(eq(lessonBookmarks.userId, userId), eq(lessonBookmarks.lessonId, lessonId)));
+    return result;
+  }
+
+  async getUserLessonBookmarks(userId: string): Promise<LessonBookmark[]> {
+    return db.select().from(lessonBookmarks).where(eq(lessonBookmarks.userId, userId)).orderBy(desc(lessonBookmarks.createdAt));
+  }
+
+  async updateLessonBookmark(userId: string, lessonId: string, updates: Partial<InsertLessonBookmark>): Promise<LessonBookmark> {
+    const [result] = await db.update(lessonBookmarks).set(updates).where(and(eq(lessonBookmarks.userId, userId), eq(lessonBookmarks.lessonId, lessonId))).returning();
+    return result;
+  }
+
+  async deleteLessonBookmark(userId: string, lessonId: string): Promise<void> {
+    await db.delete(lessonBookmarks).where(and(eq(lessonBookmarks.userId, userId), eq(lessonBookmarks.lessonId, lessonId)));
+  }
+
+  async getMockExamSessionProgress(userId: string, attemptId: string): Promise<MockExamSessionProgress | undefined> {
+    const [result] = await db.select().from(mockExamSessionProgress).where(and(eq(mockExamSessionProgress.userId, userId), eq(mockExamSessionProgress.attemptId, attemptId)));
+    return result;
+  }
+
+  async getUserMockExamSessionProgress(userId: string): Promise<MockExamSessionProgress[]> {
+    return db.select().from(mockExamSessionProgress).where(eq(mockExamSessionProgress.userId, userId)).orderBy(desc(mockExamSessionProgress.updatedAt));
+  }
+
+  async upsertMockExamSessionProgress(userId: string, attemptId: string, updates: Partial<InsertMockExamSessionProgress>): Promise<MockExamSessionProgress> {
+    const existing = await this.getMockExamSessionProgress(userId, attemptId);
+    if (existing) {
+      const [result] = await db.update(mockExamSessionProgress).set({ ...updates, updatedAt: new Date() }).where(eq(mockExamSessionProgress.id, existing.id)).returning();
+      return result;
+    }
+    const [result] = await db.insert(mockExamSessionProgress).values({ userId, attemptId, ...updates }).returning();
+    return result;
+  }
+
+  async deleteMockExamSessionProgress(id: string): Promise<void> {
+    await db.delete(mockExamSessionProgress).where(eq(mockExamSessionProgress.id, id));
   }
 }
 
