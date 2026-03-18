@@ -1,19 +1,5 @@
 import crypto from "crypto";
 import { pool } from "./storage";
-import { generateBatch4, generateBatch5 } from "./echo-question-generator";
-import { getGeneratedQuestions } from "./echo-questions-generated";
-import { getBatch6, getBatch7, getBatch8, getBatch9, getBatch10 } from "./echo-questions-batch6-10";
-import { getBatch11, getBatch12, getBatch13, getBatch14, getBatch15 } from "./echo-questions-batch11-15";
-import { getBatch16, getBatch17, getBatch18, getBatch19, getBatch20 } from "./echo-questions-batch16-20";
-import { getBatch21, getBatch22, getBatch23, getBatch24, getBatch25 } from "./echo-questions-batch21-25";
-import { getBatch26, getBatch27, getBatch28, getBatch29, getBatch30 } from "./echo-questions-batch26-30";
-import { getBatch31 as getBatch31a, getBatch32 as getBatch32a, getBatch33 as getBatch33a, getBatch34 as getBatch34a, getBatch35 as getBatch35a } from "./echo-questions-batch31-35";
-import { getBatch31, getBatch32, getBatch33, getBatch34, getBatch35, getBatch36, getBatch37, getBatch38, getBatch39, getBatch40 } from "./echo-questions-batch31-40";
-import { getBatch41, getBatch42, getBatch43, getBatch44, getBatch45 } from "./echo-questions-batch41-50";
-import { getBatch46, getBatch47, getBatch48, getBatch49, getBatch50 } from "./echo-questions-batch46-55";
-import { getBatch56, getBatch57, getBatch58, getBatch59, getBatch60 } from "./echo-questions-batch56-65";
-import { getBatch66, getBatch67, getBatch68 } from "./echo-questions-batch66-75";
-import { getBatch76, getBatch77, getBatch78, getBatch79, getBatch80 } from "./echo-questions-batch76-80";
 
 interface EchoQuestion {
   stem: string;
@@ -281,9 +267,18 @@ const BATCH_3: EchoQuestion[] = [
 ];
 
 export async function seedEchoQuestionBank() {
+  const existing = await pool.query(
+    `SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'imaging' AND (exam LIKE '%RDCS%' OR exam LIKE '%CSCT%')`
+  );
+  const dbCount = existing.rows[0].cnt;
+  if (dbCount >= 1500) {
+    console.log(`[Echo QBank] Fast-path: ${dbCount} echo questions in DB (>= 1500), skipping`);
+    return 0;
+  }
+
   console.log("[Echo QBank] Starting echo question bank seed (1500+ questions)...");
 
-  const generatorQuestions: EchoQuestion[] = [...generateBatch4(), ...generateBatch5()].map(q => ({
+  const mapQ = (q: any): EchoQuestion => ({
     stem: q.stem,
     options: q.options,
     correctAnswer: q.correctAnswer,
@@ -298,59 +293,46 @@ export async function seedEchoQuestionBank() {
     exhibitData: q.exhibitData,
     exam: q.exam,
     regionScope: q.regionScope as EchoQuestion["regionScope"],
-  }));
-
-  const generatedQuestions: EchoQuestion[] = getGeneratedQuestions().map(q => ({
-    stem: q.stem,
-    options: q.options,
-    correctAnswer: q.correctAnswer,
-    rationale: q.rationale,
-    learningObjective: q.learningObjective,
-    blueprintCategory: q.blueprintCategory,
-    subtopic: q.subtopic,
-    difficulty: q.difficulty,
-    cognitiveLevel: q.cognitiveLevel,
-    questionType: q.questionType as EchoQuestion["questionType"],
-    scenario: q.scenario,
-    exhibitData: q.exhibitData,
-    exam: q.exam,
-    regionScope: q.regionScope as EchoQuestion["regionScope"],
-  }));
-
-  const batchFns = [
-    getBatch6, getBatch7, getBatch8, getBatch9, getBatch10,
-    getBatch11, getBatch12, getBatch13, getBatch14, getBatch15,
-    getBatch16, getBatch17, getBatch18, getBatch19, getBatch20,
-    getBatch21, getBatch22, getBatch23, getBatch24, getBatch25,
-    getBatch26, getBatch27, getBatch28, getBatch29, getBatch30,
-    getBatch31a, getBatch32a, getBatch33a, getBatch34a, getBatch35a,
-    getBatch31, getBatch32, getBatch33, getBatch34, getBatch35,
-    getBatch36, getBatch37, getBatch38, getBatch39, getBatch40,
-    getBatch41, getBatch42, getBatch43, getBatch44, getBatch45,
-    getBatch46, getBatch47, getBatch48, getBatch49, getBatch50,
-    getBatch56, getBatch57, getBatch58, getBatch59, getBatch60,
-    getBatch66, getBatch67, getBatch68,
-    getBatch76, getBatch77, getBatch78, getBatch79, getBatch80,
-  ];
-
-  const externalQuestions: EchoQuestion[] = batchFns.flatMap(fn => {
-    return fn().map((q: any) => ({
-      stem: q.stem,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-      rationale: q.rationale,
-      learningObjective: q.learningObjective,
-      blueprintCategory: q.blueprintCategory,
-      subtopic: q.subtopic,
-      difficulty: q.difficulty,
-      cognitiveLevel: q.cognitiveLevel,
-      questionType: q.questionType as EchoQuestion["questionType"],
-      scenario: q.scenario,
-      exhibitData: q.exhibitData,
-      exam: q.exam,
-      regionScope: q.regionScope as EchoQuestion["regionScope"],
-    }));
   });
+
+  const { generateBatch4, generateBatch5 } = await import("./echo-question-generator");
+  const generatorQuestions: EchoQuestion[] = [...generateBatch4(), ...generateBatch5()].map(mapQ);
+
+  const { getGeneratedQuestions } = await import("./echo-questions-generated");
+  const generatedQuestions: EchoQuestion[] = getGeneratedQuestions().map(mapQ);
+
+  const batchModules = await Promise.all([
+    import("./echo-questions-batch6-10"),
+    import("./echo-questions-batch11-15"),
+    import("./echo-questions-batch16-20"),
+    import("./echo-questions-batch21-25"),
+    import("./echo-questions-batch26-30"),
+    import("./echo-questions-batch31-35"),
+    import("./echo-questions-batch31-40"),
+    import("./echo-questions-batch41-50"),
+    import("./echo-questions-batch46-55"),
+    import("./echo-questions-batch56-65"),
+    import("./echo-questions-batch66-75"),
+    import("./echo-questions-batch76-80"),
+  ]);
+
+  const batchFns: (() => any[])[] = [];
+  const [m610, m1115, m1620, m2125, m2630, m3135, m3140, m4150, m4655, m5665, m6675, m7680] = batchModules;
+  batchFns.push(m610.getBatch6, m610.getBatch7, m610.getBatch8, m610.getBatch9, m610.getBatch10);
+  batchFns.push(m1115.getBatch11, m1115.getBatch12, m1115.getBatch13, m1115.getBatch14, m1115.getBatch15);
+  batchFns.push(m1620.getBatch16, m1620.getBatch17, m1620.getBatch18, m1620.getBatch19, m1620.getBatch20);
+  batchFns.push(m2125.getBatch21, m2125.getBatch22, m2125.getBatch23, m2125.getBatch24, m2125.getBatch25);
+  batchFns.push(m2630.getBatch26, m2630.getBatch27, m2630.getBatch28, m2630.getBatch29, m2630.getBatch30);
+  batchFns.push(m3135.getBatch31, m3135.getBatch32, m3135.getBatch33, m3135.getBatch34, m3135.getBatch35);
+  batchFns.push(m3140.getBatch31, m3140.getBatch32, m3140.getBatch33, m3140.getBatch34, m3140.getBatch35);
+  batchFns.push(m3140.getBatch36, m3140.getBatch37, m3140.getBatch38, m3140.getBatch39, m3140.getBatch40);
+  batchFns.push(m4150.getBatch41, m4150.getBatch42, m4150.getBatch43, m4150.getBatch44, m4150.getBatch45);
+  batchFns.push(m4655.getBatch46, m4655.getBatch47, m4655.getBatch48, m4655.getBatch49, m4655.getBatch50);
+  batchFns.push(m5665.getBatch56, m5665.getBatch57, m5665.getBatch58, m5665.getBatch59, m5665.getBatch60);
+  batchFns.push(m6675.getBatch66, m6675.getBatch67, m6675.getBatch68);
+  batchFns.push(m7680.getBatch76, m7680.getBatch77, m7680.getBatch78, m7680.getBatch79, m7680.getBatch80);
+
+  const externalQuestions: EchoQuestion[] = batchFns.flatMap(fn => fn().map(mapQ));
 
   const allBatches = [
     { name: "Batch 1 (Anatomy, Physiology, Imaging Views, Doppler, Calculations)", questions: BATCH_1 },

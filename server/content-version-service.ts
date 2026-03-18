@@ -355,6 +355,9 @@ export async function ensureContentVersionsTable(): Promise<void> {
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `);
+    await pool.query(`ALTER TABLE content_versions ADD COLUMN IF NOT EXISTS validation_status TEXT NOT NULL DEFAULT 'verified'`);
+    await pool.query(`ALTER TABLE content_versions ADD COLUMN IF NOT EXISTS payload JSONB DEFAULT '{}'::jsonb`);
+    await pool.query(`ALTER TABLE content_versions ADD COLUMN IF NOT EXISTS backup_artifact_refs JSONB DEFAULT '[]'::jsonb`);
     await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_versions_lookup ON content_versions (content_id, content_type, validation_status)`);
     await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_versions_type ON content_versions (content_type)`);
     await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_versions_status ON content_versions (validation_status)`);

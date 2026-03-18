@@ -1113,8 +1113,33 @@ app.use((req, res, next) => {
   }, 60_000);
 })();
 
+async function startupMemoryGuard(phaseName: string): Promise<void> {
+  const mem = process.memoryUsage();
+  const rssMB = Math.round(mem.rss / 1024 / 1024);
+  if (rssMB > 700) {
+    console.log(`[StartupGuard] RSS ${rssMB}MB > 700MB before ${phaseName}, pausing for GC...`);
+    if (typeof global.gc === "function") {
+      global.gc();
+    }
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const after = Math.round(process.memoryUsage().rss / 1024 / 1024);
+    console.log(`[StartupGuard] RSS after GC pause: ${after}MB`);
+  }
+}
+
+async function runSeedStep(name: string, fn: () => Promise<void>): Promise<void> {
+  try {
+    await fn();
+  } catch (e: any) {
+    console.error(`[${name}] Failed:`, e.message);
+  }
+}
+
 function runDeferredStartupWork() {
   setImmediate(async () => {
+    console.log("[DeferredStartup] Beginning phased startup...");
+
+    // ── Phase 0: Quick validations (no heavy data) ──
     try {
       const { validateStripeConnection } = await import("./stripeClient");
       const stripeValid = await validateStripeConnection();
@@ -1155,95 +1180,192 @@ function runDeferredStartupWork() {
       }
     }, SIX_HOURS_MS);
     console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
-    import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
-    import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
-      const { getDevPool } = await import("./db");
-      const p = getDevPool();
-      seedStudyDecks(p).catch((e: any) => console.error("[Seed] Failed:", e.message));
-      import("./seed-seo-clusters").then(({ seedSEOClusters }) => {
-        seedSEOClusters(p).catch((e: any) => console.error("[SEO Seed] Failed:", e.message));
-      });
-      import("./seed-seo-ctr-pages").then(({ seedSeoCtrPages }) => {
-        seedSeoCtrPages(p).catch((e: any) => console.error("[SEO-CTR Seed] Failed:", e.message));
-      });
-      import("./seed-paramedic-content").then(({ seedParamedicContent }) => {
-        seedParamedicContent(p).catch((e: any) => console.error("[Paramedic Seed] Failed:", e.message));
-      });
-      import("./seed-paramedic-questions").then(({ seedParamedicQuestions }) => {
-        seedParamedicQuestions().catch((e: any) => console.error("[Paramedic Q-Seed] Failed:", e.message));
-      });
-    });
+    console.log("[DeferredStartup] Phase 0 complete (validations + schedulers)");
 
-    import("./seed-emergency-nursing-tox-disaster").then(({ seedEmergencyNursingToxDisaster }) => {
-      seedEmergencyNursingToxDisaster().catch((e: any) => console.error("[EN-ToxDisaster] Failed:", e.message));
-    });
+    // ── Phase 1: Schema sync + data migrations (sequential) ──
+    await startupMemoryGuard("Phase 1: Schema/Migrations");
+    console.log("[DeferredStartup] Phase 1: Schema sync + data migrations...");
 
-    import("./ensure-schema").then(async ({ ensureSchemaSync }) => {
+    await runSeedStep("SchemaSync", async () => {
+      const { ensureSchemaSync } = await import("./ensure-schema");
       const { pool: schemaPool } = await import("./storage");
       await ensureSchemaSync(schemaPool);
-    }).catch((e: any) => console.error("[SchemaSync] Import failed:", e.message));
+    });
 
-    import("./startup-data-migrations").then(({ runStartupDataMigrations }) => {
-      runStartupDataMigrations().catch((e: any) => console.error("[Startup Migrations] Failed:", e.message));
-    }).catch((e: any) => console.error("[Startup Migrations] Import failed:", e.message));
+    await runSeedStep("Startup Migrations", async () => {
+      const { runStartupDataMigrations } = await import("./startup-data-migrations");
+      await runStartupDataMigrations();
+    });
 
-    import("./seed-rn-questions-docx").then(async ({ seedRNQuestionsFromDocx }) => {
+    await runSeedStep("QBank Templates", async () => {
+      const { seedPromptTemplates } = await import("./prompts/qbank-templates");
+      await seedPromptTemplates();
+    });
+
+    console.log("[DeferredStartup] Phase 1 complete");
+
+    // ── Phase 2: Exam questions + flashcard mapping (sequential) ──
+    await startupMemoryGuard("Phase 2: Exam Questions");
+    console.log("[DeferredStartup] Phase 2: Exam questions + flashcard mapping...");
+
+    const { pool: seedPool } = await import("./storage");
+
+    await runSeedStep("ExamSeed", async () => {
+      const { seedExamQuestions } = await import("./seed-exam-questions");
+      await seedExamQuestions(seedPool);
+    });
+
+    await runSeedStep("RRTSeed", async () => {
+      const { seedRRTQuestions } = await import("./seed-rrt-questions");
+      await seedRRTQuestions(seedPool);
+    });
+
+    await runSeedStep("RPNPathoSeed", async () => {
+      const { seedRPNPathoQuestions } = await import("./seed-rpn-patho-questions");
+      await seedRPNPathoQuestions(seedPool);
+    });
+
+    await runSeedStep("CATFlashcards", async () => {
+      const { seedCatFlashcards } = await import("./seed-cat-flashcards");
+      await seedCatFlashcards(seedPool);
+    });
+
+    await runSeedStep("DocxSeed", async () => {
+      const { seedRNQuestionsFromDocx } = await import("./seed-rn-questions-docx");
       const result = await seedRNQuestionsFromDocx();
       console.log(`[DocxSeed] Total: ${result.total}, Inserted: ${result.inserted}, Skipped: ${result.skipped}, Errors: ${result.errors}`);
-    }).catch((e: any) => console.error("[DocxSeed] Import failed:", e.message));
+    });
 
-    import("./seed-exam-questions").then(async ({ seedExamQuestions }) => {
-      const { pool: seedPool } = await import("./storage");
-      await seedExamQuestions(seedPool).catch((e: any) => console.error("[ExamSeed] Failed:", e.message));
-      await import("./seed-rrt-questions").then(({ seedRRTQuestions }) => seedRRTQuestions(seedPool)).catch((e: any) => console.error("[RRTSeed] Failed:", e.message));
-      await import("./seed-rpn-patho-questions").then(({ seedRPNPathoQuestions }) => seedRPNPathoQuestions(seedPool)).catch((e: any) => console.error("[RPNPathoSeed] Failed:", e.message));
-      await import("./seed-cat-flashcards").then(({ seedCatFlashcards }) => seedCatFlashcards(seedPool)).catch((e: any) => console.error("[CATFlashcards] Failed:", e.message));
-      await import("./exam-flashcard-mapper").then(async ({ mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards }) => {
-        const result = await mapExamQuestionsToFlashcards();
-        console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
-        const aligned = await bulkGenerateAlignedFlashcards();
-        console.log(`[FlashcardAlignment] Bulk aligned: ${aligned.summary.totalCreated} created, ${aligned.summary.totalUpdated} updated`);
-      }).catch((e: any) => console.error("[ExamFlashcardMapper] Failed:", e.message));
-      await import("./seed-digital-products").then(({ seedDigitalProducts }) => seedDigitalProducts(seedPool)).catch((e: any) => console.error("[DigitalProductSeed] Failed:", e.message));
-      await import("./encyclopedia-seed").then(({ seedEncyclopediaEntries }) => seedEncyclopediaEntries()).catch((e: any) => console.error("[EncyclopediaSeed] Failed:", e.message));
-      await import("./seed-nursing-content-hub").then(({ seedNursingContentHub }) => seedNursingContentHub(seedPool)).catch((e: any) => console.error("[NursingHubSeed] Failed:", e.message));
-      await import("./seed-allied-health-landing-pages").then(({ seedAlliedHealthLandingPages }) => seedAlliedHealthLandingPages()).catch((e: any) => console.error("[AlliedLandingPages] Failed:", e.message));
-      await import("./seeds/seed-allied-health-questions").then(({ seedAlliedHealthQuestions }) => seedAlliedHealthQuestions(seedPool)).catch((e: any) => console.error("[AlliedHealthQuestions] Failed:", e.message));
-      await import("./seed-topic-hub-pages").then(({ seedTopicHubPages }) => seedTopicHubPages()).catch((e: any) => console.error("[TopicHubPages] Failed:", e.message));
-      await import("./seed-long-form-study-guides").then(({ seedLongFormStudyGuides }) => seedLongFormStudyGuides()).catch((e: any) => console.error("[LongFormGuides] Failed:", e.message));
-      await import("./seed-long-tail-educational-pages").then(({ seedLongTailEducationalPages }) => seedLongTailEducationalPages()).catch((e: any) => console.error("[LongTailPages] Failed:", e.message));
-      await import("./seed-imaging-seo-clusters").then(({ seedImagingSeoContent }) => seedImagingSeoContent()).catch((e: any) => console.error("[ImagingSeoClustersSeed] Failed:", e.message));
+    await runSeedStep("EmergencyNursing", async () => {
+      const { seedEmergencyNursingToxDisaster } = await import("./seed-emergency-nursing-tox-disaster");
+      await seedEmergencyNursingToxDisaster();
+    });
 
-      try {
-        const tierCounts = await seedPool.query(
-          `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
-        );
-        const fbCounts = await seedPool.query(
-          `SELECT status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY status`
-        ).catch(() => ({ rows: [] }));
-        const deckCount = await seedPool.query(
-          `SELECT COUNT(*)::int AS count FROM flashcard_decks`
-        ).catch(() => ({ rows: [{ count: 0 }] }));
-        const dpCounts = await seedPool.query(
-          `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
-        ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
+    await runSeedStep("ParamedicQuestions", async () => {
+      const { seedParamedicQuestions } = await import("./seed-paramedic-questions");
+      await seedParamedicQuestions();
+    });
 
-        const tierSummary = tierCounts.rows.map((r: any) => `${r.tier}: ${r.count}`).join(", ");
-        const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
-        const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
-        const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
+    // ExamFlashcardMapper runs AFTER all question seeding to avoid deadlocks
+    await startupMemoryGuard("Phase 2b: Flashcard Mapper");
 
-        console.log("═══════════════════════════════════════════");
-        console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
-        console.log("[Startup Health] DB Host:", dbHost);
-        console.log("[Startup Health] Exam Questions by tier:", tierSummary || "none");
-        console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
-        console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
-        console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
-        console.log("═══════════════════════════════════════════");
-      } catch (healthErr: any) {
-        console.error("[Startup Health] Failed to log summary:", healthErr.message);
-      }
-    }).catch((e: any) => console.error("[ExamSeed] Import failed:", e.message));
+    await runSeedStep("ExamFlashcardMapper", async () => {
+      const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
+      const result = await mapExamQuestionsToFlashcards();
+      console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
+      const aligned = await bulkGenerateAlignedFlashcards();
+      console.log(`[FlashcardAlignment] Bulk aligned: ${aligned.summary.totalCreated} created, ${aligned.summary.totalUpdated} updated`);
+    });
+
+    await runSeedStep("DigitalProductSeed", async () => {
+      const { seedDigitalProducts } = await import("./seed-digital-products");
+      await seedDigitalProducts(seedPool);
+    });
+
+    console.log("[DeferredStartup] Phase 2 complete");
+
+    // ── Phase 3: SEO/content seeds (sequential) ──
+    await startupMemoryGuard("Phase 3: SEO/Content Seeds");
+    console.log("[DeferredStartup] Phase 3: SEO/content seeds...");
+
+    await runSeedStep("StudyDecks", async () => {
+      const { seedStudyDecks } = await import("./seed-study-decks");
+      await seedStudyDecks(seedPool);
+    });
+
+    await runSeedStep("SEOClusters", async () => {
+      const { seedSEOClusters } = await import("./seed-seo-clusters");
+      await seedSEOClusters(seedPool);
+    });
+
+    await runSeedStep("SEO-CTR", async () => {
+      const { seedSeoCtrPages } = await import("./seed-seo-ctr-pages");
+      await seedSeoCtrPages(seedPool);
+    });
+
+    await runSeedStep("ParamedicContent", async () => {
+      const { seedParamedicContent } = await import("./seed-paramedic-content");
+      await seedParamedicContent(seedPool);
+    });
+
+    await runSeedStep("EncyclopediaSeed", async () => {
+      const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
+      await seedEncyclopediaEntries();
+    });
+
+    await runSeedStep("NursingHubSeed", async () => {
+      const { seedNursingContentHub } = await import("./seed-nursing-content-hub");
+      await seedNursingContentHub(seedPool);
+    });
+
+    await runSeedStep("AlliedLandingPages", async () => {
+      const { seedAlliedHealthLandingPages } = await import("./seed-allied-health-landing-pages");
+      await seedAlliedHealthLandingPages();
+    });
+
+    await runSeedStep("AlliedHealthQuestions", async () => {
+      const { seedAlliedHealthQuestions } = await import("./seeds/seed-allied-health-questions");
+      await seedAlliedHealthQuestions(seedPool);
+    });
+
+    await startupMemoryGuard("Phase 3b: Hub/Guide pages");
+
+    await runSeedStep("TopicHubPages", async () => {
+      const { seedTopicHubPages } = await import("./seed-topic-hub-pages");
+      await seedTopicHubPages();
+    });
+
+    await runSeedStep("LongFormGuides", async () => {
+      const { seedLongFormStudyGuides } = await import("./seed-long-form-study-guides");
+      await seedLongFormStudyGuides();
+    });
+
+    await runSeedStep("LongTailPages", async () => {
+      const { seedLongTailEducationalPages } = await import("./seed-long-tail-educational-pages");
+      await seedLongTailEducationalPages();
+    });
+
+    await runSeedStep("ImagingSeoClustersSeed", async () => {
+      const { seedImagingSeoContent } = await import("./seed-imaging-seo-clusters");
+      await seedImagingSeoContent();
+    });
+
+    console.log("[DeferredStartup] Phase 3 complete");
+
+    // ── Startup health summary ──
+    try {
+      const tierCounts = await seedPool.query(
+        `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
+      );
+      const fbCounts = await seedPool.query(
+        `SELECT status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY status`
+      ).catch(() => ({ rows: [] }));
+      const deckCount = await seedPool.query(
+        `SELECT COUNT(*)::int AS count FROM flashcard_decks`
+      ).catch(() => ({ rows: [{ count: 0 }] }));
+      const dpCounts = await seedPool.query(
+        `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
+      ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
+
+      const tierSummary = tierCounts.rows.map((r: any) => `${r.tier}: ${r.count}`).join(", ");
+      const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
+      const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
+      const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
+      const finalRSS = Math.round(process.memoryUsage().rss / 1024 / 1024);
+
+      console.log("═══════════════════════════════════════════");
+      console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
+      console.log("[Startup Health] DB Host:", dbHost);
+      console.log("[Startup Health] Exam Questions by tier:", tierSummary || "none");
+      console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
+      console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
+      console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
+      console.log("[Startup Health] Final RSS:", finalRSS, "MB");
+      console.log("═══════════════════════════════════════════");
+    } catch (healthErr: any) {
+      console.error("[Startup Health] Failed to log summary:", healthErr.message);
+    }
+
+    console.log("[DeferredStartup] All phases complete");
   });
 }

@@ -1498,6 +1498,8 @@ async function seedImagingEncyclopedia() {
     )
   `);
 
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS category TEXT`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS topic_id VARCHAR`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_profession_status ON encyclopedia_entries(profession, status)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_category ON encyclopedia_entries(profession, category)`);
 

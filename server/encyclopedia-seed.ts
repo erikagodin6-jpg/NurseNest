@@ -723,6 +723,12 @@ function buildCrossLinks(allEntries: EncyclopediaEntry[]): EncyclopediaEntry[] {
 }
 
 export async function seedEncyclopediaEntries(): Promise<{ total: number; byProfession: Record<string, number>; crossLinksAdded: number }> {
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS category TEXT`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS topic_id VARCHAR`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS seo_title TEXT`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS seo_description TEXT`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS seo_keywords TEXT[] DEFAULT '{}'`);
+  await pool.query(`ALTER TABLE encyclopedia_entries ADD COLUMN IF NOT EXISTS cross_profession_links JSONB DEFAULT '[]'`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_profession ON encyclopedia_entries(profession)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_status ON encyclopedia_entries(status)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_encyclopedia_category ON encyclopedia_entries(profession, category)`);

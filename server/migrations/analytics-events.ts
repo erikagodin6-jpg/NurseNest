@@ -21,7 +21,13 @@ export async function runAnalyticsEventsMigration(pool?: pg.Pool) {
       created_at TIMESTAMP NOT NULL DEFAULT NOW()
     )
   `);
-  console.log("[Analytics Events Migration] ✓ analytics_events table created");
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS event_name TEXT`);
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS session_id TEXT`);
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP DEFAULT NOW()`);
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb`);
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS ip_address TEXT`);
+  await pool.query(`ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS user_agent TEXT`);
+  console.log("[Analytics Events Migration] ✓ analytics_events table created/synced");
 
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_analytics_events_event_name ON analytics_events (event_name)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events (user_id)`);

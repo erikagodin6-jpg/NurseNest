@@ -1,6 +1,5 @@
 import pg from "pg";
 import { fixCorrectAnswerData, verifyCorrectAnswerData } from "./migrations/fix-correct-answer-data";
-import { seedEchoQuestionBank } from "./seed-echo-question-bank";
 
 export let lastStartupMigrationTimestamp: string | null = null;
 
@@ -340,7 +339,15 @@ export async function runStartupDataMigrations() {
       }
 
       try {
-        await seedEchoQuestionBank();
+        const echoCheck = await pool.query(
+          `SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE tier = 'imaging' AND (exam LIKE '%RDCS%' OR exam LIKE '%CSCT%')`
+        );
+        if (echoCheck.rows[0].cnt < 1500) {
+          const { seedEchoQuestionBank } = await import("./seed-echo-question-bank");
+          await seedEchoQuestionBank();
+        } else {
+          console.log(`[Echo QBank] Fast-path: ${echoCheck.rows[0].cnt} echo questions in DB (>= 1500), skipping import`);
+        }
       } catch (echoErr: any) {
         console.error(`[Echo QBank] Seed error: ${echoErr.message}`);
       }
