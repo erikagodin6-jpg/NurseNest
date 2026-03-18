@@ -591,6 +591,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerBackupRoutes } = await import("./backup-routes");
   registerBackupRoutes(app);
 
+  const { registerChaosTestingRoutes } = await import("./chaos-testing");
+  registerChaosTestingRoutes(app);
+
   const { registerExamBlueprintSeoRoutes } = await import("./exam-blueprint-seo-routes");
   registerExamBlueprintSeoRoutes(app);
 

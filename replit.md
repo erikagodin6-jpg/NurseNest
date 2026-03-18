@@ -25,15 +25,15 @@ Core architectural components and design patterns include:
 - **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and structured data generation (Article, Course, MedicalCondition, FAQ schemas).
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study System, and LocalStorage-based Popup Suppression System.
 - **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content, including dedicated NP Exam Ecosystems.
-- **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
+- **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework with real `pg_dump` backups, content exports, and integrity verification.
 - **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue.
 - **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation, quality scoring, and review workflow.
 - **Exam Readiness Predictor Engine**: Provides readiness scores, pass probability, and personalized recommendations.
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtering by country, language, and licensing body, with `country-adaptation.ts` for regional data mapping.
-- **Multilingual Exam Question Translation Pipeline**: AI-powered batch translation of exam questions into multiple languages, leveraging a `content_translations` table.
+- **Multilingual Exam Question Translation Pipeline**: AI-powered batch translation of exam questions into multiple languages, leveraging a `content_translations` table with quality checks.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization layer for content generation.
 - **Admin Purchase Notifications**: Real-time email and SMS alerts on purchase events, configurable via an admin UI.
-- **Content Publishing Audit**: Admin-only system for comprehensive audit reports, quality fixes, coverage, and paywall enforcement for published content. This includes an 8-section validation system for unpublished content, question metadata, duplicate stems, CAT rationale, exam page routes, flashcard linkage, tier access control, and content integrity.
+- **Content Publishing Audit**: Admin-only system for audit reports, quality fixes, coverage, and paywall enforcement for published content, including an 8-section validation system for unpublished content.
 - **Clinical SEO Pages**: Database-driven clinical content pages for SEO across 5 content types (Conditions, Symptoms, Medications, Lab Values, Comparisons).
 - **Question Comments & Discussion**: Lightweight discussion system on practice questions, allowing users to comment, vote, and flag content, with admin moderation.
 - **Exam Reliability System**: Production-grade exam stability with question validation, pool health checks, quarantine, incident tracking, error boundaries, report buttons, and API normalization.
@@ -125,6 +125,7 @@ Key files:
 - **Content Health Score Engine**: 0-100 scoring engine with per-dimension breakdown for exam questions, flashcard decks, lessons, and content items. Dimensions include schema validity, field completeness, content adequacy, metadata quality, and runtime stability.
 - **VIP Subscriber Prioritization**: Middleware that prioritizes paid subscriber requests under high load, with configurable thresholds, critical path exemptions for admin/auth/health endpoints, and background operation shedding. Admin UI at `/admin/vip-status`.
 - **Weekly Resilience Report**: Automated report covering incidents, fallback activations, rollback events, quarantined content, low-health content, entitlement anomalies, payment sync issues, top failing routes, rescue actions, and open risks with risk level computation and recommended priorities. Admin UI at `/admin/resilience-report`.
+- **Chaos Testing & Disaster Recovery**: Configurable chaos engine (`server/chaos-testing.ts`) with 8 failure scenarios (DB, Stripe, AI, email/SMS, malformed payloads, cache corruption, exam service, multi-service cascade). Non-destructive circuit breaker manipulation with auto-reset. DR readiness scoring (chaos 30% + backup 30% + verification 20% + restore 20%). Backup restore dry-run (`scripts/backup/restore-dry-run.ts`) and manifest generation (`scripts/backup/generate-manifests.ts`). Admin DR dashboard at `/admin/disaster-recovery` with chaos test runner, restore dry-run UI, manifest generation, backup/verification status, and chaos test history.
 
 ### External Dependencies
 - **Database**: PostgreSQL

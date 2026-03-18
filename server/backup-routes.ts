@@ -271,6 +271,32 @@ export function registerBackupRoutes(app: Express) {
     }
   });
 
+  app.post("/api/admin/backup/restore-dry-run", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { runRestoreDryRun } = await import("../scripts/backup/restore-dry-run");
+      const result = await runRestoreDryRun();
+      res.json({ success: true, ...result });
+    } catch (err: any) {
+      console.error("Restore dry-run error:", err);
+      res.status(500).json({ error: err.message || "Restore dry-run failed" });
+    }
+  });
+
+  app.post("/api/admin/backup/generate-manifests", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { generateManifests } = await import("../scripts/backup/generate-manifests");
+      const result = await generateManifests();
+      res.json({ success: true, ...result });
+    } catch (err: any) {
+      console.error("Manifest generation error:", err);
+      res.status(500).json({ error: err.message || "Manifest generation failed" });
+    }
+  });
+
   app.get("/api/admin/backup/status", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;

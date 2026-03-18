@@ -500,6 +500,7 @@ const MedicalImagingUSAPage = lazy(() => import("@/pages/medical-imaging-country
 const AdminMedicalImaging = lazy(() => import("@/pages/admin-medical-imaging"));
 const AdminImageLibrary = lazy(() => import("@/pages/admin-image-library"));
 const AdminBackups = lazy(() => import("@/pages/admin-backups"));
+const AdminDisasterRecovery = lazy(() => import("@/pages/admin-disaster-recovery"));
 const AdminDatabaseStatus = lazy(() => import("@/pages/admin-database-status"));
 const AdminEnvironmentAudit = lazy(() => import("@/pages/admin-environment-audit"));
 const AdminEnvironmentDiagnostic = lazy(() => import("@/pages/admin-environment-diagnostic"));
@@ -1210,6 +1211,7 @@ function AppRoutes() {
         <Route path="/admin/medical-imaging" component={AdminMedicalImaging} />
         <Route path="/admin/image-library" component={AdminImageLibrary} />
         <Route path="/admin/backups" component={AdminBackups} />
+        <Route path="/admin/disaster-recovery" component={AdminDisasterRecovery} />
         <Route path="/admin/database-status" component={AdminDatabaseStatus} />
         <Route path="/admin/environment-audit" component={AdminEnvironmentAudit} />
         <Route path="/admin/environment-diagnostic" component={AdminEnvironmentDiagnostic} />
