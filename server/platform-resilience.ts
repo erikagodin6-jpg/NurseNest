@@ -1929,8 +1929,620 @@ export function minimalCoreEnforcement() {
   };
 }
 
+// ==========================================
+// SCOPE ISOLATION LAYER
+// ==========================================
+
+type FailureDomainType = "profession" | "exam_type" | "language" | "region";
+
+interface ScopedFailureDomain {
+  type: FailureDomainType;
+  value: string;
+  errorCount: number;
+  errors: number[];
+  windowMs: number;
+  threshold: number;
+  quarantined: boolean;
+  quarantinedAt: number | null;
+  quarantineReason: string | null;
+  killSwitchActive: boolean;
+  killSwitchReason: string | null;
+  killSwitchBy: string | null;
+  lastError: number | null;
+}
+
+const scopedFailureDomains = new Map<string, ScopedFailureDomain>();
+const SCOPED_WINDOW_MS = 300000;
+const SCOPED_THRESHOLD = 15;
+
+function scopeKey(type: FailureDomainType, value: string): string {
+  return `${type}:${value}`;
+}
+
+function getOrCreateDomain(type: FailureDomainType, value: string): ScopedFailureDomain {
+  const key = scopeKey(type, value);
+  let domain = scopedFailureDomains.get(key);
+  if (!domain) {
+    domain = {
+      type, value, errorCount: 0, errors: [], windowMs: SCOPED_WINDOW_MS,
+      threshold: SCOPED_THRESHOLD, quarantined: false, quarantinedAt: null,
+      quarantineReason: null, killSwitchActive: false, killSwitchReason: null,
+      killSwitchBy: null, lastError: null,
+    };
+    scopedFailureDomains.set(key, domain);
+  }
+  return domain;
+}
+
+export function recordScopedError(type: FailureDomainType, value: string, source?: string): void {
+  const domain = getOrCreateDomain(type, value);
+  const now = Date.now();
+  domain.errors.push(now);
+  domain.errors = domain.errors.filter(t => now - t < domain.windowMs);
+  domain.errorCount = domain.errors.length;
+  domain.lastError = now;
+
+  if (domain.errorCount >= domain.threshold && !domain.quarantined) {
+    domain.quarantined = true;
+    domain.quarantinedAt = now;
+    domain.quarantineReason = `Auto-quarantined: ${domain.errorCount} errors in ${domain.windowMs / 1000}s`;
+    addResilienceEvent("scope_quarantined", `${type}:${value}`, { errorCount: domain.errorCount, source });
+    addAlert("warning", "scope_isolation", `Scope Quarantined: ${type}:${value}`, domain.quarantineReason, `${type}:${value}`);
+  }
+}
+
+export function isScopeQuarantined(type: FailureDomainType, value: string): boolean {
+  const domain = scopedFailureDomains.get(scopeKey(type, value));
+  if (!domain) return false;
+  return domain.quarantined || domain.killSwitchActive;
+}
+
+export function setScopedKillSwitch(type: FailureDomainType, value: string, active: boolean, reason?: string, actor?: string): void {
+  const domain = getOrCreateDomain(type, value);
+  domain.killSwitchActive = active;
+  domain.killSwitchReason = active ? (reason || "admin_action") : null;
+  domain.killSwitchBy = active ? (actor || null) : null;
+  addResilienceEvent(active ? "scoped_kill_switch_activated" : "scoped_kill_switch_deactivated", `${type}:${value}`, { reason, actor });
+  addResilienceAudit(active ? "scoped_kill_switch_on" : "scoped_kill_switch_off", "scope_isolation", `${type}:${value}`, { reason }, actor || null);
+}
+
+export function liftScopeQuarantine(type: FailureDomainType, value: string, actor?: string): void {
+  const domain = scopedFailureDomains.get(scopeKey(type, value));
+  if (!domain) return;
+  domain.quarantined = false;
+  domain.quarantinedAt = null;
+  domain.quarantineReason = null;
+  domain.errors = [];
+  domain.errorCount = 0;
+  addResilienceEvent("scope_quarantine_lifted", `${type}:${value}`, { actor });
+}
+
+export function getScopedFailureDomains(): ScopedFailureDomain[] {
+  const now = Date.now();
+  for (const domain of scopedFailureDomains.values()) {
+    domain.errors = domain.errors.filter(t => now - t < domain.windowMs);
+    domain.errorCount = domain.errors.length;
+  }
+  return Array.from(scopedFailureDomains.values()).map(d => ({ ...d, errors: [] }));
+}
+
+// ==========================================
+// PROGRESSIVE DEGRADATION ENGINE (5 levels)
+// ==========================================
+
+type DegradationLevel = 0 | 1 | 2 | 3 | 4 | 5;
+
+interface DegradationState {
+  level: DegradationLevel;
+  levelName: string;
+  activeSince: number | null;
+  autoEscalated: boolean;
+  manualOverride: DegradationLevel | null;
+  errorRateWindow: number[];
+  renderFailures: number[];
+  latencySpikes: number[];
+  escalationHistory: Array<{ from: number; to: number; reason: string; timestamp: number }>;
+}
+
+const DEGRADATION_LEVEL_NAMES: Record<DegradationLevel, string> = {
+  0: "normal",
+  1: "disable_animations",
+  2: "simplify_ui",
+  3: "safe_renderer",
+  4: "static_backup",
+  5: "substitute_content",
+};
+
+const DEGRADATION_THRESHOLDS = {
+  errorRate: [0, 5, 15, 30, 50, 75],
+  renderFailures: [0, 3, 8, 15, 25, 40],
+  latencyMs: [0, 2000, 4000, 6000, 8000, 10000],
+};
+
+const degradationState: DegradationState = {
+  level: 0, levelName: "normal", activeSince: null, autoEscalated: false,
+  manualOverride: null, errorRateWindow: [], renderFailures: [], latencySpikes: [],
+  escalationHistory: [],
+};
+
+const DEGRADATION_WINDOW_MS = 120000;
+
+function computeDegradationLevel(): DegradationLevel {
+  const now = Date.now();
+  const recentErrors = degradationState.errorRateWindow.filter(t => now - t < DEGRADATION_WINDOW_MS).length;
+  const recentRenderFails = degradationState.renderFailures.filter(t => now - t < DEGRADATION_WINDOW_MS).length;
+  const recentLatency = degradationState.latencySpikes.filter(t => now - t < DEGRADATION_WINDOW_MS).length;
+
+  let maxLevel: DegradationLevel = 0;
+  for (let l = 5; l >= 1; l--) {
+    if (recentErrors >= DEGRADATION_THRESHOLDS.errorRate[l] ||
+        recentRenderFails >= DEGRADATION_THRESHOLDS.renderFailures[l] ||
+        recentLatency >= DEGRADATION_THRESHOLDS.latencyMs[l] / 1000) {
+      maxLevel = l as DegradationLevel;
+      break;
+    }
+  }
+  return maxLevel;
+}
+
+export function recordDegradationError(): void {
+  degradationState.errorRateWindow.push(Date.now());
+  degradationState.errorRateWindow = degradationState.errorRateWindow.filter(t => Date.now() - t < DEGRADATION_WINDOW_MS);
+  checkDegradationEscalation();
+}
+
+export function recordRenderFailure(): void {
+  degradationState.renderFailures.push(Date.now());
+  degradationState.renderFailures = degradationState.renderFailures.filter(t => Date.now() - t < DEGRADATION_WINDOW_MS);
+  checkDegradationEscalation();
+}
+
+export function recordLatencySpike(): void {
+  degradationState.latencySpikes.push(Date.now());
+  degradationState.latencySpikes = degradationState.latencySpikes.filter(t => Date.now() - t < DEGRADATION_WINDOW_MS);
+  checkDegradationEscalation();
+}
+
+function checkDegradationEscalation(): void {
+  if (degradationState.manualOverride !== null) return;
+  const newLevel = computeDegradationLevel();
+  if (newLevel !== degradationState.level) {
+    const prev = degradationState.level;
+    degradationState.escalationHistory.unshift({ from: prev, to: newLevel, reason: "auto", timestamp: Date.now() });
+    if (degradationState.escalationHistory.length > 100) degradationState.escalationHistory.length = 100;
+    degradationState.level = newLevel;
+    degradationState.levelName = DEGRADATION_LEVEL_NAMES[newLevel];
+    degradationState.activeSince = newLevel > 0 ? Date.now() : null;
+    degradationState.autoEscalated = newLevel > prev;
+    addResilienceEvent("degradation_level_change", "system", { from: prev, to: newLevel, levelName: DEGRADATION_LEVEL_NAMES[newLevel] });
+    if (newLevel >= 3) {
+      addAlert("warning", "degradation", `Degradation Level ${newLevel}: ${DEGRADATION_LEVEL_NAMES[newLevel]}`, `System degraded to level ${newLevel}`, "degradation");
+    }
+  }
+}
+
+export function setDegradationOverride(level: DegradationLevel | null, actor?: string): void {
+  degradationState.manualOverride = level;
+  if (level !== null) {
+    const prev = degradationState.level;
+    degradationState.level = level;
+    degradationState.levelName = DEGRADATION_LEVEL_NAMES[level];
+    degradationState.activeSince = level > 0 ? Date.now() : null;
+    degradationState.escalationHistory.unshift({ from: prev, to: level, reason: `manual_override:${actor || "admin"}`, timestamp: Date.now() });
+  } else {
+    checkDegradationEscalation();
+  }
+  addResilienceEvent("degradation_override", "admin", { level, actor });
+  addResilienceAudit("degradation_override", "degradation", "level", { level }, actor || null);
+}
+
+export function getDegradationState(): DegradationState & { thresholds: typeof DEGRADATION_THRESHOLDS } {
+  const now = Date.now();
+  degradationState.errorRateWindow = degradationState.errorRateWindow.filter(t => now - t < DEGRADATION_WINDOW_MS);
+  degradationState.renderFailures = degradationState.renderFailures.filter(t => now - t < DEGRADATION_WINDOW_MS);
+  degradationState.latencySpikes = degradationState.latencySpikes.filter(t => now - t < DEGRADATION_WINDOW_MS);
+  return {
+    ...degradationState,
+    errorRateWindow: [],
+    renderFailures: [],
+    latencySpikes: [],
+    thresholds: DEGRADATION_THRESHOLDS,
+  };
+}
+
+// ==========================================
+// GRACEFUL TIMEOUT SYSTEM
+// ==========================================
+
+interface TimeoutConfig {
+  operation: string;
+  timeoutMs: number;
+  fallbackEnabled: boolean;
+  fallbackResponse: any;
+  totalCalls: number;
+  timeouts: number;
+  lastTimeout: number | null;
+}
+
+const timeoutConfigs = new Map<string, TimeoutConfig>();
+
+const DEFAULT_TIMEOUTS: Array<{ operation: string; timeoutMs: number; fallback: any }> = [
+  { operation: "exam_load", timeoutMs: 10000, fallback: { items: [], message: "Exam loading timed out. Please try again.", _timeout: true } },
+  { operation: "cat_start", timeoutMs: 15000, fallback: { error: "CAT session start timed out. Please try again.", _timeout: true } },
+  { operation: "entitlement_check", timeoutMs: 5000, fallback: { hasAccess: false, accessSource: "timeout_fallback", _timeout: true } },
+  { operation: "content_fetch", timeoutMs: 8000, fallback: { content: null, message: "Content loading timed out. Please refresh.", _timeout: true } },
+  { operation: "question_bank", timeoutMs: 12000, fallback: { items: [], message: "Question bank timed out.", _timeout: true } },
+  { operation: "flashcard_load", timeoutMs: 8000, fallback: { items: [], message: "Flashcards timed out.", _timeout: true } },
+];
+
+export function initTimeoutConfigs(): void {
+  for (const def of DEFAULT_TIMEOUTS) {
+    timeoutConfigs.set(def.operation, {
+      operation: def.operation, timeoutMs: def.timeoutMs, fallbackEnabled: true,
+      fallbackResponse: def.fallback, totalCalls: 0, timeouts: 0, lastTimeout: null,
+    });
+  }
+}
+
+export async function withGracefulTimeout<T>(operation: string, fn: () => Promise<T>, customTimeoutMs?: number): Promise<T> {
+  const config = timeoutConfigs.get(operation);
+  const timeoutMs = customTimeoutMs || config?.timeoutMs || 10000;
+
+  if (config) config.totalCalls++;
+
+  return new Promise<T>((resolve, reject) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      if (config) {
+        config.timeouts++;
+        config.lastTimeout = Date.now();
+      }
+      addResilienceEvent("operation_timeout", operation, { timeoutMs });
+      recordDegradationError();
+      if (config?.fallbackEnabled && config.fallbackResponse) {
+        resolve(config.fallbackResponse as T);
+      } else {
+        reject(new Error(`Operation "${operation}" timed out after ${timeoutMs}ms`));
+      }
+    }, timeoutMs);
+
+    fn().then(result => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(result);
+    }).catch(err => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      reject(err);
+    });
+  });
+}
+
+export function updateTimeoutConfig(operation: string, updates: { timeoutMs?: number; fallbackEnabled?: boolean }): void {
+  const config = timeoutConfigs.get(operation);
+  if (!config) return;
+  if (updates.timeoutMs !== undefined) config.timeoutMs = updates.timeoutMs;
+  if (updates.fallbackEnabled !== undefined) config.fallbackEnabled = updates.fallbackEnabled;
+}
+
+export function getTimeoutConfigs(): TimeoutConfig[] {
+  return Array.from(timeoutConfigs.values());
+}
+
+// ==========================================
+// STUCK STATE DETECTOR
+// ==========================================
+
+interface StuckStateSession {
+  sessionId: string;
+  userId: string;
+  stuckType: "infinite_loading" | "repeated_retries" | "stalled_session" | "navigation_loop";
+  detectedAt: number;
+  recoveryAction: string;
+  recovered: boolean;
+  details: Record<string, any>;
+}
+
+const stuckStateSessions: StuckStateSession[] = [];
+const MAX_STUCK_SESSIONS = 200;
+
+interface UserActivityTracker {
+  userId: string;
+  recentRequests: Array<{ path: string; timestamp: number }>;
+  retryPatterns: Map<string, number[]>;
+  lastActivity: number;
+  loadingStarted: number | null;
+}
+
+const userActivityTrackers = new Map<string, UserActivityTracker>();
+
+const STUCK_STATE_THRESHOLDS = {
+  infiniteLoadingMs: 30000,
+  repeatedRetryCount: 5,
+  repeatedRetryWindowMs: 30000,
+  stalledSessionMs: 120000,
+  navigationLoopCount: 8,
+  navigationLoopWindowMs: 20000,
+};
+
+function getOrCreateTracker(userId: string): UserActivityTracker {
+  let tracker = userActivityTrackers.get(userId);
+  if (!tracker) {
+    tracker = { userId, recentRequests: [], retryPatterns: new Map(), lastActivity: Date.now(), loadingStarted: null };
+    userActivityTrackers.set(userId, tracker);
+  }
+  return tracker;
+}
+
+export function trackUserActivity(userId: string, path: string): StuckStateSession | null {
+  const tracker = getOrCreateTracker(userId);
+  const now = Date.now();
+  tracker.recentRequests.push({ path, timestamp: now });
+  tracker.lastActivity = now;
+
+  if (tracker.recentRequests.length > 100) {
+    tracker.recentRequests = tracker.recentRequests.slice(-50);
+  }
+
+  const retries = tracker.retryPatterns.get(path) || [];
+  retries.push(now);
+  const recentRetries = retries.filter(t => now - t < STUCK_STATE_THRESHOLDS.repeatedRetryWindowMs);
+  tracker.retryPatterns.set(path, recentRetries);
+
+  if (recentRetries.length >= STUCK_STATE_THRESHOLDS.repeatedRetryCount) {
+    const session = createStuckSession(userId, `sess_${userId}_${now}`, "repeated_retries", "reset_session", { path, retryCount: recentRetries.length });
+    tracker.retryPatterns.set(path, []);
+    return session;
+  }
+
+  const recentPaths = tracker.recentRequests
+    .filter(r => now - r.timestamp < STUCK_STATE_THRESHOLDS.navigationLoopWindowMs)
+    .map(r => r.path);
+
+  if (recentPaths.length >= STUCK_STATE_THRESHOLDS.navigationLoopCount) {
+    const uniquePaths = new Set(recentPaths);
+    if (uniquePaths.size <= 3 && recentPaths.length >= STUCK_STATE_THRESHOLDS.navigationLoopCount) {
+      const session = createStuckSession(userId, `sess_${userId}_${now}`, "navigation_loop", "suggest_recovery", { paths: Array.from(uniquePaths), loopCount: recentPaths.length });
+      tracker.recentRequests = [];
+      return session;
+    }
+  }
+
+  return null;
+}
+
+export function reportLoadingState(userId: string, sessionId: string, isLoading: boolean): StuckStateSession | null {
+  const tracker = getOrCreateTracker(userId);
+  if (isLoading && !tracker.loadingStarted) {
+    tracker.loadingStarted = Date.now();
+  } else if (!isLoading) {
+    tracker.loadingStarted = null;
+  }
+
+  if (tracker.loadingStarted && Date.now() - tracker.loadingStarted > STUCK_STATE_THRESHOLDS.infiniteLoadingMs) {
+    const durationMs = Date.now() - tracker.loadingStarted;
+    tracker.loadingStarted = null;
+    return createStuckSession(userId, sessionId, "infinite_loading", "reload_safe_mode", { durationMs });
+  }
+  return null;
+}
+
+export function reportStalledSession(userId: string, sessionId: string, lastActivityMs: number): StuckStateSession | null {
+  if (lastActivityMs > STUCK_STATE_THRESHOLDS.stalledSessionMs) {
+    return createStuckSession(userId, sessionId, "stalled_session", "reset_session", { stalledMs: lastActivityMs });
+  }
+  return null;
+}
+
+function createStuckSession(userId: string, sessionId: string, stuckType: StuckStateSession["stuckType"], recoveryAction: string, details: Record<string, any>): StuckStateSession {
+  const session: StuckStateSession = {
+    sessionId, userId, stuckType, detectedAt: Date.now(), recoveryAction, recovered: false, details,
+  };
+  stuckStateSessions.unshift(session);
+  if (stuckStateSessions.length > MAX_STUCK_SESSIONS) stuckStateSessions.length = MAX_STUCK_SESSIONS;
+  addResilienceEvent("stuck_state_detected", userId, { stuckType, recoveryAction, sessionId, ...details });
+  recordDegradationError();
+  return session;
+}
+
+export function getStuckStateSessions(limit = 50): StuckStateSession[] {
+  return stuckStateSessions.slice(0, limit);
+}
+
+export function getStuckStateThresholds(): typeof STUCK_STATE_THRESHOLDS {
+  return { ...STUCK_STATE_THRESHOLDS };
+}
+
+export function updateStuckStateThresholds(updates: Partial<typeof STUCK_STATE_THRESHOLDS>): void {
+  Object.assign(STUCK_STATE_THRESHOLDS, updates);
+}
+
+// ==========================================
+// PERFORMANCE / SCALE PROTECTION
+// ==========================================
+
+interface RouteLatencyTracker {
+  route: string;
+  samples: number[];
+  totalCalls: number;
+  totalLatencyMs: number;
+  p50: number;
+  p95: number;
+  p99: number;
+  maxLatency: number;
+  lastUpdated: number;
+}
+
+const routeLatencyTrackers = new Map<string, RouteLatencyTracker>();
+const LATENCY_SAMPLE_LIMIT = 500;
+
+const CRITICAL_PATHS = new Set([
+  "/api/exam-questions", "/api/mock-exams", "/api/flashcards", "/api/flashcard-decks",
+  "/api/lessons", "/api/question-bank", "/api/auth", "/api/login",
+  "/api/stripe", "/api/entitlement",
+]);
+
+const NONESSENTIAL_PATHS = new Set([
+  "/api/seo", "/api/analytics", "/api/social", "/api/blog",
+  "/api/admin/seo", "/api/admin/analytics",
+]);
+
+interface ScaleProtectionState {
+  loadLevel: "normal" | "elevated" | "high" | "critical";
+  activeThrottles: string[];
+  throttledRequests: number;
+  lastEvaluation: number;
+  requestsPerMinute: number[];
+}
+
+const scaleProtection: ScaleProtectionState = {
+  loadLevel: "normal", activeThrottles: [], throttledRequests: 0,
+  lastEvaluation: Date.now(), requestsPerMinute: [],
+};
+
+const SCALE_THRESHOLDS = {
+  elevated: 200,
+  high: 400,
+  critical: 600,
+};
+
+export function recordRouteLatency(route: string, latencyMs: number): void {
+  const normalized = normalizeRoutePath(route);
+  let tracker = routeLatencyTrackers.get(normalized);
+  if (!tracker) {
+    tracker = { route: normalized, samples: [], totalCalls: 0, totalLatencyMs: 0, p50: 0, p95: 0, p99: 0, maxLatency: 0, lastUpdated: Date.now() };
+    routeLatencyTrackers.set(normalized, tracker);
+  }
+  tracker.samples.push(latencyMs);
+  tracker.totalCalls++;
+  tracker.totalLatencyMs += latencyMs;
+  tracker.lastUpdated = Date.now();
+  if (tracker.samples.length > LATENCY_SAMPLE_LIMIT) {
+    tracker.samples = tracker.samples.slice(-LATENCY_SAMPLE_LIMIT);
+  }
+  const sorted = [...tracker.samples].sort((a, b) => a - b);
+  tracker.p50 = sorted[Math.floor(sorted.length * 0.5)] || 0;
+  tracker.p95 = sorted[Math.floor(sorted.length * 0.95)] || 0;
+  tracker.p99 = sorted[Math.floor(sorted.length * 0.99)] || 0;
+  tracker.maxLatency = sorted[sorted.length - 1] || 0;
+
+  if (latencyMs > 5000) {
+    recordLatencySpike();
+  }
+
+  scaleProtection.requestsPerMinute.push(Date.now());
+  scaleProtection.requestsPerMinute = scaleProtection.requestsPerMinute.filter(t => Date.now() - t < 60000);
+  evaluateScaleProtection();
+}
+
+function normalizeRoutePath(route: string): string {
+  return route
+    .replace(/\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, "/:id")
+    .replace(/\/\d+/g, "/:id")
+    .split("?")[0];
+}
+
+function evaluateScaleProtection(): void {
+  const rpm = scaleProtection.requestsPerMinute.length;
+  let newLevel: ScaleProtectionState["loadLevel"] = "normal";
+  if (rpm >= SCALE_THRESHOLDS.critical) newLevel = "critical";
+  else if (rpm >= SCALE_THRESHOLDS.high) newLevel = "high";
+  else if (rpm >= SCALE_THRESHOLDS.elevated) newLevel = "elevated";
+
+  if (newLevel !== scaleProtection.loadLevel) {
+    const prev = scaleProtection.loadLevel;
+    scaleProtection.loadLevel = newLevel;
+    scaleProtection.lastEvaluation = Date.now();
+    addResilienceEvent("scale_level_change", "system", { from: prev, to: newLevel, rpm });
+
+    if (newLevel === "high" || newLevel === "critical") {
+      scaleProtection.activeThrottles = [];
+      for (const path of NONESSENTIAL_PATHS) {
+        scaleProtection.activeThrottles.push(path);
+      }
+      if (newLevel === "critical") {
+        addAlert("warning", "scale_protection", "Critical Load Level", `RPM at ${rpm}, throttling nonessential paths`, "scale");
+      }
+    } else {
+      scaleProtection.activeThrottles = [];
+    }
+  }
+}
+
+export function isPathThrottled(path: string): boolean {
+  if (scaleProtection.loadLevel === "normal" || scaleProtection.loadLevel === "elevated") return false;
+  for (const throttled of scaleProtection.activeThrottles) {
+    if (path.startsWith(throttled)) {
+      scaleProtection.throttledRequests++;
+      return true;
+    }
+  }
+  return false;
+}
+
+export function isCriticalPath(path: string): boolean {
+  for (const cp of CRITICAL_PATHS) {
+    if (path.startsWith(cp)) return true;
+  }
+  return false;
+}
+
+export function getRouteLatencyStats(): RouteLatencyTracker[] {
+  return Array.from(routeLatencyTrackers.values())
+    .map(t => ({ ...t, samples: [] }))
+    .sort((a, b) => b.p95 - a.p95);
+}
+
+export function getScaleProtectionState(): ScaleProtectionState {
+  return { ...scaleProtection, requestsPerMinute: [] };
+}
+
+export function getScaleThresholds(): typeof SCALE_THRESHOLDS {
+  return { ...SCALE_THRESHOLDS };
+}
+
+export function updateScaleThresholds(updates: Partial<typeof SCALE_THRESHOLDS>): void {
+  Object.assign(SCALE_THRESHOLDS, updates);
+}
+
+export function scaleProtectionMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.path.startsWith("/api/")) return next();
+
+    const start = Date.now();
+
+    res.on("finish", () => {
+      const latency = Date.now() - start;
+      recordRouteLatency(req.path, latency);
+    });
+
+    if (isPathThrottled(req.path)) {
+      return res.status(503).json({
+        error: "This feature is temporarily throttled due to high load.",
+        loadLevel: scaleProtection.loadLevel,
+        retryAfter: 30,
+      });
+    }
+
+    if (isCriticalPath(req.path) && (scaleProtection.loadLevel === "high" || scaleProtection.loadLevel === "critical")) {
+      res.setHeader("X-Priority", "critical");
+    }
+
+    next();
+  };
+}
+
+// ==========================================
+// REGISTER RESILIENCE ROUTES
+// ==========================================
+
 export function registerResilienceRoutes(app: Express): void {
   ensurePlatformTables().catch(() => {});
+  initTimeoutConfigs();
 
   if (!healthCheckTimer) {
     setTimeout(() => runHealthChecks(), 5000);
@@ -2007,27 +2619,6 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({
       minimalCore: minimalCoreActive,
       safeMode: emergencyModeActive,
-    });
-  });
-
-  app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
-    if (!admin) return;
-    const healthResults = await runHealthChecks();
-    res.json({
-      circuitBreakers: getCircuitBreakerStates(),
-      featureFlags: getFeatureFlags(),
-      killSwitches: getKillSwitches(),
-      healthChecks: healthResults,
-      emergencyMode: getEmergencyModeStatus(),
-      safeMode: getSafeModeStatus(),
-      minimalCore: getMinimalCoreStatus(),
-      errorBudgets: getErrorBudgets(),
-      cacheWarmStatus: getCacheWarmStatus(),
-      provisionalAccess: getProvisionalAccessGrants(),
-      selfHealingLog: getSelfHealingLog(),
-      events: getResilienceEvents(100),
-      timestamp: Date.now(),
     });
   });
 
@@ -2336,6 +2927,196 @@ export function registerResilienceRoutes(app: Express): void {
         overallStatus: cachedHealthResponse?.status || "unknown",
         servicesDown: cachedHealthResponse?.services.filter(s => s.status === "down").length || 0,
         servicesDegraded: cachedHealthResponse?.services.filter(s => s.status === "degraded").length || 0,
+      },
+      timestamp: Date.now(),
+    });
+  });
+
+  // --- Scope Isolation Routes ---
+
+  app.get("/api/admin/resilience/scope-isolation", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({ domains: getScopedFailureDomains(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/scope-isolation/kill-switch", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { type, value, active, reason } = req.body;
+    const validTypes = ["profession", "exam_type", "language", "region"];
+    if (!type || !value) return res.status(400).json({ error: "type and value are required" });
+    if (!validTypes.includes(type)) return res.status(400).json({ error: `type must be one of: ${validTypes.join(", ")}` });
+    if (typeof value !== "string" || value.length > 100) return res.status(400).json({ error: "value must be a string (max 100 chars)" });
+    setScopedKillSwitch(type, value, active !== false, reason, admin.username || admin.id);
+    res.json({ success: true });
+  });
+
+  app.post("/api/admin/resilience/scope-isolation/lift-quarantine", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { type, value } = req.body;
+    if (!type || !value) return res.status(400).json({ error: "type and value are required" });
+    liftScopeQuarantine(type, value, admin.username || admin.id);
+    res.json({ success: true });
+  });
+
+  // --- Progressive Degradation Routes ---
+
+  app.get("/api/admin/resilience/degradation", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({ degradation: getDegradationState(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/degradation/override", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { level } = req.body;
+    if (level !== null && (typeof level !== "number" || level < 0 || level > 5)) {
+      return res.status(400).json({ error: "level must be 0-5 or null" });
+    }
+    setDegradationOverride(level, admin.username || admin.id);
+    res.json({ success: true, degradation: getDegradationState() });
+  });
+
+  // --- Timeout Configuration Routes ---
+
+  app.get("/api/admin/resilience/timeouts", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({ timeouts: getTimeoutConfigs(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/timeouts/:operation", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const { timeoutMs, fallbackEnabled } = req.body;
+    if (timeoutMs !== undefined && (typeof timeoutMs !== "number" || timeoutMs < 1000 || timeoutMs > 120000)) {
+      return res.status(400).json({ error: "timeoutMs must be between 1000 and 120000" });
+    }
+    if (fallbackEnabled !== undefined && typeof fallbackEnabled !== "boolean") {
+      return res.status(400).json({ error: "fallbackEnabled must be a boolean" });
+    }
+    updateTimeoutConfig(req.params.operation, { timeoutMs, fallbackEnabled });
+    addResilienceAudit("timeout_config_update", "timeout", req.params.operation, { timeoutMs, fallbackEnabled }, admin.username || admin.id);
+    res.json({ success: true, timeouts: getTimeoutConfigs() });
+  });
+
+  // --- Stuck State Routes ---
+
+  app.get("/api/admin/resilience/stuck-states", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+    res.json({ sessions: getStuckStateSessions(limit), thresholds: getStuckStateThresholds(), timestamp: Date.now() });
+  });
+
+  app.post("/api/admin/resilience/stuck-states/thresholds", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const thresholds = req.body;
+    for (const [key, val] of Object.entries(thresholds)) {
+      if (typeof val !== "number" || val < 1000 || val > 600000) {
+        return res.status(400).json({ error: `${key} must be a number between 1000 and 600000` });
+      }
+    }
+    updateStuckStateThresholds(thresholds);
+    addResilienceAudit("stuck_state_threshold_update", "stuck_state", "thresholds", thresholds, admin.username || admin.id);
+    res.json({ success: true, thresholds: getStuckStateThresholds() });
+  });
+
+  app.post("/api/resilience/report-loading", async (req: Request, res: Response) => {
+    const { userId, sessionId, isLoading } = req.body;
+    if (!userId || !sessionId) return res.status(400).json({ error: "userId and sessionId required" });
+    const stuck = reportLoadingState(userId, sessionId, isLoading);
+    res.json({ stuck: stuck || null });
+  });
+
+  app.post("/api/resilience/report-stalled", async (req: Request, res: Response) => {
+    const { userId, sessionId, lastActivityMs } = req.body;
+    if (!userId || !sessionId) return res.status(400).json({ error: "userId and sessionId required" });
+    const stuck = reportStalledSession(userId, sessionId, lastActivityMs || 0);
+    res.json({ stuck: stuck || null });
+  });
+
+  app.post("/api/resilience/track-activity", async (req: Request, res: Response) => {
+    const { userId, path } = req.body;
+    if (!userId || !path) return res.status(400).json({ error: "userId and path required" });
+    const stuck = trackUserActivity(userId, path);
+    res.json({ stuck: stuck || null });
+  });
+
+  // --- Performance / Scale Protection Routes ---
+
+  app.get("/api/admin/resilience/performance", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    res.json({
+      routeLatency: getRouteLatencyStats(),
+      scaleProtection: getScaleProtectionState(),
+      scaleThresholds: getScaleThresholds(),
+      timestamp: Date.now(),
+    });
+  });
+
+  app.post("/api/admin/resilience/scale-thresholds", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const scaleBody = req.body;
+    for (const [key, val] of Object.entries(scaleBody)) {
+      if (typeof val !== "number" || val < 0) {
+        return res.status(400).json({ error: `${key} must be a non-negative number` });
+      }
+    }
+    updateScaleThresholds(scaleBody);
+    addResilienceAudit("scale_threshold_update", "scale_protection", "thresholds", scaleBody, admin.username || admin.id);
+    res.json({ success: true, thresholds: getScaleThresholds() });
+  });
+
+  // --- Client degradation info endpoint ---
+
+  app.get("/api/platform/degradation", (_req: Request, res: Response) => {
+    const state = getDegradationState();
+    res.json({
+      level: state.level,
+      levelName: state.levelName,
+      disableAnimations: state.level >= 1,
+      simplifyUi: state.level >= 2,
+      safeRenderer: state.level >= 3,
+      staticBackup: state.level >= 4,
+      substituteContent: state.level >= 5,
+    });
+  });
+
+  // --- Extended Status endpoint ---
+
+  app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    const healthResults = await runHealthChecks();
+    res.json({
+      circuitBreakers: getCircuitBreakerStates(),
+      featureFlags: getFeatureFlags(),
+      killSwitches: getKillSwitches(),
+      healthChecks: healthResults,
+      emergencyMode: getEmergencyModeStatus(),
+      safeMode: getSafeModeStatus(),
+      minimalCore: getMinimalCoreStatus(),
+      errorBudgets: getErrorBudgets(),
+      cacheWarmStatus: getCacheWarmStatus(),
+      provisionalAccess: getProvisionalAccessGrants(),
+      selfHealingLog: getSelfHealingLog(),
+      events: getResilienceEvents(100),
+      scopeIsolation: getScopedFailureDomains(),
+      degradation: getDegradationState(),
+      timeouts: getTimeoutConfigs(),
+      stuckStates: getStuckStateSessions(20),
+      stuckStateThresholds: getStuckStateThresholds(),
+      performance: {
+        routeLatency: getRouteLatencyStats().slice(0, 20),
+        scaleProtection: getScaleProtectionState(),
+        scaleThresholds: getScaleThresholds(),
       },
       timestamp: Date.now(),
     });

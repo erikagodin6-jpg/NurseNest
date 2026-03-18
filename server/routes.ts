@@ -206,12 +206,14 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
-  const { readOnlyEnforcement, minimalCoreEnforcement, initDefaultBreakers, initFeatureFlags, initErrorBudgets, prewarmCriticalRoutes, startKeepWarmInterval, loadSheddingMiddleware } = await import("./platform-resilience");
+  const { readOnlyEnforcement, minimalCoreEnforcement, initDefaultBreakers, initFeatureFlags, initErrorBudgets, initTimeoutConfigs, scaleProtectionMiddleware, prewarmCriticalRoutes, startKeepWarmInterval, loadSheddingMiddleware } = await import("./platform-resilience");
   initDefaultBreakers();
   initFeatureFlags();
   initErrorBudgets();
+  initTimeoutConfigs();
   app.use(readOnlyEnforcement());
   app.use(minimalCoreEnforcement());
+  app.use(scaleProtectionMiddleware());
 
   setTimeout(() => {
     prewarmCriticalRoutes().catch(err => console.error("[ColdStart] Initial prewarm failed:", err.message));
