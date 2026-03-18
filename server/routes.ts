@@ -594,6 +594,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerChaosTestingRoutes } = await import("./chaos-testing");
   registerChaosTestingRoutes(app);
 
+  const { registerOpsStatusRoutes } = await import("./ops-status-routes");
+  registerOpsStatusRoutes(app);
+
   const { registerExamBlueprintSeoRoutes } = await import("./exam-blueprint-seo-routes");
   registerExamBlueprintSeoRoutes(app);
 

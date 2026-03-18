@@ -1,547 +1,655 @@
 import { useState, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/lib/auth";
-import { useLocation } from "wouter";
+import { adminFetch } from "@/lib/admin-fetch";
+import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Shield, Activity, ToggleLeft, ToggleRight, Zap, AlertTriangle,
-  RefreshCw, Clock, CheckCircle2, XCircle, ArrowLeft, Power,
-  Copy, Smartphone, Users, Server, Gauge, History,
+  Shield, Activity, AlertTriangle, RefreshCw, ArrowLeft, Power,
+  Zap, ToggleRight, ToggleLeft, CheckCircle2, XCircle, Clock,
+  Server, Heart, Copy, Smartphone, Eye, Bell, BellOff,
+  HardDrive, Users, AlertCircle, TrendingDown, Loader2
 } from "lucide-react";
 
-function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem("nn_admin_access_token") || localStorage.getItem("nursenest-user-token");
-  return token ? { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } : { "Content-Type": "application/json" };
+function getStatusBg(status: string) {
+  switch (status) {
+    case "healthy": case "closed": return "bg-green-100 text-green-800";
+    case "degraded": case "half-open": return "bg-amber-100 text-amber-800";
+    case "down": case "open": case "critical": return "bg-red-100 text-red-800";
+    default: return "bg-slate-100 text-slate-800";
+  }
 }
 
-async function fetchOpsStatus() {
-  const res = await fetch("/api/admin/ops/status", { headers: getAuthHeaders() });
-  if (!res.ok) throw new Error("Failed to fetch ops status");
-  return res.json();
+function SeverityIcon({ severity }: { severity: string }) {
+  switch (severity) {
+    case "critical": return <AlertCircle className="w-4 h-4 text-red-500" />;
+    case "warning": return <AlertTriangle className="w-4 h-4 text-amber-500" />;
+    default: return <Activity className="w-4 h-4 text-blue-500" />;
+  }
 }
 
-function severityColor(status: string) {
-  if (status === "healthy" || status === "closed") return "bg-green-100 text-green-800 border-green-200";
-  if (status === "degraded" || status === "half-open") return "bg-amber-100 text-amber-800 border-amber-200";
-  if (status === "down" || status === "open") return "bg-red-100 text-red-800 border-red-200";
-  return "bg-slate-100 text-slate-800 border-slate-200";
-}
-
-function severityIcon(status: string) {
-  if (status === "healthy" || status === "closed") return <CheckCircle2 className="w-5 h-5 text-green-500" />;
-  if (status === "degraded" || status === "half-open") return <AlertTriangle className="w-5 h-5 text-amber-500" />;
-  return <XCircle className="w-5 h-5 text-red-500" />;
-}
-
-function StatusBadge({ status }: { status: string }) {
+function ConfirmDialog({ title, message, onConfirm, onCancel, destructive }: {
+  title: string; message: string; onConfirm: () => void; onCancel: () => void; destructive?: boolean;
+}) {
   return (
-    <Badge className={severityColor(status)} data-testid={`badge-ops-status-${status}`}>
-      {status}
-    </Badge>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" data-testid="dialog-confirm-overlay">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 space-y-4" data-testid="dialog-confirm">
+        <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
+        <p className="text-sm text-slate-600">{message}</p>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={onCancel} data-testid="button-confirm-cancel">Cancel</Button>
+          <Button variant={destructive ? "destructive" : "default"} size="sm" onClick={onConfirm} data-testid="button-confirm-action">Confirm</Button>
+        </div>
+      </div>
+    </div>
   );
-}
-
-function copyToClipboard(text: string) {
-  navigator.clipboard.writeText(text).catch(() => {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-  });
 }
 
 function buildStatusSummary(data: any): string {
   if (!data) return "No data available";
   const lines: string[] = [
     `NurseNest Ops Status — ${new Date().toLocaleString()}`,
-    `Overall: ${data.overallStatus?.toUpperCase() || "UNKNOWN"}`,
+    `Overall: ${data.overallHealth?.toUpperCase() || "UNKNOWN"}`,
     `Version: ${data.deploymentVersion || "unknown"}`,
     `Uptime: ${Math.round((data.uptime || 0) / 60)} min`,
     `Emergency Mode: ${data.emergencyMode?.active ? "ACTIVE" : "OFF"}`,
+    `Minimal Core: ${data.minimalCore?.active ? "ACTIVE" : "OFF"}`,
     "",
     "Services:",
     ...(data.healthChecks || []).map((h: any) => `  ${h.service}: ${h.status} (${h.latencyMs}ms)${h.details ? ` — ${h.details}` : ""}`),
     "",
-    `Circuit Breakers: ${(data.circuitBreakers || []).filter((cb: any) => cb.state !== "closed").length} open`,
-    `Disabled Flags: ${(data.featureFlags || []).filter((f: any) => !(f.adminOverride !== null ? f.adminOverride : f.enabled)).length}`,
-    `Active Kill Switches: ${(data.killSwitches || []).filter((ks: any) => ks.active).length}`,
-    `Provisional Access Grants: ${data.provisionalAccess?.length || 0}`,
-    `Affected Subscribers: ${data.affectedUsers || 0}`,
-    `Fallback Usage: ${data.fallbackUsageRate || 0}%`,
+    `Circuit Breakers: ${data.summary?.openBreakers || 0} open`,
+    `Disabled Flags: ${data.summary?.disabledFlags || 0}`,
+    `Active Kill Switches: ${data.summary?.activeKillSwitches || 0}`,
+    `Active Subscribers: ${data.userCounts?.activeSubscribers || 0}`,
+    `Entitlement Issues: ${data.entitlementIssues || 0}`,
+    `Recent Incidents (24h): ${data.summary?.recentIncidentCount || 0}`,
   ];
   return lines.join("\n");
 }
 
+function OverallHealthBanner({ data }: { data: any }) {
+  const health = data?.overallHealth || "unknown";
+  const bannerStyles: Record<string, string> = {
+    healthy: "bg-green-50 border-green-200",
+    degraded: "bg-amber-50 border-amber-200",
+    critical: "bg-red-50 border-red-200",
+  };
+  const textStyles: Record<string, string> = {
+    healthy: "text-green-800",
+    degraded: "text-amber-800",
+    critical: "text-red-800",
+  };
+
+  return (
+    <div className={`border rounded-lg p-4 ${bannerStyles[health] || "bg-slate-50 border-slate-200"}`} data-testid="banner-overall-health">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          {health === "healthy" ? <CheckCircle2 className="w-6 h-6 text-green-600" /> :
+           health === "degraded" ? <AlertTriangle className="w-6 h-6 text-amber-600" /> :
+           <XCircle className="w-6 h-6 text-red-600" />}
+          <div className={`text-lg font-bold ${textStyles[health] || "text-slate-800"}`} data-testid="text-overall-health">
+            {health === "healthy" ? "All Systems Operational" : health === "degraded" ? "Degraded Performance" : health === "critical" ? "Major Outage" : "Unknown"}
+          </div>
+        </div>
+        <div className="flex items-center gap-4 text-sm text-slate-600 flex-wrap">
+          <span>Version: <strong data-testid="text-version">{data?.deploymentVersion || "—"}</strong></span>
+          <span>Uptime: <strong data-testid="text-uptime">{data?.uptime ? `${Math.floor(data.uptime / 3600)}h ${Math.floor((data.uptime % 3600) / 60)}m` : "—"}</strong></span>
+          <span className="text-xs text-slate-400">Updated: {data?.timestamp ? new Date(data.timestamp).toLocaleTimeString() : "—"}</span>
+        </div>
+      </div>
+      {(data?.emergencyMode?.active || data?.minimalCore?.active) && (
+        <div className="mt-2 flex gap-2 flex-wrap">
+          {data.emergencyMode?.active && <Badge className="bg-red-600 text-white animate-pulse" data-testid="badge-emergency-active">SAFE MODE ACTIVE</Badge>}
+          {data.minimalCore?.active && <Badge className="bg-amber-600 text-white" data-testid="badge-minimal-core-active">MINIMAL CORE MODE</Badge>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SummaryCards({ data }: { data: any }) {
+  const s = data?.summary || {};
+  const cards = [
+    { label: "Services", value: `${s.healthyServices || 0}/${s.totalServices || 0}`, icon: Heart, color: s.healthyServices === s.totalServices ? "text-green-600" : "text-amber-600" },
+    { label: "Open Breakers", value: s.openBreakers || 0, icon: Zap, color: (s.openBreakers || 0) > 0 ? "text-red-600" : "text-green-600" },
+    { label: "Disabled Flags", value: s.disabledFlags || 0, icon: ToggleLeft, color: (s.disabledFlags || 0) > 0 ? "text-amber-600" : "text-green-600" },
+    { label: "Kill Switches", value: s.activeKillSwitches || 0, icon: Power, color: (s.activeKillSwitches || 0) > 0 ? "text-red-600" : "text-green-600" },
+    { label: "Incidents (24h)", value: s.recentIncidentCount || 0, icon: AlertTriangle, color: (s.recentIncidentCount || 0) > 0 ? "text-amber-600" : "text-green-600" },
+    { label: "Unacked Alerts", value: s.unacknowledgedAlerts || 0, icon: Bell, color: (s.unacknowledgedAlerts || 0) > 0 ? "text-red-600" : "text-green-600" },
+    { label: "Subscribers", value: data?.userCounts?.activeSubscribers || 0, icon: Users, color: "text-blue-600" },
+    { label: "Entitlement Issues", value: data?.entitlementIssues || 0, icon: TrendingDown, color: (data?.entitlementIssues || 0) > 0 ? "text-amber-600" : "text-green-600" },
+  ];
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2">
+      {cards.map((card) => (
+        <Card key={card.label}>
+          <CardContent className="p-3 text-center">
+            <card.icon className={`w-4 h-4 mx-auto mb-1 ${card.color}`} />
+            <p className={`text-xl font-bold ${card.color}`} data-testid={`stat-${card.label.toLowerCase().replace(/[\s()\/]+/g, "-")}`}>{card.value}</p>
+            <p className="text-[10px] text-slate-500 leading-tight">{card.label}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function QuickActionsPanel({ data, onAction }: { data: any; onAction: (endpoint: string, body: any, confirm?: { title: string; message: string; destructive?: boolean }) => void }) {
+  const isSafeMode = data?.emergencyMode?.active;
+  const isMinimalCore = data?.minimalCore?.active;
+
+  return (
+    <div className="space-y-3">
+      <Card className={isSafeMode ? "border-red-300 bg-red-50" : "border-green-200"}>
+        <CardContent className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-sm">Safe Mode (Emergency Mode)</p>
+            <p className="text-xs text-slate-500">Restricts platform to read-only core features</p>
+            {isSafeMode && data.emergencyMode?.reason && <p className="text-xs text-red-600 mt-1">Reason: {data.emergencyMode.reason}</p>}
+          </div>
+          <Button
+            size="sm"
+            variant={isSafeMode ? "outline" : "destructive"}
+            onClick={() => onAction("/api/admin/ops/action/safe-mode", { active: !isSafeMode, reason: "ops_dashboard" }, {
+              title: isSafeMode ? "Deactivate Safe Mode" : "Activate Safe Mode",
+              message: isSafeMode ? "This will restore normal platform operations." : "This will restrict the platform to read-only mode. All write operations will be blocked for non-admin users.",
+              destructive: !isSafeMode,
+            })}
+            data-testid="button-toggle-safe-mode"
+          >
+            <Zap className="w-4 h-4 mr-1" />
+            {isSafeMode ? "Deactivate" : "Activate"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className={isMinimalCore ? "border-amber-300 bg-amber-50" : ""}>
+        <CardContent className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-sm">Minimal Core Mode</p>
+            <p className="text-xs text-slate-500">Disables non-essential features to reduce load</p>
+          </div>
+          <Button
+            size="sm"
+            variant={isMinimalCore ? "outline" : "default"}
+            onClick={() => onAction("/api/admin/ops/action/minimal-core", { active: !isMinimalCore, reason: "ops_dashboard" }, {
+              title: isMinimalCore ? "Deactivate Minimal Core" : "Activate Minimal Core",
+              message: isMinimalCore ? "Non-essential features will be re-enabled." : "AI, SEO, analytics, and experimental features will be disabled.",
+              destructive: !isMinimalCore,
+            })}
+            data-testid="button-toggle-minimal-core"
+          >
+            <Server className="w-4 h-4 mr-1" />
+            {isMinimalCore ? "Deactivate" : "Activate"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-sm">Replay Entitlement Sync</p>
+            <p className="text-xs text-slate-500">Clear entitlement cache and force re-sync</p>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("/api/admin/ops/action/replay-entitlement-sync", {}, {
+              title: "Replay Entitlement Sync",
+              message: "This will clear the entitlement cache. All user subscriptions will re-sync on their next access.",
+            })}
+            data-testid="button-replay-sync"
+          >
+            <RefreshCw className="w-4 h-4 mr-1" /> Replay
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-sm">Run Health Check</p>
+            <p className="text-xs text-slate-500">Manually trigger a full health check</p>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("/api/admin/ops/action/run-health-check", {})}
+            data-testid="button-run-health-check"
+          >
+            <Activity className="w-4 h-4 mr-1" /> Run Now
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function HealthChecksSection({ checks }: { checks: any[] }) {
+  if (!checks?.length) return <p className="text-slate-500 text-sm">No health data available.</p>;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      {checks.map((check: any) => (
+        <Card key={check.service} className="border-slate-200">
+          <CardContent className="p-3 flex items-center gap-3">
+            {check.status === "healthy" ? <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> :
+             check.status === "degraded" ? <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" /> :
+             <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-slate-700 truncate" data-testid={`text-health-${check.service}`}>{check.service}</span>
+                <span className="text-xs text-slate-400 ml-2">{check.latencyMs}ms</span>
+              </div>
+              {check.details && <p className="text-xs text-slate-500 truncate">{check.details}</p>}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function FeatureFlagsSection({ flags, onAction }: { flags: any[]; onAction: (endpoint: string, body: any, confirm?: any) => void }) {
+  if (!flags?.length) return <p className="text-slate-500 text-sm">No feature flags configured.</p>;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      {flags.map((flag: any) => {
+        const isOn = flag.effectiveEnabled ?? (flag.adminOverride !== null ? flag.adminOverride : flag.enabled);
+        return (
+          <Card key={flag.key} className="border-slate-200">
+            <CardContent className="p-3 flex items-center justify-between">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-slate-700 truncate" data-testid={`text-flag-${flag.key}`}>{flag.key}</span>
+                  <Badge className={isOn ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>{isOn ? "ON" : "OFF"}</Badge>
+                  {flag.adminOverride !== null && <Badge className="bg-blue-100 text-blue-800 text-[10px]">override</Badge>}
+                </div>
+                <p className="text-xs text-slate-500 truncate">{flag.description}</p>
+                {flag.errorCount > 0 && <span className="text-xs text-red-500">Errors: {flag.errorCount}/{flag.errorThreshold}</span>}
+              </div>
+              <Button
+                size="sm"
+                variant={isOn ? "default" : "outline"}
+                onClick={() => onAction("/api/admin/ops/action/feature-flag", { key: flag.key, enabled: !isOn }, {
+                  title: `${isOn ? "Disable" : "Enable"} ${flag.key}`,
+                  message: `Are you sure you want to ${isOn ? "disable" : "enable"} "${flag.description}"?`,
+                  destructive: isOn,
+                })}
+                data-testid={`button-toggle-flag-${flag.key}`}
+              >
+                {isOn ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
+              </Button>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
+function CircuitBreakersSection({ breakers, onAction }: { breakers: any[]; onAction: (endpoint: string, body: any, confirm?: any) => void }) {
+  if (!breakers?.length) return <p className="text-slate-500 text-sm">No circuit breakers configured.</p>;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      {breakers.map((cb: any) => (
+        <Card key={cb.name} className="border-slate-200">
+          <CardContent className="p-3 flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-slate-700" data-testid={`text-cb-${cb.name}`}>{cb.name}</span>
+                <Badge className={getStatusBg(cb.state)}>{cb.state}</Badge>
+              </div>
+              <div className="text-xs text-slate-500">Failures: {cb.failureCount}/{cb.failureThreshold} | Trips: {cb.tripCount}</div>
+            </div>
+            {cb.state !== "closed" && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onAction("/api/admin/ops/action/reset-breaker", { name: cb.name }, {
+                  title: `Reset ${cb.name}`,
+                  message: `Reset circuit breaker "${cb.name}"? Failures: ${cb.failureCount}/${cb.failureThreshold}.`,
+                })}
+                data-testid={`button-reset-cb-${cb.name}`}
+              >
+                <RefreshCw className="w-3 h-3 mr-1" /> Reset
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function KillSwitchesSection({ switches, onAction }: { switches: any[]; onAction: (endpoint: string, body: any, confirm?: any) => void }) {
+  return (
+    <div className="space-y-2">
+      {switches?.length > 0 ? switches.map((ks: any) => (
+        <Card key={ks.key} className="border-slate-200">
+          <CardContent className="p-3 flex items-center justify-between">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-slate-700" data-testid={`text-ks-${ks.key}`}>{ks.key}</span>
+                <Badge className={ks.active ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"}>{ks.active ? "ACTIVE" : "INACTIVE"}</Badge>
+                <Badge variant="outline" className="text-[10px]">{ks.scope}: {ks.target}</Badge>
+              </div>
+              {ks.reason && <p className="text-xs text-slate-500">Reason: {ks.reason}</p>}
+            </div>
+            <Button
+              size="sm"
+              variant={ks.active ? "outline" : "destructive"}
+              onClick={() => onAction("/api/admin/ops/action/kill-switch", { key: ks.key, active: !ks.active, scope: ks.scope, target: ks.target }, {
+                title: `${ks.active ? "Deactivate" : "Activate"} ${ks.key}`,
+                message: `Are you sure you want to ${ks.active ? "deactivate" : "activate"} kill switch "${ks.key}"?`,
+                destructive: !ks.active,
+              })}
+              data-testid={`button-toggle-ks-${ks.key}`}
+            >
+              <Power className="w-3 h-3 mr-1" />
+              {ks.active ? "Deactivate" : "Activate"}
+            </Button>
+          </CardContent>
+        </Card>
+      )) : <p className="text-slate-500 text-sm">No kill switches configured.</p>}
+    </div>
+  );
+}
+
+function IncidentsSection({ incidents, onAction }: { incidents: any[]; onAction: (endpoint: string, body: any) => void }) {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  if (!incidents?.length) return <p className="text-slate-500 text-sm">No recent incidents (24h).</p>;
+
+  const copyIncidentSummary = (incident: any) => {
+    const summary = `[${incident.severity?.toUpperCase()}] ${incident.title}\n${incident.message}\nTime: ${new Date(incident.createdAt).toLocaleString()}\nSource: ${incident.source || "unknown"}`;
+    navigator.clipboard.writeText(summary).then(() => {
+      setCopiedId(incident.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  return (
+    <div className="space-y-2 max-h-[500px] overflow-y-auto">
+      {incidents.map((inc: any) => (
+        <Card key={inc.id} className={`border-slate-200 ${inc.acknowledged ? "opacity-60" : ""}`}>
+          <CardContent className="p-3">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2 flex-1 min-w-0">
+                <SeverityIcon severity={inc.severity} />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-slate-700 truncate" data-testid={`text-incident-${inc.id}`}>{inc.title}</p>
+                  <p className="text-xs text-slate-500 truncate">{inc.message}</p>
+                  <p className="text-xs text-slate-400">{new Date(inc.createdAt).toLocaleString()} | {inc.source || "system"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <Button size="sm" variant="ghost" onClick={() => copyIncidentSummary(inc)} data-testid={`button-copy-incident-${inc.id}`}>
+                  {copiedId === inc.id ? <CheckCircle2 className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                </Button>
+                {!inc.acknowledged && (
+                  <Button size="sm" variant="ghost" onClick={() => onAction("/api/admin/ops/action/acknowledge-alert", { alertId: inc.id })} data-testid={`button-ack-incident-${inc.id}`}>
+                    <BellOff className="w-3 h-3" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function ExamHealthSection({ examHealth }: { examHealth: any }) {
+  if (!examHealth) return <p className="text-slate-500 text-sm">No exam health data.</p>;
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        {Object.entries(examHealth.tiers || {}).map(([tier, health]: [string, any]) => (
+          <Card key={tier}>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium uppercase">{tier}</span>
+                <Badge className={health.healthy ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
+                  {health.healthy ? "Healthy" : "Issues"}
+                </Badge>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">{health.totalAvailable} questions (min: {health.minimumRequired})</p>
+              {health.issues?.map((issue: string, i: number) => <p key={i} className="text-xs text-red-500">{issue}</p>)}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <p className="text-xs text-slate-500">Quarantined questions: <strong>{examHealth.quarantinedCount || 0}</strong></p>
+    </div>
+  );
+}
+
+function BackupHealthSection({ backupStatus }: { backupStatus: any }) {
+  if (!backupStatus) return <p className="text-slate-500 text-sm">No backup data available.</p>;
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+      {Object.entries(backupStatus.components || {}).map(([name, info]: [string, any]) => (
+        <Card key={name}>
+          <CardContent className="p-3 text-center">
+            <HardDrive className={`w-4 h-4 mx-auto mb-1 ${info.exists ? "text-green-500" : "text-slate-300"}`} />
+            <p className="text-xs font-medium">{name}</p>
+            <p className="text-xs text-slate-500">{info.exists ? `${info.count} files` : "Not found"}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function EventsSection({ events }: { events: any[] }) {
+  if (!events?.length) return <p className="text-slate-500 text-sm">No recent events.</p>;
+  return (
+    <div className="space-y-1 max-h-[500px] overflow-y-auto">
+      {events.slice(0, 50).map((event: any) => (
+        <div key={event.id} className="flex items-start gap-2 p-2 bg-slate-50 rounded text-xs" data-testid={`event-${event.id}`}>
+          <Clock className="w-3 h-3 text-slate-400 mt-0.5 flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <span className="font-medium text-slate-700">{event.type}</span>
+            <span className="text-slate-500 ml-1">{event.source}</span>
+            <span className="text-slate-400 ml-2">{new Date(event.timestamp).toLocaleTimeString()}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminOpsDashboard() {
-  const { isAdmin } = useAuth();
-  const [, navigate] = useLocation();
   const queryClient = useQueryClient();
+  const [activeTab, setActiveTab] = useState("overview");
+  const [confirmDialog, setConfirmDialog] = useState<{ title: string; message: string; action: () => void; destructive?: boolean } | null>(null);
   const [copiedSummary, setCopiedSummary] = useState(false);
 
-  const { data, isLoading, refetch } = useQuery({
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["admin-ops-status"],
-    queryFn: fetchOpsStatus,
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/ops/status");
+      if (!res.ok) throw new Error("Failed to fetch ops status");
+      return res.json();
+    },
     refetchInterval: 15000,
     retry: 1,
   });
 
-  const emergencyMutation = useMutation({
-    mutationFn: async ({ active, reason }: { active: boolean; reason?: string }) => {
-      const res = await fetch("/api/admin/ops/emergency-mode", {
-        method: "POST", headers: getAuthHeaders(), body: JSON.stringify({ active, reason }),
-      });
-      if (!res.ok) throw new Error("Failed");
+  const actionMutation = useMutation({
+    mutationFn: async ({ endpoint, body }: { endpoint: string; body: any }) => {
+      const res = await adminFetch(endpoint, { method: "POST", body });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Action failed");
+      }
       return res.json();
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
+    onSuccess: () => {
+      setActionError(null);
+      queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] });
+    },
+    onError: (err: Error) => {
+      setActionError(err.message);
+      setTimeout(() => setActionError(null), 6000);
+    },
   });
 
-  const flagMutation = useMutation({
-    mutationFn: async ({ key, enabled, reason }: { key: string; enabled: boolean; reason?: string }) => {
-      const res = await fetch(`/api/admin/ops/feature-flag/${key}`, {
-        method: "POST", headers: getAuthHeaders(), body: JSON.stringify({ enabled, reason }),
+  const handleAction = useCallback((endpoint: string, body: any, confirm?: { title: string; message: string; destructive?: boolean }) => {
+    if (confirm) {
+      setConfirmDialog({
+        ...confirm,
+        action: () => actionMutation.mutate({ endpoint, body }),
       });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
-
-  const resetErrorsMutation = useMutation({
-    mutationFn: async (key: string) => {
-      const res = await fetch(`/api/admin/ops/feature-flag/${key}/reset-errors`, {
-        method: "POST", headers: getAuthHeaders(),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
-
-  const resetBreakerMutation = useMutation({
-    mutationFn: async (name: string) => {
-      const res = await fetch(`/api/admin/ops/circuit-breaker/${name}/reset`, {
-        method: "POST", headers: getAuthHeaders(),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
-
-  const killSwitchMutation = useMutation({
-    mutationFn: async (body: { key: string; active: boolean; scope?: string; target?: string; reason?: string }) => {
-      const res = await fetch("/api/admin/ops/kill-switch", {
-        method: "POST", headers: getAuthHeaders(), body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
-
-  const clearCacheMutation = useMutation({
-    mutationFn: async (userId?: string) => {
-      const res = await fetch("/api/admin/ops/clear-entitlement-cache", {
-        method: "POST", headers: getAuthHeaders(), body: JSON.stringify({ userId }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
-
-  const provisionalMutation = useMutation({
-    mutationFn: async ({ userId, reason }: { userId: string; reason: string }) => {
-      const res = await fetch("/api/admin/ops/provisional-access", {
-        method: "POST", headers: getAuthHeaders(), body: JSON.stringify({ userId, reason }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-ops-status"] }),
-  });
+    } else {
+      actionMutation.mutate({ endpoint, body });
+    }
+  }, [actionMutation]);
 
   const handleCopySummary = useCallback(() => {
-    copyToClipboard(buildStatusSummary(data));
-    setCopiedSummary(true);
-    setTimeout(() => setCopiedSummary(false), 2000);
+    navigator.clipboard.writeText(buildStatusSummary(data)).then(() => {
+      setCopiedSummary(true);
+      setTimeout(() => setCopiedSummary(false), 2000);
+    });
   }, [data]);
 
-  if (!isAdmin) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" data-testid="text-admin-required">
-        <p className="text-slate-500">Admin access required.</p>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex items-center gap-2 text-slate-500">
+          <Loader2 className="w-5 h-5 animate-spin" /> Loading operations status...
+        </div>
       </div>
     );
   }
 
-  const healthyCount = data?.healthChecks?.filter((h: any) => h.status === "healthy").length ?? 0;
-  const totalChecks = data?.healthChecks?.length ?? 0;
-  const openBreakers = data?.circuitBreakers?.filter((cb: any) => cb.state !== "closed").length ?? 0;
-  const disabledFlags = data?.featureFlags?.filter((f: any) => !(f.adminOverride !== null ? f.adminOverride : f.enabled)).length ?? 0;
-  const activeKillSwitches = data?.killSwitches?.filter((ks: any) => ks.active).length ?? 0;
-
-  const overallBg = data?.overallStatus === "down" ? "bg-red-50 border-red-200"
-    : data?.overallStatus === "degraded" ? "bg-amber-50 border-amber-200"
-      : "bg-green-50 border-green-200";
+  if (isError && !data) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full border-red-200 bg-red-50">
+          <CardContent className="p-6 text-center space-y-3">
+            <XCircle className="w-10 h-10 text-red-500 mx-auto" />
+            <h2 className="text-lg font-semibold text-red-800">Failed to Load Operations Status</h2>
+            <p className="text-sm text-red-600" data-testid="text-error-message">{error?.message || "Unknown error"}</p>
+            <Button onClick={() => refetch()} data-testid="button-retry">Retry</Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-slate-50" data-testid="admin-ops-dashboard">
-      <div className="max-w-7xl mx-auto p-4 md:p-6 space-y-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-6" data-testid="admin-ops-dashboard">
+      {actionError && (
+        <div className="fixed top-4 right-4 z-50 bg-red-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 max-w-sm animate-in" data-testid="toast-action-error">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <span className="text-sm">{actionError}</span>
+          <button onClick={() => setActionError(null)} className="ml-2 text-white/80 hover:text-white">&times;</button>
+        </div>
+      )}
+      {confirmDialog && (
+        <ConfirmDialog
+          title={confirmDialog.title}
+          message={confirmDialog.message}
+          destructive={confirmDialog.destructive}
+          onConfirm={() => { confirmDialog.action(); setConfirmDialog(null); }}
+          onCancel={() => setConfirmDialog(null)}
+        />
+      )}
+
+      <div className="max-w-7xl mx-auto space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={() => window.history.back()} data-testid="button-back">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
+            <Link href="/admin">
+              <Button variant="ghost" size="sm" data-testid="button-back-admin"><ArrowLeft className="w-4 h-4" /></Button>
+            </Link>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2" data-testid="text-ops-title">
-                <Shield className="w-6 h-6 text-purple-600" />
-                Ops Dashboard
+              <h1 className="text-xl font-bold text-slate-800 flex items-center gap-2" data-testid="text-page-title">
+                <Shield className="w-5 h-5 text-indigo-600" /> Operations Status
               </h1>
-              <p className="text-xs md:text-sm text-slate-500">Platform health, controls, and operations</p>
+              <p className="text-xs text-slate-500">Consolidated platform health & controls</p>
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
-            {data?.emergencyMode?.active && (
-              <Badge className="bg-red-100 text-red-800 animate-pulse" data-testid="badge-emergency-active">EMERGENCY MODE</Badge>
-            )}
             <Button size="sm" variant="outline" onClick={handleCopySummary} data-testid="button-copy-summary">
-              <Copy className="w-3 h-3 mr-1" />
-              {copiedSummary ? "Copied!" : "Copy Summary"}
+              <Copy className="w-3 h-3 mr-1" /> {copiedSummary ? "Copied!" : "Copy Summary"}
             </Button>
-            <Button size="sm" variant="outline" onClick={() => navigate("/admin/ops/emergency")} data-testid="button-emergency-panel">
-              <Smartphone className="w-3 h-3 mr-1" /> Emergency Panel
-            </Button>
+            <Link href="/admin/ops/emergency">
+              <Button size="sm" variant="outline" data-testid="button-open-emergency-panel">
+                <Smartphone className="w-3 h-3 mr-1" /> Emergency Panel
+              </Button>
+            </Link>
             <Button size="sm" variant="outline" onClick={() => refetch()} data-testid="button-refresh-ops">
               <RefreshCw className="w-3 h-3 mr-1" /> Refresh
             </Button>
           </div>
         </div>
 
-        {isLoading && (
-          <div className="flex items-center justify-center py-16">
-            <RefreshCw className="w-8 h-8 animate-spin text-slate-400" />
-          </div>
-        )}
+        <OverallHealthBanner data={data} />
+        <SummaryCards data={data} />
 
-        {!isLoading && data && (
-          <>
-            <Card className={`border ${overallBg}`}>
-              <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  {severityIcon(data.overallStatus || "healthy")}
-                  <div>
-                    <p className="font-semibold text-lg" data-testid="text-overall-status">
-                      Platform: {(data.overallStatus || "unknown").toUpperCase()}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      v{data.deploymentVersion} · Uptime: {Math.round((data.uptime || 0) / 60)}m · Updated: {new Date(data.timestamp).toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-sm">
-                  <span data-testid="text-affected-users">
-                    <Users className="w-4 h-4 inline mr-1" />{data.affectedUsers || 0} subscribers
-                  </span>
-                  <span data-testid="text-fallback-rate">
-                    <Gauge className="w-4 h-4 inline mr-1" />{data.fallbackUsageRate || 0}% fallback
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid grid-cols-4 md:grid-cols-8 w-full">
+            <TabsTrigger value="overview" data-testid="tab-overview"><Eye className="w-3 h-3 mr-1 hidden md:inline" /> Overview</TabsTrigger>
+            <TabsTrigger value="health" data-testid="tab-health"><Heart className="w-3 h-3 mr-1 hidden md:inline" /> Health</TabsTrigger>
+            <TabsTrigger value="flags" data-testid="tab-flags"><ToggleRight className="w-3 h-3 mr-1 hidden md:inline" /> Flags</TabsTrigger>
+            <TabsTrigger value="breakers" data-testid="tab-breakers"><Zap className="w-3 h-3 mr-1 hidden md:inline" /> Breakers</TabsTrigger>
+            <TabsTrigger value="switches" data-testid="tab-switches"><Power className="w-3 h-3 mr-1 hidden md:inline" /> Switches</TabsTrigger>
+            <TabsTrigger value="incidents" data-testid="tab-incidents"><AlertTriangle className="w-3 h-3 mr-1 hidden md:inline" /> Incidents</TabsTrigger>
+            <TabsTrigger value="actions" data-testid="tab-actions"><Zap className="w-3 h-3 mr-1 hidden md:inline" /> Actions</TabsTrigger>
+            <TabsTrigger value="events" data-testid="tab-events"><Clock className="w-3 h-3 mr-1 hidden md:inline" /> Events</TabsTrigger>
+          </TabsList>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <Card>
-                <CardContent className="p-3 text-center">
-                  <p className="text-2xl font-bold text-green-600" data-testid="text-healthy-count">{healthyCount}/{totalChecks}</p>
-                  <p className="text-xs text-slate-500">Healthy Services</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-3 text-center">
-                  <p className={`text-2xl font-bold ${openBreakers > 0 ? "text-red-600" : "text-green-600"}`} data-testid="text-open-breakers">{openBreakers}</p>
-                  <p className="text-xs text-slate-500">Open Breakers</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-3 text-center">
-                  <p className={`text-2xl font-bold ${disabledFlags > 0 ? "text-amber-600" : "text-green-600"}`} data-testid="text-disabled-flags">{disabledFlags}</p>
-                  <p className="text-xs text-slate-500">Disabled Flags</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-3 text-center">
-                  <p className={`text-2xl font-bold ${activeKillSwitches > 0 ? "text-red-600" : "text-green-600"}`} data-testid="text-active-switches">{activeKillSwitches}</p>
-                  <p className="text-xs text-slate-500">Kill Switches</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-3 text-center">
-                  <p className="text-2xl font-bold text-slate-600" data-testid="text-provisional-count">{data.provisionalAccess?.length || 0}</p>
-                  <p className="text-xs text-slate-500">Provisional Grants</p>
-                </CardContent>
-              </Card>
+          <TabsContent value="overview" className="mt-4 space-y-6">
+            <QuickActionsPanel data={data} onAction={handleAction} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-sm font-medium text-slate-700 mb-2">Exam Health</h3>
+                <ExamHealthSection examHealth={data?.examHealth} />
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-slate-700 mb-2">Backup Status</h3>
+                <BackupHealthSection backupStatus={data?.backupStatus} />
+              </div>
             </div>
+          </TabsContent>
 
-            <Card className="border-slate-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-slate-700">Emergency Mode</p>
-                    <p className="text-xs text-slate-500">
-                      {data.emergencyMode?.active
-                        ? `Active since ${new Date(data.emergencyMode.activatedAt).toLocaleString()} — ${data.emergencyMode.reason}`
-                        : "Grants all users basic access during outages"}
-                    </p>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant={data.emergencyMode?.active ? "outline" : "destructive"}
-                    onClick={() => emergencyMutation.mutate({ active: !data.emergencyMode?.active, reason: "admin_toggle" })}
-                    data-testid="button-toggle-emergency-mode"
-                  >
-                    <Zap className="w-3 h-3 mr-1" />
-                    {data.emergencyMode?.active ? "Deactivate" : "Activate"}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="health" className="mt-4">
+            <HealthChecksSection checks={data?.healthChecks || []} />
+          </TabsContent>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Activity className="w-4 h-4" /> Service Health
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {(data.healthChecks || []).map((check: any) => (
-                    <div key={check.service} className={`flex items-center justify-between p-2 rounded border ${severityColor(check.status)}`}>
-                      <div className="flex items-center gap-2">
-                        {severityIcon(check.status)}
-                        <div>
-                          <span className="font-medium text-sm" data-testid={`text-ops-health-${check.service}`}>{check.service}</span>
-                          {check.details && <p className="text-xs opacity-75">{check.details}</p>}
-                        </div>
-                      </div>
-                      <div className="text-right text-xs">
-                        <StatusBadge status={check.status} />
-                        <p className="mt-1 opacity-60">{check.latencyMs}ms</p>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+          <TabsContent value="flags" className="mt-4">
+            <FeatureFlagsSection flags={data?.featureFlags || []} onAction={handleAction} />
+          </TabsContent>
 
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Zap className="w-4 h-4" /> Circuit Breakers
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {(data.circuitBreakers || []).map((cb: any) => (
-                    <div key={cb.name} className={`flex items-center justify-between p-2 rounded border ${severityColor(cb.state)}`}>
-                      <div>
-                        <span className="font-medium text-sm" data-testid={`text-ops-breaker-${cb.name}`}>{cb.name}</span>
-                        <p className="text-xs opacity-75">
-                          Failures: {cb.failureCount}/{cb.failureThreshold} · Trips: {cb.tripCount}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <StatusBadge status={cb.state} />
-                        {cb.state !== "closed" && (
-                          <Button size="sm" variant="outline" className="h-7" onClick={() => resetBreakerMutation.mutate(cb.name)} data-testid={`button-ops-reset-breaker-${cb.name}`}>
-                            <RefreshCw className="w-3 h-3" />
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
+          <TabsContent value="breakers" className="mt-4">
+            <CircuitBreakersSection breakers={data?.circuitBreakers || []} onAction={handleAction} />
+          </TabsContent>
 
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <ToggleRight className="w-4 h-4" /> Feature Flags
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {(data.featureFlags || []).map((flag: any) => {
-                    const isOn = flag.adminOverride !== null ? flag.adminOverride : flag.enabled;
-                    return (
-                      <div key={flag.key} className={`flex items-center justify-between p-2 rounded border ${isOn ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1">
-                            <span className="font-medium text-sm truncate" data-testid={`text-ops-flag-${flag.key}`}>{flag.key}</span>
-                            {flag.adminOverride !== null && <Badge className="bg-blue-100 text-blue-800 text-[10px] px-1">override</Badge>}
-                          </div>
-                          <p className="text-[11px] text-slate-500 truncate">{flag.description}</p>
-                          {flag.errorCount > 0 && <p className="text-[10px] text-red-500">Errors: {flag.errorCount}/{flag.errorThreshold}</p>}
-                        </div>
-                        <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-                          {flag.errorCount > 0 && (
-                            <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => resetErrorsMutation.mutate(flag.key)} data-testid={`button-ops-reset-errors-${flag.key}`}>
-                              <RefreshCw className="w-3 h-3" />
-                            </Button>
-                          )}
-                          <Button
-                            size="sm"
-                            variant={isOn ? "default" : "outline"}
-                            className="h-7 w-7 p-0"
-                            onClick={() => flagMutation.mutate({ key: flag.key, enabled: !isOn })}
-                            data-testid={`button-ops-toggle-flag-${flag.key}`}
-                          >
-                            {isOn ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="switches" className="mt-4">
+            <KillSwitchesSection switches={data?.killSwitches || []} onAction={handleAction} />
+          </TabsContent>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Power className="w-4 h-4" /> Kill Switches
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {(data.killSwitches || []).length === 0 && <p className="text-slate-500 text-sm">No kill switches configured.</p>}
-                  {(data.killSwitches || []).map((ks: any) => (
-                    <div key={ks.key} className={`flex items-center justify-between p-2 rounded border ${ks.active ? "border-red-200 bg-red-50" : "border-green-200 bg-green-50"}`}>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-sm" data-testid={`text-ops-killswitch-${ks.key}`}>{ks.key}</span>
-                          <Badge className={ks.active ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"} variant="outline">
-                            {ks.active ? "ACTIVE" : "INACTIVE"}
-                          </Badge>
-                        </div>
-                        {ks.reason && <p className="text-[11px] text-slate-500">{ks.reason}</p>}
-                      </div>
-                      <Button
-                        size="sm"
-                        variant={ks.active ? "outline" : "destructive"}
-                        className="h-7"
-                        onClick={() => killSwitchMutation.mutate({ key: ks.key, active: !ks.active, scope: ks.scope, target: ks.target })}
-                        data-testid={`button-ops-toggle-ks-${ks.key}`}
-                      >
-                        <Power className="w-3 h-3 mr-1" />
-                        {ks.active ? "Off" : "On"}
-                      </Button>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+          <TabsContent value="incidents" className="mt-4">
+            <IncidentsSection incidents={data?.recentIncidents || []} onAction={handleAction} />
+          </TabsContent>
 
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Server className="w-4 h-4" /> Quick Actions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full justify-start"
-                    onClick={() => clearCacheMutation.mutate()}
-                    data-testid="button-ops-clear-cache"
-                  >
-                    <RefreshCw className="w-4 h-4 mr-2" />
-                    Clear All Entitlement Cache
-                  </Button>
-                  <ProvisionalAccessForm onGrant={(userId, reason) => provisionalMutation.mutate({ userId, reason })} />
-                </CardContent>
-              </Card>
-            </div>
+          <TabsContent value="actions" className="mt-4">
+            <QuickActionsPanel data={data} onAction={handleAction} />
+          </TabsContent>
 
-            {data.provisionalAccess?.length > 0 && (
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm">Provisional Access Grants</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-1">
-                    {data.provisionalAccess.map((grant: any, i: number) => (
-                      <div key={i} className="flex items-center justify-between text-sm p-2 bg-slate-50 rounded" data-testid={`text-provisional-grant-${i}`}>
-                        <span className="font-medium">{grant.userId}</span>
-                        <div className="flex items-center gap-2 text-xs text-slate-500">
-                          <span>{grant.reason}</span>
-                          <span>Expires: {new Date(grant.expiresAt).toLocaleString()}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <History className="w-4 h-4" /> Recent Events
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1 max-h-64 overflow-y-auto">
-                  {(data.events || []).slice(0, 30).map((event: any) => (
-                    <div key={event.id} className="flex items-start gap-2 p-1.5 bg-slate-50 rounded text-xs" data-testid={`event-ops-${event.id}`}>
-                      <Clock className="w-3 h-3 text-slate-400 mt-0.5 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <span className="font-medium text-slate-700">{event.type}</span>
-                        <span className="text-slate-500 ml-1">{event.source}</span>
-                        <p className="text-[10px] text-slate-400">
-                          {new Date(event.timestamp).toLocaleString()}
-                          {event.data && Object.keys(event.data).length > 0 && (
-                            <span className="ml-1 text-slate-300">{JSON.stringify(event.data).substring(0, 80)}</span>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  {(!data.events || data.events.length === 0) && <p className="text-sm text-slate-500">No events recorded.</p>}
-                </div>
-              </CardContent>
-            </Card>
-          </>
-        )}
+          <TabsContent value="events" className="mt-4">
+            <EventsSection events={data?.events || []} />
+          </TabsContent>
+        </Tabs>
       </div>
-    </div>
-  );
-}
-
-function ProvisionalAccessForm({ onGrant }: { onGrant: (userId: string, reason: string) => void }) {
-  const [userId, setUserId] = useState("");
-  const [reason, setReason] = useState("");
-
-  return (
-    <div className="space-y-2 border-t pt-2 mt-2">
-      <p className="text-xs font-medium text-slate-600">Grant Provisional Access</p>
-      <Input placeholder="User ID" value={userId} onChange={(e) => setUserId(e.target.value)} className="h-8 text-sm" data-testid="input-ops-provisional-user" />
-      <Input placeholder="Reason" value={reason} onChange={(e) => setReason(e.target.value)} className="h-8 text-sm" data-testid="input-ops-provisional-reason" />
-      <Button
-        size="sm"
-        variant="outline"
-        disabled={!userId}
-        className="w-full"
-        onClick={() => { onGrant(userId, reason || "admin_grant"); setUserId(""); setReason(""); }}
-        data-testid="button-ops-grant-provisional"
-      >
-        Grant Access
-      </Button>
     </div>
   );
 }
